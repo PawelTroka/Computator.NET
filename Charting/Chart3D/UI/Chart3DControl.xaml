@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Computator.NET.Charting.Chart3D.Chart3DControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             KeyDown="OnKeyDown"
+             mc:Ignorable="d" Height="300" Width="300">
+    <Grid>
+        <Viewport3D Name="mainViewport"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    ClipToBounds="False"
+                    IsHitTestVisible="false"
+                    RenderOptions.EdgeMode="Aliased">
+            <Viewport3D.Camera>
+                <OrthographicCamera x:Name="camera" Width="2"
+                                    FarPlaneDistance="10"
+                                    NearPlaneDistance="1"
+                                    LookDirection="0,0,-1"
+                                    UpDirection="0,1,0"
+                                    Position="0,0,2" />
+            </Viewport3D.Camera>
+            <Viewport3D.Children>
+                <ModelVisual3D x:Name="Light1">
+                    <ModelVisual3D.Content>
+                        <DirectionalLight Color="White" Direction="1, 1, -1" />
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+                <ModelVisual3D x:Name="Light2">
+                    <ModelVisual3D.Content>
+                        <DirectionalLight Color="White" Direction="-1, 1, -1" />
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+                <ModelVisual3D x:Name="Light3">
+                    <ModelVisual3D.Content>
+                        <DirectionalLight Color="White" Direction="0,-1,-0.5" />
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+            </Viewport3D.Children>
+        </Viewport3D>
+
+        <Canvas x:Name="canvasOn3D"
+                Grid.Column="0"
+                Grid.Row="0"
+                Background="Transparent"
+                KeyDown="OnKeyDown"
+                MouseWheel="OnViewportMouseWheel"
+                MouseUp="OnViewportMouseUp"
+                MouseDown="OnViewportMouseDown"
+                MouseMove="OnViewportMouseMove" Margin="0,0,0,0" />
+
+
+        <TextBlock x:Name="statusPane"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Height="auto" />
+    </Grid>
+</UserControl>

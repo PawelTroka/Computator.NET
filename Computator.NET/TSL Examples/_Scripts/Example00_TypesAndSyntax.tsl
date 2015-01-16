@@ -1,0 +1,74 @@
+//var is equivalent of any type,
+//you can use always var and forget to ever worry about types
+//but it is not recommended, cause var doesnt mean the value doesnt
+//have type, it's type is deduced by interpreter
+var x1=1.0;//in this case variable x will have deduced real type
+
+//so it is the same as
+real x2=1.0;
+
+//note that you cant do something like that:
+// var x; //wrong, because interpreter cannot deduce type
+
+//so when you know what type it should be you should always
+//try to write type explicit
+
+//note that this:
+var x3=1; //will have integer type, because of lack of (.) dot symbol
+
+//you use var when you are sure what to expect from right side 
+var str = "string here";
+//as you can see it must have string type, because we have string
+//on the right
+
+for(var j=0;j<10;j++)//this is a loop syntax
+	x2+=x1+x3;//note that (integer type)·(float type)=(float type)
+	//real is a float type btw
+
+show(x2);//show is a function for showing things in MessageBox window
+//it doesnt care about type, it will just show anything
+show("show anything "+1);//note that 1 is converted here to string
+//it is an implicit conversion so you dont have to worry about it
+
+//you can declare matrices by simple syntax
+// matrix({{row Elements here separeted by comma},
+//		   {another row Elements here separeted by comma},
+//			etc.}});
+
+
+var A = matrix({{1, 2, 3},
+				 {4, 5, 6}});
+//this is matrix 2x6 (2 rows, 3 columns)
+//first row is 1,2,3, second tow is 4,5,6
+
+show(A);//you can show matrix, just like any other thing
+
+//you can get or set any element of matrix by simple syntax:
+A[0,0]=99;
+show(A); // as you can see element 1,1 (note that we have indexing
+//from zero) have now value 99
+
+//complex type is made of real and imaginary part
+//you have simple syntax here to declare complex variables
+
+complex z = 10+5·i;//constant i is declared in global scope
+
+show(z);//note that output is different than standard notation
+//it is (Re(z),Im(z)) instead of Re(z)+Im(z)·i
+//it may change in the future tho
+
+//of course you have other loops like while loop
+
+var n=3;
+
+while(n>0)
+{
+	show(n);
+	n--;
+}
+
+//if you still want to know more,
+//try to look out for C# syntax on the internet and learn
+//because great majority of my scripting language syntax
+//is based on C# .NET syntax
+//all the major differences are described in these examples

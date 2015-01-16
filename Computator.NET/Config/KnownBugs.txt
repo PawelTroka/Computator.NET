@@ -1,0 +1,10 @@
+﻿1. Bugs correlated to Chart control (3 known bugs, described in my engineer thesis)
+2. Function 2F1 randomly throws exceptions, MathieuMs and MathieuMc too
+3. Transformations (FFT, IFFT, ...) dont work
+4. Functions descriptions not yet done for every function
+5. Not yet fully tested
+6. Some parts are still untranslated
+7. TSL has some untested experimantal features not yet included in tutorials
+8. New exponent mode (activated on clicking ^) not yet work in scripting
+9. New NumericTextBox print result control using scientific notation not yet works in scripting
+10. function En(n,x) throws exceptions on some arguments - n<-1, n>2

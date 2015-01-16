@@ -1,0 +1,15 @@
+//note the ampersand - "&" symbole here before type of argument
+//this means that x will be passed by reference just like in C++,
+//tho with different notation
+static void plusOneByRef(&real x)
+{
+	x+=1;
+}
+
+//there is no ampersand symbol here so x is passed by value,
+//this means that any operation inside this functions
+//will operate on copy of x variable
+static void plusOneByValue(real x)
+{
+	x+=1;
+}

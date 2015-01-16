@@ -1,0 +1,32 @@
+real a=1;
+
+writeln("a="+a);
+
+plusOneByValue(a);
+writeln("a="+a);
+
+plusOneByRef(&a);
+writeln("a="+a);
+
+//as you can see when passed by value,
+//the value of as stayed the same
+//no matter what was done in body of the function
+
+//but when it was passed by reference
+//its value was changed inside the function
+
+//IMPORTANT !!!! :note one more thing
+//if you pass something by reference
+//always initilize it first
+//this is because if you use var it's type
+//is uknown until initialization
+//so always do this:
+var x=11.5;
+//and never this:
+// var x;//wrong
+
+//or even better
+real y = 11.5;//that way you have 100%
+//knowledge about y type
+plusOneByRef(&y);
+show(y);

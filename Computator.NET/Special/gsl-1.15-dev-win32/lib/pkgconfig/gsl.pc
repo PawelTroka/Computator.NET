@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=/usr/local/lib
+includedir=/usr/local/include
+GSL_CBLAS_LIB=-lgslcblas
+
+Name: GSL
+Description: GNU Scientific Library
+Version: 1.15
+Libs: -L/usr/local/lib -lgsl ${GSL_CBLAS_LIB} -lm -lm 
+Cflags: -I/usr/local/include

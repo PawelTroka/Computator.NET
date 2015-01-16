@@ -1,0 +1,2395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<FunctionsDetails xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <FunctionInfo Signature="sinc(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sinc(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sin(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sin(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cos(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cos(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="tan(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="tan(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="tg(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="tg(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ctg(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ctg(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cot(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cot(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sec(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sec(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="csc(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="csc(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cosec(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cosec(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sinh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sinh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cosh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cosh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="tanh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="tanh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="tgh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="tgh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="coth(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="coth(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ctgh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ctgh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sech(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sech(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="csch(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="csch(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cosech(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="cosech(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcsin(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcsin(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arccos(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arccos(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arctan(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arctan(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arctg(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arctg(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arccot(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arccot(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcctg(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcctg(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcsec(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcsec(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arccsc(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arccsc(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arccosec(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arccosec(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arsinh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arsinh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcosh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcosh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="artanh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="artanh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="artgh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="artgh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcoth(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcoth(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arctgh(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arctgh(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcsch(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcsch(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcosech(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arcosech(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arsech(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="arsech(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ln(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ln(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="log2(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="log2(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="log10(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="log10(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="log(x,nbase)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="log(z,nbase)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sqrt(x)">
+    <Title>square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sqrt(z)">
+    <Title>square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="root(x,n)">
+    <Title>root function of the given value</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>root function of the given value</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="root(z,n)">
+    <Title>root function of the given value</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>root function of the given value</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="pow(x,y)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="exp(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="exp(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>doubleu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="factorial(n)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="prime(d)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Heaviside(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="DiracDelta(d)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="KroneckerDelta(i,j)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="TaylorCoeff(n,x)">
+    <Title> </Title>
+    <Type>ElementaryFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="DoubleFactorial(n)">
+    <Title> </Title>
+    <Type>ElementaryFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BinomialCoeff(n,k)">
+    <Title> </Title>
+    <Type>ElementaryFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="VariationsWithRepetition(n,k)">
+    <Title> </Title>
+    <Type>ElementaryFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Variations(n,k)">
+    <Title> </Title>
+    <Type>ElementaryFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CombinationsWithRepetition(n,k)">
+    <Title> </Title>
+    <Type>ElementaryFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Combinations(n,k)">
+    <Title> </Title>
+    <Type>ElementaryFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Permutations(n,k)">
+    <Title> </Title>
+    <Type>ElementaryFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sgn(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="GCF(n,m,)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="NWD(n,m,)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="LCM(n,m,)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="NWW(n,m,)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="conj(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Re(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Im(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Phase(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Magnitude(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="H(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="δ(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="δij(ν,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>ElementaryFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselJνZeros(ν,s)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hankel1(α,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hankel2(α,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalHankel1(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalHankel2(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="RiccatiBesselS(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="RiccatiBesselC(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="RiccatiBesselψ(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="RiccatiBesselχ(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="RiccatiBesselξ(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="RiccatiBesselζ(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="AiZeros(s)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BiZeros(s)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="AiZerosPrime(s)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BiZerosPrime(s)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ζ(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="HurwitzZeta(x,q)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ζ(x,q)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="MathieuSE(n,q,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="MathieuCE(n,q,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="MathieuAn(n,q)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="MathieuBn(n,q)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="MathieuMc(j,n,q,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="MathieuMs(j,n,q,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CarlsonD(x,y,z)">
+    <Title>In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>elliptic integrals</Category>
+    <Description>In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CarlsonF(x,y,z)">
+    <Title>In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>elliptic integrals</Category>
+    <Description>In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CarlsonC(x,y)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CarlsonJ(x,y,z,p)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EllipticF(φ,x)">
+    <Title />
+    <Type>SpecialFunctions</Type>
+    <Category>Elliptic integrals</Category>
+    <Description />
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EllipticE(φ,x)">
+    <Title />
+    <Type>SpecialFunctions</Type>
+    <Category>Elliptic integrals</Category>
+    <Description />
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EllipticΠ(φ,x,n)">
+    <Title />
+    <Type>SpecialFunctions</Type>
+    <Category>Elliptic integrals</Category>
+    <Description />
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EllipticD(φ,x,n)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EllipticE(x)">
+    <Title>The complete elliptic integral of the second kind E is defined as E(k)=E(π/2,k)</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Elliptic integrals</Category>
+    <Description>The complete elliptic integral of the second kind E is defined as E(k)=E(π/2,k)</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EllipticD(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EllipticΠ(x,n)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="JacobiEllipticSn(u,m)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="JacobiEllipticCn(u,m)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="JacobiEllipticDn(u,m)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erf(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erf(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erfc(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erfc(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erfcx(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erfcx(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="faddeeva(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Coupling3j(ja,jb,jc,ma,mb,mc)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Coupling6j(ja,jb,jc,jd,je,jf)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CouplingRacahW(ja,jb,jc,jd,je,jf)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Coupling9j(ja,jb,jc,jd,je,jf,jg,jh,ji)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Coupling3j(j1,j2,j3,m1,m2,m3)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Coupling6j(j1,j2,j3,j4,j5,j6)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ClebschGodron(j1,j2,j,m1,m2,m)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalHarmonic(l,m,θ,φ)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hypergeometric0F1(c,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hypergeometric1F1(m,n,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hypergeometric1F1(a,b,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="HypergeometricU(m,n,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="HypergeometricU(a,b,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hypergeometric2F1(a,b,c,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hypergeometric2F1(a,c,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hypergeometric2F1renorm(a,b,c,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hypergeometric2F1renorm(a,c,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Hypergeometric2F0(a,b,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Hypergeometric functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Debye(n,x)">
+    <Title>
+      In &lt;a href="/wiki/Mathematics" title="Mathematics"&gt;mathematics&lt;/a&gt;, the family of &lt;b&gt;Debye functions&lt;/b&gt; is defined by&lt;/p&gt;
+      &lt;dl&gt;
+      &lt;dd&gt;&lt;img class="mwe-math-fallback-png-inline tex" alt="D_n(x) = \frac{n}{x^n} \int_0^x \frac{t^n}{e^t - 1}\,dt." src="http://upload.wikimedia.org/math/a/4/9/a4981a548490410b838189b01911f320.png"&gt;&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;p&gt;The functions are named in honor of &lt;a href="/wiki/Peter_Debye" title="Peter Debye"&gt;Peter Debye&lt;/a&gt;, who came across this function (with &lt;i&gt;n&lt;/i&gt; = 3) in 1912 when he analytically computed the &lt;a href="/wiki/Heat_capacity" title="Heat capacity"&gt;heat capacity&lt;/a&gt; of what is now called the &lt;a href="/wiki/Debye_model" title="Debye model"&gt;Debye model&lt;/a&gt;.&lt;/p&gt;
+    </Title>
+    <Type>SpecialFunctions</Type>
+    <Category>integral functions</Category>
+    <Description>
+      In &lt;a href="/wiki/Mathematics" title="Mathematics"&gt;mathematics&lt;/a&gt;, the family of &lt;b&gt;Debye functions&lt;/b&gt; is defined by&lt;/p&gt;
+      &lt;dl&gt;
+      &lt;dd&gt;&lt;img class="mwe-math-fallback-png-inline tex" alt="D_n(x) = \frac{n}{x^n} \int_0^x \frac{t^n}{e^t - 1}\,dt." src="http://upload.wikimedia.org/math/a/4/9/a4981a548490410b838189b01911f320.png"&gt;&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;p&gt;The functions are named in honor of &lt;a href="/wiki/Peter_Debye" title="Peter Debye"&gt;Peter Debye&lt;/a&gt;, who came across this function (with &lt;i&gt;n&lt;/i&gt; = 3) in 1912 when he analytically computed the &lt;a href="/wiki/Heat_capacity" title="Heat capacity"&gt;heat capacity&lt;/a&gt; of what is now called the &lt;a href="/wiki/Debye_model" title="Debye model"&gt;Debye model&lt;/a&gt;.&lt;/p&gt;
+    </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Ein(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FermiDiracFj(j,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Gegenbauer(n,α,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Laguerre(n,α,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Laguerre polynomials</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Laguerre(n,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Laguerre polynomials</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="LegendreP(l,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="LegendreP(l,m,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="LegendreQ(l,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalLegendreP(l,m,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ConicalP(μ,λ,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalConicalP(l,λ,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CylindricalConicalP(m,λ,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="LegendreH3D(l,λ,η)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ChebyshevT(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="HermiteH(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="HermiteHe(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ZernikeR(n,m,ρ)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="TransportJ(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Ackley(xi)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Rastrigin(xi)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Bohachevsky1(x,y)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="dropWave(x,y)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Himmelblau(x,y)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Matyas(x,y)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="sixHumpCamel(x,y)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Rosenbrock(x,y)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Rosenbrock(xi)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="gamma(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="gamma(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Γ(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Γ(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="logGamma(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="logGamma(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="logΓ(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="logΓ(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="psi(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="psi(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="digamma(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="digamma(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ψ(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ψ(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="gamma(a,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Γ(a,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="gammaQ(a,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="gammaP(a,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Beta(x,a,b)">
+    <Title>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Gamma and related functions</Category>
+    <Description>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BetaNorm(x,a,b)">
+    <Title>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Gamma and related functions</Category>
+    <Description>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Beta(a,b)">
+    <Title>In mathematics, the beta function, also called the Euler integral of the first kind, is a special function</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Gamma and related functions</Category>
+    <Description>In mathematics, the beta function, also called the Euler integral of the first kind, is a special function</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="β(x,a,b)">
+    <Title>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Gamma and related functions</Category>
+    <Description>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="β(a,b)">
+    <Title>In mathematics, the beta function, also called the Euler integral of the first kind, is a special function</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Gamma and related functions</Category>
+    <Description>In mathematics, the beta function, also called the Euler integral of the first kind, is a special function</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="logβ(a,b)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="logBeta(a,b)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Pochhammer(a,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="PochhammerRelative(a,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="diLogarithm(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="diLogarithm(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SpencesIntegral(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SpencesIntegral(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CoulombG(L,η,ρ)">
+    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Coulomb wave function</Category>
+    <Description>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CoulombF(L,η,ρ)">
+    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Coulomb wave function</Category>
+    <Description>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CoulombC(L,η)">
+    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Coulomb wave function</Category>
+    <Description>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="HydrogenicR(n,l,Z,r)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Rnl(n,l,Z,r)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CoulombW(L,η,ρ)">
+    <Title>A special case of the confluent hypergeometric function of the first kind</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Coulomb wave function</Category>
+    <Description>A special case of the confluent hypergeometric function of the first kind</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CoulombGprime(L,η,ρ)">
+    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Coulomb wave function</Category>
+    <Description>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="CoulombFprime(L,η,ρ)">
+    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Coulomb wave function</Category>
+    <Description>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FermiDiracFmhalf(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FermiDiracFhalf(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FermiDiracF3half(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FermiDiracF0(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FermiDiracF0(x,b)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="leftRegularizedGamma(ν,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="rightRegularizedGamma(ν,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ψn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="polyGamma(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ψⁿ(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="LambertW0(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="LambertWm1(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Gegenbauer1(ν,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Gegenbauer2(ν,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Gegenbauer3(ν,x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SynchrotronF(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SynchrotronG(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Dawson(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>integral functions</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Clausen(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Si(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Ci(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="En(n,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Ei(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Shi(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Chi(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Tai(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Fresnel(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FresnelS(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="FresnelC(x)">
+    <Title>description</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Fresnel</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EllipticK(x)">
+    <Title>
+      Elliptic Integrals are said to be 'complete' when the amplitude φ=π/2 and therefore x=1.
+      K(k)=F(π/2,k)
+    </Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Elliptic integrals</Category>
+    <Description>
+      Elliptic Integrals are said to be 'complete' when the amplitude φ=π/2 and therefore x=1.
+      K(k)=F(π/2,k)
+    </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erfi(z)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="inverseErf(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="inverseErfc(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="logErfc(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erfZ(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="erfQ(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="hazard(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselJ0(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselJ1(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselJ2(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselJ3(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselJnPrime(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselJn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselJν(ν,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselY0(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselY1(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselY2(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselY3(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselYn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BesselYν(ν,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ModifiedBesselIn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ModifiedBesselIν(ν,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ModifiedBesselKν(ν,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ModifiedBesselKn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselJ0(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselJ1(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselJ2(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselJ3(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselJn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselY0(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselY1(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselY2(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselY3(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="SphericalBesselYn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ModifiedSphericalBesselIn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ModifiedSphericalBesselKn(n,x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="logBesselKν(ν,x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="AiryAi(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="AiryBi(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Ai(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Bi(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="AiPrime(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="BiPrime(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="RiemannZeta(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="DirichletEta(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="η(x)">
+    <Title>angielski opis funkcji</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Logistic(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Logit(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="StruveL1(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="StruveL0(x)">
+    <Title> </Title>
+    <Type>SpecialFunctions</Type>
+    <Category> </Category>
+    <Description> </Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="i">
+    <Title>The imaginary unit or unit imaginary number, denoted as i, is a mathematical concept which extends the real number system ℝ to the complex number system ℂ, which in turn provides at least one root for every polynomial P(x) (see algebraic closure and fundamental theorem of algebra). The imaginary unit's core property is that i² = −1. The term imaginary is used because there is no real number having a negative square.</Title>
+    <Type>MathematicalConstants</Type>
+    <Category>Complex mathematical constants</Category>
+    <Description>The imaginary unit or unit imaginary number, denoted as i, is a mathematical concept which extends the real number system ℝ to the complex number system ℂ, which in turn provides at least one root for every polynomial P(x) (see algebraic closure and fundamental theorem of algebra). The imaginary unit's core property is that i² = −1. The term imaginary is used because there is no real number having a negative square.</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="PI">
+    <Title>description</Title>
+    <Type>MathematicalConstants</Type>
+    <Category>Math constants</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="e">
+    <Title>description</Title>
+    <Type>MathematicalConstants</Type>
+    <Category>Math constants</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="EulerMascheroni">
+    <Title>description</Title>
+    <Type>MathematicalConstants</Type>
+    <Category>Math constants</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="GoldenRatio">
+    <Title>description</Title>
+    <Type>MathematicalConstants</Type>
+    <Category>Math constants</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="AperysConstant">
+    <Title>description</Title>
+    <Type>MathematicalConstants</Type>
+    <Category>Math constants</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ConwaysConstant">
+    <Title>description</Title>
+    <Type>MathematicalConstants</Type>
+    <Category>Math constants</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="KhinchinsConstant">
+    <Title>description</Title>
+    <Type>MathematicalConstants</Type>
+    <Category>Math constants</Category>
+    <Description>description</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="c">
+    <Title>angielski opis funkcji</Title>
+    <Type>PhysicalConstants</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="g">
+    <Title>angielski opis funkcji</Title>
+    <Type>PhysicalConstants</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="h">
+    <Title>angielski opis funkcji</Title>
+    <Type>PhysicalConstants</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="G">
+    <Title>angielski opis funkcji</Title>
+    <Type>PhysicalConstants</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="MagneticConstant">
+    <Title>angielski opis funkcji</Title>
+    <Type>PhysicalConstants</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="ElectricConstant">
+    <Title>angielski opis funkcji</Title>
+    <Type>PhysicalConstants</Type>
+    <Category>Tu wpisz nazwę regionu (np. trigonometric functions)</Category>
+    <Description>angielski opis funkcji</Description>
+    <Url> </Url>
+  </FunctionInfo>
+</FunctionsDetails>

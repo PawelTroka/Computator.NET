@@ -1,0 +1,29 @@
+//example02 - basic functions usage
+//REMEMBER!!! - you need to open custom functions file Example02,
+//in "Custom functions" tab
+//in order to make this work, because it contains function BMI
+
+real weight;
+real height;
+real bmi;
+
+
+read(&weight,"How much do you weight in kg?");
+read(&height,"How tall are you (in metres)?");
+
+bmi=BMI(weight,height);
+
+writeln("your BMI is "+bmi);
+
+if(bmi<18.49)
+	writeln("you are underweight, consider eating more please");
+else if(bmi<24.99)
+	writeln("Congratz! Your weight is perfect for you height");
+else
+	writeln("you are overweight, please consider working out!");
+
+	
+//note also that you have all the functions avalaible to application
+//all those which ones you can type in Expression on the top part of this application
+//e.g.
+writeln("MathieuSE(2,2.5,10.5) = "+MathieuSE(2,2.5,10.5));

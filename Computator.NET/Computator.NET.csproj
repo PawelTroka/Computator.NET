@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Computator.NET</RootNamespace>
+    <AssemblyName>Computator.NET</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\Computator.NET.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Graphics\computator.net-icon2.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <DefineConstants>
+    </DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accord, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge">
+      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math">
+      <HintPath>..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MathNet.Numerics.3.5.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Meta.Numerics, Version=2.2.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Meta.Numerics.2.2.0\lib\Meta.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ScintillaNET, Version=2.6.0.0, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Benchmarking\Benchmark.cs" />
+    <Compile Include="Benchmarking\BenchmarkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Benchmarking\BenchmarkForm.Designer.cs">
+      <DependentUpon>BenchmarkForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Config\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Config\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\BaseEvaluator.cs" />
+    <Compile Include="Evaluation\Function2DEvaluator.cs" />
+    <Compile Include="Evaluation\Function3DEvaluator.cs" />
+    <Compile Include="Evaluation\FunctionComplexEvaluator.cs" />
+    <Compile Include="Evaluation\ScriptEvaluator.cs" />
+    <Compile Include="Evaluation\ScriptingExtensionObjects.cs" />
+    <Compile Include="Functions\Class1.cs" />
+    <Compile Include="Functions\FunctionInfo.cs" />
+    <Compile Include="Functions\ScriptingFunctions.cs" />
+    <Compile Include="Functions\StatisticsFunctions.cs" />
+    <Compile Include="Localization\Strings.de.Designer.cs">
+      <DependentUpon>Strings.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Localization\Strings.cs.Designer.cs">
+      <DependentUpon>Strings.cs.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Localization\Strings.pl.Designer.cs">
+      <DependentUpon>Strings.pl.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Transformations\TrigonometricTransformations.cs" />
+    <Compile Include="UI\AboutBox1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AboutBox1.Designer.cs">
+      <DependentUpon>AboutBox1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Constants\MathematicalConstants.cs" />
+    <Compile Include="Constants\PhysicalConstants.cs" />
+    <Compile Include="UI\AutocompleteMenu\AutocompleteItem.cs" />
+    <Compile Include="UI\AutocompleteMenu\AutocompleteItems.cs" />
+    <Compile Include="UI\AutocompleteMenu\AutocompleteListView.cs">
+      <SubType>usercontrol</SubType>
+    </Compile>
+    <Compile Include="UI\AutocompleteMenu\AutocompleteMenu.cs">
+      <SubType>component</SubType>
+    </Compile>
+    <Compile Include="UI\AutocompleteMenu\AutocompleteMenuHost.cs">
+      <SubType>component</SubType>
+    </Compile>
+    <Compile Include="UI\AutocompleteMenu\EventArgs.cs" />
+    <Compile Include="UI\AutocompleteMenu\IAutocompleteListView.cs" />
+    <Compile Include="UI\AutocompleteMenu\ITextBoxWrapper.cs" />
+    <Compile Include="UI\AutocompleteMenu\Range.cs" />
+    <Compile Include="UI\AutocompleteMenu\TextBoxWrapper.cs" />
+    <Compile Include="UI\AutocompleteMenu\WebBrowserTooltip.cs">
+      <SubType>form</SubType>
+    </Compile>
+    <Compile Include="UI\DirectoryTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ExpressionTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Functions\ElementaryFunctions.cs" />
+    <Compile Include="Functions\BaseFunction.cs" />
+    <Compile Include="Evaluation\StringParser.cs" />
+    <Compile Include="Functions\MatrixFunctions.cs" />
+    <Compile Include="Functions\SpecialFunctions.cs" />
+    <Compile Include="Config\GlobalConfig.cs" />
+    <Compile Include="UI\GUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\GUI.Designer.cs">
+      <DependentUpon>GUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\LocalizationManager.cs" />
+    <Compile Include="Localization\LocalizedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\NameAttribute.cs" />
+    <Compile Include="NumericalCalculations\ElementaryMathematics\FunctionRoot.cs" />
+    <Compile Include="NumericalCalculations\MathematicalAnalysis\Derivative.cs" />
+    <Compile Include="NumericalCalculations\MathematicalAnalysis\Integral.cs" />
+    <Compile Include="NumericalCalculations\NumericalCalculation.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ReadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ScientificNumericUpDown.cs">
+      <SubType>component</SubType>
+    </Compile>
+    <Compile Include="UI\ScientificNumericUpDown.Designer.cs">
+      <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ScriptingRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Localization\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
+      <DependentUpon>BenchmarkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Benchmarking\BenchmarkForm.pl.resx">
+      <DependentUpon>BenchmarkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Benchmarking\BenchmarkForm.resx">
+      <DependentUpon>BenchmarkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Strings.de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Strings.cs.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.cs.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Strings.pl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.pl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AboutBox1.resx">
+      <DependentUpon>AboutBox1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GUI.cs.resx">
+      <DependentUpon>GUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GUI.de.resx">
+      <DependentUpon>GUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GUI.pl.resx">
+      <DependentUpon>GUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GUI.resx">
+      <DependentUpon>GUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ReadForm.resx">
+      <DependentUpon>ReadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
+    <None Include="Resources\Misc\Asana-Math.otf" />
+    <None Include="Resources\Misc\Asana-Math.ttf" />
+    <None Include="Resources\Misc\CAMBRIA.TTC" />
+    <None Include="Resources\Misc\cambria.ttf" />
+    <None Include="Resources\Misc\fourier-math-letters.ttf" />
+    <None Include="Config\app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Special\x64\v1.15">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Special\x86\v1.15">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TSL Examples\_CustomFunctions\Example03_PassingByReference.tslf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TSL Examples\_CustomFunctions\friendsFunctions.tslf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TSL Examples\_Scripts\Example01_InputAndOutput.tsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TSL Examples\_Scripts\Example02_BasicFunctionsUsage.tsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TSL Examples\_Scripts\Example03_PassingByReference.tsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TSL Examples\_Scripts\Example04_MatrixOperations.tsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UI\fonts\Asana-Math.ttf" />
+    <None Include="UI\fonts\CAMBRIA.TTC">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UI\fonts\CAMBRIAB.TTF" />
+    <None Include="UI\fonts\CAMBRIAI.TTF" />
+    <None Include="UI\fonts\CAMBRIAZ.TTF" />
+    <None Include="UI\fonts\euler.ttf" />
+    <None Include="UI\fonts\fourier-math-letters.ttf" />
+    <None Include="UI\fonts\STIX-Regular.ttf" />
+    <None Include="UI\fonts\STIXMath-Regular.ttf" />
+    <None Include="UI\fonts\xits-math.ttf" />
+    <None Include="UI\fonts\xits-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\images\" />
+    <Folder Include="SymbolicCalculations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\changelog.txt" />
+    <Content Include="Config\KnownBugs.txt" />
+    <Content Include="Config\planned_features_list.txt" />
+    <Content Include="Data\functions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\old\functions_info.xml" />
+    <Content Include="Data\old\functions_xxx.xml" />
+    <Content Include="Graphics\computator.net-icon.ico" />
+    <Content Include="Graphics\computator.net-icon2.ico" />
+    <Content Include="Special\MathNet.Numerics.dll" />
+    <Content Include="Special\x64\libgsl-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Special\x64\libgslcblas-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Special\x86\libgsl-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Special\x86\libgslcblas-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\SciLexer.dll" />
+    <Content Include="UI\SciLexer64.dll" />
+    <Content Include="UI\ScintillaNET.dll" />
+    <Content Include="UI\script_syntax.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Special\Meta.Numerics.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Charting\Charting.csproj">
+      <Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
+      <Name>Charting</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /d /y "$(ProjectDir)UI\SciLexer64.dll" "$(TargetDir)"
+xcopy /d /y "$(ProjectDir)UI\SciLexer.dll" "$(TargetDir)"
+xcopy /d /y "$(ProjectDir)UI\MimeTeX.dll" "$(TargetDir)"
+xcopy /d /y "$(ProjectDir)Config\config.ini" "$(TargetDir)"
+xcopy /d /y "$(ProjectDir)Config\changelog.txt" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,69 @@
+var m = matrix({{1.2, 2.3, 3.1},
+				{1.1, 2.5, 3.7},
+				{1.9, 2.4, 3.1}});
+
+var k = matrix({{1.2, 2.3, 3.1},
+				{1.1, 2.5, 3.7},
+				{1.9, 2.4, 3.1}});
+
+show(m);
+show(k);
+
+real r = 3.97/RiccatiBesselχ(2,1.5);
+
+//constant "i" is already declared in global scope
+complex cb = β(0.5,0.9)·i+i+5;
+complex cc = cb/(2+i);
+
+for(var j=0;j<10;j++)
+	r+=PI·e+ψⁿ(j,r);
+
+show(m·k·r);
+
+
+var A = matrix({{1, 2},
+				{3, 4},
+				{5, 6}});
+
+var B = matrix({{1, 2, 3},
+				{4, 5, 6}});
+
+show(A);
+show(B);
+show(A·B);
+show(B·A);
+show(det(B·A));
+show(pow(B·A,2));
+
+var str="string here";
+
+var n=10;
+var sum=1;
+
+while(n>0)
+{
+	sum+=n·10;
+	n--;
+}
+show(sum);
+
+
+var A2 = matrix({{1, 2},
+				{3, 4},
+				{5, 6}});
+
+var B2 = matrix({{1, 2, 3},
+				{4, 5, 6}});
+
+show(A2ᵀ);
+show(B2ᵀ);
+
+var A3 = matrix({{3, 4},
+				 {5, 6}});
+
+var B3 = matrix({{1, 2},
+				 {4, 5}});
+
+write(inv(A3)·A3);
+writeln("\n");
+writeln(KroneckerProduct(A3,B3));

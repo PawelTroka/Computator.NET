@@ -1,0 +1,9 @@
+//this function calculate and returns body mass index
+//height and weigth must be in SI units (metres, kilograms)
+static real BMI(real weight, real height)
+{
+	return weight/(height·height);
+}
+//remember you can use functions declared here everywhere
+//in scripting, calculator, numerical calculations and even
+//in charts

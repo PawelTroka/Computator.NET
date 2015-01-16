@@ -1,0 +1,94 @@
+//in this tutorial we will focus
+//on input and output in Troka Scripting Language
+
+//as you can see below this scrip editor you can see console
+//output which is quivalent here of the console in C/C++
+//in comparison with system console or terminal it has few
+//advantages, for example you can easily copy text from there
+
+//output is pretty straightforward, you as for now has two
+//functions for output
+
+//lets start first with show functions
+//assume we have a variable
+var s = "nice string here";
+
+//there is option to show some variable or object by syntax:
+show(s);//where s is variable declared above
+//show can show as any type it doesnt depend on variable type:
+show(321312.32131);
+show("lets show you something");
+
+//as you can see when show functions is processed it shows variable
+//or object in nice MessageBox which pop up,
+//sometimes when you have a lot to show
+//it can be irritating to have that much messageBoxes
+
+//you can use below console output by outpiting things
+//in write functions
+write(s);//we write earlier declared string
+write("something here");
+write("something there");
+//but as you can see write is writing this not separated
+//if you want write something as a line you should consider using
+//functions writeln instead
+writeln("this is written in new line");
+
+//now when you know basics about those function you need to know
+//one more thing, that you can easily concatenate outputs
+//e.g. you can write something like that:
+var height = 180; var weight = 90;
+writeln("I have over ");
+write(height);
+write("cm of height and over ");
+write(weight);
+write("kgs of body mass");
+
+//as you can see you output nice sentence just as you wanted
+//but you used a lot of code here, it can be done faster and easier
+//thanks to that you can easily concatenate objects here:
+writeln("I have over "+height+"cm of height and over "+weight+"kgs of body mass");
+//as you can see it outputs the same but it's much shorter
+//and faster to write
+//you need to notice that operator + is working here
+//as an operator of concatenating (joining) strings representation
+//of different objects, so you can always use it
+//when outputting something even if the types dont match
+
+
+//ok now when you have basic knowledge of output, you can go to the
+//input things
+//as for now there is one functions for input:
+//functions is named read()
+//lets assume we have variable
+string name="empty string";
+
+//now we can ask question to the user by invoking read function
+read(&name,"What is your name?");
+writeln("Hello "+name+" !");
+//as you can see the syntax is easy, read need two arguments
+//first comes variable to which read must save readed content
+//second comes question which read gives to user
+//note that we used here operator & before variable name
+//it is used because name isnt passed by value here
+//it is passed by reference, it is the only way
+//to let function save something to this variable
+//you need to always remember about this operator
+//there is more info about passin by reference in next examples
+
+//you can also do the same with shorter syntax
+read(&name);//but as you can see you dont have a question here
+
+//IMPORTANT: note that you cant do something like that
+// var x; //WRONG, x is not initialized, so it's type is unknown
+// read(&x); //WRONG, x is not initialized, so it's type is unknown
+
+//you have to either declare it's type explicite
+string x2;
+//or initialize it
+var x3="something";
+
+//of course you can read any type with read function:
+complex z;
+read(&z);
+writeln("your number is "+z);
