@@ -19,6 +19,48 @@ namespace Computator.NET.UI
         private const int AutcompleteMode = 2;
         private AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
 
+
+        private bool _autoLaunchAutoComplete = true;
+
+        public bool AutoLaunchAutoComplete
+        {
+            get { return _autoLaunchAutoComplete; }
+            set { _autoLaunchAutoComplete = value; }
+        }
+
+        /// <summary>
+        ///     Raises the <see cref="CharAdded"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="CharAddedEventArgs"/> that contains the event data.</param>
+       /* protected override void OnCharAdded(CharAddedEventArgs e)
+        {
+            base.OnCharAdded(e);
+           // EventHandler<CharAddedEventArgs> handler = Events[_charAddedEventKey] as EventHandler<CharAddedEventArgs>;
+           /// if (handler != null)
+              //  handler(this, e);
+
+            //if (this.Indentation.SmartIndentType != SmartIndent.None)
+             //   this.Indentation.CheckSmartIndent(e.Ch);
+
+            if (_autoLaunchAutoComplete)
+                LaunchAutoComplete();
+        }*/
+
+        public virtual void LaunchAutoComplete()
+        {
+            if (this.AutoComplete.List.Count == 0)
+                return;
+
+            int pos = this.NativeInterface.GetCurrentPos();
+            int length = pos - this.NativeInterface.WordStartPosition(pos, true);
+            if (length == 0)
+                return;
+
+            this.AutoComplete.Show(length);
+        }
+
+
+
         public ScriptingRichTextBox()
         {
             InitializeComponent();
@@ -30,9 +72,19 @@ namespace Computator.NET.UI
             {
                 AutoComplete.List.Add(t);
             }
+            AutoComplete.List.Sort();
             this.Indentation.ShowGuides = true;
             this.Indentation.SmartIndentType = SmartIndent.Simple;
             this.Whitespace.Mode = WhitespaceMode.VisibleAfterIndent;
+            this.AutoComplete.IsCaseSensitive = false;
+            
+
+            //1. wyswietlanie jak podpowiedz, jak w expressionTextBox
+            //2. obrazki czy zwraca macierz czy real czy complex czy plik itp
+            //3. wszystkie funkcje
+
+            //AutoComplete.Show();
+
         }
 
         public bool Sort { get; set; }
@@ -63,6 +115,11 @@ namespace Computator.NET.UI
             _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu();
             _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
             RefreshAutoComplete();
+
+            AutoComplete.AutomaticLengthEntered = true;
+
+            AutoComplete.AutoHide = false;
+            AutoComplete.IsCaseSensitive = false;
         }
 
         public void ProcessScript(RichTextBox things, string customCode = "")
@@ -105,7 +162,7 @@ namespace Computator.NET.UI
                     break;
                 case 2:
                 {
-                    AutocompleteItem[] array = Evaluator.getAutocompleteItems();
+                    AutocompleteItem[] array = Evaluator.getAutocompleteItemsWithScripting();
                     AutocompleteItem[] array2 =
                         array.Distinct(new ExpressionTextBox.AutocompleteItemEqualityComparer()).ToArray();
                     if (Sort)

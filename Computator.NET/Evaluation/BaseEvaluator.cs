@@ -9,6 +9,7 @@ using AutocompleteMenuNS;
 using Computator.NET.Constants;
 using Computator.NET.Functions;
 using Computator.NET.Localization;
+using Computator.NET.Transformations;
 using MathNet.Numerics.Distributions;
 using Microsoft.CSharp;
 
@@ -190,6 +191,18 @@ using MathNet.Numerics.Distributions;
             items.AddRange(getFunctionsNamesWithDescription(typeof (SpecialFunctions)));
             items.AddRange(getFunctionsNamesWithDescription(typeof (MathematicalConstants), true));
             items.AddRange(getFunctionsNamesWithDescription(typeof (PhysicalConstants), true));
+            return items.ToArray();
+        }
+
+
+
+        public static AutocompleteItem[] getAutocompleteItemsWithScripting()
+        {
+            List<AutocompleteItem> items = getFunctionsNamesWithDescription(typeof (MatrixFunctions));
+           // items.AddRange(getFunctionsNamesWithDescription(typeof(MathematicalTransformations)));
+            items.AddRange(getFunctionsNamesWithDescription(typeof(ScriptingFunctions)));
+            items.AddRange(getAutocompleteItems());
+
             return items.ToArray();
         }
 
