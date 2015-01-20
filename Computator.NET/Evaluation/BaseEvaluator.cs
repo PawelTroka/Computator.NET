@@ -199,8 +199,8 @@ using MathNet.Numerics.Distributions;
         public static AutocompleteItem[] getAutocompleteItemsWithScripting()
         {
             List<AutocompleteItem> items = getFunctionsNamesWithDescription(typeof (MatrixFunctions));
-           // items.AddRange(getFunctionsNamesWithDescription(typeof(MathematicalTransformations)));
-            items.AddRange(getFunctionsNamesWithDescription(typeof(ScriptingFunctions)));
+            //items.AddRange(getFunctionsNamesWithDescription(typeof(MathematicalTransformations)));
+            //items.AddRange(getFunctionsNamesWithDescription(typeof(ScriptingFunctions)));
             items.AddRange(getAutocompleteItems());
 
             return items.ToArray();

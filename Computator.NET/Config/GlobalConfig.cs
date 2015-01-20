@@ -51,14 +51,16 @@ namespace Computator.NET.Config
         public static readonly string basePath = Path.GetDirectoryName(Application.ExecutablePath) +
                                                  Path.DirectorySeparatorChar;
 
+        public const string gslDllName = "gsl.dll";//"libgsl-0.dll";
+        public const string gslCblasDllName = "cblas.dll";//"libgslcblas-0.dll";
 
         public static readonly string gslLibPath = (Environment.Is64BitOperatingSystem)
-            ? fullPath("Special", "x64", "libgsl-0.dll")
-            : fullPath("Special", "x86", "libgsl-0.dll");
+            ? fullPath("Special", "x64", gslDllName)
+            : fullPath("Special", "x86", gslDllName);
 
         public static readonly string gslBlasPath = (Environment.Is64BitOperatingSystem)
-            ? fullPath("Special", "x64", "libgslcblas-0.dll")
-            : fullPath("Special", "x86", "libgslcblas-0.dll");
+            ? fullPath("Special", "x64", gslCblasDllName)
+            : fullPath("Special", "x86", gslCblasDllName);
 
         public static readonly Dictionary<string, FunctionInfo> functionsDetails = loadFunctionsDetailsFromXmlFile();
         private static PrivateFontCollection pfc;

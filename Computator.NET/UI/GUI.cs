@@ -328,10 +328,10 @@ namespace Computator.NET
 
         private static void CopyDllFiles()
         {
-            if (!File.Exists(GlobalConfig.basePath + "libgsl-0.dll"))
-                File.Copy(GlobalConfig.gslLibPath, GlobalConfig.basePath + "libgsl-0.dll");
-            if (!File.Exists(GlobalConfig.basePath + "libgslcblas-0.dll"))
-                File.Copy(GlobalConfig.gslBlasPath, GlobalConfig.basePath + "libgslcblas-0.dll");
+            if (!File.Exists(GlobalConfig.basePath + GlobalConfig.gslDllName))
+                File.Copy(GlobalConfig.gslLibPath, GlobalConfig.basePath + GlobalConfig.gslDllName);
+            if (!File.Exists(GlobalConfig.basePath + GlobalConfig.gslCblasDllName))
+                File.Copy(GlobalConfig.gslBlasPath, GlobalConfig.basePath + GlobalConfig.gslCblasDllName);
         }
 
         #endregion

@@ -878,7 +878,7 @@ namespace Computator.NET.Functions
 
         #region utils
 
-        private const string gslSfLibDir2 = "libgsl-0.dll"; //"x64/libgsl-0.dll";
+        private const string gslSfLibDir2 = "gsl.dll";//"libgsl-0.dll";
 
         #endregion
 
@@ -1601,7 +1601,7 @@ namespace Computator.NET.Functions
         #endregion
 
         #region utils
-        private const string gslSfLibDir2 = ""libgsl-0.dll"";//""x64/libgsl-0.dll"";
+        private const string gslSfLibDir2 = ""gsl.dll"";//""libgsl-0.dll"";
         #endregion
 
 ";

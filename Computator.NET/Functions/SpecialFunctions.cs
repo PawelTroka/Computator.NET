@@ -1844,7 +1844,7 @@ namespace Computator.NET.Functions
 
         #region utils
 
-        private const string gslSfLibDir = "libgsl-0.dll"; //"x64/libgsl-0.dll";
+        private const string gslSfLibDir = "gsl.dll";//"libgsl-0.dll";
         private static gsl_sf_result sfResult;
 
         private static Exception gslExceptions(int error_code)
@@ -3299,7 +3299,7 @@ public static double gammaP(double a, double x) { if (x < 0 || a <= 0) return do
 
         private static gsl_sf_result sfResult = new gsl_sf_result();
 
-        private const string gslSfLibDir = ""libgsl-0.dll"";//""x64/libgsl-0.dll"";
+        private const string gslSfLibDir =  ""gsl.dll"";//""libgslcblas-0.dll"";
 
         #endregion
 
