@@ -383,6 +383,7 @@
     <Content Include="Data\old\functions_xxx.xml" />
     <Content Include="Graphics\computator.net-icon.ico" />
     <Content Include="Graphics\computator.net-icon2.ico" />
+    <None Include="Graphics\Matrix.png" />
     <Content Include="Special\MathNet.Numerics.dll" />
     <Content Include="Special\x64\cblas.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

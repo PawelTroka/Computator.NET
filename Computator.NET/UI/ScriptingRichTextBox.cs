@@ -32,9 +32,9 @@ namespace Computator.NET.UI
         ///     Raises the <see cref="CharAdded"/> event.
         /// </summary>
         /// <param name="e">An <see cref="CharAddedEventArgs"/> that contains the event data.</param>
-       /* protected override void OnCharAdded(CharAddedEventArgs e)
+        protected override void OnCharAdded(CharAddedEventArgs e)
         {
-            base.OnCharAdded(e);
+           // base.OnCharAdded(e);
            // EventHandler<CharAddedEventArgs> handler = Events[_charAddedEventKey] as EventHandler<CharAddedEventArgs>;
            /// if (handler != null)
               //  handler(this, e);
@@ -44,7 +44,7 @@ namespace Computator.NET.UI
 
             if (_autoLaunchAutoComplete)
                 LaunchAutoComplete();
-        }*/
+        }
 
         public virtual void LaunchAutoComplete()
         {
@@ -78,7 +78,7 @@ namespace Computator.NET.UI
             this.Whitespace.Mode = WhitespaceMode.VisibleAfterIndent;
             this.AutoComplete.IsCaseSensitive = false;
             
-
+            this.AutoComplete.StopCharacters += '·';
             //1. wyswietlanie jak podpowiedz, jak w expressionTextBox
             //2. obrazki czy zwraca macierz czy real czy complex czy plik itp
             //3. wszystkie funkcje
@@ -118,7 +118,7 @@ namespace Computator.NET.UI
 
             AutoComplete.AutomaticLengthEntered = true;
 
-            AutoComplete.AutoHide = false;
+            AutoComplete.AutoHide = true;
             AutoComplete.IsCaseSensitive = false;
         }
 

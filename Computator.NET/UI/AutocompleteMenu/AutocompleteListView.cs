@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Computator.NET;
 using Computator.NET.Config;
 using Computator.NET.Functions;
 using Computator.NET.UI.AutocompleteMenu;
+using Timer = System.Windows.Forms.Timer;
 
 namespace AutocompleteMenuNS
 {
@@ -123,6 +128,13 @@ namespace AutocompleteMenuNS
             return new Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
         }
 
+        private Task _showToolTipTask=null;
+
+        private Stopwatch _showToolTipStopwatch= new Stopwatch();
+
+
+        private BackgroundWorker _showToolTipWorker =null;
+
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
             //tooltip or FORM !!! TODO:
@@ -133,21 +145,27 @@ namespace AutocompleteMenuNS
             FunctionInfo functionInfo = GlobalConfig.functionsDetails[signature];
 
 
-            if (ExpressionTextBox.toolTipTipOrForm)
-            {
-                toolTip.setFunctionInfo(functionInfo);
+                    if (ExpressionTextBox.toolTipTipOrForm)
+                    {
+                        toolTip.setFunctionInfo(functionInfo);
 
-                if (control == null)
-                    control = this;
+                        if (control == null)
+                            control = this;
 
-                toolTip.Show(control, Width + 3, 0);
-            }
-            else
-            {
-                formTip.setFunctionInfo(functionInfo);
-                formTip.Show();
-            }
+                        toolTip.Show(control, Width + 3, 0);
+                    }
+                    else
+                    {
+                        formTip.setFunctionInfo(functionInfo);
+                        formTip.Show();
+                    }
         }
+
+        void showToolTipTimer_Tick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public void closeToolTip()
         {

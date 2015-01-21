@@ -8,3 +8,4 @@
 8. New exponent mode (activated on clicking ^) not yet work in scripting
 9. New NumericTextBox print result control using scientific notation not yet works in scripting
 10. function En(n,x) throws exceptions on some arguments - n<-1, n>2
+11. Showing toolTip causes an overhead on CPU, fix by setting up a delay in showing the toolTip

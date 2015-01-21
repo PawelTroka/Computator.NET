@@ -98,8 +98,7 @@ using MathNet.Numerics.Distributions;
                         .ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression;
                 message += Environment.NewLine + Strings.Details;
                 message += Environment.NewLine + ex.Message + Environment.NewLine + Strings.MoreDetails;
-                foreach (CompilerError err in results.Errors)
-                    message += Environment.NewLine + err.ErrorText;
+                message = results.Errors.Cast<CompilerError>().Aggregate(message, (current, err) => current + (Environment.NewLine + err.ErrorText));
 
                 throw new ArgumentException(message);
             }
