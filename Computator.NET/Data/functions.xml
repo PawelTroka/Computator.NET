@@ -1331,14 +1331,14 @@ Harris and Stocker (1998, p.&nbsp;300) call secant and cosecant "rarely used fun
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CarlsonD(x,y,z)">
-    <Title>In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.</Title>
+    <Title>Carlson Rd(x,y,z) elliptic integral</Title>
     <Type>SpecialFunctions</Type>
     <Category>Elliptic functions</Category>
     <Description><![CDATA[In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CarlsonF(x,y,z)">
-    <Title>In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.</Title>
+    <Title>Carlson Rf(x,y,z) elliptic integral</Title>
     <Type>SpecialFunctions</Type>
     <Category>Elliptic functions</Category>
     <Description><![CDATA[In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.]]></Description>
@@ -1359,10 +1359,7 @@ Harris and Stocker (1998, p.&nbsp;300) call secant and cosecant "rarely used fun
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticK(x)">
-    <Title>
-      Elliptic Integrals are said to be 'complete' when the amplitude φ=π/2 and therefore x=1.
-      K(k)=F(π/2,k)
-    </Title>
+    <Title>Complete elliptic integral of the first kind K(k)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Elliptic functions</Category>
     <Description><![CDATA[Elliptic Integrals are said to be 'complete' when the amplitude φ=π/2 and therefore x=1.
@@ -1370,21 +1367,21 @@ K(k)=F(π/2,k)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticF(φ,x)">
-    <Title />
+    <Title>Incomplete elliptic integral of the first kind F(φ,k)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Elliptic functions</Category>
     <Description />
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticE(φ,x)">
-    <Title />
+    <Title>Incomplete elliptic integral of the second kind E(φ,k)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Elliptic functions</Category>
     <Description />
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticΠ(φ,x,n)">
-    <Title />
+    <Title>Incomplete elliptic integral of the third kind Π(φ,x,n)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Elliptic functions</Category>
     <Description />
@@ -1398,7 +1395,7 @@ K(k)=F(π/2,k)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticE(x)">
-    <Title>The complete elliptic integral of the second kind E is defined as E(k)=E(π/2,k)</Title>
+    <Title>Complete elliptic integral of the second kind E(k)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Elliptic functions</Category>
     <Description><![CDATA[The complete elliptic integral of the second kind E is defined as E(k)=E(π/2,k)]]></Description>
@@ -1412,7 +1409,7 @@ K(k)=F(π/2,k)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticΠ(x,n)">
-    <Title> </Title>
+    <Title>Complete elliptic integral of the third kind Π(x,n)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Elliptic functions</Category>
     <Description><![CDATA[ ]]></Description>
@@ -1594,73 +1591,73 @@ K(k)=F(π/2,k)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Hypergeometric0F1(c,x)">
-    <Title>description</Title>
+    <Title>Hypergeometric function related to Bessel functions ₀F₁(c,x)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Hypergeometric1F1(m,n,x)">
-    <Title>description</Title>
+    <Title>Confluent hypergeometric function ₁F₁(m,n,x)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Hypergeometric1F1(a,b,x)">
-    <Title>description</Title>
+    <Title>Confluent hypergeometric function ₁F₁(a,b,x)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="HypergeometricU(m,n,x)">
-    <Title>description</Title>
+    <Title>Confluent hypergeometric function U(m,n,x)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="HypergeometricU(a,b,x)">
-    <Title>description</Title>
+    <Title>Confluent hypergeometric function U(a,b,x)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Hypergeometric2F1(a,b,c,x)">
-    <Title>description</Title>
+    <Title>Gauss hypergeometric function ₂F₁(a,b,c,x)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Hypergeometric2F1(a,c,x)">
-    <Title>description</Title>
+    <Title>Gauss hypergeometric function ₂F₁(Re(a)+Im(a)i, Re(a)-Im(a)i, c, x)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Hypergeometric2F1renorm(a,b,c,x)">
-    <Title>description</Title>
+    <Title>Renormalized Gauss hypergeometric function ₂F₁(a, b, c, x) / Γ(c)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Hypergeometric2F1renorm(a,c,x)">
-    <Title>description</Title>
+    <Title>Renormalized Gauss hypergeometric function ₂F₁(Re(a)+Im(a)i, Re(a)-Im(a)i, c, x) / Γ(c)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Hypergeometric2F0(a,b,x)">
-    <Title>description</Title>
+    <Title>Gauss hypergeometric function ₂F₀(a, b, x)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Hypergeometric functions</Category>
-    <Description><![CDATA[description]]></Description>
+    <Description><![CDATA[Mysterious hypergeometric function. The series representation is a divergent hypergeometric series. However, for x < 0 we have 2F0(a,b,x) = (-1/x)^a U(a,1+a-b,-1/x)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Gegenbauer(n,α,x)">
@@ -2039,35 +2036,35 @@ K(k)=F(π/2,k)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Beta(x,a,b)">
-    <Title>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Title>
+    <Title>Incomplete beta function β(x,a,b)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="BetaNorm(x,a,b)">
-    <Title>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Title>
+    <Title>Normalized incomplete beta function β(x,a,b)/β(a,b)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Beta(a,b)">
-    <Title>In mathematics, the beta function, also called the Euler integral of the first kind, is a special function</Title>
+    <Title>Beta function β(a,b)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[In mathematics, the beta function, also called the Euler integral of the first kind, is a special function]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="β(x,a,b)">
-    <Title>The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.</Title>
+    <Title>Incomplete beta function β(x,a,b)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[The incomplete beta function, a generalization of the beta function, is defined as for x = 1, the incomplete beta function coincides with the complete beta function. The relationship between the two functions is like that between the gamma function and its generalization the incomplete gamma function.]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="β(a,b)">
-    <Title>In mathematics, the beta function, also called the Euler integral of the first kind, is a special function</Title>
+    <Title>Beta function β(a,b)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[In mathematics, the beta function, also called the Euler integral of the first kind, is a special function]]></Description>
@@ -2102,21 +2099,21 @@ K(k)=F(π/2,k)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CoulombG(L,η,ρ)">
-    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Title>Irregular Coulomb wave function Gᴸ(η,ρ)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Coulomb functions</Category>
     <Description><![CDATA[A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CoulombF(L,η,ρ)">
-    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Title>Regular Coulomb wave function Fᴸ(η,ρ)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Coulomb functions</Category>
     <Description><![CDATA[A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CoulombC(L,η)">
-    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Title>Coulomb wave function normalization constant Cᴸ</Title>
     <Type>SpecialFunctions</Type>
     <Category>Coulomb functions</Category>
     <Description><![CDATA[A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus]]></Description>
@@ -2137,21 +2134,21 @@ K(k)=F(π/2,k)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CoulombW(L,η,ρ)">
-    <Title>A special case of the confluent hypergeometric function of the first kind</Title>
+    <Title>Complete solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus Wᴸ(η,ρ)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Coulomb functions</Category>
     <Description><![CDATA[A special case of the confluent hypergeometric function of the first kind]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CoulombGprime(L,η,ρ)">
-    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Title>First derivative of irregular Coulomb wave function G'ᴸ(η,ρ)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Coulomb functions</Category>
     <Description><![CDATA[A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CoulombFprime(L,η,ρ)">
-    <Title>A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus</Title>
+    <Title>First derivative of regular Coulomb wave function F'ᴸ(η,ρ)</Title>
     <Type>SpecialFunctions</Type>
     <Category>Coulomb functions</Category>
     <Description><![CDATA[A special case of the confluent hypergeometric function of the first kind. It gives the solution to the radial Schrödinger equation in the Coulomb potential (1/r) of a point nucleus]]></Description>

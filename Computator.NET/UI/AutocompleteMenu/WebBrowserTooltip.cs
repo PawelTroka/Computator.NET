@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Windows.Forms;
 using Computator.NET.Functions;
 using Computator.NET.Localization;
@@ -25,7 +23,6 @@ namespace Computator.NET.UI.AutocompleteMenu
             Controls.Add(webBrowser);
             webBrowser.Dock = DockStyle.Fill;
         }
-
 
         public string HTMLCode
         {
@@ -54,10 +51,10 @@ namespace Computator.NET.UI.AutocompleteMenu
         {
             var webBrowser = sender as WebBrowser;
 
-            Rectangle r = webBrowser.Document.Body.ScrollRectangle;
+            var r = webBrowser.Document.Body.ScrollRectangle;
 
             int height;
-            int overlapp = 18;
+            var overlapp = 18;
 
             if (r.Size.Height + overlapp < webBrowser.Size.Height)
                 height = r.Size.Height + overlapp;
@@ -138,10 +135,10 @@ namespace Computator.NET.UI.AutocompleteMenu
         {
             var webBrowser = sender as WebBrowser;
 
-            Rectangle r = webBrowser.Document.Body.ScrollRectangle;
+            var r = webBrowser.Document.Body.ScrollRectangle;
 
             int height;
-            int overlapp = 18;
+            var overlapp = 18;
 
             if (r.Size.Height + overlapp < webBrowser.Size.Height)
                 height = r.Size.Height + overlapp;
@@ -155,13 +152,12 @@ namespace Computator.NET.UI.AutocompleteMenu
         private string latexToHTML(string latex)
         {
             var rnd = new Random();
-            string gifName = "eq_" + rnd.Next() + ".gif";
-            string tempGifPath = Path.Combine(Path.GetTempPath(), gifName);
+            var gifName = "eq_" + rnd.Next() + ".gif";
+            var tempGifPath = Path.Combine(Path.GetTempPath(), gifName);
             NativeMethods.CreateGifFromEq(latex, tempGifPath);
-            string html = @"<img alt=""{LATEX_CODE_GOES_HERE}"" src=""{IMG_PATH_GOES_HERE}"">";
+            var html = @"<img alt=""{LATEX_CODE_GOES_HERE}"" src=""{IMG_PATH_GOES_HERE}"">";
             return html.Replace("{IMG_PATH_GOES_HERE}", tempGifPath).Replace("{LATEX_CODE_GOES_HERE}", latex);
         }
-
 
         public void setFunctionInfo(FunctionInfo functionInfo)
         {
@@ -170,25 +166,5 @@ namespace Computator.NET.UI.AutocompleteMenu
                        functionInfo.Url.Replace("http://en.wikipedia", "http://en.m.wikipedia") + @""">" +
                        functionInfo.Url + @"</a></i>";
         }
-    }
-
-
-    [SuppressUnmanagedCodeSecurity]
-    internal class NativeMethods
-    {
-        private NativeMethods()
-        {
-            //all methods in this class would be static
-        }
-
-        [DllImport("MimeTex.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int CreateGifFromEq(string expr, string fileName);
-
-        [DllImport("kernel32.dll")]
-        internal static extern IntPtr GetModuleHandle(string lpModuleName);
-
-        [DllImport("kernel32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool FreeLibrary(IntPtr hLibModule);
     }
 }

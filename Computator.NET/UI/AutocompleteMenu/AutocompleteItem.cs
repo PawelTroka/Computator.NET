@@ -1,19 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using Computator.NET;
 using Computator.NET.Functions;
+using Computator.NET.Properties;
+using Computator.NET.UI.CodeEditors;
 
 namespace AutocompleteMenuNS
 {
+    public class AutocompleteItemEqualityComparer : IEqualityComparer<AutocompleteItem>
+    {
+        public bool Equals(AutocompleteItem x, AutocompleteItem y)
+        {
+            return x.Text == y.Text;
+        }
+
+        public int GetHashCode(AutocompleteItem obj)
+        {
+            return obj.Text.GetHashCode();
+        }
+    }
     /// <summary>
     ///     Item of autocomplete menu
     /// </summary>
     public class AutocompleteItem
     {
-        public object Tag;
         public FunctionInfo functionInfo;
         private string menuText;
+        public object Tag;
         private string toolTipText;
         private string toolTipTitle;
+
 
         public AutocompleteItem()
         {
@@ -27,6 +44,11 @@ namespace AutocompleteMenuNS
             Text = text;
         }
 
+        public CompletionData ToCompletionData()
+        {
+            return new CompletionData(this.Text, this.MenuText, this.functionInfo, this.ImageIndex);
+        }
+
         public AutocompleteItem(string text, int imageIndex)
             : this(text)
         {
@@ -34,8 +56,23 @@ namespace AutocompleteMenuNS
             ImageIndex = imageIndex;
         }
 
+        public AutocompleteItem(string name, string addition, string additionWithTypes, string returnTypeName, int imageIndex)
+            : this(name+ addition, imageIndex)
+        {
+            functionInfo = new FunctionInfo();
+            // this.menuText = menuText;
+            _name = name;
+            _returnTypeName = returnTypeName;
+            _addition = addition;
+            _additionWithTypes = additionWithTypes;
+        }
+
+        private string _name;
+        private string _returnTypeName;
+        private string _addition;
+        private string _additionWithTypes;
         public AutocompleteItem(string text, int imageIndex, string menuText)
-            : this(text, imageIndex)
+    : this(text, imageIndex)
         {
             functionInfo = new FunctionInfo();
             this.menuText = menuText;
@@ -89,9 +126,35 @@ namespace AutocompleteMenuNS
         /// </summary>
         public virtual string MenuText
         {
-            get { return menuText; }
-            set { menuText = value; }
+            get
+            {
+
+                if(menuText!=null)
+                return menuText;
+
+
+                string ret;
+                if (IsScripting)
+                {
+                    ret= ((Settings.Default.ShowReturnTypeInScripting) ? this._returnTypeName + " " : "") +this._name+
+                           (Settings.Default.ShowParametersTypeInScripting ? this._additionWithTypes : this._addition);
+                }
+                else
+                {
+                    ret= ((Settings.Default.ShowReturnTypeInExpression) ? this._returnTypeName + " " : "") + this._name +
+                          (Settings.Default.ShowParametersTypeInExpression ? this._additionWithTypes : this._addition);
+                }
+                if(string.IsNullOrEmpty(ret)||string.IsNullOrWhiteSpace(ret))
+                    return Text;
+                else
+                {
+                    return ret;
+                }
+            }
+           // set { menuText = value; }
         }
+
+        public bool IsScripting { get; set; }
 
 
         /// <summary>
@@ -119,7 +182,7 @@ namespace AutocompleteMenuNS
         /// </summary>
         public override string ToString()
         {
-            return menuText ?? Text;
+            return menuText ?? MenuText;
         }
 
         /// <summary>

@@ -4,22 +4,23 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Computator.NET;
 using Computator.NET.Config;
-using Computator.NET.Functions;
+using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.UI.AutocompleteMenu;
-using Timer = System.Windows.Forms.Timer;
 
 namespace AutocompleteMenuNS
 {
     public class AutocompleteListView : UserControl, IAutocompleteListView
     {
         private readonly WebBrowserForm formTip;
+        private readonly int hoveredItemIndex = -1;
         private readonly WebBrowserToolTip toolTip;
-        private int hoveredItemIndex = -1;
+        private Stopwatch _showToolTipStopwatch = new Stopwatch();
+        private Task _showToolTipTask = null;
+        private BackgroundWorker _showToolTipWorker = null;
         private int itemHeight;
         private int oldItemCount;
         private int selectedItemIndex = -1;
@@ -79,7 +80,6 @@ namespace AutocompleteMenuNS
         /// </summary>
         public event EventHandler ItemSelected;
 
-
         /// <summary>
         ///     Occurs when current hovered item is changing
         /// </summary>
@@ -124,48 +124,46 @@ namespace AutocompleteMenuNS
 
         public Rectangle GetItemRectangle(int itemIndex)
         {
-            int y = itemIndex*ItemHeight - VerticalScroll.Value;
+            var y = itemIndex*ItemHeight - VerticalScroll.Value;
             return new Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
         }
 
-        private Task _showToolTipTask=null;
-
-        private Stopwatch _showToolTipStopwatch= new Stopwatch();
-
-
-        private BackgroundWorker _showToolTipWorker =null;
-
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
-            //tooltip or FORM !!! TODO:
             toolTip.Close();
-            string signature = autocompleteItem.Text;
+            var signature = autocompleteItem.Text;
             if (!GlobalConfig.functionsDetails.ContainsKey(signature))
                 return;
-            FunctionInfo functionInfo = GlobalConfig.functionsDetails[signature];
+            var functionInfo = GlobalConfig.functionsDetails[signature];
 
+            if (string.IsNullOrEmpty(functionInfo.Description) || string.IsNullOrWhiteSpace(functionInfo.Description) ||
+                string.IsNullOrEmpty(functionInfo.Title) || string.IsNullOrWhiteSpace(functionInfo.Title)
+                || functionInfo.Description.Contains("here goes description (not done yet)")
+                || functionInfo.Title.Contains("_title_")
 
-                    if (ExpressionTextBox.toolTipTipOrForm)
-                    {
-                        toolTip.setFunctionInfo(functionInfo);
+                )
+                return;
 
-                        if (control == null)
-                            control = this;
+                if (Computator.NET.Properties.Settings.Default.TooltipType==TooltipType.Default)
+            {
+                toolTip.setFunctionInfo(functionInfo);
 
-                        toolTip.Show(control, Width + 3, 0);
-                    }
-                    else
-                    {
-                        formTip.setFunctionInfo(functionInfo);
-                        formTip.Show();
-                    }
+                if (control == null)
+                    control = this;
+
+                toolTip.Show(control, Width + 3, 0);
+            }
+            else if(Computator.NET.Properties.Settings.Default.TooltipType == TooltipType.Form)
+            {
+                formTip.setFunctionInfo(functionInfo);
+                formTip.Show();
+            }
         }
 
-        void showToolTipTimer_Tick(object sender, EventArgs e)
+        private void showToolTipTimer_Tick(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
-
 
         public void closeToolTip()
         {
@@ -222,16 +220,15 @@ namespace AutocompleteMenuNS
             if (oldItemCount == VisibleItems.Count)
                 return;
 
-            int needHeight = ItemHeight*VisibleItems.Count + 1;
+            var needHeight = ItemHeight*VisibleItems.Count + 1;
             Height = Math.Min(needHeight, MaximumSize.Height);
             AutoScrollMinSize = new Size(0, needHeight);
             oldItemCount = VisibleItems.Count;
         }
 
-
         private void ScrollToSelected()
         {
-            int y = SelectedItemIndex*ItemHeight - VerticalScroll.Value;
+            var y = SelectedItemIndex*ItemHeight - VerticalScroll.Value;
             if (y < 0)
                 VerticalScroll.Value = SelectedItemIndex*ItemHeight;
             if (y > ClientSize.Height - ItemHeight)
@@ -244,15 +241,15 @@ namespace AutocompleteMenuNS
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            bool rtl = RightToLeft == RightToLeft.Yes;
+            var rtl = RightToLeft == RightToLeft.Yes;
             AdjustScroll();
-            int startI = VerticalScroll.Value/ItemHeight - 1;
-            int finishI = (VerticalScroll.Value + ClientSize.Height)/ItemHeight + 1;
+            var startI = VerticalScroll.Value/ItemHeight - 1;
+            var finishI = (VerticalScroll.Value + ClientSize.Height)/ItemHeight + 1;
             startI = Math.Max(startI, 0);
             finishI = Math.Min(finishI, VisibleItems.Count);
-            int y = 0;
+            var y = 0;
 
-            for (int i = startI; i < finishI; i++)
+            for (var i = startI; i < finishI; i++)
             {
                 y = i*ItemHeight - VerticalScroll.Value;
 
@@ -324,7 +321,6 @@ namespace AutocompleteMenuNS
             if (ItemSelected != null)
                 ItemSelected(this, EventArgs.Empty);
         }
-
 
         private int PointToItemIndex(Point p)
         {

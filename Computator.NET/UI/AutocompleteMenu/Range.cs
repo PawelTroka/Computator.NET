@@ -7,7 +7,7 @@
             TargetWrapper = targetWrapper;
         }
 
-        public ITextBoxWrapper TargetWrapper { get; private set; }
+        public ITextBoxWrapper TargetWrapper { get; }
         public int Start { get; set; }
         public int End { get; set; }
 
@@ -15,7 +15,7 @@
         {
             get
             {
-                string text = TargetWrapper.Text;
+                var text = TargetWrapper.Text;
 
                 if (string.IsNullOrEmpty(text))
                     return "";

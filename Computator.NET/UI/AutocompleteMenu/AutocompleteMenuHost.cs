@@ -47,8 +47,8 @@ namespace AutocompleteMenuNS
                 (ListView as Control).Size = Menu.MaximumSize;
 
                 CalcSize();
-                base.Items.Clear();
-                base.Items.Add(Host);
+                Items.Clear();
+                Items.Add(Host);
                 (ListView as Control).Parent = this;
             }
         }

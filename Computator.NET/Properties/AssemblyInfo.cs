@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -11,9 +12,9 @@ using System.Runtime.InteropServices;
         "Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise."
         )]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Paweł Troka")]
+[assembly: AssemblyCompany("Pawel Troka")]
 [assembly: AssemblyProduct("Computator.NET")]
-[assembly: AssemblyCopyright("Copyright ©  2014 Paweł Troka")]
+[assembly: AssemblyCopyright("Copyright ©  2015 Pawel Troka")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -38,5 +39,7 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.8.2.0")]
-[assembly: AssemblyFileVersion("1.8.2.0")]
+[assembly: AssemblyVersion("1.9.0.0")]
+[assembly: AssemblyFileVersion("1.9.0.0")]
+[assembly: NeutralResourcesLanguage("en")]
+

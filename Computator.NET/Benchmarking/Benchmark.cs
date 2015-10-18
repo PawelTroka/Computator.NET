@@ -220,7 +220,8 @@ namespace Computator.NET.Benchmarking
                 0.70566393328163
             },
             {
-                2.92969621854354, 3.93317850676048, 2.71033821939972, 3.71400237256382, 3.24611585365893, 2.17247667451039,
+                2.92969621854354, 3.93317850676048, 2.71033821939972, 3.71400237256382, 3.24611585365893,
+                2.17247667451039,
                 0.586488282581087, 2.13933410781405, 0.537249408912495, 1.95113721767028, 2.8281673802194,
                 2.18987311524799, 0.356668345796256, 3.38649742835504, 0.418544354112141, 1.43724521130195,
                 1.51026824932092, 0.193776110277407, 1.81494524414416, 2.58220678874394, 0.98889428981994,
@@ -421,7 +422,8 @@ namespace Computator.NET.Benchmarking
                 0.662731254781937, 3.05303126529466, 2.57416042805377, 3.43464385505516
             },
             {
-                0.891132538621841, 7.87100660934625, 8.90768955550515, 6.71410580198937, 8.32370480956682, 2.03540590826208,
+                0.891132538621841, 7.87100660934625, 8.90768955550515, 6.71410580198937, 8.32370480956682,
+                2.03540590826208,
                 6.20368384020575, 6.29490072712996, 1.5701320788684, 4.51296321466237, 3.7844442915099, 6.00875580031832,
                 0.533053062638758, 5.30192961976953, 2.71629941496826, 0.38803221536243, 4.10868191305021,
                 0.895361531477124, 1.18596968761923, 1.01001488185023, 3.69554834938401, 6.71636433932761,
@@ -619,7 +621,8 @@ namespace Computator.NET.Benchmarking
                 1.54307747890385, 6.41831576890234, 2.30587286236969, 1.88302357070289, 2.22580697444538
             },
             {
-                4.00668844022168, 8.62022756441507, 13.0139369280142, 9.33134982424385, 5.24240540212132, 10.718045776113,
+                4.00668844022168, 8.62022756441507, 13.0139369280142, 9.33134982424385, 5.24240540212132,
+                10.718045776113,
                 8.66007138446908, 3.05465406321672, 10.9185117235959, 4.45690367578385, 5.724778334482, 3.22277481258976,
                 10.4063970644057, 7.16627467757383, 14.3800780467596, 12.4100765047642, 11.3331184439981,
                 7.23472743818291, 5.57360431811474, 14.5792122551143, 9.10973464376746, 7.38777629630071,
@@ -817,7 +820,8 @@ namespace Computator.NET.Benchmarking
                 13.8285986920021, 0.696814842846624
             },
             {
-                11.9266228805886, 1.53774290882877, 12.0032341391795, 7.65325278400129, 19.2472700352069, 22.8527967924498,
+                11.9266228805886, 1.53774290882877, 12.0032341391795, 7.65325278400129, 19.2472700352069,
+                22.8527967924498,
                 0.440765731241911, 13.7724222330248, 8.8364742271772, 0.724514550866799, 8.707754632322,
                 14.0451154387766, 19.8490619169777, 12.5965905783682, 19.780168086188, 5.47627669548442,
                 0.0906882109542788, 4.95568907584794, 16.6911075784318, 7.31979095485052, 23.1297687735082,
@@ -1016,7 +1020,8 @@ namespace Computator.NET.Benchmarking
                 15.2567823954191, 16.8632982610088
             },
             {
-                33.3573411616298, 8.59974297163996, 13.2650354286959, 8.31115042432731, 30.2330032318053, 32.1010922585153,
+                33.3573411616298, 8.59974297163996, 13.2650354286959, 8.31115042432731, 30.2330032318053,
+                32.1010922585153,
                 13.8906927676362, 34.9716848167459, 22.0024981824693, 4.52660342516685, 4.95574639037053,
                 0.683727784400679, 28.4643738011198, 15.7615318632506, 8.10164728579188, 12.0143943037905,
                 11.0837220396305, 23.8746253251446, 17.34275623846, 32.5102904348216, 7.712344897777, 4.098674243362,
@@ -1215,7 +1220,6 @@ namespace Computator.NET.Benchmarking
         };
 
         private readonly Random random;
-
         private readonly List<double> results;
         private readonly Stopwatch stopWatch;
         private string tempString;
@@ -1249,15 +1253,15 @@ namespace Computator.NET.Benchmarking
         {
             var sw = new StreamWriter("coefficient.txt");
             sw.Write("private double[,] coeff = new double[,] {");
-            for (int j = 1; j <= 6; j++)
+            for (var j = 1; j <= 6; j++)
             {
                 sw.Write("{");
-                for (int i = 0; i <= 1000; i++)
+                for (var i = 0; i <= 1000; i++)
                 {
                     if (i < 1000)
-                        sw.Write(String.Format(CultureInfo.InvariantCulture, @"{0},", j*j*random.NextDouble()));
+                        sw.Write(string.Format(CultureInfo.InvariantCulture, @"{0},", j*j*random.NextDouble()));
                     else
-                        sw.Write(String.Format(CultureInfo.InvariantCulture, @"{0}", j*j*random.NextDouble()));
+                        sw.Write(string.Format(CultureInfo.InvariantCulture, @"{0}", j*j*random.NextDouble()));
                 }
                 if (j < 6)
                     sw.Write("},");
@@ -1274,23 +1278,23 @@ namespace Computator.NET.Benchmarking
             results.Clear();
             tempString = "";
 
-            int loops = 100;
+            var loops = 100;
 
-            for (int i = 1; i <= loops; i++)
+            for (var i = 1; i <= loops; i++)
             {
                 if (bw.CancellationPending)
                 {
                     e.Cancel = true;
                     break;
                 }
-                int maxsize = 10000000;
-                int size = random.Next(maxsize, maxsize + 8);
+                var maxsize = 10000000;
+                var size = random.Next(maxsize, maxsize + 8);
 
                 stopWatch.Restart();
                 var tab = new double[size];
                 stopWatch.Stop();
 
-                for (int j = 0; j < maxsize; j++)
+                for (var j = 0; j < maxsize; j++)
                     tab[j] = random.Next();
 
                 tempString += tab[random.Next(0, maxsize)];
@@ -1308,12 +1312,12 @@ namespace Computator.NET.Benchmarking
             results.Clear();
             tempString = "";
 
-            int maxsize = 1000;
-            int size = random.Next(maxsize, maxsize + 8);
+            var maxsize = 1000;
+            var size = random.Next(maxsize, maxsize + 8);
 
             var tab = new double[size];
 
-            for (int j = 0; j < maxsize; j++)
+            for (var j = 0; j < maxsize; j++)
             {
                 if (bw.CancellationPending)
                 {
@@ -1321,15 +1325,15 @@ namespace Computator.NET.Benchmarking
                     break;
                 }
                 var z = new Complex(coeff[4, j], coeff[5, j]);
-                    //new Complex(random.NextDouble() + random.NextDouble() * random.Next() * random.NextDouble(), random.Next() * random.NextDouble() * random.NextDouble() + random.NextDouble());
-                double x = coeff[3, j];
-                    //random.NextDouble() * random.NextDouble() * random.Next() + random.NextDouble();
-                double a = coeff[1, j]; //4 * random.NextDouble();
-                double b = coeff[2, j]; //4 * random.NextDouble();
-                double c = coeff[0, j]; //random.NextDouble();
+                //new Complex(random.NextDouble() + random.NextDouble() * random.Next() * random.NextDouble(), random.Next() * random.NextDouble() * random.NextDouble() + random.NextDouble());
+                var x = coeff[3, j];
+                //random.NextDouble() * random.NextDouble() * random.Next() + random.NextDouble();
+                var a = coeff[1, j]; //4 * random.NextDouble();
+                var b = coeff[2, j]; //4 * random.NextDouble();
+                var c = coeff[0, j]; //random.NextDouble();
 
                 stopWatch.Restart();
-                for (int j2 = 0; j2 < 500; j2++)
+                for (var j2 = 0; j2 < 500; j2++)
                 {
                     tab[j] =
                         (ElementaryFunctions.δij(x, 2321)*ElementaryFunctions.sqrt(0.0001*z + 0.001*x) +
@@ -1349,7 +1353,7 @@ namespace Computator.NET.Benchmarking
                 results.Add(stopWatch.ElapsedMilliseconds);
                 bw.ReportProgress((int) ((100.0*j)/(1.0*(maxsize - 1))));
             }
-            int k = 1;
+            var k = 1;
         }
     }
 }

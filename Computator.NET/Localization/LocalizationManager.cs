@@ -14,7 +14,7 @@ namespace Computator.NET.Localization
             {
                 if (GlobalUICulture.Equals(value) == false)
                 {
-                    foreach (LocalizedForm form in Application.OpenForms.OfType<LocalizedForm>())
+                    foreach (var form in Application.OpenForms.OfType<LocalizedForm>())
                     {
                         form.Culture = value;
                     }

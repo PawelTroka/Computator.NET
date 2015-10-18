@@ -1,0 +1,284 @@
+1.1 Podstawy paradoksu
+Sformułowanie paradoksu:
+Wielkość i wiek Wszechświata sugerują, że powinno istnieć wiele zaawansowanych technicznie pozaziemskich cywilizacji. Jednak takiemu rozumowaniu przeczy brak obserwacyjnych dowodów ich istnienia. Zatem albo początkowe założenia są nieprawidłowe i zaawansowane technicznie życie jest znacznie rzadsze niż się sądzi, albo metody obserwacji są niekompletne i ludzkość jeszcze ich nie wykryła, albo metody są błędne i cywilizacja ludzka poszukuje niewłaściwych śladów.
+Powstaje więc pytanie:
+Gdzie Oni są?
+
+1.2 Podstawy paradoksu
+Argument skali
+Wstępne założenie („argument skali”) wynika z samych rozważanych tu liczb: w Drodze Mlecznej jest około 250 miliardów (2,5 × 10^11) gwiazd, a w obserwowalnym Wszechświecie około 70 tryliardów (7 × 10^22). Nawet jeśli inteligentne życie pojawia się na znikomym procencie planet, wciąż powinno istnieć mnóstwo cywilizacji nawet w samej Drodze Mlecznej. Rozumowanie to opiera się na zasadzie kopernikańskiej, mówiącej że Ziemia nie jest szczególnie wyróżnionym miejscem we Wszechświecie, a jedynie typową planetą, podlegającą tym samym prawom, efektom i prawdopodobieństwu co inne.
+Równanie Drake’a
+Równanie Drake’a określa wzór:
+
+
+gdzie:
+  N – liczba cywilizacji pozaziemskich, z którymi ludzkość może się komunikować (czyli z założenia cywilizacji technologicznych);
+  R* – szybkość powstawania gwiazd w naszej Galaktyce;
+  fp – odsetek gwiazd, które mają planety;
+  ne – średnia liczba planet znajdujących się w ekosferze gwiazdy, tj. na których może powstać życie;
+ fl  – odsetek planet w ekosferze, na których życie powstanie;
+ fi  – odsetek planet zamieszkanych, na których życie rozwinie inteligencję (czyli stworzy cywilizację);
+fc   – odsetek cywilizacji, które będą chciały komunikować się z ludzkością;
+L   – średni czas istnienia takich cywilizacji.
+
+Tempo eksploracji
+Powstało kilka oszacowań tempa, w jakim cywilizacja zaczynająca z jednej planety mogłaby rozprzestrzenić się na całą galaktykę. Przykładowo, wyobraźmy sobie, że jakaś cywilizacja opanowała technologię podróży międzygwiezdnych z prędkością równą 1% prędkości światła, a każda nowo założona przez nią kolonia jest w stanie raz na 500 lat wysłać pojazd kolonizacyjny do kolejnego układu. W ciągu pierwszych kilkudziesięciu tysięcy lat cywilizacja taka skolonizuje wszystkie dostępne układy w promieniu setek lat świetlnych i utworzy „front kolonizacyjny”, przemieszczający się przez galaktykę z prędkością około 1% prędkości światła. Dotarcie do wszystkich gwiazd w Drodze Mlecznej zajmie jej co najwyżej 10 milionów lat. Szacując, nawet bardziej zgrubnie, na 50 milionów lat, wciąż dostaniemy bardzo krótki okres w skali kosmologicznej[3]. Nawet jeśli sama kolonizacja jest niepraktyczna bądź nieprzydatna obcym cywilizacjom, eksploracja na dużą skalę wciąż byłaby możliwa i mogłaby zostawić widoczne ślady.
+
+2.1 Doświadczalne rozwiązania
+Emisje radiowe
+Technologia radiowa i umiejętność konstruowania radioteleskopów jest uważana za naturalną dla pewnego stopnia zaawansowania cywilizacji, a jednocześnie generuje efekty, które mogą być wykryte z dużej odległości. Przykładowo uważna obserwacja Układu Słonecznego ujawniłaby niezwykłą aktywność radiową jak na gwiazdę typu G2, pochodzącą od ziemskiej telewizji i telekomunikacji. Przy braku naturalnych przyczyn, obcy obserwator mógłby wywnioskować istnienie ziemskiej cywilizacji.
+Analogicznie uważne analizowanie emisji radiowych z kosmosu i poszukiwanie nienaturalnych sygnałów mogłoby doprowadzić do wykrycia istnienia obcych. Odebrane sygnały mogłyby być albo „przypadkowymi” emisjami, albo zamierzonymi próbami komunikacji (takimi jak wiadomość Arecibo). Odpowiednie nasłuchy trwają od kilkudziesięciu lat, głównie pod egidą organizacji SETI. Do tej pory nie wykryto żadnej niepodważalnie sztucznej emisji, choć pewna ilość pojedynczych sygnałów ma szanse być takimi (np. „Sygnał Wow!” odebrany w 1977 roku). Obserwacje SETI z konieczności ograniczają się jednak do pewnej szczególnej klasy sygnałów, i znaczna większość emisji radiowych może pozostawać niezauważona.
+
+Bezpośrednie obserwacje planet (1)
+Rozwój technologii w ostatnich latach spowodował pojawienie się nowej dziedziny badań astronomicznych, zajmującej się wykrywaniem i klasyfikacją planet pozasłonecznych. Bezpośrednia obserwacja takich planet mogłaby doprowadzić do wykrycia w widmie absorpcyjnym ich atmosfer śladów związków sugerujących życie: chlorofilu, jednoczesnego występowania tlenu i metanu, lub gazów przemysłowych, takich jak freon[6]. Precyzyjne obserwacje powierzchni planety mogłyby dostarczyć bezpośrednich dowodów istnienia cywilizacji (jak na zdjęciu po prawej).
+
+Planety pozasłoneczne rzadko są obserwowane bezpośrednio (pierwsza taka obserwacja udała się w roku 2005). Ich istnienie zwykle wykrywa się pośrednio, badając wpływ tych planet na zachowanie macierzystej gwiazdy. Da się w ten sposób wyznaczyć wielkość i orbitę planety, co w połączeniu ze znajomością typu gwiazdy pozwala na zgrubne oszacowanie warunków panujących na powierzchni.
+Współczesne metody poszukiwania pozasłonecznych układów planetarnych silnie preferują duże planety krążące po ciasnych orbitach, tzw. gorące jowisze. Wykrywanie planet wielkości Ziemi i krążących na podobnej orbicie jest znacznie trudniejsze. Pierwszą pozasłoneczną planetą mogącą przypominać Ziemię jest odkryta w 2007 roku Gliese 581 c. Obecnie znamy ponad 700 planet pozasłonecznych[7].
+
+Pozostałości obcych
+Stosunkowo duża szybkość, z jaką inteligentne życie może się rozprzestrzeniać, daje podstawy do twierdzenia, że w otoczeniu Ziemi powinny istnieć jakieś pozostałości innych cywilizacji. W szczególności możliwe jest istnienie śladów „bezosobowej” eksploracji, w postaci sond i urządzeń badawczych.
+
+Sonda von Neumanna
+Pewne teoretyczne technologie, takie jak sonda von Neumanna, pozwalałyby w całości przebadać galaktykę wielkości Drogi Mlecznej w czasie krótszym niż pół miliona lat, przy minimalnych kosztach materiałowych i energetycznych. Jeśli choć jedna cywilizacja w Drodze Mlecznej dokonała tego, pozostałości takich sond mogłyby być znalezione w obrębie Układu Słonecznego – np. w pasie planetoid, gdzie występuje dużo łatwo dostępnych materiałów[8].
+
+Sonda Bracewella
+Inną rozpatrywaną możliwością jest istnienie tzw. sond Bracewella – hipotetycznych autonomicznych urządzeń szukających cywilizacji, z którymi można nawiązać kontakt (w przeciwieństwie do sond von Neumanna, które mają zwykle cel czysto badawczy). Zostały one zaproponowane jako alternatywa dla powolnej komunikacji z prędkością światła pomiędzy oddalonymi cywilizacjami. Aby uniknąć długiego oczekiwania na każdą odpowiedź, sondy wyposażone w sztuczne inteligencje mogłyby z odpowiednim wyprzedzeniem zostać rozsiane po galaktyce, aby przeprowadzać rozmowy na miejscu i przekazywać do macierzystej cywilizacji jedynie ich rezultaty[9].
+
+Współczesna technologia nie daje żadnych możliwości przeszukania najbardziej prawdopodobnych miejsc, w których mogłyby znajdować się takie sondy: pasa planetoid, pasa Kuipera czy obłoku Oorta. Przeprowadzono pewne próby ich znalezienia, jak również aktywacji lub wezwania sond Bracewella. Do tej pory nie dały one żadnych efektów. Badania te uznawane są za obrzeże dziedziny SETI i nie wywołują takiego zainteresowania jak badania radiowe.
+
+Nawet jeśli takie urządzenia istnieją na Ziemi, możemy nie być w stanie ich rozpoznać. Wytwory obcej technologii i obcego sposobu myślenia nie muszą posiadać żadnych cech, które przypisujemy „sztucznym” obiektom. Urządzenia badawcze w postaci zaprojektowanych form życia mogłyby po wykonaniu zadania wymrzeć i stać się częścią biosfery, nie pozostawiając po sobie żadnych śladów. Urządzenia komunikacyjne bazujące na zaawansowanej nanotechnologii mogą działać nawet w obecnej chwili, całkowicie niewykrywalnie dla nas. Wreszcie zaawansowane cywilizacje mogą posługiwać się metodami badawczymi zupełnie nam nieznanymi.
+
+Wielkoskalowe konstrukcje obcych
+ Sfera Dysona
+W 1959 roku, dr Freeman Dyson zauważył, że rozwój ludzkości wiąże się z ciągłym zwiększaniem zapotrzebowania na energię, co teoretycznie w którymś momencie może doprowadzić do sytuacji, gdy ludzkość będzie potrzebowała całej energii wytwarzanej przez Słońce. Sfera Dysona to eksperyment myślowy mający odpowiedzieć na pytanie, jak tę energię można zdobyć: budując gigantyczną powłokę lub chmurę urządzeń otaczającą całą gwiazdę. Taka konstrukcja przeobraziłaby w sposób drastyczny widmo Słońca, zamieniając wysokoenergetyczne fotony na mniej energetyczne (np. podczerwień). Dyson spekulował, że zaawansowane cywilizacje mogą zostać wykryte przez poszukiwania gwiazd o niestandardowych widmach[12].
+
+
+ Mózg matrioszka
+W późniejszym czasie zaproponowano kilka innych megastruktur mogących zdradzać istnienie wysoko zaawansowanych cywilizacji – typu II i wyższych na skali Kardaszewa. Dokładniejsze analizy zakwestionowały jednak łatwość ich wykrywania. Przykładowo sfery Dysona mogą mieć różne widma w zależności od upodobań cywilizacji, która je stworzyła – życie oparte na wysokoenergetycznych reakcjach może wymagać środowiska o wysokiej temperaturze i emitować „zużyte promieniowanie” w spektrum widzialnym zamiast w podczerwieni[13]. Pewne warianty sfery Dysona mogłyby być bardzo trudne do zaobserwowania: mózg matrioszka to seria koncentrycznych sfer, z których każda emituje promieniowanie o niższej częstotliwości niż dostaje ze środka. Najbardziej zewnętrzna emituje promieniowanie tak bliskie promieniowaniu tła, że jest praktycznie niewidzialna z dużej odległości.
+
+Podejmowane są pewne próby znalezienia dowodów na istnienie takich konstrukcji, ale do tej pory badania widm różnych gwiazd nie dały żadnych rezultatów. Fermilab ma działający program poszukiwania sfer Dysona
+
+3.1.1 Teoretyczne rozwiązania
+Oni nie istnieją…
+Najprostszym wyjaśnieniem jest założenie, że ludzkość rzeczywiście jest jedyną cywilizacją w Drodze Mlecznej.
+…i nigdy nie istnieli
+Zwolennicy braku innego życia w galaktyce pokazują, że warunki potrzebne do powstania życia i jego ewolucji są bardzo rzadkie albo nawet unikalne dla Ziemi (hipoteza jedynej Ziemi). Nawet jeśli warunki takie już wystąpią, nie jesteśmy w stanie oszacować, ile czasu może średnio zajmować powstanie życia – Ziemia z kilkuset milionami lat może pod tym względem być wyjątkowo szczęśliwym przypadkiem. Wreszcie sam fakt, że w ciągu kilku miliardów lat istnienia życia tylko jeden gatunek na Ziemi zbudował cywilizację, sugeruje że wejście na ten poziom jest również niezwykle rzadkim zjawiskiem. Powstanie inteligencji może być wyłącznie ewolucyjnym przypadkiem, wynikającym z patologicznej selekcji płciowej
+Szczęśliwie dobrane parametry Ziemi:
+Galaktyczna strefa życia (
+Macierzysta gwiazda odpowiedniego typu
+System planetarny
+Wielkość planety
+Duży księżyc
+Pole magnetyczne
+Tektonika płyt
+Skład atmosfery
+"Kopniaki" ewolucyjne
+
+…ponieważ sama natura niszczy złożone życie
+
+Osobną możliwością jest powszechność zjawisk, które niszczą każde złożone życie, zanim osiągnie ono wystarczająco zaawansowany poziom. Zdarzenia, takie jak zlodowacenia, uderzenia gigantycznych meteorytów, bliskie supernowe i rozbłyski gamma, mogą regularnie sterylizować regiony, gdzie się ono pojawia
+
+…ponieważ inteligentne życie doprowadza do własnej zagłady
+Cywilizacje technologiczne mogą niezmiennie niszczyć same siebie przed lub niedługo po osiągnięciu poziomu komunikacji radiowej i lotów kosmicznych. Znane nam możliwości takiej zagłady to wojna jądrowa, zamierzone lub przypadkowe uwolnienie broni biologicznej lub nanotechnologicznej, katastrofalne przeludnienie i zanieczyszczenie środowiska lub brak podstawowego surowca energetycznego
+
+Z punktu widzenia ewolucji, samozniszczenie może być paradoksalnym rezultatem sukcesu ewolucyjnego. Ewolucja ludzkich instynktów w warunkach rywalizacji o ograniczone zasoby promowała zachowania agresywne, konsumpcyjne i nastawione na reprodukcję. Wydaje się prawdopodobne, że pozaziemskie życie mogło podlegać analogicznej presji, tym samym stając się podatne na takie same zagrożenia jak ludzkość. W szczególności wydaje się, że ewentualni inteligentni obcy najprawdopodobniej są drapieżnikami, podobnie jak Homo sapiens
+
+…ponieważ inteligentne życie niszczy konkurencję
+Kolejną przyczyną może być fakt, że cywilizacja na pewnym poziomie rozwoju technologii stara się niszczyć wszystkie inne cywilizacje. Idea czegoś lub kogoś niszczącego życie we wszechświecie jest często wykorzystywana w fantastyce naukowej. Głównym motywem takiego działania mogłoby być postrzeganie ekspansywnych cywilizacji jako konkurencji zagrażającej własnemu gatunkowi.
+
+Eksterminacja wszelkich cywilizacji nie jest całkowicie nierealnym zadaniem. Samoreplikujące sondy nie muszą być ograniczone do eksploracji i komunikacji, ale mogą również działać agresywnie (patrz Sonda Berserk). Nawet gdy cywilizacja, która je stworzyła, przestanie kiedyś istnieć, sondy te mogą niszczyć nowe cywilizacje jeszcze długo w przyszłości.
+Choć sama idea jest logicznie spójna, nie może służyć jako rozwiązanie paradoksu Fermiego. Jeśli nowe cywilizacje są niszczone, to dlaczego my jeszcze istniejemy? Jedną z możliwych odpowiedzi jest stwierdzenie, że jesteśmy jeszcze na zbyt niskim poziomie rozwoju, żeby zwrócić uwagę.
+
+Warto tutaj zauważyć, że drapieżniki nie zawsze kryją się przed swoimi ofiarami. Często wykonują działania mające przyciągnąć uwagę planowanej ofiary
+
+
+…ponieważ, zgodnie z doktrynami większości religii, stworzeni zostali wyłącznie ludzie
+Przekonanie, że ludzie są jedynymi istotami myślącymi stworzonymi we wszechświecie, było do niedawna najbardziej rozpowszechnione. Choć nie odpowiada to dokładnie hipotezie jedynej Ziemi, podobnie jak ona jest wariantem silnej zasady antropicznej: wszechświat jest taki, jaki jest, gdyż jego celem jest istnienie ludzkości.
+
+Doktryny tradycji judeochrześcijańskiej traktują człowieka jako unikalne stworzenia na świecie, ale nie wypowiadają się jednoznacznie na temat istnienia życia pozaziemskiego.
+
+
+Oni istnieją…
+Być może zaawansowane pozaziemskie cywilizacje istnieją, ale ludzie nie mogą się z nimi skomunikować. Wymyślono kilka przyczyn mogących to wyjaśniać:
+…ale komunikacja z nimi jest niemożliwa…
+...ponieważ cywilizacje są rozrzucone zbyt rzadko
+Możliwe, że obcy istnieją, ale są zbyt daleko od nas, żebyśmy byli w stanie z nimi porozmawiać[17]. Jeśli dwie cywilizacje są w odległości kilku tysięcy lat świetlnych, najprawdopodobniej nie jest możliwe nawiązanie żadnej sensownej komunikacji. Iosif Szkłowski minimalną odległość między dwoma cywilizacjami szacował na 300 parseków. Problem ten można jedynie częściowo obejść przy pomocy sond Bracewella, w ten sposób, że przynajmniej jedna strona ma szansę na „prawdziwy” kontakt.
+
+Wariantem tej hipotezy jest tzw. boska kwarantanna, sugerująca, że różne formy życia zostały celowo stworzone daleko od siebie, tak aby uniemożliwić im kontakt i ewentualne zniszczenie się nawzajem.
+
+... ponieważ cywilizacje istnieją za krótko
+Analizując czas, przez jaki istnieje lub będzie istniała nasza cywilizacja, możemy dojść do wniosku, że każdorazowe „pięć minut”, przypadające na cywilizację zdolną do kontaktu, jest za krótkie. Zaawansowane cywilizacje mogą się pojawiać i znikać, poprzedzielane długimi okresami nieistnienia – tak, że szansa jednoczesnego wystąpienia dwóch cywilizacji jest znikoma.
+
+Odliczając kilka pierwszych miliardów lat formowania się wszechświata, w pozostałym okresie mogłoby istnieć milion cywilizacji trwających po 10 tys. lat i każda z nich mogłaby istnieć jako jedyna w swoim czasie we Wszechświecie. Być może istniały jakieś cywilizacje przed pojawieniem się człowieka i być może będą istnieć po jego wyginięciu, ale w obecnej chwili jesteśmy jedyną cywilizacją w galaktyce. Istnieje więc co najwyżej możliwość znalezienia archeologicznych dowodów istnienia obcych – np. w postaci sfer Dysona.
+
+... ponieważ cywilizacje jeszcze nie powstały
+Szczególnym przypadkiem jest możliwość, że ludzkość jest pierwszą cywilizacją w naszej galaktyce. Większość naukowców odrzuca taką możliwość jako zbyt nieprawdopodobną i antropocentryczną, ale ponieważ jakaś cywilizacja musi być pierwsza, nie jest wykluczone, że my nią jesteśmy.
+
+Pierwszeństwo ludzkości w galaktyce jest motywem przewodnim twórczości Isaaca Asimova. W trylogii Imperium Galaktyczne przedstawia on Galaktykę skolonizowaną przez ludzi do tego stopnia, że zapomniane zostało ich ziemskie pochodzenie. Koniec wieczności opowiada natomiast alternatywną historię: Ludzkość była pierwszą inteligentną rasą, ale napęd międzygwiezdny został wynaleziony zbyt późno, a Galaktyka została skolonizowana przez inne rasy.
+
+... ponieważ rozprzestrzenienie się poza własny system planetarny jest zbyt kosztowne
+Wiele założeń dotyczących możliwości kolonizowania przestrzeni opiera się na idei stosunkowo tanich podróży międzygwiezdnych. Choć znana nam fizyka wyklucza możliwość podróżowania z prędkością nadświetlną (nie wyklucza natomiast wykorzystywania tuneli czasoprzestrzennych), podróżowanie z mniejszymi prędkościami wydaje się wykonalne (zobacz Program Orion). Daje to podstawy do rozważania możliwości istnienia urządzeń rodzaju sond von Neumanna.
+
+Istnieje możliwość, że nie wiemy o jakichś fundamentalnych przeszkodach, które uniemożliwiają taką kolonizację, bądź sprawiają, że jest ona nieopłacalna. Możliwe, że nawet jeśli sama kolonizacja jest możliwa, utrzymywanie spójności cywilizacji ogranicza maksymalny obszar, na jaki cywilizacja może się rozprzestrzenić bez rozpadnięcia się. W takim ujęciu w przestrzeni zasiedlone byłyby tylko „kępki”, porozdzielane dużymi niezamieszkanymi obszarami
+
+... ponieważ ludzie nie szukają jeszcze wystarczająco długo
+Sygnały radiowe z kosmosu potrafimy wykrywać od bardzo niedługiego czasu. Pierwszy radioteleskop został wybudowany w 1937 roku. Cała nasza cywilizacja istnieje zaledwie kilka tysięcy lat, co w skali kosmologicznej jest mgnieniem oka. Istnieje więc możliwość, że ludzie nie szukają śladów obcych jeszcze wystarczająco długo, żeby je znaleźć, ani nie istnieją wystarczająco długo, żeby zostać znalezieni.
+
+Milion lat temu nie było na Ziemi żadnej cywilizacji, z którą obcy mogliby się skontaktować. Również badając Ziemię wcześniej, obcy nie znaleźliby żadnych znaków sugerujących, że w najbliższym czasie powstanie tu cywilizacja. W rozległym i długowiecznym Wszechświecie, cywilizacja zdolna do lotów kosmicznych mogłaby zbyt rzadko zwracać uwagę na Ziemię, żeby zauważyć nasze powstanie. Nawet jeśli obcy szczęśliwie znaleźliby się na Ziemi w czasach historycznych, prawdopodobnie do naszych czasów przetrwałyby wyłącznie opowieści o jakichś nadnaturalnych istotach (co mogło zapoczątkować religie, jak np. według teorii Ericha von Dänikena).
+
+... ponieważ Obcy nie zdążyli jeszcze odpowiedzieć
+Sztuczne sygnały radiowe są emitowane z powierzchni Ziemi od 1895 roku. Oznacza to, że do tej pory jedynie inteligencje w odległości mniejszej niż 55 lat świetlnych mogłyby zdążyć wykryć te sygnały i wysłać odpowiedź w kierunku Ziemi. Jeśli uwzględnimy dodatkowo, że pierwsze sygnały były bardzo słabe i tłumione przez atmosferę, możemy przesunąć datę pierwszych wykrywalnych z przestrzeni aż do lat pięćdziesiątych XX wieku, co oznacza, że tylko obcy w odległości dwudziestu paru lat świetlnych mogliby do tej pory odpowiedzieć.
+
+... ponieważ ludzie nie słuchają we właściwy sposób
+Programy SETI opierają się na pewnych założeniach, ograniczających klasę sygnałów, które mogą odebrać. Przykładowo wszelkie dotychczas przeprowadzane nasłuchy zignorowałyby mocno skompresowane strumienie danych (które bez znajomości algorytmu kompresji byłyby nieodróżnialne od białego szumu). Sygnały mogą być też nadawane na częstotliwościach, które uznano za mało prawdopodobne, albo używając innych metod modulacji, niż oczekujemy. Nawet właściwe sygnały pozostałyby niewykryte, jeśli pochodziłyby spoza niewielkich wycinków nieba, na których skupia się nasłuch.
+
+Największy problem stanowi liczba częstotliwości, które jesteśmy w stanie przesłuchiwać, i dokładność naszych urządzeń odbiorczych. Wyliczono, że używając radioteleskopu takiego jakim dysponuje Obserwatorium Arecibo, sygnał telewizyjny z Ziemi można byłoby odebrać co najwyżej w odległości 0,3 roku świetlnego. Z pewnością wykrycie w ten sposób cywilizacji typu ziemskiego byłoby więc dla nas trudne. Znacznie łatwiej byłoby nam wykryć sygnał ukierunkowany i skupiony w wąskim przedziale częstotliwości – takie sygnały bylibyśmy w stanie odebrać z odległości nawet dziesiątek tysięcy lat świetlnych. Musiałyby jednak zostać wcześniej specjalnie wysłane w naszym kierunku. Część zespołów pracujących w SETI zakłada, że inne cywilizacje wysyłają takie sygnały (jak wysłana przez nas wiadomość Arecibo), aby poinformować o swoim istnieniu.
+
+
+... ponieważ znajdują się na obrzeżach galaktyki/pustkach kosmosu lub innym mało prawdopodobnym wg nas miejscu
+This interesting solution to the Fermi Paradox was posited by Milan M. Ćirković and Robert Bradbury.
+
+“We suggest that the outer regions of the Galactic disk are the most likely locations for advanced SETI targets,” they wrote. The reason for this is that sophisticated intelligent communities will tend to migrate outward through the Galaxy as their capacities of information-processing increase. Why? Because machine-based civilizations, with their massive supercomputers, will have huge problems managing their heat waste. They'll have to set up camp where it’s super cool. And the outer rim of the Galaxy is exactly that.
+
+Subsequently, there may be a different galactic habitable zone for post-Singularity ETIs than for meat-based life. By consequence, advanced ETIs have no interest in exploring the bio-friendly habitable zone. Which means we’re looking for ET in the wrong place. Interestingly, Stephen Wolfram once told me that heat-free computing will someday be possible, so he doesn’t think this is a plausible solution to the Fermi Paradox.
+
+... ponieważ cywilizacje wysyłają sygnały radiowe tylko przez krótki czas
+Bardzo możliwe, że obce cywilizacje wysyłają wykrywalne sygnały radiowe tylko przez krótki czas swojego istnienia, co znacznie zmniejsza prawdopodobieństwo wykrycia ich w ten sposób. Są dwie główne przyczyny, które mogą do tego doprowadzić: albo rozwój technologiczny sprawia, że radio staje się przestarzałe, albo zużywanie zasobów sprawia, że cywilizacje rezygnują z tego sposobu komunikacji.
+
+Pierwsza możliwość wydaje się dobrze uzasadniona na przykładzie naszego rozwoju. Używanie sygnałów radiowych do komunikacji na duże odległości jest marnotrawstwem energii i zaśmieca niepotrzebnie pasmo. Obecnie odchodzi się od tych rozwiązań na rzecz kabli, światłowodów, komunikacji mikrofalowej i laserowej. Nowe rozwiązania korzystające z radia, takie jak telefony komórkowe i sieci WiFi, używają niskoenergetycznych transmisji o małym zasięgu. Telewizja, korzystająca z silnych sygnałów jest prawdopodobnie najłatwiej wykrywalna z okolicznych gwiazd. Wypieranie jej przez telewizję cyfrową, korzystającą z szerokiego pasma i znacznie słabszej fali nośnej, może spowodować, że w ciągu najbliższych dziesięcioleci zauważalność Ziemi w spektrum radiowym znacznie się zmniejszy. Podobnego rozwoju możemy oczekiwać po innych cywilizacjach. Możliwe też, że zaawansowane cywilizacje całkowicie rezygnują z komunikacji radiowej na rzecz metod, których jeszcze nie znamy.
+
+
+...ponieważ wszyscy osiągają poziom technologicznej osobliwości
+Istnieje możliwość, że wszystkie zaawansowane cywilizacje osiągają poziom technologicznej osobliwości, i stają się postludzkimi (lub postobcymi) cywilizacjami. Teoretycznie może to oznaczać, że żadna dalsza komunikacja z nimi nie jest już możliwa. Inteligencje tego poziomu mogą na przykład przetwarzać większe ilości informacji niż da się przesłać na odległości międzygwiezdne. Możliwe też, że wszelka wiedza ludzkości jest dla nich elementarna. Z tego powodu nie komunikują się oni z nami, tak samo jak ludzie nie komunikują się z mrówkami.
+W fantastyce spotyka się nawet bardziej ekstremalne formy postosobliwościowych cywilizacji: istoty, które porzuciły materialne ciała, zamknęły się w gigantycznych wirtualnych środowiskach (jak np. mózg matrioszka) lub w jakiś inny sposób przestały oddziaływać na nasz fizyczny świat.
+Podobną wizję przedstawia Jacek Dukaj w swej powieści „Perfekcyjna niedoskonałość”.
+
+... ponieważ stosowana przez nas technologia radiowa jest zbyt prymitywna
+Zakładając, że istnieją cywilizacje tysiące lub nawet miliony lat bardziej zaawansowane niż my, nie ma powodu, żeby uznawać, że wciąż komunikują się one przy użyciu fal elektromagnetycznych. Możliwe, że jakieś nieznane nam jeszcze zjawiska fizyczne umożliwiają znacznie efektywniejszą komunikację.
+
+Niektóre pomysły zakładają, że obcy komunikowali się już wielokrotnie z ludzkością, ale za pomocą metod, których my nie wykorzystujemy i dlatego nie jesteśmy w stanie rozpoznać ich jako komunikacji. Przykładowo „sygnały” odbierane wyłącznie przez nielicznych ludzi mogą być postrzegane jako raczej objawy chorób psychicznych niż faktycznego kontaktu. Takie zjawiska mogłyby również być odnotowywane w religijnych tekstach (jako objawienia czy odwiedziny aniołów i demonów, przypisywane im cuda oraz nadprzyrodzone, nienaturalne zdolności).
+
+Bazując na hipotezie, że ludzki mózg wykorzystuje w swoim działaniu zjawiska kwantowe (jak sugeruje np. Roger Penrose), można dojść do wniosku, że istnieje możliwość odbierania przez niego sygnałów w sposób nielokalny, przy użyciu kwantowego splątania (Teleportacja kwantowa oraz Kryptologia kwantowa). Niektórzy spekulują, że niektóre przypadki mistyków, szamanów albo schizofreników są efektem mniej lub bardziej zniekształconej komunikacji. Według naszej wiedzy nie jest możliwe przekazywanie w sposób nielokalny żadnej informacji, ale jakieś oddziaływanie może zachodzić. Być może dla obcych taka nie-komunikacja jest w jakimś sensie wystarczająca. Pozwalałoby to wyjaśnić brak obserwowanych podróży kosmicznych, które w takiej sytuacji byłyby już niepotrzebne.
+
+Teorie te nie są jednak poparte żadnymi argumentami poza naszą niewiedzą i z tego powodu nie są powszechnie akceptowane. Podobny status mają hipotezy sugerujące, że niektóre narkotyki są w rzeczywistości technologią umożliwiającą wprowadzanie umysłów ludzkich w stan pozwalający odebrać przekazywane nam wiadomości.
+
+
+... ponieważ nie są cywilizacją technologiczną
+It may be that at least some civilizations of intelligent beings are not technological, perhaps because it is difficult in their environment, or because they choose not to, or for other reasons yet unknown. Such civilizations would be very hard for humans to detect.
+
+While there are remote sensing techniques which could perhaps detect life-bearing planets without relying on the signs of technology, none of them has any ability to tell if any detected life is intelligent. Not even any theoretical methods for doing so have been proposed, short of an actual physical visit by an astronaut or probe. This is sometimes referred to as the "algae vs. alumnae" problem.
+
+
+...ale postanowili się nie komunikować...
+Ta wersja jest szczególnie prawdopodobna, jeśli w zasięgu naszego kontaktu jest tylko jedna cywilizacja bądź wszystkie cywilizacje w okolicy podlegają jakiemuś jednemu prawu zabraniającemu kontaktów z Ziemią. Jeśli istnieje dużo różnorodnych cywilizacji, prawdopodobieństwo, że wszystkie podjęłyby równocześnie taką decyzję jest znacznie mniejsze
+...ponieważ nie są zainteresowani
+
+Założenie, że zaawansowane cywilizacje dążą do kontaktów, również może być nieprawidłowe. Powody, takie jak religijne tabu, ksenofobia albo zwykły brak zainteresowania, mogą sprawiać, że obcy nie nawiązują kontaktu, nawet jeśli są do niego zdolni.
+
+Wyjaśnienie takie wiązane jest ze słynnym zdaniem Einsteina: „Najlepszym dowodem na istnienie inteligencji pozaziemskiej jest to, że się z nami nie kontaktują”.
+
+
+... ponieważ Ziemia została specjalnie odizolowana
+Możliwe, że założenie o chęci nawiązania kontaktów jest błędne i zaawansowane cywilizacje nie chcą tego robić nawet, mając odpowiednie środki. Potencjalnym wyjaśnieniem może być hipoteza kosmicznego Zoo: Ziemia jest obserwowana przez zaawansowane cywilizacje, które traktują ją jako „zoo lub dziewiczy teren”.
+
+Motywacje takiego działania mogą być etyczne (umożliwienie ludziom naturalnego rozwoju), badawcze lub strategiczne (obcy chcą uniknąć wykrycia i potencjalnego zniszczenia przez inne cywilizacje). Pomysł ten jest wykorzystywany między innymi w świecie Star Trek jako Pierwsza Dyrektywa, zabraniająca kontaktu z cywilizacjami na zbyt niskim poziomie rozwoju. Ta teoria sugeruje, że ludzkość musi osiągnąć jakiś poziom etyczny, technologiczny lub socjologiczny, zanim zostanie z nią nawiązany kontakt (np. w świecie Star Trek oficjalny kontakt cywilizacji zaawansowanych z cywilizacjami bardziej prymitywnymi następuje po stworzeniu przez te ostatnie napędu „nadświetlnego”, pozwalającego osiągać prędkości większe niż prędkość światła).
+Wariantem tej wersji jest teoria, że ludzkość jest próbną, badawczą cywilizacją stworzoną i/lub kontrolowaną przez inteligentniejsze od ludzi istoty (podobnie jak ludzie hodują różne gatunki zwierząt dla celów badawczych, konsumpcyjnych bądź introdukcji ich na jakiś obszar). Możliwe są różne odmiany tej teorii, jak np. symulacja życia na Ziemi w filmie Matrix.
+
+
+... ponieważ są zbyt obcy
+Jest możliwe, że nie doceniamy zakresu, w jakim obce życie może się różnić od tego na Ziemi. Psychologia obcych może być tak odległa od naszej, że nie wiedzą oni, jak nawiązać z nami kontakt, bądź sama idea nawiązywania kontaktu nie jest dla nich sensowna. Ludzka kultura i środowisko mogą być z punktu widzenia obcych zaściankowe i/lub nie pasujące do ich sposobu myślenia.
+
+Również ich fizjologia może być tak różna od naszej, że powoduje przeszkodę w komunikacji nie do przejścia. Ich proces myślowy może być o rzędy wielkości szybszy lub wolniejszy niż nasz. W takim wariancie może zająć im miliony lat wypowiedzenie choćby słowa „część” lub też całe ich pokolenia żyją zaledwie ułamki sekund. Nawet sam czas dla nich może płynąć inaczej.
+
+Na tym pomyśle oparł Stanisław Lem swoją powieść Solaris.
+
+
+... ponieważ są zbyt zajęci online
+It may be that intelligent alien life forms cause their own "increasing disinterest" with the outside world.
+
+ Perhaps any sufficiently advanced society will develop highly engaging media and entertainment well before the capacity for advanced space travel, and that the rate of appeal of these social contrivances is destined, because of their inherent reduced complexity, to overtake any desire for complex, expensive endeavors such as space exploration and communication.
+
+Once any sufficiently advanced civilization becomes able to master its environment, and most of its physical needs are met through technology, various "social and entertainment technologies", including virtual reality, are postulated to become the primary drivers and motivations of that civilization.
+
+
+... ponieważ nie mogą się dogadać co do treści komunikatu
+Official policy within SETI community is that "[no] response to a signal or other evidence of extraterrestrial intelligence should be sent until appropriate international consultations have taken place.". 
+
+However, given the possible impact of any reply it may be very difficult to obtain any consensus on "Who speaks for Earth?" and "What should we say?".
+
+Other civilizations might suffer from this same lack of consensus, and therefore send no messages at all.
+
+
+... ponieważ komunikacja jest niebezpieczna
+An alien civilization might feel it is too dangerous to communicate, either for us or for them. After all, when very different civilizations have met on Earth, the results have often been disastrous for one side or the other, and the same may well apply to interstellar contact.
+
+Even contact at a safe distance could lead to infection by computer code[100] or even ideas themselves.
+
+Perhaps prudent civilizations actively hide not only from us but from everyone, out of fear of other civilizations.
+
+
+... ponieważ paradoks Fermiego powstrzymuje komunikację
+Perhaps the Fermi paradox itself—or the alien equivalent of it—is the ultimate reason for any civilization to avoid contact with other civilizations, even if no other obstacles existed.
+
+From any one civilization's point of view, it would be unlikely for them to be the first ones to make first contact. Therefore it is likely that previous civilizations faced fatal problems with first contact.
+
+So perhaps every civilization keeps quiet because of the possibility that there is a real reason for others to do so.
+
+
+...ale pozostają dla nas niewidoczni...
+Możliwe, że inteligentni obcy nie tylko istnieją, ale są obecni na Ziemi. Nie wykrywamy ich, bo tego nie chcą, nie potrafimy tego zrobić bądź nie chcemy przyjąć do wiadomości ich istnienia.
+...ponieważ ludzie nie rozumieją lub nie chcą uwierzyć w dowody
+Wielu badaczy UFO twierdzi, że społeczeństwa są uprzedzone do wszelkich dowodów obecności obcych na Ziemi i odmawia ich zaakceptowania.
+
+...ponieważ sami ludzie ich ukrywają
+Istnieje hipoteza, że sami ludzie ukrywają obecność obcych (tak jak w filmie Faceci w czerni), aby nie spowodować paniki i nie zakłócać działania społeczeństwa. Obawa tak może być słuszna, jak pokazało słuchowisko Wojna światów, lecz niektórzy przypuszczają, że odkrywcy chcieli by jednak ujawnić taką informację, by wykazać swoją przydatność.
+
+Istnieje szereg teorii spiskowych uwzględniających grupy ludzi, którzy zdają sobie sprawę z ich istnienia i z różnych przyczyn nie chcą dopuścić, aby społeczeństwo się o nich dowiedziało. Jest to najczęściej wykorzystywany w kulturze masowej motyw związany z obcymi.
+
+
+...ponieważ ukrywają swoją obecność
+Nie jest nieracjonalne zakładanie, że życie wystarczająco inteligentne, żeby podróżować na odległości międzygwiezdne, jest też wystarczająco inteligentne, żeby znaleźć sposób na ukrycie się przed naszymi oczami. Daje to możliwość niezauważanej przez nas obecności obcych na Ziemi lub w Układzie Słonecznym. Nie wydaje się prawdopodobne, że obcy obserwatorzy mogliby wtopić się w społeczeństwo i pozostawać niewykryci przez długi czas (tak jak w filmie Oni żyją z 1988 roku).
+Istnieją jednak z pewnością sposoby monitorowania, których nie potrafilibyśmy wykryć. Przykładowo, rozbudowany system nanotechnologicznych urządzeń może obejmować Ziemię i pozostawać niezauważalny. Nawet znacznie mniej zaawansowane urządzenia znajdujące się na orbicie Ziemi mogą być dla nas nieodróżnialne od zwykłych kamieni i kosmicznych śmieci.
+
+
+3.3 Mniej popularne teoretyczne próby rozwiązania
+Oni nie istnieją -Inflation hypothesis and the Youngness Argument
+
+Oni istnieją ale komunikacja z nimi jest niemożliwa gdyż oni to my
+
+Oni istnieją ale postanowili się nie komunikować, ponieważ wszystkie cywilizacje stają się cywilizacją silnej sztucznej inteligencji (maszyny eksterminują swoich twórców i ewoluują dalej) dla której cywilizacje złożone z materii ożywionej są groteskowe
+
+
+4.1 Podsumowanie
+Bibliografia i lektura na przyszłość
+http://en.wikipedia.org/wiki/Fermi_paradox
+http://io9.com/11-of-the-weirdest-solutions-to-the-fermi-paradox-456850746
+http://www.fermisparadox.com
+http://abyss.uoregon.edu/~js/cosmo/lectures/lec28.html
+http://en.wikipedia.org/wiki/Project_Orion_(nuclear_propulsion)
+http://en.wikipedia.org/wiki/Project_Daedalus
+http://en.wikipedia.org/wiki/Project_Longshot
+http://en.wikipedia.org/wiki/Self-replicating_spacecraft
+http://en.wikipedia.org/wiki/Drake_equation
+http://en.wikipedia.org/wiki/Rare_Earth_hypothesis
+http://en.wikipedia.org/wiki/Dyson_sphere
+http://en.wikipedia.org/wiki/Matrioshka_brain
+http://en.wikipedia.org/wiki/Kardashev_scale
+http://en.wikipedia.org/wiki/Stellar_engine
+http://en.wikipedia.org/wiki/Alderson_disk
+http://en.wikipedia.org/wiki/Technological_singularity
+http://en.wikipedia.org/wiki/Ancient_astronauts
+http://en.wikipedia.org/wiki/Zoo_hypothesis
+http://en.wikipedia.org/wiki/Planetarium_hypothesis
+http://en.wikipedia.org/wiki/Intelligent_Life_in_the_Universe_(book)#Shklovski_and_Sagan
+http://en.wikipedia.org/wiki/Gliese_581_g
+http://en.wikipedia.org/wiki/Gliese_581_d
+http://en.wikipedia.org/wiki/KOI-1686.01
+http://en.wikipedia.org/wiki/Earth_Similarity_Index
+
+
+
+
+
+
+

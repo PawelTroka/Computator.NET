@@ -17,7 +17,11 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Computator.NET;
+using Computator.NET.Config;
 using Computator.NET.Properties;
+using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Controls;
 
 namespace AutocompleteMenuNS
 {
@@ -34,7 +38,6 @@ namespace AutocompleteMenuNS
         private bool forcedOpened;
         private Size maximumSize;
         private Form myForm;
-
         private IEnumerable<AutocompleteItem> sourceItems = new List<AutocompleteItem>();
         private ITextBoxWrapper targetControlWrapper;
 
@@ -226,7 +229,7 @@ namespace AutocompleteMenuNS
                 if (sourceItems == null)
                     return null;
                 var list = new List<string>();
-                foreach (AutocompleteItem item in sourceItems)
+                foreach (var item in sourceItems)
                     list.Add(item.ToString());
                 return list.ToArray();
             }
@@ -275,6 +278,7 @@ namespace AutocompleteMenuNS
             ImageList.Images.Add(Resources.Natural);
             ImageList.Images.Add(Resources.Integer);
             ImageList.Images.Add(Resources.Rational);
+            ImageList.Images.Add(Resources.Matrix);
             ImageList.Images.SetKeyName(0, "Real.png");
             ImageList.Images.SetKeyName(1, "Complex.png");
         }
@@ -384,7 +388,7 @@ namespace AutocompleteMenuNS
         private void SubscribeForm(ITextBoxWrapper wrapper)
         {
             if (wrapper == null) return;
-            Form form = wrapper.TargetControl.FindForm();
+            var form = wrapper.TargetControl.FindForm();
             if (form == null) return;
             if (myForm != null)
             {
@@ -404,7 +408,7 @@ namespace AutocompleteMenuNS
         private void UnsubscribeForm(ITextBoxWrapper wrapper)
         {
             if (wrapper == null) return;
-            Form form = wrapper.TargetControl.FindForm();
+            var form = wrapper.TargetControl.FindForm();
             if (form == null) return;
 
             form.LocationChanged -= form_LocationChanged;
@@ -445,7 +449,7 @@ namespace AutocompleteMenuNS
         {
             TargetControlWrapper = FindWrapper(sender as Control);
 
-            bool backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
+            var backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
 
             if (Host.Visible)
             {
@@ -553,7 +557,7 @@ namespace AutocompleteMenuNS
                 if (!args.Cancel)
                 {
                     //calc screen point for popup menu
-                    Point point = TargetControlWrapper.TargetControl.Location;
+                    var point = TargetControlWrapper.TargetControl.Location;
                     point.Offset(2, TargetControlWrapper.TargetControl.Height + 2);
                     point = TargetControlWrapper.GetPositionFromCharIndex(Fragment.Start);
                     point.Offset(2, TargetControlWrapper.TargetControl.Font.Height + 2);
@@ -574,21 +578,21 @@ namespace AutocompleteMenuNS
         {
             var visibleItems = new List<AutocompleteItem>();
 
-            bool foundSelected = false;
-            int selectedIndex = -1;
+            var foundSelected = false;
+            var selectedIndex = -1;
             //get fragment around caret
-            Range fragment = GetFragment(SearchPattern);
-            string text = fragment.Text;
+            var fragment = GetFragment(SearchPattern);
+            var text = fragment.Text;
             //
             if (sourceItems != null)
                 if (forced || (text.Length >= MinFragmentLength /* && tb.Selection.Start == tb.Selection.End*/))
                 {
                     Fragment = fragment;
                     //build popup menu
-                    foreach (AutocompleteItem item in sourceItems)
+                    foreach (var item in sourceItems)
                     {
                         item.Parent = this;
-                        CompareResult res = item.Compare(text);
+                        var res = item.Compare(text);
                         if (res != CompareResult.Hidden)
                             visibleItems.Add(item);
                         if (res == CompareResult.VisibleAndSelected && !foundSelected)
@@ -617,17 +621,17 @@ namespace AutocompleteMenuNS
 
         private Range GetFragment(string searchPattern)
         {
-            ITextBoxWrapper tb = TargetControlWrapper;
+            var tb = TargetControlWrapper;
 
             if (tb.SelectionLength > 0) return new Range(tb);
 
-            string text = tb.Text;
+            var text = tb.Text;
             var regex = new Regex(searchPattern);
             var result = new Range(tb);
 
-            int startPos = tb.SelectionStart;
+            var startPos = tb.SelectionStart;
             //go forward
-            int i = startPos;
+            var i = startPos;
             while (i >= 0 && i < text.Length)
             {
                 if (!regex.IsMatch(text[i].ToString()))
@@ -664,7 +668,7 @@ namespace AutocompleteMenuNS
                 sourceItems = null;
                 return;
             }
-            foreach (string item in items)
+            foreach (var item in items)
                 list.Add(new AutocompleteItem(item));
             SetAutocompleteItems(list);
         }
@@ -706,7 +710,7 @@ namespace AutocompleteMenuNS
             if (SelectedItemIndex < 0 || SelectedItemIndex >= VisibleItems.Count)
                 return;
 
-            AutocompleteItem item = VisibleItems[SelectedItemIndex];
+            var item = VisibleItems[SelectedItemIndex];
             var args = new SelectingEventArgs
             {
                 Item = item,
@@ -724,7 +728,7 @@ namespace AutocompleteMenuNS
 
             if (!args.Handled)
             {
-                Range fragment = Fragment;
+                var fragment = Fragment;
                 ApplyAutocomplete(item, fragment);
             }
 
@@ -741,9 +745,22 @@ namespace AutocompleteMenuNS
 
         private void ApplyAutocomplete(AutocompleteItem item, Range fragment)
         {
-            string newText = item.GetTextForReplace();
+            var newText = item.GetTextForReplace();
             //replace text of fragment
-            fragment.Text = newText;
+
+            var expressionTextBox = (TargetControlWrapper.TargetControl as ExpressionTextBox);
+            var scintillaEditor = (TargetControlWrapper.TargetControl as ScintillaCodeEditorControl);
+
+            bool isExponent = false;
+
+            if (expressionTextBox != null)
+                isExponent = expressionTextBox.ExponentMode;
+            else if (scintillaEditor != null)
+                isExponent = scintillaEditor.ExponentMode;
+
+
+
+            fragment.Text = isExponent ? SpecialSymbols.AsciiToSuperscript(newText)  : newText;
             fragment.TargetWrapper.TargetControl.Focus();
         }
 
@@ -768,7 +785,7 @@ namespace AutocompleteMenuNS
 
         public bool ProcessKey(char c, Keys keyModifiers)
         {
-            int page = Host.Height/(Font.Height + 4);
+            var page = Host.Height/(Font.Height + 4);
             if (keyModifiers == Keys.None)
                 switch ((Keys) c)
                 {
@@ -810,7 +827,7 @@ namespace AutocompleteMenuNS
         {
             //find  AutocompleteMenu with lowest hashcode
             if (Container != null)
-                foreach (object comp in Container.Components)
+                foreach (var comp in Container.Components)
                     if (comp is AutocompleteMenu)
                         if (comp.GetHashCode() < GetHashCode())
                             return false;
@@ -818,7 +835,7 @@ namespace AutocompleteMenuNS
             //check extendee as TextBox
             if (!(extendee is Control))
                 return false;
-            TextBoxWrapper temp = TextBoxWrapper.Create(extendee as Control);
+            var temp = TextBoxWrapper.Create(extendee as Control);
             return temp != null;
         }
 
@@ -826,7 +843,7 @@ namespace AutocompleteMenuNS
         {
             if (menu != null)
             {
-                ITextBoxWrapper wrapper = menu.CreateWrapper(control);
+                var wrapper = menu.CreateWrapper(control);
                 if (wrapper == null) return;
                 //
                 menu.SubscribeForm(wrapper);

@@ -59,19 +59,19 @@ namespace Computator.NET.Localization
 
         protected void OnCultureChanged()
         {
-            EventHandler temp = CultureChanged;
+            var temp = CultureChanged;
             if (temp != null)
                 temp(this, EventArgs.Empty);
         }
 
         protected void ScanNonControls()
         {
-            FieldInfo[] fieldInfo = GetType().GetFields(BindingFlags.NonPublic
-                                                        | BindingFlags.Instance | BindingFlags.Public);
-            for (int i = 0; i < fieldInfo.Length; i++)
+            var fieldInfo = GetType().GetFields(BindingFlags.NonPublic
+                                                | BindingFlags.Instance | BindingFlags.Public);
+            for (var i = 0; i < fieldInfo.Length; i++)
             {
-                object obj = fieldInfo[i].GetValue(this);
-                string fieldName = fieldInfo[i].Name;
+                var obj = fieldInfo[i].GetValue(this);
+                var fieldName = fieldInfo[i].Name;
                 if (obj is ToolStripMenuItem)
                 {
                     var menuItem = (ToolStripMenuItem) obj;

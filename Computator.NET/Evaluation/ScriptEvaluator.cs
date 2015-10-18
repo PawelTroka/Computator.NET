@@ -1,8 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Windows.Forms;
-using Computator.NET.Functions;
-using Computator.NET.Localization;
+﻿using System.Diagnostics;
+using System.Windows.Data;
+using System.Windows.Forms.Integration;
+using System.Windows.Media.Media3D;
+using Computator.NET.Config;
+using Computator.NET.DataTypes;
 
 namespace Computator.NET.Evaluation
 {
@@ -10,67 +11,50 @@ namespace Computator.NET.Evaluation
     {
         public ScriptEvaluator()
         {
-            functionType = typeof (Action<RichTextBox>);
-            additionalUsings =
-                "using System.Collections.Generic;using System.Windows.Forms.Integration;using System.Linq;using Computator.NET.Charting;using Complex = System.Numerics.Complex;using DenseVector = MathNet.Numerics.LinearAlgebra.Complex.DenseVector;using MathNet.Numerics.LinearAlgebra;using MathNet.Numerics.LinearAlgebra.Double;using Meta.Numerics;";
-
-            lambdaFunc = MatrixFunctions.ToCode + ScriptingFunctions.ToCode + @"
-            public static void CustomFunction(System.Windows.Forms.RichTextBox CONSOLE_OUTPUTref)
-            {
-            CONSOLE_OUTPUT = CONSOLE_OUTPUTref;
+            functionType = FunctionType.Scripting;
+            additionalUsings = @"
+            using System.Collections.Generic;
+            using System.Windows.Forms.Integration;
+            using System.Linq;
+            using Computator.NET.Charting;
+            using Complex = System.Numerics.Complex;
+            using DenseVector = MathNet.Numerics.LinearAlgebra.Complex.DenseVector;
+            using MathNet.Numerics.LinearAlgebra;
+            using MathNet.Numerics.LinearAlgebra.Double;
+            using Meta.Numerics; 
+            using System.IO;
+            using System.Windows.Forms;
+            using System.Windows.Media;
+            using System.Windows.Media.Media3D;
+            using Computator.NET.Charting.Chart3D;
+            using Computator.NET.Charting.ComplexCharting;
+            using Computator.NET.Charting.RealCharting;
+            //using Meta.Numerics.Matrices;
             ";
 
-            compilerParameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
-            compilerParameters.ReferencedAssemblies.Add("System.Drawing.dll");
-            compilerParameters.ReferencedAssemblies.Add("PresentationCore.dll");
-            compilerParameters.ReferencedAssemblies.Add("PresentationFramework.dll");
-            compilerParameters.ReferencedAssemblies.Add("Charting.dll");
-            compilerParameters.ReferencedAssemblies.Add("System.Xaml.dll");
-            compilerParameters.ReferencedAssemblies.Add("WindowsBase.dll");
-            compilerParameters.ReferencedAssemblies.Add("WindowsFormsIntegration.dll");
-            compilerParameters.ReferencedAssemblies.Add("System.Windows.Forms.DataVisualization.dll");
+            nativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.Charting.dll"));
+            //nativeCompiler.AddDll(GlobalConfig.fullPath("Computator.NET.DataTypes.dll"));
+            nativeCompiler.AddDll("System.Drawing.dll");
+            nativeCompiler.AddDll("System.Windows.Forms.DataVisualization.dll");
+            nativeCompiler.AddDll("System.Windows.Forms.dll");
+            nativeCompiler.AddDll("System.Xaml.dll");
+
+            nativeCompiler.AddDll(typeof (AmbientLight).Assembly.Location); //"PresentationCore.dll");
+            nativeCompiler.AddDll(typeof (XmlDataProvider).Assembly.Location); //"PresentationFramework.dll");
+            nativeCompiler.AddDll(typeof (PresentationTraceSources).Assembly.Location); //"WindowsBase.dll");
+            nativeCompiler.AddDll(typeof (ElementHost).Assembly.Location); //"WindowsFormsIntegration.dll");
 
             additionalObjectsCode = ScriptingExtensionObjects.ToCode;
+            logger.ClassName = GetType().FullName;
         }
 
-        public void Evaluate(string input, string CustomFunctionsCode = "")
+        public ScriptFunction Evaluate(string input, string customFunctionsCode = "")
         {
-            //common part:
-            CustomFunctionsCodeCSharp = transformTSLToCSharp(CustomFunctionsCode);
+            tslCode = input;
+            customFunctionsTSLCode = customFunctionsCode;
 
-            //for scripts
-            Normalized = transformTSLToCSharp(input);
-            //common part:
-            compile();
-        }
-
-        public void Invoke(RichTextBox things)
-        {
-            try
-            {
-                evaluatedFunction.DynamicInvoke(things);
-            }
-            catch (Exception ex2)
-            {
-                var sb = new StringBuilder();
-                sb.AppendLine(ex2.Message);
-                if (ex2.InnerException != null)
-                {
-                    sb.AppendLine(ex2.InnerException.Message);
-                    if (ex2.InnerException.InnerException != null)
-                    {
-                        sb.AppendLine(ex2.InnerException.InnerException.Message);
-                        if (ex2.InnerException.InnerException != null)
-                            sb.AppendLine(ex2.InnerException.InnerException.Message);
-                    }
-                }
-                MessageBox.Show(sb.ToString(), Strings.Error);
-            }
-        }
-
-        protected override string Normalize(string input)
-        {
-            return transformTSLToCSharp(input);
+            var function = Compile();
+            return new ScriptFunction(function, tslCode, CSharpCode);
         }
     }
 }

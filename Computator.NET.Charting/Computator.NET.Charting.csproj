@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{31264A50-A9B4-410C-85BB-EC81D5076747}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Computator.NET.Charting</RootNamespace>
+    <AssemblyName>Computator.NET.Charting</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
+      <HintPath>.\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Chart3D\Chart3DMode.cs" />
+    <Compile Include="Chart3D\Chart3D\AxisLabels.cs" />
+    <Compile Include="Chart3D\Chart3D\Bar3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Chart3D.cs" />
+    <Compile Include="Chart3D\Chart3D\ColorMesh3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Cone3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Cylinder3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Ellipse3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Mesh3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Model3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Pyramid3D.cs" />
+    <Compile Include="Chart3D\Chart3D\ScatterChart3D.cs" />
+    <Compile Include="Chart3D\Chart3D\ScatterPlotItem.cs" />
+    <Compile Include="Chart3D\Spline\BasicSpline.cs" />
+    <Compile Include="Chart3D\Spline\Cubic.cs" />
+    <Compile Include="Chart3D\UI\EditChart3DWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Chart3D\UI\EditChart3DWindow.designer.cs">
+      <DependentUpon>EditChart3DWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Chart3D\Spline\Spline3D.cs" />
+    <Compile Include="Chart3D\Chart3D\SurfaceChart3D.cs" />
+    <Compile Include="Chart3D\Chart3D\TextureMapping.cs" />
+    <Compile Include="Chart3D\Chart3D\TransformMatrix.cs" />
+    <Compile Include="Chart3D\Chart3D\Triangle3D.cs" />
+    <Compile Include="Chart3D\Chart3D\UniformSurfaceChart3D.cs" />
+    <Compile Include="Chart3D\UI\Chart3DControl.xaml.cs">
+      <DependentUpon>Chart3DControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chart3D\UI\UnitsComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Chart3D\UI\UserControl1.xaml.Testing.cs" />
+    <Compile Include="Chart3D\Chart3D\Vertex3D.cs" />
+    <Compile Include="Chart3D\Chart3D\ViewportRect.cs" />
+    <Compile Include="ComplexCharting\AssignmentOfColorMethod.cs" />
+    <Compile Include="ComplexCharting\ComplexChart.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComplexCharting\ComplexPoint.cs" />
+    <Compile Include="ComplexCharting\CountourLinesMode.cs" />
+    <Compile Include="ComplexCharting\EditComplexChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComplexCharting\EditComplexChartWindow.Designer.cs">
+      <DependentUpon>EditComplexChartWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditChartProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditChartProperties.designer.cs">
+      <DependentUpon>EditChartProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IChart.cs" />
+    <Compile Include="PlotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlotForm.Designer.cs">
+      <DependentUpon>PlotForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RealCharting\Chart2D.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RealCharting\EditChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RealCharting\EditChartWindow.Designer.cs">
+      <DependentUpon>EditChartWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RealCharting\Point2D.cs" />
+    <Compile Include="RealCharting\Point3D.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Chart3D\UI\EditChart3DWindow.cs.resx">
+      <DependentUpon>EditChart3DWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Chart3D\UI\EditChart3DWindow.pl.resx">
+      <DependentUpon>EditChart3DWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Chart3D\UI\EditChart3DWindow.resx">
+      <DependentUpon>EditChart3DWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComplexCharting\EditComplexChartWindow.cs.resx">
+      <DependentUpon>EditComplexChartWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComplexCharting\EditComplexChartWindow.pl.resx">
+      <DependentUpon>EditComplexChartWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComplexCharting\EditComplexChartWindow.resx">
+      <DependentUpon>EditComplexChartWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditChartProperties.cs.resx">
+      <DependentUpon>EditChartProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditChartProperties.pl.resx">
+      <DependentUpon>EditChartProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditChartProperties.resx">
+      <DependentUpon>EditChartProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlotForm.resx">
+      <DependentUpon>PlotForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RealCharting\EditChartWindow.cs.resx">
+      <DependentUpon>EditChartWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RealCharting\EditChartWindow.pl.resx">
+      <DependentUpon>EditChartWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RealCharting\EditChartWindow.resx">
+      <DependentUpon>EditChartWindow.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Chart3D\UI\Chart3DControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
+      <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
+      <Name>Computator.NET.DataTypes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -19,10 +19,10 @@ namespace AutocompleteMenuNS
 
         public override CompareResult Compare(string fragmentText)
         {
-            int i = fragmentText.LastIndexOf('.');
+            var i = fragmentText.LastIndexOf('.');
             if (i < 0)
                 return CompareResult.Hidden;
-            string lastPart = fragmentText.Substring(i + 1);
+            var lastPart = fragmentText.Substring(i + 1);
             firstPart = fragmentText.Substring(0, i);
 
             if (lastPart == "") return CompareResult.Visible;
@@ -65,12 +65,12 @@ namespace AutocompleteMenuNS
 
         public override void OnSelected(SelectedEventArgs e)
         {
-            ITextBoxWrapper tb = Parent.TargetControlWrapper;
+            var tb = Parent.TargetControlWrapper;
             //
             if (!Text.Contains("^"))
                 return;
-            string text = tb.Text;
-            for (int i = Parent.Fragment.Start; i < text.Length; i++)
+            var text = tb.Text;
+            for (var i = Parent.Fragment.Start; i < text.Length; i++)
                 if (text[i] == '^')
                 {
                     tb.SelectionStart = i;
@@ -164,24 +164,24 @@ namespace AutocompleteMenuNS
             if (ColumnWidth != null && ColumnWidth.Length != MenuTextByColumns.Length)
                 throw new Exception("ColumnWidth.Length != MenuTextByColumns.Length");
 
-            int[] columnWidth = ColumnWidth;
+            var columnWidth = ColumnWidth;
             if (columnWidth == null)
             {
                 columnWidth = new int[MenuTextByColumns.Length];
-                float step = e.TextRect.Width/MenuTextByColumns.Length;
-                for (int i = 0; i < MenuTextByColumns.Length; i++)
+                var step = e.TextRect.Width/MenuTextByColumns.Length;
+                for (var i = 0; i < MenuTextByColumns.Length; i++)
                     columnWidth[i] = (int) step;
             }
 
             //draw columns
-            Pen pen = Pens.Silver;
-            Brush brush = Brushes.Black;
-            float x = e.TextRect.X;
+            var pen = Pens.Silver;
+            var brush = Brushes.Black;
+            var x = e.TextRect.X;
             e.StringFormat.FormatFlags = e.StringFormat.FormatFlags | StringFormatFlags.NoWrap;
 
-            for (int i = 0; i < MenuTextByColumns.Length; i++)
+            for (var i = 0; i < MenuTextByColumns.Length; i++)
             {
-                int width = columnWidth[i];
+                var width = columnWidth[i];
                 var rect = new RectangleF(x, e.TextRect.Top, width, e.TextRect.Height);
                 e.Graphics.DrawLine(pen, new PointF(x, e.TextRect.Top), new PointF(x, e.TextRect.Bottom));
                 e.Graphics.DrawString(MenuTextByColumns[i], e.Font, brush, rect, e.StringFormat);

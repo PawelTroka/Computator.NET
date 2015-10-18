@@ -1,0 +1,48 @@
+
+var n = 5;
+
+var v1 = vector<real>(n);
+
+var v2 = vector<complex>(n);
+
+var v3 = vector(1,2,3,4,5);
+
+var v4 = vector(1+i,2+i,3+i,4+i,5+i);
+
+
+
+var m1 = matrix<real>(n,n);
+
+var m2 = matrix<complex>(n,n);
+
+var m3 = matrix({{1,2},
+				{3,4}});
+
+var m4 = matrix({{i,i},
+				{i/2,i/3}});
+
+
+
+for(var j=0;j<v1.size();j++)
+	v2[j]=random(1,100) + i·random(1,100);
+
+for(var j=0;j<v1.size();j++)
+	v1[j]=random(1,100);
+
+
+writeln(v1+v3);
+
+
+writeln(v1-v3);
+
+writeln(v2·v4);
+
+writeln(v2+v4);
+
+
+
+writeln(m2·v2);
+
+
+
+writeln(v2·m2);

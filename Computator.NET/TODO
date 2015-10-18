@@ -1,0 +1,40 @@
+﻿search in the internet/base of knowledge about the function if we have nothing in function info
+build new functioninfo.xml with empty data
+
+add symbolic calculations
+make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
+turn all delegate functions like Func to normal functions in elementaryfunctions and special
+expose all things like numerical integration in API in scripting etc
+make transformations enable for complexhcrat and chart3d
+enable data loading for charts
+enable better usage of transformation and charts scaling for loaded points
+make charts export as image better with different types of image format
+autocomplete in expression tetxbox make types of arguments visible in view but not in inserrted text (same goes for scripting)
+enable data saving
+enable exponent in scripting and custom functions, make wrapper around different types of codeeditors
+make codeeditor like real text editor with functions like save, tabs, load, solution, directory etc. more tabs and files blablabla
+-1. Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
+0. Settings / preferences window
+1. Special function search list arrangement ( or arrangement by user).
+2. Used functions history log.
+4. Functions description.
+5. Multi-language help files.
+8. Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
+10. Scripting: tracking user variables
+12. Matrix division
+14. Ker of Matrix
+16. cechy macierzy
+18. suma prosta
+21. podpowiedzi składni
+22. custom functions - make them better
+23. rest of special functions
+24. matrix more opearations
+25. Weiestrass functions
+26. theta functions
+27. numerical calculations - make them better and for f(z) and f(x,y) functions too
+28. tutorials on youtube
+29. more tsl examples
+30. shift+r_mouse_click on item_key activates new window
+31. info on keyboard shortcuts
+32. more than one script tab
+33. 

@@ -1,0 +1,197 @@
+ * Computator.NET, 2015, Paweł Troka, ptroka@fizyka.dk
+
+
+ * --------- Version 2.0.0α - alpha 7 -----------  20.10.2015 07:00
+ * = There is no more explicit mode you have to set for everything except scripting(real, complex, 3d) - application now can deduce mode based on your expressions, if you really want you can still force mode by choosing one in status bar of app
+ * + Added possibility to change font and fontsize of scripting editors and expressiontextbox
+ * + New revamped and refreshed user interface, revamped top menu and added fast buttons with images
+
+
+ * --------- Version 1.9.0α - alpha 6 -----------  20.09.2015 07:00
+ * = Total rebuild of parsing and compilation phases, all work is now on TSL cross compiler and mode is unified for both scripting and expressions (this causes exponents to work even in scriptng now and unifies TSL programming model but can be dangerous and let to a lot of bugs (still needs testing))
+ * + Added implicit functions to charts (you can now write e.g. x²+y²=3 and you will get implicit function chart)
+ * = Fixed situation from previous version when 
+ * + Added new settings window with functionality enabling keeping a lot of user preferences
+ * = Huge source code refactorings and optimizations including rebuild from scratch evaluation and compilation
+ * = Changed Accord.Math library to version 3.0.2
+ * = Changed ScintillaNET library to version 3.5.1
+ * = Changed MathNet.Numerics libary to version 3.7.0
+ * - Dropped support of AForge and AForge.Math libraries
+ * + Added a possibility to choose between AvalonEdit based code editor and Scintilla based (also in settings)
+ * = Changed colors and looks of scintilla based code editor
+ * = Scintilla based code editor returns to default code editor
+ * + Autocomplete now works in expression in exponent mode too (even inserting)
+ * = Sort alphabeticaly option for expression text box move to settings
+ * + Added possibility (in settings) to change tooltips representation to within window or even switch them off
+ * = GNU Scientific Library v1.16 native libraries (both x86 and x64) are now embedded within .exe file (it fixes a lot of bugs related to native C function LoadLibrary and is more elegant solution to the problem of having native libraries, also we dont need to include in the installer Visual C++ Redistributable Packages for msvcrt120.dll)
+  
+
+ * --------- Version 1.8.5α - alpha 5 -----------  20.04.2015 07:00
+ * + Added RiemannZeta(z) special function for complex z
+ * + Added PolyLog(n,x) special function
+ * + Added Ti(x) function (inverse tangent integral)
+ * + Added new code editor based on AvalonEdit
+ * + Added local functions for TSL, you can write: function niceFunction(real x, real y) = x·sin(y)+y·cos(x); and use niceFunction just like an ordinary function anywhere in the scope
+ * + Added TSL tutorials on files input/output, vectors and matrices, functions and plotting
+ * + Added logs functionality to application, from now on every error is written to log file
+ * = Fixed all bugs related to autocomplete in scripting (it was working really poorly before - no functions, not working after dot symbol etc)
+ * = Changed Meta.Numerics library to version 3.0.0
+ * = Changed Accord.Math library to version 2.14
+ * = Changed MathNet.Numerics libary to version 3.6.0
+
+
+ * --------- Version 1.8.3α - alpha 3 -----------  12.01.2014 04:33
+ * = Fixed regularized incomplete gamma - gammaQ(a,x), domain extended to a<=0
+ * + Added new option of customizing chart area - when right mouse button is pressed you can slide chart anywhere you want
+ * = Fixed X/Y ratio misscalculation which occured in 2D mode
+ * = Changed zooming algorithm in chart2d to custom well thought and designed algorithm (now zooming in and zooming out by using mouse scroll should be much more comfortable)
+ * + Added functions random(x), random(x,y), random(z), random(z1,z2) returning random value
+
+
+ * --------- Version 1.8.2α - alpha 2 -----------  23.11.2014 04:33
+ * + Added functions abs(x) and abs(z) returning absolute value
+ * + Added 35 new statistical distributions, tho they are mostly untested and may be causing bugs
+
+
+ * --------- Version 1.8.1α - alpha 2 -----------  22.11.2014 03:20
+ * = Fixed very important bug (reported by my friend Vojtech) in evaluating expressions with exponents containing many nested parenthesis (e.g. (10²·x)/(10-6·x²+(25-x²)²+10·(25-x²)) ) non-balancing parenthesis was causing errors or calculations on wrong functions 
+ * = Fixed the same bug as above in division of integers (to always return correct double)
+ * = Fixed small visual bug in main GUI window
+
+
+ * --------- Version 1.8α - public alpha -----------  21.11.2014 23:23
+ * + Added 9 new special functions called "Test functions for optimization" including Ackley's functions, Rosenbrock functions, Matyas function, Three-hump camel function, Bohachevsky 1 function, Himmelblau function and drop wave function
+ * = Changed MathNet.Numerics library to newest version 3.2.3 and recoded some parts of code specific to older version of this library
+ * = Changed compiler to Roslyn (however dynamic compiler for scripting and functions building stays the same as it was due to compatibility)
+ * = Optimized pow (power) function for matrices
+ * = Fixed all known bugs related to Chart 3D control (those related to changing options of this chart, those related to not showing some functions and many more)
+ * + Added new type of 3d chart - surface chart and made it default chart 3d type
+ * = Fixed bugs related to chart 3d axes labels (e.g. showing them without a function, not refreshing etc)
+ * - Removed all obsolete code in chart 3d related classes making a lots of cleanup and optimization - rectored some code and optimized some routines (still chart 3d class need more cleanup)
+ * + Added few new tutorials to TSL scripting language
+ * = Redesigned a little ExpressionTextBox look
+ * = Redesigned whole calculator tab for better look and user experience
+ * + Calculator now support 3d mode (f(x,y) functions)
+ * = All elementary and special functions generic wrappers rewritten from scratch, changed all template functions to overload functions to fix some anoying bugs like sin(1) giving an exception (before you had to write sin(1.0), now it's fixed) 
+ * + Updated "thanks to" dialog lists all used libraries and contributors to project 
+ * = Fixed and standarized al I/O formats to be the same for complex numbers and matrices having complex numbers, now everywhere you will have complex numbers in format a+bi and real numbers with standar decimal dot (.) (before some parts of app used (a,b) for complex numbers while other parts used a+bi)
+ * = Fixed bug with Ein special function causing this function to not evaluate and throw exception
+ * = Little tweaking done to about dialog, updated count of elementary, special and matrix functions
+ * = Fixed bugs in Brent's function root finding method
+ * + Added Broyden's root finding method
+ * = Redesigned and fixed some visual bugs in calculator and numerical calculations tabs
+ * = Fixed bug in centered five point method for derivative calculation causing it to return wrong values
+ * = Fixed bug in all derivative methods of not taking into account order of derivative
+ * - Removed functions BesselJν2(ν,x) and BesselYν2(ν,x) cause they were bugged and didnt provide any additional accuracy over old ones (BesselJν(ν,x) and BesselYν(ν,x))
+ * = Fixed bug in LegendreH3D(l,λ,η) function causing whole app to crash for some arguments
+ * = Fixed inaccuracy in ConicalP(μ,λ,x) function for some arguments
+ * = Fixed minor bug in scaling when one of the function of chart2d had no values
+ * = Fixed bugs in SphericalConicalP(l,λ,x) and CylindricalConicalP(l,λ,x) for x=0.0 crashing the whole app
+ * - Removed faddeeva(x) function because of being inaccurate (fadeeva(z) of course stays and is accurate)
+ * = Fixed bugs in Pochhammer(a,x) and PochhammerRelative(a,x) special functions terminating whole app 
+ * + Added Math functions calculation speed test benchmark
+ * = Fixed all untranslated fragments in Polish version
+ * + Added new "Transformations" feature with ability to transform data from Charts using fourier/hartley/hilbert/cosine/sine discrete transforms
+ * + Added new menus "Functions" and "Constants" to top menu with categorized listing of all the functions and constants supported by application
+ * = Fixed annoying bug in ExpressionTextBox causing losing focus when writing an expression and ToolTip shows up (tooltip was stealing focus)
+ * = Fixed bug causing toolTips to not resizing correctly
+ * = Fixed very annoying bugs of losing focus to Chart2D and Chart3D even when writing an Expression when mouse went on chart2d or chart3d (used MessageFilter of events to fix this)
+ * = Fixed bugs in BesselJνZeros(ν, s) and logBesselKν(ν, x) function causing whole app to crash for negative ν values 
+ * = Changed signature of some methods from method(s) to method(x) (methods with "Zeros" sufix, eg. AiZeros(s) got changed to AiZeros(x))
+ * = Fixed bug in Chart Area Values causing them to not refresh with Chart mouse scroll / mouse wheel events
+ * + Added new library Accord.Math v2.13.1
+ * + Added new special functions Owen's T function OwenT(h, a) and OwenT(h, a, ah)
+ * + Added new special function Gabor 2D and complex versions
+ * + Added 4 new integration methods: Monte Carlo method, non-adaptive Gauss–Kronrod method, infinity-adaptive Gauss–Kronrod method and Romberg's method
+ * + Thanks to my friend Vojtech Mankowski added new language to application - Czech language, translation done by Vojtech Mankowski (vojtaman@gmail.com)
+ * = Fixed very old and annoying bug related to division of integers return integer, now it returns always double so you would not have 3/2=0, but 3/2=1.5
+ * + New exponent mode, now by using key shortcut LeftShift+6 (^ sign) you enter exponent mode, where you can write your exponent, eg 2^sin(x) becames 2ˢⁱⁿ⁽ˣ⁾, you can end writing in exponent simply by pressing LeftShift+6 (^ sign) again or by mouse double click in expression textbox 
+ * = Application now uses local stored Cambria 6.81 font, so results and expressions will look beautiful even on Windows XP
+ * + New NumericTextBox used to print the results of calculation using scientific notation (which actually look a lot better than e.g. 1.5E-12)
+
+
+ * --------- Version 1.7ß - non-public beta 4 -----------  19.05.2014 23:44
+ * + Added chart 3D, chart of functions of two variables - f(x,y)
+ * = More modularization -  whole Charting namespace is exported as dll library
+ * + Added new types to scripting language - array() for constant size arrays and list() for list which can change size thanks to list.Add(..) method
+ * + Added new type to scripting language - vector<T>(), vector(a,b,c,...) - for vectors like in math or physics, they work well with matrix types
+ * + Added new plot functions to scripting plot is overloaded functios for plotting things in all different kinds of format (arrays, lists, functions)
+ * + Added an option to edit all properties of chart to all charts
+ * = All ToCode() functions changed to compile-time constant fields to get better start-time performance
+ * = Completely rewritten all code for evaluation (with split to 5 classes) to give way better performance in charting, calculations and scripting
+ * = Some of the work on the start is done asynchronously in the background now to give better start time performance
+ * + Added support for complex type matrices (earlier matrices had to be real numbers only)
+ * = Rewritten all code for matrix operations and matrix functions to support complex matrices and changed library for matrix calculations and matrix types from Meta.Numerics to MathNET.Numerics
+ * = Fixed some really nasty bugs in scripting which ones sometimes where ommitting user code errors and instead gave old assembly containing the last compiled code without errors
+ * + Added possibility to change points size for real chart in points mode
+ * + Added PointwiseMultiply(matrix1,matrix2,..) and PointwiseDivide(matrix1,matrix2,..) matrix operations to scripting language
+ * + Added file handling to scripting language - you can save your calculations to files now and read from files if you want using FileReader() and FileWriter() functions
+ * = Much faster complex chart drawing, now it isnt allocating new memory every time you redraw chart
+ * = Some improvements in console output and objects output (show and write functions), now e.g. matrix output is much better to read
+ * = fixed bug in HurwitzZeta function for some arguments terminating whole app
+
+
+ * --------- Version 1.6ß - non-public beta 3 -----------  17.04.2014 23:55
+ * = Fixed clear chart button not working for complex chart
+ * = Refactored some code, classes for charts now implements common IChart interface
+ * + Added X/Y ratio information to show how close to equal axes is your chart
+ * + Added quality trackbar to allow users to set quality of charts (worse quality means better performance)
+ * = Fixed some untranslated fragments in Polish version
+ * = Changed line thickness in real chart to 2px instead of 1px
+ * + Added possibility to change line thickness for real chart
+ * = Fixed errors terminating whole app for some Mathieu radial functions parameters
+
+
+ * --------- Version 1.5.1ß - hotfix -----------  14.03.2014 20:21
+ * = Fixed bug causing whole app to not work on Windows XP (added reference to System.Core.dll) (thanks to Kordian Czyżewski for reporting that very important bug)
+ * + Added full errors reporting support for entered formulas and scripts (now you can see all details why you got bug instead of generic "error in expression")
+ * = Changed default dot symbol in expression text box from '·' to '⋅', because of lack of full unicode support on Windows XP (it was printed in XP as squere box - missing symbol)
+ * + Now app will add Cambria font to system fonts directory if Cambria font is missing (needed for XP system) 
+
+
+ * --------- Version 1.5ß - official beta -----------  06.03.2014 22:01
+ * + First official beta release for closed beta testing
+ * + Added console output for scripting
+ * + Added posibility of using reference in Troka Scripting Language (operator &, see examples)
+ * = Fixed some mistakes in event handlers and behaviours of complex chart
+ * = Fixed interface errors and mistakes in design
+ * - Removed posibility to import and export data (this feature needs rework)
+ * = Redesigned some parts of GUI
+
+ 
+ * --------- Version 1.40ß -----------  05.03.2014 00:18
+ * + First official beta release for closed beta testing
+ * + New method for finding root of a function - Brent's method
+ * + New method for numerical integration - double exponential transformation method
+ * + Added all missing special functions from GNU Scientific Library (even LogGamma(z), ConicalFunction, Pochhammer symbol, Double factorial and few more)
+ * = Fixed errors in calculations hypergeometric functions, added bounds checking
+ * + Added more matrix operations and functions (e.g. Kronecker product, trace, determinant, rank)
+ * + Added brace matching in script editor
+ 
+ 
+ * --------- Version 1.30ß -----------  01.02.2014 23:55
+ * + Scripting with new scripting language for easy and fast computations including matrices
+ * + Ability to create custom functions using scripting language
+ * + A lot of matrices related features in scripting (basic operations and functions on matrices)
+ * + Even more special functions
+  
+ 
+ * --------- Version 1.20ß -----------  27.02.2014 01:30
+ * + Added nearly all special functions from Gnu Scientific Library (except for a few that are hard to implement)
+ * = Fixed bounds checking for most of used functions (still working on it) - functions will now returns NAN (not a number) rather then throwing an exceptions for wrong arguments
+ * = Fixed errors in calculations Bessel and Euler functions 
+ 
+
+ * --------- Version 1.10ß -----------  10.02.2014 03:10
+ * + New library for special functions - GNU Scientific Library (GSL)
+ * + Added all special and elementary functions, orthogonal polynomials from Meta.Numerics library
+ * + Added a lot of special functions implemented in GNU Scientific Library v1.15
+ * + New icon
+ * + Added images to functions in auto complete menu representing which type functions is returning (e.g. complex or real)
+ 
+ 
+ * --------- Version 1.00ß -----------  31.01.2014 08:26
+ * + First official non-public release
+ * = Fixed all known bugs, even those caused by Microsoft Chart control
+ * + Added most of well known elementary functions and a majority of special functions from Meta.Numerics library
+ * + New auto complete menu for expression text box based on AutocompleteMenu.dll library from codeproject.com

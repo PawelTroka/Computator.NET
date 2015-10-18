@@ -1,0 +1,77 @@
+//first we need to define some functions,
+//of course we can do it like in example 02,
+//but sometimes we would like to write it shorter and faster
+//for that we have something called local functions (similar to anonymous functions from C#)
+
+//this is our first function, as you can see syntax is the easiest possible, first we say that we want to declare a function,
+//next we write it's name and inside paranthesis we list all it's parameters with their types)
+//next after equal sign we just write how the function should evaluate it's value
+function myFunction(real x) = x·x;
+
+//we can declare functions as complicated as we want and containing as many parameters as we want of any type
+function niceFunction(real x, real y) = x·sin(y)+y·cos(x);
+
+
+//for short we can skip function word and write var instead
+var crazyFunction(complex z) = sqrt(z)/z+z;
+
+//now it's time to put those function to the test,
+//to do this we will pass them like variables to plot(..) functions
+
+//as you can see plot function draws a chart of function
+plot(myFunction);
+
+//we can pass to plot function parameters describing area of function we want to draw
+plot(niceFunction,-10,10,-10,10);
+
+
+//we can also pass as the last paremeter quality of chart (from 0.0 to 1.0)
+plot(crazyFunction,-2,2,-2,2,0.2);
+
+//note that plot function detects type of function and gives us appriopiate chart
+
+//of course we cannot draw all the functions,
+//consider below function:
+	
+var fss(real x, real y, real z) = pow(sin(x),z)+ pow(cos(y),z);
+//we can say that this is a four dimensional function,
+//we only have charts for functions of one (real or complex) or two (real) variables
+
+//gladly plot function also takes array of points and lists so we can calculate some points
+//and then draw them
+
+
+//as for z parameter we can make charts for some of it's values
+
+for(var z=1;z<4;z++) //we will draw charts for z = 1,2,3
+{
+	//for each z value we will have points in 3d space with 3 coordinates: x, y, f(x,y) for chosen z 
+	var pointsX = list<real>();
+	var pointsY = list<real>();
+	var pointsFxy = list<real>();
+
+	for(var x=-7.5;x<=7.5;x+=0.1)
+	{
+		for(var y=-7.5;y<=7.5;y+=0.1)
+		{
+			pointsX.Add(x);
+			pointsY.Add(y);
+			pointsFxy.Add(fss(x,y,z));
+		}
+	}
+	plot(pointsX,pointsY,pointsFxy);
+}
+
+//last but not least way to use plot function is to pass a lambda expression
+//it looks like this (real x) => sinc(x)
+//additionaly I want to point out that you can pass more than one function to plot function
+//just like that:
+plot((real x) => sinc(x),myFunction);
+//and it is the shortest way to plot some function
+
+//or another example for 3d plot:
+plot(niceFunction, (x,y) => fss(x,y,3) );
+//note how simply we used fss function in lambda expression for some parameter
+//thanks to option for passing multiple functions we can do something similar like when we calculated arrays of points
+//but with just one line:
+plot((x,y) => fss(x,y,1),(x,y) => fss(x,y,2),(x,y) => fss(x,y,3));

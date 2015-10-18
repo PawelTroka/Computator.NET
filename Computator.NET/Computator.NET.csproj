@@ -29,6 +29,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -52,7 +54,7 @@
     <DocumentationFile>bin\Release\Computator.NET.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Graphics\computator.net-icon2.ico</ApplicationIcon>
+    <ApplicationIcon>Graphics\computator.net-logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -86,37 +88,38 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.Math, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge">
-      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.3.5.0\lib\net40\MathNet.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="Meta.Numerics, Version=2.2.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
-      <HintPath>..\packages\Meta.Numerics.2.2.0\lib\Meta.Numerics.dll</HintPath>
+    <Reference Include="Accord, Version=3.0.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accord.3.0.2\lib\net40\Accord.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Accord.Math, Version=3.0.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accord.Math.3.0.2\lib\net40\Accord.Math.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>..\packages\AvalonEdit.5.0.2\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Meta.Numerics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Meta.Numerics.3.0.0\lib\Meta.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore">
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationFramework">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ScintillaNET, Version=3.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jacobslusser.ScintillaNET.3.5.1\lib\net40\ScintillaNET.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ScintillaNET, Version=2.6.0.0, Culture=neutral, PublicKeyToken=948d6c9751444115, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -132,10 +135,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase">
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsFormsIntegration">
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -146,22 +149,50 @@
     <Compile Include="Benchmarking\BenchmarkForm.Designer.cs">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Compilation\CompilationException.cs" />
+    <Compile Include="Compilation\NativeCompiler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compilation\TSLCompiler.cs" />
+    <Compile Include="Config\EmbeddedDllClass.cs" />
+    <Compile Include="Config\MathCustomFonts.cs" />
+    <Compile Include="Config\MultiplatformDllLoader.cs" />
+    <Compile Include="Config\MyMessageFilter.cs" />
     <Compile Include="Config\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Config\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Config\SpecialSymbols.cs" />
+    <Compile Include="Data\FunctionsDetails.cs" />
     <Compile Include="Evaluation\BaseEvaluator.cs" />
+    <Compile Include="Evaluation\CalculationsMode.cs" />
+    <Compile Include="Evaluation\EvaluationException.cs" />
     <Compile Include="Evaluation\Function2DEvaluator.cs" />
     <Compile Include="Evaluation\Function3DEvaluator.cs" />
     <Compile Include="Evaluation\FunctionComplexEvaluator.cs" />
+    <Compile Include="Evaluation\ModeDeterminer.cs" />
     <Compile Include="Evaluation\ScriptEvaluator.cs" />
     <Compile Include="Evaluation\ScriptingExtensionObjects.cs" />
-    <Compile Include="Functions\Class1.cs" />
-    <Compile Include="Functions\FunctionInfo.cs" />
-    <Compile Include="Functions\ScriptingFunctions.cs" />
-    <Compile Include="Functions\StatisticsFunctions.cs" />
+    <Compile Include="Functions\ElementaryFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\FunctionInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\MatrixFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\ScriptingFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\SpecialFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\StatisticsFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Localization\Strings.de.Designer.cs">
       <DependentUpon>Strings.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -178,10 +209,22 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Transformations\TrigonometricTransformations.cs" />
-    <Compile Include="UI\AboutBox1.cs">
+    <Compile Include="Data\AutocompletionData.cs" />
+    <Compile Include="Natives\NativeMethods.cs" />
+    <Compile Include="UI\AutocompleteMenu\Wrappers\AvalonWrapper.cs" />
+    <Compile Include="UI\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
+    <Compile Include="UI\CodeEditors\AvalonEdit\BitmapExtension.cs" />
+    <Compile Include="UI\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
+    <Compile Include="UI\CodeEditors\AvalonEdit\AvalonEditCodeEditorControl.cs" />
+    <Compile Include="UI\CodeEditors\CodeEditorControlWrapper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\CodeEditors\AvalonEdit\CompletionData.cs" />
+    <Compile Include="UI\CodeEditors\ICodeEditorControl.cs" />
+    <Compile Include="UI\Forms\AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\AboutBox1.Designer.cs">
+    <Compile Include="UI\Forms\AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants\MathematicalConstants.cs" />
@@ -199,32 +242,31 @@
     </Compile>
     <Compile Include="UI\AutocompleteMenu\EventArgs.cs" />
     <Compile Include="UI\AutocompleteMenu\IAutocompleteListView.cs" />
-    <Compile Include="UI\AutocompleteMenu\ITextBoxWrapper.cs" />
+    <Compile Include="UI\AutocompleteMenu\Wrappers\ITextBoxWrapper.cs" />
     <Compile Include="UI\AutocompleteMenu\Range.cs" />
-    <Compile Include="UI\AutocompleteMenu\TextBoxWrapper.cs" />
+    <Compile Include="UI\AutocompleteMenu\Wrappers\TextBoxWrapper.cs" />
     <Compile Include="UI\AutocompleteMenu\WebBrowserTooltip.cs">
       <SubType>form</SubType>
     </Compile>
-    <Compile Include="UI\DirectoryTree.cs">
+    <Compile Include="UI\Controls\DirectoryTree.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\ExpressionTextBox.cs">
+    <Compile Include="UI\CodeEditors\AvalonEdit\AvalonEditCodeEditor.cs" />
+    <Compile Include="UI\Controls\ExpressionTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Functions\ElementaryFunctions.cs" />
-    <Compile Include="Functions\BaseFunction.cs" />
-    <Compile Include="Evaluation\StringParser.cs" />
-    <Compile Include="Functions\MatrixFunctions.cs" />
-    <Compile Include="Functions\SpecialFunctions.cs" />
     <Compile Include="Config\GlobalConfig.cs" />
-    <Compile Include="UI\GUI.cs">
+    <Compile Include="UI\Forms\GUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\GUI.Designer.cs">
+    <Compile Include="UI\Forms\GUI.Designer.cs">
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocalizationManager.cs" />
     <Compile Include="Localization\LocalizedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\NameAttribute.cs" />
@@ -232,26 +274,26 @@
     <Compile Include="NumericalCalculations\MathematicalAnalysis\Derivative.cs" />
     <Compile Include="NumericalCalculations\MathematicalAnalysis\Integral.cs" />
     <Compile Include="NumericalCalculations\NumericalCalculation.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Natives\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI\NumericTextBox.cs">
+    <Compile Include="UI\Controls\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\ReadForm.cs">
+    <Compile Include="UI\Forms\ReadForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ScientificNumericUpDown.cs">
+    <Compile Include="UI\Controls\ScientificNumericUpDown.cs">
       <SubType>component</SubType>
     </Compile>
-    <Compile Include="UI\ScientificNumericUpDown.Designer.cs">
+    <Compile Include="UI\Controls\ScientificNumericUpDown.Designer.cs">
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ScriptingRichTextBox.cs">
+    <Compile Include="UI\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Localization\Strings.Designer.cs">
@@ -283,20 +325,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.pl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\AboutBox1.resx">
+    <EmbeddedResource Include="UI\Forms\AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\GUI.cs.resx">
+    <EmbeddedResource Include="UI\Forms\GUI.cs.resx">
       <DependentUpon>GUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\GUI.de.resx">
+    <EmbeddedResource Include="UI\Forms\GUI.de.resx">
       <DependentUpon>GUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\GUI.pl.resx">
+    <EmbeddedResource Include="UI\Forms\GUI.pl.resx">
       <DependentUpon>GUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\GUI.resx">
+    <EmbeddedResource Include="UI\Forms\GUI.resx">
       <DependentUpon>GUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -305,7 +347,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ReadForm.resx">
+    <EmbeddedResource Include="UI\Forms\ReadForm.resx">
       <DependentUpon>ReadForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Localization\Strings.resx">
@@ -313,13 +355,7 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
-    <None Include="Resources\Misc\Asana-Math.otf" />
-    <None Include="Resources\Misc\Asana-Math.ttf" />
-    <None Include="Resources\Misc\CAMBRIA.TTC" />
-    <None Include="Resources\Misc\cambria.ttf" />
-    <None Include="Resources\Misc\fourier-math-letters.ttf" />
     <None Include="Config\app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -330,80 +366,70 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
+    <None Include="Graphics\run_icon.png" />
+    <Content Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="TSL Examples\_CustomFunctions\Example03_PassingByReference.tslf">
+    </Content>
+    <Content Include="TSL Examples\_CustomFunctions\Example03_PassingByReference.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="TSL Examples\_CustomFunctions\friendsFunctions.tslf">
+    </Content>
+    <Content Include="TSL Examples\_CustomFunctions\friendsFunctions.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl">
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="TSL Examples\_Scripts\Example01_InputAndOutput.tsl">
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example01_InputAndOutput.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="TSL Examples\_Scripts\Example02_BasicFunctionsUsage.tsl">
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example02_BasicFunctionsUsage.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="TSL Examples\_Scripts\Example03_PassingByReference.tsl">
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example03_PassingByReference.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="TSL Examples\_Scripts\Example04_MatrixOperations.tsl">
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example04_MatrixOperations.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="UI\fonts\Asana-Math.ttf" />
-    <None Include="UI\fonts\CAMBRIA.TTC">
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example05_FilesInputAndOutput.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="UI\fonts\CAMBRIAB.TTF" />
-    <None Include="UI\fonts\CAMBRIAI.TTF" />
-    <None Include="UI\fonts\CAMBRIAZ.TTF" />
-    <None Include="UI\fonts\euler.ttf" />
-    <None Include="UI\fonts\fourier-math-letters.ttf" />
-    <None Include="UI\fonts\STIX-Regular.ttf" />
-    <None Include="UI\fonts\STIXMath-Regular.ttf" />
-    <None Include="UI\fonts\xits-math.ttf" />
-    <None Include="UI\fonts\xits-regular.ttf" />
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example06_VectorsAndMatrices.tsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example07_FunctionsAndPlotting.tsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\fonts\CAMBRIA.TTC">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\CodeEditors\TSL-Syntax.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\images\" />
     <Folder Include="SymbolicCalculations\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\changelog.txt" />
-    <Content Include="Config\KnownBugs.txt" />
-    <Content Include="Config\planned_features_list.txt" />
+    <None Include="CHANGELOG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="BUGS">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TODO">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Data\functions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\old\functions_info.xml" />
-    <Content Include="Data\old\functions_xxx.xml" />
-    <Content Include="Graphics\computator.net-icon.ico" />
-    <Content Include="Graphics\computator.net-icon2.ico" />
     <None Include="Graphics\Matrix.png" />
-    <Content Include="Special\MathNet.Numerics.dll" />
-    <Content Include="Special\x64\cblas.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Special\x64\gsl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Special\x86\cblas.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Special\x86\gsl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\SciLexer.dll" />
-    <Content Include="UI\SciLexer64.dll" />
-    <Content Include="UI\ScintillaNET.dll" />
-    <Content Include="UI\script_syntax.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Special\Meta.Numerics.dll" />
+    <None Include="Graphics\computator.net-logo.ico" />
+    <None Include="Graphics\computator.net-logo.png" />
+    <Content Include="Special\x64\cblas.dll" />
+    <Content Include="Special\x64\gsl.dll" />
+    <Content Include="Special\x86\cblas.dll" />
+    <Content Include="Special\x86\gsl.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -428,19 +454,31 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Charting\Charting.csproj">
+    <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">
       <Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
-      <Name>Charting</Name>
+      <Name>Computator.NET.Charting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
+      <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
+      <Name>Computator.NET.DataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
+      <Project>{9c4052d5-2c6b-404c-adac-66e93069824e}</Project>
+      <Name>SimpleLogger</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /d /y "$(ProjectDir)UI\SciLexer64.dll" "$(TargetDir)"
-xcopy /d /y "$(ProjectDir)UI\SciLexer.dll" "$(TargetDir)"
-xcopy /d /y "$(ProjectDir)UI\MimeTeX.dll" "$(TargetDir)"
-xcopy /d /y "$(ProjectDir)Config\config.ini" "$(TargetDir)"
-xcopy /d /y "$(ProjectDir)Config\changelog.txt" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\Accord.3.0.2\build\Accord.targets" Condition="Exists('..\packages\Accord.3.0.2\build\Accord.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Accord.3.0.2\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accord.3.0.2\build\Accord.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

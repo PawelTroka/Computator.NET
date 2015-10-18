@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
+using System.Runtime.InteropServices;
+using Computator.NET.Evaluation;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using Meta.Numerics;
-using Complex = System.Numerics.Complex;
 using DenseVector = MathNet.Numerics.LinearAlgebra.Complex.DenseVector;
+
+//using Meta.Numerics;
 
 namespace Computator.NET.Functions
 {
+    [StructLayout(LayoutKind.Sequential)]
     internal static class MatrixFunctions
     {
         #region matrix specific functions
 
         public static T Tr<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
         {
-            if (M.RowCount != M.ColumnCount)
-                throw new DimensionMismatchException("It's imposible to calculate trace of non-square matrix!");
+            //if (M.RowCount != M.ColumnCount)
+            ////throw new DimensionMismatchException("It's imposible to calculate trace of non-square matrix!");
             return M.Trace();
         }
 
@@ -26,8 +30,8 @@ namespace Computator.NET.Functions
 
         public static T det<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
         {
-            if (M.RowCount != M.ColumnCount)
-                throw new DimensionMismatchException("It's imposible to calculate determinant of non-square matrix!");
+            //if (M.RowCount != M.ColumnCount)
+            ////throw new DimensionMismatchException("It's imposible to calculate determinant of non-square matrix!");
             return M.Determinant();
         }
 
@@ -44,12 +48,12 @@ namespace Computator.NET.Functions
         public static Matrix<T> pow<T>(Matrix<T> M, int n) where T : struct, IEquatable<T>, IFormattable
         {
             if (M.RowCount != M.ColumnCount)
-                throw new DimensionMismatchException("It's imposible to take non-square matrix to power!");
+                throw new ArgumentException("It's imposible to take non-square matrix to power!");
             if (n == 0)
             {
-                Matrix<T> M2 = M.SubMatrix(0, M.RowCount, 0, M.ColumnCount);
-                for (int j = 0; j < M.RowCount; j++)
-                    for (int k = 0; k < M.ColumnCount; k++)
+                var M2 = M.SubMatrix(0, M.RowCount, 0, M.ColumnCount);
+                for (var j = 0; j < M.RowCount; j++)
+                    for (var k = 0; k < M.ColumnCount; k++)
                     {
                         if (j == k)
                             M2[j, k] = Matrix<T>.One;
@@ -67,8 +71,8 @@ namespace Computator.NET.Functions
 
         public static Matrix<T> inv<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
         {
-            if (M.RowCount != M.ColumnCount)
-                throw new DimensionMismatchException("It's imposible to calculate inverse matrix of non-square matrix!");
+            //if (M.RowCount != M.ColumnCount)
+            //throw new DimensionMismatchException("It's imposible to calculate inverse matrix of non-square matrix!");
             return M.Inverse();
         }
 
@@ -84,9 +88,9 @@ namespace Computator.NET.Functions
             foreach (var m in M)
                 Mx.Add(m);
 
-            Matrix<T> MxRet = Mx[0];
+            var MxRet = Mx[0];
 
-            for (int i = 0; i < Mx.Count; i++)
+            for (var i = 0; i < Mx.Count; i++)
                 MxRet = MxRet.KroneckerProduct(Mx[i]);
 
             return MxRet;
@@ -99,9 +103,9 @@ namespace Computator.NET.Functions
             foreach (var m in M)
                 Mx.Add(m);
 
-            Matrix<T> MxRet = Mx[0];
+            var MxRet = Mx[0];
 
-            for (int i = 0; i < Mx.Count; i++)
+            for (var i = 0; i < Mx.Count; i++)
                 MxRet.PointwiseMultiply(Mx[i], MxRet);
 
             return MxRet;
@@ -114,9 +118,9 @@ namespace Computator.NET.Functions
             foreach (var m in M)
                 Mx.Add(m);
 
-            Matrix<T> MxRet = Mx[0];
+            var MxRet = Mx[0];
 
-            for (int i = 0; i < Mx.Count; i++)
+            for (var i = 0; i < Mx.Count; i++)
                 MxRet.PointwiseDivide(Mx[i], MxRet);
 
             return MxRet;
@@ -157,8 +161,8 @@ namespace Computator.NET.Functions
         {
             var darray = new double[array.GetLength(0), array.GetLength(1)];
 
-            for (int j = 0; j < array.GetLength(0); j++)
-                for (int k = 0; k < array.GetLength(1); k++)
+            for (var j = 0; j < array.GetLength(0); j++)
+                for (var k = 0; k < array.GetLength(1); k++)
                     darray[j, k] = array[j, k];
 
             return DenseMatrix.OfArray(darray);
@@ -206,14 +210,15 @@ namespace Computator.NET.Functions
 
         #endregion
 
+        #region utils
         public const string ToCode =
             @"
         #region matrix specific functions
 
         public static T Tr<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
         {
-            if (M.RowCount != M.ColumnCount)
-                throw new DimensionMismatchException(""It's imposible to calculate trace of non-square matrix!"");
+            //if (M.RowCount != M.ColumnCount)
+                //throw new DimensionMismatchException(""It's imposible to calculate trace of non-square matrix!"");
             return M.Trace();
         }
 
@@ -224,8 +229,8 @@ namespace Computator.NET.Functions
 
         public static T det<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
         {
-            if (M.RowCount != M.ColumnCount)
-                throw new DimensionMismatchException(""It's imposible to calculate determinant of non-square matrix!"");
+            //if (M.RowCount != M.ColumnCount)
+                //throw new DimensionMismatchException(""It's imposible to calculate determinant of non-square matrix!"");
             return M.Determinant();
         }
 
@@ -242,7 +247,7 @@ namespace Computator.NET.Functions
         public static Matrix<T> pow<T>(Matrix<T> M, int n) where T : struct, IEquatable<T>, IFormattable
         {
             if (M.RowCount != M.ColumnCount)
-                throw new DimensionMismatchException(""It's imposible to take non-square matrix to power!"");
+               throw new ArgumentException(""It's imposible to take non-square matrix to power!"");
             if (n == 0)
             {
                 Matrix<T> M2 = M.SubMatrix(0, M.RowCount, 0, M.ColumnCount);
@@ -265,8 +270,8 @@ namespace Computator.NET.Functions
 
         public static Matrix<T> inv<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
         {
-            if (M.RowCount != M.ColumnCount)
-                throw new DimensionMismatchException(""It's imposible to calculate inverse matrix of non-square matrix!"");
+            //if (M.RowCount != M.ColumnCount)
+                //throw new DimensionMismatchException(""It's imposible to calculate inverse matrix of non-square matrix!"");
             return M.Inverse();
         }
 
@@ -405,6 +410,7 @@ namespace Computator.NET.Functions
         #endregion
 
             ";
+        #endregion
     }
 
     internal static class ArrayExtension
