@@ -241,6 +241,15 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changelog.
+        /// </summary>
+        internal static string GUI_changelogToolStripMenuItem_Click_Changelog {
+            get {
+                return ResourceManager.GetString("GUI_changelogToolStripMenuItem_Click_Changelog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You dont have any logs yet..
         /// </summary>
         internal static string GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_ {

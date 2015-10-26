@@ -14,8 +14,7 @@ using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.Evaluation;
 using MathNet.Numerics;
-using MathNet.Numerics.LinearAlgebra.Double;
-using DenseVector = MathNet.Numerics.LinearAlgebra.Complex.DenseVector;
+using MathNet.Numerics.LinearAlgebra.Complex;
 using File = Computator.NET.Evaluation.File;
 
 namespace Computator.NET.Functions
@@ -52,7 +51,7 @@ namespace Computator.NET.Functions
                 if (x is Complex)
                     x = (T) ((object) result.ToComplex());
             }
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + s + " " + x);
+            CONSOLE_OUTPUT.Text += (Environment.NewLine + s + " " + objectToString(x));
             return x;
         }
 
@@ -78,7 +77,7 @@ namespace Computator.NET.Functions
                 if (x is Complex)
                     x = (T) ((object) result.ToComplex());
             }
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + s + " " + x);
+            CONSOLE_OUTPUT.Text += (Environment.NewLine + s + " " + objectToString(x));
         }
 
 
@@ -100,7 +99,7 @@ namespace Computator.NET.Functions
             if (x is Complex)
                 x = (T) ((object) result.ToComplex());
 
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + "read: " + " " + x);
+            CONSOLE_OUTPUT.Text += (Environment.NewLine + "read: " + " " + objectToString(x));
         }
 
 
@@ -122,7 +121,7 @@ namespace Computator.NET.Functions
             if (x is Complex)
                 x = (T) ((object) result.ToComplex());
 
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + "read: " + " " + x);
+            CONSOLE_OUTPUT.Text += (Environment.NewLine + "read: " + " " + objectToString(x));
         }
 
 
@@ -183,26 +182,41 @@ namespace Computator.NET.Functions
 
         private static string objectToString(object o)
         {
-            // if (o is RectangularMatrix)
-            //return ((RectangularMatrix) (o)).ToString();
+            //complex matrix
             if (o.GetType() == typeof (DenseMatrix))
-            {
-                var denseMatrix = o as DenseMatrix;
-                if (denseMatrix != null) return denseMatrix.ToString(999999, 999999);
-            }
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToTypeString(),
+                return string.Concat((o as DenseMatrix).ToTypeString(),
                     Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
+                    (o as DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
                         2, "..", "..", "..", "  ", Environment.NewLine, z => z.ToMathString()));
+            //complex vector
             if (o.GetType() == typeof (DenseVector))
                 return string.Concat((o as DenseVector).ToTypeString(),
                     Environment.NewLine,
                     (o as DenseVector).ToVectorString(999999 - 2, 2, "..", "  ", Environment.NewLine,
                         z => z.ToMathString()));
 
+            //real matrix
+            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseMatrix))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToTypeString(),
+                    Environment.NewLine,
+                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
+                        2, "..", "..", "..", "  ", Environment.NewLine, z => z.ToMathString()));
+
+            //real vector
+            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseVector))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToTypeString(),
+                    Environment.NewLine,
+                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToVectorString(999999 - 2, 2, "..", "  ",
+                        Environment.NewLine,
+                        z => z.ToMathString()));
+
+
             if (o is Complex)
                 return ((Complex) (o)).ToMathString();
+
+            if (o is double)
+                return ((double) (o)).ToMathString();
+
             return o.ToString();
         }
 
@@ -385,6 +399,7 @@ namespace Computator.NET.Functions
         #endregion
 
         #region utils
+
         public const string ToCode = @"
   
    
@@ -397,29 +412,28 @@ namespace Computator.NET.Functions
             MessageBox.Show(objectToString(o), showcaption);
         }
 
-
         public static T read<T>(string s = ""read: "")
         {
             var x = default(T);
             if (x == null)
-                x = (T)(object)("" "");
+                x = (T) (object) ("" "");
 
             var rf = new ReadForm(s);
             rf.ShowDialog();
             if (rf.DialogResult == DialogResult.OK)
             {
-                string result = rf.Result;
+                var result = rf.Result;
 
                 if (x.IsNumericType())
-                    x = (T)((object)double.Parse(result));
+                    x = (T) ((object) double.Parse(result));
 
                 if (x is string)
-                    x = (T)((object)(result));
+                    x = (T) ((object) (result));
 
                 if (x is Complex)
-                    x = (T)((object)ComplexExtensions.ToComplex(result));
+                    x = (T) ((object) result.ToComplex());
             }
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + s + "" "" + x);
+            CONSOLE_OUTPUT.Text += (Environment.NewLine + s + "" "" + objectToString(x));
             return x;
         }
 
@@ -434,7 +448,7 @@ namespace Computator.NET.Functions
             rf.ShowDialog();
             if (rf.DialogResult == DialogResult.OK)
             {
-                string result = rf.Result;
+                var result = rf.Result;
 
                 if (x.IsNumericType())
                     x = (T) ((object) double.Parse(result));
@@ -443,31 +457,31 @@ namespace Computator.NET.Functions
                     x = (T) ((object) (result));
 
                 if (x is Complex)
-                    x = (T) ((object) ComplexExtensions.ToComplex(result));
+                    x = (T) ((object) result.ToComplex());
             }
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + s + "" "" + x);
+            CONSOLE_OUTPUT.Text += (Environment.NewLine + s + "" "" + objectToString(x));
         }
 
 
-        public static void readln<T>(File file,out T x)
+        public static void readln<T>(File file, out T x)
         {
             x = default(T);
             if (x == null)
-                x = (T)(object)("" "");
+                x = (T) (object) ("" "");
 
 
-                string result = file.readln();
+            var result = file.readln();
 
-                if (x.IsNumericType())
-                    x = (T)((object)double.Parse(result));
+            if (x.IsNumericType())
+                x = (T) ((object) double.Parse(result));
 
-                if (x is string)
-                    x = (T)((object)(result));
+            if (x is string)
+                x = (T) ((object) (result));
 
-                if (x is Complex)
-                    x = (T)((object)ComplexExtensions.ToComplex(result));
+            if (x is Complex)
+                x = (T) ((object) result.ToComplex());
 
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + ""read: "" + "" "" + x);
+            CONSOLE_OUTPUT.Text += (Environment.NewLine + ""read: "" + "" "" + objectToString(x));
         }
 
 
@@ -475,31 +489,23 @@ namespace Computator.NET.Functions
         {
             x = default(T);
             if (x == null)
-                x = (T)(object)("" "");
+                x = (T) (object) ("" "");
 
 
-            string result = file.readAll();
+            var result = file.readAll();
 
             if (x.IsNumericType())
-                x = (T)((object)double.Parse(result));
+                x = (T) ((object) double.Parse(result));
 
             if (x is string)
-                x = (T)((object)(result));
+                x = (T) ((object) (result));
 
             if (x is Complex)
-                x = (T)((object)ComplexExtensions.ToComplex(result));
+                x = (T) ((object) result.ToComplex());
 
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + ""read: "" + "" "" + x);
+            CONSOLE_OUTPUT.Text += (Environment.NewLine + ""read: "" + "" "" + objectToString(x));
         }
 
-
-        public static string read(File file)
-        {
-            string result = file.readAll();
-
-            CONSOLE_OUTPUT.Text += (Environment.NewLine + ""read: "" + "" "" + result);
-            return result;
-        }
 
         public static void write(object o)
         {
@@ -550,25 +556,41 @@ namespace Computator.NET.Functions
 
         private static string objectToString(object o)
         {
-           // if (o is RectangularMatrix)
-                //return ((RectangularMatrix) (o)).ToString();
-            if (o.GetType() == typeof (DenseMatrix))
-            {
-                var denseMatrix = o as DenseMatrix;
-                if (denseMatrix != null) return denseMatrix.ToString(999999, 999999);
-            }
+
+            //complex matrix
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToTypeString(),
                     Environment.NewLine,
                     (o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
                         2, "".."", "".."", "".."", ""  "", Environment.NewLine, z => z.ToMathString()));
-            if(o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.DenseVector))
+            //complex vector
+            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseVector))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToTypeString(),
-                Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToVectorString(999999 - 2, 2, "".."", ""  "", Environment.NewLine, z => z.ToMathString()));
+                    Environment.NewLine,
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToVectorString(999999 - 2, 2, "".."", ""  "", Environment.NewLine,
+                        z => z.ToMathString()));
+
+            //real matrix
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.DenseMatrix))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToTypeString(),
+                    Environment.NewLine,
+                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
+                        2, "".."", "".."", "".."", ""  "", Environment.NewLine, z => z.ToMathString()));
+
+            //real vector
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.DenseVector))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToTypeString(),
+                    Environment.NewLine,
+                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToVectorString(999999 - 2, 2, "".."", ""  "", Environment.NewLine,
+                        z => z.ToMathString()));
+
 
             if (o is Complex)
                 return ((Complex) (o)).ToMathString();
+
+            if(o is double)
+                return ((double)(o)).ToMathString();
+
             return o.ToString();
         }
 
@@ -754,6 +776,7 @@ namespace Computator.NET.Functions
 
         ";
         private static RichTextBox CONSOLE_OUTPUT;
+
         #endregion
     }
 }

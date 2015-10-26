@@ -8,7 +8,8 @@ using Meta.Numerics.Functions;
 namespace Computator.NET.Functions
 {
     [StructLayout(LayoutKind.Sequential)]
-    internal static class ElementaryFunctions//TODO: make functions appear in right order (etc first sin(x) then sin(z) then cos(x) ...)
+    internal static class ElementaryFunctions
+        //TODO: make functions appear in right order (etc first sin(x) then sin(z) then cos(x) ...)
     {
         #region trigonometric functions
 
@@ -367,7 +368,7 @@ namespace Computator.NET.Functions
         {
             if (z == 0)
                 return 1;
-            return (Complex.Sin((z))) / (z);
+            return (Complex.Sin((z)))/(z);
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
@@ -402,35 +403,35 @@ namespace Computator.NET.Functions
          Description("angielski opis funkcji")]
         public static Complex ctg(Complex z)
         {
-            return 1.0 / Complex.Tan((z));
+            return 1.0/Complex.Tan((z));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex cot(Complex z)
         {
-            return 1.0 / Complex.Tan((z));
+            return 1.0/Complex.Tan((z));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex sec(Complex z)
         {
-            return 1.0 / Complex.Cos((z));
+            return 1.0/Complex.Cos((z));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex csc(Complex z)
         {
-            return 1.0 / Complex.Sin((z));
+            return 1.0/Complex.Sin((z));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex cosec(Complex z)
         {
-            return 1.0 / Complex.Sin((z));
+            return 1.0/Complex.Sin((z));
         }
 
         #endregion
@@ -469,35 +470,35 @@ namespace Computator.NET.Functions
          Description("angielski opis funkcji")]
         public static Complex coth(Complex z)
         {
-            return (1.0 / Complex.Tanh((z)));
+            return (1.0/Complex.Tanh((z)));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex ctgh(Complex z)
         {
-            return (1.0 / Complex.Tanh((z)));
+            return (1.0/Complex.Tanh((z)));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex sech(Complex z)
         {
-            return (1.0 / Complex.Cosh((z)));
+            return (1.0/Complex.Cosh((z)));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex csch(Complex z)
         {
-            return (1.0 / Complex.Sinh((z)));
+            return (1.0/Complex.Sinh((z)));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex cosech(Complex z)
         {
-            return (1.0 / Complex.Sinh((z)));
+            return (1.0/Complex.Sinh((z)));
         }
 
         #endregion
@@ -536,35 +537,35 @@ namespace Computator.NET.Functions
          Description("angielski opis funkcji")]
         public static Complex arccot(Complex z)
         {
-            return (Math.PI / 2 - Complex.Atan((z)));
+            return (Math.PI/2 - Complex.Atan((z)));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex arcctg(Complex z)
         {
-            return (Math.PI / 2 - Complex.Atan((z)));
+            return (Math.PI/2 - Complex.Atan((z)));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex arcsec(Complex z)
         {
-            return (Complex.Acos(1.0 / (z)));
+            return (Complex.Acos(1.0/(z)));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex arccsc(Complex z)
         {
-            return (Complex.Asin(1.0 / (z)));
+            return (Complex.Asin(1.0/(z)));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex arccosec(Complex z)
         {
-            return (Complex.Asin(1.0 / (z)));
+            return (Complex.Asin(1.0/(z)));
         }
 
         #endregion
@@ -575,49 +576,49 @@ namespace Computator.NET.Functions
          Description("angielski opis funkcji")]
         public static Complex arsinh(Complex z)
         {
-            return Complex.Log((z)) + Complex.Sqrt((z) * (z) + 1);
+            return Complex.Log((z)) + Complex.Sqrt((z)*(z) + 1);
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex arcosh(Complex z)
         {
-            return Complex.Log((z) + Complex.Sqrt(z + 1) * Complex.Sqrt(z - 1));
+            return Complex.Log((z) + Complex.Sqrt(z + 1)*Complex.Sqrt(z - 1));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex artanh(Complex z)
         {
-            return 0.5 * Complex.Log((1 + z) / (1 - z));
+            return 0.5*Complex.Log((1 + z)/(1 - z));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex artgh(Complex z)
         {
-            return 0.5 * Complex.Log((1 + z) / (1 - z));
+            return 0.5*Complex.Log((1 + z)/(1 - z));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex arcoth(Complex z)
         {
-            return 0.5 * Complex.Log((z + 1) / (z - 1));
+            return 0.5*Complex.Log((z + 1)/(z - 1));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex arctgh(Complex z)
         {
-            return 0.5 * Complex.Log((z + 1) / (z - 1));
+            return 0.5*Complex.Log((z + 1)/(z - 1));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
          Description("angielski opis funkcji")]
         public static Complex arcsch(Complex z)
         {
-            return Complex.Log((1.0 / z) + Complex.Sqrt((1.0 / (z * z)) + 1));
+            return Complex.Log((1.0/z) + Complex.Sqrt((1.0/(z*z)) + 1));
         }
 
         [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
@@ -631,7 +632,7 @@ namespace Computator.NET.Functions
          Description("angielski opis funkcji")]
         public static Complex arsech(Complex z)
         {
-            return Complex.Log((1.0 / z) + Complex.Sqrt((1.0 / z) + 1) * Complex.Sqrt((1.0 / z) - 1));
+            return Complex.Log((1.0/z) + Complex.Sqrt((1.0/z) + 1)*Complex.Sqrt((1.0/z) - 1));
         }
 
         #endregion
@@ -685,7 +686,7 @@ namespace Computator.NET.Functions
         public static Complex root(Complex z, Complex n)
         {
             //n-based root
-            return Complex.Pow(z, 1.0 / n);
+            return Complex.Pow(z, 1.0/n);
         }
 
         #endregion
@@ -852,27 +853,27 @@ namespace Computator.NET.Functions
 
         public static double VariationsWithRepetition(int n, int k)
         {
-            return MathNet.Numerics.Combinatorics.VariationsWithRepetition(n, k);
+            return Combinatorics.VariationsWithRepetition(n, k);
         }
 
         public static double Variations(int n, int k)
         {
-            return MathNet.Numerics.Combinatorics.Variations(n, k);
+            return Combinatorics.Variations(n, k);
         }
 
         public static double CombinationsWithRepetition(int n, int k)
         {
-            return MathNet.Numerics.Combinatorics.CombinationsWithRepetition(n, k);
+            return Combinatorics.CombinationsWithRepetition(n, k);
         }
 
         public static double Combinations(int n, int k)
         {
-            return MathNet.Numerics.Combinatorics.Combinations(n, k);
+            return Combinatorics.Combinations(n, k);
         }
 
         public static double Permutations(int n, int k)
         {
-            return MathNet.Numerics.Combinatorics.Permutations(n);
+            return Combinatorics.Permutations(n);
         }
 
         #endregion
@@ -882,7 +883,7 @@ namespace Computator.NET.Functions
         private const string gslSfLibDir2 = "gsl.dll"; //"libgsl-0.dll";
 
         public const string ToCode =
-       @"
+            @"
 
         #region utils
 
@@ -1759,6 +1760,7 @@ namespace Computator.NET.Functions
         #endregion
 
 ";
+
         #endregion
     }
 }

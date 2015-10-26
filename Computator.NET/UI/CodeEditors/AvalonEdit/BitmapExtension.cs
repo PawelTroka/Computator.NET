@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
 namespace Computator.NET.UI.CodeEditors
@@ -8,15 +10,15 @@ namespace Computator.NET.UI.CodeEditors
     public static class BitmapExtension
     {
         /// <summary>
-        /// Converts a <see cref="System.Drawing.Image"/> into a WPF <see cref="BitmapSource"/>.
+        ///     Converts a <see cref="System.Drawing.Image" /> into a WPF <see cref="BitmapSource" />.
         /// </summary>
         /// <param name="source">The source image.</param>
         /// <returns>A BitmapSource</returns>
-        public static BitmapSource ToBitmapSource(this System.Drawing.Image source)
+        public static BitmapSource ToBitmapSource(this Image source)
         {
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(source);
+            var bitmap = new Bitmap(source);
 
-            var bitSrc = bitmap.ToBitmapSource();
+            var bitSrc = ToBitmapSource((Image) bitmap);
 
             bitmap.Dispose();
             bitmap = null;
@@ -25,13 +27,14 @@ namespace Computator.NET.UI.CodeEditors
         }
 
         /// <summary>
-        /// Converts a <see cref="System.Drawing.Bitmap"/> into a WPF <see cref="BitmapSource"/>.
+        ///     Converts a <see cref="System.Drawing.Bitmap" /> into a WPF <see cref="BitmapSource" />.
         /// </summary>
-        /// <remarks>Uses GDI to do the conversion. Hence the call to the marshalled DeleteObject.
+        /// <remarks>
+        ///     Uses GDI to do the conversion. Hence the call to the marshalled DeleteObject.
         /// </remarks>
         /// <param name="source">The source bitmap.</param>
         /// <returns>A BitmapSource</returns>
-        public static BitmapSource ToBitmapSource(this System.Drawing.Bitmap source)
+        public static BitmapSource ToBitmapSource(this Bitmap source)
         {
             BitmapSource bitSrc = null;
 
@@ -39,7 +42,7 @@ namespace Computator.NET.UI.CodeEditors
 
             try
             {
-                bitSrc = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                bitSrc = Imaging.CreateBitmapSourceFromHBitmap(
                     hBitmap,
                     IntPtr.Zero,
                     Int32Rect.Empty,

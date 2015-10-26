@@ -1,6 +1,15 @@
-﻿search in the internet/base of knowledge about the function if we have nothing in function info
-build new functioninfo.xml with empty data
+﻿remember last open documents with editors, mybe with content
+set extension .tsl/.tslf with editor options like save
 
+test installer and upgrade options
+add to tsl multiplying like 2x = 2*x
+make descriptions and names, categories, etc for settingstypes
+somehow manage to get codeeditors ExponentMode bind to exponentToolStripMenuItem Checked property
+make codeeditor like real text editor with functions like save, tabs, load, solution, directory etc. more tabs and files blablabla
+add search and replace windows to scripting
+add printing option to codeeditors
+search in the internet/base of knowledge about the function if we have nothing in function info
+build new functioninfo.xml with empty data
 add symbolic calculations
 make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
 turn all delegate functions like Func to normal functions in elementaryfunctions and special
@@ -12,7 +21,6 @@ make charts export as image better with different types of image format
 autocomplete in expression tetxbox make types of arguments visible in view but not in inserrted text (same goes for scripting)
 enable data saving
 enable exponent in scripting and custom functions, make wrapper around different types of codeeditors
-make codeeditor like real text editor with functions like save, tabs, load, solution, directory etc. more tabs and files blablabla
 -1. Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
 0. Settings / preferences window
 1. Special function search list arrangement ( or arrangement by user).

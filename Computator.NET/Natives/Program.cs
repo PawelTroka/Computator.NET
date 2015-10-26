@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
 using Computator.NET.Logging;
+using Computator.NET.Properties;
 using Computator.NET.UI.Forms;
 using Settings = Computator.NET.Properties.Settings;
 
@@ -30,14 +30,16 @@ namespace Computator.NET
             // MessageBox.Show(dllDir);
             //SetDllDirectory(dllDir);
 
-           // LoadLibrary(GlobalConfig.FullPath("Special", (Environment.Is64BitProcess) ? "x64" : "x86",
-           //     GlobalConfig.gslCblasDllName));
+            // LoadLibrary(GlobalConfig.FullPath("Special", (Environment.Is64BitProcess) ? "x64" : "x86",
+            //     GlobalConfig.gslCblasDllName));
 
-          //  LoadLibrary(GlobalConfig.FullPath("Special", (Environment.Is64BitProcess) ? "x64" : "x86",
+            //  LoadLibrary(GlobalConfig.FullPath("Special", (Environment.Is64BitProcess) ? "x64" : "x86",
             //    GlobalConfig.gslDllName));
 
-            EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslDllName, (Environment.Is64BitProcess) ? Properties.Resources.gsl_x64 : Properties.Resources.gsl_x86);
-            EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName, (Environment.Is64BitProcess) ? Properties.Resources.cblas_x64 : Properties.Resources.cblas_x86);
+            EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslDllName,
+                (Environment.Is64BitProcess) ? Resources.gsl_x64 : Resources.gsl_x86);
+            EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName,
+                (Environment.Is64BitProcess) ? Resources.cblas_x64 : Resources.cblas_x86);
 
             Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
@@ -69,11 +71,5 @@ namespace Computator.NET
             logger.MethodName = MethodBase.GetCurrentMethod().Name;
             logger.Log("Unhandled UI Exception", ErrorType.General, (e.ExceptionObject as Exception));
         }
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool SetDllDirectory(string lpPathName);
-
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr LoadLibrary(string dllToLoad);
     }
 }

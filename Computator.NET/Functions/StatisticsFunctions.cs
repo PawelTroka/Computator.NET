@@ -45,8 +45,8 @@ namespace Computator.NET.Functions
             return new Complex(z.Real*m_random.NextDouble(), z.Imaginary*m_random.NextDouble());
         }
 
-
         #region utils
+
         public const string ToCode = @"
 
  private static readonly Random m_random = new Random();
@@ -319,6 +319,7 @@ namespace Computator.NET.Functions
         }*/
 
         ";
+
         #endregion
     }
 }

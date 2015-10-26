@@ -17,8 +17,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Computator.NET;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.CodeEditors;
 using Computator.NET.UI.Controls;
@@ -751,7 +750,7 @@ namespace AutocompleteMenuNS
             var expressionTextBox = (TargetControlWrapper.TargetControl as ExpressionTextBox);
             var scintillaEditor = (TargetControlWrapper.TargetControl as ScintillaCodeEditorControl);
 
-            bool isExponent = false;
+            var isExponent = false;
 
             if (expressionTextBox != null)
                 isExponent = expressionTextBox.ExponentMode;
@@ -759,8 +758,7 @@ namespace AutocompleteMenuNS
                 isExponent = scintillaEditor.ExponentMode;
 
 
-
-            fragment.Text = isExponent ? SpecialSymbols.AsciiToSuperscript(newText)  : newText;
+            fragment.Text = isExponent ? SpecialSymbols.AsciiToSuperscript(newText) : newText;
             fragment.TargetWrapper.TargetControl.Focus();
         }
 

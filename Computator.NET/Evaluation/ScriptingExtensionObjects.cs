@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
+using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.Properties;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace Computator.NET.Evaluation
@@ -133,18 +136,45 @@ namespace Computator.NET.Evaluation
     {
         public static string ToMathString(this Complex z)
         {
-            if (z.Real == 0)
+            switch (Settings.Default.NumericalOutputNotation)
             {
-                if (z.Imaginary != 0)
-                    return z.Imaginary + "i";
-                return "0";
-            }
+                case NumericalOutputNotationType.MathematicalNotation:
+                    if (z.Real == 0)
+                    {
+                        return z.Imaginary != 0
+                            ? string.Format("{0}{1}i", z.Imaginary.ToMathString(), SpecialSymbols.DotSymbol)
+                            : "0";
+                    }
 
-            if (z.Imaginary == 0)
-                return z.Real.ToString();
-            if (z.Imaginary > 0)
-                return z.Real + "+" + z.Imaginary + "i";
-            return z.Real + z.Imaginary + "i";
+                    if (z.Imaginary == 0)
+                        return z.Real.ToMathString();
+                    return z.Imaginary > 0
+                        ? string.Format("{0}+{1}{2}i", z.Real.ToMathString(), z.Imaginary.ToMathString(),
+                            SpecialSymbols.DotSymbol)
+                        : string.Format("{0}{1}{2}i", z.Real.ToMathString(), z.Imaginary.ToMathString(),
+                            SpecialSymbols.DotSymbol);
+                default:
+                    //case NumericalOutputNotationType.EngineeringNotation:
+                    return z.ToString();
+            }
+        }
+
+        public static string ToMathString(this double x)
+        {
+            switch (Settings.Default.NumericalOutputNotation)
+            {
+                case NumericalOutputNotationType.MathematicalNotation:
+                    var str = x.ToString();
+                    if (!str.Contains("E") && !str.Contains("e"))
+                        return str;
+                    var chunks = str.Split('E', 'e');
+                    var ret = string.Format("{0}{1}10{2}", chunks[0], SpecialSymbols.DotSymbol,
+                        SpecialSymbols.AsciiToSuperscript(chunks[1]));
+                    return ret;
+                default:
+                    //case NumericalOutputNotationType.EngineeringNotation:
+                    return x.ToString();
+            }
         }
     }
 
@@ -302,22 +332,42 @@ namespace Computator.NET.Evaluation
     {
         public static string ToMathString(this Complex z)
         {
-            if (z.Real == 0)
+            switch (Properties.Settings.Default.NumericalOutputNotation)
             {
-                if (z.Imaginary != 0)
-                    return z.Imaginary.ToString() + ""i"";
-                else
-                    return ""0"";
-            }
+                case NumericalOutputNotationType.MathematicalNotation:
+                    if (z.Real == 0)
+                    {
+                        return z.Imaginary != 0 ? string.Format(""{0}{1}i"", z.Imaginary.ToMathString(), SpecialSymbols.DotSymbol) : ""0"";
+                    }
 
-            if (z.Imaginary == 0)
-                return z.Real.ToString();
-            else
+                    if (z.Imaginary == 0)
+                        return z.Real.ToMathString();
+                    return z.Imaginary > 0
+                        ? string.Format(""{0}+{1}{2}i"", z.Real.ToMathString(), z.Imaginary.ToMathString(), SpecialSymbols.DotSymbol)
+                        : string.Format(""{0}{1}{2}i"", z.Real.ToMathString(), z.Imaginary.ToMathString(), SpecialSymbols.DotSymbol);
+                default:
+                //case NumericalOutputNotationType.EngineeringNotation:
+                    return z.ToString();
+            }
+        }
+
+        public static string ToMathString(this double x)
+        {
+            switch (Properties.Settings.Default.NumericalOutputNotation)
             {
-                if (z.Imaginary > 0)
-                    return z.Real.ToString() + ""+"" + z.Imaginary.ToString() + ""i"";
-                else
-                    return z.Real.ToString() + z.Imaginary.ToString() + ""i"";
+                case NumericalOutputNotationType.MathematicalNotation:
+                    var str = x.ToString();
+                    if (!str.Contains(""E"") && !str.Contains(""e""))
+                        return str;
+                    else
+                    {
+                        var chunks = str.Split('E', 'e');
+                        string ret = string.Format(""{0}{1}10{2}"", chunks[0], SpecialSymbols.DotSymbol, SpecialSymbols.AsciiToSuperscript(chunks[1]));
+                        return ret;
+                    }
+                default:
+                    //case NumericalOutputNotationType.EngineeringNotation:
+                    return x.ToString();
             }
         }
     }

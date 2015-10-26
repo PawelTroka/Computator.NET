@@ -13,6 +13,7 @@ namespace Computator.NET.Charting.ComplexCharting
     public class ComplexChart : Control //, INotifyPropertyChanged
     {
         #region private fields
+
         private Graphics g;
         private double quality;
         private Task RedrawTask;
@@ -24,6 +25,7 @@ namespace Computator.NET.Charting.ComplexCharting
         private ToolTip toolTip;
         private readonly BackgroundWorker worker;
         //private bool doNotRecalculate;
+
         #endregion
 
         #region public properties
@@ -370,7 +372,7 @@ namespace Computator.NET.Charting.ComplexCharting
                             pointsColors[x, y] = ComplexToColor(fz);
                         }
                         else
-                        pointsColors[x, y] = ComplexToColor(fz);
+                            pointsColors[x, y] = ComplexToColor(fz);
                         //image.SetPixel(x, y, ComplexToColor(fz)/*pointsColors[x, y]*/);
                     }
                 }
@@ -453,19 +455,20 @@ namespace Computator.NET.Charting.ComplexCharting
         #endregion
 
         #region helpers
+
         public void setupComboBoxes(params ToolStripComboBox[] comboBoxes)
         {
             comboBoxes[0].AutoSize = true;
             comboBoxes[1].AutoSize = true;
             var vartosci =
-                Enum.GetValues(typeof(CountourLinesMode)).Cast<CountourLinesMode>().ToList<CountourLinesMode>();
+                Enum.GetValues(typeof (CountourLinesMode)).Cast<CountourLinesMode>().ToList<CountourLinesMode>();
             foreach (var v in vartosci)
                 comboBoxes[0].Items.Add(v);
             comboBoxes[0].SelectedItem = countourMode;
             comboBoxes[0].DropDownStyle = ComboBoxStyle.DropDownList;
 
             var vartosci2 =
-                Enum.GetValues(typeof(AssignmentOfColorMethod))
+                Enum.GetValues(typeof (AssignmentOfColorMethod))
                     .Cast<AssignmentOfColorMethod>()
                     .ToList<AssignmentOfColorMethod>();
             foreach (var v in vartosci2)
@@ -498,12 +501,12 @@ namespace Computator.NET.Charting.ComplexCharting
             else
             {
                 if (h == 1.0) h = 0.0;
-                var z = Math.Truncate(6 * h);
-                var i = (int)z;
-                var f = h * 6 - z;
-                var p = v * (1 - s);
-                var q = v * (1 - s * f);
-                var t = v * (1 - s * (1 - f));
+                var z = Math.Truncate(6*h);
+                var i = (int) z;
+                var f = h*6 - z;
+                var p = v*(1 - s);
+                var q = v*(1 - s*f);
+                var t = v*(1 - s*(1 - f));
 
                 switch (i)
                 {
@@ -541,11 +544,12 @@ namespace Computator.NET.Charting.ComplexCharting
                         throw new InvalidOperationException();
                 }
             }
-            var ir = (int)Math.Truncate(255.0 * r);
-            var ig = (int)Math.Truncate(255.0 * g);
-            var ib = (int)Math.Truncate(255.0 * b);
+            var ir = (int) Math.Truncate(255.0*r);
+            var ig = (int) Math.Truncate(255.0*g);
+            var ib = (int) Math.Truncate(255.0*b);
             return Color.FromArgb(ir, ig, ib);
         }
+
         #endregion
     }
 }

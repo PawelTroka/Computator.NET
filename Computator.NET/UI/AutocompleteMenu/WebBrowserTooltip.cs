@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Functions;
 using Computator.NET.Localization;
@@ -147,16 +145,6 @@ namespace Computator.NET.UI.AutocompleteMenu
 
             webBrowser.Size = new Size(r.Width + overlapp, height);
             //  webBrowser.Document.Body.Style = "zoom:80%;";
-        }
-
-        private string latexToHTML(string latex)
-        {
-            var rnd = new Random();
-            var gifName = "eq_" + rnd.Next() + ".gif";
-            var tempGifPath = Path.Combine(Path.GetTempPath(), gifName);
-            NativeMethods.CreateGifFromEq(latex, tempGifPath);
-            var html = @"<img alt=""{LATEX_CODE_GOES_HERE}"" src=""{IMG_PATH_GOES_HERE}"">";
-            return html.Replace("{IMG_PATH_GOES_HERE}", tempGifPath).Replace("{LATEX_CODE_GOES_HERE}", latex);
         }
 
         public void setFunctionInfo(FunctionInfo functionInfo)

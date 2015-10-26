@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using Computator.NET.Config;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Computator.NET.DataTypes;
 
 namespace Computator.NET.Compilation
 {
@@ -15,21 +14,23 @@ namespace Computator.NET.Compilation
 
     public class TslCompiler
     {
-        public static readonly string[] Keywords = {
-                "real", "complex", "function", "var", "void","Matrix", "string", "integer", "natural", "abstract", "as", "base", "break",
-                "case", "catch", "checked", "continue", "default", "delegate", "do", "else", "event", "explicit", "extern",
-                "false", "finally", "fixed", "for", "foreach", "goto", "if", "implicit", "in", "interface", "internal", "is",
-                "lock", "namespace", "new", "null", "object", "operator", "out", "override", "params", "private", "protected",
-                "public", "readonly", "ref", "return", "sealed", "sizeof", "stackalloc", "switch", "this", "throw", "true",
-                "try", "typeof", "unchecked", "unsafe", "using", "virtual", "while"
-            };
+        public static readonly string[] Keywords =
+        {
+            "real", "complex", "function", "var", "void", "Matrix", "string", "integer", "natural", "abstract", "as",
+            "base", "break",
+            "case", "catch", "checked", "continue", "default", "delegate", "do", "else", "event", "explicit", "extern",
+            "false", "finally", "fixed", "for", "foreach", "goto", "if", "implicit", "in", "interface", "internal", "is",
+            "lock", "namespace", "new", "null", "object", "operator", "out", "override", "params", "private",
+            "protected",
+            "public", "readonly", "ref", "return", "sealed", "sizeof", "stackalloc", "switch", "this", "throw", "true",
+            "try", "typeof", "unchecked", "unsafe", "using", "virtual", "while"
+        };
 
         public static readonly string KeywordsList0 =
-                "var abstract as base break case catch checked continue default delegate do else event explicit extern false finally fixed for foreach goto if implicit in interface internal is lock namespace new null object operator out override params private protected public readonly ref return sealed sizeof stackalloc switch this throw true try typeof unchecked unsafe using virtual while";
+            "var abstract as base break case catch checked continue default delegate do else event explicit extern false finally fixed for foreach goto if implicit in interface internal is lock namespace new null object operator out override params private protected public readonly ref return sealed sizeof stackalloc switch this throw true try typeof unchecked unsafe using virtual while";
+
         public static readonly string KeywordsList1 =
-                "natural integer real complex function Matrix bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void";
-
-
+            "natural integer real complex function Matrix bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void";
 
         public TslCompiler()
         {
@@ -86,9 +87,10 @@ namespace Computator.NET.Compilation
 
         private string ReplaceMultipling(string input) //OK
         {
+            //TODO: introduce good multiplying
             var result = input;
-            foreach (var c in Variables)
-                result = Regex.Replace(result, @"(\d+\.?\d*)(" + c + @")", @"$1*$2");
+            // foreach (var c in Variables)
+            //    result = Regex.Replace(result, @"(\d+\.?\d*)(" + c + @")", @"$1*$2");
             return result;
         }
 
@@ -131,15 +133,6 @@ namespace Computator.NET.Compilation
             ret = Regex.Replace(ret, @"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", "/(1.0*($1))");
             //System.Windows.Forms.MessageBox.Show(ret);
             return ret;
-        }
-
-        [TestMethod]
-        public static void Test()
-        {
-            var tslCompiler = new TslCompiler();
-            tslCompiler.Variables.Add("x");
-
-            Assert.AreEqual("pow(x,2)+cos(pow(x,2*x+1.1+cos(x)))+2/3.0",tslCompiler.TransformToCSharp("x²+cos(x²˙ˣ⁺¹ॱ¹⁺ᶜᵒˢ⁽ˣ⁾)+2/3"));
         }
     }
 }

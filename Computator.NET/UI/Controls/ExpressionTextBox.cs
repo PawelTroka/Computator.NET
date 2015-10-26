@@ -3,20 +3,19 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using AutocompleteMenuNS;
 using Computator.NET.Config;
 using Computator.NET.Data;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.UI.Controls
 {
-    internal class ExpressionTextBox : TextBox
+    internal class ExpressionTextBox : TextBox, INotifyPropertyChanged
     {
-        private bool _exponentMode;
         private AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
+        private bool _exponentMode;
 
         public ExpressionTextBox()
         {
@@ -30,12 +29,13 @@ namespace Computator.NET.UI.Controls
         public bool ExponentMode
         {
             get { return _exponentMode; }
-            private set
+            set
             {
                 if (value != _exponentMode)
                 {
                     _exponentMode = value;
                     _showCaret();
+                    OnPropertyChanged(nameof(ExponentMode));
                     //Invalidate();
                 }
             }
@@ -51,48 +51,11 @@ namespace Computator.NET.UI.Controls
 
         public string Expression => base.Text.Replace(SpecialSymbols.DotSymbol, '*');
 
-        private void Control_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            ExponentMode = false;
-        }
-
-        [DllImport("user32.dll")]
-        private static extern bool CreateCaret(IntPtr hWnd, IntPtr hBitmap, int nWidth, int nHeight);
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowCaret(IntPtr hWnd);
-
-        private void ExpressionTextBox_GotFocus(object sender, EventArgs e)
-        {
-            _showCaret();
-        }
-        /// <summary>
-        /// test case:
-        /// tg(x)·H(x)+2.2312·root(z,2)+zᶜᵒˢ⁽ᶻ⁾+xʸ+MathieuMc(1,2,y,x)
-        /// </summary>
-
-        private void _showCaret()
-        {
-            var blob = TextRenderer.MeasureText("x", Font);
-            if (ExponentMode)
-                CreateCaret(Handle, IntPtr.Zero, 2, blob.Height / 2);
-            else
-                CreateCaret(Handle, IntPtr.Zero, 2, blob.Height);
-            ShowCaret(Handle);
-        }
-
-        private void InitializeComponent()
-        {
-            KeyPress += ExpressionTextBox_KeyPress;
-            _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu();
-            _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
-        }
-
         public bool IsInDesignMode
         {
             get
             {
-                bool isInDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime || Debugger.IsAttached;
+                var isInDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime || Debugger.IsAttached;
 
                 if (!isInDesignMode)
                 {
@@ -106,17 +69,50 @@ namespace Computator.NET.UI.Controls
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Control_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ExponentMode = false;
+        }
+
+        private void ExpressionTextBox_GotFocus(object sender, EventArgs e)
+        {
+            _showCaret();
+        }
+
+        /// <summary>
+        ///     test case:
+        ///     tg(x)·H(x)+2.2312·root(z,2)+zᶜᵒˢ⁽ᶻ⁾+xʸ+MathieuMc(1,2,y,x)
+        /// </summary>
+        private void _showCaret()
+        {
+            var blob = TextRenderer.MeasureText("x", Font);
+            if (ExponentMode)
+                NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height/2);
+            else
+                NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height);
+            NativeMethods.ShowCaret(Handle);
+        }
+
+        private void InitializeComponent()
+        {
+            KeyPress += ExpressionTextBox_KeyPress;
+            _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu();
+            _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
+        }
+
         public void SetFont(Font font)
         {
             if (font.FontFamily.Name == "Cambria" && !IsInDesignMode)
             {
-                this.Font = MathCustomFonts.GetMathFont(font.Size);
-                this._autocompleteMenu.Font = MathCustomFonts.GetMathFont(font.Size);
+                Font = MathCustomFonts.GetMathFont(font.Size);
+                _autocompleteMenu.Font = MathCustomFonts.GetMathFont(font.Size);
             }
             else
             {
-                this.Font = font;
-                this._autocompleteMenu.Font = font;
+                Font = font;
+                _autocompleteMenu.Font = font;
             }
         }
 
@@ -172,6 +168,9 @@ namespace Computator.NET.UI.Controls
             return false;
         }
 
-
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

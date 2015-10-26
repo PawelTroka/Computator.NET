@@ -5,6 +5,14 @@
  * = There is no more explicit mode you have to set for everything except scripting(real, complex, 3d) - application now can deduce mode based on your expressions, if you really want you can still force mode by choosing one in status bar of app
  * + Added possibility to change font and fontsize of scripting editors and expressiontextbox
  * + New revamped and refreshed user interface, revamped top menu and added fast buttons with images
+ * + Added a lot of new options to top menu, like edit menu and keyboard shortcuts
+ * + Added a possibility to choose output notation (mathematical or enginnering)
+ * = Unified output model everywhere (same fonts, same output number formatting, got rid of any unconsistency)
+ * = Native methods cleanup - removed unused and let them be together in one class NativeMethods
+ * + Standarize output everywhere so it is consistent mathematical or engineering notation - eg 2⁻¹⁰⁰ or 2E-100 (also included in settings)
+ * = Unified autocomplete for both expressions and scripting (same design and items, customizable formats and fonts (with exception of AvalonEdit code editor)
+ * + Added possibility to change autocomplete items format (return type, type of arguments) and fonts (size, family) for scripting and expressions 
+ * = Refreshed installer with option to upgrade and with better support for needed redistributables and possibly less bugs
 
 
  * --------- Version 1.9.0α - alpha 6 -----------  20.09.2015 07:00

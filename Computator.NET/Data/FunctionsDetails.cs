@@ -9,14 +9,14 @@ namespace Computator.NET.Data
 {
     internal class FunctionsDetails
     {
-        public static FunctionsDetails Details { get; } = new FunctionsDetails();
-
         private readonly Dictionary<string, FunctionInfo> _details;
 
         public FunctionsDetails()
         {
             _details = LoadFunctionsDetailsFromXmlFile();
         }
+
+        public static FunctionsDetails Details { get; } = new FunctionsDetails();
 
         public FunctionInfo this[string signature]
         {
@@ -36,17 +36,16 @@ namespace Computator.NET.Data
 
 
             var listOfItems = _details.Select(
-                    kv =>
-                        new FunctionInfo
-                        {
-                            Signature = kv.Key,
-                            Url = kv.Value.Url,
-                            Description = kv.Value.Description,
-                            Title = kv.Value.Title,
-                            Category = kv.Value.Category,
-                            Type = kv.Value.Type
-                        }).ToList();
-
+                kv =>
+                    new FunctionInfo
+                    {
+                        Signature = kv.Key,
+                        Url = kv.Value.Url,
+                        Description = kv.Value.Description,
+                        Title = kv.Value.Title,
+                        Category = kv.Value.Category,
+                        Type = kv.Value.Type
+                    }).ToList();
 
 
             serializer.Serialize(stream,
@@ -63,7 +62,6 @@ namespace Computator.NET.Data
                         }).ToArray());
         }
 
-
         //TODO: this function should create new functions file with all it's previous content and empty spaces for new functions which exists in ElementaryFuntions, SpecialFunctions etc but not in the xml file yet
         private void SaveEmptyFunctionDetailsToXmlFile()
         {
@@ -71,23 +69,22 @@ namespace Computator.NET.Data
             //foreach (var item in sourceItems)
             //_details.Add(item.functionInfo.Signature, item.functionInfo);
 
-            var serializer = new XmlSerializer(typeof(FunctionInfo[]),
+            var serializer = new XmlSerializer(typeof (FunctionInfo[]),
                 new XmlRootAttribute("FunctionsDetails"));
             var stream = new StreamWriter("functions_empty_saved.xml");
 
 
             var listOfItems = _details.Select(
-                    kv =>
-                        new FunctionInfo
-                        {
-                            Signature = kv.Key,
-                            Url = kv.Value.Url,
-                            Description = kv.Value.Description,
-                            Title = kv.Value.Title,
-                            Category = kv.Value.Category,
-                            Type = kv.Value.Type
-                        }).ToList();
-
+                kv =>
+                    new FunctionInfo
+                    {
+                        Signature = kv.Key,
+                        Url = kv.Value.Url,
+                        Description = kv.Value.Description,
+                        Title = kv.Value.Title,
+                        Category = kv.Value.Category,
+                        Type = kv.Value.Type
+                    }).ToList();
 
 
             serializer.Serialize(stream,

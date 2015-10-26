@@ -275,7 +275,7 @@ namespace Computator.NET.Charting.RealCharting
             _lastMouseLocation = e.Location;
         }
 
-        public void Transform(Func<double[],double[]> transformate, string transformateName)
+        public void Transform(Func<double[], double[]> transformate, string transformateName)
         {
             foreach (var serie in Series)
             {
@@ -285,9 +285,9 @@ namespace Computator.NET.Charting.RealCharting
 
 
                 var yvaluesAfterTransform = transformate(yvalues.ToArray());
-                for (int i = 0; i < serie.Points.Count; i++)
+                for (var i = 0; i < serie.Points.Count; i++)
                     serie.Points[i].YValues[0] = yvaluesAfterTransform[i];
-                serie.Name = transformateName+"(" + serie.Name + ")";
+                serie.Name = transformateName + "(" + serie.Name + ")";
             }
         }
 

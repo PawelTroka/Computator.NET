@@ -1,4 +1,5 @@
-﻿When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
+﻿Folding does not work in AvalonEdit when working with documents
+When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
 0. Caret not shiwing when switching to exponent mode
 1. Bugs correlated to Chart control (3 known bugs, described in my engineer thesis)
 2. Function 2F1 randomly throws exceptions, MathieuMs and MathieuMc too

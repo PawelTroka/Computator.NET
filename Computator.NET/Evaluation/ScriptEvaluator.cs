@@ -4,6 +4,7 @@ using System.Windows.Forms.Integration;
 using System.Windows.Media.Media3D;
 using Computator.NET.Config;
 using Computator.NET.DataTypes;
+using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.Evaluation
 {
@@ -29,11 +30,13 @@ namespace Computator.NET.Evaluation
             using Computator.NET.Charting.Chart3D;
             using Computator.NET.Charting.ComplexCharting;
             using Computator.NET.Charting.RealCharting;
+            using Computator.NET.DataTypes;
+            using Computator.NET.DataTypes.SettingsTypes;
             //using Meta.Numerics.Matrices;
             ";
 
             nativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.Charting.dll"));
-            //nativeCompiler.AddDll(GlobalConfig.fullPath("Computator.NET.DataTypes.dll"));
+            nativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.DataTypes.dll")); /////////////////////////
             nativeCompiler.AddDll("System.Drawing.dll");
             nativeCompiler.AddDll("System.Windows.Forms.DataVisualization.dll");
             nativeCompiler.AddDll("System.Windows.Forms.dll");
@@ -52,6 +55,10 @@ namespace Computator.NET.Evaluation
         {
             tslCode = input;
             customFunctionsTSLCode = customFunctionsCode;
+
+            additionalObjectsCode = additionalObjectsCode.Replace(
+                @"Properties.Settings.Default.NumericalOutputNotation",
+                "NumericalOutputNotationType." + Settings.Default.NumericalOutputNotation);
 
             var function = Compile();
             return new ScriptFunction(function, tslCode, CSharpCode);

@@ -29,13 +29,21 @@
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath32)\InstallShield\2015Limited\InstallShield.targets"/>
 	<ItemGroup>
-		<ProjectReference Include="..\Charting\Charting.csproj">
-			<Name>Charting</Name>
-			<Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
-		</ProjectReference>
 		<ProjectReference Include="..\Computator.NET\Computator.NET.csproj">
 			<Name>Computator.NET</Name>
 			<Project>{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">
+			<Name>Computator.NET.Charting</Name>
+			<Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
+			<Name>Computator.NET.DataTypes</Name>
+			<Project>{715165A2-D015-42AE-9381-5563204F8508}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
+			<Name>SimpleLogger</Name>
+			<Project>{9C4052D5-2C6B-404C-ADAC-66E93069824E}</Project>
 		</ProjectReference>
 	</ItemGroup>
 </Project>

@@ -6,10 +6,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Computator.NET;
 using Computator.NET.Config;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.UI.AutocompleteMenu;
+using Settings = Computator.NET.Properties.Settings;
 
 namespace AutocompleteMenuNS
 {
@@ -140,11 +140,10 @@ namespace AutocompleteMenuNS
                 string.IsNullOrEmpty(functionInfo.Title) || string.IsNullOrWhiteSpace(functionInfo.Title)
                 || functionInfo.Description.Contains("here goes description (not done yet)")
                 || functionInfo.Title.Contains("_title_")
-
                 )
                 return;
 
-                if (Computator.NET.Properties.Settings.Default.TooltipType==TooltipType.Default)
+            if (Settings.Default.TooltipType == TooltipType.Default)
             {
                 toolTip.setFunctionInfo(functionInfo);
 
@@ -153,7 +152,7 @@ namespace AutocompleteMenuNS
 
                 toolTip.Show(control, Width + 3, 0);
             }
-            else if(Computator.NET.Properties.Settings.Default.TooltipType == TooltipType.Form)
+            else if (Settings.Default.TooltipType == TooltipType.Form)
             {
                 formTip.setFunctionInfo(functionInfo);
                 formTip.Show();

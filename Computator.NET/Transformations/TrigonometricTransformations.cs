@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Numerics;
 using Accord.Math;
 using AForge.Math;
 using MathNet.Numerics.IntegralTransforms;
-using Complex = System.Numerics.Complex;
 
 namespace Computator.NET.Transformations
 {
@@ -67,7 +67,7 @@ namespace Computator.NET.Transformations
                 jaggedArray[i][0] = multidimensialArray[i, 0] = functionPoints[i].Real;
                 jaggedArray[i][1] =
                     multidimensialArray[i, 1] = functionPoints[i].Imaginary;
-                copyofFunctionsPoints2[i] = new Complex( functionPoints[i].Real, copyofFunctionsPoints2[i].Imaginary) ;
+                copyofFunctionsPoints2[i] = new Complex(functionPoints[i].Real, copyofFunctionsPoints2[i].Imaginary);
             }
 
 

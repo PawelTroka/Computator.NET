@@ -211,6 +211,7 @@ namespace Computator.NET.Functions
         #endregion
 
         #region utils
+
         public const string ToCode =
             @"
         #region matrix specific functions
@@ -410,6 +411,7 @@ namespace Computator.NET.Functions
         #endregion
 
             ";
+
         #endregion
     }
 

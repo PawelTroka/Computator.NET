@@ -18,4 +18,12 @@ namespace Computator.NET.DataTypes.SettingsTypes
         Form,
         None
     }
+
+    // [Description("chuju chuj ")]
+    // [Category("Chujowe")]
+    public enum NumericalOutputNotationType
+    {
+        MathematicalNotation,
+        EngineeringNotation
+    }
 }

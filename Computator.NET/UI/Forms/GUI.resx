@@ -199,10 +199,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>556, 436</value>
+    <value>556, 433</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>323</value>
+    <value>320</value>
   </data>
   <data name="splitContainer2.SplitterWidth" type="System.Int32, mscorlib">
     <value>3</value>
@@ -254,7 +254,7 @@
 </value>
   </data>
   <data name="directoryTree1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 290</value>
+    <value>183, 287</value>
   </data>
   <data name="directoryTree1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -386,7 +386,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 436</value>
+    <value>742, 433</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>556</value>
@@ -450,7 +450,7 @@
 </value>
   </data>
   <data name="customFunctionsDirectoryTree.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 336</value>
+    <value>183, 333</value>
   </data>
   <data name="customFunctionsDirectoryTree.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -549,7 +549,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 436</value>
+    <value>742, 433</value>
   </data>
   <data name="splitContainer3.SplitterDistance" type="System.Int32, mscorlib">
     <value>556</value>
@@ -798,7 +798,7 @@
     <value>calculationValueTextBox</value>
   </data>
   <data name="&gt;&gt;calculationValueTextBox.Type" xml:space="preserve">
-    <value>Computator.NET.UI.NumericTextBox, Computator.NET, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;calculationValueTextBox.Parent" xml:space="preserve">
     <value>splitContainer4.Panel1</value>
@@ -921,7 +921,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="calculationsHistoryDataGridView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 233</value>
+    <value>742, 230</value>
   </data>
   <data name="calculationsHistoryDataGridView.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -951,7 +951,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 436</value>
+    <value>742, 433</value>
   </data>
   <data name="splitContainer4.SplitterDistance" type="System.Int32, mscorlib">
     <value>200</value>
@@ -1080,7 +1080,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="numericalCalculationsDataGridView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 113</value>
+    <value>742, 110</value>
   </data>
   <data name="numericalCalculationsDataGridView.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1110,7 +1110,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 436</value>
+    <value>742, 433</value>
   </data>
   <data name="splitContainer5.SplitterDistance" type="System.Int32, mscorlib">
     <value>320</value>
@@ -1626,7 +1626,7 @@
     <value>632, 0</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 436</value>
+    <value>110, 433</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1650,7 +1650,7 @@
     <value>2, 2</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 436</value>
+    <value>742, 433</value>
   </data>
   <data name="panel2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1668,7 +1668,7 @@
     <value>0</value>
   </data>
   <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
   </data>
   <data name="tabPage1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -1677,7 +1677,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 440</value>
+    <value>746, 437</value>
   </data>
   <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1698,7 +1698,7 @@
     <value>0</value>
   </data>
   <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
   </data>
   <data name="tabPage2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -1707,7 +1707,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 440</value>
+    <value>746, 437</value>
   </data>
   <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1821,7 +1821,7 @@
     <value>resultNumericalCalculationsTextBox</value>
   </data>
   <data name="&gt;&gt;resultNumericalCalculationsTextBox.Type" xml:space="preserve">
-    <value>Computator.NET.UI.NumericTextBox, Computator.NET, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;resultNumericalCalculationsTextBox.Parent" xml:space="preserve">
     <value>tabPage3</value>
@@ -2451,7 +2451,7 @@
     <value>8</value>
   </data>
   <data name="tabPage3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
   </data>
   <data name="tabPage3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -2460,7 +2460,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 440</value>
+    <value>746, 437</value>
   </data>
   <data name="tabPage3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -2511,7 +2511,7 @@
     <value>0</value>
   </data>
   <data name="tabPage4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
   </data>
   <data name="tabPage4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -2520,7 +2520,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="tabPage4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 440</value>
+    <value>746, 437</value>
   </data>
   <data name="tabPage4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2541,7 +2541,7 @@
     <value>3</value>
   </data>
   <data name="tabPage5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
   </data>
   <data name="tabPage5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -2550,7 +2550,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="tabPage5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 440</value>
+    <value>746, 437</value>
   </data>
   <data name="tabPage5.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2571,7 +2571,7 @@
     <value>4</value>
   </data>
   <data name="tabPage6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 25</value>
   </data>
   <data name="tabPage6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -2580,7 +2580,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="tabPage6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 440</value>
+    <value>746, 437</value>
   </data>
   <data name="tabPage6.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2602,6 +2602,9 @@
   </data>
   <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
+  </data>
+  <data name="tabControl1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 98</value>
@@ -2912,19 +2915,19 @@
     <value>Fi&amp;le</value>
   </data>
   <data name="undoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>173, 22</value>
   </data>
   <data name="undoToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Undo         Ctrl+Z</value>
   </data>
   <data name="redoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>173, 22</value>
   </data>
   <data name="redoToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Redo          Ctrl+Y</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 6</value>
+    <value>170, 6</value>
   </data>
   <data name="cutToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2943,7 +2946,7 @@
     <value>Magenta</value>
   </data>
   <data name="cutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>173, 22</value>
   </data>
   <data name="cutToolStripMenuItem.Text" xml:space="preserve">
     <value>Cu&amp;t             Ctrl+X</value>
@@ -2966,7 +2969,7 @@
     <value>Magenta</value>
   </data>
   <data name="copyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>173, 22</value>
   </data>
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Copy          Ctrl+C</value>
@@ -2991,19 +2994,28 @@
     <value>Magenta</value>
   </data>
   <data name="pasteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>173, 22</value>
   </data>
   <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Paste          Ctrl+V</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 6</value>
+    <value>170, 6</value>
   </data>
   <data name="selectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 22</value>
+    <value>173, 22</value>
   </data>
   <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>Select &amp;All    Ctrl+A</value>
+  </data>
+  <data name="toolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 6</value>
+  </data>
+  <data name="exponentiationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 22</value>
+  </data>
+  <data name="exponentiationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Exponent    Shift+6</value>
   </data>
   <data name="editToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 20</value>
@@ -3622,6 +3634,24 @@
   <data name="toolStripSeparator17.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
   </data>
+  <data name="runToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAK9SURBVDhPldBbSJNxHMbx9yLYIpNOGihOJctaE7dlczp1
+        WR7S6dxsc5tz083Dcp4yD5iWkpkXhc5m1uacm4eJIjJRxMxknUxNYg2JQgzrJugmIqir4MnyvREU6XP5
+        /z1feHmJv1xw7SkeEkMyFIkmZ0n1v8f/oTanGGTTHOT1pEIyw3KKezkjPXMGIXneXXRL8LTKnoQ2Rysa
+        u2shtfEgHGQ6deZLbW8+v/QjZzsLu3J4XtEfhzqrHvWWcjSZa1BjKULWKBf8jmNzlWZNIzndXlAOxS0d
+        5EL3QIrLRjka+svQOFCJWrMekjY+Uq1MZ3JLxKj1UWcamWxFU1I9GQNsyI0JKOmTQ2+TId8kRlGnFNds
+        elRZC5HYdRKsGz5Lwrp429u1eV8y3RSk3OcW2MOhdiRC0X8OIjMHmUYetFYhSgcUKOgWQXdfhhxjCgQm
+        JkK1B9xdwwYRmRNESLbXsnIyFnJnFFIH6Eg2nYbYxkGGPQKx94LBv3sc6R0RyLOmQtGVAN6dQNCTac/I
+        nCDYusBZ5eNIKGe5kI5xkDsZD9UUH2nDDFy00CHsPQOZIwYJD0MR1x6M6NYARGWwx8icIBj5R19kzoRB
+        N5+EiiUhyl6nIedpFLImziJn48sKZpMhHmchwRYCVpUfWOknZgbH7XFkvvETFVSPdJqN5k8aNK2rUP5e
+        AN1CIkoXBKj2ZEL5nIvoDn8ECo4sy4pFhtXVVW8y3RQgo6wULpxH169q3P6Wi4aPCjSuqXHriwaSJ+EI
+        0ez3nIoNdjkm+mLIZCs/BWVF6+bBjBoYvleg40cFmr+qwGsPgE/k3ncFV9U3yen2aNlUT56HC8vvOrT/
+        LEXRqyTQhF4rrAv0qRnXJIOc7YxfwhzhmfxR+CEG4fW+8OccdDcbrmvJ8+4WVxe9IyQMHGJTINakYX19
+        nUqedkEQfwBuNlEB6QO84AAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="runToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
@@ -3897,6 +3927,18 @@
   </data>
   <data name="&gt;&gt;selectAllToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator18.Name" xml:space="preserve">
+    <value>toolStripSeparator18</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;exponentiationToolStripMenuItem.Name" xml:space="preserve">
+    <value>exponentiationToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;exponentiationToolStripMenuItem.Type" xml:space="preserve">
+    <value>Computator.NET.UI.Controls.BindableToolStripMenuItem, Computator.NET, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;functionsToolStripMenuItem.Name" xml:space="preserve">
     <value>functionsToolStripMenuItem</value>

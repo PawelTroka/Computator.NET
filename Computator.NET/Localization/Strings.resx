@@ -240,4 +240,7 @@ It's features include:</value>
   <data name="GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_" xml:space="preserve">
     <value>You dont have any logs yet.</value>
   </data>
+  <data name="GUI_changelogToolStripMenuItem_Click_Changelog" xml:space="preserve">
+    <value>Changelog</value>
+  </data>
 </root>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Computator.NET;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
 using Computator.NET.UI.CodeEditors;
@@ -20,17 +19,21 @@ namespace AutocompleteMenuNS
             return obj.Text.GetHashCode();
         }
     }
+
     /// <summary>
     ///     Item of autocomplete menu
     /// </summary>
     public class AutocompleteItem
     {
+        private readonly string _addition;
+        private readonly string _additionWithTypes;
+        private readonly string _name;
+        private readonly string _returnTypeName;
+        private readonly string menuText;
         public FunctionInfo functionInfo;
-        private string menuText;
         public object Tag;
         private string toolTipText;
         private string toolTipTitle;
-
 
         public AutocompleteItem()
         {
@@ -44,11 +47,6 @@ namespace AutocompleteMenuNS
             Text = text;
         }
 
-        public CompletionData ToCompletionData()
-        {
-            return new CompletionData(this.Text, this.MenuText, this.functionInfo, this.ImageIndex);
-        }
-
         public AutocompleteItem(string text, int imageIndex)
             : this(text)
         {
@@ -56,8 +54,9 @@ namespace AutocompleteMenuNS
             ImageIndex = imageIndex;
         }
 
-        public AutocompleteItem(string name, string addition, string additionWithTypes, string returnTypeName, int imageIndex)
-            : this(name+ addition, imageIndex)
+        public AutocompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
+            int imageIndex)
+            : this(name + addition, imageIndex)
         {
             functionInfo = new FunctionInfo();
             // this.menuText = menuText;
@@ -67,12 +66,8 @@ namespace AutocompleteMenuNS
             _additionWithTypes = additionWithTypes;
         }
 
-        private string _name;
-        private string _returnTypeName;
-        private string _addition;
-        private string _additionWithTypes;
         public AutocompleteItem(string text, int imageIndex, string menuText)
-    : this(text, imageIndex)
+            : this(text, imageIndex)
         {
             functionInfo = new FunctionInfo();
             this.menuText = menuText;
@@ -128,34 +123,34 @@ namespace AutocompleteMenuNS
         {
             get
             {
-
-                if(menuText!=null)
-                return menuText;
+                if (menuText != null)
+                    return menuText;
 
 
                 string ret;
                 if (IsScripting)
                 {
-                    ret= ((Settings.Default.ShowReturnTypeInScripting) ? this._returnTypeName + " " : "") +this._name+
-                           (Settings.Default.ShowParametersTypeInScripting ? this._additionWithTypes : this._addition);
+                    ret = ((Settings.Default.ShowReturnTypeInScripting) ? _returnTypeName + " " : "") + _name +
+                          (Settings.Default.ShowParametersTypeInScripting ? _additionWithTypes : _addition);
                 }
                 else
                 {
-                    ret= ((Settings.Default.ShowReturnTypeInExpression) ? this._returnTypeName + " " : "") + this._name +
-                          (Settings.Default.ShowParametersTypeInExpression ? this._additionWithTypes : this._addition);
+                    ret = ((Settings.Default.ShowReturnTypeInExpression) ? _returnTypeName + " " : "") + _name +
+                          (Settings.Default.ShowParametersTypeInExpression ? _additionWithTypes : _addition);
                 }
-                if(string.IsNullOrEmpty(ret)||string.IsNullOrWhiteSpace(ret))
+                if (string.IsNullOrEmpty(ret) || string.IsNullOrWhiteSpace(ret))
                     return Text;
-                else
-                {
-                    return ret;
-                }
+                return ret;
             }
-           // set { menuText = value; }
+            // set { menuText = value; }
         }
 
         public bool IsScripting { get; set; }
 
+        public CompletionData ToCompletionData()
+        {
+            return new CompletionData(Text, MenuText, functionInfo, ImageIndex);
+        }
 
         /// <summary>
         ///     Returns text for inserting into Textbox

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using AutocompleteMenuNS;
 using Computator.NET.Compilation;
 using Computator.NET.Constants;
@@ -16,68 +15,68 @@ namespace Computator.NET.Data
 {
     internal class AutocompletionData
     {
-        public static AutocompleteItem[] GetAutocompleteItemsForExpressions(bool removeAdvanced=false)
+        public static AutocompleteItem[] GetAutocompleteItemsForExpressions(bool removeAdvanced = false)
         {
-            var items = GetFunctionsNamesWithDescription(typeof(ElementaryFunctions));
+            var items = GetFunctionsNamesWithDescription(typeof (ElementaryFunctions));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(StatisticsFunctions)));
-
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Normal), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (StatisticsFunctions)));
 
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Bernoulli), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Beta), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Binomial), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Categorical), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Cauchy), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Chi), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(ChiSquared), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(ContinuousUniform), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(ConwayMaxwellPoisson), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Dirichlet), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(DiscreteUniform), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Erlang), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Exponential), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(FisherSnedecor), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Gamma), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Geometric), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Hypergeometric), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(InverseGamma), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(InverseWishart), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Laplace), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(LogNormal), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(MatrixNormal), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Multinomial), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(NegativeBinomial), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(NormalGamma), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Pareto), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Poisson), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Rayleigh), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Stable), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(StudentT), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Triangular), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Weibull), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Wishart), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Zipf), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Normal), false, true));
 
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(SpecialFunctions)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(MathematicalConstants), true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(PhysicalConstants), true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Bernoulli), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Beta), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Binomial), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Categorical), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Cauchy), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Chi), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (ChiSquared), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (ContinuousUniform), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (ConwayMaxwellPoisson), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Dirichlet), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (DiscreteUniform), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Erlang), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Exponential), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (FisherSnedecor), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Gamma), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Geometric), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Hypergeometric), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (InverseGamma), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (InverseWishart), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Laplace), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (LogNormal), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (MatrixNormal), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Multinomial), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (NegativeBinomial), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (NormalGamma), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Pareto), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Poisson), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Rayleigh), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Stable), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (StudentT), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Triangular), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Weibull), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Wishart), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Zipf), false, true));
+
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (SpecialFunctions)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathematicalConstants), true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (PhysicalConstants), true));
 
 
             items.RemoveAll(i => i.Text == "ToCode");
@@ -94,17 +93,18 @@ namespace Computator.NET.Data
         {
             var items = GetAutocompleteItemsForExpressions().ToList();
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(MatrixFunctions)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(MathematicalTransformations)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(ScriptingFunctions)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (MatrixFunctions)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathematicalTransformations)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (ScriptingFunctions)));
             items.AddRange(TslCompiler.Keywords.Select(s => new AutocompleteItem(s)));
 
             items.Sort((i1, i2) => i1.Text.CompareTo(i2.Text));
-            items.ForEach(i => i.IsScripting=true);
+            items.ForEach(i => i.IsScripting = true);
             return items.ToArray();
         }
 
-        public static List<CompletionData> ConvertAutocompleteItemsToCompletionDatas(AutocompleteItem[] autocompleteItems)
+        public static List<CompletionData> ConvertAutocompleteItemsToCompletionDatas(
+            AutocompleteItem[] autocompleteItems)
         {
             return autocompleteItems.Select(autocompleteItem => autocompleteItem.ToCompletionData()).ToList();
         }
@@ -121,21 +121,22 @@ namespace Computator.NET.Data
             var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
 
             var items = new List<AutocompleteItem>();
-            
+
             if (!noMethod)
                 foreach (var m in methods)
                 {
                     var fullNameExtension = "";
                     if (fullName)
                         fullNameExtension = m.ReflectedType.Name + ".";
-                    
-                    AddSignatureWithType(fullNameExtension + m.Name, MakeAddition(m, false), MakeAddition(m, true), m.ReturnType.Name,items);
+
+                    AddSignatureWithType(fullNameExtension + m.Name, MakeAddition(m, false), MakeAddition(m, true),
+                        m.ReturnType.Name, items);
                     AddMetadata(m, type, items);
                 }
 
             foreach (var p in properties)
             {
-                AddSignatureWithType(p.Name,"","", p.PropertyType.Name, items);
+                AddSignatureWithType(p.Name, "", "", p.PropertyType.Name, items);
                 AddMetadata(p, type, items);
             }
 
@@ -148,7 +149,7 @@ namespace Computator.NET.Data
                 }
                 else
                 {
-                    AddSignatureWithType(f.Name,"","",  f.FieldType.Name, items);
+                    AddSignatureWithType(f.Name, "", "", f.FieldType.Name, items);
                     AddMetadata(f, type, items);
                 }
             }
@@ -162,8 +163,6 @@ namespace Computator.NET.Data
             return items;
         }
 
-
-
         private static string MakeAddition(MethodInfo m, bool withType)
         {
             var parameters = m.GetParameters();
@@ -172,9 +171,13 @@ namespace Computator.NET.Data
             for (var i = 0; i < parameters.Length; i++)
             {
                 if (i < parameters.Length - 1)
-                    addition += (withType) ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name + "," : parameters[i].Name + ",";
+                    addition += (withType)
+                        ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name + ","
+                        : parameters[i].Name + ",";
                 else
-                    addition += (withType) ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name : parameters[i].Name;
+                    addition += (withType)
+                        ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name
+                        : parameters[i].Name;
             }
             addition += ")";
 
@@ -182,24 +185,22 @@ namespace Computator.NET.Data
             return addition;
         }
 
-
         private static void AddMetadata(MemberInfo p, Type type, List<AutocompleteItem> items)
         {
-
-            if ((p.GetCustomAttributes(typeof(NameAttribute), false)).Any())
+            if ((p.GetCustomAttributes(typeof (NameAttribute), false)).Any())
 
                 items.Last().ToolTipTitle =
-                    ((NameAttribute)(p.GetCustomAttributes(typeof(NameAttribute), false)[0])).Name;
+                    ((NameAttribute) (p.GetCustomAttributes(typeof (NameAttribute), false)[0])).Name;
 
-            if ((p.GetCustomAttributes(typeof(DescriptionAttribute), false)).Any())
+            if ((p.GetCustomAttributes(typeof (DescriptionAttribute), false)).Any())
                 items.Last().ToolTipText =
-                (((DescriptionAttribute)(p.GetCustomAttributes(typeof(DescriptionAttribute), false)[0])))
-                    .Description;
+                    (((DescriptionAttribute) (p.GetCustomAttributes(typeof (DescriptionAttribute), false)[0])))
+                        .Description;
             if (items.Count > 0)
             {
-                if (p.GetCustomAttributes(typeof(CategoryAttribute), false).Any())
+                if (p.GetCustomAttributes(typeof (CategoryAttribute), false).Any())
                     items.Last().functionInfo.Category =
-                        (((CategoryAttribute)(p.GetCustomAttributes(typeof(CategoryAttribute), false)[0]))).Category ??
+                        (((CategoryAttribute) (p.GetCustomAttributes(typeof (CategoryAttribute), false)[0]))).Category ??
                         "";
 
                 items.Last().functionInfo.Signature = items.Last().Text ?? "";
@@ -248,9 +249,8 @@ namespace Computator.NET.Data
             AddSignatureWithType(sigName, sigName, typeName, items);
         }
 
-
-
-        private static void AddSignatureWithType(string name, string addition, string additionWithType, string typeName,  List<AutocompleteItem> items)
+        private static void AddSignatureWithType(string name, string addition, string additionWithType, string typeName,
+            List<AutocompleteItem> items)
         {
             var imageIndex = -1;
             switch (typeName)
@@ -280,11 +280,11 @@ namespace Computator.NET.Data
                     break;
             }
 
-            items.Add(new AutocompleteItem(name,addition,additionWithType,TypeNameToAlias(typeName),imageIndex));
+            items.Add(new AutocompleteItem(name, addition, additionWithType, TypeNameToAlias(typeName), imageIndex));
         }
 
-
-        private static void AddSignatureWithType(string sigName, string menuName, string typeName, List<AutocompleteItem> items)
+        private static void AddSignatureWithType(string sigName, string menuName, string typeName,
+            List<AutocompleteItem> items)
         {
             switch (typeName)
             {
@@ -382,303 +382,5 @@ namespace Computator.NET.Data
                 AddMetadata(f, type, items);
             }
         }
-
-
-
-
-        /*
-        public static string[] GetAutocompleteStrings()
-        {
-            var strings = GetFunctionsNames(typeof (ElementaryFunctions));
-            strings.AddRange(GetFunctionsNames(typeof (SpecialFunctions)));
-            strings.AddRange(GetFunctionsNames2014(typeof (StatisticsFunctions)));
-            strings.AddRange(GetFunctionsNames(typeof (MathematicalConstants)));
-            strings.AddRange(GetFunctionsNames(typeof (PhysicalConstants)));
-            return strings.ToArray();
-        }
-
-        private static List<string> GetFunctionsNames2014(Type type)
-        {
-            var properties = type.GetProperties(BindingFlags.Static | BindingFlags.Public);
-            var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public);
-            var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
-
-            var names = new List<string>();
-
-            foreach (var m in methods)
-            {
-                var parameters = m.GetParameters();
-                var addition = "(";
-                var secondTime = false;
-
-                for (var i = 0; i < parameters.Length; i++)
-                {
-                    if ((parameters[i].ParameterType.Name == "Double") && i < parameters.Length - 1)
-                    {
-                        if (!addition.Contains("ν"))
-                            addition += "ν,";
-                        else if (!addition.Contains("μ"))
-                            addition += "μ,";
-                        else
-                            addition += "α,";
-                    }
-
-
-                    if (((parameters[i].ParameterType.Name == "Int32") || (parameters[i].ParameterType.Name == "Uint32") ||
-                         (parameters[i].ParameterType.Name == "Int64") || (parameters[i].ParameterType.Name == "Uint64")))
-                    {
-                        if (!addition.Contains("n"))
-                            addition += "n,";
-                        else if (!addition.Contains("m"))
-                            addition += "m,";
-                        else
-                            addition += "k,";
-                    }
-
-                    if ((parameters[i].ParameterType.Name == "Double" || parameters[i].ParameterType.Name == "T") &&
-                        i == parameters.Length - 1)
-                        addition += "x";
-
-                    if ((parameters[i].ParameterType.Name == "Complex") && i == parameters.Length - 1)
-                        addition += "z";
-
-                    if (parameters[i].ParameterType.Name == "T")
-                        secondTime = true;
-                }
-                if (addition.Last() == ',')
-                    addition = addition.Substring(0, addition.Length - 3) + ")";
-                else
-                    addition += ")";
-                names.Add(m.Name + addition);
-
-                if (secondTime)
-                    names.Add(m.Name + addition.Replace("x)", "z)"));
-            }
-
-            foreach (var p in properties)
-                names.Add(p.Name);
-
-            foreach (var f in fields)
-            {
-                var argsCount = f.ToString().Count(c => c == ',');
-                if (argsCount > 0)
-                {
-                    var addition = "(";
-
-                    //((GenericType)f.FieldType).GenericTypeArguments
-                    var argumentsTypes = (f.FieldType).GetGenericArguments();
-                    var secondTime = false;
-                    for (var i = 0; i < argumentsTypes.Length - 1; i++)
-                    {
-                        if ((argumentsTypes[i].Name == "Double") && i < argumentsTypes.Length - 2)
-                        {
-                            if (!addition.Contains("ν"))
-                                addition += "ν,";
-                            else if (!addition.Contains("μ"))
-                                addition += "μ,";
-                            else
-                                addition += "α,";
-                        }
-
-
-                        if (((argumentsTypes[i].Name == "Int32") || (argumentsTypes[i].Name == "Uint32") ||
-                             (argumentsTypes[i].Name == "Int64") || (argumentsTypes[i].Name == "Uint64")))
-                        {
-                            if (!addition.Contains("n"))
-                                addition += "n,";
-                            else if (!addition.Contains("m"))
-                                addition += "m,";
-                            else
-                                addition += "k,";
-                        }
-
-                        if ((argumentsTypes[i].Name == "Double" || argumentsTypes[i].Name == "T") &&
-                            i == argumentsTypes.Length - 2)
-                            addition += "x";
-
-                        if ((argumentsTypes[i].Name == "Complex") && i == argumentsTypes.Length - 2)
-                            addition += "z";
-
-                        if (argumentsTypes[i].Name == "T")
-                            secondTime = true;
-                    }
-                    addition += ")";
-                    names.Add(f.Name + addition);
-                    if (secondTime)
-                        names.Add(f.Name + addition.Replace("x)", "z)"));
-                }
-                else
-                    names.Add(f.Name);
-            }
-
-            names.Remove("getFunctionsNames()");
-            names.Remove("ToString()");
-            names.Remove("get_i()");
-            names.Remove("cmplxToMeta()");
-            names.Remove("cmplxFromMeta()");
-
-            var addMethodsList = new List<string>();
-
-            foreach (var t in type.GetNestedTypes())
-            {
-                addMethodsList.AddRange(GetFunctionsNames2014(t));
-            }
-            names.AddRange(addMethodsList);
-
-            return names;
-        }
-
-        private static List<string> GetFunctionsNames(Type type)
-        {
-            var properties = type.GetProperties(BindingFlags.Static | BindingFlags.Public);
-            var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public);
-            var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
-
-            var names = new List<string>();
-
-            foreach (var m in methods)
-            {
-                var parameters = m.GetParameters();
-                var addition = "(";
-                var secondTime = false;
-
-                for (var i = 0; i < parameters.Length; i++)
-                {
-                    if ((parameters[i].ParameterType.Name == "Double") && i < parameters.Length - 1)
-                    {
-                        if (!addition.Contains("ν"))
-                            addition += "ν,";
-                        else if (!addition.Contains("μ"))
-                            addition += "μ,";
-                        else
-                            addition += "α,";
-                    }
-
-
-                    if (((parameters[i].ParameterType.Name == "Int32") || (parameters[i].ParameterType.Name == "Uint32") ||
-                         (parameters[i].ParameterType.Name == "Int64") || (parameters[i].ParameterType.Name == "Uint64")))
-                    {
-                        if (!addition.Contains("n"))
-                            addition += "n,";
-                        else if (!addition.Contains("m"))
-                            addition += "m,";
-                        else
-                            addition += "k,";
-                    }
-
-                    if ((parameters[i].ParameterType.Name == "Double" || parameters[i].ParameterType.Name == "T") &&
-                        i == parameters.Length - 1)
-                        addition += "x";
-
-                    if ((parameters[i].ParameterType.Name == "Complex") && i == parameters.Length - 1)
-                        addition += "z";
-
-                    if (parameters[i].ParameterType.Name == "T")
-                        secondTime = true;
-                }
-                if (addition.Last() == ',')
-                    addition = addition.Substring(0, addition.Length - 3) + ")";
-                else
-                    addition += ")";
-                names.Add(m.Name + addition);
-
-                if (secondTime)
-                    names.Add(m.Name + addition.Replace("x)", "z)"));
-            }
-
-            foreach (var p in properties)
-                names.Add(p.Name);
-
-            foreach (var f in fields)
-            {
-                var argsCount = f.ToString().Count(c => c == ',');
-                if (argsCount > 0)
-                {
-                    var addition = "(";
-
-                    //((GenericType)f.FieldType).GenericTypeArguments
-                    var argumentsTypes = (f.FieldType).GetGenericArguments();
-                    var secondTime = false;
-                    for (var i = 0; i < argumentsTypes.Length - 1; i++)
-                    {
-                        if ((argumentsTypes[i].Name == "Double") && i < argumentsTypes.Length - 2)
-                        {
-                            if (!addition.Contains("ν"))
-                                addition += "ν,";
-                            else if (!addition.Contains("μ"))
-                                addition += "μ,";
-                            else
-                                addition += "α,";
-                        }
-
-
-                        if (((argumentsTypes[i].Name == "Int32") || (argumentsTypes[i].Name == "Uint32") ||
-                             (argumentsTypes[i].Name == "Int64") || (argumentsTypes[i].Name == "Uint64")))
-                        {
-                            if (!addition.Contains("n"))
-                                addition += "n,";
-                            else if (!addition.Contains("m"))
-                                addition += "m,";
-                            else
-                                addition += "k,";
-                        }
-
-                        if ((argumentsTypes[i].Name == "Double" || argumentsTypes[i].Name == "T") &&
-                            i == argumentsTypes.Length - 2)
-                            addition += "x";
-
-                        if ((argumentsTypes[i].Name == "Complex") && i == argumentsTypes.Length - 2)
-                            addition += "z";
-
-                        if (argumentsTypes[i].Name == "T")
-                            secondTime = true;
-                    }
-                    addition += ")";
-                    names.Add(f.Name + addition);
-                    if (secondTime)
-                        names.Add(f.Name + addition.Replace("x)", "z)"));
-                }
-                else
-                    names.Add(f.Name);
-            }
-
-            names.Remove("getFunctionsNames()");
-            names.Remove("ToString()");
-            names.Remove("get_i()");
-            names.Remove("cmplxToMeta()");
-            names.Remove("cmplxFromMeta()");
-            return names;
-        }
-
-        private static List<AutocompleteItem> GetFunctionsNamesEasy(Type type)
-        {
-            var list = new List<AutocompleteItem>();
-            var properties = type.GetProperties(BindingFlags.Static | BindingFlags.Public);
-            var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public);
-            var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
-
-            foreach (var prop in properties)
-                list.Add(new AutocompleteItem(prop.Name));
-
-            foreach (var f in fields)
-                if (f.Name != "ToCode")
-                    list.Add(new AutocompleteItem(f.Name));
-
-            foreach (var m in methods)
-            {
-                var methodSig = new StringBuilder(m.Name + "(");
-
-                var parameters = m.GetParameters();
-                for (var i = 0; i < parameters.Length; i++)
-                {
-                    methodSig.Append(parameters[i].Name + ((i == parameters.Length - 1) ? "" : ","));
-                }
-                methodSig.Append(")");
-
-                list.Add(new AutocompleteItem(methodSig.ToString()));
-            }
-            return list;
-        }*/
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using Computator.NET.Charting;
+﻿using System.Windows.Forms;
+using Computator.NET.Charting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.UI.Controls;
 
@@ -38,10 +39,7 @@ namespace Computator.NET
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.consoleOutputTextBox = new System.Windows.Forms.RichTextBox();
@@ -60,7 +58,7 @@ namespace Computator.NET
             this.valueForCalculationNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.calculationsComplexLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.calculationValueTextBox = new Computator.NET.UI.NumericTextBox();
+            this.calculationValueTextBox = new System.Windows.Forms.TextBox();
             this.calculateButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.calculationsHistoryDataGridView = new System.Windows.Forms.DataGridView();
@@ -103,7 +101,7 @@ namespace Computator.NET
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.resultNumericalCalculationsTextBox = new Computator.NET.UI.NumericTextBox();
+            this.resultNumericalCalculationsTextBox = new System.Windows.Forms.TextBox();
             this.methodNumericalCalculationsComboBox = new System.Windows.Forms.ComboBox();
             this.operationNumericalCalculationsComboBox = new System.Windows.Forms.ComboBox();
             this.numericalOperationButton = new System.Windows.Forms.Button();
@@ -156,6 +154,8 @@ namespace Computator.NET
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.exponentiationToolStripMenuItem = new Computator.NET.UI.Controls.BindableToolStripMenuItem();
             this.functionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.elementaryFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.specialFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -485,14 +485,6 @@ namespace Computator.NET
             // 
             this.calculationsHistoryDataGridView.AllowUserToAddRows = false;
             this.calculationsHistoryDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.calculationsHistoryDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.calculationsHistoryDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.calculationsHistoryDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -507,8 +499,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
             resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -516,8 +508,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle2;
             resources.ApplyResources(this.dataGridViewTextBoxColumn4, "dataGridViewTextBoxColumn4");
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
@@ -525,8 +517,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle3;
             resources.ApplyResources(this.dataGridViewTextBoxColumn5, "dataGridViewTextBoxColumn5");
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
@@ -554,14 +546,6 @@ namespace Computator.NET
             // 
             this.numericalCalculationsDataGridView.AllowUserToAddRows = false;
             this.numericalCalculationsDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.numericalCalculationsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.numericalCalculationsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.numericalCalculationsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.function,
@@ -569,14 +553,6 @@ namespace Computator.NET
             this.method,
             this.parameters,
             this.result});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.numericalCalculationsDataGridView.DefaultCellStyle = dataGridViewCellStyle9;
             resources.ApplyResources(this.numericalCalculationsDataGridView, "numericalCalculationsDataGridView");
             this.numericalCalculationsDataGridView.Name = "numericalCalculationsDataGridView";
             this.numericalCalculationsDataGridView.ReadOnly = true;
@@ -586,8 +562,8 @@ namespace Computator.NET
             // function
             // 
             this.function.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.function.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.function.DefaultCellStyle = dataGridViewCellStyle4;
             resources.ApplyResources(this.function, "function");
             this.function.Name = "function";
             this.function.ReadOnly = true;
@@ -609,8 +585,8 @@ namespace Computator.NET
             // parameters
             // 
             this.parameters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.parameters.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.parameters.DefaultCellStyle = dataGridViewCellStyle5;
             resources.ApplyResources(this.parameters, "parameters");
             this.parameters.Name = "parameters";
             this.parameters.ReadOnly = true;
@@ -618,8 +594,8 @@ namespace Computator.NET
             // result
             // 
             this.result.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.result.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.result.DefaultCellStyle = dataGridViewCellStyle6;
             resources.ApplyResources(this.result, "result");
             this.result.Name = "result";
             this.result.ReadOnly = true;
@@ -1174,6 +1150,7 @@ namespace Computator.NET
             // expressionTextBox
             // 
             resources.ApplyResources(this.expressionTextBox, "expressionTextBox");
+            this.expressionTextBox.ExponentMode = false;
             this.expressionTextBox.Name = "expressionTextBox";
             this.expressionTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.expressionTextBox_KeyPress);
             // 
@@ -1300,7 +1277,9 @@ namespace Computator.NET
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem,
             this.toolStripSeparator4,
-            this.selectAllToolStripMenuItem});
+            this.selectAllToolStripMenuItem,
+            this.toolStripSeparator18,
+            this.exponentiationToolStripMenuItem});
             this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
             resources.ApplyResources(this.editToolStripMenuItem1, "editToolStripMenuItem1");
             // 
@@ -1349,6 +1328,18 @@ namespace Computator.NET
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             resources.ApplyResources(this.selectAllToolStripMenuItem, "selectAllToolStripMenuItem");
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            resources.ApplyResources(this.toolStripSeparator18, "toolStripSeparator18");
+            // 
+            // exponentiationToolStripMenuItem
+            // 
+            this.exponentiationToolStripMenuItem.CheckOnClick = true;
+            this.exponentiationToolStripMenuItem.Name = "exponentiationToolStripMenuItem";
+            resources.ApplyResources(this.exponentiationToolStripMenuItem, "exponentiationToolStripMenuItem");
+            this.exponentiationToolStripMenuItem.Click += new System.EventHandler(this.exponentiationToolStripMenuItem_Click);
             // 
             // functionsToolStripMenuItem
             // 
@@ -1896,7 +1887,6 @@ namespace Computator.NET
             // runToolStripButton
             // 
             this.runToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.runToolStripButton.Image = global::Computator.NET.Properties.Resources.run_icon;
             resources.ApplyResources(this.runToolStripButton, "runToolStripButton");
             this.runToolStripButton.Name = "runToolStripButton";
             this.runToolStripButton.Click += new System.EventHandler(this.runToolStripButton_Click);
@@ -1991,7 +1981,7 @@ namespace Computator.NET
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
-        private Computator.NET.UI.NumericTextBox calculationValueTextBox;
+        private System.Windows.Forms.TextBox calculationValueTextBox;
         private System.Windows.Forms.Button calculateButton;
         private System.Windows.Forms.NumericUpDown valueForCalculationNumericUpDown;
         private System.Windows.Forms.Label calculationsRealLabel;
@@ -2013,7 +2003,7 @@ namespace Computator.NET
         private System.Windows.Forms.ComboBox operationNumericalCalculationsComboBox;
         private System.Windows.Forms.ComboBox methodNumericalCalculationsComboBox;
         private System.Windows.Forms.DataGridView numericalCalculationsDataGridView;
-        private Computator.NET.UI.NumericTextBox resultNumericalCalculationsTextBox;
+        private System.Windows.Forms.TextBox resultNumericalCalculationsTextBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox numericalIntegrationGroupBox;
@@ -2179,6 +2169,8 @@ namespace Computator.NET
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
         private System.Windows.Forms.ToolStripButton runToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private BindableToolStripMenuItem exponentiationToolStripMenuItem;
     }
 }
 

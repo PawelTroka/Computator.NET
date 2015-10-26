@@ -14,7 +14,6 @@ namespace AutocompleteMenuNS
             target = trgt;
         }
 
-
         public bool Readonly
         {
             get { return target.ReadOnly; }
@@ -26,7 +25,7 @@ namespace AutocompleteMenuNS
             set
             {
                 //Store the start of the selection.
-                int start = target.SelectionStart;
+                var start = target.SelectionStart;
 
                 //Delete the current text between selections.
                 target.DeleteRange(target.SelectionStart, (target.SelectionEnd - target.SelectionStart));
@@ -73,16 +72,19 @@ namespace AutocompleteMenuNS
             add { target.KeyDown += value; }
             remove { target.KeyDown -= value; }
         }
+
         public virtual event EventHandler LostFocus
         {
             add { target.LostFocus += value; }
             remove { target.LostFocus -= value; }
         }
+
         public virtual event MouseEventHandler MouseDown
         {
             add { target.MouseDown += value; }
             remove { target.MouseDown -= value; }
         }
+
         public virtual event ScrollEventHandler Scroll; //There is no any scroll events in ScintillaNET, So on hold.
     }
 }

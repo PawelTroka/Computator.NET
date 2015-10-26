@@ -11,10 +11,9 @@ namespace Computator.NET.Logging
         public static readonly string LogsDirectory =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Computator.NET", "Logs");
 
-
         public SimpleLogger(object o) : this()
         {
-            this.ClassName = o.GetType().FullName;
+            ClassName = o.GetType().FullName;
         }
 
         public SimpleLogger()

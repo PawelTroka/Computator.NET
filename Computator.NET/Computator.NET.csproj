@@ -99,25 +99,23 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\packages\AvalonEdit.5.0.2\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.3.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=3.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.8.0\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Meta.Numerics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Meta.Numerics.3.0.0\lib\Meta.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore">
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationFramework">
       <Private>False</Private>
     </Reference>
-    <Reference Include="ScintillaNET, Version=3.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jacobslusser.ScintillaNET.3.5.1\lib\net40\ScintillaNET.dll</HintPath>
+    <Reference Include="ScintillaNET, Version=3.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jacobslusser.ScintillaNET.3.5.4\lib\net40\ScintillaNET.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -164,7 +162,6 @@
     <Compile Include="Config\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Config\SpecialSymbols.cs" />
     <Compile Include="Data\FunctionsDetails.cs" />
     <Compile Include="Evaluation\BaseEvaluator.cs" />
     <Compile Include="Evaluation\CalculationsMode.cs" />
@@ -217,10 +214,16 @@
     <Compile Include="UI\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
     <Compile Include="UI\CodeEditors\AvalonEdit\AvalonEditCodeEditorControl.cs" />
     <Compile Include="UI\CodeEditors\CodeEditorControlWrapper.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\CodeEditors\AvalonEdit\CompletionData.cs" />
     <Compile Include="UI\CodeEditors\ICodeEditorControl.cs" />
+    <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\DocumentsTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Forms\AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -293,9 +296,7 @@
     <Compile Include="UI\Controls\ScientificNumericUpDown.Designer.cs">
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="UI\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs" />
     <Compile Include="Localization\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -324,6 +325,9 @@
     <EmbeddedResource Include="Localization\Strings.pl.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.pl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\DocumentsTabControl.resx">
+      <DependentUpon>DocumentsTabControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>

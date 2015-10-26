@@ -141,5 +141,17 @@ namespace Computator.NET.Properties {
                 this["ShowParametersTypeInScripting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MathematicalNotation")]
+        public global::Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType NumericalOutputNotation {
+            get {
+                return ((global::Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType)(this["NumericalOutputNotation"]));
+            }
+            set {
+                this["NumericalOutputNotation"] = value;
+            }
+        }
     }
 }

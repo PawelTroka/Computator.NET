@@ -1,12 +1,9 @@
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Windows.Media;
-using AutocompleteMenuNS;
 using Computator.NET.Data;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
-using Computator.NET.UI.AutocompleteMenu;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
@@ -18,13 +15,9 @@ namespace Computator.NET.UI.CodeEditors
     /// </summary>
     public class CompletionData : ICompletionData
     {
-        private string _content;
-        private ImageSource _image;
+        private readonly string _content;
         private FunctionInfo _alternativeDescription;
-
         private int imageIndex;
-
-
 
         public CompletionData(string text)
         {
@@ -33,12 +26,40 @@ namespace Computator.NET.UI.CodeEditors
 
         public CompletionData(string text, string menuText, FunctionInfo functionInfo, int imageIndex)
         {
-            this.Text = text;
-            this._content = menuText;
-            this._alternativeDescription = functionInfo;
-           //////////////////////////////////// this._image= imageIndexToImage(imageIndex).ToBitmapSource();
+            Text = text;
+            _content = menuText;
+            _alternativeDescription = functionInfo;
+            //////////////////////////////////// this._image= imageIndexToImage(imageIndex).ToBitmapSource();
         }
 
+        public ImageSource Image { get; }
+        public string Text { get; }
+        // Use this property if you want to show a fancy UIElement in the drop down list.
+        public object Content
+        {
+            get { return _content ?? Text; }
+        }
+
+        public object Description
+        {
+            get
+            {
+                if (FunctionsDetails.Details.ContainsKey(Text))
+                    return FunctionsDetails.Details[Text].Title + Environment.NewLine +
+                           StripTagsCharArray(FunctionsDetails.Details[Text].Description);
+                return "Description for " + Text;
+            }
+        }
+
+        public double Priority
+        {
+            get { return 0; }
+        }
+
+        public void Complete(TextArea textArea, ISegment completionSegment, EventArgs insertionRequestEventArgs)
+        {
+            textArea.Document.Replace(completionSegment, Text);
+        }
 
         private Image imageIndexToImage(int index)
         {
@@ -57,37 +78,15 @@ namespace Computator.NET.UI.CodeEditors
             }
         }
 
-        public ImageSource Image
-        {
-            get { return _image; }
-        }
-
-        public string Text { get; }
-        // Use this property if you want to show a fancy UIElement in the drop down list.
-        public object Content
-        {
-            get { return _content ?? Text; }
-        }
-
-        public object Description
-        {
-            get
-            {
-                if (FunctionsDetails.Details.ContainsKey(this.Text))
-                    return FunctionsDetails.Details[this.Text].Title+Environment.NewLine+ StripTagsCharArray(FunctionsDetails.Details[this.Text].Description);
-                return "Description for " + Text;
-            }
-        }
-
         public static string StripTagsCharArray(string source)
         {
-            char[] array = new char[source.Length];
-            int arrayIndex = 0;
-            bool inside = false;
+            var array = new char[source.Length];
+            var arrayIndex = 0;
+            var inside = false;
 
-            for (int i = 0; i < source.Length; i++)
+            for (var i = 0; i < source.Length; i++)
             {
-                char let = source[i];
+                var let = source[i];
                 if (let == '<')
                 {
                     inside = true;
@@ -105,16 +104,6 @@ namespace Computator.NET.UI.CodeEditors
                 }
             }
             return new string(array, 0, arrayIndex);
-        }
-
-        public double Priority
-        {
-            get { return 0; }
-        }
-        
-        public void Complete(TextArea textArea, ISegment completionSegment, EventArgs insertionRequestEventArgs)
-        {
-            textArea.Document.Replace(completionSegment, Text);
         }
     }
 }
