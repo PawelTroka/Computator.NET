@@ -1,12 +1,6 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Windows.Forms;
-using Computator.NET.Config;
-using Computator.NET.Localization;
-
-namespace Computator.NET
+﻿namespace Computator.NET
 {
-    partial class AboutBox1 : Form
+    partial class AboutBox1 : System.Windows.Forms.Form
     {
         public AboutBox1()
         {
@@ -16,8 +10,8 @@ namespace Computator.NET
             labelVersion.Text = string.Format("Version {0}", AssemblyVersion);
             labelCopyright.Text = AssemblyCopyright;
             labelCompanyName.Text = AssemblyCompany;
-            textBoxDescription.Text = AssemblyDescription + Strings.ItSFeaturesInclude +
-                                      GlobalConfig.features.Replace(" - ", "\r\n - ");
+            textBoxDescription.Text = AssemblyDescription + Localization.Strings.ItSFeaturesInclude +
+                                      Config.GlobalConfig.features.Replace(" - ", "\r\n - ");
         }
 
         #region Assembly Attribute Accessors
@@ -27,22 +21,25 @@ namespace Computator.NET
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
+                    System.Reflection.Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (System.Reflection.AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
-                    var titleAttribute = (AssemblyTitleAttribute) attributes[0];
+                    var titleAttribute = (System.Reflection.AssemblyTitleAttribute) attributes[0];
                     if (titleAttribute.Title != "")
                     {
                         return titleAttribute.Title;
                     }
                 }
-                return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                return
+                    System.IO.Path.GetFileNameWithoutExtension(
+                        System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
             }
         }
 
         public string AssemblyVersion
         {
-            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
+            get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
         }
 
         public string AssemblyDescription
@@ -50,12 +47,13 @@ namespace Computator.NET
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+                    System.Reflection.Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (System.Reflection.AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyDescriptionAttribute) attributes[0]).Description;
+                return ((System.Reflection.AssemblyDescriptionAttribute) attributes[0]).Description;
             }
         }
 
@@ -64,12 +62,13 @@ namespace Computator.NET
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyProductAttribute), false);
+                    System.Reflection.Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (System.Reflection.AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyProductAttribute) attributes[0]).Product;
+                return ((System.Reflection.AssemblyProductAttribute) attributes[0]).Product;
             }
         }
 
@@ -78,12 +77,13 @@ namespace Computator.NET
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+                    System.Reflection.Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (System.Reflection.AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
+                return ((System.Reflection.AssemblyCopyrightAttribute) attributes[0]).Copyright;
             }
         }
 
@@ -92,12 +92,13 @@ namespace Computator.NET
             get
             {
                 var attributes =
-                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
+                    System.Reflection.Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (System.Reflection.AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((AssemblyCompanyAttribute) attributes[0]).Company;
+                return ((System.Reflection.AssemblyCompanyAttribute) attributes[0]).Company;
             }
         }
 

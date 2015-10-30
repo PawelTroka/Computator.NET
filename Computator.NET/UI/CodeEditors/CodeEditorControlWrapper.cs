@@ -1,52 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Windows.Forms.Integration;
-using Computator.NET.DataTypes.SettingsTypes;
-using Computator.NET.Evaluation;
-using Computator.NET.Properties;
-using Computator.NET.UI.Controls;
-
-namespace Computator.NET.UI.CodeEditors
+﻿namespace Computator.NET.UI.CodeEditors
 {
-    internal class CodeEditorControlWrapper : UserControl, ICodeEditorControl, INotifyPropertyChanged
+    public enum TSLMode
     {
-        private readonly ScriptEvaluator _eval;
+        Scripting,
+        Functions
+    }
+
+    internal class CodeEditorControlWrapper : System.Windows.Forms.UserControl, ICodeEditorControl,
+        System.ComponentModel.INotifyPropertyChanged
+    {
+        private readonly Evaluation.ScriptEvaluator _eval;
         private readonly /*AvalonEditCodeEditorControl*/ AvalonEditCodeEditor avalonEditor;
-        private readonly ElementHost avalonEditorWrapper;
+        private readonly System.Windows.Forms.Integration.ElementHost avalonEditorWrapper;
+
+        private readonly System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog
+        {
+            Filter = Config.GlobalConfig.tslFilesFIlter
+        };
+
         private readonly ScintillaCodeEditorControl scintillaEditor;
-        private readonly DocumentsTabControl tabControl;
-        private CodeEditorType _codeEditorType;
-        private Dictionary<CodeEditorType, ICodeEditorControl> codeEditors;
+        private readonly Controls.DocumentsTabControl tabControl;
+        private DataTypes.SettingsTypes.CodeEditorType _codeEditorType;
+
+        private System.Collections.Generic.Dictionary<DataTypes.SettingsTypes.CodeEditorType, ICodeEditorControl>
+            codeEditors;
 
         public CodeEditorControlWrapper()
         {
-            _eval = new ScriptEvaluator();
+            _eval = new Evaluation.ScriptEvaluator();
             avalonEditor = new AvalonEditCodeEditor();
 
-            avalonEditorWrapper = new ElementHost
+            avalonEditorWrapper = new System.Windows.Forms.Integration.ElementHost
             {
-                BackColor = Color.White,
-                Dock = DockStyle.Fill
+                BackColor = System.Drawing.Color.White,
+                Dock = System.Windows.Forms.DockStyle.Fill
             };
 
             scintillaEditor = new ScintillaCodeEditorControl
             {
-                Dock = DockStyle.Fill
+                Dock = System.Windows.Forms.DockStyle.Fill
             };
             avalonEditorWrapper.Child = avalonEditor;
 
 
-            tabControl = new DocumentsTabControl {Dock = DockStyle.Top};
+            tabControl = new Controls.DocumentsTabControl {Dock = System.Windows.Forms.DockStyle.Top};
 
-            var panel = new Panel {Dock = DockStyle.Fill};
-            panel.Controls.AddRange(new Control[] {avalonEditorWrapper, scintillaEditor});
+            var panel = new System.Windows.Forms.Panel {Dock = System.Windows.Forms.DockStyle.Fill};
+            panel.Controls.AddRange(new System.Windows.Forms.Control[] {avalonEditorWrapper, scintillaEditor});
 
-            var tableLayout = new TableLayoutPanel
+            var tableLayout = new System.Windows.Forms.TableLayoutPanel
             {
-                Dock = DockStyle.Fill,
+                Dock = System.Windows.Forms.DockStyle.Fill,
                 ColumnCount = 1,
                 RowCount = 2
             };
@@ -55,7 +59,7 @@ namespace Computator.NET.UI.CodeEditors
             tableLayout.Controls.Add(panel, 0, 1);
             Controls.Add(tableLayout);
             ChangeEditorType();
-            SetFont(Settings.Default.ScriptingFont);
+            SetFont(Properties.Settings.Default.ScriptingFont);
 
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
             tabControl.ControlRemoved += TabControl_ControlRemoved;
@@ -64,9 +68,9 @@ namespace Computator.NET.UI.CodeEditors
 
         public override bool Focused
             =>
-                (_codeEditorType == CodeEditorType.AvalonEdit)
+                (_codeEditorType == DataTypes.SettingsTypes.CodeEditorType.AvalonEdit)
                     ? avalonEditorWrapper.Focused
-                    : ((Control) (CurrentCodeEditor)).Focused;
+                    : ((System.Windows.Forms.Control) (CurrentCodeEditor)).Focused;
 
         private ICodeEditorControl CurrentCodeEditor
         {
@@ -74,9 +78,9 @@ namespace Computator.NET.UI.CodeEditors
             {
                 switch (_codeEditorType)
                 {
-                    case CodeEditorType.AvalonEdit:
+                    case DataTypes.SettingsTypes.CodeEditorType.AvalonEdit:
                         return avalonEditor;
-                    case CodeEditorType.Scintilla:
+                    case DataTypes.SettingsTypes.CodeEditorType.Scintilla:
                         return scintillaEditor;
                     default:
                         return null;
@@ -84,16 +88,10 @@ namespace Computator.NET.UI.CodeEditors
             }
         }
 
-        public string SaveAs(string filename = "")
+        public string CurrentFileName
         {
-            var str = CurrentCodeEditor.SaveAs(tabControl.SelectedTab.Text);
-
-            if (!string.IsNullOrEmpty(str))
-            {
-                tabControl.SelectedTab.Text = str;
-                tabControl.SelectedTab.ImageIndex = 0;
-            }
-            return str;
+            get { return tabControl.SelectedTab.Text; }
+            set { tabControl.SelectedTab.Text = value; }
         }
 
         public override string Text
@@ -150,18 +148,9 @@ namespace Computator.NET.UI.CodeEditors
             CurrentCodeEditor.AppendText(text);
         }
 
-        public string SaveDocument(string filename = "")
+        public void RenameDocument(string filename, string newFilename)
         {
-            //throw new System.NotImplementedException();
-
-            var str = CurrentCodeEditor.SaveDocument(tabControl.SelectedTab.Text);
-
-            if (!string.IsNullOrEmpty(str))
-            {
-                tabControl.SelectedTab.Text = str;
-                tabControl.SelectedTab.ImageIndex = 0;
-            }
-            return str;
+            (CurrentCodeEditor).RenameDocument(filename, newFilename);
         }
 
         public bool ContainsDocument(string filename)
@@ -187,15 +176,54 @@ namespace Computator.NET.UI.CodeEditors
             CurrentCodeEditor.CloseDocument(filename);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        private void TabControl_ControlAdded(object sender, ControlEventArgs e)
+        public void Save()
+        {
+            if (!System.IO.File.Exists(CurrentFileName))
+            {
+                saveFileDialog.FileName = CurrentFileName;
+                if (saveFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+                System.IO.File.WriteAllText(saveFileDialog.FileName, Text);
+
+                if (saveFileDialog.FileName != CurrentFileName)
+                {
+                    CurrentCodeEditor.RenameDocument(CurrentFileName, saveFileDialog.FileName);
+                    CurrentFileName = saveFileDialog.FileName;
+                }
+                tabControl.SelectedTab.ImageIndex = 0;
+            }
+            else
+            {
+                System.IO.File.WriteAllText(CurrentFileName, Text);
+                tabControl.SelectedTab.ImageIndex = 0;
+            }
+        }
+
+        public void SaveAs()
+        {
+            saveFileDialog.FileName = CurrentFileName;
+
+            if (saveFileDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            System.IO.File.WriteAllText(saveFileDialog.FileName, Text);
+
+            if (saveFileDialog.FileName != CurrentFileName)
+            {
+                CurrentCodeEditor.RenameDocument(tabControl.SelectedTab.Text, saveFileDialog.FileName);
+                CurrentFileName = saveFileDialog.FileName;
+            }
+            tabControl.SelectedTab.ImageIndex = 0;
+        }
+
+        private void TabControl_ControlAdded(object sender, System.Windows.Forms.ControlEventArgs e)
         {
             // throw new System.NotImplementedException();
             //(e.Control as TabPage).ImageIndex = 0;
         }
 
-        private void TabControl_ControlRemoved(object sender, ControlEventArgs e)
+        private void TabControl_ControlRemoved(object sender, System.Windows.Forms.ControlEventArgs e)
         {
             // if (_codeEditorType == CodeEditorType.Scintilla)
             {
@@ -204,7 +232,7 @@ namespace Computator.NET.UI.CodeEditors
             }
         }
 
-        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void TabControl_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             if (tabControl.SelectedIndex < tabControl.TabPages.Count - 1)
             {
@@ -217,13 +245,13 @@ namespace Computator.NET.UI.CodeEditors
             }
         }
 
-        public void SetFont(Font font)
+        public void SetFont(System.Drawing.Font font)
         {
             avalonEditor.SetFont(font);
             scintillaEditor.SetFont(font);
         }
 
-        public void ProcessScript(RichTextBox things, string customCode = "")
+        public void ProcessScript(System.Windows.Forms.RichTextBox things, string customCode = "")
         {
             //  try
             //  {
@@ -247,10 +275,10 @@ namespace Computator.NET.UI.CodeEditors
 
         public void ChangeEditorType()
         {
-            _codeEditorType = Settings.Default.CodeEditor;
+            _codeEditorType = Properties.Settings.Default.CodeEditor;
             switch (_codeEditorType)
             {
-                case CodeEditorType.AvalonEdit:
+                case DataTypes.SettingsTypes.CodeEditorType.AvalonEdit:
 
 
                     //////////////
@@ -261,7 +289,7 @@ namespace Computator.NET.UI.CodeEditors
                     avalonEditorWrapper.Show();
                     scintillaEditor.Hide();
                     break;
-                case CodeEditorType.Scintilla:
+                case DataTypes.SettingsTypes.CodeEditorType.Scintilla:
                     ////////////////////
                     scintillaEditor.Text = avalonEditor.Text;
                     ///////////////////
@@ -273,7 +301,7 @@ namespace Computator.NET.UI.CodeEditors
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
         }
     }
 }

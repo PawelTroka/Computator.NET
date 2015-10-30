@@ -1,12 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using Enumerable = System.Linq.Enumerable;
 
 namespace Computator.NET.UI
 {
-    public partial class ScientificNumericUpDown : NumericUpDown
+    public partial class ScientificNumericUpDown : System.Windows.Forms.NumericUpDown
     {
         private readonly char dotSymbol = '·'; //'⋅'
         private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾";
@@ -21,9 +17,10 @@ namespace Computator.NET.UI
             ExponentialMode = true;
 
 
-            Font = new Font("Cambria", 16.2F, GraphicsUnit.Point); //GlobalConfig.mathFont;
+            Font = new System.Drawing.Font("Cambria", 16.2F, System.Drawing.GraphicsUnit.Point);
+                //GlobalConfig.mathFont;
 
-            TextAlign = HorizontalAlignment.Center;
+            TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             //this.KeyPress += Control_KeyPress;
         }
 
@@ -48,9 +45,9 @@ namespace Computator.NET.UI
             }
         }*/
 
-        protected override void OnTextBoxKeyPress(object source, KeyPressEventArgs e)
+        protected override void OnTextBoxKeyPress(object source, System.Windows.Forms.KeyPressEventArgs e)
         {
-            if (e.KeyChar == '*' && !Text.Contains(dotSymbol))
+            if (e.KeyChar == '*' && !Enumerable.Contains(Text, dotSymbol))
                 e.KeyChar = dotSymbol;
             else
                 base.OnTextBoxKeyPress(source, e);
@@ -63,18 +60,18 @@ namespace Computator.NET.UI
                 var parts1 = Text.Split(dotSymbol);
                 if (parts1.Length == 2)
                 {
-                    if (parts1[1].Any(c => exponents.Contains(c)))
+                    if (Enumerable.Any(parts1[1], c => Enumerable.Contains(exponents, c)))
                         Value = (decimal) (double.Parse(parts1[0])*covertFromScientificToValue(parts1[1]));
                     else
                         Value = (decimal) (double.Parse(parts1[0])*double.Parse(parts1[1]));
                 }
-                else if (parts1.Length == 1 && parts1[0].Any(c => exponents.Contains(c)))
+                else if (parts1.Length == 1 && Enumerable.Any(parts1[0], c => Enumerable.Contains(exponents, c)))
                 {
                     var convertedValue = covertFromScientificToValue(parts1[0]);
                     Value = (decimal) (convertedValue);
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 base.ValidateEditText();
             }
@@ -109,14 +106,14 @@ namespace Computator.NET.UI
             }
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
+        protected override void OnPaint(System.Windows.Forms.PaintEventArgs pe)
         {
             base.OnPaint(pe);
         }
 
         protected override void UpdateEditText()
         {
-            if ((Math.Abs(Value) < 10000 && (double) Math.Abs(Value) >= 0.001) || Value == 0)
+            if ((System.Math.Abs(Value) < 10000 && (double) System.Math.Abs(Value) >= 0.001) || Value == 0)
                 Text = Value.ToString();
             else
             {
@@ -134,7 +131,7 @@ namespace Computator.NET.UI
 
         private string covertToExponent(string v)
         {
-            var sb = new StringBuilder(v);
+            var sb = new System.Text.StringBuilder(v);
 
             for (var i = 0; i < sb.Length; i++)
                 for (var j = 0; j < exponents.Length; j++)
@@ -145,7 +142,7 @@ namespace Computator.NET.UI
 
         private double covertFromScientificToValue(string v)
         {
-            var sb = new StringBuilder(v);
+            var sb = new System.Text.StringBuilder(v);
 
             if (sb[0] == '1' && sb[1] == '0')
             {

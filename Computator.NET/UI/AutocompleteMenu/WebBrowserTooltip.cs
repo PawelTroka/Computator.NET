@@ -1,25 +1,20 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-using Computator.NET.Functions;
-using Computator.NET.Localization;
-
-namespace Computator.NET.UI.AutocompleteMenu
+﻿namespace Computator.NET.UI.AutocompleteMenu
 {
-    internal class WebBrowserForm : Form
+    internal class WebBrowserForm : System.Windows.Forms.Form
     {
-        public WebBrowser webBrowser;
+        public System.Windows.Forms.WebBrowser webBrowser;
 
         public WebBrowserForm()
         {
             FormClosing += Form_FormClosing;
             Text = "Functions & Constants Details";
-            webBrowser = new WebBrowser();
+            webBrowser = new System.Windows.Forms.WebBrowser();
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
-            webBrowser.MinimumSize = new Size(300, 195);
+            webBrowser.MinimumSize = new System.Drawing.Size(300, 195);
             webBrowser.ScrollBarsEnabled = true;
 
             Controls.Add(webBrowser);
-            webBrowser.Dock = DockStyle.Fill;
+            webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
         }
 
         public string HTMLCode
@@ -31,23 +26,24 @@ namespace Computator.NET.UI.AutocompleteMenu
             }
         }
 
-        public void setFunctionInfo(FunctionInfo functionInfo)
+        public void setFunctionInfo(Functions.FunctionInfo functionInfo)
         {
             HTMLCode = @"<b>" + functionInfo.Title + @"</b>" + @"<hr>" + functionInfo.Description + @" <br /><br /><i>" +
-                       Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
+                       Localization.Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
                        functionInfo.Url.Replace("http://en.wikipedia", "http://en.m.wikipedia") + @""">" +
                        functionInfo.Url + @"</a></i>";
         }
 
-        private void Form_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
             e.Cancel = true; // this cancels the close event.
             Hide();
         }
 
-        private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void WebBrowser_DocumentCompleted(object sender,
+            System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
-            var webBrowser = sender as WebBrowser;
+            var webBrowser = sender as System.Windows.Forms.WebBrowser;
 
             var r = webBrowser.Document.Body.ScrollRectangle;
 
@@ -59,22 +55,22 @@ namespace Computator.NET.UI.AutocompleteMenu
             else
                 height = webBrowser.Size.Height;
 
-            webBrowser.Size = new Size(r.Width + overlapp, height);
+            webBrowser.Size = new System.Drawing.Size(r.Width + overlapp, height);
             //  webBrowser.Document.Body.Style = "zoom:80%;";
         }
     }
 
-    internal class WebBrowserToolTip : ToolStripDropDown
+    internal class WebBrowserToolTip : System.Windows.Forms.ToolStripDropDown
     {
         //private Control ctl;
         //  private WebBrowserForm form;
-        private readonly WebBrowser webBrowser;
+        private readonly System.Windows.Forms.WebBrowser webBrowser;
 
         public WebBrowserToolTip()
         {
-            webBrowser = new WebBrowser();
+            webBrowser = new System.Windows.Forms.WebBrowser();
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
-            webBrowser.MinimumSize = new Size(300, 195);
+            webBrowser.MinimumSize = new System.Drawing.Size(300, 195);
             webBrowser.ScrollBarsEnabled = true;
 
             // this.ctl = webBrowser;
@@ -95,7 +91,7 @@ namespace Computator.NET.UI.AutocompleteMenu
         public void Initialize()
         {
             //  this.AutoSize = true;
-            var host = new ToolStripControlHost(webBrowser);
+            var host = new System.Windows.Forms.ToolStripControlHost(webBrowser);
             //this.Margin = Padding.Empty;
             // this.Padding = Padding.Empty;
             // host.Margin = Padding.Empty;
@@ -104,7 +100,7 @@ namespace Computator.NET.UI.AutocompleteMenu
             // host.Size = ctl.Size;
             // this.Size = ctl.Size;
             Items.Add(host);
-            webBrowser.Dock = DockStyle.Fill;
+            webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             //webBrowser.BringToFront();
             //this.form.Controls.Add(new ComboBox());//ctl);
             // webBrowser.Url = new Uri("http://en.m.wikipedia.org/w/index.php?search=" + title);
@@ -129,9 +125,10 @@ namespace Computator.NET.UI.AutocompleteMenu
             //form.Show();
         }
 
-        private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void WebBrowser_DocumentCompleted(object sender,
+            System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
-            var webBrowser = sender as WebBrowser;
+            var webBrowser = sender as System.Windows.Forms.WebBrowser;
 
             var r = webBrowser.Document.Body.ScrollRectangle;
 
@@ -143,14 +140,14 @@ namespace Computator.NET.UI.AutocompleteMenu
             else
                 height = webBrowser.Size.Height;
 
-            webBrowser.Size = new Size(r.Width + overlapp, height);
+            webBrowser.Size = new System.Drawing.Size(r.Width + overlapp, height);
             //  webBrowser.Document.Body.Style = "zoom:80%;";
         }
 
-        public void setFunctionInfo(FunctionInfo functionInfo)
+        public void setFunctionInfo(Functions.FunctionInfo functionInfo)
         {
             HTMLCode = @"<b>" + functionInfo.Title + @"</b>" + @"<hr>" + functionInfo.Description + @" <br /><br /><i>" +
-                       Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
+                       Localization.Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
                        functionInfo.Url.Replace("http://en.wikipedia", "http://en.m.wikipedia") + @""">" +
                        functionInfo.Url + @"</a></i>";
         }

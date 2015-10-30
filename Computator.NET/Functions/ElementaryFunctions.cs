@@ -1,730 +1,829 @@
-﻿using System;
-using System.ComponentModel;
-using System.Numerics;
-using System.Runtime.InteropServices;
-using MathNet.Numerics;
-using Meta.Numerics.Functions;
+﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable ConvertPropertyToExpressionBody
 
 namespace Computator.NET.Functions
 {
-    [StructLayout(LayoutKind.Sequential)]
-    internal static class ElementaryFunctions
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    public static class ElementaryFunctions
         //TODO: make functions appear in right order (etc first sin(x) then sin(z) then cos(x) ...)
     {
         #region trigonometric functions
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+
         public static double sinc(double x)
         {
             if (x == 0)
                 return 1;
-            return (Math.Sin((x)))/(x);
+            return (System.Math.Sin((x)))/(x);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+
         public static double sin(double x)
         {
-            return Math.Sin((x));
+            return System.Math.Sin((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double cos(double x)
         {
-            return Math.Cos((x));
+            return System.Math.Cos((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double tan(double x)
         {
-            return Math.Tan((x));
+            return System.Math.Tan((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double tg(double x)
         {
-            return Math.Tan((x));
+            return System.Math.Tan((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double ctg(double x)
         {
-            return 1.0/Math.Tan((x));
+            return 1.0/System.Math.Tan((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double cot(double x)
         {
-            return 1.0/Math.Tan((x));
+            return 1.0/System.Math.Tan((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double sec(double x)
         {
-            return 1.0/Math.Cos((x));
+            return 1.0/System.Math.Cos((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double csc(double x)
         {
-            return 1.0/Math.Sin((x));
+            return 1.0/System.Math.Sin((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double cosec(double x)
         {
-            return 1.0/Math.Sin((x));
+            return 1.0/System.Math.Sin((x));
         }
 
         #endregion
 
         #region hyperbolic trygonometric functions
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+
         public static double sinh(double x)
         {
-            return Math.Sinh((x));
+            return System.Math.Sinh((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double cosh(double x)
         {
-            return Math.Cosh((x));
+            return System.Math.Cosh((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+
         public static double tanh(double x)
         {
-            return Math.Tanh((x));
+            return System.Math.Tanh((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double tgh(double x)
         {
-            return Math.Tanh((x));
+            return System.Math.Tanh((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double coth(double x)
         {
-            return (1.0/Math.Tanh((x)));
+            return (1.0/System.Math.Tanh((x)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double ctgh(double x)
         {
-            return (1.0/Math.Tanh((x)));
+            return (1.0/System.Math.Tanh((x)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double sech(double x)
         {
-            return (1.0/Math.Cosh((x)));
+            return (1.0/System.Math.Cosh((x)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double csch(double x)
         {
-            return (1.0/Math.Sinh((x)));
+            return (1.0/System.Math.Sinh((x)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double cosech(double x)
         {
-            return (1.0/Math.Sinh((x)));
+            return (1.0/System.Math.Sinh((x)));
         }
 
         #endregion
 
         #region arcus trigonometric functions
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcsin(double x)
         {
-            return Math.Asin((x));
+            return System.Math.Asin((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arccos(double x)
         {
-            return Math.Acos((x));
+            return System.Math.Acos((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arctan(double x)
         {
-            return Math.Atan((x));
+            return System.Math.Atan((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arctg(double x)
         {
-            return Math.Atan((x));
+            return System.Math.Atan((x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arccot(double x)
         {
-            return (Math.PI/2 - Math.Atan((x)));
+            return (System.Math.PI/2 - System.Math.Atan((x)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcctg(double x)
         {
-            return (Math.PI/2 - Math.Atan((x)));
+            return (System.Math.PI/2 - System.Math.Atan((x)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcsec(double x)
         {
-            return (Math.Acos(1.0/(x)));
+            return (System.Math.Acos(1.0/(x)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arccsc(double x)
         {
-            return (Math.Asin(1.0/(x)));
+            return (System.Math.Asin(1.0/(x)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arccosec(double x)
         {
-            return (Math.Asin(1.0/(x)));
+            return (System.Math.Asin(1.0/(x)));
         }
 
         #endregion
 
         #region area hyperbolic trigonometric functions
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arsinh(double x)
         {
-            return Math.Log((x)) + Math.Sqrt((x)*(x) + 1);
+            return System.Math.Log((x)) + System.Math.Sqrt((x)*(x) + 1);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcosh(double x)
         {
-            return Math.Log((x) + Math.Sqrt(x + 1)*Math.Sqrt(x - 1));
+            return System.Math.Log((x) + System.Math.Sqrt(x + 1)*System.Math.Sqrt(x - 1));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double artanh(double x)
         {
-            return 0.5*Math.Log((1 + x)/(1 - x));
+            return 0.5*System.Math.Log((1 + x)/(1 - x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double artgh(double x)
         {
-            return 0.5*Math.Log((1 + x)/(1 - x));
+            return 0.5*System.Math.Log((1 + x)/(1 - x));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcoth(double x)
         {
-            return 0.5*Math.Log((x + 1)/(x - 1));
+            return 0.5*System.Math.Log((x + 1)/(x - 1));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arctgh(double x)
         {
-            return 0.5*Math.Log((x + 1)/(x - 1));
+            return 0.5*System.Math.Log((x + 1)/(x - 1));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcsch(double x)
         {
-            return Math.Log((1.0/x) + Math.Sqrt((1.0/(x*x)) + 1));
+            return System.Math.Log((1.0/x) + System.Math.Sqrt((1.0/(x*x)) + 1));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcosech(double x)
         {
             return arcsch(x);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double arsech(double x)
         {
-            return Math.Log((1.0/x) + Math.Sqrt((1.0/x) + 1)*Math.Sqrt((1.0/x) - 1));
+            return System.Math.Log((1.0/x) + System.Math.Sqrt((1.0/x) + 1)*System.Math.Sqrt((1.0/x) - 1));
         }
 
         #endregion
 
         #region logarithmic functions
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double ln(double x)
         {
-            return Math.Log(x);
+            return System.Math.Log(x);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double log2(double x)
         {
-            return Math.Log(x, 2);
+            return System.Math.Log(x, 2);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double log10(double x)
         {
-            return Math.Log10(x);
+            return System.Math.Log10(x);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double log(double value, double nbase)
         {
-            return Math.Log(value, nbase);
+            return System.Math.Log(value, nbase);
         }
 
         #endregion
 
         #region root functions
 
-        [Name("Square root"),
-         Description(
+        /*Square root"),
+         System.ComponentModel.Description(
              "square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x."
-             ), DisplayName("Angielska nazwa funkcji"),
-         Category("doubleu wpisz nazwę regionu (np. trigonometric functions)")]
+             ), System.ComponentModel.DisplayName("Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)*/
         public static double sqrt(double x)
         {
-            return Math.Sqrt(x);
+            return System.Math.Sqrt(x);
         }
 
-        [Name("Root function"), Description("root function of the given value"), DisplayName("Angielska nazwa funkcji"),
-         Category("doubleu wpisz nazwę regionu (np. trigonometric functions)")]
+        /*Root function"), System.ComponentModel.Description("root function of the given value"),
+         System.ComponentModel.DisplayName("Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)*/
         public static double root(double value, double n)
         {
             //n-based root
-            return Math.Pow(value, 1.0/n);
+            return System.Math.Pow(value, 1.0/n);
         }
 
         #endregion
 
         #region power functions
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double pow(double x, double y)
         {
-            return Math.Pow(x, y);
+            return System.Math.Pow(x, y);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double exp(double x)
         {
-            return Math.Exp(x);
+            return System.Math.Exp(x);
         }
 
         #endregion
 
         #region trigonometric functions
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex sinc(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex sinc(System.Numerics.Complex z)
         {
             if (z == 0)
                 return 1;
-            return (Complex.Sin((z)))/(z);
+            return (System.Numerics.Complex.Sin((z)))/(z);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex sin(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex sin(System.Numerics.Complex z)
         {
-            return Complex.Sin((z));
+            return System.Numerics.Complex.Sin((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex cos(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex cos(System.Numerics.Complex z)
         {
-            return Complex.Cos((z));
+            return System.Numerics.Complex.Cos((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex tan(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex tan(System.Numerics.Complex z)
         {
-            return Complex.Tan((z));
+            return System.Numerics.Complex.Tan((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex tg(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex tg(System.Numerics.Complex z)
         {
-            return Complex.Tan((z));
+            return System.Numerics.Complex.Tan((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex ctg(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex ctg(System.Numerics.Complex z)
         {
-            return 1.0/Complex.Tan((z));
+            return 1.0/System.Numerics.Complex.Tan((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex cot(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex cot(System.Numerics.Complex z)
         {
-            return 1.0/Complex.Tan((z));
+            return 1.0/System.Numerics.Complex.Tan((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex sec(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex sec(System.Numerics.Complex z)
         {
-            return 1.0/Complex.Cos((z));
+            return 1.0/System.Numerics.Complex.Cos((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex csc(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex csc(System.Numerics.Complex z)
         {
-            return 1.0/Complex.Sin((z));
+            return 1.0/System.Numerics.Complex.Sin((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex cosec(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex cosec(System.Numerics.Complex z)
         {
-            return 1.0/Complex.Sin((z));
+            return 1.0/System.Numerics.Complex.Sin((z));
         }
 
         #endregion
 
         #region hyperbolic trygonometric functions
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex sinh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex sinh(System.Numerics.Complex z)
         {
-            return Complex.Sinh((z));
+            return System.Numerics.Complex.Sinh((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex cosh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex cosh(System.Numerics.Complex z)
         {
-            return Complex.Cosh((z));
+            return System.Numerics.Complex.Cosh((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex tanh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex tanh(System.Numerics.Complex z)
         {
-            return Complex.Tanh((z));
+            return System.Numerics.Complex.Tanh((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex tgh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex tgh(System.Numerics.Complex z)
         {
-            return Complex.Tanh((z));
+            return System.Numerics.Complex.Tanh((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex coth(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex coth(System.Numerics.Complex z)
         {
-            return (1.0/Complex.Tanh((z)));
+            return (1.0/System.Numerics.Complex.Tanh((z)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex ctgh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex ctgh(System.Numerics.Complex z)
         {
-            return (1.0/Complex.Tanh((z)));
+            return (1.0/System.Numerics.Complex.Tanh((z)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex sech(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex sech(System.Numerics.Complex z)
         {
-            return (1.0/Complex.Cosh((z)));
+            return (1.0/System.Numerics.Complex.Cosh((z)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex csch(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex csch(System.Numerics.Complex z)
         {
-            return (1.0/Complex.Sinh((z)));
+            return (1.0/System.Numerics.Complex.Sinh((z)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex cosech(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex cosech(System.Numerics.Complex z)
         {
-            return (1.0/Complex.Sinh((z)));
+            return (1.0/System.Numerics.Complex.Sinh((z)));
         }
 
         #endregion
 
         #region arcus trigonometric functions
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arcsin(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arcsin(System.Numerics.Complex z)
         {
-            return Complex.Asin((z));
+            return System.Numerics.Complex.Asin((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arccos(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arccos(System.Numerics.Complex z)
         {
-            return Complex.Acos((z));
+            return System.Numerics.Complex.Acos((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arctan(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arctan(System.Numerics.Complex z)
         {
-            return Complex.Atan((z));
+            return System.Numerics.Complex.Atan((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arctg(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arctg(System.Numerics.Complex z)
         {
-            return Complex.Atan((z));
+            return System.Numerics.Complex.Atan((z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arccot(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arccot(System.Numerics.Complex z)
         {
-            return (Math.PI/2 - Complex.Atan((z)));
+            return (System.Math.PI/2 - System.Numerics.Complex.Atan((z)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arcctg(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arcctg(System.Numerics.Complex z)
         {
-            return (Math.PI/2 - Complex.Atan((z)));
+            return (System.Math.PI/2 - System.Numerics.Complex.Atan((z)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arcsec(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arcsec(System.Numerics.Complex z)
         {
-            return (Complex.Acos(1.0/(z)));
+            return (System.Numerics.Complex.Acos(1.0/(z)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arccsc(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arccsc(System.Numerics.Complex z)
         {
-            return (Complex.Asin(1.0/(z)));
+            return (System.Numerics.Complex.Asin(1.0/(z)));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arccosec(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arccosec(System.Numerics.Complex z)
         {
-            return (Complex.Asin(1.0/(z)));
+            return (System.Numerics.Complex.Asin(1.0/(z)));
         }
 
         #endregion
 
         #region area hyperbolic trigonometric functions
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arsinh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
         {
-            return Complex.Log((z)) + Complex.Sqrt((z)*(z) + 1);
+            return System.Numerics.Complex.Log((z)) + System.Numerics.Complex.Sqrt((z)*(z) + 1);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arcosh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arcosh(System.Numerics.Complex z)
         {
-            return Complex.Log((z) + Complex.Sqrt(z + 1)*Complex.Sqrt(z - 1));
+            return
+                System.Numerics.Complex.Log((z) +
+                                            System.Numerics.Complex.Sqrt(z + 1)*System.Numerics.Complex.Sqrt(z - 1));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex artanh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex artanh(System.Numerics.Complex z)
         {
-            return 0.5*Complex.Log((1 + z)/(1 - z));
+            return 0.5*System.Numerics.Complex.Log((1 + z)/(1 - z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex artgh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex artgh(System.Numerics.Complex z)
         {
-            return 0.5*Complex.Log((1 + z)/(1 - z));
+            return 0.5*System.Numerics.Complex.Log((1 + z)/(1 - z));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arcoth(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arcoth(System.Numerics.Complex z)
         {
-            return 0.5*Complex.Log((z + 1)/(z - 1));
+            return 0.5*System.Numerics.Complex.Log((z + 1)/(z - 1));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arctgh(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arctgh(System.Numerics.Complex z)
         {
-            return 0.5*Complex.Log((z + 1)/(z - 1));
+            return 0.5*System.Numerics.Complex.Log((z + 1)/(z - 1));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arcsch(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arcsch(System.Numerics.Complex z)
         {
-            return Complex.Log((1.0/z) + Complex.Sqrt((1.0/(z*z)) + 1));
+            return System.Numerics.Complex.Log((1.0/z) + System.Numerics.Complex.Sqrt((1.0/(z*z)) + 1));
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arcosech(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arcosech(System.Numerics.Complex z)
         {
             return arcsch(z);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex arsech(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex arsech(System.Numerics.Complex z)
         {
-            return Complex.Log((1.0/z) + Complex.Sqrt((1.0/z) + 1)*Complex.Sqrt((1.0/z) - 1));
+            return
+                System.Numerics.Complex.Log((1.0/z) +
+                                            System.Numerics.Complex.Sqrt((1.0/z) + 1)*
+                                            System.Numerics.Complex.Sqrt((1.0/z) - 1));
         }
 
         #endregion
 
         #region logarithmic functions
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex ln(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex ln(System.Numerics.Complex z)
         {
-            return Complex.Log(z);
+            return System.Numerics.Complex.Log(z);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex log2(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex log2(System.Numerics.Complex z)
         {
-            return Complex.Log(z, 2);
+            return System.Numerics.Complex.Log(z, 2);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex log10(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex log10(System.Numerics.Complex z)
         {
-            return Complex.Log10(z);
+            return System.Numerics.Complex.Log10(z);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex log(Complex z, double nbase)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex log(System.Numerics.Complex z, double nbase)
         {
-            return Complex.Log(z, nbase);
+            return System.Numerics.Complex.Log(z, nbase);
         }
 
         #endregion
 
         #region root functions
 
-        [Name("Square root"),
-         Description(
+        /*Square root"),
+         System.ComponentModel.Description(
              "square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x."
-             ), DisplayName("Angielska nazwa funkcji"),
-         Category("Complexu wpisz nazwę regionu (np. trigonometric functions)")]
-        public static Complex sqrt(Complex z)
+             ), System.ComponentModel.DisplayName("Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)*/
+        public static System.Numerics.Complex sqrt(System.Numerics.Complex z)
         {
-            return Complex.Sqrt(z);
+            return System.Numerics.Complex.Sqrt(z);
         }
 
-        [Name("Root function"), Description("root function of the given value"), DisplayName("Angielska nazwa funkcji"),
-         Category("Complexu wpisz nazwę regionu (np. trigonometric functions)")]
-        public static Complex root(Complex z, Complex n)
+        /*Root function"), System.ComponentModel.Description("root function of the given value"),
+         System.ComponentModel.DisplayName("Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)*/
+        public static System.Numerics.Complex root(System.Numerics.Complex z, System.Numerics.Complex n)
         {
             //n-based root
-            return Complex.Pow(z, 1.0/n);
+            return System.Numerics.Complex.Pow(z, 1.0/n);
         }
 
         #endregion
 
         #region power functions
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex pow(Complex x, Complex y)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex pow(System.Numerics.Complex x, System.Numerics.Complex y)
         {
-            return Complex.Pow(x, y);
+            return System.Numerics.Complex.Pow(x, y);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static Complex exp(Complex z)
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Complexu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+        public static System.Numerics.Complex exp(System.Numerics.Complex z)
         {
-            return Complex.Exp(z);
+            return System.Numerics.Complex.Exp(z);
         }
 
         #endregion
 
         #region integer functions
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<double, double> sgn =
-             x => (double.IsNaN(x)) ? double.NaN : (double) (Math.Sign(x));
+        private static double sgn(double x)
+        {
+            return (double.IsNaN(x)) ? double.NaN : (double) (System.Math.Sign(x));
+        }
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<long, long, long> GCF = AdvancedIntegerMath.GCF,
-            NWD = AdvancedIntegerMath.GCF;
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<long, long, long> LCM = AdvancedIntegerMath.LCM,
-            NWW = AdvancedIntegerMath.LCM;
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        public static long GCF(long a, long b)
+        {
+            return Meta.Numerics.Functions.AdvancedIntegerMath.GCF(a,b);
+        }
+
+        public static long NWD(long a, long b)
+        {
+            return GCF(a, b);
+        }
+
+
+
+        public static long LCM(long a, long b)
+        {
+            return Meta.Numerics.Functions.AdvancedIntegerMath.LCM(a, b);
+        }
+
+        public static long NWW(long a, long b)
+        {
+            return LCM(a, b);
+        }
+
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double factorial(double n)
         {
             double f = 1;
@@ -733,13 +832,14 @@ namespace Computator.NET.Functions
             return f;
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static int prime(double d)
         {
             if (d < 1)
                 return -1;
-            if (AdvancedIntegerMath.IsPrime((int) (d)))
+            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) (d)))
                 return 1;
             return 0;
         }
@@ -748,33 +848,65 @@ namespace Computator.NET.Functions
 
         #region complex specific functions
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<Complex, Complex> conj = Complex.Conjugate;
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<Complex, double> Re = z => z.Real;
+        public static System.Numerics.Complex conj(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Conjugate(z);
+        }
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<Complex, double> Im = z => z.Imaginary;
+        public static double Re(System.Numerics.Complex z)
+        {
+            return z.Real;
+        }
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<Complex, double> Phase = z => z.Phase;
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<Complex, double> Magnitude = z => z.Magnitude;
+        public static double Im(System.Numerics.Complex z)
+        {
+            return z.Imaginary;
+        }
+
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+
+        public static double Phase(System.Numerics.Complex z)
+        {
+            return z.Phase;
+        }
+
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
+
+        public static double Magnitude(System.Numerics.Complex z)
+        {
+            return z.Magnitude;
+        }
 
         #endregion
 
         #region a step like functions (non continuous)
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<double, double> H = Heaviside;
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<double, double> δ = DiracDelta;
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")] public static Func<double, double, double> δij = KroneckerDelta;
+
+        public static double H(double x)
+        {
+            return Heaviside(x);
+        }
+        public static double δ(double x)
+        {
+            return DiracDelta(x);
+        }
+
+    
+    public static double δij(double i, double j)
+    {
+        return KroneckerDelta(i,j);
+    }
 
         public static double abs(double x)
         {
@@ -783,13 +915,11 @@ namespace Computator.NET.Functions
             return -x;
         }
 
-        public static Complex abs(Complex z)
+        public static System.Numerics.Complex abs(System.Numerics.Complex z)
         {
-            return Complex.Abs(z);
+            return System.Numerics.Complex.Abs(z);
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
         public static double Heaviside(double x)
         {
             if (x > 0.0)
@@ -800,17 +930,17 @@ namespace Computator.NET.Functions
         }
 
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
-        public static double DiracDelta(double d)
+
+        public static double DiracDelta(double x)
         {
-            if (d != 0.0)
+            if (x != 0.0)
                 return 0;
             return double.PositiveInfinity;
         }
 
-        [Name("Angielska nazwa funkcji"), Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
-         Description("angielski opis funkcji")]
+        /*Angielska nazwa funkcji"),
+         System.ComponentModel.Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
+         System.ComponentModel.Description("angielski opis funkcji*/
         public static double KroneckerDelta(double i, double j)
         {
             if (i != j)
@@ -822,13 +952,16 @@ namespace Computator.NET.Functions
 
         #region coefficients and special values
 
-        [DllImport(gslSfLibDir2, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_taylorcoeff(int n, double x);
 
-        [DllImport(gslSfLibDir2, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_doublefact(uint n);
 
-        [DllImport(gslSfLibDir2, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_choose(uint n, uint m);
 
         public static double TaylorCoeff(int n, double x)
@@ -837,895 +970,26 @@ namespace Computator.NET.Functions
             return gsl_sf_taylorcoeff(n, x);
         }
 
-        public static double DoubleFactorial(uint n)
+        public static double DoubleFactorial(double x)
         {
-            return gsl_sf_doublefact(n);
+            return DoubleFactorial((long) x);
         }
 
-        public static double BinomialCoeff(uint n, uint k)
+        public static double DoubleFactorial(long n)
         {
-            return gsl_sf_choose(n, k);
-        }
-
-        #endregion
-
-        #region combinatorics
-
-        public static double VariationsWithRepetition(int n, int k)
-        {
-            return Combinatorics.VariationsWithRepetition(n, k);
-        }
-
-        public static double Variations(int n, int k)
-        {
-            return Combinatorics.Variations(n, k);
-        }
-
-        public static double CombinationsWithRepetition(int n, int k)
-        {
-            return Combinatorics.CombinationsWithRepetition(n, k);
-        }
-
-        public static double Combinations(int n, int k)
-        {
-            return Combinatorics.Combinations(n, k);
-        }
-
-        public static double Permutations(int n, int k)
-        {
-            return Combinatorics.Permutations(n);
-        }
-
-        #endregion
-
-        #region utils
-
-        private const string gslSfLibDir2 = "gsl.dll"; //"libgsl-0.dll";
-
-        public const string ToCode =
-            @"
-
-        #region utils
-
-        private const string gslSfLibDir2 = ""gsl.dll""; //""libgsl-0.dll"";
-
-        #endregion
-
-
-        #region trigonometric functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double sinc(double x)
-        {
-            if (x == 0)
-                return 1;
-            return (Math.Sin((x)))/(x);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double sin(double x)
-        {
-            return Math.Sin((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double cos(double x)
-        {
-            return Math.Cos((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double tan(double x)
-        {
-            return Math.Tan((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double tg(double x)
-        {
-            return Math.Tan((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double ctg(double x)
-        {
-            return 1.0/Math.Tan((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double cot(double x)
-        {
-            return 1.0/Math.Tan((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double sec(double x)
-        {
-            return 1.0/Math.Cos((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double csc(double x)
-        {
-            return 1.0/Math.Sin((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double cosec(double x)
-        {
-            return 1.0/Math.Sin((x));
-        }
-
-        #endregion
-
-        #region hyperbolic trygonometric functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double sinh(double x)
-        {
-            return Math.Sinh((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double cosh(double x)
-        {
-            return Math.Cosh((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double tanh(double x)
-        {
-            return Math.Tanh((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double tgh(double x)
-        {
-            return Math.Tanh((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double coth(double x)
-        {
-            return (1.0/Math.Tanh((x)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double ctgh(double x)
-        {
-            return (1.0/Math.Tanh((x)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double sech(double x)
-        {
-            return (1.0/Math.Cosh((x)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double csch(double x)
-        {
-            return (1.0/Math.Sinh((x)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double cosech(double x)
-        {
-            return (1.0/Math.Sinh((x)));
-        }
-
-        #endregion
-
-        #region arcus trigonometric functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arcsin(double x)
-        {
-            return Math.Asin((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arccos(double x)
-        {
-            return Math.Acos((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arctan(double x)
-        {
-            return Math.Atan((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arctg(double x)
-        {
-            return Math.Atan((x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arccot(double x)
-        {
-            return (Math.PI/2 - Math.Atan((x)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arcctg(double x)
-        {
-            return (Math.PI/2 - Math.Atan((x)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arcsec(double x)
-        {
-            return (Math.Acos(1.0/(x)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arccsc(double x)
-        {
-            return (Math.Asin(1.0/(x)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arccosec(double x)
-        {
-            return (Math.Asin(1.0/(x)));
-        }
-
-        #endregion
-
-        #region area hyperbolic trigonometric functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arsinh(double x)
-        {
-            return Math.Log((x)) + Math.Sqrt((x)*(x) + 1);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arcosh(double x)
-        {
-            return Math.Log((x) + Math.Sqrt(x + 1)*Math.Sqrt(x - 1));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double artanh(double x)
-        {
-            return 0.5*Math.Log((1 + x)/(1 - x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double artgh(double x)
-        {
-            return 0.5*Math.Log((1 + x)/(1 - x));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arcoth(double x)
-        {
-            return 0.5*Math.Log((x + 1)/(x - 1));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arctgh(double x)
-        {
-            return 0.5*Math.Log((x + 1)/(x - 1));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arcsch(double x)
-        {
-            return Math.Log((1.0/x) + Math.Sqrt((1.0/(x*x)) + 1));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arcosech(double x)
-        {
-            return arcsch(x);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double arsech(double x)
-        {
-            return Math.Log((1.0/x) + Math.Sqrt((1.0/x) + 1)*Math.Sqrt((1.0/x) - 1));
-        }
-
-        #endregion
-
-        #region logarithmic functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double ln(double x)
-        {
-            return Math.Log(x);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double log2(double x)
-        {
-            return Math.Log(x, 2);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double log10(double x)
-        {
-            return Math.Log10(x);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double log(double value, double nbase)
-        {
-            return Math.Log(value, nbase);
-        }
-
-        #endregion
-
-        #region root functions
-
-        /*[Name(""Square root""),
-         Description(
-             ""square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.""
-             ), DisplayName(""Angielska nazwa funkcji""),
-         Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)"")]*/
-        public static double sqrt(double x)
-        {
-            return Math.Sqrt(x);
-        }
-
-        /*[Name(""Root function""), Description(""root function of the given value""), DisplayName(""Angielska nazwa funkcji""),
-         Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)"")]*/
-        public static double root(double value, double n)
-        {
-            //n-based root
-            return Math.Pow(value, 1.0/n);
-        }
-
-        #endregion
-
-        #region power functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double pow(double x, double y)
-        {
-            return Math.Pow(x, y);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double exp(double x)
-        {
-            return Math.Exp(x);
-        }
-
-        #endregion
-
-        #region trigonometric functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex sinc(Complex z)
-        {
-            if (z == 0)
-                return 1;
-            return (Complex.Sin((z))) / (z);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex sin(Complex z)
-        {
-            return Complex.Sin((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex cos(Complex z)
-        {
-            return Complex.Cos((z));
-        }
+            if (n < 0)
+                return double.NaN;
 
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex tan(Complex z)
-        {
-            return Complex.Tan((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex tg(Complex z)
-        {
-            return Complex.Tan((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex ctg(Complex z)
-        {
-            return 1.0 / Complex.Tan((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex cot(Complex z)
-        {
-            return 1.0 / Complex.Tan((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex sec(Complex z)
-        {
-            return 1.0 / Complex.Cos((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex csc(Complex z)
-        {
-            return 1.0 / Complex.Sin((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex cosec(Complex z)
-        {
-            return 1.0 / Complex.Sin((z));
-        }
-
-        #endregion
-
-        #region hyperbolic trygonometric functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex sinh(Complex z)
-        {
-            return Complex.Sinh((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex cosh(Complex z)
-        {
-            return Complex.Cosh((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex tanh(Complex z)
-        {
-            return Complex.Tanh((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex tgh(Complex z)
-        {
-            return Complex.Tanh((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex coth(Complex z)
-        {
-            return (1.0 / Complex.Tanh((z)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex ctgh(Complex z)
-        {
-            return (1.0 / Complex.Tanh((z)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex sech(Complex z)
-        {
-            return (1.0 / Complex.Cosh((z)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex csch(Complex z)
-        {
-            return (1.0 / Complex.Sinh((z)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex cosech(Complex z)
-        {
-            return (1.0 / Complex.Sinh((z)));
-        }
-
-        #endregion
-
-        #region arcus trigonometric functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arcsin(Complex z)
-        {
-            return Complex.Asin((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arccos(Complex z)
-        {
-            return Complex.Acos((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arctan(Complex z)
-        {
-            return Complex.Atan((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arctg(Complex z)
-        {
-            return Complex.Atan((z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arccot(Complex z)
-        {
-            return (Math.PI / 2 - Complex.Atan((z)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arcctg(Complex z)
-        {
-            return (Math.PI / 2 - Complex.Atan((z)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arcsec(Complex z)
-        {
-            return (Complex.Acos(1.0 / (z)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arccsc(Complex z)
-        {
-            return (Complex.Asin(1.0 / (z)));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arccosec(Complex z)
-        {
-            return (Complex.Asin(1.0 / (z)));
-        }
-
-        #endregion
-
-        #region area hyperbolic trigonometric functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arsinh(Complex z)
-        {
-            return Complex.Log((z)) + Complex.Sqrt((z) * (z) + 1);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arcosh(Complex z)
-        {
-            return Complex.Log((z) + Complex.Sqrt(z + 1) * Complex.Sqrt(z - 1));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex artanh(Complex z)
-        {
-            return 0.5 * Complex.Log((1 + z) / (1 - z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex artgh(Complex z)
-        {
-            return 0.5 * Complex.Log((1 + z) / (1 - z));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arcoth(Complex z)
-        {
-            return 0.5 * Complex.Log((z + 1) / (z - 1));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arctgh(Complex z)
-        {
-            return 0.5 * Complex.Log((z + 1) / (z - 1));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arcsch(Complex z)
-        {
-            return Complex.Log((1.0 / z) + Complex.Sqrt((1.0 / (z * z)) + 1));
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arcosech(Complex z)
-        {
-            return arcsch(z);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex arsech(Complex z)
-        {
-            return Complex.Log((1.0 / z) + Complex.Sqrt((1.0 / z) + 1) * Complex.Sqrt((1.0 / z) - 1));
-        }
-
-        #endregion
-
-        #region logarithmic functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex ln(Complex z)
-        {
-            return Complex.Log(z);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex log2(Complex z)
-        {
-            return Complex.Log(z, 2);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex log10(Complex z)
-        {
-            return Complex.Log10(z);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex log(Complex z, double nbase)
-        {
-            return Complex.Log(z, nbase);
-        }
-
-        #endregion
-
-        #region root functions
-
-        /*[Name(""Square root""),
-         Description(
-             ""square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.""
-             ), DisplayName(""Angielska nazwa funkcji""),
-         Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)"")]*/
-        public static Complex sqrt(Complex z)
-        {
-            return Complex.Sqrt(z);
-        }
-
-        /*[Name(""Root function""), Description(""root function of the given value""), DisplayName(""Angielska nazwa funkcji""),
-         Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)"")]*/
-        public static Complex root(Complex z, Complex n)
-        {
-            //n-based root
-            return Complex.Pow(z, 1.0 / n);
-        }
-
-        #endregion
-
-        #region power functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex pow(Complex x, Complex y)
-        {
-            return Complex.Pow(x, y);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static Complex exp(Complex z)
-        {
-            return Complex.Exp(z);
-        }
-
-        #endregion
-
-        #region integer functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<double, double> sgn =
-             x => (double.IsNaN(x)) ? double.NaN : (double) (Math.Sign(x));
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<long, long, long> GCF = AdvancedIntegerMath.GCF,
-            NWD = AdvancedIntegerMath.GCF;
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<long, long, long> LCM = AdvancedIntegerMath.LCM,
-            NWW = AdvancedIntegerMath.LCM;
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double factorial(double n)
-        {
-            double f = 1;
-            for (ulong i = 1; i <= n; i++)
-                f = f*i;
-            return f;
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static int prime(double d)
-        {
-            if (d < 1)
-                return -1;
-            if (AdvancedIntegerMath.IsPrime((int) (d)))
-                return 1;
-            return 0;
-        }
-
-        #endregion
-
-        #region complex specific functions
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<Complex, Complex> conj = Complex.Conjugate;
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<Complex, double> Re = z => z.Real;
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<Complex, double> Im = z => z.Imaginary;
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<Complex, double> Phase = z => z.Phase;
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<Complex, double> Magnitude = z => z.Magnitude;
-
-        #endregion
-
-        #region a step like functions (non continuous)
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<double, double> H = Heaviside;
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<double, double> δ = DiracDelta;
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/ public static Func<double, double, double> δij = KroneckerDelta;
-
-        public static double abs(double x)
-        {
-            if (x >= 0.0)
-                return x;
-            return -x;
-        }
-
-        public static Complex abs(Complex z)
-        {
-            return Complex.Abs(z);
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double Heaviside(double x)
-        {
-            if (x > 0.0)
-                return 1;
-            if (x < 0.0)
-                return 0;
-            return 0.5;
-        }
-
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double DiracDelta(double d)
-        {
-            if (d != 0.0)
-                return 0;
-            return double.PositiveInfinity;
-        }
-
-        /*[Name(""Angielska nazwa funkcji""), Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         Description(""angielski opis funkcji"")]*/
-        public static double KroneckerDelta(double i, double j)
-        {
-            if (i != j)
-                return 0;
-            return 1;
-        }
-
-        #endregion
-
-        #region coefficients and special values
-
-        [DllImport(gslSfLibDir2, CallingConvention = CallingConvention.Cdecl)]
-        private static extern double gsl_sf_taylorcoeff(int n, double x);
-
-        [DllImport(gslSfLibDir2, CallingConvention = CallingConvention.Cdecl)]
-        private static extern double gsl_sf_doublefact(uint n);
-
-        [DllImport(gslSfLibDir2, CallingConvention = CallingConvention.Cdecl)]
-        private static extern double gsl_sf_choose(uint n, uint m);
-
-        public static double TaylorCoeff(int n, double x)
-        {
-            if (n < 0 || x < 0) return double.NaN;
-            return gsl_sf_taylorcoeff(n, x);
-        }
-
-        public static double DoubleFactorial(uint n)
-        {
-            return gsl_sf_doublefact(n);
+            return gsl_sf_doublefact((uint) n);
         }
 
-        public static double BinomialCoeff(uint n, uint k)
+        public static double BinomialCoeff(long n, long k)
         {
-            return gsl_sf_choose(n, k);
+            if (n < 0 || k < 0 || k > n)
+            {
+                return double.NaN;
+            }
+            return gsl_sf_choose((uint) n, (uint) k);
         }
 
         #endregion
@@ -1752,13 +1016,1046 @@ namespace Computator.NET.Functions
             return MathNet.Numerics.Combinatorics.Combinations(n, k);
         }
 
-        public static double Permutations(int n, int k)
+        public static double Permutations(int n)
         {
+            if (n < 0)
+                return 0;
             return MathNet.Numerics.Combinatorics.Permutations(n);
+            //MathNet.Numerics.Combinatorics' and 'Accord.Math.Combinatorics'
         }
 
         #endregion
 
+        #region utils
+
+        private const string gslSfLibDir2 = "gsl.dll"; //"libgsl-0.dll";
+
+        public const string ToCode =
+            @"
+      #region trigonometric functions
+
+
+        public static double sinc(double x)
+        {
+            if (x == 0)
+                return 1;
+            return (System.Math.Sin((x)))/(x);
+        }
+
+
+        public static double sin(double x)
+        {
+            return System.Math.Sin((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double cos(double x)
+        {
+            return System.Math.Cos((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double tan(double x)
+        {
+            return System.Math.Tan((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double tg(double x)
+        {
+            return System.Math.Tan((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double ctg(double x)
+        {
+            return 1.0/System.Math.Tan((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double cot(double x)
+        {
+            return 1.0/System.Math.Tan((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double sec(double x)
+        {
+            return 1.0/System.Math.Cos((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double csc(double x)
+        {
+            return 1.0/System.Math.Sin((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double cosec(double x)
+        {
+            return 1.0/System.Math.Sin((x));
+        }
+
+        #endregion
+
+        #region hyperbolic trygonometric functions
+
+
+        public static double sinh(double x)
+        {
+            return System.Math.Sinh((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double cosh(double x)
+        {
+            return System.Math.Cosh((x));
+        }
+
+
+        public static double tanh(double x)
+        {
+            return System.Math.Tanh((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double tgh(double x)
+        {
+            return System.Math.Tanh((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double coth(double x)
+        {
+            return (1.0/System.Math.Tanh((x)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double ctgh(double x)
+        {
+            return (1.0/System.Math.Tanh((x)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double sech(double x)
+        {
+            return (1.0/System.Math.Cosh((x)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double csch(double x)
+        {
+            return (1.0/System.Math.Sinh((x)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double cosech(double x)
+        {
+            return (1.0/System.Math.Sinh((x)));
+        }
+
+        #endregion
+
+        #region arcus trigonometric functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arcsin(double x)
+        {
+            return System.Math.Asin((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arccos(double x)
+        {
+            return System.Math.Acos((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arctan(double x)
+        {
+            return System.Math.Atan((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arctg(double x)
+        {
+            return System.Math.Atan((x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arccot(double x)
+        {
+            return (System.Math.PI/2 - System.Math.Atan((x)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arcctg(double x)
+        {
+            return (System.Math.PI/2 - System.Math.Atan((x)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arcsec(double x)
+        {
+            return (System.Math.Acos(1.0/(x)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arccsc(double x)
+        {
+            return (System.Math.Asin(1.0/(x)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arccosec(double x)
+        {
+            return (System.Math.Asin(1.0/(x)));
+        }
+
+        #endregion
+
+        #region area hyperbolic trigonometric functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arsinh(double x)
+        {
+            return System.Math.Log((x)) + System.Math.Sqrt((x)*(x) + 1);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arcosh(double x)
+        {
+            return System.Math.Log((x) + System.Math.Sqrt(x + 1)*System.Math.Sqrt(x - 1));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double artanh(double x)
+        {
+            return 0.5*System.Math.Log((1 + x)/(1 - x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double artgh(double x)
+        {
+            return 0.5*System.Math.Log((1 + x)/(1 - x));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arcoth(double x)
+        {
+            return 0.5*System.Math.Log((x + 1)/(x - 1));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arctgh(double x)
+        {
+            return 0.5*System.Math.Log((x + 1)/(x - 1));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arcsch(double x)
+        {
+            return System.Math.Log((1.0/x) + System.Math.Sqrt((1.0/(x*x)) + 1));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arcosech(double x)
+        {
+            return arcsch(x);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double arsech(double x)
+        {
+            return System.Math.Log((1.0/x) + System.Math.Sqrt((1.0/x) + 1)*System.Math.Sqrt((1.0/x) - 1));
+        }
+
+        #endregion
+
+        #region logarithmic functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double ln(double x)
+        {
+            return System.Math.Log(x);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double log2(double x)
+        {
+            return System.Math.Log(x, 2);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double log10(double x)
+        {
+            return System.Math.Log10(x);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double log(double value, double nbase)
+        {
+            return System.Math.Log(value, nbase);
+        }
+
+        #endregion
+
+        #region root functions
+
+        /*Square root""),
+         System.ComponentModel.Description(
+             ""square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.""
+             ), System.ComponentModel.DisplayName(""Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)*/
+        public static double sqrt(double x)
+        {
+            return System.Math.Sqrt(x);
+        }
+
+        /*Root function""), System.ComponentModel.Description(""root function of the given value""),
+         System.ComponentModel.DisplayName(""Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)*/
+        public static double root(double value, double n)
+        {
+            //n-based root
+            return System.Math.Pow(value, 1.0/n);
+        }
+
+        #endregion
+
+        #region power functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double pow(double x, double y)
+        {
+            return System.Math.Pow(x, y);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double exp(double x)
+        {
+            return System.Math.Exp(x);
+        }
+
+        #endregion
+
+        #region trigonometric functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex sinc(System.Numerics.Complex z)
+        {
+            if (z == 0)
+                return 1;
+            return (System.Numerics.Complex.Sin((z)))/(z);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex sin(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Sin((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex cos(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Cos((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex tan(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Tan((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex tg(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Tan((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex ctg(System.Numerics.Complex z)
+        {
+            return 1.0/System.Numerics.Complex.Tan((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex cot(System.Numerics.Complex z)
+        {
+            return 1.0/System.Numerics.Complex.Tan((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex sec(System.Numerics.Complex z)
+        {
+            return 1.0/System.Numerics.Complex.Cos((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex csc(System.Numerics.Complex z)
+        {
+            return 1.0/System.Numerics.Complex.Sin((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex cosec(System.Numerics.Complex z)
+        {
+            return 1.0/System.Numerics.Complex.Sin((z));
+        }
+
+        #endregion
+
+        #region hyperbolic trygonometric functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex sinh(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Sinh((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex cosh(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Cosh((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex tanh(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Tanh((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex tgh(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Tanh((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex coth(System.Numerics.Complex z)
+        {
+            return (1.0/System.Numerics.Complex.Tanh((z)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex ctgh(System.Numerics.Complex z)
+        {
+            return (1.0/System.Numerics.Complex.Tanh((z)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex sech(System.Numerics.Complex z)
+        {
+            return (1.0/System.Numerics.Complex.Cosh((z)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex csch(System.Numerics.Complex z)
+        {
+            return (1.0/System.Numerics.Complex.Sinh((z)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex cosech(System.Numerics.Complex z)
+        {
+            return (1.0/System.Numerics.Complex.Sinh((z)));
+        }
+
+        #endregion
+
+        #region arcus trigonometric functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arcsin(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Asin((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arccos(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Acos((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arctan(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Atan((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arctg(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Atan((z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arccot(System.Numerics.Complex z)
+        {
+            return (System.Math.PI/2 - System.Numerics.Complex.Atan((z)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arcctg(System.Numerics.Complex z)
+        {
+            return (System.Math.PI/2 - System.Numerics.Complex.Atan((z)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arcsec(System.Numerics.Complex z)
+        {
+            return (System.Numerics.Complex.Acos(1.0/(z)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arccsc(System.Numerics.Complex z)
+        {
+            return (System.Numerics.Complex.Asin(1.0/(z)));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arccosec(System.Numerics.Complex z)
+        {
+            return (System.Numerics.Complex.Asin(1.0/(z)));
+        }
+
+        #endregion
+
+        #region area hyperbolic trigonometric functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Log((z)) + System.Numerics.Complex.Sqrt((z)*(z) + 1);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arcosh(System.Numerics.Complex z)
+        {
+            return
+                System.Numerics.Complex.Log((z) +
+                                            System.Numerics.Complex.Sqrt(z + 1)*System.Numerics.Complex.Sqrt(z - 1));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex artanh(System.Numerics.Complex z)
+        {
+            return 0.5*System.Numerics.Complex.Log((1 + z)/(1 - z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex artgh(System.Numerics.Complex z)
+        {
+            return 0.5*System.Numerics.Complex.Log((1 + z)/(1 - z));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arcoth(System.Numerics.Complex z)
+        {
+            return 0.5*System.Numerics.Complex.Log((z + 1)/(z - 1));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arctgh(System.Numerics.Complex z)
+        {
+            return 0.5*System.Numerics.Complex.Log((z + 1)/(z - 1));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arcsch(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Log((1.0/z) + System.Numerics.Complex.Sqrt((1.0/(z*z)) + 1));
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arcosech(System.Numerics.Complex z)
+        {
+            return arcsch(z);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex arsech(System.Numerics.Complex z)
+        {
+            return
+                System.Numerics.Complex.Log((1.0/z) +
+                                            System.Numerics.Complex.Sqrt((1.0/z) + 1)*
+                                            System.Numerics.Complex.Sqrt((1.0/z) - 1));
+        }
+
+        #endregion
+
+        #region logarithmic functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex ln(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Log(z);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex log2(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Log(z, 2);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex log10(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Log10(z);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex log(System.Numerics.Complex z, double nbase)
+        {
+            return System.Numerics.Complex.Log(z, nbase);
+        }
+
+        #endregion
+
+        #region root functions
+
+        /*Square root""),
+         System.ComponentModel.Description(
+             ""square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.""
+             ), System.ComponentModel.DisplayName(""Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)*/
+        public static System.Numerics.Complex sqrt(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Sqrt(z);
+        }
+
+        /*Root function""), System.ComponentModel.Description(""root function of the given value""),
+         System.ComponentModel.DisplayName(""Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)*/
+        public static System.Numerics.Complex root(System.Numerics.Complex z, System.Numerics.Complex n)
+        {
+            //n-based root
+            return System.Numerics.Complex.Pow(z, 1.0/n);
+        }
+
+        #endregion
+
+        #region power functions
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex pow(System.Numerics.Complex x, System.Numerics.Complex y)
+        {
+            return System.Numerics.Complex.Pow(x, y);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Complexu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static System.Numerics.Complex exp(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Exp(z);
+        }
+
+        #endregion
+
+        #region integer functions
+
+        private static double sgn(double x)
+        {
+            return (double.IsNaN(x)) ? double.NaN : (double) (System.Math.Sign(x));
+        }
+
+
+
+        public static long GCF(long a, long b)
+        {
+            return Meta.Numerics.Functions.AdvancedIntegerMath.GCF(a,b);
+        }
+
+        public static long NWD(long a, long b)
+        {
+            return GCF(a, b);
+        }
+
+
+
+        public static long LCM(long a, long b)
+        {
+            return Meta.Numerics.Functions.AdvancedIntegerMath.LCM(a, b);
+        }
+
+        public static long NWW(long a, long b)
+        {
+            return LCM(a, b);
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double factorial(double n)
+        {
+            double f = 1;
+            for (ulong i = 1; i <= n; i++)
+                f = f*i;
+            return f;
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static int prime(double d)
+        {
+            if (d < 1)
+                return -1;
+            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) (d)))
+                return 1;
+            return 0;
+        }
+
+        #endregion
+
+        #region complex specific functions
+
+
+        public static System.Numerics.Complex conj(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Conjugate(z);
+        }
+
+        public static double Re(System.Numerics.Complex z)
+        {
+            return z.Real;
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+
+        public static double Im(System.Numerics.Complex z)
+        {
+            return z.Imaginary;
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+
+        public static double Phase(System.Numerics.Complex z)
+        {
+            return z.Phase;
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+
+        public static double Magnitude(System.Numerics.Complex z)
+        {
+            return z.Magnitude;
+        }
+
+        #endregion
+
+        #region a step like functions (non continuous)
+
+
+
+
+        public static double H(double x)
+        {
+            return Heaviside(x);
+        }
+        public static double δ(double x)
+        {
+            return DiracDelta(x);
+        }
+
+    
+    public static double δij(double i, double j)
+    {
+        return KroneckerDelta(i,j);
+    }
+
+        public static double abs(double x)
+        {
+            if (x >= 0.0)
+                return x;
+            return -x;
+        }
+
+        public static System.Numerics.Complex abs(System.Numerics.Complex z)
+        {
+            return System.Numerics.Complex.Abs(z);
+        }
+
+        public static double Heaviside(double x)
+        {
+            if (x > 0.0)
+                return 1;
+            if (x < 0.0)
+                return 0;
+            return 0.5;
+        }
+
+
+
+        public static double DiracDelta(double x)
+        {
+            if (x != 0.0)
+                return 0;
+            return double.PositiveInfinity;
+        }
+
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
+        public static double KroneckerDelta(double i, double j)
+        {
+            if (i != j)
+                return 0;
+            return 1;
+        }
+
+        #endregion
+
+        #region coefficients and special values
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_taylorcoeff(int n, double x);
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_doublefact(uint n);
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_choose(uint n, uint m);
+
+        public static double TaylorCoeff(int n, double x)
+        {
+            if (n < 0 || x < 0) return double.NaN;
+            return gsl_sf_taylorcoeff(n, x);
+        }
+
+        public static double DoubleFactorial(double x)
+        {
+            return DoubleFactorial((long) x);
+        }
+
+        public static double DoubleFactorial(long n)
+        {
+            if (n < 0)
+                return double.NaN;
+
+            return gsl_sf_doublefact((uint) n);
+        }
+
+        public static double BinomialCoeff(long n, long k)
+        {
+            if (n < 0 || k < 0 || k > n)
+            {
+                return double.NaN;
+            }
+            return gsl_sf_choose((uint) n, (uint) k);
+        }
+
+        #endregion
+
+        #region combinatorics
+
+        public static double VariationsWithRepetition(int n, int k)
+        {
+            return MathNet.Numerics.Combinatorics.VariationsWithRepetition(n, k);
+        }
+
+        public static double Variations(int n, int k)
+        {
+            return MathNet.Numerics.Combinatorics.Variations(n, k);
+        }
+
+        public static double CombinationsWithRepetition(int n, int k)
+        {
+            return MathNet.Numerics.Combinatorics.CombinationsWithRepetition(n, k);
+        }
+
+        public static double Combinations(int n, int k)
+        {
+            return MathNet.Numerics.Combinatorics.Combinations(n, k);
+        }
+
+        public static double Permutations(int n)
+        {
+            if (n < 0)
+                return 0;
+            return MathNet.Numerics.Combinatorics.Permutations(n);
+            //MathNet.Numerics.Combinatorics' and 'Accord.Math.Combinatorics'
+        }
+
+        #endregion
+
+        #region utils
+
+        private const string gslSfLibDir2 = ""gsl.dll""; //""libgsl-0.dll"";
+		
+        #endregion
 ";
 
         #endregion

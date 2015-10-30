@@ -2,26 +2,13 @@
 
 #define SCINTILLA_30
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using AutocompleteMenuNS;
-using Computator.NET.Compilation;
-using Computator.NET.Config;
-using Computator.NET.Data;
-using Computator.NET.DataTypes;
-using ScintillaNET;
-using Settings = Computator.NET.Properties.Settings;
+using Enumerable = System.Linq.Enumerable;
 
 namespace Computator.NET.UI.CodeEditors
 {
     public static class DocumentExtension
     {
-        public static void RenameKey<TKey, TValue>(this IDictionary<TKey, TValue> dic,
+        public static void RenameKey<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue> dic,
             TKey fromKey, TKey toKey)
         {
             var value = dic[fromKey];
@@ -30,10 +17,10 @@ namespace Computator.NET.UI.CodeEditors
         }
     }
 
-    internal class ScintillaCodeEditorControl : Scintilla, ICodeEditorControl
+    internal class ScintillaCodeEditorControl : ScintillaNET.Scintilla, ICodeEditorControl
     {
         private readonly AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
-        private readonly Dictionary<string, Document> _documents;
+        private readonly System.Collections.Generic.Dictionary<string, ScintillaNET.Document> _documents;
         private string _autoCompleteList;
         private int lastCaretPos;
         private int maxLineNumberCharLength;
@@ -47,15 +34,18 @@ namespace Computator.NET.UI.CodeEditors
         {
             _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu
             {
-                TargetControlWrapper = new ScintillaWrapper(this),
-                MaximumSize = new Size(500, 180)
+                TargetControlWrapper = new AutocompleteMenuNS.ScintillaWrapper(this),
+                MaximumSize = new System.Drawing.Size(500, 180)
             };
-            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
+            _autocompleteMenu.SetAutocompleteItems(Data.AutocompletionData.GetAutocompleteItemsForScripting());
 
             InitializeComponent();
             // this.BorderStyle=BorderStyle.None;
-            Dock = DockStyle.Fill;
-            _documents = new Dictionary<string, Document> {{"NewFile1", Document}};
+            Dock = System.Windows.Forms.DockStyle.Fill;
+            _documents = new System.Collections.Generic.Dictionary<string, ScintillaNET.Document>
+            {
+                {"NewFile1", Document}
+            };
         }
 
         public bool ContainsDocument(string filename)
@@ -72,10 +62,10 @@ namespace Computator.NET.UI.CodeEditors
             AddRefDocument(document);
 
             // Replace the current document with a new one
-            Document = Document.Empty;
+            Document = ScintillaNET.Document.Empty;
 
-            if (File.Exists(filename))
-                Text = File.ReadAllText(filename);
+            if (System.IO.File.Exists(filename))
+                Text = System.IO.File.ReadAllText(filename);
 
             _documents.Add(filename, Document);
 
@@ -112,102 +102,74 @@ namespace Computator.NET.UI.CodeEditors
             var doc = _documents[filename];
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
-            SwitchDocument(_documents.Keys.Last());
+            SwitchDocument(Enumerable.Last(_documents.Keys));
         }
 
         //Troka Scripting Language (*.tsl)|*.tsl
         //Troka Scripting Language Functions(*.tslf)|*.tslf
-        
+
         //private 
 
-        public string SaveDocument(string filename)
+
+        public void RenameDocument(string filename, string newFilename)
         {
-            if (!File.Exists(filename))
-            {
-                var dg = new SaveFileDialog {FileName = filename};
-                if (dg.ShowDialog() == DialogResult.OK)
-                {
-                    File.WriteAllText(dg.FileName, Text);
-
-                    if (dg.FileName != filename)
-                        _documents.RenameKey(filename, dg.FileName);
-
-                    return dg.FileName;
-                }
-                return null;
-            }
-            File.WriteAllText(filename, Text);
-            return filename;
-        }
-
-        public string SaveAs(string filename)
-        {
-            var dg = new SaveFileDialog {FileName = filename};
-            if (dg.ShowDialog() == DialogResult.OK)
-            {
-                File.WriteAllText(dg.FileName, Text);
-
-                if (dg.FileName != filename)
-                    _documents.RenameKey(filename, dg.FileName);
-
-                return dg.FileName;
-            }
-            return null;
+            _documents.RenameKey(filename, newFilename);
         }
 
         public bool ExponentMode { get; set; }
 
         public override string Text
         {
-            get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
-            set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
+            get { return base.Text.Replace('*', DataTypes.SpecialSymbols.DotSymbol); }
+            set { base.Text = value.Replace('*', DataTypes.SpecialSymbols.DotSymbol); }
         }
 
-        public void SetFont(Font font)
+        public void SetFont(System.Drawing.Font font)
         {
             // Configuring the default style with properties
             // we have common to every lexer style saves time.
             StyleResetDefault();
             if (font.FontFamily.Name == "Cambria")
             {
-                Font = MathCustomFonts.GetMathFont(font.Size);
-                Styles[Style.Default].Font = MathCustomFonts.GetMathFont(font.Size).Name;
+                Font = Config.MathCustomFonts.GetMathFont(font.Size);
+                Styles[ScintillaNET.Style.Default].Font = Config.MathCustomFonts.GetMathFont(font.Size).Name;
 
-                _autocompleteMenu.Font = MathCustomFonts.GetMathFont(font.Size);
+                _autocompleteMenu.Font = Config.MathCustomFonts.GetMathFont(font.Size);
             }
             else
             {
-                Styles[Style.Default].Font = font.Name;
+                Styles[ScintillaNET.Style.Default].Font = font.Name;
                 Font = font;
                 _autocompleteMenu.Font = font;
             }
-            Styles[Style.Default].Size = (int) font.Size;
+            Styles[ScintillaNET.Style.Default].Size = (int) font.Size;
 
             StyleClearAll();
 
             // Configure the CPP (C#) lexer styles
-            Styles[Style.Cpp.Default].ForeColor = Color.Silver; /////////////////////
-            Styles[Style.Cpp.Comment].ForeColor = Color.FromArgb(0, 128, 0); // Green
-            Styles[Style.Cpp.CommentLine].ForeColor = Color.FromArgb(0, 128, 0); // Green
-            Styles[Style.Cpp.CommentLineDoc].ForeColor = Color.FromArgb(128, 128, 128); // Gray
-            Styles[Style.Cpp.Number].ForeColor = Color.Olive;
-            Styles[Style.Cpp.Word].ForeColor = Color.Blue;
-            Styles[Style.Cpp.Word2].ForeColor = Color.Teal;
-            Styles[Style.Cpp.String].ForeColor = Color.FromArgb(163, 21, 21); // Red
-            Styles[Style.Cpp.Character].ForeColor = Color.FromArgb(163, 21, 21); // Red
-            Styles[Style.Cpp.Verbatim].ForeColor = Color.FromArgb(163, 21, 21); // Red
-            Styles[Style.Cpp.StringEol].BackColor = Color.Pink;
-            Styles[Style.Cpp.Operator].ForeColor = Color.Purple;
-            Styles[Style.Cpp.Preprocessor].ForeColor = Color.Maroon;
-            Styles[Style.BraceLight].BackColor = Color.LightGray;
-            Styles[Style.BraceLight].ForeColor = Color.BlueViolet;
-            Styles[Style.BraceBad].ForeColor = Color.Red;
+            Styles[ScintillaNET.Style.Cpp.Default].ForeColor = System.Drawing.Color.Silver; /////////////////////
+            Styles[ScintillaNET.Style.Cpp.Comment].ForeColor = System.Drawing.Color.FromArgb(0, 128, 0); // Green
+            Styles[ScintillaNET.Style.Cpp.CommentLine].ForeColor = System.Drawing.Color.FromArgb(0, 128, 0); // Green
+            Styles[ScintillaNET.Style.Cpp.CommentLineDoc].ForeColor = System.Drawing.Color.FromArgb(128, 128, 128);
+                // Gray
+            Styles[ScintillaNET.Style.Cpp.Number].ForeColor = System.Drawing.Color.Olive;
+            Styles[ScintillaNET.Style.Cpp.Word].ForeColor = System.Drawing.Color.Blue;
+            Styles[ScintillaNET.Style.Cpp.Word2].ForeColor = System.Drawing.Color.Teal;
+            Styles[ScintillaNET.Style.Cpp.String].ForeColor = System.Drawing.Color.FromArgb(163, 21, 21); // Red
+            Styles[ScintillaNET.Style.Cpp.Character].ForeColor = System.Drawing.Color.FromArgb(163, 21, 21); // Red
+            Styles[ScintillaNET.Style.Cpp.Verbatim].ForeColor = System.Drawing.Color.FromArgb(163, 21, 21); // Red
+            Styles[ScintillaNET.Style.Cpp.StringEol].BackColor = System.Drawing.Color.Pink;
+            Styles[ScintillaNET.Style.Cpp.Operator].ForeColor = System.Drawing.Color.Purple;
+            Styles[ScintillaNET.Style.Cpp.Preprocessor].ForeColor = System.Drawing.Color.Maroon;
+            Styles[ScintillaNET.Style.BraceLight].BackColor = System.Drawing.Color.LightGray;
+            Styles[ScintillaNET.Style.BraceLight].ForeColor = System.Drawing.Color.BlueViolet;
+            Styles[ScintillaNET.Style.BraceBad].ForeColor = System.Drawing.Color.Red;
             //this.Styles[Style.Cpp.CommentDoc]
 
-            Lexer = Lexer.Cpp;
+            Lexer = ScintillaNET.Lexer.Cpp;
         }
 
-        private void scintilla_TextChanged(object sender, EventArgs e)
+        private void scintilla_TextChanged(object sender, System.EventArgs e)
         {
             // Did the number of characters in the line number display change?
             // i.e. nnn VS nn, or nnnn VS nn, etc...
@@ -218,14 +180,15 @@ namespace Computator.NET.UI.CodeEditors
             // Calculate the width required to display the last line number
             // and include some padding for good measure.
             const int padding = 2;
-            Margins[0].Width = TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
+            Margins[0].Width = TextWidth(ScintillaNET.Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) +
+                               padding;
             this.maxLineNumberCharLength = maxLineNumberCharLength;
         }
 
         /// <summary>
         ///     Raises the <see cref="CharAdded" /> event.
         /// </summary>
-        /// <param name="e">An <see cref="CharAddedEventArgs" /> that contains the event data.</param>
+        /// <param name="e">An <see cref="ScintillaNET.CharAddedEventArgs" /> that contains the event data.</param>
         /*    protected override void OnCharAdded(CharAddedEventArgs e)
         {
             base.OnCharAdded(e);
@@ -272,29 +235,30 @@ namespace Computator.NET.UI.CodeEditors
             SetProperty("fold.compact", "1");
 
             // Configure a margin to display folding symbols
-            Margins[2].Type = MarginType.Symbol;
-            Margins[2].Mask = Marker.MaskFolders;
+            Margins[2].Type = ScintillaNET.MarginType.Symbol;
+            Margins[2].Mask = ScintillaNET.Marker.MaskFolders;
             Margins[2].Sensitive = true;
             Margins[2].Width = 20;
 
             // Set colors for all folding markers
             for (var i = 25; i <= 31; i++)
             {
-                Markers[i].SetForeColor(SystemColors.ControlLightLight);
-                Markers[i].SetBackColor(SystemColors.ControlDark);
+                Markers[i].SetForeColor(System.Drawing.SystemColors.ControlLightLight);
+                Markers[i].SetBackColor(System.Drawing.SystemColors.ControlDark);
             }
 
             // Configure folding markers with respective symbols
-            Markers[Marker.Folder].Symbol = MarkerSymbol.BoxPlus;
-            Markers[Marker.FolderOpen].Symbol = MarkerSymbol.BoxMinus;
-            Markers[Marker.FolderEnd].Symbol = MarkerSymbol.BoxPlusConnected;
-            Markers[Marker.FolderMidTail].Symbol = MarkerSymbol.TCorner;
-            Markers[Marker.FolderOpenMid].Symbol = MarkerSymbol.BoxMinusConnected;
-            Markers[Marker.FolderSub].Symbol = MarkerSymbol.VLine;
-            Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
+            Markers[ScintillaNET.Marker.Folder].Symbol = ScintillaNET.MarkerSymbol.BoxPlus;
+            Markers[ScintillaNET.Marker.FolderOpen].Symbol = ScintillaNET.MarkerSymbol.BoxMinus;
+            Markers[ScintillaNET.Marker.FolderEnd].Symbol = ScintillaNET.MarkerSymbol.BoxPlusConnected;
+            Markers[ScintillaNET.Marker.FolderMidTail].Symbol = ScintillaNET.MarkerSymbol.TCorner;
+            Markers[ScintillaNET.Marker.FolderOpenMid].Symbol = ScintillaNET.MarkerSymbol.BoxMinusConnected;
+            Markers[ScintillaNET.Marker.FolderSub].Symbol = ScintillaNET.MarkerSymbol.VLine;
+            Markers[ScintillaNET.Marker.FolderTail].Symbol = ScintillaNET.MarkerSymbol.LCorner;
 
             // Enable automatic folding
-            AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
+            AutomaticFold = (ScintillaNET.AutomaticFold.Show | ScintillaNET.AutomaticFold.Click |
+                             ScintillaNET.AutomaticFold.Change);
         }
 
         private void InitializeComponent()
@@ -305,9 +269,9 @@ namespace Computator.NET.UI.CodeEditors
 
             Margins[0].Width = 40;
             Margins[2].Width = 20;
-            Lexer = Lexer.Cpp;
+            Lexer = ScintillaNET.Lexer.Cpp;
             LexerLanguage = "cs";
-            IndentationGuides = IndentView.LookBoth;
+            IndentationGuides = ScintillaNET.IndentView.LookBoth;
             UseTabs = true;
             IndentWidth = 4;
 
@@ -316,9 +280,9 @@ namespace Computator.NET.UI.CodeEditors
 
         private void InitDocument()
         {
-            SetFont(Settings.Default.ScriptingFont);
-            SetKeywords(0, TslCompiler.KeywordsList0);
-            SetKeywords(1, TslCompiler.KeywordsList1);
+            SetFont(Properties.Settings.Default.ScriptingFont);
+            SetKeywords(0, Compilation.TslCompiler.KeywordsList0);
+            SetKeywords(1, Compilation.TslCompiler.KeywordsList1);
             SetFolding();
             SetBraceMatching();
         }
@@ -384,7 +348,7 @@ namespace Computator.NET.UI.CodeEditors
 
         private void SetupAutocomplete()
         {
-            var array = AutocompletionData.GetAutocompleteItemsForScripting();
+            var array = Data.AutocompletionData.GetAutocompleteItemsForScripting();
 
 
             //if (Sort)
@@ -414,10 +378,10 @@ namespace Computator.NET.UI.CodeEditors
             AutoComplete.AutomaticLengthEntered = true;
 
 #elif SCINTILLA_30
-            var acList = new List<string>();
-            acList.AddRange(array.Select(t => t.Text));
+            var acList = new System.Collections.Generic.List<string>();
+            acList.AddRange(Enumerable.Select(array, t => t.Text));
 
-            var sb = new StringBuilder();
+            var sb = new System.Text.StringBuilder();
             foreach (var item in acList)
             {
                 sb.AppendFormat("{0} ", item);
@@ -432,7 +396,7 @@ namespace Computator.NET.UI.CodeEditors
 #endif
         }
 
-        private void SciriptingRichTextBox_KeyPress(object s, KeyPressEventArgs e)
+        private void SciriptingRichTextBox_KeyPress(object s, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar < 32)
             {
@@ -443,15 +407,15 @@ namespace Computator.NET.UI.CodeEditors
 
             if (ExponentMode)
             {
-                if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
+                if (Enumerable.Contains(DataTypes.SpecialSymbols.AsciiForSuperscripts, e.KeyChar))
                 {
-                    e.KeyChar = SpecialSymbols.AsciiToSuperscript(e.KeyChar);
+                    e.KeyChar = DataTypes.SpecialSymbols.AsciiToSuperscript(e.KeyChar);
                 }
             }
 
             if (IsOperator(e.KeyChar))
             {
-                if (e.KeyChar == SpecialSymbols.ExponentModeSymbol)
+                if (e.KeyChar == DataTypes.SpecialSymbols.ExponentModeSymbol)
                 {
                     ExponentMode = !ExponentMode;
                     //_showCaret();
@@ -462,7 +426,7 @@ namespace Computator.NET.UI.CodeEditors
 
                 if (e.KeyChar == '*')
                 {
-                    e.KeyChar = SpecialSymbols.DotSymbol;
+                    e.KeyChar = DataTypes.SpecialSymbols.DotSymbol;
                     //for (int i = 0; i < this.AutoCompleteCustomSource.Count; i++)
                     // this.AutoCompleteCustomSource[i] += Text + e.KeyChar;
                 }

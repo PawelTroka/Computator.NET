@@ -1,43 +1,42 @@
-﻿using System.Drawing;
-using System.Threading;
-using System.Windows.Forms;
-using Computator.NET.Properties;
-
-namespace Computator.NET.UI.Forms
+﻿namespace Computator.NET.UI.Forms
 {
-    internal class LoadingScreen : Form
+    internal class LoadingScreen : System.Windows.Forms.Form
     {
         //The type of form to be displayed as the splash screen.
         private static LoadingScreen loadingScreen;
 
         public LoadingScreen()
         {
-            FormBorderStyle = FormBorderStyle.None;
-            StartPosition = FormStartPosition.CenterScreen;
-            Icon = Resources.computator_net_icon;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Icon = Properties.Resources.computator_net_icon;
             // this.BackColor = Color.White;
-            var img = Resources.computator_net_logo;
+            var img = Properties.Resources.computator_net_logo;
             // this.BackgroundImage = Properties.Resources.computator_net_icon.ToBitmap();
 
-            var pictureBox = new PictureBox
+            var pictureBox = new System.Windows.Forms.PictureBox
             {
                 Image = img,
-                Dock = DockStyle.Fill,
+                Dock = System.Windows.Forms.DockStyle.Fill,
                 Width = 256,
                 Height = 256,
-                SizeMode = PictureBoxSizeMode.StretchImage
+                SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
             };
 
-            var progressBar = new ProgressBar
+            var progressBar = new System.Windows.Forms.ProgressBar
             {
-                Style = ProgressBarStyle.Marquee,
+                Style = System.Windows.Forms.ProgressBarStyle.Marquee,
                 MarqueeAnimationSpeed = 10,
-                Dock = DockStyle.Bottom
+                Dock = System.Windows.Forms.DockStyle.Bottom
             };
 
-            var label = new Label {Text = "by Pawel Troka", Font = new Font("Consolas", 10)};
+            var label = new System.Windows.Forms.Label
+            {
+                Text = "by Pawel Troka",
+                Font = new System.Drawing.Font("Consolas", 10)
+            };
 
-            Size = new Size(pictureBox.Width, pictureBox.Height + progressBar.Height);
+            Size = new System.Drawing.Size(pictureBox.Width, pictureBox.Height + progressBar.Height);
 
             // this.Controls.Add(label);
             Controls.Add(pictureBox);
@@ -55,16 +54,16 @@ namespace Computator.NET.UI.Forms
 
             if (loadingScreen != null)
                 return;
-            var thread = new Thread(ShowForm);
+            var thread = new System.Threading.Thread(ShowForm);
             thread.IsBackground = true;
-            thread.SetApartmentState(ApartmentState.STA);
+            thread.SetApartmentState(System.Threading.ApartmentState.STA);
             thread.Start();
         }
 
         private static void ShowForm()
         {
             loadingScreen = new LoadingScreen();
-            Application.Run(loadingScreen);
+            System.Windows.Forms.Application.Run(loadingScreen);
         }
 
         public static void CloseForm()

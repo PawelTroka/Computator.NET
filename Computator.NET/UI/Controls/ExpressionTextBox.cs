@@ -1,18 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Computator.NET.Config;
-using Computator.NET.Data;
-using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.SettingsTypes;
-using Settings = Computator.NET.Properties.Settings;
+﻿using Enumerable = System.Linq.Enumerable;
 
 namespace Computator.NET.UI.Controls
 {
-    internal class ExpressionTextBox : TextBox, INotifyPropertyChanged
+    internal class ExpressionTextBox : System.Windows.Forms.TextBox, System.ComponentModel.INotifyPropertyChanged
     {
         private AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
         private bool _exponentMode;
@@ -23,7 +13,7 @@ namespace Computator.NET.UI.Controls
             _exponentMode = false;
             GotFocus += ExpressionTextBox_GotFocus;
             MouseDoubleClick += Control_MouseDoubleClick;
-            SetFont(Settings.Default.ExpressionFont);
+            SetFont(Properties.Settings.Default.ExpressionFont);
         }
 
         public bool ExponentMode
@@ -41,25 +31,28 @@ namespace Computator.NET.UI.Controls
             }
         }
 
-        public bool Sort => Settings.Default.FunctionsOrder == FunctionsOrder.Alphabetical;
+        public bool Sort
+            => Properties.Settings.Default.FunctionsOrder == DataTypes.SettingsTypes.FunctionsOrder.Alphabetical;
 
         public override string Text
         {
-            get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
-            set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
+            get { return base.Text.Replace('*', DataTypes.SpecialSymbols.DotSymbol); }
+            set { base.Text = value.Replace('*', DataTypes.SpecialSymbols.DotSymbol); }
         }
 
-        public string Expression => base.Text.Replace(SpecialSymbols.DotSymbol, '*');
+        public string Expression => base.Text.Replace(DataTypes.SpecialSymbols.DotSymbol, '*');
 
         public bool IsInDesignMode
         {
             get
             {
-                var isInDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime || Debugger.IsAttached;
+                var isInDesignMode = System.ComponentModel.LicenseManager.UsageMode ==
+                                     System.ComponentModel.LicenseUsageMode.Designtime ||
+                                     System.Diagnostics.Debugger.IsAttached;
 
                 if (!isInDesignMode)
                 {
-                    using (var process = Process.GetCurrentProcess())
+                    using (var process = System.Diagnostics.Process.GetCurrentProcess())
                     {
                         return process.ProcessName.ToLowerInvariant().Contains("devenv");
                     }
@@ -69,14 +62,14 @@ namespace Computator.NET.UI.Controls
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        private void Control_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void Control_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             ExponentMode = false;
         }
 
-        private void ExpressionTextBox_GotFocus(object sender, EventArgs e)
+        private void ExpressionTextBox_GotFocus(object sender, System.EventArgs e)
         {
             _showCaret();
         }
@@ -87,11 +80,11 @@ namespace Computator.NET.UI.Controls
         /// </summary>
         private void _showCaret()
         {
-            var blob = TextRenderer.MeasureText("x", Font);
+            var blob = System.Windows.Forms.TextRenderer.MeasureText("x", Font);
             if (ExponentMode)
-                NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height/2);
+                NativeMethods.CreateCaret(Handle, System.IntPtr.Zero, 2, blob.Height/2);
             else
-                NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height);
+                NativeMethods.CreateCaret(Handle, System.IntPtr.Zero, 2, blob.Height);
             NativeMethods.ShowCaret(Handle);
         }
 
@@ -102,12 +95,12 @@ namespace Computator.NET.UI.Controls
             _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
         }
 
-        public void SetFont(Font font)
+        public void SetFont(System.Drawing.Font font)
         {
             if (font.FontFamily.Name == "Cambria" && !IsInDesignMode)
             {
-                Font = MathCustomFonts.GetMathFont(font.Size);
-                _autocompleteMenu.Font = MathCustomFonts.GetMathFont(font.Size);
+                Font = Config.MathCustomFonts.GetMathFont(font.Size);
+                _autocompleteMenu.Font = Config.MathCustomFonts.GetMathFont(font.Size);
             }
             else
             {
@@ -118,9 +111,9 @@ namespace Computator.NET.UI.Controls
 
         public void RefreshAutoComplete()
         {
-            var array = AutocompletionData.GetAutocompleteItemsForExpressions(true);
+            var array = Data.AutocompletionData.GetAutocompleteItemsForExpressions(true);
             if (Sort)
-                Array.Sort(array, (a, b) => a.Text.CompareTo(b.Text));
+                System.Array.Sort(array, (a, b) => a.Text.CompareTo(b.Text));
             _autocompleteMenu.SetAutocompleteItems(array);
             RefreshSize();
 
@@ -129,22 +122,22 @@ namespace Computator.NET.UI.Controls
 
         public void RefreshSize()
         {
-            _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height);
+            _autocompleteMenu.MaximumSize = new System.Drawing.Size(Size.Width, _autocompleteMenu.MaximumSize.Height);
         }
 
-        private void ExpressionTextBox_KeyPress(object s, KeyPressEventArgs e)
+        private void ExpressionTextBox_KeyPress(object s, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (ExponentMode)
             {
-                if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
+                if (Enumerable.Contains(DataTypes.SpecialSymbols.AsciiForSuperscripts, e.KeyChar))
                 {
-                    e.KeyChar = SpecialSymbols.AsciiToSuperscript(e.KeyChar);
+                    e.KeyChar = DataTypes.SpecialSymbols.AsciiToSuperscript(e.KeyChar);
                 }
             }
 
             if (IsOperator(e.KeyChar))
             {
-                if (e.KeyChar == SpecialSymbols.ExponentModeSymbol)
+                if (e.KeyChar == DataTypes.SpecialSymbols.ExponentModeSymbol)
                 {
                     ExponentMode = !ExponentMode;
                     //_showCaret();
@@ -154,7 +147,7 @@ namespace Computator.NET.UI.Controls
 
                 if (e.KeyChar == '*')
                 {
-                    e.KeyChar = SpecialSymbols.DotSymbol;
+                    e.KeyChar = DataTypes.SpecialSymbols.DotSymbol;
                     //for (int i = 0; i < this.AutoCompleteCustomSource.Count; i++)
                     // this.AutoCompleteCustomSource[i] += Text + e.KeyChar;
                 }
@@ -170,7 +163,7 @@ namespace Computator.NET.UI.Controls
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
         }
     }
 }

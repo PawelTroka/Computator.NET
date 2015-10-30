@@ -1,26 +1,21 @@
-﻿using System;
-using System.Numerics;
-using System.Runtime.InteropServices;
-using Accord.Math;
-using MathNet.Numerics;
-using Meta.Numerics.Functions;
-
-//using Meta.Numerics.Spin;
+﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable ConvertPropertyToExpressionBody
+// ReSharper disable UseStringInterpolation
 
 namespace Computator.NET.Functions
 {
-    [StructLayout(LayoutKind.Sequential)]
-    internal static class SpecialFunctions
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    public static class SpecialFunctions
     {
-        public static double findRoot(Func<double, double> f, double a, double b)
+        public static double findRoot(System.Func<double, double> f, double a, double b)
         {
             var ret = double.NaN;
 
             try
             {
-                ret = FindRoots.OfFunction(f, a, b, 1e-2, 10000);
+                ret = MathNet.Numerics.FindRoots.OfFunction(f, a, b, 1e-2, 10000);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
             }
             return ret;
@@ -34,11 +29,12 @@ namespace Computator.NET.Functions
             return Accord.Math.Gabor.Function1D(x, mean, amplitude, position, width, phase, frequency);
         }
 
-        public static Complex Gabor(Complex z, double λ, double θ, double ψ, double σ, double γ)
+        public static System.Numerics.Complex Gabor(System.Numerics.Complex z, double λ, double θ, double ψ, double σ,
+            double γ)
         {
             var z2 = Accord.Math.Gabor.Function2D((int) z.Real, (int) z.Imaginary, λ, θ, ψ, σ, γ);
 
-            return new Complex(z2.Real, z2.Imaginary);
+            return new System.Numerics.Complex(z2.Real, z2.Imaginary);
         }
 
         #endregion
@@ -47,47 +43,47 @@ namespace Computator.NET.Functions
 
         public static double Ackley(params double[] xi)
         {
-            return TestFunctions.Ackley(xi);
+            return MathNet.Numerics.TestFunctions.Ackley(xi);
         }
 
         public static double Rastrigin(params double[] xi)
         {
-            return TestFunctions.Rastrigin(xi);
+            return MathNet.Numerics.TestFunctions.Rastrigin(xi);
         }
 
         public static double Bohachevsky1(double x, double y)
         {
-            return TestFunctions.Bohachevsky1(x, y);
+            return MathNet.Numerics.TestFunctions.Bohachevsky1(x, y);
         }
 
         public static double dropWave(double x, double y)
         {
-            return TestFunctions.DropWave(x, y);
+            return MathNet.Numerics.TestFunctions.DropWave(x, y);
         }
 
         public static double Himmelblau(double x, double y)
         {
-            return TestFunctions.Himmelblau(x, y);
+            return MathNet.Numerics.TestFunctions.Himmelblau(x, y);
         }
 
         public static double Matyas(double x, double y)
         {
-            return TestFunctions.Matyas(x, y);
+            return MathNet.Numerics.TestFunctions.Matyas(x, y);
         }
 
         public static double sixHumpCamel(double x, double y)
         {
-            return TestFunctions.SixHumpCamel(x, y);
+            return MathNet.Numerics.TestFunctions.SixHumpCamel(x, y);
         }
 
         public static double Rosenbrock(double x, double y)
         {
-            return TestFunctions.Rosenbrock(x, y);
+            return MathNet.Numerics.TestFunctions.Rosenbrock(x, y);
         }
 
         public static double Rosenbrock(params double[] xi)
         {
-            return TestFunctions.Rosenbrock(xi);
+            return MathNet.Numerics.TestFunctions.Rosenbrock(xi);
         }
 
         #endregion
@@ -95,28 +91,41 @@ namespace Computator.NET.Functions
         #region Gamma and related functions
 
         public static double leftRegularizedGamma(double a, double x)
-            => (a <= 0 || x < 0) ? double.NaN : AdvancedMath.LeftRegularizedGamma(a, x);
+        {
+            return (a <= 0 || x < 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.LeftRegularizedGamma(a, x);
+        }
 
 
         public static double rightRegularizedGamma(double a, double x)
-            => (a <= 0 || x < 0) ? double.NaN : AdvancedMath.RightRegularizedGamma(a, x);
+        {
+            return (a <= 0 || x < 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.RightRegularizedGamma(a, x);
+        }
 
-        public static double ψn(double x) => AdvancedMath.Psi(x);
+        public static double ψn(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
+        }
 
-        public static double polyGamma(double x) => AdvancedMath.Psi(x);
+        public static double polyGamma(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
+        }
 
-        public static double ψⁿ(double x) => AdvancedMath.Psi(x);
+        public static double ψⁿ(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
+        }
 
 
         public static double gamma(double x)
         {
-            return AdvancedMath.Gamma((x));
+            return Meta.Numerics.Functions.AdvancedMath.Gamma((x));
         }
 
 
         public static double Γ(double x)
         {
-            return AdvancedMath.Gamma((x));
+            return Meta.Numerics.Functions.AdvancedMath.Gamma((x));
         }
 
 
@@ -124,7 +133,7 @@ namespace Computator.NET.Functions
         {
             if ((x) <= 0.0)
                 return double.NaN;
-            return AdvancedMath.LogGamma((x));
+            return Meta.Numerics.Functions.AdvancedMath.LogGamma((x));
         }
 
 
@@ -132,42 +141,42 @@ namespace Computator.NET.Functions
         {
             if ((x) <= 0.0)
                 return double.NaN;
-            return AdvancedMath.LogGamma((x));
+            return Meta.Numerics.Functions.AdvancedMath.LogGamma((x));
         }
 
 
         public static double psi(double x)
         {
-            return AdvancedMath.Psi((x));
+            return Meta.Numerics.Functions.AdvancedMath.Psi((x));
         }
 
 
         public static double digamma(double x)
         {
-            return AdvancedMath.Psi((x));
+            return Meta.Numerics.Functions.AdvancedMath.Psi((x));
         }
 
 
         public static double ψ(double x)
         {
-            return AdvancedMath.Psi((x));
+            return Meta.Numerics.Functions.AdvancedMath.Psi((x));
         }
 
         //COMPLEX:
 
-        public static Complex gamma(Complex z)
+        public static System.Numerics.Complex gamma(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Gamma(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Gamma(cmplxToMeta(z)));
         }
 
 
-        public static Complex Γ(Complex z)
+        public static System.Numerics.Complex Γ(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Gamma(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Gamma(cmplxToMeta(z)));
         }
 
 
-        public static Complex logGamma(Complex z)
+        /*   public static Complex logGamma(Complex z)
         {
             gsl_sf_result lnr = new gsl_sf_result(), arg = new gsl_sf_result();
             gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
@@ -181,27 +190,29 @@ namespace Computator.NET.Functions
             gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
             return (lnr.val + arg.val*Complex.ImaginaryOne);
         }
+        */
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
             out gsl_sf_result arg);
 
 
-        public static Complex psi(Complex z)
+        public static System.Numerics.Complex psi(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Psi(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Psi(cmplxToMeta(z)));
         }
 
 
-        public static Complex digamma(Complex z)
+        public static System.Numerics.Complex digamma(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Psi(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Psi(cmplxToMeta(z)));
         }
 
 
-        public static Complex ψ(Complex z)
+        public static System.Numerics.Complex ψ(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Psi(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Psi(cmplxToMeta(z)));
         }
 
         //non complex type compatible gamma-like functions:
@@ -210,25 +221,28 @@ namespace Computator.NET.Functions
         public static double gamma(double a, double x)
         {
             if (x < 0 || a <= 0) return double.NaN;
-            return AdvancedMath.Gamma(a, x);
+            return Meta.Numerics.Functions.AdvancedMath.Gamma(a, x);
         }
 
         public static double Γ(double a, double x)
         {
             if (x < 0 || a <= 0) return double.NaN;
-            return AdvancedMath.Gamma(a, x);
+            return Meta.Numerics.Functions.AdvancedMath.Gamma(a, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gamma_inc_Q(double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gamma_inc_P(double a, double x);
 
         // public static double gammaQ(double a, double x) { if (x < 0 || a <= 0) return double.NaN; return gsl_sf_gamma_inc_Q(a, x); }
 
         public static double gammaQ(double a, double x)
         {
+            if (a < 0) return double.NaN;
             return MathNet.Numerics.SpecialFunctions.GammaUpperRegularized(a, x);
         }
 
@@ -243,7 +257,7 @@ namespace Computator.NET.Functions
         public static double Beta(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return AdvancedMath.Beta(x, a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(x, a, b);
         }
 
 
@@ -253,31 +267,33 @@ namespace Computator.NET.Functions
             return gsl_sf_beta_inc(x, a, b);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_beta_inc(double a, double b, double x);
 
 
         public static double Beta(double a, double b)
         {
             if (a <= 0 || b <= 0) return double.NaN;
-            return AdvancedMath.Beta(a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(a, b);
         }
 
 
         public static double β(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return AdvancedMath.Beta(x, a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(x, a, b);
         }
 
 
         public static double β(double a, double b)
         {
             if (a <= 0 || b <= 0) return double.NaN;
-            return AdvancedMath.Beta(a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(a, b);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lnbeta(double a, double b);
 
 
@@ -297,10 +313,12 @@ namespace Computator.NET.Functions
 
         #region coefficients and special values
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_poch(double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_pochrel(double a, double x);
 
         public static double Pochhammer(double a, double x)
@@ -321,7 +339,8 @@ namespace Computator.NET.Functions
 
         public static double PolyLog(int n, double x)
         {
-            return AdvancedMath.PolyLog(n, x);
+            if (x > 1.0 || n < 0) return (double.NaN);
+            return Meta.Numerics.Functions.AdvancedMath.PolyLog(n, x);
         }
 
 
@@ -329,14 +348,14 @@ namespace Computator.NET.Functions
         {
             if (x > 1.0)
                 return (double.NaN);
-            return AdvancedMath.DiLog((x));
+            return Meta.Numerics.Functions.AdvancedMath.DiLog((x));
         }
 
         public static double diLog(double x)
         {
             if (x > 1.0)
                 return (double.NaN);
-            return AdvancedMath.DiLog((x));
+            return Meta.Numerics.Functions.AdvancedMath.DiLog((x));
         }
 
 
@@ -344,24 +363,24 @@ namespace Computator.NET.Functions
         {
             if (x < 0.0)
                 return (double.NaN);
-            return AdvancedMath.DiLog(1 - (x));
+            return Meta.Numerics.Functions.AdvancedMath.DiLog(1 - (x));
         }
 
 
-        public static Complex diLogarithm(Complex z)
+        public static System.Numerics.Complex diLogarithm(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.DiLog(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.DiLog(cmplxToMeta(z)));
         }
 
-        public static Complex diLog(Complex z)
+        public static System.Numerics.Complex diLog(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.DiLog(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.DiLog(cmplxToMeta(z)));
         }
 
 
-        public static Complex SpencesIntegral(Complex z)
+        public static System.Numerics.Complex SpencesIntegral(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.DiLog(1 - cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.DiLog(1 - cmplxToMeta(z)));
         }
 
         #endregion
@@ -371,17 +390,18 @@ namespace Computator.NET.Functions
         public static double CoulombG(int L, double η, double ρ)
         {
             if (L < 0 || ρ < 0.0) return double.NaN;
-            return AdvancedMath.CoulombG(L, η, ρ);
+            return Meta.Numerics.Functions.AdvancedMath.CoulombG(L, η, ρ);
         }
 
 
         public static double CoulombF(int L, double η, double ρ)
         {
             if (L < 0 || ρ < 0.0) return double.NaN;
-            return AdvancedMath.CoulombF(L, η, ρ);
+            return Meta.Numerics.Functions.AdvancedMath.CoulombF(L, η, ρ);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_coulomb_CL_e(double L, double eta, out gsl_sf_result result);
 
 
@@ -392,16 +412,25 @@ namespace Computator.NET.Functions
             return sfResult.val;
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hydrogenicR(int n, int l, double Z, double r);
 
         public static double HydrogenicR(int n, int l, double Z, double r)
         {
+            if (n < 1 || l > n - 1 || Z <= 0.0 || r < 0.0)
+            {
+                return double.NaN;
+            }
             return gsl_sf_hydrogenicR(n, l, Z, r);
         }
 
         public static double Rnl(int n, int l, double Z, double r)
         {
+            if (n < 1 || l > n - 1 || Z <= 0.0 || r < 0.0)
+            {
+                return double.NaN;
+            }
             return gsl_sf_hydrogenicR(n, l, Z, r);
         }
 
@@ -413,7 +442,8 @@ namespace Computator.NET.Functions
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_coulomb_wave_FG_e(double eta, double x,
             double lam_F,
             int k_lam_G,
@@ -424,7 +454,9 @@ namespace Computator.NET.Functions
 
         public static double CoulombGprime(int L, double η, double ρ)
         {
-            if (L < 0 || ρ < 0.0) return double.NaN;
+            if (L < 0 || ρ <= 0.0) return double.NaN;
+
+
             double d1, d2;
             var r1 = new gsl_sf_result();
             var r2 = new gsl_sf_result();
@@ -436,7 +468,7 @@ namespace Computator.NET.Functions
 
         public static double CoulombFprime(int L, double η, double ρ)
         {
-            if (L < 0 || ρ < 0.0) return double.NaN;
+            if (L < 0 || ρ <= 0.0) return double.NaN;
             double d1, d2;
             var r1 = new gsl_sf_result();
             var r2 = new gsl_sf_result();
@@ -449,22 +481,28 @@ namespace Computator.NET.Functions
 
         #region Fermi–Dirac complete&incomplete integral
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_int(int j, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_inc_0(double x, double b);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_0(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_mhalf(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_half(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_3half(double x);
 
         public static double FermiDiracFmhalf(double x)
@@ -489,6 +527,10 @@ namespace Computator.NET.Functions
 
         public static double FermiDiracF0(double x, double b)
         {
+            if (b < 0.0)
+            {
+                return double.NaN;
+            }
             return gsl_sf_fermi_dirac_inc_0(x, b);
         }
 
@@ -501,38 +543,59 @@ namespace Computator.NET.Functions
 
         #region lambert W functions
 
-        public static double LambertW0(double x) => (x <= -1/Math.E) ? double.NaN : gsl_sf_lambert_W0(x);
+        public static double LambertW0(double x)
+        {
+            return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_W0(x);
+        }
 
-        public static double LambertWm1(double x) => (x <= -1/Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
+        public static double LambertWm1(double x)
+        {
+            return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lambert_W0(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lambert_Wm1(double x);
 
         #endregion
 
         #region polynomials
 
-        public static double Gegenbauer1(double α, double x) => gsl_sf_gegenpoly_1(α, x);
+        public static double Gegenbauer1(double α, double x)
+        {
+            return gsl_sf_gegenpoly_1(α, x);
+        }
 
         public static double
-            Gegenbauer2(double α, double x) => gsl_sf_gegenpoly_2(α, x);
+            Gegenbauer2(double α, double x)
+        {
+            return gsl_sf_gegenpoly_2(α, x);
+        }
 
         public static double
-            Gegenbauer3(double α, double x) => gsl_sf_gegenpoly_3(α, x);
+            Gegenbauer3(double α, double x)
+        {
+            return gsl_sf_gegenpoly_3(α, x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_n(int n, double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_1(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_2(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_3(double lambda, double x);
 
 
@@ -542,16 +605,20 @@ namespace Computator.NET.Functions
             return gsl_sf_gegenpoly_n(n, α, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_n(int n, double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_1(double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_2(double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_3(double a, double x);
 
 
@@ -571,20 +638,24 @@ namespace Computator.NET.Functions
 
         public static double LegendreP(int l, double x)
         {
-            if (x > 1.0 || x < -1.0) return double.NaN;
-            return OrthogonalPolynomials.LegendreP(l, x);
+            if (l < 0) return double.NaN;
+            if (System.Math.Abs(x) > 1.0) return double.NaN;
+            return Meta.Numerics.Functions.OrthogonalPolynomials.LegendreP(l, x);
         }
 
         public static double LegendreP(int l, int m, double x)
         {
-            if (x > 1.0 || x < -1.0) return double.NaN;
-            return OrthogonalPolynomials.LegendreP(l, m, x);
+            if (l < 0) return double.NaN;
+            if (System.Math.Abs(m) > l) return double.NaN;
+            if (System.Math.Abs(x) > 1.0) return double.NaN;
+            return Meta.Numerics.Functions.OrthogonalPolynomials.LegendreP(l, m, x);
         }
 
         //add legendre Q
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_Ql(int l, double x);
 
         // Q_l(x), x > -1, x != 1, l >= 0
@@ -595,26 +666,35 @@ namespace Computator.NET.Functions
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_sphPlm(int l, int m, double x);
 
         public static double SphericalLegendreP(int l, int m, double x)
         {
-            if (x > 1.0 || x < -1.0) return double.NaN;
+            if (m < 0 || l < m || x < -1.0 || x > 1.0)
+            {
+                return double.NaN;
+            }
+
             return gsl_sf_legendre_sphPlm(l, m, x);
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_half(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_mhalf(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_0(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_1(double lambda, double x);
 
 
@@ -648,10 +728,12 @@ namespace Computator.NET.Functions
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_sph_reg(int l, double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_cyl_reg(int m, double lambda, double x);
 
         public static double SphericalConicalP(int l, double λ, double x)
@@ -666,7 +748,8 @@ namespace Computator.NET.Functions
             return gsl_sf_conicalP_cyl_reg(m, λ, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_H3d(int l, double lambda, double eta);
 
         public static double LegendreH3D(int l, double λ, double η)
@@ -677,25 +760,38 @@ namespace Computator.NET.Functions
 
         public static double ChebyshevT(int n, double x)
         {
-            return OrthogonalPolynomials.ChebyshevT(n, x);
+            if (System.Math.Abs(x) > 1.0) return double.NaN;
+            if (n < 0) return double.NaN;
+
+            return Meta.Numerics.Functions.OrthogonalPolynomials.ChebyshevT(n, x);
         }
 
         //add ChebyshevU
 
         public static double HermiteH(int n, double x)
         {
-            return OrthogonalPolynomials.HermiteH(n, x);
+            if (n < 0)
+            {
+                return double.NaN;
+            }
+            return Meta.Numerics.Functions.OrthogonalPolynomials.HermiteH(n, x);
         }
 
         public static double HermiteHe(int n, double x)
         {
-            return OrthogonalPolynomials.HermiteHe(n, x);
+            if (n < 0)
+            {
+                return double.NaN;
+            }
+            return Meta.Numerics.Functions.OrthogonalPolynomials.HermiteHe(n, x);
         }
 
         public static double ZernikeR(int n, int m, double ρ)
         {
-            if (n < m || ρ < 0.0 || ρ > 1.0) return double.NaN;
-            return OrthogonalPolynomials.ZernikeR(n, m, ρ);
+            if (n < 0) return double.NaN;
+            if ((m < 0) || (m > n)) return double.NaN;
+            if ((ρ < 0.0) || (ρ > 1.0)) return double.NaN;
+            return Meta.Numerics.Functions.OrthogonalPolynomials.ZernikeR(n, m, ρ);
         }
 
         //TODO: add Zernike Z 
@@ -704,16 +800,20 @@ namespace Computator.NET.Functions
 
         #region transport functions
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_2(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_3(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_4(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_5(double x);
 
         public static double TransportJ(int n, double x)
@@ -737,33 +837,46 @@ namespace Computator.NET.Functions
 
         #region synchrotron functions
 
-        public static Func<double, double> SynchrotronF = x => (x < 0) ? double.NaN : gsl_sf_synchrotron_1(x);
-        public static Func<double, double> SynchrotronG = x => (x < 0) ? double.NaN : gsl_sf_synchrotron_2(x);
+        private static double SynchrotronF(double x)
+        {
+            return (x < 0) ? double.NaN : gsl_sf_synchrotron_1(x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        private static double SynchrotronG(double x)
+        {
+            return (x < 0) ? double.NaN : gsl_sf_synchrotron_2(x);
+        }
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_synchrotron_1(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_synchrotron_2(double x);
 
         #endregion
 
         #region coupling 3,6,9-j symbols
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_3j(int two_ja, int two_jb, int two_jc,
             int two_ma, int two_mb, int two_mc);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_6j(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_RacahW(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_9j(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf,
             int two_jg, int two_jh, int two_ji);
@@ -771,49 +884,117 @@ namespace Computator.NET.Functions
 
         public static double Coupling3j(int ja, int jb, int jc, int ma, int mb, int mc)
         {
+            if (ja < 0 || jb < 0 || jc < 0)
+                return double.NaN;
             return gsl_sf_coupling_3j(ja, jb, jc, ma, mb, mc);
         }
 
         public static double Coupling6j(int ja, int jb, int jc, int jd, int je, int jf)
         {
+            if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0)
+                return double.NaN;
             return gsl_sf_coupling_6j(ja, jb, jc, jd, je, jf);
         }
 
         public static double CouplingRacahW(int ja, int jb, int jc, int jd, int je, int jf)
         {
+            if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0)
+                return double.NaN;
             return gsl_sf_coupling_RacahW(ja, jb, jc, jd, je, jf);
         }
 
         public static double Coupling9j(int ja, int jb, int jc, int jd, int je, int jf, int jg, int jh, int ji)
         {
+            if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0 || jg < 0 || jh < 0 || ji < 0)
+                return double.NaN;
             return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, jf);
         }
 
         public static double Coupling3j(double j1, double j2, double j3, double m1, double m2, double m3)
         {
-            return SpinMath.ThreeJ(new SpinState(j1, m1), new SpinState(j2, m2), new SpinState(j3, m3));
+            // no negative, spin must be integer or half-integer
+            if (j1 < 0 || j2 < 0 || j3 < 0 ||
+                System.Math.Floor(2*j1) != 2*j1 || System.Math.Floor(2*j2) != 2*j2 || System.Math.Floor(2*j3) != 2*j3)
+                return double.NaN;
+
+
+            // -J <= M <= J
+            if (m1 < -System.Math.Abs(j1) || m1 > System.Math.Abs(j1) ||
+                m2 < -System.Math.Abs(j2) || m2 > System.Math.Abs(j2) ||
+                m3 < -System.Math.Abs(j3) || m3 > System.Math.Abs(j3))
+                return double.NaN;
+
+
+            // 2M must be an integer
+            if (System.Math.Floor(2*m1) != 2*m1 || System.Math.Floor(2*m2) != 2*m2 || System.Math.Floor(2*m3) != 2*m3)
+                return double.NaN;
+
+
+            // half-integer J requires half-integer M; integer J requires integer M
+            if (((2*j1)%2) != System.Math.Abs((2*m1)%2) || ((2*j2)%2) != System.Math.Abs((2*m2)%2) ||
+                ((2*j3)%2) != System.Math.Abs((2*m3)%2))
+                return double.NaN;
+
+
+            return Meta.Numerics.Functions.SpinMath.ThreeJ(new Meta.Numerics.Functions.SpinState(j1, m1),
+                new Meta.Numerics.Functions.SpinState(j2, m2), new Meta.Numerics.Functions.SpinState(j3, m3));
         }
 
         public static double Coupling6j(double j1, double j2, double j3, double j4, double j5, double j6)
         {
-            return SpinMath.SixJ(new Spin(j1), new Spin(j2), new Spin(j3), new Spin(j4), new Spin(j5), new Spin(j6));
+            if (j1 < 0 || j2 < 0 || j3 < 0 || j4 < 0 || j5 < 0 || j6 < 0 ||
+                System.Math.Floor(2*j1) != 2*j1 || System.Math.Floor(2*j2) != 2*j2 || System.Math.Floor(2*j3) != 2*j3 ||
+                System.Math.Floor(2*j4) != 2*j4 || System.Math.Floor(2*j5) != 2*j5 || System.Math.Floor(2*j6) != 2*j6)
+                return double.NaN;
+
+            return Meta.Numerics.Functions.SpinMath.SixJ(new Meta.Numerics.Functions.Spin(j1),
+                new Meta.Numerics.Functions.Spin(j2), new Meta.Numerics.Functions.Spin(j3),
+                new Meta.Numerics.Functions.Spin(j4), new Meta.Numerics.Functions.Spin(j5),
+                new Meta.Numerics.Functions.Spin(j6));
         }
 
         public static double ClebschGordan(double j1, double j2, double j, double m1, double m2, double m)
         {
-            return SpinMath.ClebschGodron(new SpinState(j1, m1), new SpinState(j2, m2), new SpinState(j, m));
+            // no negative, spin must be integer or half-integer
+            if (j1 < 0 || j2 < 0 || j < 0 ||
+                System.Math.Floor(2*j1) != 2*j1 || System.Math.Floor(2*j2) != 2*j2 || System.Math.Floor(2*j) != 2*j)
+                return double.NaN;
+
+            // -J <= M <= J
+            if (m1 < -System.Math.Abs(j1) || m1 > System.Math.Abs(j1) ||
+                m2 < -System.Math.Abs(j2) || m2 > System.Math.Abs(j2) ||
+                m < -System.Math.Abs(j) || m > System.Math.Abs(j))
+                return double.NaN;
+
+
+            // 2M must be an integer
+            if (System.Math.Floor(2*m1) != 2*m1 || System.Math.Floor(2*m2) != 2*m2 || System.Math.Floor(2*m) != 2*m)
+                return double.NaN;
+
+
+            // half-integer J requires half-integer M; integer J requires integer M
+            if (((2*j1)%2) != System.Math.Abs((2*m1)%2) || ((2*j2)%2) != System.Math.Abs((2*m2)%2) ||
+                ((2*j)%2) != System.Math.Abs((2*m)%2))
+                return double.NaN;
+
+            return Meta.Numerics.Functions.SpinMath.ClebschGodron(new Meta.Numerics.Functions.SpinState(j1, m1),
+                new Meta.Numerics.Functions.SpinState(j2, m2), new Meta.Numerics.Functions.SpinState(j, m));
         }
 
         #endregion
 
         #region Hypergeometric functions
 
-        public static Complex SphericalHarmonic(int l, int m, double θ, double φ)
+        public static System.Numerics.Complex SphericalHarmonic(int l, int m, double θ, double φ)
         {
-            return cmplxFromMeta(AdvancedMath.SphericalHarmonic(l, m, θ, φ));
+            if (l < 0) return double.NaN;
+            if ((m > l) || (m < -l)) return double.NaN;
+
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedMath.SphericalHarmonic(l, m, θ, φ));
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_0F1(double c, double x);
 
         //Hypergeometric function related to Bessel functions 0F1[c,x]
@@ -824,7 +1005,8 @@ namespace Computator.NET.Functions
             return double.NaN;
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_1F1_int(int m, int n, double x);
 
         //Confluent hypergeometric function  for integer parameters. 1F1[m,n,x] = M(m,n,x)
@@ -834,7 +1016,8 @@ namespace Computator.NET.Functions
             return gsl_sf_hyperg_1F1_int(m, n, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_1F1(double a, double b, double x);
 
         //Confluent hypergeometric function. 1F1[a,b,x] = M(a,b,x)
@@ -844,75 +1027,93 @@ namespace Computator.NET.Functions
             return gsl_sf_hyperg_1F1(a, b, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_U_int(int m, int n, double x);
 
         //Confluent hypergeometric function for integer parameters. U(m,n,x)
 
-        public static double HypergeometricU(int m, int n, double x)
+        /* public static double HypergeometricU(int m, int n, double x)//TODO: fix hypergeometricU
         {
-            if (x > 0.0 || (x != (int) (x))) return gsl_sf_hyperg_U_int(m, n, x);
-            return double.NaN;
-        }
+            if (x <= 0.0 && n >= 1)//TODO: enable it for x<0
+            {
+                return double.NaN;
+            }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_U(double a, double b, double x);
+            //if (x > 0.0 || (x != (int)(x)))
+            return gsl_sf_hyperg_U_int(m, n, x);
+
+            //  return double.NaN;
+        }
 
         //Confluent hypergeometric function. U(a,b,x)
         public static double HypergeometricU(double a, double b, double x)
         {
-            if (x > 0.0 || (x != (int) (x))) return gsl_sf_hyperg_U(a, b, x);
-            return double.NaN;
-        }
+            if (x <= 0.0 && b >= 1)//TODO: enable it for x<0
+            {
+                return double.NaN;
+            }
+            return gsl_sf_hyperg_U(a, b, x);
+        }*/
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_U(double a, double b, double x);
+
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1(double a, double b, double c, double x);
 
         //Gauss hypergeometric function 2F1[a,b,c,x]
 
         public static double Hypergeometric2F1(double a, double b, double c, double x)
         {
-            if ((c > 0.0 || (c != (int) (c))) && Math.Abs(x) < 1) return gsl_sf_hyperg_2F1(a, b, c, x);
+            if ((c > 0.0 || (c != (int) (c))) && System.Math.Abs(x) < 1) return gsl_sf_hyperg_2F1(a, b, c, x);
             return double.NaN;
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_conj(double aR, double aI, double c, double x);
 
         //Gauss hypergeometric function 2F1[aR + I aI, aR - I aI, c, x]
 
-        public static double Hypergeometric2F1(Complex a, double c, double x)
+        public static double Hypergeometric2F1(System.Numerics.Complex a, double c, double x)
         {
-            if ((c > 0.0 || (c != (int) (c))) && Math.Abs(x) < 1)
+            if ((c > 0.0 || (c != (int) (c))) && System.Math.Abs(x) < 1)
                 return gsl_sf_hyperg_2F1_conj(a.Real, a.Imaginary, c, x);
             return double.NaN;
         } //TODO: better name for a parameter
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_renorm(double a, double b, double c, double x);
 
         //Renormalized Gauss hypergeometric function 2F1[a,b,c,x] / Gamma[c]
 
         public static double Hypergeometric2F1renorm(double a, double b, double c, double x)
         {
-            if ((c > 0.0 || (c != (int) (c))) && Math.Abs(x) < 1) return gsl_sf_hyperg_2F1_renorm(a, b, c, x);
+            if ((c > 0.0 || (c != (int) (c))) && System.Math.Abs(x) < 1) return gsl_sf_hyperg_2F1_renorm(a, b, c, x);
             return double.NaN;
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_conj_renorm(double aR, double aI, double c, double x);
 
         //Renormalized Gauss hypergeometric function 2F1[aR + I aI, aR - I aI, c, x] / Gamma[c]
 
-        public static double Hypergeometric2F1renorm(Complex a, double c, double x)
+        public static double Hypergeometric2F1renorm(System.Numerics.Complex a, double c, double x)
         {
-            if ((c > 0.0 || (c != (int) (c))) && Math.Abs(x) < 1)
+            if ((c > 0.0 || (c != (int) (c))) && System.Math.Abs(x) < 1)
                 return gsl_sf_hyperg_2F1_conj_renorm(a.Real, a.Imaginary, c, x);
             return double.NaN;
         } //TODO: better name for a parameter
         //2F1 sometimes returns an exceptions
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F0(double a, double b, double x);
 
         /* Mysterious hypergeometric function. The series representation
@@ -932,24 +1133,28 @@ namespace Computator.NET.Functions
 
         public static double Ti(double x)
         {
-            return AdvancedMath.IntegralTi(x);
+            return Meta.Numerics.Functions.AdvancedMath.IntegralTi(x);
         }
 
+        public static double Dawson(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.Dawson(x);
+        }
 
-        public static Func<double, double>
-            Dawson = AdvancedMath.Dawson;
+        public static double Clausen(double d) { return gsl_sf_clausen(d); }
 
-        public static Func<double, double> Clausen = gsl_sf_clausen;
+        public static double Si(double d) { return Meta.Numerics.Functions.AdvancedMath.IntegralSi(d); } //sine integral
 
-        public static Func<double, double> Si =
-            AdvancedMath.IntegralSi; //sine integral
-
-        public static Func<double, double> Ci =
-            x => (x < 0.0) ? double.NaN : AdvancedMath.IntegralCi(x); //cosine integral
+        private static double Ci(double x)//cosine integral
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.IntegralCi(x);
+        }
 
         //Generalized Exponential Integral
-        public static Func<int, double, double> En =
-            (n, x) => (x == 0.0 || n < 0 || n > 2) ? AdvancedMath.IntegralE(n, x) : gsl_sf_expint_En(n, x);
+        private static double En(int n, double x)
+        {
+            return (x == 0.0 || n < 0 || n > 2) ? Meta.Numerics.Functions.AdvancedMath.IntegralE(n, x) : gsl_sf_expint_En(n, x);
+        }
 
 
         //   public static double EnNEW(int n, double x)//Generalized Exponential Integral
@@ -958,44 +1163,64 @@ namespace Computator.NET.Functions
         //     return 1.0;
         //}
 
-        public static Func<double, double> Ei = x => (x == 0.0) ? AdvancedMath.IntegralEi(x) : gsl_sf_expint_Ei(x);
+        public static double Ei(double x)
+            {
+                return (x == 0.0) ? Meta.Numerics.Functions.AdvancedMath.IntegralEi(x) : gsl_sf_expint_Ei(x);
+            }
 
-        public static Func<double, double> Shi =
-            gsl_sf_Shi; //hyperbolic sine integral
+        public static double Shi(double d) { return gsl_sf_Shi(d); } //hyperbolic sine integral
 
 
-        public static Func<double, double> Chi =
-            x => (x == 0.0) ? double.NaN : gsl_sf_Chi(x); //hyperbolic cosine integral
 
-        public static Func<double, double> Tai =
-            gsl_sf_atanint; //arcus tangent integral
+        
+        //hyperbolic cosine integral
+
+        private static double Chi(double x)
+        {
+            return (x == 0.0) ? double.NaN : gsl_sf_Chi(x);
+        }
+
+        public static double Tai(double d) { return gsl_sf_atanint(d); } //arcus tangent integral
+
 
         //Integrals in optics
-        public static Func<double, Complex> Fresnel =
-            x => cmplxFromMeta(AdvancedMath.Fresnel(x));
+        private static System.Numerics.Complex Fresnel(double x)
+        {
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedMath.Fresnel(x));
+        }
 
-        public static Func<double, double> FresnelS =
-            AdvancedMath.FresnelS;
+        public static double FresnelS(double x)
+        {
+           return Meta.Numerics.Functions.AdvancedMath.FresnelS(x);
+        }
 
-        public static Func<double, double> FresnelC =
-            AdvancedMath.FresnelC;
+        public static double FresnelC(double x)
+        {
+           return Meta.Numerics.Functions.AdvancedMath.FresnelC(x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_1(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_2(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_3(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_4(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_5(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_6(double x);
 
         /*
@@ -1038,32 +1263,38 @@ namespace Computator.NET.Functions
          *   Cl_2(theta) = Im[ Li_2(e^(i theta)) ]
          */
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_clausen(double x);
 
 
-        public static Complex Ein(Complex z)
+        public static System.Numerics.Complex Ein(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Ein(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Ein(cmplxToMeta(z)));
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_expint_En(int n, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_expint_Ei(double x);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_Shi(double x);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_Chi(double x);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_atanint(double x);
 
         #endregion
@@ -1071,18 +1302,17 @@ namespace Computator.NET.Functions
         #region Elliptic integrals
 
         //In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.
-        public static Func<double, double> EllipticK =
-            x =>
-                (x < 0 || x >= 1.0)
-                    ? ((x < 0 && x > -1.0) ? gsl_sf_ellint_Kcomp(x, 0) : double.NaN)
-                    : AdvancedMath.EllipticK(x);
+        private static double EllipticK(double x)
+        {
+            return (x < 0 || x >= 1.0) ? ((x < 0 && x > -1.0) ? gsl_sf_ellint_Kcomp(x, 0) : double.NaN) : Meta.Numerics.Functions.AdvancedMath.EllipticK(x);
+        }
 
 
         public static double CarlsonD(double x, double y, double z)
         {
             if (x <= 0 || y <= 0 || z <= 0)
                 return double.NaN;
-            return AdvancedMath.CarlsonD(x, y, z);
+            return Meta.Numerics.Functions.AdvancedMath.CarlsonD(x, y, z);
         }
 
 
@@ -1090,7 +1320,7 @@ namespace Computator.NET.Functions
         {
             if (x <= 0 || y <= 0 || z <= 0)
                 return double.NaN;
-            return AdvancedMath.CarlsonF(x, y, z);
+            return Meta.Numerics.Functions.AdvancedMath.CarlsonF(x, y, z);
         }
 
         public static double CarlsonC(double x, double y)
@@ -1110,38 +1340,12 @@ namespace Computator.NET.Functions
 
         public static double EllipticF(double φ, double x)
         {
-            if (x < -1.0 || x > 1.0 || φ < -Math.PI/2.0 || φ > Math.PI/2.0)
+            if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0)
                 return double.NaN;
 
             if (x < 0.0)
                 return gsl_sf_ellint_F(φ, x, 0);
-            return AdvancedMath.EllipticF(φ, x);
-        }
-
-
-        public static double EllipticE(double φ, double x)
-        {
-            if (x < -1.0 || x > 1.0 || φ < -Math.PI/2.0 || φ > Math.PI/2.0)
-                return double.NaN;
-
-            if (x < 0.0)
-                return gsl_sf_ellint_E(φ, x, 0);
-            return AdvancedMath.EllipticE(φ, x);
-        }
-
-
-        public static double EllipticΠ(double φ, double x, int n)
-        {
-            if (x < -1.0 || x > 1.0 || φ < -Math.PI/2.0 || φ > Math.PI/2.0)
-                return double.NaN;
-            return gsl_sf_ellint_P(φ, x, n, 0);
-        }
-
-        public static double EllipticD(double φ, double x, int n)
-        {
-            if (x < -1.0 || x > 1.0 || φ < -Math.PI/2.0 || φ > Math.PI/2.0)
-                return double.NaN;
-            return gsl_sf_ellint_D(φ, x, n, 0);
+            return Meta.Numerics.Functions.AdvancedMath.EllipticF(φ, x);
         }
 
         public static double EllipticE(double x)
@@ -1151,8 +1355,42 @@ namespace Computator.NET.Functions
                     return gsl_sf_ellint_Ecomp(x, 0);
                 else
                     return double.NaN;
-            return AdvancedMath.EllipticE(x);
+            return Meta.Numerics.Functions.AdvancedMath.EllipticE(x);
         }
+
+        public static double EllipticE(double φ, double x)
+        {
+            if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0)
+                return double.NaN;
+
+            if (x < 0.0)
+                return gsl_sf_ellint_E(φ, x, 0);
+            return Meta.Numerics.Functions.AdvancedMath.EllipticE(φ, x);
+        }
+
+        public static double EllipticΠ(double k, double n)
+        {
+            if (k*k >= 1.0 || n <= -1.0)
+                return double.NaN;
+            return gsl_sf_ellint_Pcomp(k, n, 0);
+        }
+
+        public static double EllipticΠ(double φ, double x, int n)
+        {
+            if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0 || n <= -2)
+                //TODO: try to relax on these conditions
+                return double.NaN;
+            return gsl_sf_ellint_P(φ, x, n, 0);
+        }
+
+
+        public static double EllipticD(double φ, double x, int n)
+        {
+            if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0)
+                return double.NaN;
+            return gsl_sf_ellint_D(φ, x, n, 0);
+        }
+
 
         public static double EllipticD(double x)
         {
@@ -1162,55 +1400,62 @@ namespace Computator.NET.Functions
             return gsl_sf_ellint_Dcomp(x, 0);
         }
 
-        public static double EllipticΠ(double x, int n)
-        {
-            if (x <= -1 || x >= 1.0)
-                return double.NaN;
-            return gsl_sf_ellint_Pcomp(x, n, 0);
-        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Ecomp(double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Kcomp(double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Pcomp(double k, double n, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Dcomp(double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_F(double phi, double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_E(double phi, double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_P(double phi, double k, double n, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_D(double phi, double k, double n, uint mode);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RC(double x, double y, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RD(double x, double y, double z, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RF(double x, double y, double z, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RJ(double x, double y, double z, double p, uint mode);
 
         #endregion
 
         #region  Jacobian elliptic functions
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_elljac_e(double u, double m, out double sn, out double cn, out double dn);
 
         public static double JacobiEllipticSn(double u, double m)
@@ -1241,84 +1486,110 @@ namespace Computator.NET.Functions
 
         #region error functions
 
-        public static Func<Complex, Complex> erfi =
-            z => -Complex.ImaginaryOne*erf(Complex.ImaginaryOne*z);
+        private static System.Numerics.Complex erfi(System.Numerics.Complex z)
+        {
+            return -System.Numerics.Complex.ImaginaryOne*erf(System.Numerics.Complex.ImaginaryOne*z);
+        }
 
-        public static Func<double, double> inverseErf = AdvancedMath.InverseErf;
+        public static double inverseErf(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.InverseErf(x);
+        }
+        public static double inverseErfc(double x)
+        {
+            return
+                Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
+        }
 
-        public static Func<double, double> inverseErfc =
-            AdvancedMath.InverseErfc;
+        public static double logErfc(double x)
+        {
+            return gsl_sf_log_erfc(x);
+        }
 
-        public static Func<double, double> logErfc = gsl_sf_log_erfc;
+        public static double erfZ(double x)
+        {
+            return gsl_sf_erf_Z(x);
+        }
 
-        public static Func<double, double> erfZ = gsl_sf_erf_Z;
-        public static Func<double, double> erfQ = gsl_sf_erf_Q;
+        public static double erfQ(double x)
+        {
+            return 
+            gsl_sf_erf_Q(x);
+        }
 
-        public static Func<double, double> hazard = gsl_sf_hazard;
+        public static double hazard(double x)
+        {
+            return 
+            gsl_sf_hazard(x);
+        }
 
         public static double OwenT(double h, double a)
         {
-            return OwensT.Function(h, a);
+            return Accord.Math.OwensT.Function(h, a);
         }
 
         public static double OwenT(double h, double a, double ah)
         {
-            return OwensT.Function(h, a, ah);
+            return Accord.Math.OwensT.Function(h, a, ah);
         }
 
         //checked and they work ok
 
         public static double erf(double x)
         {
-            return AdvancedMath.Erf((x));
+            return Meta.Numerics.Functions.AdvancedMath.Erf((x));
         }
 
 
         public static double erfc(double x)
         {
-            return AdvancedMath.Erfc((x));
+            return Meta.Numerics.Functions.AdvancedMath.Erfc((x));
         }
 
 
         public static double erfcx(double x)
         {
-            return ((erfc(x))/Math.Exp(-((x))*(x)));
+            return ((erfc(x))/System.Math.Exp(-((x))*(x)));
         }
 
 
-        public static Complex erf(Complex z)
+        public static System.Numerics.Complex erf(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Erf(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Erf(cmplxToMeta(z)));
         }
 
 
-        public static Complex erfc(Complex z)
+        public static System.Numerics.Complex erfc(System.Numerics.Complex z)
         {
-            return (1 - cmplxFromMeta(AdvancedComplexMath.Erf(cmplxToMeta(z))));
+            return (1 - cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Erf(cmplxToMeta(z))));
         }
 
 
-        public static Complex erfcx(Complex z)
+        public static System.Numerics.Complex erfcx(System.Numerics.Complex z)
         {
-            return ((erfc(z))/Complex.Exp(-((z))*(z)));
+            return ((erfc(z))/System.Numerics.Complex.Exp(-((z))*(z)));
         }
 
 
-        public static Complex faddeeva(Complex z)
+        public static System.Numerics.Complex faddeeva(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Faddeeva(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Faddeeva(cmplxToMeta(z)));
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_log_erfc(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_erf_Z(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_erf_Q(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hazard(double x);
 
         #endregion
@@ -1334,142 +1605,243 @@ namespace Computator.NET.Functions
         // Description("angielski opis funkcji")]
         // public static Func<double, double, double> BesselYν2 = (ν, x) => gsl_sf_bessel_Ynu(ν, x);
 
-        public static double BesselJ0(double x) => AdvancedMath.BesselJ(0, x);
+        public static double BesselJ0(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(0, x);
+        }
 
-        public static double BesselJ1(double x) => AdvancedMath.BesselJ(1, x);
+        public static double BesselJ1(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(1, x);
+        }
 
-        public static double BesselJ2(double x) => AdvancedMath.BesselJ(2, x);
+        public static double BesselJ2(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(2, x);
+        }
 
-        public static double BesselJ3(double x) => AdvancedMath.BesselJ(3, x);
+        public static double BesselJ3(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(3, x);
+        }
 
         public static double BesselJnPrime(int n, double x)
-            => 0.5*(AdvancedMath.BesselJ(n - 1, x) - AdvancedMath.BesselJ(n + 1, x));
+        {
+            return 0.5*
+                   (Meta.Numerics.Functions.AdvancedMath.BesselJ(n - 1, x) -
+                    Meta.Numerics.Functions.AdvancedMath.BesselJ(n + 1, x));
+        }
 
 
-        public static double BesselJn(int n, double x) => AdvancedMath.BesselJ(n, x);
+        public static double BesselJn(int n, double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(n, x);
+        }
 
-        public static double BesselJν(double ν, double x) => (x < 0.0) ? double.NaN : AdvancedMath.BesselJ(ν, x);
+        public static double BesselJν(double ν, double x)
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.BesselJ(ν, x);
+        }
 
         // Description("angielski opis funkcji")]
         //public static double BesselJa = BesselJν;
 
-        public static double BesselY0(double x) => AdvancedMath.BesselY(0, x);
+        public static double BesselY0(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(0, x);
+        }
 
-        public static double BesselY1(double x) => AdvancedMath.BesselY(1, x);
+        public static double BesselY1(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(1, x);
+        }
 
-        public static double BesselY2(double x) => AdvancedMath.BesselY(2, x);
+        public static double BesselY2(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(2, x);
+        }
 
-        public static double BesselY3(double x) => AdvancedMath.BesselY(3, x);
+        public static double BesselY3(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(3, x);
+        }
 
-        public static double BesselYn(int n, double x) => AdvancedMath.BesselY(n, x);
+        public static double BesselYn(int n, double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(n, x);
+        }
 
-        public static double BesselYν(double ν, double x) => (x < 0.0) ? double.NaN : AdvancedMath.BesselY(ν, x);
+        public static double BesselYν(double ν, double x)
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.BesselY(ν, x);
+        }
 
         // Description("angielski opis funkcji")]
         //public static double BesselYa = BesselYν;
 
-        public static double ModifiedBesselIn(int n, double x) => gsl_sf_bessel_In(n, x);
+        public static double ModifiedBesselIn(int n, double x)
+        {
+            return gsl_sf_bessel_In(n, x);
+        }
 
 
         public static double ModifiedBesselIν(double ν, double x)
-            => (x < 0.0) ? double.NaN : AdvancedMath.ModifiedBesselI(ν, x);
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.ModifiedBesselI(ν, x);
+        }
 
         // Description("angielski opis funkcji")]
         //public static double ModifiedBesselIa = ModifiedBesselIν;
 
         public static double ModifiedBesselKν(double ν, double x)
-            => (x < 0.0) ? double.NaN : AdvancedMath.ModifiedBesselK(ν, x);
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.ModifiedBesselK(ν, x);
+        }
 
-        public static double ModifiedBesselKn(int n, double x) => (x <= 0.0) ? double.NaN : gsl_sf_bessel_Kn(n, x);
+        public static double ModifiedBesselKn(int n, double x)
+        {
+            return (x <= 0.0) ? double.NaN : gsl_sf_bessel_Kn(n, x);
+        }
 
         // Description("angielski opis funkcji")]
         //public static double ModifiedBesselKa = ModifiedBesselKν;
 
 
-        public static double SphericalBesselJ0(double x) => AdvancedMath.SphericalBesselJ(0, x);
+        public static double SphericalBesselJ0(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(0, x);
+        }
 
-        public static double SphericalBesselJ1(double x) => AdvancedMath.SphericalBesselJ(1, x);
+        public static double SphericalBesselJ1(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(1, x);
+        }
 
-        public static double SphericalBesselJ2(double x) => AdvancedMath.SphericalBesselJ(2, x);
+        public static double SphericalBesselJ2(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(2, x);
+        }
 
-        public static double SphericalBesselJ3(double x) => AdvancedMath.SphericalBesselJ(3, x);
+        public static double SphericalBesselJ3(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(3, x);
+        }
 
-        public static double SphericalBesselJn(int n, double x) => AdvancedMath.SphericalBesselJ(n, x);
-
-
-        public static double SphericalBesselY0(double x) => AdvancedMath.SphericalBesselY(0, x);
-
-
-        public static double SphericalBesselY1(double x) => AdvancedMath.SphericalBesselY(1, x);
-
-
-        public static double SphericalBesselY2(double x) => (x == 0) ? double.NaN : AdvancedMath.SphericalBesselY(2, x);
-
-
-        public static double SphericalBesselY3(double x) => AdvancedMath.SphericalBesselY(3, x);
-
-
-        public static double SphericalBesselYn(int n, double x) => AdvancedMath.SphericalBesselY(n, x);
+        public static double SphericalBesselJn(int n, double x)
+        {
+            if (x == 0 && n <= -3)
+                return double.NaN;
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(n, x);
+        }
 
 
-        public static double ModifiedSphericalBesselIn(int n, double x) => gsl_sf_bessel_il_scaled(n, x);
+        public static double SphericalBesselY0(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(0, x);
+        }
+
+
+        public static double SphericalBesselY1(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(1, x);
+        }
+
+
+        public static double SphericalBesselY2(double x)
+        {
+            return (x == 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(2, x);
+        }
+
+
+        public static double SphericalBesselY3(double x)
+        {
+            return (x == 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(3, x);
+        }
+
+
+        public static double SphericalBesselYn(int n, double x)
+        {
+            if (x == 0 & n >= 2)
+                return double.NaN;
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(n, x);
+        }
+
+
+        public static double ModifiedSphericalBesselIn(int n, double x)
+        {
+            if (n < 0)
+                return double.NaN;
+            return gsl_sf_bessel_il_scaled(n, x);
+        }
 
 
         public static double ModifiedSphericalBesselKn(int n, double x)
-            => (x <= 0) ? double.NaN : gsl_sf_bessel_kl_scaled(n, x);
+        {
+            return (x <= 0 || n < 0) ? double.NaN : gsl_sf_bessel_kl_scaled(n, x);
+        }
 
         public static double logBesselKν(double ν, double x)
-            => (x <= 0.0 || ν < 0) ? double.NaN : gsl_sf_bessel_lnKnu(ν, x);
+        {
+            return (x <= 0.0 || ν < 0) ? double.NaN : gsl_sf_bessel_lnKnu(ν, x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Jnu(double nu, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Ynu(double nu, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_In(int n, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Kn(int n, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_il_scaled(int l, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_kl_scaled(int l, double x);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_lnKnu(double nu, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_zero_Jnu(double nu, uint s);
 
         public static double BesselJνZeros(double ν, double s)
         {
             if (s < 0.5 || ν < 0.0) return double.NaN;
-            return gsl_sf_bessel_zero_Jnu(ν, (uint) Math.Round(s, MidpointRounding.AwayFromZero));
+            return gsl_sf_bessel_zero_Jnu(ν, (uint) System.Math.Round(s, System.MidpointRounding.AwayFromZero));
         }
 
-        public static Complex Hankel1(double α, double x)
+        public static System.Numerics.Complex Hankel1(double α, double x)
         {
-            return BesselJν(α, x) + Complex.ImaginaryOne*BesselYν(α, x);
+            return BesselJν(α, x) + System.Numerics.Complex.ImaginaryOne*BesselYν(α, x);
         }
 
-        public static Complex Hankel2(double α, double x)
+        public static System.Numerics.Complex Hankel2(double α, double x)
         {
-            return BesselJν(α, x) - Complex.ImaginaryOne*BesselYν(α, x);
+            return BesselJν(α, x) - System.Numerics.Complex.ImaginaryOne*BesselYν(α, x);
         }
 
-        public static Complex SphericalHankel1(int n, double x)
+        public static System.Numerics.Complex SphericalHankel1(int n, double x)
         {
-            return SphericalBesselJn(n, x) + Complex.ImaginaryOne*SphericalBesselYn(n, x);
+            return SphericalBesselJn(n, x) + System.Numerics.Complex.ImaginaryOne*SphericalBesselYn(n, x);
         }
 
-        public static Complex SphericalHankel2(int n, double x)
+        public static System.Numerics.Complex SphericalHankel2(int n, double x)
         {
-            return SphericalBesselJn(n, x) - Complex.ImaginaryOne*SphericalBesselYn(n, x);
+            return SphericalBesselJn(n, x) - System.Numerics.Complex.ImaginaryOne*SphericalBesselYn(n, x);
         }
 
         public static double RiccatiBesselS(int n, double x)
@@ -1492,12 +1864,12 @@ namespace Computator.NET.Functions
             return -x*SphericalBesselYn(n, x);
         }
 
-        public static Complex RiccatiBesselξ(int n, double x)
+        public static System.Numerics.Complex RiccatiBesselξ(int n, double x)
         {
             return x*Hankel1(n, x);
         }
 
-        public static Complex RiccatiBesselζ(int n, double x)
+        public static System.Numerics.Complex RiccatiBesselζ(int n, double x)
         {
             return x*Hankel2(n, x);
         }
@@ -1506,94 +1878,125 @@ namespace Computator.NET.Functions
 
         #region Airy functions
 
-        public static Func<double, double> AiryAi = AdvancedMath.AiryAi;
+        public static double AiryAi(double x)
+        {
+              return Meta.Numerics.Functions.AdvancedMath.AiryAi(x); 
+        }
+
+        public static double AiryBi(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.AiryBi(x);
+        }
 
 
-        public static Func<double, double> AiryBi = AdvancedMath.AiryBi;
+        public static double Ai(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.AiryAi(x);
+        }
+
+        public static double Bi(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.AiryBi(x);
+        }
+
+        public static double AiPrime(double x)
+        {
+            return gsl_sf_airy_Ai_deriv(x,0);
+        }
 
 
-        public static Func<double, double> Ai = AiryAi;
+        public static double BiPrime(double x)
+        {
+            return gsl_sf_airy_Bi_deriv(x, 0);
+        }
 
 
-        public static Func<double, double> Bi = AiryBi;
-
-        public static Func<double, double> AiPrime = x => gsl_sf_airy_Ai_deriv(x, 0);
-        public static Func<double, double> BiPrime = x => gsl_sf_airy_Bi_deriv(x, 0);
-
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_Ai_deriv(double x, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_Bi_deriv(double x, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Ai(uint s);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Bi(uint s);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Ai_deriv(uint s);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Bi_deriv(uint s);
 
         //AiryZetaAi //ZerosOfAi// ZerosOfBi
         public static double AiZeros(double x)
         {
             if (x < 0.5) return double.NaN;
-            return gsl_sf_airy_zero_Ai((uint) Math.Round(x, MidpointRounding.AwayFromZero));
+            return gsl_sf_airy_zero_Ai((uint) System.Math.Round(x, System.MidpointRounding.AwayFromZero));
         }
 
         public static double BiZeros(double x)
         {
             if (x < 0.5) return double.NaN;
-            return gsl_sf_airy_zero_Bi((uint) Math.Round(x, MidpointRounding.AwayFromZero));
+            return gsl_sf_airy_zero_Bi((uint) System.Math.Round(x, System.MidpointRounding.AwayFromZero));
         }
 
         public static double AiZerosPrime(double x)
         {
             if (x < 0.5) return double.NaN;
-            return gsl_sf_airy_zero_Ai_deriv((uint) Math.Round(x, MidpointRounding.AwayFromZero));
+            return gsl_sf_airy_zero_Ai_deriv((uint) System.Math.Round(x, System.MidpointRounding.AwayFromZero));
         }
 
         public static double BiZerosPrime(double x)
         {
             if (x < 0.5) return double.NaN;
-            return gsl_sf_airy_zero_Bi_deriv((uint) Math.Round(x, MidpointRounding.AwayFromZero));
+            return gsl_sf_airy_zero_Bi_deriv((uint) System.Math.Round(x, System.MidpointRounding.AwayFromZero));
         }
 
         #endregion
 
         #region zeta and eta functions
 
-        public static Func<double, double> DirichletEta =
-            x => x >= 0 ? AdvancedMath.DirichletEta(x) : (1 - Math.Pow(2, 1 - x))*RiemannZeta(x);
+        private static double DirichletEta(double x)
+        {
+            return x >= 0 ? Meta.Numerics.Functions.AdvancedMath.DirichletEta(x) : (1 - System.Math.Pow(2, 1 - x))*RiemannZeta(x);
+        }
 
+        private static double η(double x)
+        {
+            return DirichletEta(x);
+        }
 
-        public static Func<double, double> η = DirichletEta;
 
         public static double RiemannZeta(double x)
         {
-            return AdvancedMath.RiemannZeta(x);
+            return Meta.Numerics.Functions.AdvancedMath.RiemannZeta(x);
         }
 
         public static double Riemannζ(double x)
         {
-            return AdvancedMath.RiemannZeta(x);
+            return Meta.Numerics.Functions.AdvancedMath.RiemannZeta(x);
         }
 
-        public static Complex Riemannζ(Complex z)
+        public static System.Numerics.Complex Riemannζ(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
         }
 
-        public static Complex RiemannZeta(Complex z)
+        public static System.Numerics.Complex RiemannZeta(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hzeta(double s, double q);
 
         public static double HurwitzZeta(double x, double q)
@@ -1612,38 +2015,60 @@ namespace Computator.NET.Functions
 
         #region mathieu functions
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_a([MarshalAs(UnmanagedType.I4)] int order,
-            [MarshalAs(UnmanagedType.R8)] double qq, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_a(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            out gsl_sf_result result);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_b([MarshalAs(UnmanagedType.I4)] int order,
-            [MarshalAs(UnmanagedType.R8)] double qq, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_b(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            out gsl_sf_result result);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_ce([MarshalAs(UnmanagedType.I4)] int order,
-            [MarshalAs(UnmanagedType.R8)] double qq, [MarshalAs(UnmanagedType.R8)] double zz, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_ce(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
+            out gsl_sf_result result);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_se([MarshalAs(UnmanagedType.I4)] int order,
-            [MarshalAs(UnmanagedType.R8)] double qq, [MarshalAs(UnmanagedType.R8)] double zz, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_se(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
+            out gsl_sf_result result);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_Mc([MarshalAs(UnmanagedType.I4)] int kind,
-            [MarshalAs(UnmanagedType.I4)] int order, [MarshalAs(UnmanagedType.R8)] double qq,
-            [MarshalAs(UnmanagedType.R8)] double zz, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_Mc(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int kind,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
+            out gsl_sf_result result);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_Ms([MarshalAs(UnmanagedType.I4)] int kind,
-            [MarshalAs(UnmanagedType.I4)] int order, [MarshalAs(UnmanagedType.R8)] double qq,
-            [MarshalAs(UnmanagedType.R8)] double zz, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_Ms(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int kind,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
+            out gsl_sf_result result);
 
         public static double MathieuSE(int n, double q, double x)
         {
@@ -1671,6 +2096,8 @@ namespace Computator.NET.Functions
 
         public static double MathieuBn(int n, double q)
         {
+            if (n == 0)
+                return double.NaN;
             var error = gsl_sf_mathieu_b(n, q, out sfResult);
             if (error == 0)
                 return sfResult.val;
@@ -1697,24 +2124,41 @@ namespace Computator.NET.Functions
             throw gslExceptions(error);
         }
 
-        [StructLayout(LayoutKind.Sequential, Size = 16), Serializable]
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Size = 16),
+         System.Serializable]
         private struct gsl_sf_result
         {
-            [MarshalAs(UnmanagedType.R8)] public readonly double val;
-            [MarshalAs(UnmanagedType.R8)] public readonly double err;
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] public readonly
+                double val;
+
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] public readonly
+                double err;
         }
 
         #endregion
 
         #region logistic functions
 
-        public static Func<double, double> Logistic = MathNet.Numerics.SpecialFunctions.Logistic;
+        public static double Logistic(double x)
+        {
+            return MathNet.Numerics.SpecialFunctions.Logistic(x);
+        }
 
-        public static Func<double, double> Logit =
-            x => (x < 0 || x > 1) ? double.NaN : MathNet.Numerics.SpecialFunctions.Logit(x);
+        private static double Logit(double x)
+        {
+            return (x < 0 || x > 1) ? double.NaN : MathNet.Numerics.SpecialFunctions.Logit(x);
+        }
 
-        public static Func<double, double> StruveL1 = MathNet.Numerics.SpecialFunctions.StruveL1;
-        public static Func<double, double> StruveL0 = MathNet.Numerics.SpecialFunctions.StruveL0;
+
+        public static double StruveL1(double x)
+        {
+            return MathNet.Numerics.SpecialFunctions.StruveL1(x);
+        }
+
+        public static double StruveL0(double x)
+        {
+            return MathNet.Numerics.SpecialFunctions.StruveL0(x);
+        }
 
         #endregion
 
@@ -1723,105 +2167,104 @@ namespace Computator.NET.Functions
         private const string gslSfLibDir = "gsl.dll"; //"libgsl-0.dll";
         private static gsl_sf_result sfResult;
 
-        private static Exception gslExceptions(int error_code)
+        private static System.Exception gslExceptions(int error_code)
         {
             switch (error_code)
             {
                 case -1:
-                    return new Exception("general failure");
+                    return new System.Exception("general failure");
                 case -2:
-                    return new Exception("iteration has not converged");
+                    return new System.Exception("iteration has not converged");
                 case 1:
-                    return new Exception("input domain error: e.g sqrt(-1)");
+                    return new System.Exception("input domain error: e.g sqrt(-1)");
                 case 2:
-                    return new Exception("output range error: e.g. exp(1e100)");
+                    return new System.Exception("output range error: e.g. exp(1e100)");
                 case 3:
-                    return new Exception("invalid pointer");
+                    return new System.Exception("invalid pointer");
                 case 4:
-                    return new Exception("invalid argument supplied by user");
+                    return new System.Exception("invalid argument supplied by user");
                 case 5:
-                    return new Exception("generic failure");
+                    return new System.Exception("generic failure");
                 case 6:
-                    return new Exception("factorization failed");
+                    return new System.Exception("factorization failed");
                 case 7:
-                    return new Exception("sanity check failed - shouldn't happen");
+                    return new System.Exception("sanity check failed - shouldn't happen");
                 case 8:
-                    return new Exception("malloc failed");
+                    return new System.Exception("malloc failed");
                 case 9:
-                    return new Exception("problem with user-supplied function");
+                    return new System.Exception("problem with user-supplied function");
                 case 10:
-                    return new Exception("iterative process is out of control");
+                    return new System.Exception("iterative process is out of control");
                 case 11:
-                    return new Exception("exceeded max number of iterations");
+                    return new System.Exception("exceeded max number of iterations");
                 case 12:
-                    return new Exception("tried to divide by zero");
+                    return new System.Exception("tried to divide by zero");
                 case 13:
-                    return new Exception("user specified an invalid tolerance");
+                    return new System.Exception("user specified an invalid tolerance");
                 case 14:
-                    return new Exception("failed to reach the specified tolerance");
+                    return new System.Exception("failed to reach the specified tolerance");
                 case 15:
-                    return new Exception("underflow");
+                    return new System.Exception("underflow");
                 case 16:
-                    return new Exception("overflow ");
+                    return new System.Exception("overflow ");
                 case 17:
-                    return new Exception("loss of accuracy");
+                    return new System.Exception("loss of accuracy");
                 case 18:
-                    return new Exception("failed because of roundoff error");
+                    return new System.Exception("failed because of roundoff error");
                 case 19:
-                    return new Exception("matrix: vector lengths are not conformant");
+                    return new System.Exception("matrix: vector lengths are not conformant");
                 case 20:
-                    return new Exception("matrix not square");
+                    return new System.Exception("matrix not square");
                 case 21:
-                    return new Exception("apparent singularity detected");
+                    return new System.Exception("apparent singularity detected");
                 case 22:
-                    return new Exception("integral or series is divergent");
+                    return new System.Exception("integral or series is divergent");
                 case 23:
-                    return new Exception("requested feature is not supported by the hardware");
+                    return new System.Exception("requested feature is not supported by the hardware");
                 case 24:
-                    return new Exception("requested feature not (yet) implemented");
+                    return new System.Exception("requested feature not (yet) implemented");
                 case 25:
-                    return new Exception("cache limit exceeded");
+                    return new System.Exception("cache limit exceeded");
                 case 26:
-                    return new Exception("table limit exceeded");
+                    return new System.Exception("table limit exceeded");
                 case 27:
-                    return new Exception("iteration is not making progress towards solution");
+                    return new System.Exception("iteration is not making progress towards solution");
                 case 28:
-                    return new Exception("jacobian evaluations are not improving the solution");
+                    return new System.Exception("jacobian evaluations are not improving the solution");
                 case 29:
-                    return new Exception("cannot reach the specified tolerance in F");
+                    return new System.Exception("cannot reach the specified tolerance in F");
                 case 30:
-                    return new Exception("cannot reach the specified tolerance in X");
+                    return new System.Exception("cannot reach the specified tolerance in X");
                 case 31:
-                    return new Exception("cannot reach the specified tolerance in gradient");
+                    return new System.Exception("cannot reach the specified tolerance in gradient");
                 case 32:
-                    return new Exception("end of file");
+                    return new System.Exception("end of file");
                 default:
-                    return new Exception("unknown exception");
+                    return new System.Exception("unknown exception");
             }
         }
 
-        private static Complex cmplxFromMeta(Meta.Numerics.Complex c)
+        private static System.Numerics.Complex cmplxFromMeta(Meta.Numerics.Complex c)
         {
-            return new Complex(c.Re, c.Im);
+            return new System.Numerics.Complex(c.Re, c.Im);
         }
 
-        private static Meta.Numerics.Complex cmplxToMeta(Complex c)
+        private static Meta.Numerics.Complex cmplxToMeta(System.Numerics.Complex c)
         {
             return new Meta.Numerics.Complex(c.Real, c.Imaginary);
         }
 
         public const string ToCode =
             @"
-     
-        public static double findRoot(Func<double, double> f, double a, double b)
+        public static double findRoot(System.Func<double, double> f, double a, double b)
         {
             var ret = double.NaN;
 
             try
             {
-                ret = FindRoots.OfFunction(f, a, b, 1e-2, 10000);
+                ret = MathNet.Numerics.FindRoots.OfFunction(f, a, b, 1e-2, 10000);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
             }
             return ret;
@@ -1835,11 +2278,12 @@ namespace Computator.NET.Functions
             return Accord.Math.Gabor.Function1D(x, mean, amplitude, position, width, phase, frequency);
         }
 
-        public static Complex Gabor(Complex z, double λ, double θ, double ψ, double σ, double γ)
+        public static System.Numerics.Complex Gabor(System.Numerics.Complex z, double λ, double θ, double ψ, double σ,
+            double γ)
         {
             var z2 = Accord.Math.Gabor.Function2D((int) z.Real, (int) z.Imaginary, λ, θ, ψ, σ, γ);
 
-            return new Complex(z2.Real, z2.Imaginary);
+            return new System.Numerics.Complex(z2.Real, z2.Imaginary);
         }
 
         #endregion
@@ -1848,76 +2292,89 @@ namespace Computator.NET.Functions
 
         public static double Ackley(params double[] xi)
         {
-            return TestFunctions.Ackley(xi);
+            return MathNet.Numerics.TestFunctions.Ackley(xi);
         }
 
         public static double Rastrigin(params double[] xi)
         {
-            return TestFunctions.Rastrigin(xi);
+            return MathNet.Numerics.TestFunctions.Rastrigin(xi);
         }
 
         public static double Bohachevsky1(double x, double y)
         {
-            return TestFunctions.Bohachevsky1(x, y);
+            return MathNet.Numerics.TestFunctions.Bohachevsky1(x, y);
         }
 
         public static double dropWave(double x, double y)
         {
-            return TestFunctions.DropWave(x, y);
+            return MathNet.Numerics.TestFunctions.DropWave(x, y);
         }
 
         public static double Himmelblau(double x, double y)
         {
-            return TestFunctions.Himmelblau(x, y);
+            return MathNet.Numerics.TestFunctions.Himmelblau(x, y);
         }
 
         public static double Matyas(double x, double y)
         {
-            return TestFunctions.Matyas(x, y);
+            return MathNet.Numerics.TestFunctions.Matyas(x, y);
         }
 
         public static double sixHumpCamel(double x, double y)
         {
-            return TestFunctions.SixHumpCamel(x, y);
+            return MathNet.Numerics.TestFunctions.SixHumpCamel(x, y);
         }
 
         public static double Rosenbrock(double x, double y)
         {
-            return TestFunctions.Rosenbrock(x, y);
+            return MathNet.Numerics.TestFunctions.Rosenbrock(x, y);
         }
 
         public static double Rosenbrock(params double[] xi)
         {
-            return TestFunctions.Rosenbrock(xi);
+            return MathNet.Numerics.TestFunctions.Rosenbrock(xi);
         }
 
         #endregion
 
         #region Gamma and related functions
 
-        public static Func<double, double, double> leftRegularizedGamma =
-            (a, x) => (a <= 0 || x < 0) ? double.NaN : AdvancedMath.LeftRegularizedGamma(a, x);
+        public static double leftRegularizedGamma(double a, double x)
+        {
+            return (a <= 0 || x < 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.LeftRegularizedGamma(a, x);
+        }
 
 
-        public static Func<double, double, double> rightRegularizedGamma =
-            (a, x) => (a <= 0 || x < 0) ? double.NaN : AdvancedMath.RightRegularizedGamma(a, x);
+        public static double rightRegularizedGamma(double a, double x)
+        {
+            return (a <= 0 || x < 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.RightRegularizedGamma(a, x);
+        }
 
-        public static Func<int, double, double> ψn = AdvancedMath.Psi;
+        public static double ψn(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
+        }
 
-        public static Func<int, double, double> polyGamma = AdvancedMath.Psi;
+        public static double polyGamma(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
+        }
 
-        public static Func<int, double, double> ψⁿ = AdvancedMath.Psi;
+        public static double ψⁿ(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
+        }
 
 
         public static double gamma(double x)
         {
-            return AdvancedMath.Gamma((x));
+            return Meta.Numerics.Functions.AdvancedMath.Gamma((x));
         }
 
 
         public static double Γ(double x)
         {
-            return AdvancedMath.Gamma((x));
+            return Meta.Numerics.Functions.AdvancedMath.Gamma((x));
         }
 
 
@@ -1925,7 +2382,7 @@ namespace Computator.NET.Functions
         {
             if ((x) <= 0.0)
                 return double.NaN;
-            return AdvancedMath.LogGamma((x));
+            return Meta.Numerics.Functions.AdvancedMath.LogGamma((x));
         }
 
 
@@ -1933,42 +2390,42 @@ namespace Computator.NET.Functions
         {
             if ((x) <= 0.0)
                 return double.NaN;
-            return AdvancedMath.LogGamma((x));
+            return Meta.Numerics.Functions.AdvancedMath.LogGamma((x));
         }
 
 
         public static double psi(double x)
         {
-            return AdvancedMath.Psi((x));
+            return Meta.Numerics.Functions.AdvancedMath.Psi((x));
         }
 
 
         public static double digamma(double x)
         {
-            return AdvancedMath.Psi((x));
+            return Meta.Numerics.Functions.AdvancedMath.Psi((x));
         }
 
 
         public static double ψ(double x)
         {
-            return AdvancedMath.Psi((x));
+            return Meta.Numerics.Functions.AdvancedMath.Psi((x));
         }
 
         //COMPLEX:
 
-        public static Complex gamma(Complex z)
+        public static System.Numerics.Complex gamma(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Gamma(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Gamma(cmplxToMeta(z)));
         }
 
 
-        public static Complex Γ(Complex z)
+        public static System.Numerics.Complex Γ(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Gamma(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Gamma(cmplxToMeta(z)));
         }
 
 
-        public static Complex logGamma(Complex z)
+        /*   public static Complex logGamma(Complex z)
         {
             gsl_sf_result lnr = new gsl_sf_result(), arg = new gsl_sf_result();
             gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
@@ -1982,27 +2439,29 @@ namespace Computator.NET.Functions
             gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
             return (lnr.val + arg.val*Complex.ImaginaryOne);
         }
+        */
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
             out gsl_sf_result arg);
 
 
-        public static Complex psi(Complex z)
+        public static System.Numerics.Complex psi(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Psi(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Psi(cmplxToMeta(z)));
         }
 
 
-        public static Complex digamma(Complex z)
+        public static System.Numerics.Complex digamma(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Psi(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Psi(cmplxToMeta(z)));
         }
 
 
-        public static Complex ψ(Complex z)
+        public static System.Numerics.Complex ψ(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Psi(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Psi(cmplxToMeta(z)));
         }
 
         //non complex type compatible gamma-like functions:
@@ -2011,25 +2470,28 @@ namespace Computator.NET.Functions
         public static double gamma(double a, double x)
         {
             if (x < 0 || a <= 0) return double.NaN;
-            return AdvancedMath.Gamma(a, x);
+            return Meta.Numerics.Functions.AdvancedMath.Gamma(a, x);
         }
 
         public static double Γ(double a, double x)
         {
             if (x < 0 || a <= 0) return double.NaN;
-            return AdvancedMath.Gamma(a, x);
+            return Meta.Numerics.Functions.AdvancedMath.Gamma(a, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gamma_inc_Q(double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gamma_inc_P(double a, double x);
 
         // public static double gammaQ(double a, double x) { if (x < 0 || a <= 0) return double.NaN; return gsl_sf_gamma_inc_Q(a, x); }
 
         public static double gammaQ(double a, double x)
         {
+            if (a < 0) return double.NaN;
             return MathNet.Numerics.SpecialFunctions.GammaUpperRegularized(a, x);
         }
 
@@ -2044,7 +2506,7 @@ namespace Computator.NET.Functions
         public static double Beta(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return AdvancedMath.Beta(x, a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(x, a, b);
         }
 
 
@@ -2054,31 +2516,33 @@ namespace Computator.NET.Functions
             return gsl_sf_beta_inc(x, a, b);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_beta_inc(double a, double b, double x);
 
 
         public static double Beta(double a, double b)
         {
             if (a <= 0 || b <= 0) return double.NaN;
-            return AdvancedMath.Beta(a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(a, b);
         }
 
 
         public static double β(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return AdvancedMath.Beta(x, a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(x, a, b);
         }
 
 
         public static double β(double a, double b)
         {
             if (a <= 0 || b <= 0) return double.NaN;
-            return AdvancedMath.Beta(a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(a, b);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lnbeta(double a, double b);
 
 
@@ -2098,10 +2562,12 @@ namespace Computator.NET.Functions
 
         #region coefficients and special values
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_poch(double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_pochrel(double a, double x);
 
         public static double Pochhammer(double a, double x)
@@ -2122,7 +2588,8 @@ namespace Computator.NET.Functions
 
         public static double PolyLog(int n, double x)
         {
-            return AdvancedMath.PolyLog(n, x);
+            if (x > 1.0 || n < 0) return (double.NaN);
+            return Meta.Numerics.Functions.AdvancedMath.PolyLog(n, x);
         }
 
 
@@ -2130,14 +2597,14 @@ namespace Computator.NET.Functions
         {
             if (x > 1.0)
                 return (double.NaN);
-            return AdvancedMath.DiLog((x));
+            return Meta.Numerics.Functions.AdvancedMath.DiLog((x));
         }
 
         public static double diLog(double x)
         {
             if (x > 1.0)
                 return (double.NaN);
-            return AdvancedMath.DiLog((x));
+            return Meta.Numerics.Functions.AdvancedMath.DiLog((x));
         }
 
 
@@ -2145,24 +2612,24 @@ namespace Computator.NET.Functions
         {
             if (x < 0.0)
                 return (double.NaN);
-            return AdvancedMath.DiLog(1 - (x));
+            return Meta.Numerics.Functions.AdvancedMath.DiLog(1 - (x));
         }
 
 
-        public static Complex diLogarithm(Complex z)
+        public static System.Numerics.Complex diLogarithm(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.DiLog(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.DiLog(cmplxToMeta(z)));
         }
 
-        public static Complex diLog(Complex z)
+        public static System.Numerics.Complex diLog(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.DiLog(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.DiLog(cmplxToMeta(z)));
         }
 
 
-        public static Complex SpencesIntegral(Complex z)
+        public static System.Numerics.Complex SpencesIntegral(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.DiLog(1 - cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.DiLog(1 - cmplxToMeta(z)));
         }
 
         #endregion
@@ -2172,17 +2639,18 @@ namespace Computator.NET.Functions
         public static double CoulombG(int L, double η, double ρ)
         {
             if (L < 0 || ρ < 0.0) return double.NaN;
-            return AdvancedMath.CoulombG(L, η, ρ);
+            return Meta.Numerics.Functions.AdvancedMath.CoulombG(L, η, ρ);
         }
 
 
         public static double CoulombF(int L, double η, double ρ)
         {
             if (L < 0 || ρ < 0.0) return double.NaN;
-            return AdvancedMath.CoulombF(L, η, ρ);
+            return Meta.Numerics.Functions.AdvancedMath.CoulombF(L, η, ρ);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_coulomb_CL_e(double L, double eta, out gsl_sf_result result);
 
 
@@ -2193,16 +2661,25 @@ namespace Computator.NET.Functions
             return sfResult.val;
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hydrogenicR(int n, int l, double Z, double r);
 
         public static double HydrogenicR(int n, int l, double Z, double r)
         {
+            if (n < 1 || l > n - 1 || Z <= 0.0 || r < 0.0)
+            {
+                return double.NaN;
+            }
             return gsl_sf_hydrogenicR(n, l, Z, r);
         }
 
         public static double Rnl(int n, int l, double Z, double r)
         {
+            if (n < 1 || l > n - 1 || Z <= 0.0 || r < 0.0)
+            {
+                return double.NaN;
+            }
             return gsl_sf_hydrogenicR(n, l, Z, r);
         }
 
@@ -2214,7 +2691,8 @@ namespace Computator.NET.Functions
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_coulomb_wave_FG_e(double eta, double x,
             double lam_F,
             int k_lam_G,
@@ -2225,7 +2703,9 @@ namespace Computator.NET.Functions
 
         public static double CoulombGprime(int L, double η, double ρ)
         {
-            if (L < 0 || ρ < 0.0) return double.NaN;
+            if (L < 0 || ρ <= 0.0) return double.NaN;
+
+
             double d1, d2;
             var r1 = new gsl_sf_result();
             var r2 = new gsl_sf_result();
@@ -2237,7 +2717,7 @@ namespace Computator.NET.Functions
 
         public static double CoulombFprime(int L, double η, double ρ)
         {
-            if (L < 0 || ρ < 0.0) return double.NaN;
+            if (L < 0 || ρ <= 0.0) return double.NaN;
             double d1, d2;
             var r1 = new gsl_sf_result();
             var r2 = new gsl_sf_result();
@@ -2250,22 +2730,28 @@ namespace Computator.NET.Functions
 
         #region Fermi–Dirac complete&incomplete integral
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_int(int j, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_inc_0(double x, double b);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_0(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_mhalf(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_half(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_3half(double x);
 
         public static double FermiDiracFmhalf(double x)
@@ -2290,6 +2776,10 @@ namespace Computator.NET.Functions
 
         public static double FermiDiracF0(double x, double b)
         {
+            if (b < 0.0)
+            {
+                return double.NaN;
+            }
             return gsl_sf_fermi_dirac_inc_0(x, b);
         }
 
@@ -2302,41 +2792,59 @@ namespace Computator.NET.Functions
 
         #region lambert W functions
 
-        public static Func<double, double> LambertW0 =
-            x => (x <= -1/Math.E) ? double.NaN : gsl_sf_lambert_W0(x);
+        public static double LambertW0(double x)
+        {
+            return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_W0(x);
+        }
 
-        public static Func<double, double> LambertWm1 =
-            x => (x <= -1/Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
+        public static double LambertWm1(double x)
+        {
+            return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lambert_W0(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lambert_Wm1(double x);
 
         #endregion
 
         #region polynomials
 
-        public static Func<double, double, double>
-            Gegenbauer1 = gsl_sf_gegenpoly_1;
+        public static double Gegenbauer1(double α, double x)
+        {
+            return gsl_sf_gegenpoly_1(α, x);
+        }
 
-        public static Func<double, double, double>
-            Gegenbauer2 = gsl_sf_gegenpoly_2;
+        public static double
+            Gegenbauer2(double α, double x)
+        {
+            return gsl_sf_gegenpoly_2(α, x);
+        }
 
-        public static Func<double, double, double>
-            Gegenbauer3 = gsl_sf_gegenpoly_3;
+        public static double
+            Gegenbauer3(double α, double x)
+        {
+            return gsl_sf_gegenpoly_3(α, x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_n(int n, double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_1(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_2(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_3(double lambda, double x);
 
 
@@ -2346,16 +2854,20 @@ namespace Computator.NET.Functions
             return gsl_sf_gegenpoly_n(n, α, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_n(int n, double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_1(double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_2(double a, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_3(double a, double x);
 
 
@@ -2375,20 +2887,24 @@ namespace Computator.NET.Functions
 
         public static double LegendreP(int l, double x)
         {
-            if (x > 1.0 || x < -1.0) return double.NaN;
-            return OrthogonalPolynomials.LegendreP(l, x);
+            if (l < 0) return double.NaN;
+            if (System.Math.Abs(x) > 1.0) return double.NaN;
+            return Meta.Numerics.Functions.OrthogonalPolynomials.LegendreP(l, x);
         }
 
         public static double LegendreP(int l, int m, double x)
         {
-            if (x > 1.0 || x < -1.0) return double.NaN;
-            return OrthogonalPolynomials.LegendreP(l, m, x);
+            if (l < 0) return double.NaN;
+            if (System.Math.Abs(m) > l) return double.NaN;
+            if (System.Math.Abs(x) > 1.0) return double.NaN;
+            return Meta.Numerics.Functions.OrthogonalPolynomials.LegendreP(l, m, x);
         }
 
         //add legendre Q
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_Ql(int l, double x);
 
         // Q_l(x), x > -1, x != 1, l >= 0
@@ -2399,26 +2915,35 @@ namespace Computator.NET.Functions
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_sphPlm(int l, int m, double x);
 
         public static double SphericalLegendreP(int l, int m, double x)
         {
-            if (x > 1.0 || x < -1.0) return double.NaN;
+            if (m < 0 || l < m || x < -1.0 || x > 1.0)
+            {
+                return double.NaN;
+            }
+
             return gsl_sf_legendre_sphPlm(l, m, x);
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_half(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_mhalf(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_0(double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_1(double lambda, double x);
 
 
@@ -2452,10 +2977,12 @@ namespace Computator.NET.Functions
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_sph_reg(int l, double lambda, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_cyl_reg(int m, double lambda, double x);
 
         public static double SphericalConicalP(int l, double λ, double x)
@@ -2470,7 +2997,8 @@ namespace Computator.NET.Functions
             return gsl_sf_conicalP_cyl_reg(m, λ, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_H3d(int l, double lambda, double eta);
 
         public static double LegendreH3D(int l, double λ, double η)
@@ -2481,25 +3009,38 @@ namespace Computator.NET.Functions
 
         public static double ChebyshevT(int n, double x)
         {
-            return OrthogonalPolynomials.ChebyshevT(n, x);
+            if (System.Math.Abs(x) > 1.0) return double.NaN;
+            if (n < 0) return double.NaN;
+
+            return Meta.Numerics.Functions.OrthogonalPolynomials.ChebyshevT(n, x);
         }
 
         //add ChebyshevU
 
         public static double HermiteH(int n, double x)
         {
-            return OrthogonalPolynomials.HermiteH(n, x);
+            if (n < 0)
+            {
+                return double.NaN;
+            }
+            return Meta.Numerics.Functions.OrthogonalPolynomials.HermiteH(n, x);
         }
 
         public static double HermiteHe(int n, double x)
         {
-            return OrthogonalPolynomials.HermiteHe(n, x);
+            if (n < 0)
+            {
+                return double.NaN;
+            }
+            return Meta.Numerics.Functions.OrthogonalPolynomials.HermiteHe(n, x);
         }
 
         public static double ZernikeR(int n, int m, double ρ)
         {
-            if (n < m || ρ < 0.0 || ρ > 1.0) return double.NaN;
-            return OrthogonalPolynomials.ZernikeR(n, m, ρ);
+            if (n < 0) return double.NaN;
+            if ((m < 0) || (m > n)) return double.NaN;
+            if ((ρ < 0.0) || (ρ > 1.0)) return double.NaN;
+            return Meta.Numerics.Functions.OrthogonalPolynomials.ZernikeR(n, m, ρ);
         }
 
         //TODO: add Zernike Z 
@@ -2508,16 +3049,20 @@ namespace Computator.NET.Functions
 
         #region transport functions
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_2(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_3(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_4(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_5(double x);
 
         public static double TransportJ(int n, double x)
@@ -2541,33 +3086,46 @@ namespace Computator.NET.Functions
 
         #region synchrotron functions
 
-        public static Func<double, double> SynchrotronF = x => (x < 0) ? double.NaN : gsl_sf_synchrotron_1(x);
-        public static Func<double, double> SynchrotronG = x => (x < 0) ? double.NaN : gsl_sf_synchrotron_2(x);
+        private static double SynchrotronF(double x)
+        {
+            return (x < 0) ? double.NaN : gsl_sf_synchrotron_1(x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        private static double SynchrotronG(double x)
+        {
+            return (x < 0) ? double.NaN : gsl_sf_synchrotron_2(x);
+        }
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_synchrotron_1(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_synchrotron_2(double x);
 
         #endregion
 
         #region coupling 3,6,9-j symbols
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_3j(int two_ja, int two_jb, int two_jc,
             int two_ma, int two_mb, int two_mc);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_6j(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_RacahW(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_9j(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf,
             int two_jg, int two_jh, int two_ji);
@@ -2575,49 +3133,117 @@ namespace Computator.NET.Functions
 
         public static double Coupling3j(int ja, int jb, int jc, int ma, int mb, int mc)
         {
+            if (ja < 0 || jb < 0 || jc < 0)
+                return double.NaN;
             return gsl_sf_coupling_3j(ja, jb, jc, ma, mb, mc);
         }
 
         public static double Coupling6j(int ja, int jb, int jc, int jd, int je, int jf)
         {
+            if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0)
+                return double.NaN;
             return gsl_sf_coupling_6j(ja, jb, jc, jd, je, jf);
         }
 
         public static double CouplingRacahW(int ja, int jb, int jc, int jd, int je, int jf)
         {
+            if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0)
+                return double.NaN;
             return gsl_sf_coupling_RacahW(ja, jb, jc, jd, je, jf);
         }
 
         public static double Coupling9j(int ja, int jb, int jc, int jd, int je, int jf, int jg, int jh, int ji)
         {
+            if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0 || jg < 0 || jh < 0 || ji < 0)
+                return double.NaN;
             return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, jf);
         }
 
         public static double Coupling3j(double j1, double j2, double j3, double m1, double m2, double m3)
         {
-            return SpinMath.ThreeJ(new SpinState(j1, m1), new SpinState(j2, m2), new SpinState(j3, m3));
+            // no negative, spin must be integer or half-integer
+            if (j1 < 0 || j2 < 0 || j3 < 0 ||
+                System.Math.Floor(2*j1) != 2*j1 || System.Math.Floor(2*j2) != 2*j2 || System.Math.Floor(2*j3) != 2*j3)
+                return double.NaN;
+
+
+            // -J <= M <= J
+            if (m1 < -System.Math.Abs(j1) || m1 > System.Math.Abs(j1) ||
+                m2 < -System.Math.Abs(j2) || m2 > System.Math.Abs(j2) ||
+                m3 < -System.Math.Abs(j3) || m3 > System.Math.Abs(j3))
+                return double.NaN;
+
+
+            // 2M must be an integer
+            if (System.Math.Floor(2*m1) != 2*m1 || System.Math.Floor(2*m2) != 2*m2 || System.Math.Floor(2*m3) != 2*m3)
+                return double.NaN;
+
+
+            // half-integer J requires half-integer M; integer J requires integer M
+            if (((2*j1)%2) != System.Math.Abs((2*m1)%2) || ((2*j2)%2) != System.Math.Abs((2*m2)%2) ||
+                ((2*j3)%2) != System.Math.Abs((2*m3)%2))
+                return double.NaN;
+
+
+            return Meta.Numerics.Functions.SpinMath.ThreeJ(new Meta.Numerics.Functions.SpinState(j1, m1),
+                new Meta.Numerics.Functions.SpinState(j2, m2), new Meta.Numerics.Functions.SpinState(j3, m3));
         }
 
         public static double Coupling6j(double j1, double j2, double j3, double j4, double j5, double j6)
         {
-            return SpinMath.SixJ(new Spin(j1), new Spin(j2), new Spin(j3), new Spin(j4), new Spin(j5), new Spin(j6));
+            if (j1 < 0 || j2 < 0 || j3 < 0 || j4 < 0 || j5 < 0 || j6 < 0 ||
+                System.Math.Floor(2*j1) != 2*j1 || System.Math.Floor(2*j2) != 2*j2 || System.Math.Floor(2*j3) != 2*j3 ||
+                System.Math.Floor(2*j4) != 2*j4 || System.Math.Floor(2*j5) != 2*j5 || System.Math.Floor(2*j6) != 2*j6)
+                return double.NaN;
+
+            return Meta.Numerics.Functions.SpinMath.SixJ(new Meta.Numerics.Functions.Spin(j1),
+                new Meta.Numerics.Functions.Spin(j2), new Meta.Numerics.Functions.Spin(j3),
+                new Meta.Numerics.Functions.Spin(j4), new Meta.Numerics.Functions.Spin(j5),
+                new Meta.Numerics.Functions.Spin(j6));
         }
 
         public static double ClebschGordan(double j1, double j2, double j, double m1, double m2, double m)
         {
-            return SpinMath.ClebschGodron(new SpinState(j1, m1), new SpinState(j2, m2), new SpinState(j, m));
+            // no negative, spin must be integer or half-integer
+            if (j1 < 0 || j2 < 0 || j < 0 ||
+                System.Math.Floor(2*j1) != 2*j1 || System.Math.Floor(2*j2) != 2*j2 || System.Math.Floor(2*j) != 2*j)
+                return double.NaN;
+
+            // -J <= M <= J
+            if (m1 < -System.Math.Abs(j1) || m1 > System.Math.Abs(j1) ||
+                m2 < -System.Math.Abs(j2) || m2 > System.Math.Abs(j2) ||
+                m < -System.Math.Abs(j) || m > System.Math.Abs(j))
+                return double.NaN;
+
+
+            // 2M must be an integer
+            if (System.Math.Floor(2*m1) != 2*m1 || System.Math.Floor(2*m2) != 2*m2 || System.Math.Floor(2*m) != 2*m)
+                return double.NaN;
+
+
+            // half-integer J requires half-integer M; integer J requires integer M
+            if (((2*j1)%2) != System.Math.Abs((2*m1)%2) || ((2*j2)%2) != System.Math.Abs((2*m2)%2) ||
+                ((2*j)%2) != System.Math.Abs((2*m)%2))
+                return double.NaN;
+
+            return Meta.Numerics.Functions.SpinMath.ClebschGodron(new Meta.Numerics.Functions.SpinState(j1, m1),
+                new Meta.Numerics.Functions.SpinState(j2, m2), new Meta.Numerics.Functions.SpinState(j, m));
         }
 
         #endregion
 
         #region Hypergeometric functions
 
-        public static Complex SphericalHarmonic(int l, int m, double θ, double φ)
+        public static System.Numerics.Complex SphericalHarmonic(int l, int m, double θ, double φ)
         {
-            return cmplxFromMeta(AdvancedMath.SphericalHarmonic(l, m, θ, φ));
+            if (l < 0) return double.NaN;
+            if ((m > l) || (m < -l)) return double.NaN;
+
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedMath.SphericalHarmonic(l, m, θ, φ));
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_0F1(double c, double x);
 
         //Hypergeometric function related to Bessel functions 0F1[c,x]
@@ -2628,7 +3254,8 @@ namespace Computator.NET.Functions
             return double.NaN;
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_1F1_int(int m, int n, double x);
 
         //Confluent hypergeometric function  for integer parameters. 1F1[m,n,x] = M(m,n,x)
@@ -2638,7 +3265,8 @@ namespace Computator.NET.Functions
             return gsl_sf_hyperg_1F1_int(m, n, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_1F1(double a, double b, double x);
 
         //Confluent hypergeometric function. 1F1[a,b,x] = M(a,b,x)
@@ -2648,75 +3276,93 @@ namespace Computator.NET.Functions
             return gsl_sf_hyperg_1F1(a, b, x);
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_U_int(int m, int n, double x);
 
         //Confluent hypergeometric function for integer parameters. U(m,n,x)
 
-        public static double HypergeometricU(int m, int n, double x)
+        /* public static double HypergeometricU(int m, int n, double x)//TODO: fix hypergeometricU
         {
-            if (x > 0.0 || (x != (int) (x))) return gsl_sf_hyperg_U_int(m, n, x);
-            return double.NaN;
-        }
+            if (x <= 0.0 && n >= 1)//TODO: enable it for x<0
+            {
+                return double.NaN;
+            }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_U(double a, double b, double x);
+            //if (x > 0.0 || (x != (int)(x)))
+            return gsl_sf_hyperg_U_int(m, n, x);
+
+            //  return double.NaN;
+        }
 
         //Confluent hypergeometric function. U(a,b,x)
         public static double HypergeometricU(double a, double b, double x)
         {
-            if (x > 0.0 || (x != (int) (x))) return gsl_sf_hyperg_U(a, b, x);
-            return double.NaN;
-        }
+            if (x <= 0.0 && b >= 1)//TODO: enable it for x<0
+            {
+                return double.NaN;
+            }
+            return gsl_sf_hyperg_U(a, b, x);
+        }*/
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_U(double a, double b, double x);
+
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1(double a, double b, double c, double x);
 
         //Gauss hypergeometric function 2F1[a,b,c,x]
 
         public static double Hypergeometric2F1(double a, double b, double c, double x)
         {
-            if ((c > 0.0 || (c != (int) (c))) && Math.Abs(x) < 1) return gsl_sf_hyperg_2F1(a, b, c, x);
+            if ((c > 0.0 || (c != (int) (c))) && System.Math.Abs(x) < 1) return gsl_sf_hyperg_2F1(a, b, c, x);
             return double.NaN;
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_conj(double aR, double aI, double c, double x);
 
         //Gauss hypergeometric function 2F1[aR + I aI, aR - I aI, c, x]
 
-        public static double Hypergeometric2F1(Complex a, double c, double x)
+        public static double Hypergeometric2F1(System.Numerics.Complex a, double c, double x)
         {
-            if ((c > 0.0 || (c != (int) (c))) && Math.Abs(x) < 1)
+            if ((c > 0.0 || (c != (int) (c))) && System.Math.Abs(x) < 1)
                 return gsl_sf_hyperg_2F1_conj(a.Real, a.Imaginary, c, x);
             return double.NaN;
         } //TODO: better name for a parameter
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_renorm(double a, double b, double c, double x);
 
         //Renormalized Gauss hypergeometric function 2F1[a,b,c,x] / Gamma[c]
 
         public static double Hypergeometric2F1renorm(double a, double b, double c, double x)
         {
-            if ((c > 0.0 || (c != (int) (c))) && Math.Abs(x) < 1) return gsl_sf_hyperg_2F1_renorm(a, b, c, x);
+            if ((c > 0.0 || (c != (int) (c))) && System.Math.Abs(x) < 1) return gsl_sf_hyperg_2F1_renorm(a, b, c, x);
             return double.NaN;
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_conj_renorm(double aR, double aI, double c, double x);
 
         //Renormalized Gauss hypergeometric function 2F1[aR + I aI, aR - I aI, c, x] / Gamma[c]
 
-        public static double Hypergeometric2F1renorm(Complex a, double c, double x)
+        public static double Hypergeometric2F1renorm(System.Numerics.Complex a, double c, double x)
         {
-            if ((c > 0.0 || (c != (int) (c))) && Math.Abs(x) < 1)
+            if ((c > 0.0 || (c != (int) (c))) && System.Math.Abs(x) < 1)
                 return gsl_sf_hyperg_2F1_conj_renorm(a.Real, a.Imaginary, c, x);
             return double.NaN;
         } //TODO: better name for a parameter
         //2F1 sometimes returns an exceptions
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F0(double a, double b, double x);
 
         /* Mysterious hypergeometric function. The series representation
@@ -2736,24 +3382,28 @@ namespace Computator.NET.Functions
 
         public static double Ti(double x)
         {
-            return AdvancedMath.IntegralTi(x);
+            return Meta.Numerics.Functions.AdvancedMath.IntegralTi(x);
         }
 
+        public static double Dawson(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.Dawson(x);
+        }
 
-        public static Func<double, double>
-            Dawson = AdvancedMath.Dawson;
+        public static double Clausen(double d) { return gsl_sf_clausen(d); }
 
-        public static Func<double, double> Clausen = gsl_sf_clausen;
+        public static double Si(double d) { return Meta.Numerics.Functions.AdvancedMath.IntegralSi(d); } //sine integral
 
-        public static Func<double, double> Si =
-            AdvancedMath.IntegralSi; //sine integral
-
-        public static Func<double, double> Ci =
-            x => (x < 0.0) ? double.NaN : AdvancedMath.IntegralCi(x); //cosine integral
+        private static double Ci(double x)//cosine integral
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.IntegralCi(x);
+        }
 
         //Generalized Exponential Integral
-        public static Func<int, double, double> En =
-            (n, x) => (x == 0.0 || n < 0 || n > 2) ? AdvancedMath.IntegralE(n, x) : gsl_sf_expint_En(n, x);
+        private static double En(int n, double x)
+        {
+            return (x == 0.0 || n < 0 || n > 2) ? Meta.Numerics.Functions.AdvancedMath.IntegralE(n, x) : gsl_sf_expint_En(n, x);
+        }
 
 
         //   public static double EnNEW(int n, double x)//Generalized Exponential Integral
@@ -2762,44 +3412,64 @@ namespace Computator.NET.Functions
         //     return 1.0;
         //}
 
-        public static Func<double, double> Ei = x => (x == 0.0) ? AdvancedMath.IntegralEi(x) : gsl_sf_expint_Ei(x);
+        public static double Ei(double x)
+            {
+                return (x == 0.0) ? Meta.Numerics.Functions.AdvancedMath.IntegralEi(x) : gsl_sf_expint_Ei(x);
+            }
 
-        public static Func<double, double> Shi =
-            gsl_sf_Shi; //hyperbolic sine integral
+        public static double Shi(double d) { return gsl_sf_Shi(d); } //hyperbolic sine integral
 
 
-        public static Func<double, double> Chi =
-            x => (x == 0.0) ? double.NaN : gsl_sf_Chi(x); //hyperbolic cosine integral
 
-        public static Func<double, double> Tai =
-            gsl_sf_atanint; //arcus tangent integral
+        
+        //hyperbolic cosine integral
+
+        private static double Chi(double x)
+        {
+            return (x == 0.0) ? double.NaN : gsl_sf_Chi(x);
+        }
+
+        public static double Tai(double d) { return gsl_sf_atanint(d); } //arcus tangent integral
+
 
         //Integrals in optics
-        public static Func<double, Complex> Fresnel =
-            x => cmplxFromMeta(AdvancedMath.Fresnel(x));
+        private static System.Numerics.Complex Fresnel(double x)
+        {
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedMath.Fresnel(x));
+        }
 
-        public static Func<double, double> FresnelS =
-            AdvancedMath.FresnelS;
+        public static double FresnelS(double x)
+        {
+           return Meta.Numerics.Functions.AdvancedMath.FresnelS(x);
+        }
 
-        public static Func<double, double> FresnelC =
-            AdvancedMath.FresnelC;
+        public static double FresnelC(double x)
+        {
+           return Meta.Numerics.Functions.AdvancedMath.FresnelC(x);
+        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_1(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_2(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_3(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_4(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_5(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_6(double x);
 
         /*
@@ -2842,32 +3512,38 @@ namespace Computator.NET.Functions
          *   Cl_2(theta) = Im[ Li_2(e^(i theta)) ]
          */
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_clausen(double x);
 
 
-        public static Complex Ein(Complex z)
+        public static System.Numerics.Complex Ein(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Ein(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Ein(cmplxToMeta(z)));
         }
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_expint_En(int n, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_expint_Ei(double x);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_Shi(double x);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_Chi(double x);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_atanint(double x);
 
         #endregion
@@ -2875,18 +3551,17 @@ namespace Computator.NET.Functions
         #region Elliptic integrals
 
         //In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.
-        public static Func<double, double> EllipticK =
-            x =>
-                (x < 0 || x >= 1.0)
-                    ? ((x < 0 && x > -1.0) ? gsl_sf_ellint_Kcomp(x, 0) : double.NaN)
-                    : AdvancedMath.EllipticK(x);
+        private static double EllipticK(double x)
+        {
+            return (x < 0 || x >= 1.0) ? ((x < 0 && x > -1.0) ? gsl_sf_ellint_Kcomp(x, 0) : double.NaN) : Meta.Numerics.Functions.AdvancedMath.EllipticK(x);
+        }
 
 
         public static double CarlsonD(double x, double y, double z)
         {
             if (x <= 0 || y <= 0 || z <= 0)
                 return double.NaN;
-            return AdvancedMath.CarlsonD(x, y, z);
+            return Meta.Numerics.Functions.AdvancedMath.CarlsonD(x, y, z);
         }
 
 
@@ -2894,7 +3569,7 @@ namespace Computator.NET.Functions
         {
             if (x <= 0 || y <= 0 || z <= 0)
                 return double.NaN;
-            return AdvancedMath.CarlsonF(x, y, z);
+            return Meta.Numerics.Functions.AdvancedMath.CarlsonF(x, y, z);
         }
 
         public static double CarlsonC(double x, double y)
@@ -2914,38 +3589,12 @@ namespace Computator.NET.Functions
 
         public static double EllipticF(double φ, double x)
         {
-            if (x < -1.0 || x > 1.0 || φ < -Math.PI/2.0 || φ > Math.PI/2.0)
+            if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0)
                 return double.NaN;
 
             if (x < 0.0)
                 return gsl_sf_ellint_F(φ, x, 0);
-            return AdvancedMath.EllipticF(φ, x);
-        }
-
-
-        public static double EllipticE(double φ, double x)
-        {
-            if (x < -1.0 || x > 1.0 || φ < -Math.PI/2.0 || φ > Math.PI/2.0)
-                return double.NaN;
-
-            if (x < 0.0)
-                return gsl_sf_ellint_E(φ, x, 0);
-            return AdvancedMath.EllipticE(φ, x);
-        }
-
-
-        public static double EllipticΠ(double φ, double x, int n)
-        {
-            if (x < -1.0 || x > 1.0 || φ < -Math.PI/2.0 || φ > Math.PI/2.0)
-                return double.NaN;
-            return gsl_sf_ellint_P(φ, x, n, 0);
-        }
-
-        public static double EllipticD(double φ, double x, int n)
-        {
-            if (x < -1.0 || x > 1.0 || φ < -Math.PI/2.0 || φ > Math.PI/2.0)
-                return double.NaN;
-            return gsl_sf_ellint_D(φ, x, n, 0);
+            return Meta.Numerics.Functions.AdvancedMath.EllipticF(φ, x);
         }
 
         public static double EllipticE(double x)
@@ -2955,8 +3604,42 @@ namespace Computator.NET.Functions
                     return gsl_sf_ellint_Ecomp(x, 0);
                 else
                     return double.NaN;
-            return AdvancedMath.EllipticE(x);
+            return Meta.Numerics.Functions.AdvancedMath.EllipticE(x);
         }
+
+        public static double EllipticE(double φ, double x)
+        {
+            if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0)
+                return double.NaN;
+
+            if (x < 0.0)
+                return gsl_sf_ellint_E(φ, x, 0);
+            return Meta.Numerics.Functions.AdvancedMath.EllipticE(φ, x);
+        }
+
+        public static double EllipticΠ(double k, double n)
+        {
+            if (k*k >= 1.0 || n <= -1.0)
+                return double.NaN;
+            return gsl_sf_ellint_Pcomp(k, n, 0);
+        }
+
+        public static double EllipticΠ(double φ, double x, int n)
+        {
+            if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0 || n <= -2)
+                //TODO: try to relax on these conditions
+                return double.NaN;
+            return gsl_sf_ellint_P(φ, x, n, 0);
+        }
+
+
+        public static double EllipticD(double φ, double x, int n)
+        {
+            if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0)
+                return double.NaN;
+            return gsl_sf_ellint_D(φ, x, n, 0);
+        }
+
 
         public static double EllipticD(double x)
         {
@@ -2966,55 +3649,62 @@ namespace Computator.NET.Functions
             return gsl_sf_ellint_Dcomp(x, 0);
         }
 
-        public static double EllipticΠ(double x, int n)
-        {
-            if (x <= -1 || x >= 1.0)
-                return double.NaN;
-            return gsl_sf_ellint_Pcomp(x, n, 0);
-        }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Ecomp(double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Kcomp(double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Pcomp(double k, double n, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Dcomp(double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_F(double phi, double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_E(double phi, double k, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_P(double phi, double k, double n, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_D(double phi, double k, double n, uint mode);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RC(double x, double y, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RD(double x, double y, double z, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RF(double x, double y, double z, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RJ(double x, double y, double z, double p, uint mode);
 
         #endregion
 
         #region  Jacobian elliptic functions
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_elljac_e(double u, double m, out double sn, out double cn, out double dn);
 
         public static double JacobiEllipticSn(double u, double m)
@@ -3045,84 +3735,110 @@ namespace Computator.NET.Functions
 
         #region error functions
 
-        public static Func<Complex, Complex> erfi =
-            z => -Complex.ImaginaryOne*erf(Complex.ImaginaryOne*z);
+        private static System.Numerics.Complex erfi(System.Numerics.Complex z)
+        {
+            return -System.Numerics.Complex.ImaginaryOne*erf(System.Numerics.Complex.ImaginaryOne*z);
+        }
 
-        public static Func<double, double> inverseErf = AdvancedMath.InverseErf;
+        public static double inverseErf(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.InverseErf(x);
+        }
+        public static double inverseErfc(double x)
+        {
+            return
+                Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
+        }
 
-        public static Func<double, double> inverseErfc =
-            AdvancedMath.InverseErfc;
+        public static double logErfc(double x)
+        {
+            return gsl_sf_log_erfc(x);
+        }
 
-        public static Func<double, double> logErfc = gsl_sf_log_erfc;
+        public static double erfZ(double x)
+        {
+            return gsl_sf_erf_Z(x);
+        }
 
-        public static Func<double, double> erfZ = gsl_sf_erf_Z;
-        public static Func<double, double> erfQ = gsl_sf_erf_Q;
+        public static double erfQ(double x)
+        {
+            return 
+            gsl_sf_erf_Q(x);
+        }
 
-        public static Func<double, double> hazard = gsl_sf_hazard;
+        public static double hazard(double x)
+        {
+            return 
+            gsl_sf_hazard(x);
+        }
 
         public static double OwenT(double h, double a)
         {
-            return OwensT.Function(h, a);
+            return Accord.Math.OwensT.Function(h, a);
         }
 
         public static double OwenT(double h, double a, double ah)
         {
-            return OwensT.Function(h, a, ah);
+            return Accord.Math.OwensT.Function(h, a, ah);
         }
 
         //checked and they work ok
 
         public static double erf(double x)
         {
-            return AdvancedMath.Erf((x));
+            return Meta.Numerics.Functions.AdvancedMath.Erf((x));
         }
 
 
         public static double erfc(double x)
         {
-            return AdvancedMath.Erfc((x));
+            return Meta.Numerics.Functions.AdvancedMath.Erfc((x));
         }
 
 
         public static double erfcx(double x)
         {
-            return ((erfc(x))/Math.Exp(-((x))*(x)));
+            return ((erfc(x))/System.Math.Exp(-((x))*(x)));
         }
 
 
-        public static Complex erf(Complex z)
+        public static System.Numerics.Complex erf(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Erf(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Erf(cmplxToMeta(z)));
         }
 
 
-        public static Complex erfc(Complex z)
+        public static System.Numerics.Complex erfc(System.Numerics.Complex z)
         {
-            return (1 - cmplxFromMeta(AdvancedComplexMath.Erf(cmplxToMeta(z))));
+            return (1 - cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Erf(cmplxToMeta(z))));
         }
 
 
-        public static Complex erfcx(Complex z)
+        public static System.Numerics.Complex erfcx(System.Numerics.Complex z)
         {
-            return ((erfc(z))/Complex.Exp(-((z))*(z)));
+            return ((erfc(z))/System.Numerics.Complex.Exp(-((z))*(z)));
         }
 
 
-        public static Complex faddeeva(Complex z)
+        public static System.Numerics.Complex faddeeva(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.Faddeeva(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Faddeeva(cmplxToMeta(z)));
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_log_erfc(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_erf_Z(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_erf_Q(double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hazard(double x);
 
         #endregion
@@ -3138,167 +3854,243 @@ namespace Computator.NET.Functions
         // Description(""angielski opis funkcji"")]
         // public static Func<double, double, double> BesselYν2 = (ν, x) => gsl_sf_bessel_Ynu(ν, x);
 
-        public static Func<double, double> BesselJ0 =
-            x => AdvancedMath.BesselJ(0, x);
+        public static double BesselJ0(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(0, x);
+        }
 
-        public static Func<double, double> BesselJ1 =
-            x => AdvancedMath.BesselJ(1, x);
+        public static double BesselJ1(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(1, x);
+        }
 
-        public static Func<double, double> BesselJ2 =
-            x => AdvancedMath.BesselJ(2, x);
+        public static double BesselJ2(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(2, x);
+        }
 
-        public static Func<double, double> BesselJ3 =
-            x => AdvancedMath.BesselJ(3, x);
+        public static double BesselJ3(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(3, x);
+        }
 
-        public static Func<int, double, double> BesselJnPrime =
-            (n, x) => 0.5*(AdvancedMath.BesselJ(n - 1, x) - AdvancedMath.BesselJ(n + 1, x));
+        public static double BesselJnPrime(int n, double x)
+        {
+            return 0.5*
+                   (Meta.Numerics.Functions.AdvancedMath.BesselJ(n - 1, x) -
+                    Meta.Numerics.Functions.AdvancedMath.BesselJ(n + 1, x));
+        }
 
 
-        public static Func<int, double, double> BesselJn =
-            (n, x) => AdvancedMath.BesselJ(n, x);
+        public static double BesselJn(int n, double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselJ(n, x);
+        }
 
-        public static Func<double, double, double> BesselJν =
-            (ν, x) => (x < 0.0) ? double.NaN : AdvancedMath.BesselJ(ν, x);
-
-        // Description(""angielski opis funkcji"")]
-        //public static Func<double, double, double> BesselJa = BesselJν;
-
-        public static Func<double, double> BesselY0 =
-            x => AdvancedMath.BesselY(0, x);
-
-        public static Func<double, double> BesselY1 =
-            x => AdvancedMath.BesselY(1, x);
-
-        public static Func<double, double> BesselY2 =
-            x => AdvancedMath.BesselY(2, x);
-
-        public static Func<double, double> BesselY3 =
-            x => AdvancedMath.BesselY(3, x);
-
-        public static Func<int, double, double> BesselYn =
-            (n, x) => AdvancedMath.BesselY(n, x);
-
-        public static Func<double, double, double> BesselYν =
-            (ν, x) => (x < 0.0) ? double.NaN : AdvancedMath.BesselY(ν, x);
+        public static double BesselJν(double ν, double x)
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.BesselJ(ν, x);
+        }
 
         // Description(""angielski opis funkcji"")]
-        //public static Func<double, double, double> BesselYa = BesselYν;
+        //public static double BesselJa = BesselJν;
 
-        public static Func<int, double, double> ModifiedBesselIn =
-            (n, x) => gsl_sf_bessel_In(n, x);
+        public static double BesselY0(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(0, x);
+        }
 
+        public static double BesselY1(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(1, x);
+        }
 
-        public static Func<double, double, double> ModifiedBesselIν =
-            (ν, x) => (x < 0.0) ? double.NaN : AdvancedMath.ModifiedBesselI(ν, x);
+        public static double BesselY2(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(2, x);
+        }
+
+        public static double BesselY3(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(3, x);
+        }
+
+        public static double BesselYn(int n, double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.BesselY(n, x);
+        }
+
+        public static double BesselYν(double ν, double x)
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.BesselY(ν, x);
+        }
 
         // Description(""angielski opis funkcji"")]
-        //public static Func<double, double, double> ModifiedBesselIa = ModifiedBesselIν;
+        //public static double BesselYa = BesselYν;
 
-        public static Func<double, double, double> ModifiedBesselKν =
-            (ν, x) => (x < 0.0) ? double.NaN : AdvancedMath.ModifiedBesselK(ν, x);
+        public static double ModifiedBesselIn(int n, double x)
+        {
+            return gsl_sf_bessel_In(n, x);
+        }
 
-        public static Func<int, double, double> ModifiedBesselKn =
-            (n, x) => (x <= 0.0) ? double.NaN : gsl_sf_bessel_Kn(n, x);
+
+        public static double ModifiedBesselIν(double ν, double x)
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.ModifiedBesselI(ν, x);
+        }
 
         // Description(""angielski opis funkcji"")]
-        //public static Func<double, double, double> ModifiedBesselKa = ModifiedBesselKν;
+        //public static double ModifiedBesselIa = ModifiedBesselIν;
+
+        public static double ModifiedBesselKν(double ν, double x)
+        {
+            return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.ModifiedBesselK(ν, x);
+        }
+
+        public static double ModifiedBesselKn(int n, double x)
+        {
+            return (x <= 0.0) ? double.NaN : gsl_sf_bessel_Kn(n, x);
+        }
+
+        // Description(""angielski opis funkcji"")]
+        //public static double ModifiedBesselKa = ModifiedBesselKν;
 
 
-        public static Func<double, double> SphericalBesselJ0 =
-            x => AdvancedMath.SphericalBesselJ(0, x);
+        public static double SphericalBesselJ0(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(0, x);
+        }
 
-        public static Func<double, double> SphericalBesselJ1 =
-            x => AdvancedMath.SphericalBesselJ(1, x);
+        public static double SphericalBesselJ1(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(1, x);
+        }
 
-        public static Func<double, double> SphericalBesselJ2 =
-            x => AdvancedMath.SphericalBesselJ(2, x);
+        public static double SphericalBesselJ2(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(2, x);
+        }
 
-        public static Func<double, double> SphericalBesselJ3 =
-            x => AdvancedMath.SphericalBesselJ(3, x);
+        public static double SphericalBesselJ3(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(3, x);
+        }
 
-        public static Func<int, double, double> SphericalBesselJn =
-            (n, x) => AdvancedMath.SphericalBesselJ(n, x);
-
-
-        public static Func<double, double> SphericalBesselY0 =
-            x => AdvancedMath.SphericalBesselY(0, x);
-
-
-        public static Func<double, double> SphericalBesselY1 =
-            x => AdvancedMath.SphericalBesselY(1, x);
-
-
-        public static Func<double, double> SphericalBesselY2 =
-            x => (x == 0) ? double.NaN : AdvancedMath.SphericalBesselY(2, x);
-
-
-        public static Func<double, double> SphericalBesselY3 =
-            x => AdvancedMath.SphericalBesselY(3, x);
+        public static double SphericalBesselJn(int n, double x)
+        {
+            if (x == 0 && n <= -3)
+                return double.NaN;
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselJ(n, x);
+        }
 
 
-        public static Func<int, double, double> SphericalBesselYn =
-            (n, x) => AdvancedMath.SphericalBesselY(n, x);
+        public static double SphericalBesselY0(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(0, x);
+        }
 
 
-        public static Func<int, double, double> ModifiedSphericalBesselIn =
-            (n, x) => gsl_sf_bessel_il_scaled(n, x);
+        public static double SphericalBesselY1(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(1, x);
+        }
 
 
-        public static Func<int, double, double> ModifiedSphericalBesselKn =
-            (n, x) => (x <= 0) ? double.NaN : gsl_sf_bessel_kl_scaled(n, x);
+        public static double SphericalBesselY2(double x)
+        {
+            return (x == 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(2, x);
+        }
 
-        public static Func<double, double, double> logBesselKν =
-            (ν, x) => (x <= 0.0 || ν < 0) ? double.NaN : gsl_sf_bessel_lnKnu(ν, x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        public static double SphericalBesselY3(double x)
+        {
+            return (x == 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(3, x);
+        }
+
+
+        public static double SphericalBesselYn(int n, double x)
+        {
+            if (x == 0 & n >= 2)
+                return double.NaN;
+            return Meta.Numerics.Functions.AdvancedMath.SphericalBesselY(n, x);
+        }
+
+
+        public static double ModifiedSphericalBesselIn(int n, double x)
+        {
+            if (n < 0)
+                return double.NaN;
+            return gsl_sf_bessel_il_scaled(n, x);
+        }
+
+
+        public static double ModifiedSphericalBesselKn(int n, double x)
+        {
+            return (x <= 0 || n < 0) ? double.NaN : gsl_sf_bessel_kl_scaled(n, x);
+        }
+
+        public static double logBesselKν(double ν, double x)
+        {
+            return (x <= 0.0 || ν < 0) ? double.NaN : gsl_sf_bessel_lnKnu(ν, x);
+        }
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Jnu(double nu, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Ynu(double nu, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_In(int n, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Kn(int n, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_il_scaled(int l, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_kl_scaled(int l, double x);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_lnKnu(double nu, double x);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_zero_Jnu(double nu, uint s);
 
         public static double BesselJνZeros(double ν, double s)
         {
             if (s < 0.5 || ν < 0.0) return double.NaN;
-            return gsl_sf_bessel_zero_Jnu(ν, (uint) Math.Round(s, MidpointRounding.AwayFromZero));
+            return gsl_sf_bessel_zero_Jnu(ν, (uint) System.Math.Round(s, System.MidpointRounding.AwayFromZero));
         }
 
-        public static Complex Hankel1(double α, double x)
+        public static System.Numerics.Complex Hankel1(double α, double x)
         {
-            return BesselJν(α, x) + Complex.ImaginaryOne*BesselYν(α, x);
+            return BesselJν(α, x) + System.Numerics.Complex.ImaginaryOne*BesselYν(α, x);
         }
 
-        public static Complex Hankel2(double α, double x)
+        public static System.Numerics.Complex Hankel2(double α, double x)
         {
-            return BesselJν(α, x) - Complex.ImaginaryOne*BesselYν(α, x);
+            return BesselJν(α, x) - System.Numerics.Complex.ImaginaryOne*BesselYν(α, x);
         }
 
-        public static Complex SphericalHankel1(int n, double x)
+        public static System.Numerics.Complex SphericalHankel1(int n, double x)
         {
-            return SphericalBesselJn(n, x) + Complex.ImaginaryOne*SphericalBesselYn(n, x);
+            return SphericalBesselJn(n, x) + System.Numerics.Complex.ImaginaryOne*SphericalBesselYn(n, x);
         }
 
-        public static Complex SphericalHankel2(int n, double x)
+        public static System.Numerics.Complex SphericalHankel2(int n, double x)
         {
-            return SphericalBesselJn(n, x) - Complex.ImaginaryOne*SphericalBesselYn(n, x);
+            return SphericalBesselJn(n, x) - System.Numerics.Complex.ImaginaryOne*SphericalBesselYn(n, x);
         }
 
         public static double RiccatiBesselS(int n, double x)
@@ -3321,12 +4113,12 @@ namespace Computator.NET.Functions
             return -x*SphericalBesselYn(n, x);
         }
 
-        public static Complex RiccatiBesselξ(int n, double x)
+        public static System.Numerics.Complex RiccatiBesselξ(int n, double x)
         {
             return x*Hankel1(n, x);
         }
 
-        public static Complex RiccatiBesselζ(int n, double x)
+        public static System.Numerics.Complex RiccatiBesselζ(int n, double x)
         {
             return x*Hankel2(n, x);
         }
@@ -3335,94 +4127,125 @@ namespace Computator.NET.Functions
 
         #region Airy functions
 
-        public static Func<double, double> AiryAi = AdvancedMath.AiryAi;
+        public static double AiryAi(double x)
+        {
+              return Meta.Numerics.Functions.AdvancedMath.AiryAi(x); 
+        }
+
+        public static double AiryBi(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.AiryBi(x);
+        }
 
 
-        public static Func<double, double> AiryBi = AdvancedMath.AiryBi;
+        public static double Ai(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.AiryAi(x);
+        }
+
+        public static double Bi(double x)
+        {
+            return Meta.Numerics.Functions.AdvancedMath.AiryBi(x);
+        }
+
+        public static double AiPrime(double x)
+        {
+            return gsl_sf_airy_Ai_deriv(x,0);
+        }
 
 
-        public static Func<double, double> Ai = AiryAi;
+        public static double BiPrime(double x)
+        {
+            return gsl_sf_airy_Bi_deriv(x, 0);
+        }
 
 
-        public static Func<double, double> Bi = AiryBi;
-
-        public static Func<double, double> AiPrime = x => gsl_sf_airy_Ai_deriv(x, 0);
-        public static Func<double, double> BiPrime = x => gsl_sf_airy_Bi_deriv(x, 0);
-
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_Ai_deriv(double x, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_Bi_deriv(double x, uint mode);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Ai(uint s);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Bi(uint s);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Ai_deriv(uint s);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Bi_deriv(uint s);
 
         //AiryZetaAi //ZerosOfAi// ZerosOfBi
         public static double AiZeros(double x)
         {
             if (x < 0.5) return double.NaN;
-            return gsl_sf_airy_zero_Ai((uint) Math.Round(x, MidpointRounding.AwayFromZero));
+            return gsl_sf_airy_zero_Ai((uint) System.Math.Round(x, System.MidpointRounding.AwayFromZero));
         }
 
         public static double BiZeros(double x)
         {
             if (x < 0.5) return double.NaN;
-            return gsl_sf_airy_zero_Bi((uint) Math.Round(x, MidpointRounding.AwayFromZero));
+            return gsl_sf_airy_zero_Bi((uint) System.Math.Round(x, System.MidpointRounding.AwayFromZero));
         }
 
         public static double AiZerosPrime(double x)
         {
             if (x < 0.5) return double.NaN;
-            return gsl_sf_airy_zero_Ai_deriv((uint) Math.Round(x, MidpointRounding.AwayFromZero));
+            return gsl_sf_airy_zero_Ai_deriv((uint) System.Math.Round(x, System.MidpointRounding.AwayFromZero));
         }
 
         public static double BiZerosPrime(double x)
         {
             if (x < 0.5) return double.NaN;
-            return gsl_sf_airy_zero_Bi_deriv((uint) Math.Round(x, MidpointRounding.AwayFromZero));
+            return gsl_sf_airy_zero_Bi_deriv((uint) System.Math.Round(x, System.MidpointRounding.AwayFromZero));
         }
 
         #endregion
 
         #region zeta and eta functions
 
-        public static Func<double, double> DirichletEta =
-            x => x >= 0 ? AdvancedMath.DirichletEta(x) : (1 - Math.Pow(2, 1 - x))*RiemannZeta(x);
+        private static double DirichletEta(double x)
+        {
+            return x >= 0 ? Meta.Numerics.Functions.AdvancedMath.DirichletEta(x) : (1 - System.Math.Pow(2, 1 - x))*RiemannZeta(x);
+        }
 
+        private static double η(double x)
+        {
+            return DirichletEta(x);
+        }
 
-        public static Func<double, double> η = DirichletEta;
 
         public static double RiemannZeta(double x)
         {
-            return AdvancedMath.RiemannZeta(x);
+            return Meta.Numerics.Functions.AdvancedMath.RiemannZeta(x);
         }
 
         public static double Riemannζ(double x)
         {
-            return AdvancedMath.RiemannZeta(x);
+            return Meta.Numerics.Functions.AdvancedMath.RiemannZeta(x);
         }
 
-        public static Complex Riemannζ(Complex z)
+        public static System.Numerics.Complex Riemannζ(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
         }
 
-        public static Complex RiemannZeta(Complex z)
+        public static System.Numerics.Complex RiemannZeta(System.Numerics.Complex z)
         {
-            return cmplxFromMeta(AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
         }
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hzeta(double s, double q);
 
         public static double HurwitzZeta(double x, double q)
@@ -3441,38 +4264,60 @@ namespace Computator.NET.Functions
 
         #region mathieu functions
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_a([MarshalAs(UnmanagedType.I4)] int order,
-            [MarshalAs(UnmanagedType.R8)] double qq, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_a(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            out gsl_sf_result result);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_b([MarshalAs(UnmanagedType.I4)] int order,
-            [MarshalAs(UnmanagedType.R8)] double qq, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_b(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            out gsl_sf_result result);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_ce([MarshalAs(UnmanagedType.I4)] int order,
-            [MarshalAs(UnmanagedType.R8)] double qq, [MarshalAs(UnmanagedType.R8)] double zz, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_ce(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
+            out gsl_sf_result result);
 
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_se([MarshalAs(UnmanagedType.I4)] int order,
-            [MarshalAs(UnmanagedType.R8)] double qq, [MarshalAs(UnmanagedType.R8)] double zz, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_se(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
+            out gsl_sf_result result);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_Mc([MarshalAs(UnmanagedType.I4)] int kind,
-            [MarshalAs(UnmanagedType.I4)] int order, [MarshalAs(UnmanagedType.R8)] double qq,
-            [MarshalAs(UnmanagedType.R8)] double zz, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_Mc(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int kind,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
+            out gsl_sf_result result);
 
-        [DllImport(gslSfLibDir, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_Ms([MarshalAs(UnmanagedType.I4)] int kind,
-            [MarshalAs(UnmanagedType.I4)] int order, [MarshalAs(UnmanagedType.R8)] double qq,
-            [MarshalAs(UnmanagedType.R8)] double zz, out gsl_sf_result result);
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
+        private static extern int gsl_sf_mathieu_Ms(
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int kind,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
+            out gsl_sf_result result);
 
         public static double MathieuSE(int n, double q, double x)
         {
@@ -3500,6 +4345,8 @@ namespace Computator.NET.Functions
 
         public static double MathieuBn(int n, double q)
         {
+            if (n == 0)
+                return double.NaN;
             var error = gsl_sf_mathieu_b(n, q, out sfResult);
             if (error == 0)
                 return sfResult.val;
@@ -3526,24 +4373,41 @@ namespace Computator.NET.Functions
             throw gslExceptions(error);
         }
 
-        [StructLayout(LayoutKind.Sequential, Size = 16), Serializable]
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Size = 16),
+         System.Serializable]
         private struct gsl_sf_result
         {
-            [MarshalAs(UnmanagedType.R8)] public readonly double val;
-            [MarshalAs(UnmanagedType.R8)] public readonly double err;
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] public readonly
+                double val;
+
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] public readonly
+                double err;
         }
 
         #endregion
 
         #region logistic functions
 
-        public static Func<double, double> Logistic = MathNet.Numerics.SpecialFunctions.Logistic;
+        public static double Logistic(double x)
+        {
+            return MathNet.Numerics.SpecialFunctions.Logistic(x);
+        }
 
-        public static Func<double, double> Logit =
-            x => (x < 0 || x > 1) ? double.NaN : MathNet.Numerics.SpecialFunctions.Logit(x);
+        private static double Logit(double x)
+        {
+            return (x < 0 || x > 1) ? double.NaN : MathNet.Numerics.SpecialFunctions.Logit(x);
+        }
 
-        public static Func<double, double> StruveL1 = MathNet.Numerics.SpecialFunctions.StruveL1;
-        public static Func<double, double> StruveL0 = MathNet.Numerics.SpecialFunctions.StruveL0;
+
+        public static double StruveL1(double x)
+        {
+            return MathNet.Numerics.SpecialFunctions.StruveL1(x);
+        }
+
+        public static double StruveL0(double x)
+        {
+            return MathNet.Numerics.SpecialFunctions.StruveL0(x);
+        }
 
         #endregion
 
@@ -3552,95 +4416,93 @@ namespace Computator.NET.Functions
         private const string gslSfLibDir = ""gsl.dll""; //""libgsl-0.dll"";
         private static gsl_sf_result sfResult;
 
-        private static Exception gslExceptions(int error_code)
+        private static System.Exception gslExceptions(int error_code)
         {
             switch (error_code)
             {
                 case -1:
-                    return new Exception(""general failure"");
+                    return new System.Exception(""general failure"");
                 case -2:
-                    return new Exception(""iteration has not converged"");
+                    return new System.Exception(""iteration has not converged"");
                 case 1:
-                    return new Exception(""input domain error: e.g sqrt(-1)"");
+                    return new System.Exception(""input domain error: e.g sqrt(-1)"");
                 case 2:
-                    return new Exception(""output range error: e.g. exp(1e100)"");
+                    return new System.Exception(""output range error: e.g. exp(1e100)"");
                 case 3:
-                    return new Exception(""invalid pointer"");
+                    return new System.Exception(""invalid pointer"");
                 case 4:
-                    return new Exception(""invalid argument supplied by user"");
+                    return new System.Exception(""invalid argument supplied by user"");
                 case 5:
-                    return new Exception(""generic failure"");
+                    return new System.Exception(""generic failure"");
                 case 6:
-                    return new Exception(""factorization failed"");
+                    return new System.Exception(""factorization failed"");
                 case 7:
-                    return new Exception(""sanity check failed - shouldn't happen"");
+                    return new System.Exception(""sanity check failed - shouldn't happen"");
                 case 8:
-                    return new Exception(""malloc failed"");
+                    return new System.Exception(""malloc failed"");
                 case 9:
-                    return new Exception(""problem with user-supplied function"");
+                    return new System.Exception(""problem with user-supplied function"");
                 case 10:
-                    return new Exception(""iterative process is out of control"");
+                    return new System.Exception(""iterative process is out of control"");
                 case 11:
-                    return new Exception(""exceeded max number of iterations"");
+                    return new System.Exception(""exceeded max number of iterations"");
                 case 12:
-                    return new Exception(""tried to divide by zero"");
+                    return new System.Exception(""tried to divide by zero"");
                 case 13:
-                    return new Exception(""user specified an invalid tolerance"");
+                    return new System.Exception(""user specified an invalid tolerance"");
                 case 14:
-                    return new Exception(""failed to reach the specified tolerance"");
+                    return new System.Exception(""failed to reach the specified tolerance"");
                 case 15:
-                    return new Exception(""underflow"");
+                    return new System.Exception(""underflow"");
                 case 16:
-                    return new Exception(""overflow "");
+                    return new System.Exception(""overflow "");
                 case 17:
-                    return new Exception(""loss of accuracy"");
+                    return new System.Exception(""loss of accuracy"");
                 case 18:
-                    return new Exception(""failed because of roundoff error"");
+                    return new System.Exception(""failed because of roundoff error"");
                 case 19:
-                    return new Exception(""matrix: vector lengths are not conformant"");
+                    return new System.Exception(""matrix: vector lengths are not conformant"");
                 case 20:
-                    return new Exception(""matrix not square"");
+                    return new System.Exception(""matrix not square"");
                 case 21:
-                    return new Exception(""apparent singularity detected"");
+                    return new System.Exception(""apparent singularity detected"");
                 case 22:
-                    return new Exception(""integral or series is divergent"");
+                    return new System.Exception(""integral or series is divergent"");
                 case 23:
-                    return new Exception(""requested feature is not supported by the hardware"");
+                    return new System.Exception(""requested feature is not supported by the hardware"");
                 case 24:
-                    return new Exception(""requested feature not (yet) implemented"");
+                    return new System.Exception(""requested feature not (yet) implemented"");
                 case 25:
-                    return new Exception(""cache limit exceeded"");
+                    return new System.Exception(""cache limit exceeded"");
                 case 26:
-                    return new Exception(""table limit exceeded"");
+                    return new System.Exception(""table limit exceeded"");
                 case 27:
-                    return new Exception(""iteration is not making progress towards solution"");
+                    return new System.Exception(""iteration is not making progress towards solution"");
                 case 28:
-                    return new Exception(""jacobian evaluations are not improving the solution"");
+                    return new System.Exception(""jacobian evaluations are not improving the solution"");
                 case 29:
-                    return new Exception(""cannot reach the specified tolerance in F"");
+                    return new System.Exception(""cannot reach the specified tolerance in F"");
                 case 30:
-                    return new Exception(""cannot reach the specified tolerance in X"");
+                    return new System.Exception(""cannot reach the specified tolerance in X"");
                 case 31:
-                    return new Exception(""cannot reach the specified tolerance in gradient"");
+                    return new System.Exception(""cannot reach the specified tolerance in gradient"");
                 case 32:
-                    return new Exception(""end of file"");
+                    return new System.Exception(""end of file"");
                 default:
-                    return new Exception(""unknown exception"");
+                    return new System.Exception(""unknown exception"");
             }
         }
 
-        private static Complex cmplxFromMeta(Meta.Numerics.Complex c)
+        private static System.Numerics.Complex cmplxFromMeta(Meta.Numerics.Complex c)
         {
-            return new Complex(c.Re, c.Im);
+            return new System.Numerics.Complex(c.Re, c.Im);
         }
 
-        private static Meta.Numerics.Complex cmplxToMeta(Complex c)
+        private static Meta.Numerics.Complex cmplxToMeta(System.Numerics.Complex c)
         {
             return new Meta.Numerics.Complex(c.Real, c.Imaginary);
         }
-
-        #endregion
-
+#endregion
 ";
 
         #endregion

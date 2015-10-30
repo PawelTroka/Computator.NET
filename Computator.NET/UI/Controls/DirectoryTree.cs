@@ -1,10 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-
-namespace Computator.NET
+﻿namespace Computator.NET
 {
-    public class DirectoryTree : TreeView
+    public class DirectoryTree : System.Windows.Forms.TreeView
     {
         public delegate void DirectorySelectedDelegate(object sender, DirectorySelectedEventArgs e);
 
@@ -29,7 +25,7 @@ namespace Computator.NET
             Nodes.Clear();
 
             // Set the first node.
-            var rootNode = new TreeNode(drive);
+            var rootNode = new System.Windows.Forms.TreeNode(drive);
             Nodes.Add(rootNode);
 
             // Fill the first level and expand it.
@@ -38,9 +34,9 @@ namespace Computator.NET
             Nodes[0].Expand();
         }
 
-        private void Fill(TreeNode dirNode)
+        private void Fill(System.Windows.Forms.TreeNode dirNode)
         {
-            var dir = new DirectoryInfo(dirNode.FullPath);
+            var dir = new System.IO.DirectoryInfo(dirNode.FullPath);
 
             // An exception could be thrown in this code if you don't
             // have sufficient security permissions for a file or directory.
@@ -49,20 +45,20 @@ namespace Computator.NET
             foreach (var dirItem in dir.GetDirectories())
             {
                 // Add node for the directory.
-                var newNode = new TreeNode(dirItem.Name);
+                var newNode = new System.Windows.Forms.TreeNode(dirItem.Name);
                 dirNode.Nodes.Add(newNode);
                 newNode.Nodes.Add("*");
             }
             foreach (var dirItem in dir.GetFiles())
             {
                 // Add node for the directory.
-                var newNode = new TreeNode(dirItem.Name);
+                var newNode = new System.Windows.Forms.TreeNode(dirItem.Name);
                 dirNode.Nodes.Add(newNode);
                 //newNode.Nodes.Add("*");
             }
         }
 
-        protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
+        protected override void OnBeforeExpand(System.Windows.Forms.TreeViewCancelEventArgs e)
         {
             base.OnBeforeExpand(e);
 
@@ -74,7 +70,7 @@ namespace Computator.NET
             }
         }
 
-        protected override void OnAfterSelect(TreeViewEventArgs e)
+        protected override void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e)
         {
             base.OnAfterSelect(e);
 
@@ -87,7 +83,7 @@ namespace Computator.NET
         }
     }
 
-    public class DirectorySelectedEventArgs : EventArgs
+    public class DirectorySelectedEventArgs : System.EventArgs
     {
         public string DirectoryName;
 

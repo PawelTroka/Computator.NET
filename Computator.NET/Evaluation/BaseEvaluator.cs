@@ -1,21 +1,8 @@
-﻿using System;
-using System.Numerics;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-using Computator.NET.Compilation;
-using Computator.NET.Config;
-using Computator.NET.Constants;
-using Computator.NET.DataTypes;
-using Computator.NET.Functions;
-using Computator.NET.Localization;
-using Computator.NET.Logging;
-
-namespace Computator.NET.Evaluation
+﻿namespace Computator.NET.Evaluation
 {
     internal abstract class Evaluator
     {
-        private const string LAMBDA_SCRIPT = MatrixFunctions.ToCode + ScriptingFunctions.ToCode + @"
+        private const string LAMBDA_SCRIPT = Functions.MatrixFunctions.ToCode + Functions.ScriptingFunctions.ToCode + @"
             public static void CustomFunction(System.Windows.Forms.RichTextBox CONSOLE_OUTPUTref)
             {
             CONSOLE_OUTPUT = CONSOLE_OUTPUTref;
@@ -40,13 +27,15 @@ namespace Computator.NET.Evaluation
                 return ";
 
         protected const string Begin = @"
-        using System;
-        using System.Numerics;
-        using Meta.Numerics.Functions;
-        using System.Runtime.InteropServices;
-        using MathNet.Numerics;
+        //using System;
+        //using System.Numerics;
+        //using Meta.Numerics.Functions;
+        //using System.Runtime.InteropServices;
+        //using MathNet.Numerics;
+        //using Accord.Math;
+        //using Computator.NET;
         using MathNet.Numerics.Distributions;//we need it cause of added by dlls distributions
-        using Accord.Math;
+
         using real = System.Double;
         using complex = System.Numerics.Complex;
         using natural = System.UInt64;
@@ -57,11 +46,15 @@ namespace Computator.NET.Evaluation
             public static class FunctionsCreator 
             {
 
-        " + MathematicalConstants.ToCode //.Replace("[N", @"/*[").Replace(@""")]", @"]*/")
-                                       + PhysicalConstants.ToCode //.Replace("[N", @"/*[").Replace(@""")]", @"]*/")
-                                       + ElementaryFunctions.ToCode //.Replace("[N", @"/*[").Replace(@""")]", @"]*/")
-                                       + SpecialFunctions.ToCode //.Replace("[N", @"/*[").Replace(@""")]", @"]*/");
-                                       + StatisticsFunctions.ToCode; //.Replace("[N", @"/*[").Replace(@""")]", @"]*/");
+        " + Constants.MathematicalConstants.ToCode //.Replace("[N", @"/*[").Replace(@""")]", @"]*/")
+                                       + Constants.PhysicalConstants.ToCode
+            //.Replace("[N", @"/*[").Replace(@""")]", @"]*/")
+                                       + Functions.ElementaryFunctions.ToCode
+            //.Replace("[N", @"/*[").Replace(@""")]", @"]*/")
+                                       + Functions.SpecialFunctions.ToCode
+            //.Replace("[N", @"/*[").Replace(@""")]", @"]*/");
+                                       + Functions.StatisticsFunctions.ToCode;
+            //.Replace("[N", @"/*[").Replace(@""")]", @"]*/");
 
         protected const string End = @";
                 }
@@ -69,24 +62,24 @@ namespace Computator.NET.Evaluation
     ///*{additional_objects}*///
 
         }";
-        private readonly TslCompiler tslCompiler;
+        private readonly Compilation.TslCompiler tslCompiler;
         protected string additionalObjectsCode;
         protected string additionalUsings;
         protected string CSharpCode;
         private string CustomFunctionsCSharpCode;
         protected string customFunctionsTSLCode;
-        private Type delegateType;
+        private System.Type delegateType;
         private string functionSignature;
-        protected FunctionType functionType;
-        protected SimpleLogger logger;
-        protected NativeCompiler nativeCompiler;
+        protected DataTypes.FunctionType functionType;
+        protected Logging.SimpleLogger logger;
+        protected Compilation.NativeCompiler nativeCompiler;
         protected string tslCode;
 
         protected Evaluator()
         {
-            nativeCompiler = new NativeCompiler();
-            tslCompiler = new TslCompiler();
-            logger = new SimpleLogger {ClassName = GetType().FullName};
+            nativeCompiler = new Compilation.NativeCompiler();
+            tslCompiler = new Compilation.TslCompiler();
+            logger = new Logging.SimpleLogger {ClassName = GetType().FullName};
             additionalObjectsCode = "";
             additionalUsings = "";
         }
@@ -95,8 +88,9 @@ namespace Computator.NET.Evaluation
         {
             get
             {
-                return functionType == FunctionType.ComplexImplicit || functionType == FunctionType.Real2DImplicit ||
-                       functionType == FunctionType.Real3DImplicit;
+                return functionType == DataTypes.FunctionType.ComplexImplicit ||
+                       functionType == DataTypes.FunctionType.Real2DImplicit ||
+                       functionType == DataTypes.FunctionType.Real3DImplicit;
             }
         }
 
@@ -104,33 +98,33 @@ namespace Computator.NET.Evaluation
         {
             switch (functionType)
             {
-                case FunctionType.Real2D:
+                case DataTypes.FunctionType.Real2D:
                     tslCompiler.Variables.Add("x");
                     functionSignature = LAMBDA_X;
-                    delegateType = typeof (Func<double, double>);
+                    delegateType = typeof (System.Func<double, double>);
                     break;
-                case FunctionType.Complex:
+                case DataTypes.FunctionType.Complex:
                     tslCompiler.Variables.Add("z");
                     tslCompiler.Variables.Add("i");
                     functionSignature = LAMBDA_Z;
-                    delegateType = typeof (Func<Complex, Complex>);
+                    delegateType = typeof (System.Func<System.Numerics.Complex, System.Numerics.Complex>);
                     break;
-                case FunctionType.Real2DImplicit:
-                case FunctionType.Real3D:
+                case DataTypes.FunctionType.Real2DImplicit:
+                case DataTypes.FunctionType.Real3D:
                     tslCompiler.Variables.Add("x");
                     tslCompiler.Variables.Add("y");
-                    delegateType = typeof (Func<double, double, double>);
+                    delegateType = typeof (System.Func<double, double, double>);
                     functionSignature = LAMBDA_XY;
                     break;
-                case FunctionType.Real3DImplicit:
+                case DataTypes.FunctionType.Real3DImplicit:
                     tslCompiler.Variables.Add("x");
                     tslCompiler.Variables.Add("y");
                     tslCompiler.Variables.Add("z");
                     functionSignature = LAMBDA_XYZ;
-                    delegateType = typeof (Func<double, double, double, double>);
+                    delegateType = typeof (System.Func<double, double, double, double>);
                     break;
-                case FunctionType.Scripting:
-                    delegateType = typeof (Action<RichTextBox>);
+                case DataTypes.FunctionType.Scripting:
+                    delegateType = typeof (System.Action<System.Windows.Forms.RichTextBox>);
                     functionSignature = LAMBDA_SCRIPT;
                     break;
             }
@@ -145,14 +139,14 @@ namespace Computator.NET.Evaluation
             }
         }
 
-        protected Delegate Compile()
+        protected System.Delegate Compile()
         {
             SetVariablesAndSignatures();
             CustomFunctionsCSharpCode = tslCompiler.TransformToCSharp(customFunctionsTSLCode);
             CSharpCode = tslCompiler.TransformToCSharp(tslCode);
             transformImplicitToExplicit();
 
-            var codeBuilder = new StringBuilder();
+            var codeBuilder = new System.Text.StringBuilder();
             codeBuilder.Append(additionalUsings);
             codeBuilder.Append(Begin);
             codeBuilder.Append(CustomFunctionsCSharpCode);
@@ -165,25 +159,26 @@ namespace Computator.NET.Evaluation
             {
                 var assembly = nativeCompiler.Compile(fullCode);
                 var cls = assembly.GetType("FunctionsCreatorNS.FunctionsCreator");
-                var method = cls.GetMethod("CustomFunction", BindingFlags.Static | BindingFlags.Public);
-                return Delegate.CreateDelegate(delegateType, method);
+                var method = cls.GetMethod("CustomFunction",
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                return System.Delegate.CreateDelegate(delegateType, method);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                if (ex is CompilationException)
+                if (ex is Compilation.CompilationException)
                     throw;
 
                 var message =
-                    Strings
+                    Localization.Strings
                         .ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression;
-                message += Environment.NewLine + Strings.Details;
-                message += Environment.NewLine + ex.Message;
+                message += System.Environment.NewLine + Localization.Strings.Details;
+                message += System.Environment.NewLine + ex.Message;
 
                 logger.Parameters["tslCode"] = tslCode;
                 logger.Parameters["CSharpCode"] = CSharpCode;
                 logger.Parameters["customFunctionsCode"] = CustomFunctionsCSharpCode;
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Log(message, ErrorType.Evaluation, ex);
+                logger.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                logger.Log(message, Config.ErrorType.Evaluation, ex);
 
                 throw new EvaluationException(message, ex);
             }

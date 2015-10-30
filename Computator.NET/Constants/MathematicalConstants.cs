@@ -1,43 +1,48 @@
-﻿using System;
-using System.IO;
-using System.Numerics;
-using System.Text;
-
+﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable ConvertPropertyToExpressionBody
+// ReSharper disable UseStringInterpolation
 namespace Computator.NET.Constants
 {
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     internal static class MathematicalConstants
     {
-        public const string ToCode =
-            @"
         #region Complex math constant
-        public static Complex i { get { return Complex.ImaginaryOne; } }
 
-        public static readonly Complex PowerTowerOfI = 0.438282936727032111626975 + i * 0.360592471871385485952940;
+        public static readonly System.Numerics.Complex PowerTowerOfI = 0.438282936727032111626975 +
+                                                                       i*0.360592471871385485952940;
+
+        public static System.Numerics.Complex i
+        {
+            get { return System.Numerics.Complex.ImaginaryOne; }
+        }
 
         #endregion
 
         #region Basic math constants 
-        public static readonly double PI = Math.PI;
-		
 
-        public static readonly double e = Math.E;
-		
+        public static readonly double PI = System.Math.PI;
+
+
+        public static readonly double e = System.Math.E;
+
 
         public static readonly double EulerMascheroni = 0.57721566490153286060651209008240243104215933593992;
-		
 
-        public static readonly double GoldenRatio = (1+Math.Sqrt(5))/2.0;
 
-        public static readonly double InverseGoldenRatio = 1 / GoldenRatio;
+        public static readonly double GoldenRatio = (1 + System.Math.Sqrt(5))/2.0;
 
-        public static readonly double SilverRatio = 1 + Math.Sqrt(2);
+        public static readonly double InverseGoldenRatio = 1/GoldenRatio;
+
+        public static readonly double SilverRatio = 1 + System.Math.Sqrt(2);
+
         #endregion
 
         #region Classical, named math constants 
+
         public static readonly double AperysConstant = 1.202056903159594285399738161511449990764986292;
-		
+
         public static readonly double ConwaysConstant = 1.30357;
-		
+
         public static readonly double KhinchinsConstant = 2.6854520010;
 
         public static readonly double ApéryConstantζ3 = 1.202056903159594285399738;
@@ -107,33 +112,34 @@ namespace Computator.NET.Constants
         public static readonly double TheodorusConstant = 1.732050807568877293527446;
         public static readonly double ViswanathConstant = 1.1319882487943;
 
-
         #endregion
 
         #region Geometry constants
+
         public static readonly double MagicAngle = 0.955316618124509278163857;
-        public static readonly double ComplementaryMagicAngle = Math.PI / 2 - MagicAngle;
+        public static readonly double ComplementaryMagicAngle = System.Math.PI/2 - MagicAngle;
         public static readonly double TetrahedralAngle = 2*MagicAngle;
-        public static readonly double ComplementaryTetrahedralAngle = Math.PI - TetrahedralAngle;
+        public static readonly double ComplementaryTetrahedralAngle = System.Math.PI - TetrahedralAngle;
 
         public static readonly double GravitoidConstant = 1.240806478802799465254958;
         public static readonly double MinimumAreaOfAConstantWidthFigure = 0.704770923010457972467598;
         public static readonly double MoserWormConstant = 0.232239210;
         public static readonly double SquareDrillConstant = 0.987700390736053460131999;
         public static readonly double UniversalParabolicConstant = 2.295587149392638074034298;
-        #endregion
-	
-";
 
+        #endregion
+
+
+        #region utils
         public static void parseConstantsFromNIST()
         {
-            var sr = new StreamReader("math_const_input.txt");
+            var sr = new System.IO.StreamReader("math_const_input.txt");
             var line = "";
-            var output = new StringBuilder();
+            var output = new System.Text.StringBuilder();
 
             while ((line = sr.ReadLine()) != null)
             {
-                var columns = line.Split(new[] {"  ", "\t"}, StringSplitOptions.RemoveEmptyEntries);
+                var columns = line.Split(new[] { "  ", "\t" }, System.StringSplitOptions.RemoveEmptyEntries);
                 var name =
                     ToTitleCase(
                         columns[0].Replace("mag.", "magnetic")
@@ -154,7 +160,7 @@ namespace Computator.NET.Constants
                 output.AppendLine(string.Format("public static readonly double {0}={1};", name, value));
             }
             sr.Close();
-            var sw = new StreamWriter("math_const.txt");
+            var sw = new System.IO.StreamWriter("math_const.txt");
             sw.Write(output);
             sw.Close();
         }
@@ -170,33 +176,36 @@ namespace Computator.NET.Constants
             return new string(chars);
         }
 
-        #region Complex math constant
+        public const string ToCode =
+            @"
+            #region Complex math constant
 
-        public static readonly Complex PowerTowerOfI = 0.438282936727032111626975 + i*0.360592471871385485952940;
+        public static readonly System.Numerics.Complex PowerTowerOfI = 0.438282936727032111626975 +
+                                                                       i*0.360592471871385485952940;
 
-        public static Complex i
+        public static System.Numerics.Complex i
         {
-            get { return Complex.ImaginaryOne; }
+            get { return System.Numerics.Complex.ImaginaryOne; }
         }
 
         #endregion
 
         #region Basic math constants 
 
-        public static readonly double PI = Math.PI;
+        public static readonly double PI = System.Math.PI;
 
 
-        public static readonly double e = Math.E;
+        public static readonly double e = System.Math.E;
 
 
         public static readonly double EulerMascheroni = 0.57721566490153286060651209008240243104215933593992;
 
 
-        public static readonly double GoldenRatio = (1 + Math.Sqrt(5))/2.0;
+        public static readonly double GoldenRatio = (1 + System.Math.Sqrt(5))/2.0;
 
         public static readonly double InverseGoldenRatio = 1/GoldenRatio;
 
-        public static readonly double SilverRatio = 1 + Math.Sqrt(2);
+        public static readonly double SilverRatio = 1 + System.Math.Sqrt(2);
 
         #endregion
 
@@ -280,15 +289,21 @@ namespace Computator.NET.Constants
         #region Geometry constants
 
         public static readonly double MagicAngle = 0.955316618124509278163857;
-        public static readonly double ComplementaryMagicAngle = Math.PI/2 - MagicAngle;
+        public static readonly double ComplementaryMagicAngle = System.Math.PI/2 - MagicAngle;
         public static readonly double TetrahedralAngle = 2*MagicAngle;
-        public static readonly double ComplementaryTetrahedralAngle = Math.PI - TetrahedralAngle;
+        public static readonly double ComplementaryTetrahedralAngle = System.Math.PI - TetrahedralAngle;
 
         public static readonly double GravitoidConstant = 1.240806478802799465254958;
         public static readonly double MinimumAreaOfAConstantWidthFigure = 0.704770923010457972467598;
         public static readonly double MoserWormConstant = 0.232239210;
         public static readonly double SquareDrillConstant = 0.987700390736053460131999;
         public static readonly double UniversalParabolicConstant = 2.295587149392638074034298;
+
+        #endregion
+
+
+";
+
 
         #endregion
     }

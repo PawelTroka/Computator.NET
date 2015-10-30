@@ -1,22 +1,12 @@
-using System;
-using System.Drawing;
-using System.Windows.Media;
-using Computator.NET.Data;
-using Computator.NET.Functions;
-using Computator.NET.Properties;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit.Editing;
-
 namespace Computator.NET.UI.CodeEditors
 {
     /// <summary>
     ///     Implements AvalonEdit ICompletionData interface to provide the entries in the completion drop down.
     /// </summary>
-    public class CompletionData : ICompletionData
+    public class CompletionData : ICSharpCode.AvalonEdit.CodeCompletion.ICompletionData
     {
         private readonly string _content;
-        private FunctionInfo _alternativeDescription;
+        private Functions.FunctionInfo _alternativeDescription;
         private int imageIndex;
 
         public CompletionData(string text)
@@ -24,7 +14,7 @@ namespace Computator.NET.UI.CodeEditors
             Text = text;
         }
 
-        public CompletionData(string text, string menuText, FunctionInfo functionInfo, int imageIndex)
+        public CompletionData(string text, string menuText, Functions.FunctionInfo functionInfo, int imageIndex)
         {
             Text = text;
             _content = menuText;
@@ -32,7 +22,7 @@ namespace Computator.NET.UI.CodeEditors
             //////////////////////////////////// this._image= imageIndexToImage(imageIndex).ToBitmapSource();
         }
 
-        public ImageSource Image { get; }
+        public System.Windows.Media.ImageSource Image { get; }
         public string Text { get; }
         // Use this property if you want to show a fancy UIElement in the drop down list.
         public object Content
@@ -44,9 +34,9 @@ namespace Computator.NET.UI.CodeEditors
         {
             get
             {
-                if (FunctionsDetails.Details.ContainsKey(Text))
-                    return FunctionsDetails.Details[Text].Title + Environment.NewLine +
-                           StripTagsCharArray(FunctionsDetails.Details[Text].Description);
+                if (Data.FunctionsDetails.Details.ContainsKey(Text))
+                    return Data.FunctionsDetails.Details[Text].Title + System.Environment.NewLine +
+                           StripTagsCharArray(Data.FunctionsDetails.Details[Text].Description);
                 return "Description for " + Text;
             }
         }
@@ -56,23 +46,24 @@ namespace Computator.NET.UI.CodeEditors
             get { return 0; }
         }
 
-        public void Complete(TextArea textArea, ISegment completionSegment, EventArgs insertionRequestEventArgs)
+        public void Complete(ICSharpCode.AvalonEdit.Editing.TextArea textArea,
+            ICSharpCode.AvalonEdit.Document.ISegment completionSegment, System.EventArgs insertionRequestEventArgs)
         {
             textArea.Document.Replace(completionSegment, Text);
         }
 
-        private Image imageIndexToImage(int index)
+        private System.Drawing.Image imageIndexToImage(int index)
         {
             switch (index)
             {
                 case 0:
-                    return Resources.Real;
+                    return Properties.Resources.Real;
                 case 1:
-                    return Resources.Complex;
+                    return Properties.Resources.Complex;
                 case 2:
-                    return Resources.Natural;
+                    return Properties.Resources.Natural;
                 case 3:
-                    return Resources.Integer;
+                    return Properties.Resources.Integer;
                 default:
                     return null;
             }

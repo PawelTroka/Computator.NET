@@ -1,12 +1,8 @@
-using System;
-using Computator.NET.DataTypes;
-using Computator.NET.Evaluation;
-
 namespace Computator.NET.Compilation
 {
-    internal class CompilationException : Exception
+    internal class CompilationException : System.Exception
     {
-        public CompilationException(string message, Exception innerException)
+        public CompilationException(string message, System.Exception innerException)
             : base(message, innerException)
         {
         }
@@ -14,9 +10,10 @@ namespace Computator.NET.Compilation
 
     public static class ExceptionExtensions
     {
-        public static bool IsInternal(this Exception ex)
+        public static bool IsInternal(this System.Exception ex)
         {
-            return (ex is CompilationException || ex is CalculationException || ex is EvaluationException);
+            return (ex is CompilationException || ex is DataTypes.CalculationException ||
+                    ex is Evaluation.EvaluationException);
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using Computator.NET.Data;
-using Computator.NET.Localization;
-
-namespace Computator.NET.Config
+﻿namespace Computator.NET.Config
 {
     internal static class GlobalConfig
     {
@@ -12,42 +6,45 @@ namespace Computator.NET.Config
         public const string authorWithEmail = author + " (ptroka@fizyka.dk)";
         public const string author = "Paweł Troka";
         //
-
+        public const string tslFilesFIlter =
+            @"Troka Scripting Language(*.tsl)|*.tsl|Troka Scripting Language Functions(*.tslf)|*.tslf";
 
         public const string gslDllName = "gsl.dll"; //"libgsl-0.dll";
         public const string gslCblasDllName = "cblas.dll"; //"libgslcblas-0.dll";
 
-        public static readonly string betatesters = Strings.betaTesters +
+        public static readonly string betatesters = Localization.Strings.betaTesters +
                                                     ":\n - Kordian Czyżewski (kordiancz25@wp.pl)\n - Vojtech Mańkowski (vojtaman@gmail.com)\n - Marcin Piwowarski (marcpiwowarski@gmail.com)";
 
-        public static readonly string translators = Strings.translators +
+        public static readonly string translators = Localization.Strings.translators +
                                                     ":\n - Paweł Troka (ptroka@fizyka.dk) - English&Polish versions\n - Vojtech Mańkowski (vojtaman@gmail.com) - Czech version\n - Athena Hristanas (athena@fizyka.dk) - Deutsch version";
 
-        public static readonly string libraries = Strings.librariesUsed +
+        public static readonly string libraries = Localization.Strings.librariesUsed +
                                                   ":\n - Meta.Numerics v3.0.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v1.16 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.7.0 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.28 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.5.1 | © Garrett Serack | The MIT License (MIT)\n - Accord.Math v3.0.0 | © César Roberto de Souza | GNU LGPL v2.1";
 
-        public static readonly string others = Strings.otherContributors +
+        public static readonly string others = Localization.Strings.otherContributors +
                                                ":\n - Jianzhong Zhang (Chart3D classes are based on code from High performance WPF 3D Chart rev.6 application on Code Project Open License (CPOL) 1.02)\n - Claudio Rocchini (standard algorithm for complex domain coloring)";
 
-        public static readonly string features = Strings.featuresInclude;
+        public static readonly string features = Localization.Strings.featuresInclude;
 
-        public static readonly string basePath = Path.GetDirectoryName(Application.ExecutablePath) +
-                                                 Path.DirectorySeparatorChar;
+        public static readonly string basePath =
+            System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) +
+            System.IO.Path.DirectorySeparatorChar;
 
-        public static readonly string gslLibPath = (Environment.Is64BitOperatingSystem)
+        public static readonly string gslLibPath = (System.Environment.Is64BitOperatingSystem)
             ? FullPath("Special", "x64", gslDllName)
             : FullPath("Special", "x86", gslDllName);
 
-        public static readonly string gslBlasPath = (Environment.Is64BitOperatingSystem)
+        public static readonly string gslBlasPath = (System.Environment.Is64BitOperatingSystem)
             ? FullPath("Special", "x64", gslCblasDllName)
             : FullPath("Special", "x86", gslCblasDllName);
 
-        public static readonly FunctionsDetails functionsDetails = new FunctionsDetails();
+        public static readonly Data.FunctionsDetails functionsDetails = new Data.FunctionsDetails();
 
         public static string FullPath(params string[] foldersAndFile)
         {
-            return Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
-                   Path.Combine(foldersAndFile);
+            return System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) +
+                   System.IO.Path.DirectorySeparatorChar +
+                   System.IO.Path.Combine(foldersAndFile);
         }
     }
 }

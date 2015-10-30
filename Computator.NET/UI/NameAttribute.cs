@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Computator.NET
+﻿namespace Computator.NET
 {
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-    internal class NameAttribute : Attribute
+    [System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = true)]
+    internal class NameAttribute : System.Attribute
     {
         public NameAttribute(string str)
         {

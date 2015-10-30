@@ -1,60 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
-using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.SettingsTypes;
-using Computator.NET.Properties;
-using MathNet.Numerics.LinearAlgebra;
-
+﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable ConvertPropertyToExpressionBody
+// ReSharper disable UseStringInterpolation
 namespace Computator.NET.Evaluation
 {
+    //TODO: refactor this shit
     internal class TypeDeducer
     {
-        public static Func<TR> Func<TR>(Func<TR> f)
+        public static System.Func<TR> Func<TR>(System.Func<TR> f)
         {
             return f;
         }
 
-        public static Func<T1, TR> Func<T1, TR>(Func<T1, TR> f)
+        public static System.Func<T1, TR> Func<T1, TR>(System.Func<T1, TR> f)
         {
             return f;
         }
 
-        public static Func<T1, T2, TR> Func<T1, T2, TR>(Func<T1, T2, TR> f)
+        public static System.Func<T1, T2, TR> Func<T1, T2, TR>(System.Func<T1, T2, TR> f)
         {
             return f;
         }
 
-        public static Func<T1, T2, T3, TR> Func<T1, T2, T3, TR>(Func<T1, T2, T3, TR> f)
+        public static System.Func<T1, T2, T3, TR> Func<T1, T2, T3, TR>(System.Func<T1, T2, T3, TR> f)
         {
             return f;
         }
 
-        public static Func<T1, T2, T3, T4, TR> Func<T1, T2, T3, T4, TR>(Func<T1, T2, T3, T4, TR> f)
+        public static System.Func<T1, T2, T3, T4, TR> Func<T1, T2, T3, T4, TR>(System.Func<T1, T2, T3, T4, TR> f)
         {
             return f;
         }
 
-        public static Func<T1, T2, T3, T4, T5, TR> Func<T1, T2, T3, T4, T5, TR>(Func<T1, T2, T3, T4, T5, TR> f)
+        public static System.Func<T1, T2, T3, T4, T5, TR> Func<T1, T2, T3, T4, T5, TR>(
+            System.Func<T1, T2, T3, T4, T5, TR> f)
         {
             return f;
         }
 
-        public static Func<T1, T2, T3, T4, T5, T6, TR> Func<T1, T2, T3, T4, T5, T6, TR>(
-            Func<T1, T2, T3, T4, T5, T6, TR> f)
+        public static System.Func<T1, T2, T3, T4, T5, T6, TR> Func<T1, T2, T3, T4, T5, T6, TR>(
+            System.Func<T1, T2, T3, T4, T5, T6, TR> f)
         {
             return f;
         }
 
-        public static Func<T1, T2, T3, T4, T5, T6, T7, TR> Func<T1, T2, T3, T4, T5, T6, T7, TR>(
-            Func<T1, T2, T3, T4, T5, T6, T7, TR> f)
+        public static System.Func<T1, T2, T3, T4, T5, T6, T7, TR> Func<T1, T2, T3, T4, T5, T6, T7, TR>(
+            System.Func<T1, T2, T3, T4, T5, T6, T7, TR> f)
         {
             return f;
         }
 
-        public static Func<T1, T2, T3, T4, T5, T6, T7, T8, TR> Func<T1, T2, T3, T4, T5, T6, T7, T8, TR>(
-            Func<T1, T2, T3, T4, T5, T6, T7, T8, TR> f)
+        public static System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TR> Func<T1, T2, T3, T4, T5, T6, T7, T8, TR>(
+            System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TR> f)
         {
             return f;
         }
@@ -64,8 +60,8 @@ namespace Computator.NET.Evaluation
     public class File
     {
         private readonly string path;
-        private StreamReader sr;
-        private StreamWriter sw;
+        private System.IO.StreamReader sr;
+        private System.IO.StreamWriter sw;
 
         public File(string path)
         {
@@ -75,11 +71,13 @@ namespace Computator.NET.Evaluation
 
         private void reOpen()
         {
-            var oStream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.Read);
-            var iStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var oStream = new System.IO.FileStream(path, System.IO.FileMode.Append, System.IO.FileAccess.Write,
+                System.IO.FileShare.Read);
+            var iStream = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read,
+                System.IO.FileShare.ReadWrite);
 
-            sw = new StreamWriter(oStream);
-            sr = new StreamReader(iStream);
+            sw = new System.IO.StreamWriter(oStream);
+            sr = new System.IO.StreamReader(iStream);
         }
 
         public void clear()
@@ -118,31 +116,31 @@ namespace Computator.NET.Evaluation
         }
     }
 
-    internal static class MatrixExtensions
+
+
+    internal static class ScriptingExtensions
     {
-        public static int size<T>(this Vector<T> vector) where T : struct, IEquatable<T>, IFormattable
+        public static int size<T>(this MathNet.Numerics.LinearAlgebra.Vector<T> vector)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             return vector.Count;
         }
 
-        public static int[] size<T>(this Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
+        public static int[] size<T>(this MathNet.Numerics.LinearAlgebra.Matrix<T> matrix)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            return new[] {matrix.RowCount, matrix.ColumnCount};
+            return new[] { matrix.RowCount, matrix.ColumnCount };
         }
-    }
 
-
-    internal static class ComplexExtension
-    {
-        public static string ToMathString(this Complex z)
+        public static string ToMathString(this System.Numerics.Complex z)
         {
-            switch (Settings.Default.NumericalOutputNotation)
+            switch (Properties.Settings.Default.NumericalOutputNotation)
             {
-                case NumericalOutputNotationType.MathematicalNotation:
+                case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
                     if (z.Real == 0)
                     {
                         return z.Imaginary != 0
-                            ? string.Format("{0}{1}i", z.Imaginary.ToMathString(), SpecialSymbols.DotSymbol)
+                            ? string.Format("{0}{1}i", z.Imaginary.ToMathString(), Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
                             : "0";
                     }
 
@@ -150,9 +148,9 @@ namespace Computator.NET.Evaluation
                         return z.Real.ToMathString();
                     return z.Imaginary > 0
                         ? string.Format("{0}+{1}{2}i", z.Real.ToMathString(), z.Imaginary.ToMathString(),
-                            SpecialSymbols.DotSymbol)
+                            Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
                         : string.Format("{0}{1}{2}i", z.Real.ToMathString(), z.Imaginary.ToMathString(),
-                            SpecialSymbols.DotSymbol);
+                            Computator.NET.DataTypes.SpecialSymbols.DotSymbol);
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
                     return z.ToString();
@@ -161,53 +159,51 @@ namespace Computator.NET.Evaluation
 
         public static string ToMathString(this double x)
         {
-            switch (Settings.Default.NumericalOutputNotation)
+            switch (Properties.Settings.Default.NumericalOutputNotation)
             {
-                case NumericalOutputNotationType.MathematicalNotation:
+                case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
                     var str = x.ToString();
                     if (!str.Contains("E") && !str.Contains("e"))
                         return str;
                     var chunks = str.Split('E', 'e');
-                    var ret = string.Format("{0}{1}10{2}", chunks[0], SpecialSymbols.DotSymbol,
-                        SpecialSymbols.AsciiToSuperscript(chunks[1]));
+                    var ret = string.Format("{0}{1}10{2}", chunks[0], Computator.NET.DataTypes.SpecialSymbols.DotSymbol,
+                        Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(chunks[1]));
                     return ret;
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
                     return x.ToString();
             }
         }
-    }
 
-
-    internal static class ObjectExtension
-    {
         public static bool IsNumericType(this object o)
         {
             if (o == null)
                 return false;
-            switch (Type.GetTypeCode(o.GetType()))
+            switch (System.Type.GetTypeCode(o.GetType()))
             {
-                case TypeCode.Byte:
-                case TypeCode.SByte:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.Decimal:
-                case TypeCode.Double:
-                case TypeCode.Single:
+                case System.TypeCode.Byte:
+                case System.TypeCode.SByte:
+                case System.TypeCode.UInt16:
+                case System.TypeCode.UInt32:
+                case System.TypeCode.UInt64:
+                case System.TypeCode.Int16:
+                case System.TypeCode.Int32:
+                case System.TypeCode.Int64:
+                case System.TypeCode.Decimal:
+                case System.TypeCode.Double:
+                case System.TypeCode.Single:
                     return true;
                 default:
                     return false;
             }
         }
-    }
 
-    internal static class ArrayExtension
-    {
-        public static int size(this Array array)
+        public static int size<T>(this System.Collections.Generic.List<T> list)
+        {
+            return list.Count;
+        }
+
+        public static int size(this System.Array array)
         {
             return array.Length;
         }
@@ -220,46 +216,68 @@ namespace Computator.NET.Evaluation
         }
     }
 
-    internal static class ListExtension
-    {
-        public static int size<T>(this List<T> list)
-        {
-            return list.Count;
-        }
-    }
-
     internal static class ScriptingExtensionObjects
     {
         public const string ToCode = ReadForm.ToCode +
                                      @"
-    class TypeDeducer
+    internal class TypeDeducer
     {
-        public static Func<TR> Func<TR>(Func<TR> f) { return f; }
-        public static Func<T1, TR> Func<T1, TR>(Func<T1, TR> f) { return f; }
-        public static Func<T1, T2, TR> Func<T1, T2, TR>(Func<T1, T2, TR> f) { return f; }
-        public static Func<T1, T2, T3, TR> Func<T1, T2, T3, TR>(Func<T1, T2, T3, TR> f) { return f; }
-        public static Func<T1, T2, T3, T4, TR> Func<T1, T2, T3, T4, TR>(Func<T1, T2, T3, T4, TR> f) { return f; }
-        public static Func<T1, T2, T3, T4, T5, TR> Func<T1, T2, T3, T4, T5, TR>(Func<T1, T2, T3, T4, T5, TR> f) { return f; }
-        public static Func<T1, T2, T3, T4, T5, T6, TR> Func<T1, T2, T3, T4, T5, T6, TR>(Func<T1, T2, T3, T4, T5, T6, TR> f) { return f; }
+        public static System.Func<TR> Func<TR>(System.Func<TR> f)
+        {
+            return f;
+        }
 
-        public static Func<T1, T2, T3, T4, T5, T6, T7, TR> Func<T1, T2, T3, T4, T5, T6, T7, TR>(Func<T1, T2, T3, T4, T5, T6, T7, TR> f) { return f; }
+        public static System.Func<T1, TR> Func<T1, TR>(System.Func<T1, TR> f)
+        {
+            return f;
+        }
 
-        public static Func<T1, T2, T3, T4, T5, T6, T7, T8, TR> Func<T1, T2, T3, T4, T5, T6, T7, T8, TR>(Func<T1, T2, T3, T4, T5, T6, T7, T8, TR> f) { return f; }
+        public static System.Func<T1, T2, TR> Func<T1, T2, TR>(System.Func<T1, T2, TR> f)
+        {
+            return f;
+        }
 
-        //usage:
-        //var zip = TypeDeducer.Func( (int a, int b) => a*a+b*b );
-        //
+        public static System.Func<T1, T2, T3, TR> Func<T1, T2, T3, TR>(System.Func<T1, T2, T3, TR> f)
+        {
+            return f;
+        }
+
+        public static System.Func<T1, T2, T3, T4, TR> Func<T1, T2, T3, T4, TR>(System.Func<T1, T2, T3, T4, TR> f)
+        {
+            return f;
+        }
+
+        public static System.Func<T1, T2, T3, T4, T5, TR> Func<T1, T2, T3, T4, T5, TR>(
+            System.Func<T1, T2, T3, T4, T5, TR> f)
+        {
+            return f;
+        }
+
+        public static System.Func<T1, T2, T3, T4, T5, T6, TR> Func<T1, T2, T3, T4, T5, T6, TR>(
+            System.Func<T1, T2, T3, T4, T5, T6, TR> f)
+        {
+            return f;
+        }
+
+        public static System.Func<T1, T2, T3, T4, T5, T6, T7, TR> Func<T1, T2, T3, T4, T5, T6, T7, TR>(
+            System.Func<T1, T2, T3, T4, T5, T6, T7, TR> f)
+        {
+            return f;
+        }
+
+        public static System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TR> Func<T1, T2, T3, T4, T5, T6, T7, T8, TR>(
+            System.Func<T1, T2, T3, T4, T5, T6, T7, T8, TR> f)
+        {
+            return f;
+        }
     }
 
 
     public class File
     {
-
-        private StreamReader sr;
-
-        private StreamWriter sw;
-
-        private string path;
+        private readonly string path;
+        private System.IO.StreamReader sr;
+        private System.IO.StreamWriter sw;
 
         public File(string path)
         {
@@ -269,18 +287,19 @@ namespace Computator.NET.Evaluation
 
         private void reOpen()
         {
-            var oStream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.Read);
-            var iStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var oStream = new System.IO.FileStream(path, System.IO.FileMode.Append, System.IO.FileAccess.Write,
+                System.IO.FileShare.Read);
+            var iStream = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read,
+                System.IO.FileShare.ReadWrite);
 
             sw = new System.IO.StreamWriter(oStream);
             sr = new System.IO.StreamReader(iStream);
         }
 
-
         public void clear()
         {
             close();
-            System.IO.File.WriteAllText(path, String.Empty);
+            System.IO.File.WriteAllText(path, string.Empty);
             reOpen();
         }
 
@@ -313,40 +332,43 @@ namespace Computator.NET.Evaluation
         }
     }
 
-    internal static class MatrixExtensions
+
+
+    internal static class ScriptingExtensions
     {
-        public static int size<T>(this MathNet.Numerics.LinearAlgebra.Vector<T> vector) where T : struct, IEquatable<T>, IFormattable
+        public static int size<T>(this MathNet.Numerics.LinearAlgebra.Vector<T> vector)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             return vector.Count;
         }
 
-
-        public static int[] size<T>(this MathNet.Numerics.LinearAlgebra.Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
+        public static int[] size<T>(this MathNet.Numerics.LinearAlgebra.Matrix<T> matrix)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            return new int[]{matrix.RowCount,matrix.ColumnCount};
+            return new[] { matrix.RowCount, matrix.ColumnCount };
         }
-    }
 
-
-    internal static class ComplexExtension
-    {
-        public static string ToMathString(this Complex z)
+        public static string ToMathString(this System.Numerics.Complex z)
         {
             switch (Properties.Settings.Default.NumericalOutputNotation)
             {
-                case NumericalOutputNotationType.MathematicalNotation:
+                case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
                     if (z.Real == 0)
                     {
-                        return z.Imaginary != 0 ? string.Format(""{0}{1}i"", z.Imaginary.ToMathString(), SpecialSymbols.DotSymbol) : ""0"";
+                        return z.Imaginary != 0
+                            ? string.Format(""{0}{1}i"", z.Imaginary.ToMathString(), Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
+                            : ""0"";
                     }
 
                     if (z.Imaginary == 0)
                         return z.Real.ToMathString();
                     return z.Imaginary > 0
-                        ? string.Format(""{0}+{1}{2}i"", z.Real.ToMathString(), z.Imaginary.ToMathString(), SpecialSymbols.DotSymbol)
-                        : string.Format(""{0}{1}{2}i"", z.Real.ToMathString(), z.Imaginary.ToMathString(), SpecialSymbols.DotSymbol);
+                        ? string.Format(""{0}+{1}{2}i"", z.Real.ToMathString(), z.Imaginary.ToMathString(),
+                            Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
+                        : string.Format(""{0}{1}{2}i"", z.Real.ToMathString(), z.Imaginary.ToMathString(),
+                            Computator.NET.DataTypes.SpecialSymbols.DotSymbol);
                 default:
-                //case NumericalOutputNotationType.EngineeringNotation:
+                    //case NumericalOutputNotationType.EngineeringNotation:
                     return z.ToString();
             }
         }
@@ -355,54 +377,49 @@ namespace Computator.NET.Evaluation
         {
             switch (Properties.Settings.Default.NumericalOutputNotation)
             {
-                case NumericalOutputNotationType.MathematicalNotation:
+                case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
                     var str = x.ToString();
                     if (!str.Contains(""E"") && !str.Contains(""e""))
                         return str;
-                    else
-                    {
-                        var chunks = str.Split('E', 'e');
-                        string ret = string.Format(""{0}{1}10{2}"", chunks[0], SpecialSymbols.DotSymbol, SpecialSymbols.AsciiToSuperscript(chunks[1]));
-                        return ret;
-                    }
+                    var chunks = str.Split('E', 'e');
+                    var ret = string.Format(""{0}{1}10{2}"", chunks[0], Computator.NET.DataTypes.SpecialSymbols.DotSymbol,
+                        Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(chunks[1]));
+                    return ret;
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
                     return x.ToString();
             }
         }
-    }
 
-
-
-    internal static class ObjectExtension
-    {
         public static bool IsNumericType(this object o)
         {
             if (o == null)
                 return false;
-            switch (Type.GetTypeCode(o.GetType()))
+            switch (System.Type.GetTypeCode(o.GetType()))
             {
-                case TypeCode.Byte:
-                case TypeCode.SByte:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.Decimal:
-                case TypeCode.Double:
-                case TypeCode.Single:
+                case System.TypeCode.Byte:
+                case System.TypeCode.SByte:
+                case System.TypeCode.UInt16:
+                case System.TypeCode.UInt32:
+                case System.TypeCode.UInt64:
+                case System.TypeCode.Int16:
+                case System.TypeCode.Int32:
+                case System.TypeCode.Int64:
+                case System.TypeCode.Decimal:
+                case System.TypeCode.Double:
+                case System.TypeCode.Single:
                     return true;
                 default:
                     return false;
             }
         }
-    }
 
-    internal static class ArrayExtension
-    {
-        public static int size(this Array array)
+        public static int size<T>(this System.Collections.Generic.List<T> list)
+        {
+            return list.Count;
+        }
+
+        public static int size(this System.Array array)
         {
             return array.Length;
         }
@@ -412,14 +429,6 @@ namespace Computator.NET.Evaluation
             var narray = new T[array.Length + 1];
             narray[array.Length] = element;
             array = narray;
-        }
-    }
-
-    internal static class ListExtension
-    {
-        public static int size<T>(this List<T> list)
-        {
-            return list.Count;
         }
     }
 

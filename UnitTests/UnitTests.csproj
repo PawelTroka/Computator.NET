@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -51,8 +52,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="EvaluationUnitTest.cs" />
+    <Compile Include="MathematicalFunctionsTest.cs" />
+    <Compile Include="NativeCompilerUnitTest.cs" />
     <Compile Include="TslCompilerUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeExtenstion.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">
@@ -71,6 +75,14 @@
       <Project>{9c4052d5-2c6b-404c-adac-66e93069824e}</Project>
       <Name>SimpleLogger</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="cblas.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="gsl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

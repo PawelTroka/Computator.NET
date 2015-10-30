@@ -1,18 +1,8 @@
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using System.Windows.Forms.Integration;
-using AutocompleteMenuNS;
-using Computator.NET.Config;
-using Computator.NET.Data;
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.Rendering;
-using Point = System.Windows.Point;
-using Settings = Computator.NET.Properties.Settings;
+using Enumerable = System.Linq.Enumerable;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    internal class AvalonEditCodeEditorControl : ElementHost
+    internal class AvalonEditCodeEditorControl : System.Windows.Forms.Integration.ElementHost
     {
         private readonly AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
         private readonly AvalonEditCodeEditor _codeEditor;
@@ -21,18 +11,18 @@ namespace Computator.NET.UI.CodeEditors
         {
             _codeEditor = new AvalonEditCodeEditor();
 
-            BackColor = Color.White;
-            Dock = DockStyle.Fill;
+            BackColor = System.Drawing.Color.White;
+            Dock = System.Windows.Forms.DockStyle.Fill;
             Child = _codeEditor;
             //   codeEditor.TextArea.TextView.GetVisualPosition(new TextViewPosition(5) {Location = }, VisualYPosition.TextMiddle)
             _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu
             {
-                TargetControlWrapper = new AvalonWrapper(this)
+                TargetControlWrapper = new AutocompleteMenuNS.AvalonWrapper(this)
             };
-            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
-            SetFont(Settings.Default.ScriptingFont);
+            _autocompleteMenu.SetAutocompleteItems(Data.AutocompletionData.GetAutocompleteItemsForScripting());
+            SetFont(Properties.Settings.Default.ScriptingFont);
 
-            _autocompleteMenu.MaximumSize = new Size(500, 180);
+            _autocompleteMenu.MaximumSize = new System.Drawing.Size(500, 180);
             //this.codeEditor.Document.
         }
 
@@ -80,6 +70,12 @@ namespace Computator.NET.UI.CodeEditors
             set { _codeEditor.Text = value; }
         }
 
+        public bool ExponentMode
+        {
+            get { return _codeEditor.IsExponentMode; }
+            set { _codeEditor.IsExponentMode = value; }
+        }
+
         public void Undo()
         {
             _codeEditor.Undo();
@@ -110,21 +106,17 @@ namespace Computator.NET.UI.CodeEditors
             _codeEditor.SelectAll();
         }
 
-        public bool ExponentMode
-        {
-            get { return _codeEditor.IsExponentMode; }
-            set { _codeEditor.IsExponentMode = value; }
-        }
-
         public void AppendText(string text)
         {
             _codeEditor.AppendText(text);
         }
 
-        public void SetFont(Font font)
+        public void SetFont(System.Drawing.Font font)
         {
             _codeEditor.SetFont(font);
-            _autocompleteMenu.Font = font.FontFamily.Name == "Cambria" ? MathCustomFonts.GetMathFont(font.Size) : font;
+            _autocompleteMenu.Font = font.FontFamily.Name == "Cambria"
+                ? Config.MathCustomFonts.GetMathFont(font.Size)
+                : font;
         }
 
         public void InsertText(int start, string val)
@@ -137,19 +129,20 @@ namespace Computator.NET.UI.CodeEditors
             _codeEditor.Document.Remove(selectionStart, i);
         }
 
-        public Point GetPointFromPosition(int pos)
+        public System.Windows.Point GetPointFromPosition(int pos)
         {
             var lineAndColumn = GetLineAndColumn(pos);
             var point =
                 _codeEditor.TextArea.TextView.GetVisualPosition(
-                    new TextViewPosition(lineAndColumn[0], lineAndColumn[1]), VisualYPosition.TextMiddle);
+                    new ICSharpCode.AvalonEdit.TextViewPosition(lineAndColumn[0], lineAndColumn[1]),
+                    ICSharpCode.AvalonEdit.Rendering.VisualYPosition.TextMiddle);
             return point;
         }
 
         private int[] GetLineAndColumn(int pos)
         {
             var substr = Text.Substring(0, pos + 1);
-            var lineIndex = substr.Count(c => c == '\n');
+            var lineIndex = Enumerable.Count(substr, c => c == '\n');
 
             var index = substr.LastIndexOf('\n');
 

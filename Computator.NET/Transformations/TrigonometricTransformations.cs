@@ -1,10 +1,4 @@
-﻿using System;
-using System.Numerics;
-using Accord.Math;
-using AForge.Math;
-using MathNet.Numerics.IntegralTransforms;
-
-namespace Computator.NET.Transformations
+﻿namespace Computator.NET.Transformations
 {
     public static class MathematicalTransformations
     {
@@ -16,45 +10,47 @@ namespace Computator.NET.Transformations
             switch (transformate)
             {
                 case "DST":
-                    SineTransform.DST(copyofFunctionsPoints);
+                    Accord.Math.SineTransform.DST(copyofFunctionsPoints);
                     break;
 
                 case "IDST":
-                    SineTransform.IDST(copyofFunctionsPoints);
+                    Accord.Math.SineTransform.IDST(copyofFunctionsPoints);
                     break;
 
                 case "DCT":
-                    CosineTransform.DCT(copyofFunctionsPoints);
+                    Accord.Math.CosineTransform.DCT(copyofFunctionsPoints);
                     break;
 
                 case "IDCT":
-                    CosineTransform.IDCT(copyofFunctionsPoints);
+                    Accord.Math.CosineTransform.IDCT(copyofFunctionsPoints);
                     break;
 
                 case "DHT":
-                    HartleyTransform.DHT(copyofFunctionsPoints);
+                    Accord.Math.HartleyTransform.DHT(copyofFunctionsPoints);
                     break;
 
                 case "FHT":
-                    HilbertTransform.FHT(copyofFunctionsPoints, FourierTransform.Direction.Forward);
+                    Accord.Math.HilbertTransform.FHT(copyofFunctionsPoints,
+                        AForge.Math.FourierTransform.Direction.Forward);
                     break;
 
                 case "IFHT":
-                    HilbertTransform.FHT(copyofFunctionsPoints, FourierTransform.Direction.Backward);
+                    Accord.Math.HilbertTransform.FHT(copyofFunctionsPoints,
+                        AForge.Math.FourierTransform.Direction.Backward);
                     break;
 
                 default:
-                    throw new ArgumentException("Unknown transformation!");
+                    throw new System.ArgumentException("Unknown transformation!");
             }
             return copyofFunctionsPoints; //athenia programuje//dididididi//di/kocham PaciA// JJKAKAKK  K
         }
 
-        public static Complex[] Transform(Complex[] functionPoints, string transformate)
+        public static System.Numerics.Complex[] Transform(System.Numerics.Complex[] functionPoints, string transformate)
         {
             var copyofFunctionsPoints = functionPoints;
 
 
-            var copyofFunctionsPoints2 = new Complex[functionPoints.Length];
+            var copyofFunctionsPoints2 = new System.Numerics.Complex[functionPoints.Length];
             var multidimensialArray = new double[functionPoints.Length, 2];
 
             var jaggedArray = new double[functionPoints.Length][];
@@ -67,75 +63,78 @@ namespace Computator.NET.Transformations
                 jaggedArray[i][0] = multidimensialArray[i, 0] = functionPoints[i].Real;
                 jaggedArray[i][1] =
                     multidimensialArray[i, 1] = functionPoints[i].Imaginary;
-                copyofFunctionsPoints2[i] = new Complex(functionPoints[i].Real, copyofFunctionsPoints2[i].Imaginary);
+                copyofFunctionsPoints2[i] = new System.Numerics.Complex(functionPoints[i].Real,
+                    copyofFunctionsPoints2[i].Imaginary);
             }
 
 
             switch (transformate)
             {
                 case "FFT":
-                    Fourier.Forward(copyofFunctionsPoints);
+                    MathNet.Numerics.IntegralTransforms.Fourier.Forward(copyofFunctionsPoints);
                     break;
 
 
                 case "IFFT":
-                    Fourier.Inverse(copyofFunctionsPoints);
+                    MathNet.Numerics.IntegralTransforms.Fourier.Inverse(copyofFunctionsPoints);
                     break;
 
                 case "DST":
-                    SineTransform.DST(jaggedArray);
+                    Accord.Math.SineTransform.DST(jaggedArray);
                     copyofFunctionsPoints = jaggedToComplex(jaggedArray);
                     break;
 
                 case "IDST":
-                    SineTransform.IDST(jaggedArray);
+                    Accord.Math.SineTransform.IDST(jaggedArray);
                     copyofFunctionsPoints = jaggedToComplex(jaggedArray);
                     break;
 
                 case "DCT":
-                    CosineTransform.DCT(multidimensialArray);
+                    Accord.Math.CosineTransform.DCT(multidimensialArray);
                     copyofFunctionsPoints = multidimensialToComplex(multidimensialArray);
                     break;
 
                 case "IDCT":
-                    CosineTransform.IDCT(multidimensialArray);
+                    Accord.Math.CosineTransform.IDCT(multidimensialArray);
                     copyofFunctionsPoints = multidimensialToComplex(multidimensialArray);
                     break;
 
                 case "DHT":
-                    HartleyTransform.DHT(multidimensialArray);
+                    Accord.Math.HartleyTransform.DHT(multidimensialArray);
                     copyofFunctionsPoints = multidimensialToComplex(multidimensialArray);
                     break;
 
                 case "FHT":
-                    HilbertTransform.FHT(copyofFunctionsPoints2, FourierTransform.Direction.Forward);
+                    Accord.Math.HilbertTransform.FHT(copyofFunctionsPoints2,
+                        AForge.Math.FourierTransform.Direction.Forward);
                     copyofFunctionsPoints = (copyofFunctionsPoints2);
                     break;
 
                 case "IFHT":
-                    HilbertTransform.FHT(copyofFunctionsPoints2, FourierTransform.Direction.Backward);
+                    Accord.Math.HilbertTransform.FHT(copyofFunctionsPoints2,
+                        AForge.Math.FourierTransform.Direction.Backward);
                     copyofFunctionsPoints = (copyofFunctionsPoints2);
                     break;
 
                 default:
-                    throw new ArgumentException("Unknown transformation!");
+                    throw new System.ArgumentException("Unknown transformation!");
             }
             return copyofFunctionsPoints; //athenia programuje//dididididi//di/kocham PaciA// JJKAKAKK  K
         }
 
-        private static Complex[] jaggedToComplex(double[][] array)
+        private static System.Numerics.Complex[] jaggedToComplex(double[][] array)
         {
-            var retArr = new Complex[array.GetLength(0)];
+            var retArr = new System.Numerics.Complex[array.GetLength(0)];
             for (var i = 0; i < array.Length; i++)
-                retArr[i] = new Complex(array[i][0], array[i][1]);
+                retArr[i] = new System.Numerics.Complex(array[i][0], array[i][1]);
             return retArr;
         }
 
-        private static Complex[] multidimensialToComplex(double[,] array)
+        private static System.Numerics.Complex[] multidimensialToComplex(double[,] array)
         {
-            var retArr = new Complex[array.Length];
+            var retArr = new System.Numerics.Complex[array.Length];
             for (var i = 0; i < array.Length; i++)
-                retArr[i] = new Complex(array[i, 0], array[i, 1]);
+                retArr[i] = new System.Numerics.Complex(array[i, 0], array[i, 1]);
             return retArr;
         }
     }

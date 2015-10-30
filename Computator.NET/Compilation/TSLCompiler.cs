@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using Computator.NET.DataTypes;
-
-namespace Computator.NET.Compilation
+﻿namespace Computator.NET.Compilation
 {
     public enum TslCompilationMode
     {
@@ -34,14 +29,14 @@ namespace Computator.NET.Compilation
 
         public TslCompiler()
         {
-            Variables = new List<string>();
+            Variables = new System.Collections.Generic.List<string>();
             Version = 2.0;
             TslCompilationMode = TslCompilationMode.Simple;
         }
 
         public double Version { get; set; }
         public TslCompilationMode TslCompilationMode { get; set; }
-        public List<string> Variables { get; set; }
+        public System.Collections.Generic.List<string> Variables { get; set; }
 
         private string Normalize(string input) //TODO: make it real f(x,y) normalize
         {
@@ -50,7 +45,7 @@ namespace Computator.NET.Compilation
 
         public string TransformToCSharp(string tslCode)
         {
-            var codeBuilder = new StringBuilder(tslCode);
+            var codeBuilder = new System.Text.StringBuilder(tslCode);
 
             codeBuilder.Replace("matrix({", "matrix(new [,]{")
                 .Replace("ᵀ", ".Transpose()")
@@ -65,12 +60,12 @@ namespace Computator.NET.Compilation
             var firstPhase = codeBuilder.ToString();
 
             //function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)
-            var secondPhase = Regex.Replace(firstPhase,
+            var secondPhase = System.Text.RegularExpressions.Regex.Replace(firstPhase,
                 @"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
                 @"var $1 = TypeDeducer.Func(($2) => $3)");
 
             //var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)
-            var thirdPhase = Regex.Replace(secondPhase,
+            var thirdPhase = System.Text.RegularExpressions.Regex.Replace(secondPhase,
                 @"var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
                 @"var $1 = TypeDeducer.Func(($2) => $3)");
 
@@ -80,7 +75,7 @@ namespace Computator.NET.Compilation
 
             var sixthPhase = ReplaceMultipling(fifthPhase);
 
-            var seventhPhase = sixthPhase.Replace(SpecialSymbols.DotSymbol, '*');
+            var seventhPhase = sixthPhase.Replace(DataTypes.SpecialSymbols.DotSymbol, '*');
 
             return seventhPhase;
         }
@@ -102,22 +97,25 @@ namespace Computator.NET.Compilation
 
             //case 1 - x^ANY_EXPONENT, 9.5y^ANY_EXPONENT, etc. 
             foreach (var c in Variables)
-                result = Regex.Replace(result, @"(\d*" + c + @")([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
+                result = System.Text.RegularExpressions.Regex.Replace(result,
+                    @"(\d*" + c + @")([" + DataTypes.SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
                     "pow($1,$2)");
 
             //case 2 - (anything in parenthesis)^ANY_EXPONENT
             // result = result.ReplacePow(@"\(([^\^]+)\)([" + GlobalConfig.Superscripts + @"]+)");
             result =
-                Regex.Replace(result, @"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))([" +
-                                      SpecialSymbols.SuperscriptsWithoutSpace + @"]+)", "pow($1,$2)");
+                System.Text.RegularExpressions.Regex.Replace(result,
+                    @"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))([" +
+                    DataTypes.SpecialSymbols.SuperscriptsWithoutSpace + @"]+)", "pow($1,$2)");
             //# First '(' # Match all non-braces # Match '(', and capture into 'open' # Match ')', and delete the 'open' capture # Fails if 'open' stack isn't empty!
 
             //case 3 - (any ordinary number)^ANY_EXPONENT
-            result = Regex.Replace(result, @"(\d+\.?\d*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
+            result = System.Text.RegularExpressions.Regex.Replace(result,
+                @"(\d+\.?\d*)([" + DataTypes.SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
                 "pow($1,$2)");
 
             //replace superscripts with normal characters:
-            result = SpecialSymbols.SuperscriptsToAscii(result);
+            result = DataTypes.SpecialSymbols.SuperscriptsToAscii(result);
 
             return ReplaceMultipling(result);
         }
@@ -127,10 +125,11 @@ namespace Computator.NET.Compilation
             //return Regex.Replace(input, @"(\d+)(?:[^\.]\d+)", "$1.0");
 
             //1. X/5 => X/5.0
-            var ret = Regex.Replace(input, @"[\/](\d+)([^\.\d]|$)", @"/$1.0$2");
+            var ret = System.Text.RegularExpressions.Regex.Replace(input, @"[\/](\d+)([^\.\d]|$)", @"/$1.0$2");
             //System.Windows.Forms.MessageBox.Show(ret);
             //2. X/(4+9+...+i) => X/(1.0*(4+9+...+i)) 
-            ret = Regex.Replace(ret, @"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", "/(1.0*($1))");
+            ret = System.Text.RegularExpressions.Regex.Replace(ret,
+                @"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", "/(1.0*($1))");
             //System.Windows.Forms.MessageBox.Show(ret);
             return ret;
         }

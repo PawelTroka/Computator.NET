@@ -1,10 +1,8 @@
-﻿using System.Windows.Forms;
-
-namespace Computator.NET.NumericalCalculations
+﻿namespace Computator.NET.NumericalCalculations
 {
     internal class NumericalCalculation
     {
-        public static void setupOperations(ComboBox operationsComboBox)
+        public static void setupOperations(System.Windows.Forms.ComboBox operationsComboBox)
         {
             operationsComboBox.Items.Clear();
             operationsComboBox.Items.Add("Integral");
@@ -14,7 +12,8 @@ namespace Computator.NET.NumericalCalculations
             operationsComboBox.SelectedItem = "Integral";
         }
 
-        public static void setupMethods(ComboBox methodsComboBox, ComboBox operationsComboBox)
+        public static void setupMethods(System.Windows.Forms.ComboBox methodsComboBox,
+            System.Windows.Forms.ComboBox operationsComboBox)
         {
             methodsComboBox.Items.Clear();
 
@@ -50,8 +49,9 @@ namespace Computator.NET.NumericalCalculations
             methodsComboBox.SelectedItem = methodsComboBox.Items[methodsComboBox.Items.Count - 1];
         }
 
-        public static void setupGroupBoxes(ComboBox operationsComboBox, GroupBox derrivative, GroupBox root,
-            GroupBox integral)
+        public static void setupGroupBoxes(System.Windows.Forms.ComboBox operationsComboBox,
+            System.Windows.Forms.GroupBox derrivative, System.Windows.Forms.GroupBox root,
+            System.Windows.Forms.GroupBox integral)
         {
             var operation = operationsComboBox.SelectedItem.ToString();
 

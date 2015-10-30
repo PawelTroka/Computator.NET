@@ -1,25 +1,18 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using System.Linq;
-using System.Reflection;
-using Computator.NET.Config;
-using Computator.NET.Localization;
-using Computator.NET.Logging;
-using Microsoft.CSharp;
+﻿using Enumerable = System.Linq.Enumerable;
 
 //findRoot(sin,x-1,x+1) is really interesting
 
 namespace Computator.NET.Compilation
 {
-    public class NativeCompiler : CSharpCodeProvider
+    public class NativeCompiler : Microsoft.CSharp.CSharpCodeProvider
     {
-        private readonly SimpleLogger logger;
-        private readonly CompilerParameters parameters;
+        private readonly Logging.SimpleLogger logger;
+        private readonly System.CodeDom.Compiler.CompilerParameters parameters;
 
         public NativeCompiler()
         {
-            logger = new SimpleLogger {ClassName = GetType().FullName};
-            parameters = new CompilerParameters
+            logger = new Logging.SimpleLogger {ClassName = GetType().FullName};
+            parameters = new System.CodeDom.Compiler.CompilerParameters
             {
                 GenerateInMemory = true,
                 TempFiles = {KeepFiles = false}
@@ -27,40 +20,41 @@ namespace Computator.NET.Compilation
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Core.dll");
             parameters.ReferencedAssemblies.Add("System.Numerics.dll");
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Meta.Numerics.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("MathNet.Numerics.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Accord.Math.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Accord.dll"));
+            parameters.ReferencedAssemblies.Add(Config.GlobalConfig.FullPath("Meta.Numerics.dll"));
+            parameters.ReferencedAssemblies.Add(Config.GlobalConfig.FullPath("MathNet.Numerics.dll"));
+            parameters.ReferencedAssemblies.Add(Config.GlobalConfig.FullPath("Accord.Math.dll"));
+            parameters.ReferencedAssemblies.Add(Config.GlobalConfig.FullPath("Accord.dll"));
         }
 
-        public Assembly Compile(string input)
+        public System.Reflection.Assembly Compile(string input)
         {
-            CompilerResults results = null;
+            System.CodeDom.Compiler.CompilerResults results = null;
             try
             {
                 results = CompileAssemblyFromSource(parameters, input);
                 if (results.Errors.Count > 0)
-                    throw new Exception(Strings.BadSyntax);
+                    throw new System.Exception(Localization.Strings.BadSyntax);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 var message =
-                    Strings
+                    Localization.Strings
                         .ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression;
-                message += Environment.NewLine + Strings.Details;
-                message += Environment.NewLine + ex.Message + Environment.NewLine + Strings.MoreDetails;
-                message += results.Errors.Cast<CompilerError>()
-                    .Aggregate(message,
-                        (current, err) => (!err.IsWarning) ? current + (Environment.NewLine + err.ErrorText) : "");
+                message += System.Environment.NewLine + Localization.Strings.Details;
+                message += System.Environment.NewLine + ex.Message + System.Environment.NewLine +
+                           Localization.Strings.MoreDetails;
+                message += Enumerable.Aggregate(Enumerable.Cast<System.CodeDom.Compiler.CompilerError>(results.Errors),
+                    message,
+                    (current, err) => (!err.IsWarning) ? current + (System.Environment.NewLine + err.ErrorText) : "");
 
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
+                logger.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
                 // logger.Parameters["NativeCompilerInput"] = input;
                 logger.Parameters["NativeCompilerOutput"] = "";
 
                 foreach (var str in results.Output)
-                    logger.Parameters["NativeCompilerOutput"] += str + Environment.NewLine;
+                    logger.Parameters["NativeCompilerOutput"] += str + System.Environment.NewLine;
 
-                logger.Log(message, ErrorType.Compilation, ex);
+                logger.Log(message, Config.ErrorType.Compilation, ex);
 
                 throw new CompilationException(message, ex);
             }

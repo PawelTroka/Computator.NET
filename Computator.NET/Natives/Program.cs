@@ -1,30 +1,21 @@
-﻿using System;
-using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
-using Computator.NET.Config;
-using Computator.NET.Logging;
-using Computator.NET.Properties;
-using Computator.NET.UI.Forms;
-using Settings = Computator.NET.Properties.Settings;
-
-namespace Computator.NET
+﻿namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger logger = new SimpleLogger {ClassName = "Program"};
+        private static readonly Logging.SimpleLogger logger = new Logging.SimpleLogger {ClassName = "Program"};
+        private static gsl_error_handler_t UnmanagedHandler;
 
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
-        [STAThread]
+        [System.STAThread]
         private static void Main()
         {
-            Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
-            Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
+            System.Threading.Thread.CurrentThread.CurrentCulture = Properties.Settings.Default.Language;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = Properties.Settings.Default.Language;
 
-            Application.EnableVisualStyles();
-            LoadingScreen.ShowSplashScreen();
+            System.Windows.Forms.Application.EnableVisualStyles();
+            UI.Forms.LoadingScreen.ShowSplashScreen();
             //MultiplatformDllLoader.Enable = true;
             // var dllDir = GlobalConfig.fullPath("Special", (Environment.Is64BitProcess) ? "x64" : "x86");
             // MessageBox.Show(dllDir);
@@ -36,40 +27,52 @@ namespace Computator.NET
             //  LoadLibrary(GlobalConfig.FullPath("Special", (Environment.Is64BitProcess) ? "x64" : "x86",
             //    GlobalConfig.gslDllName));
 
-            EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslDllName,
-                (Environment.Is64BitProcess) ? Resources.gsl_x64 : Resources.gsl_x86);
-            EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName,
-                (Environment.Is64BitProcess) ? Resources.cblas_x64 : Resources.cblas_x86);
+            Config.EmbeddedDllClass.ExtractEmbeddedDlls(Config.GlobalConfig.gslDllName,
+                (System.Environment.Is64BitProcess) ? Properties.Resources.gsl_x64 : Properties.Resources.gsl_x86);
+            Config.EmbeddedDllClass.ExtractEmbeddedDlls(Config.GlobalConfig.gslCblasDllName,
+                (System.Environment.Is64BitProcess) ? Properties.Resources.cblas_x64 : Properties.Resources.cblas_x86);
 
-            Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
-            Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
+            // NativeMethods.gsl_set_error_handler_off();
+            UnmanagedHandler = HandleUnmanagedException;
+            NativeMethods.gsl_set_error_handler(UnmanagedHandler);
 
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.AddMessageFilter(new MyMessageFilter());
+            System.Threading.Thread.CurrentThread.CurrentCulture = Properties.Settings.Default.Language;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = Properties.Settings.Default.Language;
 
-            Application.ThreadException += Application_ThreadException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.AddMessageFilter(new Config.MyMessageFilter());
+
+            System.Windows.Forms.Application.ThreadException += Application_ThreadException;
+            System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             var mainForm = new GUI();
 
-            LoadingScreen.CloseForm();
-            Application.Run(mainForm);
+            UI.Forms.LoadingScreen.CloseForm();
+            System.Windows.Forms.Application.Run(mainForm);
         }
 
-        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        private static void HandleUnmanagedException(string reason,
+            string file, int line, int gsl_errno)
         {
-            MessageBox.Show(e.Exception.Message, "Unhandled Thread Exception");
-
-            logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log("Unhandled Thread Exception", ErrorType.General, e.Exception);
+            throw new System.Exception("Exception occcured in " + file + "\n at line " + line + "\nReason: " + reason +
+                                       "\nError code: " + gsl_errno);
         }
 
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            MessageBox.Show((e.ExceptionObject as Exception).Message, "Unhandled UI Exception");
+            System.Windows.Forms.MessageBox.Show(e.Exception.Message, "Unhandled Thread Exception");
 
-            logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log("Unhandled UI Exception", ErrorType.General, (e.ExceptionObject as Exception));
+            logger.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            logger.Log("Unhandled Thread Exception", Config.ErrorType.General, e.Exception);
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show((e.ExceptionObject as System.Exception).Message,
+                "Unhandled UI Exception");
+
+            logger.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            logger.Log("Unhandled UI Exception", Config.ErrorType.General, (e.ExceptionObject as System.Exception));
         }
     }
 }

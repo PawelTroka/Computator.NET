@@ -13,6 +13,7 @@
  * = Unified autocomplete for both expressions and scripting (same design and items, customizable formats and fonts (with exception of AvalonEdit code editor)
  * + Added possibility to change autocomplete items format (return type, type of arguments) and fonts (size, family) for scripting and expressions 
  * = Refreshed installer with option to upgrade and with better support for needed redistributables and possibly less bugs
+ * = Fixed bug in KroneckerProduct(M1,M2,..) function
 
 
  * --------- Version 1.9.0α - alpha 6 -----------  20.09.2015 07:00

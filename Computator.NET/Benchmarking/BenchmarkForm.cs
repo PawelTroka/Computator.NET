@@ -1,11 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Computator.NET.Localization;
-
-namespace Computator.NET.Benchmarking
+﻿namespace Computator.NET.Benchmarking
 {
-    public partial class BenchmarkForm : Form
+    public partial class BenchmarkForm : System.Windows.Forms.Form
     {
         private readonly Benchmark benchmark;
 
@@ -25,60 +20,74 @@ namespace Computator.NET.Benchmarking
             memoryTestBackgroundWorker.RunWorkerCompleted += memoryTestBackgroundWorker_RunWorkerCompleted;
         }
 
-        private void FunctionsTestBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void FunctionsTestBackgroundWorker_RunWorkerCompleted(object sender,
+            System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
-                MessageBox.Show(Strings.MathFunctionsCalculationSpeedTestCancelledByUser, Strings.Canceled);
+                System.Windows.Forms.MessageBox.Show(
+                    Localization.Strings.MathFunctionsCalculationSpeedTestCancelledByUser, Localization.Strings.Canceled);
             }
 
             else if (!(e.Error == null))
             {
-                MessageBox.Show(Strings.Error + ": " + e.Error.Message, Strings.Error + "!");
+                System.Windows.Forms.MessageBox.Show(Localization.Strings.Error + ": " + e.Error.Message,
+                    Localization.Strings.Error + "!");
             }
 
             else
             {
-                MessageBox.Show(Strings.MathFunctionsCalculationSpeedTestDoneSuccesfullyCheckOutYourPointsResults,
-                    Strings.Done);
-                functionsTestRichTextBox.Text = DateTime.Now.ToShortDateString() + " " +
-                                                DateTime.Now.ToShortTimeString() + Strings.Result + benchmark.Points +
-                                                Strings.Points + functionsTestRichTextBox.Text;
+                System.Windows.Forms.MessageBox.Show(
+                    Localization.Strings.MathFunctionsCalculationSpeedTestDoneSuccesfullyCheckOutYourPointsResults,
+                    Localization.Strings.Done);
+                functionsTestRichTextBox.Text = System.DateTime.Now.ToShortDateString() + " " +
+                                                System.DateTime.Now.ToShortTimeString() + Localization.Strings.Result +
+                                                benchmark.Points +
+                                                Localization.Strings.Points + functionsTestRichTextBox.Text;
             }
         }
 
-        private void FunctionsTestBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void FunctionsTestBackgroundWorker_ProgressChanged(object sender,
+            System.ComponentModel.ProgressChangedEventArgs e)
         {
             progressBar2.Value = e.ProgressPercentage;
         }
 
-        private void memoryTestBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void memoryTestBackgroundWorker_RunWorkerCompleted(object sender,
+            System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
-                MessageBox.Show(Strings.memoryTestBackgroundWorker_RunWorkerCompleted, Strings.Canceled);
+                System.Windows.Forms.MessageBox.Show(
+                    Localization.Strings.memoryTestBackgroundWorker_RunWorkerCompleted, Localization.Strings.Canceled);
             }
 
             else if (!(e.Error == null))
             {
-                MessageBox.Show(Strings.Error + ": " + e.Error.Message, Strings.Error + "!");
+                System.Windows.Forms.MessageBox.Show(Localization.Strings.Error + ": " + e.Error.Message,
+                    Localization.Strings.Error + "!");
             }
 
             else
             {
-                MessageBox.Show(Strings.MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult, Strings.Done);
-                memoryTestRichTextBox.Text = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() +
-                                             Strings.Result + benchmark.Points + Strings.Points +
+                System.Windows.Forms.MessageBox.Show(
+                    Localization.Strings.MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult,
+                    Localization.Strings.Done);
+                memoryTestRichTextBox.Text = System.DateTime.Now.ToShortDateString() + " " +
+                                             System.DateTime.Now.ToShortTimeString() +
+                                             Localization.Strings.Result + benchmark.Points +
+                                             Localization.Strings.Points +
                                              memoryTestRichTextBox.Text;
             }
         }
 
-        private void memoryTestBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void memoryTestBackgroundWorker_ProgressChanged(object sender,
+            System.ComponentModel.ProgressChangedEventArgs e)
         {
             memoryTestProgressBar.Value = e.ProgressPercentage;
         }
 
-        private void startMemoryTestButton_Click(object sender, EventArgs e)
+        private void startMemoryTestButton_Click(object sender, System.EventArgs e)
         {
             if (!memoryTestBackgroundWorker.IsBusy)
                 memoryTestBackgroundWorker.RunWorkerAsync();
@@ -86,19 +95,19 @@ namespace Computator.NET.Benchmarking
 
         // private Benchmark functionsBenchmark;
 
-        private void cancelMemoryTestButton_Click(object sender, EventArgs e)
+        private void cancelMemoryTestButton_Click(object sender, System.EventArgs e)
         {
             if (memoryTestBackgroundWorker.IsBusy)
                 memoryTestBackgroundWorker.CancelAsync();
         }
 
-        private void startFunctionsTestButton_Click(object sender, EventArgs e)
+        private void startFunctionsTestButton_Click(object sender, System.EventArgs e)
         {
             if (!functionsTestBackgroundWorker.IsBusy)
                 functionsTestBackgroundWorker.RunWorkerAsync();
         }
 
-        private void cancelFunctionsTestButton_Click(object sender, EventArgs e)
+        private void cancelFunctionsTestButton_Click(object sender, System.EventArgs e)
         {
             if (!functionsTestBackgroundWorker.IsBusy)
                 functionsTestBackgroundWorker.CancelAsync();

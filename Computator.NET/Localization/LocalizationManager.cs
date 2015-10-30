@@ -1,26 +1,23 @@
-﻿using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Windows.Forms;
+﻿using Enumerable = System.Linq.Enumerable;
 
 namespace Computator.NET.Localization
 {
     internal class LocalizationManager
     {
-        public static CultureInfo GlobalUICulture
+        public static System.Globalization.CultureInfo GlobalUICulture
         {
-            get { return Thread.CurrentThread.CurrentUICulture; }
+            get { return System.Threading.Thread.CurrentThread.CurrentUICulture; }
             set
             {
                 if (GlobalUICulture.Equals(value) == false)
                 {
-                    foreach (var form in Application.OpenForms.OfType<LocalizedForm>())
+                    foreach (var form in Enumerable.OfType<LocalizedForm>(System.Windows.Forms.Application.OpenForms))
                     {
                         form.Culture = value;
                     }
 
-                    Thread.CurrentThread.CurrentUICulture = value;
-                    Thread.CurrentThread.CurrentCulture = value;
+                    System.Threading.Thread.CurrentThread.CurrentUICulture = value;
+                    System.Threading.Thread.CurrentThread.CurrentCulture = value;
                 }
             }
         }

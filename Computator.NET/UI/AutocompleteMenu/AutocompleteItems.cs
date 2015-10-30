@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-
-namespace AutocompleteMenuNS
+﻿namespace AutocompleteMenuNS
 {
     /// <summary>
     ///     This autocomplete item appears after dot
@@ -26,7 +23,7 @@ namespace AutocompleteMenuNS
             firstPart = fragmentText.Substring(0, i);
 
             if (lastPart == "") return CompareResult.Visible;
-            if (Text.StartsWith(lastPart, StringComparison.InvariantCultureIgnoreCase))
+            if (Text.StartsWith(lastPart, System.StringComparison.InvariantCultureIgnoreCase))
                 return CompareResult.VisibleAndSelected;
             if (lowercaseText.Contains(lastPart.ToLower()))
                 return CompareResult.Visible;
@@ -85,7 +82,7 @@ namespace AutocompleteMenuNS
         /// </summary>
         public override CompareResult Compare(string fragmentText)
         {
-            if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
+            if (Text.StartsWith(fragmentText, System.StringComparison.InvariantCultureIgnoreCase) &&
                 Text != fragmentText)
                 return CompareResult.Visible;
 
@@ -150,7 +147,7 @@ namespace AutocompleteMenuNS
 
             if (ignoreCase)
             {
-                if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase))
+                if (Text.StartsWith(fragmentText, System.StringComparison.InvariantCultureIgnoreCase))
                     return CompareResult.VisibleAndSelected;
             }
             else if (Text.StartsWith(fragmentText))
@@ -162,7 +159,7 @@ namespace AutocompleteMenuNS
         public override void OnPaint(PaintItemEventArgs e)
         {
             if (ColumnWidth != null && ColumnWidth.Length != MenuTextByColumns.Length)
-                throw new Exception("ColumnWidth.Length != MenuTextByColumns.Length");
+                throw new System.Exception("ColumnWidth.Length != MenuTextByColumns.Length");
 
             var columnWidth = ColumnWidth;
             if (columnWidth == null)
@@ -174,16 +171,17 @@ namespace AutocompleteMenuNS
             }
 
             //draw columns
-            var pen = Pens.Silver;
-            var brush = Brushes.Black;
+            var pen = System.Drawing.Pens.Silver;
+            var brush = System.Drawing.Brushes.Black;
             var x = e.TextRect.X;
-            e.StringFormat.FormatFlags = e.StringFormat.FormatFlags | StringFormatFlags.NoWrap;
+            e.StringFormat.FormatFlags = e.StringFormat.FormatFlags | System.Drawing.StringFormatFlags.NoWrap;
 
             for (var i = 0; i < MenuTextByColumns.Length; i++)
             {
                 var width = columnWidth[i];
-                var rect = new RectangleF(x, e.TextRect.Top, width, e.TextRect.Height);
-                e.Graphics.DrawLine(pen, new PointF(x, e.TextRect.Top), new PointF(x, e.TextRect.Bottom));
+                var rect = new System.Drawing.RectangleF(x, e.TextRect.Top, width, e.TextRect.Height);
+                e.Graphics.DrawLine(pen, new System.Drawing.PointF(x, e.TextRect.Top),
+                    new System.Drawing.PointF(x, e.TextRect.Bottom));
                 e.Graphics.DrawString(MenuTextByColumns[i], e.Font, brush, rect, e.StringFormat);
                 x += width;
             }

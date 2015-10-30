@@ -1,24 +1,20 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace AutocompleteMenuNS
+﻿namespace AutocompleteMenuNS
 {
     /// <summary>
     ///     Wrapper over the control like TextBox.
     /// </summary>
     public interface ITextBoxWrapper
     {
-        Control TargetControl { get; }
+        System.Windows.Forms.Control TargetControl { get; }
         string Text { get; }
         string SelectedText { get; set; }
         int SelectionLength { get; set; }
         int SelectionStart { get; set; }
         bool Readonly { get; }
-        Point GetPositionFromCharIndex(int pos);
-        event EventHandler LostFocus;
-        event ScrollEventHandler Scroll;
-        event KeyEventHandler KeyDown;
-        event MouseEventHandler MouseDown;
+        System.Drawing.Point GetPositionFromCharIndex(int pos);
+        event System.EventHandler LostFocus;
+        event System.Windows.Forms.ScrollEventHandler Scroll;
+        event System.Windows.Forms.KeyEventHandler KeyDown;
+        event System.Windows.Forms.MouseEventHandler MouseDown;
     }
 }

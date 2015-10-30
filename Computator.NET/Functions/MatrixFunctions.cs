@@ -1,34 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Runtime.InteropServices;
-using Computator.NET.Evaluation;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
-using DenseVector = MathNet.Numerics.LinearAlgebra.Complex.DenseVector;
-
-//using Meta.Numerics;
+﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable ConvertPropertyToExpressionBody
+// ReSharper disable UseStringInterpolation
 
 namespace Computator.NET.Functions
 {
-    [StructLayout(LayoutKind.Sequential)]
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     internal static class MatrixFunctions
     {
         #region matrix specific functions
 
-        public static T Tr<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static T Tr<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             //if (M.RowCount != M.ColumnCount)
             ////throw new DimensionMismatchException("It's imposible to calculate trace of non-square matrix!");
             return M.Trace();
         }
 
-        public static int rank<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static int rank<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             return M.Rank();
         }
 
-        public static T det<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static T det<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             //if (M.RowCount != M.ColumnCount)
             ////throw new DimensionMismatchException("It's imposible to calculate determinant of non-square matrix!");
@@ -39,16 +35,18 @@ namespace Computator.NET.Functions
 
         #region matrix specific operations
 
-        public static Matrix<T> minor<T>(Matrix<T> M, int i, int j, int m, int n)
-            where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> minor<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M,
+            int i, int j, int m, int n)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             return M.SubMatrix(i, m, j, n);
         }
 
-        public static Matrix<T> pow<T>(Matrix<T> M, int n) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> pow<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M, int n)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             if (M.RowCount != M.ColumnCount)
-                throw new ArgumentException("It's imposible to take non-square matrix to power!");
+                throw new System.ArgumentException("It's imposible to take non-square matrix to power!");
             if (n == 0)
             {
                 var M2 = M.SubMatrix(0, M.RowCount, 0, M.ColumnCount);
@@ -56,9 +54,9 @@ namespace Computator.NET.Functions
                     for (var k = 0; k < M.ColumnCount; k++)
                     {
                         if (j == k)
-                            M2[j, k] = Matrix<T>.One;
+                            M2[j, k] = MathNet.Numerics.LinearAlgebra.Matrix<T>.One;
                         else
-                            M2[j, k] = Matrix<T>.Zero;
+                            M2[j, k] = MathNet.Numerics.LinearAlgebra.Matrix<T>.Zero;
                     }
                 return M2;
             }
@@ -66,39 +64,45 @@ namespace Computator.NET.Functions
                 M = M.Inverse();
             //for (int j = 1; j < Math.Abs(n); j++)
             // M = M * M;
-            return M.Power(Math.Abs(n));
+            return M.Power(System.Math.Abs(n));
         }
 
-        public static Matrix<T> inv<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> inv<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             //if (M.RowCount != M.ColumnCount)
             //throw new DimensionMismatchException("It's imposible to calculate inverse matrix of non-square matrix!");
             return M.Inverse();
         }
 
-        public static Matrix<T> transpose<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> transpose<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             return M.Transpose();
         }
 
-        public static Matrix<T> KroneckerProduct<T>(params Matrix<T>[] M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> KroneckerProduct<T>(
+            params MathNet.Numerics.LinearAlgebra.Matrix<T>[] M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            var Mx = new List<Matrix<T>>();
+            var Mx = new System.Collections.Generic.List<MathNet.Numerics.LinearAlgebra.Matrix<T>>();
 
             foreach (var m in M)
                 Mx.Add(m);
 
             var MxRet = Mx[0];
 
-            for (var i = 0; i < Mx.Count; i++)
+            for (var i = 1; i < Mx.Count; i++)
                 MxRet = MxRet.KroneckerProduct(Mx[i]);
 
             return MxRet;
         }
 
-        public static Matrix<T> PointwiseMultiply<T>(params Matrix<T>[] M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> PointwiseMultiply<T>(
+            params MathNet.Numerics.LinearAlgebra.Matrix<T>[] M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            var Mx = new List<Matrix<T>>();
+            var Mx = new System.Collections.Generic.List<MathNet.Numerics.LinearAlgebra.Matrix<T>>();
 
             foreach (var m in M)
                 Mx.Add(m);
@@ -111,9 +115,11 @@ namespace Computator.NET.Functions
             return MxRet;
         }
 
-        public static Matrix<T> PointwiseDivide<T>(params Matrix<T>[] M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> PointwiseDivide<T>(
+            params MathNet.Numerics.LinearAlgebra.Matrix<T>[] M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            var Mx = new List<Matrix<T>>();
+            var Mx = new System.Collections.Generic.List<MathNet.Numerics.LinearAlgebra.Matrix<T>>();
 
             foreach (var m in M)
                 Mx.Add(m);
@@ -138,26 +144,31 @@ namespace Computator.NET.Functions
 #endif
 
 
-        public static Matrix<T> matrix<T>(int n, int m) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> matrix<T>(int n, int m)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            if (typeof (T) == typeof (double) || typeof (T).IsNumericType())
-                return new DenseMatrix(n, m) as Matrix<T>;
-            if (typeof (T) == typeof (Complex))
-                return new MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix(n, m) as Matrix<T>;
-            throw new ArgumentException("Wrong type for matrix creation, consider using real or complex");
+            if (typeof (T) == typeof (double) || Evaluation.ScriptingExtensions.IsNumericType(typeof (T)))
+                return
+                    new MathNet.Numerics.LinearAlgebra.Double.DenseMatrix(n, m) as
+                        MathNet.Numerics.LinearAlgebra.Matrix<T>;
+            if (typeof (T) == typeof (System.Numerics.Complex))
+                return
+                    new MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix(n, m) as
+                        MathNet.Numerics.LinearAlgebra.Matrix<T>;
+            throw new System.ArgumentException("Wrong type for matrix creation, consider using real or complex");
         }
 
-        public static DenseMatrix matrix(double[,] array)
+        public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(double[,] array)
         {
-            return DenseMatrix.OfArray(array);
+            return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(array);
         }
 
-        public static MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix matrix(Complex[,] array)
+        public static MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix matrix(System.Numerics.Complex[,] array)
         {
             return MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix.OfArray(array);
         }
 
-        public static DenseMatrix matrix(int[,] array)
+        public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(int[,] array)
         {
             var darray = new double[array.GetLength(0), array.GetLength(1)];
 
@@ -165,12 +176,13 @@ namespace Computator.NET.Functions
                 for (var k = 0; k < array.GetLength(1); k++)
                     darray[j, k] = array[j, k];
 
-            return DenseMatrix.OfArray(darray);
+            return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(darray);
         }
 
-        public static DenseVector vector(params Complex[] elements)
+        public static MathNet.Numerics.LinearAlgebra.Complex.DenseVector vector(
+            params System.Numerics.Complex[] elements)
         {
-            return new DenseVector(elements);
+            return new MathNet.Numerics.LinearAlgebra.Complex.DenseVector(elements);
         }
 
         public static MathNet.Numerics.LinearAlgebra.Double.DenseVector vector(params double[] elements)
@@ -178,24 +190,28 @@ namespace Computator.NET.Functions
             return new MathNet.Numerics.LinearAlgebra.Double.DenseVector(elements);
         }
 
-        public static Vector<T> vector<T>(int n) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Vector<T> vector<T>(int n)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            if (typeof (T) == typeof (double) || typeof (T).IsNumericType())
-                return new MathNet.Numerics.LinearAlgebra.Double.DenseVector(n) as Vector<T>;
-            if (typeof (T) == typeof (Complex))
-                return new DenseVector(n) as Vector<T>;
-            throw new ArgumentException("Wrong type for vector creation, consider using real or complex");
+            if (typeof (T) == typeof (double) || Evaluation.ScriptingExtensions.IsNumericType(typeof (T)))
+                return
+                    new MathNet.Numerics.LinearAlgebra.Double.DenseVector(n) as MathNet.Numerics.LinearAlgebra.Vector<T>;
+            if (typeof (T) == typeof (System.Numerics.Complex))
+                return
+                    new MathNet.Numerics.LinearAlgebra.Complex.DenseVector(n) as
+                        MathNet.Numerics.LinearAlgebra.Vector<T>;
+            throw new System.ArgumentException("Wrong type for vector creation, consider using real or complex");
         }
 
 
-        public static List<T> list<T>()
+        public static System.Collections.Generic.List<T> list<T>()
         {
-            return new List<T>();
+            return new System.Collections.Generic.List<T>();
         }
 
-        public static List<T> list<T>(params T[] elements)
+        public static System.Collections.Generic.List<T> list<T>(params T[] elements)
         {
-            return new List<T>(elements);
+            return new System.Collections.Generic.List<T>(elements);
         }
 
         public static T[] array<T>(int n)
@@ -214,24 +230,27 @@ namespace Computator.NET.Functions
 
         public const string ToCode =
             @"
-        #region matrix specific functions
+             #region matrix specific functions
 
-        public static T Tr<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static T Tr<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             //if (M.RowCount != M.ColumnCount)
-                //throw new DimensionMismatchException(""It's imposible to calculate trace of non-square matrix!"");
+            ////throw new DimensionMismatchException(""It's imposible to calculate trace of non-square matrix!"");
             return M.Trace();
         }
 
-        public static int rank<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static int rank<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             return M.Rank();
         }
 
-        public static T det<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static T det<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             //if (M.RowCount != M.ColumnCount)
-                //throw new DimensionMismatchException(""It's imposible to calculate determinant of non-square matrix!"");
+            ////throw new DimensionMismatchException(""It's imposible to calculate determinant of non-square matrix!"");
             return M.Determinant();
         }
 
@@ -239,26 +258,28 @@ namespace Computator.NET.Functions
 
         #region matrix specific operations
 
-        public static Matrix<T> minor<T>(Matrix<T> M, int i, int j, int m, int n)
-            where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> minor<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M,
+            int i, int j, int m, int n)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             return M.SubMatrix(i, m, j, n);
         }
 
-        public static Matrix<T> pow<T>(Matrix<T> M, int n) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> pow<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M, int n)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             if (M.RowCount != M.ColumnCount)
-               throw new ArgumentException(""It's imposible to take non-square matrix to power!"");
+                throw new System.ArgumentException(""It's imposible to take non-square matrix to power!"");
             if (n == 0)
             {
-                Matrix<T> M2 = M.SubMatrix(0, M.RowCount, 0, M.ColumnCount);
-                for (int j = 0; j < M.RowCount; j++)
-                    for (int k = 0; k < M.ColumnCount; k++)
+                var M2 = M.SubMatrix(0, M.RowCount, 0, M.ColumnCount);
+                for (var j = 0; j < M.RowCount; j++)
+                    for (var k = 0; k < M.ColumnCount; k++)
                     {
                         if (j == k)
-                            M2[j, k] = Matrix<T>.One;
+                            M2[j, k] = MathNet.Numerics.LinearAlgebra.Matrix<T>.One;
                         else
-                            M2[j, k] = Matrix<T>.Zero;
+                            M2[j, k] = MathNet.Numerics.LinearAlgebra.Matrix<T>.Zero;
                     }
                 return M2;
             }
@@ -266,61 +287,69 @@ namespace Computator.NET.Functions
                 M = M.Inverse();
             //for (int j = 1; j < Math.Abs(n); j++)
             // M = M * M;
-            return M.Power(Math.Abs(n));
+            return M.Power(System.Math.Abs(n));
         }
 
-        public static Matrix<T> inv<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> inv<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             //if (M.RowCount != M.ColumnCount)
-                //throw new DimensionMismatchException(""It's imposible to calculate inverse matrix of non-square matrix!"");
+            //throw new DimensionMismatchException(""It's imposible to calculate inverse matrix of non-square matrix!"");
             return M.Inverse();
         }
 
-        public static Matrix<T> transpose<T>(Matrix<T> M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> transpose<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
             return M.Transpose();
         }
 
-        public static Matrix<T> KroneckerProduct<T>(params Matrix<T>[] M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> KroneckerProduct<T>(
+            params MathNet.Numerics.LinearAlgebra.Matrix<T>[] M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            var Mx = new List<Matrix<T>>();
+            var Mx = new System.Collections.Generic.List<MathNet.Numerics.LinearAlgebra.Matrix<T>>();
 
             foreach (var m in M)
                 Mx.Add(m);
 
-            Matrix<T> MxRet = Mx[0];
+            var MxRet = Mx[0];
 
-            for (int i = 0; i < Mx.Count; i++)
+            for (var i = 1; i < Mx.Count; i++)
                 MxRet = MxRet.KroneckerProduct(Mx[i]);
 
             return MxRet;
         }
 
-        public static Matrix<T> PointwiseMultiply<T>(params Matrix<T>[] M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> PointwiseMultiply<T>(
+            params MathNet.Numerics.LinearAlgebra.Matrix<T>[] M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            var Mx = new List<Matrix<T>>();
+            var Mx = new System.Collections.Generic.List<MathNet.Numerics.LinearAlgebra.Matrix<T>>();
 
             foreach (var m in M)
                 Mx.Add(m);
 
-            Matrix<T> MxRet = Mx[0];
+            var MxRet = Mx[0];
 
-            for (int i = 0; i < Mx.Count; i++)
+            for (var i = 0; i < Mx.Count; i++)
                 MxRet.PointwiseMultiply(Mx[i], MxRet);
 
             return MxRet;
         }
 
-        public static Matrix<T> PointwiseDivide<T>(params Matrix<T>[] M) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> PointwiseDivide<T>(
+            params MathNet.Numerics.LinearAlgebra.Matrix<T>[] M)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            var Mx = new List<Matrix<T>>();
+            var Mx = new System.Collections.Generic.List<MathNet.Numerics.LinearAlgebra.Matrix<T>>();
 
             foreach (var m in M)
                 Mx.Add(m);
 
-            Matrix<T> MxRet = Mx[0];
+            var MxRet = Mx[0];
 
-            for (int i = 0; i < Mx.Count; i++)
+            for (var i = 0; i < Mx.Count; i++)
                 MxRet.PointwiseDivide(Mx[i], MxRet);
 
             return MxRet;
@@ -338,39 +367,45 @@ namespace Computator.NET.Functions
 #endif
 
 
-        public static Matrix<T> matrix<T>(int n, int m) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Matrix<T> matrix<T>(int n, int m)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            if (typeof (T) == typeof (double) || typeof (T).IsNumericType())
-                return new DenseMatrix(n, m) as Matrix<T>;
-            if (typeof (T) == typeof (Complex))
-                return new MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix(n, m) as Matrix<T>;
-            throw new ArgumentException(""Wrong type for matrix creation, consider using real or complex"");
+            if (typeof (T) == typeof (double) || ScriptingExtensions.IsNumericType(typeof (T)))
+                return
+                    new MathNet.Numerics.LinearAlgebra.Double.DenseMatrix(n, m) as
+                        MathNet.Numerics.LinearAlgebra.Matrix<T>;
+            if (typeof (T) == typeof (System.Numerics.Complex))
+                return
+                    new MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix(n, m) as
+                        MathNet.Numerics.LinearAlgebra.Matrix<T>;
+            throw new System.ArgumentException(""Wrong type for matrix creation, consider using real or complex"");
         }
 
-        public static DenseMatrix matrix(double[,] array)
+        public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(double[,] array)
         {
-            return DenseMatrix.OfArray(array);
+            return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(array);
         }
 
-        public static MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix matrix(Complex[,] array)
+        public static MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix matrix(System.Numerics.Complex[,] array)
         {
             return MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix.OfArray(array);
         }
 
-        public static DenseMatrix matrix(int[,] array)
+        public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(int[,] array)
         {
             var darray = new double[array.GetLength(0), array.GetLength(1)];
 
-            for (int j = 0; j < array.GetLength(0); j++)
-                for (int k = 0; k < array.GetLength(1); k++)
+            for (var j = 0; j < array.GetLength(0); j++)
+                for (var k = 0; k < array.GetLength(1); k++)
                     darray[j, k] = array[j, k];
 
-            return DenseMatrix.OfArray(darray);
+            return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(darray);
         }
 
-        public static DenseVector vector(params Complex[] elements)
+        public static MathNet.Numerics.LinearAlgebra.Complex.DenseVector vector(
+            params System.Numerics.Complex[] elements)
         {
-            return new DenseVector(elements);
+            return new MathNet.Numerics.LinearAlgebra.Complex.DenseVector(elements);
         }
 
         public static MathNet.Numerics.LinearAlgebra.Double.DenseVector vector(params double[] elements)
@@ -378,24 +413,28 @@ namespace Computator.NET.Functions
             return new MathNet.Numerics.LinearAlgebra.Double.DenseVector(elements);
         }
 
-        public static Vector<T> vector<T>(int n) where T : struct, IEquatable<T>, IFormattable
+        public static MathNet.Numerics.LinearAlgebra.Vector<T> vector<T>(int n)
+            where T : struct, System.IEquatable<T>, System.IFormattable
         {
-            if (typeof (T) == typeof (double) || typeof (T).IsNumericType())
-                return new MathNet.Numerics.LinearAlgebra.Double.DenseVector(n) as Vector<T>;
-            if (typeof (T) == typeof (Complex))
-                return new DenseVector(n) as Vector<T>;
-            throw new ArgumentException(""Wrong type for vector creation, consider using real or complex"");
+            if (typeof (T) == typeof (double) || ScriptingExtensions.IsNumericType(typeof (T)))
+                return
+                    new MathNet.Numerics.LinearAlgebra.Double.DenseVector(n) as MathNet.Numerics.LinearAlgebra.Vector<T>;
+            if (typeof (T) == typeof (System.Numerics.Complex))
+                return
+                    new MathNet.Numerics.LinearAlgebra.Complex.DenseVector(n) as
+                        MathNet.Numerics.LinearAlgebra.Vector<T>;
+            throw new System.ArgumentException(""Wrong type for vector creation, consider using real or complex"");
         }
 
 
-        public static List<T> list<T>()
+        public static System.Collections.Generic.List<T> list<T>()
         {
-            return new List<T>();
+            return new System.Collections.Generic.List<T>();
         }
 
-        public static List<T> list<T>(params T[] elements)
+        public static System.Collections.Generic.List<T> list<T>(params T[] elements)
         {
-            return new List<T>(elements);
+            return new System.Collections.Generic.List<T>(elements);
         }
 
         public static T[] array<T>(int n)
@@ -413,28 +452,5 @@ namespace Computator.NET.Functions
             ";
 
         #endregion
-    }
-
-    internal static class ArrayExtension
-    {
-        public static int size(this Array array)
-        {
-            return array.Length;
-        }
-
-        public static void Add<T>(this T[] array, T element)
-        {
-            var narray = new T[array.Length + 1];
-            narray[array.Length] = element;
-            array = narray;
-        }
-    }
-
-    internal static class ListExtension
-    {
-        public static int size<T>(this List<T> list)
-        {
-            return list.Count;
-        }
     }
 }

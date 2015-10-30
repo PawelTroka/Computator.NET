@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using Computator.NET.Functions;
+﻿using Enumerable = System.Linq.Enumerable;
 
 namespace Computator.NET.Benchmarking
 {
@@ -1219,22 +1211,22 @@ namespace Computator.NET.Benchmarking
             }
         };
 
-        private readonly Random random;
-        private readonly List<double> results;
-        private readonly Stopwatch stopWatch;
+        private readonly System.Random random;
+        private readonly System.Collections.Generic.List<double> results;
+        private readonly System.Diagnostics.Stopwatch stopWatch;
         private string tempString;
 
         public Benchmark()
         {
-            results = new List<double>();
-            stopWatch = new Stopwatch();
-            random = new Random();
+            results = new System.Collections.Generic.List<double>();
+            stopWatch = new System.Diagnostics.Stopwatch();
+            random = new System.Random();
             // generateCoefficients();
         }
 
         private double result
         {
-            get { return results.Average(); }
+            get { return Enumerable.Average(results); }
         }
 
         public double Result
@@ -1251,7 +1243,7 @@ namespace Computator.NET.Benchmarking
 
         private void generateCoefficients()
         {
-            var sw = new StreamWriter("coefficient.txt");
+            var sw = new System.IO.StreamWriter("coefficient.txt");
             sw.Write("private double[,] coeff = new double[,] {");
             for (var j = 1; j <= 6; j++)
             {
@@ -1259,9 +1251,11 @@ namespace Computator.NET.Benchmarking
                 for (var i = 0; i <= 1000; i++)
                 {
                     if (i < 1000)
-                        sw.Write(string.Format(CultureInfo.InvariantCulture, @"{0},", j*j*random.NextDouble()));
+                        sw.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, @"{0},",
+                            j*j*random.NextDouble()));
                     else
-                        sw.Write(string.Format(CultureInfo.InvariantCulture, @"{0}", j*j*random.NextDouble()));
+                        sw.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, @"{0}",
+                            j*j*random.NextDouble()));
                 }
                 if (j < 6)
                     sw.Write("},");
@@ -1271,9 +1265,9 @@ namespace Computator.NET.Benchmarking
             sw.Close();
         }
 
-        public void memoryAllocationSpeedTest(object sender, DoWorkEventArgs e)
+        public void memoryAllocationSpeedTest(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            var bw = sender as BackgroundWorker;
+            var bw = sender as System.ComponentModel.BackgroundWorker;
 
             results.Clear();
             tempString = "";
@@ -1305,9 +1299,9 @@ namespace Computator.NET.Benchmarking
             }
         }
 
-        public void mathFunctionsCalculationSpeedTest(object sender, DoWorkEventArgs e)
+        public void mathFunctionsCalculationSpeedTest(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            var bw = sender as BackgroundWorker;
+            var bw = sender as System.ComponentModel.BackgroundWorker;
 
             results.Clear();
             tempString = "";
@@ -1324,7 +1318,7 @@ namespace Computator.NET.Benchmarking
                     e.Cancel = true;
                     break;
                 }
-                var z = new Complex(coeff[4, j], coeff[5, j]);
+                var z = new System.Numerics.Complex(coeff[4, j], coeff[5, j]);
                 //new Complex(random.NextDouble() + random.NextDouble() * random.Next() * random.NextDouble(), random.Next() * random.NextDouble() * random.NextDouble() + random.NextDouble());
                 var x = coeff[3, j];
                 //random.NextDouble() * random.NextDouble() * random.Next() + random.NextDouble();
@@ -1336,16 +1330,20 @@ namespace Computator.NET.Benchmarking
                 for (var j2 = 0; j2 < 500; j2++)
                 {
                     tab[j] =
-                        (ElementaryFunctions.δij(x, 2321)*ElementaryFunctions.sqrt(0.0001*z + 0.001*x) +
-                         ElementaryFunctions.sinc(x*x)*SpecialFunctions.Ai(z.Real)/
-                         SpecialFunctions.BesselYn(2, 0.000001*x) + SpecialFunctions.gamma(0.00000001*x - 0.7)).Real;
-                    tab[j] += SpecialFunctions.FresnelC(x - 2.5) +
-                              SpecialFunctions.EllipticΠ(c, 5)/SpecialFunctions.Laguerre(6, x) +
-                              SpecialFunctions.MathieuCE(2, a, b)*SpecialFunctions.MathieuSE(2, b, 2*a) +
-                              SpecialFunctions.MathieuMs(1, 2, 2*a, 3*b + a);
-                    tab[j] /= ElementaryFunctions.arcoth(x)*SpecialFunctions.logΓ(x*x + z.Real*z.Real) +
-                              SpecialFunctions.Si(x)*SpecialFunctions.ModifiedBesselKn(5, z.Real)*
-                              SpecialFunctions.LambertW0(x + z.Real);
+                        (Functions.ElementaryFunctions.δij(x, 2321)*
+                         Functions.ElementaryFunctions.sqrt(0.0001*z + 0.001*x) +
+                         Functions.ElementaryFunctions.sinc(x*x)*Functions.SpecialFunctions.Ai(z.Real)/
+                         Functions.SpecialFunctions.BesselYn(2, 0.000001*x) +
+                         Functions.SpecialFunctions.gamma(0.00000001*x - 0.7)).Real;
+                    tab[j] += Functions.SpecialFunctions.FresnelC(x - 2.5) +
+                              Functions.SpecialFunctions.EllipticΠ(c, 5)/Functions.SpecialFunctions.Laguerre(6, x) +
+                              Functions.SpecialFunctions.MathieuCE(2, a, b)*
+                              Functions.SpecialFunctions.MathieuSE(2, b, 2*a) +
+                              Functions.SpecialFunctions.MathieuMs(1, 2, 2*a, 3*b + a);
+                    tab[j] /= Functions.ElementaryFunctions.arcoth(x)*
+                              Functions.SpecialFunctions.logΓ(x*x + z.Real*z.Real) +
+                              Functions.SpecialFunctions.Si(x)*Functions.SpecialFunctions.ModifiedBesselKn(5, z.Real)*
+                              Functions.SpecialFunctions.LambertW0(x + z.Real);
                 }
                 stopWatch.Stop();
                 tempString += tab[random.Next(0, maxsize)];

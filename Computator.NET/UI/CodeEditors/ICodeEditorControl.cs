@@ -4,7 +4,6 @@
     {
         string Text { get; set; }
         bool ExponentMode { get; set; }
-        string SaveAs(string filename);
         void Undo();
         void Redo();
         void Cut();
@@ -12,7 +11,7 @@
         void Copy();
         void SelectAll();
         void AppendText(string text);
-        string SaveDocument(string filename);
+        void RenameDocument(string filename, string newFilename);
         bool ContainsDocument(string filename);
         void NewDocument(string filename);
         void SwitchDocument(string filename);

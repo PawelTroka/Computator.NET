@@ -1,16 +1,17 @@
-﻿using System.Xml.Serialization;
-
-namespace Computator.NET.Functions
+﻿namespace Computator.NET.Functions
 {
-    [XmlRoot("FunctionInfo")]
+    [System.Xml.Serialization.XmlRoot("FunctionInfo")]
     public class FunctionInfo
     {
-        [XmlElement("Category")] public string Category;
-        [XmlElement("Description")] public string Description;
-        [XmlAttribute(DataType = "string", AttributeName = "Signature")] public string Signature;
-        [XmlElement("Title")] public string Title;
-        [XmlElement("Type")] public string Type;
-        [XmlElement("Url")] public string Url;
+        [System.Xml.Serialization.XmlElement("Category")] public string Category;
+        [System.Xml.Serialization.XmlElement("Description")] public string Description;
+
+        [System.Xml.Serialization.XmlAttribute(DataType = "string", AttributeName = "Signature")] public string
+            Signature;
+
+        [System.Xml.Serialization.XmlElement("Title")] public string Title;
+        [System.Xml.Serialization.XmlElement("Type")] public string Type;
+        [System.Xml.Serialization.XmlElement("Url")] public string Url;
 
         public FunctionInfo()
         {

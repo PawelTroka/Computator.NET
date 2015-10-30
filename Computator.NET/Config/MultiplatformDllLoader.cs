@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-
-namespace Computator.NET.Config
+﻿namespace Computator.NET.Config
 {
     public static class MultiplatformDllLoader
     {
@@ -18,9 +14,9 @@ namespace Computator.NET.Config
                     if (_isEnabled != value)
                     {
                         if (value)
-                            AppDomain.CurrentDomain.AssemblyResolve += Resolver;
+                            System.AppDomain.CurrentDomain.AssemblyResolve += Resolver;
                         else
-                            AppDomain.CurrentDomain.AssemblyResolve -= Resolver;
+                            System.AppDomain.CurrentDomain.AssemblyResolve -= Resolver;
                         _isEnabled = value;
                     }
                 }
@@ -28,18 +24,19 @@ namespace Computator.NET.Config
         }
 
         /// Will attempt to load missing assembly from either x86 or x64 subdir
-        private static Assembly Resolver(object sender, ResolveEventArgs args)
+        private static System.Reflection.Assembly Resolver(object sender, System.ResolveEventArgs args)
         {
             var assemblyName = args.Name.Split(new[] {','}, 2)[0] + ".dll";
             if (assemblyName.Contains("resources.dll"))
                 return null;
 
-            var archSpecificPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Special",
-                Environment.Is64BitProcess ? "x64" : "x86",
-                assemblyName);
+            var archSpecificPath =
+                System.IO.Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Special",
+                    System.Environment.Is64BitProcess ? "x64" : "x86",
+                    assemblyName);
 
-            return File.Exists(archSpecificPath)
-                ? Assembly.LoadFile(archSpecificPath)
+            return System.IO.File.Exists(archSpecificPath)
+                ? System.Reflection.Assembly.LoadFile(archSpecificPath)
                 : null;
         }
     }

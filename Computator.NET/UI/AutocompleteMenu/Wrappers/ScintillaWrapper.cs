@@ -1,15 +1,10 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using ScintillaNET;
-
 namespace AutocompleteMenuNS
 {
     public class ScintillaWrapper : ITextBoxWrapper
     {
-        public Scintilla target;
+        public ScintillaNET.Scintilla target;
 
-        public ScintillaWrapper(Scintilla trgt)
+        public ScintillaWrapper(ScintillaNET.Scintilla trgt)
         {
             target = trgt;
         }
@@ -51,7 +46,7 @@ namespace AutocompleteMenuNS
             set { target.SelectionStart = value; }
         }
 
-        public Control TargetControl
+        public System.Windows.Forms.Control TargetControl
         {
             get { return target; }
         }
@@ -61,30 +56,31 @@ namespace AutocompleteMenuNS
             get { return target.Text; }
         }
 
-        public Point GetPositionFromCharIndex(int pos)
+        public System.Drawing.Point GetPositionFromCharIndex(int pos)
         {
-            return new Point(target.PointXFromPosition(pos), target.PointYFromPosition(pos));
+            return new System.Drawing.Point(target.PointXFromPosition(pos), target.PointYFromPosition(pos));
         }
 
         //Events
-        public virtual event KeyEventHandler KeyDown
+        public virtual event System.Windows.Forms.KeyEventHandler KeyDown
         {
             add { target.KeyDown += value; }
             remove { target.KeyDown -= value; }
         }
 
-        public virtual event EventHandler LostFocus
+        public virtual event System.EventHandler LostFocus
         {
             add { target.LostFocus += value; }
             remove { target.LostFocus -= value; }
         }
 
-        public virtual event MouseEventHandler MouseDown
+        public virtual event System.Windows.Forms.MouseEventHandler MouseDown
         {
             add { target.MouseDown += value; }
             remove { target.MouseDown -= value; }
         }
 
-        public virtual event ScrollEventHandler Scroll; //There is no any scroll events in ScintillaNET, So on hold.
+        public virtual event System.Windows.Forms.ScrollEventHandler Scroll;
+            //There is no any scroll events in ScintillaNET, So on hold.
     }
 }

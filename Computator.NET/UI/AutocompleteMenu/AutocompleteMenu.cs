@@ -10,34 +10,27 @@
 //
 //  Copyright (C) Pavel Torgashov, 2012. 
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using Computator.NET.DataTypes;
-using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Controls;
-
 namespace AutocompleteMenuNS
 {
-    [ProvideProperty("AutocompleteMenu", typeof (Control))]
-    public class AutocompleteMenu : Component, IExtenderProvider
+    [System.ComponentModel.ProvideProperty("AutocompleteMenu", typeof (System.Windows.Forms.Control))]
+    public class AutocompleteMenu : System.ComponentModel.Component, System.ComponentModel.IExtenderProvider
     {
-        private static readonly Dictionary<Control, AutocompleteMenu> AutocompleteMenuByControls =
-            new Dictionary<Control, AutocompleteMenu>();
+        private static readonly System.Collections.Generic.Dictionary<System.Windows.Forms.Control, AutocompleteMenu>
+            AutocompleteMenuByControls =
+                new System.Collections.Generic.Dictionary<System.Windows.Forms.Control, AutocompleteMenu>();
 
-        private static readonly Dictionary<Control, ITextBoxWrapper> WrapperByControls =
-            new Dictionary<Control, ITextBoxWrapper>();
+        private static readonly System.Collections.Generic.Dictionary<System.Windows.Forms.Control, ITextBoxWrapper>
+            WrapperByControls =
+                new System.Collections.Generic.Dictionary<System.Windows.Forms.Control, ITextBoxWrapper>();
 
-        private readonly Timer timer = new Timer();
+        private readonly System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         private bool forcedOpened;
-        private Size maximumSize;
-        private Form myForm;
-        private IEnumerable<AutocompleteItem> sourceItems = new List<AutocompleteItem>();
+        private System.Drawing.Size maximumSize;
+        private System.Windows.Forms.Form myForm;
+
+        private System.Collections.Generic.IEnumerable<AutocompleteItem> sourceItems =
+            new System.Collections.Generic.List<AutocompleteItem>();
+
         private ITextBoxWrapper targetControlWrapper;
 
         public AutocompleteMenu()
@@ -45,11 +38,11 @@ namespace AutocompleteMenuNS
             Host = new AutocompleteMenuHost(this);
             Host.ListView.ItemSelected += ListView_ItemSelected;
             Host.ListView.ItemHovered += ListView_ItemHovered;
-            VisibleItems = new List<AutocompleteItem>();
+            VisibleItems = new System.Collections.Generic.List<AutocompleteItem>();
             Enabled = true;
             AppearInterval = 500;
             timer.Tick += timer_Tick;
-            MaximumSize = new Size(180, 200);
+            MaximumSize = new System.Drawing.Size(180, 200);
             AutoPopup = true;
 
             SearchPattern = @"[\w\.]";
@@ -58,8 +51,8 @@ namespace AutocompleteMenuNS
             setupAutocomplete();
         }
 
-        [Browsable(false)]
-        public IList<AutocompleteItem> VisibleItems
+        [System.ComponentModel.Browsable(false)]
+        public System.Collections.Generic.IList<AutocompleteItem> VisibleItems
         {
             get { return Host.ListView.VisibleItems; }
             private set { Host.ListView.VisibleItems = value; }
@@ -68,15 +61,15 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Duration (ms) of tooltip showing
         /// </summary>
-        [Description("Duration (ms) of tooltip showing")]
-        [DefaultValue(3000)]
+        [System.ComponentModel.Description("Duration (ms) of tooltip showing")]
+        [System.ComponentModel.DefaultValue(3000)]
         public int ToolTipDuration
         {
             get { return Host.ListView.ToolTipDuration; }
             set { Host.ListView.ToolTipDuration = value; }
         }
 
-        [Browsable(false)]
+        [System.ComponentModel.Browsable(false)]
         public int SelectedItemIndex
         {
             get { return Host.ListView.SelectedItemIndex; }
@@ -88,7 +81,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Current target control wrapper
         /// </summary>
-        [Browsable(false)]
+        [System.ComponentModel.Browsable(false)]
         public ITextBoxWrapper TargetControlWrapper
         {
             get { return targetControlWrapper; }
@@ -106,16 +99,16 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Maximum size of popup menu
         /// </summary>
-        [DefaultValue(typeof (Size), "180, 200")]
-        [Description("Maximum size of popup menu")]
-        public Size MaximumSize
+        [System.ComponentModel.DefaultValue(typeof (System.Drawing.Size), "180, 200")]
+        [System.ComponentModel.Description("Maximum size of popup menu")]
+        public System.Drawing.Size MaximumSize
         {
             get { return maximumSize; }
             set
             {
                 maximumSize = value;
-                (Host.ListView as Control).MaximumSize = maximumSize;
-                (Host.ListView as Control).Size = maximumSize;
+                (Host.ListView as System.Windows.Forms.Control).MaximumSize = maximumSize;
+                (Host.ListView as System.Windows.Forms.Control).Size = maximumSize;
                 Host.CalcSize();
             }
         }
@@ -123,17 +116,17 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Font
         /// </summary>
-        public Font Font
+        public System.Drawing.Font Font
         {
-            get { return (Host.ListView as Control).Font; }
-            set { (Host.ListView as Control).Font = value; }
+            get { return (Host.ListView as System.Windows.Forms.Control).Font; }
+            set { (Host.ListView as System.Windows.Forms.Control).Font = value; }
         }
 
         /// <summary>
         ///     Left padding of text
         /// </summary>
-        [DefaultValue(18)]
-        [Description("Left padding of text")]
+        [System.ComponentModel.DefaultValue(18)]
+        [System.ComponentModel.Description("Left padding of text")]
         public int LeftPadding
         {
             get
@@ -153,8 +146,8 @@ namespace AutocompleteMenuNS
         ///     AutocompleteMenu will popup automatically (when user writes text). Otherwise it will popup only programmatically or
         ///     by Ctrl-Space.
         /// </summary>
-        [DefaultValue(true)]
-        [Description(
+        [System.ComponentModel.DefaultValue(true)]
+        [System.ComponentModel.Description(
             "AutocompleteMenu will popup automatically (when user writes text). Otherwise it will popup only programmatically or by Ctrl-Space."
             )]
         public bool AutoPopup { get; set; }
@@ -162,16 +155,17 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     AutocompleteMenu will capture focus when opening.
         /// </summary>
-        [DefaultValue(false)]
-        [Description("AutocompleteMenu will capture focus when opening.")]
+        [System.ComponentModel.DefaultValue(false)]
+        [System.ComponentModel.Description("AutocompleteMenu will capture focus when opening.")]
         public bool CaptureFocus { get; set; }
 
         /// <summary>
         ///     Indicates whether the component should draw right-to-left for RTL languages.
         /// </summary>
-        [DefaultValue(typeof (RightToLeft), "No")]
-        [Description("Indicates whether the component should draw right-to-left for RTL languages.")]
-        public RightToLeft RightToLeft
+        [System.ComponentModel.DefaultValue(typeof (System.Windows.Forms.RightToLeft), "No")]
+        [System.ComponentModel.Description(
+            "Indicates whether the component should draw right-to-left for RTL languages.")]
+        public System.Windows.Forms.RightToLeft RightToLeft
         {
             get { return Host.RightToLeft; }
             set { Host.RightToLeft = value; }
@@ -180,7 +174,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Image list
         /// </summary>
-        public ImageList ImageList
+        public System.Windows.Forms.ImageList ImageList
         {
             get { return Host.ListView.ImageList; }
             set { Host.ListView.ImageList = value; }
@@ -189,45 +183,45 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Fragment
         /// </summary>
-        [Browsable(false)]
+        [System.ComponentModel.Browsable(false)]
         public Range Fragment { get; internal set; }
 
         /// <summary>
         ///     Regex pattern for serach fragment around caret
         /// </summary>
-        [Description("Regex pattern for serach fragment around caret")]
-        [DefaultValue(@"[\w\.]")]
+        [System.ComponentModel.Description("Regex pattern for serach fragment around caret")]
+        [System.ComponentModel.DefaultValue(@"[\w\.]")]
         public string SearchPattern { get; set; }
 
         /// <summary>
         ///     Minimum fragment length for popup
         /// </summary>
-        [Description("Minimum fragment length for popup")]
-        [DefaultValue(2)]
+        [System.ComponentModel.Description("Minimum fragment length for popup")]
+        [System.ComponentModel.DefaultValue(2)]
         public int MinFragmentLength { get; set; }
 
         /// <summary>
         ///     Allows TAB for select menu item
         /// </summary>
-        [Description("Allows TAB for select menu item")]
-        [DefaultValue(false)]
+        [System.ComponentModel.Description("Allows TAB for select menu item")]
+        [System.ComponentModel.DefaultValue(false)]
         public bool AllowsTabKey { get; set; }
 
         /// <summary>
         ///     Interval of menu appear (ms)
         /// </summary>
-        [Description("Interval of menu appear (ms)")]
-        [DefaultValue(500)]
+        [System.ComponentModel.Description("Interval of menu appear (ms)")]
+        [System.ComponentModel.DefaultValue(500)]
         public int AppearInterval { get; set; }
 
-        [DefaultValue(null)]
+        [System.ComponentModel.DefaultValue(null)]
         public string[] Items
         {
             get
             {
                 if (sourceItems == null)
                     return null;
-                var list = new List<string>();
+                var list = new System.Collections.Generic.List<string>();
                 foreach (var item in sourceItems)
                     list.Add(item.ToString());
                 return list.ToArray();
@@ -239,7 +233,7 @@ namespace AutocompleteMenuNS
         ///     The control for menu displaying.
         ///     Set to null for restore default ListView (AutocompleteListView).
         /// </summary>
-        [Browsable(false)]
+        [System.ComponentModel.Browsable(false)]
         public IAutocompleteListView ListView
         {
             get { return Host.ListView; }
@@ -247,7 +241,7 @@ namespace AutocompleteMenuNS
             {
                 if (ListView != null)
                 {
-                    var ctrl = value as Control;
+                    var ctrl = value as System.Windows.Forms.Control;
                     value.ImageList = ImageList;
                     ctrl.RightToLeft = RightToLeft;
                     ctrl.Font = Font;
@@ -259,25 +253,26 @@ namespace AutocompleteMenuNS
             }
         }
 
-        [DefaultValue(true)]
+        [System.ComponentModel.DefaultValue(true)]
         public bool Enabled { get; set; }
 
         private void setupAutocomplete()
         {
-            Font = new Font("Cambria", 18.0F, GraphicsUnit.Point); //GlobalConfig.mathFont;
+            Font = new System.Drawing.Font("Cambria", 18.0F, System.Drawing.GraphicsUnit.Point);
+                //GlobalConfig.mathFont;
             ImageList = null;
             TargetControlWrapper = null;
             AllowsTabKey = true;
             ToolTipDuration = 4000;
             MinFragmentLength = 1;
-            ImageList = new ImageList();
-            ImageList.TransparentColor = Color.Transparent;
-            ImageList.Images.Add(Resources.Real);
-            ImageList.Images.Add(Resources.Complex);
-            ImageList.Images.Add(Resources.Natural);
-            ImageList.Images.Add(Resources.Integer);
-            ImageList.Images.Add(Resources.Rational);
-            ImageList.Images.Add(Resources.Matrix);
+            ImageList = new System.Windows.Forms.ImageList();
+            ImageList.TransparentColor = System.Drawing.Color.Transparent;
+            ImageList.Images.Add(Computator.NET.Properties.Resources.Real);
+            ImageList.Images.Add(Computator.NET.Properties.Resources.Complex);
+            ImageList.Images.Add(Computator.NET.Properties.Resources.Natural);
+            ImageList.Images.Add(Computator.NET.Properties.Resources.Integer);
+            ImageList.Images.Add(Computator.NET.Properties.Resources.Rational);
+            ImageList.Images.Add(Computator.NET.Properties.Resources.Matrix);
             ImageList.Images.SetKeyName(0, "Real.png");
             ImageList.Images.SetKeyName(1, "Complex.png");
         }
@@ -292,7 +287,7 @@ namespace AutocompleteMenuNS
             base.Dispose(disposing);
         }
 
-        private void ListView_ItemSelected(object sender, EventArgs e)
+        private void ListView_ItemSelected(object sender, System.EventArgs e)
         {
             OnSelecting();
         }
@@ -312,10 +307,10 @@ namespace AutocompleteMenuNS
         ///     Called when user selected the control and needed wrapper over it.
         ///     You can assign own Wrapper for target control.
         /// </summary>
-        [Description(
+        [System.ComponentModel.Description(
             "Called when user selected the control and needed wrapper over it. You can assign own Wrapper for target control."
             )]
-        public event EventHandler<WrapperNeededEventArgs> WrapperNeeded;
+        public event System.EventHandler<WrapperNeededEventArgs> WrapperNeeded;
 
         protected void OnWrapperNeeded(WrapperNeededEventArgs args)
         {
@@ -325,7 +320,7 @@ namespace AutocompleteMenuNS
                 args.Wrapper = TextBoxWrapper.Create(args.TargetControl);
         }
 
-        private ITextBoxWrapper CreateWrapper(Control control)
+        private ITextBoxWrapper CreateWrapper(System.Windows.Forms.Control control)
         {
             if (WrapperByControls.ContainsKey(control))
                 return WrapperByControls[control];
@@ -349,7 +344,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Returns rectangle of item
         /// </summary>
-        public Rectangle GetItemRectangle(int itemIndex)
+        public System.Drawing.Rectangle GetItemRectangle(int itemIndex)
         {
             return Host.ListView.GetItemRectangle(itemIndex);
         }
@@ -357,27 +352,27 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     User selects item
         /// </summary>
-        [Description("Occurs when user selects item.")]
-        public event EventHandler<SelectingEventArgs> Selecting;
+        [System.ComponentModel.Description("Occurs when user selects item.")]
+        public event System.EventHandler<SelectingEventArgs> Selecting;
 
         /// <summary>
         ///     It fires after item was inserting
         /// </summary>
-        [Description("Occurs after user selected item.")]
-        public event EventHandler<SelectedEventArgs> Selected;
+        [System.ComponentModel.Description("Occurs after user selected item.")]
+        public event System.EventHandler<SelectedEventArgs> Selected;
 
         /// <summary>
         ///     It fires when item was hovered
         /// </summary>
-        [Description("Occurs when user hovered item.")]
-        public event EventHandler<HoveredEventArgs> Hovered;
+        [System.ComponentModel.Description("Occurs when user hovered item.")]
+        public event System.EventHandler<HoveredEventArgs> Hovered;
 
         /// <summary>
         ///     Occurs when popup menu is opening
         /// </summary>
-        public event EventHandler<CancelEventArgs> Opening;
+        public event System.EventHandler<System.ComponentModel.CancelEventArgs> Opening;
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, System.EventArgs e)
         {
             timer.Stop();
             if (TargetControlWrapper != null)
@@ -416,22 +411,22 @@ namespace AutocompleteMenuNS
             form.LostFocus -= form_LocationChanged;
         }
 
-        private void form_FormClosing(object sender, FormClosingEventArgs e)
+        private void form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
             Close();
         }
 
-        private void form_LocationChanged(object sender, EventArgs e)
+        private void form_LocationChanged(object sender, System.EventArgs e)
         {
             Close();
         }
 
-        private void control_MouseDown(object sender, MouseEventArgs e)
+        private void control_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Close();
         }
 
-        private ITextBoxWrapper FindWrapper(Control sender)
+        private ITextBoxWrapper FindWrapper(System.Windows.Forms.Control sender)
         {
             while (sender != null)
             {
@@ -444,15 +439,16 @@ namespace AutocompleteMenuNS
             return null;
         }
 
-        private void control_KeyDown(object sender, KeyEventArgs e)
+        private void control_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            TargetControlWrapper = FindWrapper(sender as Control);
+            TargetControlWrapper = FindWrapper(sender as System.Windows.Forms.Control);
 
-            var backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
+            var backspaceORdel = e.KeyCode == System.Windows.Forms.Keys.Back ||
+                                 e.KeyCode == System.Windows.Forms.Keys.Delete;
 
             if (Host.Visible)
             {
-                if (ProcessKey((char) e.KeyCode, Control.ModifierKeys))
+                if (ProcessKey((char) e.KeyCode, System.Windows.Forms.Control.ModifierKeys))
                     e.SuppressKeyPress = true;
                 else if (!backspaceORdel)
                     ResetTimer(1);
@@ -463,7 +459,8 @@ namespace AutocompleteMenuNS
             }
 
             if (!Host.Visible)
-                if (Control.ModifierKeys == Keys.Control && e.KeyCode == Keys.Space)
+                if (System.Windows.Forms.Control.ModifierKeys == System.Windows.Forms.Keys.Control &&
+                    e.KeyCode == System.Windows.Forms.Keys.Space)
                 {
                     ShowAutocomplete(true);
                     e.SuppressKeyPress = true;
@@ -488,17 +485,17 @@ namespace AutocompleteMenuNS
             timer.Start();
         }
 
-        private void control_Scroll(object sender, ScrollEventArgs e)
+        private void control_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
         {
             Close();
         }
 
-        private void control_LostFocus(object sender, EventArgs e)
+        private void control_LostFocus(object sender, System.EventArgs e)
         {
             if (!Host.Focused) Close();
         }
 
-        public AutocompleteMenu GetAutocompleteMenu(Control control)
+        public AutocompleteMenu GetAutocompleteMenu(System.Windows.Forms.Control control)
         {
             if (AutocompleteMenuByControls.ContainsKey(control))
                 return AutocompleteMenuByControls[control];
@@ -551,7 +548,7 @@ namespace AutocompleteMenuNS
         {
             if (!Host.Visible)
             {
-                var args = new CancelEventArgs();
+                var args = new System.ComponentModel.CancelEventArgs();
                 OnOpening(args);
                 if (!args.Cancel)
                 {
@@ -564,18 +561,18 @@ namespace AutocompleteMenuNS
                     Host.Show(TargetControlWrapper.TargetControl, point);
                     if (CaptureFocus)
                     {
-                        (Host.ListView as Control).Focus();
+                        (Host.ListView as System.Windows.Forms.Control).Focus();
                         //ProcessKey((char) Keys.Down, Keys.None);
                     }
                 }
             }
             else
-                (Host.ListView as Control).Invalidate();
+                (Host.ListView as System.Windows.Forms.Control).Invalidate();
         }
 
         private void BuildAutocompleteList(bool forced)
         {
-            var visibleItems = new List<AutocompleteItem>();
+            var visibleItems = new System.Collections.Generic.List<AutocompleteItem>();
 
             var foundSelected = false;
             var selectedIndex = -1;
@@ -612,7 +609,7 @@ namespace AutocompleteMenuNS
             Host.CalcSize();
         }
 
-        internal void OnOpening(CancelEventArgs args)
+        internal void OnOpening(System.ComponentModel.CancelEventArgs args)
         {
             if (Opening != null)
                 Opening(this, args);
@@ -625,7 +622,7 @@ namespace AutocompleteMenuNS
             if (tb.SelectionLength > 0) return new Range(tb);
 
             var text = tb.Text;
-            var regex = new Regex(searchPattern);
+            var regex = new System.Text.RegularExpressions.Regex(searchPattern);
             var result = new Range(tb);
 
             var startPos = tb.SelectionStart;
@@ -659,9 +656,9 @@ namespace AutocompleteMenuNS
             forcedOpened = false;
         }
 
-        public void SetAutocompleteItems(IEnumerable<string> items)
+        public void SetAutocompleteItems(System.Collections.Generic.IEnumerable<string> items)
         {
-            var list = new List<AutocompleteItem>();
+            var list = new System.Collections.Generic.List<AutocompleteItem>();
             if (items == null)
             {
                 sourceItems = null;
@@ -672,7 +669,7 @@ namespace AutocompleteMenuNS
             SetAutocompleteItems(list);
         }
 
-        public void SetAutocompleteItems(IEnumerable<AutocompleteItem> items)
+        public void SetAutocompleteItems(System.Collections.Generic.IEnumerable<AutocompleteItem> items)
         {
             sourceItems = items;
         }
@@ -685,19 +682,19 @@ namespace AutocompleteMenuNS
         public void AddItem(AutocompleteItem item)
         {
             if (sourceItems == null)
-                sourceItems = new List<AutocompleteItem>();
+                sourceItems = new System.Collections.Generic.List<AutocompleteItem>();
 
-            if (sourceItems is IList)
-                (sourceItems as IList).Add(item);
+            if (sourceItems is System.Collections.IList)
+                (sourceItems as System.Collections.IList).Add(item);
             else
-                throw new Exception("Current autocomplete items does not support adding");
+                throw new System.Exception("Current autocomplete items does not support adding");
         }
 
         /// <summary>
         ///     Shows popup menu immediately
         /// </summary>
         /// <param name="forced">If True - MinFragmentLength will be ignored</param>
-        public void Show(Control control, bool forced)
+        public void Show(System.Windows.Forms.Control control, bool forced)
         {
             SetAutocompleteMenu(control, this);
             TargetControlWrapper = FindWrapper(control);
@@ -721,7 +718,7 @@ namespace AutocompleteMenuNS
             if (args.Cancel)
             {
                 SelectedItemIndex = args.SelectedIndex;
-                (Host.ListView as Control).Invalidate(true);
+                (Host.ListView as System.Windows.Forms.Control).Invalidate(true);
                 return;
             }
 
@@ -747,8 +744,9 @@ namespace AutocompleteMenuNS
             var newText = item.GetTextForReplace();
             //replace text of fragment
 
-            var expressionTextBox = (TargetControlWrapper.TargetControl as ExpressionTextBox);
-            var scintillaEditor = (TargetControlWrapper.TargetControl as ScintillaCodeEditorControl);
+            var expressionTextBox = (TargetControlWrapper.TargetControl as Computator.NET.UI.Controls.ExpressionTextBox);
+            var scintillaEditor =
+                (TargetControlWrapper.TargetControl as Computator.NET.UI.CodeEditors.ScintillaCodeEditorControl);
 
             var isExponent = false;
 
@@ -758,7 +756,7 @@ namespace AutocompleteMenuNS
                 isExponent = scintillaEditor.ExponentMode;
 
 
-            fragment.Text = isExponent ? SpecialSymbols.AsciiToSuperscript(newText) : newText;
+            fragment.Text = isExponent ? Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(newText) : newText;
             fragment.TargetWrapper.TargetControl.Focus();
         }
 
@@ -776,42 +774,42 @@ namespace AutocompleteMenuNS
 
         public void SelectNext(int shift)
         {
-            SelectedItemIndex = Math.Max(0, Math.Min(SelectedItemIndex + shift, VisibleItems.Count - 1));
+            SelectedItemIndex = System.Math.Max(0, System.Math.Min(SelectedItemIndex + shift, VisibleItems.Count - 1));
             //
-            (Host.ListView as Control).Invalidate();
+            (Host.ListView as System.Windows.Forms.Control).Invalidate();
         }
 
-        public bool ProcessKey(char c, Keys keyModifiers)
+        public bool ProcessKey(char c, System.Windows.Forms.Keys keyModifiers)
         {
             var page = Host.Height/(Font.Height + 4);
-            if (keyModifiers == Keys.None)
-                switch ((Keys) c)
+            if (keyModifiers == System.Windows.Forms.Keys.None)
+                switch ((System.Windows.Forms.Keys) c)
                 {
-                    case Keys.Down:
+                    case System.Windows.Forms.Keys.Down:
                         SelectNext(+1);
                         return true;
-                    case Keys.PageDown:
+                    case System.Windows.Forms.Keys.PageDown:
                         SelectNext(+page);
                         return true;
-                    case Keys.Up:
+                    case System.Windows.Forms.Keys.Up:
                         SelectNext(-1);
                         return true;
-                    case Keys.PageUp:
+                    case System.Windows.Forms.Keys.PageUp:
                         SelectNext(-page);
                         return true;
-                    case Keys.Enter:
+                    case System.Windows.Forms.Keys.Enter:
                         OnSelecting();
                         return true;
-                    case Keys.Tab:
+                    case System.Windows.Forms.Keys.Tab:
                         if (!AllowsTabKey)
                             break;
                         OnSelecting();
                         return true;
-                    case Keys.Left:
-                    case Keys.Right:
+                    case System.Windows.Forms.Keys.Left:
+                    case System.Windows.Forms.Keys.Right:
                         Close();
                         return false;
-                    case Keys.Escape:
+                    case System.Windows.Forms.Keys.Escape:
                         Close();
                         return true;
                 }
@@ -821,7 +819,7 @@ namespace AutocompleteMenuNS
 
         #region IExtenderProvider Members
 
-        bool IExtenderProvider.CanExtend(object extendee)
+        bool System.ComponentModel.IExtenderProvider.CanExtend(object extendee)
         {
             //find  AutocompleteMenu with lowest hashcode
             if (Container != null)
@@ -831,13 +829,13 @@ namespace AutocompleteMenuNS
                             return false;
             //we are main autocomplete menu on form ...
             //check extendee as TextBox
-            if (!(extendee is Control))
+            if (!(extendee is System.Windows.Forms.Control))
                 return false;
-            var temp = TextBoxWrapper.Create(extendee as Control);
+            var temp = TextBoxWrapper.Create(extendee as System.Windows.Forms.Control);
             return temp != null;
         }
 
-        public void SetAutocompleteMenu(Control control, AutocompleteMenu menu)
+        public void SetAutocompleteMenu(System.Windows.Forms.Control control, AutocompleteMenu menu)
         {
             if (menu != null)
             {

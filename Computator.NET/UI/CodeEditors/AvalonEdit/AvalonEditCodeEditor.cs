@@ -1,41 +1,19 @@
 ﻿//#define NEW_AUTOCOMPLETE
 //#define USE_FOLDING
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Threading;
-using System.Xml;
-using Computator.NET.Config;
-using Computator.NET.Data;
-using Computator.NET.DataTypes;
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit.Folding;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using ICSharpCode.AvalonEdit.Indentation.CSharp;
-using ICSharpCode.AvalonEdit.Search;
-using FontFamily = System.Windows.Media.FontFamily;
-using FontStyle = System.Drawing.FontStyle;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+
+using Enumerable = System.Linq.Enumerable;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    internal class AvalonEditCodeEditor : TextEditor, ICodeEditorControl
+    internal class AvalonEditCodeEditor : ICSharpCode.AvalonEdit.TextEditor, ICodeEditorControl
     {
-        private readonly Dictionary<string, TextDocument> _documents;
-        private readonly List<CompletionData> completionDatas;
-        private CompletionWindow completionWindow;
+        private readonly System.Collections.Generic.Dictionary<string, ICSharpCode.AvalonEdit.Document.TextDocument>
+            _documents;
+
+        private readonly System.Collections.Generic.List<CompletionData> completionDatas;
+        private ICSharpCode.AvalonEdit.CodeCompletion.CompletionWindow completionWindow;
         private bool ctrlPressed;
-        private HighlightingManager highlightingManager;
+        private ICSharpCode.AvalonEdit.Highlighting.HighlightingManager highlightingManager;
         //  void TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         //{
         //  if(char.IsLetterOrDigit(e.Text[0]))
@@ -43,16 +21,20 @@ namespace Computator.NET.UI.CodeEditors
         //}
         // public AvalonEditCodeEditorControl host;
 
-        protected OverloadInsightWindow insightWindow;
-        private SearchPanel searchPanel;
+        protected ICSharpCode.AvalonEdit.CodeCompletion.OverloadInsightWindow insightWindow;
+        private ICSharpCode.AvalonEdit.Search.SearchPanel searchPanel;
 
         public AvalonEditCodeEditor()
         {
             completionDatas =
-                AutocompletionData.ConvertAutocompleteItemsToCompletionDatas(
-                    AutocompletionData.GetAutocompleteItemsForScripting());
+                Data.AutocompletionData.ConvertAutocompleteItemsToCompletionDatas(
+                    Data.AutocompletionData.GetAutocompleteItemsForScripting());
             InitializeComponent();
-            _documents = new Dictionary<string, TextDocument>() { {"NewFile1",this.Document} };
+            _documents =
+                new System.Collections.Generic.Dictionary<string, ICSharpCode.AvalonEdit.Document.TextDocument>
+                {
+                    {"NewFile1", Document}
+                };
         }
 
         public bool ContainsDocument(string filename)
@@ -69,10 +51,10 @@ namespace Computator.NET.UI.CodeEditors
             //this.AddRefDocument(document);
 
             // Replace the current document with a new one
-            Document = new TextDocument();
+            Document = new ICSharpCode.AvalonEdit.Document.TextDocument();
 
-            if (File.Exists(filename))
-                Text = File.ReadAllText(filename);
+            if (System.IO.File.Exists(filename))
+                Text = System.IO.File.ReadAllText(filename);
 
             _documents.Add(filename, Document);
 
@@ -109,42 +91,12 @@ namespace Computator.NET.UI.CodeEditors
             var doc = _documents[filename];
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
-            SwitchDocument(_documents.Keys.Last());
+            SwitchDocument(Enumerable.Last(_documents.Keys));
         }
 
-        public string SaveAs(string filename)
+        public void RenameDocument(string filename, string newFilename)
         {
-            var dg = new SaveFileDialog {FileName = filename};
-            if (dg.ShowDialog() == DialogResult.OK)
-            {
-                File.WriteAllText(dg.FileName, Text);
-
-                if (dg.FileName != filename)
-                    _documents.RenameKey(filename, dg.FileName);
-
-                return dg.FileName;
-            }
-            return null;
-        }
-
-        public string SaveDocument(string filename)
-        {
-            if (!File.Exists(filename))
-            {
-                var dg = new SaveFileDialog {FileName = filename};
-                if (dg.ShowDialog() == DialogResult.OK)
-                {
-                    File.WriteAllText(dg.FileName, Text);
-
-                    if (dg.FileName != filename)
-                        _documents.RenameKey(filename, dg.FileName);
-
-                    return dg.FileName;
-                }
-                return null;
-            }
-            File.WriteAllText(filename, Text);
-            return filename;
+            _documents.RenameKey(filename, newFilename);
         }
 
         public new void Undo()
@@ -159,6 +111,41 @@ namespace Computator.NET.UI.CodeEditors
 
         public bool ExponentMode { get; set; }
 
+        public string SaveAs(string filename)
+        {
+            var dg = new System.Windows.Forms.SaveFileDialog {FileName = filename};
+            if (dg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                System.IO.File.WriteAllText(dg.FileName, Text);
+
+                if (dg.FileName != filename)
+                    _documents.RenameKey(filename, dg.FileName);
+
+                return dg.FileName;
+            }
+            return null;
+        }
+
+        public string SaveDocument(string filename)
+        {
+            if (!System.IO.File.Exists(filename))
+            {
+                var dg = new System.Windows.Forms.SaveFileDialog {FileName = filename};
+                if (dg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    System.IO.File.WriteAllText(dg.FileName, Text);
+
+                    if (dg.FileName != filename)
+                        _documents.RenameKey(filename, dg.FileName);
+
+                    return dg.FileName;
+                }
+                return null;
+            }
+            System.IO.File.WriteAllText(filename, Text);
+            return filename;
+        }
+
         private void InitDocument()
         {
             //throw new NotImplementedException();
@@ -166,13 +153,17 @@ namespace Computator.NET.UI.CodeEditors
 
         private void InitializeComponent()
         {
-            IHighlightingDefinition customHighlighting;
+            ICSharpCode.AvalonEdit.Highlighting.IHighlightingDefinition customHighlighting;
 
-            using (XmlReader reader = new XmlTextReader(GlobalConfig.FullPath("UI", "CodeEditors", "TSL-Syntax.xshd")))
+            using (
+                System.Xml.XmlReader reader =
+                    new System.Xml.XmlTextReader(Config.GlobalConfig.FullPath("UI", "CodeEditors", "TSL-Syntax.xshd")))
             {
-                customHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                customHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(reader,
+                    ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
             }
-            HighlightingManager.Instance.RegisterHighlighting("Custom Highlighting", new[] {".cool"}, customHighlighting);
+            ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.RegisterHighlighting(
+                "Custom Highlighting", new[] {".cool"}, customHighlighting);
 
             SyntaxHighlighting = customHighlighting;
 
@@ -189,7 +180,8 @@ namespace Computator.NET.UI.CodeEditors
             TextArea.KeyDown += TextArea_KeyDown;
             TextArea.PreviewMouseWheel += ExperimentalCodeEditor_MouseWheel;
 
-            TextArea.IndentationStrategy = new CSharpIndentationStrategy(Options);
+            TextArea.IndentationStrategy =
+                new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(Options);
 
 #if USE_FOLDING
             foldingStrategy = new BraceFoldingStrategy();
@@ -203,62 +195,63 @@ namespace Computator.NET.UI.CodeEditors
 #if !NEW_AUTOCOMPLETE
             TextArea.TextEntering += OnTextEntering;
             TextArea.TextEntered += OnTextEntered;
-            var ctrlSpace = new RoutedCommand();
-            ctrlSpace.InputGestures.Add(new KeyGesture(Key.Space, ModifierKeys.Control));
-            var cb = new CommandBinding(ctrlSpace, OnCtrlSpaceCommand);
+            var ctrlSpace = new System.Windows.Input.RoutedCommand();
+            ctrlSpace.InputGestures.Add(new System.Windows.Input.KeyGesture(System.Windows.Input.Key.Space,
+                System.Windows.Input.ModifierKeys.Control));
+            var cb = new System.Windows.Input.CommandBinding(ctrlSpace, OnCtrlSpaceCommand);
             CommandBindings.Add(cb);
 #endif
 
 
-            searchPanel = SearchPanel.Install(TextArea);
+            searchPanel = ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TextArea);
 
 
             // searchPanel.
         }
 
-        public void SetFont(Font font)
+        public void SetFont(System.Drawing.Font font)
         {
             FontFamily = font.FontFamily.Name == "Cambria"
-                ? new FontFamily(MathCustomFonts.GetMathFont(font.Size).FontFamily.Name)
-                : new FontFamily(font.FontFamily.Name);
+                ? new System.Windows.Media.FontFamily(Config.MathCustomFonts.GetMathFont(font.Size).FontFamily.Name)
+                : new System.Windows.Media.FontFamily(font.FontFamily.Name);
             FontSize = font.Size;
             //this.FontWeight =  FontWeights.
             FontStyle = ConvertFontStyle(CreateFontStyle(font));
         }
 
-        private static FontStyle CreateFontStyle(Font font)
+        private static System.Drawing.FontStyle CreateFontStyle(System.Drawing.Font font)
         {
             if (font.Italic)
                 return System.Drawing.FontStyle.Italic;
             return font.Bold ? System.Drawing.FontStyle.Bold : System.Drawing.FontStyle.Regular;
         }
 
-        private static System.Windows.FontStyle ConvertFontStyle(FontStyle fontStyle)
+        private static System.Windows.FontStyle ConvertFontStyle(System.Drawing.FontStyle fontStyle)
         {
             switch (fontStyle)
             {
                 case System.Drawing.FontStyle.Bold:
-                    return FontStyles.Oblique;
+                    return System.Windows.FontStyles.Oblique;
                 case System.Drawing.FontStyle.Italic:
-                    return FontStyles.Italic;
+                    return System.Windows.FontStyles.Italic;
                 default:
-                    return FontStyles.Normal;
+                    return System.Windows.FontStyles.Normal;
             }
         }
 
-        private void TextArea_KeyUp(object sender, KeyEventArgs e)
+        private void TextArea_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.LeftCtrl)
+            if (e.Key == System.Windows.Input.Key.LeftCtrl)
                 ctrlPressed = false;
         }
 
-        private void TextArea_KeyDown(object sender, KeyEventArgs e)
+        private void TextArea_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.LeftCtrl)
+            if (e.Key == System.Windows.Input.Key.LeftCtrl)
                 ctrlPressed = true;
         }
 
-        private void ExperimentalCodeEditor_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void ExperimentalCodeEditor_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
             if (ctrlPressed)
             {
@@ -270,16 +263,16 @@ namespace Computator.NET.UI.CodeEditors
             }
         }
 
-        private char GetCharFromKey(Key key)
+        private char GetCharFromKey(System.Windows.Input.Key key)
         {
             var ch = ' ';
 
-            var virtualKey = KeyInterop.VirtualKeyFromKey(key);
+            var virtualKey = System.Windows.Input.KeyInterop.VirtualKeyFromKey(key);
             var keyboardState = new byte[256];
             NativeMethods.GetKeyboardState(keyboardState);
 
             var scanCode = NativeMethods.MapVirtualKey((uint) virtualKey, NativeMethods.MapType.MAPVK_VK_TO_VSC);
-            var stringBuilder = new StringBuilder(2);
+            var stringBuilder = new System.Text.StringBuilder(2);
 
             var result = NativeMethods.ToUnicode((uint) virtualKey, scanCode, keyboardState, stringBuilder,
                 stringBuilder.Capacity, 0);
@@ -303,9 +296,11 @@ namespace Computator.NET.UI.CodeEditors
             return ch;
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.D6 && (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+            if (e.Key == System.Windows.Input.Key.D6 &&
+                (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Shift) ==
+                System.Windows.Input.ModifierKeys.Shift)
             {
                 IsExponentMode = !IsExponentMode;
 
@@ -316,9 +311,9 @@ namespace Computator.NET.UI.CodeEditors
             if (IsExponentMode)
             {
                 var ch = GetCharFromKey(e.Key);
-                if (SpecialSymbols.IsAscii(ch))
+                if (DataTypes.SpecialSymbols.IsAscii(ch))
                 {
-                    var str = SpecialSymbols.AsciiToSuperscript(ch.ToString());
+                    var str = DataTypes.SpecialSymbols.AsciiToSuperscript(ch.ToString());
                     if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
                     {
                     }
@@ -329,10 +324,10 @@ namespace Computator.NET.UI.CodeEditors
             }
             else
             {
-                if (e.Key == Key.Multiply)
+                if (e.Key == System.Windows.Input.Key.Multiply)
                     //     e = new KeyEventArgs(e.KeyboardDevice, e.InputSource, e.Timestamp, GlobalConfig.dotSymbol);
                 {
-                    TextArea.PerformTextInput(SpecialSymbols.DotSymbol + "");
+                    TextArea.PerformTextInput(DataTypes.SpecialSymbols.DotSymbol + "");
                     e.Handled = true;
                 }
                 else
@@ -340,7 +335,7 @@ namespace Computator.NET.UI.CodeEditors
             }
         }
 
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        private void OnTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             var tb = (AvalonEditCodeEditor) sender;
             using (tb.DeclareChangeBlock())
@@ -349,26 +344,27 @@ namespace Computator.NET.UI.CodeEditors
                 {
                     if (c.AddedLength == 0) continue;
                     tb.Select(c.Offset, c.AddedLength);
-                    if (tb.SelectedText.Contains('*'))
+                    if (Enumerable.Contains(tb.SelectedText, '*'))
                     {
-                        tb.SelectedText = tb.SelectedText.Replace('*', SpecialSymbols.DotSymbol);
+                        tb.SelectedText = tb.SelectedText.Replace('*', DataTypes.SpecialSymbols.DotSymbol);
                     }
                     tb.Select(c.Offset + c.AddedLength, 0);
                 }
             }
         }
 
-#region Code Completion
+        #region Code Completion
 
-        private void OnTextEntered(object sender, TextCompositionEventArgs textCompositionEventArgs)
+        private void OnTextEntered(object sender, System.Windows.Input.TextCompositionEventArgs textCompositionEventArgs)
         {
-            if (char.IsLetterOrDigit(textCompositionEventArgs.Text.Last()))
+            if (char.IsLetterOrDigit(Enumerable.Last(textCompositionEventArgs.Text)))
                 ShowCompletion(textCompositionEventArgs.Text, false);
         }
 
         //private char[] enteredText = new char[]{' ',' '};
 
-        private void OnCtrlSpaceCommand(object sender, ExecutedRoutedEventArgs executedRoutedEventArgs)
+        private void OnCtrlSpaceCommand(object sender,
+            System.Windows.Input.ExecutedRoutedEventArgs executedRoutedEventArgs)
         {
             ShowCompletion("", true);
         }
@@ -377,7 +373,7 @@ namespace Computator.NET.UI.CodeEditors
         {
             if (completionWindow != null) return;
 
-            completionWindow = new CompletionWindow(TextArea)
+            completionWindow = new ICSharpCode.AvalonEdit.CodeCompletion.CompletionWindow(TextArea)
             {
                 CloseWhenCaretAtBeginning = controlSpace,
                 FontFamily = FontFamily,
@@ -425,7 +421,8 @@ namespace Computator.NET.UI.CodeEditors
             }
         } //end method
 
-        private void OnTextEntering(object sender, TextCompositionEventArgs textCompositionEventArgs)
+        private void OnTextEntering(object sender,
+            System.Windows.Input.TextCompositionEventArgs textCompositionEventArgs)
         {
             // Debug.WriteLine("TextEntering: " + textCompositionEventArgs.Text);
             if (textCompositionEventArgs.Text.Length <= 0 || completionWindow == null) return;
@@ -433,7 +430,7 @@ namespace Computator.NET.UI.CodeEditors
             // Whenever a non-letter is typed while the completion window is open,
             // insert the currently selected element.
 
-            if (textCompositionEventArgs.Text == Environment.NewLine || textCompositionEventArgs.Text == "\u000B" ||
+            if (textCompositionEventArgs.Text == System.Environment.NewLine || textCompositionEventArgs.Text == "\u000B" ||
                 textCompositionEventArgs.Text == "\u0009" || textCompositionEventArgs.Text == "\t")
                 completionWindow.CompletionList.RequestInsertion(textCompositionEventArgs);
             else
@@ -450,17 +447,17 @@ namespace Computator.NET.UI.CodeEditors
         /// </summary>
         /// <param name="offset"></param>
         /// <returns>The document of this text editor.</returns>
-        protected virtual IDocument GetCompletionDocument(out int offset)
+        protected virtual ICSharpCode.AvalonEdit.Document.IDocument GetCompletionDocument(out int offset)
         {
             offset = CaretOffset;
             return Document;
         }
 
-#endregion
+        #endregion
 
-#region Folding
+        #region Folding
 
-        private FoldingManager foldingManager;
+        private ICSharpCode.AvalonEdit.Folding.FoldingManager foldingManager;
         private object foldingStrategy;
         public bool IsExponentMode { get; set; }
 
@@ -471,12 +468,13 @@ namespace Computator.NET.UI.CodeEditors
             {
                 ((BraceFoldingStrategy) foldingStrategy).UpdateFoldings(foldingManager, Document);
             }
-            if (foldingStrategy is XmlFoldingStrategy)
+            if (foldingStrategy is ICSharpCode.AvalonEdit.Folding.XmlFoldingStrategy)
             {
-                ((XmlFoldingStrategy) foldingStrategy).UpdateFoldings(foldingManager, Document);
+                ((ICSharpCode.AvalonEdit.Folding.XmlFoldingStrategy) foldingStrategy).UpdateFoldings(foldingManager,
+                    Document);
             }
         }
 
-#endregion
+        #endregion
     }
 }

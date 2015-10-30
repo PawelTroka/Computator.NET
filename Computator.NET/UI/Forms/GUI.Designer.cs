@@ -1265,7 +1265,7 @@ namespace Computator.NET
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.zakończToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem1
             // 

@@ -1,4 +1,9 @@
-﻿remember last open documents with editors, mybe with content
+﻿repair HypergeometricU
+recreate function logGamma with fixed all errors
+find and repair a bug in EllipticΠ(double k, double n)
+kronecker product is bad
+no infomations about mistakes in scripting when processing bad code
+remember last open documents with editors, mybe with content
 set extension .tsl/.tslf with editor options like save
 
 test installer and upgrade options

@@ -1,10 +1,8 @@
-using System;
-
 namespace Computator.NET.Evaluation
 {
-    internal class EvaluationException : Exception
+    internal class EvaluationException : System.Exception
     {
-        public EvaluationException(string message, Exception innerException)
+        public EvaluationException(string message, System.Exception innerException)
             : base(message, innerException)
         {
         }

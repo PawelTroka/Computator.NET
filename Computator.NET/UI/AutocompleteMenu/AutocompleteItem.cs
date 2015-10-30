@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using Computator.NET.Functions;
-using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
-
-namespace AutocompleteMenuNS
+﻿namespace AutocompleteMenuNS
 {
-    public class AutocompleteItemEqualityComparer : IEqualityComparer<AutocompleteItem>
+    public class AutocompleteItemEqualityComparer : System.Collections.Generic.IEqualityComparer<AutocompleteItem>
     {
         public bool Equals(AutocompleteItem x, AutocompleteItem y)
         {
@@ -30,27 +23,27 @@ namespace AutocompleteMenuNS
         private readonly string _name;
         private readonly string _returnTypeName;
         private readonly string menuText;
-        public FunctionInfo functionInfo;
+        public Computator.NET.Functions.FunctionInfo functionInfo;
         public object Tag;
         private string toolTipText;
         private string toolTipTitle;
 
         public AutocompleteItem()
         {
-            functionInfo = new FunctionInfo();
+            functionInfo = new Computator.NET.Functions.FunctionInfo();
             ImageIndex = -1;
         }
 
         public AutocompleteItem(string text) : this()
         {
-            functionInfo = new FunctionInfo();
+            functionInfo = new Computator.NET.Functions.FunctionInfo();
             Text = text;
         }
 
         public AutocompleteItem(string text, int imageIndex)
             : this(text)
         {
-            functionInfo = new FunctionInfo();
+            functionInfo = new Computator.NET.Functions.FunctionInfo();
             ImageIndex = imageIndex;
         }
 
@@ -58,7 +51,7 @@ namespace AutocompleteMenuNS
             int imageIndex)
             : this(name + addition, imageIndex)
         {
-            functionInfo = new FunctionInfo();
+            functionInfo = new Computator.NET.Functions.FunctionInfo();
             // this.menuText = menuText;
             _name = name;
             _returnTypeName = returnTypeName;
@@ -69,14 +62,14 @@ namespace AutocompleteMenuNS
         public AutocompleteItem(string text, int imageIndex, string menuText)
             : this(text, imageIndex)
         {
-            functionInfo = new FunctionInfo();
+            functionInfo = new Computator.NET.Functions.FunctionInfo();
             this.menuText = menuText;
         }
 
         public AutocompleteItem(string text, int imageIndex, string menuText, string toolTipTitle, string toolTipText)
             : this(text, imageIndex, menuText)
         {
-            functionInfo = new FunctionInfo();
+            functionInfo = new Computator.NET.Functions.FunctionInfo();
             this.toolTipTitle = toolTipTitle;
             this.toolTipText = toolTipText;
         }
@@ -130,13 +123,21 @@ namespace AutocompleteMenuNS
                 string ret;
                 if (IsScripting)
                 {
-                    ret = ((Settings.Default.ShowReturnTypeInScripting) ? _returnTypeName + " " : "") + _name +
-                          (Settings.Default.ShowParametersTypeInScripting ? _additionWithTypes : _addition);
+                    ret = ((Computator.NET.Properties.Settings.Default.ShowReturnTypeInScripting)
+                        ? _returnTypeName + " "
+                        : "") + _name +
+                          (Computator.NET.Properties.Settings.Default.ShowParametersTypeInScripting
+                              ? _additionWithTypes
+                              : _addition);
                 }
                 else
                 {
-                    ret = ((Settings.Default.ShowReturnTypeInExpression) ? _returnTypeName + " " : "") + _name +
-                          (Settings.Default.ShowParametersTypeInExpression ? _additionWithTypes : _addition);
+                    ret = ((Computator.NET.Properties.Settings.Default.ShowReturnTypeInExpression)
+                        ? _returnTypeName + " "
+                        : "") + _name +
+                          (Computator.NET.Properties.Settings.Default.ShowParametersTypeInExpression
+                              ? _additionWithTypes
+                              : _addition);
                 }
                 if (string.IsNullOrEmpty(ret) || string.IsNullOrWhiteSpace(ret))
                     return Text;
@@ -147,9 +148,9 @@ namespace AutocompleteMenuNS
 
         public bool IsScripting { get; set; }
 
-        public CompletionData ToCompletionData()
+        public Computator.NET.UI.CodeEditors.CompletionData ToCompletionData()
         {
-            return new CompletionData(Text, MenuText, functionInfo, ImageIndex);
+            return new Computator.NET.UI.CodeEditors.CompletionData(Text, MenuText, functionInfo, ImageIndex);
         }
 
         /// <summary>
@@ -165,7 +166,7 @@ namespace AutocompleteMenuNS
         /// </summary>
         public virtual CompareResult Compare(string fragmentText)
         {
-            if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
+            if (Text.StartsWith(fragmentText, System.StringComparison.InvariantCultureIgnoreCase) &&
                 Text != fragmentText)
                 return CompareResult.VisibleAndSelected;
 
@@ -189,7 +190,7 @@ namespace AutocompleteMenuNS
 
         public virtual void OnPaint(PaintItemEventArgs e)
         {
-            e.Graphics.DrawString(ToString(), e.Font, Brushes.Black, e.TextRect, e.StringFormat);
+            e.Graphics.DrawString(ToString(), e.Font, System.Drawing.Brushes.Black, e.TextRect, e.StringFormat);
         }
     }
 

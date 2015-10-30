@@ -1,15 +1,10 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Computator.NET.UI.CodeEditors;
-
 namespace AutocompleteMenuNS
 {
     internal class AvalonWrapper : ITextBoxWrapper
     {
-        private readonly AvalonEditCodeEditorControl target;
+        private readonly Computator.NET.UI.CodeEditors.AvalonEditCodeEditorControl target;
 
-        public AvalonWrapper(AvalonEditCodeEditorControl trgt)
+        public AvalonWrapper(Computator.NET.UI.CodeEditors.AvalonEditCodeEditorControl trgt)
         {
             target = trgt;
         }
@@ -51,7 +46,7 @@ namespace AutocompleteMenuNS
             set { target.SelectionStart = value; }
         }
 
-        public Control TargetControl
+        public System.Windows.Forms.Control TargetControl
         {
             get { return target; }
         }
@@ -61,32 +56,33 @@ namespace AutocompleteMenuNS
             get { return target.Text; }
         }
 
-        public Point GetPositionFromCharIndex(int pos)
+        public System.Drawing.Point GetPositionFromCharIndex(int pos)
         {
             var p = target.GetPointFromPosition(pos);
-            return new Point((int) p.X, (int) p.Y);
+            return new System.Drawing.Point((int) p.X, (int) p.Y);
             //return new Point(target.PointXFromPosition(pos), target.PointYFromPosition(pos));
         }
 
         //Events
-        public virtual event KeyEventHandler KeyDown
+        public virtual event System.Windows.Forms.KeyEventHandler KeyDown
         {
             add { target.KeyDown += value; }
             remove { target.KeyDown -= value; }
         }
 
-        public virtual event EventHandler LostFocus
+        public virtual event System.EventHandler LostFocus
         {
             add { target.LostFocus += value; }
             remove { target.LostFocus -= value; }
         }
 
-        public virtual event MouseEventHandler MouseDown
+        public virtual event System.Windows.Forms.MouseEventHandler MouseDown
         {
             add { target.MouseDown += value; }
             remove { target.MouseDown -= value; }
         }
 
-        public virtual event ScrollEventHandler Scroll; //There is no any scroll events in ScintillaNET, So on hold.
+        public virtual event System.Windows.Forms.ScrollEventHandler Scroll;
+            //There is no any scroll events in ScintillaNET, So on hold.
     }
 }
