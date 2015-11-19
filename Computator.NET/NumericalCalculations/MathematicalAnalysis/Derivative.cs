@@ -1,11 +1,13 @@
-﻿namespace Computator.NET.NumericalCalculations.MathematicalAnalysis
+﻿using System;
+
+namespace Computator.NET.NumericalCalculations.MathematicalAnalysis
 {
     internal class Derivative
     {
         private const double EPS_MAX = 1e-25;
         public static double EPS = 1e-9;
 
-        public static double finiteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1)
+        public static double finiteDifferenceFormula(Func<double, double> fx, double x, uint order = 1)
         {
             var dx = x*EPS;
             if (dx == 0)
@@ -17,12 +19,12 @@
             return (finiteDifferenceFormula(fx, x + dx, order - 1) - finiteDifferenceFormula(fx, x, order - 1))/dx;
         }
 
-        public static double stableFiniteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1)
+        public static double stableFiniteDifferenceFormula(Func<double, double> fx, double x, uint order = 1)
         {
             double dx;
-            var h = System.Math.Sqrt(EPS)*x;
+            var h = Math.Sqrt(EPS)*x;
             if (h == 0.0)
-                h = System.Math.Sqrt(EPS_MAX);
+                h = Math.Sqrt(EPS_MAX);
 
             var xph = x + h;
 
@@ -36,7 +38,7 @@
                    dx;
         }
 
-        public static double twoPointfiniteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1)
+        public static double twoPointfiniteDifferenceFormula(Func<double, double> fx, double x, uint order = 1)
         {
             var dx = x*EPS;
             if (dx == 0)
@@ -49,7 +51,7 @@
                     twoPointfiniteDifferenceFormula(fx, x - dx, order - 1))/(2*dx);
         }
 
-        public static double centeredFivePointMethod(System.Func<double, double> fx, double x, uint order = 1)
+        public static double centeredFivePointMethod(Func<double, double> fx, double x, uint order = 1)
         {
             var dx = x*EPS;
             if (dx == 0)
@@ -65,7 +67,7 @@
                    (12*dx);
         }
 
-        public static double derivativeAtPoint(System.Func<double, double> f, double x, uint order = 1)
+        public static double derivativeAtPoint(Func<double, double> f, double x, uint order = 1)
         {
             if (order == 0)
                 return f(x);

@@ -1,5 +1,6 @@
 ﻿// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
+// ReSharper disable UseStringInterpolation
 namespace Computator.NET.Constants
 {
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]

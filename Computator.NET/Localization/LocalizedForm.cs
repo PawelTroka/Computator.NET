@@ -1,23 +1,29 @@
-﻿namespace Computator.NET.Localization
+﻿using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.Reflection;
+using System.Windows.Forms;
+
+namespace Computator.NET.Localization
 {
-    public class LocalizedForm : System.Windows.Forms.Form
+    public class LocalizedForm : Form
     {
-        protected System.Globalization.CultureInfo culture;
-        protected System.ComponentModel.ComponentResourceManager resManager;
+        protected CultureInfo culture;
+        protected ComponentResourceManager resManager;
 
         public LocalizedForm()
         {
-            resManager = new System.ComponentModel.ComponentResourceManager(GetType());
-            culture = System.Globalization.CultureInfo.CurrentUICulture;
+            resManager = new ComponentResourceManager(GetType());
+            culture = CultureInfo.CurrentUICulture;
         }
 
         /// <summary>
         ///     Current culture of this form
         /// </summary>
-        [System.ComponentModel.Browsable(false)]
-        [System.ComponentModel.Description("Current culture of this form")]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public System.Globalization.CultureInfo Culture
+        [Browsable(false)]
+        [Description("Current culture of this form")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public CultureInfo Culture
         {
             get { return culture; }
             set
@@ -35,17 +41,17 @@
         /// <summary>
         ///     Occurs when current UI culture is changed
         /// </summary>
-        [System.ComponentModel.Browsable(true)]
-        [System.ComponentModel.Description("Occurs when current UI culture is changed")]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
-        [System.ComponentModel.Category("Property Changed")]
-        public event System.EventHandler CultureChanged;
+        [Browsable(true)]
+        [Description("Occurs when current UI culture is changed")]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [Category("Property Changed")]
+        public event EventHandler CultureChanged;
 
-        private void ApplyResources(System.Windows.Forms.Control parent, System.Globalization.CultureInfo culture)
+        private void ApplyResources(Control parent, CultureInfo culture)
         {
             resManager.ApplyResources(parent, parent.Name, culture);
             //ScanNonControls();
-            foreach (System.Windows.Forms.Control ctl in parent.Controls)
+            foreach (Control ctl in parent.Controls)
             {
                 ApplyResources(ctl, culture);
             }
@@ -55,21 +61,21 @@
         {
             var temp = CultureChanged;
             if (temp != null)
-                temp(this, System.EventArgs.Empty);
+                temp(this, EventArgs.Empty);
         }
 
         protected void ScanNonControls()
         {
-            var fieldInfo = GetType().GetFields(System.Reflection.BindingFlags.NonPublic
-                                                | System.Reflection.BindingFlags.Instance |
-                                                System.Reflection.BindingFlags.Public);
+            var fieldInfo = GetType().GetFields(BindingFlags.NonPublic
+                                                | BindingFlags.Instance |
+                                                BindingFlags.Public);
             for (var i = 0; i < fieldInfo.Length; i++)
             {
                 var obj = fieldInfo[i].GetValue(this);
                 var fieldName = fieldInfo[i].Name;
-                if (obj is System.Windows.Forms.ToolStripMenuItem)
+                if (obj is ToolStripMenuItem)
                 {
-                    var menuItem = (System.Windows.Forms.ToolStripMenuItem) obj;
+                    var menuItem = (ToolStripMenuItem) obj;
                     menuItem.Text = (string) (resManager.GetObject(fieldName +
                                                                    ".Text", culture));
                     // etc.

@@ -328,7 +328,7 @@ namespace Computator.NET
             // directoryTree1
             // 
             resources.ApplyResources(this.directoryTree1, "directoryTree1");
-            this.directoryTree1.Drive = null;
+            this.directoryTree1.Path = null;
             this.directoryTree1.Name = "directoryTree1";
             this.directoryTree1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             ((System.Windows.Forms.TreeNode)(resources.GetObject("directoryTree1.Nodes")))});
@@ -369,7 +369,7 @@ namespace Computator.NET
             // customFunctionsDirectoryTree
             // 
             resources.ApplyResources(this.customFunctionsDirectoryTree, "customFunctionsDirectoryTree");
-            this.customFunctionsDirectoryTree.Drive = null;
+            this.customFunctionsDirectoryTree.Path = null;
             this.customFunctionsDirectoryTree.Name = "customFunctionsDirectoryTree";
             this.customFunctionsDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             ((System.Windows.Forms.TreeNode)(resources.GetObject("customFunctionsDirectoryTree.Nodes")))});

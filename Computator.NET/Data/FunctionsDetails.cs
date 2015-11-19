@@ -1,10 +1,15 @@
-﻿using Enumerable = System.Linq.Enumerable;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
+using Computator.NET.Config;
+using Computator.NET.Functions;
 
 namespace Computator.NET.Data
 {
     internal class FunctionsDetails
     {
-        private readonly System.Collections.Generic.Dictionary<string, Functions.FunctionInfo> _details;
+        private readonly Dictionary<string, FunctionInfo> _details;
 
         public FunctionsDetails()
         {
@@ -13,7 +18,7 @@ namespace Computator.NET.Data
 
         public static FunctionsDetails Details { get; } = new FunctionsDetails();
 
-        public Functions.FunctionInfo this[string signature]
+        public FunctionInfo this[string signature]
         {
             get { return _details[signature]; }
             set { _details[signature] = value; }
@@ -25,13 +30,13 @@ namespace Computator.NET.Data
             //foreach (var item in sourceItems)
             //_details.Add(item.functionInfo.Signature, item.functionInfo);
 
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof (Functions.FunctionInfo[]),
-                new System.Xml.Serialization.XmlRootAttribute("FunctionsDetails"));
-            var stream = new System.IO.StreamWriter("functions_saved.xml");
+            var serializer = new XmlSerializer(typeof (FunctionInfo[]),
+                new XmlRootAttribute("FunctionsDetails"));
+            var stream = new StreamWriter("functions_saved.xml");
 
 
             var listOfItems = Enumerable.ToList(Enumerable.Select(_details, kv =>
-                new Functions.FunctionInfo
+                new FunctionInfo
                 {
                     Signature = kv.Key,
                     Url = kv.Value.Url,
@@ -44,7 +49,7 @@ namespace Computator.NET.Data
 
             serializer.Serialize(stream,
                 Enumerable.ToArray(Enumerable.Select(_details, kv =>
-                    new Functions.FunctionInfo
+                    new FunctionInfo
                     {
                         Signature = kv.Key,
                         Url = kv.Value.Url,
@@ -62,13 +67,13 @@ namespace Computator.NET.Data
             //foreach (var item in sourceItems)
             //_details.Add(item.functionInfo.Signature, item.functionInfo);
 
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof (Functions.FunctionInfo[]),
-                new System.Xml.Serialization.XmlRootAttribute("FunctionsDetails"));
-            var stream = new System.IO.StreamWriter("functions_empty_saved.xml");
+            var serializer = new XmlSerializer(typeof (FunctionInfo[]),
+                new XmlRootAttribute("FunctionsDetails"));
+            var stream = new StreamWriter("functions_empty_saved.xml");
 
 
             var listOfItems = Enumerable.ToList(Enumerable.Select(_details, kv =>
-                new Functions.FunctionInfo
+                new FunctionInfo
                 {
                     Signature = kv.Key,
                     Url = kv.Value.Url,
@@ -81,7 +86,7 @@ namespace Computator.NET.Data
 
             serializer.Serialize(stream,
                 Enumerable.ToArray(Enumerable.Select(_details, kv =>
-                    new Functions.FunctionInfo
+                    new FunctionInfo
                     {
                         Signature = kv.Key,
                         Url = kv.Value.Url,
@@ -92,19 +97,19 @@ namespace Computator.NET.Data
                     })));
         }
 
-        private System.Collections.Generic.Dictionary<string, Functions.FunctionInfo> LoadFunctionsDetailsFromXmlFile()
+        private Dictionary<string, FunctionInfo> LoadFunctionsDetailsFromXmlFile()
         {
             // Constants.PhysicalConstants.parseConstantsFromNIST();
             //Constants.MathematicalConstants.parseConstantsFromNIST();
 
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof (Functions.FunctionInfo[]),
-                new System.Xml.Serialization.XmlRootAttribute("FunctionsDetails"));
-            var stream = new System.IO.StreamReader(Config.GlobalConfig.FullPath("Data", "functions.xml"));
+            var serializer = new XmlSerializer(typeof (FunctionInfo[]),
+                new XmlRootAttribute("FunctionsDetails"));
+            var stream = new StreamReader(GlobalConfig.FullPath("Data", "functions.xml"));
 
-            var functionsInfos = Enumerable.ToDictionary(((Functions.FunctionInfo[]) serializer.Deserialize(stream)),
+            var functionsInfos = Enumerable.ToDictionary(((FunctionInfo[]) serializer.Deserialize(stream)),
                 kv => kv.Signature,
                 kv =>
-                    new Functions.FunctionInfo
+                    new FunctionInfo
                     {
                         Signature = kv.Signature,
                         Url = kv.Url,
@@ -122,7 +127,7 @@ namespace Computator.NET.Data
             return _details.ContainsKey(signature);
         }
 
-        public System.Collections.Generic.KeyValuePair<string, Functions.FunctionInfo>[] ToArray()
+        public KeyValuePair<string, FunctionInfo>[] ToArray()
         {
             return Enumerable.ToArray(_details);
         }

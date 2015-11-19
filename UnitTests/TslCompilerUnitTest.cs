@@ -1,8 +1,26 @@
 ﻿using Computator.NET.Compilation;
+using Computator.NET.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
 {
+    [TestClass]
+    public class AutocompletionDataTest
+    {
+        [TestMethod]
+        public void TestScripting()
+        {
+            var content = AutocompletionData.GetAutocompleteItemsForScripting();
+        }
+
+        [TestMethod]
+        public void TestExpressions()
+        {
+            var content = AutocompletionData.GetAutocompleteItemsForExpressions();
+        }
+    }
+
+
     [TestClass]
     public class TslCompilerUnitTest
     {
@@ -34,7 +52,6 @@ namespace UnitTests
         [TestMethod]
         public void Test2()
         {
-
             Assert.AreEqual("var f = TypeDeducer.Func((real x, real y, complex z) => 100/(1.0*((2+2))))",
                 tslCompiler.TransformToCSharp("var f(real x, real y, complex z)=100/(2+2)"), "Fail!!!");
         }
@@ -63,5 +80,26 @@ namespace UnitTests
             Assert.AreEqual("(pow(10,2)*x)/(1.0*((10-6*pow(x,2)+pow((25-pow(x,2)),2)+10*(25-pow(x,2)))))",
                 tslCompiler.TransformToCSharp("(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))"), "Fail!!!");
         }
+
+        [TestMethod]
+        public void Test7()
+        {
+            tslCompiler.Variables.Add("i");
+
+            Assert.AreEqual("pow((cos(1.0)),i)",
+                tslCompiler.TransformToCSharp("(cos(1.0))ⁱ"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void Test8()
+        {
+            tslCompiler.Variables.Add("i");
+
+            Assert.AreEqual("pow(2,i)",
+                tslCompiler.TransformToCSharp("2ⁱ"), "Fail!!!");
+        }
+
+        //2ⁱ
+        //(cos(1.0))ⁱ
     }
 }

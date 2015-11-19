@@ -1,8 +1,10 @@
-﻿namespace Computator.NET.NumericalCalculations
+﻿using System.Windows.Forms;
+
+namespace Computator.NET.NumericalCalculations
 {
     internal class NumericalCalculation
     {
-        public static void setupOperations(System.Windows.Forms.ComboBox operationsComboBox)
+        public static void setupOperations(ComboBox operationsComboBox)
         {
             operationsComboBox.Items.Clear();
             operationsComboBox.Items.Add("Integral");
@@ -12,8 +14,8 @@
             operationsComboBox.SelectedItem = "Integral";
         }
 
-        public static void setupMethods(System.Windows.Forms.ComboBox methodsComboBox,
-            System.Windows.Forms.ComboBox operationsComboBox)
+        public static void setupMethods(ComboBox methodsComboBox,
+            ComboBox operationsComboBox)
         {
             methodsComboBox.Items.Clear();
 
@@ -44,14 +46,16 @@
                     methodsComboBox.Items.Add("secant method");
                     methodsComboBox.Items.Add("Brent's method");
                     methodsComboBox.Items.Add("Broyden's method");
+                    methodsComboBox.Items.Add("secant Newton Raphson method");
+                    //secantNewtonRaphsonMethod
                     break;
             }
             methodsComboBox.SelectedItem = methodsComboBox.Items[methodsComboBox.Items.Count - 1];
         }
 
-        public static void setupGroupBoxes(System.Windows.Forms.ComboBox operationsComboBox,
-            System.Windows.Forms.GroupBox derrivative, System.Windows.Forms.GroupBox root,
-            System.Windows.Forms.GroupBox integral)
+        public static void setupGroupBoxes(ComboBox operationsComboBox,
+            GroupBox derrivative, GroupBox root,
+            GroupBox integral)
         {
             var operation = operationsComboBox.SelectedItem.ToString();
 

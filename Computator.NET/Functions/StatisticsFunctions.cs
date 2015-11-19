@@ -4,7 +4,7 @@
 namespace Computator.NET.Functions
 {
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-    internal static class StatisticsFunctions
+    public static class StatisticsFunctions
     {
         private static readonly System.Random m_random = new System.Random();
         public static System.Random rnd = new System.Random();
@@ -20,6 +20,8 @@ namespace Computator.NET.Functions
 
         public static double random(int x)
         {
+            if (x <= -1)
+                return double.NaN;
             return m_random.Next(x + 1);
         }
 
@@ -62,6 +64,8 @@ namespace Computator.NET.Functions
 
         public static double random(int x)
         {
+            if (x <= -1)
+                return double.NaN;
             return m_random.Next(x + 1);
         }
 

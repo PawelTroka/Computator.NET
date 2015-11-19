@@ -1,4 +1,6 @@
-﻿Folding does not work in AvalonEdit when working with documents
+﻿setup.gif for default installation theme doesnt seem to show in installation
+Unserflow error for MathieuMc(1,-20,2.04081632653062,-100), MathieuMc(1,-20,x,-100)
+Folding does not work in AvalonEdit when working with documents
 When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
 0. Caret not shiwing when switching to exponent mode
 1. Bugs correlated to Chart control (3 known bugs, described in my engineer thesis)

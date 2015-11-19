@@ -1,6 +1,10 @@
-﻿namespace AutocompleteMenuNS
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace AutocompleteMenuNS
 {
-    public class SelectingEventArgs : System.EventArgs
+    public class SelectingEventArgs : EventArgs
     {
         public AutocompleteItem Item { get; internal set; }
         public bool Cancel { get; set; }
@@ -8,40 +12,40 @@
         public bool Handled { get; set; }
     }
 
-    public class SelectedEventArgs : System.EventArgs
+    public class SelectedEventArgs : EventArgs
     {
         public AutocompleteItem Item { get; internal set; }
-        public System.Windows.Forms.Control Control { get; set; }
+        public Control Control { get; set; }
     }
 
-    public class HoveredEventArgs : System.EventArgs
+    public class HoveredEventArgs : EventArgs
     {
         public AutocompleteItem Item { get; internal set; }
     }
 
 
-    public class PaintItemEventArgs : System.Windows.Forms.PaintEventArgs
+    public class PaintItemEventArgs : PaintEventArgs
     {
-        public PaintItemEventArgs(System.Drawing.Graphics graphics, System.Drawing.Rectangle clipRect)
+        public PaintItemEventArgs(Graphics graphics, Rectangle clipRect)
             : base(graphics, clipRect)
         {
         }
 
-        public System.Drawing.RectangleF TextRect { get; internal set; }
-        public System.Drawing.StringFormat StringFormat { get; internal set; }
-        public System.Drawing.Font Font { get; internal set; }
+        public RectangleF TextRect { get; internal set; }
+        public StringFormat StringFormat { get; internal set; }
+        public Font Font { get; internal set; }
         public bool IsSelected { get; internal set; }
         public bool IsHovered { get; internal set; }
     }
 
-    public class WrapperNeededEventArgs : System.EventArgs
+    public class WrapperNeededEventArgs : EventArgs
     {
-        public WrapperNeededEventArgs(System.Windows.Forms.Control targetControl)
+        public WrapperNeededEventArgs(Control targetControl)
         {
             TargetControl = targetControl;
         }
 
-        public System.Windows.Forms.Control TargetControl { get; private set; }
+        public Control TargetControl { get; private set; }
         public ITextBoxWrapper Wrapper { get; set; }
     }
 }

@@ -1,8 +1,18 @@
-using Enumerable = System.Linq.Enumerable;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using System.Windows.Forms.Integration;
+using AutocompleteMenuNS;
+using Computator.NET.Config;
+using Computator.NET.Data;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Rendering;
+using Point = System.Windows.Point;
+using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    internal class AvalonEditCodeEditorControl : System.Windows.Forms.Integration.ElementHost
+    internal class AvalonEditCodeEditorControl : ElementHost
     {
         private readonly AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
         private readonly AvalonEditCodeEditor _codeEditor;
@@ -11,18 +21,18 @@ namespace Computator.NET.UI.CodeEditors
         {
             _codeEditor = new AvalonEditCodeEditor();
 
-            BackColor = System.Drawing.Color.White;
-            Dock = System.Windows.Forms.DockStyle.Fill;
+            BackColor = Color.White;
+            Dock = DockStyle.Fill;
             Child = _codeEditor;
             //   codeEditor.TextArea.TextView.GetVisualPosition(new TextViewPosition(5) {Location = }, VisualYPosition.TextMiddle)
             _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu
             {
-                TargetControlWrapper = new AutocompleteMenuNS.AvalonWrapper(this)
+                TargetControlWrapper = new AvalonWrapper(this)
             };
-            _autocompleteMenu.SetAutocompleteItems(Data.AutocompletionData.GetAutocompleteItemsForScripting());
-            SetFont(Properties.Settings.Default.ScriptingFont);
+            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
+            SetFont(Settings.Default.ScriptingFont);
 
-            _autocompleteMenu.MaximumSize = new System.Drawing.Size(500, 180);
+            _autocompleteMenu.MaximumSize = new Size(500, 180);
             //this.codeEditor.Document.
         }
 
@@ -111,11 +121,11 @@ namespace Computator.NET.UI.CodeEditors
             _codeEditor.AppendText(text);
         }
 
-        public void SetFont(System.Drawing.Font font)
+        public void SetFont(Font font)
         {
             _codeEditor.SetFont(font);
             _autocompleteMenu.Font = font.FontFamily.Name == "Cambria"
-                ? Config.MathCustomFonts.GetMathFont(font.Size)
+                ? MathCustomFonts.GetMathFont(font.Size)
                 : font;
         }
 
@@ -129,13 +139,13 @@ namespace Computator.NET.UI.CodeEditors
             _codeEditor.Document.Remove(selectionStart, i);
         }
 
-        public System.Windows.Point GetPointFromPosition(int pos)
+        public Point GetPointFromPosition(int pos)
         {
             var lineAndColumn = GetLineAndColumn(pos);
             var point =
                 _codeEditor.TextArea.TextView.GetVisualPosition(
-                    new ICSharpCode.AvalonEdit.TextViewPosition(lineAndColumn[0], lineAndColumn[1]),
-                    ICSharpCode.AvalonEdit.Rendering.VisualYPosition.TextMiddle);
+                    new TextViewPosition(lineAndColumn[0], lineAndColumn[1]),
+                    VisualYPosition.TextMiddle);
             return point;
         }
 

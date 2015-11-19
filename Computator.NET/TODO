@@ -1,53 +1,50 @@
-﻿repair HypergeometricU
+﻿sqrt kind of sucks cause we have real sqrt(real) and complex sqrt(complex) but we should have also complex sqrt(real) (for arguments below 0) but that is kind of not possible in C#
+Handle generic methods and params better in AutocompleteData 
+Unify exceptions and logging model in whole application, refactor it
+fix bugs in numerical opearations
+solution explorer for scripting
+repair HypergeometricU
+//in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
+make it possible to create distrubution like normal from array of elemenets and from mean stdev and make functions from elemenets like CDF(elements,x)
 recreate function logGamma with fixed all errors
-find and repair a bug in EllipticΠ(double k, double n)
-kronecker product is bad
-no infomations about mistakes in scripting when processing bad code
+add full information about errors made in editors with highlighting the current line
+refactor exception in whole project, unify them
+differ exception in expressions from those in scripting
 remember last open documents with editors, mybe with content
+changing editor from one type to another should port all opened documents
+if we changed a document note this with red disk and ask for save
 set extension .tsl/.tslf with editor options like save
-
 test installer and upgrade options
 add to tsl multiplying like 2x = 2*x
 make descriptions and names, categories, etc for settingstypes
 somehow manage to get codeeditors ExponentMode bind to exponentToolStripMenuItem Checked property
-make codeeditor like real text editor with functions like save, tabs, load, solution, directory etc. more tabs and files blablabla
 add search and replace windows to scripting
 add printing option to codeeditors
 search in the internet/base of knowledge about the function if we have nothing in function info
 build new functioninfo.xml with empty data
 add symbolic calculations
 make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
-turn all delegate functions like Func to normal functions in elementaryfunctions and special
 expose all things like numerical integration in API in scripting etc
-make transformations enable for complexhcrat and chart3d
+make transformations enable for complexchart and chart3d
 enable data loading for charts
 enable better usage of transformation and charts scaling for loaded points
 make charts export as image better with different types of image format
-autocomplete in expression tetxbox make types of arguments visible in view but not in inserrted text (same goes for scripting)
 enable data saving
-enable exponent in scripting and custom functions, make wrapper around different types of codeeditors
--1. Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
-0. Settings / preferences window
-1. Special function search list arrangement ( or arrangement by user).
-2. Used functions history log.
-4. Functions description.
-5. Multi-language help files.
-8. Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
-10. Scripting: tracking user variables
-12. Matrix division
-14. Ker of Matrix
-16. cechy macierzy
-18. suma prosta
-21. podpowiedzi składni
-22. custom functions - make them better
-23. rest of special functions
-24. matrix more opearations
-25. Weiestrass functions
-26. theta functions
-27. numerical calculations - make them better and for f(z) and f(x,y) functions too
-28. tutorials on youtube
-29. more tsl examples
-30. shift+r_mouse_click on item_key activates new window
-31. info on keyboard shortcuts
-32. more than one script tab
-33. 
+Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
+Special function search list arrangement ( or arrangement by user).
+Used functions history log.
+Functions description.
+Multi-language help files.
+Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
+Scripting: tracking user variables
+Matrix division
+better autocomplete, also for variables after (.) dot symbol
+custom functions - make them better
+rest of special functions
+matrix more opearations
+Weiestrass functions
+theta functions
+numerical calculations - make them better and for f(z) and f(x,y) functions too
+tutorials on youtube
+more tsl examples
+shift+r_mouse_click on item_key activates new window

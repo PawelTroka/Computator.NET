@@ -1,6 +1,13 @@
-﻿namespace AutocompleteMenuNS
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using Computator.NET.Functions;
+using Computator.NET.Properties;
+using Computator.NET.UI.CodeEditors;
+
+namespace AutocompleteMenuNS
 {
-    public class AutocompleteItemEqualityComparer : System.Collections.Generic.IEqualityComparer<AutocompleteItem>
+    public class AutocompleteItemEqualityComparer : IEqualityComparer<AutocompleteItem>
     {
         public bool Equals(AutocompleteItem x, AutocompleteItem y)
         {
@@ -23,27 +30,27 @@
         private readonly string _name;
         private readonly string _returnTypeName;
         private readonly string menuText;
-        public Computator.NET.Functions.FunctionInfo functionInfo;
+        public FunctionInfo functionInfo;
         public object Tag;
         private string toolTipText;
         private string toolTipTitle;
 
         public AutocompleteItem()
         {
-            functionInfo = new Computator.NET.Functions.FunctionInfo();
+            functionInfo = new FunctionInfo();
             ImageIndex = -1;
         }
 
         public AutocompleteItem(string text) : this()
         {
-            functionInfo = new Computator.NET.Functions.FunctionInfo();
+            functionInfo = new FunctionInfo();
             Text = text;
         }
 
         public AutocompleteItem(string text, int imageIndex)
             : this(text)
         {
-            functionInfo = new Computator.NET.Functions.FunctionInfo();
+            functionInfo = new FunctionInfo();
             ImageIndex = imageIndex;
         }
 
@@ -51,7 +58,7 @@
             int imageIndex)
             : this(name + addition, imageIndex)
         {
-            functionInfo = new Computator.NET.Functions.FunctionInfo();
+            functionInfo = new FunctionInfo();
             // this.menuText = menuText;
             _name = name;
             _returnTypeName = returnTypeName;
@@ -62,14 +69,14 @@
         public AutocompleteItem(string text, int imageIndex, string menuText)
             : this(text, imageIndex)
         {
-            functionInfo = new Computator.NET.Functions.FunctionInfo();
+            functionInfo = new FunctionInfo();
             this.menuText = menuText;
         }
 
         public AutocompleteItem(string text, int imageIndex, string menuText, string toolTipTitle, string toolTipText)
             : this(text, imageIndex, menuText)
         {
-            functionInfo = new Computator.NET.Functions.FunctionInfo();
+            functionInfo = new FunctionInfo();
             this.toolTipTitle = toolTipTitle;
             this.toolTipText = toolTipText;
         }
@@ -123,19 +130,19 @@
                 string ret;
                 if (IsScripting)
                 {
-                    ret = ((Computator.NET.Properties.Settings.Default.ShowReturnTypeInScripting)
+                    ret = ((Settings.Default.ShowReturnTypeInScripting)
                         ? _returnTypeName + " "
                         : "") + _name +
-                          (Computator.NET.Properties.Settings.Default.ShowParametersTypeInScripting
+                          (Settings.Default.ShowParametersTypeInScripting
                               ? _additionWithTypes
                               : _addition);
                 }
                 else
                 {
-                    ret = ((Computator.NET.Properties.Settings.Default.ShowReturnTypeInExpression)
+                    ret = ((Settings.Default.ShowReturnTypeInExpression)
                         ? _returnTypeName + " "
                         : "") + _name +
-                          (Computator.NET.Properties.Settings.Default.ShowParametersTypeInExpression
+                          (Settings.Default.ShowParametersTypeInExpression
                               ? _additionWithTypes
                               : _addition);
                 }
@@ -148,9 +155,9 @@
 
         public bool IsScripting { get; set; }
 
-        public Computator.NET.UI.CodeEditors.CompletionData ToCompletionData()
+        public CompletionData ToCompletionData()
         {
-            return new Computator.NET.UI.CodeEditors.CompletionData(Text, MenuText, functionInfo, ImageIndex);
+            return new CompletionData(Text, MenuText, functionInfo, ImageIndex);
         }
 
         /// <summary>
@@ -166,7 +173,7 @@
         /// </summary>
         public virtual CompareResult Compare(string fragmentText)
         {
-            if (Text.StartsWith(fragmentText, System.StringComparison.InvariantCultureIgnoreCase) &&
+            if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
                 Text != fragmentText)
                 return CompareResult.VisibleAndSelected;
 
@@ -190,7 +197,7 @@
 
         public virtual void OnPaint(PaintItemEventArgs e)
         {
-            e.Graphics.DrawString(ToString(), e.Font, System.Drawing.Brushes.Black, e.TextRect, e.StringFormat);
+            e.Graphics.DrawString(ToString(), e.Font, Brushes.Black, e.TextRect, e.StringFormat);
         }
     }
 

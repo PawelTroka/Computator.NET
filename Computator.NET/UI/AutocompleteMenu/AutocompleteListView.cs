@@ -1,30 +1,43 @@
-﻿namespace AutocompleteMenuNS
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Computator.NET.Config;
+using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.UI.AutocompleteMenu;
+using Settings = Computator.NET.Properties.Settings;
+
+namespace AutocompleteMenuNS
 {
-    public class AutocompleteListView : System.Windows.Forms.UserControl, IAutocompleteListView
+    public class AutocompleteListView : UserControl, IAutocompleteListView
     {
-        private readonly Computator.NET.UI.AutocompleteMenu.WebBrowserForm formTip;
+        private readonly WebBrowserForm formTip;
         private readonly int hoveredItemIndex = -1;
-        private readonly Computator.NET.UI.AutocompleteMenu.WebBrowserToolTip toolTip;
-        private System.Diagnostics.Stopwatch _showToolTipStopwatch = new System.Diagnostics.Stopwatch();
-        private System.Threading.Tasks.Task _showToolTipTask = null;
-        private System.ComponentModel.BackgroundWorker _showToolTipWorker = null;
+        private readonly WebBrowserToolTip toolTip;
+        private Stopwatch _showToolTipStopwatch = new Stopwatch();
+        private Task _showToolTipTask = null;
+        private BackgroundWorker _showToolTipWorker = null;
         private int itemHeight;
         private int oldItemCount;
         private int selectedItemIndex = -1;
-        private System.Collections.Generic.IList<AutocompleteItem> visibleItems;
+        private IList<AutocompleteItem> visibleItems;
 
         internal AutocompleteListView()
         {
             // functionsDetails = new Dictionary<string, FunctionInfo>();
-            toolTip = new Computator.NET.UI.AutocompleteMenu.WebBrowserToolTip();
+            toolTip = new WebBrowserToolTip();
             SetStyle(
-                System.Windows.Forms.ControlStyles.AllPaintingInWmPaint |
-                System.Windows.Forms.ControlStyles.OptimizedDoubleBuffer | System.Windows.Forms.ControlStyles.UserPaint,
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint,
                 true);
-            base.Font = new System.Drawing.Font(System.Drawing.FontFamily.GenericSansSerif, 9);
+            base.Font = new Font(FontFamily.GenericSansSerif, 9);
             ItemHeight = Font.Height + 2;
             VerticalScroll.SmallChange = ItemHeight;
-            BackColor = System.Drawing.Color.White;
+            BackColor = Color.White;
             LeftPadding = 18;
             ToolTipDuration = 3000;
             // this.LostFocus += Control_LostFocus;
@@ -32,7 +45,7 @@
             //this.ClientSizeChanged += Control_ClientSizeChanged;
             // toolTip.Click += ToolTip_Click;
             //  toolTip.LostFocus += ToolTip_LostFocus;
-            formTip = new Computator.NET.UI.AutocompleteMenu.WebBrowserForm();
+            formTip = new WebBrowserForm();
         }
 
         public int ItemHeight
@@ -47,7 +60,7 @@
             }
         }
 
-        public override System.Drawing.Font Font
+        public override Font Font
         {
             get { return base.Font; }
             set
@@ -67,16 +80,16 @@
         /// <summary>
         ///     Occurs when user selected item for inserting into text
         /// </summary>
-        public event System.EventHandler ItemSelected;
+        public event EventHandler ItemSelected;
 
         /// <summary>
         ///     Occurs when current hovered item is changing
         /// </summary>
-        public event System.EventHandler<HoveredEventArgs> ItemHovered;
+        public event EventHandler<HoveredEventArgs> ItemHovered;
 
-        public System.Windows.Forms.ImageList ImageList { get; set; }
+        public ImageList ImageList { get; set; }
 
-        public System.Collections.Generic.IList<AutocompleteItem> VisibleItems
+        public IList<AutocompleteItem> VisibleItems
         {
             get { return visibleItems; }
             set
@@ -111,19 +124,19 @@
             }
         }
 
-        public System.Drawing.Rectangle GetItemRectangle(int itemIndex)
+        public Rectangle GetItemRectangle(int itemIndex)
         {
             var y = itemIndex*ItemHeight - VerticalScroll.Value;
-            return new System.Drawing.Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
+            return new Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
         }
 
-        public void ShowToolTip(AutocompleteItem autocompleteItem, System.Windows.Forms.Control control = null)
+        public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
             toolTip.Close();
             var signature = autocompleteItem.Text;
-            if (!Computator.NET.Config.GlobalConfig.functionsDetails.ContainsKey(signature))
+            if (!GlobalConfig.functionsDetails.ContainsKey(signature))
                 return;
-            var functionInfo = Computator.NET.Config.GlobalConfig.functionsDetails[signature];
+            var functionInfo = GlobalConfig.functionsDetails[signature];
 
             if (string.IsNullOrEmpty(functionInfo.Description) || string.IsNullOrWhiteSpace(functionInfo.Description) ||
                 string.IsNullOrEmpty(functionInfo.Title) || string.IsNullOrWhiteSpace(functionInfo.Title)
@@ -132,8 +145,8 @@
                 )
                 return;
 
-            if (Computator.NET.Properties.Settings.Default.TooltipType ==
-                Computator.NET.DataTypes.SettingsTypes.TooltipType.Default)
+            if (Settings.Default.TooltipType ==
+                TooltipType.Default)
             {
                 toolTip.setFunctionInfo(functionInfo);
 
@@ -142,17 +155,17 @@
 
                 toolTip.Show(control, Width + 3, 0);
             }
-            else if (Computator.NET.Properties.Settings.Default.TooltipType ==
-                     Computator.NET.DataTypes.SettingsTypes.TooltipType.Form)
+            else if (Settings.Default.TooltipType ==
+                     TooltipType.Form)
             {
                 formTip.setFunctionInfo(functionInfo);
                 formTip.Show();
             }
         }
 
-        private void showToolTipTimer_Tick(object sender, System.EventArgs e)
+        private void showToolTipTimer_Tick(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void closeToolTip()
@@ -211,8 +224,8 @@
                 return;
 
             var needHeight = ItemHeight*VisibleItems.Count + 1;
-            Height = System.Math.Min(needHeight, MaximumSize.Height);
-            AutoScrollMinSize = new System.Drawing.Size(0, needHeight);
+            Height = Math.Min(needHeight, MaximumSize.Height);
+            AutoScrollMinSize = new Size(0, needHeight);
             oldItemCount = VisibleItems.Count;
         }
 
@@ -222,21 +235,21 @@
             if (y < 0)
                 VerticalScroll.Value = SelectedItemIndex*ItemHeight;
             if (y > ClientSize.Height - ItemHeight)
-                VerticalScroll.Value = System.Math.Min(VerticalScroll.Maximum,
+                VerticalScroll.Value = Math.Min(VerticalScroll.Maximum,
                     SelectedItemIndex*ItemHeight - ClientSize.Height + ItemHeight);
             //some magic for update scrolls
-            AutoScrollMinSize -= new System.Drawing.Size(1, 0);
-            AutoScrollMinSize += new System.Drawing.Size(1, 0);
+            AutoScrollMinSize -= new Size(1, 0);
+            AutoScrollMinSize += new Size(1, 0);
         }
 
-        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
-            var rtl = RightToLeft == System.Windows.Forms.RightToLeft.Yes;
+            var rtl = RightToLeft == RightToLeft.Yes;
             AdjustScroll();
             var startI = VerticalScroll.Value/ItemHeight - 1;
             var finishI = (VerticalScroll.Value + ClientSize.Height)/ItemHeight + 1;
-            startI = System.Math.Max(startI, 0);
-            finishI = System.Math.Min(finishI, VisibleItems.Count);
+            startI = Math.Max(startI, 0);
+            finishI = Math.Min(finishI, VisibleItems.Count);
             var y = 0;
 
             for (var i = startI; i < finishI; i++)
@@ -249,31 +262,31 @@
                     else
                         e.Graphics.DrawImage(ImageList.Images[VisibleItems[i].ImageIndex], 1, y);
 
-                var textRect = new System.Drawing.Rectangle(LeftPadding, y, ClientSize.Width - 1 - LeftPadding,
+                var textRect = new Rectangle(LeftPadding, y, ClientSize.Width - 1 - LeftPadding,
                     ItemHeight - 1);
                 if (rtl)
-                    textRect = new System.Drawing.Rectangle(1, y, ClientSize.Width - 1 - LeftPadding, ItemHeight - 1);
+                    textRect = new Rectangle(1, y, ClientSize.Width - 1 - LeftPadding, ItemHeight - 1);
 
                 if (i == SelectedItemIndex)
                 {
-                    System.Drawing.Brush selectedBrush =
-                        new System.Drawing.Drawing2D.LinearGradientBrush(new System.Drawing.Point(0, y - 3),
-                            new System.Drawing.Point(0, y + ItemHeight),
-                            System.Drawing.Color.White, System.Drawing.Color.Orange);
+                    Brush selectedBrush =
+                        new LinearGradientBrush(new Point(0, y - 3),
+                            new Point(0, y + ItemHeight),
+                            Color.White, Color.Orange);
                     e.Graphics.FillRectangle(selectedBrush, textRect);
-                    e.Graphics.DrawRectangle(System.Drawing.Pens.Orange, textRect);
+                    e.Graphics.DrawRectangle(Pens.Orange, textRect);
                 }
                 if (i == hoveredItemIndex)
-                    e.Graphics.DrawRectangle(System.Drawing.Pens.Red, textRect);
+                    e.Graphics.DrawRectangle(Pens.Red, textRect);
 
-                var sf = new System.Drawing.StringFormat();
+                var sf = new StringFormat();
                 if (rtl)
-                    sf.FormatFlags = System.Drawing.StringFormatFlags.DirectionRightToLeft;
+                    sf.FormatFlags = StringFormatFlags.DirectionRightToLeft;
 
                 var args = new PaintItemEventArgs(e.Graphics, e.ClipRectangle)
                 {
                     Font = Font,
-                    TextRect = new System.Drawing.RectangleF(textRect.Location, textRect.Size),
+                    TextRect = new RectangleF(textRect.Location, textRect.Size),
                     StringFormat = sf,
                     IsSelected = i == SelectedItemIndex,
                     IsHovered = i == hoveredItemIndex
@@ -283,17 +296,17 @@
             }
         }
 
-        protected override void OnScroll(System.Windows.Forms.ScrollEventArgs se)
+        protected override void OnScroll(ScrollEventArgs se)
         {
             base.OnScroll(se);
             Invalidate(true);
         }
 
-        protected override void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
+        protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);
 
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 SelectedItemIndex = PointToItemIndex(e.Location);
                 ScrollToSelected();
@@ -301,7 +314,7 @@
             }
         }
 
-        protected override void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
+        protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);
             SelectedItemIndex = PointToItemIndex(e.Location);
@@ -312,19 +325,19 @@
         private void OnItemSelected()
         {
             if (ItemSelected != null)
-                ItemSelected(this, System.EventArgs.Empty);
+                ItemSelected(this, EventArgs.Empty);
         }
 
-        private int PointToItemIndex(System.Drawing.Point p)
+        private int PointToItemIndex(Point p)
         {
             return (p.Y + VerticalScroll.Value)/ItemHeight;
         }
 
-        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             var host = Parent as AutocompleteMenuHost;
             if (host != null)
-                if (host.Menu.ProcessKey((char) keyData, System.Windows.Forms.Keys.None))
+                if (host.Menu.ProcessKey((char) keyData, Keys.None))
                     return true;
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -337,7 +350,7 @@
             Invalidate();
         }
 
-        public void SetItems(System.Collections.Generic.List<AutocompleteItem> items)
+        public void SetItems(List<AutocompleteItem> items)
         {
             VisibleItems = items;
             SelectedItemIndex = -1;

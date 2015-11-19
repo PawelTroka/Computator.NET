@@ -1,8 +1,12 @@
-﻿using Enumerable = System.Linq.Enumerable;
+﻿using System;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Computator.NET.UI
 {
-    public partial class ScientificNumericUpDown : System.Windows.Forms.NumericUpDown
+    public partial class ScientificNumericUpDown : NumericUpDown
     {
         private readonly char dotSymbol = '·'; //'⋅'
         private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾";
@@ -17,10 +21,10 @@ namespace Computator.NET.UI
             ExponentialMode = true;
 
 
-            Font = new System.Drawing.Font("Cambria", 16.2F, System.Drawing.GraphicsUnit.Point);
-                //GlobalConfig.mathFont;
+            Font = new Font("Cambria", 16.2F, GraphicsUnit.Point);
+            //GlobalConfig.mathFont;
 
-            TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TextAlign = HorizontalAlignment.Center;
             //this.KeyPress += Control_KeyPress;
         }
 
@@ -45,7 +49,7 @@ namespace Computator.NET.UI
             }
         }*/
 
-        protected override void OnTextBoxKeyPress(object source, System.Windows.Forms.KeyPressEventArgs e)
+        protected override void OnTextBoxKeyPress(object source, KeyPressEventArgs e)
         {
             if (e.KeyChar == '*' && !Enumerable.Contains(Text, dotSymbol))
                 e.KeyChar = dotSymbol;
@@ -71,7 +75,7 @@ namespace Computator.NET.UI
                     Value = (decimal) (convertedValue);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 base.ValidateEditText();
             }
@@ -106,14 +110,14 @@ namespace Computator.NET.UI
             }
         }
 
-        protected override void OnPaint(System.Windows.Forms.PaintEventArgs pe)
+        protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
         }
 
         protected override void UpdateEditText()
         {
-            if ((System.Math.Abs(Value) < 10000 && (double) System.Math.Abs(Value) >= 0.001) || Value == 0)
+            if ((Math.Abs(Value) < 10000 && (double) Math.Abs(Value) >= 0.001) || Value == 0)
                 Text = Value.ToString();
             else
             {
@@ -131,7 +135,7 @@ namespace Computator.NET.UI
 
         private string covertToExponent(string v)
         {
-            var sb = new System.Text.StringBuilder(v);
+            var sb = new StringBuilder(v);
 
             for (var i = 0; i < sb.Length; i++)
                 for (var j = 0; j < exponents.Length; j++)
@@ -142,7 +146,7 @@ namespace Computator.NET.UI
 
         private double covertFromScientificToValue(string v)
         {
-            var sb = new System.Text.StringBuilder(v);
+            var sb = new StringBuilder(v);
 
             if (sb[0] == '1' && sb[1] == '0')
             {

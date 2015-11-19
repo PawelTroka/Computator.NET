@@ -1,20 +1,25 @@
-﻿namespace Computator.NET.UI.AutocompleteMenu
+﻿using System.Drawing;
+using System.Windows.Forms;
+using Computator.NET.Functions;
+using Computator.NET.Localization;
+
+namespace Computator.NET.UI.AutocompleteMenu
 {
-    internal class WebBrowserForm : System.Windows.Forms.Form
+    internal class WebBrowserForm : Form
     {
-        public System.Windows.Forms.WebBrowser webBrowser;
+        public WebBrowser webBrowser;
 
         public WebBrowserForm()
         {
             FormClosing += Form_FormClosing;
             Text = "Functions & Constants Details";
-            webBrowser = new System.Windows.Forms.WebBrowser();
+            webBrowser = new WebBrowser();
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
-            webBrowser.MinimumSize = new System.Drawing.Size(300, 195);
+            webBrowser.MinimumSize = new Size(300, 195);
             webBrowser.ScrollBarsEnabled = true;
 
             Controls.Add(webBrowser);
-            webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            webBrowser.Dock = DockStyle.Fill;
         }
 
         public string HTMLCode
@@ -26,24 +31,24 @@
             }
         }
 
-        public void setFunctionInfo(Functions.FunctionInfo functionInfo)
+        public void setFunctionInfo(FunctionInfo functionInfo)
         {
             HTMLCode = @"<b>" + functionInfo.Title + @"</b>" + @"<hr>" + functionInfo.Description + @" <br /><br /><i>" +
-                       Localization.Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
+                       Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
                        functionInfo.Url.Replace("http://en.wikipedia", "http://en.m.wikipedia") + @""">" +
                        functionInfo.Url + @"</a></i>";
         }
 
-        private void Form_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
+        private void Form_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true; // this cancels the close event.
             Hide();
         }
 
         private void WebBrowser_DocumentCompleted(object sender,
-            System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
+            WebBrowserDocumentCompletedEventArgs e)
         {
-            var webBrowser = sender as System.Windows.Forms.WebBrowser;
+            var webBrowser = sender as WebBrowser;
 
             var r = webBrowser.Document.Body.ScrollRectangle;
 
@@ -55,22 +60,22 @@
             else
                 height = webBrowser.Size.Height;
 
-            webBrowser.Size = new System.Drawing.Size(r.Width + overlapp, height);
+            webBrowser.Size = new Size(r.Width + overlapp, height);
             //  webBrowser.Document.Body.Style = "zoom:80%;";
         }
     }
 
-    internal class WebBrowserToolTip : System.Windows.Forms.ToolStripDropDown
+    internal class WebBrowserToolTip : ToolStripDropDown
     {
         //private Control ctl;
         //  private WebBrowserForm form;
-        private readonly System.Windows.Forms.WebBrowser webBrowser;
+        private readonly WebBrowser webBrowser;
 
         public WebBrowserToolTip()
         {
-            webBrowser = new System.Windows.Forms.WebBrowser();
+            webBrowser = new WebBrowser();
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
-            webBrowser.MinimumSize = new System.Drawing.Size(300, 195);
+            webBrowser.MinimumSize = new Size(300, 195);
             webBrowser.ScrollBarsEnabled = true;
 
             // this.ctl = webBrowser;
@@ -91,7 +96,7 @@
         public void Initialize()
         {
             //  this.AutoSize = true;
-            var host = new System.Windows.Forms.ToolStripControlHost(webBrowser);
+            var host = new ToolStripControlHost(webBrowser);
             //this.Margin = Padding.Empty;
             // this.Padding = Padding.Empty;
             // host.Margin = Padding.Empty;
@@ -100,7 +105,7 @@
             // host.Size = ctl.Size;
             // this.Size = ctl.Size;
             Items.Add(host);
-            webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            webBrowser.Dock = DockStyle.Fill;
             //webBrowser.BringToFront();
             //this.form.Controls.Add(new ComboBox());//ctl);
             // webBrowser.Url = new Uri("http://en.m.wikipedia.org/w/index.php?search=" + title);
@@ -126,9 +131,9 @@
         }
 
         private void WebBrowser_DocumentCompleted(object sender,
-            System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
+            WebBrowserDocumentCompletedEventArgs e)
         {
-            var webBrowser = sender as System.Windows.Forms.WebBrowser;
+            var webBrowser = sender as WebBrowser;
 
             var r = webBrowser.Document.Body.ScrollRectangle;
 
@@ -140,14 +145,14 @@
             else
                 height = webBrowser.Size.Height;
 
-            webBrowser.Size = new System.Drawing.Size(r.Width + overlapp, height);
+            webBrowser.Size = new Size(r.Width + overlapp, height);
             //  webBrowser.Document.Body.Style = "zoom:80%;";
         }
 
-        public void setFunctionInfo(Functions.FunctionInfo functionInfo)
+        public void setFunctionInfo(FunctionInfo functionInfo)
         {
             HTMLCode = @"<b>" + functionInfo.Title + @"</b>" + @"<hr>" + functionInfo.Description + @" <br /><br /><i>" +
-                       Localization.Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
+                       Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
                        functionInfo.Url.Replace("http://en.wikipedia", "http://en.m.wikipedia") + @""">" +
                        functionInfo.Url + @"</a></i>";
         }

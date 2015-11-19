@@ -1,6 +1,12 @@
-﻿namespace Computator.NET
+﻿using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
+using Computator.NET.Config;
+using Computator.NET.Localization;
+
+namespace Computator.NET
 {
-    partial class AboutBox1 : System.Windows.Forms.Form
+    partial class AboutBox1 : Form
     {
         public AboutBox1()
         {
@@ -10,8 +16,8 @@
             labelVersion.Text = string.Format("Version {0}", AssemblyVersion);
             labelCopyright.Text = AssemblyCopyright;
             labelCompanyName.Text = AssemblyCompany;
-            textBoxDescription.Text = AssemblyDescription + Localization.Strings.ItSFeaturesInclude +
-                                      Config.GlobalConfig.features.Replace(" - ", "\r\n - ");
+            textBoxDescription.Text = AssemblyDescription + Strings.ItSFeaturesInclude +
+                                      GlobalConfig.features.Replace(" - ", "\r\n - ");
         }
 
         #region Assembly Attribute Accessors
@@ -21,25 +27,25 @@
             get
             {
                 var attributes =
-                    System.Reflection.Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (System.Reflection.AssemblyTitleAttribute), false);
+                    Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
-                    var titleAttribute = (System.Reflection.AssemblyTitleAttribute) attributes[0];
+                    var titleAttribute = (AssemblyTitleAttribute) attributes[0];
                     if (titleAttribute.Title != "")
                     {
                         return titleAttribute.Title;
                     }
                 }
                 return
-                    System.IO.Path.GetFileNameWithoutExtension(
-                        System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+                    Path.GetFileNameWithoutExtension(
+                        Assembly.GetExecutingAssembly().CodeBase);
             }
         }
 
         public string AssemblyVersion
         {
-            get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
+            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
         }
 
         public string AssemblyDescription
@@ -47,13 +53,13 @@
             get
             {
                 var attributes =
-                    System.Reflection.Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (System.Reflection.AssemblyDescriptionAttribute), false);
+                    Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((System.Reflection.AssemblyDescriptionAttribute) attributes[0]).Description;
+                return ((AssemblyDescriptionAttribute) attributes[0]).Description;
             }
         }
 
@@ -62,13 +68,13 @@
             get
             {
                 var attributes =
-                    System.Reflection.Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (System.Reflection.AssemblyProductAttribute), false);
+                    Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((System.Reflection.AssemblyProductAttribute) attributes[0]).Product;
+                return ((AssemblyProductAttribute) attributes[0]).Product;
             }
         }
 
@@ -77,13 +83,13 @@
             get
             {
                 var attributes =
-                    System.Reflection.Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (System.Reflection.AssemblyCopyrightAttribute), false);
+                    Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((System.Reflection.AssemblyCopyrightAttribute) attributes[0]).Copyright;
+                return ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
             }
         }
 
@@ -92,13 +98,13 @@
             get
             {
                 var attributes =
-                    System.Reflection.Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (System.Reflection.AssemblyCompanyAttribute), false);
+                    Assembly.GetExecutingAssembly()
+                        .GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
                 }
-                return ((System.Reflection.AssemblyCompanyAttribute) attributes[0]).Company;
+                return ((AssemblyCompanyAttribute) attributes[0]).Company;
             }
         }
 

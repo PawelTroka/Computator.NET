@@ -14,6 +14,19 @@
  * + Added possibility to change autocomplete items format (return type, type of arguments) and fonts (size, family) for scripting and expressions 
  * = Refreshed installer with option to upgrade and with better support for needed redistributables and possibly less bugs
  * = Fixed bug in KroneckerProduct(M1,M2,..) function
+ * = GSL library errors no longer crashes whole application - custom made error handling for GSL library throws exceptions instead
+ * + Scripting and custom functions code editor is now a real text editor with functions like save, tabs, load, solution, directory etc. more tabs and files
+ * + New tests for Elementary and Special Functions covering over 100% of code allowing to fix all bugs in these functions
+ * = Fixed bugs in functions: SphericalBesselJ(n, x), SphericalBesselYn(n, x), MathieuBn(n,q), ModifiedSphericalBesselIn(n,x), ModifiedSphericalBesselKn(n,x), EllipticΠ(k,n), Coupling3j, Coupling6j, CouplingRacahW, Coupling9j, LegendreP(int l, int m, double x), SphericalLegendreP(int l, int m, double x), ChebyshevT(n,x), HermiteH, HermiteHe, ZernikeR(n,m,ρ), HydrogenicR, CoulombGprime, CoulombFprime, FermiDiracF0(x,b), gammaQ(a,x), HypergeometricU(m,n,x), HypergeometricU(a,b,x), DoubleFactorialBinomialCoeffPermutations(n), EllipticΠ(k,n), EllipticΠ(φ,x,n), inverseErf(y), inverseErfc(y), LCM(a,b)
+ * + New functions for creating matrices: IdentityMatrix(), ZerosMatrix(), OnesMatrix()
+ * + New operations for matrices KroneckerSum(M1,M2,...), DirectSum(M1,M2,...), HermitianTranspose(M)
+ * + New functions for matrices isUnitary(M), isIdentity(m), isHermitian(m), isSymmetric(M), ker(M)
+ * = Fixed bugs in matrx operations PointwiseMultiply, PointwiseDivide
+ * + New function for integers BitwiseDotProduct(a,b)
+ * - Removed HypergeometricU due to a lot of erros in implementation
+ * - Removed function logGamma due to a lot of erros in implementation
+ * + Added error higlighting to scripting for faster finding of errors in your code
+ * = All delegates from SpecialFunctions and ElementaryFunction have been changed to normal functions for better control of data flow and more information for autocomplete
 
 
  * --------- Version 1.9.0α - alpha 6 -----------  20.09.2015 07:00

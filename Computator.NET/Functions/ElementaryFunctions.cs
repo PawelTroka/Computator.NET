@@ -356,8 +356,15 @@ namespace Computator.NET.Functions
              "square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x."
              ), System.ComponentModel.DisplayName("Angielska nazwa funkcji"),
          System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)*/
-        public static double sqrt(double x)
+       /* public static double sqrt(double x)
         {
+            return System.Math.Sqrt(x);
+        }*/
+
+        public static dynamic sqrt(double x)
+        {
+            if (x < 0)
+                return System.Numerics.Complex.Sqrt(x);
             return System.Math.Sqrt(x);
         }
 
@@ -792,31 +799,33 @@ namespace Computator.NET.Functions
 
         #region integer functions
 
-        private static double sgn(double x)
+        public static double sgn(double x)
         {
             return (double.IsNaN(x)) ? double.NaN : (double) (System.Math.Sign(x));
         }
 
 
 
-        public static long GCF(long a, long b)
+        public static double GCF(long a, long b)
         {
             return Meta.Numerics.Functions.AdvancedIntegerMath.GCF(a,b);
         }
 
-        public static long NWD(long a, long b)
+        public static double NWD(long a, long b)
         {
             return GCF(a, b);
         }
 
 
 
-        public static long LCM(long a, long b)
+        public static double LCM(long a, long b)
         {
+            if (a == 0 || b == 0)
+                return double.NaN;
             return Meta.Numerics.Functions.AdvancedIntegerMath.LCM(a, b);
         }
 
-        public static long NWW(long a, long b)
+        public static double NWW(long a, long b)
         {
             return LCM(a, b);
         }
@@ -1381,8 +1390,10 @@ namespace Computator.NET.Functions
              ""square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.""
              ), System.ComponentModel.DisplayName(""Angielska nazwa funkcji""),
          System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)*/
-        public static double sqrt(double x)
+        public static dynamic sqrt(double x)
         {
+            if (x < 0)
+                return System.Numerics.Complex.Sqrt(x);
             return System.Math.Sqrt(x);
         }
 
@@ -1817,34 +1828,35 @@ namespace Computator.NET.Functions
 
         #region integer functions
 
-        private static double sgn(double x)
+        public static double sgn(double x)
         {
             return (double.IsNaN(x)) ? double.NaN : (double) (System.Math.Sign(x));
         }
 
-
-
-        public static long GCF(long a, long b)
+        public static double GCF(long a, long b)
         {
             return Meta.Numerics.Functions.AdvancedIntegerMath.GCF(a,b);
         }
 
-        public static long NWD(long a, long b)
+        public static double NWD(long a, long b)
         {
             return GCF(a, b);
         }
 
 
 
-        public static long LCM(long a, long b)
+        public static double LCM(long a, long b)
         {
+            if (a == 0 || b == 0)
+                return double.NaN;
             return Meta.Numerics.Functions.AdvancedIntegerMath.LCM(a, b);
         }
 
-        public static long NWW(long a, long b)
+        public static double NWW(long a, long b)
         {
             return LCM(a, b);
         }
+
 
         /*Angielska nazwa funkcji""),
          System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),

@@ -163,8 +163,10 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\FunctionsDetails.cs" />
+    <Compile Include="Data\MethodInfoExtensions.cs" />
     <Compile Include="Evaluation\BaseEvaluator.cs" />
     <Compile Include="Evaluation\CalculationsMode.cs" />
+    <Compile Include="Evaluation\DynamicEvaluator.cs" />
     <Compile Include="Evaluation\EvaluationException.cs" />
     <Compile Include="Evaluation\Function2DEvaluator.cs" />
     <Compile Include="Evaluation\Function3DEvaluator.cs" />
@@ -213,11 +215,13 @@
     <Compile Include="UI\CodeEditors\AvalonEdit\BitmapExtension.cs" />
     <Compile Include="UI\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
     <Compile Include="UI\CodeEditors\AvalonEdit\AvalonEditCodeEditorControl.cs" />
+    <Compile Include="UI\CodeEditors\AvalonEdit\OffsetColorizer.cs" />
     <Compile Include="UI\CodeEditors\CodeEditorControlWrapper.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\CodeEditors\AvalonEdit\CompletionData.cs" />
     <Compile Include="UI\CodeEditors\ICodeEditorControl.cs" />
+    <Compile Include="UI\CodeEditors\TSLMode.cs" />
     <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
@@ -415,25 +419,25 @@
     <Folder Include="SymbolicCalculations\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CHANGELOG">
+    <Content Include="CHANGELOG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="BUGS">
+    </Content>
+    <Content Include="BUGS">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="TODO">
+    </Content>
+    <Content Include="TODO">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="Data\functions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Graphics\Matrix.png" />
     <None Include="Graphics\computator.net-logo.ico" />
     <None Include="Graphics\computator.net-logo.png" />
-    <Content Include="Special\x64\cblas.dll" />
-    <Content Include="Special\x64\gsl.dll" />
-    <Content Include="Special\x86\cblas.dll" />
-    <Content Include="Special\x86\gsl.dll" />
+    <None Include="Special\x64\cblas.dll" />
+    <None Include="Special\x64\gsl.dll" />
+    <None Include="Special\x86\cblas.dll" />
+    <None Include="Special\x86\gsl.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

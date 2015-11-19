@@ -1,10 +1,13 @@
-﻿namespace Computator.NET.NumericalCalculations.ElementaryMathematics
+﻿using System;
+using MathNet.Numerics.RootFinding;
+
+namespace Computator.NET.NumericalCalculations.ElementaryMathematics
 {
     internal class FunctionRoot
     {
         private const double N_MAX = 1e5;
 
-        public static double BrentMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double BrentMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
             var err = ((a + b)/2.0)*1e-15;
 
@@ -12,12 +15,12 @@
                 err = 1e-20;
             double root;
 
-            if (MathNet.Numerics.RootFinding.Brent.TryFindRoot(fx, a, b, err, (int) N, out root))
+            if (Brent.TryFindRoot(fx, a, b, err, (int) N, out root))
                 return root;
             return double.NaN;
         }
 
-        public static double BroydenMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double BroydenMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
             var err = ((a + b)/2.0)*1e-15;
 
@@ -25,7 +28,7 @@
                 err = 1e-20;
             double[] root;
 
-            System.Func<double[], double[]> function = (variables =>
+            Func<double[], double[]> function = (variables =>
             {
                 var results = new double[variables.Length];
 
@@ -35,12 +38,26 @@
                 return results;
             });
 
-            if (MathNet.Numerics.RootFinding.Broyden.TryFindRoot(function, new[] {(b + a)/2}, err, (int) N, out root))
+            if (Broyden.TryFindRoot(function, new[] {(b + a)/2}, err, (int) N, out root))
                 return root[0];
             return double.NaN;
         }
 
-        public static double secantMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double secantNewtonRaphsonMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
+        {
+            double root;
+
+            if (Secant.TryFindRoot(fx, (a + b)/2, (a + b)/3, a, b, 1e-10, (int)N, out root))
+            {
+                return root;
+            }
+            else
+            {
+                return double.NaN;
+            }
+        }
+
+        public static double secantMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
             double x1 = a, x2 = b, xOld;
 
@@ -55,7 +72,7 @@
             return x2;
         }
 
-        public static double bisectionMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double bisectionMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
             var x = (a + b)/2.0;
 

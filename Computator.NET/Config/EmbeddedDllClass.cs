@@ -1,4 +1,8 @@
-﻿using Enumerable = System.Linq.Enumerable;
+﻿using System;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace Computator.NET.Config
 {
@@ -45,7 +49,7 @@ namespace Computator.NET.Config
         /// <param name="resourceBytes">The resource name (fully qualified)</param>
         public static void ExtractEmbeddedDlls(string dllName, byte[] resourceBytes)
         {
-            var assem = System.Reflection.Assembly.GetExecutingAssembly();
+            var assem = Assembly.GetExecutingAssembly();
             var names = assem.GetManifestResourceNames();
             var an = assem.GetName();
 
@@ -53,14 +57,14 @@ namespace Computator.NET.Config
             // It is made "unique" to avoid different versions of the DLL or architectures.
             tempFolder = string.Format("{0}.{1}.{2}", an.Name, an.ProcessorArchitecture, an.Version);
 
-            var dirName = System.IO.Path.Combine(System.IO.Path.GetTempPath(), tempFolder);
-            if (!System.IO.Directory.Exists(dirName))
+            var dirName = Path.Combine(Path.GetTempPath(), tempFolder);
+            if (!Directory.Exists(dirName))
             {
-                System.IO.Directory.CreateDirectory(dirName);
+                Directory.CreateDirectory(dirName);
             }
 
             // Add the temporary dirName to the PATH environment variable (at the head!)
-            var path = System.Environment.GetEnvironmentVariable("PATH");
+            var path = Environment.GetEnvironmentVariable("PATH");
             var pathPieces = path.Split(';');
             var found = false;
             foreach (var pathPiece in pathPieces)
@@ -73,15 +77,15 @@ namespace Computator.NET.Config
             }
             if (!found)
             {
-                System.Environment.SetEnvironmentVariable("PATH", dirName + ";" + path);
+                Environment.SetEnvironmentVariable("PATH", dirName + ";" + path);
             }
 
             // See if the file exists, avoid rewriting it if not necessary
-            var dllPath = System.IO.Path.Combine(dirName, dllName);
+            var dllPath = Path.Combine(dirName, dllName);
             var rewrite = true;
-            if (System.IO.File.Exists(dllPath))
+            if (File.Exists(dllPath))
             {
-                var existing = System.IO.File.ReadAllBytes(dllPath);
+                var existing = File.ReadAllBytes(dllPath);
                 if (Enumerable.SequenceEqual(resourceBytes, existing))
                 {
                     rewrite = false;
@@ -89,7 +93,7 @@ namespace Computator.NET.Config
             }
             if (rewrite)
             {
-                System.IO.File.WriteAllBytes(dllPath, resourceBytes);
+                File.WriteAllBytes(dllPath, resourceBytes);
             }
         }
 
@@ -101,13 +105,13 @@ namespace Computator.NET.Config
         {
             if (tempFolder == "")
             {
-                throw new System.Exception("Please call ExtractEmbeddedDlls before LoadDll");
+                throw new Exception("Please call ExtractEmbeddedDlls before LoadDll");
             }
             var h = NativeMethods.LoadLibrary(dllName);
-            if (h == System.IntPtr.Zero)
+            if (h == IntPtr.Zero)
             {
-                System.Exception e = new System.ComponentModel.Win32Exception();
-                throw new System.DllNotFoundException("Unable to load library: " + dllName + " from " + tempFolder, e);
+                Exception e = new Win32Exception();
+                throw new DllNotFoundException("Unable to load library: " + dllName + " from " + tempFolder, e);
             }
         }
     }

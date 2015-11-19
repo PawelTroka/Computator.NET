@@ -1,10 +1,19 @@
-﻿namespace Computator.NET.Evaluation
+﻿using System.Diagnostics;
+using System.Windows.Data;
+using System.Windows.Forms.Integration;
+using System.Windows.Media.Media3D;
+using Computator.NET.Config;
+using Computator.NET.DataTypes;
+using Settings = Computator.NET.Properties.Settings;
+
+namespace Computator.NET.Evaluation
 {
     internal class ScriptEvaluator : Evaluator
     {
+        private readonly string additionalObjectsCodeCopy;
         public ScriptEvaluator()
         {
-            functionType = DataTypes.FunctionType.Scripting;
+            functionType = FunctionType.Scripting;
             additionalUsings = @"
             //using System.Collections.Generic;
             //using System.Windows.Forms.Integration;
@@ -27,38 +36,42 @@
             //using Meta.Numerics.Matrices;
             ";
 
-            nativeCompiler.AddDll(Config.GlobalConfig.FullPath("Computator.NET.Charting.dll"));
-            nativeCompiler.AddDll(Config.GlobalConfig.FullPath("Computator.NET.DataTypes.dll"));
-                /////////////////////////
+            nativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.Charting.dll"));
+            nativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.DataTypes.dll"));
+            /////////////////////////
             nativeCompiler.AddDll("System.Drawing.dll");
             nativeCompiler.AddDll("System.Windows.Forms.DataVisualization.dll");
             nativeCompiler.AddDll("System.Windows.Forms.dll");
             nativeCompiler.AddDll("System.Xaml.dll");
+            //nativeCompiler.AddDll("Microsoft.CSharp.dll");
+            
 
-            nativeCompiler.AddDll(typeof (System.Windows.Media.Media3D.AmbientLight).Assembly.Location);
-                //"PresentationCore.dll");
-            nativeCompiler.AddDll(typeof (System.Windows.Data.XmlDataProvider).Assembly.Location);
-                //"PresentationFramework.dll");
-            nativeCompiler.AddDll(typeof (System.Diagnostics.PresentationTraceSources).Assembly.Location);
-                //"WindowsBase.dll");
-            nativeCompiler.AddDll(typeof (System.Windows.Forms.Integration.ElementHost).Assembly.Location);
-                //"WindowsFormsIntegration.dll");
+            nativeCompiler.AddDll(typeof (AmbientLight).Assembly.Location);
+            //"PresentationCore.dll");
+            nativeCompiler.AddDll(typeof (XmlDataProvider).Assembly.Location);
+            //"PresentationFramework.dll");
+            nativeCompiler.AddDll(typeof (PresentationTraceSources).Assembly.Location);
+            //"WindowsBase.dll");
+            nativeCompiler.AddDll(typeof (ElementHost).Assembly.Location);
+            //"WindowsFormsIntegration.dll");
 
-            additionalObjectsCode = ScriptingExtensionObjects.ToCode;
+            additionalObjectsCodeCopy=additionalObjectsCode = ScriptingExtensionObjects.ToCode;
             logger.ClassName = GetType().FullName;
         }
 
-        public DataTypes.ScriptFunction Evaluate(string input, string customFunctionsCode = "")
+        public ScriptFunction Evaluate(string input, string customFunctionsCode = "")
         {
             tslCode = input;
             customFunctionsTSLCode = customFunctionsCode;
 
-            additionalObjectsCode = additionalObjectsCode.Replace(
+            additionalObjectsCode = additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation",
-                "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." + Properties.Settings.Default.NumericalOutputNotation);//DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
+                "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." +
+                Settings.Default.NumericalOutputNotation);
+                //DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
 
             var function = Compile();
-            return new DataTypes.ScriptFunction(function, tslCode, CSharpCode);
+            return new ScriptFunction(function, tslCode, CSharpCode);
         }
     }
 }

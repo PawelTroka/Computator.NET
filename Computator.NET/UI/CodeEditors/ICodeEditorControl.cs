@@ -1,7 +1,10 @@
-﻿namespace Computator.NET.UI.CodeEditors
+﻿using System.CodeDom.Compiler;
+
+namespace Computator.NET.UI.CodeEditors
 {
     internal interface ICodeEditorControl
     {
+        void ClearHighlightedErrors();
         string Text { get; set; }
         bool ExponentMode { get; set; }
         void Undo();
@@ -16,5 +19,7 @@
         void NewDocument(string filename);
         void SwitchDocument(string filename);
         void CloseDocument(string filename);
+
+        void HighlightErrors(CompilerErrorCollection errors);
     }
 }

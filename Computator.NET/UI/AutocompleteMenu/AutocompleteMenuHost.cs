@@ -1,6 +1,10 @@
-﻿namespace AutocompleteMenuNS
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace AutocompleteMenuNS
 {
-    internal class AutocompleteMenuHost : System.Windows.Forms.ToolStripDropDown
+    internal class AutocompleteMenuHost : ToolStripDropDown
     {
         public readonly AutocompleteMenu Menu;
         private IAutocompleteListView listView;
@@ -9,14 +13,14 @@
         {
             AutoClose = false;
             AutoSize = false;
-            Margin = System.Windows.Forms.Padding.Empty;
-            Padding = System.Windows.Forms.Padding.Empty;
+            Margin = Padding.Empty;
+            Padding = Padding.Empty;
 
             Menu = menu;
             ListView = new AutocompleteListView();
         }
 
-        public System.Windows.Forms.ToolStripControlHost Host { get; set; }
+        public ToolStripControlHost Host { get; set; }
 
         public IAutocompleteListView ListView
         {
@@ -27,43 +31,43 @@
                     listView = new AutocompleteListView();
                 else
                 {
-                    if (!(value is System.Windows.Forms.Control))
-                        throw new System.Exception("ListView must be derived from Control class");
+                    if (!(value is Control))
+                        throw new Exception("ListView must be derived from Control class");
 
                     listView = value;
                 }
 
-                Host = new System.Windows.Forms.ToolStripControlHost(ListView as System.Windows.Forms.Control);
-                Host.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-                Host.Padding = System.Windows.Forms.Padding.Empty;
+                Host = new ToolStripControlHost(ListView as Control);
+                Host.Margin = new Padding(2, 2, 2, 2);
+                Host.Padding = Padding.Empty;
                 Host.AutoSize = false;
                 Host.AutoToolTip = false;
 
-                (ListView as System.Windows.Forms.Control).MaximumSize = Menu.MaximumSize;
-                (ListView as System.Windows.Forms.Control).Size = Menu.MaximumSize;
+                (ListView as Control).MaximumSize = Menu.MaximumSize;
+                (ListView as Control).Size = Menu.MaximumSize;
 
                 CalcSize();
                 Items.Clear();
                 Items.Add(Host);
-                (ListView as System.Windows.Forms.Control).Parent = this;
+                (ListView as Control).Parent = this;
             }
         }
 
-        public override System.Windows.Forms.RightToLeft RightToLeft
+        public override RightToLeft RightToLeft
         {
             get { return base.RightToLeft; }
             set
             {
                 base.RightToLeft = value;
-                (ListView as System.Windows.Forms.Control).RightToLeft = value;
+                (ListView as Control).RightToLeft = value;
             }
         }
 
         internal void CalcSize()
         {
-            Host.Size = (ListView as System.Windows.Forms.Control).Size;
-            Size = new System.Drawing.Size((ListView as System.Windows.Forms.Control).Size.Width + 4,
-                (ListView as System.Windows.Forms.Control).Size.Height + 4);
+            Host.Size = (ListView as Control).Size;
+            Size = new Size((ListView as Control).Size.Width + 4,
+                (ListView as Control).Size.Height + 4);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Computator.NET.Evaluation
+﻿using Computator.NET.DataTypes;
+
+namespace Computator.NET.Evaluation
 {
     internal class Function3DEvaluator : Evaluator
     {
@@ -7,15 +9,15 @@
             logger.ClassName = GetType().FullName;
         }
 
-        public DataTypes.Function Evaluate(string input, string customFunctionsCode = "")
+        public Function Evaluate(string input, string customFunctionsCode = "")
         {
             tslCode = input;
             customFunctionsTSLCode = customFunctionsCode;
 
-            functionType = input.Contains("=") ? DataTypes.FunctionType.Real3DImplicit : DataTypes.FunctionType.Real3D;
+            functionType = input.Contains("=") ? FunctionType.Real3DImplicit : FunctionType.Real3D;
 
             var function = Compile();
-            return new DataTypes.Function(function, tslCode, CSharpCode, functionType);
+            return new Function(function, tslCode, CSharpCode, functionType);
         }
     }
 }

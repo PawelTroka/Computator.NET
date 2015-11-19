@@ -1,3 +1,10 @@
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
+
 namespace Computator.NET.UI.CodeEditors
 {
     public static class BitmapExtension
@@ -7,11 +14,11 @@ namespace Computator.NET.UI.CodeEditors
         /// </summary>
         /// <param name="source">The source image.</param>
         /// <returns>A BitmapSource</returns>
-        public static System.Windows.Media.Imaging.BitmapSource ToBitmapSource(this System.Drawing.Image source)
+        public static BitmapSource ToBitmapSource(this Image source)
         {
-            var bitmap = new System.Drawing.Bitmap(source);
+            var bitmap = new Bitmap(source);
 
-            var bitSrc = ToBitmapSource((System.Drawing.Image) bitmap);
+            var bitSrc = ToBitmapSource((Image) bitmap);
 
             bitmap.Dispose();
             bitmap = null;
@@ -28,21 +35,21 @@ namespace Computator.NET.UI.CodeEditors
         /// </remarks>
         /// <param name="source">The source bitmap.</param>
         /// <returns>A BitmapSource</returns>
-        public static System.Windows.Media.Imaging.BitmapSource ToBitmapSource(this System.Drawing.Bitmap source)
+        public static BitmapSource ToBitmapSource(this Bitmap source)
         {
-            System.Windows.Media.Imaging.BitmapSource bitSrc = null;
+            BitmapSource bitSrc = null;
 
             var hBitmap = source.GetHbitmap();
 
             try
             {
-                bitSrc = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                bitSrc = Imaging.CreateBitmapSourceFromHBitmap(
                     hBitmap,
-                    System.IntPtr.Zero,
-                    System.Windows.Int32Rect.Empty,
-                    System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+                    IntPtr.Zero,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
             }
-            catch (System.ComponentModel.Win32Exception)
+            catch (Win32Exception)
             {
                 bitSrc = null;
             }

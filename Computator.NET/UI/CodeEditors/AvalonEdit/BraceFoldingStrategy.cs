@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Folding;
+
 namespace Computator.NET.UI.CodeEditors
 {
     /// <summary>
@@ -24,8 +28,8 @@ namespace Computator.NET.UI.CodeEditors
         /// </summary>
         public char ClosingBrace { get; set; }
 
-        public void UpdateFoldings(ICSharpCode.AvalonEdit.Folding.FoldingManager manager,
-            ICSharpCode.AvalonEdit.Document.TextDocument document)
+        public void UpdateFoldings(FoldingManager manager,
+            TextDocument document)
         {
             int firstErrorOffset;
             var newFoldings = CreateNewFoldings(document, out firstErrorOffset);
@@ -35,8 +39,8 @@ namespace Computator.NET.UI.CodeEditors
         /// <summary>
         ///     Create <see cref="ICSharpCode.AvalonEdit.Folding.NewFolding" />s for the specified document.
         /// </summary>
-        public System.Collections.Generic.IEnumerable<ICSharpCode.AvalonEdit.Folding.NewFolding> CreateNewFoldings(
-            ICSharpCode.AvalonEdit.Document.TextDocument document, out int firstErrorOffset)
+        public IEnumerable<NewFolding> CreateNewFoldings(
+            TextDocument document, out int firstErrorOffset)
         {
             firstErrorOffset = -1;
             return CreateNewFoldings(document);
@@ -45,12 +49,12 @@ namespace Computator.NET.UI.CodeEditors
         /// <summary>
         ///     Create <see cref="ICSharpCode.AvalonEdit.Folding.NewFolding" />s for the specified document.
         /// </summary>
-        public System.Collections.Generic.IEnumerable<ICSharpCode.AvalonEdit.Folding.NewFolding> CreateNewFoldings(
-            ICSharpCode.AvalonEdit.Document.ITextSource document)
+        public IEnumerable<NewFolding> CreateNewFoldings(
+            ITextSource document)
         {
-            var newFoldings = new System.Collections.Generic.List<ICSharpCode.AvalonEdit.Folding.NewFolding>();
+            var newFoldings = new List<NewFolding>();
 
-            var startOffsets = new System.Collections.Generic.Stack<int>();
+            var startOffsets = new Stack<int>();
             var lastNewLineOffset = 0;
             var openingBrace = OpeningBrace;
             var closingBrace = ClosingBrace;
@@ -67,7 +71,7 @@ namespace Computator.NET.UI.CodeEditors
                     // don't fold if opening and closing brace are on the same line
                     if (startOffset < lastNewLineOffset)
                     {
-                        newFoldings.Add(new ICSharpCode.AvalonEdit.Folding.NewFolding(startOffset, i + 1));
+                        newFoldings.Add(new NewFolding(startOffset, i + 1));
                     }
                 }
                 else if (c == '\n' || c == '\r')

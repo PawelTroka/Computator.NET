@@ -1,41 +1,47 @@
-﻿namespace Computator.NET.NumericalCalculations.MathematicalAnalysis
+﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
+using Accord.Math.Integration;
+using MathNet.Numerics.Integration;
+
+namespace Computator.NET.NumericalCalculations.MathematicalAnalysis
 {
     internal class Integral
     {
         private const double N_MAX = 1e5;
 
-        public static double monteCarloMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double monteCarloMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
-            var parameters = new Accord.Math.Integration.MonteCarloIntegration(1);
-            return Accord.Math.Integration.MonteCarloIntegration.Integrate(fx, a, b, (int) N*10);
+            var parameters = new MonteCarloIntegration(1);
+            return MonteCarloIntegration.Integrate(fx, a, b, (int) N*10);
         }
 
-        public static double infiniteAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b,
+        public static double infiniteAdaptiveGaussKronrodMethod(Func<double, double> fx, double a, double b,
             double N = N_MAX)
         {
-            return Accord.Math.Integration.InfiniteAdaptiveGaussKronrod.Integrate(fx, a, b, 1/N);
+            return InfiniteAdaptiveGaussKronrod.Integrate(fx, a, b, 1/N);
         }
 
-        public static double nonAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b,
+        public static double nonAdaptiveGaussKronrodMethod(Func<double, double> fx, double a, double b,
             double N = N_MAX)
         {
-            return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, 1/N);
+            return NonAdaptiveGaussKronrod.Integrate(fx, a, b, 1/N);
         }
 
-        public static double rombergMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double rombergMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
-            return Accord.Math.Integration.RombergMethod.Integrate(fx, a, b);
+            return RombergMethod.Integrate(fx, a, b);
         }
 
-        public static double doubleExponentialTransformation(System.Func<double, double> fx, double a, double b,
+        public static double doubleExponentialTransformation(Func<double, double> fx, double a, double b,
             double N = N_MAX)
         {
-            return MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(fx, a, b, 1/N);
+            return DoubleExponentialTransformation.Integrate(fx, a, b, 1/N);
         }
 
-        public static double trapezoidalMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double trapezoidalMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
-            var h = System.Math.Abs(b - a)/N;
+            var h = Math.Abs(b - a)/N;
             double s = 0, x1, x2;
 
             for (var i = 0; i < N; i++)
@@ -47,7 +53,7 @@
             return s;
         }
 
-        public static double simpsonNumericalIntegration(System.Collections.Generic.List<System.Numerics.Complex> _x,
+        public static double simpsonNumericalIntegration(List<Complex> _x,
             int n)
         {
             var n2 = (n - 1)/2;
@@ -63,7 +69,7 @@
             return (n - 1)*(_x[0].Real + sum - _x[n - 1].Real)/(3*(n - 1));
         }
 
-        public static double simpsonNumericalIntegration(System.Numerics.Complex[] _x, int n)
+        public static double simpsonNumericalIntegration(Complex[] _x, int n)
         {
             var n2 = (n - 1)/2;
             int j1, j2;
@@ -78,9 +84,9 @@
             return (n - 1)*(_x[0].Real + sum - _x[n - 1].Real)/(3*(n - 1));
         }
 
-        public static double rectangleMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double rectangleMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
-            var h = System.Math.Abs(b - a)/N;
+            var h = Math.Abs(b - a)/N;
             double s = 0, x;
 
             for (var i = 0; i < N; i++)
@@ -92,9 +98,9 @@
             return h*s;
         }
 
-        public static double simpsonMethodOld(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double simpsonMethodOld(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
-            var h = System.Math.Abs(b - a)/N;
+            var h = Math.Abs(b - a)/N;
 
             var N2 = (((int) N) - 1)/2;
 
@@ -113,12 +119,12 @@
             return (fx(a) + s - fx(b))/(3*(N - 1));
         }
 
-        public static double simpsonMethod(System.Func<double, double> fx, double a, double b, double N = N_MAX)
+        public static double simpsonMethod(Func<double, double> fx, double a, double b, double N = N_MAX)
         {
             if (N%2 != 0) //not even
                 N++;
 
-            var h = System.Math.Abs(b - a)/N;
+            var h = Math.Abs(b - a)/N;
             double s = 0, x;
 
             for (var i = 1; i < N; i++)

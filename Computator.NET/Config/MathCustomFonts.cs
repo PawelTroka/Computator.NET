@@ -1,24 +1,31 @@
+using System;
+using System.Drawing;
+using System.Drawing.Text;
+using System.Reflection;
+using System.Windows.Forms;
+using Computator.NET.Logging;
+
 namespace Computator.NET.Config
 {
     internal static class MathCustomFonts
     {
-        private static readonly Logging.SimpleLogger logger = new Logging.SimpleLogger
+        private static readonly SimpleLogger logger = new SimpleLogger
         {
             ClassName = typeof (GlobalConfig).FullName
         };
 
-        private static System.Drawing.Text.PrivateFontCollection pfc;
+        private static PrivateFontCollection pfc;
 
-        public static System.Drawing.Font mathFont
+        public static Font mathFont
         {
             get
             {
                 if (pfc == null) getCustomFont();
-                return new System.Drawing.Font(pfc.Families[0], 18.2F, System.Drawing.GraphicsUnit.Point);
+                return new Font(pfc.Families[0], 18.2F, GraphicsUnit.Point);
             }
         }
 
-        public static System.Drawing.FontFamily mathFontFamily
+        public static FontFamily mathFontFamily
         {
             get
             {
@@ -27,33 +34,33 @@ namespace Computator.NET.Config
             }
         }
 
-        public static System.Drawing.Font GetMathFont(float fontSize)
+        public static Font GetMathFont(float fontSize)
         {
             if (pfc == null) getCustomFont();
-            return new System.Drawing.Font(pfc.Families[0], fontSize, System.Drawing.GraphicsUnit.Point);
+            return new Font(pfc.Families[0], fontSize, GraphicsUnit.Point);
         }
 
-        public static void changeFontToMathFont(params System.Windows.Forms.Control[] controls)
+        public static void changeFontToMathFont(params Control[] controls)
         {
             foreach (var c in controls)
             {
                 var oldFont = c.Font;
-                c.Font = new System.Drawing.Font(mathFontFamily, c.Font.Size, c.Font.Unit);
+                c.Font = new Font(mathFontFamily, c.Font.Size, c.Font.Unit);
             }
         }
 
         private static void getCustomFont()
         {
-            pfc = new System.Drawing.Text.PrivateFontCollection();
+            pfc = new PrivateFontCollection();
             var pathToFont = GlobalConfig.FullPath("UI", "fonts", "CAMBRIA.TTC");
             try
             {
                 pfc.AddFontFile(pathToFont);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                var nex = new System.Exception("Probably missing " + pathToFont + " file\nDetails:" + ex.Message, ex);
-                logger.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                var nex = new Exception("Probably missing " + pathToFont + " file\nDetails:" + ex.Message, ex);
+                logger.MethodName = MethodBase.GetCurrentMethod().Name;
                 logger.Log("Probably missing " + pathToFont + " file\nDetails:" + ex.Message, ErrorType.General, nex);
                 throw nex;
             }

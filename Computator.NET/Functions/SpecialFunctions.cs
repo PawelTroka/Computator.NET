@@ -101,19 +101,39 @@ namespace Computator.NET.Functions
             return (a <= 0 || x < 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.RightRegularizedGamma(a, x);
         }
 
-        public static double ψn(double x)
-        {
-            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
-        }
-
         public static double polyGamma(double x)
         {
             return Meta.Numerics.Functions.AdvancedMath.Psi(x);
         }
 
+        public static double ψn(double x)
+        {
+            return polyGamma(x);
+        }
+
+
         public static double ψⁿ(double x)
         {
-            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
+            return polyGamma(x);
+        }
+
+
+        public static double polyGamma(int n, double x)
+        {
+            if (n < 0)
+                return double.NaN;
+            return Meta.Numerics.Functions.AdvancedMath.Psi(n,x);
+        }
+
+        public static double ψn(int n,double x)
+        {
+            return polyGamma(n,x);
+        }
+
+
+        public static double ψⁿ(int n, double x)
+        {
+            return polyGamma(n,x);
         }
 
 
@@ -175,14 +195,13 @@ namespace Computator.NET.Functions
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Gamma(cmplxToMeta(z)));
         }
 
-
-        /*   public static Complex logGamma(Complex z)
+        /*
+        public static Complex logGamma(Complex z)
         {
             gsl_sf_result lnr = new gsl_sf_result(), arg = new gsl_sf_result();
             gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
             return (lnr.val + arg.val*Complex.ImaginaryOne);
         }
-
 
         public static Complex logΓ(Complex z)
         {
@@ -711,7 +730,7 @@ namespace Computator.NET.Functions
         }
 
 
-        private static double ConicalP(int μ, double λ, double x)
+        public static double ConicalP(int μ, double λ, double x)
         {
             if (x <= -1.0) return double.NaN;
 
@@ -837,12 +856,12 @@ namespace Computator.NET.Functions
 
         #region synchrotron functions
 
-        private static double SynchrotronF(double x)
+        public static double SynchrotronF(double x)
         {
             return (x < 0) ? double.NaN : gsl_sf_synchrotron_1(x);
         }
 
-        private static double SynchrotronG(double x)
+        public static double SynchrotronG(double x)
         {
             return (x < 0) ? double.NaN : gsl_sf_synchrotron_2(x);
         }
@@ -1145,14 +1164,16 @@ namespace Computator.NET.Functions
 
         public static double Si(double d) { return Meta.Numerics.Functions.AdvancedMath.IntegralSi(d); } //sine integral
 
-        private static double Ci(double x)//cosine integral
+        public static double Ci(double x)//cosine integral
         {
             return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.IntegralCi(x);
         }
 
         //Generalized Exponential Integral
-        private static double En(int n, double x)
+        public static double En(int n, double x)
         {
+            if (x < 0)
+                return double.NaN;
             return (x == 0.0 || n < 0 || n > 2) ? Meta.Numerics.Functions.AdvancedMath.IntegralE(n, x) : gsl_sf_expint_En(n, x);
         }
 
@@ -1172,10 +1193,10 @@ namespace Computator.NET.Functions
 
 
 
-        
+
         //hyperbolic cosine integral
 
-        private static double Chi(double x)
+        public static double Chi(double x)
         {
             return (x == 0.0) ? double.NaN : gsl_sf_Chi(x);
         }
@@ -1184,7 +1205,7 @@ namespace Computator.NET.Functions
 
 
         //Integrals in optics
-        private static System.Numerics.Complex Fresnel(double x)
+        public static System.Numerics.Complex Fresnel(double x)
         {
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedMath.Fresnel(x));
         }
@@ -1302,7 +1323,7 @@ namespace Computator.NET.Functions
         #region Elliptic integrals
 
         //In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.
-        private static double EllipticK(double x)
+        public static double EllipticK(double x)
         {
             return (x < 0 || x >= 1.0) ? ((x < 0 && x > -1.0) ? gsl_sf_ellint_Kcomp(x, 0) : double.NaN) : Meta.Numerics.Functions.AdvancedMath.EllipticK(x);
         }
@@ -1486,17 +1507,21 @@ namespace Computator.NET.Functions
 
         #region error functions
 
-        private static System.Numerics.Complex erfi(System.Numerics.Complex z)
+        public static System.Numerics.Complex erfi(System.Numerics.Complex z)
         {
             return -System.Numerics.Complex.ImaginaryOne*erf(System.Numerics.Complex.ImaginaryOne*z);
         }
 
         public static double inverseErf(double x)
         {
+            if (x > 1 || x < 0)
+                return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.InverseErf(x);
         }
         public static double inverseErfc(double x)
         {
+            if (x > 1 || x<0)
+                return double.NaN;
             return
                 Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
         }
@@ -1964,12 +1989,12 @@ namespace Computator.NET.Functions
 
         #region zeta and eta functions
 
-        private static double DirichletEta(double x)
+        public static double DirichletEta(double x)
         {
             return x >= 0 ? Meta.Numerics.Functions.AdvancedMath.DirichletEta(x) : (1 - System.Math.Pow(2, 1 - x))*RiemannZeta(x);
         }
 
-        private static double η(double x)
+        public static double η(double x)
         {
             return DirichletEta(x);
         }
@@ -2108,7 +2133,7 @@ namespace Computator.NET.Functions
         {
             if (q <= 0 || j > 2 || j < 1)
                 return double.NaN;
-            var error = gsl_sf_mathieu_Mc(j, n, q, x, out sfResult);
+            var error = gsl_sf_mathieu_Mc(j, n, q, x, out sfResult);//MathieuMc
             if (error == 0)
                 return sfResult.val;
             throw gslExceptions(error);
@@ -2144,7 +2169,7 @@ namespace Computator.NET.Functions
             return MathNet.Numerics.SpecialFunctions.Logistic(x);
         }
 
-        private static double Logit(double x)
+        public static double Logit(double x)
         {
             return (x < 0 || x > 1) ? double.NaN : MathNet.Numerics.SpecialFunctions.Logit(x);
         }
@@ -2256,7 +2281,7 @@ namespace Computator.NET.Functions
 
         public const string ToCode =
             @"
-        public static double findRoot(System.Func<double, double> f, double a, double b)
+     public static double findRoot(System.Func<double, double> f, double a, double b)
         {
             var ret = double.NaN;
 
@@ -2350,19 +2375,39 @@ namespace Computator.NET.Functions
             return (a <= 0 || x < 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.RightRegularizedGamma(a, x);
         }
 
-        public static double ψn(double x)
-        {
-            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
-        }
-
         public static double polyGamma(double x)
         {
             return Meta.Numerics.Functions.AdvancedMath.Psi(x);
         }
 
+        public static double ψn(double x)
+        {
+            return polyGamma(x);
+        }
+
+
         public static double ψⁿ(double x)
         {
-            return Meta.Numerics.Functions.AdvancedMath.Psi(x);
+            return polyGamma(x);
+        }
+
+
+        public static double polyGamma(int n, double x)
+        {
+            if (n < 0)
+                return double.NaN;
+            return Meta.Numerics.Functions.AdvancedMath.Psi(n,x);
+        }
+
+        public static double ψn(int n,double x)
+        {
+            return polyGamma(n,x);
+        }
+
+
+        public static double ψⁿ(int n, double x)
+        {
+            return polyGamma(n,x);
         }
 
 
@@ -2424,14 +2469,13 @@ namespace Computator.NET.Functions
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Gamma(cmplxToMeta(z)));
         }
 
-
-        /*   public static Complex logGamma(Complex z)
+        /*
+        public static Complex logGamma(Complex z)
         {
             gsl_sf_result lnr = new gsl_sf_result(), arg = new gsl_sf_result();
             gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
             return (lnr.val + arg.val*Complex.ImaginaryOne);
         }
-
 
         public static Complex logΓ(Complex z)
         {
@@ -2960,7 +3004,7 @@ namespace Computator.NET.Functions
         }
 
 
-        private static double ConicalP(int μ, double λ, double x)
+        public static double ConicalP(int μ, double λ, double x)
         {
             if (x <= -1.0) return double.NaN;
 
@@ -3086,12 +3130,12 @@ namespace Computator.NET.Functions
 
         #region synchrotron functions
 
-        private static double SynchrotronF(double x)
+        public static double SynchrotronF(double x)
         {
             return (x < 0) ? double.NaN : gsl_sf_synchrotron_1(x);
         }
 
-        private static double SynchrotronG(double x)
+        public static double SynchrotronG(double x)
         {
             return (x < 0) ? double.NaN : gsl_sf_synchrotron_2(x);
         }
@@ -3394,16 +3438,19 @@ namespace Computator.NET.Functions
 
         public static double Si(double d) { return Meta.Numerics.Functions.AdvancedMath.IntegralSi(d); } //sine integral
 
-        private static double Ci(double x)//cosine integral
+        public static double Ci(double x)//cosine integral
         {
             return (x < 0.0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.IntegralCi(x);
         }
 
         //Generalized Exponential Integral
-        private static double En(int n, double x)
+        public static double En(int n, double x)
         {
+            if (x < 0)
+                return double.NaN;
             return (x == 0.0 || n < 0 || n > 2) ? Meta.Numerics.Functions.AdvancedMath.IntegralE(n, x) : gsl_sf_expint_En(n, x);
         }
+
 
 
         //   public static double EnNEW(int n, double x)//Generalized Exponential Integral
@@ -3421,10 +3468,10 @@ namespace Computator.NET.Functions
 
 
 
-        
+
         //hyperbolic cosine integral
 
-        private static double Chi(double x)
+        public static double Chi(double x)
         {
             return (x == 0.0) ? double.NaN : gsl_sf_Chi(x);
         }
@@ -3433,7 +3480,7 @@ namespace Computator.NET.Functions
 
 
         //Integrals in optics
-        private static System.Numerics.Complex Fresnel(double x)
+        public static System.Numerics.Complex Fresnel(double x)
         {
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedMath.Fresnel(x));
         }
@@ -3551,7 +3598,7 @@ namespace Computator.NET.Functions
         #region Elliptic integrals
 
         //In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.
-        private static double EllipticK(double x)
+        public static double EllipticK(double x)
         {
             return (x < 0 || x >= 1.0) ? ((x < 0 && x > -1.0) ? gsl_sf_ellint_Kcomp(x, 0) : double.NaN) : Meta.Numerics.Functions.AdvancedMath.EllipticK(x);
         }
@@ -3735,17 +3782,21 @@ namespace Computator.NET.Functions
 
         #region error functions
 
-        private static System.Numerics.Complex erfi(System.Numerics.Complex z)
+        public static System.Numerics.Complex erfi(System.Numerics.Complex z)
         {
             return -System.Numerics.Complex.ImaginaryOne*erf(System.Numerics.Complex.ImaginaryOne*z);
         }
 
         public static double inverseErf(double x)
         {
+            if (x > 1 || x < 0)
+                return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.InverseErf(x);
         }
         public static double inverseErfc(double x)
         {
+            if (x > 1 || x<0)
+                return double.NaN;
             return
                 Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
         }
@@ -4213,12 +4264,12 @@ namespace Computator.NET.Functions
 
         #region zeta and eta functions
 
-        private static double DirichletEta(double x)
+        public static double DirichletEta(double x)
         {
             return x >= 0 ? Meta.Numerics.Functions.AdvancedMath.DirichletEta(x) : (1 - System.Math.Pow(2, 1 - x))*RiemannZeta(x);
         }
 
-        private static double η(double x)
+        public static double η(double x)
         {
             return DirichletEta(x);
         }
@@ -4357,7 +4408,7 @@ namespace Computator.NET.Functions
         {
             if (q <= 0 || j > 2 || j < 1)
                 return double.NaN;
-            var error = gsl_sf_mathieu_Mc(j, n, q, x, out sfResult);
+            var error = gsl_sf_mathieu_Mc(j, n, q, x, out sfResult);//MathieuMc
             if (error == 0)
                 return sfResult.val;
             throw gslExceptions(error);
@@ -4393,7 +4444,7 @@ namespace Computator.NET.Functions
             return MathNet.Numerics.SpecialFunctions.Logistic(x);
         }
 
-        private static double Logit(double x)
+        public static double Logit(double x)
         {
             return (x < 0 || x > 1) ? double.NaN : MathNet.Numerics.SpecialFunctions.Logit(x);
         }
@@ -4502,7 +4553,8 @@ namespace Computator.NET.Functions
         {
             return new Meta.Numerics.Complex(c.Real, c.Imaginary);
         }
-#endregion
+        #endregion
+
 ";
 
         #endregion

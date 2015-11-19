@@ -1,4 +1,6 @@
-﻿namespace Computator.NET.Evaluation
+﻿using Computator.NET.DataTypes;
+
+namespace Computator.NET.Evaluation
 {
     internal class FunctionComplexEvaluator : Evaluator
     {
@@ -7,15 +9,15 @@
             logger.ClassName = GetType().FullName;
         }
 
-        public DataTypes.Function Evaluate(string input, string customFunctionsCode = "")
+        public Function Evaluate(string input, string customFunctionsCode = "")
         {
             tslCode = input;
             customFunctionsTSLCode = customFunctionsCode;
 
-            functionType = input.Contains("=") ? DataTypes.FunctionType.ComplexImplicit : DataTypes.FunctionType.Complex;
+            functionType = input.Contains("=") ? FunctionType.ComplexImplicit : FunctionType.Complex;
 
             var function = Compile();
-            return new DataTypes.Function(function, tslCode, CSharpCode, functionType);
+            return new Function(function, tslCode, CSharpCode, functionType);
         }
     }
 }

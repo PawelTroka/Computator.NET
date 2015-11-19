@@ -1,18 +1,22 @@
-﻿namespace Computator.NET
+﻿using System;
+using System.IO;
+using System.Windows.Forms;
+
+namespace Computator.NET
 {
-    public class DirectoryTree : System.Windows.Forms.TreeView
+    public class DirectoryTree : TreeView
     {
         public delegate void DirectorySelectedDelegate(object sender, DirectorySelectedEventArgs e);
 
-        private string drive;
+        private string _path;
 
-        public string Drive
+        public string Path
         {
-            get { return drive; }
+            get { return _path; }
             set
             {
-                drive = value;
-                if (drive != null)
+                _path = value;
+                if (_path != null)
                     RefreshDisplay();
             }
         }
@@ -25,7 +29,7 @@
             Nodes.Clear();
 
             // Set the first node.
-            var rootNode = new System.Windows.Forms.TreeNode(drive);
+            var rootNode = new TreeNode(_path);
             Nodes.Add(rootNode);
 
             // Fill the first level and expand it.
@@ -34,9 +38,9 @@
             Nodes[0].Expand();
         }
 
-        private void Fill(System.Windows.Forms.TreeNode dirNode)
+        private void Fill(TreeNode dirNode)
         {
-            var dir = new System.IO.DirectoryInfo(dirNode.FullPath);
+            var dir = new DirectoryInfo(dirNode.FullPath);
 
             // An exception could be thrown in this code if you don't
             // have sufficient security permissions for a file or directory.
@@ -45,20 +49,20 @@
             foreach (var dirItem in dir.GetDirectories())
             {
                 // Add node for the directory.
-                var newNode = new System.Windows.Forms.TreeNode(dirItem.Name);
+                var newNode = new TreeNode(dirItem.Name);
                 dirNode.Nodes.Add(newNode);
                 newNode.Nodes.Add("*");
             }
             foreach (var dirItem in dir.GetFiles())
             {
                 // Add node for the directory.
-                var newNode = new System.Windows.Forms.TreeNode(dirItem.Name);
+                var newNode = new TreeNode(dirItem.Name);
                 dirNode.Nodes.Add(newNode);
                 //newNode.Nodes.Add("*");
             }
         }
 
-        protected override void OnBeforeExpand(System.Windows.Forms.TreeViewCancelEventArgs e)
+        protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
         {
             base.OnBeforeExpand(e);
 
@@ -70,7 +74,7 @@
             }
         }
 
-        protected override void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e)
+        protected override void OnAfterSelect(TreeViewEventArgs e)
         {
             base.OnAfterSelect(e);
 
@@ -83,7 +87,7 @@
         }
     }
 
-    public class DirectorySelectedEventArgs : System.EventArgs
+    public class DirectorySelectedEventArgs : EventArgs
     {
         public string DirectoryName;
 

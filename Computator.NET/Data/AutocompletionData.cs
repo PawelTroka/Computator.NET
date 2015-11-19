@@ -1,94 +1,105 @@
-﻿using Enumerable = System.Linq.Enumerable;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+using AutocompleteMenuNS;
+using Computator.NET.Compilation;
+using Computator.NET.Constants;
+using Computator.NET.Functions;
+using Computator.NET.Transformations;
+using Computator.NET.UI.CodeEditors;
+using MathNet.Numerics.Distributions;
 
 namespace Computator.NET.Data
 {
-    internal class AutocompletionData
+    public class AutocompletionData
     {
-        public static AutocompleteMenuNS.AutocompleteItem[] GetAutocompleteItemsForExpressions(
+        public static AutocompleteItem[] GetAutocompleteItemsForExpressions(
             bool removeAdvanced = false)
         {
-            var items = GetFunctionsNamesWithDescription(typeof (Functions.ElementaryFunctions));
+            var items = GetFunctionsNamesWithDescription(typeof (ElementaryFunctions));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Functions.StatisticsFunctions)));
-
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Normal), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (StatisticsFunctions)));
 
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Bernoulli), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Normal), false, true));
+
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Bernoulli), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Beta), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Binomial), false,
-                true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Categorical), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Beta), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Binomial), false,
                 true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Cauchy), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Chi), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.ChiSquared), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Categorical), false,
                 true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.ContinuousUniform),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Cauchy), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Chi), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (ChiSquared), false,
+                true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (ContinuousUniform),
                 false, true));
 
             items.AddRange(GetFunctionsNamesWithDescription(
-                typeof (MathNet.Numerics.Distributions.ConwayMaxwellPoisson), false, true));
+                typeof (ConwayMaxwellPoisson), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Dirichlet), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Dirichlet), false,
                 true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.DiscreteUniform),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (DiscreteUniform),
                 false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Erlang), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Erlang), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Exponential), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Exponential), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.FisherSnedecor),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (FisherSnedecor),
                 false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Gamma), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Geometric), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Gamma), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Geometric), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Hypergeometric),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Hypergeometric),
                 false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.InverseGamma), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (InverseGamma), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.InverseWishart),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (InverseWishart),
                 false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Laplace), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Laplace), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.LogNormal), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (LogNormal), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.MatrixNormal), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (MatrixNormal), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Multinomial), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Multinomial), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.NegativeBinomial),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (NegativeBinomial),
                 false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.NormalGamma), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (NormalGamma), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Pareto), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Poisson), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Pareto), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Poisson), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Rayleigh), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Rayleigh), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Stable), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.StudentT), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Stable), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (StudentT), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Triangular), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Triangular), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Weibull), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Wishart), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathNet.Numerics.Distributions.Zipf), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Weibull), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Wishart), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Zipf), false, true));
 
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Functions.SpecialFunctions)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Constants.MathematicalConstants), true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Constants.PhysicalConstants), true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (SpecialFunctions)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathematicalConstants), true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (PhysicalConstants), true));
 
 
             items.RemoveAll(i => i.Text == "ToCode");
@@ -101,24 +112,24 @@ namespace Computator.NET.Data
             return items.ToArray();
         }
 
-        public static AutocompleteMenuNS.AutocompleteItem[] GetAutocompleteItemsForScripting()
+        public static AutocompleteItem[] GetAutocompleteItemsForScripting()
         {
             var items = Enumerable.ToList(GetAutocompleteItemsForExpressions());
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Functions.MatrixFunctions)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Transformations.MathematicalTransformations)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Functions.ScriptingFunctions)));
-            items.AddRange(Enumerable.Select(Compilation.TslCompiler.Keywords,
-                s => new AutocompleteMenuNS.AutocompleteItem(s)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (MatrixFunctions)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathematicalTransformations)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (ScriptingFunctions)));
+            items.AddRange(Enumerable.Select(TslCompiler.Keywords,
+                s => new AutocompleteItem(s)));
 
             items.Sort((i1, i2) => i1.Text.CompareTo(i2.Text));
             items.ForEach(i => i.IsScripting = true);
             return items.ToArray();
         }
 
-        public static System.Collections.Generic.List<UI.CodeEditors.CompletionData>
+        public static List<CompletionData>
             ConvertAutocompleteItemsToCompletionDatas(
-            AutocompleteMenuNS.AutocompleteItem[] autocompleteItems)
+            AutocompleteItem[] autocompleteItems)
         {
             return
                 Enumerable.ToList(Enumerable.Select(autocompleteItems,
@@ -129,16 +140,16 @@ namespace Computator.NET.Data
         //make it cleaner, nicer, apply recactorings
         //do extensive testing
 
-        private static System.Collections.Generic.List<AutocompleteMenuNS.AutocompleteItem>
-            GetFunctionsNamesWithDescription(System.Type type, bool noMethod = false,
+        private static List<AutocompleteItem>
+            GetFunctionsNamesWithDescription(Type type, bool noMethod = false,
                 bool fullName = false)
         {
             var properties =
-                type.GetProperties(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-            var methods = type.GetMethods(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-            var fields = type.GetFields(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                type.GetProperties(BindingFlags.Static | BindingFlags.Public);
+            var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public);
+            var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
 
-            var items = new System.Collections.Generic.List<AutocompleteMenuNS.AutocompleteItem>();
+            var items = new List<AutocompleteItem>();
 
             if (!noMethod)
                 foreach (var m in methods)
@@ -181,10 +192,28 @@ namespace Computator.NET.Data
             return items;
         }
 
-        private static string MakeAddition(System.Reflection.MethodInfo m, bool withType)
+        private static string MakeAddition(MethodInfo m, bool withType)
         {
             var parameters = m.GetParameters();
-            var addition = "(";
+            
+            var addition = "";
+
+            if (m.IsGenericMethodDefinition || m.IsGenericMethod)
+            {
+            //    return m.GetSignature(true);
+                /*addition += '<';
+                foreach (var genericArgument in m.GetGenericArguments())
+                {
+                    if (addition.Last() == '<')
+                        addition += genericArgument.FullName;
+                    else
+                        addition += ','+genericArgument.FullName;
+                }
+                addition += '>';*/
+                //addition=addition.Insert(0,@"<"+  +@">")
+            }
+
+            addition += "(";
 
             for (var i = 0; i < parameters.Length; i++)
             {
@@ -203,25 +232,25 @@ namespace Computator.NET.Data
             return addition;
         }
 
-        private static void AddMetadata(System.Reflection.MemberInfo p, System.Type type,
-            System.Collections.Generic.List<AutocompleteMenuNS.AutocompleteItem> items)
+        private static void AddMetadata(MemberInfo p, Type type,
+            List<AutocompleteItem> items)
         {
             if (Enumerable.Any((p.GetCustomAttributes(typeof (NameAttribute), false))))
 
                 Enumerable.Last(items).ToolTipTitle =
                     ((NameAttribute) (p.GetCustomAttributes(typeof (NameAttribute), false)[0])).Name;
 
-            if (Enumerable.Any((p.GetCustomAttributes(typeof (System.ComponentModel.DescriptionAttribute), false))))
+            if (Enumerable.Any((p.GetCustomAttributes(typeof (DescriptionAttribute), false))))
                 Enumerable.Last(items).ToolTipText =
-                    (((System.ComponentModel.DescriptionAttribute)
-                        (p.GetCustomAttributes(typeof (System.ComponentModel.DescriptionAttribute), false)[0])))
+                    (((DescriptionAttribute)
+                        (p.GetCustomAttributes(typeof (DescriptionAttribute), false)[0])))
                         .Description;
             if (items.Count > 0)
             {
-                if (Enumerable.Any(p.GetCustomAttributes(typeof (System.ComponentModel.CategoryAttribute), false)))
+                if (Enumerable.Any(p.GetCustomAttributes(typeof (CategoryAttribute), false)))
                     Enumerable.Last(items).functionInfo.Category =
-                        (((System.ComponentModel.CategoryAttribute)
-                            (p.GetCustomAttributes(typeof (System.ComponentModel.CategoryAttribute), false)[0])))
+                        (((CategoryAttribute)
+                            (p.GetCustomAttributes(typeof (CategoryAttribute), false)[0])))
                             .Category ??
                         "";
 
@@ -236,6 +265,9 @@ namespace Computator.NET.Data
         {
             switch (typeName)
             {
+                case "Boolean":
+                    return "bool";
+
                 case "Double":
                     return "real";
 
@@ -249,6 +281,7 @@ namespace Computator.NET.Data
                     return "natural";
 
                 case "Matrix":
+                case "Matrix`1":
                 case "matrix":
                 case "DenseMatrix":
                 case "SparseMatrix":
@@ -266,13 +299,13 @@ namespace Computator.NET.Data
         }
 
         private static void AddSignatureWithType(string sigName, string typeName,
-            System.Collections.Generic.List<AutocompleteMenuNS.AutocompleteItem> items)
+            List<AutocompleteItem> items)
         {
             AddSignatureWithType(sigName, sigName, typeName, items);
         }
 
         private static void AddSignatureWithType(string name, string addition, string additionWithType, string typeName,
-            System.Collections.Generic.List<AutocompleteMenuNS.AutocompleteItem> items)
+            List<AutocompleteItem> items)
         {
             var imageIndex = -1;
             switch (typeName)
@@ -302,47 +335,47 @@ namespace Computator.NET.Data
                     break;
             }
 
-            items.Add(new AutocompleteMenuNS.AutocompleteItem(name, addition, additionWithType,
+            items.Add(new AutocompleteItem(name, addition, additionWithType,
                 TypeNameToAlias(typeName), imageIndex));
         }
 
         private static void AddSignatureWithType(string sigName, string menuName, string typeName,
-            System.Collections.Generic.List<AutocompleteMenuNS.AutocompleteItem> items)
+            List<AutocompleteItem> items)
         {
             switch (typeName)
             {
                 case "Complex":
-                    items.Add(new AutocompleteMenuNS.AutocompleteItem(sigName, 1, menuName));
+                    items.Add(new AutocompleteItem(sigName, 1, menuName));
                     break;
                 case "Double":
                 case "T":
-                    items.Add(new AutocompleteMenuNS.AutocompleteItem(sigName, 0, menuName));
+                    items.Add(new AutocompleteItem(sigName, 0, menuName));
                     break;
                 case "Int32":
                 case "Int64":
                 case "Int16":
-                    items.Add(new AutocompleteMenuNS.AutocompleteItem(sigName, 3, menuName));
+                    items.Add(new AutocompleteItem(sigName, 3, menuName));
                     break;
                 case "Uint32":
                 case "Uint16":
                 case "Uint64":
-                    items.Add(new AutocompleteMenuNS.AutocompleteItem(sigName, 2, menuName));
+                    items.Add(new AutocompleteItem(sigName, 2, menuName));
                     break;
                 case "Matrix":
                 case "matrix":
                 case "DenseMatrix":
                 case "SparseMatrix":
-                    items.Add(new AutocompleteMenuNS.AutocompleteItem(sigName, 5, menuName));
+                    items.Add(new AutocompleteItem(sigName, 5, menuName));
                     break;
 
                 default:
-                    items.Add(new AutocompleteMenuNS.AutocompleteItem(sigName, -1, menuName));
+                    items.Add(new AutocompleteItem(sigName, -1, menuName));
                     break;
             }
         }
 
-        private static void AnalyzeDelegateFields(System.Reflection.FieldInfo f, System.Type type,
-            System.Collections.Generic.List<AutocompleteMenuNS.AutocompleteItem> items)
+        private static void AnalyzeDelegateFields(FieldInfo f, Type type,
+            List<AutocompleteItem> items)
         {
             var addition = "(";
 
