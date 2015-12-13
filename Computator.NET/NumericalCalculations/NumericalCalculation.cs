@@ -54,24 +54,28 @@ namespace Computator.NET.NumericalCalculations
         }
 
         public static void setupGroupBoxes(ComboBox operationsComboBox,
-            GroupBox derrivative, GroupBox root,
-            GroupBox integral)
+            GroupBox derrivative,
+            GroupBox interval, GroupBox error, GroupBox steps)
         {
             var operation = operationsComboBox.SelectedItem.ToString();
 
-            integral.Visible = root.Visible = derrivative.Visible = false;
+            steps.Visible = interval.Visible = error.Visible = derrivative.Visible = false;
             switch (operation)
             {
                 case "Integral":
-                    integral.Visible = true;
+                    interval.Visible = true;
+                    steps.Visible = true;
                     break;
 
                 case "Derivative":
                     derrivative.Visible = true;
+                    error.Visible = true;
                     break;
 
                 case "Function root":
-                    root.Visible = true;
+                    interval.Visible = true;
+                    error.Visible = true;
+                    steps.Visible = true;
                     break;
             }
         }

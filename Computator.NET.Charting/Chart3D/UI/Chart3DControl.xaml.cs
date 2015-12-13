@@ -13,7 +13,7 @@ namespace Computator.NET.Charting.Chart3D
     /// <summary>
     ///     Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class Chart3DControl : UserControl
+    public partial class Chart3DControl : UserControl, IChart
     {
         private readonly List<Function> functions;
         private Color _axesColor;
@@ -239,9 +239,28 @@ namespace Computator.NET.Charting.Chart3D
             firstTimeAdd = true;
         }
 
-        public void addFx(Function fxy, string name = "")
+        public void addFx(Function fxy)
         {
             functions.Add(fxy);
+            redraw();
+        }
+
+        public void Print()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PrintPreview()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetChartAreaValues(double x0, double xn, double y0, double yn)
+        {
+            xmax = xn;
+            xmin = x0;
+            ymax = yn;
+            ymin = y0;
             redraw();
         }
 

@@ -336,7 +336,7 @@ namespace Computator.NET.Functions
             double YMax = 5, double quality = 0.5)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.setChartAreaValues(XMin, XMax, YMin, YMax);
+            chart2d.SetChartAreaValues(XMin, XMax, YMin, YMax);
             chart2d.Quality = quality*100;
             chart2d.addFx(fx, "function");
 
@@ -353,7 +353,7 @@ namespace Computator.NET.Functions
             double YMin = -5;
             double YMax = 5;
             var quality = 0.5;
-            chart2d.setChartAreaValues(XMin, XMax, YMin, YMax);
+            chart2d.SetChartAreaValues(XMin, XMax, YMin, YMax);
             chart2d.Quality = quality*100;
 
             for (var i = 0; i < fxs.Length; i++)
@@ -368,7 +368,7 @@ namespace Computator.NET.Functions
             double YMax = 5, double quality = 0.5)
         {
             var chart = new Computator.NET.Charting.ComplexCharting.ComplexChart();
-            chart.setChartAreaValues(XMin, XMax, YMin, YMax);
+            chart.SetChartAreaValues(XMin, XMax, YMin, YMax);
             chart.Quality = quality*100;
             chart.addFx(fz, "function");
 
@@ -386,6 +386,34 @@ namespace Computator.NET.Functions
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
             chart2d.addChartDataPoints(y, x);
             chart2d.changeChartType("FastPoint");
+            var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
+            plotForm.Show();
+        }
+
+        public static void plot(System.Func<double, double> fx, params System.Collections.Generic.List<double>[] xys)
+        {
+            var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
+            chart2d.addFx(fx, "function");
+            for (int i = 0; i < xys.Length - 1; i++)
+            {
+                chart2d.addChartDataPoints(xys[i], xys[i + 1]);
+            }
+
+            //chart2d.changeChartType("FastPoint");
+            var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
+            plotForm.Show();
+        }
+
+        public static void plot(System.Func<double, double> fx, params double[][] xys)
+        {
+            var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
+            chart2d.addFx(fx, "function");
+            for (int i = 0; i < xys.Length - 1; i++)
+            {
+                chart2d.addChartDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
+            }
+
+            //chart2d.changeChartType("FastPoint");
             var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
             plotForm.Show();
         }
@@ -725,7 +753,7 @@ namespace Computator.NET.Functions
             double YMax = 5, double quality = 0.5)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.setChartAreaValues(XMin, XMax, YMin, YMax);
+            chart2d.SetChartAreaValues(XMin, XMax, YMin, YMax);
             chart2d.Quality = quality*100;
             chart2d.addFx(fx, ""function"");
 
@@ -742,7 +770,7 @@ namespace Computator.NET.Functions
             double YMin = -5;
             double YMax = 5;
             var quality = 0.5;
-            chart2d.setChartAreaValues(XMin, XMax, YMin, YMax);
+            chart2d.SetChartAreaValues(XMin, XMax, YMin, YMax);
             chart2d.Quality = quality*100;
 
             for (var i = 0; i < fxs.Length; i++)
@@ -757,7 +785,7 @@ namespace Computator.NET.Functions
             double YMax = 5, double quality = 0.5)
         {
             var chart = new Computator.NET.Charting.ComplexCharting.ComplexChart();
-            chart.setChartAreaValues(XMin, XMax, YMin, YMax);
+            chart.SetChartAreaValues(XMin, XMax, YMin, YMax);
             chart.Quality = quality*100;
             chart.addFx(fz, ""function"");
 
@@ -775,6 +803,34 @@ namespace Computator.NET.Functions
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
             chart2d.addChartDataPoints(y, x);
             chart2d.changeChartType(""FastPoint"");
+            var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
+            plotForm.Show();
+        }
+
+        public static void plot(System.Func<double, double> fx, params System.Collections.Generic.List<double>[] xys)
+        {
+            var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
+            chart2d.addFx(fx,""function"");
+            for (int i = 0; i < xys.Length-1; i++)
+            {
+                chart2d.addChartDataPoints(xys[i], xys[i+1]);
+            }
+
+            //chart2d.changeChartType(""FastPoint"");
+            var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
+            plotForm.Show();
+        }
+
+        public static void plot(System.Func<double, double> fx, params double[][] xys)
+        {
+            var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
+            chart2d.addFx(fx, ""function"");
+            for (int i = 0; i < xys.Length - 1; i++)
+            {
+                chart2d.addChartDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
+            }
+
+            //chart2d.changeChartType(""FastPoint"");
             var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
             plotForm.Show();
         }

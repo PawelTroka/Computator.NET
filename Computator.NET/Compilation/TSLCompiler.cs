@@ -14,6 +14,12 @@ namespace Computator.NET.Compilation
 
     public class TslCompiler
     {
+        public const string TypesAliases = @"
+        using real = System.Double;
+        using complex = System.Numerics.Complex;
+        using natural = System.UInt64;
+        using integer = System.Int64;";
+
         public static readonly string[] Keywords =
         {
             "real", "complex", "function", "var", "void", "Matrix", "string", "integer", "natural", "abstract", "as",
@@ -56,7 +62,7 @@ namespace Computator.NET.Compilation
                 .Replace("ᵀ", ".Transpose()")
                 .Replace("read(&", "read(out ")
                 .Replace("read( &", "read(out ")
-                .Replace("&", " ref ");
+                .Replace("(&", "( ref ");
 
             //TODO: this little thing
             // Func<double, double> fafa = (x) => x;

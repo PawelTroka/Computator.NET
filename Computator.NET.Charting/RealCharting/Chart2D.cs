@@ -10,7 +10,7 @@ using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.RealCharting
 {
-    public class Chart2D : Chart /*, IChart<double>*/, INotifyPropertyChanged
+    public class Chart2D : Chart, IChart /*, IChart<double>*/, INotifyPropertyChanged
     {
         private const double OVERFLOW_VALUE = 1073741951.0/500; //1111117;
         private const double UNDERFLOW_VALUE = -1073741760.0/500; // 1111117;
@@ -269,9 +269,11 @@ namespace Computator.NET.Charting.RealCharting
                           ChartAreas[0].AxisY.PixelPositionToValue(e.Location.Y));
 
 
-            setChartAreaValues(XMin + deltaX.RoundToSignificantDigits(1),
+            SetChartAreaValues(XMin + deltaX.RoundToSignificantDigits(1),
                 XMax + deltaX.RoundToSignificantDigits(1), YMin + deltaY.RoundToSignificantDigits(1),
-                YMax + deltaY.RoundToSignificantDigits(1), true);
+                YMax + deltaY.RoundToSignificantDigits(1));
+            Refresh2();
+
             _lastMouseLocation = e.Location;
         }
 
@@ -291,22 +293,22 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
-        public void setChartAreaValues(double x0, double xn, double y0, double yn, bool refresh = false)
+        public void SetChartAreaValues(double x0, double xn, double y0, double yn)
         {
             ChartAreas[0].AxisX.Minimum = x0;
             ChartAreas[0].AxisX.Maximum = xn;
 
             ChartAreas[0].AxisY.Minimum = y0; //min;
             ChartAreas[0].AxisY.Maximum = yn; //max;
+        }
 
-            if (refresh)
-            {
-                NotifyPropertyChanged("XMin");
-                NotifyPropertyChanged("XMax");
-                NotifyPropertyChanged("YMin");
-                NotifyPropertyChanged("YMax");
-                _refreshFunctions();
-            }
+        private void Refresh2()
+        {
+            NotifyPropertyChanged("XMin");
+            NotifyPropertyChanged("XMax");
+            NotifyPropertyChanged("YMin");
+            NotifyPropertyChanged("YMax");
+            _refreshFunctions();
         }
 
         private void initChart()
@@ -576,6 +578,16 @@ namespace Computator.NET.Charting.RealCharting
 
             functions.Add(f);
             _addNewFunction(f.IsImplicit);
+        }
+
+        public void Print()
+        {
+            Printing.Print(true);
+        }
+
+        public void PrintPreview()
+        {
+            Printing.PrintPreview();
         }
 
         public void addFx(Func<double, double> f, string name)

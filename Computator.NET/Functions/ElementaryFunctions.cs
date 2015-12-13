@@ -806,28 +806,28 @@ namespace Computator.NET.Functions
 
 
 
-        public static double GCF(long a, long b)
+        public static double gcd(long a, long b)
         {
             return Meta.Numerics.Functions.AdvancedIntegerMath.GCF(a,b);
         }
 
-        public static double NWD(long a, long b)
+        public static double nwd(long a, long b)
         {
-            return GCF(a, b);
+            return gcd(a, b);
         }
 
 
 
-        public static double LCM(long a, long b)
+        public static double lcm(long a, long b)
         {
             if (a == 0 || b == 0)
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedIntegerMath.LCM(a, b);
         }
 
-        public static double NWW(long a, long b)
+        public static double nww(long a, long b)
         {
-            return LCM(a, b);
+            return lcm(a, b);
         }
 
         /*Angielska nazwa funkcji"),
@@ -851,6 +851,66 @@ namespace Computator.NET.Functions
             if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) (d)))
                 return 1;
             return 0;
+        }
+
+        public static bool isPrime(int n)
+        {
+
+            return Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime(n);
+
+        }
+
+        private static bool[] GetPrimeSieve(long upTo)
+        {
+            long sieveSize = upTo + 1;
+            bool[] sieve = new bool[sieveSize];
+            System.Array.Clear(sieve, 0, (int)sieveSize);
+            sieve[0] = true;
+            sieve[1] = true;
+            long p, max = (long)System.Math.Sqrt(sieveSize) + 1;
+            for (long i = 2; i <= max; i++)
+            {
+                if (sieve[i]) continue;
+                p = i + i;
+                while (p < sieveSize) { sieve[p] = true; p += i; }
+            }
+            return sieve;
+        }
+
+        private static long[] GetPrimesUpTo(long upTo)
+        {
+            if (upTo < 2) return null;
+            bool[] sieve = GetPrimeSieve(upTo);
+            long[] primes = new long[upTo + 1];
+
+            long index = 0;
+            for (long i = 2; i <= upTo; i++) if (!sieve[i]) primes[index++] = i;
+
+            System.Array.Resize(ref primes, (int)index);
+            return primes;
+        }
+
+
+        public static long Eulerφ(long n)
+        {
+            var primes = GetPrimesUpTo(n + 1);    //this can be precalculated beforehand
+            int numPrimes = primes.Length;
+
+            long totient = n;
+            long currentNum = n, temp, p, prevP = 0;
+            for (int i = 0; i < numPrimes; i++)
+            {
+                p = (int)primes[i];
+                if (p > currentNum) break;
+                temp = currentNum / p;
+                if (temp * p == currentNum)
+                {
+                    currentNum = temp;
+                    i--;
+                    if (prevP != p) { prevP = p; totient -= (totient / p); }
+                }
+            }
+            return totient;
         }
 
         #endregion
@@ -1826,6 +1886,7 @@ namespace Computator.NET.Functions
 
         #endregion
 
+       
         #region integer functions
 
         public static double sgn(double x)
@@ -1833,55 +1894,113 @@ namespace Computator.NET.Functions
             return (double.IsNaN(x)) ? double.NaN : (double) (System.Math.Sign(x));
         }
 
-        public static double GCF(long a, long b)
+
+
+        public static double gcd(long a, long b)
         {
             return Meta.Numerics.Functions.AdvancedIntegerMath.GCF(a,b);
         }
 
-        public static double NWD(long a, long b)
+        public static double nwd(long a, long b)
         {
-            return GCF(a, b);
+            return gcd(a, b);
         }
 
 
 
-        public static double LCM(long a, long b)
+        public static double lcm(long a, long b)
         {
             if (a == 0 || b == 0)
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedIntegerMath.LCM(a, b);
         }
 
-        public static double NWW(long a, long b)
+        public static double nww(long a, long b)
         {
-            return LCM(a, b);
+            return lcm(a, b);
         }
 
 
-        /*Angielska nazwa funkcji""),
-         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         System.ComponentModel.Description(""angielski opis funkcji*/
         public static double factorial(double n)
         {
             double f = 1;
             for (ulong i = 1; i <= n; i++)
-                f = f*i;
+                f = f * i;
             return f;
         }
 
-        /*Angielska nazwa funkcji""),
-         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
-         System.ComponentModel.Description(""angielski opis funkcji*/
+
         public static int prime(double d)
         {
             if (d < 1)
                 return -1;
-            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) (d)))
+            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int)(d)))
                 return 1;
             return 0;
         }
 
+        public static bool isPrime(int n)
+        {
+
+            return Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime(n);
+
+        }
+
+        private static bool[] GetPrimeSieve(long upTo)
+        {
+            long sieveSize = upTo + 1;
+            bool[] sieve = new bool[sieveSize];
+            System.Array.Clear(sieve, 0, (int)sieveSize);
+            sieve[0] = true;
+            sieve[1] = true;
+            long p, max = (long)System.Math.Sqrt(sieveSize) + 1;
+            for (long i = 2; i <= max; i++)
+            {
+                if (sieve[i]) continue;
+                p = i + i;
+                while (p < sieveSize) { sieve[p] = true; p += i; }
+            }
+            return sieve;
+        }
+
+        private static long[] GetPrimesUpTo(long upTo)
+        {
+            if (upTo < 2) return null;
+            bool[] sieve = GetPrimeSieve(upTo);
+            long[] primes = new long[upTo + 1];
+
+            long index = 0;
+            for (long i = 2; i <= upTo; i++) if (!sieve[i]) primes[index++] = i;
+
+            System.Array.Resize(ref primes, (int)index);
+            return primes;
+        }
+
+
+        public static long Eulerφ(long n)
+        {
+            var primes = GetPrimesUpTo(n + 1);    //this can be precalculated beforehand
+            int numPrimes = primes.Length;
+
+            long totient = n;
+            long currentNum = n, temp, p, prevP = 0;
+            for (int i = 0; i < numPrimes; i++)
+            {
+                p = (int)primes[i];
+                if (p > currentNum) break;
+                temp = currentNum / p;
+                if (temp * p == currentNum)
+                {
+                    currentNum = temp;
+                    i--;
+                    if (prevP != p) { prevP = p; totient -= (totient / p); }
+                }
+            }
+            return totient;
+        }
+
         #endregion
+
 
         #region complex specific functions
 

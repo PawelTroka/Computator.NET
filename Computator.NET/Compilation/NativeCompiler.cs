@@ -81,7 +81,7 @@ namespace Computator.NET.Compilation
                     //(current, err) => (!err.IsWarning) ? current + (Environment.NewLine + err.ErrorText) : "");
 
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                // logger.Parameters["NativeCompilerInput"] = input;
+                // Logger.Parameters["NativeCompilerInput"] = input;
                 logger.Parameters["NativeCompilerOutput"] = "";
 
                 foreach (var str in results.Output)
@@ -93,6 +93,7 @@ namespace Computator.NET.Compilation
             }
             finally
             {
+                parameters.TempFiles.KeepFiles = false;
                 parameters.TempFiles.Delete();
                 results.TempFiles.KeepFiles = false;
                 results.TempFiles.Delete();

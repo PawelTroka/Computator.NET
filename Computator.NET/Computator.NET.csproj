@@ -164,13 +164,9 @@
     </Compile>
     <Compile Include="Data\FunctionsDetails.cs" />
     <Compile Include="Data\MethodInfoExtensions.cs" />
-    <Compile Include="Evaluation\BaseEvaluator.cs" />
     <Compile Include="Evaluation\CalculationsMode.cs" />
-    <Compile Include="Evaluation\DynamicEvaluator.cs" />
     <Compile Include="Evaluation\EvaluationException.cs" />
-    <Compile Include="Evaluation\Function2DEvaluator.cs" />
-    <Compile Include="Evaluation\Function3DEvaluator.cs" />
-    <Compile Include="Evaluation\FunctionComplexEvaluator.cs" />
+    <Compile Include="Evaluation\ExpressionsEvaluator.cs" />
     <Compile Include="Evaluation\ModeDeterminer.cs" />
     <Compile Include="Evaluation\ScriptEvaluator.cs" />
     <Compile Include="Evaluation\ScriptingExtensionObjects.cs" />
@@ -277,9 +273,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\NameAttribute.cs" />
-    <Compile Include="NumericalCalculations\ElementaryMathematics\FunctionRoot.cs" />
-    <Compile Include="NumericalCalculations\MathematicalAnalysis\Derivative.cs" />
-    <Compile Include="NumericalCalculations\MathematicalAnalysis\Integral.cs" />
+    <Compile Include="NumericalCalculations\FunctionRoot.cs" />
+    <Compile Include="NumericalCalculations\Derivative.cs" />
+    <Compile Include="NumericalCalculations\Integral.cs" />
     <Compile Include="NumericalCalculations\NumericalCalculation.cs" />
     <Compile Include="Natives\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -375,6 +371,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Graphics\run_icon.png" />
+    <Content Include="Data\HTMLPage1.html" />
     <Content Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

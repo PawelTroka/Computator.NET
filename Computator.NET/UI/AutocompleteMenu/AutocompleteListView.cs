@@ -119,7 +119,7 @@ namespace AutocompleteMenuNS
                     ShowToolTip(item);
                     ScrollToSelected();
                 }
-
+                
                 Invalidate();
             }
         }

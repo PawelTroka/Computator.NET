@@ -34,12 +34,12 @@ namespace Computator.NET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.consoleOutputTextBox = new System.Windows.Forms.RichTextBox();
@@ -66,6 +66,23 @@ namespace Computator.NET
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.maxErrorGroupBox = new System.Windows.Forms.GroupBox();
+            this.epsTextBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.stepsGroupBox = new System.Windows.Forms.GroupBox();
+            this.nStepsNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
+            this.resultNumericalCalculationsTextBox = new System.Windows.Forms.TextBox();
+            this.derivativeAtPointGroupBox = new System.Windows.Forms.GroupBox();
+            this.nOrderDerivativeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.xDerivativePointNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.intervalGroupBox = new System.Windows.Forms.GroupBox();
+            this.bIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.aIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.numericalCalculationsDataGridView = new System.Windows.Forms.DataGridView();
             this.function = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -101,27 +118,9 @@ namespace Computator.NET
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.resultNumericalCalculationsTextBox = new System.Windows.Forms.TextBox();
             this.methodNumericalCalculationsComboBox = new System.Windows.Forms.ComboBox();
             this.operationNumericalCalculationsComboBox = new System.Windows.Forms.ComboBox();
             this.numericalOperationButton = new System.Windows.Forms.Button();
-            this.derivativeAtPointGroupBox = new System.Windows.Forms.GroupBox();
-            this.epsilonDerrivativeTextBox = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.nOrderDerivativeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.xDerivativePointNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.numericalIntegrationGroupBox = new System.Windows.Forms.GroupBox();
-            this.bIntervalIntegrationNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.aIntervalIntegrationNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.rootOfFunctionGroupBox = new System.Windows.Forms.GroupBox();
-            this.bFunctionRootNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.aFunctionRootNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.symbolicOperationButton = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -259,6 +258,15 @@ namespace Computator.NET
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
+            this.maxErrorGroupBox.SuspendLayout();
+            this.stepsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nStepsNumericUpDown)).BeginInit();
+            this.derivativeAtPointGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nOrderDerivativeNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xDerivativePointNumericUpDown)).BeginInit();
+            this.intervalGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bIntervalNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aIntervalNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericalCalculationsDataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -273,15 +281,6 @@ namespace Computator.NET
             ((System.ComponentModel.ISupportInitialize)(this.x0NumericUpDown)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.derivativeAtPointGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nOrderDerivativeNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xDerivativePointNumericUpDown)).BeginInit();
-            this.numericalIntegrationGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bIntervalIntegrationNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.aIntervalIntegrationNumericUpDown)).BeginInit();
-            this.rootOfFunctionGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bFunctionRootNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.aFunctionRootNumericUpDown)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -328,10 +327,10 @@ namespace Computator.NET
             // directoryTree1
             // 
             resources.ApplyResources(this.directoryTree1, "directoryTree1");
-            this.directoryTree1.Path = null;
             this.directoryTree1.Name = "directoryTree1";
             this.directoryTree1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             ((System.Windows.Forms.TreeNode)(resources.GetObject("directoryTree1.Nodes")))});
+            this.directoryTree1.Path = null;
             this.directoryTree1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.directoryTree1_AfterSelect);
             // 
             // saveScriptButton
@@ -369,10 +368,10 @@ namespace Computator.NET
             // customFunctionsDirectoryTree
             // 
             resources.ApplyResources(this.customFunctionsDirectoryTree, "customFunctionsDirectoryTree");
-            this.customFunctionsDirectoryTree.Path = null;
             this.customFunctionsDirectoryTree.Name = "customFunctionsDirectoryTree";
             this.customFunctionsDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             ((System.Windows.Forms.TreeNode)(resources.GetObject("customFunctionsDirectoryTree.Nodes")))});
+            this.customFunctionsDirectoryTree.Path = null;
             this.customFunctionsDirectoryTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.customFunctionsDirectoryTree_AfterSelect);
             // 
             // saveCustomFunctions
@@ -499,8 +498,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle7;
             resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -508,8 +507,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle8;
             resources.ApplyResources(this.dataGridViewTextBoxColumn4, "dataGridViewTextBoxColumn4");
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
@@ -517,8 +516,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle9;
             resources.ApplyResources(this.dataGridViewTextBoxColumn5, "dataGridViewTextBoxColumn5");
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
@@ -531,11 +530,200 @@ namespace Computator.NET
             // 
             // splitContainer5.Panel1
             // 
+            this.splitContainer5.Panel1.Controls.Add(this.maxErrorGroupBox);
+            this.splitContainer5.Panel1.Controls.Add(this.stepsGroupBox);
+            this.splitContainer5.Panel1.Controls.Add(this.resultNumericalCalculationsTextBox);
+            this.splitContainer5.Panel1.Controls.Add(this.derivativeAtPointGroupBox);
+            this.splitContainer5.Panel1.Controls.Add(this.intervalGroupBox);
             this.splitContainer5.Panel1.Controls.Add(this.label8);
             // 
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.numericalCalculationsDataGridView);
+            // 
+            // maxErrorGroupBox
+            // 
+            this.maxErrorGroupBox.Controls.Add(this.epsTextBox);
+            this.maxErrorGroupBox.Controls.Add(this.label10);
+            resources.ApplyResources(this.maxErrorGroupBox, "maxErrorGroupBox");
+            this.maxErrorGroupBox.Name = "maxErrorGroupBox";
+            this.maxErrorGroupBox.TabStop = false;
+            // 
+            // epsTextBox
+            // 
+            resources.ApplyResources(this.epsTextBox, "epsTextBox");
+            this.epsTextBox.Name = "epsTextBox";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // stepsGroupBox
+            // 
+            this.stepsGroupBox.Controls.Add(this.nStepsNumericUpDown);
+            this.stepsGroupBox.Controls.Add(this.label19);
+            resources.ApplyResources(this.stepsGroupBox, "stepsGroupBox");
+            this.stepsGroupBox.Name = "stepsGroupBox";
+            this.stepsGroupBox.TabStop = false;
+            // 
+            // nStepsNumericUpDown
+            // 
+            resources.ApplyResources(this.nStepsNumericUpDown, "nStepsNumericUpDown");
+            this.nStepsNumericUpDown.Maximum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            0});
+            this.nStepsNumericUpDown.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nStepsNumericUpDown.Name = "nStepsNumericUpDown";
+            this.nStepsNumericUpDown.Value = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
+            // resultNumericalCalculationsTextBox
+            // 
+            resources.ApplyResources(this.resultNumericalCalculationsTextBox, "resultNumericalCalculationsTextBox");
+            this.resultNumericalCalculationsTextBox.Name = "resultNumericalCalculationsTextBox";
+            // 
+            // derivativeAtPointGroupBox
+            // 
+            this.derivativeAtPointGroupBox.Controls.Add(this.nOrderDerivativeNumericUpDown);
+            this.derivativeAtPointGroupBox.Controls.Add(this.xDerivativePointNumericUpDown);
+            this.derivativeAtPointGroupBox.Controls.Add(this.label14);
+            this.derivativeAtPointGroupBox.Controls.Add(this.label15);
+            resources.ApplyResources(this.derivativeAtPointGroupBox, "derivativeAtPointGroupBox");
+            this.derivativeAtPointGroupBox.Name = "derivativeAtPointGroupBox";
+            this.derivativeAtPointGroupBox.TabStop = false;
+            // 
+            // nOrderDerivativeNumericUpDown
+            // 
+            resources.ApplyResources(this.nOrderDerivativeNumericUpDown, "nOrderDerivativeNumericUpDown");
+            this.nOrderDerivativeNumericUpDown.Maximum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            0});
+            this.nOrderDerivativeNumericUpDown.Name = "nOrderDerivativeNumericUpDown";
+            this.nOrderDerivativeNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // xDerivativePointNumericUpDown
+            // 
+            this.xDerivativePointNumericUpDown.DecimalPlaces = 9;
+            resources.ApplyResources(this.xDerivativePointNumericUpDown, "xDerivativePointNumericUpDown");
+            this.xDerivativePointNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.xDerivativePointNumericUpDown.Maximum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            0});
+            this.xDerivativePointNumericUpDown.Minimum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            -2147483648});
+            this.xDerivativePointNumericUpDown.Name = "xDerivativePointNumericUpDown";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // intervalGroupBox
+            // 
+            this.intervalGroupBox.Controls.Add(this.bIntervalNumericUpDown);
+            this.intervalGroupBox.Controls.Add(this.aIntervalNumericUpDown);
+            this.intervalGroupBox.Controls.Add(this.label12);
+            this.intervalGroupBox.Controls.Add(this.label13);
+            resources.ApplyResources(this.intervalGroupBox, "intervalGroupBox");
+            this.intervalGroupBox.Name = "intervalGroupBox";
+            this.intervalGroupBox.TabStop = false;
+            // 
+            // bIntervalNumericUpDown
+            // 
+            this.bIntervalNumericUpDown.DecimalPlaces = 9;
+            resources.ApplyResources(this.bIntervalNumericUpDown, "bIntervalNumericUpDown");
+            this.bIntervalNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.bIntervalNumericUpDown.Maximum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            0});
+            this.bIntervalNumericUpDown.Minimum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            -2147483648});
+            this.bIntervalNumericUpDown.Name = "bIntervalNumericUpDown";
+            this.bIntervalNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // aIntervalNumericUpDown
+            // 
+            this.aIntervalNumericUpDown.DecimalPlaces = 9;
+            resources.ApplyResources(this.aIntervalNumericUpDown, "aIntervalNumericUpDown");
+            this.aIntervalNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.aIntervalNumericUpDown.Maximum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            0});
+            this.aIntervalNumericUpDown.Minimum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            -2147483648});
+            this.aIntervalNumericUpDown.Name = "aIntervalNumericUpDown";
+            this.aIntervalNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
             // 
             // label8
             // 
@@ -562,8 +750,8 @@ namespace Computator.NET
             // function
             // 
             this.function.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.function.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.function.DefaultCellStyle = dataGridViewCellStyle10;
             resources.ApplyResources(this.function, "function");
             this.function.Name = "function";
             this.function.ReadOnly = true;
@@ -585,8 +773,8 @@ namespace Computator.NET
             // parameters
             // 
             this.parameters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.parameters.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.parameters.DefaultCellStyle = dataGridViewCellStyle11;
             resources.ApplyResources(this.parameters, "parameters");
             this.parameters.Name = "parameters";
             this.parameters.ReadOnly = true;
@@ -594,8 +782,8 @@ namespace Computator.NET
             // result
             // 
             this.result.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.result.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.result.DefaultCellStyle = dataGridViewCellStyle12;
             resources.ApplyResources(this.result, "result");
             this.result.Name = "result";
             this.result.ReadOnly = true;
@@ -845,13 +1033,9 @@ namespace Computator.NET
             // 
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Controls.Add(this.label6);
-            this.tabPage3.Controls.Add(this.resultNumericalCalculationsTextBox);
             this.tabPage3.Controls.Add(this.methodNumericalCalculationsComboBox);
             this.tabPage3.Controls.Add(this.operationNumericalCalculationsComboBox);
             this.tabPage3.Controls.Add(this.numericalOperationButton);
-            this.tabPage3.Controls.Add(this.derivativeAtPointGroupBox);
-            this.tabPage3.Controls.Add(this.numericalIntegrationGroupBox);
-            this.tabPage3.Controls.Add(this.rootOfFunctionGroupBox);
             this.tabPage3.Controls.Add(this.splitContainer5);
             resources.ApplyResources(this.tabPage3, "tabPage3");
             this.tabPage3.Name = "tabPage3";
@@ -866,11 +1050,6 @@ namespace Computator.NET
             // 
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            // 
-            // resultNumericalCalculationsTextBox
-            // 
-            resources.ApplyResources(this.resultNumericalCalculationsTextBox, "resultNumericalCalculationsTextBox");
-            this.resultNumericalCalculationsTextBox.Name = "resultNumericalCalculationsTextBox";
             // 
             // methodNumericalCalculationsComboBox
             // 
@@ -893,219 +1072,6 @@ namespace Computator.NET
             this.numericalOperationButton.Name = "numericalOperationButton";
             this.numericalOperationButton.UseVisualStyleBackColor = true;
             this.numericalOperationButton.Click += new System.EventHandler(this.numericalOperationButton_Click);
-            // 
-            // derivativeAtPointGroupBox
-            // 
-            this.derivativeAtPointGroupBox.Controls.Add(this.epsilonDerrivativeTextBox);
-            this.derivativeAtPointGroupBox.Controls.Add(this.label16);
-            this.derivativeAtPointGroupBox.Controls.Add(this.nOrderDerivativeNumericUpDown);
-            this.derivativeAtPointGroupBox.Controls.Add(this.xDerivativePointNumericUpDown);
-            this.derivativeAtPointGroupBox.Controls.Add(this.label14);
-            this.derivativeAtPointGroupBox.Controls.Add(this.label15);
-            resources.ApplyResources(this.derivativeAtPointGroupBox, "derivativeAtPointGroupBox");
-            this.derivativeAtPointGroupBox.Name = "derivativeAtPointGroupBox";
-            this.derivativeAtPointGroupBox.TabStop = false;
-            // 
-            // epsilonDerrivativeTextBox
-            // 
-            resources.ApplyResources(this.epsilonDerrivativeTextBox, "epsilonDerrivativeTextBox");
-            this.epsilonDerrivativeTextBox.Name = "epsilonDerrivativeTextBox";
-            this.epsilonDerrivativeTextBox.TextChanged += new System.EventHandler(this.epsilonDerrivativeTextBox_TextChanged);
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
-            // nOrderDerivativeNumericUpDown
-            // 
-            resources.ApplyResources(this.nOrderDerivativeNumericUpDown, "nOrderDerivativeNumericUpDown");
-            this.nOrderDerivativeNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.nOrderDerivativeNumericUpDown.Name = "nOrderDerivativeNumericUpDown";
-            this.nOrderDerivativeNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // xDerivativePointNumericUpDown
-            // 
-            this.xDerivativePointNumericUpDown.DecimalPlaces = 9;
-            resources.ApplyResources(this.xDerivativePointNumericUpDown, "xDerivativePointNumericUpDown");
-            this.xDerivativePointNumericUpDown.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.xDerivativePointNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.xDerivativePointNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
-            this.xDerivativePointNumericUpDown.Name = "xDerivativePointNumericUpDown";
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
-            // 
-            // numericalIntegrationGroupBox
-            // 
-            this.numericalIntegrationGroupBox.Controls.Add(this.bIntervalIntegrationNumericUpDown);
-            this.numericalIntegrationGroupBox.Controls.Add(this.aIntervalIntegrationNumericUpDown);
-            this.numericalIntegrationGroupBox.Controls.Add(this.label11);
-            this.numericalIntegrationGroupBox.Controls.Add(this.label10);
-            resources.ApplyResources(this.numericalIntegrationGroupBox, "numericalIntegrationGroupBox");
-            this.numericalIntegrationGroupBox.Name = "numericalIntegrationGroupBox";
-            this.numericalIntegrationGroupBox.TabStop = false;
-            // 
-            // bIntervalIntegrationNumericUpDown
-            // 
-            this.bIntervalIntegrationNumericUpDown.DecimalPlaces = 9;
-            resources.ApplyResources(this.bIntervalIntegrationNumericUpDown, "bIntervalIntegrationNumericUpDown");
-            this.bIntervalIntegrationNumericUpDown.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.bIntervalIntegrationNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.bIntervalIntegrationNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
-            this.bIntervalIntegrationNumericUpDown.Name = "bIntervalIntegrationNumericUpDown";
-            this.bIntervalIntegrationNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // aIntervalIntegrationNumericUpDown
-            // 
-            this.aIntervalIntegrationNumericUpDown.DecimalPlaces = 9;
-            resources.ApplyResources(this.aIntervalIntegrationNumericUpDown, "aIntervalIntegrationNumericUpDown");
-            this.aIntervalIntegrationNumericUpDown.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.aIntervalIntegrationNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.aIntervalIntegrationNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
-            this.aIntervalIntegrationNumericUpDown.Name = "aIntervalIntegrationNumericUpDown";
-            this.aIntervalIntegrationNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // rootOfFunctionGroupBox
-            // 
-            this.rootOfFunctionGroupBox.Controls.Add(this.bFunctionRootNumericUpDown);
-            this.rootOfFunctionGroupBox.Controls.Add(this.aFunctionRootNumericUpDown);
-            this.rootOfFunctionGroupBox.Controls.Add(this.label12);
-            this.rootOfFunctionGroupBox.Controls.Add(this.label13);
-            resources.ApplyResources(this.rootOfFunctionGroupBox, "rootOfFunctionGroupBox");
-            this.rootOfFunctionGroupBox.Name = "rootOfFunctionGroupBox";
-            this.rootOfFunctionGroupBox.TabStop = false;
-            // 
-            // bFunctionRootNumericUpDown
-            // 
-            this.bFunctionRootNumericUpDown.DecimalPlaces = 9;
-            resources.ApplyResources(this.bFunctionRootNumericUpDown, "bFunctionRootNumericUpDown");
-            this.bFunctionRootNumericUpDown.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.bFunctionRootNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.bFunctionRootNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
-            this.bFunctionRootNumericUpDown.Name = "bFunctionRootNumericUpDown";
-            this.bFunctionRootNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // aFunctionRootNumericUpDown
-            // 
-            this.aFunctionRootNumericUpDown.DecimalPlaces = 9;
-            resources.ApplyResources(this.aFunctionRootNumericUpDown, "aFunctionRootNumericUpDown");
-            this.aFunctionRootNumericUpDown.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.aFunctionRootNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.aFunctionRootNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
-            this.aFunctionRootNumericUpDown.Name = "aFunctionRootNumericUpDown";
-            this.aFunctionRootNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
             // 
             // tabPage4
             // 
@@ -1926,6 +1892,19 @@ namespace Computator.NET
             this.splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
+            this.maxErrorGroupBox.ResumeLayout(false);
+            this.maxErrorGroupBox.PerformLayout();
+            this.stepsGroupBox.ResumeLayout(false);
+            this.stepsGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nStepsNumericUpDown)).EndInit();
+            this.derivativeAtPointGroupBox.ResumeLayout(false);
+            this.derivativeAtPointGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nOrderDerivativeNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xDerivativePointNumericUpDown)).EndInit();
+            this.intervalGroupBox.ResumeLayout(false);
+            this.intervalGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bIntervalNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aIntervalNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericalCalculationsDataGridView)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -1944,18 +1923,6 @@ namespace Computator.NET
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.derivativeAtPointGroupBox.ResumeLayout(false);
-            this.derivativeAtPointGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nOrderDerivativeNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xDerivativePointNumericUpDown)).EndInit();
-            this.numericalIntegrationGroupBox.ResumeLayout(false);
-            this.numericalIntegrationGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bIntervalIntegrationNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.aIntervalIntegrationNumericUpDown)).EndInit();
-            this.rootOfFunctionGroupBox.ResumeLayout(false);
-            this.rootOfFunctionGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bFunctionRootNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.aFunctionRootNumericUpDown)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
@@ -2006,14 +1973,9 @@ namespace Computator.NET
         private System.Windows.Forms.TextBox resultNumericalCalculationsTextBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.GroupBox numericalIntegrationGroupBox;
-        private System.Windows.Forms.NumericUpDown bIntervalIntegrationNumericUpDown;
-        private System.Windows.Forms.NumericUpDown aIntervalIntegrationNumericUpDown;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.GroupBox rootOfFunctionGroupBox;
-        private System.Windows.Forms.NumericUpDown bFunctionRootNumericUpDown;
-        private System.Windows.Forms.NumericUpDown aFunctionRootNumericUpDown;
+        private System.Windows.Forms.GroupBox intervalGroupBox;
+        private System.Windows.Forms.NumericUpDown bIntervalNumericUpDown;
+        private System.Windows.Forms.NumericUpDown aIntervalNumericUpDown;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox derivativeAtPointGroupBox;
@@ -2021,8 +1983,6 @@ namespace Computator.NET
         private System.Windows.Forms.NumericUpDown xDerivativePointNumericUpDown;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox epsilonDerrivativeTextBox;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.DataGridView calculationsHistoryDataGridView;
         private System.Windows.Forms.NumericUpDown calculationsImZnumericUpDown;
         private System.Windows.Forms.Label calculationsComplexLabel;
@@ -2171,6 +2131,12 @@ namespace Computator.NET
         private System.Windows.Forms.ToolStripButton runToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
         private BindableToolStripMenuItem exponentiationToolStripMenuItem;
+        private NumericUpDown nStepsNumericUpDown;
+        private Label label19;
+        private TextBox epsTextBox;
+        private Label label10;
+        private GroupBox maxErrorGroupBox;
+        private GroupBox stepsGroupBox;
     }
 }
 

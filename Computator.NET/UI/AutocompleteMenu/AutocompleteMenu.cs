@@ -54,7 +54,7 @@ namespace AutocompleteMenuNS
             Enabled = true;
             AppearInterval = 500;
             timer.Tick += timer_Tick;
-            MaximumSize = new Size(180, 200);
+            MaximumSize = new Size(2000, 200);
             AutoPopup = true;
 
             SearchPattern = @"[\w\.]";
@@ -776,6 +776,7 @@ namespace AutocompleteMenuNS
         {
             if (Selecting != null)
                 Selecting(this, args);
+            Update();
         }
 
         public void OnSelected(SelectedEventArgs args)

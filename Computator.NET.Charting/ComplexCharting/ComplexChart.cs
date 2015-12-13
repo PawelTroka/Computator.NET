@@ -10,7 +10,7 @@ using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.ComplexCharting
 {
-    public class ComplexChart : Control //, INotifyPropertyChanged
+    public class ComplexChart : Control, IChart //, INotifyPropertyChanged
     {
         #region private fields
 
@@ -201,6 +201,16 @@ namespace Computator.NET.Charting.ComplexCharting
             reDraw();
         }
 
+        public void Print()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PrintPreview()
+        {
+            throw new NotImplementedException();
+        }
+
         public void addFx(Func<Complex, Complex> Fz, string name)
         {
             function = new Function(Delegate.CreateDelegate(typeof (Func<Complex, Complex>), Fz.Method), name, name);
@@ -208,7 +218,7 @@ namespace Computator.NET.Charting.ComplexCharting
             reDraw();
         }
 
-        public void setChartAreaValues(double x0, double xn, double y0, double yn)
+        public void SetChartAreaValues(double x0, double xn, double y0, double yn)
         {
             XMin = x0;
             XMax = xn;

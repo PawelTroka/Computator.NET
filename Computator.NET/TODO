@@ -1,4 +1,7 @@
-﻿sqrt kind of sucks cause we have real sqrt(real) and complex sqrt(complex) but we should have also complex sqrt(real) (for arguments below 0) but that is kind of not possible in C#
+﻿make autocomplete resize on items
+update gsl to the newest version
+dynamic sqrt(real) solves problem stated below but we need also root(n,x) and power(x,1/n) and there is a bug that causes it to not appear in autocomplete
+sqrt kind of sucks cause we have real sqrt(real) and complex sqrt(complex) but we should have also complex sqrt(real) (for arguments below 0) but that is kind of not possible in C#
 Handle generic methods and params better in AutocompleteData 
 Unify exceptions and logging model in whole application, refactor it
 fix bugs in numerical opearations
@@ -24,7 +27,6 @@ search in the internet/base of knowledge about the function if we have nothing i
 build new functioninfo.xml with empty data
 add symbolic calculations
 make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
-expose all things like numerical integration in API in scripting etc
 make transformations enable for complexchart and chart3d
 enable data loading for charts
 enable better usage of transformation and charts scaling for loaded points

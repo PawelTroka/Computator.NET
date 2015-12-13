@@ -1176,28 +1176,28 @@ Harris and Stocker (1998, p.&nbsp;300) call secant and cosecant "rarely used fun
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="GCF(n,m,)">
+  <FunctionInfo Signature="gcd(n,m,)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="NWD(n,m,)">
+  <FunctionInfo Signature="nwd(n,m,)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="LCM(n,m,)">
+  <FunctionInfo Signature="lcm(n,m,)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="NWW(n,m,)">
+  <FunctionInfo Signature="nww(n,m,)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>

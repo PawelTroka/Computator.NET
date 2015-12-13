@@ -62,6 +62,54 @@ namespace Computator.NET.DataTypes
             }
         }
 
+
+        public dynamic EvaluateDynamic(params double[] arguments)
+        {
+            try
+            {
+                switch (FunctionType)
+                {
+                    case FunctionType.Real2D:
+                        return ((Func<double, double>)_function)(arguments[0]);
+                    case FunctionType.Complex:
+                        return ((Func<Complex, Complex>)_function)(new Complex(arguments[0], arguments[1]));
+                    case FunctionType.Real2DImplicit:
+                    case FunctionType.Real3D:
+                        return ((Func<double, double, double>)_function)(arguments[0], arguments[1]);
+
+                    case FunctionType.ComplexImplicit:
+                        return ((Func<Complex, Complex, Complex>)_function)(new Complex(arguments[0], arguments[1]), new Complex(arguments[2], arguments[3]));
+
+                    case FunctionType.Real3DImplicit:
+                        return ((Func<double, double, double, double>)_function)(arguments[0], arguments[1], arguments[2]);
+                }
+            }
+            catch (Exception exception)
+            {
+                if (exception is Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)//hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
+                    return double.NaN;
+                logger.MethodName = MethodBase.GetCurrentMethod().Name;
+                logger.Parameters["TSLCode"] = tslCode;
+                logger.Parameters["CSCode"] = csCode;
+                logger.Parameters["FunctionType"] = FunctionType;
+                logger.Parameters["Name"] = Name;
+                logger.Parameters["arg0"] = arguments[0];
+                if (arguments.Length >= 2)
+                    logger.Parameters["arg1"] = arguments[1];
+                if (arguments.Length >= 3)
+                    logger.Parameters["arg2"] = arguments[2];
+                if (arguments.Length >= 4)
+                    logger.Parameters["arg3"] = arguments[3];
+
+                logger.Log(exception.Message, ErrorType.Calculation, exception);
+
+                var message = "Calculation Error, details:" + Environment.NewLine + exception.Message;
+
+                throw new CalculationException(message, exception);
+            }
+            return double.NaN;
+        }
+
         public virtual T Evaluate<T>(params T[] arguments)
         {
             var value = default(T);
@@ -71,6 +119,8 @@ namespace Computator.NET.DataTypes
                 switch (FunctionType)
                 {
                     case FunctionType.Real2D:
+                        value = ((Func<T, T>)_function)(arguments[0]);
+                        break;
                     case FunctionType.Complex:
                         value = ((Func<T, T>) _function)(arguments[0]);
                         break;
@@ -86,6 +136,8 @@ namespace Computator.NET.DataTypes
             }
             catch (Exception exception)
             {
+                if (exception is Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)//hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
+                    return (T)(object)double.NaN;
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
                 logger.Parameters["TSLCode"] = tslCode;
                 logger.Parameters["CSCode"] = csCode;

@@ -62,7 +62,7 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
             throw new System.ArgumentException("Wrong type for matrix creation, consider using real or complex");
         }
 
-        public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(string str)
+       /* public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(string str)
         {
             if(str.Contains("{")&& str.Contains("}"))
                 return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.CSharpMatrixFormatProvider.InvariantCulture));
@@ -70,7 +70,7 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
                 return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.OctaveMatrixFormatProvider.InvariantCulture));
             else
                 return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.DefaultMatrixFormatProvider.InvariantCulture));
-        }
+        }*/
 
         public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(double[,] array)
         {
@@ -440,7 +440,7 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
             throw new System.ArgumentException(""Wrong type for matrix creation, consider using real or complex"");
         }
 
-        public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(string str)
+        /*public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(string str)
         {
             if(str.Contains(""{"")&& str.Contains(""}""))
                 return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.CSharpMatrixFormatProvider.InvariantCulture));
@@ -448,7 +448,7 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
                 return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.OctaveMatrixFormatProvider.InvariantCulture));
             else
                 return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.DefaultMatrixFormatProvider.InvariantCulture));
-        }
+        }*/
 
         public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(double[,] array)
         {

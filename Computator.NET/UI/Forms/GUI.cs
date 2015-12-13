@@ -24,8 +24,6 @@ using Computator.NET.Evaluation;
 using Computator.NET.Localization;
 using Computator.NET.Logging;
 using Computator.NET.NumericalCalculations;
-using Computator.NET.NumericalCalculations.ElementaryMathematics;
-using Computator.NET.NumericalCalculations.MathematicalAnalysis;
 using Computator.NET.Properties;
 using Computator.NET.Transformations;
 using Computator.NET.UI.AutocompleteMenu;
@@ -41,30 +39,41 @@ namespace Computator.NET
         private readonly CultureInfo[] AllCultures =
             CultureInfo.GetCultures(CultureTypes.NeutralCultures);
 
-        private readonly FunctionComplexEvaluator complexEvaluator;
-        private readonly Function2DEvaluator evaluator2d;
-        private readonly Function3DEvaluator evaluator3d;
+        private readonly Dictionary<CalculationsMode, IChart> charts = new Dictionary<CalculationsMode, IChart>
+        {
+            {CalculationsMode.Real, new Chart2D()},
+            {CalculationsMode.Complex, new ComplexChart()},
+            {CalculationsMode.Fxy, new Chart3DControl()}
+        };
+
+        //  private readonly FunctionComplexEvaluator complexEvaluator;
+        private readonly ExpressionsEvaluator expressionsEvaluator;
+        // private readonly Function2DEvaluator evaluator2d;
+        // private readonly Function3DEvaluator evaluator3d;
         private readonly SimpleLogger logger;
         private readonly WebBrowserForm menuFunctionsToolTip;
-        private Chart2D chart2d;
-        private Chart3DControl chart3d;
-        private ComplexChart complexChart;
+
         private CodeEditorControlWrapper customFunctionsCodeEditor;
         private List<Action<object, EventArgs>> defaultActions;
         private ElementHost elementHostChart3d;
-        private ScriptEvaluator scriptEvaluator;
+
         private CodeEditorControlWrapper scriptingCodeEditor;
+        private IChart currentChart => charts[_calculationsMode];
+
+        private Chart2D chart2d => charts[CalculationsMode.Real] as Chart2D;
+        private Chart3DControl chart3d => charts[CalculationsMode.Fxy] as Chart3DControl;
+        private ComplexChart complexChart => charts[CalculationsMode.Complex] as ComplexChart;
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var index = tabControl1.SelectedIndex;
 
             transformToolStripMenuItem.Enabled = chartToolStripMenuItem.Enabled =
-                chart3dToolStripMenuItem.Enabled = comlexChartToolStripMenuItem.Enabled = (index == 0);
+                chart3dToolStripMenuItem.Enabled = comlexChartToolStripMenuItem.Enabled = index == 0;
 
-            openToolStripMenuItem.Enabled = (index == 0 || index == 5 || index == 4);
+            openToolStripMenuItem.Enabled = index == 0 || index == 5 || index == 4;
 
-            saveToolStripMenuItem.Enabled = (index == 4 || index == 5);
+            saveToolStripMenuItem.Enabled = index == 4 || index == 5;
 
             //expressionTextBox.Visible = !(index ==5||index==4);
             tableLayoutPanel1.Visible = !(index == 5 || index == 4);
@@ -72,8 +81,7 @@ namespace Computator.NET
 
         private void languageToolStripComboBox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            var selectedCulture = Enumerable.First(AllCultures,
-                c => c.NativeName == (string) languageToolStripComboBox.SelectedItem);
+            var selectedCulture = AllCultures.First(c => c.NativeName == (string) languageToolStripComboBox.SelectedItem);
             Thread.CurrentThread.CurrentCulture = selectedCulture;
             LocalizationManager.GlobalUICulture = selectedCulture;
             Settings.Default.Language = selectedCulture;
@@ -82,7 +90,7 @@ namespace Computator.NET
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            (new Config.Settings()).Show();
+            new Config.Settings().Show();
         }
 
         private void logsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -395,10 +403,10 @@ namespace Computator.NET
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
-                    if (_calculationsMode == CalculationsMode.Real)
-                        chart2d.Printing.Print(true);
-                    else
-                        SendKeys.Send("^P");
+                    //if (_calculationsMode == CalculationsMode.Real)
+                    currentChart.Print();
+                    // else
+                    //  SendKeys.Send("^P");
                     break;
 
                 case 4:
@@ -424,10 +432,11 @@ namespace Computator.NET
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
-                    if (_calculationsMode == CalculationsMode.Real)
+                    currentChart.PrintPreview();
+                    /*if (_calculationsMode == CalculationsMode.Real)
                         chart2d.Printing.PrintPreview();
                     else
-                        SendKeys.Send("^P");
+                        SendKeys.Send("^P");*/
                     break;
 
                 case 4:
@@ -458,10 +467,11 @@ namespace Computator.NET
         public GUI()
         {
             logger = new SimpleLogger(this);
-            evaluator2d = new Function2DEvaluator();
-            evaluator3d = new Function3DEvaluator();
-            complexEvaluator = new FunctionComplexEvaluator();
-            scriptEvaluator = new ScriptEvaluator();
+            //evaluator2d = new Function2DEvaluator();
+            //evaluator3d = new Function3DEvaluator();
+            //complexEvaluator = new FunctionComplexEvaluator();
+            expressionsEvaluator = new ExpressionsEvaluator();
+
             menuFunctionsToolTip = new WebBrowserForm();
             modeDeterminer = new ModeDeterminer();
 
@@ -556,7 +566,7 @@ namespace Computator.NET
             {
                 customFunctionsCodeEditor.NewDocument(args[1]);
                 //customFunctionsCodeEditor.CurrentFileName = args[1];
-               // customFunctionsCodeEditor.Text = code;
+                // customFunctionsCodeEditor.Text = code;
                 tabControl1.SelectedIndex = 5;
                 tabControl1_SelectedIndexChanged(null, null);
             }
@@ -705,16 +715,13 @@ namespace Computator.NET
 
         private void InitializeCharts()
         {
-            chart2d = new Chart2D();
-            complexChart = new ComplexChart();
-            chart3d = new Chart3DControl();
             elementHostChart3d = new ElementHost
             {
                 BackColor = Color.White,
                 Dock = DockStyle.Fill,
                 Child = chart3d
             };
-            ((ISupportInitialize) (chart2d)).BeginInit();
+            ((ISupportInitialize) chart2d).BeginInit();
 
             panel2.Controls.Add(chart2d);
             panel2.Controls.Add(complexChart);
@@ -724,11 +731,16 @@ namespace Computator.NET
             elementHostChart3d.BringToFront();
             complexChart.Visible = false;
             elementHostChart3d.Visible = false;
-            ((ISupportInitialize) (chart2d)).EndInit();
-            chart2d.setChartAreaValues((double) x0NumericUpDown.Value, (double) xnNumericUpDown.Value,
-                (double) y0NumericUpDown.Value, (double) yNNumericUpDown.Value);
-            complexChart.setChartAreaValues((double) x0NumericUpDown.Value, (double) xnNumericUpDown.Value,
-                (double) y0NumericUpDown.Value, (double) yNNumericUpDown.Value);
+            ((ISupportInitialize) chart2d).EndInit();
+
+
+            foreach (var chart in charts)
+            {
+                chart.Value.SetChartAreaValues((double) x0NumericUpDown.Value, (double) xnNumericUpDown.Value,
+                    (double) y0NumericUpDown.Value, (double) yNNumericUpDown.Value);
+                complexChart.SetChartAreaValues((double) x0NumericUpDown.Value, (double) xnNumericUpDown.Value,
+                    (double) y0NumericUpDown.Value, (double) yNNumericUpDown.Value);
+            }
         }
 
         private void InitializeScripting()
@@ -770,23 +782,22 @@ namespace Computator.NET
                 operationNumericalCalculationsComboBox);
             NumericalCalculation.setupGroupBoxes(operationNumericalCalculationsComboBox,
                 derivativeAtPointGroupBox,
-                rootOfFunctionGroupBox, numericalIntegrationGroupBox);
+                intervalGroupBox, maxErrorGroupBox, stepsGroupBox);
 
 
-            languageToolStripComboBox.Items.Add((new CultureInfo("en")).NativeName);
-            languageToolStripComboBox.Items.Add((new CultureInfo("pl")).NativeName);
-            languageToolStripComboBox.Items.Add((new CultureInfo("de")).NativeName);
-            languageToolStripComboBox.Items.Add((new CultureInfo("cs")).NativeName);
+            languageToolStripComboBox.Items.Add(new CultureInfo("en").NativeName);
+            languageToolStripComboBox.Items.Add(new CultureInfo("pl").NativeName);
+            languageToolStripComboBox.Items.Add(new CultureInfo("de").NativeName);
+            languageToolStripComboBox.Items.Add(new CultureInfo("cs").NativeName);
 
 
             languageToolStripComboBox.AutoSize = true;
             languageToolStripComboBox.Invalidate();
 
             languageToolStripComboBox.SelectedItem =
-                Enumerable.First(AllCultures,
-                    c =>
-                        c.TwoLetterISOLanguageName ==
-                        Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName)
+                AllCultures.First(c =>
+                    c.TwoLetterISOLanguageName ==
+                    Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName)
                     .NativeName;
         }
 
@@ -806,7 +817,7 @@ namespace Computator.NET
         {
             Binding bd;
 
-            for (var index = control.DataBindings.Count - 1; (index == 0); index--)
+            for (var index = control.DataBindings.Count - 1; index == 0; index--)
             {
                 bd = control.DataBindings[index];
                 if (bd.PropertyName == propertyName)
@@ -867,22 +878,8 @@ namespace Computator.NET
             {
                 try
                 {
-                    switch (_calculationsMode)
-                    {
-                        case CalculationsMode.Real:
-                            chart2d.addFx(
-                                evaluator2d.Evaluate(expressionTextBox.Text, customFunctionsCodeEditor.Text));
-                            break;
-                        case CalculationsMode.Complex:
-                            complexChart.addFx(
-                                complexEvaluator.Evaluate(expressionTextBox.Text, customFunctionsCodeEditor.Text));
-                            break;
-
-                        case CalculationsMode.Fxy:
-                            chart3d.addFx(
-                                evaluator3d.Evaluate(expressionTextBox.Text, customFunctionsCodeEditor.Text));
-                            break;
-                    }
+                    currentChart.addFx(expressionsEvaluator.Evaluate(expressionTextBox.Text,
+                        customFunctionsCodeEditor.Text, _calculationsMode));
                 }
                 catch (Exception ex)
                 {
@@ -899,66 +896,48 @@ namespace Computator.NET
             var message = ex.Message + Environment.NewLine + (ex.InnerException?.Message ?? "");
             MessageBox.Show(message, Strings.Error);
 
-            if (!ExceptionExtensions.IsInternal(ex))
+            if (!ex.IsInternal())
             {
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
                 logger.Log(message, ErrorType.General, ex);
             }
         }
 
+
         private void calculateButton_Click(object sender, EventArgs e)
         {
-            if (expressionTextBox.Text != "")
+            if (expressionTextBox.Text == "")
+                MessageBox.Show(
+                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_);
+            else
             {
                 try
                 {
-                    switch (_calculationsMode)
-                    {
-                        case CalculationsMode.Complex:
-                        {
-                            var function = complexEvaluator.Evaluate(expressionTextBox.Text,
-                                customFunctionsCodeEditor.Text);
-                            var z = new Complex((double) valueForCalculationNumericUpDown.Value,
-                                (double) calculationsImZnumericUpDown.Value);
-                            var fz = function.Evaluate(z);
+                    var function = expressionsEvaluator.Evaluate(expressionTextBox.Text,
+                        customFunctionsCodeEditor.Text, _calculationsMode);
 
-                            calculationValueTextBox.Text = ScriptingExtensions.ToMathString(fz);
+                    var x = (double) valueForCalculationNumericUpDown.Value;
+                    var y = (double) calculationsImZnumericUpDown.Value;
+                    var z = new Complex(x, y);
 
-                            calculationsHistoryDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                                ScriptingExtensions.ToMathString(z),
-                                calculationValueTextBox.Text);
-                        }
-                            break;
-                        case CalculationsMode.Real:
-                        {
-                            var function = evaluator2d.Evaluate(expressionTextBox.Text, customFunctionsCodeEditor.Text);
-                            var x = function.Evaluate((double) (valueForCalculationNumericUpDown.Value));
-                            calculationValueTextBox.Text = ScriptingExtensions.ToMathString(x);
-                            calculationsHistoryDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                                valueForCalculationNumericUpDown.Value, calculationValueTextBox.Text);
-                        }
-                            break;
-                        case CalculationsMode.Fxy:
-                        {
-                            var function = evaluator3d.Evaluate(expressionTextBox.Text, customFunctionsCodeEditor.Text);
-                            var fxy = function.Evaluate((double) (valueForCalculationNumericUpDown.Value),
-                                (double) calculationsImZnumericUpDown.Value);
-                            calculationValueTextBox.Text = ScriptingExtensions.ToMathString(fxy);
-                            calculationsHistoryDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                                valueForCalculationNumericUpDown.Value + ", " + calculationsImZnumericUpDown.Value,
-                                calculationValueTextBox.Text);
-                        }
-                            break;
-                    }
+                    dynamic result = function.EvaluateDynamic(x, y);
+
+                    calculationValueTextBox.Text = ScriptingExtensions.ToMathString(result);
+
+                    calculationsHistoryDataGridView.Rows.Insert(0,
+                        expressionTextBox.Text,
+                        _calculationsMode == CalculationsMode.Complex
+                            ? z.ToMathString()
+                            : (_calculationsMode == CalculationsMode.Fxy
+                                ? $"{x.ToMathString()}, {y.ToMathString()}"
+                                : x.ToMathString()),
+                        calculationValueTextBox.Text);
                 }
                 catch (Exception ex)
                 {
                     HandleException(ex);
                 }
             }
-            else
-                MessageBox.Show(
-                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_);
         }
 
         private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
@@ -974,27 +953,27 @@ namespace Computator.NET
 
         public void aligmentLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeChartLegendAligment(((ToolStripComboBox) (s)).SelectedItem.ToString());
+            chart2d.changeChartLegendAligment(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void positionLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeChartLegendPosition(((ToolStripComboBox) (s)).SelectedItem.ToString());
+            chart2d.changeChartLegendPosition(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void colorsOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeChartColor(((ToolStripComboBox) (s)).SelectedItem.ToString());
+            chart2d.changeChartColor(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void seriesOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeSeries(((ToolStripComboBox) (s)).SelectedItem.ToString());
+            chart2d.changeSeries(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void typeOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeChartType(((ToolStripComboBox) (s)).SelectedItem.ToString());
+            chart2d.changeChartType(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1033,7 +1012,7 @@ namespace Computator.NET
 
         private void Item_Click(object sender, MouseEventArgs e)
         {
-            var menuItem = (sender as ToolStripMenuItem);
+            var menuItem = sender as ToolStripMenuItem;
             if (e.Button == MouseButtons.Left)
             {
                 if (tabControl1.SelectedIndex < 4)
@@ -1063,232 +1042,62 @@ namespace Computator.NET
 
             NumericalCalculation.setupGroupBoxes(operationNumericalCalculationsComboBox,
                 derivativeAtPointGroupBox,
-                rootOfFunctionGroupBox, numericalIntegrationGroupBox);
+                intervalGroupBox, maxErrorGroupBox, stepsGroupBox);
         }
 
         private void numericalOperationButton_Click(object sender, EventArgs e)
         {
             var method = methodNumericalCalculationsComboBox.SelectedItem.ToString();
+            var operation = operationNumericalCalculationsComboBox.SelectedItem.ToString();
+
 
             if (_calculationsMode == CalculationsMode.Real)
             {
-                var function = evaluator2d.Evaluate(expressionTextBox.Text,
-                    customFunctionsCodeEditor.Text);
+                var function = expressionsEvaluator.Evaluate(expressionTextBox.Text,
+                    customFunctionsCodeEditor.Text, _calculationsMode);
+
                 Func<double, double> fx = (double x) => function.Evaluate(x);
 
-                double result;
-                switch (method)
+                var result = double.NaN;
+                double eps;
+
+                if (!double.TryParse(epsTextBox.Text, out eps))
                 {
-                    case "trapezoidal method":
-                        result = Integral.trapezoidalMethod(fx,
-                            (double) (aIntervalIntegrationNumericUpDown.Value),
-                            (double) (bIntervalIntegrationNumericUpDown.Value));
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aIntervalIntegrationNumericUpDown.Value + "; b=" +
-                            bIntervalIntegrationNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
+                    MessageBox.Show(Strings.GivenΕIsNotValid, Strings.Error);
+                    return;
+                }
+                if (!(eps > 0.0) || !(eps < 1))
+                {
+                    MessageBox.Show(
+                        Strings.GivenΕIsNotValidΕShouldBeSmallPositiveNumber, Strings.Error);
+                    return;
+                }
+
+                var a = (double) aIntervalNumericUpDown.Value;
+                var b = (double) bIntervalNumericUpDown.Value;
+                var n = (int) nStepsNumericUpDown.Value;
+                var order = (uint) nOrderDerivativeNumericUpDown.Value;
+                var xPoint = (double) xDerivativePointNumericUpDown.Value;
+                var parametersStr="";
+
+                switch (operation)
+                {
+                    case "Integral":
+                        result = Integral.integrate(method, fx, a, b, n);
+                        parametersStr= $"a={a.ToMathString()}; b={b.ToMathString()}; N={n}";
                         break;
-
-                    case "rectangle method":
-                        result = Integral.rectangleMethod(fx,
-                            (double) (aIntervalIntegrationNumericUpDown.Value),
-                            (double) (bIntervalIntegrationNumericUpDown.Value));
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aIntervalIntegrationNumericUpDown.Value + "; b=" +
-                            bIntervalIntegrationNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
+                    case "Derivative":
+                        result = Derivative.derivative(method, fx,xPoint,order, eps);
+                        parametersStr = $"n={order}; x={xPoint.ToMathString()}; ε={eps.ToMathString()}";
                         break;
-
-                    case "Simpson's method":
-                        result = Integral.simpsonMethod(fx,
-                            (double) (aIntervalIntegrationNumericUpDown.Value),
-                            (double) (bIntervalIntegrationNumericUpDown.Value));
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aIntervalIntegrationNumericUpDown.Value + "; b=" +
-                            bIntervalIntegrationNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "double exponential transformation":
-                        result = Integral.doubleExponentialTransformation(fx,
-                            (double) (aIntervalIntegrationNumericUpDown.Value),
-                            (double) (bIntervalIntegrationNumericUpDown.Value));
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aIntervalIntegrationNumericUpDown.Value + "; b=" +
-                            bIntervalIntegrationNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-
-                    case "non-adaptive Gauss–Kronrod method":
-                        result = Integral.nonAdaptiveGaussKronrodMethod(fx,
-                            (double) (aIntervalIntegrationNumericUpDown.Value),
-                            (double) (bIntervalIntegrationNumericUpDown.Value));
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aIntervalIntegrationNumericUpDown.Value + "; b=" +
-                            bIntervalIntegrationNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-
-                    case "infinity-adaptive Gauss–Kronrod method":
-                        result =
-                            Integral.infiniteAdaptiveGaussKronrodMethod(fx,
-                                (double) (aIntervalIntegrationNumericUpDown.Value),
-                                (double) (bIntervalIntegrationNumericUpDown.Value));
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aIntervalIntegrationNumericUpDown.Value + "; b=" +
-                            bIntervalIntegrationNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "Monte Carlo method":
-                        result = Integral.monteCarloMethod(fx,
-                            (double) (aIntervalIntegrationNumericUpDown.Value),
-                            (double) (bIntervalIntegrationNumericUpDown.Value));
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aIntervalIntegrationNumericUpDown.Value + "; b=" +
-                            bIntervalIntegrationNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "Romberg's method":
-                        result = Integral.rombergMethod(fx,
-                            (double) (aIntervalIntegrationNumericUpDown.Value),
-                            (double) (bIntervalIntegrationNumericUpDown.Value));
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aIntervalIntegrationNumericUpDown.Value + "; b=" +
-                            bIntervalIntegrationNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-
-                    case "finite difference formula":
-                        result = Derivative.finiteDifferenceFormula(fx,
-                            (double) xDerivativePointNumericUpDown.Value,
-                            (uint) nOrderDerivativeNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "n=" + nOrderDerivativeNumericUpDown.Value + "; x=" +
-                            xDerivativePointNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "stable finite difference formula":
-                        result = Derivative.stableFiniteDifferenceFormula(fx,
-                            (double) xDerivativePointNumericUpDown.Value, (uint) nOrderDerivativeNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "n=" + nOrderDerivativeNumericUpDown.Value + "; x=" +
-                            xDerivativePointNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-
-                        break;
-
-                    case "two-point finite difference formula":
-                        result =
-                            Derivative.twoPointfiniteDifferenceFormula(fx,
-                                (double) xDerivativePointNumericUpDown.Value, (uint) nOrderDerivativeNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "n=" + nOrderDerivativeNumericUpDown.Value + "; x=" +
-                            xDerivativePointNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "centered five-point method":
-                        result = Derivative.centeredFivePointMethod(fx,
-                            (double) xDerivativePointNumericUpDown.Value,
-                            (uint) nOrderDerivativeNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "n=" + nOrderDerivativeNumericUpDown.Value + "; x=" +
-                            xDerivativePointNumericUpDown.Value, resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "bisection method":
-                        result = FunctionRoot.bisectionMethod(fx,
-                            (double) aFunctionRootNumericUpDown.Value,
-                            (double) bFunctionRootNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aFunctionRootNumericUpDown.Value + "; b=" + bFunctionRootNumericUpDown.Value,
-                            resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "secant method":
-                        result = FunctionRoot.secantMethod(fx,
-                            (double) aFunctionRootNumericUpDown.Value,
-                            (double) bFunctionRootNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aFunctionRootNumericUpDown.Value + "; b=" + bFunctionRootNumericUpDown.Value,
-                            resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    //"secant Newton Raphson method"
-
-                    case "secant Newton Raphson method":
-                        result = FunctionRoot.secantNewtonRaphsonMethod(fx,
-                            (double) aFunctionRootNumericUpDown.Value,
-                            (double) bFunctionRootNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aFunctionRootNumericUpDown.Value + "; b=" + bFunctionRootNumericUpDown.Value,
-                            resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "Brent's method":
-                        result = FunctionRoot.BrentMethod(fx,
-                            (double) aFunctionRootNumericUpDown.Value,
-                            (double) bFunctionRootNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aFunctionRootNumericUpDown.Value + "; b=" + bFunctionRootNumericUpDown.Value,
-                            resultNumericalCalculationsTextBox.Text);
-                        break;
-
-                    case "Broyden's method":
-                        result = FunctionRoot.BroydenMethod(fx,
-                            (double) aFunctionRootNumericUpDown.Value,
-                            (double) bFunctionRootNumericUpDown.Value);
-                        resultNumericalCalculationsTextBox.Text = ScriptingExtensions.ToMathString(result);
-                        numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,
-                            operationNumericalCalculationsComboBox.SelectedItem,
-                            methodNumericalCalculationsComboBox.SelectedItem,
-                            "a=" + aFunctionRootNumericUpDown.Value + "; b=" + bFunctionRootNumericUpDown.Value,
-                            resultNumericalCalculationsTextBox.Text);
+                    case "Function root":
+                        result = FunctionRoot.findRoot(method, fx, a, b, eps, n);
+                        parametersStr = $"a={a.ToMathString()}; b={b.ToMathString()}; ε={eps.ToMathString()}; N={n}";
                         break;
                 }
+
+                resultNumericalCalculationsTextBox.Text = result.ToMathString();
+                numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,operation,method, parametersStr, resultNumericalCalculationsTextBox.Text);
             }
             else
             {
@@ -1301,20 +1110,6 @@ namespace Computator.NET
             }
         }
 
-        private void epsilonDerrivativeTextBox_TextChanged(object sender, EventArgs e)
-        {
-            double result;
-            if (double.TryParse(epsilonDerrivativeTextBox.Text, out result))
-            {
-                if (result > 0.0 && result < 1)
-                    Derivative.EPS = result;
-                else
-                    MessageBox.Show(
-                        Strings.GivenΕIsNotValidΕShouldBeSmallPositiveNumber, Strings.Error);
-            }
-            else
-                MessageBox.Show(Strings.GivenΕIsNotValid, Strings.Error);
-        }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1325,7 +1120,7 @@ namespace Computator.NET
 
         private void processButton_Click(object sender, EventArgs e)
         {
-            consoleOutputTextBox.Text = (Strings.ConsoleOutput);
+            consoleOutputTextBox.Text = Strings.ConsoleOutput;
             try
             {
                 scriptingCodeEditor.ProcessScript(consoleOutputTextBox, customFunctionsCodeEditor.Text);
@@ -1479,7 +1274,7 @@ namespace Computator.NET
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             chart3d.Quality =
-                chart2d.Quality = complexChart.Quality = (trackBar1.Value/((double) trackBar1.Maximum))*100.0;
+                chart2d.Quality = complexChart.Quality = trackBar1.Value/(double) trackBar1.Maximum*100.0;
         }
 
         private void exportChart3dToolStripMenuItem_Click(object sender, EventArgs e)

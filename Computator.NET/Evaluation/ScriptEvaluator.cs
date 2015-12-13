@@ -8,13 +8,13 @@ using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.Evaluation
 {
-    internal class ScriptEvaluator : Evaluator
+    internal class ScriptEvaluator : ExpressionsEvaluator
     {
-        private readonly string additionalObjectsCodeCopy;
+        private readonly string _additionalObjectsCodeCopy;
         public ScriptEvaluator()
         {
-            functionType = FunctionType.Scripting;
-            additionalUsings = @"
+            FunctionType = FunctionType.Scripting;
+            AdditionalUsings = @"
             //using System.Collections.Generic;
             //using System.Windows.Forms.Integration;
             //using System.Linq;
@@ -36,42 +36,42 @@ namespace Computator.NET.Evaluation
             //using Meta.Numerics.Matrices;
             ";
 
-            nativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.Charting.dll"));
-            nativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.DataTypes.dll"));
+            NativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.Charting.dll"));
+            NativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.DataTypes.dll"));
             /////////////////////////
-            nativeCompiler.AddDll("System.Drawing.dll");
-            nativeCompiler.AddDll("System.Windows.Forms.DataVisualization.dll");
-            nativeCompiler.AddDll("System.Windows.Forms.dll");
-            nativeCompiler.AddDll("System.Xaml.dll");
-            //nativeCompiler.AddDll("Microsoft.CSharp.dll");
+            NativeCompiler.AddDll("System.Drawing.dll");
+            NativeCompiler.AddDll("System.Windows.Forms.DataVisualization.dll");
+            NativeCompiler.AddDll("System.Windows.Forms.dll");
+            NativeCompiler.AddDll("System.Xaml.dll");
+            //NativeCompiler.AddDll("Microsoft.CSharp.dll");
             
 
-            nativeCompiler.AddDll(typeof (AmbientLight).Assembly.Location);
+            NativeCompiler.AddDll(typeof (AmbientLight).Assembly.Location);
             //"PresentationCore.dll");
-            nativeCompiler.AddDll(typeof (XmlDataProvider).Assembly.Location);
+            NativeCompiler.AddDll(typeof (XmlDataProvider).Assembly.Location);
             //"PresentationFramework.dll");
-            nativeCompiler.AddDll(typeof (PresentationTraceSources).Assembly.Location);
+            NativeCompiler.AddDll(typeof (PresentationTraceSources).Assembly.Location);
             //"WindowsBase.dll");
-            nativeCompiler.AddDll(typeof (ElementHost).Assembly.Location);
+            NativeCompiler.AddDll(typeof (ElementHost).Assembly.Location);
             //"WindowsFormsIntegration.dll");
 
-            additionalObjectsCodeCopy=additionalObjectsCode = ScriptingExtensionObjects.ToCode;
-            logger.ClassName = GetType().FullName;
+            _additionalObjectsCodeCopy=AdditionalObjectsCode = ScriptingExtensionObjects.ToCode;
+            Logger.ClassName = GetType().FullName;
         }
 
-        public ScriptFunction Evaluate(string input, string customFunctionsCode = "")
+        public ScriptFunction Evaluate(string input, string customFunctionsCode)
         {
-            tslCode = input;
-            customFunctionsTSLCode = customFunctionsCode;
+            MainTslCode = input;
+            CustomFunctionsTslCode = customFunctionsCode;
 
-            additionalObjectsCode = additionalObjectsCodeCopy.Replace(
+            AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation",
                 "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." +
                 Settings.Default.NumericalOutputNotation);
                 //DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
 
             var function = Compile();
-            return new ScriptFunction(function, tslCode, CSharpCode);
+            return new ScriptFunction(function, MainTslCode, MainCSharpCode);
         }
     }
 }

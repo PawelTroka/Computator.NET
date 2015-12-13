@@ -1,10 +1,24 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting
 {
-    internal interface IChart<T>
+
+    public interface IChart
+    {
+        double XMax { get; set; }
+        double XMin { get; set; }
+        double YMax { get; set; }
+        double YMin { get; set; }
+        void addFx(Function function);
+
+        void Print();
+        void PrintPreview();
+        void SetChartAreaValues(double x0, double xn, double y0, double yn);
+    }
+  /*  internal interface IChart<T>
     {
         Color axesColor { get; set; }
         bool AxesEqual { get; set; }
@@ -15,17 +29,15 @@ namespace Computator.NET.Charting
         Color titleColor { get; set; }
         Font titleFont { get; set; }
         string xLabel { get; set; }
-        double XMax { get; set; }
-        double XMin { get; set; }
+
         string yLabel { get; set; }
-        double YMax { get; set; }
-        double YMin { get; set; }
+
         double Quality { set; }
         double XYRatio { get; }
         void addFx(Func<T, T> fx, string name);
         void ClearAll();
         void saveImage();
-        void setChartAreaValues(double x0, double xn, double y0, double yn);
+        void SetChartAreaValues(double x0, double xn, double y0, double yn);
         void setupComboBoxes(params ToolStripComboBox[] owners);
-    }
+    }*/
 }

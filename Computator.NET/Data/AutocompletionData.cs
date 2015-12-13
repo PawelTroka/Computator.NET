@@ -7,6 +7,7 @@ using AutocompleteMenuNS;
 using Computator.NET.Compilation;
 using Computator.NET.Constants;
 using Computator.NET.Functions;
+using Computator.NET.NumericalCalculations;
 using Computator.NET.Transformations;
 using Computator.NET.UI.CodeEditors;
 using MathNet.Numerics.Distributions;
@@ -19,6 +20,10 @@ namespace Computator.NET.Data
             bool removeAdvanced = false)
         {
             var items = GetFunctionsNamesWithDescription(typeof (ElementaryFunctions));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(FunctionRoot), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Integral), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Derivative), false, true));
 
             items.AddRange(GetFunctionsNamesWithDescription(typeof (StatisticsFunctions)));
 
@@ -278,6 +283,9 @@ namespace Computator.NET.Data
                 case "Uint32":
                 case "Uint16":
                 case "Uint64":
+                case "UInt32":
+                case "UInt16":
+                case "UInt64":
                     return "natural";
 
                 case "Matrix":
@@ -292,7 +300,12 @@ namespace Computator.NET.Data
                 case "Complex":
                     return typeName.ToLower();
 
+                case "Func`2":
+                    //return "f(x)";
 
+                case "Func`3":
+                    //return "f(x,y)";
+                    return "function";
                 default:
                     return typeName;
             }

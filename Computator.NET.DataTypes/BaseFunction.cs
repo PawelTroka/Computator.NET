@@ -19,13 +19,7 @@ namespace Computator.NET.DataTypes
 
         public FunctionType FunctionType { get; protected set; }
 
-        public bool IsImplicit
-        {
-            get
-            {
-                return FunctionType == FunctionType.ComplexImplicit || FunctionType == FunctionType.Real2DImplicit ||
-                       FunctionType == FunctionType.Real3DImplicit;
-            }
-        }
+        public bool IsImplicit => FunctionType == FunctionType.ComplexImplicit || FunctionType == FunctionType.Real2DImplicit ||
+                                  FunctionType == FunctionType.Real3DImplicit;
     }
 }

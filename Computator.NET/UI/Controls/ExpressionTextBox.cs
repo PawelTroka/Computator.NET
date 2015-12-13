@@ -24,6 +24,7 @@ namespace Computator.NET.UI.Controls
             GotFocus += ExpressionTextBox_GotFocus;
             MouseDoubleClick += Control_MouseDoubleClick;
             SetFont(Settings.Default.ExpressionFont);
+            SizeChanged += (o, e) => { _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height); };
         }
 
         public bool ExponentMode
@@ -125,7 +126,7 @@ namespace Computator.NET.UI.Controls
             if (Sort)
                 Array.Sort(array, (a, b) => a.Text.CompareTo(b.Text));
             _autocompleteMenu.SetAutocompleteItems(array);
-            RefreshSize();
+            //RefreshSize();
 
             //this.autocompleteMenu.deserialize();
         }
