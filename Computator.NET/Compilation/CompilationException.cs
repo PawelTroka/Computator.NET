@@ -5,6 +5,18 @@ using Computator.NET.Evaluation;
 
 namespace Computator.NET.Compilation
 {
+    public enum CompilationErrorPlace
+    {
+        MainCode,
+        CustomFunctions,
+        Internal,
+    }
+
+    public class NativeCompilerError : CompilerError
+    {
+     public CompilationErrorPlace ErrorPlace { get; set; }
+    }
+
     internal class CompilationException : Exception
     {
         public CompilerErrorCollection Errors { get; set; }

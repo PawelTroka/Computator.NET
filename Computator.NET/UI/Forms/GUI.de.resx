@@ -123,7 +123,7 @@
   <data name="saveScriptButton.Text" xml:space="preserve">
     <value>speichern Sie das Skript</value>
   </data>
-  <data name="openScriptButton.Text" xml:space="preserve">
+  <data name="openScriptingDirectoryButton.Text" xml:space="preserve">
     <value>öffnen Sie das Skript</value>
   </data>
   <data name="processButton.Text" xml:space="preserve">

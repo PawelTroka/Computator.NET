@@ -3,6 +3,74 @@ using System.Drawing;
 
 namespace AutocompleteMenuNS
 {
+    public class FuzzyAutoCompleteItem : AutocompleteItem
+    {
+        public FuzzyAutoCompleteItem(string text) : base(text)
+        {
+        }
+
+        public FuzzyAutoCompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
+            int imageIndex) : base(name,addition,additionWithTypes,returnTypeName,imageIndex)
+        {
+        }
+
+        public override CompareResult Compare(string fragmentText)
+        {
+            var lev = Levenshtein(Text, fragmentText);
+            if (lev > 0.9)
+                return CompareResult.VisibleAndSelected;
+            if (lev > 0.5)
+                return CompareResult.Visible;
+            return CompareResult.Hidden;
+        }
+
+        public static float Levenshtein(string src, string dest)
+        {
+            int[,] d = new int[src.Length + 1, dest.Length + 1];
+            int i, j, cost;
+            char[] str1 = src.ToCharArray();
+            char[] str2 = dest.ToCharArray();
+
+            for (i = 0; i <= str1.Length; i++)
+            {
+                d[i, 0] = i;
+            }
+            for (j = 0; j <= str2.Length; j++)
+            {
+                d[0, j] = j;
+            }
+            for (i = 1; i <= str1.Length; i++)
+            {
+                for (j = 1; j <= str2.Length; j++)
+                {
+
+                    if (str1[i - 1] == str2[j - 1])
+                        cost = 0;
+                    else
+                        cost = 1;
+
+                    d[i, j] =
+                        Math.Min(
+                            d[i - 1, j] + 1,              // Deletion
+                            Math.Min(
+                                d[i, j - 1] + 1,          // Insertion
+                                d[i - 1, j - 1] + cost)); // Substitution
+
+                    if ((i > 1) && (j > 1) && (str1[i - 1] ==
+                        str2[j - 2]) && (str1[i - 2] == str2[j - 1]))
+                    {
+                        d[i, j] = Math.Min(d[i, j], d[i - 2, j - 2] + cost);
+                    }
+                }
+            }
+
+            var dist = (float)d[str1.Length, str2.Length];
+
+            return 1 - dist / Math.Max(str1.Length, str2.Length);
+        }
+    }
+
+
     /// <summary>
     ///     This autocomplete item appears after dot
     /// </summary>
@@ -175,11 +243,12 @@ namespace AutocompleteMenuNS
 
             //draw columns
             var pen = Pens.Silver;
-            var brush = Brushes.Black;
+            //var brush = Brushes.Black;
             var x = e.TextRect.X;
             e.StringFormat.FormatFlags = e.StringFormat.FormatFlags | StringFormatFlags.NoWrap;
 
-            for (var i = 0; i < MenuTextByColumns.Length; i++)
+            using (var brush = new SolidBrush(e.IsSelected ? e.Colors.SelectedForeColor : e.Colors.ForeColor))
+                for (var i = 0; i < MenuTextByColumns.Length; i++)
             {
                 var width = columnWidth[i];
                 var rect = new RectangleF(x, e.TextRect.Top, width, e.TextRect.Height);

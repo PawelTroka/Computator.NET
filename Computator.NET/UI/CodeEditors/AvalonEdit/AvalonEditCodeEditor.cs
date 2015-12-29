@@ -106,7 +106,8 @@ namespace Computator.NET.UI.CodeEditors
             var doc = _documents[filename];
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
-            SwitchDocument(Enumerable.Last(_documents.Keys));
+            if (_documents.Count > 0)
+                SwitchDocument(Enumerable.Last(_documents.Keys));
         }
 
         public void HighlightErrors(CompilerErrorCollection errors)

@@ -855,9 +855,10 @@ namespace Computator.NET.Functions
 
         public static bool isPrime(int n)
         {
-
-            return Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime(n);
-
+            if(n <= 0)
+                return false;
+            else
+                return Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime(n);
         }
 
         private static bool[] GetPrimeSieve(long upTo)
@@ -891,8 +892,10 @@ namespace Computator.NET.Functions
         }
 
 
-        public static long Eulerφ(long n)
+        public static double Eulerφ(long n)
         {
+            if (n < 1)
+                return double.NaN;
             var primes = GetPrimesUpTo(n + 1);    //this can be precalculated beforehand
             int numPrimes = primes.Length;
 
@@ -1099,9 +1102,12 @@ namespace Computator.NET.Functions
 
         private const string gslSfLibDir2 = "gsl.dll"; //"libgsl-0.dll";
 
+        #endregion
+
         public const string ToCode =
             @"
-      #region trigonometric functions
+ 
+        #region trigonometric functions
 
 
         public static double sinc(double x)
@@ -1450,6 +1456,11 @@ namespace Computator.NET.Functions
              ""square root of a number a is a number y such that y2 = x, in other words, a number y whose square (the result of multiplying the number by itself, or y × y) is x.""
              ), System.ComponentModel.DisplayName(""Angielska nazwa funkcji""),
          System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)*/
+       /* public static double sqrt(double x)
+        {
+            return System.Math.Sqrt(x);
+        }*/
+
         public static dynamic sqrt(double x)
         {
             if (x < 0)
@@ -1886,7 +1897,6 @@ namespace Computator.NET.Functions
 
         #endregion
 
-       
         #region integer functions
 
         public static double sgn(double x)
@@ -1920,30 +1930,35 @@ namespace Computator.NET.Functions
             return lcm(a, b);
         }
 
-
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
         public static double factorial(double n)
         {
             double f = 1;
             for (ulong i = 1; i <= n; i++)
-                f = f * i;
+                f = f*i;
             return f;
         }
 
-
+        /*Angielska nazwa funkcji""),
+         System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
+         System.ComponentModel.Description(""angielski opis funkcji*/
         public static int prime(double d)
         {
             if (d < 1)
                 return -1;
-            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int)(d)))
+            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) (d)))
                 return 1;
             return 0;
         }
 
         public static bool isPrime(int n)
         {
-
-            return Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime(n);
-
+            if(n <= 0)
+                return false;
+            else
+                return Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime(n);
         }
 
         private static bool[] GetPrimeSieve(long upTo)
@@ -1977,8 +1992,10 @@ namespace Computator.NET.Functions
         }
 
 
-        public static long Eulerφ(long n)
+        public static double Eulerφ(long n)
         {
+            if (n < 1)
+                return double.NaN;
             var primes = GetPrimesUpTo(n + 1);    //this can be precalculated beforehand
             int numPrimes = primes.Length;
 
@@ -2000,7 +2017,6 @@ namespace Computator.NET.Functions
         }
 
         #endregion
-
 
         #region complex specific functions
 
@@ -2185,10 +2201,9 @@ namespace Computator.NET.Functions
         #region utils
 
         private const string gslSfLibDir2 = ""gsl.dll""; //""libgsl-0.dll"";
-		
-        #endregion
-";
 
         #endregion
+
+";
     }
 }

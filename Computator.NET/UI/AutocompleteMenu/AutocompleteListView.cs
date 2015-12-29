@@ -15,6 +15,11 @@ namespace AutocompleteMenuNS
 {
     public class AutocompleteListView : UserControl, IAutocompleteListView
     {
+        public int HighlightedItemIndex { get; set; }
+        /// <summary>
+        /// Colors
+        /// </summary>
+        public Colors Colors { get; set; }
         private readonly WebBrowserForm formTip;
         private readonly int hoveredItemIndex = -1;
         private readonly WebBrowserToolTip toolTip;
@@ -46,7 +51,10 @@ namespace AutocompleteMenuNS
             // toolTip.Click += ToolTip_Click;
             //  toolTip.LostFocus += ToolTip_LostFocus;
             formTip = new WebBrowserForm();
+            Colors = new Colors();
         }
+
+
 
         public int ItemHeight
         {
@@ -242,8 +250,16 @@ namespace AutocompleteMenuNS
             AutoScrollMinSize += new Size(1, 0);
         }
 
+
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            e.Graphics.Clear(Colors.BackColor);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
+
             var rtl = RightToLeft == RightToLeft.Yes;
             AdjustScroll();
             var startI = VerticalScroll.Value/ItemHeight - 1;
@@ -272,12 +288,17 @@ namespace AutocompleteMenuNS
                     Brush selectedBrush =
                         new LinearGradientBrush(new Point(0, y - 3),
                             new Point(0, y + ItemHeight),
-                            Color.White, Color.Orange);
+                            Colors.SelectedBackColor2, Colors.SelectedBackColor);
                     e.Graphics.FillRectangle(selectedBrush, textRect);
-                    e.Graphics.DrawRectangle(Pens.Orange, textRect);
+                    using (var pen = new Pen(Colors.SelectedBackColor2))
+                        e.Graphics.DrawRectangle(pen, textRect);
                 }
-                if (i == hoveredItemIndex)
-                    e.Graphics.DrawRectangle(Pens.Red, textRect);
+                //if (i == hoveredItemIndex)
+                // e.Graphics.DrawRectangle(Pens.Red, textRect);
+
+                if (i == HighlightedItemIndex)
+                    using (var pen = new Pen(Colors.HighlightingColor))
+                        e.Graphics.DrawRectangle(pen, textRect);
 
                 var sf = new StringFormat();
                 if (rtl)
@@ -289,7 +310,8 @@ namespace AutocompleteMenuNS
                     TextRect = new RectangleF(textRect.Location, textRect.Size),
                     StringFormat = sf,
                     IsSelected = i == SelectedItemIndex,
-                    IsHovered = i == hoveredItemIndex
+                    IsHovered = i == HighlightedItemIndex,
+                    Colors = Colors
                 };
                 //call drawing
                 VisibleItems[i].OnPaint(args);
@@ -310,6 +332,25 @@ namespace AutocompleteMenuNS
             {
                 SelectedItemIndex = PointToItemIndex(e.Location);
                 ScrollToSelected();
+                Invalidate();
+            }
+        }
+
+        private Point mouseEnterPoint;
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            mouseEnterPoint = Control.MousePosition;
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (mouseEnterPoint != Control.MousePosition)
+            {
+                HighlightedItemIndex = PointToItemIndex(e.Location);
                 Invalidate();
             }
         }

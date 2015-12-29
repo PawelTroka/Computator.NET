@@ -34,23 +34,21 @@ namespace Computator.NET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.consoleOutputTextBox = new System.Windows.Forms.RichTextBox();
-            this.directoryTree1 = new Computator.NET.DirectoryTree();
-            this.saveScriptButton = new System.Windows.Forms.Button();
-            this.openScriptButton = new System.Windows.Forms.Button();
+            this.scriptingDirectoryTree = new Computator.NET.DirectoryTree();
+            this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.processButton = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.customFunctionsDirectoryTree = new Computator.NET.DirectoryTree();
-            this.saveCustomFunctions = new System.Windows.Forms.Button();
-            this.openCustomFunctions = new System.Windows.Forms.Button();
+            this.openCustomFunctionsDirectoryButton = new System.Windows.Forms.Button();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.calculationsImZnumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -209,6 +207,7 @@ namespace Computator.NET
             this.toolStripMenuItem39 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem42 = new System.Windows.Forms.ToolStripMenuItem();
             this.languageToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
@@ -300,9 +299,8 @@ namespace Computator.NET
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.directoryTree1);
-            this.splitContainer1.Panel2.Controls.Add(this.saveScriptButton);
-            this.splitContainer1.Panel2.Controls.Add(this.openScriptButton);
+            this.splitContainer1.Panel2.Controls.Add(this.scriptingDirectoryTree);
+            this.splitContainer1.Panel2.Controls.Add(this.openScriptingDirectoryButton);
             this.splitContainer1.Panel2.Controls.Add(this.processButton);
             // 
             // splitContainer2
@@ -324,28 +322,21 @@ namespace Computator.NET
             this.consoleOutputTextBox.Name = "consoleOutputTextBox";
             this.consoleOutputTextBox.ReadOnly = true;
             // 
-            // directoryTree1
+            // scriptingDirectoryTree
             // 
-            resources.ApplyResources(this.directoryTree1, "directoryTree1");
-            this.directoryTree1.Name = "directoryTree1";
-            this.directoryTree1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("directoryTree1.Nodes")))});
-            this.directoryTree1.Path = null;
-            this.directoryTree1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.directoryTree1_AfterSelect);
+            this.scriptingDirectoryTree.CodeEditorWrapper = null;
+            resources.ApplyResources(this.scriptingDirectoryTree, "scriptingDirectoryTree");
+            this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
+            this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
+            this.scriptingDirectoryTree.Path = null;
             // 
-            // saveScriptButton
+            // openScriptingDirectoryButton
             // 
-            resources.ApplyResources(this.saveScriptButton, "saveScriptButton");
-            this.saveScriptButton.Name = "saveScriptButton";
-            this.saveScriptButton.UseVisualStyleBackColor = true;
-            this.saveScriptButton.Click += new System.EventHandler(this.saveScriptButton_Click);
-            // 
-            // openScriptButton
-            // 
-            resources.ApplyResources(this.openScriptButton, "openScriptButton");
-            this.openScriptButton.Name = "openScriptButton";
-            this.openScriptButton.UseVisualStyleBackColor = true;
-            this.openScriptButton.Click += new System.EventHandler(this.openScriptButton_Click);
+            resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
+            this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
+            this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
+            this.openScriptingDirectoryButton.Click += new System.EventHandler(this.openScriptDirectoryButton_Click);
             // 
             // processButton
             // 
@@ -362,31 +353,23 @@ namespace Computator.NET
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.customFunctionsDirectoryTree);
-            this.splitContainer3.Panel2.Controls.Add(this.saveCustomFunctions);
-            this.splitContainer3.Panel2.Controls.Add(this.openCustomFunctions);
+            this.splitContainer3.Panel2.Controls.Add(this.openCustomFunctionsDirectoryButton);
             // 
             // customFunctionsDirectoryTree
             // 
+            this.customFunctionsDirectoryTree.CodeEditorWrapper = null;
             resources.ApplyResources(this.customFunctionsDirectoryTree, "customFunctionsDirectoryTree");
             this.customFunctionsDirectoryTree.Name = "customFunctionsDirectoryTree";
             this.customFunctionsDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             ((System.Windows.Forms.TreeNode)(resources.GetObject("customFunctionsDirectoryTree.Nodes")))});
             this.customFunctionsDirectoryTree.Path = null;
-            this.customFunctionsDirectoryTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.customFunctionsDirectoryTree_AfterSelect);
             // 
-            // saveCustomFunctions
+            // openCustomFunctionsDirectoryButton
             // 
-            resources.ApplyResources(this.saveCustomFunctions, "saveCustomFunctions");
-            this.saveCustomFunctions.Name = "saveCustomFunctions";
-            this.saveCustomFunctions.UseVisualStyleBackColor = true;
-            this.saveCustomFunctions.Click += new System.EventHandler(this.saveCustomFunctions_Click);
-            // 
-            // openCustomFunctions
-            // 
-            resources.ApplyResources(this.openCustomFunctions, "openCustomFunctions");
-            this.openCustomFunctions.Name = "openCustomFunctions";
-            this.openCustomFunctions.UseVisualStyleBackColor = true;
-            this.openCustomFunctions.Click += new System.EventHandler(this.openCustomFunctions_Click);
+            resources.ApplyResources(this.openCustomFunctionsDirectoryButton, "openCustomFunctionsDirectoryButton");
+            this.openCustomFunctionsDirectoryButton.Name = "openCustomFunctionsDirectoryButton";
+            this.openCustomFunctionsDirectoryButton.UseVisualStyleBackColor = true;
+            this.openCustomFunctionsDirectoryButton.Click += new System.EventHandler(this.openCustomFunctionsDirectoryButton_Click);
             // 
             // splitContainer4
             // 
@@ -498,8 +481,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
             resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -507,8 +490,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle2;
             resources.ApplyResources(this.dataGridViewTextBoxColumn4, "dataGridViewTextBoxColumn4");
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
@@ -516,8 +499,8 @@ namespace Computator.NET
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle3;
             resources.ApplyResources(this.dataGridViewTextBoxColumn5, "dataGridViewTextBoxColumn5");
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
@@ -750,8 +733,8 @@ namespace Computator.NET
             // function
             // 
             this.function.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.function.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.function.DefaultCellStyle = dataGridViewCellStyle4;
             resources.ApplyResources(this.function, "function");
             this.function.Name = "function";
             this.function.ReadOnly = true;
@@ -773,8 +756,8 @@ namespace Computator.NET
             // parameters
             // 
             this.parameters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.parameters.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.parameters.DefaultCellStyle = dataGridViewCellStyle5;
             resources.ApplyResources(this.parameters, "parameters");
             this.parameters.Name = "parameters";
             this.parameters.ReadOnly = true;
@@ -782,8 +765,8 @@ namespace Computator.NET
             // result
             // 
             this.result.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.result.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.result.DefaultCellStyle = dataGridViewCellStyle6;
             resources.ApplyResources(this.result, "result");
             this.result.Name = "result";
             this.result.ReadOnly = true;
@@ -1658,6 +1641,7 @@ namespace Computator.NET
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.optionsToolStripMenuItem1,
+            this.fullscreenToolStripMenuItem,
             this.toolStripMenuItem42,
             this.toolStripSeparator15,
             this.toolStripMenuItem40,
@@ -1671,6 +1655,13 @@ namespace Computator.NET
             this.optionsToolStripMenuItem1.Name = "optionsToolStripMenuItem1";
             resources.ApplyResources(this.optionsToolStripMenuItem1, "optionsToolStripMenuItem1");
             this.optionsToolStripMenuItem1.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
+            // 
+            // fullscreenToolStripMenuItem
+            // 
+            this.fullscreenToolStripMenuItem.CheckOnClick = true;
+            this.fullscreenToolStripMenuItem.Name = "fullscreenToolStripMenuItem";
+            resources.ApplyResources(this.fullscreenToolStripMenuItem, "fullscreenToolStripMenuItem");
+            this.fullscreenToolStripMenuItem.CheckedChanged += new System.EventHandler(this.fullscreenToolStripMenuItem_CheckedChanged);
             // 
             // toolStripMenuItem42
             // 
@@ -1995,16 +1986,13 @@ namespace Computator.NET
         private System.Windows.Forms.RichTextBox consoleOutputTextBox;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private DirectoryTree customFunctionsDirectoryTree;
-        private System.Windows.Forms.Button saveCustomFunctions;
-        private System.Windows.Forms.Button openCustomFunctions;
         private System.Windows.Forms.OpenFileDialog openCustomFunctionsFileDialog;
         private System.Windows.Forms.SaveFileDialog saveCustomFunctionsFileDialog;
         private System.Windows.Forms.OpenFileDialog openScriptFileDialog;
         private System.Windows.Forms.SaveFileDialog saveScriptFileDialog;
-        private System.Windows.Forms.Button openScriptButton;
-        private System.Windows.Forms.Button saveScriptButton;
+        private System.Windows.Forms.Button openScriptingDirectoryButton;
 
-        private DirectoryTree directoryTree1;
+        private DirectoryTree scriptingDirectoryTree;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripStatusLabel XYRatioToolStripStatusLabel;
@@ -2137,6 +2125,8 @@ namespace Computator.NET
         private Label label10;
         private GroupBox maxErrorGroupBox;
         private GroupBox stepsGroupBox;
+        private Button openCustomFunctionsDirectoryButton;
+        private ToolStripMenuItem fullscreenToolStripMenuItem;
     }
 }
 

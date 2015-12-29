@@ -6,21 +6,52 @@ using System.Windows.Forms;
 namespace AutocompleteMenuNS
 {
     /// <summary>
-    ///     Wrapper over the control like TextBox.
+    /// Wrapper over the control like TextBox.
     /// </summary>
     public class TextBoxWrapper : ITextBoxWrapper
     {
-        private readonly Control target;
-        private MethodInfo getPositionFromCharIndex;
-        private PropertyInfo readonlyProperty;
-        private PropertyInfo selectedText;
-        private PropertyInfo selectionLength;
+        private Control target;
         private PropertyInfo selectionStart;
+        private PropertyInfo selectionLength;
+        private PropertyInfo selectedText;
+        private PropertyInfo readonlyProperty;
+        private MethodInfo getPositionFromCharIndex;
+        private event ScrollEventHandler RTBScroll;
 
         private TextBoxWrapper(Control targetControl)
         {
-            target = targetControl;
+            this.target = targetControl;
             Init();
+        }
+
+        protected virtual void Init()
+        {
+            var t = target.GetType();
+            selectedText = t.GetProperty("SelectedText");
+            selectionLength = t.GetProperty("SelectionLength");
+            selectionStart = t.GetProperty("SelectionStart");
+            readonlyProperty = t.GetProperty("ReadOnly");
+            getPositionFromCharIndex = t.GetMethod("GetPositionFromCharIndex") ?? t.GetMethod("PositionToPoint");
+
+            if (target is RichTextBox)
+                (target as RichTextBox).VScroll += new EventHandler(TextBoxWrapper_VScroll);
+        }
+
+        void TextBoxWrapper_VScroll(object sender, EventArgs e)
+        {
+            if (RTBScroll != null)
+                RTBScroll(sender, new ScrollEventArgs(ScrollEventType.EndScroll, 0, 1));
+        }
+
+        public static TextBoxWrapper Create(Control targetControl)
+        {
+            var result = new TextBoxWrapper(targetControl);
+
+            if (result.selectedText == null || result.selectionLength == null || result.selectionStart == null ||
+                result.getPositionFromCharIndex == null)
+                return null;
+
+            return result;
         }
 
         public virtual string Text
@@ -52,27 +83,32 @@ namespace AutocompleteMenuNS
             return (Point) getPositionFromCharIndex.Invoke(target, new object[] {pos});
         }
 
+
+        public virtual Form FindForm()
+        {
+            return target.FindForm();
+        }
+
         public virtual event EventHandler LostFocus
         {
             add { target.LostFocus += value; }
-            remove { target.LostFocus -= value; }
+            remove { target.LostFocus -= value; } 
         }
 
-        public virtual event ScrollEventHandler Scroll
+        public virtual event ScrollEventHandler Scroll 
         {
-            add
-            {
-                if (target is RichTextBox)
+            add { 
+                if(target is RichTextBox)
                     RTBScroll += value;
-                else if (target is ScrollableControl)
-                    (target as ScrollableControl).Scroll += value;
+                else
+                    if(target is ScrollableControl)(target as ScrollableControl).Scroll += value;
+
             }
-            remove
-            {
+            remove {
                 if (target is RichTextBox)
                     RTBScroll -= value;
-                else if (target is ScrollableControl)
-                    (target as ScrollableControl).Scroll -= value;
+                else
+                    if(target is ScrollableControl)(target as ScrollableControl).Scroll -= value;
             }
         }
 
@@ -82,10 +118,10 @@ namespace AutocompleteMenuNS
             remove { target.KeyDown -= value; }
         }
 
-        public virtual event MouseEventHandler MouseDown
+        public virtual event MouseEventHandler MouseDown 
         {
             add { target.MouseDown += value; }
-            remove { target.MouseDown -= value; }
+            remove { target.MouseDown -= value; } 
         }
 
         public virtual Control TargetControl
@@ -93,47 +129,10 @@ namespace AutocompleteMenuNS
             get { return target; }
         }
 
+
         public bool Readonly
         {
-            get { return (bool) readonlyProperty.GetValue(target, null); }
-        }
-
-        private event ScrollEventHandler RTBScroll;
-
-        protected virtual void Init()
-        {
-            var t = target.GetType();
-            selectedText = t.GetProperty("SelectedText");
-            selectionLength = t.GetProperty("SelectionLength");
-            selectionStart = t.GetProperty("SelectionStart");
-            readonlyProperty = t.GetProperty("ReadOnly");
-            getPositionFromCharIndex = t.GetMethod("GetPositionFromCharIndex") ?? t.GetMethod("PositionToPoint");
-
-            if (target is RichTextBox)
-                (target as RichTextBox).VScroll += TextBoxWrapper_VScroll;
-        }
-
-        private void TextBoxWrapper_VScroll(object sender, EventArgs e)
-        {
-            if (RTBScroll != null)
-                RTBScroll(sender,
-                    new ScrollEventArgs(ScrollEventType.EndScroll, 0, 1));
-        }
-
-        public static TextBoxWrapper Create(Control targetControl)
-        {
-            var result = new TextBoxWrapper(targetControl);
-
-            if (result.selectedText == null || result.selectionLength == null || result.selectionStart == null ||
-                result.getPositionFromCharIndex == null)
-                return null;
-
-            return result;
-        }
-
-        public virtual Form FindForm()
-        {
-            return target.FindForm();
+            get { return (bool) readonlyProperty.GetValue(target, null);  }
         }
     }
 }

@@ -90,7 +90,7 @@ namespace Computator.NET
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new Config.Settings().Show();
+            new Config.Settings().ShowDialog(this);
         }
 
         private void logsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -314,7 +314,7 @@ namespace Computator.NET
         {
             var ofd = new OpenFileDialog {Filter = GlobalConfig.tslFilesFIlter};
 
-            if (ofd.ShowDialog() != DialogResult.OK)
+            if (ofd.ShowDialog(this) != DialogResult.OK)
                 return;
 
 
@@ -482,8 +482,9 @@ namespace Computator.NET
             SetupAllComboBoxes();
             attachEventHandlers();
             toolStripStatusLabel1.Text = GlobalConfig.version;
-            customFunctionsDirectoryTree.Path = GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
-            directoryTree1.Path = GlobalConfig.FullPath("TSL Examples", "_Scripts");
+            customFunctionsDirectoryTree.Path = Path.Combine(GlobalConfig.basePath,
+                Settings.Default.CustomFunctionsDirectory);// Settings.Default.ScriptingDirectory;//GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
+            scriptingDirectoryTree.Path = Path.Combine(GlobalConfig.basePath, Settings.Default.ScriptingDirectory);//GlobalConfig.FullPath("TSL Examples", "_Scripts");
             UpdateXyRatio();
             InitializeScripting(); //takes a lot of time, TODO: optimize
             SetMathFonts();
@@ -499,6 +500,8 @@ namespace Computator.NET
 
             expressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             HandleCommandLine();
+
+
         }
 
         private CalculationsMode _calculationsMode = CalculationsMode.Fxy;
@@ -756,6 +759,9 @@ namespace Computator.NET
             splitContainer3.Panel1.Controls.Add(customFunctionsCodeEditor);
             customFunctionsCodeEditor.Dock = DockStyle.Fill;
             customFunctionsCodeEditor.Name = "customFunctionsCodeEditor";
+
+            scriptingDirectoryTree.CodeEditorWrapper = scriptingCodeEditor;
+            customFunctionsDirectoryTree.CodeEditorWrapper = customFunctionsCodeEditor;
         }
 
         private void attachEventHandlers()
@@ -943,7 +949,7 @@ namespace Computator.NET
         private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var editChartWindow = new EditChartWindow(chart2d);
-            editChartWindow.Show();
+            editChartWindow.ShowDialog(this);
         }
 
         private void exportChartToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1007,7 +1013,7 @@ namespace Computator.NET
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var editComplexChartWindow = new EditComplexChartWindow(complexChart);
-            editComplexChartWindow.Show();
+            editComplexChartWindow.ShowDialog(this);
         }
 
         private void Item_Click(object sender, MouseEventArgs e)
@@ -1030,7 +1036,7 @@ namespace Computator.NET
                 {
                     menuFunctionsToolTip.setFunctionInfo(GlobalConfig.functionsDetails[menuItem.Text]);
                     //menuFunctionsToolTip.Show(this, menuItem.Width + 3, 0);
-                    menuFunctionsToolTip.Show();
+                    menuFunctionsToolTip.ShowDialog(this);
                 }
             }
         }
@@ -1115,7 +1121,7 @@ namespace Computator.NET
         {
             //MessageBox.Show("Computator.NET "+GlobalConfig.version+"\nthis is beta version, some functions may not work properly\n\nAuthor: Paweł Troka\nE-mail: ptroka@fizyka.dk\nWebsite: http://fizyka.dk", "About Computator.NET");
             var about = new AboutBox1();
-            about.ShowDialog();
+            about.ShowDialog(this);
         }
 
         private void processButton_Click(object sender, EventArgs e)
@@ -1160,7 +1166,7 @@ namespace Computator.NET
                     ReadOnly = true,
                     Dock = DockStyle.Fill
                 });
-                changelogForm.ShowDialog();
+                changelogForm.ShowDialog(this);
             }
         }
 
@@ -1172,28 +1178,40 @@ namespace Computator.NET
 
         private void saveScriptButton_Click(object sender, EventArgs e)
         {
-            var result = saveScriptFileDialog.ShowDialog();
+            var result = saveScriptFileDialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
                 using (var sw = new StreamWriter(saveScriptFileDialog.FileName))
                 {
                     sw.Write(scriptingCodeEditor.Text);
                 }
-                directoryTree1.Refresh();
-                directoryTree1.Invalidate();
+                scriptingDirectoryTree.Refresh();
+                scriptingDirectoryTree.Invalidate();
             }
         }
 
-        private void openScriptButton_Click(object sender, EventArgs e)
+        private void openScriptDirectoryButton_Click(object sender, EventArgs e)
         {
-            var result = openScriptFileDialog.ShowDialog();
+            //var result = openScriptFileDialog.ShowDialog(this);
+            var fbd = new FolderBrowserDialog() {ShowNewFolderButton = true};
 
-            if (result == DialogResult.OK)
+            if (fbd.ShowDialog(this) == DialogResult.OK)
             {
-                using (var sr = new StreamReader(openScriptFileDialog.FileName))
-                {
-                    scriptingCodeEditor.Text = sr.ReadToEnd();
-                }
+                scriptingDirectoryTree.Path = fbd.SelectedPath;
+                Settings.Default.ScriptingDirectory = scriptingDirectoryTree.Path;
+                Settings.Default.Save();
+            }
+        }
+
+        private void openCustomFunctionsDirectoryButton_Click(object sender, EventArgs e)
+        {
+            var fbd = new FolderBrowserDialog() { ShowNewFolderButton = true };
+
+            if (fbd.ShowDialog(this) == DialogResult.OK)
+            {
+                customFunctionsDirectoryTree.Path = fbd.SelectedPath;
+                Settings.Default.CustomFunctionsDirectory = customFunctionsDirectoryTree.Path;
+                Settings.Default.Save();
             }
         }
 
@@ -1211,7 +1229,7 @@ namespace Computator.NET
 
         private void openCustomFunctions_Click(object sender, EventArgs e)
         {
-            var result = openCustomFunctionsFileDialog.ShowDialog();
+            var result = openCustomFunctionsFileDialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
                 using (var sr = new StreamReader(openCustomFunctionsFileDialog.FileName))
@@ -1223,7 +1241,7 @@ namespace Computator.NET
 
         private void saveCustomFunctions_Click(object sender, EventArgs e)
         {
-            var result = saveCustomFunctionsFileDialog.ShowDialog();
+            var result = saveCustomFunctionsFileDialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
                 using (var sw = new StreamWriter(saveCustomFunctionsFileDialog.FileName))
@@ -1232,17 +1250,6 @@ namespace Computator.NET
                 }
                 customFunctionsDirectoryTree.Refresh();
                 customFunctionsDirectoryTree.Invalidate();
-            }
-        }
-
-        private void customFunctionsDirectoryTree_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (File.Exists(customFunctionsDirectoryTree.SelectedNode.FullPath))
-            {
-                using (var sr = new StreamReader(customFunctionsDirectoryTree.SelectedNode.FullPath))
-                {
-                    customFunctionsCodeEditor.Text = sr.ReadToEnd();
-                }
             }
         }
 
@@ -1258,17 +1265,6 @@ namespace Computator.NET
             complexChart.colorAssignmentMethod =
                 (AssignmentOfColorMethod) colorAssignmentToolStripComboBox.SelectedItem;
             complexChart.reDraw();
-        }
-
-        private void directoryTree1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (File.Exists(directoryTree1.SelectedNode.FullPath))
-            {
-                using (var sr = new StreamReader(directoryTree1.SelectedNode.FullPath))
-                {
-                    scriptingCodeEditor.Text = sr.ReadToEnd();
-                }
-            }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -1289,24 +1285,22 @@ namespace Computator.NET
             };
 
 
-            var dialogResult = saveFileDialog2.ShowDialog();
-            if (dialogResult == DialogResult.OK)
-            {
-                Thread.Sleep(20);
-                ExportChartImage(saveFileDialog2.FileName, saveFileDialog2);
-            }
+            var dialogResult = saveFileDialog2.ShowDialog(this);
+            if (dialogResult != DialogResult.OK) return;
+            Thread.Sleep(20);
+            ExportChartImage(saveFileDialog2.FileName, saveFileDialog2);
         }
 
         private void editChart3dToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var editChartWindow = new Charting.Chart3D.EditChartWindow(chart3d, elementHostChart3d);
-            editChartWindow.ShowDialog();
+            editChartWindow.ShowDialog(this);
         }
 
         private void editChart3dPropertiesToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             var editChartProperties = new EditChartProperties(chart3d);
-            if (editChartProperties.ShowDialog() == DialogResult.OK)
+            if (editChartProperties.ShowDialog(this) == DialogResult.OK)
             {
             }
         }
@@ -1324,7 +1318,7 @@ namespace Computator.NET
         private void editPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var editChartProperties = new EditChartProperties(complexChart);
-            if (editChartProperties.ShowDialog() == DialogResult.OK)
+            if (editChartProperties.ShowDialog(this) == DialogResult.OK)
             {
                 complexChart.reDraw();
             }
@@ -1333,7 +1327,7 @@ namespace Computator.NET
         private void editPropertiesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var editChartProperties = new EditChartProperties(chart2d);
-            if (editChartProperties.ShowDialog() == DialogResult.OK)
+            if (editChartProperties.ShowDialog(this) == DialogResult.OK)
             {
                 chart2d.Invalidate();
             }
@@ -1342,9 +1336,26 @@ namespace Computator.NET
         private void benchmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var bch = new BenchmarkForm();
-            bch.Show();
+            bch.ShowDialog(this);
         }
 
         #endregion
+
+        private void fullscreenToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (fullscreenToolStripMenuItem.Checked)
+            {
+                // this.TopMost = true;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+
+                // this.TopMost = false;
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+              this.WindowState = FormWindowState.Normal;
+            }
+        }
     }
 }

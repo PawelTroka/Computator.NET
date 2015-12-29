@@ -50,9 +50,10 @@ namespace Computator.NET.UI.CodeEditors
             {
                 TargetControlWrapper = new ScintillaWrapper(this),
                 MaximumSize = new Size(500, 180)
+               
             };
             _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
-
+            //_autocompleteMenu.CaptureFocus = true;
             InitializeComponent();
             // this.BorderStyle=BorderStyle.None;
             Dock = DockStyle.Fill;
@@ -190,6 +191,7 @@ namespace Computator.NET.UI.CodeEditors
             var doc = _documents[filename];
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
+            if(_documents.Count>0)
             SwitchDocument(Enumerable.Last(_documents.Keys));
         }
 

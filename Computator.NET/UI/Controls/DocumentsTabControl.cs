@@ -20,6 +20,21 @@ namespace Computator.NET.UI.Controls
         private ToolStripMenuItem newTabToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
 
+        public void RenameTab(string oldName, string newName)
+        {
+            //if (TabPages.ContainsKey(oldName))
+            {
+                foreach (TabPage tabPage in TabPages)
+                {
+                    if (tabPage.Text == oldName)
+                    {
+                        tabPage.Text = newName;
+                        break;
+                    }
+                }
+            }
+        }
+
         public DocumentsTabControl()
         {
             InitializeComponent();
@@ -164,6 +179,9 @@ namespace Computator.NET.UI.Controls
 
         public void AddTab(string filename = "")
         {
+            if (TabPages.ContainsKey(filename))
+                return;
+
             var tabPage = new TabPage();
             if (string.IsNullOrEmpty(filename))
             {
@@ -178,7 +196,6 @@ namespace Computator.NET.UI.Controls
                 tabPage.ImageIndex = 0;
                 tabPage.Name = filename;
             }
-
             TabPages.Insert(TabPages.Count - 1, tabPage);
             SelectedIndex = TabPages.IndexOf(tabPage);
             id++;

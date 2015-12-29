@@ -10,11 +10,14 @@
 //
 //  Copyright (C) Pavel Torgashov, 2012. 
 
+//MERGED WITH MASTER ON 13.12.2015
+//#define USE_TEXT_WIDTH
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Computator.NET.DataTypes;
@@ -61,6 +64,7 @@ namespace AutocompleteMenuNS
             MinFragmentLength = 2;
 
             setupAutocomplete();
+
         }
 
         [Browsable(false)]
@@ -85,7 +89,12 @@ namespace AutocompleteMenuNS
         public int SelectedItemIndex
         {
             get { return Host.ListView.SelectedItemIndex; }
-            internal set { Host.ListView.SelectedItemIndex = value; }
+            internal set
+            {
+                Host.ListView.SelectedItemIndex = value;
+
+
+            }
         }
 
         internal AutocompleteMenuHost Host { get; set; }
@@ -107,7 +116,7 @@ namespace AutocompleteMenuNS
                 }
             }
         }
-
+        
         /// <summary>
         ///     Maximum size of popup menu
         /// </summary>
@@ -152,6 +161,18 @@ namespace AutocompleteMenuNS
                 if (Host.ListView is AutocompleteListView)
                     (Host.ListView as AutocompleteListView).LeftPadding = value;
             }
+        }
+
+        /// <summary>
+        /// Colors of foreground and background
+        /// </summary>
+        [Browsable(true)]
+        [Description("Colors of foreground and background.")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public Colors Colors
+        {
+            get { return (Host.ListView as IAutocompleteListView).Colors; }
+            set { (Host.ListView as IAutocompleteListView).Colors = value; }
         }
 
         /// <summary>
@@ -274,11 +295,11 @@ namespace AutocompleteMenuNS
             //GlobalConfig.mathFont;
             ImageList = null;
             TargetControlWrapper = null;
-            AllowsTabKey = true;
+            //AllowsTabKey = true;
+            //CaptureFocus = true;
             ToolTipDuration = 4000;
             MinFragmentLength = 1;
-            ImageList = new ImageList();
-            ImageList.TransparentColor = Color.Transparent;
+            ImageList = new ImageList {TransparentColor = Color.Transparent};
             ImageList.Images.Add(Resources.Real);
             ImageList.Images.Add(Resources.Complex);
             ImageList.Images.Add(Resources.Natural);
@@ -311,6 +332,8 @@ namespace AutocompleteMenuNS
 
         public void OnHovered(HoveredEventArgs e)
         {
+
+
             if (Hovered != null)
                 Hovered(this, e);
         }
@@ -455,14 +478,20 @@ namespace AutocompleteMenuNS
         {
             TargetControlWrapper = FindWrapper(sender as Control);
 
-            var backspaceORdel = e.KeyCode == Keys.Back ||
-                                 e.KeyCode == Keys.Delete;
+            bool backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
+
+
+
 
             if (Host.Visible)
             {
-                if (ProcessKey((char) e.KeyCode, Control.ModifierKeys))
+                if (ProcessKey((char)e.KeyCode, Control.ModifierKeys))
                     e.SuppressKeyPress = true;
-                else if (!backspaceORdel)
+
+
+                else
+
+                    if (!backspaceORdel)
                     ResetTimer(1);
                 else
                     ResetTimer();
@@ -471,13 +500,33 @@ namespace AutocompleteMenuNS
             }
 
             if (!Host.Visible)
-                if (Control.ModifierKeys == Keys.Control &&
-                    e.KeyCode == Keys.Space)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Up:
+                    case Keys.Down:
+                    case Keys.PageUp:
+                    case Keys.PageDown:
+                    case Keys.Left:
+                    case Keys.Right:
+                    case Keys.End:
+                    case Keys.Home:
+                    case Keys.ControlKey:
+                        {
+                            timer.Stop();
+                            return;
+                        }
+                }
+
+                if (Control.ModifierKeys == Keys.Control && e.KeyCode == Keys.Space)
+
+
                 {
                     ShowAutocomplete(true);
                     e.SuppressKeyPress = true;
                     return;
                 }
+            }
 
             ResetTimer();
         }
@@ -543,6 +592,9 @@ namespace AutocompleteMenuNS
             //show popup menu
             if (VisibleItems.Count > 0)
             {
+#if USE_TEXT_WIDTH
+                MaximumSize = new Size(VisibleItems.Max(vi => vi.TextWidth), MaximumSize.Height);
+#endif
                 if (forced && VisibleItems.Count == 1 && Host.ListView.SelectedItemIndex == 0)
                 {
                     //do autocomplete if menu contains only one line and user press CTRL-SPACE
@@ -558,6 +610,7 @@ namespace AutocompleteMenuNS
 
         private void ShowMenu()
         {
+
             if (!Host.Visible)
             {
                 var args = new CancelEventArgs();
@@ -618,6 +671,7 @@ namespace AutocompleteMenuNS
             else
                 SelectedItemIndex = 0;
 
+            Host.ListView.HighlightedItemIndex = -1;
             Host.CalcSize();
         }
 
@@ -718,6 +772,9 @@ namespace AutocompleteMenuNS
             if (SelectedItemIndex < 0 || SelectedItemIndex >= VisibleItems.Count)
                 return;
 
+
+
+
             var item = VisibleItems[SelectedItemIndex];
             var args = new SelectingEventArgs
             {
@@ -776,7 +833,6 @@ namespace AutocompleteMenuNS
         {
             if (Selecting != null)
                 Selecting(this, args);
-            Update();
         }
 
         public void OnSelected(SelectedEventArgs args)
@@ -830,6 +886,14 @@ namespace AutocompleteMenuNS
             return false;
         }
 
+        /// <summary>
+        /// Menu is visible
+        /// </summary>
+        public bool Visible
+        {
+            get { return Host != null && Host.Visible; }
+        }
+
         #region IExtenderProvider Members
 
         bool IExtenderProvider.CanExtend(object extendee)
@@ -879,6 +943,47 @@ namespace AutocompleteMenuNS
                 }
             }
         }
+
+        /*   
+         public void SetAutocompleteMenu(Control control, AutocompleteMenu menu)
+        {
+
+            if (menu != null)
+            {
+                if (WrapperByControls.ContainsKey(control))
+                    return;
+                var wrapper = menu.CreateWrapper(control);
+                if (wrapper == null) return;
+                //
+                if (control.IsHandleCreated)
+                    menu.SubscribeForm(wrapper);
+                else
+                    control.HandleCreated += (o, e) => menu.SubscribeForm(wrapper);
+                //
+                AutocompleteMenuByControls[control] = this;
+                //
+                wrapper.LostFocus += menu.control_LostFocus;
+                wrapper.Scroll += menu.control_Scroll;
+                wrapper.KeyDown += menu.control_KeyDown;
+                wrapper.MouseDown += menu.control_MouseDown;
+            }
+            else
+            {
+                AutocompleteMenuByControls.TryGetValue(control, out menu);
+                AutocompleteMenuByControls.Remove(control);
+                ITextBoxWrapper wrapper = null;
+                WrapperByControls.TryGetValue(control, out wrapper);
+                WrapperByControls.Remove(control);
+                if (wrapper != null && menu != null)
+                {
+                    wrapper.LostFocus -= menu.control_LostFocus;
+                    wrapper.Scroll -= menu.control_Scroll;
+                    wrapper.KeyDown -= menu.control_KeyDown;
+                    wrapper.MouseDown -= menu.control_MouseDown;
+                }
+            }
+        }
+        */
 
         #endregion
     }

@@ -29,6 +29,9 @@
  * = All delegates from SpecialFunctions and ElementaryFunction have been changed to normal functions for better control of data flow and more information for autocomplete
  * = A lot of cleanup and refactorings in NumericalCalculations
  * + All methods from NumericalCalculations exposed in API in scripting and expressions (you can draw now eg integrate of function from a to x or derivative or roots of function)
+ * + Merged with new autocomplete porting all changes, it gives new look and fixes some minor bugs
+ * = Numerical calculations tab got a nice refresh of functionality and design
+ * + Scripting and custom functions got something like solution explorer / directory explorer where you can create new files, edit, rename them in your working directory. You can change this directory, load a lot of files, basically it feels like having a solution exploer like this one in VisualStudio
 
 
  * --------- Version 1.9.0α - alpha 6 -----------  20.09.2015 07:00

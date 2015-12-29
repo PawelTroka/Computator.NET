@@ -206,6 +206,7 @@
     <Compile Include="Transformations\TrigonometricTransformations.cs" />
     <Compile Include="Data\AutocompletionData.cs" />
     <Compile Include="Natives\NativeMethods.cs" />
+    <Compile Include="UI\AutocompleteMenu\Colors.cs" />
     <Compile Include="UI\AutocompleteMenu\Wrappers\AvalonWrapper.cs" />
     <Compile Include="UI\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
     <Compile Include="UI\CodeEditors\AvalonEdit\BitmapExtension.cs" />

@@ -153,5 +153,29 @@ namespace Computator.NET.Properties {
                 this["NumericalOutputNotation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TSL Examples\\_Scripts")]
+        public string ScriptingDirectory {
+            get {
+                return ((string)(this["ScriptingDirectory"]));
+            }
+            set {
+                this["ScriptingDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TSL Examples\\_CustomFunctions")]
+        public string CustomFunctionsDirectory {
+            get {
+                return ((string)(this["CustomFunctionsDirectory"]));
+            }
+            set {
+                this["CustomFunctionsDirectory"] = value;
+            }
+        }
     }
 }

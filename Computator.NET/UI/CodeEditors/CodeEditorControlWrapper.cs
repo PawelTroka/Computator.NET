@@ -15,7 +15,7 @@ using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    internal class CodeEditorControlWrapper : UserControl, ICodeEditorControl,
+    public class CodeEditorControlWrapper : UserControl, ICodeEditorControl,
         INotifyPropertyChanged
     {
         private readonly ScriptEvaluator _eval;
@@ -31,8 +31,7 @@ namespace Computator.NET.UI.CodeEditors
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
 
-        private Dictionary<CodeEditorType, ICodeEditorControl>
-            codeEditors;
+        private Dictionary<CodeEditorType, ICodeEditorControl> codeEditors;
 
         public CodeEditorControlWrapper()
         {
@@ -164,7 +163,11 @@ namespace Computator.NET.UI.CodeEditors
 
         public void RenameDocument(string filename, string newFilename)
         {
-            (CurrentCodeEditor).RenameDocument(filename, newFilename);
+            if (CurrentCodeEditor.ContainsDocument(filename))
+            {
+                CurrentCodeEditor.RenameDocument(filename, newFilename);
+                tabControl.RenameTab(filename,newFilename);
+            }
         }
 
         public bool ContainsDocument(string filename)
@@ -255,6 +258,28 @@ namespace Computator.NET.UI.CodeEditors
                 else
                 {
                     CurrentCodeEditor.NewDocument(tabControl.SelectedTab.Text);
+                }
+            }
+        }
+
+        public void SwitchTab(string tabName)
+        {
+            foreach (TabPage tabPage in tabControl.TabPages)
+            {
+                if (tabPage.Text == tabName)
+                {
+                    tabControl.SelectedTab = tabPage;
+                }
+            }
+        }
+
+        public void RemoveTab(string tabName)
+        {
+            foreach (TabPage tabPage in tabControl.TabPages)
+            {
+                if (tabPage.Text == tabName)
+                {
+                    tabControl.TabPages.Remove(tabPage);
                 }
             }
         }

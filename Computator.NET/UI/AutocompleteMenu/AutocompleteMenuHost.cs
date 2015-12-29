@@ -4,29 +4,21 @@ using System.Windows.Forms;
 
 namespace AutocompleteMenuNS
 {
+    [System.ComponentModel.ToolboxItem(false)]
     internal class AutocompleteMenuHost : ToolStripDropDown
     {
-        public readonly AutocompleteMenu Menu;
         private IAutocompleteListView listView;
-
-        public AutocompleteMenuHost(AutocompleteMenu menu)
-        {
-            AutoClose = false;
-            AutoSize = false;
-            Margin = Padding.Empty;
-            Padding = Padding.Empty;
-
-            Menu = menu;
-            ListView = new AutocompleteListView();
-        }
-
         public ToolStripControlHost Host { get; set; }
+        public readonly AutocompleteMenu Menu;
 
-        public IAutocompleteListView ListView
-        {
+        public IAutocompleteListView ListView 
+        { 
             get { return listView; }
-            set
-            {
+            set {
+
+                if(listView != null)
+                    (listView as Control).LostFocus -= new EventHandler(ListView_LostFocus);
+
                 if (value == null)
                     listView = new AutocompleteListView();
                 else
@@ -45,29 +37,62 @@ namespace AutocompleteMenuNS
 
                 (ListView as Control).MaximumSize = Menu.MaximumSize;
                 (ListView as Control).Size = Menu.MaximumSize;
+                (ListView as Control).LostFocus += new EventHandler(ListView_LostFocus);
 
                 CalcSize();
-                Items.Clear();
-                Items.Add(Host);
+                base.Items.Clear();
+                base.Items.Add(Host);
                 (ListView as Control).Parent = this;
             }
         }
 
+        public AutocompleteMenuHost(AutocompleteMenu menu)
+        {
+            AutoClose = false;
+            AutoSize = false;
+            Margin = Padding.Empty;
+            Padding = Padding.Empty;
+
+            Menu = menu;
+            ListView = new AutocompleteListView();
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            using (var brush = new SolidBrush(listView.Colors.BackColor))
+                e.Graphics.FillRectangle(brush, e.ClipRectangle);
+        }
+
+        internal void CalcSize()
+        {
+            Host.Size = (ListView as Control).Size;
+            Size = new System.Drawing.Size((ListView as Control).Size.Width + 4, (ListView as Control).Size.Height + 4);
+        }
+
         public override RightToLeft RightToLeft
         {
-            get { return base.RightToLeft; }
+            get
+            {
+                return base.RightToLeft;
+            }
             set
             {
                 base.RightToLeft = value;
                 (ListView as Control).RightToLeft = value;
             }
         }
-
-        internal void CalcSize()
+        
+        protected override void OnLostFocus(EventArgs e)
         {
-            Host.Size = (ListView as Control).Size;
-            Size = new Size((ListView as Control).Size.Width + 4,
-                (ListView as Control).Size.Height + 4);
+            base.OnLostFocus(e);
+            if(!(ListView as Control).Focused)
+                Close();
+        }
+
+        void ListView_LostFocus(object sender, EventArgs e)
+        {
+            if (!Focused)
+                Close();
         }
     }
 }

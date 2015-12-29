@@ -224,7 +224,7 @@ namespace Computator.NET.Data
             {
                 if (i < parameters.Length - 1)
                     addition += (withType)
-                        ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name + ","
+                        ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name + ", "
                         : parameters[i].Name + ",";
                 else
                     addition += (withType)
