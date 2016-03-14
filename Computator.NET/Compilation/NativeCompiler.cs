@@ -15,26 +15,51 @@ namespace Computator.NET.Compilation
     {
         private readonly SimpleLogger logger;
         private readonly CompilerParameters parameters;
-        public int MainCodeStarOffsettLine { get; set; }
+        public int MainCodeStarOffsetLine { get; set; }
         public int MainCodeEndOffsetLine { get; set; }
 
-        private int GetMainCodeLine(int line)
+        public int CustomFunctionsStartOffsetLine { get; set; }
+        public int CustomFunctionsEndOffsetLine { get; set; }
+
+
+
+
+        private int GetLineForPlace(int line, CompilationErrorPlace place)
         {
-            return line - MainCodeStarOffsettLine;
+            if (place == CompilationErrorPlace.CustomFunctions)
+                return line - CustomFunctionsStartOffsetLine;
+            else if (place == CompilationErrorPlace.MainCode)
+                return line - MainCodeStarOffsetLine;
+            else
+                return line;
         }
 
-        private bool IsMainCode(int line)
+        private bool IsLineInPlace(int line, CompilationErrorPlace place)
         {
-            return line >= MainCodeStarOffsettLine && line <= MainCodeEndOffsetLine;
+            if (place == CompilationErrorPlace.MainCode)
+                return line >= MainCodeStarOffsetLine && line <= MainCodeEndOffsetLine;
+            else if (place == CompilationErrorPlace.CustomFunctions)
+                return line >= CustomFunctionsStartOffsetLine && line <= CustomFunctionsEndOffsetLine;
+            else
+                return true;
+        }
+
+        private CompilationErrorPlace GetPlaceForLine(int line)
+        {
+            return (line >= MainCodeStarOffsetLine && line <= MainCodeEndOffsetLine)
+                ? CompilationErrorPlace.MainCode
+                : (line >= CustomFunctionsStartOffsetLine && line <= CustomFunctionsEndOffsetLine
+                    ? CompilationErrorPlace.CustomFunctions
+                    : CompilationErrorPlace.Internal);
         }
 
         public NativeCompiler()
         {
-            logger = new SimpleLogger {ClassName = GetType().FullName};
+            logger = new SimpleLogger { ClassName = GetType().FullName };
             parameters = new CompilerParameters
             {
                 GenerateInMemory = true,
-                TempFiles = {KeepFiles = false}
+                TempFiles = { KeepFiles = false }
             };
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Core.dll");
@@ -48,57 +73,73 @@ namespace Computator.NET.Compilation
 
         public Assembly Compile(string input)
         {
-            CompilerResults results = null;
-            try
-            {
-                results = CompileAssemblyFromSource(parameters, input);
-                if (results.Errors.Count > 0)
-                    throw new Exception(Strings.BadSyntax);
-            }
-            catch (Exception ex)
-            {
-                var message =
-                    Strings
-                        .ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression;
-                message += Environment.NewLine + Strings.Details;
-                message += Environment.NewLine + ex.Message + Environment.NewLine +
-                           Strings.MoreDetails;
+            var results = CompileAssemblyFromSource(parameters, input);
 
-                var compilerErrors = new CompilerErrorCollection();
+            if (results.Errors.Count > 0)
+            {
 
+                var message = $"Syntax error{Environment.NewLine}{Strings.Details}";
+                var compilationException = new CompilationException();
+
+                // var compilerErrors = new CompilerErrorCollection();
                 foreach (CompilerError error in results.Errors)
                 {
-                    if (IsMainCode(error.Line))
+                    var placeOfError = GetPlaceForLine(error.Line);
+
+                    error.Line = GetLineForPlace(error.Line, placeOfError);
+
+                    compilationException.Errors[placeOfError].Add(error);
+                }
+
+                if (compilationException.HasMainCodeErrors)
+                {
+                    message += Environment.NewLine + " Code errors:";
+                    foreach (var error in compilationException.Errors[CompilationErrorPlace.MainCode])
                     {
-                        error.Line = GetMainCodeLine(error.Line);
                         message +=
                             $"{Environment.NewLine}(Ln: {error.Line} Col: {error.Column}):{(error.IsWarning ? " warning " : " error ")}{error.ErrorNumber}: {error.ErrorText}";
-                        compilerErrors.Add(error);
-                        
                     }
                 }
-               // message += results.Errors.Cast<CompilerError>().Aggregate(message,
-                    //(current, err) => (!err.IsWarning) ? current + (Environment.NewLine + err.ErrorText) : "");
+
+
+                if (compilationException.HasCustomFunctionsErrors)
+                {
+                    message += Environment.NewLine + " Custom functions errors:";
+                    foreach (var error in compilationException.Errors[CompilationErrorPlace.CustomFunctions])
+                    {
+                        message +=
+                            $"{Environment.NewLine}(Ln: {error.Line} Col: {error.Column}):{(error.IsWarning ? " warning " : " error ")}{error.ErrorNumber}: {error.ErrorText}";
+                    }
+                }
+
+                if (compilationException.HasInternalErrors)//if there is any warning in our internal code that means we are aware of it and we dont wanna show it to user :)
+                {
+                    message += Environment.NewLine + " Internal errors:";
+                    foreach (var error in compilationException.Errors[CompilationErrorPlace.Internal])
+                    {
+                        message +=
+                            $"{Environment.NewLine}(Ln: {error.Line} Col: {error.Column}):{(error.IsWarning ? " warning " : " error ")}{error.ErrorNumber}: {error.ErrorText}";
+                    }
+                }
+
+                compilationException = new CompilationException(message) { Errors = compilationException.Errors };
+                // compilationException.Message = message;
+                // var ex = new CompilationException(message) {Errors = compilerErrors};
 
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
                 // Logger.Parameters["NativeCompilerInput"] = input;
                 logger.Parameters["NativeCompilerOutput"] = "";
-
                 foreach (var str in results.Output)
                     logger.Parameters["NativeCompilerOutput"] += str + Environment.NewLine;
+                logger.Log(message, ErrorType.Compilation, compilationException);
 
-                logger.Log(message, ErrorType.Compilation, ex);
-
-                throw new CompilationException(message, ex) {Errors = compilerErrors};
-            }
-            finally
-            {
-                parameters.TempFiles.KeepFiles = false;
-                parameters.TempFiles.Delete();
-                results.TempFiles.KeepFiles = false;
-                results.TempFiles.Delete();
+                throw compilationException;
             }
 
+            parameters.TempFiles.KeepFiles = false;
+            parameters.TempFiles.Delete();
+            results.TempFiles.KeepFiles = false;
+            results.TempFiles.Delete();
 
             return results.CompiledAssembly;
         }

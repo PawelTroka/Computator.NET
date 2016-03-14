@@ -99,8 +99,8 @@
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\packages\AvalonEdit.5.0.2\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.3.8.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=3.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.11.0\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Meta.Numerics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
@@ -114,8 +114,8 @@
     <Reference Include="PresentationFramework">
       <Private>False</Private>
     </Reference>
-    <Reference Include="ScintillaNET, Version=3.5.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jacobslusser.ScintillaNET.3.5.4\lib\net40\ScintillaNET.dll</HintPath>
+    <Reference Include="ScintillaNET, Version=3.5.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jacobslusser.ScintillaNET.3.5.6\lib\net40\ScintillaNET.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -147,20 +147,23 @@
     <Compile Include="Benchmarking\BenchmarkForm.Designer.cs">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Compilation\CompilationErrorPlace.cs" />
     <Compile Include="Compilation\CompilationException.cs" />
+    <Compile Include="Compilation\ExceptionExtensions.cs" />
     <Compile Include="Compilation\NativeCompiler.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Compilation\NativeCompilerError.cs" />
     <Compile Include="Compilation\TSLCompiler.cs" />
     <Compile Include="Config\EmbeddedDllClass.cs" />
     <Compile Include="Config\MathCustomFonts.cs" />
     <Compile Include="Config\MultiplatformDllLoader.cs" />
     <Compile Include="Config\MyMessageFilter.cs" />
-    <Compile Include="Config\Settings.cs">
+    <Compile Include="Config\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Config\Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <Compile Include="Config\SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\FunctionsDetails.cs" />
     <Compile Include="Data\MethodInfoExtensions.cs" />
@@ -203,6 +206,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Transformations\TrigonometricTransformations.cs" />
     <Compile Include="Data\AutocompletionData.cs" />
     <Compile Include="Natives\NativeMethods.cs" />
@@ -312,8 +316,8 @@
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config\Settings.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <EmbeddedResource Include="Config\SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Localization\Strings.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -372,7 +376,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Graphics\run_icon.png" />
-    <Content Include="Data\HTMLPage1.html" />
     <Content Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -427,7 +430,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\functions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Graphics\Matrix.png" />
     <None Include="Graphics\computator.net-logo.ico" />

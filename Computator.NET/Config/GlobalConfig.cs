@@ -8,7 +8,7 @@ namespace Computator.NET.Config
 {
     internal static class GlobalConfig
     {
-        public const string version = "v1.9.0α";
+        public const string version = "v2.0.0ß";
         public const string authorWithEmail = author + " (ptroka@fizyka.dk)";
         public const string author = "Paweł Troka";
         //
@@ -25,7 +25,7 @@ namespace Computator.NET.Config
                                                     ":\n - Paweł Troka (ptroka@fizyka.dk) - English&Polish versions\n - Vojtech Mańkowski (vojtaman@gmail.com) - Czech version\n - Athena Hristanas (athena@fizyka.dk) - Deutsch version";
 
         public static readonly string libraries = Strings.librariesUsed +
-                                                  ":\n - Meta.Numerics v3.0.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v1.16 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.7.0 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.28 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.5.1 | © Garrett Serack | The MIT License (MIT)\n - Accord.Math v3.0.0 | © César Roberto de Souza | GNU LGPL v2.1";
+                                                  ":\n - Meta.Numerics v3.0.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v1.16 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.11.0 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.35 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.5.6 | © Garrett Serack | The MIT License (MIT)\n - Accord.Math v3.0.0 | © César Roberto de Souza | GNU LGPL v2.1";
 
         public static readonly string others = Strings.otherContributors +
                                                ":\n - Jianzhong Zhang (Chart3D classes are based on code from High performance WPF 3D Chart rev.6 application on Code Project Open License (CPOL) 1.02)\n - Claudio Rocchini (standard algorithm for complex domain coloring)";
@@ -44,7 +44,7 @@ namespace Computator.NET.Config
             ? FullPath("Special", "x64", gslCblasDllName)
             : FullPath("Special", "x86", gslCblasDllName);
 
-        public static readonly FunctionsDetails functionsDetails = new FunctionsDetails();
+        //public static readonly FunctionsDetails functionsDetails = new FunctionsDetails();
 
         public static string FullPath(params string[] foldersAndFile)
         {

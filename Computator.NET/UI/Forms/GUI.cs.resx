@@ -282,10 +282,10 @@
   <data name="addToChartButton.Text" xml:space="preserve">
     <value>Přidat do grafu</value>
   </data>
-  <data name="tabPage1.Text" xml:space="preserve">
+  <data name="chartingTabPage.Text" xml:space="preserve">
     <value>Graf</value>
   </data>
-  <data name="tabPage2.Text" xml:space="preserve">
+  <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Kalkulačka</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
@@ -312,19 +312,19 @@
   <data name="rootOfFunctionGroupBox.Text" xml:space="preserve">
     <value>Interval, ve kterém se hledá kořen funkce</value>
   </data>
-  <data name="tabPage3.Text" xml:space="preserve">
+  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
     <value>Numerické výpočty</value>
   </data>
   <data name="symbolicOperationButton.Text" xml:space="preserve">
     <value>Spočítat</value>
   </data>
-  <data name="tabPage4.Text" xml:space="preserve">
+  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
     <value>Symbolické výpočty</value>
   </data>
-  <data name="tabPage5.Text" xml:space="preserve">
+  <data name="scriptingTabPage.Text" xml:space="preserve">
     <value>Skript</value>
   </data>
-  <data name="tabPage6.Text" xml:space="preserve">
+  <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Uživatelské funkce</value>
   </data>
   <data name="label1.Text" xml:space="preserve">

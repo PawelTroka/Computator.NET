@@ -383,6 +383,7 @@ namespace UnitTests
         }
 
         [TestMethod]
+        [Timeout(TestTimeout.Infinite)]
         public void MathieuMsTest()
         {
             object ret = null;

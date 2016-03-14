@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.Data;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.UI.AutocompleteMenu;
 using Settings = Computator.NET.Properties.Settings;
@@ -142,9 +143,9 @@ namespace AutocompleteMenuNS
         {
             toolTip.Close();
             var signature = autocompleteItem.Text;
-            if (!GlobalConfig.functionsDetails.ContainsKey(signature))
+            if (!FunctionsDetails.Details.ContainsKey(signature))
                 return;
-            var functionInfo = GlobalConfig.functionsDetails[signature];
+            var functionInfo = FunctionsDetails.Details[signature];
 
             if (string.IsNullOrEmpty(functionInfo.Description) || string.IsNullOrWhiteSpace(functionInfo.Description) ||
                 string.IsNullOrEmpty(functionInfo.Title) || string.IsNullOrWhiteSpace(functionInfo.Title)

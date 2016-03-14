@@ -6,7 +6,7 @@ sqrt kind of sucks cause we have real sqrt(real) and complex sqrt(complex) but w
 Handle generic methods and params better in AutocompleteData 
 Unify exceptions and logging model in whole application, refactor it
 fix bugs in numerical opearations
-repair HypergeometricU
+repair HypergeometricU11
 //in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
 make it possible to create distrubution like normal from array of elemenets and from mean stdev and make functions from elemenets like CDF(elements,x)
 recreate function logGamma with fixed all errors

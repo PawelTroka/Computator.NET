@@ -1,4 +1,5 @@
 ﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
 
 namespace Computator.NET.UI.CodeEditors
 {
@@ -20,6 +21,7 @@ namespace Computator.NET.UI.CodeEditors
         void SwitchDocument(string filename);
         void CloseDocument(string filename);
 
-        void HighlightErrors(CompilerErrorCollection errors);
+        void HighlightErrors(List<CompilerError> errors);
+        IEnumerable<string> Documents { get; }
     }
 }

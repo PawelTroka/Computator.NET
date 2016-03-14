@@ -2,18 +2,20 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using AutocompleteMenuNS;
 using Computator.NET.Config;
 using Computator.NET.Functions;
 
 namespace Computator.NET.Data
 {
-    internal class FunctionsDetails
+    public class FunctionsDetails
     {
         private readonly Dictionary<string, FunctionInfo> _details;
 
-        public FunctionsDetails()
+        private FunctionsDetails()
         {
             _details = LoadFunctionsDetailsFromXmlFile();
+           // SaveEmptyFunctionDetailsToXmlFile();
         }
 
         public static FunctionsDetails Details { get; } = new FunctionsDetails();
@@ -35,18 +37,6 @@ namespace Computator.NET.Data
             var stream = new StreamWriter("functions_saved.xml");
 
 
-            var listOfItems = Enumerable.ToList(Enumerable.Select(_details, kv =>
-                new FunctionInfo
-                {
-                    Signature = kv.Key,
-                    Url = kv.Value.Url,
-                    Description = kv.Value.Description,
-                    Title = kv.Value.Title,
-                    Category = kv.Value.Category,
-                    Type = kv.Value.Type
-                }));
-
-
             serializer.Serialize(stream,
                 Enumerable.ToArray(Enumerable.Select(_details, kv =>
                     new FunctionInfo
@@ -61,7 +51,7 @@ namespace Computator.NET.Data
         }
 
         //TODO: this function should create new functions file with all it's previous content and empty spaces for new functions which exists in ElementaryFuntions, SpecialFunctions etc but not in the xml file yet
-        private void SaveEmptyFunctionDetailsToXmlFile()
+        public void SaveEmptyFunctionDetailsToXmlFile()
         {
             //var _details = new Dictionary<string, FunctionInfo>();
             //foreach (var item in sourceItems)
@@ -72,20 +62,19 @@ namespace Computator.NET.Data
             var stream = new StreamWriter("functions_empty_saved.xml");
 
 
-            var listOfItems = Enumerable.ToList(Enumerable.Select(_details, kv =>
-                new FunctionInfo
-                {
-                    Signature = kv.Key,
-                    Url = kv.Value.Url,
-                    Description = kv.Value.Description,
-                    Title = kv.Value.Title,
-                    Category = kv.Value.Category,
-                    Type = kv.Value.Type
-                }));
+            var detailsWithEmpties = new Dictionary<string,FunctionInfo>();
+
+            var items = AutocompletionData.GetAutocompleteItemsForScripting();
+            items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
+            foreach (var item in items)
+            {
+                detailsWithEmpties.Add(item.Text,
+                    _details.ContainsKey(item.Text) ? _details[item.Text] : item.functionInfo);
+            }
 
 
             serializer.Serialize(stream,
-                Enumerable.ToArray(Enumerable.Select(_details, kv =>
+                Enumerable.ToArray(Enumerable.Select(detailsWithEmpties, kv =>
                     new FunctionInfo
                     {
                         Signature = kv.Key,

@@ -1,8 +1,8 @@
 ﻿setup.gif for default installation theme doesnt seem to show in installation
-Unserflow error for MathieuMc(1,-20,2.04081632653062,-100), MathieuMc(1,-20,x,-100)
+Underflow error for MathieuMc(1,-20,2.04081632653062,-100), MathieuMc(1,-20,x,-100)
 Folding does not work in AvalonEdit when working with documents
 When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
-0. Caret not shiwing when switching to exponent mode
+0. Caret not showing when switching to exponent mode
 1. Bugs correlated to Chart control (3 known bugs, described in my engineer thesis)
 2. Function 2F1 randomly throws exceptions, MathieuMs and MathieuMc too
 3. Transformations (FFT, IFFT, ...) dont work
@@ -14,5 +14,3 @@ When switching to and from exponent mode in expressiontextbox and scripting a ch
 9. New NumericTextBox print result control using scientific notation not yet works in scripting
 10. function En(n,x) throws exceptions on some arguments - n<-1, n>2
 11. Showing toolTip causes an overhead on CPU, fix by setting up a delay in showing the toolTip
-
-Diiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii

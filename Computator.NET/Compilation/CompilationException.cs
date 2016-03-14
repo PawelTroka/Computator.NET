@@ -1,38 +1,51 @@
 using System;
 using System.CodeDom.Compiler;
-using Computator.NET.DataTypes;
-using Computator.NET.Evaluation;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Computator.NET.Compilation
 {
-    public enum CompilationErrorPlace
-    {
-        MainCode,
-        CustomFunctions,
-        Internal,
-    }
-
-    public class NativeCompilerError : CompilerError
-    {
-     public CompilationErrorPlace ErrorPlace { get; set; }
-    }
-
     internal class CompilationException : Exception
     {
-        public CompilerErrorCollection Errors { get; set; }
+        public Dictionary<CompilationErrorPlace,List<CompilerError>> Errors { get; set; }
 
         public CompilationException(string message, Exception innerException)
             : base(message, innerException)
         {
+            Errors = new Dictionary<CompilationErrorPlace, List<CompilerError>>
+            {
+                {CompilationErrorPlace.CustomFunctions, new List<CompilerError>()},
+                {CompilationErrorPlace.Internal, new List<CompilerError>()},
+                {CompilationErrorPlace.MainCode, new List<CompilerError>()}
+            };
         }
-    }
 
-    public static class ExceptionExtensions
-    {
-        public static bool IsInternal(this Exception ex)
+        public CompilationException(string message)
+           : base(message)
         {
-            return (ex is CompilationException || ex is CalculationException ||
-                    ex is EvaluationException);
+            Errors = new Dictionary<CompilationErrorPlace, List<CompilerError>>
+            {
+                {CompilationErrorPlace.CustomFunctions, new List<CompilerError>()},
+                {CompilationErrorPlace.Internal, new List<CompilerError>()},
+                {CompilationErrorPlace.MainCode, new List<CompilerError>()}
+            };
         }
+
+        public CompilationException()
+        {
+            Errors = new Dictionary<CompilationErrorPlace, List<CompilerError>>
+            {
+                {CompilationErrorPlace.CustomFunctions, new List<CompilerError>()},
+                {CompilationErrorPlace.Internal, new List<CompilerError>()},
+                {CompilationErrorPlace.MainCode, new List<CompilerError>()}
+            };
+        }
+
+
+        public bool HasInternalErrors => Errors.ContainsKey(CompilationErrorPlace.Internal) && Errors[CompilationErrorPlace.Internal].Any(er => !er.IsWarning);
+
+        public bool HasMainCodeErrors => Errors.ContainsKey(CompilationErrorPlace.MainCode) && Errors[CompilationErrorPlace.MainCode].Any(er => !er.IsWarning);
+
+        public bool HasCustomFunctionsErrors => Errors.ContainsKey(CompilationErrorPlace.CustomFunctions) && Errors[CompilationErrorPlace.CustomFunctions].Any(er => !er.IsWarning);
     }
 }

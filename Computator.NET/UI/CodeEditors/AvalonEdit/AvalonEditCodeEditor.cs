@@ -61,7 +61,7 @@ namespace Computator.NET.UI.CodeEditors
             _documents =
                 new Dictionary<string, TextDocument>
                 {
-                    {"NewFile1", Document}
+                  //  {"NewFile1", Document}
                 };
             this.TextArea.TextView.LineTransformers.Add(_offsetColorizer);
         }
@@ -110,7 +110,7 @@ namespace Computator.NET.UI.CodeEditors
                 SwitchDocument(Enumerable.Last(_documents.Keys));
         }
 
-        public void HighlightErrors(CompilerErrorCollection errors)
+        public void HighlightErrors(List<CompilerError> errors)
         {
             _offsetColorizer.LinesWithErrors.Clear();
             foreach (CompilerError error in errors)
@@ -118,6 +118,8 @@ namespace Computator.NET.UI.CodeEditors
                 _offsetColorizer.LinesWithErrors.Add(error.Line);
             }
         }
+
+        public IEnumerable<string> Documents { get { return _documents.Keys.ToList(); } }
 
         public void RenameDocument(string filename, string newFilename)
         {

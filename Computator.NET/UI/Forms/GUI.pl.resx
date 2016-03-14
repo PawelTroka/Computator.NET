@@ -291,7 +291,7 @@
   <data name="bugReportingToolStripMenuItem.Text" xml:space="preserve">
     <value>Zgłaszanie błędów</value>
   </data>
-  <data name="tabPage1.Text" xml:space="preserve">
+  <data name="chartingTabPage.Text" xml:space="preserve">
     <value>Wykres</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
@@ -306,10 +306,10 @@
   <data name="addToChartButton.Text" xml:space="preserve">
     <value>Dodaj do wykresu</value>
   </data>
-  <data name="tabPage2.Text" xml:space="preserve">
+  <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Kalkulator</value>
   </data>
-  <data name="tabPage3.Text" xml:space="preserve">
+  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
     <value>Obliczenia numeryczne</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
@@ -336,16 +336,16 @@
   <data name="rootOfFunctionGroupBox.Text" xml:space="preserve">
     <value>Przedział poszukiwania pierwiastka funkcji</value>
   </data>
-  <data name="tabPage4.Text" xml:space="preserve">
+  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
     <value>Obliczenia symboliczne</value>
   </data>
   <data name="symbolicOperationButton.Text" xml:space="preserve">
     <value>Oblicz</value>
   </data>
-  <data name="tabPage5.Text" xml:space="preserve">
+  <data name="scriptingTabPage.Text" xml:space="preserve">
     <value>Skrypt</value>
   </data>
-  <data name="tabPage6.Text" xml:space="preserve">
+  <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Własne funkcje</value>
   </data>
   <data name="label1.Text" xml:space="preserve">

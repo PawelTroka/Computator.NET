@@ -96,7 +96,7 @@ namespace Computator.NET
             this.fdsfdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mode3DFxyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chartingTabPage = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
@@ -112,17 +112,17 @@ namespace Computator.NET
             this.label3 = new System.Windows.Forms.Label();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.calculationsTabPage = new System.Windows.Forms.TabPage();
+            this.numericalCalculationsTabPage = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.methodNumericalCalculationsComboBox = new System.Windows.Forms.ComboBox();
             this.operationNumericalCalculationsComboBox = new System.Windows.Forms.ComboBox();
             this.numericalOperationButton = new System.Windows.Forms.Button();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.symbolicCalculationsTabPage = new System.Windows.Forms.TabPage();
             this.symbolicOperationButton = new System.Windows.Forms.Button();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.scriptingTabPage = new System.Windows.Forms.TabPage();
+            this.customFunctionsTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.expressionTextBox = new Computator.NET.UI.Controls.ExpressionTextBox();
@@ -269,7 +269,7 @@ namespace Computator.NET
             ((System.ComponentModel.ISupportInitialize)(this.numericalCalculationsDataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.chartingTabPage.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -278,11 +278,11 @@ namespace Computator.NET
             ((System.ComponentModel.ISupportInitialize)(this.y0NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xnNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.x0NumericUpDown)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.tabPage5.SuspendLayout();
-            this.tabPage6.SuspendLayout();
+            this.calculationsTabPage.SuspendLayout();
+            this.numericalCalculationsTabPage.SuspendLayout();
+            this.symbolicCalculationsTabPage.SuspendLayout();
+            this.scriptingTabPage.SuspendLayout();
+            this.customFunctionsTabPage.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -821,12 +821,12 @@ namespace Computator.NET
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.chartingTabPage);
+            this.tabControl1.Controls.Add(this.calculationsTabPage);
+            this.tabControl1.Controls.Add(this.numericalCalculationsTabPage);
+            this.tabControl1.Controls.Add(this.symbolicCalculationsTabPage);
+            this.tabControl1.Controls.Add(this.scriptingTabPage);
+            this.tabControl1.Controls.Add(this.customFunctionsTabPage);
             resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -834,10 +834,10 @@ namespace Computator.NET
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.panel2);
-            resources.ApplyResources(this.tabPage1, "tabPage1");
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.chartingTabPage.Controls.Add(this.panel2);
+            resources.ApplyResources(this.chartingTabPage, "chartingTabPage");
+            this.chartingTabPage.Name = "chartingTabPage";
+            this.chartingTabPage.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -1007,22 +1007,22 @@ namespace Computator.NET
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.splitContainer4);
-            resources.ApplyResources(this.tabPage2, "tabPage2");
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.calculationsTabPage.Controls.Add(this.splitContainer4);
+            resources.ApplyResources(this.calculationsTabPage, "calculationsTabPage");
+            this.calculationsTabPage.Name = "calculationsTabPage";
+            this.calculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.label9);
-            this.tabPage3.Controls.Add(this.label6);
-            this.tabPage3.Controls.Add(this.methodNumericalCalculationsComboBox);
-            this.tabPage3.Controls.Add(this.operationNumericalCalculationsComboBox);
-            this.tabPage3.Controls.Add(this.numericalOperationButton);
-            this.tabPage3.Controls.Add(this.splitContainer5);
-            resources.ApplyResources(this.tabPage3, "tabPage3");
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.numericalCalculationsTabPage.Controls.Add(this.label9);
+            this.numericalCalculationsTabPage.Controls.Add(this.label6);
+            this.numericalCalculationsTabPage.Controls.Add(this.methodNumericalCalculationsComboBox);
+            this.numericalCalculationsTabPage.Controls.Add(this.operationNumericalCalculationsComboBox);
+            this.numericalCalculationsTabPage.Controls.Add(this.numericalOperationButton);
+            this.numericalCalculationsTabPage.Controls.Add(this.splitContainer5);
+            resources.ApplyResources(this.numericalCalculationsTabPage, "numericalCalculationsTabPage");
+            this.numericalCalculationsTabPage.Name = "numericalCalculationsTabPage";
+            this.numericalCalculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -1058,10 +1058,10 @@ namespace Computator.NET
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.symbolicOperationButton);
-            resources.ApplyResources(this.tabPage4, "tabPage4");
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.symbolicCalculationsTabPage.Controls.Add(this.symbolicOperationButton);
+            resources.ApplyResources(this.symbolicCalculationsTabPage, "symbolicCalculationsTabPage");
+            this.symbolicCalculationsTabPage.Name = "symbolicCalculationsTabPage";
+            this.symbolicCalculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // symbolicOperationButton
             // 
@@ -1072,17 +1072,17 @@ namespace Computator.NET
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.splitContainer1);
-            resources.ApplyResources(this.tabPage5, "tabPage5");
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.scriptingTabPage.Controls.Add(this.splitContainer1);
+            resources.ApplyResources(this.scriptingTabPage, "scriptingTabPage");
+            this.scriptingTabPage.Name = "scriptingTabPage";
+            this.scriptingTabPage.UseVisualStyleBackColor = true;
             // 
             // tabPage6
             // 
-            this.tabPage6.Controls.Add(this.splitContainer3);
-            resources.ApplyResources(this.tabPage6, "tabPage6");
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            this.customFunctionsTabPage.Controls.Add(this.splitContainer3);
+            resources.ApplyResources(this.customFunctionsTabPage, "customFunctionsTabPage");
+            this.customFunctionsTabPage.Name = "customFunctionsTabPage";
+            this.customFunctionsTabPage.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -1900,7 +1900,7 @@ namespace Computator.NET
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.chartingTabPage.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -1911,12 +1911,12 @@ namespace Computator.NET
             ((System.ComponentModel.ISupportInitialize)(this.y0NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xnNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.x0NumericUpDown)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
+            this.calculationsTabPage.ResumeLayout(false);
+            this.numericalCalculationsTabPage.ResumeLayout(false);
+            this.numericalCalculationsTabPage.PerformLayout();
+            this.symbolicCalculationsTabPage.ResumeLayout(false);
+            this.scriptingTabPage.ResumeLayout(false);
+            this.customFunctionsTabPage.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.menuStrip2.ResumeLayout(false);
@@ -1932,10 +1932,10 @@ namespace Computator.NET
 
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage chartingTabPage;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage calculationsTabPage;
+        private System.Windows.Forms.TabPage numericalCalculationsTabPage;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
@@ -1943,7 +1943,7 @@ namespace Computator.NET
         private System.Windows.Forms.Button calculateButton;
         private System.Windows.Forms.NumericUpDown valueForCalculationNumericUpDown;
         private System.Windows.Forms.Label calculationsRealLabel;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage symbolicCalculationsTabPage;
         private System.Windows.Forms.Button numericalOperationButton;
         private System.Windows.Forms.Button symbolicOperationButton;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -1977,11 +1977,11 @@ namespace Computator.NET
         private System.Windows.Forms.DataGridView calculationsHistoryDataGridView;
         private System.Windows.Forms.NumericUpDown calculationsImZnumericUpDown;
         private System.Windows.Forms.Label calculationsComplexLabel;
-        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage scriptingTabPage;
         private System.Windows.Forms.SplitContainer splitContainer1;
 
         private System.Windows.Forms.Button processButton;
-        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TabPage customFunctionsTabPage;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox consoleOutputTextBox;
         private System.Windows.Forms.SplitContainer splitContainer3;

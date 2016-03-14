@@ -59,10 +59,12 @@ namespace Computator.NET.UI.CodeEditors
             Dock = DockStyle.Fill;
             _documents = new Dictionary<string, Document>
             {
-                {"NewFile1", Document}
+               // {"NewFile1", Document}
             };
             SizeChanged += (o, e) => { _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height); };
         }
+
+
 
         private void HighlightText(string text, Color color)
         {
@@ -195,13 +197,15 @@ namespace Computator.NET.UI.CodeEditors
             SwitchDocument(Enumerable.Last(_documents.Keys));
         }
 
-        public void HighlightErrors(CompilerErrorCollection errors)
+        public void HighlightErrors(List<CompilerError> errors)
         {
             foreach (CompilerError error in errors)
             {
                 HighlightLine(error.Line);
             }
         }
+
+        public IEnumerable<string> Documents { get { return _documents.Keys.ToList(); } }
 
         //Troka Scripting Language (*.tsl)|*.tsl
         //Troka Scripting Language Functions(*.tslf)|*.tslf

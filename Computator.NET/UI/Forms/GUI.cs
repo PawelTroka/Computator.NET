@@ -20,6 +20,7 @@ using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.Compilation;
 using Computator.NET.Config;
+using Computator.NET.Data;
 using Computator.NET.Evaluation;
 using Computator.NET.Localization;
 using Computator.NET.Logging;
@@ -90,7 +91,7 @@ namespace Computator.NET
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new Config.Settings().ShowDialog(this);
+            new Config.SettingsForm().ShowDialog(this);
         }
 
         private void logsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -482,9 +483,9 @@ namespace Computator.NET
             SetupAllComboBoxes();
             attachEventHandlers();
             toolStripStatusLabel1.Text = GlobalConfig.version;
-            customFunctionsDirectoryTree.Path = Path.Combine(GlobalConfig.basePath,
-                Settings.Default.CustomFunctionsDirectory);// Settings.Default.ScriptingDirectory;//GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
-            scriptingDirectoryTree.Path = Path.Combine(GlobalConfig.basePath, Settings.Default.ScriptingDirectory);//GlobalConfig.FullPath("TSL Examples", "_Scripts");
+            customFunctionsDirectoryTree.Path = Settings.Default.CustomFunctionsDirectory; //Path.Combine(GlobalConfig.basePath,
+                //Settings.Default.CustomFunctionsDirectory);// Settings.Default.ScriptingDirectory;//GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
+            scriptingDirectoryTree.Path = Settings.Default.ScriptingDirectory;// Path.Combine(GlobalConfig.basePath, Settings.Default.ScriptingDirectory);//GlobalConfig.FullPath("TSL Examples", "_Scripts");
             UpdateXyRatio();
             InitializeScripting(); //takes a lot of time, TODO: optimize
             SetMathFonts();
@@ -493,16 +494,17 @@ namespace Computator.NET
             Focus();
             Icon = Resources.computator_net_icon;
 
-
+            //Settings.Default. += Default_SettingsSaving;
             Settings.Default.PropertyChanged += Default_PropertyChanged;
 
-            tabPage4.Enabled = false;
+            symbolicCalculationsTabPage.Enabled = false;
 
             expressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             HandleCommandLine();
 
-
+           // Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
         }
+        
 
         private CalculationsMode _calculationsMode = CalculationsMode.Fxy;
 
@@ -584,8 +586,11 @@ namespace Computator.NET
             }
         }
 
+        int licz = 0;
+
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            //MessageBox.Show("chuj: " + (++licz));
             switch (e.PropertyName)
             {
                 case "Language":
@@ -610,6 +615,7 @@ namespace Computator.NET
                 case "ScriptingFont":
                     scriptingCodeEditor.SetFont(Settings.Default.ScriptingFont);
                     customFunctionsCodeEditor.SetFont(Settings.Default.ScriptingFont);
+                    
                     break;
             }
         }
@@ -642,7 +648,7 @@ namespace Computator.NET
 
         private void InitializeFunctions()
         {
-            var functions = GlobalConfig.functionsDetails.ToArray();
+            var functions = FunctionsDetails.Details.ToArray();
 
             var dict = new Dictionary<string, ToolStripMenuItem>
             {
@@ -899,6 +905,8 @@ namespace Computator.NET
 
         private void HandleException(Exception ex)
         {
+            HandleCustomFunctionsErrors(ex as CompilationException);
+
             var message = ex.Message + Environment.NewLine + (ex.InnerException?.Message ?? "");
             MessageBox.Show(message, Strings.Error);
 
@@ -1032,9 +1040,9 @@ namespace Computator.NET
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (GlobalConfig.functionsDetails.ContainsKey(menuItem.Text))
+                if (FunctionsDetails.Details.ContainsKey(menuItem.Text))
                 {
-                    menuFunctionsToolTip.setFunctionInfo(GlobalConfig.functionsDetails[menuItem.Text]);
+                    menuFunctionsToolTip.setFunctionInfo(FunctionsDetails.Details[menuItem.Text]);
                     //menuFunctionsToolTip.Show(this, menuItem.Width + 3, 0);
                     menuFunctionsToolTip.ShowDialog(this);
                 }
@@ -1127,14 +1135,36 @@ namespace Computator.NET
         private void processButton_Click(object sender, EventArgs e)
         {
             consoleOutputTextBox.Text = Strings.ConsoleOutput;
+
+            scriptingCodeEditor.ClearHighlightedErrors();
+            customFunctionsCodeEditor.ClearHighlightedErrors();
+
             try
             {
                 scriptingCodeEditor.ProcessScript(consoleOutputTextBox, customFunctionsCodeEditor.Text);
             }
             catch (Exception ex)
             {
+                var exception = ex as CompilationException;
+                if (exception != null)
+                {
+                    scriptingCodeEditor.HighlightErrors(exception.Errors[CompilationErrorPlace.MainCode]);
+
+                }
                 HandleException(ex);
             }
+        }
+
+        private void HandleCustomFunctionsErrors(CompilationException exception)
+        {
+            customFunctionsCodeEditor.ClearHighlightedErrors();
+
+            if (exception == null)
+                return;
+            customFunctionsCodeEditor.HighlightErrors(exception.Errors[CompilationErrorPlace.CustomFunctions]);
+
+            if ((exception.HasCustomFunctionsErrors && !exception.HasMainCodeErrors))
+                tabControl1.SelectedTab = customFunctionsTabPage;
         }
 
         private void featuresToolStripMenuItem_Click(object sender, EventArgs e)

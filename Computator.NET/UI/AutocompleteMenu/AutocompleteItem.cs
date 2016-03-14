@@ -12,6 +12,19 @@ using Computator.NET.UI.CodeEditors;
 namespace AutocompleteMenuNS
 {
 
+    public class AutocompleteItemEqualityComparer : IEqualityComparer<AutocompleteItem>
+    {
+        public bool Equals(AutocompleteItem x, AutocompleteItem y)
+        {
+            return x.Text.Equals(y.Text);
+        }
+
+        public int GetHashCode(AutocompleteItem obj)
+        {
+            return obj.Text.GetHashCode();
+        }
+    }
+
     /// <summary>
     ///     Item of autocomplete menu
     /// </summary>
@@ -22,10 +35,12 @@ namespace AutocompleteMenuNS
         private readonly string _name;
         private readonly string _returnTypeName;
         private readonly string menuText;
+
         public FunctionInfo functionInfo;
         public object Tag;
         private string toolTipText;
         private string toolTipTitle;
+        public string AssemblyName { get; set; }
 
         public AutocompleteItem()
         {

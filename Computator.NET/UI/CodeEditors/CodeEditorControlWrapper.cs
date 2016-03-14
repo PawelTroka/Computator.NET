@@ -66,7 +66,7 @@ namespace Computator.NET.UI.CodeEditors
             tableLayout.Controls.Add(tabControl, 0, 0);
             tableLayout.Controls.Add(panel, 0, 1);
             Controls.Add(tableLayout);
-            ChangeEditorType();
+            ChangeEditorType(true);
             SetFont(Settings.Default.ScriptingFont);
 
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
@@ -166,7 +166,7 @@ namespace Computator.NET.UI.CodeEditors
             if (CurrentCodeEditor.ContainsDocument(filename))
             {
                 CurrentCodeEditor.RenameDocument(filename, newFilename);
-                tabControl.RenameTab(filename,newFilename);
+                tabControl.RenameTab(filename, newFilename);
             }
         }
 
@@ -293,54 +293,54 @@ namespace Computator.NET.UI.CodeEditors
         public void ProcessScript(RichTextBox things, string customCode = "")
         {
             ClearHighlightedErrors();
-            try
-            {
-                var function = _eval.Evaluate(CurrentCodeEditor.Text, customCode);
-                function.Evaluate(things);
-            }
-            catch (CompilationException compilationException)
-            {
-                HighlightErrors(compilationException.Errors);
-                throw;/////////////////////////////////////////////////////
-            }
-
-            /*   catch (Exception ex2)
-            {
-                var sb = new StringBuilder();
-                sb.AppendLine(ex2.Message);
-                if (ex2.InnerException == null) throw new Exception(sb.ToString(), ex2);
-                sb.AppendLine(ex2.InnerException.Message);
-                if (ex2.InnerException.InnerException == null) throw new Exception(sb.ToString(), ex2);
-                sb.AppendLine(ex2.InnerException.InnerException.Message);
-                if (ex2.InnerException.InnerException != null)
-                    sb.AppendLine(ex2.InnerException.InnerException.Message);
-                //MessageBox.Show(sb.ToString(), "Error");
-                throw new Exception(sb.ToString(), ex2);
-            }*/
+            var function = _eval.Evaluate(CurrentCodeEditor.Text, customCode);
+            function.Evaluate(things);
         }
 
-        public void HighlightErrors(CompilerErrorCollection errors)
+        public void HighlightErrors(List<CompilerError> errors)
         {
             CurrentCodeEditor.HighlightErrors(errors);
         }
 
-        public void ChangeEditorType()
+        public IEnumerable<string> Documents { get { return CurrentCodeEditor.Documents; } }
+
+        public void ChangeEditorType(bool firstTime=false)
         {
+            if (_codeEditorType == Settings.Default.CodeEditor && !firstTime) return;
+
+            var documents = new Dictionary<string, string>();
+
+            foreach (var document in Documents)
+            {
+                SwitchDocument(document);
+                documents.Add(document, Text);
+                
+            }
+
             _codeEditorType = Settings.Default.CodeEditor;
+
             switch (_codeEditorType)
             {
                 case CodeEditorType.AvalonEdit:
-                    avalonEditor.Text = scintillaEditor.Text;
+                    //  avalonEditor.Text = scintillaEditor.Text;
                     avalonEditorWrapper.Show();
                     scintillaEditor.Hide();
                     break;
                 case CodeEditorType.Scintilla:
-                    scintillaEditor.Text = avalonEditor.Text;
+                    // scintillaEditor.Text = avalonEditor.Text;
                     avalonEditorWrapper.Hide();
                     scintillaEditor.Show();
                     break;
             }
+
+            foreach (var document in documents)
+            {
+                SwitchDocument(document.Key);
+                Text = document.Value;
+               // MessageBox.Show(Text);
+            }
         }
+
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

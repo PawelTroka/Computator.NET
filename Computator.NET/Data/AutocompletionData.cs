@@ -166,6 +166,7 @@ namespace Computator.NET.Data
                     AddSignatureWithType(fullNameExtension + m.Name, MakeAddition(m, false), MakeAddition(m, true),
                         m.ReturnType.Name, items);
                     AddMetadata(m, type, items);
+                    
                 }
 
             foreach (var p in properties)

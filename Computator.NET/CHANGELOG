@@ -1,4 +1,9 @@
- * Computator.NET, 2015, Paweł Troka, ptroka@fizyka.dk
+ * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
+
+
+ * --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
+ * = TSL examples now are installed in 'my documents' folder and used from there (this resolves issues related to app not having admin right to write in program files dir)
+ * = Fixed bugs related to changing editor while having opened tabs in code editor
 
 
  * --------- Version 2.0.0α - alpha 7 -----------  20.10.2015 07:00
@@ -32,6 +37,8 @@
  * + Merged with new autocomplete porting all changes, it gives new look and fixes some minor bugs
  * = Numerical calculations tab got a nice refresh of functionality and design
  * + Scripting and custom functions got something like solution explorer / directory explorer where you can create new files, edit, rename them in your working directory. You can change this directory, load a lot of files, basically it feels like having a solution exploer like this one in VisualStudio
+ * + Custom functions got error checking and highlighting just like scripting
+ * = Optimized exceptions and handling within evaluation and compilation 
 
 
  * --------- Version 1.9.0α - alpha 6 -----------  20.09.2015 07:00
@@ -67,7 +74,7 @@
  * = Changed MathNet.Numerics libary to version 3.6.0
 
 
- * --------- Version 1.8.3α - alpha 3 -----------  12.01.2014 04:33
+ * --------- Version 1.8.3α - alpha 3 -----------  12.01.2015 04:33
  * = Fixed regularized incomplete gamma - gammaQ(a,x), domain extended to a<=0
  * + Added new option of customizing chart area - when right mouse button is pressed you can slide chart anywhere you want
  * = Fixed X/Y ratio misscalculation which occured in 2D mode

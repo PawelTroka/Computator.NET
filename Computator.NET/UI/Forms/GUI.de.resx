@@ -282,10 +282,10 @@
   <data name="addToChartButton.Text" xml:space="preserve">
     <value>Ansicht hinzufügen</value>
   </data>
-  <data name="tabPage1.Text" xml:space="preserve">
+  <data name="chartingTabPage.Text" xml:space="preserve">
     <value>Tabelle</value>
   </data>
-  <data name="tabPage2.Text" xml:space="preserve">
+  <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Rechner</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
@@ -312,19 +312,19 @@
   <data name="rootOfFunctionGroupBox.Text" xml:space="preserve">
     <value>Preis Suchfunktion Element</value>
   </data>
-  <data name="tabPage3.Text" xml:space="preserve">
+  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
     <value>numerischen Berechnungen</value>
   </data>
   <data name="symbolicOperationButton.Text" xml:space="preserve">
     <value>berechnen</value>
   </data>
-  <data name="tabPage4.Text" xml:space="preserve">
+  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
     <value>symbolische Berechnungen</value>
   </data>
-  <data name="tabPage5.Text" xml:space="preserve">
+  <data name="scriptingTabPage.Text" xml:space="preserve">
     <value>Skript</value>
   </data>
-  <data name="tabPage6.Text" xml:space="preserve">
+  <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Custom-Funktionen</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
