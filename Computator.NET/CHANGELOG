@@ -1,12 +1,15 @@
  * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
 
+ ### --------- Unreleased -----------  14.03.2016 17:53
+ * = 
 
- * --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
+
+ ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
  * = TSL examples now are installed in 'my documents' folder and used from there (this resolves issues related to app not having admin right to write in program files dir)
  * = Fixed bugs related to changing editor while having opened tabs in code editor
 
 
- * --------- Version 2.0.0α - alpha 7 -----------  20.10.2015 07:00
+ ### --------- Version 2.0.0α - alpha 7 -----------  20.10.2015 07:00
  * = There is no more explicit mode you have to set for everything except scripting(real, complex, 3d) - application now can deduce mode based on your expressions, if you really want you can still force mode by choosing one in status bar of app
  * + Added possibility to change font and fontsize of scripting editors and expressiontextbox
  * + New revamped and refreshed user interface, revamped top menu and added fast buttons with images
@@ -41,7 +44,7 @@
  * = Optimized exceptions and handling within evaluation and compilation 
 
 
- * --------- Version 1.9.0α - alpha 6 -----------  20.09.2015 07:00
+ ### --------- Version 1.9.0α - alpha 6 -----------  20.09.2015 07:00
  * = Total rebuild of parsing and compilation phases, all work is now on TSL cross compiler and mode is unified for both scripting and expressions (this causes exponents to work even in scriptng now and unifies TSL programming model but can be dangerous and let to a lot of bugs (still needs testing))
  * + Added implicit functions to charts (you can now write e.g. x²+y²=3 and you will get implicit function chart)
  * = Fixed situation from previous version when 
@@ -60,7 +63,7 @@
  * = GNU Scientific Library v1.16 native libraries (both x86 and x64) are now embedded within .exe file (it fixes a lot of bugs related to native C function LoadLibrary and is more elegant solution to the problem of having native libraries, also we dont need to include in the installer Visual C++ Redistributable Packages for msvcrt120.dll)
   
 
- * --------- Version 1.8.5α - alpha 5 -----------  20.04.2015 07:00
+ ### --------- Version 1.8.5α - alpha 5 -----------  20.04.2015 07:00
  * + Added RiemannZeta(z) special function for complex z
  * + Added PolyLog(n,x) special function
  * + Added Ti(x) function (inverse tangent integral)
@@ -74,7 +77,7 @@
  * = Changed MathNet.Numerics libary to version 3.6.0
 
 
- * --------- Version 1.8.3α - alpha 3 -----------  12.01.2015 04:33
+ ### --------- Version 1.8.3α - alpha 3 -----------  12.01.2015 04:33
  * = Fixed regularized incomplete gamma - gammaQ(a,x), domain extended to a<=0
  * + Added new option of customizing chart area - when right mouse button is pressed you can slide chart anywhere you want
  * = Fixed X/Y ratio misscalculation which occured in 2D mode
@@ -82,18 +85,18 @@
  * + Added functions random(x), random(x,y), random(z), random(z1,z2) returning random value
 
 
- * --------- Version 1.8.2α - alpha 2 -----------  23.11.2014 04:33
+ ### --------- Version 1.8.2α - alpha 2 -----------  23.11.2014 04:33
  * + Added functions abs(x) and abs(z) returning absolute value
  * + Added 35 new statistical distributions, tho they are mostly untested and may be causing bugs
 
 
- * --------- Version 1.8.1α - alpha 2 -----------  22.11.2014 03:20
+ ### --------- Version 1.8.1α - alpha 2 -----------  22.11.2014 03:20
  * = Fixed very important bug (reported by my friend Vojtech) in evaluating expressions with exponents containing many nested parenthesis (e.g. (10²·x)/(10-6·x²+(25-x²)²+10·(25-x²)) ) non-balancing parenthesis was causing errors or calculations on wrong functions 
  * = Fixed the same bug as above in division of integers (to always return correct double)
  * = Fixed small visual bug in main GUI window
 
 
- * --------- Version 1.8α - public alpha -----------  21.11.2014 23:23
+ ### --------- Version 1.8α - public alpha -----------  21.11.2014 23:23
  * + Added 9 new special functions called "Test functions for optimization" including Ackley's functions, Rosenbrock functions, Matyas function, Three-hump camel function, Bohachevsky 1 function, Himmelblau function and drop wave function
  * = Changed MathNet.Numerics library to newest version 3.2.3 and recoded some parts of code specific to older version of this library
  * = Changed compiler to Roslyn (however dynamic compiler for scripting and functions building stays the same as it was due to compatibility)
@@ -144,7 +147,7 @@
  * + New NumericTextBox used to print the results of calculation using scientific notation (which actually look a lot better than e.g. 1.5E-12)
 
 
- * --------- Version 1.7ß - non-public beta 4 -----------  19.05.2014 23:44
+ ### --------- Version 1.7ß - non-public beta 4 -----------  19.05.2014 23:44
  * + Added chart 3D, chart of functions of two variables - f(x,y)
  * = More modularization -  whole Charting namespace is exported as dll library
  * + Added new types to scripting language - array() for constant size arrays and list() for list which can change size thanks to list.Add(..) method
@@ -165,7 +168,7 @@
  * = fixed bug in HurwitzZeta function for some arguments terminating whole app
 
 
- * --------- Version 1.6ß - non-public beta 3 -----------  17.04.2014 23:55
+ ### --------- Version 1.6ß - non-public beta 3 -----------  17.04.2014 23:55
  * = Fixed clear chart button not working for complex chart
  * = Refactored some code, classes for charts now implements common IChart interface
  * + Added X/Y ratio information to show how close to equal axes is your chart
@@ -176,14 +179,14 @@
  * = Fixed errors terminating whole app for some Mathieu radial functions parameters
 
 
- * --------- Version 1.5.1ß - hotfix -----------  14.03.2014 20:21
+ ### --------- Version 1.5.1ß - hotfix -----------  14.03.2014 20:21
  * = Fixed bug causing whole app to not work on Windows XP (added reference to System.Core.dll) (thanks to Kordian Czyżewski for reporting that very important bug)
  * + Added full errors reporting support for entered formulas and scripts (now you can see all details why you got bug instead of generic "error in expression")
  * = Changed default dot symbol in expression text box from '·' to '⋅', because of lack of full unicode support on Windows XP (it was printed in XP as squere box - missing symbol)
  * + Now app will add Cambria font to system fonts directory if Cambria font is missing (needed for XP system) 
 
 
- * --------- Version 1.5ß - official beta -----------  06.03.2014 22:01
+ ### --------- Version 1.5ß - official beta -----------  06.03.2014 22:01
  * + First official beta release for closed beta testing
  * + Added console output for scripting
  * + Added posibility of using reference in Troka Scripting Language (operator &, see examples)
@@ -193,7 +196,7 @@
  * = Redesigned some parts of GUI
 
  
- * --------- Version 1.40ß -----------  05.03.2014 00:18
+ ### --------- Version 1.40ß -----------  05.03.2014 00:18
  * + First official beta release for closed beta testing
  * + New method for finding root of a function - Brent's method
  * + New method for numerical integration - double exponential transformation method
@@ -203,20 +206,20 @@
  * + Added brace matching in script editor
  
  
- * --------- Version 1.30ß -----------  01.02.2014 23:55
+ ### --------- Version 1.30ß -----------  01.02.2014 23:55
  * + Scripting with new scripting language for easy and fast computations including matrices
  * + Ability to create custom functions using scripting language
  * + A lot of matrices related features in scripting (basic operations and functions on matrices)
  * + Even more special functions
   
  
- * --------- Version 1.20ß -----------  27.02.2014 01:30
+ ### --------- Version 1.20ß -----------  27.02.2014 01:30
  * + Added nearly all special functions from Gnu Scientific Library (except for a few that are hard to implement)
  * = Fixed bounds checking for most of used functions (still working on it) - functions will now returns NAN (not a number) rather then throwing an exceptions for wrong arguments
  * = Fixed errors in calculations Bessel and Euler functions 
  
 
- * --------- Version 1.10ß -----------  10.02.2014 03:10
+ ### --------- Version 1.10ß -----------  10.02.2014 03:10
  * + New library for special functions - GNU Scientific Library (GSL)
  * + Added all special and elementary functions, orthogonal polynomials from Meta.Numerics library
  * + Added a lot of special functions implemented in GNU Scientific Library v1.15
@@ -224,7 +227,7 @@
  * + Added images to functions in auto complete menu representing which type functions is returning (e.g. complex or real)
  
  
- * --------- Version 1.00ß -----------  31.01.2014 08:26
+ ### --------- Version 1.00ß -----------  31.01.2014 08:26
  * + First official non-public release
  * = Fixed all known bugs, even those caused by Microsoft Chart control
  * + Added most of well known elementary functions and a majority of special functions from Meta.Numerics library
