@@ -2,6 +2,7 @@
 using Computator.NET.Charting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.UI.Controls;
+using Computator.NET.UI;
 
 namespace Computator.NET
 {
@@ -102,12 +103,12 @@ namespace Computator.NET
             this.label2 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.yNNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.y0NumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.yNNumericUpDown = new ScientificNumericUpDown();
+            this.y0NumericUpDown = new ScientificNumericUpDown();
             this.yNlabel = new System.Windows.Forms.Label();
             this.y0label = new System.Windows.Forms.Label();
-            this.xnNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.x0NumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.xnNumericUpDown = new ScientificNumericUpDown();
+            this.x0NumericUpDown = new ScientificNumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.clearChartButton = new System.Windows.Forms.Button();
@@ -891,16 +892,7 @@ namespace Computator.NET
             // 
             this.yNNumericUpDown.DecimalPlaces = 4;
             resources.ApplyResources(this.yNNumericUpDown, "yNNumericUpDown");
-            this.yNNumericUpDown.Maximum = new decimal(new int[] {
-            -2080374784,
-            2047605301,
-            430428262,
-            0});
-            this.yNNumericUpDown.Minimum = new decimal(new int[] {
-            -2080374784,
-            2047605301,
-            430428262,
-            -2147483648});
+            
             this.yNNumericUpDown.Name = "yNNumericUpDown";
             this.yNNumericUpDown.Value = new decimal(new int[] {
             3,
@@ -912,16 +904,7 @@ namespace Computator.NET
             // 
             this.y0NumericUpDown.DecimalPlaces = 4;
             resources.ApplyResources(this.y0NumericUpDown, "y0NumericUpDown");
-            this.y0NumericUpDown.Maximum = new decimal(new int[] {
-            -2080374784,
-            2047605301,
-            430428262,
-            0});
-            this.y0NumericUpDown.Minimum = new decimal(new int[] {
-            -2080374784,
-            2047605301,
-            430428262,
-            -2147483648});
+
             this.y0NumericUpDown.Name = "y0NumericUpDown";
             this.y0NumericUpDown.Value = new decimal(new int[] {
             3,
@@ -943,16 +926,7 @@ namespace Computator.NET
             // 
             this.xnNumericUpDown.DecimalPlaces = 4;
             resources.ApplyResources(this.xnNumericUpDown, "xnNumericUpDown");
-            this.xnNumericUpDown.Maximum = new decimal(new int[] {
-            -2080374784,
-            2047605301,
-            430428262,
-            0});
-            this.xnNumericUpDown.Minimum = new decimal(new int[] {
-            -2080374784,
-            2047605301,
-            430428262,
-            -2147483648});
+
             this.xnNumericUpDown.Name = "xnNumericUpDown";
             this.xnNumericUpDown.Value = new decimal(new int[] {
             5,
@@ -964,16 +938,7 @@ namespace Computator.NET
             // 
             this.x0NumericUpDown.DecimalPlaces = 4;
             resources.ApplyResources(this.x0NumericUpDown, "x0NumericUpDown");
-            this.x0NumericUpDown.Maximum = new decimal(new int[] {
-            -2080374784,
-            2047605301,
-            430428262,
-            0});
-            this.x0NumericUpDown.Minimum = new decimal(new int[] {
-            -2080374784,
-            2047605301,
-            430428262,
-            -2147483648});
+
             this.x0NumericUpDown.Name = "x0NumericUpDown";
             this.x0NumericUpDown.Value = new decimal(new int[] {
             5,
@@ -1947,12 +1912,12 @@ namespace Computator.NET
         private System.Windows.Forms.Button numericalOperationButton;
         private System.Windows.Forms.Button symbolicOperationButton;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.NumericUpDown yNNumericUpDown;
-        private System.Windows.Forms.NumericUpDown y0NumericUpDown;
+        private ScientificNumericUpDown yNNumericUpDown;
+        private ScientificNumericUpDown y0NumericUpDown;
         private System.Windows.Forms.Label yNlabel;
         private System.Windows.Forms.Label y0label;
-        private System.Windows.Forms.NumericUpDown xnNumericUpDown;
-        private System.Windows.Forms.NumericUpDown x0NumericUpDown;
+        private ScientificNumericUpDown xnNumericUpDown;
+        private ScientificNumericUpDown x0NumericUpDown;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button clearChartButton;

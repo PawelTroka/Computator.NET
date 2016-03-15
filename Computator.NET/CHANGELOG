@@ -1,6 +1,6 @@
  * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
 
- ### --------- Unreleased -----------  15.03.2016 00:53
+ ### --------- Unreleased -----------  15.03.2016 11:53
  * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor (still doesnt work in AvalonEdit thought)
  * = Fixed bug in chart edit property window causing ComplexChart to not redraw after changes
  * = Fixed bug in ComplexChart GreaterIsLighter and GreaterIsDarker methods when NoCountourLines selected causing pitch black chart in GreaterIsLighter mode and not accurate chart in GreaterIsDarker mode
@@ -42,7 +42,7 @@
  * + New function for integers BitwiseDotProduct(a,b)
  * - Removed HypergeometricU due to a lot of erros in implementation
  * - Removed function logGamma due to a lot of erros in implementation
- * + Added error higlighting to scripting for faster finding of errors in your code
+ * + Added error higlighting to scripting for faster finding of errors in your code, added full information about errors made in editors with highlighting the current line
  * = All delegates from SpecialFunctions and ElementaryFunction have been changed to normal functions for better control of data flow and more information for autocomplete
  * = A lot of cleanup and refactorings in NumericalCalculations
  * + All methods from NumericalCalculations exposed in API in scripting and expressions (you can draw now eg integrate of function from a to x or derivative or roots of function)

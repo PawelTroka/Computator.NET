@@ -25,11 +25,12 @@ namespace Computator.NET.UI
         }
     }
 
-    public sealed partial class ScientificNumericUpDown : NumericUpDown//TODO: make writing in exponent possible
+    public sealed partial class ScientificNumericUpDown : NumericUpDown
     {
      //   private readonly char dotSymbol = '·'; //'⋅'
         private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾";
         private readonly string toReplace = "0123456789+-=()";
+        private int _multiplyFactor = 10;
 
         public ScientificNumericUpDown()
         {
@@ -52,7 +53,9 @@ namespace Computator.NET.UI
             ValueChanged += (o, e) =>
             {
                 if (!ExponentialMode)
-                    Increment = (0.3m*Value).RoundToSignificantDigits(1);
+                    Increment = Math.Abs((0.3m * Value).RoundToSignificantDigits(1));
+                if (Increment == 0)
+                    Increment = 1;
             };
           //  Culture
             Font = base.Font;
@@ -88,9 +91,38 @@ namespace Computator.NET.UI
             }
         }*/
 
+
+        private bool IsCaretInExponent()
+        {
+            TextBoxBase txtBase = this.Controls[1] as TextBoxBase;
+            int currentCaretPosition = txtBase.SelectionStart;
+
+           // var section = 0;
+
+            for (int i = currentCaretPosition-1; i >=3; i--)
+            {
+                if (exponents.Contains(Text[i]))
+                    continue;
+                return Text[i] == '0' &&
+                       Text[i - 1] == '1' &&
+                       Text[i - 2] == SpecialSymbols.DotSymbol;
+            }
+
+            return false;
+        }
+
         protected override void OnTextBoxKeyPress(object source, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '*' && !Enumerable.Contains(Text, SpecialSymbols.DotSymbol))
+            if (IsCaretInExponent())
+            {
+                var expKeyChar = CovertToExponent(e.KeyChar);
+                if (expKeyChar != ' ')
+                    e.KeyChar = expKeyChar;
+                else if(!char.IsControl(e.KeyChar))
+                    e.Handled = true;
+            }
+
+            else if (e.KeyChar == '*' && !Enumerable.Contains(Text, SpecialSymbols.DotSymbol))
                 e.KeyChar = SpecialSymbols.DotSymbol;
             else if (e.KeyChar == 'E' || e.KeyChar == 'e')
             {
@@ -109,31 +141,37 @@ namespace Computator.NET.UI
 
         protected override void ValidateEditText()//basically it sets Value after Text was edited
         {
-            try
+           // try
             {
                 if (Text.Contains('E') || Text.Contains('e'))
                 {
                     Value = CovertFromEngineeringToValue(Text);
                 }
-                else
+                else if (Text.Contains(SpecialSymbols.DotSymbol))
                 {
                     var parts1 = Text.Split(SpecialSymbols.DotSymbol);
                     if (parts1.Length == 2)
                     {
                         if (Enumerable.Any(parts1[1], c => Enumerable.Contains(exponents, c)))
-                            Value =  (decimal.Parse(parts1[0], CultureInfo.InvariantCulture) *CovertFromScientificToValue(parts1[1]));
+                            Value = (decimal.Parse(parts1[0], CultureInfo.InvariantCulture)*
+                                     CovertFromScientificToValue(parts1[1]));
                         else
-                            Value = (decimal.Parse(parts1[0], CultureInfo.InvariantCulture) * decimal.Parse(parts1[1], CultureInfo.InvariantCulture));
+                            Value = (decimal.Parse(parts1[0], CultureInfo.InvariantCulture)*
+                                     decimal.Parse(parts1[1], CultureInfo.InvariantCulture));
                     }
                     else if (parts1.Length == 1 && Enumerable.Any(parts1[0], c => Enumerable.Contains(exponents, c)))
                     {
                         Value = CovertFromScientificToValue(parts1[0]);
                     }
                 }
+                else
+                {
+                    Value = decimal.Parse(Text, CultureInfo.InvariantCulture);
+                }
             }
-            catch (Exception ex)
+          //  catch (Exception ex)
             {
-                base.ValidateEditText();
+         //       base.ValidateEditText();
             }
             base.ValidateEditText();
         }
@@ -147,9 +185,13 @@ namespace Computator.NET.UI
             }
             else
             {
-                if (Value*10 <= Maximum)
+                if (Value*_multiplyFactor <= Maximum)
                 {
-                    Value = Value*10;
+                    if(Value>0)
+                    Value = Value*_multiplyFactor;
+                    else if (Value < 0)
+                        Value = Value/_multiplyFactor;
+
                     UpdateEditText();
                 }
             }
@@ -164,9 +206,12 @@ namespace Computator.NET.UI
             }
             else
             {
-                if (Value/10 >= Minimum)
+                if (Value/_multiplyFactor >= Minimum)
                 {
-                    Value = Value/10;
+                    if (Value > 0)
+                        Value = Value/_multiplyFactor;
+                    else if (Value < 0)
+                        Value = Value * _multiplyFactor;
                     UpdateEditText();
                 }
             }
@@ -197,7 +242,7 @@ namespace Computator.NET.UI
             }*/
         }
 
-      /*  private string CovertToExponent(string v)
+        private string CovertToExponent(string v)
         {
             var sb = new StringBuilder(v);
 
@@ -206,7 +251,18 @@ namespace Computator.NET.UI
                     if (sb[i] == toReplace[j])
                         sb[i] = exponents[j];
             return sb.ToString();
-        }*/
+        }
+
+        private char CovertToExponent(char v)
+        {
+           // var sb = new StringBuilder(v);
+
+            //for (var i = 0; i < sb.Length; i++)
+                for (var j = 0; j < exponents.Length; j++)
+                    if (v == toReplace[j])
+                        return exponents[j];
+            return ' ';
+        }
 
         private decimal CovertFromScientificToValue(string v)
         {

@@ -12,8 +12,8 @@ namespace Computator.NET.Charting.RealCharting
 {
     public class Chart2D : Chart, IChart /*, IChart<double>*/, INotifyPropertyChanged
     {
-        private const double OVERFLOW_VALUE = 1073741951.0/500; //1111117;
-        private const double UNDERFLOW_VALUE = -1073741760.0/500; // 1111117;
+        private const double OVERFLOW_VALUE = (double)decimal.MaxValue/10;//1073741951.0/500; //1111117;
+        private const double UNDERFLOW_VALUE = (double) decimal.MinValue/10;//-1073741760.0/500; // 1111117;
         private const int MOVE_N = 100;
         private readonly List<Function> functions;
         // private readonly List<Function<double>> implicitFunctions;
@@ -23,7 +23,8 @@ namespace Computator.NET.Charting.RealCharting
         private double _oldN;
         private int _pointsSize;
         private bool _rightButtonPressed;
-        private SeriesChartType chartType;
+        private SeriesChartType defaultExplicitFunctionsChartType = SeriesChartType.Line;//SeriesChartType.FastLine;
+        private SeriesChartType defaultImplicitFunctionsChartType = SeriesChartType.FastPoint;
         private double scalingFactor;
         private ToolStripComboBox seriesComboBox;
         /*
@@ -49,7 +50,7 @@ namespace Computator.NET.Charting.RealCharting
             MouseUp += _MouseUp;
             MouseMove += _MouseMove;
             Resize += (o, e) => NotifyPropertyChanged("XyRatio");
-            chartType = SeriesChartType.FastLine;
+         //   defaultExplicitFunctionsChartType = SeriesChartType.Line;//////////////////////////////////
             scalingFactor = 1;
             xOnlyZoomMode = yOnlyZoomMode = false;
             initChart();
@@ -93,8 +94,15 @@ namespace Computator.NET.Charting.RealCharting
         {
             get { return ChartAreas[0].AxisX.Minimum; }
             set
-            {
+            {                if (value < UNDERFLOW_VALUE)
+                    value = UNDERFLOW_VALUE;
+
+                if (value > OVERFLOW_VALUE)
+                    value = OVERFLOW_VALUE;
                 if (ChartAreas[0].AxisX.Minimum == value) return;
+
+
+
                 ChartAreas[0].AxisX.Minimum = value;
                 NotifyPropertyChanged("XMin");
                 NotifyPropertyChanged("XyRatio");
@@ -111,8 +119,16 @@ namespace Computator.NET.Charting.RealCharting
         {
             get { return ChartAreas[0].AxisX.Maximum; }
             set
-            {
+            {                if (value < UNDERFLOW_VALUE)
+                    value = UNDERFLOW_VALUE;
+
+                if (value > OVERFLOW_VALUE)
+                    value = OVERFLOW_VALUE;
                 if (ChartAreas[0].AxisX.Maximum == value) return;
+
+
+
+
                 ChartAreas[0].AxisX.Maximum = value;
                 NotifyPropertyChanged("XMax");
                 _refreshFunctions();
@@ -124,7 +140,18 @@ namespace Computator.NET.Charting.RealCharting
             get { return ChartAreas[0].AxisY.Minimum; }
             set
             {
+
+                if (value < UNDERFLOW_VALUE)
+                    value = UNDERFLOW_VALUE;
+
+                if (value > OVERFLOW_VALUE)
+                    value = OVERFLOW_VALUE;
+
                 if (ChartAreas[0].AxisY.Minimum == value) return;
+
+
+
+
                 ChartAreas[0].AxisY.Minimum = value;
                 NotifyPropertyChanged("YMin");
                 _refreshFunctions();
@@ -136,6 +163,12 @@ namespace Computator.NET.Charting.RealCharting
             get { return ChartAreas[0].AxisY.Maximum; }
             set
             {
+                if (value < UNDERFLOW_VALUE)
+                    value = UNDERFLOW_VALUE;
+
+                if (value > OVERFLOW_VALUE)
+                    value = OVERFLOW_VALUE;
+
                 if (ChartAreas[0].AxisY.Maximum == value) return;
                 ChartAreas[0].AxisY.Maximum = value;
                 NotifyPropertyChanged("YMax");
@@ -616,7 +649,7 @@ namespace Computator.NET.Charting.RealCharting
             {
                 var series = new Series
                 {
-                    ChartType = fx.IsImplicit ? SeriesChartType.FastPoint : chartType,
+                    ChartType = fx.IsImplicit ? defaultImplicitFunctionsChartType : defaultExplicitFunctionsChartType,
                     MarkerSize = pointsSize,
                     BorderWidth = lineThickness,
                     Name = fx.Name
@@ -673,7 +706,7 @@ namespace Computator.NET.Charting.RealCharting
 
             var series = new Series
             {
-                ChartType = functions.Last().IsImplicit ? SeriesChartType.FastPoint : chartType,
+                ChartType = functions.Last().IsImplicit ? defaultImplicitFunctionsChartType : defaultExplicitFunctionsChartType,
                 MarkerSize = pointsSize,
                 BorderWidth = lineThickness,
                 Name = functions.Last().Name
@@ -826,7 +859,7 @@ namespace Computator.NET.Charting.RealCharting
             owner.DropDownStyle = ComboBoxStyle.DropDownList;
             owner.AutoSize = true;
 
-            owner.SelectedItem = chartType.ToString();
+            owner.SelectedItem = defaultExplicitFunctionsChartType.ToString();
             //  chartType = SeriesChartType.FastLine;
         }
 
@@ -852,7 +885,7 @@ namespace Computator.NET.Charting.RealCharting
                     for (var j = 0; j < Y[i].Count; j++)
                     {
                         Series.Last().Points.AddXY(t[j], Y[i][j]);
-                        Series.Last().ChartType = chartType;
+                        Series.Last().ChartType = defaultExplicitFunctionsChartType;
                         Series.Last().ToolTip = "x=#VALX\ny=#VAL";
                         Series.Last().Font = new Font("Times New Roman", 2.0f);
                         if (Series.Count > 0)
@@ -953,7 +986,7 @@ namespace Computator.NET.Charting.RealCharting
 
         public void changeChartType(string chartType)
         {
-            this.chartType =
+            this.defaultExplicitFunctionsChartType =
                 (SeriesChartType) Enum.Parse(typeof (SeriesChartType), chartType);
             for (var i = 0; i < Series.Count; i++)
                 Series[i].ChartType =

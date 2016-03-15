@@ -1,18 +1,42 @@
-﻿binding exponent mode from edit menu to exponent mode in AvalonEdit doesnt work
-Ctrl+T does not create a new tab in scripting and custom functions when focus is on code editor
-setup.gif for default installation theme doesnt seem to show in installation
-Underflow error for MathieuMc(1,-20,2.04081632653062,-100), MathieuMc(1,-20,x,-100)
-Folding does not work in AvalonEdit when working with documents
-When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
-0. Caret not showing when switching to exponent mode
-1. Bugs correlated to Chart control (3 known bugs, described in my engineer thesis)
-2. Function 2F1 randomly throws exceptions, MathieuMs and MathieuMc too
-3. Transformations (FFT, IFFT, ...) dont work
-4. Functions descriptions not yet done for every function
-5. Not yet fully tested
-6. Some parts are still untranslated
-7. TSL has some untested experimantal features not yet included in tutorials
-8. New exponent mode (activated on clicking ^) not yet work in scripting
-9. New NumericTextBox print result control using scientific notation not yet works in scripting
-10. function En(n,x) throws exceptions on some arguments - n<-1, n>2
-11. Showing toolTip causes an overhead on CPU, fix by setting up a delay in showing the toolTip
+﻿1. Binding exponent mode from edit menu to exponent mode in AvalonEdit doesnt work because AvalonEdit is in WPF and cant implement INotifyPropertyChanged
+2. Ctrl+T does not create a new tab in scripting and custom functions when focus is on code editor
+3. setup.gif for default installation theme doesnt seem to show in installation
+4. Underflow error for MathieuMc(1,-20,2.04081632653062,-100), MathieuMc(1,-20,x,-100) caused by GSL itself
+5. Folding does not work in AvalonEdit when working with documents
+6. When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
+7. Caret sometimes not showing when switching to exponent mode
+8. Bugs related to Chart control (3 known bugs, described in my engineer thesis)
+
+	8.a When using Values close to decimal.MaxValue - resolved easily in current version by limiting max and min values for Chart2D
+		System.OverflowException: Value was either too large or too small for a Decimal.
+		   at System.Decimal..ctor(Double value)
+		   at System.Windows.Forms.DataVisualization.Charting.Axis.GetRequiredLabelSize(ChartGraphics chartGraph, Single maxLabelSize, Single& resultSize)
+		   at System.Windows.Forms.DataVisualization.Charting.Axis.Resize(ChartGraphics chartGraph, ElementPosition chartAreaPosition, RectangleF plotArea, Single axesNumber, Boolean autoPlotPosition)
+		   at System.Windows.Forms.DataVisualization.Charting.ChartArea.Resize(ChartGraphics chartGraph)
+   
+	8.b	When FastLine for some parameters, probably because of the fact that GDI+ has hard bounds for drawing coordinates for DrawLine method (reproduced by FastLine; f(x)=x; x0=-5·10⁻⁷; xN=5·10⁷; y0=-3·10⁻⁷; yN=3·10⁻⁷) - half resolved by not using FastLine
+		System.OverflowException: Overflow error.
+		   at System.Drawing.Graphics.CheckErrorStatus(Int32 status)
+		   at System.Drawing.Graphics.DrawLine(Pen pen, Single x1, Single y1, Single x2, Single y2)
+		   at System.Windows.Forms.DataVisualization.Charting.ChartTypes.FastLineChart.DrawLine
+	8.c Randomly when moving mouse over zommed in area of Chart, nearly impossible to reproduce - still NOT resolved
+		'System.Runtime.InteropServices.ExternalException' occurred in System.Drawing.dll
+			Additional information: A generic error occurred in GDI+.
+			System.Drawing.dll!System.Drawing.Drawing2D.GraphicsPath.IsVisible(System.Drawing.PointF pt, System.Drawing.Graphics graphics) + 0x92 bytes	
+ 			System.Drawing.dll!System.Drawing.Drawing2D.GraphicsPath.IsVisible(float x, float y) + 0x1b bytes	
+ 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Selection.HitTest(int x, int y, bool ignoreTransparent = true, System.Windows.Forms.DataVisualization.Charting.ChartElementType[] requestedElementTypes) + 0x4bc bytes	
+ 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Selection.EvaluateToolTip(System.Windows.Forms.MouseEventArgs e = {X = 264 Y = 262 Button = None}) + 0x48 bytes	
+ 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Selection.Selection_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e) + 0x71 bytes	
+ 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Chart.OnChartMouseMove(System.Windows.Forms.MouseEventArgs e = {X = 264 Y = 262 Button = None}) + 0x12b bytes	
+ 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Chart.OnMouseMove(System.Windows.Forms.MouseEventArgs e) + 0x5 bytes	
+ 			System.Windows.Forms.dll!System.Windows.Forms.Control.WmMouseMove(ref System.Windows.Forms.Message m) + 0x69 bytes	
+ 			System.Windows.Forms.dll!System.Windows.Forms.Control.WndProc(ref System.Windows.Forms.Message m) + 0x45c bytes	
+
+9. Function 2F1 randomly throws exceptions, MathieuMs and MathieuMc too
+10. Transformations (FFT, IFFT, ...) dont work
+11. Functions descriptions not yet done for every function
+12. Not yet fully tested
+13. Some parts are still untranslated
+14. TSL has some untested experimantal features not yet included in tutorials
+15. function En(n,x) throws exceptions on some arguments - n<-1, n>2
+16. Showing toolTip causes an overhead on CPU, fix by setting up a delay in showing the toolTip

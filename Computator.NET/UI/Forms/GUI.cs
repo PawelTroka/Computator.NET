@@ -665,6 +665,20 @@ namespace Computator.NET
              customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
 
 
+/*
+            y0NumericUpDown.DataBindings.Add("Maximum", yNNumericUpDown, "Value", false,
+    DataSourceUpdateMode.Never);
+
+            yNNumericUpDown.DataBindings.Add("Minimum", y0NumericUpDown, "Value", false,
+DataSourceUpdateMode.Never);
+
+            x0NumericUpDown.DataBindings.Add("Maximum", xnNumericUpDown, "Value", false,
+DataSourceUpdateMode.Never);
+
+            xnNumericUpDown.DataBindings.Add("Minimum", x0NumericUpDown, "Value", false,
+DataSourceUpdateMode.Never);*/
+
+
             y0NumericUpDown.DataBindings.Add("Value", chart3d, "YMin", false,
                 DataSourceUpdateMode.OnPropertyChanged);
             yNNumericUpDown.DataBindings.Add("Value", chart3d, "YMax", false,

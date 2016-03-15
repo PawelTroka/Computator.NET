@@ -1,53 +1,96 @@
-﻿NumericUpDown is shit for our needs, we need invariant culture ScientificNumericUpDown with support for TSL numbers notation, engineering notation, variable increment based on current value etc
-refactor settings.save() usage and make it optimal
-make autocomplete resize on items
-update gsl to the newest version
-dynamic sqrt(real) solves problem stated below but we need also root(n,x) and power(x,1/n) and there is a bug that causes it to not appear in autocomplete
-sqrt kind of sucks cause we have real sqrt(real) and complex sqrt(complex) but we should have also complex sqrt(real) (for arguments below 0) but that is kind of not possible in C#
-Handle generic methods and params better in AutocompleteData 
-Unify exceptions and logging model in whole application, refactor it
-fix bugs in numerical opearations
-repair HypergeometricU11
-//in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
-make it possible to create distrubution like normal from array of elemenets and from mean stdev and make functions from elemenets like CDF(elements,x)
-recreate function logGamma with fixed all errors
-add full information about errors made in editors with highlighting the current line
-refactor exception in whole project, unify them
-differ exception in expressions from those in scripting
-remember last open documents with editors, mybe with content
-changing editor from one type to another should port all opened documents
-if we changed a document note this with red disk and ask for save
-set extension .tsl/.tslf with editor options like save
-test installer and upgrade options
-add to tsl multiplying like 2x = 2*x
-make descriptions and names, categories, etc for settingstypes
-somehow manage to get codeeditors ExponentMode bind to exponentToolStripMenuItem Checked property
-add search and replace windows to scripting
-add printing option to codeeditors
-search in the internet/base of knowledge about the function if we have nothing in function info
-build new functioninfo.xml with empty data
-add symbolic calculations
-make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
-make transformations enable for complexchart and chart3d
-enable data loading for charts
-enable better usage of transformation and charts scaling for loaded points
-make charts export as image better with different types of image format
+﻿##TSL
+* functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
+* add to tsl multiplying like 2x = 2*x
+* Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
+* some expressions like  dont work like they should - we should make another case for exponents with ordinary variavles as exponent base
+* we should add something like cos²(x) or cos(x)²
+
+
+##UI
+* NumericUpDown is shit for our needs, we need invariant culture ScientificNumericUpDown with support for TSL numbers notation, engineering notation, variable increment based on current value etc
+* Scientificnumericupdown is working bad with increment near small values, do we even need small values?
+* Used functions history log.
+* Scripting: tracking user variables
+* shift+r_mouse_click on item_key activates new window
+* Special function search list arrangement ( or arrangement by user).
+* Cancel doesnt work to second option in benchmark if first option was already cancelled and second started later
+
+
+##Functions and constants
+* repair HypergeometricU11
+* recreate function logGamma with fixed all errors
+* Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
+* update gsl to the newest version
+* make it possible to create distrubution like normal from array of elemenets and from mean stdev and make functions from elemenets like CDF(elements,x)
+* Matrix division
+* rest of special functions
+* matrix more opearations
+* Weiestrass functions
+* theta functions
+* numerical calculations for f(z) and f(x,y) functions too
+
+
+##General design
+* dynamic sqrt(real) solves problem stated below but we need also root(n,x) and power(x,1/n) and there is a bug that causes it to not appear in autocomplete
+* sqrt kind of sucks cause we have real sqrt(real) and complex sqrt(complex) but we should have also complex sqrt(real) (for arguments below 0) but that is kind of not possible in C#
+* in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
+* Unify exceptions and logging model in whole application, refactor it
+* refactor settings.save() usage and make it optimal
+* refactor exception in whole project, unify them
+* differ exception in expressions from those in scripting
+* make descriptions and names, categories, etc for settingstypes
+* add symbolic calculations
+
+
+##Code editors
+* remember last open documents with editors, mybe with content
+* if we changed a document note this with red disk and ask for save
+* set extension .tsl/.tslf with editor options like save
+* add search and replace windows to scripting
+* add printing option to codeeditors
+
+
+##Installer
+* test installer and upgrade options
+
+
+##Autocomplete
+* search in the internet/base of knowledge about the function if we have nothing in function info
+* make autocomplete resize on items
+* Handle generic methods and params better in AutocompleteData 
+* make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
+* better autocomplete, also for variables after (.) dot symbol
+
+
+##Functions&constants info
+* Functions description
+* build new functioninfo.xml with empty data
+
+
+##Charts
+* enable data loading for charts
+* enable better usage of transformation and charts scaling for loaded points
+* make charts export as image better with different types of image format (chart3d ok but chart2d has only)
+* make transformations enable for complexchart and chart3d
+* unify Chart (edit) menus in GUI and scripting (use those from GUI in scripting), remove any code redundancies and errors (-in chart3d in scripting export generates invalid names)
+* Chart2D setting XMax<XMin error handling
+
+
+##I/O
 enable data saving
-Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
-Special function search list arrangement ( or arrangement by user).
-Used functions history log.
-Functions description.
-Multi-language help files.
-Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
-Scripting: tracking user variables
-Matrix division
-better autocomplete, also for variables after (.) dot symbol
-custom functions - make them better
-rest of special functions
-matrix more opearations
-Weiestrass functions
-theta functions
-numerical calculations - make them better and for f(z) and f(x,y) functions too
-tutorials on youtube
-more tsl examples
-shift+r_mouse_click on item_key activates new window
+
+
+##Help
+* Multi-language help files.
+* tutorials on youtube
+* more tsl examples
+* tutorials and help https://github.com/PawelTroka/Computator.NET/wiki
+
+
+##Translations
+* Update Deutsch and Czech translations to 2.0.0 version
+
+
+##Tests
+* fix evaluation and native compiler unit tests
+* add unit tests for testing culture invariant output
