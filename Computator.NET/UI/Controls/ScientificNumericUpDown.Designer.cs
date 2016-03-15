@@ -1,6 +1,6 @@
 ﻿namespace Computator.NET.UI
 {
-    partial class ScientificNumericUpDown
+    sealed partial class ScientificNumericUpDown
     {
         /// <summary>
         /// Required designer variable.

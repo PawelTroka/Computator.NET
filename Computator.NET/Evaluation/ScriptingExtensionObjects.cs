@@ -169,13 +169,15 @@ namespace Computator.NET.Evaluation
                         return str;
                     var chunks = str.Split('E', 'e');
                     var ret = string.Format("{0}{1}10{2}", chunks[0], Computator.NET.DataTypes.SpecialSymbols.DotSymbol,
-                        Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(chunks[1]));
+                        Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(double.Parse(chunks[1]).ToString(System.Globalization.CultureInfo.InvariantCulture)));//we parse first then apply ToString() again to get rid of notations from engineering notation like eg +019 (when original walue was 1E+19) simple hack :)
                     return ret;
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
                     return x.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
         }
+
+
 
         public static bool IsNumericType(this object o)
         {
@@ -350,7 +352,7 @@ namespace Computator.NET.Evaluation
             return new[] { matrix.RowCount, matrix.ColumnCount };
         }
 
-        public static string ToMathString(this System.Numerics.Complex z)
+            public static string ToMathString(this System.Numerics.Complex z)
         {
             switch (Properties.Settings.Default.NumericalOutputNotation)
             {
@@ -385,13 +387,15 @@ namespace Computator.NET.Evaluation
                         return str;
                     var chunks = str.Split('E', 'e');
                     var ret = string.Format(""{0}{1}10{2}"", chunks[0], Computator.NET.DataTypes.SpecialSymbols.DotSymbol,
-                        Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(chunks[1]));
+                        Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(double.Parse(chunks[1]).ToString(System.Globalization.CultureInfo.InvariantCulture)));//we parse first then apply ToString() again to get rid of notations from engineering notation like eg +019 (when original walue was 1E+19) simple hack :)
                     return ret;
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
                     return x.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
         }
+
+
 
         public static bool IsNumericType(this object o)
         {

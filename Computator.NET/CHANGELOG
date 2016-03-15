@@ -9,6 +9,8 @@
  * = Translated all previously missing elements in polish version
  * + Bug reporting now includes link to github project issues page
  * = Fixed very important bug in ScriptingExtensions - all outputs in application are now culture invariant (not being culture invariant before caused some output in non-english versions to include comma (,) instead of dot (.) for decimal separator which caused bugs when output was used in input - because we always use decimal dot (.) in TSL for decimal separation)
+ * = Fixed important bug in ToMathString(this double) method from ScriptingExtensions, in MathematicalNotation exponent was in format just like in engineering notation (eg we had 10⁺⁰²³ instead of just 10²³)
+ * + ScientificNumericUpDown supports now NumericalOutputNotation from settings
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

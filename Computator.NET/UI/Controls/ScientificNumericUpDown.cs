@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.DataTypes;
+using Computator.NET.Evaluation;
 
 // ReSharper disable LocalizableElement
 
@@ -23,24 +25,26 @@ namespace Computator.NET.UI
         }
     }
 
-    public partial class ScientificNumericUpDown : NumericUpDown//TODO: make writing in exponent possible, make compatible with NumericalOutputNotation from settings
+    public sealed partial class ScientificNumericUpDown : NumericUpDown//TODO: make writing in exponent possible
     {
-        private readonly char dotSymbol = '·'; //'⋅'
+     //   private readonly char dotSymbol = '·'; //'⋅'
         private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾";
         private readonly string toReplace = "0123456789+-=()";
 
         public ScientificNumericUpDown()
         {
             InitializeComponent();
+
+            
             Minimum = decimal.MinValue;
             Maximum = decimal.MaxValue;
-            Value = (decimal) 1e-9;
+          //  Value = (decimal) 1e-9;
             //ExponentialMode = true;
 
 
-            Font = new Font("Cambria", 16.2F, GraphicsUnit.Point);
+          //  Font = new Font("Cambria", 16.2F, GraphicsUnit.Point);
 
-            Font = MathCustomFonts.GetMathFont(Font.Size);
+      //      Font = MathCustomFonts.GetMathFont(Font.Size);
             //GlobalConfig.mathFont;
 
             TextAlign = HorizontalAlignment.Center;
@@ -51,6 +55,14 @@ namespace Computator.NET.UI
                     Increment = (0.3m*Value).RoundToSignificantDigits(1);
             };
           //  Culture
+            Font = base.Font;
+        }
+
+
+        public new Font Font
+        {
+            get { return base.Font; }
+            set { base.Font = MathCustomFonts.GetMathFont(value.Size); }
         }
 
         public bool ExponentialMode => ((double) (Value)).ToString(CultureInfo.InvariantCulture).Contains('E') ||
@@ -78,8 +90,8 @@ namespace Computator.NET.UI
 
         protected override void OnTextBoxKeyPress(object source, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '*' && !Enumerable.Contains(Text, dotSymbol))
-                e.KeyChar = dotSymbol;
+            if (e.KeyChar == '*' && !Enumerable.Contains(Text, SpecialSymbols.DotSymbol))
+                e.KeyChar = SpecialSymbols.DotSymbol;
             else if (e.KeyChar == 'E' || e.KeyChar == 'e')
             {
                // Text += dotSymbol + "10";
@@ -95,7 +107,7 @@ namespace Computator.NET.UI
                 base.OnTextBoxKeyPress(source, e);
         }
 
-        protected override void ValidateEditText()
+        protected override void ValidateEditText()//basically it sets Value after Text was edited
         {
             try
             {
@@ -105,7 +117,7 @@ namespace Computator.NET.UI
                 }
                 else
                 {
-                    var parts1 = Text.Split(dotSymbol);
+                    var parts1 = Text.Split(SpecialSymbols.DotSymbol);
                     if (parts1.Length == 2)
                     {
                         if (Enumerable.Any(parts1[1], c => Enumerable.Contains(exponents, c)))
@@ -160,15 +172,16 @@ namespace Computator.NET.UI
             }
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
+       /* protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
-        }
+        }*/
 
-        protected override void UpdateEditText()
+        protected override void UpdateEditText()//basically it sets Text after Value was established
         {
+            Text = ((double)Value).ToMathString();
             //var str = ((double) Value).ToString(CultureInfo.InvariantCulture);
-            if (!ExponentialMode)
+            /*if (!ExponentialMode)
                 Text = Value.ToString(CultureInfo.InvariantCulture);
             else
             {
@@ -181,10 +194,10 @@ namespace Computator.NET.UI
                     Text = significand.ToString(CultureInfo.InvariantCulture) + dotSymbol + "10" + CovertToExponent(exponent.ToString(CultureInfo.InvariantCulture));
                 else
                     Text = "10" + CovertToExponent(exponent.ToString(CultureInfo.InvariantCulture));
-            }
+            }*/
         }
 
-        private string CovertToExponent(string v)
+      /*  private string CovertToExponent(string v)
         {
             var sb = new StringBuilder(v);
 
@@ -193,7 +206,7 @@ namespace Computator.NET.UI
                     if (sb[i] == toReplace[j])
                         sb[i] = exponents[j];
             return sb.ToString();
-        }
+        }*/
 
         private decimal CovertFromScientificToValue(string v)
         {
@@ -209,13 +222,13 @@ namespace Computator.NET.UI
                     if (sb[i] == exponents[j])
                         sb[i] = toReplace[j];
 
-            return (decimal)double.Parse(sb.ToString(), CultureInfo.InvariantCulture);
+            return (decimal)double.Parse(sb.ToString(), CultureInfo.InvariantCulture);//maybe decimal should parse this
         }
 
 
         private decimal CovertFromEngineeringToValue(string v)
         {
-            return (decimal)double.Parse(v, CultureInfo.InvariantCulture);
+            return (decimal)double.Parse(v, CultureInfo.InvariantCulture);//maybe decimal should parse this
         }
     }
 }
