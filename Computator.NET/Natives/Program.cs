@@ -25,6 +25,9 @@ namespace Computator.NET
             Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
 
+          //  Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = ".";
+          //  Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = ".";
+
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
 

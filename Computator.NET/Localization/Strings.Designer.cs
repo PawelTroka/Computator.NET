@@ -404,6 +404,16 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Or even better report them on project site, using link below.
+        /// </summary>
+        internal static string GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below {
+            get {
+                return ResourceManager.GetString("GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_sit" +
+                        "e__using_link_below", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changelog.
         /// </summary>
         internal static string GUI_changelogToolStripMenuItem_Click_Changelog {
@@ -549,7 +559,7 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please report any bugs to Paweł Troka - ptroka@fizyka.dk.
+        ///   Looks up a localized string similar to Please report any bugs to Paweł Troka - pawel.troka@outlook.com.
         /// </summary>
         internal static string PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk {
             get {

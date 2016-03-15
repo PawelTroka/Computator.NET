@@ -1,6 +1,8 @@
 ﻿// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
+
+
 namespace Computator.NET.Evaluation
 {
     //TODO: refactor this shit
@@ -153,7 +155,7 @@ namespace Computator.NET.Evaluation
                             Computator.NET.DataTypes.SpecialSymbols.DotSymbol);
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
-                    return z.ToString();
+                    return z.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
         }
 
@@ -162,7 +164,7 @@ namespace Computator.NET.Evaluation
             switch (Properties.Settings.Default.NumericalOutputNotation)
             {
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
-                    var str = x.ToString();
+                    var str = x.ToString(System.Globalization.CultureInfo.InvariantCulture);
                     if (!str.Contains("E") && !str.Contains("e"))
                         return str;
                     var chunks = str.Split('E', 'e');
@@ -171,7 +173,7 @@ namespace Computator.NET.Evaluation
                     return ret;
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
-                    return x.ToString();
+                    return x.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
         }
 
@@ -220,7 +222,7 @@ namespace Computator.NET.Evaluation
     {
         public const string ToCode = ReadForm.ToCode +
                                      @"
-    internal class TypeDeducer
+ internal class TypeDeducer
     {
         public static System.Func<TR> Func<TR>(System.Func<TR> f)
         {
@@ -369,7 +371,7 @@ namespace Computator.NET.Evaluation
                             Computator.NET.DataTypes.SpecialSymbols.DotSymbol);
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
-                    return z.ToString();
+                    return z.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
         }
 
@@ -378,7 +380,7 @@ namespace Computator.NET.Evaluation
             switch (Properties.Settings.Default.NumericalOutputNotation)
             {
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
-                    var str = x.ToString();
+                    var str = x.ToString(System.Globalization.CultureInfo.InvariantCulture);
                     if (!str.Contains(""E"") && !str.Contains(""e""))
                         return str;
                     var chunks = str.Split('E', 'e');
@@ -387,7 +389,7 @@ namespace Computator.NET.Evaluation
                     return ret;
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
-                    return x.ToString();
+                    return x.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
         }
 

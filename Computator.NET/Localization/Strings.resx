@@ -142,7 +142,7 @@
     <value>Features:</value>
   </data>
   <data name="PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk" xml:space="preserve">
-    <value>Please report any bugs to Paweł Troka - ptroka@fizyka.dk</value>
+    <value>Please report any bugs to Paweł Troka - pawel.troka@outlook.com</value>
   </data>
   <data name="BugReporting" xml:space="preserve">
     <value>Bug reporting</value>
@@ -315,5 +315,8 @@
   </data>
   <data name="GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_" xml:space="preserve">
     <value>Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise.</value>
+  </data>
+  <data name="GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
+    <value>Or even better report them on project site, using link below</value>
   </data>
 </root>

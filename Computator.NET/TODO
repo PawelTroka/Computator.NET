@@ -1,4 +1,5 @@
-﻿refactor settings.save() usage and make it optimal
+﻿NumericUpDown is shit for our needs, we need invariant culture ScientificNumericUpDown with support for TSL numbers notation, engineering notation, variable increment based on current value etc
+refactor settings.save() usage and make it optimal
 make autocomplete resize on items
 update gsl to the newest version
 dynamic sqrt(real) solves problem stated below but we need also root(n,x) and power(x,1/n) and there is a bug that causes it to not appear in autocomplete

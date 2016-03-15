@@ -9,7 +9,7 @@ namespace Computator.NET.Config
     internal static class GlobalConfig
     {
         public const string version = "v2.0.0ß";
-        public const string authorWithEmail = author + " (ptroka@fizyka.dk)";
+        public const string authorWithEmail = author + " (pawel.troka@outlook.com)";
         public const string author = "Paweł Troka";
         //
         public const string tslFilesFIlter =
@@ -22,13 +22,16 @@ namespace Computator.NET.Config
                                                     ":\n - Kordian Czyżewski (kordiancz25@wp.pl)\n - Vojtech Mańkowski (vojtaman@gmail.com)\n - Marcin Piwowarski (marcpiwowarski@gmail.com)";
 
         public static readonly string translators = Strings.translators +
-                                                    ":\n - Paweł Troka (ptroka@fizyka.dk) - English&Polish versions\n - Vojtech Mańkowski (vojtaman@gmail.com) - Czech version\n - Athena Hristanas (athena@fizyka.dk) - Deutsch version";
+                                                    ":\n - Paweł Troka (pawel.troka@outlook.com) - English&Polish versions\n - Vojtech Mańkowski (vojtaman@gmail.com) - Czech version\n - Athena Hristanas (athena@fizyka.dk) - Deutsch version";
 
         public static readonly string libraries = Strings.librariesUsed +
                                                   ":\n - Meta.Numerics v3.0.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v1.16 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.11.0 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.35 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.5.6 | © Garrett Serack | The MIT License (MIT)\n - Accord.Math v3.0.0 | © César Roberto de Souza | GNU LGPL v2.1";
 
         public static readonly string others = Strings.otherContributors +
                                                ":\n - Jianzhong Zhang ("+Strings.GlobalConfig_others_Chart3D_classes_are_based_on_code_from_High_performance_WPF_3D_Chart_rev_6_application_on+" Code Project Open License (CPOL) 1.02)\n - Claudio Rocchini ("+Strings.GlobalConfig_others_standard_algorithm_for_complex_domain_coloring+")";
+
+
+        public static readonly string issuesUrl = "https://github.com/PawelTroka/Computator.NET/issues";
 
        // public static readonly string features = Strings.featuresInclude;
 

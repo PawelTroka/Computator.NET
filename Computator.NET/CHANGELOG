@@ -7,6 +7,8 @@
  * = Fixed visual bug in polish version of "for values" label (wrong placement)
  * = Fixed minor bugs and typos in dialogs like about, features etc (for english and polish versions)
  * = Translated all previously missing elements in polish version
+ * + Bug reporting now includes link to github project issues page
+ * = Fixed very important bug in ScriptingExtensions - all outputs in application are now culture invariant (not being culture invariant before caused some output in non-english versions to include comma (,) instead of dot (.) for decimal separator which caused bugs when output was used in input - because we always use decimal dot (.) in TSL for decimal separation)
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

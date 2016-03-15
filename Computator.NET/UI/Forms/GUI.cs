@@ -27,6 +27,7 @@ using Computator.NET.Logging;
 using Computator.NET.NumericalCalculations;
 using Computator.NET.Properties;
 using Computator.NET.Transformations;
+using Computator.NET.UI;
 using Computator.NET.UI.AutocompleteMenu;
 using Computator.NET.UI.CodeEditors;
 using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
@@ -465,7 +466,17 @@ namespace Computator.NET
             expressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             HandleCommandLine();
 
+            (new Form() {Controls = { new ScientificNumericUpDown() { Dock = DockStyle.Fill }, new Button() {Dock=DockStyle.Bottom,Text="button"} } } ).Show();
            // Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+
+
+          //  MessageBox.Show(Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator);
+          //  MessageBox.Show(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+
+           // foreach (var cultureInfo in AllCultures)
+            //{
+              //  scriptingCodeEditor.AppendText(cultureInfo.NumberFormat.NumberDecimalSeparator);
+           // }
         }
         
 
@@ -1220,9 +1231,9 @@ namespace Computator.NET
         private void thanksToToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
-                GlobalConfig.betatesters + Environment.NewLine + GlobalConfig.translators +
-                Environment.NewLine +
-                GlobalConfig.libraries + Environment.NewLine +
+                GlobalConfig.betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.translators +
+                Environment.NewLine + Environment.NewLine +
+                GlobalConfig.libraries + Environment.NewLine + Environment.NewLine +
                 GlobalConfig.others, Strings.SpecialThanksTo);
         }
 
@@ -1247,8 +1258,40 @@ namespace Computator.NET
 
         private void bugReportingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Strings.PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk,
-                Strings.BugReporting);
+            var richtextbox = new RichTextBox()
+            {
+                Text =
+                    $@"{Environment.NewLine}{Strings.PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk}{Environment.NewLine
+                        }{Environment.NewLine}{
+                        Strings
+                            .GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below
+                        }{Environment.NewLine}{GlobalConfig.issuesUrl}",
+                Dock = DockStyle.Fill,
+                ReadOnly = true
+            };
+
+            richtextbox.LinkClicked += (ooo, eee) => System.Diagnostics.Process.Start(GlobalConfig.issuesUrl);
+
+            (new Form()
+            {
+                Size = new Size(650,300),
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+
+            // Set the MaximizeBox to false to remove the maximize box.
+            MaximizeBox = false,
+
+            // Set the MinimizeBox to false to remove the minimize box.
+            MinimizeBox = false,
+
+            // Set the start position of the form to the center of the screen.
+            //StartPosition = FormStartPosition.CenterScreen,
+            Controls =
+                {
+                    richtextbox
+                },
+                Font = new Font(FontFamily.GenericSansSerif, 17.0F),
+                Text =  Strings.BugReporting 
+            }).ShowDialog(this);
         }
 
 
