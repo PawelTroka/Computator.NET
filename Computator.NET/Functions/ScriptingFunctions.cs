@@ -3,6 +3,7 @@
 // ReSharper disable UseStringInterpolation
 
 using Computator.NET.Evaluation;//we have to use this
+// ReSharper disable LocalizableElement
 
 namespace Computator.NET.Functions
 {

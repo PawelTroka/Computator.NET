@@ -80,51 +80,16 @@ namespace Computator.NET
             tableLayoutPanel1.Visible = !(index == 5 || index == 4);
         }
 
-        private void languageToolStripComboBox_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            var selectedCulture = AllCultures.First(c => c.NativeName == (string) languageToolStripComboBox.SelectedItem);
-            Thread.CurrentThread.CurrentCulture = selectedCulture;
-            LocalizationManager.GlobalUICulture = selectedCulture;
-            Settings.Default.Language = selectedCulture;
-            Settings.Default.Save();
-        }
-
-        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new Config.SettingsForm().ShowDialog(this);
-        }
-
-        private void logsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Directory.Exists(SimpleLogger.LogsDirectory))
-                Process.Start(SimpleLogger.LogsDirectory);
-            else
-                MessageBox.Show(
-                    Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_);
-        }
-
-        private void modeRealToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var txt = (sender as ToolStripMenuItem).Text;
-            switch (txt)
-            {
-                case "Real : f(x)":
-                    SetMode(CalculationsMode.Real);
-                    break;
-                case "Complex : f(z)":
-                    SetMode(CalculationsMode.Complex);
-                    break;
-                case "3D : f(x,y)":
-                    SetMode(CalculationsMode.Fxy);
-                    break;
-            }
-        }
+  
 
         private void runToolStripButton_Click(object sender, EventArgs e)
         {
             defaultActions[tabControl1.SelectedIndex].Invoke(sender, e);
         }
 
+
+        #region edit menu events
+        
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
@@ -457,9 +422,7 @@ namespace Computator.NET
 #endif
         }
 
-        private void exponentiationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
+        #endregion
 
         #region initialization and construction
 
@@ -687,9 +650,8 @@ namespace Computator.NET
             exponentiationToolStripMenuItem.DataBindings.Add("Checked", expressionTextBox, "ExponentMode", false,
                 DataSourceUpdateMode.OnPropertyChanged);
 
-            //TODO: somehow manage to get codeeditors ExponentMode bind to exponentToolStripMenuItem Checked property
-            // scriptingCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "ExponentMode",false,DataSourceUpdateMode.OnPropertyChanged);
-            // customFunctionsCodeEditor.DataBindings.Add("ExponentMode", scriptingCodeEditor, "ExponentMode",false,DataSourceUpdateMode.OnPropertyChanged);
+             scriptingCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
+             customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
 
 
             y0NumericUpDown.DataBindings.Add("Value", chart3d, "YMin", false,
@@ -817,6 +779,21 @@ namespace Computator.NET
 
         #region helpers
 
+        private void HandleException(Exception ex)
+        {
+            HandleCustomFunctionsErrors(ex as CompilationException);
+
+            var message = ex.Message + Environment.NewLine + (ex.InnerException?.Message ?? "");
+            MessageBox.Show(message, Strings.Error);
+
+            if (!ex.IsInternal())
+            {
+                logger.MethodName = MethodBase.GetCurrentMethod().Name;
+                logger.Log(message, ErrorType.General, ex);
+            }
+        }
+
+
         private void UpdateXyRatio()
         {
             var ratio = 1.0;
@@ -837,6 +814,119 @@ namespace Computator.NET
             }
             control.DataBindings.Add(propertyName, dataSource, dataMember, false,
                 DataSourceUpdateMode.OnPropertyChanged);
+        }
+
+      
+
+        #endregion
+
+
+
+        #region chart menu events
+
+        private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var editChartWindow = new EditChartWindow(chart2d);
+            editChartWindow.ShowDialog(this);
+        }
+
+        private void exportChartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chart2d.saveImage();
+        }
+
+        public void aligmentLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
+        {
+            chart2d.changeChartLegendAligment(((ToolStripComboBox)s).SelectedItem.ToString());
+        }
+
+        public void positionLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
+        {
+            chart2d.changeChartLegendPosition(((ToolStripComboBox)s).SelectedItem.ToString());
+        }
+
+        public void colorsOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
+        {
+            chart2d.changeChartColor(((ToolStripComboBox)s).SelectedItem.ToString());
+        }
+
+        public void seriesOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
+        {
+            chart2d.changeSeries(((ToolStripComboBox)s).SelectedItem.ToString());
+        }
+
+        public void typeOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
+        {
+            chart2d.changeChartType(((ToolStripComboBox)s).SelectedItem.ToString());
+        }
+
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            complexChart.saveImage();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var editComplexChartWindow = new EditComplexChartWindow(complexChart);
+            editComplexChartWindow.ShowDialog(this);
+        }
+
+        private void countourLinesToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            complexChart.countourMode =
+                (CountourLinesMode)countourLinesToolStripComboBox.SelectedItem;
+            complexChart.Redraw();
+        }
+
+        private void colorAssignmentToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            complexChart.colorAssignmentMethod =
+                (AssignmentOfColorMethod)colorAssignmentToolStripComboBox.SelectedItem;
+            complexChart.Redraw();
+        }
+
+
+        private void exportChart3dToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog2 = new SaveFileDialog
+            {
+                Filter = Strings.GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter,
+                FileName = Strings.Chart + DateTime.Now.ToShortDateString() + " "
+                           + DateTime.Now.ToLongTimeString().Replace(':', '-')
+                           + ".png"
+            };
+
+
+            var dialogResult = saveFileDialog2.ShowDialog(this);
+            if (dialogResult != DialogResult.OK) return;
+            Thread.Sleep(20);
+            ExportChartImage(saveFileDialog2.FileName, saveFileDialog2);
+        }
+
+        private void editChart3dToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var editChartWindow = new Charting.Chart3D.EditChartWindow(chart3d, elementHostChart3d);
+            editChartWindow.ShowDialog(this);
+        }
+
+        private void chart3dEqualAxesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chart3d.EqualAxes = true;
+        }
+
+        private void chart3dFitAxesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chart3d.EqualAxes = false;
+        }
+
+        private void editChartPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var editChartProperties = new EditChartProperties(currentChart);
+            if (editChartProperties.ShowDialog(this) == DialogResult.OK)
+            {
+                currentChart.Redraw();
+            }
         }
 
         private void ExportChartImage(string filename, SaveFileDialog saveFileDialog2)
@@ -882,7 +972,10 @@ namespace Computator.NET
 
         #endregion
 
-        #region eventHandlers
+
+
+
+        #region main events
 
         private void addToChartButton_Click(object sender, EventArgs e)
         {
@@ -903,21 +996,6 @@ namespace Computator.NET
                     Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_);
         }
 
-        private void HandleException(Exception ex)
-        {
-            HandleCustomFunctionsErrors(ex as CompilationException);
-
-            var message = ex.Message + Environment.NewLine + (ex.InnerException?.Message ?? "");
-            MessageBox.Show(message, Strings.Error);
-
-            if (!ex.IsInternal())
-            {
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Log(message, ErrorType.General, ex);
-            }
-        }
-
-
         private void calculateButton_Click(object sender, EventArgs e)
         {
             if (expressionTextBox.Text == "")
@@ -930,8 +1008,8 @@ namespace Computator.NET
                     var function = expressionsEvaluator.Evaluate(expressionTextBox.Text,
                         customFunctionsCodeEditor.Text, _calculationsMode);
 
-                    var x = (double) valueForCalculationNumericUpDown.Value;
-                    var y = (double) calculationsImZnumericUpDown.Value;
+                    var x = (double)valueForCalculationNumericUpDown.Value;
+                    var y = (double)calculationsImZnumericUpDown.Value;
                     var z = new Complex(x, y);
 
                     dynamic result = function.EvaluateDynamic(x, y);
@@ -954,41 +1032,7 @@ namespace Computator.NET
             }
         }
 
-        private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editChartWindow = new EditChartWindow(chart2d);
-            editChartWindow.ShowDialog(this);
-        }
 
-        private void exportChartToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chart2d.saveImage();
-        }
-
-        public void aligmentLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeChartLegendAligment(((ToolStripComboBox) s).SelectedItem.ToString());
-        }
-
-        public void positionLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeChartLegendPosition(((ToolStripComboBox) s).SelectedItem.ToString());
-        }
-
-        public void colorsOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeChartColor(((ToolStripComboBox) s).SelectedItem.ToString());
-        }
-
-        public void seriesOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeSeries(((ToolStripComboBox) s).SelectedItem.ToString());
-        }
-
-        public void typeOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeChartType(((ToolStripComboBox) s).SelectedItem.ToString());
-        }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -997,7 +1041,7 @@ namespace Computator.NET
 
         private void expressionTextBox_KeyPress(object s, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char) 13)
+            if (e.KeyChar == (char)13)
                 defaultActions[tabControl1.SelectedIndex].Invoke(s, e);
         }
 
@@ -1013,16 +1057,17 @@ namespace Computator.NET
             chart3d.Clear();
         }
 
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            complexChart.saveImage();
-        }
 
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editComplexChartWindow = new EditComplexChartWindow(complexChart);
-            editComplexChartWindow.ShowDialog(this);
-        }
+        #endregion
+
+
+
+        #region eventHandlers
+
+
+
+     
+
 
         private void Item_Click(object sender, MouseEventArgs e)
         {
@@ -1169,7 +1214,7 @@ namespace Computator.NET
 
         private void featuresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(GlobalConfig.features, Strings.Features);
+            MessageBox.Show(Strings.featuresInclude, Strings.Features);
         }
 
         private void thanksToToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1206,19 +1251,6 @@ namespace Computator.NET
                 Strings.BugReporting);
         }
 
-        private void saveScriptButton_Click(object sender, EventArgs e)
-        {
-            var result = saveScriptFileDialog.ShowDialog(this);
-            if (result == DialogResult.OK)
-            {
-                using (var sw = new StreamWriter(saveScriptFileDialog.FileName))
-                {
-                    sw.Write(scriptingCodeEditor.Text);
-                }
-                scriptingDirectoryTree.Refresh();
-                scriptingDirectoryTree.Invalidate();
-            }
-        }
 
         private void openScriptDirectoryButton_Click(object sender, EventArgs e)
         {
@@ -1257,45 +1289,9 @@ namespace Computator.NET
             //    else if(fxyModeRadioBox.Checked)
         }
 
-        private void openCustomFunctions_Click(object sender, EventArgs e)
-        {
-            var result = openCustomFunctionsFileDialog.ShowDialog(this);
-            if (result == DialogResult.OK)
-            {
-                using (var sr = new StreamReader(openCustomFunctionsFileDialog.FileName))
-                {
-                    customFunctionsCodeEditor.Text = sr.ReadToEnd();
-                }
-            }
-        }
+    
 
-        private void saveCustomFunctions_Click(object sender, EventArgs e)
-        {
-            var result = saveCustomFunctionsFileDialog.ShowDialog(this);
-            if (result == DialogResult.OK)
-            {
-                using (var sw = new StreamWriter(saveCustomFunctionsFileDialog.FileName))
-                {
-                    sw.Write(customFunctionsCodeEditor.Text);
-                }
-                customFunctionsDirectoryTree.Refresh();
-                customFunctionsDirectoryTree.Invalidate();
-            }
-        }
-
-        private void countourLinesToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            complexChart.countourMode =
-                (CountourLinesMode) countourLinesToolStripComboBox.SelectedItem;
-            complexChart.reDraw();
-        }
-
-        private void colorAssignmentToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            complexChart.colorAssignmentMethod =
-                (AssignmentOfColorMethod) colorAssignmentToolStripComboBox.SelectedItem;
-            complexChart.reDraw();
-        }
+  
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
@@ -1303,65 +1299,6 @@ namespace Computator.NET
                 chart2d.Quality = complexChart.Quality = trackBar1.Value/(double) trackBar1.Maximum*100.0;
         }
 
-        private void exportChart3dToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var saveFileDialog2 = new SaveFileDialog
-            {
-                Filter = "Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Im" +
-                         "age (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf",
-                FileName = Strings.Chart + DateTime.Now.ToShortDateString() + " "
-                           + DateTime.Now.ToLongTimeString().Replace(':', '-')
-                           + ".png"
-            };
-
-
-            var dialogResult = saveFileDialog2.ShowDialog(this);
-            if (dialogResult != DialogResult.OK) return;
-            Thread.Sleep(20);
-            ExportChartImage(saveFileDialog2.FileName, saveFileDialog2);
-        }
-
-        private void editChart3dToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editChartWindow = new Charting.Chart3D.EditChartWindow(chart3d, elementHostChart3d);
-            editChartWindow.ShowDialog(this);
-        }
-
-        private void editChart3dPropertiesToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            var editChartProperties = new EditChartProperties(chart3d);
-            if (editChartProperties.ShowDialog(this) == DialogResult.OK)
-            {
-            }
-        }
-
-        private void chart3dEqualAxesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chart3d.EqualAxes = true;
-        }
-
-        private void chart3dFitAxesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chart3d.EqualAxes = false;
-        }
-
-        private void editPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editChartProperties = new EditChartProperties(complexChart);
-            if (editChartProperties.ShowDialog(this) == DialogResult.OK)
-            {
-                complexChart.reDraw();
-            }
-        }
-
-        private void editPropertiesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            var editChartProperties = new EditChartProperties(chart2d);
-            if (editChartProperties.ShowDialog(this) == DialogResult.OK)
-            {
-                chart2d.Invalidate();
-            }
-        }
 
         private void benchmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1370,6 +1307,51 @@ namespace Computator.NET
         }
 
         #endregion
+
+
+
+
+        #region tools menu events
+
+        private void languageToolStripComboBox_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            var selectedCulture = AllCultures.First(c => c.NativeName == (string)languageToolStripComboBox.SelectedItem);
+            Thread.CurrentThread.CurrentCulture = selectedCulture;
+            LocalizationManager.GlobalUICulture = selectedCulture;
+            Settings.Default.Language = selectedCulture;
+            Settings.Default.Save();
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Config.SettingsForm().ShowDialog(this);
+        }
+
+        private void logsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(SimpleLogger.LogsDirectory))
+                Process.Start(SimpleLogger.LogsDirectory);
+            else
+                MessageBox.Show(
+                    Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_);
+        }
+
+        private void modeRealToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var txt = (sender as ToolStripMenuItem).Text;
+            switch (txt)
+            {
+                case "Real : f(x)":
+                    SetMode(CalculationsMode.Real);
+                    break;
+                case "Complex : f(z)":
+                    SetMode(CalculationsMode.Complex);
+                    break;
+                case "3D : f(x,y)":
+                    SetMode(CalculationsMode.Fxy);
+                    break;
+            }
+        }
 
         private void fullscreenToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
@@ -1387,5 +1369,8 @@ namespace Computator.NET
               this.WindowState = FormWindowState.Normal;
             }
         }
+
+
+        #endregion
     }
 }

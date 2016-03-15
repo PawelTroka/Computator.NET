@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Computator.NET.Config;
@@ -16,8 +17,8 @@ namespace Computator.NET
             labelVersion.Text = string.Format("Version {0}", AssemblyVersion);
             labelCopyright.Text = AssemblyCopyright;
             labelCompanyName.Text = AssemblyCompany;
-            textBoxDescription.Text = AssemblyDescription + Strings.ItSFeaturesInclude +
-                                      GlobalConfig.features.Replace(" - ", "\r\n - ");
+            textBoxDescription.Text =
+                $"{Strings.GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_}{Environment.NewLine}{Strings.ItSFeaturesInclude}{Environment.NewLine}{Strings.featuresInclude}";
         }
 
         #region Assembly Attribute Accessors

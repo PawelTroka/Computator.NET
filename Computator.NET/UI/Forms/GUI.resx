@@ -266,7 +266,7 @@
     <value>scriptingDirectoryTree</value>
   </data>
   <data name="&gt;&gt;scriptingDirectoryTree.Type" xml:space="preserve">
-    <value>Computator.NET.DirectoryTree, Computator.NET, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Computator.NET.DirectoryTree, Computator.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;scriptingDirectoryTree.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -435,7 +435,7 @@
     <value>customFunctionsDirectoryTree</value>
   </data>
   <data name="&gt;&gt;customFunctionsDirectoryTree.Type" xml:space="preserve">
-    <value>Computator.NET.DirectoryTree, Computator.NET, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Computator.NET.DirectoryTree, Computator.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;customFunctionsDirectoryTree.Parent" xml:space="preserve">
     <value>splitContainer3.Panel2</value>
@@ -2616,7 +2616,7 @@
     <value>expressionTextBox</value>
   </data>
   <data name="&gt;&gt;expressionTextBox.Type" xml:space="preserve">
-    <value>Computator.NET.UI.Controls.ExpressionTextBox, Computator.NET, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Computator.NET.UI.Controls.ExpressionTextBox, Computator.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;expressionTextBox.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
@@ -3062,6 +3062,93 @@
   <data name="chartToolStripMenuItem.Text" xml:space="preserve">
     <value>Chart</value>
   </data>
+  <data name="toolStripMenuItem31.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem31.Text" xml:space="preserve">
+    <value>FFT</value>
+  </data>
+  <data name="toolStripMenuItem31.ToolTipText" xml:space="preserve">
+    <value>Fast Fourier Transform</value>
+  </data>
+  <data name="toolStripMenuItem32.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem32.Text" xml:space="preserve">
+    <value>IFFT</value>
+  </data>
+  <data name="toolStripMenuItem32.ToolTipText" xml:space="preserve">
+    <value>Inverse Fast Fourier Transform</value>
+  </data>
+  <data name="toolStripMenuItem33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem33.Text" xml:space="preserve">
+    <value>DST</value>
+  </data>
+  <data name="toolStripMenuItem33.ToolTipText" xml:space="preserve">
+    <value>Discrete Sine Transform</value>
+  </data>
+  <data name="toolStripMenuItem34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem34.Text" xml:space="preserve">
+    <value>IDST</value>
+  </data>
+  <data name="toolStripMenuItem34.ToolTipText" xml:space="preserve">
+    <value>Inverse Discrete Sine Transform</value>
+  </data>
+  <data name="toolStripMenuItem35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem35.Text" xml:space="preserve">
+    <value>DCT</value>
+  </data>
+  <data name="toolStripMenuItem35.ToolTipText" xml:space="preserve">
+    <value>Discrete Cosine Transform</value>
+  </data>
+  <data name="toolStripMenuItem36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem36.Text" xml:space="preserve">
+    <value>IDCT</value>
+  </data>
+  <data name="toolStripMenuItem36.ToolTipText" xml:space="preserve">
+    <value>Inverse Discrete Cosine Transform</value>
+  </data>
+  <data name="toolStripMenuItem37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem37.Text" xml:space="preserve">
+    <value>FHT</value>
+  </data>
+  <data name="toolStripMenuItem37.ToolTipText" xml:space="preserve">
+    <value>Fast Hilbert Transform</value>
+  </data>
+  <data name="toolStripMenuItem38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem38.Text" xml:space="preserve">
+    <value>IFHT</value>
+  </data>
+  <data name="toolStripMenuItem38.ToolTipText" xml:space="preserve">
+    <value>Inverse Fast Hilbert Transform</value>
+  </data>
+  <data name="toolStripMenuItem39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 22</value>
+  </data>
+  <data name="toolStripMenuItem39.Text" xml:space="preserve">
+    <value>DHT</value>
+  </data>
+  <data name="toolStripMenuItem39.ToolTipText" xml:space="preserve">
+    <value>Discrete Hartley Transform</value>
+  </data>
+  <data name="transformToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
+  </data>
+  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tran&amp;sform</value>
+  </data>
   <data name="toolStripMenuItem18.Size" type="System.Drawing.Size, System.Drawing">
     <value>201, 22</value>
   </data>
@@ -3163,93 +3250,6 @@
   </data>
   <data name="chart3dToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="toolStripMenuItem31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem31.Text" xml:space="preserve">
-    <value>FFT</value>
-  </data>
-  <data name="toolStripMenuItem31.ToolTipText" xml:space="preserve">
-    <value>Fast Fourier Transform</value>
-  </data>
-  <data name="toolStripMenuItem32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem32.Text" xml:space="preserve">
-    <value>IFFT</value>
-  </data>
-  <data name="toolStripMenuItem32.ToolTipText" xml:space="preserve">
-    <value>Inverse Fast Fourier Transform</value>
-  </data>
-  <data name="toolStripMenuItem33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem33.Text" xml:space="preserve">
-    <value>DST</value>
-  </data>
-  <data name="toolStripMenuItem33.ToolTipText" xml:space="preserve">
-    <value>Discrete Sine Transform</value>
-  </data>
-  <data name="toolStripMenuItem34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem34.Text" xml:space="preserve">
-    <value>IDST</value>
-  </data>
-  <data name="toolStripMenuItem34.ToolTipText" xml:space="preserve">
-    <value>Inverse Discrete Sine Transform</value>
-  </data>
-  <data name="toolStripMenuItem35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem35.Text" xml:space="preserve">
-    <value>DCT</value>
-  </data>
-  <data name="toolStripMenuItem35.ToolTipText" xml:space="preserve">
-    <value>Discrete Cosine Transform</value>
-  </data>
-  <data name="toolStripMenuItem36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem36.Text" xml:space="preserve">
-    <value>IDCT</value>
-  </data>
-  <data name="toolStripMenuItem36.ToolTipText" xml:space="preserve">
-    <value>Inverse Discrete Cosine Transform</value>
-  </data>
-  <data name="toolStripMenuItem37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem37.Text" xml:space="preserve">
-    <value>FHT</value>
-  </data>
-  <data name="toolStripMenuItem37.ToolTipText" xml:space="preserve">
-    <value>Fast Hilbert Transform</value>
-  </data>
-  <data name="toolStripMenuItem38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem38.Text" xml:space="preserve">
-    <value>IFHT</value>
-  </data>
-  <data name="toolStripMenuItem38.ToolTipText" xml:space="preserve">
-    <value>Inverse Fast Hilbert Transform</value>
-  </data>
-  <data name="toolStripMenuItem39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 22</value>
-  </data>
-  <data name="toolStripMenuItem39.Text" xml:space="preserve">
-    <value>DHT</value>
-  </data>
-  <data name="toolStripMenuItem39.ToolTipText" xml:space="preserve">
-    <value>Discrete Hartley Transform</value>
-  </data>
-  <data name="transformToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 20</value>
-  </data>
-  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tran&amp;sform</value>
   </data>
   <data name="optionsToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 22</value>
@@ -3866,7 +3866,7 @@
     <value>exponentiationToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;exponentiationToolStripMenuItem.Type" xml:space="preserve">
-    <value>Computator.NET.UI.Controls.BindableToolStripMenuItem, Computator.NET, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Computator.NET.UI.Controls.BindableToolStripMenuItem, Computator.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;functionsToolStripMenuItem.Name" xml:space="preserve">
     <value>functionsToolStripMenuItem</value>
@@ -4006,6 +4006,66 @@
   <data name="&gt;&gt;toolStripMenuItem16.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;transformToolStripMenuItem.Name" xml:space="preserve">
+    <value>transformToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;transformToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem31.Name" xml:space="preserve">
+    <value>toolStripMenuItem31</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem31.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem32.Name" xml:space="preserve">
+    <value>toolStripMenuItem32</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem32.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem33.Name" xml:space="preserve">
+    <value>toolStripMenuItem33</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem33.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem34.Name" xml:space="preserve">
+    <value>toolStripMenuItem34</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem34.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem35.Name" xml:space="preserve">
+    <value>toolStripMenuItem35</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem35.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem36.Name" xml:space="preserve">
+    <value>toolStripMenuItem36</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem36.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem37.Name" xml:space="preserve">
+    <value>toolStripMenuItem37</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem37.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem38.Name" xml:space="preserve">
+    <value>toolStripMenuItem38</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem38.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem39.Name" xml:space="preserve">
+    <value>toolStripMenuItem39</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem39.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;comlexChartToolStripMenuItem.Name" xml:space="preserve">
     <value>comlexChartToolStripMenuItem</value>
   </data>
@@ -4118,66 +4178,6 @@
     <value>toolStripMenuItem29</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItem29.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;transformToolStripMenuItem.Name" xml:space="preserve">
-    <value>transformToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;transformToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem31.Name" xml:space="preserve">
-    <value>toolStripMenuItem31</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem31.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem32.Name" xml:space="preserve">
-    <value>toolStripMenuItem32</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem32.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem33.Name" xml:space="preserve">
-    <value>toolStripMenuItem33</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem33.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem34.Name" xml:space="preserve">
-    <value>toolStripMenuItem34</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem34.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem35.Name" xml:space="preserve">
-    <value>toolStripMenuItem35</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem35.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem36.Name" xml:space="preserve">
-    <value>toolStripMenuItem36</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem36.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem37.Name" xml:space="preserve">
-    <value>toolStripMenuItem37</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem37.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem38.Name" xml:space="preserve">
-    <value>toolStripMenuItem38</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem38.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem39.Name" xml:space="preserve">
-    <value>toolStripMenuItem39</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem39.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolsToolStripMenuItem.Name" xml:space="preserve">
@@ -4358,6 +4358,6 @@
     <value>GUI</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Computator.NET.Localization.LocalizedForm, Computator.NET, Version=1.9.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Computator.NET.Localization.LocalizedForm, Computator.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

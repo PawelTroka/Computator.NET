@@ -37,6 +37,7 @@ namespace Computator.NET.UI.Forms
 
             var label = new Label
             {
+                // ReSharper disable once LocalizableElement
                 Text = "by Pawel Troka",
                 Font = new Font("Consolas", 10)
             };

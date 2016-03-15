@@ -5,6 +5,7 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -31,13 +32,14 @@ namespace Computator.NET.UI.CodeEditors
         }
     }
 
-    internal class ScintillaCodeEditorControl : Scintilla, ICodeEditorControl
+    internal class ScintillaCodeEditorControl : Scintilla, ICodeEditorControl, INotifyPropertyChanged
     {
         private readonly AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
         private readonly Dictionary<string, Document> _documents;
         private string _autoCompleteList;
         private int lastCaretPos;
         private int maxLineNumberCharLength;
+        private bool _exponentMode;
 
         public ScintillaCodeEditorControl(string code) : this()
         {
@@ -216,7 +218,13 @@ namespace Computator.NET.UI.CodeEditors
             _documents.RenameKey(filename, newFilename);
         }
 
-        public bool ExponentMode { get; set; }
+        public bool ExponentMode
+        {
+            get { return _exponentMode; }
+            set { _exponentMode = value;
+                OnPropertyChanged(nameof(ExponentMode));
+            }
+        }
 
         public override string Text
         {
@@ -600,6 +608,13 @@ namespace Computator.NET.UI.CodeEditors
             if (c == '*' || c == '/' || c == '+' || c == '-' || c == '(' || c == '^' || c == '!')
                 return true;
             return false;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

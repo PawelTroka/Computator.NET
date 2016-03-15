@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Computator.NET.DataTypes;
+// ReSharper disable LocalizableElement
 
 namespace Computator.NET.UI
 {

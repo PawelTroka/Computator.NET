@@ -134,10 +134,12 @@ namespace Computator.NET.Charting.Chart3D
                 if (value != xmin)
                 {
                     xmin = value;
-                    redraw();
+                    Redraw();
                 }
             }
         }
+
+
 
         public double XMax
         {
@@ -147,7 +149,7 @@ namespace Computator.NET.Charting.Chart3D
                 if (value != xmax)
                 {
                     xmax = value;
-                    redraw();
+                    Redraw();
                 }
             }
         }
@@ -160,7 +162,7 @@ namespace Computator.NET.Charting.Chart3D
                 if (value != ymin)
                 {
                     ymin = value;
-                    redraw();
+                    Redraw();
                 }
             }
         }
@@ -173,7 +175,7 @@ namespace Computator.NET.Charting.Chart3D
                 if (value != ymax)
                 {
                     ymax = value;
-                    redraw();
+                    Redraw();
                 }
             }
         }
@@ -185,7 +187,7 @@ namespace Computator.NET.Charting.Chart3D
                 if (value <= 100.0 && value >= 0.0)
                 {
                     calculateN(value);
-                    redraw();
+                    Redraw();
                 }
             }
         }
@@ -203,7 +205,7 @@ namespace Computator.NET.Charting.Chart3D
                     else if (value == Chart3DMode.Surface)
                         TestSurfacePlot(1);
                     TransformChart();
-                    redraw();
+                    Redraw();
                 }
             }
         }
@@ -242,7 +244,7 @@ namespace Computator.NET.Charting.Chart3D
         public void addFx(Function fxy)
         {
             functions.Add(fxy);
-            redraw();
+            Redraw();
         }
 
         public void Print()
@@ -261,10 +263,10 @@ namespace Computator.NET.Charting.Chart3D
             xmin = x0;
             ymax = yn;
             ymin = y0;
-            redraw();
+            Redraw();
         }
 
-        private void redraw()
+        public void Redraw()
         {
             firstTimeAdd = true;
             foreach (var f in functions)

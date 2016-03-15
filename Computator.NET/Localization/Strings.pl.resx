@@ -173,13 +173,19 @@
   </data>
   <data name="featuresInclude" xml:space="preserve">
     <value>- Wykresy funkcji rzeczywistych i zespolonych
- - Rzeczywisty i zespolony kalkulator
- - Obliczenia numeryczne na funkcjach rzeczywistych, z uwzględnieniem różnych metod
- - Ponad 107 funkcji elementarnych
- - Ponad 141 funkcji specjalnych
- - Ponad 21 funkcji i operacji działających na macierzach
- - Potężny język skryptowy do prostych obliczeń, uwzględniając macierze
- - Możesz zadeklarować własne niestandardowe funkcje z języka skryptowego</value>
+
+- Rzeczywisty i zespolony kalkulator
+
+- Obliczenia numeryczne na funkcjach rzeczywistych, z uwzględnieniem różnych metod
+
+- Ponad 107 funkcji elementarnych
+
+- Ponad 141 funkcji specjalnych
+
+- Ponad 21 funkcji i operacji działających na macierzach
+
+- Potężny język skryptowy do prostych obliczeń, uwzględniając macierze
+- Możesz zadeklarować własne niestandardowe funkcje z języka skryptowego</value>
   </data>
   <data name="memoryTestBackgroundWorker_RunWorkerCompleted" xml:space="preserve">
     <value>Test wydajności alokacji pamięci anulowany przez użytkownika</value>
@@ -225,5 +231,83 @@
   </data>
   <data name="BadSyntax" xml:space="preserve">
     <value>Niepoprawna składnia</value>
+  </data>
+  <data name="GUI_numericalOperationButton_Click_Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_" xml:space="preserve">
+    <value>Tylko tryb rzeczywisty jest wsierany w obliczeniach numerycznych na daną chwilę, więcej trybów w kolejnych wersjach!</value>
+  </data>
+  <data name="GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_" xml:space="preserve">
+    <value>Computator.NET to wyjątkowy program do obliczeń numerycznych, taki który jest szybki i łatwy w użyciu ale nie gorszy niż inne pod względem możliwości.</value>
+  </data>
+  <data name="GlobalConfig_others_Chart3D_classes_are_based_on_code_from_High_performance_WPF_3D_Chart_rev_6_application_on" xml:space="preserve">
+    <value>Klasy Chart3D bazują na kodzie aplikacji High performance WPF 3D Chart rev.6, opublikowanej na licencji</value>
+  </data>
+  <data name="GlobalConfig_others_standard_algorithm_for_complex_domain_coloring" xml:space="preserve">
+    <value>standardowy algorytm dla zespolonego kolorowania domeny</value>
+  </data>
+  <data name="DocumentsTabControl_AddTab_NewFile" xml:space="preserve">
+    <value>NowyPlik</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left" xml:space="preserve">
+    <value>Zamknij karty na lewo</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right" xml:space="preserve">
+    <value>Zamknij karty na prawo</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_other_tabs" xml:space="preserve">
+    <value>Zamknij inne karty</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_tab" xml:space="preserve">
+    <value>Zamknij kartę</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Clone_tab" xml:space="preserve">
+    <value>Sklonuj kartę</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_New_tab" xml:space="preserve">
+    <value>Nowa karta</value>
+  </data>
+  <data name="WebBrowserForm_WebBrowserForm_Functions___Constants_Details" xml:space="preserve">
+    <value>Funkcje i Stałe - Szczegóły</value>
+  </data>
+  <data name="Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6" xml:space="preserve">
+    <value>Liczba kroków powinna być mała, domyślne jest 6</value>
+  </data>
+  <data name="Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception" xml:space="preserve">
+    <value>Nieobsłużony wyjątek interfejsu użytkownika</value>
+  </data>
+  <data name="Program_Application_ThreadException_Unhandled_Thread_Exception" xml:space="preserve">
+    <value>Nieobsłużony wyjątek wątku</value>
+  </data>
+  <data name="DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters" xml:space="preserve">
+    <value>Niepoprawne znaki to: '@','.', ',', '!'</value>
+  </data>
+  <data name="DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank" xml:space="preserve">
+    <value>Nazwa nie może być pusta</value>
+  </data>
+  <data name="DirectoryTree_treeView1_AfterLabelEdit_" xml:space="preserve">
+    <value>Niepoprawna nazwa.</value>
+  </data>
+  <data name="DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit" xml:space="preserve">
+    <value>Błąd edycji nazwy</value>
+  </data>
+  <data name="DirectoryTree_DirectoryTree_Delete_file" xml:space="preserve">
+    <value>Usuń plik</value>
+  </data>
+  <data name="DirectoryTree_DirectoryTree_Rename_file" xml:space="preserve">
+    <value>Zmień nazwę pliku</value>
+  </data>
+  <data name="DirectoryTree_DirectoryTree_New_file" xml:space="preserve">
+    <value>Nowy plik</value>
+  </data>
+  <data name="GUI_changelogToolStripMenuItem_Click_Changelog" xml:space="preserve">
+    <value>Lista zmian</value>
+  </data>
+  <data name="GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_" xml:space="preserve">
+    <value>Nie masz jeszcze żadnych logów.</value>
+  </data>
+  <data name="GUI_numericalOperationButton_Click_Warning_" xml:space="preserve">
+    <value>Ostrzeżenie!</value>
+  </data>
+  <data name="GUI_numericalOperationButton_Click__Check__Real___f_x___mode" xml:space="preserve">
+    <value>-Wybierz tryb "Rzeczywisty : f(x)"</value>
   </data>
 </root>

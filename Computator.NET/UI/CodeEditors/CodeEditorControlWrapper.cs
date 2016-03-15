@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Computator.NET.Compilation;
@@ -72,6 +73,14 @@ namespace Computator.NET.UI.CodeEditors
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
             tabControl.ControlRemoved += TabControl_ControlRemoved;
             tabControl.ControlAdded += TabControl_ControlAdded;
+
+            
+            scintillaEditor.DataBindings.Add("ExponentMode", this, "ExponentMode", false,
+                DataSourceUpdateMode.OnPropertyChanged);
+
+
+            //TODO: somehow manage to get avalonedit codeeditor ExponentMode bind to this ExponentMode property
+            //avalonEditor.DataBindings.Add("ExponentMode", this, "ExponentMode", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         public override bool Focused

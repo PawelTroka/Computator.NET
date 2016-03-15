@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Reflection;
 using Computator.NET.Functions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// ReSharper disable LocalizableElement
 
 namespace UnitTests
 {

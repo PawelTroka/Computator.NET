@@ -91,7 +91,7 @@ namespace Computator.NET.Charting.ComplexCharting
             chart.axesColor = axesColorRectangleShape.FillColor;
             chart.labelsColor = labelsColorRectangleShape.FillColor;
             chart.titleColor = titlesColorRectangleShape.FillColor;
-            chart.reDraw();
+            chart.Redraw();
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Properties;
 using Computator.NET.UI.Forms;
@@ -61,19 +62,19 @@ namespace Computator.NET
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.Message, "Unhandled Thread Exception");
+            MessageBox.Show(e.Exception.Message, Strings.Program_Application_ThreadException_Unhandled_Thread_Exception);
 
             logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log("Unhandled Thread Exception", ErrorType.General, e.Exception);
+            logger.Log(Strings.Program_Application_ThreadException_Unhandled_Thread_Exception, ErrorType.General, e.Exception);
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             MessageBox.Show((e.ExceptionObject as Exception).Message,
-                "Unhandled UI Exception");
+                Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception);
 
             logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log("Unhandled UI Exception", ErrorType.General, (e.ExceptionObject as Exception));
+            logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, (e.ExceptionObject as Exception));
         }
     }
 }

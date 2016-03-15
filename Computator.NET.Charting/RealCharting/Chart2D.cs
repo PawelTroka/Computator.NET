@@ -102,6 +102,11 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
+        public void Redraw()
+        {
+            Invalidate();
+        }
+
         public double XMax
         {
             get { return ChartAreas[0].AxisX.Maximum; }

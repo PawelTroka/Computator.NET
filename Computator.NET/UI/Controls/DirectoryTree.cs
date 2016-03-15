@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Computator.NET.Localization;
 using Computator.NET.UI.CodeEditors;
 
 namespace Computator.NET
@@ -23,19 +24,19 @@ namespace Computator.NET
             InitializeComponent();
             AfterSelect += _AfterSelect;
             ContextMenu = new ContextMenu(new MenuItem[] {
-            new MenuItem("New file", (o, e) =>
+            new MenuItem(Strings.DirectoryTree_DirectoryTree_New_file, (o, e) =>
             {
                 var attr = File.GetAttributes(ctxNode.FullPath);
 
                 TreeNode newNode = null;
                 if (attr.HasFlag(FileAttributes.Directory))
                 {
-                    newNode = ctxNode.Nodes.Add("New file " + id);
+                    newNode = ctxNode.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file+" " + id);
 
                 }
                 else
                 {
-                    newNode = ctxNode.Parent.Nodes.Add("New file " + id);
+                    newNode = ctxNode.Parent.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file+" " + id);
                 }
                 id++;
 
@@ -48,7 +49,7 @@ namespace Computator.NET
                 //RefreshDisplay();
                 //_buttonClicked = ButtonClick.New;
             }),
-            new MenuItem("Rename file", (o, e) =>
+            new MenuItem(Strings.DirectoryTree_DirectoryTree_Rename_file, (o, e) =>
             {
                 //oldPath = ctxNode.FullPath;
                 if (ctxNode == TopNode)
@@ -68,7 +69,7 @@ namespace Computator.NET
                     //_buttonClicked = ButtonClick.Rename;
                 }
             }),
-            new MenuItem("Delete file", (o, e) =>
+            new MenuItem(Strings.DirectoryTree_DirectoryTree_Delete_file, (o, e) =>
             {
                 if (ctxNode == TopNode)
                     return;
@@ -138,9 +139,9 @@ namespace Computator.NET
                     // Cancel the label edit action, inform the user, and 
                     //  place the node in edit mode again.
                     e.CancelEdit = true;
-                    MessageBox.Show("Invalid tree node label.\n" +
-                       "The invalid characters are: '@','.', ',', '!'",
-                       "Node Label Edit");
+                    MessageBox.Show(Strings.DirectoryTree_treeView1_AfterLabelEdit_ +
+                       Strings.DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters,
+                       Strings.DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit);
                     e.Node.BeginEdit();
                 }
             }
@@ -149,8 +150,9 @@ namespace Computator.NET
                 /* Cancel the label edit action, inform the user, and 
                        place the node in edit mode again. */
                 e.CancelEdit = true;
-                MessageBox.Show("Invalid tree node label.\nThe label cannot be blank",
-                    "Node Label Edit");
+                MessageBox.Show(Strings.DirectoryTree_treeView1_AfterLabelEdit_+Strings.DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank
+                    ,
+                    Strings.DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit);
                 e.Node.BeginEdit();
             }
         }
@@ -258,6 +260,7 @@ namespace Computator.NET
             base.OnBeforeExpand(e);
 
             // If a dummy node is found, remove it and read the real directory list.
+            // ReSharper disable once LocalizableElement
             if (e.Node.Nodes[0].Text == "*")
             {
                 e.Node.Nodes.Clear();

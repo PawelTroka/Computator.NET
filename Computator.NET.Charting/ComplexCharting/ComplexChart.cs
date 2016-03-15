@@ -42,7 +42,7 @@ namespace Computator.NET.Charting.ComplexCharting
                 if (value <= 100 && value >= 0)
                 {
                     calculateQuality(value);
-                    reDraw();
+                    Redraw();
                 }
             }
             get { return quality*100; }
@@ -148,7 +148,7 @@ namespace Computator.NET.Charting.ComplexCharting
         private void _Resize(object s, EventArgs e)
         {
             if (Width > 0 && Height > 0)
-                reDraw();
+                Redraw();
             //else
             //doNotRecalculate = true;
         }
@@ -198,7 +198,7 @@ namespace Computator.NET.Charting.ComplexCharting
         {
             function = Fz;
             title = Fz.Name;
-            reDraw();
+            Redraw();
         }
 
         public void Print()
@@ -215,7 +215,7 @@ namespace Computator.NET.Charting.ComplexCharting
         {
             function = new Function(Delegate.CreateDelegate(typeof (Func<Complex, Complex>), Fz.Method), name, name);
             title = function.Name;
-            reDraw();
+            Redraw();
         }
 
         public void SetChartAreaValues(double x0, double xn, double y0, double yn)
@@ -264,7 +264,7 @@ namespace Computator.NET.Charting.ComplexCharting
             Invalidate();
         }
 
-        public void reDraw()
+        public void Redraw()
         {
             if (function != null && drawWidth > 0 && drawHeight > 0)
             {
@@ -278,6 +278,7 @@ namespace Computator.NET.Charting.ComplexCharting
                 drawn = true;
             }
             Invalidate();
+            Update();
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -442,19 +443,23 @@ namespace Computator.NET.Charting.ComplexCharting
             }
             else
             {
-                double coefficient;
                 //if(m>1)
-                coefficient = (Math.Log(m + 1, 2))/(Math.Log(double.MaxValue, 2));
+                var coefficient = (Math.Log(m + 1, 2))/(Math.Log(double.MaxValue, 2));
                 //else
                 //coefficient = (Math.Pow(m,1/100))/(Math.Pow(double.MaxValue,1/100));
                 switch (colorAssignmentMethod)
                 {
                     case AssignmentOfColorMethod.GreaterIsDarker:
-                        s = 0.4 + 0.6*coefficient;
-                        v = 0.6 + 0.4*(1 - coefficient);
+                        //s = 0.4 + 0.6*coefficient;
+                        //v = 0.6 + 0.4*(1 - coefficient);
+
+                        v = 1 - 2 * Math.Atan(m) / Math.PI;
+                        s = v <= 0.5 ? 2 * v : (2 - 2 * v);
 
                         break;
                     case AssignmentOfColorMethod.GreaterIsLighter:
+                        s = 1 - 2 * Math.Atan(m) / Math.PI;
+                        v = s <= 0.5 ? 2 * s : (2 - 2 * s);
                         break;
                 }
             }

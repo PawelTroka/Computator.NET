@@ -12,7 +12,7 @@ namespace Computator.NET.UI.AutocompleteMenu
         public WebBrowserForm()
         {
             FormClosing += Form_FormClosing;
-            Text = "Functions & Constants Details";
+            Text = Strings.WebBrowserForm_WebBrowserForm_Functions___Constants_Details;
             webBrowser = new WebBrowser();
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
             webBrowser.MinimumSize = new Size(300, 195);

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.Localization;
 
 namespace Computator.NET.UI.Controls
 {
@@ -95,14 +96,14 @@ namespace Computator.NET.UI.Controls
             newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
             newTabToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.T;
             newTabToolStripMenuItem.Size = new Size(190, 22);
-            newTabToolStripMenuItem.Text = "New tab";
+            newTabToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_New_tab;
             newTabToolStripMenuItem.Click += newTabToolStripMenuItem_Click;
             // 
             // cloneTabToolStripMenuItem
             // 
             cloneTabToolStripMenuItem.Name = "cloneTabToolStripMenuItem";
             cloneTabToolStripMenuItem.Size = new Size(190, 22);
-            cloneTabToolStripMenuItem.Text = "Clone tab";
+            cloneTabToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Clone_tab;
             cloneTabToolStripMenuItem.Click += cloneTabToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
@@ -114,28 +115,28 @@ namespace Computator.NET.UI.Controls
             // 
             closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
             closeTabToolStripMenuItem.Size = new Size(190, 22);
-            closeTabToolStripMenuItem.Text = "Close tab";
+            closeTabToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Close_tab;
             closeTabToolStripMenuItem.Click += closeTabToolStripMenuItem_Click;
             // 
             // closeOtherTabsToolStripMenuItem
             // 
             closeOtherTabsToolStripMenuItem.Name = "closeOtherTabsToolStripMenuItem";
             closeOtherTabsToolStripMenuItem.Size = new Size(190, 22);
-            closeOtherTabsToolStripMenuItem.Text = "Close other tabs";
+            closeOtherTabsToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Close_other_tabs;
             closeOtherTabsToolStripMenuItem.Click += closeOtherTabsToolStripMenuItem_Click;
             // 
             // closeTabsToTheRightToolStripMenuItem
             // 
             closeTabsToTheRightToolStripMenuItem.Name = "closeTabsToTheRightToolStripMenuItem";
             closeTabsToTheRightToolStripMenuItem.Size = new Size(190, 22);
-            closeTabsToTheRightToolStripMenuItem.Text = "Close tabs to the right";
+            closeTabsToTheRightToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right;
             closeTabsToTheRightToolStripMenuItem.Click += closeTabsToTheRightToolStripMenuItem_Click;
             // 
             // closeTabsToTheLeftToolStripMenuItem
             // 
             closeTabsToTheLeftToolStripMenuItem.Name = "closeTabsToTheLeftToolStripMenuItem";
             closeTabsToTheLeftToolStripMenuItem.Size = new Size(190, 22);
-            closeTabsToTheLeftToolStripMenuItem.Text = "Close tabs to the left";
+            closeTabsToTheLeftToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left;
             closeTabsToTheLeftToolStripMenuItem.Click += closeTabsToTheLeftToolStripMenuItem_Click;
             // 
             // tabPage1
@@ -150,6 +151,7 @@ namespace Computator.NET.UI.Controls
             addTabPage.Padding = new Padding(2);
             addTabPage.Size = new Size(1002, 0);
             addTabPage.TabIndex = 1;
+            // ReSharper disable once LocalizableElement
             addTabPage.Text = " ➕";
             addTabPage.UseVisualStyleBackColor = true;
             // 
@@ -185,9 +187,9 @@ namespace Computator.NET.UI.Controls
             var tabPage = new TabPage();
             if (string.IsNullOrEmpty(filename))
             {
-                tabPage.Text = "NewFile" + id.ToString();
+                tabPage.Text = Strings.DocumentsTabControl_AddTab_NewFile + id.ToString();
                 tabPage.ImageIndex = 1;
-                tabPage.Name= "NewFile" + id.ToString();
+                tabPage.Name= Strings.DocumentsTabControl_AddTab_NewFile + id.ToString();
 
             }
             else

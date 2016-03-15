@@ -91,7 +91,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void Test8()
+        public void IntegerNumberRaisedToThePowerImaginaryUnitTest()
         {
             tslCompiler.Variables.Add("i");
 
@@ -99,7 +99,84 @@ namespace UnitTests
                 tslCompiler.TransformToCSharp("2ⁱ"), "Fail!!!");
         }
 
-        //2ⁱ
-        //(cos(1.0))ⁱ
+        [TestMethod]
+        public void FloatNumberRaisedToThePowerPiMultipliedByImaginaryUnitPlusOneTest()
+        {
+            Assert.AreEqual("pow(2.6,PI*i)+1",
+    tslCompiler.TransformToCSharp("2.6ᴾᴵ˙ⁱ+1"), "Fail!!!");
+
+        }
+
+
+        [TestMethod]
+        public void EulerNumberInParenthesisRaisedToThePowerOfPiAndImaginaryUnitPlusOneTest()
+        {
+            Assert.AreEqual("pow((e),PI*i)+1",
+    tslCompiler.TransformToCSharp("(e)ᴾᴵ˙ⁱ+1"), "Fail!!!");
+        }
+
+
+
+
+
+        //testing raising to power variables and constants:
+        [TestMethod]
+        public void LongCustomVariableRaisedToLongCustomVariablePlusComplicatedExpressionsTest()
+        {
+            Assert.AreEqual("2*cos(csaksah+chssss)/pow(chiEnergy,hahaha)-pow(complicated_variableVar,thisiscomplicatedreally)+2*cos(csaksah+chssss)/pow(chiEnergy,hahaha)",
+    tslCompiler.TransformToCSharp("2·cos(csaksah+chssss)/chiEnergyʰᵃʰᵃʰᵃ-complicated_variableVarᵗʰⁱˢⁱˢᶜᵒᵐᵖˡⁱᶜᵃᵗᵉᵈᴿᵉᵃˡˡʸ+2·cos(csaksah+chssss)/chiEnergyʰᵃʰᵃʰᵃ"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void LongCustomVariableRaisedToComplicatedExpressionTest()
+        {
+            Assert.AreEqual("pow(_kul9uXulu_var,cos(x)*sin(haxxxx/2.0))",
+    tslCompiler.TransformToCSharp("_kul9uXulu_varᶜᵒˢ⁽ˣ⁾˙ˢⁱⁿ⁽ʰᵃˣˣˣˣ˸²ॱ⁰⁾"), "Fail!!!");
+        }
+
+
+
+        [TestMethod]
+        public void LongCustomVariableRaisedToConstantPowerPlusOneTest()
+        {
+            Assert.AreEqual("pow(functionOutput,PI*i)+1",
+    tslCompiler.TransformToCSharp("functionOutputᴾᴵ˙ⁱ+1"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void LongCustomVariableRaisedToConstantPowerTest()
+        {
+            Assert.AreEqual("pow(functionOutput,PI*i)",
+    tslCompiler.TransformToCSharp("functionOutputᴾᴵ˙ⁱ"), "Fail!!!");
+        }
+
+
+        [TestMethod]
+        public void CustomVariableRaisedToConstantPowerPlusOneTest()
+        {
+            Assert.AreEqual("pow(u,PI*i)+1",
+    tslCompiler.TransformToCSharp("uᴾᴵ˙ⁱ+1"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void CustomVariableRaisedToConstantPowerTest()
+        {
+            Assert.AreEqual("pow(u,PI*i)",
+    tslCompiler.TransformToCSharp("uᴾᴵ˙ⁱ"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void ConstantRaisedToConstantPowerPlusOneTest()
+        {
+            Assert.AreEqual("pow(e,PI*i)+1",
+    tslCompiler.TransformToCSharp("eᴾᴵ˙ⁱ+1"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void ConstantRaisedToConstantPowerTest()
+        {
+            Assert.AreEqual("pow(e,PI*i)",
+    tslCompiler.TransformToCSharp("eᴾᴵ˙ⁱ"), "Fail!!!");
+        }
     }
 }

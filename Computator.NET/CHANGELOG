@@ -1,7 +1,12 @@
  * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
 
- ### --------- Unreleased -----------  14.03.2016 17:53
- * = 
+ ### --------- Unreleased -----------  15.03.2016 00:53
+ * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor (still doesnt work in AvalonEdit thought)
+ * = Fixed bug in chart edit property window causing ComplexChart to not redraw after changes
+ * = Fixed bug in ComplexChart GreaterIsLighter and GreaterIsDarker methods when NoCountourLines selected causing pitch black chart in GreaterIsLighter mode and not accurate chart in GreaterIsDarker mode
+ * = Fixed visual bug in polish version of "for values" label (wrong placement)
+ * = Fixed minor bugs and typos in dialogs like about, features etc (for english and polish versions)
+ * = Translated all previously missing elements in polish version
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

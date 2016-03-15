@@ -36,8 +36,11 @@ namespace Computator.NET.Benchmarking
 
             else if (!(e.Error == null))
             {
+                // ReSharper disable LocalizableElement
                 MessageBox.Show(Strings.Error + ": " + e.Error.Message,
+
                     Strings.Error + "!");
+                // ReSharper restore LocalizableElement
             }
 
             else
@@ -45,6 +48,7 @@ namespace Computator.NET.Benchmarking
                 MessageBox.Show(
                     Strings.MathFunctionsCalculationSpeedTestDoneSuccesfullyCheckOutYourPointsResults,
                     Strings.Done);
+                // ReSharper disable once LocalizableElement
                 functionsTestRichTextBox.Text = DateTime.Now.ToShortDateString() + " " +
                                                 DateTime.Now.ToShortTimeString() + Strings.Result +
                                                 benchmark.Points +
@@ -69,8 +73,9 @@ namespace Computator.NET.Benchmarking
 
             else if (!(e.Error == null))
             {
-                MessageBox.Show(Strings.Error + ": " + e.Error.Message,
-                    Strings.Error + "!");
+                // ReSharper disable LocalizableElement
+                MessageBox.Show(Strings.Error + ": " + e.Error.Message, Strings.Error + "!");
+                // ReSharper restore LocalizableElement
             }
 
             else
@@ -78,6 +83,7 @@ namespace Computator.NET.Benchmarking
                 MessageBox.Show(
                     Strings.MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult,
                     Strings.Done);
+                // ReSharper disable once LocalizableElement
                 memoryTestRichTextBox.Text = DateTime.Now.ToShortDateString() + " " +
                                              DateTime.Now.ToShortTimeString() +
                                              Strings.Result + benchmark.Points +

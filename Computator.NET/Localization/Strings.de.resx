@@ -226,4 +226,7 @@
   <data name="BadSyntax" xml:space="preserve">
     <value>Bad Syntax</value>
   </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right" xml:space="preserve">
+    <value>Tabs schließen nach rechts</value>
+  </data>
 </root>

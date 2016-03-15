@@ -151,8 +151,7 @@
     <value>Chart</value>
   </data>
   <data name="ItSFeaturesInclude" xml:space="preserve">
-    <value>
-It's features include:</value>
+    <value>It's features include:</value>
   </data>
   <data name="BrBrISourceBrAHref" xml:space="preserve">
     <value>source:</value>
@@ -175,12 +174,19 @@ It's features include:</value>
   </data>
   <data name="featuresInclude" xml:space="preserve">
     <value> - Real and complex functions charts
+
  - Real and complex calculator
+
  - Real functions numerical calculations including different methods
+
  - Over 107 Elementary functions
+
  - Over 141 Special functions
+
  - Over 21 Matrix functions and operations
+
  - Scripting language with power to easy computations including matrices
+
  - You can declare your own custom functions with scripting language</value>
   </data>
   <data name="memoryTestBackgroundWorker_RunWorkerCompleted" xml:space="preserve">
@@ -242,5 +248,72 @@ It's features include:</value>
   </data>
   <data name="GUI_changelogToolStripMenuItem_Click_Changelog" xml:space="preserve">
     <value>Changelog</value>
+  </data>
+  <data name="DirectoryTree_DirectoryTree_New_file" xml:space="preserve">
+    <value>New file</value>
+  </data>
+  <data name="DirectoryTree_DirectoryTree_Rename_file" xml:space="preserve">
+    <value>Rename file</value>
+  </data>
+  <data name="DirectoryTree_DirectoryTree_Delete_file" xml:space="preserve">
+    <value>Delete file</value>
+  </data>
+  <data name="DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit" xml:space="preserve">
+    <value>Label edit error</value>
+  </data>
+  <data name="DirectoryTree_treeView1_AfterLabelEdit_" xml:space="preserve">
+    <value>Invalid label.
+</value>
+  </data>
+  <data name="DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank" xml:space="preserve">
+    <value>The label cannot be blank</value>
+  </data>
+  <data name="DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters" xml:space="preserve">
+    <value>The invalid characters are: '@','.', ',', '!'</value>
+  </data>
+  <data name="Program_Application_ThreadException_Unhandled_Thread_Exception" xml:space="preserve">
+    <value>Unhandled Thread Exception</value>
+  </data>
+  <data name="Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception" xml:space="preserve">
+    <value>Unhandled UI Exception</value>
+  </data>
+  <data name="Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6" xml:space="preserve">
+    <value>Number of steps should be small, default is 6</value>
+  </data>
+  <data name="WebBrowserForm_WebBrowserForm_Functions___Constants_Details" xml:space="preserve">
+    <value>Functions &amp; Constants Details</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_New_tab" xml:space="preserve">
+    <value>New tab</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Clone_tab" xml:space="preserve">
+    <value>Clone tab</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_tab" xml:space="preserve">
+    <value>Close tab</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_other_tabs" xml:space="preserve">
+    <value>Close other tabs</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right" xml:space="preserve">
+    <value>Close tabs to the right</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left" xml:space="preserve">
+    <value>Close tabs to the left</value>
+  </data>
+  <data name="GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter" xml:space="preserve">
+    <value>Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf</value>
+  </data>
+  <data name="DocumentsTabControl_AddTab_NewFile" xml:space="preserve">
+    <value>NewFile</value>
+  </data>
+  <data name="GlobalConfig_others_standard_algorithm_for_complex_domain_coloring" xml:space="preserve">
+    <value>standard algorithm for complex domain coloring</value>
+  </data>
+  <data name="GlobalConfig_others_Chart3D_classes_are_based_on_code_from_High_performance_WPF_3D_Chart_rev_6_application_on" xml:space="preserve">
+    <value>Chart3D classes are based on code from High performance WPF 3D Chart rev.6 application on license</value>
+  </data>
+  <data name="GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_" xml:space="preserve">
+    <value>Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise.</value>
   </data>
 </root>

@@ -2,6 +2,7 @@
 // ReSharper disable ConvertPropertyToExpressionBody
 
 
+// ReSharper disable LocalizableElement
 namespace Computator.NET.NumericalCalculations
 {
     public static class Integral

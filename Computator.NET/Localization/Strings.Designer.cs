@@ -142,6 +142,133 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete file.
+        /// </summary>
+        internal static string DirectoryTree_DirectoryTree_Delete_file {
+            get {
+                return ResourceManager.GetString("DirectoryTree_DirectoryTree_Delete_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New file.
+        /// </summary>
+        internal static string DirectoryTree_DirectoryTree_New_file {
+            get {
+                return ResourceManager.GetString("DirectoryTree_DirectoryTree_New_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename file.
+        /// </summary>
+        internal static string DirectoryTree_DirectoryTree_Rename_file {
+            get {
+                return ResourceManager.GetString("DirectoryTree_DirectoryTree_Rename_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid label.
+        ///.
+        /// </summary>
+        internal static string DirectoryTree_treeView1_AfterLabelEdit_ {
+            get {
+                return ResourceManager.GetString("DirectoryTree_treeView1_AfterLabelEdit_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Label edit error.
+        /// </summary>
+        internal static string DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit {
+            get {
+                return ResourceManager.GetString("DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The invalid characters are: &apos;@&apos;,&apos;.&apos;, &apos;,&apos;, &apos;!&apos;.
+        /// </summary>
+        internal static string DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters {
+            get {
+                return ResourceManager.GetString("DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The label cannot be blank.
+        /// </summary>
+        internal static string DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank {
+            get {
+                return ResourceManager.GetString("DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NewFile.
+        /// </summary>
+        internal static string DocumentsTabControl_AddTab_NewFile {
+            get {
+                return ResourceManager.GetString("DocumentsTabControl_AddTab_NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clone tab.
+        /// </summary>
+        internal static string DocumentsTabControl_InitializeComponent_Clone_tab {
+            get {
+                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Clone_tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close other tabs.
+        /// </summary>
+        internal static string DocumentsTabControl_InitializeComponent_Close_other_tabs {
+            get {
+                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Close_other_tabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close tab.
+        /// </summary>
+        internal static string DocumentsTabControl_InitializeComponent_Close_tab {
+            get {
+                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Close_tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close tabs to the left.
+        /// </summary>
+        internal static string DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left {
+            get {
+                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close tabs to the right.
+        /// </summary>
+        internal static string DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right {
+            get {
+                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New tab.
+        /// </summary>
+        internal static string DocumentsTabControl_InitializeComponent_New_tab {
+            get {
+                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_New_tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Done!.
         /// </summary>
         internal static string Done {
@@ -189,12 +316,19 @@ namespace Computator.NET.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to  - Real and complex functions charts
+        ///
         /// - Real and complex calculator
+        ///
         /// - Real functions numerical calculations including different methods
+        ///
         /// - Over 107 Elementary functions
+        ///
         /// - Over 141 Special functions
+        ///
         /// - Over 21 Matrix functions and operations
+        ///
         /// - Scripting language with power to easy computations including matrices
+        ///
         /// - You can declare your own custom functions with scripting language.
         /// </summary>
         internal static string featuresInclude {
@@ -232,6 +366,35 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise..
+        /// </summary>
+        internal static string GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_ {
+            get {
+                return ResourceManager.GetString("GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_so" +
+                        "ftware_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chart3D classes are based on code from High performance WPF 3D Chart rev.6 application on license.
+        /// </summary>
+        internal static string GlobalConfig_others_Chart3D_classes_are_based_on_code_from_High_performance_WPF_3D_Chart_rev_6_application_on {
+            get {
+                return ResourceManager.GetString("GlobalConfig_others_Chart3D_classes_are_based_on_code_from_High_performance_WPF_3" +
+                        "D_Chart_rev_6_application_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to standard algorithm for complex domain coloring.
+        /// </summary>
+        internal static string GlobalConfig_others_standard_algorithm_for_complex_domain_coloring {
+            get {
+                return ResourceManager.GetString("GlobalConfig_others_standard_algorithm_for_complex_domain_coloring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expression should not be empty!.
         /// </summary>
         internal static string GUI_addToChartButton_Click_Expression_should_not_be_empty_ {
@@ -246,6 +409,15 @@ namespace Computator.NET.Localization {
         internal static string GUI_changelogToolStripMenuItem_Click_Changelog {
             get {
                 return ResourceManager.GetString("GUI_changelogToolStripMenuItem_Click_Changelog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf.
+        /// </summary>
+        internal static string GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter {
+            get {
+                return ResourceManager.GetString("GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter", resourceCulture);
             }
         }
         
@@ -287,8 +459,16 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///It&apos;s features include:.
+        ///   Looks up a localized string similar to Number of steps should be small, default is 6.
+        /// </summary>
+        internal static string Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6 {
+            get {
+                return ResourceManager.GetString("Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It&apos;s features include:.
         /// </summary>
         internal static string ItSFeaturesInclude {
             get {
@@ -387,6 +567,24 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unhandled Thread Exception.
+        /// </summary>
+        internal static string Program_Application_ThreadException_Unhandled_Thread_Exception {
+            get {
+                return ResourceManager.GetString("Program_Application_ThreadException_Unhandled_Thread_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unhandled UI Exception.
+        /// </summary>
+        internal static string Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception {
+            get {
+                return ResourceManager.GetString("Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  result: .
         /// </summary>
         internal static string Result {
@@ -410,6 +608,15 @@ namespace Computator.NET.Localization {
         internal static string translators {
             get {
                 return ResourceManager.GetString("translators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Functions &amp; Constants Details.
+        /// </summary>
+        internal static string WebBrowserForm_WebBrowserForm_Functions___Constants_Details {
+            get {
+                return ResourceManager.GetString("WebBrowserForm_WebBrowserForm_Functions___Constants_Details", resourceCulture);
             }
         }
         

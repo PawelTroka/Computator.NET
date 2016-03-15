@@ -176,6 +176,16 @@ namespace Computator.NET
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem16 = new System.Windows.Forms.ToolStripMenuItem();
+            this.transformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem31 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem32 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem33 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem34 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem35 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem36 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem37 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem38 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem39 = new System.Windows.Forms.ToolStripMenuItem();
             this.comlexChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
@@ -195,16 +205,6 @@ namespace Computator.NET
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem28 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem29 = new System.Windows.Forms.ToolStripMenuItem();
-            this.transformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem31 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem32 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem33 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem34 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem35 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem36 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem37 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem38 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem39 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.fullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -832,7 +832,7 @@ namespace Computator.NET
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
-            // tabPage1
+            // chartingTabPage
             // 
             this.chartingTabPage.Controls.Add(this.panel2);
             resources.ApplyResources(this.chartingTabPage, "chartingTabPage");
@@ -1005,14 +1005,14 @@ namespace Computator.NET
             this.addToChartButton.UseVisualStyleBackColor = true;
             this.addToChartButton.Click += new System.EventHandler(this.addToChartButton_Click);
             // 
-            // tabPage2
+            // calculationsTabPage
             // 
             this.calculationsTabPage.Controls.Add(this.splitContainer4);
             resources.ApplyResources(this.calculationsTabPage, "calculationsTabPage");
             this.calculationsTabPage.Name = "calculationsTabPage";
             this.calculationsTabPage.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // numericalCalculationsTabPage
             // 
             this.numericalCalculationsTabPage.Controls.Add(this.label9);
             this.numericalCalculationsTabPage.Controls.Add(this.label6);
@@ -1056,7 +1056,7 @@ namespace Computator.NET
             this.numericalOperationButton.UseVisualStyleBackColor = true;
             this.numericalOperationButton.Click += new System.EventHandler(this.numericalOperationButton_Click);
             // 
-            // tabPage4
+            // symbolicCalculationsTabPage
             // 
             this.symbolicCalculationsTabPage.Controls.Add(this.symbolicOperationButton);
             resources.ApplyResources(this.symbolicCalculationsTabPage, "symbolicCalculationsTabPage");
@@ -1070,14 +1070,14 @@ namespace Computator.NET
             this.symbolicOperationButton.UseVisualStyleBackColor = true;
             this.symbolicOperationButton.Click += new System.EventHandler(this.symbolicOperationButton_Click);
             // 
-            // tabPage5
+            // scriptingTabPage
             // 
             this.scriptingTabPage.Controls.Add(this.splitContainer1);
             resources.ApplyResources(this.scriptingTabPage, "scriptingTabPage");
             this.scriptingTabPage.Name = "scriptingTabPage";
             this.scriptingTabPage.UseVisualStyleBackColor = true;
             // 
-            // tabPage6
+            // customFunctionsTabPage
             // 
             this.customFunctionsTabPage.Controls.Add(this.splitContainer3);
             resources.ApplyResources(this.customFunctionsTabPage, "customFunctionsTabPage");
@@ -1135,9 +1135,9 @@ namespace Computator.NET
             this.functionsToolStripMenuItem,
             this.constantsToolStripMenuItem,
             this.chartToolStripMenuItem,
+            this.transformToolStripMenuItem,
             this.comlexChartToolStripMenuItem,
             this.chart3dToolStripMenuItem,
-            this.transformToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem1});
             resources.ApplyResources(this.menuStrip2, "menuStrip2");
@@ -1288,7 +1288,6 @@ namespace Computator.NET
             this.exponentiationToolStripMenuItem.CheckOnClick = true;
             this.exponentiationToolStripMenuItem.Name = "exponentiationToolStripMenuItem";
             resources.ApplyResources(this.exponentiationToolStripMenuItem, "exponentiationToolStripMenuItem");
-            this.exponentiationToolStripMenuItem.Click += new System.EventHandler(this.exponentiationToolStripMenuItem_Click);
             // 
             // functionsToolStripMenuItem
             // 
@@ -1440,133 +1439,7 @@ namespace Computator.NET
             // 
             this.toolStripMenuItem16.Name = "toolStripMenuItem16";
             resources.ApplyResources(this.toolStripMenuItem16, "toolStripMenuItem16");
-            this.toolStripMenuItem16.Click += new System.EventHandler(this.editPropertiesToolStripMenuItem1_Click);
-            // 
-            // comlexChartToolStripMenuItem
-            // 
-            this.comlexChartToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem18,
-            this.toolStripSeparator11,
-            this.toolStripMenuItem19,
-            this.colorAssignmentToolStripMenuItem,
-            this.toolStripSeparator10,
-            this.toolStripMenuItem21,
-            this.toolStripMenuItem22});
-            this.comlexChartToolStripMenuItem.Name = "comlexChartToolStripMenuItem";
-            resources.ApplyResources(this.comlexChartToolStripMenuItem, "comlexChartToolStripMenuItem");
-            // 
-            // toolStripMenuItem18
-            // 
-            this.toolStripMenuItem18.Name = "toolStripMenuItem18";
-            resources.ApplyResources(this.toolStripMenuItem18, "toolStripMenuItem18");
-            this.toolStripMenuItem18.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            resources.ApplyResources(this.toolStripSeparator11, "toolStripSeparator11");
-            // 
-            // toolStripMenuItem19
-            // 
-            this.toolStripMenuItem19.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.countourLinesToolStripComboBox});
-            this.toolStripMenuItem19.Name = "toolStripMenuItem19";
-            resources.ApplyResources(this.toolStripMenuItem19, "toolStripMenuItem19");
-            // 
-            // countourLinesToolStripComboBox
-            // 
-            this.countourLinesToolStripComboBox.Name = "countourLinesToolStripComboBox";
-            resources.ApplyResources(this.countourLinesToolStripComboBox, "countourLinesToolStripComboBox");
-            this.countourLinesToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.countourLinesToolStripComboBox_SelectedIndexChanged);
-            // 
-            // colorAssignmentToolStripMenuItem
-            // 
-            this.colorAssignmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.colorAssignmentToolStripComboBox});
-            this.colorAssignmentToolStripMenuItem.Name = "colorAssignmentToolStripMenuItem";
-            resources.ApplyResources(this.colorAssignmentToolStripMenuItem, "colorAssignmentToolStripMenuItem");
-            // 
-            // colorAssignmentToolStripComboBox
-            // 
-            this.colorAssignmentToolStripComboBox.Name = "colorAssignmentToolStripComboBox";
-            resources.ApplyResources(this.colorAssignmentToolStripComboBox, "colorAssignmentToolStripComboBox");
-            this.colorAssignmentToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.colorAssignmentToolStripComboBox_SelectedIndexChanged);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            resources.ApplyResources(this.toolStripSeparator10, "toolStripSeparator10");
-            // 
-            // toolStripMenuItem21
-            // 
-            this.toolStripMenuItem21.Name = "toolStripMenuItem21";
-            resources.ApplyResources(this.toolStripMenuItem21, "toolStripMenuItem21");
-            this.toolStripMenuItem21.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem22
-            // 
-            this.toolStripMenuItem22.Name = "toolStripMenuItem22";
-            resources.ApplyResources(this.toolStripMenuItem22, "toolStripMenuItem22");
-            this.toolStripMenuItem22.Click += new System.EventHandler(this.editPropertiesToolStripMenuItem_Click);
-            // 
-            // chart3dToolStripMenuItem
-            // 
-            this.chart3dToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem24,
-            this.toolStripSeparator12,
-            this.toolStripMenuItem25,
-            this.toolStripSeparator13,
-            this.toolStripMenuItem28,
-            this.toolStripMenuItem29});
-            this.chart3dToolStripMenuItem.Name = "chart3dToolStripMenuItem";
-            resources.ApplyResources(this.chart3dToolStripMenuItem, "chart3dToolStripMenuItem");
-            // 
-            // toolStripMenuItem24
-            // 
-            this.toolStripMenuItem24.Name = "toolStripMenuItem24";
-            resources.ApplyResources(this.toolStripMenuItem24, "toolStripMenuItem24");
-            this.toolStripMenuItem24.Click += new System.EventHandler(this.exportChart3dToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            resources.ApplyResources(this.toolStripSeparator12, "toolStripSeparator12");
-            // 
-            // toolStripMenuItem25
-            // 
-            this.toolStripMenuItem25.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem26,
-            this.toolStripMenuItem27});
-            this.toolStripMenuItem25.Name = "toolStripMenuItem25";
-            resources.ApplyResources(this.toolStripMenuItem25, "toolStripMenuItem25");
-            // 
-            // toolStripMenuItem26
-            // 
-            this.toolStripMenuItem26.Name = "toolStripMenuItem26";
-            resources.ApplyResources(this.toolStripMenuItem26, "toolStripMenuItem26");
-            this.toolStripMenuItem26.Click += new System.EventHandler(this.chart3dEqualAxesToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem27
-            // 
-            this.toolStripMenuItem27.Name = "toolStripMenuItem27";
-            resources.ApplyResources(this.toolStripMenuItem27, "toolStripMenuItem27");
-            this.toolStripMenuItem27.Click += new System.EventHandler(this.chart3dFitAxesToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
-            // 
-            // toolStripMenuItem28
-            // 
-            this.toolStripMenuItem28.Name = "toolStripMenuItem28";
-            resources.ApplyResources(this.toolStripMenuItem28, "toolStripMenuItem28");
-            this.toolStripMenuItem28.Click += new System.EventHandler(this.editChart3dToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem29
-            // 
-            this.toolStripMenuItem29.Name = "toolStripMenuItem29";
-            resources.ApplyResources(this.toolStripMenuItem29, "toolStripMenuItem29");
+            this.toolStripMenuItem16.Click += new System.EventHandler(this.editChartPropertiesToolStripMenuItem_Click);
             // 
             // transformToolStripMenuItem
             // 
@@ -1636,6 +1509,133 @@ namespace Computator.NET
             this.toolStripMenuItem39.Name = "toolStripMenuItem39";
             resources.ApplyResources(this.toolStripMenuItem39, "toolStripMenuItem39");
             this.toolStripMenuItem39.Click += new System.EventHandler(this.transformToolStripMenuItem_Click);
+            // 
+            // comlexChartToolStripMenuItem
+            // 
+            this.comlexChartToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem18,
+            this.toolStripSeparator11,
+            this.toolStripMenuItem19,
+            this.colorAssignmentToolStripMenuItem,
+            this.toolStripSeparator10,
+            this.toolStripMenuItem21,
+            this.toolStripMenuItem22});
+            this.comlexChartToolStripMenuItem.Name = "comlexChartToolStripMenuItem";
+            resources.ApplyResources(this.comlexChartToolStripMenuItem, "comlexChartToolStripMenuItem");
+            // 
+            // toolStripMenuItem18
+            // 
+            this.toolStripMenuItem18.Name = "toolStripMenuItem18";
+            resources.ApplyResources(this.toolStripMenuItem18, "toolStripMenuItem18");
+            this.toolStripMenuItem18.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            resources.ApplyResources(this.toolStripSeparator11, "toolStripSeparator11");
+            // 
+            // toolStripMenuItem19
+            // 
+            this.toolStripMenuItem19.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.countourLinesToolStripComboBox});
+            this.toolStripMenuItem19.Name = "toolStripMenuItem19";
+            resources.ApplyResources(this.toolStripMenuItem19, "toolStripMenuItem19");
+            // 
+            // countourLinesToolStripComboBox
+            // 
+            this.countourLinesToolStripComboBox.Name = "countourLinesToolStripComboBox";
+            resources.ApplyResources(this.countourLinesToolStripComboBox, "countourLinesToolStripComboBox");
+            this.countourLinesToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.countourLinesToolStripComboBox_SelectedIndexChanged);
+            // 
+            // colorAssignmentToolStripMenuItem
+            // 
+            this.colorAssignmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.colorAssignmentToolStripComboBox});
+            this.colorAssignmentToolStripMenuItem.Name = "colorAssignmentToolStripMenuItem";
+            resources.ApplyResources(this.colorAssignmentToolStripMenuItem, "colorAssignmentToolStripMenuItem");
+            // 
+            // colorAssignmentToolStripComboBox
+            // 
+            this.colorAssignmentToolStripComboBox.Name = "colorAssignmentToolStripComboBox";
+            resources.ApplyResources(this.colorAssignmentToolStripComboBox, "colorAssignmentToolStripComboBox");
+            this.colorAssignmentToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.colorAssignmentToolStripComboBox_SelectedIndexChanged);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            resources.ApplyResources(this.toolStripSeparator10, "toolStripSeparator10");
+            // 
+            // toolStripMenuItem21
+            // 
+            this.toolStripMenuItem21.Name = "toolStripMenuItem21";
+            resources.ApplyResources(this.toolStripMenuItem21, "toolStripMenuItem21");
+            this.toolStripMenuItem21.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem22
+            // 
+            this.toolStripMenuItem22.Name = "toolStripMenuItem22";
+            resources.ApplyResources(this.toolStripMenuItem22, "toolStripMenuItem22");
+            this.toolStripMenuItem22.Click += new System.EventHandler(this.editChartPropertiesToolStripMenuItem_Click);
+            // 
+            // chart3dToolStripMenuItem
+            // 
+            this.chart3dToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem24,
+            this.toolStripSeparator12,
+            this.toolStripMenuItem25,
+            this.toolStripSeparator13,
+            this.toolStripMenuItem28,
+            this.toolStripMenuItem29});
+            this.chart3dToolStripMenuItem.Name = "chart3dToolStripMenuItem";
+            resources.ApplyResources(this.chart3dToolStripMenuItem, "chart3dToolStripMenuItem");
+            // 
+            // toolStripMenuItem24
+            // 
+            this.toolStripMenuItem24.Name = "toolStripMenuItem24";
+            resources.ApplyResources(this.toolStripMenuItem24, "toolStripMenuItem24");
+            this.toolStripMenuItem24.Click += new System.EventHandler(this.exportChart3dToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            resources.ApplyResources(this.toolStripSeparator12, "toolStripSeparator12");
+            // 
+            // toolStripMenuItem25
+            // 
+            this.toolStripMenuItem25.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem26,
+            this.toolStripMenuItem27});
+            this.toolStripMenuItem25.Name = "toolStripMenuItem25";
+            resources.ApplyResources(this.toolStripMenuItem25, "toolStripMenuItem25");
+            // 
+            // toolStripMenuItem26
+            // 
+            this.toolStripMenuItem26.Name = "toolStripMenuItem26";
+            resources.ApplyResources(this.toolStripMenuItem26, "toolStripMenuItem26");
+            this.toolStripMenuItem26.Click += new System.EventHandler(this.chart3dEqualAxesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem27
+            // 
+            this.toolStripMenuItem27.Name = "toolStripMenuItem27";
+            resources.ApplyResources(this.toolStripMenuItem27, "toolStripMenuItem27");
+            this.toolStripMenuItem27.Click += new System.EventHandler(this.chart3dFitAxesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
+            // 
+            // toolStripMenuItem28
+            // 
+            this.toolStripMenuItem28.Name = "toolStripMenuItem28";
+            resources.ApplyResources(this.toolStripMenuItem28, "toolStripMenuItem28");
+            this.toolStripMenuItem28.Click += new System.EventHandler(this.editChart3dToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem29
+            // 
+            this.toolStripMenuItem29.Name = "toolStripMenuItem29";
+            resources.ApplyResources(this.toolStripMenuItem29, "toolStripMenuItem29");
+            this.toolStripMenuItem29.Click += new System.EventHandler(this.editChartPropertiesToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 

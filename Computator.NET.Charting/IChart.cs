@@ -8,6 +8,7 @@ namespace Computator.NET.Charting
 
     public interface IChart
     {
+        void Redraw();
         double XMax { get; set; }
         double XMin { get; set; }
         double YMax { get; set; }

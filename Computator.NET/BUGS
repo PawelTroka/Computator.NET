@@ -1,4 +1,6 @@
-﻿setup.gif for default installation theme doesnt seem to show in installation
+﻿binding exponent mode from edit menu to exponent mode in AvalonEdit doesnt work
+Ctrl+T does not create a new tab in scripting and custom functions when focus is on code editor
+setup.gif for default installation theme doesnt seem to show in installation
 Underflow error for MathieuMc(1,-20,2.04081632653062,-100), MathieuMc(1,-20,x,-100)
 Folding does not work in AvalonEdit when working with documents
 When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â

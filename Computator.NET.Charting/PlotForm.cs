@@ -162,15 +162,16 @@ namespace Computator.NET.Charting
 
         private void exportChart3dToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var saveFileDialog2 = new SaveFileDialog();
+            var saveFileDialog2 = new SaveFileDialog
+            {
+                Filter = "Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Im" +
+                         "age (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf",
+                FileName = "Chart " + DateTime.Now.ToShortDateString() + " "
+                           + DateTime.Now.ToLongTimeString().Replace(':', '-')
+                           + ".png"
+            };
 
-            saveFileDialog2.Filter =
-                "Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Im" +
-                "age (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
 
-            saveFileDialog2.FileName = "Chart " + DateTime.Now.ToShortDateString() + " "
-                                       + DateTime.Now.ToLongTimeString().Replace(':', '-')
-                                       + ".png";
 
             var dialogResult = saveFileDialog2.ShowDialog();
             if (dialogResult == DialogResult.OK)
