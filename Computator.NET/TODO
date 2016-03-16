@@ -2,14 +2,14 @@
 * functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
 * add to tsl multiplying like 2x = 2*x
 * Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
-* some expressions like  dont work like they should - we should make another case for exponents with ordinary variavles as exponent base
-* we should add something like cos²(x) or cos(x)²
+* some expressions like eᴾᴵ˙ⁱ+1 dont work like they should - we should make another case for exponents with ordinary variavles as exponent base
+* we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
 
 
 ##UI
 * NumericUpDown is shit for our needs, we need invariant culture ScientificNumericUpDown with support for TSL numbers notation, engineering notation, variable increment based on current value etc
 * Scientificnumericupdown is working bad with increment near small values, do we even need small values?
-* Used functions history log.
+* Used functions history log
 * Scripting: tracking user variables
 * shift+r_mouse_click on item_key activates new window
 * Special function search list arrangement ( or arrangement by user).
