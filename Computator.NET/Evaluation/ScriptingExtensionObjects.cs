@@ -141,6 +141,12 @@ namespace Computator.NET.Evaluation
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
                     if (z.Real == 0)
                     {
+                        if (z.Imaginary == 1.0)
+                            return "i";
+
+                        if (z.Imaginary == -1.0)
+                            return "-i";
+
                         return z.Imaginary != 0
                             ? string.Format("{0}{1}i", z.Imaginary.ToMathString(), Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
                             : "0";
@@ -359,6 +365,12 @@ namespace Computator.NET.Evaluation
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
                     if (z.Real == 0)
                     {
+                        if (z.Imaginary == 1.0)
+                            return ""i"";
+
+                        if (z.Imaginary == -1.0)
+                            return ""-i"";
+
                         return z.Imaginary != 0
                             ? string.Format(""{0}{1}i"", z.Imaginary.ToMathString(), Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
                             : ""0"";

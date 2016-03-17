@@ -466,7 +466,7 @@ namespace Computator.NET
             expressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             HandleCommandLine();
 
-            (new Form() {Controls = { new ScientificNumericUpDown() { Dock = DockStyle.Fill }, new Button() {Dock=DockStyle.Bottom,Text="button"} } } ).Show();
+           // (new Form() {Controls = { new ScientificNumericUpDown() { Dock = DockStyle.Fill }, new Button() {Dock=DockStyle.Bottom,Text="button"} } } ).Show();
            // Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
 
 

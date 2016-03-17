@@ -1408,6 +1408,7 @@ namespace Computator.NET
             // 
             // transformToolStripMenuItem
             // 
+            transformToolStripMenuItem.Visible = false;
             this.transformToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem31,
             this.toolStripMenuItem32,

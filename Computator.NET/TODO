@@ -4,6 +4,7 @@
 * Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
 * some expressions like eᴾᴵ˙ⁱ+1 dont work like they should - we should make another case for exponents with ordinary variavles as exponent base
 * we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
+* make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
 
 
 ##UI

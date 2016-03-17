@@ -12,6 +12,8 @@
  * = Fixed important bug in ToMathString(this double) method from ScriptingExtensions, in MathematicalNotation exponent was in format just like in engineering notation (eg we had 10⁺⁰²³ instead of just 10²³)
  * + ScientificNumericUpDown supports now NumericalOutputNotation from settings
  * = Fixed important bug with matrix unable to be created if it had any sqrt(real) functions inside (this was caused due to sqrt(real) returning dynamic, fixed by creating new matrix construction method)
+ * = Fixed yet another (this time minor) bug in output - i or -i was resolving to 1·i or -1·i instead of just i or -i
+ * - Transformations removed for now - they cost way too much work to make them useful
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
