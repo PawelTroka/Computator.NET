@@ -560,7 +560,7 @@ namespace Computator.NET
             }
         }
 
-        int licz = 0;
+        //int licz = 0;
 
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

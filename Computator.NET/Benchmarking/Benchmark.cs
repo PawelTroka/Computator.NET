@@ -1359,7 +1359,7 @@ namespace Computator.NET.Benchmarking
                 results.Add(stopWatch.ElapsedMilliseconds);
                 bw.ReportProgress((int) ((100.0*j)/(1.0*(maxsize - 1))));
             }
-            var k = 1;
+            //var k = 1;
         }
     }
 }

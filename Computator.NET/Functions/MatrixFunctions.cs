@@ -72,6 +72,28 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
                 return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.DefaultMatrixFormatProvider.InvariantCulture));
         }*/
 
+		public static dynamic matrix(dynamic[,] array)//TODO: test it
+        {
+
+			for(int j=0;j<array.GetLength(0);j++)
+				for(int k=0;k<array.GetLength(1);k++)
+					//writeln(array[0,0].GetType());
+					if(array[j,k] is System.Numerics.Complex)
+					{
+						var narray = new System.Numerics.Complex[array.GetLength(0),array.GetLength(1)];
+						for(int j2=0;j2<array.GetLength(0);j2++)
+							for(int k2=0;k2<array.GetLength(1);k2++)
+								narray[j2,k2]=(System.Numerics.Complex)array[j2,k2];
+						return MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix.OfArray(narray);
+					}
+
+			var narray2 = new double[array.GetLength(0),array.GetLength(1)];
+			for(int j2=0;j2<array.GetLength(0);j2++)
+				for(int k2=0;k2<array.GetLength(1);k2++)
+					narray2[j2,k2]=(double)array[j2,k2];
+			return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(narray2);
+        }
+		
         public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(double[,] array)
         {
             return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(array);
@@ -450,6 +472,29 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
                 return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.DefaultMatrixFormatProvider.InvariantCulture));
         }*/
 
+		
+		public static dynamic matrix(dynamic[,] array)//TODO: test it
+        {
+
+			for(int j=0;j<array.GetLength(0);j++)
+				for(int k=0;k<array.GetLength(1);k++)
+					//writeln(array[0,0].GetType());
+					if(array[j,k] is System.Numerics.Complex)
+					{
+						var narray = new System.Numerics.Complex[array.GetLength(0),array.GetLength(1)];
+						for(int j2=0;j2<array.GetLength(0);j2++)
+							for(int k2=0;k2<array.GetLength(1);k2++)
+								narray[j2,k2]=(System.Numerics.Complex)array[j2,k2];
+						return MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix.OfArray(narray);
+					}
+
+			var narray2 = new double[array.GetLength(0),array.GetLength(1)];
+			for(int j2=0;j2<array.GetLength(0);j2++)
+				for(int k2=0;k2<array.GetLength(1);k2++)
+					narray2[j2,k2]=(double)array[j2,k2];
+			return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(narray2);
+        }
+		
         public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(double[,] array)
         {
             return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(array);

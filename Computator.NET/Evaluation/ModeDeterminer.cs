@@ -13,8 +13,8 @@ namespace Computator.NET.Evaluation
         //^(?:(?:\n|\r|\r\n|.)*[\+\-·\/\,\(\s])?(x)(?:[\+\-·\/\,\)\s](?:\n|\r|\r\n|.)*)?$
         private readonly string pre = $@"^(?:(?:\n|\r|\r\n|.)*[\+\-{SpecialSymbols.DotSymbol}\/\,\(\s])?(";
         private readonly string preExponent = $@"[^{SpecialSymbols.SuperscriptAlphabet}]+(";
-        private Regex FindI;
-        private Regex FindX;
+        private readonly Regex FindI;
+        //private Regex FindX;
 
         public ModeDeterminer()
         {

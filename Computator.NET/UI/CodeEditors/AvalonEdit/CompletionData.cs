@@ -17,7 +17,7 @@ namespace Computator.NET.UI.CodeEditors
     {
         private readonly string _content;
         private FunctionInfo _alternativeDescription;
-        private int imageIndex;
+        //private int imageIndex;//TODO: implement image show
 
         public CompletionData(string text)
         {
@@ -29,7 +29,7 @@ namespace Computator.NET.UI.CodeEditors
             Text = text;
             _content = menuText;
             _alternativeDescription = functionInfo;
-            //////////////////////////////////// this._image= imageIndexToImage(imageIndex).ToBitmapSource();
+            //////////////////////////////////// this._image= imageIndexToImage(imageIndex).ToBitmapSource();//TODO: implement image show
         }
 
         public ImageSource Image { get; }

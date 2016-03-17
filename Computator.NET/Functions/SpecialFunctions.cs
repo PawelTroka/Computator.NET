@@ -15,7 +15,7 @@ namespace Computator.NET.Functions
             {
                 ret = MathNet.Numerics.FindRoots.OfFunction(f, a, b, 1e-2, 10000);
             }
-            catch (System.Exception ex)
+            catch
             {
             }
             return ret;

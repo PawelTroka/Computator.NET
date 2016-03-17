@@ -32,7 +32,7 @@ namespace Computator.NET.UI.CodeEditors
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
 
-        private Dictionary<CodeEditorType, ICodeEditorControl> codeEditors;
+        //private Dictionary<CodeEditorType, ICodeEditorControl> codeEditors;
 
         public CodeEditorControlWrapper()
         {

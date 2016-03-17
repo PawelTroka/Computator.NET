@@ -40,7 +40,7 @@ namespace Computator.NET.UI.CodeEditors
         private readonly List<CompletionData> completionDatas;
         private CompletionWindow completionWindow;
         private bool ctrlPressed;
-        private HighlightingManager highlightingManager;
+        /////////////////////private HighlightingManager highlightingManager;//TODO
         //void TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         //{
         //  if(char.IsLetterOrDigit(e.Text[0]))
@@ -48,7 +48,7 @@ namespace Computator.NET.UI.CodeEditors
         //}
         // public AvalonEditCodeEditorControl host;
 
-        protected OverloadInsightWindow insightWindow;
+        //protected OverloadInsightWindow insightWindow;
         private SearchPanel searchPanel;
         private OffsetColorizer _offsetColorizer = new OffsetColorizer();
 
@@ -488,12 +488,14 @@ namespace Computator.NET.UI.CodeEditors
 
         #endregion
 
-        #region Folding
 
-        private FoldingManager foldingManager;
-        private object foldingStrategy;
         public bool IsExponentMode { get; set; }
 
+
+#region Folding
+#if USE_FOLDING
+        private FoldingManager foldingManager;
+        private object foldingStrategy;
 
         private void UpdateFoldings()
         {
@@ -507,7 +509,7 @@ namespace Computator.NET.UI.CodeEditors
                     Document);
             }
         }
-
-        #endregion
+#endif
+#endregion
     }
 }

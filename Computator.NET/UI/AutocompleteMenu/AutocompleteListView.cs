@@ -22,11 +22,11 @@ namespace AutocompleteMenuNS
         /// </summary>
         public Colors Colors { get; set; }
         private readonly WebBrowserForm formTip;
-        private readonly int hoveredItemIndex = -1;
+        //private readonly int hoveredItemIndex = -1;
         private readonly WebBrowserToolTip toolTip;
         private Stopwatch _showToolTipStopwatch = new Stopwatch();
-        private Task _showToolTipTask = null;
-        private BackgroundWorker _showToolTipWorker = null;
+        //private Task _showToolTipTask = null;
+        //private BackgroundWorker _showToolTipWorker = null;
         private int itemHeight;
         private int oldItemCount;
         private int selectedItemIndex = -1;

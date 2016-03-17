@@ -13,8 +13,8 @@ namespace Computator.NET
     {
         public CodeEditorControlWrapper CodeEditorWrapper { get; set; }
         private int id = 1;
-        private ContextMenu ctxMenu;
-        private ButtonClick _buttonClicked;
+        //private ContextMenu ctxMenu;
+        //private ButtonClick _buttonClicked;
 
         private TreeNode ctxNode;
 
