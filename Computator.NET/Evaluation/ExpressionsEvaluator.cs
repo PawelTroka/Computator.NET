@@ -122,27 +122,27 @@ namespace Computator.NET.Evaluation
             switch (FunctionType)
             {
                 case FunctionType.Real2D:
-                    _tslCompiler.Variables.Add("x");
+                    //_tslCompiler.Variables.Add("x");
                     _functionSignature = LambdaX;
                     _delegateType = typeof (Func<double, double>);
                     break;
                 case FunctionType.Complex:
-                    _tslCompiler.Variables.Add("z");
-                    _tslCompiler.Variables.Add("i");
+                  //  _tslCompiler.Variables.Add("z");
+                   // _tslCompiler.Variables.Add("i");
                     _functionSignature = LambdaZ;
                     _delegateType = typeof (Func<Complex, Complex>);
                     break;
                 case FunctionType.Real2DImplicit:
                 case FunctionType.Real3D:
-                    _tslCompiler.Variables.Add("x");
-                    _tslCompiler.Variables.Add("y");
+                  //  _tslCompiler.Variables.Add("x");
+                  //  _tslCompiler.Variables.Add("y");
                     _delegateType = typeof (Func<double, double, double>);
                     _functionSignature = LambdaXy;
                     break;
                 case FunctionType.Real3DImplicit:
-                    _tslCompiler.Variables.Add("x");
-                    _tslCompiler.Variables.Add("y");
-                    _tslCompiler.Variables.Add("z");
+                //    _tslCompiler.Variables.Add("x");
+                //    _tslCompiler.Variables.Add("y");
+                //    _tslCompiler.Variables.Add("z");
                     _functionSignature = LambdaXyz;
                     _delegateType = typeof (Func<double, double, double, double>);
                     break;

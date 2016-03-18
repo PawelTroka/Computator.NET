@@ -43,4 +43,7 @@
 17. Lack of implicit conversion from MathNet.Numerics.LinearAlgebra.Double.DenseMatrix to MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix coupled with dynamic sqrt(x) causes a lot of bugs https://github.com/mathnet/mathnet-numerics/issues/304
 	eg this is bug:
 	var m0s = sqrt(-1)·matrix({{1,0}});//Operator '*' cannot be applied to operands of type 'System.Numerics.Complex' and 'MathNet.Numerics.LinearAlgebra.Double.DenseMatrix'
-	
+18. TSL 'FIle' class parameterless contructor creates OpenFileDialog, we need Open/Save File Dialog
+19. Exponents cant have spaces right now because of TSLCompiler regex, maybe we should allow it
+20. Autocomplete is comparing substring including whole signature of function, should only use name
+21. 'dynamic' functions do not appear in autocomplete

@@ -368,25 +368,57 @@ namespace Computator.NET.Functions
             return System.Math.Sqrt(x);
         }
 
-        /*Root function"), System.ComponentModel.Description("root function of the given value"),
-         System.ComponentModel.DisplayName("Angielska nazwa funkcji"),
-         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)*/
-        public static double root(double value, double n)
+        public static dynamic root(double value, double n)
         {
             //n-based root
-            return System.Math.Pow(value, 1.0/n);
+            return pow(value, 1.0/n);
         }
 
         #endregion
 
         #region power functions
 
-        /*Angielska nazwa funkcji"),
-         System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
-         System.ComponentModel.Description("angielski opis funkcji*/
-        public static double pow(double x, double y)
+        public static dynamic pow(double x, double y)
         {
-            return System.Math.Pow(x, y);
+            bool sign = (x < 0);
+            if (sign && HasEvenDenominator(y))
+                return System.Numerics.Complex.Pow(x, y); //double.NaN;  //sqrt(-1) = i
+            else
+            {
+                if (sign && HasOddDenominator(y))
+                    return -1*System.Math.Pow(System.Math.Abs(x), y);
+                else
+                    return System.Math.Pow(x, y);
+            }
+        }
+
+
+        private static bool HasEvenDenominator(double input)
+        {
+            if (input == 0)
+                return false;
+            else if (input % 1 == 0)
+                return false;
+
+            double inverse = 1 / input;
+            if (inverse % 2 < double.Epsilon)
+                return true;
+            else
+                return false;
+        }
+
+        private static bool HasOddDenominator(double input)
+        {
+            if (input == 0)
+                return false;
+            else if (input % 1 == 0)
+                return false;
+
+            double inverse = 1 / input;
+            if ((inverse + 1) % 2 < double.Epsilon)
+                return true;
+            else
+                return false;
         }
 
         /*Angielska nazwa funkcji"),
@@ -1468,25 +1500,57 @@ namespace Computator.NET.Functions
             return System.Math.Sqrt(x);
         }
 
-        /*Root function""), System.ComponentModel.Description(""root function of the given value""),
-         System.ComponentModel.DisplayName(""Angielska nazwa funkcji""),
-         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)*/
-        public static double root(double value, double n)
+        public static dynamic root(double value, double n)
         {
             //n-based root
-            return System.Math.Pow(value, 1.0/n);
+            return pow(value, 1.0/n);
         }
 
         #endregion
 
         #region power functions
 
-        /*Angielska nazwa funkcji""),
-         System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
-         System.ComponentModel.Description(""angielski opis funkcji*/
-        public static double pow(double x, double y)
+        public static dynamic pow(double x, double y)
         {
-            return System.Math.Pow(x, y);
+            bool sign = (x < 0);
+            if (sign && HasEvenDenominator(y))
+                return System.Numerics.Complex.Pow(x, y); //double.NaN;  //sqrt(-1) = i
+            else
+            {
+                if (sign && HasOddDenominator(y))
+                    return -1*System.Math.Pow(System.Math.Abs(x), y);
+                else
+                    return System.Math.Pow(x, y);
+            }
+        }
+
+
+        private static bool HasEvenDenominator(double input)
+        {
+            if (input == 0)
+                return false;
+            else if (input % 1 == 0)
+                return false;
+
+            double inverse = 1 / input;
+            if (inverse % 2 < double.Epsilon)
+                return true;
+            else
+                return false;
+        }
+
+        private static bool HasOddDenominator(double input)
+        {
+            if (input == 0)
+                return false;
+            else if (input % 1 == 0)
+                return false;
+
+            double inverse = 1 / input;
+            if ((inverse + 1) % 2 < double.Epsilon)
+                return true;
+            else
+                return false;
         }
 
         /*Angielska nazwa funkcji""),

@@ -1,6 +1,6 @@
  * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
 
- ### --------- Unreleased -----------  15.03.2016 11:53
+ ### --------- Unreleased -----------  18.03.2016 11:53
  * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor (still doesnt work in AvalonEdit thought)
  * = Fixed bug in chart edit property window causing ComplexChart to not redraw after changes
  * = Fixed bug in ComplexChart GreaterIsLighter and GreaterIsDarker methods when NoCountourLines selected causing pitch black chart in GreaterIsLighter mode and not accurate chart in GreaterIsDarker mode
@@ -14,6 +14,9 @@
  * = Fixed important bug with matrix unable to be created if it had any sqrt(real) functions inside (this was caused due to sqrt(real) returning dynamic, fixed by creating new matrix construction method)
  * = Fixed yet another (this time minor) bug in output - i or -i was resolving to 1·i or -1·i instead of just i or -i
  * - Transformations removed for now - they cost way too much work to make them useful
+ * + TSL finally supports anything with valid variable format raised to any power with superscript notation (before it worked only for x,y,z,i now it works for anything that looks like a variable or constant eg _niceVariableNameᶜᵒˢ⁽ˣ⁾˙ˢⁱⁿ⁽ʰᵃˣˣˣˣ⁾ is working just like it should) (it enabled us to simplify a lot of code in other places)
+ * = TSL Compiler's regular expressions are now compiled at the start of the program, evaluation of user's code and expressions should work a lot faster now
+ * = Fixed bugs in root(x,n) and pow(x,y) functions, now they can return complex even for real parameters and root is finally working correcly for odd n
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

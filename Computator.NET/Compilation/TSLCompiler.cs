@@ -40,19 +40,41 @@ namespace Computator.NET.Compilation
 
         public TslCompiler()
         {
-            Variables = new List<string>();
+            //Variables = new List<string>();
             Version = 2.0;
             TslCompilationMode = TslCompilationMode.Simple;
         }
 
         public double Version { get; set; }
         public TslCompilationMode TslCompilationMode { get; set; }
-        public List<string> Variables { get; set; }
+        //  public List<string> Variables { get; set; }
 
         private string Normalize(string input) //TODO: make it real f(x,y) normalize
         {
             return ReplaceToDoubles(ReplacePow(ReplaceMultipling(input)));
         }
+
+
+
+
+        private readonly Regex functionRegex = new Regex(@"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",RegexOptions.Compiled);
+
+        private readonly Regex varFunctionRegex = new Regex(@"var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",RegexOptions.Compiled);
+
+
+
+        private const string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
+
+        private readonly Regex expressionInParenthesesRaisedToAnyPowerRegex = new Regex(@"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))"+ powerCatchingGroup, RegexOptions.Compiled);
+
+        private readonly Regex numberRaisedToAnyPowerRegex = new Regex(@"(\d+\.?\d*)" + powerCatchingGroup, RegexOptions.Compiled);
+
+        private readonly Regex variableRaisedToAnyPowerRegex = new Regex(@"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)" + powerCatchingGroup+ @"([^\("+SpecialSymbols.SuperscriptsWithoutSpace+ @"]|$)", RegexOptions.Compiled);
+
+
+        private readonly Regex divisionByIntegerRegex = new Regex(@"[\/](\d+)([^\.\d]|$)",RegexOptions.Compiled);
+
+        private readonly Regex divisionByParenthesisRegex = new Regex(@"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))",RegexOptions.Compiled);
 
         public string TransformToCSharp(string tslCode)
         {
@@ -68,17 +90,7 @@ namespace Computator.NET.Compilation
             // Func<double, double> fafa = (x) => x;
             //var ffff = new Function.Function(fafa,"fafa","fafa");
 
-            var firstPhase = codeBuilder.ToString();
-
-            //function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)
-            var secondPhase = Regex.Replace(firstPhase,
-                @"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
-                @"var $1 = TypeDeducer.Func(($2) => $3)");
-
-            //var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)
-            var thirdPhase = Regex.Replace(secondPhase,
-                @"var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
-                @"var $1 = TypeDeducer.Func(($2) => $3)");
+            var thirdPhase = ReplaceLocalFunctions(codeBuilder.ToString());
 
             var fourthPhase = ReplacePow(thirdPhase);
 
@@ -89,6 +101,32 @@ namespace Computator.NET.Compilation
             var seventhPhase = sixthPhase.Replace(SpecialSymbols.DotSymbol, '*');
 
             return seventhPhase;
+        }
+
+        private string ReplaceLocalFunctions(string code)
+        {
+            const string nativeCompilerCompatibleLocalFunctionDeclaration = @"var $1 = TypeDeducer.Func(($2) => $3)";
+
+            var secondPhase = functionRegex.Replace(code, nativeCompilerCompatibleLocalFunctionDeclaration);
+
+            //function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)
+
+
+            //var secondPhase = Regex.Replace(firstPhase,
+            //     @"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
+            //     @"var $1 = TypeDeducer.Func(($2) => $3)");
+
+
+            //var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)
+
+
+            // var thirdPhase = Regex.Replace(secondPhase,
+            //   @"var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
+            // @"var $1 = TypeDeducer.Func(($2) => $3)");
+
+
+            var thirdPhase = varFunctionRegex.Replace(secondPhase, nativeCompilerCompatibleLocalFunctionDeclaration);
+            return thirdPhase;
         }
 
         private string ReplaceMultipling(string input) //OK
@@ -102,33 +140,58 @@ namespace Computator.NET.Compilation
 
         private string ReplacePow(string input) //OK
         {
+            var nativeCompilerCompatiblePowerNotation = @"pow($1,$2)";
             //string result = input.ReplacePow(@"(\d*x)\^(\d+\.?\d*)");
             //return result.ReplacePow(@"\(([^\^]+)\)\^(\d+\.?\d*)");
-            var result = input;
+            //var result = input;
 
             //case 1 - x^ANY_EXPONENT, 9.5y^ANY_EXPONENT, etc. 
-            foreach (var c in Variables)
-                result = Regex.Replace(result,
-                    @"(\d*" + c + @")([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
-                    "pow($1,$2)");
+            //   foreach (var c in Variables)
+            //     result = Regex.Replace(result,
+            //       @"(\d*" + c + @")([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
+            //     "pow($1,$2)");
 
             //case 2 - (anything in parenthesis)^ANY_EXPONENT
             // result = result.ReplacePow(@"\(([^\^]+)\)([" + GlobalConfig.Superscripts + @"]+)");
-            result =
-                Regex.Replace(result,
-                    @"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))([" +
-                    SpecialSymbols.SuperscriptsWithoutSpace + @"]+)", "pow($1,$2)");
+
+            // result =
+            //   Regex.Replace(result,
+            //     @"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))([" +
+            //   SpecialSymbols.SuperscriptsWithoutSpace + @"]+)", "pow($1,$2)");
+
+
+
+            var result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(input, nativeCompilerCompatiblePowerNotation);
             //# First '(' # Match all non-braces # Match '(', and capture into 'open' # Match ')', and delete the 'open' capture # Fails if 'open' stack isn't empty!
 
             //case 3 - (any ordinary number)^ANY_EXPONENT
-            result = Regex.Replace(result,
-                @"(\d+\.?\d*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
-                "pow($1,$2)");
+            //     result = Regex.Replace(result,
+            //      @"(\d+\.?\d*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
+            //   "pow($1,$2)");
+
+            result = numberRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
+
+
+            //([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*) // valid variable using latin and greek alphabet
+            //case 4 - variable^ANY_EXPONENT
+            //   foreach (var c in Variables)
+            // using System.CodeDom.Compiler;
+            // CodeDomProvider provider = CodeDomProvider.CreateProvider("C#");
+            //    if (provider.IsValidIdentifier(YOUR_VARIABLE_NAME))
+            //   {
+            // Valid
+            //     }
+            //   result = Regex.Replace(result,
+            //        @"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
+            //    "pow($1,$2)");
+
+            result = variableRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation+@"$3");
+
 
             //replace superscripts with normal characters:
             result = SpecialSymbols.SuperscriptsToAscii(result);
 
-            return ReplaceMultipling(result);
+            return (result);
         }
 
         private string ReplaceToDoubles(string input)
@@ -136,12 +199,19 @@ namespace Computator.NET.Compilation
             //return Regex.Replace(input, @"(\d+)(?:[^\.]\d+)", "$1.0");
 
             //1. X/5 => X/5.0
-            var ret = Regex.Replace(input, @"[\/](\d+)([^\.\d]|$)", @"/$1.0$2");
+           // var ret = Regex.Replace(input, @"[\/](\d+)([^\.\d]|$)", @"/$1.0$2");
+
+            var ret = divisionByIntegerRegex.Replace(input, @"/$1.0$2");
+
+
             //System.Windows.Forms.MessageBox.Show(ret);
             //2. X/(4+9+...+i) => X/(1.0*(4+9+...+i)) 
-            ret = Regex.Replace(ret,
-                @"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", "/(1.0*($1))");
+         //   ret = Regex.Replace(ret,
+              //  @"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", "/(1.0*($1))");
             //System.Windows.Forms.MessageBox.Show(ret);
+
+            ret = divisionByParenthesisRegex.Replace(ret, @"/(1.0*($1))");
+
             return ret;
         }
     }
