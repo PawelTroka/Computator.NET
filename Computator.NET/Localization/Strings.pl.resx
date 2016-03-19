@@ -314,4 +314,31 @@
   <data name="GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
     <value>Albo nawet lepiej zgłoś je na stronie projektu, używając poniższego linku</value>
   </data>
+  <data name="NativeCompiler_CompilerErrorToString_error" xml:space="preserve">
+    <value>błąd</value>
+  </data>
+  <data name="NativeCompiler_CompilerErrorToString_warning" xml:space="preserve">
+    <value>ostrzeżenie</value>
+  </data>
+  <data name="NativeCompiler_CompilerErrorToString_Column" xml:space="preserve">
+    <value>Kolumna</value>
+  </data>
+  <data name="NativeCompiler_CompilerErrorToString_Line" xml:space="preserve">
+    <value>Linia</value>
+  </data>
+  <data name="NativeCompiler_Compile_Script_errors" xml:space="preserve">
+    <value>Błędy w skrypcie</value>
+  </data>
+  <data name="NativeCompiler_Compile_Expression_errors" xml:space="preserve">
+    <value>Błędy w wyrażeniu</value>
+  </data>
+  <data name="NativeCompiler_Compile_Custom_functions_errors" xml:space="preserve">
+    <value>Błędy w funkcjach własnych</value>
+  </data>
+  <data name="NativeCompiler_Compile_Internal_errors" xml:space="preserve">
+    <value>Błędy wewnętrzne</value>
+  </data>
+  <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
+    <value>Błąd składni</value>
+  </data>
 </root>

@@ -55,6 +55,8 @@ namespace Computator.NET.Evaluation
             NativeCompiler.AddDll(typeof (ElementHost).Assembly.Location);
             //"WindowsFormsIntegration.dll");
 
+            NativeCompiler.IsScripting = true;
+
             _additionalObjectsCodeCopy=AdditionalObjectsCode = ScriptingExtensionObjects.ToCode;
             Logger.ClassName = GetType().FullName;
         }

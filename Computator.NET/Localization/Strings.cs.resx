@@ -226,4 +226,7 @@
   <data name="BadSyntax" xml:space="preserve">
     <value>Nesprávná syntaxe</value>
   </data>
+  <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
+    <value>Chyba syntaxe</value>
+  </data>
 </root>

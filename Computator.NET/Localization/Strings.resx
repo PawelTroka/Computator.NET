@@ -319,4 +319,31 @@
   <data name="GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
     <value>Or even better report them on project site, using link below</value>
   </data>
+  <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
+    <value>Syntax error</value>
+  </data>
+  <data name="NativeCompiler_Compile_Internal_errors" xml:space="preserve">
+    <value>Internal errors</value>
+  </data>
+  <data name="NativeCompiler_Compile_Custom_functions_errors" xml:space="preserve">
+    <value>Custom functions errors</value>
+  </data>
+  <data name="NativeCompiler_Compile_Expression_errors" xml:space="preserve">
+    <value>Expression errors</value>
+  </data>
+  <data name="NativeCompiler_Compile_Script_errors" xml:space="preserve">
+    <value>Script errors</value>
+  </data>
+  <data name="NativeCompiler_CompilerErrorToString_Line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="NativeCompiler_CompilerErrorToString_Column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="NativeCompiler_CompilerErrorToString_warning" xml:space="preserve">
+    <value>warning</value>
+  </data>
+  <data name="NativeCompiler_CompilerErrorToString_error" xml:space="preserve">
+    <value>error</value>
+  </data>
 </root>

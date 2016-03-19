@@ -5,12 +5,12 @@ using Computator.NET.DataTypes;
 
 namespace Computator.NET.Compilation
 {
-    public enum TslCompilationMode
+   /* public enum TslCompilationMode
     {
         Simple,
         Scripting,
         Advanced
-    }
+    }*/
 
     public class TslCompiler
     {
@@ -41,12 +41,12 @@ namespace Computator.NET.Compilation
         public TslCompiler()
         {
             //Variables = new List<string>();
-            Version = 2.0;
-            TslCompilationMode = TslCompilationMode.Simple;
+            Version = 3.0;
+           // TslCompilationMode = TslCompilationMode.Simple;
         }
 
-        public double Version { get; set; }
-        public TslCompilationMode TslCompilationMode { get; set; }
+        public double Version { get; private set; }
+      //  public TslCompilationMode TslCompilationMode { get; set; }
         //  public List<string> Variables { get; set; }
 
         private string Normalize(string input) //TODO: make it real f(x,y) normalize

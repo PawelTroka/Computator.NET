@@ -1,7 +1,9 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Computator.NET.Config;
 using Computator.NET.Localization;
 using Computator.NET.Logging;
@@ -11,6 +13,8 @@ using Microsoft.CSharp;
 
 namespace Computator.NET.Compilation
 {
+  
+
     public class NativeCompiler : CSharpCodeProvider
     {
         private readonly SimpleLogger logger;
@@ -21,6 +25,7 @@ namespace Computator.NET.Compilation
         public int CustomFunctionsStartOffsetLine { get; set; }
         public int CustomFunctionsEndOffsetLine { get; set; }
 
+        public bool IsScripting { get; set; } = false;
 
 
 
@@ -77,52 +82,28 @@ namespace Computator.NET.Compilation
 
             if (results.Errors.Count > 0)
             {
-
-                var message = $"Syntax error{Environment.NewLine}{Strings.Details}";
-                var compilationException = new CompilationException();
-
-                // var compilerErrors = new CompilerErrorCollection();
-                foreach (CompilerError error in results.Errors)
-                {
-                    var placeOfError = GetPlaceForLine(error.Line);
-
-                    error.Line = GetLineForPlace(error.Line, placeOfError);
-
-                    compilationException.Errors[placeOfError].Add(error);
-                }
+                var message = new StringBuilder($"{Strings.NativeCompiler_Compile_Syntax_error}{Environment.NewLine}{Strings.Details}");
+                var compilationException = CreateCompilationExceptionFromCompilerResults(results);
 
                 if (compilationException.HasMainCodeErrors)
                 {
-                    message += Environment.NewLine + " Code errors:";
-                    foreach (var error in compilationException.Errors[CompilationErrorPlace.MainCode])
-                    {
-                        message +=
-                            $"{Environment.NewLine}(Ln: {error.Line} Col: {error.Column}):{(error.IsWarning ? " warning " : " error ")}{error.ErrorNumber}: {error.ErrorText}";
-                    }
+                    message.Append( $"{Environment.NewLine} {(IsScripting ? Strings.NativeCompiler_Compile_Script_errors : Strings.NativeCompiler_Compile_Expression_errors)}:");
+                    message.Append( errorCollectionToString(compilationException.Errors[CompilationErrorPlace.MainCode]));
                 }
-
 
                 if (compilationException.HasCustomFunctionsErrors)
                 {
-                    message += Environment.NewLine + " Custom functions errors:";
-                    foreach (var error in compilationException.Errors[CompilationErrorPlace.CustomFunctions])
-                    {
-                        message +=
-                            $"{Environment.NewLine}(Ln: {error.Line} Col: {error.Column}):{(error.IsWarning ? " warning " : " error ")}{error.ErrorNumber}: {error.ErrorText}";
-                    }
+                    message.Append( $"{Environment.NewLine} {Strings.NativeCompiler_Compile_Custom_functions_errors}:");
+                    message.Append( errorCollectionToString(compilationException.Errors[CompilationErrorPlace.CustomFunctions]));
                 }
 
                 if (compilationException.HasInternalErrors)//if there is any warning in our internal code that means we are aware of it and we dont wanna show it to user :)
                 {
-                    message += Environment.NewLine + " Internal errors:";
-                    foreach (var error in compilationException.Errors[CompilationErrorPlace.Internal])
-                    {
-                        message +=
-                            $"{Environment.NewLine}(Ln: {error.Line} Col: {error.Column}):{(error.IsWarning ? " warning " : " error ")}{error.ErrorNumber}: {error.ErrorText}";
-                    }
+                    message.Append( $"{Environment.NewLine} {Strings.NativeCompiler_Compile_Internal_errors}:");
+                    message.Append( errorCollectionToString(compilationException.Errors[CompilationErrorPlace.Internal]));
                 }
 
-                compilationException = new CompilationException(message) { Errors = compilationException.Errors };
+                compilationException = new CompilationException(message.ToString()) { Errors = compilationException.Errors };
                 // compilationException.Message = message;
                 // var ex = new CompilationException(message) {Errors = compilerErrors};
 
@@ -131,7 +112,7 @@ namespace Computator.NET.Compilation
                 logger.Parameters["NativeCompilerOutput"] = "";
                 foreach (var str in results.Output)
                     logger.Parameters["NativeCompilerOutput"] += str + Environment.NewLine;
-                logger.Log(message, ErrorType.Compilation, compilationException);
+                logger.Log(compilationException.Message, ErrorType.Compilation, compilationException);
 
                 throw compilationException;
             }
@@ -142,6 +123,38 @@ namespace Computator.NET.Compilation
             results.TempFiles.Delete();
 
             return results.CompiledAssembly;
+        }
+
+        private CompilationException CreateCompilationExceptionFromCompilerResults(CompilerResults results)
+        {
+            var compilationException = new CompilationException();
+
+            // var compilerErrors = new CompilerErrorCollection();
+            foreach (CompilerError error in results.Errors)
+            {
+                var placeOfError = GetPlaceForLine(error.Line);
+                error.Line = GetLineForPlace(error.Line, placeOfError);
+                compilationException.Errors[placeOfError].Add(error);
+            }
+            return compilationException;
+        }
+
+        private static string errorCollectionToString(IEnumerable<CompilerError> errorCollection)
+        {
+            var message = new StringBuilder();
+            foreach (var error in errorCollection)
+            {
+                message.Append(CompilerErrorToString(error));
+            }
+            return message.ToString();
+        }
+
+        private static string CompilerErrorToString(CompilerError error)
+        {
+            var war = Strings.NativeCompiler_CompilerErrorToString_warning;
+            var err = Strings.NativeCompiler_CompilerErrorToString_error;
+
+            return $"{Environment.NewLine}  ({Strings.NativeCompiler_CompilerErrorToString_Line}: {error.Line} {Strings.NativeCompiler_CompilerErrorToString_Column}: {error.Column}):{(error.IsWarning ? " " + Strings.NativeCompiler_CompilerErrorToString_warning+ " " : " " + Strings.NativeCompiler_CompilerErrorToString_error + " ")}{error.ErrorNumber}: {error.ErrorText}";
         }
 
         public void AddDll(string dllPath)

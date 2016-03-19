@@ -17,6 +17,7 @@
  * + TSL finally supports anything with valid variable format raised to any power with superscript notation (before it worked only for x,y,z,i now it works for anything that looks like a variable or constant eg _niceVariableNameᶜᵒˢ⁽ˣ⁾˙ˢⁱⁿ⁽ʰᵃˣˣˣˣ⁾ is working just like it should) (it enabled us to simplify a lot of code in other places)
  * = TSL Compiler's regular expressions are now compiled at the start of the program, evaluation of user's code and expressions should work a lot faster now
  * = Fixed bugs in root(x,n) and pow(x,y) functions, now they can return complex even for real parameters and root is finally working correcly for odd n
+ * = NativeCompiler refactorization, errors and warnings translated to polish
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

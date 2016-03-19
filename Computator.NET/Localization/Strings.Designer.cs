@@ -541,6 +541,87 @@ namespace Computator.NET.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom functions errors.
+        /// </summary>
+        internal static string NativeCompiler_Compile_Custom_functions_errors {
+            get {
+                return ResourceManager.GetString("NativeCompiler_Compile_Custom_functions_errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression errors.
+        /// </summary>
+        internal static string NativeCompiler_Compile_Expression_errors {
+            get {
+                return ResourceManager.GetString("NativeCompiler_Compile_Expression_errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal errors.
+        /// </summary>
+        internal static string NativeCompiler_Compile_Internal_errors {
+            get {
+                return ResourceManager.GetString("NativeCompiler_Compile_Internal_errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Script errors.
+        /// </summary>
+        internal static string NativeCompiler_Compile_Script_errors {
+            get {
+                return ResourceManager.GetString("NativeCompiler_Compile_Script_errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syntax error.
+        /// </summary>
+        internal static string NativeCompiler_Compile_Syntax_error {
+            get {
+                return ResourceManager.GetString("NativeCompiler_Compile_Syntax_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Column.
+        /// </summary>
+        internal static string NativeCompiler_CompilerErrorToString_Column {
+            get {
+                return ResourceManager.GetString("NativeCompiler_CompilerErrorToString_Column", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to error.
+        /// </summary>
+        internal static string NativeCompiler_CompilerErrorToString_error {
+            get {
+                return ResourceManager.GetString("NativeCompiler_CompilerErrorToString_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        internal static string NativeCompiler_CompilerErrorToString_Line {
+            get {
+                return ResourceManager.GetString("NativeCompiler_CompilerErrorToString_Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to warning.
+        /// </summary>
+        internal static string NativeCompiler_CompilerErrorToString_warning {
+            get {
+                return ResourceManager.GetString("NativeCompiler_CompilerErrorToString_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No function to invoke.
         /// </summary>
         internal static string NoFunctionToInvoke {
