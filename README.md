@@ -1,5 +1,5 @@
 # Computator.NET
-
+##Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise.
 ![alt text](http://fizyka.dk/Computator.NET/quick_presentation.gif "Quick presentation of Computator.NET features")
 
 ###It's features include:
