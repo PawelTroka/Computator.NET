@@ -14,13 +14,15 @@ Computator.NET is a special kind of numerical software that is fast and easy to 
 * **Mathematical notation**, including raising to power, just like it should be
 
 
+
 # Release 2.0 beta
 *This release is focused on removing all the limitations and inconsistencies that have been going throught Computator.NET history. Be careful, thought it may be unstable because of all the new features and huge changes to application architecture itself.*
-* View [!v2.0-beta changelog](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.0.0-beta "changelog here")
-* Download [!v2.0-beta installer]installer here
-* Download [!v2.0-beta portable]portable version (*.zip) here
-* Alternatively [!v2.0-beta portable](http://fizyka.dk/Computator.NET.Installer%20v2.0.0%20beta.exe "download installer here")
-* Alternatively [!v2.0-beta portable](http://fizyka.dk/Computator.NET v2.0.0-beta.zip "download portable version (*.zip) here")
+* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.0.0-beta)
+* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.0.0-beta/Computator.NET.Installer.v2.0.0.beta.exe)
+* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.0.0-beta/Computator.NET.v2.0.0-beta.zip)
+* Alternatively [download installer here](http://fizyka.dk/Computator.NET.Installer%20v2.0.0%20beta.exe)
+* Alternatively [download portable version (*.zip) here](http://fizyka.dk/Computator.NET v2.0.0-beta.zip)
+
 
 # Installation & Setup
 1. This project requires .NET Framework at least in version 4.0 Full, you can download it here (https://www.microsoft.com/en-US/download/details.aspx?id=17718).
@@ -29,6 +31,7 @@ Computator.NET is a special kind of numerical software that is fast and easy to 
 4. If you downloaded portable version just unzip it to location you want to store and you are ready to go.
 5. If you downloaded version with installer just click on installer file, it will guide you through whole process and even download all the needed files and libraries (you dont even have to had .NET Framework because it can download and install it).
 6. After installation or unzip, if you want to run it already, just click on Computator.NET.exe (or Computator.NET shortcut on desktop if you had chosen installer) in whatever location you had chosen for it.
+
 
 
 # Contributing
@@ -45,7 +48,9 @@ Computator.NET is a special kind of numerical software that is fast and easy to 
 * If **you have found ANY bugs** or you think something might be bug please report it in [**isseus**](https://github.com/PawelTroka/Computator.NET/issues) as fast as you can. Any help with testing / finding bugs is greatly appreciated.
 
 
+
 # FAQ
+
 ###What shortcut do you use to write in exponent, just like in gif presentation?
 
 LShift+6 (^), just like it is listed in Edit menu from where you can also activate / deactivate writing in exponent without using this shortcut.
@@ -60,5 +65,7 @@ Alternatively you can always solve equations graphically by looking at the chart
 ![solving equations graphically](http://fizyka.dk/Computator.NET/solving%20equations%20graphically.gif "solving equations graphically")
 
 
+
 # License
+
 Computator.NET along with all content files, TSL/TSLF scripts and any work shared on this github priject page is [GNU GPL v3 licensed](../master/LICENSE). Any libraries used by Computator.NET are GNU GPL v3 - compatible.
