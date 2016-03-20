@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using AutocompleteMenuNS;
 using Computator.NET.Compilation;
 using Computator.NET.Constants;
@@ -145,6 +146,20 @@ namespace Computator.NET.Data
         //make it cleaner, nicer, apply recactorings
         //do extensive testing
 
+
+        static bool IsDynamic(MemberInfo memberInfo)
+        {
+            bool isDynamic = memberInfo.GetCustomAttributes(typeof(DynamicAttribute), true).Length > 0;
+
+            var methodInfo = (memberInfo as MethodInfo);
+            if (methodInfo != null)
+            {
+                isDynamic = methodInfo.ReturnTypeCustomAttributes.GetCustomAttributes(typeof(DynamicAttribute), true).Length > 0;
+            }
+
+            return isDynamic;
+        }
+
         private static List<AutocompleteItem>
             GetFunctionsNamesWithDescription(Type type, bool noMethod = false,
                 bool fullName = false)
@@ -163,8 +178,19 @@ namespace Computator.NET.Data
                     if (fullName)
                         fullNameExtension = m.ReflectedType.Name + ".";
 
+                    if (m.IsGenericMethod || m.IsGenericMethodDefinition)
+                    {
+                        var sigWithTypes = m.GetSignature();
+                        var nameAndAdditionWithTypes = sigWithTypes.Split('(');
+                        var sig = m.GetSignature(true);
+                        var nameAndAddition = sig.Split('(');
+
+                        items.Add(new AutocompleteItem(nameAndAddition[0],MakeAddition(m,false), MakeAddition(m, true), TypeNameToAlias(m.ReturnType.Name), GetImageIndexFromType(m.ReturnType.Name)));
+                    }
+                    else
                     AddSignatureWithType(fullNameExtension + m.Name, MakeAddition(m, false), MakeAddition(m, true),
-                        m.ReturnType.Name, items);
+                        IsDynamic(m) ? /*&& m.GetParameters().Length>0 ? m.GetParameters()[0].ParameterType.Name*/ "T" : m.ReturnType.Name, items);
+
                     AddMetadata(m, type, items);
                     
                 }
@@ -206,7 +232,7 @@ namespace Computator.NET.Data
 
             if (m.IsGenericMethodDefinition || m.IsGenericMethod)
             {
-            //    return m.GetSignature(true);
+               // return m.GetSignature(true);
                 /*addition += '<';
                 foreach (var genericArgument in m.GetGenericArguments())
                 {
@@ -223,16 +249,31 @@ namespace Computator.NET.Data
 
             for (var i = 0; i < parameters.Length; i++)
             {
-                if (i < parameters.Length - 1)
+                if (MethodInfoExtensions.IsParamArray(parameters[i]))
+                {
+                    for (int j = 1; j < 3; j++)
+                    {
+                        //var parameterName = parameters[i].Name + "1, " + parameters[i].Name + "2, ...";
+                        addition += (withType)
+                            ? TypeNameToAlias(parameters[i].ParameterType.Name.Replace("[]", "")) + " " + parameters[i].Name+ j +
+                              ", "
+                            : parameters[i].Name+j + ",";
+                    }
+                    addition += " ...";
+                }
+                else
                     addition += (withType)
                         ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name + ", "
                         : parameters[i].Name + ",";
-                else
-                    addition += (withType)
-                        ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name
-                        : parameters[i].Name;
             }
-            addition += ")";
+
+
+            if (addition.EndsWith(", "))
+                addition = addition.Substring(0, addition.Length - 2)+')';
+            else if (addition.EndsWith(","))
+                addition = addition.Substring(0, addition.Length - 1) + ')';
+            else
+                addition += ")";
 
 
             return addition;
@@ -321,6 +362,14 @@ namespace Computator.NET.Data
         private static void AddSignatureWithType(string name, string addition, string additionWithType, string typeName,
             List<AutocompleteItem> items)
         {
+            var imageIndex = GetImageIndexFromType(typeName);
+
+            items.Add(new AutocompleteItem(name, addition, additionWithType,
+                TypeNameToAlias(typeName), imageIndex));
+        }
+
+        private static int GetImageIndexFromType(string typeName)
+        {
             var imageIndex = -1;
             switch (typeName)
             {
@@ -348,9 +397,7 @@ namespace Computator.NET.Data
                     imageIndex = 5;
                     break;
             }
-
-            items.Add(new AutocompleteItem(name, addition, additionWithType,
-                TypeNameToAlias(typeName), imageIndex));
+            return imageIndex;
         }
 
         private static void AddSignatureWithType(string sigName, string menuName, string typeName,

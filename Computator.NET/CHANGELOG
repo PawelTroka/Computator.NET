@@ -18,6 +18,7 @@
  * = TSL Compiler's regular expressions are now compiled at the start of the program, evaluation of user's code and expressions should work a lot faster now
  * = Fixed bugs in root(x,n) and pow(x,y) functions, now they can return complex even for real parameters and root is finally working correcly for odd n
  * = NativeCompiler refactorization, errors and warnings translated to polish
+ * = 'dynamic' functions, generic parameters/arguments and 'params' parameters now appear correctly in autocomplete
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

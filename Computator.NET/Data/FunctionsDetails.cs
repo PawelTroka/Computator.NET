@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web;
+using System.Xml;
 using System.Xml.Serialization;
 using AutocompleteMenuNS;
 using Computator.NET.Config;
@@ -15,7 +17,7 @@ namespace Computator.NET.Data
         private FunctionsDetails()
         {
             _details = LoadFunctionsDetailsFromXmlFile();
-           // SaveEmptyFunctionDetailsToXmlFile();
+          //  SaveEmptyFunctionDetailsToXmlFile();
         }
 
         public static FunctionsDetails Details { get; } = new FunctionsDetails();
@@ -79,7 +81,7 @@ namespace Computator.NET.Data
                     {
                         Signature = kv.Key,
                         Url = kv.Value.Url,
-                        Description = kv.Value.Description,
+                        Description = HttpUtility.HtmlEncode(kv.Value.Description),
                         Title = kv.Value.Title,
                         Category = kv.Value.Category,
                         Type = kv.Value.Type

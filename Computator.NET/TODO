@@ -31,8 +31,7 @@
 
 
 ##General design
-* dynamic sqrt(real) solves problem stated below but we need also root(n,x) and power(x,1/n) and there is a bug that causes it to not appear in autocomplete
-* sqrt kind of sucks cause we have real sqrt(real) and complex sqrt(complex) but we should have also complex sqrt(real) (for arguments below 0) but that is kind of not possible in C#
+* dynamic sqrt(real), root(n,x) and power(x,1/n) doesnt appear in autocomplete
 * in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
 * Unify exceptions and logging model in whole application, refactor it
 * refactor settings.save() usage and make it optimal
@@ -57,7 +56,6 @@
 ##Autocomplete
 * search in the internet/base of knowledge about the function if we have nothing in function info
 * make autocomplete resize on items
-* Handle generic methods and params better in AutocompleteData 
 * make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
 * better autocomplete, also for variables after (.) dot symbol
 

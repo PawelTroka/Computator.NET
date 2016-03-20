@@ -360,7 +360,7 @@ namespace Computator.NET.Data
             }
         }
 
-        private static bool IsParamArray(ParameterInfo info)
+        public static bool IsParamArray(ParameterInfo info)
         {
             return info.GetCustomAttributes(typeof(ParamArrayAttribute), true) != null && info.GetCustomAttributes(typeof(ParamArrayAttribute), true).Length>0;
         }
