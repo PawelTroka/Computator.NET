@@ -178,5 +178,81 @@ namespace UnitTests
             Assert.AreEqual("pow(e,PI*i)",
     tslCompiler.TransformToCSharp("eᴾᴵ˙ⁱ"), "Fail!!!");
         }
+
+
+
+        [TestMethod]
+        public void MultiplyingSimpleFunctionByIntegerTest()
+        {
+            Assert.AreEqual("2*cos(x)",
+    tslCompiler.TransformToCSharp("2cos(x)"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingSimpleFunctionByFloatTest()
+        {
+            Assert.AreEqual("21212.321312*_simplErFunc(x,y, z, aaaA_a)",
+    tslCompiler.TransformToCSharp("21212.321312_simplErFunc(x,y, z, aaaA_a)"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingComplicatedExpressionTest()
+        {
+            Assert.AreEqual("  32132.321*Xaaa__sa+a/b-232121.321*c-(223.21321*simpleFunction(x))",
+    tslCompiler.TransformToCSharp("  32132.321Xaaa__sa+a/b-232121.321c-(223.21321simpleFunction(x))"), "Fail!!!");
+        }
+
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged1Test()
+        {
+            Assert.AreEqual("1e11",
+    tslCompiler.TransformToCSharp("1e11"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged2Test()
+        {
+            Assert.AreEqual("2.1121e121",
+    tslCompiler.TransformToCSharp("2.1121e121"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged3Test()
+        {
+            Assert.AreEqual("2E11",
+    tslCompiler.TransformToCSharp("2E11"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged4Test()
+        {
+            Assert.AreEqual("2.1121E121",
+    tslCompiler.TransformToCSharp("2.1121E121"), "Fail!!!");
+        }
+
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest1()
+        {
+            Assert.AreEqual("2*Ex10aa",
+    tslCompiler.TransformToCSharp("2Ex10aa"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest2()
+        {
+            Assert.AreEqual("2*Ex10",
+    tslCompiler.TransformToCSharp("2Ex10"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest3()
+        {
+            Assert.AreEqual("1*e11a",
+    tslCompiler.TransformToCSharp("1e11a"), "Fail!!!");
+        }
+        
+
     }
 }

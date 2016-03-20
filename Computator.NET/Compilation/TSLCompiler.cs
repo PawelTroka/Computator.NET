@@ -49,13 +49,6 @@ namespace Computator.NET.Compilation
       //  public TslCompilationMode TslCompilationMode { get; set; }
         //  public List<string> Variables { get; set; }
 
-        private string Normalize(string input) //TODO: make it real f(x,y) normalize
-        {
-            return ReplaceToDoubles(ReplacePow(ReplaceMultipling(input)));
-        }
-
-
-
 
         private readonly Regex functionRegex = new Regex(@"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",RegexOptions.Compiled);
 
@@ -69,34 +62,61 @@ namespace Computator.NET.Compilation
 
         private readonly Regex numberRaisedToAnyPowerRegex = new Regex(@"(\d+\.?\d*)" + powerCatchingGroup, RegexOptions.Compiled);
 
-        private readonly Regex variableRaisedToAnyPowerRegex = new Regex(@"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)" + powerCatchingGroup+ @"([^\("+SpecialSymbols.SuperscriptsWithoutSpace+ @"]|$)", RegexOptions.Compiled);
+
+        private const string validVariableDeclaration = @"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)";
+
+        private readonly Regex variableRaisedToAnyPowerRegex = new Regex(validVariableDeclaration + powerCatchingGroup+ @"([^\("+SpecialSymbols.SuperscriptsWithoutSpace+ @"]|$)", RegexOptions.Compiled);
+
+        private readonly Regex multiplyingRegex = new Regex(@"((?:[^\u0370-\u03FFa-zA-Z_(\d\.][^\u0370-\u03FFa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:[\u0370-\u03FFa-df-zA-DF-Z_][\u0370-\u03FFa-z0-9A-Z_]*)|(?:[Ee][\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)|(?:[Ee][0-9]+[\u0370-\u03FFa-zA-Z_]+))", RegexOptions.Compiled);
 
 
-        private readonly Regex divisionByIntegerRegex = new Regex(@"[\/](\d+)([^\.\d]|$)",RegexOptions.Compiled);
 
-        private readonly Regex divisionByParenthesisRegex = new Regex(@"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))",RegexOptions.Compiled);
+        private readonly Regex divisionByIntegerRegex = new Regex(@"[\/]\s*(\d+)([^\.\d]|$)", RegexOptions.Compiled);
+
+        private readonly Regex divisionByParenthesisRegex = new Regex(@"[\/]\s*(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", RegexOptions.Compiled);
+
+
+       
+
+        private readonly Regex matrixRegex = new Regex(@"matrix\s*\(\s*\{", RegexOptions.Compiled);
+
+
+        private readonly Regex readOutRegex = new Regex(@"(read\s*\(\s*)&",RegexOptions.Compiled);
+
+        private readonly Regex refRegex = new Regex(@"([\(,\s])(&)([\u0370-\u03FFa-zA-Z_])", RegexOptions.Compiled);
+
 
         public string TransformToCSharp(string tslCode)
         {
-            var codeBuilder = new StringBuilder(tslCode);
+            var zeroPhase = matrixRegex.Replace(tslCode, @"matrix(new [,]{").Replace("ᵀ", ".Transpose()");
+            //  var codeBuilder = new StringBuilder(firstPhase);
+            //codeBuilder//.Replace("matrix({", "matrix(new [,]{")
+            //  .Replace("ᵀ", ".Transpose()")
+            // .Replace("read(&", "read(out ")
+            //.Replace("read( &", "read(out ")
+            //.Replace("(&", "( ref ");
 
-            codeBuilder.Replace("matrix({", "matrix(new [,]{")
-                .Replace("ᵀ", ".Transpose()")
-                .Replace("read(&", "read(out ")
-                .Replace("read( &", "read(out ")
-                .Replace("(&", "( ref ");
+
+            var firstPhase = readOutRegex.Replace(zeroPhase, "$1 out ");
+
+            var secondPhase = refRegex.Replace(firstPhase, @"$1 ref $3");
+
+
+
+
+
 
             //TODO: this little thing
             // Func<double, double> fafa = (x) => x;
             //var ffff = new Function.Function(fafa,"fafa","fafa");
 
-            var thirdPhase = ReplaceLocalFunctions(codeBuilder.ToString());
+            var thirdPhase = ReplaceLocalFunctions(secondPhase);
 
             var fourthPhase = ReplacePow(thirdPhase);
 
             var fifthPhase = ReplaceToDoubles(fourthPhase);
 
-            var sixthPhase = ReplaceMultipling(fifthPhase);
+            var sixthPhase = ReplaceMultiplying(fifthPhase);
 
             var seventhPhase = sixthPhase.Replace(SpecialSymbols.DotSymbol, '*');
 
@@ -129,12 +149,9 @@ namespace Computator.NET.Compilation
             return thirdPhase;
         }
 
-        private string ReplaceMultipling(string input) //OK
+        private string ReplaceMultiplying(string input) //OK
         {
-            //TODO: introduce good multiplying
-            var result = input;
-            // foreach (var c in Variables)
-            //    result = Regex.Replace(result, @"(\d+\.?\d*)(" + c + @")", @"$1*$2");
+            var result = multiplyingRegex.Replace(input, "$1$2*$3");
             return result;
         }
 

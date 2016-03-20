@@ -1,9 +1,9 @@
 ﻿##TSL
 * functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
-* add to tsl multiplying like 2x = 2*x
-* Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3))
+* Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3)) //it would make possible to have string representation of user function in scripting -> plot() functions could produce better looking charts with labels corresponding to functions by string representation
 * we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
 * make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
+* maybe handle cases like 2²x for multiplying
 
 
 ##UI
@@ -31,7 +31,6 @@
 
 
 ##General design
-* dynamic sqrt(real), root(n,x) and power(x,1/n) doesnt appear in autocomplete
 * in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
 * Unify exceptions and logging model in whole application, refactor it
 * refactor settings.save() usage and make it optimal
@@ -44,7 +43,6 @@
 ##Code editors
 * remember last open documents with editors, mybe with content
 * if we changed a document note this with red disk and ask for save
-* set extension .tsl/.tslf with editor options like save
 * add search and replace windows to scripting
 * add printing option to codeeditors
 

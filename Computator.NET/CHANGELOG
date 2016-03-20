@@ -1,6 +1,6 @@
  * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
 
- ### --------- Unreleased -----------  18.03.2016 11:53
+ ### --------- Unreleased -----------  20.03.2016 21:53
  * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor (still doesnt work in AvalonEdit thought)
  * = Fixed bug in chart edit property window causing ComplexChart to not redraw after changes
  * = Fixed bug in ComplexChart GreaterIsLighter and GreaterIsDarker methods when NoCountourLines selected causing pitch black chart in GreaterIsLighter mode and not accurate chart in GreaterIsDarker mode
@@ -18,7 +18,9 @@
  * = TSL Compiler's regular expressions are now compiled at the start of the program, evaluation of user's code and expressions should work a lot faster now
  * = Fixed bugs in root(x,n) and pow(x,y) functions, now they can return complex even for real parameters and root is finally working correcly for odd n
  * = NativeCompiler refactorization, errors and warnings translated to polish
- * = 'dynamic' functions, generic parameters/arguments and 'params' parameters now appear correctly in autocomplete
+ * = 'dynamic' functions (sqrt(real), root(n,x) and pow(x,y)), generic parameters/arguments and 'params' parameters now appear correctly in autocomplete
+ * + TSL handles now full mathematical multiplying notation like 2x means 2*x
+ * = Minor bufixes and changes to TSL Compiler allowing more freedom to user in defining things
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
