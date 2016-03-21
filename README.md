@@ -48,6 +48,13 @@ Computator.NET is a special kind of numerical software that is fast and easy to 
 * If **you have found ANY bugs** or you think something might be bug please report it in [**isseus**](https://github.com/PawelTroka/Computator.NET/issues) as fast as you can. Any help with testing / finding bugs is greatly appreciated.
 
 
+#Screenshots
+![Computator.NET v1.8 is coming - functions with description](http://fizyka.dk/Computator.NET/Computator.NET%20v1.8%20is%20coming%20-%20functions%20with%20description.jpg "Computator.NET v1.8 is coming - functions with description")
+![Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart](http://fizyka.dk/Computator.NET/Computator.NET%20v1.8%20is%20coming%202%20-%20writing%20in%20exponent,%20f(x,y)%20chart.jpg "Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart")
+![functions and constants details](http://fizyka.dk/Computator.NET/functions%20and%20constants%20details.png "functions and constants details")
+![Interesting implicit function](http://fizyka.dk/Computator.NET/interesting%20implicit%20function.jpg "Interesting implicit function")
+![Simple implicit function](http://fizyka.dk/Computator.NET/simple%20implicit%20function.png "Simple implicit function")
+![Euler Gamma by Computator.NET](http://fizyka.dk/Computator.NET/gamma%20by%20computator.net.png "Euler Gamma by Computator.NET")
 
 # FAQ
 
