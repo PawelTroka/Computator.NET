@@ -232,6 +232,56 @@ namespace UnitTests
         }
 
 
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged5Test()
+        {
+            Assert.AreEqual("3.3E+21",
+    tslCompiler.TransformToCSharp("3.3E+21"), "Fail!!!");
+        }
+
+
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged6Test()
+        {
+            Assert.AreEqual("2.2E-11",
+    tslCompiler.TransformToCSharp("2.2E-11"), "Fail!!!");
+        }
+
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged7Test()
+        {
+            Assert.AreEqual("3.3e+21",
+    tslCompiler.TransformToCSharp("3.3e+21"), "Fail!!!");
+        }
+
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged8Test()
+        {
+            Assert.AreEqual("2.2e-11",
+    tslCompiler.TransformToCSharp("2.2e-11"), "Fail!!!");
+        }
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged9Test()
+        {
+            Assert.AreEqual("3.3E+2",
+    tslCompiler.TransformToCSharp("3.3E+2"), "Fail!!!");
+        }
+
+
+
+        [TestMethod]
+        public void MultiplyingEngineeringNotationShouldBeLeftUnchanged10Test()
+        {
+            Assert.AreEqual("2.2E-1",
+    tslCompiler.TransformToCSharp("2.2E-1"), "Fail!!!");
+        }
+
+
+
         [TestMethod]
         public void MultiplyingPseudoEngineeringNotationShouldBChangedTest1()
         {
@@ -252,7 +302,19 @@ namespace UnitTests
             Assert.AreEqual("1*e11a",
     tslCompiler.TransformToCSharp("1e11a"), "Fail!!!");
         }
-        
 
+
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest4()
+        {
+            Assert.AreEqual("3123.3321*e",
+    tslCompiler.TransformToCSharp("3123.3321e"), "Fail!!!");
+        }
+
+
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest5()
+        {
+            Assert.AreEqual("2*E",
+    tslCompiler.TransformToCSharp("2E"), "Fail!!!");
+        }
     }
 }
