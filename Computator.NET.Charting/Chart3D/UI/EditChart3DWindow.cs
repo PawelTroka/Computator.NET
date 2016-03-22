@@ -16,7 +16,7 @@ namespace Computator.NET.Charting.Chart3D
         private readonly ElementHost elementHost;
         private Color colorAxes;
         private Color colorBackground;
-        private Color colorLabels, colorSpline;
+        private Color colorLabels;//, colorSpline;
         private Font font;
         private bool fontChanged;
 

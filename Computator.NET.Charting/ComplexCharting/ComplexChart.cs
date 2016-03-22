@@ -14,9 +14,9 @@ namespace Computator.NET.Charting.ComplexCharting
     {
         #region private fields
 
-        private Graphics g;
+       // private Graphics g;
         private double quality;
-        private Task RedrawTask;
+      //  private Task RedrawTask;
         private readonly Color[,] pointsColors;
         private readonly ComplexPoint[,] pointsValues;
         private bool drawn;

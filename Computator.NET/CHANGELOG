@@ -21,6 +21,7 @@
  * = 'dynamic' functions (sqrt(real), root(n,x) and pow(x,y)), generic parameters/arguments and 'params' parameters now appear correctly in autocomplete
  * + TSL handles now full mathematical multiplying notation like 2x means 2*x
  * = Minor bufixes and changes to TSL Compiler allowing more freedom to user in defining things
+ * = Bug in read() functions fixed - input is now CultureInvariant just like it should be
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

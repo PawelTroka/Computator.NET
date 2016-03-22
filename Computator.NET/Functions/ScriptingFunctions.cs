@@ -31,13 +31,13 @@ namespace Computator.NET.Functions
                 var result = rf.Result;
 
                 if (x.IsNumericType())
-                    x = (T) ((object) double.Parse(result));
+                    x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
 
                 if (x is string)
                     x = (T) ((object) (result));
 
                 if (x is System.Numerics.Complex)
-                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result));
+                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
             }
             CONSOLE_OUTPUT.Text += (System.Environment.NewLine + s + " " + objectToString(x));
             return x;
@@ -57,13 +57,13 @@ namespace Computator.NET.Functions
                 var result = rf.Result;
 
                 if (x.IsNumericType())
-                    x = (T) ((object) double.Parse(result));
+                    x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
 
                 if (x is string)
                     x = (T) ((object) (result));
 
                 if (x is System.Numerics.Complex)
-                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result));
+                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
             }
             CONSOLE_OUTPUT.Text += (System.Environment.NewLine + s + " " + objectToString(x));
         }
@@ -79,13 +79,13 @@ namespace Computator.NET.Functions
             var result = file.readln();
 
             if (x.IsNumericType())
-                x = (T) ((object) double.Parse(result));
+                x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
 
             if (x is string)
                 x = (T) ((object) (result));
 
             if (x is System.Numerics.Complex)
-                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result));
+                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
 
             CONSOLE_OUTPUT.Text += (System.Environment.NewLine + "read: " + " " + objectToString(x));
         }
@@ -101,13 +101,13 @@ namespace Computator.NET.Functions
             var result = file.readAll();
 
             if (x.IsNumericType())
-                x = (T) ((object) double.Parse(result));
+                x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
 
             if (x is string)
                 x = (T) ((object) (result));
 
             if (x is System.Numerics.Complex)
-                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result));
+                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
 
             CONSOLE_OUTPUT.Text += (System.Environment.NewLine + "read: " + " " + objectToString(x));
         }
@@ -448,13 +448,13 @@ namespace Computator.NET.Functions
                 var result = rf.Result;
 
                 if (x.IsNumericType())
-                    x = (T) ((object) double.Parse(result));
+                    x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
 
                 if (x is string)
                     x = (T) ((object) (result));
 
                 if (x is System.Numerics.Complex)
-                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result));
+                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
             }
             CONSOLE_OUTPUT.Text += (System.Environment.NewLine + s + "" "" + objectToString(x));
             return x;
@@ -474,13 +474,13 @@ namespace Computator.NET.Functions
                 var result = rf.Result;
 
                 if (x.IsNumericType())
-                    x = (T) ((object) double.Parse(result));
+                    x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
 
                 if (x is string)
                     x = (T) ((object) (result));
 
                 if (x is System.Numerics.Complex)
-                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result));
+                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
             }
             CONSOLE_OUTPUT.Text += (System.Environment.NewLine + s + "" "" + objectToString(x));
         }
@@ -496,13 +496,13 @@ namespace Computator.NET.Functions
             var result = file.readln();
 
             if (x.IsNumericType())
-                x = (T) ((object) double.Parse(result));
+                x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
 
             if (x is string)
                 x = (T) ((object) (result));
 
             if (x is System.Numerics.Complex)
-                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result));
+                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
 
             CONSOLE_OUTPUT.Text += (System.Environment.NewLine + ""read: "" + "" "" + objectToString(x));
         }
@@ -518,13 +518,13 @@ namespace Computator.NET.Functions
             var result = file.readAll();
 
             if (x.IsNumericType())
-                x = (T) ((object) double.Parse(result));
+                x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
 
             if (x is string)
                 x = (T) ((object) (result));
 
             if (x is System.Numerics.Complex)
-                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result));
+                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
 
             CONSOLE_OUTPUT.Text += (System.Environment.NewLine + ""read: "" + "" "" + objectToString(x));
         }

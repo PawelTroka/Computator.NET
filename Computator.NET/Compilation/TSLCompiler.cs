@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Compilation
 {
-   /* public enum TslCompilationMode
+    /* public enum TslCompilationMode
     {
         Simple,
         Scripting,
@@ -20,6 +19,12 @@ namespace Computator.NET.Compilation
         using complex = System.Numerics.Complex;
         using natural = System.UInt64;
         using integer = System.Int64;";
+
+
+        private const string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
+
+
+        private const string validVariableDeclaration = @"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)";
 
         public static readonly string[] Keywords =
         {
@@ -39,62 +44,73 @@ namespace Computator.NET.Compilation
         public static readonly string KeywordsList1 =
             "natural integer real complex function Matrix bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void";
 
-        public TslCompiler()
-        {
-            //Variables = new List<string>();
-            Version = 3.0;
-           // TslCompilationMode = TslCompilationMode.Simple;
-        }
 
-        public double Version { get; private set; }
-      //  public TslCompilationMode TslCompilationMode { get; set; }
-        //  public List<string> Variables { get; set; }
-
-
-        private readonly Regex functionRegex = new Regex(@"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",RegexOptions.Compiled);
-
-        private readonly Regex varFunctionRegex = new Regex(@"var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",RegexOptions.Compiled);
-
-
-
-        private const string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
-
-        private readonly Regex expressionInParenthesesRaisedToAnyPowerRegex = new Regex(@"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))"+ powerCatchingGroup, RegexOptions.Compiled);
-
-        private readonly Regex numberRaisedToAnyPowerRegex = new Regex(@"(\d+\.?\d*)" + powerCatchingGroup, RegexOptions.Compiled);
-
-
-        private const string validVariableDeclaration = @"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)";
-
-        private readonly Regex variableRaisedToAnyPowerRegex = new Regex(validVariableDeclaration + powerCatchingGroup+ @"([^\("+SpecialSymbols.SuperscriptsWithoutSpace+ @"]|$)", RegexOptions.Compiled);
-
-        private readonly Regex multiplyingRegex = new Regex(@"((?:[^\u0370-\u03FFa-zA-Z_\d\.][^\u0370-\u03FFa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:[\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*))", RegexOptions.Compiled);
-
+        private readonly Regex changeBackEngineeringNotationRegex =
+            new Regex(
+                @"{{ENGINERING#NOTATION}(\d+\.?\d*)#([Ee][+-]?\d+){ENGINERING#NOTATION}([^\d\u0370-\u03FFa-zA-Z_.]*){ENGINERING#NOTATION}}",
+                RegexOptions.Compiled);
 
 
         private readonly Regex divisionByIntegerRegex = new Regex(@"[\/]\s*(\d+)([^\.\d]|$)", RegexOptions.Compiled);
 
-        private readonly Regex divisionByParenthesisRegex = new Regex(@"[\/]\s*(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", RegexOptions.Compiled);
+        private readonly Regex divisionByParenthesisRegex =
+            new Regex(@"[\/]\s*(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", RegexOptions.Compiled);
 
 
-       
+        private readonly Regex engineeringNotationRegex =
+            new Regex(@"(\d+\.?\d*)([Ee][+-]?\d+)([^\d\u0370-\u03FFa-zA-Z_.]|$)", RegexOptions.Compiled);
+
+        private readonly Regex expressionInParenthesesRaisedToAnyPowerRegex =
+            new Regex(@"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))" + powerCatchingGroup,
+                RegexOptions.Compiled);
+
+        //  public TslCompilationMode TslCompilationMode { get; set; }
+        //  public List<string> Variables { get; set; }
+
+
+        private readonly Regex functionRegex =
+            new Regex(
+                @"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
+                RegexOptions.Compiled);
+
 
         private readonly Regex matrixRegex = new Regex(@"matrix\s*\(\s*\{", RegexOptions.Compiled);
 
+        private readonly Regex multiplyingRegex =
+            new Regex(
+                @"((?:[^\u0370-\u03FFa-zA-Z_\d\.][^\u0370-\u03FFa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:[\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*))",
+                RegexOptions.Compiled);
 
-        private readonly Regex readOutRegex = new Regex(@"(read\s*\(\s*)&",RegexOptions.Compiled);
+        private readonly Regex numberRaisedToAnyPowerRegex = new Regex(@"(\d+\.?\d*)" + powerCatchingGroup,
+            RegexOptions.Compiled);
+
+
+        private readonly Regex readOutRegex = new Regex(@"(read\s*\(\s*)&", RegexOptions.Compiled);
 
         private readonly Regex refRegex = new Regex(@"([\(,\s])(&)([\u0370-\u03FFa-zA-Z_])", RegexOptions.Compiled);
 
+        private readonly Regex varFunctionRegex =
+            new Regex(
+                @"var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
+                RegexOptions.Compiled);
 
-        private readonly Regex engineeringNotationRegex = new Regex(@"(\d+\.?\d*)([Ee][+-]?\d+)([^\d\u0370-\u03FFa-zA-Z_.]|$)", RegexOptions.Compiled);
+        private readonly Regex variableRaisedToAnyPowerRegex =
+            new Regex(
+                validVariableDeclaration + powerCatchingGroup + @"([^\(" + SpecialSymbols.SuperscriptsWithoutSpace +
+                @"]|$)", RegexOptions.Compiled);
 
+        public TslCompiler()
+        {
+            //Variables = new List<string>();
+            Version = 3.5;
+            // TslCompilationMode = TslCompilationMode.Simple;
+        }
 
-        private readonly Regex changeBackEngineeringNotationRegex = new Regex(@"{{ENGINERING#NOTATION}(\d+\.?\d*)#([Ee][+-]?\d+){ENGINERING#NOTATION}([^\d\u0370-\u03FFa-zA-Z_.]*){ENGINERING#NOTATION}}", RegexOptions.Compiled);
+        public double Version { get; private set; }
 
         public string TransformToCSharp(string tslCode)
         {
-            var listOfResults = new List<string>() { tslCode };
+            var listOfResults = new List<string> {tslCode};
 
             listOfResults.Add(matrixRegex.Replace(listOfResults.Last(), @"matrix(new [,]{"));
 
@@ -104,10 +120,6 @@ namespace Computator.NET.Compilation
             listOfResults.Add(readOutRegex.Replace(listOfResults.Last(), "$1 out "));
 
             listOfResults.Add(refRegex.Replace(listOfResults.Last(), @"$1 ref $3"));
-
-
-
-
 
 
             //TODO: this little thing
@@ -121,9 +133,7 @@ namespace Computator.NET.Compilation
             listOfResults.Add(ReplaceToDoubles(listOfResults.Last()));
 
 
-          //  var engineeringNotationMatches = engineeringNotationRegex.Matches(listOfResults.Last());
-
-            
+            //  var engineeringNotationMatches = engineeringNotationRegex.Matches(listOfResults.Last());
 
 
             listOfResults.Add(ReplaceMultiplying(listOfResults.Last()));
@@ -161,7 +171,8 @@ namespace Computator.NET.Compilation
 
         private string ReplaceMultiplying(string input) //OK
         {
-            var result = engineeringNotationRegex.Replace(input, @"{{ENGINERING#NOTATION}$1#$2{ENGINERING#NOTATION}$3{ENGINERING#NOTATION}}");
+            var result = engineeringNotationRegex.Replace(input,
+                @"{{ENGINERING#NOTATION}$1#$2{ENGINERING#NOTATION}$3{ENGINERING#NOTATION}}");
 
             result = multiplyingRegex.Replace(result, "$1$2*$3");
             /* delegate (Match match)
@@ -201,8 +212,8 @@ namespace Computator.NET.Compilation
             //   SpecialSymbols.SuperscriptsWithoutSpace + @"]+)", "pow($1,$2)");
 
 
-
-            var result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(input, nativeCompilerCompatiblePowerNotation);
+            var result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(input,
+                nativeCompilerCompatiblePowerNotation);
             //# First '(' # Match all non-braces # Match '(', and capture into 'open' # Match ')', and delete the 'open' capture # Fails if 'open' stack isn't empty!
 
             //case 3 - (any ordinary number)^ANY_EXPONENT
@@ -226,13 +237,13 @@ namespace Computator.NET.Compilation
             //        @"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
             //    "pow($1,$2)");
 
-            result = variableRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation+@"$3");
+            result = variableRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation + @"$3");
 
 
             //replace superscripts with normal characters:
             result = SpecialSymbols.SuperscriptsToAscii(result);
 
-            return (result);
+            return result;
         }
 
         private string ReplaceToDoubles(string input)
@@ -240,15 +251,15 @@ namespace Computator.NET.Compilation
             //return Regex.Replace(input, @"(\d+)(?:[^\.]\d+)", "$1.0");
 
             //1. X/5 => X/5.0
-           // var ret = Regex.Replace(input, @"[\/](\d+)([^\.\d]|$)", @"/$1.0$2");
+            // var ret = Regex.Replace(input, @"[\/](\d+)([^\.\d]|$)", @"/$1.0$2");
 
             var ret = divisionByIntegerRegex.Replace(input, @"/$1.0$2");
 
 
             //System.Windows.Forms.MessageBox.Show(ret);
             //2. X/(4+9+...+i) => X/(1.0*(4+9+...+i)) 
-         //   ret = Regex.Replace(ret,
-              //  @"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", "/(1.0*($1))");
+            //   ret = Regex.Replace(ret,
+            //  @"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", "/(1.0*($1))");
             //System.Windows.Forms.MessageBox.Show(ret);
 
             ret = divisionByParenthesisRegex.Replace(ret, @"/(1.0*($1))");
