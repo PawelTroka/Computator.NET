@@ -266,11 +266,11 @@ namespace Computator.NET.Functions
             double YMax = 5, double N = 1e2)
         {
             var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl();
+            chart3d.SetChartAreaValues(XMin,XMax,YMin,YMax);
+            
+            chart3d.addFx(fxy,N);
 
-            chart3d.AddSurface(fxy, XMin, XMax, YMin, YMax, N);
-
-            var ehost = new System.Windows.Forms.Integration.ElementHost();
-            ehost.Child = chart3d;
+            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
 
             //var chartplot = new Chart2D();
             //chartplot.addFx((x) => x+1,"x+1");
@@ -290,14 +290,14 @@ namespace Computator.NET.Functions
             {
                 Mode = (fxys.Length > 1) ? Computator.NET.Charting.Chart3D.Chart3DMode.Points : Computator.NET.Charting.Chart3D.Chart3DMode.Surface
             };
+            chart3d.SetChartAreaValues(XMin, XMax, YMin, YMax);
 
             foreach (var fxy in fxys)
             {
-                chart3d.addFx(fxy, XMin, XMax, YMin, YMax, N);
+                chart3d.addFx(fxy, N);
             }
 
-            var ehost = new System.Windows.Forms.Integration.ElementHost();
-            ehost.Child = chart3d;
+            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
 
             //var chartplot = new Chart2D();
             //chartplot.addFx((x) => x+1,"x+1");
@@ -683,46 +683,43 @@ namespace Computator.NET.Functions
             double YMax = 5, double N = 1e2)
         {
             var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl();
+            chart3d.SetChartAreaValues(XMin,XMax,YMin,YMax);
+            
+            chart3d.addFx(fxy,N);
 
-            chart3d.AddSurface(fxy, XMin, XMax, YMin, YMax, N);
-
-            var ehost = new System.Windows.Forms.Integration.ElementHost();
-            ehost.Child = chart3d;
+            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
 
             //var chartplot = new Chart2D();
-            //chartplot.addFx((x) => x+1,""x+1"");
             var plotForm = new Computator.NET.Charting.PlotForm(ehost);
-            plotForm.Show();
+        plotForm.Show();
         }
 
 
-        public static void plot(params System.Func<double, double, double>[] fxys)
+    public static void plot(params System.Func<double, double, double>[] fxys)
+    {
+        double XMin = -5;
+        double XMax = 5;
+        double YMin = -5;
+        double YMax = 5;
+        var N = 1e2;
+        var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl
         {
-            double XMin = -5;
-            double XMax = 5;
-            double YMin = -5;
-            double YMax = 5;
-            var N = 1e2;
-            var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl
-            {
-                Mode = (fxys.Length > 1) ? Computator.NET.Charting.Chart3D.Chart3DMode.Points : Computator.NET.Charting.Chart3D.Chart3DMode.Surface
-            };
+            Mode = (fxys.Length > 1) ? Computator.NET.Charting.Chart3D.Chart3DMode.Points : Computator.NET.Charting.Chart3D.Chart3DMode.Surface
+        };
+        chart3d.SetChartAreaValues(XMin, XMax, YMin, YMax);
 
-            foreach (var fxy in fxys)
-            {
-                chart3d.addFx(fxy, XMin, XMax, YMin, YMax, N);
-            }
-
-            var ehost = new System.Windows.Forms.Integration.ElementHost();
-            ehost.Child = chart3d;
-
-            //var chartplot = new Chart2D();
-            //chartplot.addFx((x) => x+1,""x+1"");
-            var plotForm = new Computator.NET.Charting.PlotForm(ehost);
-            plotForm.Show();
+        foreach (var fxy in fxys)
+        {
+            chart3d.addFx(fxy, N);
         }
 
-        public static void plot(System.Collections.Generic.List<double> x, System.Collections.Generic.List<double> y,
+        var ehost = new System.Windows.Forms.Integration.ElementHost { Child = chart3d };
+
+        var plotForm = new Computator.NET.Charting.PlotForm(ehost);
+        plotForm.Show();
+    }
+
+    public static void plot(System.Collections.Generic.List<double> x, System.Collections.Generic.List<double> y,
             System.Collections.Generic.List<double> z)
         {
             plot(x.ToArray(), y.ToArray(), z.ToArray());

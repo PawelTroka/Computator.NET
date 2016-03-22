@@ -1099,10 +1099,10 @@ namespace Computator.NET
             this.editToolStripMenuItem1,
             this.functionsToolStripMenuItem,
             this.constantsToolStripMenuItem,
-            this.chartToolStripMenuItem,
+            //this.chartToolStripMenuItem,
             this.transformToolStripMenuItem,
-            this.comlexChartToolStripMenuItem,
-            this.chart3dToolStripMenuItem,
+            //this.comlexChartToolStripMenuItem,
+            //this.chart3dToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem1});
             resources.ApplyResources(this.menuStrip2, "menuStrip2");
@@ -1493,7 +1493,7 @@ namespace Computator.NET
             // 
             this.toolStripMenuItem18.Name = "toolStripMenuItem18";
             resources.ApplyResources(this.toolStripMenuItem18, "toolStripMenuItem18");
-            this.toolStripMenuItem18.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            this.toolStripMenuItem18.Click += new System.EventHandler(exportChartToolStripMenuItem_Click);
             // 
             // toolStripSeparator11
             // 
@@ -1559,7 +1559,7 @@ namespace Computator.NET
             // 
             this.toolStripMenuItem24.Name = "toolStripMenuItem24";
             resources.ApplyResources(this.toolStripMenuItem24, "toolStripMenuItem24");
-            this.toolStripMenuItem24.Click += new System.EventHandler(this.exportChart3dToolStripMenuItem_Click);
+            this.toolStripMenuItem24.Click += new System.EventHandler(this.exportChartToolStripMenuItem_Click);
             // 
             // toolStripSeparator12
             // 

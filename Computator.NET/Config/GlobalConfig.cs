@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Computator.NET.Data;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.Localization;
 
 namespace Computator.NET.Config

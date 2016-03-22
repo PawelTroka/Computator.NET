@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Properties;

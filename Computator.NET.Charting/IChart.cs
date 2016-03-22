@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Computator.NET.DataTypes;
 
@@ -18,6 +19,8 @@ namespace Computator.NET.Charting
         void Print();
         void PrintPreview();
         void SetChartAreaValues(double x0, double xn, double y0, double yn);
+
+        void SaveImage(string path, ImageFormat imageFormat);
     }
   /*  internal interface IChart<T>
     {

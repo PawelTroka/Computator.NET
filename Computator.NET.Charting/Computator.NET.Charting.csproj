@@ -107,6 +107,7 @@
     <Compile Include="ComplexCharting\EditComplexChartWindow.Designer.cs">
       <DependentUpon>EditComplexChartWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditChartMenus.cs" />
     <Compile Include="EditChartProperties.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +121,7 @@
     <Compile Include="PlotForm.Designer.cs">
       <DependentUpon>PlotForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Printing\ImagePrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RealCharting\Chart2D.cs">
       <SubType>Component</SubType>
@@ -153,6 +155,18 @@
     <EmbeddedResource Include="ComplexCharting\EditComplexChartWindow.resx">
       <DependentUpon>EditComplexChartWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditChartMenus.cs.resx">
+      <DependentUpon>EditChartMenus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditChartMenus.de.resx">
+      <DependentUpon>EditChartMenus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditChartMenus.pl.resx">
+      <DependentUpon>EditChartMenus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditChartMenus.resx">
+      <DependentUpon>EditChartMenus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditChartProperties.cs.resx">
       <DependentUpon>EditChartProperties.cs</DependentUpon>

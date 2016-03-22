@@ -22,6 +22,11 @@
  * + TSL handles now full mathematical multiplying notation like 2x means 2*x
  * = Minor bufixes and changes to TSL Compiler allowing more freedom to user in defining things
  * = Bug in read() functions fixed - input is now CultureInvariant just like it should be
+ * + ComplexChart now supports printing and printpreview
+ * = Moved Localization to Computator.NET.DataTypes, which makes localization of all the Computator.NET components a lot easier
+ * + All charts now use the same SaveImage dialog with option for many different image formats, which makes exporting a chart nice experience
+ * = Fixed bug in plot(f(x,y)) TSL function which made user unable to change chart area values (xmin,xmax, ymin, ymax)
+ * = Unified Chart (edit) menus in GUI and scripting (they are now inside their own class, reusable), removed any code redundancies and errors (in chart3d in scripting export was generating invalid names)
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

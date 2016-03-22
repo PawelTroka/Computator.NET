@@ -8,6 +8,7 @@ using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.Constants;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.Functions;
 using Computator.NET.Localization;
 using Computator.NET.Logging;

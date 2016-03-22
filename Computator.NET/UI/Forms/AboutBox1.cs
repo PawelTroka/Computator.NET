@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.Localization;
 
 namespace Computator.NET

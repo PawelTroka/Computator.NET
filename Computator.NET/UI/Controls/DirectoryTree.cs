@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.Localization;
 using Computator.NET.UI.CodeEditors;
 

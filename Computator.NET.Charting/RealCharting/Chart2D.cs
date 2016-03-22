@@ -945,8 +945,9 @@ namespace Computator.NET.Charting.RealCharting
             //Titles[0].Text = "Wykres 1";
         }
 
-        public void saveImage()
+      /*  public void saveImage()
         {
+            
             var dialog = new SaveFileDialog();
             dialog.Filter = "Portable Network Graphics (*.png)|*.png";
             dialog.RestoreDirectory = true;
@@ -954,7 +955,7 @@ namespace Computator.NET.Charting.RealCharting
             {
                 SaveImage(dialog.FileName, ImageFormat.Png);
             }
-        }
+        }*/
 
         #region reloaders
 

@@ -66,10 +66,10 @@
 ##Charts
 * enable data loading for charts
 * enable better usage of transformation and charts scaling for loaded points
-* make charts export as image better with different types of image format (chart3d ok but chart2d has only)
 * make transformations enable for complexchart and chart3d
-* unify Chart (edit) menus in GUI and scripting (use those from GUI in scripting), remove any code redundancies and errors (-in chart3d in scripting export generates invalid names)
 * Chart2D setting XMax<XMin error handling
+* make printing appear in chart menus
+* add printing to chart3d
 
 
 ##I/O

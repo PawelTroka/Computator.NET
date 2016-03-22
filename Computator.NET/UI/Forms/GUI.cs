@@ -21,6 +21,7 @@ using Computator.NET.Charting.RealCharting;
 using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.Data;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
 using Computator.NET.Localization;
 using Computator.NET.Logging;
@@ -490,6 +491,8 @@ namespace Computator.NET
             SetMode(mode);
         }
 
+        private EditChartMenus editChartMenus;
+
         private void SetMode(CalculationsMode mode)
         {
             chartToolStripMenuItem.Visible =
@@ -532,6 +535,7 @@ namespace Computator.NET
             }
 
             _calculationsMode = mode;
+            editChartMenus.SetMode(_calculationsMode);
             UpdateXyRatio();
         }
 
@@ -734,9 +738,13 @@ DataSourceUpdateMode.Never);*/
             {
                 chart.Value.SetChartAreaValues((double) x0NumericUpDown.Value, (double) xnNumericUpDown.Value,
                     (double) y0NumericUpDown.Value, (double) yNNumericUpDown.Value);
-                complexChart.SetChartAreaValues((double) x0NumericUpDown.Value, (double) xnNumericUpDown.Value,
-                    (double) y0NumericUpDown.Value, (double) yNNumericUpDown.Value);
             }
+            editChartMenus = new EditChartMenus(chart2d,complexChart,chart3d,elementHostChart3d);
+
+            menuStrip2.Items.Insert(4, editChartMenus.chart3DToolStripMenuItem);
+            menuStrip2.Items.Insert(4, editChartMenus.comlexChartToolStripMenuItem);
+            menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
+
         }
 
         private void InitializeScripting()
@@ -849,6 +857,8 @@ DataSourceUpdateMode.Never);*/
 
         #region chart menu events
 
+        private SaveFileDialog saveChartImageFileDialog = new SaveFileDialog() {Filter = Strings.GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter,RestoreDirectory = true,DefaultExt = "png",AddExtension = true};
+
         private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var editChartWindow = new EditChartWindow(chart2d);
@@ -857,8 +867,15 @@ DataSourceUpdateMode.Never);*/
 
         private void exportChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            chart2d.saveImage();
+            saveChartImageFileDialog.FileName =
+                $"{Strings.Chart} {DateTime.Now.ToString("u",CultureInfo.InvariantCulture).Replace(':','-').Replace("Z","")}";
+            if (saveChartImageFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                Thread.Sleep(20);
+                currentChart.SaveImage(saveChartImageFileDialog.FileName,FilterIndexToImageFormat(saveChartImageFileDialog.FilterIndex));
+            }
         }
+
 
         public void aligmentLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
@@ -886,10 +903,7 @@ DataSourceUpdateMode.Never);*/
         }
 
 
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            complexChart.saveImage();
-        }
+
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -912,22 +926,7 @@ DataSourceUpdateMode.Never);*/
         }
 
 
-        private void exportChart3dToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var saveFileDialog2 = new SaveFileDialog
-            {
-                Filter = Strings.GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter,
-                FileName = Strings.Chart + DateTime.Now.ToShortDateString() + " "
-                           + DateTime.Now.ToLongTimeString().Replace(':', '-')
-                           + ".png"
-            };
 
-
-            var dialogResult = saveFileDialog2.ShowDialog(this);
-            if (dialogResult != DialogResult.OK) return;
-            Thread.Sleep(20);
-            ExportChartImage(saveFileDialog2.FileName, saveFileDialog2);
-        }
 
         private void editChart3dToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -954,20 +953,12 @@ DataSourceUpdateMode.Never);*/
             }
         }
 
-        private void ExportChartImage(string filename, SaveFileDialog saveFileDialog2)
-        {
-            var srcDC = NativeMethods.GetDC(elementHostChart3d.Handle);
 
-            var bm = new Bitmap(elementHostChart3d.Width, elementHostChart3d.Height);
-            var g = Graphics.FromImage(bm);
-            var bmDC = g.GetHdc();
-            NativeMethods.BitBlt(bmDC, 0, 0, bm.Width, bm.Height, srcDC, 0, 0, 0x00CC0020 /*SRCCOPY*/);
-            NativeMethods.ReleaseDC(elementHostChart3d.Handle, srcDC);
-            g.ReleaseHdc(bmDC);
-            g.Dispose();
+        private static ImageFormat FilterIndexToImageFormat(int filterIndex)
+        {
             ImageFormat format;
 
-            switch (saveFileDialog2.FilterIndex)
+            switch (filterIndex)
             {
                 case 1:
                     format = ImageFormat.Png;
@@ -991,8 +982,7 @@ DataSourceUpdateMode.Never);*/
                     format = ImageFormat.Png;
                     break;
             }
-
-            bm.Save(filename, format);
+            return format;
         }
 
         #endregion

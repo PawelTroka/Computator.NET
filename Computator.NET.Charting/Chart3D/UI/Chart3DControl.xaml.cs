@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using Computator.NET.Charting.Chart3D.Splines;
 using Computator.NET.DataTypes;
@@ -243,7 +247,15 @@ namespace Computator.NET.Charting.Chart3D
 
         public void addFx(Function fxy)
         {
+
             functions.Add(fxy);
+            Redraw();
+        }
+
+        public void addFx(Func<double,double,double> fxy, double n)
+        {
+            N = n;
+            functions.Add(new Function(fxy,"function1","function1"));
             Redraw();
         }
 
@@ -266,14 +278,49 @@ namespace Computator.NET.Charting.Chart3D
             Redraw();
         }
 
+        public void SaveImage(string path, ImageFormat imageFormat)
+        {
+            BitmapEncoder encoder;
+
+            if(Equals(imageFormat, ImageFormat.Png))
+                encoder= new PngBitmapEncoder();
+            else if(Equals(imageFormat, ImageFormat.Bmp))
+                encoder = new BmpBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Gif))
+                encoder = new GifBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Jpeg))
+                encoder = new JpegBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Tiff))
+                encoder = new TiffBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Wmf))
+                encoder = new WmpBitmapEncoder();
+            else
+                encoder = new PngBitmapEncoder();
+
+
+            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)this.ActualWidth, (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(this);
+            BitmapFrame frame = BitmapFrame.Create(bitmap);
+            encoder.Frames.Add(frame);
+
+            using (var stream = File.Create(path))
+            {
+                encoder.Save(stream);
+            }
+        }
+
+
+
+
+
         public void Redraw()
         {
             firstTimeAdd = true;
             foreach (var f in functions)
-                addFx((x, y) => f.Evaluate(x, y), xmin, xmax, ymin, ymax, N);
+                drawFunction((x, y) => f.Evaluate(x, y), xmin, xmax, ymin, ymax, N);
         }
 
-        public void addFx(Func<double, double, double> fxy, double XMin, double XMax, double YMin, double YMax,
+        private void drawFunction(Func<double, double, double> fxy, double XMin, double XMax, double YMin, double YMax,
             double N = 1e2)
         {
             if (mode == Chart3DMode.Surface)
@@ -357,7 +404,7 @@ namespace Computator.NET.Charting.Chart3D
             TransformChart();
         }
 
-        public void AddSurface(Func<double, double, double> fxy, double XMin, double XMax, double YMin, double YMax,
+        private void AddSurface(Func<double, double, double> fxy, double XMin, double XMax, double YMin, double YMax,
             double N = 1e2)
         {
             ((UniformSurfaceChart3D) m_3dChart).SetGrid((int) N, (int) N, (float) XMin, (float) XMax, (float) YMin,
@@ -422,7 +469,7 @@ namespace Computator.NET.Charting.Chart3D
             TransformChart();
         }
 
-        public void AddData(Spline3D spline3D, Color color)
+        private void AddData(Spline3D spline3D, Color color)
         {
             var points = spline3D.getPoints();
             var oldSize = m_3dChart.GetDataNo();
@@ -515,7 +562,7 @@ namespace Computator.NET.Charting.Chart3D
             TransformChart();
         }
 
-        public void SetData(Spline3D spline3D, Color color)
+        private void SetData(Spline3D spline3D, Color color)
         {
             var points = spline3D.getPoints();
             var oldSize = 0;
@@ -543,51 +590,6 @@ namespace Computator.NET.Charting.Chart3D
             }
 
 
-            if (_useSpline)
-            {
-                Point3D p1, p2;
-                double h, deltaX, deltaY, deltaZ, aX, aZ;
-
-                for (var i = 0; i < _splineSmothness; i++)
-                {
-                    p1 = spline3D.getPoint(i/(double) (_splineSmothness));
-                    p2 = spline3D.getPoint((i + 1)/(double) (_splineSmothness));
-                    deltaX = p2.X - p1.X;
-                    deltaY = p2.Y - p1.Y;
-                    deltaZ = p2.Z - p1.Z;
-                    h = Math.Sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ);
-
-                    // WPFChart3D.Mesh3D dCylinder = new WPFChart3D.Cylinder3D(_dotSize, _dotSize, h, 7);
-                    // dCylinder.SetColor(Colors.Aqua);
-
-                    aX = Math.Atan2(deltaY, deltaX);
-                    aZ = Math.Atan2(deltaX, deltaZ);
-
-                    // WPFChart3D.TransformMatrix.Transform(dCylinder, new Point3D(0.5 * (p1.X + p2.X), 0.5 * (p1.Y + p2.Y), 0.5 * (p1.Z + p2.Z)),aX,aZ);
-
-                    //
-                    var plotItem = new ScatterPlotItem();
-
-                    plotItem.w = (float) DotSize; //size of plotItem
-                    plotItem.h = (float) h; //size of plotItem
-
-                    plotItem.x = (float) (0.5*(p1.X + p2.X));
-                    plotItem.y = (float) (0.5*(p1.Y + p2.Y));
-                    plotItem.z = (float) (0.5*(p1.Z + p2.Z));
-                    plotItem.shape = (int) Chart3D.SHAPE.CYLINDER;
-
-                    plotItem.aX = aX + 90;
-                    plotItem.aZ = aZ;
-
-                    if (i == 0)
-                        plotItem.color = Colors.White;
-                    else if (i == _splineSmothness - 1)
-                        plotItem.color = Colors.Aqua;
-                    else
-                        plotItem.color = color; ////
-                    ((ScatterChart3D) m_3dChart).SetVertex(oldSize + points.Count + i, plotItem);
-                }
-            }
 
             m_3dChart.UseAxes = VisibilityAxes;
             m_3dChart.SetAxesColor(AxesColor);

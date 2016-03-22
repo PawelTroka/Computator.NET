@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Computator.NET.Charting.Printing;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.ComplexCharting
@@ -201,14 +202,16 @@ namespace Computator.NET.Charting.ComplexCharting
             Redraw();
         }
 
+        private ImagePrinter imagePrinter= new ImagePrinter();
+
         public void Print()
         {
-            throw new NotImplementedException();
+            imagePrinter.Print(image);
         }
 
         public void PrintPreview()
         {
-            throw new NotImplementedException();
+            imagePrinter.PrintPreview(image);
         }
 
         public void addFx(Func<Complex, Complex> Fz, string name)
@@ -226,19 +229,19 @@ namespace Computator.NET.Charting.ComplexCharting
             YMax = yn; //max;
         }
 
-        public void saveImage()
+        public void SaveImage(string path, ImageFormat imageFormat)
         {
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "Portable Network Graphics (*.png)|*.png";
-            dialog.RestoreDirectory = true;
+          //  var dialog = new SaveFileDialog();
+         //   dialog.Filter = "Portable Network Graphics (*.png)|*.png";
+         //   dialog.RestoreDirectory = true;
 
             if (image != null)
-                if (dialog.ShowDialog() == DialogResult.OK)
+              //  if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (var writer = dialog.OpenFile())
+                  //  using (var writer = dialog.OpenFile())
                     {
-                        if (writer == null) return;
-                        image.Save(writer, ImageFormat.Png);
+                   //     if (writer == null) return;
+                        image.Save(path, imageFormat);
                     }
                 }
         }

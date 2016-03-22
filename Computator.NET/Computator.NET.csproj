@@ -178,7 +178,6 @@
     </Compile>
     <Compile Include="Data\FunctionsDetails.cs" />
     <Compile Include="Data\MethodInfoExtensions.cs" />
-    <Compile Include="Evaluation\CalculationsMode.cs" />
     <Compile Include="Evaluation\EvaluationException.cs" />
     <Compile Include="Evaluation\ExpressionsEvaluator.cs" />
     <Compile Include="Evaluation\ModeDeterminer.cs" />
@@ -201,21 +200,6 @@
     </Compile>
     <Compile Include="Functions\StatisticsFunctions.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Localization\Strings.de.Designer.cs">
-      <DependentUpon>Strings.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Strings.cs.Designer.cs">
-      <DependentUpon>Strings.cs.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Strings.pl.Designer.cs">
-      <DependentUpon>Strings.pl.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Transformations\TrigonometricTransformations.cs" />
@@ -281,10 +265,6 @@
     <Compile Include="UI\Forms\GUI.Designer.cs">
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Localization\LocalizationManager.cs" />
-    <Compile Include="Localization\LocalizedForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="UI\Forms\LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -311,11 +291,6 @@
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs" />
-    <Compile Include="Localization\Strings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -330,19 +305,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Config\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.cs.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.cs.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.pl.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.pl.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\DocumentsTabControl.resx">
       <DependentUpon>DocumentsTabControl.cs</DependentUpon>
@@ -371,11 +333,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ReadForm.resx">
       <DependentUpon>ReadForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />

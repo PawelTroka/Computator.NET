@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Computator.NET.Config;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.Localization;
 using Computator.NET.Logging;
 using Microsoft.CSharp;
