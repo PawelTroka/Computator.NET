@@ -303,18 +303,111 @@ namespace UnitTests
     tslCompiler.TransformToCSharp("1e11a"), "Fail!!!");
         }
 
-
+        [TestMethod]
         public void MultiplyingPseudoEngineeringNotationShouldBChangedTest4()
         {
             Assert.AreEqual("3123.3321*e",
     tslCompiler.TransformToCSharp("3123.3321e"), "Fail!!!");
         }
 
-
+        [TestMethod]
         public void MultiplyingPseudoEngineeringNotationShouldBChangedTest5()
         {
             Assert.AreEqual("2*E",
     tslCompiler.TransformToCSharp("2E"), "Fail!!!");
         }
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest6()
+        {
+            Assert.AreEqual("(1*e)",
+    tslCompiler.TransformToCSharp("(1e)"), "Fail!!!");
+        }
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest7()
+        {
+            Assert.AreEqual("1*e+1*E",
+    tslCompiler.TransformToCSharp("1e+1E"), "Fail!!!");
+        }
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest8()
+        {
+            Assert.AreEqual("2*e-10*e",
+    tslCompiler.TransformToCSharp("2e-10e"), "Fail!!!");
+        }
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest9()
+        {
+            Assert.AreEqual("1*e+1*e+1*e+1*e+1*e+1*e",
+    tslCompiler.TransformToCSharp("1e+1e+1e+1e+1e+1e"), "Fail!!!");
+        }
+
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest10()
+        {
+            Assert.AreEqual("1*e+1.1",
+    tslCompiler.TransformToCSharp("1e+1.1"), "Fail!!!");
+        }
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest11()
+        {
+            Assert.AreEqual("2.22221*e-100.1321",
+    tslCompiler.TransformToCSharp("2.22221e-100.1321"), "Fail!!!");
+        }
+        [TestMethod]
+
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest12()
+        {
+            Assert.AreEqual("9*E",
+    tslCompiler.TransformToCSharp("9E"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest13()
+        {
+            Assert.AreEqual("9.92121*e",
+    tslCompiler.TransformToCSharp("9.92121e"), "Fail!!!");
+        }
+
+
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest14()
+        {
+            Assert.AreEqual("(1*e)+2*aa",
+    tslCompiler.TransformToCSharp("(1e)+2aa"), "Fail!!!");
+        }
+
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest145()
+        {
+            Assert.AreEqual("(1*e) 2*aa",
+    tslCompiler.TransformToCSharp("(1e) 2aa"), "Fail!!!");
+        }
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest15()
+        {
+            Assert.AreEqual(@"(2*e)
+2*q",
+    tslCompiler.TransformToCSharp(@"(2e)
+2q"), "Fail!!!");
+        }
+
+
+        [TestMethod]
+        public void MultiplyingPseudoEngineeringNotationShouldBChangedTest16()
+        {
+            Assert.AreEqual(@"2*E
+(1*e)",
+    tslCompiler.TransformToCSharp(@"2E
+(1e)"), "Fail!!!");
+        }
+
+        //2e-10e
+        //1e+1E
+        //1e+1e+1e+1e+1e+1e
     }
 }

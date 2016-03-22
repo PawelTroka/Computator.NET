@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Computator.NET.DataTypes;
@@ -67,7 +68,7 @@ namespace Computator.NET.Compilation
 
         private readonly Regex variableRaisedToAnyPowerRegex = new Regex(validVariableDeclaration + powerCatchingGroup+ @"([^\("+SpecialSymbols.SuperscriptsWithoutSpace+ @"]|$)", RegexOptions.Compiled);
 
-        private readonly Regex multiplyingRegex = new Regex(@"((?:[^\u0370-\u03FFa-zA-Z_(\d\.][^\u0370-\u03FFa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:[\u0370-\u03FFa-df-zA-DF-Z_][\u0370-\u03FFa-z0-9A-Z_]*)|(?:[Ee][\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)|(?:[Ee][0-9]+[\u0370-\u03FFa-zA-Z_]+))", RegexOptions.Compiled);
+        private readonly Regex multiplyingRegex = new Regex(@"((?:[^\u0370-\u03FFa-zA-Z_\d\.][^\u0370-\u03FFa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:[\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*))", RegexOptions.Compiled);
 
 
 
@@ -86,20 +87,23 @@ namespace Computator.NET.Compilation
         private readonly Regex refRegex = new Regex(@"([\(,\s])(&)([\u0370-\u03FFa-zA-Z_])", RegexOptions.Compiled);
 
 
+        private readonly Regex engineeringNotationRegex = new Regex(@"(\d+\.?\d*)([Ee][+-]?\d+)([^\d\u0370-\u03FFa-zA-Z_.]|$)", RegexOptions.Compiled);
+
+
+        private readonly Regex changeBackEngineeringNotationRegex = new Regex(@"{{ENGINERING#NOTATION}(\d+\.?\d*)#([Ee][+-]?\d+){ENGINERING#NOTATION}([^\d\u0370-\u03FFa-zA-Z_.]*){ENGINERING#NOTATION}}", RegexOptions.Compiled);
+
         public string TransformToCSharp(string tslCode)
         {
-            var zeroPhase = matrixRegex.Replace(tslCode, @"matrix(new [,]{").Replace("ᵀ", ".Transpose()");
-            //  var codeBuilder = new StringBuilder(firstPhase);
-            //codeBuilder//.Replace("matrix({", "matrix(new [,]{")
-            //  .Replace("ᵀ", ".Transpose()")
-            // .Replace("read(&", "read(out ")
-            //.Replace("read( &", "read(out ")
-            //.Replace("(&", "( ref ");
+            var listOfResults = new List<string>() { tslCode };
+
+            listOfResults.Add(matrixRegex.Replace(listOfResults.Last(), @"matrix(new [,]{"));
+
+            listOfResults.Add(listOfResults.Last().Replace("ᵀ", ".Transpose()"));
 
 
-            var firstPhase = readOutRegex.Replace(zeroPhase, "$1 out ");
+            listOfResults.Add(readOutRegex.Replace(listOfResults.Last(), "$1 out "));
 
-            var secondPhase = refRegex.Replace(firstPhase, @"$1 ref $3");
+            listOfResults.Add(refRegex.Replace(listOfResults.Last(), @"$1 ref $3"));
 
 
 
@@ -110,17 +114,23 @@ namespace Computator.NET.Compilation
             // Func<double, double> fafa = (x) => x;
             //var ffff = new Function.Function(fafa,"fafa","fafa");
 
-            var thirdPhase = ReplaceLocalFunctions(secondPhase);
+            listOfResults.Add(ReplaceLocalFunctions(listOfResults.Last()));
 
-            var fourthPhase = ReplacePow(thirdPhase);
+            listOfResults.Add(ReplacePow(listOfResults.Last()));
 
-            var fifthPhase = ReplaceToDoubles(fourthPhase);
+            listOfResults.Add(ReplaceToDoubles(listOfResults.Last()));
 
-            var sixthPhase = ReplaceMultiplying(fifthPhase);
 
-            var seventhPhase = sixthPhase.Replace(SpecialSymbols.DotSymbol, '*');
+          //  var engineeringNotationMatches = engineeringNotationRegex.Matches(listOfResults.Last());
 
-            return seventhPhase;
+            
+
+
+            listOfResults.Add(ReplaceMultiplying(listOfResults.Last()));
+
+            listOfResults.Add(listOfResults.Last().Replace(SpecialSymbols.DotSymbol, '*'));
+
+            return listOfResults.Last();
         }
 
         private string ReplaceLocalFunctions(string code)
@@ -151,7 +161,21 @@ namespace Computator.NET.Compilation
 
         private string ReplaceMultiplying(string input) //OK
         {
-            var result = multiplyingRegex.Replace(input, "$1$2*$3");
+            var result = engineeringNotationRegex.Replace(input, @"{{ENGINERING#NOTATION}$1#$2{ENGINERING#NOTATION}$3{ENGINERING#NOTATION}}");
+
+            result = multiplyingRegex.Replace(result, "$1$2*$3");
+            /* delegate (Match match)
+            {
+
+                string v = match.Result("$1$2$3");//match.ToString();
+
+                if (engineeringNotationRegex.IsMatch(v))//we don't wanna change engineering notation
+                    return v;
+
+                return match.Result(@"$1$2*$3");
+            });*/
+
+            result = changeBackEngineeringNotationRegex.Replace(result, @"$1$2$3");
             return result;
         }
 
