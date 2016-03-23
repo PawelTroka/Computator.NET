@@ -104,6 +104,8 @@ namespace Computator.NET.Charting.Chart3D
 
         public int GetDataNo()
         {
+            if (m_vertices == null)
+                return 0;
             return m_vertices.Length;
         }
 
@@ -114,6 +116,11 @@ namespace Computator.NET.Charting.Chart3D
 
         public void IncreaseDataSize(int additionalSize)
         {
+            if (m_vertices == null)
+            {
+                SetDataNo(additionalSize);
+                return;
+            }
             var n_vertices = new Vertex3D[m_vertices.Length + additionalSize];
             for (var i = 0; i < m_vertices.Length; i++)
                 n_vertices[i] = m_vertices[i];

@@ -27,6 +27,8 @@ namespace Computator.NET.Charting.Chart3D
         // set this ModelVisual3D object from a array of mesh3D objects
         private void SetModel(ArrayList meshs, Material backMaterial)
         {
+            if (meshs == null)
+                return;
             var nMeshNo = meshs.Count;
             if (nMeshNo == 0) return;
 

@@ -24,11 +24,9 @@ namespace Computator.NET.Charting.Chart3D
         private double _dotSize;
         private bool _equalAxes;
         private double _scale;
-        private uint _splineSmothness;
-        private bool _useSpline;
+
         private bool _visibilityAxes;
         private AxisLabels axisLabels;
-        private bool firstTimeAdd = true;
         private Chart3D m_3dChart; // data for 3d chart
         public int m_nChartModelIndex = -1; // model index in the Viewport3d
         public TransformMatrix m_transformMatrix = new TransformMatrix();
@@ -205,10 +203,12 @@ namespace Computator.NET.Charting.Chart3D
                 {
                     mode = value;
                     if (value == Chart3DMode.Points)
-                        TestScatterPlot(1);
+                        m_3dChart = new ScatterChart3D();//TestScatterPlot(1);
                     else if (value == Chart3DMode.Surface)
-                        TestSurfacePlot(1);
-                    TransformChart();
+                        m_3dChart = new UniformSurfaceChart3D();//TestSurfacePlot(1);
+
+
+                    //TransformChart();
                     Redraw();
                 }
             }
@@ -237,12 +237,14 @@ namespace Computator.NET.Charting.Chart3D
             functions.Clear();
 
             if (mode == Chart3DMode.Points)
-                TestScatterPlot(1);
+                m_3dChart = new ScatterChart3D();//TestScatterPlot(1);
             else if (mode == Chart3DMode.Surface)
-                TestSurfacePlot(1);
+                m_3dChart = new UniformSurfaceChart3D();//TestSurfacePlot(1);
+
+            reloadPoints();
+
             axisLabels.Remove();
             TransformChart();
-            firstTimeAdd = true;
         }
 
         public void addFx(Function fxy)
@@ -315,20 +317,28 @@ namespace Computator.NET.Charting.Chart3D
 
         public void Redraw()
         {
-            firstTimeAdd = true;
             foreach (var f in functions)
-                drawFunction((x, y) => f.Evaluate(x, y), xmin, xmax, ymin, ymax, N);
+                drawFunction((x, y) => f.Evaluate(x, y));
         }
 
-        private void drawFunction(Func<double, double, double> fxy, double XMin, double XMax, double YMin, double YMax,
-            double N = 1e2)
+        private void drawFunction(Func<double, double, double> fxy)
         {
             if (mode == Chart3DMode.Surface)
             {
-                AddSurface(fxy, XMin, XMax, YMin, YMax, N);
+                AddSurface(fxy);
                 return;
             }
 
+            var spline3d = CalculateSpline3D(fxy);
+
+            var rnd = new Random();
+
+                AddData(spline3d,
+                    new Color {R = (byte) rnd.Next(0, 256), G = (byte) rnd.Next(0, 256), B = (byte) rnd.Next(0, 256)});
+        }
+
+        private Spline3D CalculateSpline3D(Func<double, double, double> fxy)
+        {
             double dx = (XMax - XMin)/N, dy = (YMax - YMin)/N;
             double x, y, z;
             var spline3d = new Spline3D();
@@ -341,19 +351,7 @@ namespace Computator.NET.Charting.Chart3D
                     if (!double.IsNaN(z) && !double.IsInfinity(z))
                         spline3d.addPoint(new Point3D(x, y, z));
                 }
-
-            var rnd = new Random();
-
-
-            if (firstTimeAdd)
-            {
-                SetData(spline3d,
-                    new Color {R = (byte) rnd.Next(0, 256), G = (byte) rnd.Next(0, 256), B = (byte) rnd.Next(0, 256)});
-                firstTimeAdd = false;
-            }
-            else
-                AddData(spline3d,
-                    new Color {R = (byte) rnd.Next(0, 256), G = (byte) rnd.Next(0, 256), B = (byte) rnd.Next(0, 256)});
+            return spline3d;
         }
 
         private void reloadPoints() //changeDotSize, change
@@ -374,47 +372,21 @@ namespace Computator.NET.Charting.Chart3D
                     ((ScatterChart3D) m_3dChart).SetVertex(i, plotItem);
                 }
             }
-            m_3dChart.UseAxes = VisibilityAxes;
-            m_3dChart.SetAxesColor(AxesColor);
-            // 3. set axes
-            m_3dChart.GetDataRange();
-            m_3dChart.SetAxes();
 
-            // 4. Get Mesh3D array from scatter plot
-            ArrayList meshs = null;
-            if (mode == Chart3DMode.Points)
-                meshs = ((ScatterChart3D) m_3dChart).GetMeshes();
-            else if (mode == Chart3DMode.Surface)
-                meshs = ((UniformSurfaceChart3D) m_3dChart).GetMeshes();
 
-            // 5. display vertex no and triangle no.
-            UpdateModelSizeInfo(meshs);
+            UpdateChart();
 
-            // 6. show 3D scatter plot in Viewport3d
-            var model3d = new Model3D();
-
-            Material backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
-
-            if (mode == Chart3DMode.Points)
-                m_nChartModelIndex = model3d.UpdateModel(meshs, null, m_nChartModelIndex, mainViewport);
-            else if (mode == Chart3DMode.Surface)
-                m_nChartModelIndex = model3d.UpdateModel(meshs, backMaterial, m_nChartModelIndex, mainViewport);
-            // 7. set projection matrix
-            rescaleProjectionMatrix();
-            TransformChart();
         }
 
-        private void AddSurface(Func<double, double, double> fxy, double XMin, double XMax, double YMin, double YMax,
-            double N = 1e2)
+        private DiffuseMaterial backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
+
+        private void AddSurface(Func<double, double, double> fxy)
         {
             ((UniformSurfaceChart3D) m_3dChart).SetGrid((int) N, (int) N, (float) XMin, (float) XMax, (float) YMin,
                 (float) YMax);
 
-            // 2. set surface chart z value
             var oldSize = 0;
             var nVertNo = (int) (N*N);
-
-            //m_3dChart.IncreaseDataSize(nVertNo);
 
             for (var i = 0; i < nVertNo; i++)
             {
@@ -433,212 +405,74 @@ namespace Computator.NET.Charting.Chart3D
             {
                 var vert = m_3dChart[oldSize + i];
                 var h = (vert.z - zMin)/(zMax - zMin);
-
-
                 var color = TextureMapping.PseudoColor(h);
                 m_3dChart[oldSize + i].color = color;
 
                 if (double.IsInfinity(vert.z) || double.IsNaN(vert.z))
                 {
                     vert.z = 0;
-                    // MessageBox.Show("chuj2");
                 }
             }
 
+            UpdateChart();
+        }
+
+        private void UpdateChart()
+        {
             m_3dChart.UseAxes = VisibilityAxes;
             m_3dChart.SetAxesColor(AxesColor);
-            // 3. set axes
             m_3dChart.GetDataRange();
             m_3dChart.SetAxes();
 
-            // 4. Get Mesh3D array from scatter plot
-            var meshs = ((UniformSurfaceChart3D) m_3dChart).GetMeshes();
-            //ArrayList meshs = (((Computator.NET.Charting.Chart3D.ScatterChart3D)m_3dChart).GetMeshes());
+            ArrayList meshs = null;
+            if (mode == Chart3DMode.Points)
+                meshs = ((ScatterChart3D)m_3dChart).GetMeshes();
+            else if (mode == Chart3DMode.Surface)
+                meshs = ((UniformSurfaceChart3D)m_3dChart).GetMeshes();
 
-            // 5. display vertex no and triangle no.
-            UpdateModelSizeInfo(meshs);
+            UpdateChartLabels(meshs);
 
-            // 6. show 3D scatter plot in Viewport3d
-            var model3d = new Model3D();
-            Material backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
-            m_nChartModelIndex = model3d.UpdateModel(meshs, backMaterial, m_nChartModelIndex, mainViewport);
-            //m_nChartModelIndex = model3d.UpdateModel(meshs, null, m_nChartModelIndex, this.mainViewport);
+            m_nChartModelIndex = (new Model3D()).UpdateModel(meshs, (m_3dChart is UniformSurfaceChart3D) ? backMaterial : null, m_nChartModelIndex, mainViewport);
 
-            // 7. set projection matrix
             rescaleProjectionMatrix();
-            TransformChart();
+          //  TransformChart();
         }
 
         private void AddData(Spline3D spline3D, Color color)
         {
-            var points = spline3D.getPoints();
             var oldSize = m_3dChart.GetDataNo();
-
-            if (_useSpline)
-                m_3dChart.IncreaseDataSize(points.Count + (int) (_splineSmothness));
-            else
-                m_3dChart.IncreaseDataSize(points.Count);
+             m_3dChart.IncreaseDataSize(spline3D.getPoints().Count);
 
             // 2. set the properties of each dot
-            for (var i = 0; i < points.Count; i++)
+            for (var i = 0; i < spline3D.getPoints().Count; i++)
             {
-                var plotItem = new ScatterPlotItem();
-
-                plotItem.w = (float) DotSize; //size of plotItem
-                plotItem.h = (float) DotSize; //size of plotItem
-
-                plotItem.x = (float) points[i].X;
-                plotItem.y = (float) points[i].Y;
-                plotItem.z = (float) points[i].Z;
-                plotItem.shape = (int) Chart3D.SHAPE.ELLIPSE;
-
-                plotItem.color = color;
-                ((ScatterChart3D) m_3dChart).SetVertex(oldSize + i, plotItem);
-            }
-
-
-            if (_useSpline)
-            {
-                Point3D p1, p2;
-                double h, deltaX, deltaY, deltaZ, aX, aZ;
-
-                for (var i = 0; i < _splineSmothness; i++)
+                var plotItem = new ScatterPlotItem
                 {
-                    p1 = spline3D.getPoint(i/(double) (_splineSmothness));
-                    p2 = spline3D.getPoint((i + 1)/(double) (_splineSmothness));
-                    deltaX = p2.X - p1.X;
-                    deltaY = p2.Y - p1.Y;
-                    deltaZ = p2.Z - p1.Z;
-                    h = Math.Sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ);
+                    w = (float) DotSize,//size of plotItem
+                    h = (float) DotSize,//size of plotItem
+                    x = (float)spline3D.getPoints()[i].X,
+                    y = (float)spline3D.getPoints()[i].Y,
+                    z = (float)spline3D.getPoints()[i].Z,
+                    shape = (int) Chart3D.SHAPE.ELLIPSE,
+                    color = color
+                };
 
-                    aX = Math.Atan2(deltaY, deltaX);
-                    aZ = Math.Atan2(deltaX, deltaZ);
-
-                    var plotItem = new ScatterPlotItem();
-
-                    plotItem.w = (float) DotSize; //size of plotItem
-                    plotItem.h = (float) h; //size of plotItem
-
-                    plotItem.x = (float) (0.5*(p1.X + p2.X));
-                    plotItem.y = (float) (0.5*(p1.Y + p2.Y));
-                    plotItem.z = (float) (0.5*(p1.Z + p2.Z));
-                    plotItem.shape = (int) Chart3D.SHAPE.CYLINDER;
-
-                    plotItem.aX = aX + 90;
-                    plotItem.aZ = aZ;
-
-
-                    if (i == 0)
-                        plotItem.color = Colors.White;
-                    else if (i == _splineSmothness - 1)
-                        plotItem.color = Colors.Aqua;
-                    else
-                        plotItem.color = color; ////
-                    ((ScatterChart3D) m_3dChart).SetVertex(oldSize + points.Count + i, plotItem);
-                }
-            }
-
-            m_3dChart.UseAxes = VisibilityAxes;
-            m_3dChart.SetAxesColor(AxesColor);
-            // 3. set axes
-            m_3dChart.GetDataRange();
-            m_3dChart.SetAxes();
-
-            // 4. Get Mesh3D array from scatter plot
-            var meshs = (((ScatterChart3D) m_3dChart).GetMeshes());
-
-            // if (_useSpline)
-            //  drawSpline(points, color, meshs);
-
-            // 5. display vertex no and triangle no.
-            UpdateModelSizeInfo(meshs);
-
-            // 6. show 3D scatter plot in Viewport3d
-            var model3d = new Model3D();
-            m_nChartModelIndex = model3d.UpdateModel(meshs, null, m_nChartModelIndex, mainViewport);
-
-            // 7. set projection matrix
-            rescaleProjectionMatrix();
-            TransformChart();
-        }
-
-        private void SetData(Spline3D spline3D, Color color)
-        {
-            var points = spline3D.getPoints();
-            var oldSize = 0;
-
-            if (_useSpline)
-                m_3dChart.SetDataNo(points.Count + (int) (_splineSmothness));
-            else
-                m_3dChart.SetDataNo(points.Count);
-
-            // 2. set the properties of each dot
-            for (var i = 0; i < points.Count; i++)
-            {
-                var plotItem = new ScatterPlotItem();
-
-                plotItem.w = (float) DotSize; //size of plotItem
-                plotItem.h = (float) DotSize; //size of plotItem
-
-                plotItem.x = (float) points[i].X;
-                plotItem.y = (float) points[i].Y;
-                plotItem.z = (float) points[i].Z;
-                plotItem.shape = (int) Chart3D.SHAPE.ELLIPSE;
-
-                plotItem.color = color;
                 ((ScatterChart3D) m_3dChart).SetVertex(oldSize + i, plotItem);
             }
 
-
-
-            m_3dChart.UseAxes = VisibilityAxes;
-            m_3dChart.SetAxesColor(AxesColor);
-            // 3. set axes
-            m_3dChart.GetDataRange();
-            m_3dChart.SetAxes();
-
-            // 4. Get Mesh3D array from scatter plot
-            var meshs = (((ScatterChart3D) m_3dChart).GetMeshes());
-
-            // 5. display vertex no and triangle no.
-            UpdateModelSizeInfo(meshs);
-
-            // 6. show 3D scatter plot in Viewport3d
-            var model3d = new Model3D();
-            m_nChartModelIndex = model3d.UpdateModel(meshs, null, m_nChartModelIndex, mainViewport);
-
-            // 7. set projection matrix
-            rescaleProjectionMatrix();
-            TransformChart();
+                UpdateChart();
         }
+
 
         public void rescaleProjectionMatrix()
         {
             if (EqualAxes)
-                m_transformMatrix.CalculateProjectionMatrix(min(m_3dChart.XMin(), m_3dChart.YMin(), m_3dChart.ZMin()),
-                    max(m_3dChart.XMax(), m_3dChart.YMax(), m_3dChart.ZMax()), Scale);
+                m_transformMatrix.CalculateProjectionMatrix(Math.Min(m_3dChart.XMin(), Math.Min(m_3dChart.YMin(), m_3dChart.ZMin())),
+                    Math.Max(m_3dChart.XMax(),Math.Max(m_3dChart.YMax(),m_3dChart.ZMax())), Scale);
             else
                 m_transformMatrix.CalculateProjectionMatrix(m_3dChart.XMin(), m_3dChart.XMax(), m_3dChart.YMin(),
                     m_3dChart.YMax(), m_3dChart.ZMin(), m_3dChart.ZMax(), Scale);
             TransformChart();
-        }
-
-        private float max(float a, float b, float c)
-        {
-            if (a > b && a > c)
-                return a;
-            if (c > b)
-                return c;
-            return b;
-        }
-
-        private float min(float a, float b, float c)
-        {
-            if (a < b && a < c)
-                return a;
-            if (c < b)
-                return c;
-            return b;
         }
 
         public void OnViewportMouseDown(object sender, MouseButtonEventArgs args)
@@ -734,21 +568,18 @@ namespace Computator.NET.Charting.Chart3D
             TransformChart();
         }
 
-        private void UpdateModelSizeInfo(ArrayList meshs)
+        private void UpdateChartLabels(ArrayList meshs)
         {
-            var nMeshNo = meshs.Count;
-            var nChartVertNo = 0;
-            var nChartTriangelNo = 0;
+            if (meshs == null)
+                return;
+
             var whichTimeCone3dAppear = 0;
 
-            for (var i = 0; i < nMeshNo; i++)
+            for (var i = 0; i < meshs.Count; i++)
             {
-                nChartVertNo += ((Mesh3D) meshs[i]).GetVertexNo();
-                nChartTriangelNo += ((Mesh3D) meshs[i]).GetTriangleNo();
                 if (meshs[i].GetType() == typeof (Cone3D))
                 {
                     whichTimeCone3dAppear++;
-                    //axisLabels.ActiveLabels = true;
                     if (whichTimeCone3dAppear == 1)
                     {
                         axisLabels.x3D = ((Cone3D) meshs[i]).GetLastPoint();

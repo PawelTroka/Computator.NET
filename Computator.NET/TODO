@@ -14,6 +14,7 @@
 * shift+r_mouse_click on item_key activates new window
 * Special function search list arrangement ( or arrangement by user).
 * Cancel doesnt work to second option in benchmark if first option was already cancelled and second started later
+* Maybe ModelViewPresenter for all UI code? It would mean easier testing.
 
 
 ##Functions and constants
