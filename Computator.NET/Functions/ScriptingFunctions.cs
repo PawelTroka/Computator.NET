@@ -324,7 +324,7 @@ namespace Computator.NET.Functions
             var rgb = new byte[3];
             rnd.NextBytes(rgb);
 
-            chart3d.SetPoints(points, System.Windows.Media.Color.FromRgb(rgb[0], rgb[1], rgb[2]));
+            chart3d.AddPoints(points, System.Windows.Media.Color.FromRgb(rgb[0], rgb[1], rgb[2]));
 
             var ehost = new System.Windows.Forms.Integration.ElementHost();
             ehost.Child = chart3d;
@@ -738,7 +738,7 @@ namespace Computator.NET.Functions
             var rgb = new byte[3];
             rnd.NextBytes(rgb);
 
-            chart3d.SetPoints(points, System.Windows.Media.Color.FromRgb(rgb[0], rgb[1], rgb[2]));
+            chart3d.AddPoints(points, System.Windows.Media.Color.FromRgb(rgb[0], rgb[1], rgb[2]));
 
             var ehost = new System.Windows.Forms.Integration.ElementHost();
             ehost.Child = chart3d;

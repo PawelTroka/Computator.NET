@@ -92,7 +92,6 @@
     <Compile Include="Chart3D\UI\UnitsComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Chart3D\UI\UserControl1.xaml.Testing.cs" />
     <Compile Include="Chart3D\Chart3D\Vertex3D.cs" />
     <Compile Include="Chart3D\Chart3D\ViewportRect.cs" />
     <Compile Include="ComplexCharting\AssignmentOfColorMethod.cs" />

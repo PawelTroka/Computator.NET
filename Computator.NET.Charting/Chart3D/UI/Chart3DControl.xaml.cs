@@ -70,7 +70,7 @@ namespace Computator.NET.Charting.Chart3D
             set
             {
                 _scale = value;
-                rescaleProjectionMatrix();
+                RescaleProjectionMatrix();
             }
         }
 
@@ -81,7 +81,7 @@ namespace Computator.NET.Charting.Chart3D
             set
             {
                 _dotSize = value;
-                reloadPoints();
+                ReloadPoints();
             }
         }
 
@@ -92,7 +92,7 @@ namespace Computator.NET.Charting.Chart3D
             set
             {
                 _axesColor = value;
-                reloadPoints();
+                ReloadPoints();
             }
         }
 
@@ -102,7 +102,7 @@ namespace Computator.NET.Charting.Chart3D
             set
             {
                 _equalAxes = value;
-                rescaleProjectionMatrix();
+                RescaleProjectionMatrix();
             }
         }
 
@@ -114,7 +114,7 @@ namespace Computator.NET.Charting.Chart3D
             {
                 _visibilityAxes = value;
                 if (m_3dChart != null) m_3dChart.UseAxes = value;
-                reloadPoints();
+                ReloadPoints();
             }
         }
 
@@ -241,7 +241,7 @@ namespace Computator.NET.Charting.Chart3D
             else if (mode == Chart3DMode.Surface)
                 m_3dChart = new UniformSurfaceChart3D();//TestSurfacePlot(1);
 
-            reloadPoints();
+            ReloadPoints();
 
             axisLabels.Remove();
             TransformChart();
@@ -249,7 +249,6 @@ namespace Computator.NET.Charting.Chart3D
 
         public void addFx(Function fxy)
         {
-
             functions.Add(fxy);
             Redraw();
         }
@@ -310,18 +309,14 @@ namespace Computator.NET.Charting.Chart3D
                 encoder.Save(stream);
             }
         }
-
-
-
-
-
+        
         public void Redraw()
         {
             foreach (var f in functions)
-                drawFunction((x, y) => f.Evaluate(x, y));
+                DrawFunction((x, y) => f.Evaluate(x, y));
         }
 
-        private void drawFunction(Func<double, double, double> fxy)
+        private void DrawFunction(Func<double, double, double> fxy)
         {
             if (mode == Chart3DMode.Surface)
             {
@@ -333,7 +328,7 @@ namespace Computator.NET.Charting.Chart3D
 
             var rnd = new Random();
 
-                AddData(spline3d,
+                AddPoints(spline3d.getPoints(),
                     new Color {R = (byte) rnd.Next(0, 256), G = (byte) rnd.Next(0, 256), B = (byte) rnd.Next(0, 256)});
         }
 
@@ -354,7 +349,7 @@ namespace Computator.NET.Charting.Chart3D
             return spline3d;
         }
 
-        private void reloadPoints() //changeDotSize, change
+        private void ReloadPoints() //changeDotSize, change
         {
             if (m_3dChart == null)
                 return;
@@ -373,9 +368,7 @@ namespace Computator.NET.Charting.Chart3D
                 }
             }
 
-
             UpdateChart();
-
         }
 
         private DiffuseMaterial backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
@@ -417,6 +410,39 @@ namespace Computator.NET.Charting.Chart3D
             UpdateChart();
         }
 
+        public void AddPoints(IList<Point3D> points, Color color)
+        {
+            var oldSize = m_3dChart.GetDataNo();
+            m_3dChart.IncreaseDataSize(points.Count);
+
+            // 2. set the properties of each dot
+            for (var i = 0; i < points.Count; i++)
+            {
+                var plotItem = new ScatterPlotItem
+                {
+                    w = (float)DotSize,//size of plotItem
+                    h = (float)DotSize,//size of plotItem
+                    x = (float)points[i].X,
+                    y = (float)points[i].Y,
+                    z = (float)points[i].Z,
+                    shape = (int)Chart3D.SHAPE.ELLIPSE,
+                    color = color
+                };
+
+                ((ScatterChart3D)m_3dChart).SetVertex(oldSize + i, plotItem);
+            }
+
+            UpdateChart();
+        }
+
+
+
+
+
+
+
+
+
         private void UpdateChart()
         {
             m_3dChart.UseAxes = VisibilityAxes;
@@ -434,37 +460,14 @@ namespace Computator.NET.Charting.Chart3D
 
             m_nChartModelIndex = (new Model3D()).UpdateModel(meshs, (m_3dChart is UniformSurfaceChart3D) ? backMaterial : null, m_nChartModelIndex, mainViewport);
 
-            rescaleProjectionMatrix();
+            RescaleProjectionMatrix();
           //  TransformChart();
         }
 
-        private void AddData(Spline3D spline3D, Color color)
-        {
-            var oldSize = m_3dChart.GetDataNo();
-             m_3dChart.IncreaseDataSize(spline3D.getPoints().Count);
-
-            // 2. set the properties of each dot
-            for (var i = 0; i < spline3D.getPoints().Count; i++)
-            {
-                var plotItem = new ScatterPlotItem
-                {
-                    w = (float) DotSize,//size of plotItem
-                    h = (float) DotSize,//size of plotItem
-                    x = (float)spline3D.getPoints()[i].X,
-                    y = (float)spline3D.getPoints()[i].Y,
-                    z = (float)spline3D.getPoints()[i].Z,
-                    shape = (int) Chart3D.SHAPE.ELLIPSE,
-                    color = color
-                };
-
-                ((ScatterChart3D) m_3dChart).SetVertex(oldSize + i, plotItem);
-            }
-
-                UpdateChart();
-        }
 
 
-        public void rescaleProjectionMatrix()
+
+        public void RescaleProjectionMatrix()
         {
             if (EqualAxes)
                 m_transformMatrix.CalculateProjectionMatrix(Math.Min(m_3dChart.XMin(), Math.Min(m_3dChart.YMin(), m_3dChart.ZMin())),
