@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +20,8 @@ namespace Computator.NET.Charting.Chart3D
     /// </summary>
     public partial class Chart3DControl : UserControl, IChart
     {
-        private readonly List<Function> functions;
+        private readonly List<Function> _functions;
+        private readonly List<List<Point3D>> _points;
         private Color _axesColor;
         private double _dotSize;
         private bool _equalAxes;
@@ -42,7 +44,8 @@ namespace Computator.NET.Charting.Chart3D
             InitializeComponent();
 
             axisLabels = new AxisLabels(canvasOn3D);
-            functions = new List<Function>();
+            _functions = new List<Function>();
+            _points = new List<List<Point3D>>();
 
             _visibilityAxes = _equalAxes = true;
             Focusable = true;
@@ -234,7 +237,8 @@ namespace Computator.NET.Charting.Chart3D
 
         public void Clear()
         {
-            functions.Clear();
+            _functions.Clear();
+            _points.Clear();
 
             if (mode == Chart3DMode.Points)
                 m_3dChart = new ScatterChart3D();//TestScatterPlot(1);
@@ -249,14 +253,14 @@ namespace Computator.NET.Charting.Chart3D
 
         public void addFx(Function fxy)
         {
-            functions.Add(fxy);
+            _functions.Add(fxy);
             Redraw();
         }
 
         public void addFx(Func<double,double,double> fxy, double n)
         {
             N = n;
-            functions.Add(new Function(fxy,"function1","function1"));
+            _functions.Add(new Function(fxy,"function1","function1"));
             Redraw();
         }
 
@@ -312,8 +316,15 @@ namespace Computator.NET.Charting.Chart3D
         
         public void Redraw()
         {
-            foreach (var f in functions)
+            //TODO: make it possible to draw more than one function in surface chart
+            foreach (var f in _functions)
+            {
                 DrawFunction((x, y) => f.Evaluate(x, y));
+            }
+            
+
+            foreach (var point in _points)
+                AddPoints(point, GetRandomColor());
         }
 
         private void DrawFunction(Func<double, double, double> fxy)
@@ -324,19 +335,24 @@ namespace Computator.NET.Charting.Chart3D
                 return;
             }
 
-            var spline3d = CalculateSpline3D(fxy);
+            var spline3D = CalculateSpline3D(fxy);
 
-            var rnd = new Random();
-
-                AddPoints(spline3d.getPoints(),
-                    new Color {R = (byte) rnd.Next(0, 256), G = (byte) rnd.Next(0, 256), B = (byte) rnd.Next(0, 256)});
+            AddPoints(spline3D.getPoints(), GetRandomColor());
         }
+
+
+
+        private Color GetRandomColor()
+        {
+            return new Color {R = (byte) random.Next(0, 256), G = (byte) random.Next(0, 256), B = (byte) random.Next(0, 256)};
+        }
+        private Random random = new Random();
 
         private Spline3D CalculateSpline3D(Func<double, double, double> fxy)
         {
             double dx = (XMax - XMin)/N, dy = (YMax - YMin)/N;
             double x, y, z;
-            var spline3d = new Spline3D();
+            var spline3D = new Spline3D();
             for (var ix = 0; ix <= N; ix++)
                 for (var iy = 0; iy <= N; iy++)
                 {
@@ -344,9 +360,9 @@ namespace Computator.NET.Charting.Chart3D
                     y = YMin + iy*dy;
                     z = fxy(x, y);
                     if (!double.IsNaN(z) && !double.IsInfinity(z))
-                        spline3d.addPoint(new Point3D(x, y, z));
+                        spline3D.addPoint(new Point3D(x, y, z));
                 }
-            return spline3d;
+            return spline3D;
         }
 
         private void ReloadPoints() //changeDotSize, change
@@ -371,7 +387,7 @@ namespace Computator.NET.Charting.Chart3D
             UpdateChart();
         }
 
-        private DiffuseMaterial backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
+        private readonly DiffuseMaterial _backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
 
         private void AddSurface(Func<double, double, double> fxy)
         {
@@ -410,7 +426,14 @@ namespace Computator.NET.Charting.Chart3D
             UpdateChart();
         }
 
-        public void AddPoints(IList<Point3D> points, Color color)
+
+        public void AddPoints(IList<Point3D> points)
+        {
+            _points.Add(new List<Point3D>(points));
+            AddPoints(points,GetRandomColor());
+        }
+
+        private void AddPoints(IList<Point3D> points, Color color)
         {
             var oldSize = m_3dChart.GetDataNo();
             m_3dChart.IncreaseDataSize(points.Count);
@@ -435,14 +458,6 @@ namespace Computator.NET.Charting.Chart3D
             UpdateChart();
         }
 
-
-
-
-
-
-
-
-
         private void UpdateChart()
         {
             m_3dChart.UseAxes = VisibilityAxes;
@@ -458,14 +473,11 @@ namespace Computator.NET.Charting.Chart3D
 
             UpdateChartLabels(meshs);
 
-            m_nChartModelIndex = (new Model3D()).UpdateModel(meshs, (m_3dChart is UniformSurfaceChart3D) ? backMaterial : null, m_nChartModelIndex, mainViewport);
+            m_nChartModelIndex = (new Model3D()).UpdateModel(meshs, (m_3dChart is UniformSurfaceChart3D) ? _backMaterial : null, m_nChartModelIndex, mainViewport);
 
             RescaleProjectionMatrix();
           //  TransformChart();
         }
-
-
-
 
         public void RescaleProjectionMatrix()
         {
@@ -610,7 +622,7 @@ namespace Computator.NET.Charting.Chart3D
             group1.Children.Clear();
             group1.Children.Add(new MatrixTransform3D(m_transformMatrix.m_totalMatrix));
 
-            if (axisLabels.ActiveLabels && functions != null && functions.Count > 0)
+            if (axisLabels.ActiveLabels && _functions != null && _functions.Count > 0)
             {
                 var x = axisLabels.x3D;
                 var y = axisLabels.y3D;

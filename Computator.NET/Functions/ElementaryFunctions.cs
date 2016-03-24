@@ -371,14 +371,14 @@ namespace Computator.NET.Functions
         public static dynamic root(double value, double n)
         {
             //n-based root
-            return pow(value, 1.0/n);
+            return dpow(value, 1.0/n);
         }
 
         #endregion
 
         #region power functions
 
-        public static dynamic pow(double x, double y)
+        private static dynamic dpow(double x, double y)
         {
             bool sign = (x < 0);
             if (sign && HasEvenDenominator(y))
@@ -392,6 +392,12 @@ namespace Computator.NET.Functions
             }
         }
 
+
+
+        public static double pow(double x, double y)
+        {
+            return System.Math.Pow(x, y); 
+        }
 
         private static bool HasEvenDenominator(double input)
         {
@@ -1500,17 +1506,17 @@ namespace Computator.NET.Functions
             return System.Math.Sqrt(x);
         }
 
-        public static dynamic root(double value, double n)
+         public static dynamic root(double value, double n)
         {
             //n-based root
-            return pow(value, 1.0/n);
+            return dpow(value, 1.0/n);
         }
 
         #endregion
 
         #region power functions
 
-        public static dynamic pow(double x, double y)
+        private static dynamic dpow(double x, double y)
         {
             bool sign = (x < 0);
             if (sign && HasEvenDenominator(y))
@@ -1522,6 +1528,13 @@ namespace Computator.NET.Functions
                 else
                     return System.Math.Pow(x, y);
             }
+        }
+
+
+
+        public static double pow(double x, double y)
+        {
+            return System.Math.Pow(x, y); 
         }
 
 

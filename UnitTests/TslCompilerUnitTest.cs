@@ -1,5 +1,6 @@
 ﻿using Computator.NET.Compilation;
 using Computator.NET.Data;
+using Computator.NET.DataTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
@@ -38,7 +39,7 @@ namespace UnitTests
            // tslCompiler.Variables.Add("x");
 
             Assert.AreEqual("pow(x,2)+cos(pow(x,2*x+1.1+cos(x)))+2/3.0",
-                tslCompiler.TransformToCSharp("x²+cos(x²˙ˣ⁺¹ॱ¹⁺ᶜᵒˢ⁽ˣ⁾)+2/3"), "Fail!!!");
+                tslCompiler.TransformToCSharp($"x²+cos(x²˙ˣ⁺¹{SpecialSymbols.DecimalSeparatorSuperscript}¹⁺ᶜᵒˢ⁽ˣ⁾)+2/3"), "Fail!!!");
         }
 
         [TestMethod]
@@ -46,7 +47,7 @@ namespace UnitTests
         {
         //    tslCompiler.Variables.Add("x");
 
-            Assert.AreEqual("pow(2,103213.323232)", tslCompiler.TransformToCSharp("2¹⁰³²¹³ॱ³²³²³²"), "Fail!!!");
+            Assert.AreEqual("pow(2,103213.323232)", tslCompiler.TransformToCSharp($"2¹⁰³²¹³{SpecialSymbols.DecimalSeparatorSuperscript}³²³²³²"), "Fail!!!");
         }
 
         [TestMethod]
@@ -131,7 +132,7 @@ namespace UnitTests
         public void LongCustomVariableRaisedToComplicatedExpressionTest()
         {
             Assert.AreEqual("pow(_kul9uXulu_var,cos(x)*sin(haxxxx/2.0))",
-    tslCompiler.TransformToCSharp("_kul9uXulu_varᶜᵒˢ⁽ˣ⁾˙ˢⁱⁿ⁽ʰᵃˣˣˣˣ˸²ॱ⁰⁾"), "Fail!!!");
+    tslCompiler.TransformToCSharp($"_kul9uXulu_varᶜᵒˢ⁽ˣ⁾˙ˢⁱⁿ⁽ʰᵃˣˣˣˣ˸²{SpecialSymbols.DecimalSeparatorSuperscript}⁰⁾"), "Fail!!!");
         }
 
 

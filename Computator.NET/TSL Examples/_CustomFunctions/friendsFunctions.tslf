@@ -12,3 +12,8 @@ static real marcin(real x)
 {
 	return pow(x,5)·ln(x);
 }
+
+static real krzysztof(real x, real y)
+{
+	return 2¹ᱸ²˙ᶜᵒˢ⁽ˣ⁾˙ᴹᵃᵗʰⁱᵉᵘᴹᶜ⁽¹՚²՚ʸ՚ˣ⁾;
+}

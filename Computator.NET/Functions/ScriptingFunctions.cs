@@ -2,6 +2,7 @@
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 
+using System.Linq;
 using Computator.NET.Evaluation;//we have to use this
 // ReSharper disable LocalizableElement
 
@@ -220,13 +221,13 @@ namespace Computator.NET.Functions
             var path = "file.txt";
 
             var of = new System.Windows.Forms.OpenFileDialog();
-            var sf = new System.Windows.Forms.SaveFileDialog();
+            var sf = new System.Windows.Forms.SaveFileDialog() {CheckFileExists = false,CheckPathExists = false,RestoreDirectory = true};
 
-            if (of.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                path = of.FileName;
+          //  if (of.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //    path = of.FileName;
 
 
-            else if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+             if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 path = sf.FileName;
 
             return new File(path);
@@ -320,14 +321,9 @@ namespace Computator.NET.Functions
             for (var j = 0; j < n; j++)
                 points.Add(new System.Windows.Media.Media3D.Point3D(x[j], y[j], z[j]));
 
-            var rnd = new System.Random();
-            var rgb = new byte[3];
-            rnd.NextBytes(rgb);
+            chart3d.AddPoints(points);
 
-            chart3d.AddPoints(points, System.Windows.Media.Color.FromRgb(rgb[0], rgb[1], rgb[2]));
-
-            var ehost = new System.Windows.Forms.Integration.ElementHost();
-            ehost.Child = chart3d;
+            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
 
             var plotForm = new Computator.NET.Charting.PlotForm(ehost);
             plotForm.Show();
@@ -637,19 +633,19 @@ namespace Computator.NET.Functions
             var path = ""file.txt"";
 
             var of = new System.Windows.Forms.OpenFileDialog();
-            var sf = new System.Windows.Forms.SaveFileDialog();
+        var sf = new System.Windows.Forms.SaveFileDialog() { CheckFileExists = false, CheckPathExists = false, RestoreDirectory = true };
 
-            if (of.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                path = of.FileName;
+          //  if (of.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //    path = of.FileName;
 
 
-            else if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+             if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 path = sf.FileName;
 
             return new File(path);
-        }
+    }
 
-        public static System.IO.StreamReader FileReader(string path)
+    public static System.IO.StreamReader FileReader(string path)
         {
             return new System.IO.StreamReader(path);
         }
@@ -734,14 +730,9 @@ namespace Computator.NET.Functions
             for (var j = 0; j < n; j++)
                 points.Add(new System.Windows.Media.Media3D.Point3D(x[j], y[j], z[j]));
 
-            var rnd = new System.Random();
-            var rgb = new byte[3];
-            rnd.NextBytes(rgb);
+            chart3d.AddPoints(points);
 
-            chart3d.AddPoints(points, System.Windows.Media.Color.FromRgb(rgb[0], rgb[1], rgb[2]));
-
-            var ehost = new System.Windows.Forms.Integration.ElementHost();
-            ehost.Child = chart3d;
+            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
 
             var plotForm = new Computator.NET.Charting.PlotForm(ehost);
             plotForm.Show();

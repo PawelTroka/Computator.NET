@@ -28,6 +28,8 @@
  * = Fixed bug in plot(f(x,y)) TSL function which made user unable to change chart area values (xmin,xmax, ymin, ymax)
  * = Unified Chart (edit) menus in GUI and scripting (they are now inside their own class, reusable), removed any code redundancies and errors (in chart3d in scripting export was generating invalid names)
  * = Cleanup for Chart3D
+ * + New special symbols for better looking exponents
+ * + You can now use functions with many parameters in expnents (added comma superscript symbol)
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

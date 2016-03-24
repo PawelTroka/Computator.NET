@@ -16,16 +16,19 @@ namespace Computator.NET.DataTypes
         //ॱ 
         //˸
 
+        public const string DecimalSeparatorSuperscript = @"ᱸ";
 
-        public const string Superscripts = " ⁽⁾⁺⁻˙˸⁼ॱ⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ";
+        public const string CommaSuperscript = @"՚";
+
+        public const string Superscripts = " "+SuperscriptsWithoutSpace;
 
         public const string SuperscriptsWithoutSpace =
-            "⁽⁾⁺⁻˙˸⁼ॱ⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ";
+            "⁽⁾⁺⁻˙˸⁼"+DecimalSeparatorSuperscript+SuperscriptAlphabet+CommaSuperscript;
 
         public const string SuperscriptAlphabet = "⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ";
 
         public const string AsciiForSuperscripts =
-            " ()+-*/=.0123456789ABDEGHIJKLMNOPRTUWabcdefghijklmnoprstuvwxyzαβγδεθιφψχ"; //ⱽ
+            " ()+-*/=.0123456789ABDEGHIJKLMNOPRTUWabcdefghijklmnoprstuvwxyzαβγδεθιφψχ,"; //ⱽ
 
         private const char blankCharacter = 'ⱽ';
         public const char ExponentModeSymbol = '^';
