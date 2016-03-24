@@ -38,7 +38,7 @@ show("show anything "+1);//note that 1 is converted here to string
 
 var A = matrix({{1, 2, 3},
 				 {4, 5, 6}});
-//this is matrix 2x6 (2 rows, 3 columns)
+//this is matrix 2x3 (2 rows, 3 columns)
 //first row is 1,2,3, second tow is 4,5,6
 
 show(A);//you can show matrix, just like any other thing
