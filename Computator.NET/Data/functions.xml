@@ -2994,7 +2994,7 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
     <Title>Golden ratio</Title>
     <Type>MathematicalConstants</Type>
     <Category>Math constants</Category>
-    <Description><![CDATA[In <a href="/wiki/Mathematics" title="Mathematics">mathematics</a>, two quantities are in the <b>golden ratio</b> if their <a href="/wiki/Ratio" title="Ratio">ratio</a> is the same as the ratio of their <a href="/wiki/Sum" title="Sum" class="mw-redirect">sum</a> to the larger of the two quantities. The figure on the right illustrates the geometric relationship. Expressed algebraically, for quantities <i>a</i> and <i>b</i> with <i>a</i>&nbsp;&gt;&nbsp;<i>b</i>&nbsp;&gt;&nbsp;0,</p>
+    <Description><![CDATA[In <a href="/wiki/Mathematics" title="Mathematics">mathematics</a>, two quantities are in the <b>golden ratio</b> if their <a href="/wiki/Ratio" title="Ratio">ratio</a> is the same as the ratio of their <a href="/wiki/Sum" title="Sum" class="mw-redirect">sum</a> to the larger of the two quantities. Expressed algebraically, for quantities <i>a</i> and <i>b</i> with <i>a</i>&nbsp;&gt;&nbsp;<i>b</i>&nbsp;&gt;&nbsp;0,</p>
 <dl>
 <dd><img class="mwe-math-fallback-png-inline tex" alt=" \frac{a+b}{a} = \frac{a}{b} \ \stackrel{\text{def}}{=}\ \varphi," src="http://upload.wikimedia.org/math/c/e/5/ce58db09ebdb85bfc14b1e1e8d231a3a.png"></dd>
 </dl>
