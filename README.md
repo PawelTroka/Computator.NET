@@ -1,16 +1,16 @@
 # Computator.NET
-Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise.
+Computator.NET is a special kind of numerical software that is fast and easy to use and stands up to other feature-wise software.
 ![Quick presentation of Computator.NET features](http://fizyka.dk/Computator.NET/quick_presentation.gif "Quick presentation of Computator.NET features")
 
-###It's features include:
-* **Real**, **complex** and two variables (**3D**) functions **charts**
-* **Real**, **complex** and two variables (**3D**) **calculator**
-* Real functions **numerical calculations** including many different methods
+###Its features include:
+* **Real**, **complex** and two-variable (**3D**) function **charts**
+* **Real**, **complex** and two-variable (**3D**) function **calculator**
+* **Numerical calculations** on real functions including many different methods
 * Over 107 **Elementary functions**
 * Over 141 **Special functions**
-* Over 21 **Matrix functions and operations**  
-* **Scripting language** designed for scientists, with power to easy computations including matrices
-* You can declare your own **custom functions** with scripting language
+* Over 21 **Matrix functions and operations**
+* Original **scripting language** designed for scientists, powerful for easy computations including matrices
+* User-created **custom functions** written with scripting language
 * **Mathematical notation**, including raising to power, just like it should be
 
 
