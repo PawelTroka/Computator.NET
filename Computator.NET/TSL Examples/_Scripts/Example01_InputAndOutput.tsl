@@ -24,14 +24,14 @@ show("lets show you something");
 //sometimes when you have a lot to show
 //it can be irritating to have that much messageBoxes
 
-//you can use below console output by outpiting things
-//in write functions
+//therefore you can use below console output 
+//by using the write() function
 write(s);//we write earlier declared string
 write("something here");
 write("something there");
-//but as you can see write is writing this not separated
+//as you can see, write() writes this in not-separated way
 //if you want write something as a line you should consider using
-//functions writeln instead
+//functions writeln() instead
 writeln("this is written in new line");
 
 //now when you know basics about those function you need to know
@@ -53,7 +53,7 @@ writeln("I have over "+height+"cm of height and over "+weight+"kgs of body mass"
 //you need to notice that operator + is working here
 //as an operator of concatenating (joining) strings representation
 //of different objects, so you can always use it
-//when outputting something even if the types dont match
+//when outputting something even if the types don't match
 
 
 //ok now when you have basic knowledge of output, you can go to the
