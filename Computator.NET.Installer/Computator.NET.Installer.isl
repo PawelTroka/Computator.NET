@@ -1948,6 +1948,7 @@
 		<row><td>computator.net.datatypes.pri</td><td>Computator.NET.DataTypes.Primary_output</td><td>Computator.NET.DataTypes.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.localized_res</td><td>Computator.NET.Localized_resources</td><td>Computator.NET.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.primary_outpu</td><td>Computator.NET.Primary_output</td><td>Computator.NET.Primary output</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|Built</td><td>3</td><td/></row>
+		<row><td>consola.ttf</td><td>ISX_DEFAULTCOMPONENT3</td><td>consola.ttf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\UI\fonts\consola.ttf</td><td>1</td><td/></row>
 		<row><td>example00_typesandsyntax.tsl</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example00_TypesAndSyntax.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl</td><td>1</td><td/></row>
 		<row><td>example01_inputandoutput.tsl</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example01_InputAndOutput.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example01_InputAndOutput.tsl</td><td>1</td><td/></row>
 		<row><td>example02_basicfunctionsusag</td><td>ISX_DEFAULTCOMPONENT5</td><td>EXAMPL~1.TSL|Example02_BasicFunctionsUsage.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf</td><td>1</td><td/></row>
@@ -1971,6 +1972,7 @@
 		<col key="yes" def="s72">File_</col>
 		<col def="S128">FontTitle</col>
 		<row><td>cambria.ttc</td><td/></row>
+		<row><td>consola.ttf</td><td/></row>
 	</table>
 
 	<table name="ISAssistantTag">
@@ -2720,7 +2722,9 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_87606832_B2F4_4287_ACC2_0C563D0576AB_</td><td>Microsoft .NET Framework 4.0 Full (Web Download).prq</td><td/><td>1</td><td/></row>
+		<row><td>_87606832_B2F4_4287_ACC2_0C563D0576AB_</td><td>Microsoft .NET Framework 4.0 Full (Web Download).prq</td><td>2</td><td>1</td><td/></row>
+		<row><td>_D60218DA_16DD_49D8_8E99_064CD12F8D12_</td><td>Microsoft Visual C++ 2013 Redistributable Package (x64).prq</td><td>1</td><td>2</td><td/></row>
+		<row><td>_E5D5A9E4_406A_4ED6_B61B_47ABBF24D050_</td><td>Microsoft Visual C++ 2013 Redistributable Package (x86).prq</td><td>0</td><td>2</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">

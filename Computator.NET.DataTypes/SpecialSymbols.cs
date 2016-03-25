@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace Computator.NET.DataTypes
@@ -16,14 +17,17 @@ namespace Computator.NET.DataTypes
         //ॱ 
         //˸
 
-        public const string DecimalSeparatorSuperscript = @"ᱸ";
+        public static readonly string DecimalSeparatorSuperscript = (Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
 
-        public const string CommaSuperscript = @"՚";
+        public static readonly string CommaSuperscript = (Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";
 
-        public const string Superscripts = " "+SuperscriptsWithoutSpace;
 
-        public const string SuperscriptsWithoutSpace =
+
+        public static readonly string SuperscriptsWithoutSpace =
             "⁽⁾⁺⁻˙˸⁼"+DecimalSeparatorSuperscript+SuperscriptAlphabet+CommaSuperscript;
+
+
+        public static readonly string Superscripts = " " + SuperscriptsWithoutSpace;
 
         public const string SuperscriptAlphabet = "⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ";
 

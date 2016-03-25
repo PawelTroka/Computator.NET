@@ -79,7 +79,7 @@ namespace Computator.NET.UI
         public new Font Font
         {
             get { return base.Font; }
-            set { base.Font = MathCustomFonts.GetMathFont(value.Size); }
+            set { base.Font = CustomFonts.GetMathFont(value.Size); }
         }
 
         public bool ExponentialMode => ((double) (Value)).ToString(CultureInfo.InvariantCulture).Contains('E') ||

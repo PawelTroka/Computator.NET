@@ -125,7 +125,7 @@ namespace Computator.NET.UI.CodeEditors
         {
             _codeEditor.SetFont(font);
             _autocompleteMenu.Font = font.FontFamily.Name == "Cambria"
-                ? MathCustomFonts.GetMathFont(font.Size)
+                ? CustomFonts.GetMathFont(font.Size)
                 : font;
         }
 

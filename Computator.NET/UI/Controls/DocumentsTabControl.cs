@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Localization;
 
@@ -153,7 +154,8 @@ namespace Computator.NET.UI.Controls
             addTabPage.Size = new Size(1002, 0);
             addTabPage.TabIndex = 1;
             // ReSharper disable once LocalizableElement
-            addTabPage.Text = " ➕";
+            addTabPage.Text = "( + )";
+
             addTabPage.UseVisualStyleBackColor = true;
             // 
             // imageList1
@@ -171,6 +173,8 @@ namespace Computator.NET.UI.Controls
 
             Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular,
                 GraphicsUnit.Point, 0);
+
+         //   addTabPage.Font = CustomFonts.GetMathFont(Font.Size);
             Margin = new Padding(0);
             MinimumSize = new Size(800, 27);
             Name = "DocumentsTabControl";

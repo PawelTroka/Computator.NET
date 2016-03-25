@@ -239,10 +239,17 @@ namespace Computator.NET.UI.CodeEditors
             StyleResetDefault();
             if (font.FontFamily.Name == "Cambria")
             {
-                Font = MathCustomFonts.GetMathFont(font.Size);
-                Styles[Style.Default].Font = MathCustomFonts.GetMathFont(font.Size).Name;
+                Font = CustomFonts.GetMathFont(font.Size);
+                Styles[Style.Default].Font = CustomFonts.GetMathFont(font.Size).Name;
 
-                _autocompleteMenu.Font = MathCustomFonts.GetMathFont(font.Size);
+                _autocompleteMenu.Font = CustomFonts.GetMathFont(font.Size);
+            }
+            else if (font.FontFamily.Name == "Consolas")
+            {
+                Font = CustomFonts.GetScriptingFont(font.Size);
+                Styles[Style.Default].Font = CustomFonts.GetScriptingFont(font.Size).Name;
+
+                _autocompleteMenu.Font = CustomFonts.GetScriptingFont(font.Size);
             }
             else
             {

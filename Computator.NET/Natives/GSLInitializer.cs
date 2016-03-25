@@ -20,7 +20,7 @@ namespace Computator.NET
         {
             UnmanagedHandler = HandleUnmanagedException;
 
-            var msvcr = Resources.msvcr120_x86;
+          //  var msvcr = Resources.msvcr120_x86;
             var gsl = Resources.gsl_x86;
             var cblas = Resources.cblas_x86;
 
@@ -37,7 +37,7 @@ namespace Computator.NET
 
             try
             {
-                EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.msvcrDllName, msvcr);
+         //       EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.msvcrDllName, msvcr);
                 EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslDllName, gsl);
                 EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName, cblas);
              //   System.Threading.Thread.Sleep(1000);
@@ -48,21 +48,19 @@ namespace Computator.NET
                 logger.Log("ExtractEmbeddedDlls failed", ErrorType.General, exception);
                 try
                 {
-                    string msvcrTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.msvcrDllName);
+                  //  string msvcrTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.msvcrDllName);
                     string gslTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslDllName);
                     string cblasTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslCblasDllName);
 
-                    File.WriteAllBytes(msvcrTempPath, msvcr);
+               //     File.WriteAllBytes(msvcrTempPath, msvcr);
                     File.WriteAllBytes(cblasTempPath, cblas);
                     File.WriteAllBytes(gslTempPath, gsl);
-                    //  System.Threading.Thread.Sleep(1000);
-                    var h0 = NativeMethods.LoadLibrary(msvcrTempPath);
+                  
+                    //  var h0 = NativeMethods.LoadLibrary(msvcrTempPath);
                     var h1 = NativeMethods.LoadLibrary(cblasTempPath);
                     var h2 = NativeMethods.LoadLibrary(gslTempPath);
 
-                    System.Threading.Thread.Sleep(1000);
-
-                    if (h0 == IntPtr.Zero || h1 == IntPtr.Zero || h2 == IntPtr.Zero)
+                    if (/*h0 == IntPtr.Zero ||*/ h1 == IntPtr.Zero || h2 == IntPtr.Zero)
                     {
                             throw new Win32Exception($"Could not load the Computator.NET modules at the paths '{gslTempPath}'{Environment.NewLine}'{cblasTempPath}'.", new Win32Exception()); // Calls GetLastError                       
                     }

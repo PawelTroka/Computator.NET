@@ -73,7 +73,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="MathCustomFonts.cs" />
+    <Compile Include="CustomFonts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptFunction.cs" />
     <Compile Include="SettingsTypes\CodeEditorType.cs" />

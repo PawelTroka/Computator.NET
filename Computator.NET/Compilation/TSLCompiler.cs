@@ -21,7 +21,7 @@ namespace Computator.NET.Compilation
         using integer = System.Int64;";
 
 
-        private const string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
+        private static readonly string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
 
 
         private const string validVariableDeclaration = @"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)";

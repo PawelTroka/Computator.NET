@@ -50,6 +50,7 @@
 
 ##Installer
 * test installer and upgrade options
+* after updating GSL and compiling it to the newest version of Visual C++ 2015 compiler add Visual C++ Runtime 2015 to redist
 
 
 ##Autocomplete

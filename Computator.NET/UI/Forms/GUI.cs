@@ -453,7 +453,7 @@ namespace Computator.NET
             scriptingDirectoryTree.Path = Settings.Default.ScriptingDirectory;// Path.Combine(GlobalConfig.basePath, Settings.Default.ScriptingDirectory);//GlobalConfig.FullPath("TSL Examples", "_Scripts");
             UpdateXyRatio();
             InitializeScripting(); //takes a lot of time, TODO: optimize
-            SetMathFonts();
+            InitializeFonts();
             InitializeDataBindings();
             BringToFront();
             Focus();
@@ -598,30 +598,34 @@ namespace Computator.NET
             }
         }
 
-        private void SetMathFonts()
+        private void InitializeFonts()
         {
-            chart2d.Legends[0].Font = MathCustomFonts.GetMathFont(chart2d.Legends[0].Font.Size);
+            chart2d.Legends[0].Font = CustomFonts.GetMathFont(chart2d.Legends[0].Font.Size);
             const float fontsize = 17.0F;
 
-            chart2d.Font = MathCustomFonts.GetMathFont(fontsize);
+            chart2d.Font = CustomFonts.GetMathFont(fontsize);
 
-            function.DefaultCellStyle.Font = MathCustomFonts.GetMathFont(function.DefaultCellStyle.Font.Size);
-            result.DefaultCellStyle.Font = MathCustomFonts.GetMathFont(result.DefaultCellStyle.Font.Size);
+            function.DefaultCellStyle.Font = CustomFonts.GetMathFont(function.DefaultCellStyle.Font.Size);
+            result.DefaultCellStyle.Font = CustomFonts.GetMathFont(result.DefaultCellStyle.Font.Size);
 
-            calculationValueTextBox.Font = MathCustomFonts.GetMathFont(calculationValueTextBox.Font.Size);
+            calculationValueTextBox.Font = CustomFonts.GetMathFont(calculationValueTextBox.Font.Size);
             resultNumericalCalculationsTextBox.Font =
-                MathCustomFonts.GetMathFont(resultNumericalCalculationsTextBox.Font.Size);
+                CustomFonts.GetMathFont(resultNumericalCalculationsTextBox.Font.Size);
 
-            consoleOutputTextBox.Font = MathCustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
+            consoleOutputTextBox.Font = CustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
 
             calculationsHistoryDataGridView.Columns[0].DefaultCellStyle.Font =
-                MathCustomFonts.GetMathFont(calculationsHistoryDataGridView.Columns[0].DefaultCellStyle.Font.Size);
+                CustomFonts.GetMathFont(calculationsHistoryDataGridView.Columns[0].DefaultCellStyle.Font.Size);
 
             calculationsHistoryDataGridView.Columns[calculationsHistoryDataGridView.Columns.Count - 1].DefaultCellStyle
                 .Font =
-                MathCustomFonts.GetMathFont(
+                CustomFonts.GetMathFont(
                     calculationsHistoryDataGridView.Columns[calculationsHistoryDataGridView.Columns.Count - 1]
                         .DefaultCellStyle.Font.Size);
+
+          //  scriptingCodeEditor.Font = CustomFonts.GetScriptingFont(scriptingCodeEditor.Font.Size);
+          //  customFunctionsCodeEditor.Font = CustomFonts.GetScriptingFont(customFunctionsCodeEditor.Font.Size);
+
         }
 
         private void InitializeFunctions()

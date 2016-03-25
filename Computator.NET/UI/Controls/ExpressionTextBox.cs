@@ -110,8 +110,8 @@ namespace Computator.NET.UI.Controls
         {
             if (font.FontFamily.Name == "Cambria" && !IsInDesignMode)
             {
-                Font = MathCustomFonts.GetMathFont(font.Size);
-                _autocompleteMenu.Font = MathCustomFonts.GetMathFont(font.Size);
+                Font = CustomFonts.GetMathFont(font.Size);
+                _autocompleteMenu.Font = CustomFonts.GetMathFont(font.Size);
             }
             else
             {

@@ -244,9 +244,12 @@ namespace Computator.NET.UI.CodeEditors
 
         public void SetFont(Font font)
         {
-            FontFamily = font.FontFamily.Name == "Cambria"
-                ? new FontFamily(MathCustomFonts.GetMathFont(font.Size).FontFamily.Name)
-                : new FontFamily(font.FontFamily.Name);
+            if (font.FontFamily.Name == "Cambria")
+                FontFamily = new FontFamily(CustomFonts.GetMathFont(font.Size).FontFamily.Name);
+            else if (font.FontFamily.Name == "Consolas")
+                FontFamily = new FontFamily(CustomFonts.GetScriptingFont(font.Size).FontFamily.Name);
+            else
+                FontFamily = new FontFamily(font.FontFamily.Name);
             FontSize = font.Size;
             //this.FontWeight =  FontWeights.
             FontStyle = ConvertFontStyle(CreateFontStyle(font));

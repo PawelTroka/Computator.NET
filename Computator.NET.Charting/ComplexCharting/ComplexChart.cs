@@ -138,11 +138,11 @@ namespace Computator.NET.Charting.ComplexCharting
 
             xLabel = "Re(z)";
             yLabel = "Im(z)";
-            labelsFont = MathCustomFonts.GetMathFont(13);//new Font("Cambria", 13, FontStyle.Regular);
+            labelsFont = CustomFonts.GetMathFont(13);//new Font("Cambria", 13, FontStyle.Regular);
             labelsColor = Color.Black;
             titleColor = Color.Black;
             axesColor = Color.Black;
-            titleFont = MathCustomFonts.GetMathFont(13); //new Font("Cambria", 13, FontStyle.Regular);
+            titleFont = CustomFonts.GetMathFont(13); //new Font("Cambria", 13, FontStyle.Regular);
         }
 
         #endregion

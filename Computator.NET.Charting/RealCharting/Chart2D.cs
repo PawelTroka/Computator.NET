@@ -400,7 +400,7 @@ namespace Computator.NET.Charting.RealCharting
             chartArea1.CursorY.IsUserSelectionEnabled = true;
             chartArea1.Name = "ChartArea1";
             ChartAreas.Add(chartArea1);
-            legend1.Font = MathCustomFonts.GetMathFont(13.8F);//new Font("Cambria", 13.8F);
+            legend1.Font = CustomFonts.GetMathFont(13.8F);//new Font("Cambria", 13.8F);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
             Legends.Add(legend1);

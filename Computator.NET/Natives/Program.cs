@@ -15,7 +15,6 @@ namespace Computator.NET
     internal static class Program
     {
         private static readonly SimpleLogger logger = new SimpleLogger { ClassName = "Program" };
-        private static gsl_error_handler_t UnmanagedHandler;
 
         /// <summary>
         ///     The main entry point for the application.
@@ -42,12 +41,7 @@ namespace Computator.NET
             Application.Run(mainForm);
         }
 
-        private static void HandleUnmanagedException(string reason,
-            string file, int line, int gsl_errno)
-        {
-            throw new Exception(
-                $"Exception occcured in {file}\n at line {line}\nReason: {reason}\nError code: {gsl_errno}");
-        }
+
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {

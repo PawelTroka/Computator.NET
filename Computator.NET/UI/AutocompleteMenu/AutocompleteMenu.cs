@@ -292,7 +292,7 @@ namespace AutocompleteMenuNS
 
         private void setupAutocomplete()
         {
-            Font = MathCustomFonts.GetMathFont(18);//new Font("Cambria", 18.0F, GraphicsUnit.Point);
+            Font = CustomFonts.GetMathFont(18);//new Font("Cambria", 18.0F, GraphicsUnit.Point);
             //GlobalConfig.mathFont;
             ImageList = null;
             TargetControlWrapper = null;
