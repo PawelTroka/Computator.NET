@@ -167,7 +167,6 @@
     <Compile Include="Compilation\NativeCompilerError.cs" />
     <Compile Include="Compilation\TSLCompiler.cs" />
     <Compile Include="Config\EmbeddedDllClass.cs" />
-    <Compile Include="Config\MathCustomFonts.cs" />
     <Compile Include="Config\MultiplatformDllLoader.cs" />
     <Compile Include="Config\MyMessageFilter.cs" />
     <Compile Include="Config\SettingsForm.cs">
@@ -201,6 +200,7 @@
     <Compile Include="Functions\StatisticsFunctions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Natives\GSLInitializer.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Transformations\TrigonometricTransformations.cs" />
     <Compile Include="Data\AutocompletionData.cs" />
@@ -258,7 +258,6 @@
     <Compile Include="UI\Controls\ExpressionTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Config\GlobalConfig.cs" />
     <Compile Include="UI\Forms\GUI.cs">
       <SubType>Form</SubType>
     </Compile>

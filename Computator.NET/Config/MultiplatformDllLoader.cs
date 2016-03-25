@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Computator.NET.Properties;
 
 namespace Computator.NET.Config
 {
     public static class MultiplatformDllLoader
     {
         private static bool _isEnabled;
+        
 
         public static bool Enable
         {
@@ -34,14 +36,17 @@ namespace Computator.NET.Config
             if (assemblyName.Contains("resources.dll"))
                 return null;
 
-            var archSpecificPath =
-                Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Special",
-                    Environment.Is64BitProcess ? "x64" : "x86",
-                    assemblyName);
+            if (assemblyName.Contains("cblas"))
+            {
+                return Environment.Is64BitProcess ? Assembly.Load(Resources.cblas_x64) : Assembly.Load(Resources.cblas_x86);
+            }
 
-            return File.Exists(archSpecificPath)
-                ? Assembly.LoadFile(archSpecificPath)
-                : null;
+            if (assemblyName.Contains("gsl"))
+            {
+                return Environment.Is64BitProcess ? Assembly.Load(Resources.gsl_x64) : Assembly.Load(Resources.gsl_x86);
+            }
+
+            return null;
         }
     }
 }

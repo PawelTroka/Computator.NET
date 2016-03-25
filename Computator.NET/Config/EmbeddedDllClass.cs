@@ -64,7 +64,8 @@ namespace Computator.NET.Config
             }
 
             // Add the temporary dirName to the PATH environment variable (at the head!)
-            var path = Environment.GetEnvironmentVariable("PATH");
+            var path = Environment.GetEnvironmentVariable("PATH") ?? "";//Environment variable names are not case-sensitive.
+
             var pathPieces = path.Split(';');
             var found = false;
             foreach (var pathPiece in pathPieces)
@@ -80,13 +81,18 @@ namespace Computator.NET.Config
                 Environment.SetEnvironmentVariable("PATH", dirName + ";" + path);
             }
 
+            path = Environment.GetEnvironmentVariable("PATH") ?? "";
+
+            if(!path.Contains(dirName))
+                throw new Exception("Couldn't add gsl to PATH Environmet Variable\npath = \n"+path);
+
             // See if the file exists, avoid rewriting it if not necessary
             var dllPath = Path.Combine(dirName, dllName);
             var rewrite = true;
             if (File.Exists(dllPath))
             {
                 var existing = File.ReadAllBytes(dllPath);
-                if (Enumerable.SequenceEqual(resourceBytes, existing))
+                if (resourceBytes.SequenceEqual(existing))
                 {
                     rewrite = false;
                 }
@@ -95,6 +101,8 @@ namespace Computator.NET.Config
             {
                 File.WriteAllBytes(dllPath, resourceBytes);
             }
+            if(!File.Exists(dllPath))
+                throw new FileNotFoundException($"Couldn't write to file {dllPath}.", dllPath);
         }
 
         /// <summary>

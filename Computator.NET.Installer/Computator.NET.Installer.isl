@@ -353,6 +353,10 @@
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{BCC23CD1-CE39-49EE-ABEA-71524BC48D24}</td><td>ALLUSERSPROFILE</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{18E04530-225D-42E2-A8B8-68830F53B95A}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{5F5C3AB4-20E2-4459-9F67-29956D72D76C}</td><td>PersonalFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{5C6BF54A-20A3-4EC2-9E60-8F60A9AD0CF2}</td><td>FontsFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT4</td><td>{359819B7-067F-4821-A97C-B48C7CE96052}</td><td>TSL_EXAMPLES</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT5</td><td>{221F2D2C-6894-4069-8EC4-463129E935BD}</td><td>_CUSTOMFUNCTIONS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT6</td><td>{C1E7907C-AEF7-44D5-B528-CF3B5D5AA20D}</td><td>_SCRIPTS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td>{FFA1F361-6693-4FF3-B0DC-5D24E26F3787}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{10969478-5974-4DEC-B989-CED85A6FBE30}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SimpleLogger.Primary_output</td><td>{884573C1-6A67-46E4-8AD1-FDCC471870E9}</td><td>INSTALLDIR</td><td>2</td><td/><td>simplelogger.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1069,6 +1073,7 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>ALLUSERSPROFILE</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>CommonAppDataFolder</td><td>ISO19770_SystemTag</td></row>
+		<row><td>FontsFolder</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Charting.Localized_resources</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Charting.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.DataTypes.Primary_output</td></row>
@@ -1077,10 +1082,17 @@
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT3</td></row>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT4</td></row>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT5</td></row>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>INSTALLDIR</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent1</td></row>
 		<row><td>INSTALLDIR</td><td>SimpleLogger.Primary_output</td></row>
 		<row><td>PersonalFolder</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>TSL_EXAMPLES</td><td>ISX_DEFAULTCOMPONENT4</td></row>
+		<row><td>_CUSTOMFUNCTIONS</td><td>ISX_DEFAULTCOMPONENT5</td></row>
+		<row><td>_SCRIPTS</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1195,11 +1207,14 @@
 		<row><td>System64Folder</td><td>TARGETDIR</td><td>.:System64</td><td/><td>0</td><td/></row>
 		<row><td>SystemFolder</td><td>TARGETDIR</td><td>.:System32</td><td/><td>0</td><td/></row>
 		<row><td>TARGETDIR</td><td/><td>SourceDir</td><td/><td>0</td><td/></row>
+		<row><td>TSL_EXAMPLES</td><td>PersonalFolder</td><td>TSLEXA~1|TSL Examples</td><td/><td>0</td><td/></row>
 		<row><td>TempFolder</td><td>TARGETDIR</td><td>.:Temp</td><td/><td>0</td><td/></row>
 		<row><td>TemplateFolder</td><td>TARGETDIR</td><td>.:ShellNew</td><td/><td>0</td><td/></row>
 		<row><td>USERPROFILE</td><td>TARGETDIR</td><td>.:USERPR~1|UserProfile</td><td/><td>0</td><td/></row>
 		<row><td>WindowsFolder</td><td>TARGETDIR</td><td>.:Windows</td><td/><td>0</td><td/></row>
 		<row><td>WindowsVolume</td><td>TARGETDIR</td><td>.:WinRoot</td><td/><td>0</td><td/></row>
+		<row><td>_CUSTOMFUNCTIONS</td><td>TSL_EXAMPLES</td><td>_CUSTO~1|_CustomFunctions</td><td/><td>0</td><td/></row>
+		<row><td>_SCRIPTS</td><td>TSL_EXAMPLES</td><td>_Scripts</td><td/><td>0</td><td/></row>
 		<row><td>comput_1.net_computator.net</td><td>ProgramMenuFolder</td><td>COMPUT~1.NET|Computator.NET</td><td/><td>1</td><td/></row>
 	</table>
 
@@ -1905,6 +1920,10 @@
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT4</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT5</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>AlwaysInstall</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
 		<row><td>AlwaysInstall</td><td>SimpleLogger.Primary_output</td></row>
@@ -1922,12 +1941,24 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
+		<row><td>cambria.ttc</td><td>ISX_DEFAULTCOMPONENT3</td><td>CAMBRIA.TTC</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\UI\fonts\CAMBRIA.TTC</td><td>1</td><td/></row>
 		<row><td>computator.net.charting.loca</td><td>Computator.NET.Charting.Localized_resources</td><td>Computator.NET.Charting.Localized resources</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.charting.prim</td><td>Computator.NET.Charting.Primary_output</td><td>Computator.NET.Charting.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.content_files</td><td>Computator.NET.Content_Files</td><td>Computator.NET.Content Files</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>computator.net.datatypes.pri</td><td>Computator.NET.DataTypes.Primary_output</td><td>Computator.NET.DataTypes.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.localized_res</td><td>Computator.NET.Localized_resources</td><td>Computator.NET.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.primary_outpu</td><td>Computator.NET.Primary_output</td><td>Computator.NET.Primary output</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|Built</td><td>3</td><td/></row>
+		<row><td>example00_typesandsyntax.tsl</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example00_TypesAndSyntax.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl</td><td>1</td><td/></row>
+		<row><td>example01_inputandoutput.tsl</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example01_InputAndOutput.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example01_InputAndOutput.tsl</td><td>1</td><td/></row>
+		<row><td>example02_basicfunctionsusag</td><td>ISX_DEFAULTCOMPONENT5</td><td>EXAMPL~1.TSL|Example02_BasicFunctionsUsage.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf</td><td>1</td><td/></row>
+		<row><td>example02_basicfunctionsusag1</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example02_BasicFunctionsUsage.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example02_BasicFunctionsUsage.tsl</td><td>1</td><td/></row>
+		<row><td>example03_passingbyreference</td><td>ISX_DEFAULTCOMPONENT5</td><td>EXAMPL~1.TSL|Example03_PassingByReference.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\Example03_PassingByReference.tslf</td><td>1</td><td/></row>
+		<row><td>example03_passingbyreference1</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example03_PassingByReference.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example03_PassingByReference.tsl</td><td>1</td><td/></row>
+		<row><td>example04_matrixoperations.t</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example04_MatrixOperations.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example04_MatrixOperations.tsl</td><td>1</td><td/></row>
+		<row><td>example05_filesinputandoutpu</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example05_FilesInputAndOutput.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example05_FilesInputAndOutput.tsl</td><td>1</td><td/></row>
+		<row><td>example06_vectorsandmatrices</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example06_VectorsAndMatrices.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example06_VectorsAndMatrices.tsl</td><td>1</td><td/></row>
+		<row><td>example07_functionsandplotti</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example07_FunctionsAndPlotting.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example07_FunctionsAndPlotting.tsl</td><td>1</td><td/></row>
+		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
 		<row><td>simplelogger.primary_output</td><td>SimpleLogger.Primary_output</td><td>SimpleLogger.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SimpleLogger&gt;|Built</td><td>3</td><td/></row>
 	</table>
 
@@ -1939,6 +1970,7 @@
 	<table name="Font">
 		<col key="yes" def="s72">File_</col>
 		<col def="S128">FontTitle</col>
+		<row><td>cambria.ttc</td><td/></row>
 	</table>
 
 	<table name="ISAssistantTag">
@@ -2083,6 +2115,10 @@
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_A14B2949_52E3_4BF7_A4E1_D41EB9AF0441_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_E4B868A9_9E5F_48A2_81A2_CB11628A8822_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_455A0F09_7FBB_480F_B476_B5E09FDD4566_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_F6E7401A_594F_4323_9389_4C7BD4C04AD3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT4</td><td/><td/><td>_A8A20F43_21BB_43E7_A303_44AB276BAA1D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT5</td><td/><td/><td>_4CBF46E3_93AF_40FA_AD29_054A924FC569_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT6</td><td/><td/><td>_A0C5B437_07E5_4C80_8208_EE7123C3CAA8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td/><td/><td>_80E3F1A6_D009_4D8A_A096_E35724FAAF8F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_38D42019_79C8_404E_B558_89FFB7078B5D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SimpleLogger.Primary_output</td><td/><td/><td>_F533B5F8_9192_421D_890A_21FD4A7CCEB4_FILTER</td><td/><td/><td/><td/></row>

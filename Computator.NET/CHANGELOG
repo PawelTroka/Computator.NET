@@ -1,6 +1,6 @@
  * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
 
- ### --------- Unreleased -----------  20.03.2016 21:53
+ ### --------- Unreleased -----------  24.03.2016 14:22
  * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor (still doesnt work in AvalonEdit thought)
  * = Fixed bug in chart edit property window causing ComplexChart to not redraw after changes
  * = Fixed bug in ComplexChart GreaterIsLighter and GreaterIsDarker methods when NoCountourLines selected causing pitch black chart in GreaterIsLighter mode and not accurate chart in GreaterIsDarker mode
@@ -30,6 +30,11 @@
  * = Cleanup for Chart3D
  * + New special symbols for better looking exponents
  * + You can now use functions with many parameters in expnents (added comma superscript symbol)
+ * = Fixed bug in ScientificNumeriUpDown with Value sometimes over decimal.MaxValue or under decimal.MinValue 
+ * + GSL can now be initialized with second method if first doesnt work
+ * + Added exception handling for GSL initialization and logging all the errors
+ * + User will now have option to install Cambria font if he doesnt have it in Regular style
+ * + Installer will now always install Cambria font and TSL examples files
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

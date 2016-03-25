@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Computator.NET.Config;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.CodeEditors;
@@ -291,7 +292,7 @@ namespace AutocompleteMenuNS
 
         private void setupAutocomplete()
         {
-            Font = new Font("Cambria", 18.0F, GraphicsUnit.Point);
+            Font = MathCustomFonts.GetMathFont(18);//new Font("Cambria", 18.0F, GraphicsUnit.Point);
             //GlobalConfig.mathFont;
             ImageList = null;
             TargetControlWrapper = null;

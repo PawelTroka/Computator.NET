@@ -341,4 +341,7 @@
   <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
     <value>Błąd składni</value>
   </data>
+  <data name="Program_Main_Exception_during_startup" xml:space="preserve">
+    <value>Wyjątek podczas uruchamiania</value>
+  </data>
 </root>

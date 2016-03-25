@@ -676,6 +676,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exception during startup.
+        /// </summary>
+        public static string Program_Main_Exception_during_startup {
+            get {
+                return ResourceManager.GetString("Program_Main_Exception_during_startup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  result: .
         /// </summary>
         public static string Result {

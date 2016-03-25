@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Computator.NET.Config;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.RealCharting
@@ -399,7 +400,7 @@ namespace Computator.NET.Charting.RealCharting
             chartArea1.CursorY.IsUserSelectionEnabled = true;
             chartArea1.Name = "ChartArea1";
             ChartAreas.Add(chartArea1);
-            legend1.Font = new Font("Cambria", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 238);
+            legend1.Font = MathCustomFonts.GetMathFont(13.8F);//new Font("Cambria", 13.8F);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
             Legends.Add(legend1);

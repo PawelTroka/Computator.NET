@@ -62,6 +62,20 @@ namespace Computator.NET.UI
         }
 
 
+        public new decimal Value
+        {
+            get { return base.Value; }
+            set
+            {
+                if (value > decimal.MaxValue/10)
+                    base.Value = decimal.MaxValue/10;
+                else if (value < decimal.MinValue/10)
+                    base.Value = decimal.MinValue/10;
+                else
+                    base.Value = value;
+            }
+        }
+
         public new Font Font
         {
             get { return base.Font; }

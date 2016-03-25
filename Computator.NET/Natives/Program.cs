@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -6,7 +7,6 @@ using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Localization;
 using Computator.NET.Logging;
-using Computator.NET.Properties;
 using Computator.NET.UI.Forms;
 using Settings = Computator.NET.Properties.Settings;
 
@@ -14,7 +14,7 @@ namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger logger = new SimpleLogger {ClassName = "Program"};
+        private static readonly SimpleLogger logger = new SimpleLogger { ClassName = "Program" };
         private static gsl_error_handler_t UnmanagedHandler;
 
         /// <summary>
@@ -25,31 +25,16 @@ namespace Computator.NET
         {
             Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
-
-          //  Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator = ".";
-          //  Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = ".";
+            Application.ThreadException += Application_ThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
 
-
-            EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslDllName,
-                (Environment.Is64BitProcess) ? Resources.gsl_x64 : Resources.gsl_x86);
-            EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName,
-                (Environment.Is64BitProcess) ? Resources.cblas_x64 : Resources.cblas_x86);
-
-            // NativeMethods.gsl_set_error_handler_off();
-            UnmanagedHandler = HandleUnmanagedException;
-            NativeMethods.gsl_set_error_handler(UnmanagedHandler);
-
-            Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
-            Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
+            GSLInitializer.Initialize();
 
             Application.SetCompatibleTextRenderingDefault(false);
             Application.AddMessageFilter(new MyMessageFilter());
-
-            Application.ThreadException += Application_ThreadException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             var mainForm = new GUI();
 
@@ -66,6 +51,7 @@ namespace Computator.NET
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
+            
             MessageBox.Show(e.Exception.Message, Strings.Program_Application_ThreadException_Unhandled_Thread_Exception);
 
             logger.MethodName = MethodBase.GetCurrentMethod().Name;
@@ -74,11 +60,21 @@ namespace Computator.NET
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show((e.ExceptionObject as Exception).Message,
+            var ex = (e.ExceptionObject as Exception);
+            MessageBox.Show(ex.Message,
                 Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception);
 
+            if (ex.Message.Contains("Font")|| ex.Message.Contains("font"))
+            {
+                //e.IsTerminating = false;
+                
+                MessageBox.Show("Try installing font!");
+                Process.Start(GlobalConfig.FullPath("UI", "fonts", "CAMBRIA.TTC"));
+            }
+            
+
             logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, (e.ExceptionObject as Exception));
+            logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, ex);
         }
     }
 }

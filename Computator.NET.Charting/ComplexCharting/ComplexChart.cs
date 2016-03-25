@@ -7,6 +7,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Computator.NET.Charting.Printing;
+using Computator.NET.Config;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.ComplexCharting
@@ -120,10 +121,12 @@ namespace Computator.NET.Charting.ComplexCharting
         {
             Name = "complexChart";
             BackColor = Color.White;
-            toolTip = new ToolTip();
-            toolTip.AutoPopDelay = 5000;
-            toolTip.InitialDelay = 1000;
-            toolTip.ReshowDelay = 500;
+            toolTip = new ToolTip
+            {
+                AutoPopDelay = 5000,
+                InitialDelay = 1000,
+                ReshowDelay = 500
+            };
             drawn = false;
             axisArrowRelativeSize = 0.02;
             countourLinesStep = Math.E;
@@ -135,11 +138,11 @@ namespace Computator.NET.Charting.ComplexCharting
 
             xLabel = "Re(z)";
             yLabel = "Im(z)";
-            labelsFont = new Font("Cambria", 13, FontStyle.Regular);
+            labelsFont = MathCustomFonts.GetMathFont(13);//new Font("Cambria", 13, FontStyle.Regular);
             labelsColor = Color.Black;
             titleColor = Color.Black;
             axesColor = Color.Black;
-            titleFont = new Font("Cambria", 13, FontStyle.Regular);
+            titleFont = MathCustomFonts.GetMathFont(13); //new Font("Cambria", 13, FontStyle.Regular);
         }
 
         #endregion

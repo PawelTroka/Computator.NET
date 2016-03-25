@@ -1104,7 +1104,7 @@ DataSourceUpdateMode.Never);*/
                 {
                     menuFunctionsToolTip.setFunctionInfo(FunctionsDetails.Details[menuItem.Text]);
                     //menuFunctionsToolTip.Show(this, menuItem.Width + 3, 0);
-                    menuFunctionsToolTip.ShowDialog(this);
+                    menuFunctionsToolTip.Show();
                 }
             }
         }

@@ -20,9 +20,15 @@ namespace Computator.NET
         }
 
         // ReSharper restore InconsistentNaming
-        [DllImport("kernel32", SetLastError = true,
-            CharSet = CharSet.Unicode)]
+    //    [DllImport("kernel32", SetLastError = true,
+      //      CharSet = CharSet.Unicode)]
+        //public static extern IntPtr LoadLibrary(string lpFileName);
+
+
+
+        [DllImport("kernel32.dll", EntryPoint = "LoadLibraryW", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr LoadLibrary(string lpFileName);
+
 
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]

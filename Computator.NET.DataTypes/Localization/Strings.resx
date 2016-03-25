@@ -346,4 +346,7 @@
   <data name="NativeCompiler_CompilerErrorToString_error" xml:space="preserve">
     <value>error</value>
   </data>
+  <data name="Program_Main_Exception_during_startup" xml:space="preserve">
+    <value>Exception during startup</value>
+  </data>
 </root>

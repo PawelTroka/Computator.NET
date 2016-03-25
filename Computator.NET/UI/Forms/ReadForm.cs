@@ -63,7 +63,7 @@ namespace Computator.NET
             // textBox1
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Font = new System.Drawing.Font(""Microsoft Sans Serif"", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBox1.Font = new System.Drawing.Font(""Microsoft Sans Serif"", 18F);
             this.textBox1.Location = new System.Drawing.Point(0, 29);
             this.textBox1.Margin = new System.Windows.Forms.Padding(5);
             this.textBox1.Name = ""textBox1"";
@@ -99,7 +99,7 @@ namespace Computator.NET
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.readQuestion);
             this.Controls.Add(this.button1);
-            this.Font = new System.Drawing.Font(""Microsoft Sans Serif"", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.Font = new System.Drawing.Font(""Microsoft Sans Serif"", 13.8F);
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = ""ReadForm"";
             this.Text = ""read"";

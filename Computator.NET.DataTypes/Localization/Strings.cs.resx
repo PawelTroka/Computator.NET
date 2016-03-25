@@ -229,4 +229,10 @@
   <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
     <value>Chyba syntaxe</value>
   </data>
+  <data name="Program_Main_Exception_during_startup" xml:space="preserve">
+    <value>Vyjimka pri nastartovani</value>
+  </data>
+  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right" xml:space="preserve">
+    <value>Zavri karty z prave strany</value>
+  </data>
 </root>
