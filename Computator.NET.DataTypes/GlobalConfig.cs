@@ -17,6 +17,7 @@ namespace Computator.NET.Config
 
         public const string gslDllName = "gsl.dll"; //"libgsl-0.dll";
         public const string gslCblasDllName = "cblas.dll"; //"libgslcblas-0.dll";
+        public const string msvcrDllName = "MSVCR120.DLL";
 
         public static readonly string betatesters = Strings.betaTesters +
                                                     ":\n - Kordian Czyżewski (kordiancz25@wp.pl)\n - Vojtech Mańkowski (vojtaman@gmail.com)\n - Marcin Piwowarski (marcpiwowarski@gmail.com)";

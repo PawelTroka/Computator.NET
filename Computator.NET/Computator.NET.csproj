@@ -348,6 +348,8 @@
     <None Include="Graphics\run_icon.png" />
     <Content Include="BUGS" />
     <Content Include="CHANGELOG" />
+    <None Include="Special\x86\msvcr120.dll" />
+    <None Include="Special\x64\msvcr120.dll" />
     <Content Include="TODO" />
     <Content Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

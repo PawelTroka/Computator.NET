@@ -20,27 +20,27 @@ namespace Computator.NET
         {
             UnmanagedHandler = HandleUnmanagedException;
 
-            byte[] gsl = null;
-            byte[] cblas = null;
+            var msvcr = Resources.msvcr120_x86;
+            var gsl = Resources.gsl_x86;
+            var cblas = Resources.cblas_x86;
 
             if (Environment.Is64BitProcess && IntPtr.Size == 8)
             {
+                //msvcr = Resources.msvcr120_x64;
                 gsl = Resources.gsl_x64;
                 cblas = Resources.cblas_x64;
             }
-            else if (!Environment.Is64BitProcess && IntPtr.Size == 4)
-            {
-                gsl = Resources.gsl_x86;
-                cblas = Resources.cblas_x86;
-            }
-            else
-                throw new Exception("Inconsistent system - IntPtr.Size and Environment.Is64BitProcess dont match");
+            //else if (!Environment.Is64BitProcess && IntPtr.Size == 4)
+            
+            //else
+              //  throw new Exception("Inconsistent system - IntPtr.Size and Environment.Is64BitProcess dont match");
 
             try
             {
+                EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.msvcrDllName, msvcr);
                 EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslDllName, gsl);
                 EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName, cblas);
-
+             //   System.Threading.Thread.Sleep(1000);
                 NativeMethods.gsl_set_error_handler(UnmanagedHandler);
             }
             catch (Exception exception)
@@ -48,16 +48,21 @@ namespace Computator.NET
                 logger.Log("ExtractEmbeddedDlls failed", ErrorType.General, exception);
                 try
                 {
+                    string msvcrTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.msvcrDllName);
                     string gslTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslDllName);
                     string cblasTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslCblasDllName);
 
+                    File.WriteAllBytes(msvcrTempPath, msvcr);
                     File.WriteAllBytes(cblasTempPath, cblas);
                     File.WriteAllBytes(gslTempPath, gsl);
-
+                    //  System.Threading.Thread.Sleep(1000);
+                    var h0 = NativeMethods.LoadLibrary(msvcrTempPath);
                     var h1 = NativeMethods.LoadLibrary(cblasTempPath);
                     var h2 = NativeMethods.LoadLibrary(gslTempPath);
 
-                    if (h1 == IntPtr.Zero || h2 == IntPtr.Zero)
+                    System.Threading.Thread.Sleep(1000);
+
+                    if (h0 == IntPtr.Zero || h1 == IntPtr.Zero || h2 == IntPtr.Zero)
                     {
                             throw new Win32Exception($"Could not load the Computator.NET modules at the paths '{gslTempPath}'{Environment.NewLine}'{cblasTempPath}'.", new Win32Exception()); // Calls GetLastError                       
                     }

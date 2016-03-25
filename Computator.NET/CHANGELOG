@@ -35,6 +35,7 @@
  * + Added exception handling for GSL initialization and logging all the errors
  * + User will now have option to install Cambria font if he doesnt have it in Regular style
  * + Installer will now always install Cambria font and TSL examples files
+ * = Fixed bug with gsl.dll not loading - application now has it's own MSVCRT120.dll (on which gsl was relying) if user doesnt have it
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
