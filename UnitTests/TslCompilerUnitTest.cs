@@ -34,6 +34,32 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void PassingLambdaAsArgumentTest1()
+        {
+            IsTheSameAfterCompilation(@"Derivative.derivative(ax => MathieuSE(1,1,ax),x,6)"); 
+        }
+
+        [TestMethod]
+        public void PassingLambdaAsArgumentTest2()
+        {
+            IsTheSameAfterCompilation(@"Derivative.derivative((x) => MathieuSE(1,1,x),x,6)");
+        }
+
+        [TestMethod]
+        public void PassingLambdaAsArgumentTest3()
+        {
+            IsTheSameAfterCompilation(@"Derivative.derivative((real x) => MathieuSE(1,1,x),x,6)");
+        }
+
+        private bool IsTheSameAfterCompilation(string code)
+        {
+            if (code == tslCompiler.TransformToCSharp(code))
+                return true;
+            else
+                throw new AssertFailedException();
+        }
+
+        [TestMethod]
         public void Test1()
         {
            // tslCompiler.Variables.Add("x");

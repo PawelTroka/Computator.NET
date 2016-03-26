@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Computator.NET.Compilation;
 using Computator.NET.Config;
@@ -80,9 +81,11 @@ namespace Computator.NET.Evaluation
             AdditionalUsings = "";
         }
 
+        private Regex implicitFunctionRegex = new Regex(@"=[^>]",RegexOptions.Compiled);
+
         public Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode)
         {
-            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, input.Contains("="));
+            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, implicitFunctionRegex.IsMatch(input));
 
 
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
@@ -158,7 +161,11 @@ namespace Computator.NET.Evaluation
         {
             if (IsImplicit)
             {
-                MainCSharpCode = MainCSharpCode.Substring(0, MainCSharpCode.IndexOf("=")) + "-(" + MainCSharpCode.Substring(MainCSharpCode.IndexOf("=") + 1) + ")";
+
+                var match = implicitFunctionRegex.Match(MainCSharpCode);
+
+
+                MainCSharpCode = MainCSharpCode.Substring(0, match.Index) + "-(" + MainCSharpCode.Substring(match.Index + 1) + ")";
             }
         }
 

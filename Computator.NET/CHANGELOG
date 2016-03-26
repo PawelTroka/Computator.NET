@@ -39,6 +39,7 @@
  * = Fixed bug with application not starting on Windows XP because of icon -> now icon is not compressed, still 256x256
  * + EditChart3DWindow can now edit chart area values properties
  * - Removed option to select a rectangular area using the mouse right click over Chart2D
+ * = Fixed important bug in ExpressionEvaluator - lambda expressions were interpreted as implicit functions which was preventing user from using them
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
