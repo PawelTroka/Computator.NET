@@ -13,6 +13,9 @@ namespace Computator.NET.NumericalCalculations
         {
             switch (methodName)
             {
+                case "centered order-point method":
+                    return derivative(fx, x, order);
+
                 case "finite difference formula":
                     return finiteDifferenceFormula(fx, x, order, eps);
                 case "stable finite difference formula":
@@ -95,6 +98,16 @@ namespace Computator.NET.NumericalCalculations
                    double.Epsilon;
         }
 
+        public static double derivative(System.Func<double, double> fx, double x, uint order = 1)
+        {
+            return MathNet.Numerics.Differentiate.Derivative(fx, x, (int)order);
+        }
+
+        public static System.Func<double,double> derivativeAsFunction(System.Func<double, double> fx, double x, uint order = 1)
+        {
+            return MathNet.Numerics.Differentiate.DerivativeFunc(fx, (int)order);
+        }
+
         public const string ToCode = @"
     public static class Derivative
     {
@@ -169,6 +182,16 @@ namespace Computator.NET.NumericalCalculations
                 return (fx(x + double.Epsilon) - fx(x))/double.Epsilon;
             return (derivativeAtPoint(fx, x + double.Epsilon, order - 1) - derivativeAtPoint(fx, x, order - 1))/
                    double.Epsilon;
+        }
+
+        public static double derivative(System.Func<double, double> fx, double x, uint order = 1)
+        {
+            return MathNet.Numerics.Differentiate.Derivative(fx, x, (int)order);
+        }
+
+        public static System.Func<double,double> derivativeAsFunction(System.Func<double, double> fx, double x, uint order = 1)
+        {
+            return MathNet.Numerics.Differentiate.DerivativeFunc(fx, (int)order);
         }
 }
         ";

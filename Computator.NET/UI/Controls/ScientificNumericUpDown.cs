@@ -39,17 +39,11 @@ namespace Computator.NET.UI
             
             Minimum = decimal.MinValue;
             Maximum = decimal.MaxValue;
-          //  Value = (decimal) 1e-9;
-            //ExponentialMode = true;
-
-
-          //  Font = new Font("Cambria", 16.2F, GraphicsUnit.Point);
-
-      //      Font = MathCustomFonts.GetMathFont(Font.Size);
-            //GlobalConfig.mathFont;
+          
 
             TextAlign = HorizontalAlignment.Center;
-            //this.KeyPress += Control_KeyPress;
+            Font = base.Font;
+
             ValueChanged += (o, e) =>
             {
                 if (!ExponentialMode)
@@ -57,8 +51,7 @@ namespace Computator.NET.UI
                 if (Increment == 0)
                     Increment = 1;
             };
-          //  Culture
-            Font = base.Font;
+            
         }
 
 

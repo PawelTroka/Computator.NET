@@ -29,6 +29,11 @@
 * Weiestrass functions
 * theta functions
 * numerical calculations for f(z) and f(x,y) functions too
+* add functions from gsl_diff.h, gsl_deriv.h, rk methods etc
+* add stefanson method for function root roots/steffenson.c and qk61 method from integration
+* add numerical methods for solving ordinary differential equations (ODEs) (ode-initval/gsl_odeiv.h), maybe other types of DE too 
+* add easy solving linear equations like here http://numerics.mathdotnet.com/LinearEquations.html
+* take a look on MathNet.Numerics.Euclid
 
 
 ##General design

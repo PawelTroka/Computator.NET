@@ -32,9 +32,11 @@ namespace Computator.NET.NumericalCalculations
                     methodsComboBox.Items.Add("infinity-adaptive Gauss–Kronrod method");
                     methodsComboBox.Items.Add("Monte Carlo method");
                     methodsComboBox.Items.Add("Romberg's method");
+
                     break;
 
                 case "Derivative":
+                    methodsComboBox.Items.Add("centered order-point method");
                     methodsComboBox.Items.Add("finite difference formula");
                     methodsComboBox.Items.Add("two-point finite difference formula");
                     methodsComboBox.Items.Add("stable finite difference formula");
@@ -50,7 +52,7 @@ namespace Computator.NET.NumericalCalculations
                     //secantNewtonRaphsonMethod
                     break;
             }
-            methodsComboBox.SelectedItem = methodsComboBox.Items[methodsComboBox.Items.Count - 1];
+            methodsComboBox.SelectedItem = methodsComboBox.Items[0];
         }
 
         public static void setupGroupBoxes(ComboBox operationsComboBox,
