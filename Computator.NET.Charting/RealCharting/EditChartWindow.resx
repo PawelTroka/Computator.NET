@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
   <data name="&gt;&gt;xMaxChartTextBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 13</value>
   </data>
@@ -136,9 +139,6 @@
   <data name="&gt;&gt;legendaEtykieta3.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="button4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 28</value>
-  </data>
   <data name="&gt;&gt;fontsGroupBox.Name" xml:space="preserve">
     <value>fontsGroupBox</value>
   </data>
@@ -151,6 +151,90 @@
   <data name="label7.Text" xml:space="preserve">
     <value>chart title</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>x minimum</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Edit chart</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Line thickness</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>label 1</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>px</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>x step</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>px</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>label 2</value>
+  </data>
+  <data name="button6.Text" xml:space="preserve">
+    <value>Numerical values</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>label 3</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>y maximum</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Axes values</value>
+  </data>
+  <data name="button5.Text" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Labels</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>y step</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>x maximum</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>y label</value>
+  </data>
+  <data name="button4.Text" xml:space="preserve">
+    <value>x,y axes</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>points size</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>x label</value>
+  </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>Chart title</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>y minimum</value>
+  </data>
+  <data name="fontsGroupBox.Text" xml:space="preserve">
+    <value>Fonts</value>
+  </data>
+  <data name="legendVisible.Text" xml:space="preserve">
+    <value>Show legend?</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>label 4</value>
+  </data>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
@@ -159,9 +243,6 @@
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>groupBox1</value>
-  </data>
-  <data name="legendaEtykieta4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>106, 116</value>
   </data>
   <data name="xLabelChartTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
@@ -186,22 +267,16 @@
   <data name="button6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="&gt;&gt;label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;legendaEtykieta1.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
-  <data name="yLabelChartTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
   </data>
   <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="groupBox3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="xMinChartTextBox.Location" type="System.Drawing.Point, System.Drawing">
@@ -225,8 +300,8 @@
   <data name="&gt;&gt;lineThicknessNumericUpDown.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>18, 13</value>
   </data>
   <data name="button5.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 82</value>
@@ -234,14 +309,17 @@
   <data name="&gt;&gt;xDeltaChartTextBox.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;legendaEtykieta4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;button6.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
     <value>18, 13</value>
   </data>
-  <data name="label16.Text" xml:space="preserve">
-    <value>px</value>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;legendaEtykieta2.Name" xml:space="preserve">
     <value>legendaEtykieta2</value>
@@ -267,8 +345,8 @@
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>115, 94</value>
   </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
   </data>
   <data name="legendaEtykieta3.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
@@ -285,11 +363,8 @@
   <data name="label15.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="&gt;&gt;titleFontDialog.Type" xml:space="preserve">
+  <data name="&gt;&gt;axisLabelsFontDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;legendVisible.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -297,8 +372,8 @@
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>29, 80</value>
   </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>label 4</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 13</value>
   </data>
   <data name="&gt;&gt;label10.Name" xml:space="preserve">
     <value>label10</value>
@@ -315,14 +390,14 @@
   <data name="&gt;&gt;legendaEtykieta2.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lineThicknessNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 171</value>
+  <data name="button4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 28</value>
   </data>
-  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
   </data>
-  <data name="lineThicknessNumericUpDown.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
   </data>
   <data name="xMaxChartTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -344,12 +419,6 @@
   </data>
   <data name="label16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="label10.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Axes values</value>
   </data>
   <data name="tittleOfChartTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>26, 17</value>
@@ -375,6 +444,15 @@
   <data name="tittleOfChartTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
+  <data name="&gt;&gt;yMaxChartTextBox.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;legendaEtykieta3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label16.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
@@ -399,11 +477,17 @@
   <data name="xMaxChartTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
   </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
   <data name="button2.Size" type="System.Drawing.Size, System.Drawing">
     <value>224, 59</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
+  <data name="groupBox2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="&gt;&gt;button5.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;xMinChartTextBox.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -411,17 +495,11 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="yDeltaChartTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>111, 123</value>
   </data>
   <data name="lineThicknessNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
-  </data>
-  <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
   </data>
   <data name="xDeltaChartTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -450,17 +528,11 @@
   <data name="groupBox3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="&gt;&gt;button4.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 13</value>
   </data>
-  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>8</value>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="&gt;&gt;xMaxChartTextBox.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -504,8 +576,8 @@
   <data name="&gt;&gt;label17.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>groupBox3</value>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="label15.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -516,26 +588,17 @@
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;xDeltaChartTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;yDeltaChartTextBox.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
-  <data name="fontsGroupBox.Text" xml:space="preserve">
-    <value>Fonts</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="label16.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
+  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;legendFontDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label12.Name" xml:space="preserve">
     <value>label12</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>y minimum</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -549,29 +612,20 @@
   <data name="&gt;&gt;legendaEtykieta1.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>x step</value>
-  </data>
   <data name="&gt;&gt;yLabelChartTextBox.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+  <data name="&gt;&gt;pointsSizeNumericUpDown.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;button6.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
     <value>110, 136</value>
   </data>
   <data name="legendVisible.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
-  </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>points size</value>
   </data>
   <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -588,14 +642,11 @@
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 13</value>
   </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;label8.Name" xml:space="preserve">
     <value>label8</value>
   </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 37</value>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
   </data>
   <data name="&gt;&gt;button4.Name" xml:space="preserve">
     <value>button4</value>
@@ -612,14 +663,14 @@
   <data name="&gt;&gt;titleFontDialog.Name" xml:space="preserve">
     <value>titleFontDialog</value>
   </data>
-  <data name="yMaxChartTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 74</value>
+  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 191</value>
   </data>
-  <data name="button1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="legendaEtykieta2.Location" type="System.Drawing.Point, System.Drawing">
     <value>106, 59</value>
@@ -636,23 +687,14 @@
   <data name="&gt;&gt;xLabelChartTextBox.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="button3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 17</value>
-  </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
-  <data name="&gt;&gt;pointsSizeNumericUpDown.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="xMinChartTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
-  </data>
-  <data name="button4.Text" xml:space="preserve">
-    <value>x,y axes</value>
   </data>
   <data name="&gt;&gt;button5.Name" xml:space="preserve">
     <value>button5</value>
@@ -672,23 +714,23 @@
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>x minimum</value>
+  <data name="&gt;&gt;xDeltaChartTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="yMaxChartTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
   <data name="&gt;&gt;button5.Parent" xml:space="preserve">
     <value>fontsGroupBox</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 13</value>
-  </data>
-  <data name="&gt;&gt;yDeltaChartTextBox.ZOrder" xml:space="preserve">
-    <value>8</value>
+  <data name="legendaEtykieta4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 116</value>
   </data>
   <data name="&gt;&gt;tittleOfChartTextBox.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+  <data name="button3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="&gt;&gt;xDeltaChartTextBox.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -708,8 +750,8 @@
   <data name="button4.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 50</value>
   </data>
-  <data name="&gt;&gt;legendaEtykieta3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;button6.Name" xml:space="preserve">
+    <value>button6</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -717,17 +759,11 @@
   <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="yLabelChartTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;label12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;fontsGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label11.Parent" xml:space="preserve">
     <value>groupBox3</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>y label</value>
   </data>
   <data name="&gt;&gt;button6.Parent" xml:space="preserve">
     <value>fontsGroupBox</value>
@@ -737,9 +773,6 @@
   </data>
   <data name="legendaEtykieta1.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
-  </data>
-  <data name="fontsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>243, 17</value>
   </data>
   <data name="button1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -771,8 +804,8 @@
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>476, 423</value>
+  <data name="&gt;&gt;tittleOfChartTextBox.Name" xml:space="preserve">
+    <value>tittleOfChartTextBox</value>
   </data>
   <data name="&gt;&gt;button2.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -801,17 +834,11 @@
   <data name="lineThicknessNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="button2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 13</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>x maximum</value>
   </data>
   <data name="&gt;&gt;label17.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -819,11 +846,14 @@
   <data name="&gt;&gt;button3.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 354</value>
+  <data name="lineThicknessNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 20</value>
   </data>
-  <data name="&gt;&gt;yMaxChartTextBox.ZOrder" xml:space="preserve">
-    <value>16</value>
+  <data name="lineThicknessNumericUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;button5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -840,12 +870,6 @@
   <data name="&gt;&gt;yMaxChartTextBox.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="button3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="button5.Text" xml:space="preserve">
-    <value>Legend</value>
-  </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
@@ -855,38 +879,23 @@
   <data name="&gt;&gt;button1.Name" xml:space="preserve">
     <value>button1</value>
   </data>
-  <data name="pointsSizeNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 171</value>
-  </data>
-  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="groupBox2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>label 1</value>
   </data>
   <data name="&gt;&gt;legendaEtykieta3.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
-  <data name="&gt;&gt;yLabelChartTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="yLabelChartTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 20</value>
   </data>
   <data name="button6.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="button3.Text" xml:space="preserve">
-    <value>Chart title</value>
-  </data>
   <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="pointsSizeNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="button2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -897,20 +906,23 @@
   <data name="&gt;&gt;button1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
   <data name="label14.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
   <data name="yLabelChartTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
+  <data name="&gt;&gt;yLabelChartTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;button2.Name" xml:space="preserve">
-    <value>button2</value>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
   </data>
   <data name="label15.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -927,12 +939,6 @@
   <data name="label7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="button3.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;button5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -941,9 +947,6 @@
   </data>
   <data name="&gt;&gt;xLabelChartTextBox.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="fontsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 149</value>
   </data>
   <data name="&gt;&gt;yMinChartTextBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -969,9 +972,6 @@
   <data name="button5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="&gt;&gt;button6.Name" xml:space="preserve">
-    <value>button6</value>
-  </data>
   <data name="&gt;&gt;xMinChartTextBox.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
@@ -984,11 +984,20 @@
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;pointsSizeNumericUpDown.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
   <data name="&gt;&gt;label12.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;button2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="&gt;&gt;button3.Parent" xml:space="preserve">
     <value>fontsGroupBox</value>
@@ -1002,14 +1011,11 @@
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>y maximum</value>
-  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>EditChartWindow</value>
   </data>
-  <data name="&gt;&gt;xMinChartTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="yDeltaChartTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
   <data name="&gt;&gt;pointsSizeNumericUpDown.Type" xml:space="preserve">
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1017,11 +1023,11 @@
   <data name="&gt;&gt;label13.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="legendVisible.Text" xml:space="preserve">
-    <value>Show legend?</value>
+  <data name="label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
   </data>
-  <data name="lineThicknessNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 20</value>
+  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 354</value>
   </data>
   <data name="&gt;&gt;button3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1029,23 +1035,23 @@
   <data name="button6.Size" type="System.Drawing.Size, System.Drawing">
     <value>214, 28</value>
   </data>
-  <data name="button2.Text" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="pointsSizeNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
   </data>
-  <data name="&gt;&gt;axisLabelsFontDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;legendaEtykieta1.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="legendaEtykieta1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 59</value>
+  </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>7</value>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
@@ -1053,14 +1059,14 @@
   <data name="label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Labels</value>
+  <data name="lineThicknessNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 171</value>
   </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>y step</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
   </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="yMaxChartTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>111, 74</value>
   </data>
   <data name="legendaEtykieta3.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 116</value>
@@ -1068,8 +1074,8 @@
   <data name="&gt;&gt;legendFontDialog.Name" xml:space="preserve">
     <value>legendFontDialog</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+  <data name="button3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 17</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -1080,35 +1086,41 @@
   <data name="&gt;&gt;lineThicknessNumericUpDown.Name" xml:space="preserve">
     <value>lineThicknessNumericUpDown</value>
   </data>
+  <data name="&gt;&gt;label14.Name" xml:space="preserve">
+    <value>label14</value>
+  </data>
   <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="label17.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
+  <data name="&gt;&gt;titleFontDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="legendaEtykieta2.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
   </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>x label</value>
+  <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
   </data>
   <data name="&gt;&gt;button4.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Legend</value>
   </data>
   <data name="yDeltaChartTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
   </data>
-  <data name="&gt;&gt;button5.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;button4.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;xMinChartTextBox.Name" xml:space="preserve">
     <value>xMinChartTextBox</value>
@@ -1122,23 +1134,23 @@
   <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
     <value>225, 59</value>
   </data>
-  <data name="label12.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+  <data name="pointsSizeNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>111, 171</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>px</value>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 80</value>
+  <data name="legendaEtykieta2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
-  <data name="&gt;&gt;label13.Name" xml:space="preserve">
-    <value>label13</value>
-  </data>
-  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="label6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -1152,17 +1164,14 @@
   <data name="&gt;&gt;yDeltaChartTextBox.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>label 3</value>
-  </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+  <data name="button1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="yMaxChartTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="&gt;&gt;button2.Name" xml:space="preserve">
+    <value>button2</value>
   </data>
   <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1176,14 +1185,11 @@
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;yDeltaChartTextBox.Name" xml:space="preserve">
-    <value>yDeltaChartTextBox</value>
+  <data name="&gt;&gt;legendVisible.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="legendaEtykieta1.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
-  </data>
-  <data name="button6.Text" xml:space="preserve">
-    <value>Numerical values</value>
   </data>
   <data name="legendVisible.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1194,11 +1200,11 @@
   <data name="legendVisible.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="legendaEtykieta2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+  <data name="label16.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 136</value>
@@ -1206,8 +1212,8 @@
   <data name="xDeltaChartTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+  <data name="&gt;&gt;legendaEtykieta1.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
     <value>109, 191</value>
@@ -1227,17 +1233,17 @@
   <data name="&gt;&gt;label10.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>label 2</value>
-  </data>
-  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>171, 172</value>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>476, 423</value>
   </data>
   <data name="&gt;&gt;label7.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
+  <data name="fontsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 149</value>
+  </data>
+  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 172</value>
   </data>
   <data name="label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1245,14 +1251,11 @@
   <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
     <value>79, 172</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Edit chart</value>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 80</value>
   </data>
   <data name="legendaEtykieta4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
-  </data>
-  <data name="&gt;&gt;fontsGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -1272,23 +1275,20 @@
   <data name="fontsGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="&gt;&gt;tittleOfChartTextBox.Name" xml:space="preserve">
-    <value>tittleOfChartTextBox</value>
-  </data>
-  <data name="legendaEtykieta1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 59</value>
+  <data name="fontsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>243, 17</value>
   </data>
   <data name="&gt;&gt;pointsSizeNumericUpDown.Name" xml:space="preserve">
     <value>pointsSizeNumericUpDown</value>
   </data>
-  <data name="&gt;&gt;pointsSizeNumericUpDown.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;xMinChartTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
   </data>
-  <data name="yDeltaChartTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
   <data name="yMaxChartTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
@@ -1299,17 +1299,11 @@
   <data name="button5.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="label16.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
+  <data name="yLabelChartTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
   <data name="legendaEtykieta1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
-  </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>18, 13</value>
   </data>
   <data name="&gt;&gt;legendaEtykieta2.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -1320,20 +1314,23 @@
   <data name="yMinChartTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
   </data>
+  <data name="button3.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="label10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="fontsGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Line thickness</value>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>72, 37</value>
   </data>
   <data name="yMaxChartTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 13</value>
+  <data name="groupBox3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="&gt;&gt;yMinChartTextBox.Name" xml:space="preserve">
     <value>yMinChartTextBox</value>
@@ -1344,26 +1341,26 @@
   <data name="button3.Size" type="System.Drawing.Size, System.Drawing">
     <value>214, 28</value>
   </data>
-  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>
   </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label9.Name" xml:space="preserve">
     <value>label9</value>
   </data>
-  <data name="&gt;&gt;label14.Name" xml:space="preserve">
-    <value>label14</value>
+  <data name="&gt;&gt;yDeltaChartTextBox.Name" xml:space="preserve">
+    <value>yDeltaChartTextBox</value>
+  </data>
+  <data name="&gt;&gt;legendaEtykieta4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="valuesFontDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>545, 19</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>pl</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

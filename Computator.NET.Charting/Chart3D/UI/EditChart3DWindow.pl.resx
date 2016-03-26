@@ -117,146 +117,188 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Skala:</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 13</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Rozmiar punktów</value>
-  </data>
   <data name="visibleAxesCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 17</value>
-  </data>
-  <data name="visibleAxesCheckBox.Text" xml:space="preserve">
-    <value>Osie widoczne?</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Kolor osi:</value>
-  </data>
   <data name="equalAxesCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>79, 17</value>
-  </data>
-  <data name="equalAxesCheckBox.Text" xml:space="preserve">
-    <value>Osie równe</value>
   </data>
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 13</value>
   </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>Typ wykresu 3D</value>
-  </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Kolor tła:</value>
+  <data name="unitsComboBox.Items139" xml:space="preserve">
+    <value>mm</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 13</value>
+  <data name="unitsComboBox.Items138" xml:space="preserve">
+    <value>cm</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>W jednostkach:</value>
+  <data name="unitsComboBox.Items137" xml:space="preserve">
+    <value>dm</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Wykres</value>
+  <data name="unitsComboBox.Items135" xml:space="preserve">
+    <value>km</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Osie systemu współrzędnych</value>
+  <data name="unitsComboBox.Items140" xml:space="preserve">
+    <value>μm</value>
   </data>
-  <data name="anulujButton.Text" xml:space="preserve">
-    <value>Anuluj</value>
+  <data name="unitsComboBox.Items142" xml:space="preserve">
+    <value>pm</value>
   </data>
-  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 13</value>
+  <data name="unitsComboBox.Items136" xml:space="preserve">
+    <value>m</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Czcionka etykiet osi:</value>
+  <data name="unitsComboBox.Items143" xml:space="preserve">
+    <value>yd</value>
   </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 13</value>
+  <data name="unitsComboBox.Items141" xml:space="preserve">
+    <value>nm</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Wartości na osiach</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Rozmiar punktów</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Kolor etykiet osi:</value>
   </data>
-  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 13</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>y (pikseli):</value>
-  </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 13</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>x (pikseli):</value>
-  </data>
-  <data name="groupBox7.Text" xml:space="preserve">
-    <value>Odległość etykiet</value>
-  </data>
-  <data name="labelsVisibilityCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 17</value>
-  </data>
-  <data name="labelsVisibilityCheckBox.Text" xml:space="preserve">
-    <value>Etykiety osi widoczne?</value>
-  </data>
-  <data name="zActiveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 17</value>
+  <data name="yActiveCheckBox.Text" xml:space="preserve">
+    <value>Aktywna?</value>
   </data>
   <data name="zActiveCheckBox.Text" xml:space="preserve">
     <value>Aktywna?</value>
   </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 13</value>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>X-Oś Etykieta</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>etykieta:</value>
+  <data name="label21.Text" xml:space="preserve">
+    <value>x maksimum</value>
   </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Z-Oś Etykieta</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Kolor tła:</value>
   </data>
-  <data name="yActiveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 17</value>
+  <data name="anulujButton.Text" xml:space="preserve">
+    <value>Anuluj</value>
   </data>
-  <data name="yActiveCheckBox.Text" xml:space="preserve">
-    <value>Aktywna?</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 13</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>etykieta:</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Y-Oś Etykieta</value>
-  </data>
-  <data name="xActiveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 17</value>
+  <data name="labelsVisibilityCheckBox.Text" xml:space="preserve">
+    <value>Etykiety osi widoczne?</value>
   </data>
   <data name="xActiveCheckBox.Text" xml:space="preserve">
     <value>Aktywna?</value>
   </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 13</value>
+  <data name="visibleAxesCheckBox.Text" xml:space="preserve">
+    <value>Osie widoczne?</value>
   </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>etykieta:</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Skala:</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>X-Oś Etykieta</value>
+  <data name="label8.Text" xml:space="preserve">
+    <value>x (pikseli):</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Typ wykresu 3D</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Osie systemu współrzędnych</value>
   </data>
   <data name="button2.Text" xml:space="preserve">
     <value>Edytuj czcionkę</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Etykiety osi</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Wykres</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Kolor osi:</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>W jednostkach:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Edytuj wykres 3D</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>y maksimum</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Y-Oś Etykieta</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>y (pikseli):</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Etykiety osi</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>etykieta:</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Czcionka etykiet osi:</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Odległość etykiet</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>etykieta:</value>
+  </data>
+  <data name="equalAxesCheckBox.Text" xml:space="preserve">
+    <value>Osie równe</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Z-Oś Etykieta</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>etykieta:</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 13</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 13</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 13</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="labelsVisibilityCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 17</value>
+  </data>
+  <data name="zActiveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 17</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="yActiveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 17</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="xActiveCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 17</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
   </data>
 </root>

@@ -344,4 +344,25 @@
   <data name="Program_Main_Exception_during_startup" xml:space="preserve">
     <value>Wyjątek podczas uruchamiania</value>
   </data>
+  <data name="GSLInitializer_HandleUnmanagedException_Error_code" xml:space="preserve">
+    <value>Kod błędu</value>
+  </data>
+  <data name="GSLInitializer_HandleUnmanagedException_Reason" xml:space="preserve">
+    <value>Powód</value>
+  </data>
+  <data name="GSLInitializer_HandleUnmanagedException_at_line" xml:space="preserve">
+    <value>w linii</value>
+  </data>
+  <data name="GSLInitializer_HandleUnmanagedException_Exception_occcured_in" xml:space="preserve">
+    <value>Wyjątek zdarzył się w</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>wyjątek</value>
+  </data>
+  <data name="GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths" xml:space="preserve">
+    <value>Nie udało się załadować modułów Computator.NET w ścieżkach</value>
+  </data>
+  <data name="Program_CurrentDomain_UnhandledException_Try_installing_font_" xml:space="preserve">
+    <value>Spróbuj zainstalować czcionkę!</value>
+  </data>
 </root>

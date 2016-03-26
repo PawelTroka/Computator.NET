@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -51,6 +52,11 @@ namespace Computator.NET.Charting.Chart3D
             xOffsetNumericUpDown.Value = (decimal) chart3d.AxisLabels.Offset.X;
             yOffsetNumericUpDown.Value = (decimal) chart3d.AxisLabels.Offset.Y;
 
+            xMinChartTextBox.Text = chart3d.XMin.ToString(CultureInfo.InvariantCulture);
+            xMaxChartTextBox.Text = chart3d.XMax.ToString(CultureInfo.InvariantCulture);
+
+            yMinChartTextBox.Text = chart3d.YMin.ToString(CultureInfo.InvariantCulture);
+            yMaxChartTextBox.Text = chart3d.YMax.ToString(CultureInfo.InvariantCulture);
 
             //strings:
             xLabelTextBox.Text = chart3d.AxisLabels.LabelX;
@@ -94,6 +100,14 @@ namespace Computator.NET.Charting.Chart3D
 
             chart3d.AxisLabels.Offset = new Point((double) xOffsetNumericUpDown.Value,
                 (double) yOffsetNumericUpDown.Value);
+
+
+            chart3d.XMin= double.Parse(xMinChartTextBox.Text, CultureInfo.InvariantCulture);
+            chart3d.XMax = double.Parse(xMaxChartTextBox.Text, CultureInfo.InvariantCulture);
+
+            chart3d.YMin = double.Parse(yMinChartTextBox.Text, CultureInfo.InvariantCulture);
+            chart3d.YMax = double.Parse(yMaxChartTextBox.Text, CultureInfo.InvariantCulture);
+
 
             //strings:
             chart3d.AxisLabels.LabelX = xLabelTextBox.Text;

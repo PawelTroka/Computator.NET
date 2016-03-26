@@ -9,7 +9,7 @@ namespace Computator.NET.Functions
     {
         #region trigonometric functions
 
-
+     //   private double ∞ = 9;
         public static double sinc(double x)
         {
             if (x == 0)

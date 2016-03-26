@@ -306,6 +306,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to exception.
+        /// </summary>
+        public static string Exception {
+            get {
+                return ResourceManager.GetString("Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Features:.
         /// </summary>
         public static string Features {
@@ -391,6 +400,51 @@ namespace Computator.NET.DataTypes.Localization {
         public static string GlobalConfig_others_standard_algorithm_for_complex_domain_coloring {
             get {
                 return ResourceManager.GetString("GlobalConfig_others_standard_algorithm_for_complex_domain_coloring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to at line.
+        /// </summary>
+        public static string GSLInitializer_HandleUnmanagedException_at_line {
+            get {
+                return ResourceManager.GetString("GSLInitializer_HandleUnmanagedException_at_line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error code.
+        /// </summary>
+        public static string GSLInitializer_HandleUnmanagedException_Error_code {
+            get {
+                return ResourceManager.GetString("GSLInitializer_HandleUnmanagedException_Error_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception occcured in.
+        /// </summary>
+        public static string GSLInitializer_HandleUnmanagedException_Exception_occcured_in {
+            get {
+                return ResourceManager.GetString("GSLInitializer_HandleUnmanagedException_Exception_occcured_in", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason.
+        /// </summary>
+        public static string GSLInitializer_HandleUnmanagedException_Reason {
+            get {
+                return ResourceManager.GetString("GSLInitializer_HandleUnmanagedException_Reason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not load the Computator.NET modules at the paths.
+        /// </summary>
+        public static string GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths {
+            get {
+                return ResourceManager.GetString("GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths", resourceCulture);
             }
         }
         
@@ -663,6 +717,15 @@ namespace Computator.NET.DataTypes.Localization {
         public static string Program_Application_ThreadException_Unhandled_Thread_Exception {
             get {
                 return ResourceManager.GetString("Program_Application_ThreadException_Unhandled_Thread_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try installing font!.
+        /// </summary>
+        public static string Program_CurrentDomain_UnhandledException_Try_installing_font_ {
+            get {
+                return ResourceManager.GetString("Program_CurrentDomain_UnhandledException_Try_installing_font_", resourceCulture);
             }
         }
         

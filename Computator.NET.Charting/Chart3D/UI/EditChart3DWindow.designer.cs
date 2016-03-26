@@ -77,6 +77,15 @@
             this.labelsColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.labelsFontDialog = new System.Windows.Forms.FontDialog();
             this.labelsColorDialog = new System.Windows.Forms.ColorDialog();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.xMaxChartTextBox = new System.Windows.Forms.TextBox();
+            this.xMinChartTextBox = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.yMinChartTextBox = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.yMaxChartTextBox = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeNumericUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -88,6 +97,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // scaleNumericUpDown
@@ -294,7 +304,61 @@
             resources.GetString("unitsComboBox.Items86"),
             resources.GetString("unitsComboBox.Items87"),
             resources.GetString("unitsComboBox.Items88"),
-            resources.GetString("unitsComboBox.Items89")});
+            resources.GetString("unitsComboBox.Items89"),
+            resources.GetString("unitsComboBox.Items90"),
+            resources.GetString("unitsComboBox.Items91"),
+            resources.GetString("unitsComboBox.Items92"),
+            resources.GetString("unitsComboBox.Items93"),
+            resources.GetString("unitsComboBox.Items94"),
+            resources.GetString("unitsComboBox.Items95"),
+            resources.GetString("unitsComboBox.Items96"),
+            resources.GetString("unitsComboBox.Items97"),
+            resources.GetString("unitsComboBox.Items98"),
+            resources.GetString("unitsComboBox.Items99"),
+            resources.GetString("unitsComboBox.Items100"),
+            resources.GetString("unitsComboBox.Items101"),
+            resources.GetString("unitsComboBox.Items102"),
+            resources.GetString("unitsComboBox.Items103"),
+            resources.GetString("unitsComboBox.Items104"),
+            resources.GetString("unitsComboBox.Items105"),
+            resources.GetString("unitsComboBox.Items106"),
+            resources.GetString("unitsComboBox.Items107"),
+            resources.GetString("unitsComboBox.Items108"),
+            resources.GetString("unitsComboBox.Items109"),
+            resources.GetString("unitsComboBox.Items110"),
+            resources.GetString("unitsComboBox.Items111"),
+            resources.GetString("unitsComboBox.Items112"),
+            resources.GetString("unitsComboBox.Items113"),
+            resources.GetString("unitsComboBox.Items114"),
+            resources.GetString("unitsComboBox.Items115"),
+            resources.GetString("unitsComboBox.Items116"),
+            resources.GetString("unitsComboBox.Items117"),
+            resources.GetString("unitsComboBox.Items118"),
+            resources.GetString("unitsComboBox.Items119"),
+            resources.GetString("unitsComboBox.Items120"),
+            resources.GetString("unitsComboBox.Items121"),
+            resources.GetString("unitsComboBox.Items122"),
+            resources.GetString("unitsComboBox.Items123"),
+            resources.GetString("unitsComboBox.Items124"),
+            resources.GetString("unitsComboBox.Items125"),
+            resources.GetString("unitsComboBox.Items126"),
+            resources.GetString("unitsComboBox.Items127"),
+            resources.GetString("unitsComboBox.Items128"),
+            resources.GetString("unitsComboBox.Items129"),
+            resources.GetString("unitsComboBox.Items130"),
+            resources.GetString("unitsComboBox.Items131"),
+            resources.GetString("unitsComboBox.Items132"),
+            resources.GetString("unitsComboBox.Items133"),
+            resources.GetString("unitsComboBox.Items134"),
+            resources.GetString("unitsComboBox.Items135"),
+            resources.GetString("unitsComboBox.Items136"),
+            resources.GetString("unitsComboBox.Items137"),
+            resources.GetString("unitsComboBox.Items138"),
+            resources.GetString("unitsComboBox.Items139"),
+            resources.GetString("unitsComboBox.Items140"),
+            resources.GetString("unitsComboBox.Items141"),
+            resources.GetString("unitsComboBox.Items142"),
+            resources.GetString("unitsComboBox.Items143")});
             this.unitsComboBox.Name = "unitsComboBox";
             // 
             // label5
@@ -535,10 +599,65 @@
             this.labelsColorRectangleShape.Name = "labelsColorRectangleShape";
             this.labelsColorRectangleShape.Click += new System.EventHandler(this.labelsColorRectangleShape_Click);
             // 
+            // groupBox8
+            // 
+            resources.ApplyResources(this.groupBox8, "groupBox8");
+            this.groupBox8.Controls.Add(this.xMaxChartTextBox);
+            this.groupBox8.Controls.Add(this.xMinChartTextBox);
+            this.groupBox8.Controls.Add(this.label20);
+            this.groupBox8.Controls.Add(this.label21);
+            this.groupBox8.Controls.Add(this.yMinChartTextBox);
+            this.groupBox8.Controls.Add(this.label22);
+            this.groupBox8.Controls.Add(this.yMaxChartTextBox);
+            this.groupBox8.Controls.Add(this.label23);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.TabStop = false;
+            // 
+            // xMaxChartTextBox
+            // 
+            resources.ApplyResources(this.xMaxChartTextBox, "xMaxChartTextBox");
+            this.xMaxChartTextBox.Name = "xMaxChartTextBox";
+            // 
+            // xMinChartTextBox
+            // 
+            resources.ApplyResources(this.xMinChartTextBox, "xMinChartTextBox");
+            this.xMinChartTextBox.Name = "xMinChartTextBox";
+            // 
+            // label20
+            // 
+            resources.ApplyResources(this.label20, "label20");
+            this.label20.Name = "label20";
+            // 
+            // label21
+            // 
+            resources.ApplyResources(this.label21, "label21");
+            this.label21.Name = "label21";
+            // 
+            // yMinChartTextBox
+            // 
+            resources.ApplyResources(this.yMinChartTextBox, "yMinChartTextBox");
+            this.yMinChartTextBox.Name = "yMinChartTextBox";
+            // 
+            // label22
+            // 
+            resources.ApplyResources(this.label22, "label22");
+            this.label22.Name = "label22";
+            // 
+            // yMaxChartTextBox
+            // 
+            resources.ApplyResources(this.yMaxChartTextBox, "yMaxChartTextBox");
+            this.yMaxChartTextBox.Name = "yMaxChartTextBox";
+            // 
+            // label23
+            // 
+            resources.ApplyResources(this.label23, "label23");
+            this.label23.Name = "label23";
+            // 
             // EditChartWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.anulujButton);
             this.Controls.Add(this.okButton);
@@ -563,6 +682,8 @@
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -617,5 +738,14 @@
         private System.Windows.Forms.ColorDialog labelsColorDialog;
         private System.Windows.Forms.ComboBox chartTypeComboBox;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.TextBox xMaxChartTextBox;
+        private System.Windows.Forms.TextBox xMinChartTextBox;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox yMinChartTextBox;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox yMaxChartTextBox;
+        private System.Windows.Forms.Label label23;
     }
 }

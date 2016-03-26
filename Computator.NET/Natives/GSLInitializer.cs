@@ -62,7 +62,7 @@ namespace Computator.NET
 
                     if (/*h0 == IntPtr.Zero ||*/ h1 == IntPtr.Zero || h2 == IntPtr.Zero)
                     {
-                            throw new Win32Exception($"Could not load the Computator.NET modules at the paths '{gslTempPath}'{Environment.NewLine}'{cblasTempPath}'.", new Win32Exception()); // Calls GetLastError                       
+                            throw new Win32Exception($"{Strings.GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths} '{gslTempPath}'{Environment.NewLine}'{cblasTempPath}'.", new Win32Exception()); // Calls GetLastError                       
                     }
 
                     NativeMethods.gsl_set_error_handler(UnmanagedHandler);
@@ -70,7 +70,7 @@ namespace Computator.NET
                 catch (Exception exception2)
                 {
                     logger.Log("LoadLibrary failed", ErrorType.General, exception2);
-                    MessageBox.Show($"{Strings.Program_Main_Exception_during_startup}.{Environment.NewLine}ExtractEmbeddedDlls exception:{Environment.NewLine}{exception}{Environment.NewLine}LoadLibrary exception:{Environment.NewLine}{exception2}", Strings.Error);
+                    MessageBox.Show($"{Strings.Program_Main_Exception_during_startup}.{Environment.NewLine}ExtractEmbeddedDlls {Strings.Exception}:{Environment.NewLine}{exception}{Environment.NewLine}LoadLibrary {Strings.Exception}:{Environment.NewLine}{exception2}", Strings.Error);
                 }
             }
         }
@@ -79,7 +79,7 @@ namespace Computator.NET
             string file, int line, int gsl_errno)
         {
             throw new Exception(
-                $"Exception occcured in {file}\n at line {line}\nReason: {reason}\nError code: {gsl_errno}");
+                $"{Strings.GSLInitializer_HandleUnmanagedException_Exception_occcured_in} {file}\n {Strings.GSLInitializer_HandleUnmanagedException_at_line} {line}\n{Strings.GSLInitializer_HandleUnmanagedException_Reason}: {reason}\n{Strings.GSLInitializer_HandleUnmanagedException_Error_code}: {gsl_errno}");
         }
     }
 }

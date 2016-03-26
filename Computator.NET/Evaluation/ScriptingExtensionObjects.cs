@@ -154,7 +154,7 @@ namespace Computator.NET.Evaluation
 
                     if (z.Imaginary == 0)
                         return z.Real.ToMathString();
-                    return z.Imaginary > 0
+                    return (z.Imaginary > 0 || double.IsNaN(z.Imaginary))
                         ? string.Format("{0}+{1}{2}i", z.Real.ToMathString(), z.Imaginary.ToMathString(),
                             Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
                         : string.Format("{0}{1}{2}i", z.Real.ToMathString(), z.Imaginary.ToMathString(),

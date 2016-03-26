@@ -62,7 +62,7 @@ namespace Computator.NET
             {
                 //e.IsTerminating = false;
                 
-                MessageBox.Show("Try installing font!");
+                MessageBox.Show(Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_);
                 Process.Start(GlobalConfig.FullPath("UI", "fonts", "CAMBRIA.TTC"));
             }
             

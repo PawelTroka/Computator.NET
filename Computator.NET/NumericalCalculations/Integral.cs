@@ -62,7 +62,7 @@ namespace Computator.NET.NumericalCalculations
         public static double rombergMethod(System.Func<double, double> fx, double a, double b, int N = 6)
         {
             if(N>30)
-                throw new System.ArgumentException("Number of steps should be small, default is 6","N");
+                throw new System.ArgumentException("Number of steps should be small for rombergMethod, default is 6", "N");
             return Accord.Math.Integration.RombergMethod.Integrate(fx, a, b, N);
         }
 
@@ -132,7 +132,7 @@ namespace Computator.NET.NumericalCalculations
         public static double infiniteAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
         {
             var iagk = new Accord.Math.Integration.InfiniteAdaptiveGaussKronrod(N, fx, a, b);
-            iagk.ToleranceAbsolute = iagk.ToleranceRelative = 0;
+            //iagk.ToleranceAbsolute = iagk.ToleranceRelative = 0;//?????????????????????????????????????????????????????
             return iagk.Compute() ? iagk.Area : double.NaN;
         }
 
@@ -141,8 +141,10 @@ namespace Computator.NET.NumericalCalculations
             return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, 1.0/N);
         }
 
-        public static double rombergMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
+        public static double rombergMethod(System.Func<double, double> fx, double a, double b, int N = 6)
         {
+            if(N>30)
+                throw new System.ArgumentException(""Number of steps should be small for rombergMethod, default is 6"", ""N"");
             return Accord.Math.Integration.RombergMethod.Integrate(fx, a, b, N);
         }
 
@@ -197,8 +199,9 @@ namespace Computator.NET.NumericalCalculations
             }
 
             return h*(fx(a) + s + fx(b))/3.0;
-        }
-}
+        }    
+  
+    }   
 ";
     }
 }

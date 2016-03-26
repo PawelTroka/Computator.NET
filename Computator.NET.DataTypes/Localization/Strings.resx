@@ -349,4 +349,25 @@
   <data name="Program_Main_Exception_during_startup" xml:space="preserve">
     <value>Exception during startup</value>
   </data>
+  <data name="Program_CurrentDomain_UnhandledException_Try_installing_font_" xml:space="preserve">
+    <value>Try installing font!</value>
+  </data>
+  <data name="GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths" xml:space="preserve">
+    <value>Could not load the Computator.NET modules at the paths</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>exception</value>
+  </data>
+  <data name="GSLInitializer_HandleUnmanagedException_Exception_occcured_in" xml:space="preserve">
+    <value>Exception occcured in</value>
+  </data>
+  <data name="GSLInitializer_HandleUnmanagedException_at_line" xml:space="preserve">
+    <value>at line</value>
+  </data>
+  <data name="GSLInitializer_HandleUnmanagedException_Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="GSLInitializer_HandleUnmanagedException_Error_code" xml:space="preserve">
+    <value>Error code</value>
+  </data>
 </root>

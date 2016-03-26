@@ -117,68 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="button2.Text" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>x maximální</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>y maximální</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>osa y</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>osa x</value>
-  </data>
   <data name="label7.Text" xml:space="preserve">
     <value>název grafu</value>
   </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>velikost bodů</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Upravit graf</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
     <value>tloušťka čáry</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>x krok</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>y krok</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Hodnoty na osách</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>etikety</value>
-  </data>
-  <data name="legendVisible.Text" xml:space="preserve">
-    <value>Zobrazit legendu ?</value>
-  </data>
   <data name="label8.Text" xml:space="preserve">
     <value>etiketa 1</value>
   </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>etiketa 4</value>
+  <data name="label12.Text" xml:space="preserve">
+    <value>x krok</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>etiketa 2</value>
   </data>
+  <data name="button6.Text" xml:space="preserve">
+    <value>číselné hodnoty</value>
+  </data>
   <data name="label10.Text" xml:space="preserve">
     <value>etiketa 3</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>y maximální</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Legend</value>
   </data>
-  <data name="button6.Text" xml:space="preserve">
-    <value>číselné hodnoty</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Hodnoty na osách</value>
   </data>
   <data name="button5.Text" xml:space="preserve">
     <value>Legenda</value>
   </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>etikety</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>y krok</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>x maximální</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>osa y</value>
+  </data>
   <data name="button4.Text" xml:space="preserve">
     <value>Osy x , y</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>velikost bodů</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>osa x</value>
   </data>
   <data name="button3.Text" xml:space="preserve">
     <value>Název grafu </value>
@@ -186,8 +180,14 @@
   <data name="fontsGroupBox.Text" xml:space="preserve">
     <value>Font</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Upravit graf</value>
+  <data name="legendVisible.Text" xml:space="preserve">
+    <value>Zobrazit legendu ?</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>etiketa 4</value>
+  </data>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Zrušit</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
