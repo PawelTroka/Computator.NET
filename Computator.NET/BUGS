@@ -5,33 +5,7 @@
 5. Folding does not work in AvalonEdit when working with documents
 6. When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
 7. Caret sometimes not showing when switching to exponent mode
-8. Bugs related to Chart control (3 known bugs, described in my engineer thesis)
-
-	8.a When using Values close to decimal.MaxValue - resolved easily in current version by limiting max and min values for Chart2D
-		System.OverflowException: Value was either too large or too small for a Decimal.
-		   at System.Decimal..ctor(Double value)
-		   at System.Windows.Forms.DataVisualization.Charting.Axis.GetRequiredLabelSize(ChartGraphics chartGraph, Single maxLabelSize, Single& resultSize)
-		   at System.Windows.Forms.DataVisualization.Charting.Axis.Resize(ChartGraphics chartGraph, ElementPosition chartAreaPosition, RectangleF plotArea, Single axesNumber, Boolean autoPlotPosition)
-		   at System.Windows.Forms.DataVisualization.Charting.ChartArea.Resize(ChartGraphics chartGraph)
-   
-	8.b	When FastLine for some parameters, probably because of the fact that GDI+ has hard bounds for drawing coordinates for DrawLine method (reproduced by FastLine; f(x)=x; x0=-5·10⁻⁷; xN=5·10⁷; y0=-3·10⁻⁷; yN=3·10⁻⁷) - half resolved by not using FastLine
-		System.OverflowException: Overflow error.
-		   at System.Drawing.Graphics.CheckErrorStatus(Int32 status)
-		   at System.Drawing.Graphics.DrawLine(Pen pen, Single x1, Single y1, Single x2, Single y2)
-		   at System.Windows.Forms.DataVisualization.Charting.ChartTypes.FastLineChart.DrawLine
-	8.c Randomly when moving mouse over zommed in area of Chart, nearly impossible to reproduce - still NOT resolved
-		'System.Runtime.InteropServices.ExternalException' occurred in System.Drawing.dll
-			Additional information: A generic error occurred in GDI+.
-			System.Drawing.dll!System.Drawing.Drawing2D.GraphicsPath.IsVisible(System.Drawing.PointF pt, System.Drawing.Graphics graphics) + 0x92 bytes	
- 			System.Drawing.dll!System.Drawing.Drawing2D.GraphicsPath.IsVisible(float x, float y) + 0x1b bytes	
- 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Selection.HitTest(int x, int y, bool ignoreTransparent = true, System.Windows.Forms.DataVisualization.Charting.ChartElementType[] requestedElementTypes) + 0x4bc bytes	
- 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Selection.EvaluateToolTip(System.Windows.Forms.MouseEventArgs e = {X = 264 Y = 262 Button = None}) + 0x48 bytes	
- 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Selection.Selection_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e) + 0x71 bytes	
- 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Chart.OnChartMouseMove(System.Windows.Forms.MouseEventArgs e = {X = 264 Y = 262 Button = None}) + 0x12b bytes	
- 			System.Windows.Forms.DataVisualization.dll!System.Windows.Forms.DataVisualization.Charting.Chart.OnMouseMove(System.Windows.Forms.MouseEventArgs e) + 0x5 bytes	
- 			System.Windows.Forms.dll!System.Windows.Forms.Control.WmMouseMove(ref System.Windows.Forms.Message m) + 0x69 bytes	
- 			System.Windows.Forms.dll!System.Windows.Forms.Control.WndProc(ref System.Windows.Forms.Message m) + 0x45c bytes	
-
+8. 
 9. Function 2F1 randomly throws exceptions, MathieuMs and MathieuMc too
 10. Transformations (FFT, IFFT, ...) dont work
 11. Functions descriptions not yet done for every function

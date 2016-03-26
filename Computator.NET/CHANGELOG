@@ -38,6 +38,7 @@
  * = Fixed bug with GSL library not loading - installer will now always install Visual C++ Redistributable for Visual Studio 2013 (MSVCRT120.DLL, used by gsl.dll and cblas.dll) if needed
  * = Fixed bug with application not starting on Windows XP because of icon -> now icon is not compressed, still 256x256
  * + EditChart3DWindow can now edit chart area values properties
+ * - Removed option to select a rectangular area using the mouse right click over Chart2D
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

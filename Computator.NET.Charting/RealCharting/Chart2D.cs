@@ -63,6 +63,7 @@ namespace Computator.NET.Charting.RealCharting
             //implicitFunctions= new List<Function<double>>();
             //   addSampleImplicitFunction();
             //implicitFunctions.Add(new Function<double>((x, y) => Math.Sin(x*x-y*y) - Math.Sin(x+y)-Math.Cos(x*y), "|sin(x²-y²)| = sin(x+y)+cos(x·y)"));
+            
         }
 
         public int lineThickness
@@ -269,10 +270,7 @@ namespace Computator.NET.Charting.RealCharting
 
         private void NotifyPropertyChanged(string propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void calculateN(double quality)
@@ -394,15 +392,20 @@ namespace Computator.NET.Charting.RealCharting
             chartArea1.AxisY.Title = "Y";
             chartArea1.AxisY.TitleAlignment = StringAlignment.Far;
             chartArea1.AxisY.TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            chartArea1.CursorX.IsUserEnabled = true;
-            chartArea1.CursorX.IsUserSelectionEnabled = true;
-            chartArea1.CursorY.IsUserEnabled = true;
-            chartArea1.CursorY.IsUserSelectionEnabled = true;
+
+            //By default, if I select a rectangular area using the mouse, the chart will zoom to the selected area.
+            //But this is quite annoying because it is prone to false operation
+            chartArea1.CursorX.IsUserEnabled = false;
+            chartArea1.CursorX.IsUserSelectionEnabled = false;
+
+
             chartArea1.Name = "ChartArea1";
+            
             ChartAreas.Add(chartArea1);
             legend1.Font = CustomFonts.GetMathFont(13.8F);//new Font("Cambria", 13.8F);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
+            
             Legends.Add(legend1);
 
             //this.N = 0D;
@@ -425,7 +428,7 @@ namespace Computator.NET.Charting.RealCharting
             if (e.Button == MouseButtons.XButton1)
                 yOnlyZoomMode = false;
 
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left)//TODO: find better usage for one of these buttons
             {
                 _rightButtonPressed = false;
                 N = _oldN;
@@ -441,7 +444,7 @@ namespace Computator.NET.Charting.RealCharting
             if (e.Button == MouseButtons.XButton1)
                 yOnlyZoomMode = true;
 
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left)//TODO: find better usage for one of these buttons
             {
                 _oldN = N;
                 N = MOVE_N;
@@ -458,7 +461,11 @@ namespace Computator.NET.Charting.RealCharting
 
         private void _MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle)
+         //   if (e.Button == MouseButtons.Right)
+            {
+                
+            }
+                if (e.Button == MouseButtons.Middle)
                 autoScaleSmooth();
             if (e.Button == MouseButtons.XButton2)
                 xOnlyZoomMode = true;
