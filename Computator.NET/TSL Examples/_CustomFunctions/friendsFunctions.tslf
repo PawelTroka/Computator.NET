@@ -17,3 +17,10 @@ static real krzysztof(real x, real y)
 {
 	return 2¹ᱸ²˙ᶜᵒˢ⁽ˣ⁾˙ᴹᵃᵗʰⁱᵉᵘᴹᶜ⁽¹՚²՚ʸ՚ˣ⁾;
 }
+
+static complex athena(complex z)
+{
+	var x = Re(z);
+	var y = Im(z);
+	return 2ᶜᵒˢᵉᶜʰ⁽ᶻ⁾⁺ˢᵉᶜʰ⁽ᶻ⁾˙ᶜᵒˢ⁽ˣ⁾˸ᴹᵃᵗʰⁱᵉᵘᴹᶜ⁽¹՚²՚ʸ՚ˣ⁾⁻ᶜᵒˢ⁽ˣ⁾˸¹ᱸ²˙ᴹᵃᵗʸᵃˢ⁽ˣ՚ʸ⁾;
+}

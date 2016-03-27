@@ -32,7 +32,7 @@ namespace Computator.NET.Data
         {
             //var _details = new Dictionary<string, FunctionInfo>();
             //foreach (var item in sourceItems)
-            //_details.Add(item.functionInfo.Signature, item.functionInfo);
+            //_details.Add(item.FunctionInfo.Signature, item.FunctionInfo);
 
             var serializer = new XmlSerializer(typeof (FunctionInfo[]),
                 new XmlRootAttribute("FunctionsDetails"));
@@ -57,7 +57,7 @@ namespace Computator.NET.Data
         {
             //var _details = new Dictionary<string, FunctionInfo>();
             //foreach (var item in sourceItems)
-            //_details.Add(item.functionInfo.Signature, item.functionInfo);
+            //_details.Add(item.FunctionInfo.Signature, item.FunctionInfo);
 
             var serializer = new XmlSerializer(typeof (FunctionInfo[]),
                 new XmlRootAttribute("FunctionsDetails"));
@@ -71,7 +71,7 @@ namespace Computator.NET.Data
             foreach (var item in items)
             {
                 detailsWithEmpties.Add(item.Text,
-                    _details.ContainsKey(item.Text) ? _details[item.Text] : item.functionInfo);
+                    _details.ContainsKey(item.Text) ? _details[item.Text] : item.Info);
             }
 
 

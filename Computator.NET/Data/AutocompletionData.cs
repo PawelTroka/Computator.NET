@@ -203,16 +203,10 @@ namespace Computator.NET.Data
 
             foreach (var f in fields)
             {
-                var argsCount = Enumerable.Count(f.ToString(), c => c == ',');
-                if (argsCount > 0)
-                {
-                    AnalyzeDelegateFields(f, type, items);
-                }
-                else
-                {
+
                     AddSignatureWithType(f.Name, "", "", f.FieldType.Name, items);
                     AddMetadata(f, type, items);
-                }
+                
             }
 
             foreach (var t in type.GetNestedTypes())
@@ -295,16 +289,16 @@ namespace Computator.NET.Data
             if (items.Count > 0)
             {
                 if (Enumerable.Any(p.GetCustomAttributes(typeof (CategoryAttribute), false)))
-                    Enumerable.Last(items).functionInfo.Category =
+                    Enumerable.Last(items).Info.Category =
                         (((CategoryAttribute)
                             (p.GetCustomAttributes(typeof (CategoryAttribute), false)[0])))
                             .Category ??
                         "";
 
-                Enumerable.Last(items).functionInfo.Signature = Enumerable.Last(items).Text ?? "";
-                Enumerable.Last(items).functionInfo.Title = Enumerable.Last(items).ToolTipTitle ?? "";
-                Enumerable.Last(items).functionInfo.Description = Enumerable.Last(items).ToolTipText ?? "";
-                Enumerable.Last(items).functionInfo.Type = type.Name;
+                Enumerable.Last(items).Info.Signature = Enumerable.Last(items).Text ?? "";
+                Enumerable.Last(items).Info.Title = Enumerable.Last(items).ToolTipTitle ?? "";
+                Enumerable.Last(items).Info.Description = Enumerable.Last(items).ToolTipText ?? "";
+                Enumerable.Last(items).Info.Type = type.Name;
             }
         }
 
@@ -353,11 +347,6 @@ namespace Computator.NET.Data
             }
         }
 
-        private static void AddSignatureWithType(string sigName, string typeName,
-            List<AutocompleteItem> items)
-        {
-            AddSignatureWithType(sigName, sigName, typeName, items);
-        }
 
         private static void AddSignatureWithType(string name, string addition, string additionWithType, string typeName,
             List<AutocompleteItem> items)
@@ -400,105 +389,8 @@ namespace Computator.NET.Data
             return imageIndex;
         }
 
-        private static void AddSignatureWithType(string sigName, string menuName, string typeName,
-            List<AutocompleteItem> items)
-        {
-            switch (typeName)
-            {
-                case "Complex":
-                    items.Add(new AutocompleteItem(sigName, 1, menuName));
-                    break;
-                case "Double":
-                case "T":
-                    items.Add(new AutocompleteItem(sigName, 0, menuName));
-                    break;
-                case "Int32":
-                case "Int64":
-                case "Int16":
-                    items.Add(new AutocompleteItem(sigName, 3, menuName));
-                    break;
-                case "Uint32":
-                case "Uint16":
-                case "Uint64":
-                    items.Add(new AutocompleteItem(sigName, 2, menuName));
-                    break;
-                case "Matrix":
-                case "matrix":
-                case "DenseMatrix":
-                case "SparseMatrix":
-                    items.Add(new AutocompleteItem(sigName, 5, menuName));
-                    break;
+      
 
-                default:
-                    items.Add(new AutocompleteItem(sigName, -1, menuName));
-                    break;
-            }
-        }
-
-        private static void AnalyzeDelegateFields(FieldInfo f, Type type,
-            List<AutocompleteItem> items)
-        {
-            var addition = "(";
-
-            //((GenericType)f.FieldType).GenericTypeArguments
-            var argumentsTypes = (f.FieldType).GetGenericArguments();
-
-            var method = f.FieldType.GetMethod("Invoke");
-
-            var secondTime = false;
-            for (var i = 0; i < argumentsTypes.Length - 1; i++)
-            {
-                if ((argumentsTypes[i].Name == "Double") && i < argumentsTypes.Length - 2)
-                {
-                    if (!addition.Contains("ν"))
-                        addition += "ν,";
-                    else if (!addition.Contains("μ"))
-                        addition += "μ,";
-                    else
-                        addition += "α,";
-                }
-
-
-                if (((argumentsTypes[i].Name == "Int32") || (argumentsTypes[i].Name == "Uint32") ||
-                     (argumentsTypes[i].Name == "Int64") || (argumentsTypes[i].Name == "Uint64")))
-                {
-                    if (!addition.Contains("n"))
-                        addition += "n,";
-                    else if (!addition.Contains("m"))
-                        addition += "m,";
-                    else
-                        addition += "k,";
-                }
-
-                if ((argumentsTypes[i].Name == "Double" || argumentsTypes[i].Name == "T") &&
-                    i == argumentsTypes.Length - 2)
-                    addition += "x";
-
-                if ((argumentsTypes[i].Name == "Complex") && i == argumentsTypes.Length - 2)
-                    addition += "z";
-
-                if (argumentsTypes[i].Name == "T")
-                    secondTime = true;
-            }
-            addition += ")";
-
-
-            if (method != null)
-            {
-                AddSignatureWithType(f.Name + addition, method.ReturnType.Name, items);
-            }
-            else
-            {
-                AddSignatureWithType(f.Name, f.FieldType.Name, items);
-            }
-
-            AddMetadata(f, type, items);
-
-            if (secondTime)
-            {
-                AddSignatureWithType(f.Name + addition.Replace("x)", "z)"), "Complex", items);
-                AddMetadata(f, type, items);
-            }
-        }
+    
     }
 }

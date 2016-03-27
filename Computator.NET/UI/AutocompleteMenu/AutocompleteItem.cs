@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.DataTypes;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
 using Computator.NET.UI.CodeEditors;
@@ -34,18 +35,16 @@ namespace AutocompleteMenuNS
         private readonly string _additionWithTypes;
         private readonly string _name;
         private readonly string _returnTypeName;
-        private readonly string menuText;
+       // private readonly string menuText;
 
-        public FunctionInfo functionInfo;
+        public FunctionInfo Info { get; } = new FunctionInfo();
         public object Tag;
         private string toolTipText;
         private string toolTipTitle;
         public string AssemblyName { get; set; }
 
-        public AutocompleteItem()
+        protected AutocompleteItem()
         {
-            functionInfo = new FunctionInfo();
-            ImageIndex = -1;
 #if USE_TEXT_WIDTH
             TextWidth = 400;
 #endif
@@ -53,43 +52,24 @@ namespace AutocompleteMenuNS
 
         public AutocompleteItem(string text) : this()
         {
-            functionInfo = new FunctionInfo();
             Text = text;
-            lowercaseText = text.ToLower();
+            _textForComparison = text.ToLowerInvariant();
         }
 
-        public AutocompleteItem(string text, int imageIndex)
-            : this(text)
-        {
-            functionInfo = new FunctionInfo();
-            ImageIndex = imageIndex;
-        }
 
         public AutocompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
-            int imageIndex)
-            : this(name + addition, imageIndex)
+            int imageIndex) : this()
         {
-            functionInfo = new FunctionInfo();
-            // this.menuText = menuText;
+            Text = name + addition;
+            _textForComparison = name.ToLowerInvariant();
+            
+
+            ImageIndex = imageIndex;
+
             _name = name;
             _returnTypeName = returnTypeName;
             _addition = addition;
             _additionWithTypes = additionWithTypes;
-        }
-
-        public AutocompleteItem(string text, int imageIndex, string menuText)
-            : this(text, imageIndex)
-        {
-            functionInfo = new FunctionInfo();
-            this.menuText = menuText;
-        }
-
-        public AutocompleteItem(string text, int imageIndex, string menuText, string toolTipTitle, string toolTipText)
-            : this(text, imageIndex, menuText)
-        {
-            functionInfo = new FunctionInfo();
-            this.toolTipTitle = toolTipTitle;
-            this.toolTipText = toolTipText;
         }
 
         /// <summary>
@@ -102,12 +82,12 @@ namespace AutocompleteMenuNS
         /// </summary>
         public string Text { get; set; }
 
-        private string lowercaseText;
+        private readonly string _textForComparison;
 
         /// <summary>
         ///     Image index for this item
         /// </summary>
-        public int ImageIndex { get; set; }
+        public int ImageIndex { get; set; } = -1;
 
         /// <summary>
         ///     Title for tooltip.
@@ -136,10 +116,6 @@ namespace AutocompleteMenuNS
         {
             get
             {
-                if (menuText != null)
-                    return menuText;
-
-
                 string ret;
                 if (IsScripting)
                 {
@@ -173,7 +149,7 @@ namespace AutocompleteMenuNS
 
         public CompletionData ToCompletionData()
         {
-            return new CompletionData(Text, MenuText, functionInfo, ImageIndex);
+            return new CompletionData(Text, MenuText, Info, ImageIndex);
         }
 
         /// <summary>
@@ -201,20 +177,41 @@ namespace AutocompleteMenuNS
 
         public virtual CompareResult Compare(string fragmentText)//hybrid compare
         {
-            if (fragmentText.Length < 3)
-                return CompareExplicite(fragmentText);
+            var normalizedFragmentText = NormalizeString(fragmentText);
+
+            var compareExpliciteResult = CompareExplicite(normalizedFragmentText);
+
+            if (normalizedFragmentText.Length < 3 || compareExpliciteResult!=CompareResult.Hidden)
+                return compareExpliciteResult;
             else
             {
-                var substringCompareResult = CompareSubstring(fragmentText);
-                return substringCompareResult == CompareResult.Hidden ? CompareFuzzy(fragmentText) : substringCompareResult;
+                var substringCompareResult = CompareSubstring(normalizedFragmentText);
+                return substringCompareResult == CompareResult.Hidden ? CompareFuzzy(normalizedFragmentText) : substringCompareResult;
             }
+        }
+
+        private static string NormalizeString(string str)
+        {
+            var index = str.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
+
+
+            var normalizedFragmentText = str;
+
+            if (index != -1)
+                normalizedFragmentText = str.Substring(index);
+
+
+            normalizedFragmentText = SpecialSymbols.SuperscriptsToAscii(normalizedFragmentText).ToLowerInvariant();
+            return normalizedFragmentText;
         }
 
 
         public CompareResult CompareSubstring(string fragmentText)
         {
 
-            if (lowercaseText.Contains(fragmentText.ToLower()))
+
+
+            if (_textForComparison.Contains(fragmentText.ToLowerInvariant()))
                 return CompareResult.Visible;
 
 
@@ -224,9 +221,12 @@ namespace AutocompleteMenuNS
 
         private CompareResult CompareExplicite(string fragmentText)
         {
-            if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) /*&&
-Text != fragmentText*/)
+            if(_textForComparison == fragmentText)
                 return CompareResult.VisibleAndSelected;
+
+            if (_textForComparison.StartsWith(fragmentText)
+                )//we dont wanna show something if it is the same as typed string
+                return CompareResult.Visible;
             return CompareResult.Hidden;
         }
 
@@ -292,7 +292,7 @@ Text != fragmentText*/)
         /// </summary>
         public override string ToString()
         {
-            return menuText ?? MenuText;
+            return  MenuText;
         }
 
         /// <summary>

@@ -40,6 +40,8 @@
  * + EditChart3DWindow can now edit chart area values properties
  * - Removed option to select a rectangular area using the mouse right click over Chart2D
  * = Fixed important bug in ExpressionEvaluator - lambda expressions were interpreted as implicit functions which was preventing user from using them
+ * = Fixed bug in autocomplete, it was comparing substring including whole signature of function, now only uses name
+ * = Fixed important bugs causing autocomplete to not show in exponent
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

@@ -645,6 +645,16 @@ namespace AutocompleteMenuNS
             //get fragment around caret
             var fragment = GetFragment(SearchPattern);
             var text = fragment.Text;
+
+            var index = text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
+
+            if (IsExponent && index == -1)
+            {
+                text = "";
+            }
+          //  else if (IsExponent)
+            //    text = text.Substring(index);
+
             //
             if (sourceItems != null)
                 if (forced || (text.Length >= MinFragmentLength /* && tb.Selection.Start == tb.Selection.End*/))
@@ -814,20 +824,43 @@ namespace AutocompleteMenuNS
             var newText = item.GetTextForReplace();
             //replace text of fragment
 
-            var expressionTextBox = (TargetControlWrapper.TargetControl as ExpressionTextBox);
-            var scintillaEditor =
-                (TargetControlWrapper.TargetControl as ScintillaCodeEditorControl);
+            
+            var index = fragment.Text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
 
-            var isExponent = false;
+            if (index == 0)
+            {
+                newText = SpecialSymbols.AsciiToSuperscript(newText);
+            }
+            else if (index > 0)
+            {
+                newText = fragment.Text.Substring(0, index) + SpecialSymbols.AsciiToSuperscript(newText);
+            }
+            else if (IsExponent)
+                    newText = fragment.Text+SpecialSymbols.AsciiToSuperscript(newText);
 
-            if (expressionTextBox != null)
-                isExponent = expressionTextBox.ExponentMode;
-            else if (scintillaEditor != null)
-                isExponent = scintillaEditor.ExponentMode;
 
 
-            fragment.Text = isExponent ? SpecialSymbols.AsciiToSuperscript(newText) : newText;
+
+            fragment.Text = newText;
             fragment.TargetWrapper.TargetControl.Focus();
+        }
+
+        private bool IsExponent
+        {
+            get
+            {
+                var expressionTextBox = (TargetControlWrapper.TargetControl as ExpressionTextBox);
+                var scintillaEditor =
+                    (TargetControlWrapper.TargetControl as ScintillaCodeEditorControl);
+
+                var isExponent = false;
+
+                if (expressionTextBox != null)
+                    isExponent = expressionTextBox.ExponentMode;
+                else if (scintillaEditor != null)
+                    isExponent = scintillaEditor.ExponentMode;
+                return isExponent;
+            }
         }
 
         internal void OnSelecting(SelectingEventArgs args)
