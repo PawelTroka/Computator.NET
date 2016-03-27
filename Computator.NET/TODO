@@ -18,10 +18,8 @@
 
 
 ##Functions and constants
-* repair HypergeometricU11
 * recreate function logGamma with fixed all errors
 * Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
-* update gsl to the newest version (https://github.com/ampl/gsl, https://customwingsl2015.codeplex.com, http://stackoverflow.com/questions/13277856/how-to-build-gsl-with-msvc2010, http://173.254.28.24/~brgladma//oldsite/computing/gnu_scientific_library.php, https://azylstra.net/blog/post/building-gsl-on-windows)
 * make it possible to create distrubution like normal from array of elemenets and from mean stdev and make functions from elemenets like CDF(elements,x)
 * Matrix division
 * rest of special functions
@@ -55,7 +53,7 @@
 
 ##Installer
 * test installer and upgrade options
-* after updating GSL and compiling it to the newest version of Visual C++ 2015 compiler add Visual C++ Runtime 2015 to redist
+* right now, because of lack of support from Flexera's site, installer stores both versions of Visual C++ Runtime 2015 Update 1 within itself - should download from internet only if needed
 
 
 ##Autocomplete

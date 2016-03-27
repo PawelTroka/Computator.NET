@@ -142,12 +142,6 @@
   <data name="computator_net_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Graphics\computator.net-logo.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cblas_x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\special\x64\cblas.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="cblas_x86" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\special\x86\cblas.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="gsl_x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\special\x64\gsl.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

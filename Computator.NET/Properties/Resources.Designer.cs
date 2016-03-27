@@ -61,26 +61,6 @@ namespace Computator.NET.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] cblas_x64 {
-            get {
-                object obj = ResourceManager.GetObject("cblas_x64", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] cblas_x86 {
-            get {
-                object obj = ResourceManager.GetObject("cblas_x86", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap Complex {

@@ -2722,9 +2722,9 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
+		<row><td>_2517A4A0_5491_4A49_8427_87D553F03DBD_</td><td>Microsoft Visual C++ 2015 Update 1 Redistributable Package (x64).prq</td><td>1</td><td>1</td><td/></row>
 		<row><td>_87606832_B2F4_4287_ACC2_0C563D0576AB_</td><td>Microsoft .NET Framework 4.0 Full (Web Download).prq</td><td>2</td><td>1</td><td/></row>
-		<row><td>_D60218DA_16DD_49D8_8E99_064CD12F8D12_</td><td>Microsoft Visual C++ 2013 Redistributable Package (x64).prq</td><td>1</td><td>2</td><td/></row>
-		<row><td>_E5D5A9E4_406A_4ED6_B61B_47ABBF24D050_</td><td>Microsoft Visual C++ 2013 Redistributable Package (x86).prq</td><td>0</td><td>2</td><td/></row>
+		<row><td>_DAEFA41F_8BD3_47C9_AB84_A529B4F9E6C8_</td><td>Microsoft Visual C++ 2015 Update 1 Redistributable Package (x86).prq</td><td>0</td><td>1</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">

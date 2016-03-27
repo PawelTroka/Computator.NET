@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using Computator.NET;
 using Computator.NET.Functions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 // ReSharper disable LocalizableElement
@@ -35,6 +36,7 @@ namespace UnitTests
         public void Init()
         {
             C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
+            GSLInitializer.Initialize();
         }
 
         [TestMethod]
@@ -144,6 +146,53 @@ namespace UnitTests
                 }
             }
         }
+
+
+
+        [TestMethod]
+        public void HypergeometricUIntTest()
+        {
+            object ret = null;
+
+            foreach (var i in A)
+                foreach (var j in A)
+                    foreach (var d1 in X)
+
+                    {
+                        try
+                        {
+                            ret = SpecialFunctions.HypergeometricU(i, j, d1);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
+
+        [TestMethod]
+        public void HypergeometricUTest()
+        {
+            object ret = null;
+            foreach (var d1 in X)
+                foreach (var d2 in X)
+                    foreach (var d3 in X)
+
+                    {
+                        try
+                        {
+                            ret = SpecialFunctions.HypergeometricU(d1,d2,d3);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
 
         [TestMethod]
         public void MathieuCETest()

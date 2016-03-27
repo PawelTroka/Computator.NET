@@ -42,6 +42,10 @@
  * = Fixed important bug in ExpressionEvaluator - lambda expressions were interpreted as implicit functions which was preventing user from using them
  * = Fixed bug in autocomplete, it was comparing substring including whole signature of function, now only uses name
  * = Fixed important bugs causing autocomplete to not show in exponent
+ * + GSL updated to version 2.1
+ * = Fixed HypergeometricU special function
+ * - Removed unused argument n from function EllipticD(φ,x)
+ * = Mathieu functions should be a lot faster now, they are called directly now as a functions - not by passing a reference interop struct type
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

@@ -1052,9 +1052,9 @@ namespace Computator.NET.Functions
 
         //Confluent hypergeometric function for integer parameters. U(m,n,x)
 
-        /* public static double HypergeometricU(int m, int n, double x)//TODO: fix hypergeometricU
+         public static double HypergeometricU(int m, int n, double x)
         {
-            if (x <= 0.0 && n >= 1)//TODO: enable it for x<0
+            if (x == 0.0 && n >= 1)
             {
                 return double.NaN;
             }
@@ -1068,12 +1068,12 @@ namespace Computator.NET.Functions
         //Confluent hypergeometric function. U(a,b,x)
         public static double HypergeometricU(double a, double b, double x)
         {
-            if (x <= 0.0 && b >= 1)//TODO: enable it for x<0
+            if (x == 0.0 && b >= 1)
             {
                 return double.NaN;
             }
             return gsl_sf_hyperg_U(a, b, x);
-        }*/
+        }
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
@@ -1405,11 +1405,11 @@ namespace Computator.NET.Functions
         }
 
 
-        public static double EllipticD(double φ, double x, int n)
+        public static double EllipticD(double φ, double x)
         {
             if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0)
                 return double.NaN;
-            return gsl_sf_ellint_D(φ, x, n, 0);
+            return gsl_sf_ellint_D(φ, x, 0);
         }
 
 
@@ -1452,8 +1452,8 @@ namespace Computator.NET.Functions
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_D(double phi, double k, double n, uint mode);
-
+        //private static extern double gsl_sf_ellint_D(double phi, double k, double n, uint mode);
+        private static extern double gsl_sf_ellint_D(double phi, double k, uint mode);
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
@@ -2042,111 +2042,70 @@ namespace Computator.NET.Functions
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_a(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            out gsl_sf_result result);
-
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_b(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            out gsl_sf_result result);
-
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_ce(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
-            out gsl_sf_result result);
+        private static extern double gsl_sf_mathieu_a(int order, double qq);
 
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_se(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
-            out gsl_sf_result result);
+    CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_b(int order, double qq);
+
+
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_Mc(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int kind,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
-            out gsl_sf_result result);
+CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_ce(int order, double qq, double zz);
+
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_Ms(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int kind,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
-            out gsl_sf_result result);
+CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_se(int order, double qq, double zz);
+
+
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_Mc(int kind, int order, double qq, double zz);
+
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_Ms(int kind, int order, double qq, double zz);
+
 
         public static double MathieuSE(int n, double q, double x)
         {
-            var error = gsl_sf_mathieu_se(n, q, x, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_se(n, q, x);
         }
 
         public static double MathieuCE(int n, double q, double x)
         {
-            var error = gsl_sf_mathieu_ce(n, q, x, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_ce(n, q, x);
         }
 
         public static double MathieuAn(int n, double q)
         {
-            var error = gsl_sf_mathieu_a(n, q, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_a(n, q);
         }
 
         public static double MathieuBn(int n, double q)
         {
             if (n == 0)
                 return double.NaN;
-            var error = gsl_sf_mathieu_b(n, q, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_b(n, q);
         }
 
         public static double MathieuMc(int j, int n, double q, double x)
         {
             if (q <= 0 || j > 2 || j < 1)
                 return double.NaN;
-            var error = gsl_sf_mathieu_Mc(j, n, q, x, out sfResult);//MathieuMc
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_Mc(j,n, q,x);
         }
 
         public static double MathieuMs(int j, int n, double q, double x)
         {
             if (q <= 0 || j > 2 || j < 1)
                 return double.NaN;
-            var error = gsl_sf_mathieu_Ms(j, n, q, x, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_Ms(j, n, q, x);
         }
 
         [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Size = 16),
@@ -3326,9 +3285,9 @@ namespace Computator.NET.Functions
 
         //Confluent hypergeometric function for integer parameters. U(m,n,x)
 
-        /* public static double HypergeometricU(int m, int n, double x)//TODO: fix hypergeometricU
+         public static double HypergeometricU(int m, int n, double x)
         {
-            if (x <= 0.0 && n >= 1)//TODO: enable it for x<0
+            if (x == 0.0 && n >= 1)
             {
                 return double.NaN;
             }
@@ -3342,12 +3301,12 @@ namespace Computator.NET.Functions
         //Confluent hypergeometric function. U(a,b,x)
         public static double HypergeometricU(double a, double b, double x)
         {
-            if (x <= 0.0 && b >= 1)//TODO: enable it for x<0
+            if (x == 0.0 && b >= 1)
             {
                 return double.NaN;
             }
             return gsl_sf_hyperg_U(a, b, x);
-        }*/
+        }
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
@@ -3680,11 +3639,12 @@ namespace Computator.NET.Functions
         }
 
 
-        public static double EllipticD(double φ, double x, int n)
+
+        public static double EllipticD(double φ, double x)
         {
             if (x < -1.0 || x > 1.0 || φ < -System.Math.PI/2.0 || φ > System.Math.PI/2.0)
                 return double.NaN;
-            return gsl_sf_ellint_D(φ, x, n, 0);
+            return gsl_sf_ellint_D(φ, x, 0);
         }
 
 
@@ -3711,7 +3671,7 @@ namespace Computator.NET.Functions
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Dcomp(double k, uint mode);
+        private static extern double gsl_sf_ellint_D(double phi, double k, uint mode);
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
@@ -3727,7 +3687,7 @@ namespace Computator.NET.Functions
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_D(double phi, double k, double n, uint mode);
+        private static extern double gsl_sf_ellint_Dcomp(double k, uint mode);
 
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
@@ -4313,115 +4273,74 @@ namespace Computator.NET.Functions
 
         #endregion
 
-        #region mathieu functions
+             #region mathieu functions
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_a(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            out gsl_sf_result result);
-
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_b(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            out gsl_sf_result result);
-
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_ce(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
-            out gsl_sf_result result);
+        private static extern double gsl_sf_mathieu_a(int order, double qq);
 
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_se(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
-            out gsl_sf_result result);
+    CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_b(int order, double qq);
+
+
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_Mc(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int kind,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
-            out gsl_sf_result result);
+CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_ce(int order, double qq, double zz);
+
 
         [System.Runtime.InteropServices.DllImport(gslSfLibDir,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)]
-        private static extern int gsl_sf_mathieu_Ms(
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int kind,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.I4)] int order,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double qq,
-            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.R8)] double zz,
-            out gsl_sf_result result);
+CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_se(int order, double qq, double zz);
+
+
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_Mc(int kind, int order, double qq, double zz);
+
+
+        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_Ms(int kind, int order, double qq, double zz);
+
 
         public static double MathieuSE(int n, double q, double x)
         {
-            var error = gsl_sf_mathieu_se(n, q, x, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_se(n, q, x);
         }
 
         public static double MathieuCE(int n, double q, double x)
         {
-            var error = gsl_sf_mathieu_ce(n, q, x, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_ce(n, q, x);
         }
 
         public static double MathieuAn(int n, double q)
         {
-            var error = gsl_sf_mathieu_a(n, q, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_a(n, q);
         }
 
         public static double MathieuBn(int n, double q)
         {
             if (n == 0)
                 return double.NaN;
-            var error = gsl_sf_mathieu_b(n, q, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_b(n, q);
         }
 
         public static double MathieuMc(int j, int n, double q, double x)
         {
             if (q <= 0 || j > 2 || j < 1)
                 return double.NaN;
-            var error = gsl_sf_mathieu_Mc(j, n, q, x, out sfResult);//MathieuMc
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_Mc(j,n, q,x);
         }
 
         public static double MathieuMs(int j, int n, double q, double x)
         {
             if (q <= 0 || j > 2 || j < 1)
                 return double.NaN;
-            var error = gsl_sf_mathieu_Ms(j, n, q, x, out sfResult);
-            if (error == 0)
-                return sfResult.val;
-            throw gslExceptions(error);
+            return gsl_sf_mathieu_Ms(j, n, q, x);
         }
 
         [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Size = 16),
@@ -4436,6 +4355,7 @@ namespace Computator.NET.Functions
         }
 
         #endregion
+
 
         #region logistic functions
 

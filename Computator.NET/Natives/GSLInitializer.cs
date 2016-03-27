@@ -10,7 +10,7 @@ using Computator.NET.Properties;
 
 namespace Computator.NET
 {
-    class GSLInitializer
+    public class GSLInitializer
     {
         private static gsl_error_handler_t UnmanagedHandler;
 
@@ -22,13 +22,13 @@ namespace Computator.NET
 
           //  var msvcr = Resources.msvcr120_x86;
             var gsl = Resources.gsl_x86;
-            var cblas = Resources.cblas_x86;
+          //  var cblas = Resources.cblas_x86;
 
             if (Environment.Is64BitProcess && IntPtr.Size == 8)
             {
                 //msvcr = Resources.msvcr120_x64;
                 gsl = Resources.gsl_x64;
-                cblas = Resources.cblas_x64;
+            //    cblas = Resources.cblas_x64;
             }
             //else if (!Environment.Is64BitProcess && IntPtr.Size == 4)
             
@@ -39,7 +39,7 @@ namespace Computator.NET
             {
          //       EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.msvcrDllName, msvcr);
                 EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslDllName, gsl);
-                EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName, cblas);
+            //    EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName, cblas);
              //   System.Threading.Thread.Sleep(1000);
                 NativeMethods.gsl_set_error_handler(UnmanagedHandler);
             }
@@ -50,19 +50,19 @@ namespace Computator.NET
                 {
                   //  string msvcrTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.msvcrDllName);
                     string gslTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslDllName);
-                    string cblasTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslCblasDllName);
+                  //  string cblasTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslCblasDllName);
 
                //     File.WriteAllBytes(msvcrTempPath, msvcr);
-                    File.WriteAllBytes(cblasTempPath, cblas);
+                   // File.WriteAllBytes(cblasTempPath, cblas);
                     File.WriteAllBytes(gslTempPath, gsl);
                   
                     //  var h0 = NativeMethods.LoadLibrary(msvcrTempPath);
-                    var h1 = NativeMethods.LoadLibrary(cblasTempPath);
+                //    var h1 = NativeMethods.LoadLibrary(cblasTempPath);
                     var h2 = NativeMethods.LoadLibrary(gslTempPath);
 
-                    if (/*h0 == IntPtr.Zero ||*/ h1 == IntPtr.Zero || h2 == IntPtr.Zero)
+                    if (/*h0 == IntPtr.Zero || h1 == IntPtr.Zero ||*/ h2 == IntPtr.Zero)
                     {
-                            throw new Win32Exception($"{Strings.GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths} '{gslTempPath}'{Environment.NewLine}'{cblasTempPath}'.", new Win32Exception()); // Calls GetLastError                       
+                            throw new Win32Exception($"{Strings.GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths} '{gslTempPath}'{Environment.NewLine}.", new Win32Exception()); // Calls GetLastError                       
                     }
 
                     NativeMethods.gsl_set_error_handler(UnmanagedHandler);
