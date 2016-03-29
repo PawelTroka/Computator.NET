@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
@@ -28,8 +29,8 @@ namespace Computator.NET.UI
     public sealed partial class ScientificNumericUpDown : NumericUpDown
     {
      //   private readonly char dotSymbol = '·'; //'⋅'
-        private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾";
-        private readonly string toReplace = "0123456789+-=()";
+        private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
+        private readonly string toReplace = "0123456789-";
         private int _multiplyFactor = 10;
 
         public ScientificNumericUpDown()
@@ -37,8 +38,8 @@ namespace Computator.NET.UI
             InitializeComponent();
 
             
-            Minimum = decimal.MinValue;
-            Maximum = decimal.MaxValue;
+            Minimum = decimal.MinValue/10;
+            Maximum = decimal.MaxValue/10;
           
 
             TextAlign = HorizontalAlignment.Center;
@@ -60,10 +61,10 @@ namespace Computator.NET.UI
             get { return base.Value; }
             set
             {
-                if (value > decimal.MaxValue/10)
-                    base.Value = decimal.MaxValue/10;
-                else if (value < decimal.MinValue/10)
-                    base.Value = decimal.MinValue/10;
+                if (value > Maximum)
+                    base.Value = Maximum;
+                else if (value < Minimum)
+                    base.Value = Minimum;
                 else
                     base.Value = value;
             }
@@ -101,12 +102,7 @@ namespace Computator.NET.UI
 
         private bool IsCaretInExponent()
         {
-            TextBoxBase txtBase = this.Controls[1] as TextBoxBase;
-            int currentCaretPosition = txtBase.SelectionStart;
-
-           // var section = 0;
-
-            for (int i = currentCaretPosition-1; i >=3; i--)
+            for (int i = CaretPosition - 1; i >=3; i--)
             {
                 if (exponents.Contains(Text[i]))
                     continue;
@@ -118,18 +114,27 @@ namespace Computator.NET.UI
             return false;
         }
 
+
+        private int CaretPosition => (Controls[1] as TextBoxBase).SelectionStart;
+
+
+
+        //     private Regex properExpressionRegex = new Regex(@"\-?(\d+\.?\d*)[eE]\d+");
+
         protected override void OnTextBoxKeyPress(object source, KeyPressEventArgs e)
         {
             if (IsCaretInExponent())
             {
                 var expKeyChar = CovertToExponent(e.KeyChar);
-                if (expKeyChar != ' ')
+                if (expKeyChar != ' ' && !(Text.Contains('⁻') && expKeyChar== '⁻'))
                     e.KeyChar = expKeyChar;
                 else if(!char.IsControl(e.KeyChar))
                     e.Handled = true;
             }
+            else if (e.KeyChar == '-' && ! ((IsCharOnLeftOfCaret('E')|| IsCharOnLeftOfCaret('e')) && !IsCharOnRightOfCaret('-')) &&!(CaretPosition==0 && !Text.StartsWith("-")))
+                e.Handled = true;
 
-            else if (e.KeyChar == '*' && !Enumerable.Contains(Text, SpecialSymbols.DotSymbol))
+            else if (e.KeyChar == '*' && !Text.Contains(SpecialSymbols.DotSymbol))
                 e.KeyChar = SpecialSymbols.DotSymbol;
             else if (e.KeyChar == 'E' || e.KeyChar == 'e')
             {
@@ -144,6 +149,22 @@ namespace Computator.NET.UI
             }
             else
                 base.OnTextBoxKeyPress(source, e);
+        }
+
+        private bool IsCharOnRightOfCaret(char v)
+        {
+            if (CaretPosition > Text.Length-1)
+                return false;
+
+            return Text[CaretPosition] == v;
+        }
+
+        private bool IsCharOnLeftOfCaret(char c)
+        {
+            if (CaretPosition < 1|| Text.Length==0)
+                return false;
+
+            return Text[CaretPosition-1]==c;
         }
 
         protected override void ValidateEditText()//basically it sets Value after Text was edited

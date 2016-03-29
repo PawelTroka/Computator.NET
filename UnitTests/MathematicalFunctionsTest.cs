@@ -79,6 +79,9 @@ namespace UnitTests
 
             foreach (var specialMethod in methodsToTest)
             {
+                if (specialMethod.Name.Contains("Hypergeometric"))
+                    continue;
+
                 Debug.WriteLine("Testing: " + specialMethod);
                 Trace.WriteLine("Testing: " + specialMethod);
                 Console.WriteLine("Testing: " + specialMethod);
@@ -159,6 +162,7 @@ namespace UnitTests
                     foreach (var d1 in X)
 
                     {
+                        Trace.WriteLine($"Testing {nameof(HypergeometricUIntTest)}, parameters: {i}; {j}; {d1}");
                         try
                         {
                             ret = SpecialFunctions.HypergeometricU(i, j, d1);
@@ -181,6 +185,7 @@ namespace UnitTests
                     foreach (var d3 in X)
 
                     {
+                        Trace.WriteLine($"Testing {nameof(HypergeometricUTest)}, parameters: {d1}; {d2}; {d3}");
                         try
                         {
                             ret = SpecialFunctions.HypergeometricU(d1,d2,d3);
@@ -193,6 +198,52 @@ namespace UnitTests
                     }
         }
 
+
+        [TestMethod]
+        public void Hypergeometric1F1Test()
+        {
+            object ret = null;
+            foreach (var d1 in X)
+                foreach (var d2 in X)
+                    foreach (var d3 in X)
+
+                    {
+                        Trace.WriteLine($"Testing {nameof(Hypergeometric1F1Test)}, parameters: {d1}; {d2}; {d3}");
+                        try
+                        {
+                            ret = SpecialFunctions.Hypergeometric1F1(d1, d2, d3);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
+
+        [TestMethod]
+        public void Hypergeometric1F1IntTest()
+        {
+            object ret = null;
+
+            foreach (var i in A)
+                foreach (var j in A)
+                    foreach (var d1 in X)
+
+                    {
+                        Trace.WriteLine($"Testing {nameof(Hypergeometric1F1IntTest)}, parameters: {i}; {j}; {d1}");
+                        try
+                        {
+                            ret = SpecialFunctions.Hypergeometric1F1(i, j, d1);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
 
         [TestMethod]
         public void MathieuCETest()

@@ -1032,6 +1032,24 @@ namespace Computator.NET.Functions
 
         public static double Hypergeometric1F1(int m, int n, double x)
         {
+            if (x == 0.0)
+            {
+            }
+            else if (m == n)
+            {
+            }
+            else if (n == 0)
+            {
+                return double.NaN;
+            }
+            else if (m == 0)
+            {
+            }
+            else if (n < 0 && (m < n || m > 0))
+            {
+                return double.NaN;
+            }
+
             return gsl_sf_hyperg_1F1_int(m, n, x);
         }
 
@@ -1041,8 +1059,11 @@ namespace Computator.NET.Functions
 
         //Confluent hypergeometric function. 1F1[a,b,x] = M(a,b,x)
 
-        public static double Hypergeometric1F1(double a, double b, double x)
+        public static double Hypergeometric1F1(double a, double b, double x)//TODO: fix this for domain errors
         {
+            if (x != 0 && b == 0)
+                return double.NaN;
+
             return gsl_sf_hyperg_1F1(a, b, x);
         }
 
@@ -1053,25 +1074,139 @@ namespace Computator.NET.Functions
         //Confluent hypergeometric function for integer parameters. U(m,n,x)
 
          public static double HypergeometricU(int m, int n, double x)
-        {
+         {
+            //   if (m == 0 && n == 0 && x < 0)
+            //     return double.NaN;
+
             if (x == 0.0 && n >= 1)
             {
                 return double.NaN;
             }
-
-            //if (x > 0.0 || (x != (int)(x)))
+            else if (x == 0.0)
+            {
+                return gsl_sf_hyperg_U_int(m, n, x);// return hyperg_U_int_origin(a, b, result);
+            }
+            else if (x < 0.0)
+            {
+                if (m < n && n <= 0)
+                    return gsl_sf_hyperg_U_int(m, n, x);
+                else if (checkIfHypergeometricUParametersAreInWorkingArea(m, n,x))
+                    return double.NaN;
+                else
+                    return gsl_sf_hyperg_U_int(m, n, x);
+            }
+            else {
+                if (n >= 1)
+                {
+                    return gsl_sf_hyperg_U_int(m, n, x);
+                }
+                else {
+                    return gsl_sf_hyperg_U_int(m, n, x);
+                }
+            }
             return gsl_sf_hyperg_U_int(m, n, x);
-
-            //  return double.NaN;
         }
+
+
+        private static bool checkIfHypergeometricUParametersAreInWorkingArea(double a, double b, double x)
+        {
+            bool b_int = b == System.Math.Floor(b);
+            bool a_int = a == System.Math.Floor(a);
+
+
+            if (b_int && b <= 0 && !(a_int && a <= 0 && a >= b)) //TODO: repair when GSL updates this case
+            {
+                return true;
+            }
+            else
+            {
+                var r1 = Pochhammer(1 + a - b, -a);
+                //if (double.IsNaN(r1))
+                //  return double.NaN;
+
+                if (r1 != 0.0)
+                    if (double.IsNaN(Hypergeometric1F1(a, b, x)))
+                        return true;
+            }
+
+
+
+            if (b_int && b >= 2 && !(a_int && a <= (b - 2))) //TODO: repair when GSL updates this case
+                return true;
+            else
+            {
+                var r2 = double.NaN;
+
+                if (a_int && a <= 0 && (b >= 1))
+                {
+                    r2 = 0;
+                }
+                else
+                {
+                    r2 = Pochhammer(a, -(1 + a - b));
+                    
+                }
+
+                if (r2 != 0.0)
+                {
+                    if(double.IsNaN(Hypergeometric1F1(1 + a - b, 2 - b, x)))
+                        return true;
+                }
+            }
+
+
+            return false;
+        }
+
+        private const double GSL_DBL_EPSILON = 2.2204460492503131e-16;
 
         //Confluent hypergeometric function. U(a,b,x)
         public static double HypergeometricU(double a, double b, double x)
         {
+            double rinta = System.Math.Floor(a + 0.5);
+            double rintb = System.Math.Floor(b + 0.5);
+            bool a_integer = (System.Math.Floor(a - rinta) < 1000.0 * GSL_DBL_EPSILON);
+            bool b_integer = (System.Math.Floor(b - rintb) < 1000.0 * GSL_DBL_EPSILON);
+
+
             if (x == 0.0 && b >= 1)
             {
                 return double.NaN;
             }
+            else if (a == 0.0)
+            {
+                return gsl_sf_hyperg_U(a, b, x);
+            }
+            else if (x == 0.0)
+            {
+                return gsl_sf_hyperg_U(a, b, x);
+            }
+            else if (a_integer && b == a + 1)
+            /* This is DLMF 13.6.4 */
+            {
+                return gsl_sf_hyperg_U(a, b, x);
+            }
+            else if (a_integer && b_integer)
+            {
+                return HypergeometricU((int)rinta, (int)rintb, x);
+            }
+            else if (x < 0.0)
+            {
+                if (checkIfHypergeometricUParametersAreInWorkingArea(a, b, x))
+                    return double.NaN;
+                else
+                    return gsl_sf_hyperg_U(a, b, x);
+            }
+            else {
+                if (b >= 1.0)
+                {
+                    return gsl_sf_hyperg_U(a, b, x);
+                }
+                else {
+                    return gsl_sf_hyperg_U(a, b, x);
+                }
+            }
+
             return gsl_sf_hyperg_U(a, b, x);
         }
 
@@ -3235,6 +3370,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #endregion
 
+  
         #region Hypergeometric functions
 
         public static System.Numerics.Complex SphericalHarmonic(int l, int m, double θ, double φ)
@@ -3265,6 +3401,24 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         public static double Hypergeometric1F1(int m, int n, double x)
         {
+            if (x == 0.0)
+            {
+            }
+            else if (m == n)
+            {
+            }
+            else if (n == 0)
+            {
+                return double.NaN;
+            }
+            else if (m == 0)
+            {
+            }
+            else if (n < 0 && (m < n || m > 0))
+            {
+                return double.NaN;
+            }
+
             return gsl_sf_hyperg_1F1_int(m, n, x);
         }
 
@@ -3274,8 +3428,11 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         //Confluent hypergeometric function. 1F1[a,b,x] = M(a,b,x)
 
-        public static double Hypergeometric1F1(double a, double b, double x)
+        public static double Hypergeometric1F1(double a, double b, double x)//TODO: fix this for domain errors
         {
+            if (x != 0 && b == 0)
+                return double.NaN;
+
             return gsl_sf_hyperg_1F1(a, b, x);
         }
 
@@ -3286,25 +3443,139 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         //Confluent hypergeometric function for integer parameters. U(m,n,x)
 
          public static double HypergeometricU(int m, int n, double x)
-        {
+         {
+            //   if (m == 0 && n == 0 && x < 0)
+            //     return double.NaN;
+
             if (x == 0.0 && n >= 1)
             {
                 return double.NaN;
             }
-
-            //if (x > 0.0 || (x != (int)(x)))
+            else if (x == 0.0)
+            {
+                return gsl_sf_hyperg_U_int(m, n, x);// return hyperg_U_int_origin(a, b, result);
+            }
+            else if (x < 0.0)
+            {
+                if (m < n && n <= 0)
+                    return gsl_sf_hyperg_U_int(m, n, x);
+                else if (checkIfHypergeometricUParametersAreInWorkingArea(m, n,x))
+                    return double.NaN;
+                else
+                    return gsl_sf_hyperg_U_int(m, n, x);
+            }
+            else {
+                if (n >= 1)
+                {
+                    return gsl_sf_hyperg_U_int(m, n, x);
+                }
+                else {
+                    return gsl_sf_hyperg_U_int(m, n, x);
+                }
+            }
             return gsl_sf_hyperg_U_int(m, n, x);
-
-            //  return double.NaN;
         }
+
+
+        private static bool checkIfHypergeometricUParametersAreInWorkingArea(double a, double b, double x)
+        {
+            bool b_int = b == System.Math.Floor(b);
+            bool a_int = a == System.Math.Floor(a);
+
+
+            if (b_int && b <= 0 && !(a_int && a <= 0 && a >= b)) //TODO: repair when GSL updates this case
+            {
+                return true;
+            }
+            else
+            {
+                var r1 = Pochhammer(1 + a - b, -a);
+                //if (double.IsNaN(r1))
+                //  return double.NaN;
+
+                if (r1 != 0.0)
+                    if (double.IsNaN(Hypergeometric1F1(a, b, x)))
+                        return true;
+            }
+
+
+
+            if (b_int && b >= 2 && !(a_int && a <= (b - 2))) //TODO: repair when GSL updates this case
+                return true;
+            else
+            {
+                var r2 = double.NaN;
+
+                if (a_int && a <= 0 && (b >= 1))
+                {
+                    r2 = 0;
+                }
+                else
+                {
+                    r2 = Pochhammer(a, -(1 + a - b));
+                    
+                }
+
+                if (r2 != 0.0)
+                {
+                    if(double.IsNaN(Hypergeometric1F1(1 + a - b, 2 - b, x)))
+                        return true;
+                }
+            }
+
+
+            return false;
+        }
+
+        private const double GSL_DBL_EPSILON = 2.2204460492503131e-16;
 
         //Confluent hypergeometric function. U(a,b,x)
         public static double HypergeometricU(double a, double b, double x)
         {
+            double rinta = System.Math.Floor(a + 0.5);
+            double rintb = System.Math.Floor(b + 0.5);
+            bool a_integer = (System.Math.Floor(a - rinta) < 1000.0 * GSL_DBL_EPSILON);
+            bool b_integer = (System.Math.Floor(b - rintb) < 1000.0 * GSL_DBL_EPSILON);
+
+
             if (x == 0.0 && b >= 1)
             {
                 return double.NaN;
             }
+            else if (a == 0.0)
+            {
+                return gsl_sf_hyperg_U(a, b, x);
+            }
+            else if (x == 0.0)
+            {
+                return gsl_sf_hyperg_U(a, b, x);
+            }
+            else if (a_integer && b == a + 1)
+            /* This is DLMF 13.6.4 */
+            {
+                return gsl_sf_hyperg_U(a, b, x);
+            }
+            else if (a_integer && b_integer)
+            {
+                return HypergeometricU((int)rinta, (int)rintb, x);
+            }
+            else if (x < 0.0)
+            {
+                if (checkIfHypergeometricUParametersAreInWorkingArea(a, b, x))
+                    return double.NaN;
+                else
+                    return gsl_sf_hyperg_U(a, b, x);
+            }
+            else {
+                if (b >= 1.0)
+                {
+                    return gsl_sf_hyperg_U(a, b, x);
+                }
+                else {
+                    return gsl_sf_hyperg_U(a, b, x);
+                }
+            }
+
             return gsl_sf_hyperg_U(a, b, x);
         }
 
@@ -3380,6 +3651,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         #endregion
+
 
         #region integral functions
 
