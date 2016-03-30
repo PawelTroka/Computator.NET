@@ -48,25 +48,32 @@ namespace Computator.NET.UI
             ValueChanged += (o, e) =>
             {
                 if (!ExponentialMode)
-                    Increment = Math.Abs((0.3m * Value).RoundToSignificantDigits(1));
-                if (Increment == 0)
-                    Increment = 1;
+                    Increment = Math.Max(Epsilon,
+                        Math.Abs((0.3m * Value).RoundToSignificantDigits(1)));
+              //if (Increment == 0)
+                //Increment = 1;
             };
             
         }
 
+
+        public decimal Epsilon { get; set; } = 0.001m;
+
+        private decimal ToInsideRange(double value)
+        {
+            if (value > (double)Maximum)
+                return Maximum;
+            if (value < (double)Minimum)
+                return Minimum;
+            return (decimal)value;
+        }
 
         public new decimal Value
         {
             get { return base.Value; }
             set
             {
-                if (value > Maximum)
-                    base.Value = Maximum;
-                else if (value < Minimum)
-                    base.Value = Minimum;
-                else
-                    base.Value = value;
+               base.Value = ToInsideRange((double)value);
             }
         }
 
@@ -180,14 +187,14 @@ namespace Computator.NET.UI
                     var parts1 = Text.Split(SpecialSymbols.DotSymbol);
                     if (parts1.Length == 2)
                     {
-                        if (Enumerable.Any(parts1[1], c => Enumerable.Contains(exponents, c)))
-                            Value = (decimal.Parse(parts1[0], CultureInfo.InvariantCulture)*
-                                     CovertFromScientificToValue(parts1[1]));
+                        if (parts1[1].Any(c => exponents.Contains(c)))
+                            Value = decimal.Parse(parts1[0], CultureInfo.InvariantCulture)*
+                                    CovertFromScientificToValue(parts1[1]);
                         else
-                            Value = (decimal.Parse(parts1[0], CultureInfo.InvariantCulture)*
-                                     decimal.Parse(parts1[1], CultureInfo.InvariantCulture));
+                            Value = decimal.Parse(parts1[0], CultureInfo.InvariantCulture)*
+                                    decimal.Parse(parts1[1], CultureInfo.InvariantCulture);
                     }
-                    else if (parts1.Length == 1 && Enumerable.Any(parts1[0], c => Enumerable.Contains(exponents, c)))
+                    else if (parts1.Length == 1 && parts1[0].Any(c => exponents.Contains(c)))
                     {
                         Value = CovertFromScientificToValue(parts1[0]);
                     }
@@ -213,15 +220,12 @@ namespace Computator.NET.UI
             }
             else
             {
-                if (Value*_multiplyFactor <= Maximum)
-                {
                     if(Value>0)
-                    Value = Value*_multiplyFactor;
+                    Value = ToInsideRange((double)Value * _multiplyFactor);
                     else if (Value < 0)
-                        Value = Value/_multiplyFactor;
+                        Value = ToInsideRange((double)Value / _multiplyFactor);
 
-                    UpdateEditText();
-                }
+                    //UpdateEditText();
             }
         }
 
@@ -234,21 +238,14 @@ namespace Computator.NET.UI
             }
             else
             {
-                if (Value/_multiplyFactor >= Minimum)
-                {
                     if (Value > 0)
-                        Value = Value/_multiplyFactor;
+                        Value = ToInsideRange((double)Value /_multiplyFactor);
                     else if (Value < 0)
-                        Value = Value * _multiplyFactor;
-                    UpdateEditText();
-                }
+                        Value = ToInsideRange((double)Value * _multiplyFactor);
+                    //UpdateEditText();
             }
         }
 
-       /* protected override void OnPaint(PaintEventArgs pe)
-        {
-            base.OnPaint(pe);
-        }*/
 
         protected override void UpdateEditText()//basically it sets Text after Value was established
         {
@@ -312,7 +309,11 @@ namespace Computator.NET.UI
 
         private decimal CovertFromEngineeringToValue(string v)
         {
-            return (decimal)double.Parse(v, CultureInfo.InvariantCulture);//maybe decimal should parse this
+            var val = double.Parse(v, CultureInfo.InvariantCulture);
+
+            
+
+            return ToInsideRange(val);//maybe decimal should parse this
         }
     }
 }
