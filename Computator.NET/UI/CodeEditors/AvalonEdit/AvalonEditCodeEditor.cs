@@ -64,6 +64,7 @@ namespace Computator.NET.UI.CodeEditors
                   //  {"NewFile1", Document}
                 };
             this.TextArea.TextView.LineTransformers.Add(_offsetColorizer);
+            
         }
 
         public bool ContainsDocument(string filename)

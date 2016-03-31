@@ -316,4 +316,8 @@ namespace Computator.NET.UI
             return ToInsideRange(val);//maybe decimal should parse this
         }
     }
+
+
+
+
 }

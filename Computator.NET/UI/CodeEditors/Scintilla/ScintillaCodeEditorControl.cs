@@ -64,6 +64,7 @@ namespace Computator.NET.UI.CodeEditors
                // {"NewFile1", Document}
             };
             SizeChanged += (o, e) => { _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height); };
+            
         }
 
 

@@ -379,6 +379,7 @@ namespace Computator.NET
 
                 case 4:
                     //scriptingCodeEditor();
+                    
                     break;
 
                 case 5:

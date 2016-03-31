@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using Computator.NET.Charting.Chart3D.Splines;
+using Computator.NET.Charting.Printing;
 using Computator.NET.DataTypes;
+using Color = System.Windows.Media.Color;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using Point = System.Windows.Point;
 
 namespace Computator.NET.Charting.Chart3D
 {
@@ -264,14 +269,16 @@ namespace Computator.NET.Charting.Chart3D
             Redraw();
         }
 
+        private ImagePrinter imagePrinter = new ImagePrinter();
+
         public void Print()
         {
-            throw new NotImplementedException();
+            imagePrinter.Print(GetBitmap());
         }
 
         public void PrintPreview()
         {
-            throw new NotImplementedException();
+            imagePrinter.PrintPreview(GetBitmap());
         }
 
         public void SetChartAreaValues(double x0, double xn, double y0, double yn)
@@ -313,7 +320,24 @@ namespace Computator.NET.Charting.Chart3D
                 encoder.Save(stream);
             }
         }
-        
+
+        Bitmap GetBitmap()
+        {
+            BitmapEncoder encoder=new BmpBitmapEncoder();
+            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)this.ActualWidth, (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(this);
+            BitmapFrame frame = BitmapFrame.Create(bitmap);
+            encoder.Frames.Add(frame);
+
+
+            MemoryStream stream = new MemoryStream();
+            encoder.Save(stream);
+
+            Bitmap bmp = new Bitmap(stream);
+            
+            return bmp;
+        }
+
         public void Redraw()
         {
             //TODO: make it possible to draw more than one function in surface chart

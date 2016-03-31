@@ -114,6 +114,7 @@
       <DependentUpon>EditChartProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="IChart.cs" />
+    <Compile Include="IPrinting.cs" />
     <Compile Include="PlotForm.cs">
       <SubType>Form</SubType>
     </Compile>

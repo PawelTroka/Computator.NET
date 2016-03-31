@@ -6,8 +6,7 @@ using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting
 {
-
-    public interface IChart
+    public interface IChart : IPrinting
     {
         void Redraw();
         double XMax { get; set; }
@@ -16,8 +15,6 @@ namespace Computator.NET.Charting
         double YMin { get; set; }
         void addFx(Function function);
 
-        void Print();
-        void PrintPreview();
         void SetChartAreaValues(double x0, double xn, double y0, double yn);
 
         void SaveImage(string path, ImageFormat imageFormat);
