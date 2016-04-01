@@ -21,10 +21,12 @@ namespace Computator.NET.Compilation
         using integer = System.Int64;";
 
 
-        private static readonly string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
+      //  private static readonly string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
 
 
-        private const string validVariableDeclaration = @"([α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*)";
+        private static readonly string powerCatchingGroup =
+            $@"(\s*[{SpecialSymbols.SuperscriptsWithoutSpace}][{SpecialSymbols.Superscripts}]*)((?:(?:[^{SpecialSymbols.Superscripts}])|$))";
+
 
         public static readonly string[] Keywords =
         {
@@ -45,6 +47,9 @@ namespace Computator.NET.Compilation
             "natural integer real complex function Matrix bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void";
 
 
+
+      //  private string legalNames = 
+
         private readonly Regex changeBackEngineeringNotationRegex =
             new Regex(
                 @"{{ENGINERING#NOTATION}(\d+\.?\d*)#([Ee][+-]?\d+){ENGINERING#NOTATION}([^\dα-ωΑ-Ωa-zA-Z_.]*){ENGINERING#NOTATION}}",
@@ -64,13 +69,15 @@ namespace Computator.NET.Compilation
             new Regex(@"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))" + powerCatchingGroup,
                 RegexOptions.Compiled);
 
-        //  public TslCompilationMode TslCompilationMode { get; set; }
-        //  public List<string> Variables { get; set; }
+
+        private const string legalFirstIdentifier = @"α-ωΑ-Ωa-zA-Z_";
+
+        private const string identifier = @"[α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*";
 
 
         private readonly Regex functionRegex =
             new Regex(
-                @"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
+                $@"(?:var|function)\s+({identifier})\(((?:\s*{identifier}\s+{identifier}\s*,)*(?:\s*{identifier}\s+{identifier}\s*)*\s*)\)\s*[=]\s*([^;]+)",
                 RegexOptions.Compiled);
 
 
@@ -78,10 +85,10 @@ namespace Computator.NET.Compilation
 
         private readonly Regex multiplyingRegex =
             new Regex(
-                @"((?:[^α-ωΑ-Ωa-zA-Z_\d\.][^α-ωΑ-Ωa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:[α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*))",
+                $@"((?:[^α-ωΑ-Ωa-zA-Z_\d\.][^α-ωΑ-Ωa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:{identifier}))",
                 RegexOptions.Compiled);
 
-        private readonly Regex numberRaisedToAnyPowerRegex = new Regex(@"(\d+\.?\d*)" + powerCatchingGroup,
+        private readonly Regex numberRaisedToAnyPowerRegex = new Regex($@"(\d+\.?\d*){powerCatchingGroup}",
             RegexOptions.Compiled);
 
 
@@ -89,21 +96,14 @@ namespace Computator.NET.Compilation
 
         private readonly Regex refRegex = new Regex(@"([\(,\s])(&)([α-ωΑ-Ωa-zA-Z_])", RegexOptions.Compiled);
 
-        private readonly Regex varFunctionRegex =
-            new Regex(
-                @"var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
-                RegexOptions.Compiled);
 
         private readonly Regex variableRaisedToAnyPowerRegex =
             new Regex(
-                validVariableDeclaration + powerCatchingGroup + @"([^\(" + SpecialSymbols.SuperscriptsWithoutSpace +
-                @"]|$)", RegexOptions.Compiled);
+                $@"({identifier}){powerCatchingGroup}", RegexOptions.Compiled);
 
         public TslCompiler()
         {
-            //Variables = new List<string>();
             Version = 3.5;
-            // TslCompilationMode = TslCompilationMode.Simple;
         }
 
         public double Version { get; private set; }
@@ -133,9 +133,6 @@ namespace Computator.NET.Compilation
             listOfResults.Add(ReplaceToDoubles(listOfResults.Last()));
 
 
-            //  var engineeringNotationMatches = engineeringNotationRegex.Matches(listOfResults.Last());
-
-
             listOfResults.Add(ReplaceMultiplying(listOfResults.Last()));
 
             listOfResults.Add(listOfResults.Last().Replace(SpecialSymbols.DotSymbol, '*'));
@@ -145,28 +142,8 @@ namespace Computator.NET.Compilation
 
         private string ReplaceLocalFunctions(string code)
         {
-            const string nativeCompilerCompatibleLocalFunctionDeclaration = @"var $1 = TypeDeducer.Func(($2) => $3)";
-
-            var secondPhase = functionRegex.Replace(code, nativeCompilerCompatibleLocalFunctionDeclaration);
-
-            //function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)
-
-
-            //var secondPhase = Regex.Replace(firstPhase,
-            //     @"function[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
-            //     @"var $1 = TypeDeducer.Func(($2) => $3)");
-
-
-            //var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)
-
-
-            // var thirdPhase = Regex.Replace(secondPhase,
-            //   @"var[ ]+([a-zA-Z][a-zA-Z0-9_]*)\(((?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*[,])*(?:[ ]*[a-zA-Z][a-zA-Z0-9_]*[ ]+[a-zA-Z][a-zA-Z0-9_]*[ ]*)*[ ]*)\)[ ]*[=][ ]*([^;]+)",
-            // @"var $1 = TypeDeducer.Func(($2) => $3)");
-
-
-            var thirdPhase = varFunctionRegex.Replace(secondPhase, nativeCompilerCompatibleLocalFunctionDeclaration);
-            return thirdPhase;
+            var secondPhase = functionRegex.Replace(code, @"var $1 = TypeDeducer.Func(($2) => $3)");
+            return secondPhase;
         }
 
         private string ReplaceMultiplying(string input) //OK
@@ -192,7 +169,7 @@ namespace Computator.NET.Compilation
 
         private string ReplacePow(string input) //OK
         {
-            var nativeCompilerCompatiblePowerNotation = @"pow($1,$2)";
+            var nativeCompilerCompatiblePowerNotation = @"pow($1,$2)$3";
             //string result = input.ReplacePow(@"(\d*x)\^(\d+\.?\d*)");
             //return result.ReplacePow(@"\(([^\^]+)\)\^(\d+\.?\d*)");
             //var result = input;
@@ -224,7 +201,7 @@ namespace Computator.NET.Compilation
             result = numberRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
 
 
-            //([α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*) // valid variable using latin and greek alphabet
+            //({identifier}) // valid variable using latin and greek alphabet
             //case 4 - variable^ANY_EXPONENT
             //   foreach (var c in Variables)
             // using System.CodeDom.Compiler;
@@ -234,10 +211,10 @@ namespace Computator.NET.Compilation
             // Valid
             //     }
             //   result = Regex.Replace(result,
-            //        @"([α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
+            //        @"({identifier})([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
             //    "pow($1,$2)");
 
-            result = variableRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation + @"$3");
+            result = variableRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
 
 
             //replace superscripts with normal characters:

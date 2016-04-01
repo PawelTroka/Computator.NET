@@ -53,10 +53,16 @@ namespace UnitTests
 
         private bool IsTheSameAfterCompilation(string code)
         {
-            if (code == tslCompiler.TransformToCSharp(code))
+            var afterTransform = tslCompiler.TransformToCSharp(code);
+
+            if (code == afterTransform)
                 return true;
             else
-                throw new AssertFailedException();
+                throw new AssertFailedException($@"Expected:
+{code}
+Actual:
+{afterTransform}
+");
         }
 
         [TestMethod]
@@ -66,6 +72,15 @@ namespace UnitTests
 
             Assert.AreEqual(@"pow(2,Matyas(x,y))", tslCompiler.TransformToCSharp(func));
         }
+
+        [TestMethod]
+        public void SpacesInExponentAndLocalFunctionTest()
+        {
+            var def = @"   var    f(   real   x    ,   real    y  )    =   x  ²   ˸  ʸ ˙  ²  ;  ";
+
+            Assert.AreEqual(@"   var f = TypeDeducer.Func((   real   x    ,   real    y  ) => pow(x,  2   /  y *  2  ));  ", tslCompiler.TransformToCSharp(def));
+        }
+
 
         [TestMethod]
         public void Test1()
