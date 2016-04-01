@@ -245,6 +245,54 @@ namespace UnitTests
                     }
         }
 
+
+
+        [TestMethod]
+        public void Hypergeometric2F1IntTest()
+        {
+            object ret = null;
+
+            foreach (var i in A)
+                foreach (var j in A)
+                    foreach (var d1 in X)
+
+                    {
+                        Trace.WriteLine($"Testing {nameof(Hypergeometric2F1IntTest)}, parameters: {i}; {j}; {d1}");
+                        try
+                        {
+                            ret = SpecialFunctions.Hypergeometric2F1(i, j, d1);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
+
+        [TestMethod]
+        public void Hypergeometric2F1Test()
+        {
+            object ret = null;
+            foreach (var d1 in X)
+                foreach (var d2 in X)
+                    foreach (var d3 in X)
+
+                    {
+                        Trace.WriteLine($"Testing {nameof(Hypergeometric2F1Test)}, parameters: {d1}; {d2}; {d3}");
+                        try
+                        {
+                            ret = SpecialFunctions.Hypergeometric2F1(d1, d2, d3);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
         [TestMethod]
         public void MathieuCETest()
         {

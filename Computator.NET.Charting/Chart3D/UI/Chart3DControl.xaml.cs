@@ -17,6 +17,7 @@ using Computator.NET.DataTypes;
 using Color = System.Windows.Media.Color;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Windows.Point;
+using Size = System.Windows.Size;
 
 namespace Computator.NET.Charting.Chart3D
 {
@@ -273,7 +274,14 @@ namespace Computator.NET.Charting.Chart3D
 
         public void Print()
         {
-            imagePrinter.Print(GetBitmap());
+
+            PrintDialog prnt = new PrintDialog();
+
+            if (prnt.ShowDialog() == true)
+            {
+                prnt.PrintVisual(this,"Computator.NET - Chart3D");
+            }
+            //imagePrinter.Print(GetBitmap());
         }
 
         public void PrintPreview()
@@ -323,18 +331,41 @@ namespace Computator.NET.Charting.Chart3D
 
         Bitmap GetBitmap()
         {
-            BitmapEncoder encoder=new BmpBitmapEncoder();
-            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)this.ActualWidth, (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-            bitmap.Render(this);
-            BitmapFrame frame = BitmapFrame.Create(bitmap);
-            encoder.Frames.Add(frame);
+            var w = (int) this.ActualWidth;
+            var h = (int) this.ActualHeight;
 
+            BitmapEncoder encoder=new BmpBitmapEncoder();
+            RenderTargetBitmap bitmap = new RenderTargetBitmap(w,h, 96, 96, PixelFormats.Pbgra32);
+
+
+
+
+            DrawingVisual drawingVisual = new DrawingVisual();
+            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+            {
+                VisualBrush visualBrush = new VisualBrush(this);
+                drawingContext.DrawRectangle(visualBrush, null,
+                  new Rect(new Point(), new Size(w,h)));
+            }
+
+            bitmap.Render(drawingVisual);
+            //bitmap.Render(this);
+
+            //  Background = new SolidColorBrush(Colors.White);
+            //  InvalidateVisual();
+
+            BitmapFrame frame = BitmapFrame.Create(bitmap);
+            
+            encoder.Frames.Add(frame);
+            
 
             MemoryStream stream = new MemoryStream();
             encoder.Save(stream);
 
             Bitmap bmp = new Bitmap(stream);
-            
+
+       //     Background = new SolidColorBrush(Colors.Transparent);
+
             return bmp;
         }
 
