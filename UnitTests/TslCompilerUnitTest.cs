@@ -60,6 +60,14 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void CommasInSuperscriptTest()
+        {
+            var func = $@"2ᴹᵃᵗʸᵃˢ⁽ˣ{SpecialSymbols.CommaSuperscript}ʸ⁾";
+
+            Assert.AreEqual(@"pow(2,Matyas(x,y))", tslCompiler.TransformToCSharp(func));
+        }
+
+        [TestMethod]
         public void Test1()
         {
            // tslCompiler.Variables.Add("x");

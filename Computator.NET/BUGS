@@ -21,4 +21,3 @@
 19. Exponents cant have spaces right now because of TSLCompiler regex, maybe we should allow it
 20. images do not appear in installation on win xp and win vista
 21. decimal dot in superscript and comma in superscript missing in windows xp
-	

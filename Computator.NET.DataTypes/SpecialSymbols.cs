@@ -17,10 +17,10 @@ namespace Computator.NET.DataTypes
         //ॱ 
         //˸
 
-        public static readonly string DecimalSeparatorSuperscript = (Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
+        public static readonly string DecimalSeparatorSuperscript = @"ᱸ";//(Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
 
-        public static readonly string CommaSuperscript = (Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";
-
+        public static readonly string CommaSuperscript = @"ʹ";//"\u0315";//(Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";
+        //2ᴹᵃᵗʸᵃˢ⁽ˣʹʸ⁾
 
 
         public static readonly string SuperscriptsWithoutSpace =

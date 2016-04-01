@@ -24,7 +24,7 @@ namespace Computator.NET.Compilation
         private static readonly string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
 
 
-        private const string validVariableDeclaration = @"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)";
+        private const string validVariableDeclaration = @"([α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*)";
 
         public static readonly string[] Keywords =
         {
@@ -47,7 +47,7 @@ namespace Computator.NET.Compilation
 
         private readonly Regex changeBackEngineeringNotationRegex =
             new Regex(
-                @"{{ENGINERING#NOTATION}(\d+\.?\d*)#([Ee][+-]?\d+){ENGINERING#NOTATION}([^\d\u0370-\u03FFa-zA-Z_.]*){ENGINERING#NOTATION}}",
+                @"{{ENGINERING#NOTATION}(\d+\.?\d*)#([Ee][+-]?\d+){ENGINERING#NOTATION}([^\dα-ωΑ-Ωa-zA-Z_.]*){ENGINERING#NOTATION}}",
                 RegexOptions.Compiled);
 
 
@@ -58,7 +58,7 @@ namespace Computator.NET.Compilation
 
 
         private readonly Regex engineeringNotationRegex =
-            new Regex(@"(\d+\.?\d*)([Ee][+-]?\d+)([^\d\u0370-\u03FFa-zA-Z_.]|$)", RegexOptions.Compiled);
+            new Regex(@"(\d+\.?\d*)([Ee][+-]?\d+)([^\dα-ωΑ-Ωa-zA-Z_.]|$)", RegexOptions.Compiled);
 
         private readonly Regex expressionInParenthesesRaisedToAnyPowerRegex =
             new Regex(@"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))" + powerCatchingGroup,
@@ -78,7 +78,7 @@ namespace Computator.NET.Compilation
 
         private readonly Regex multiplyingRegex =
             new Regex(
-                @"((?:[^\u0370-\u03FFa-zA-Z_\d\.][^\u0370-\u03FFa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:[\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*))",
+                @"((?:[^α-ωΑ-Ωa-zA-Z_\d\.][^α-ωΑ-Ωa-z0-9A-Z_]*)|^)(\d+\.?\d*)((?:[α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*))",
                 RegexOptions.Compiled);
 
         private readonly Regex numberRaisedToAnyPowerRegex = new Regex(@"(\d+\.?\d*)" + powerCatchingGroup,
@@ -87,7 +87,7 @@ namespace Computator.NET.Compilation
 
         private readonly Regex readOutRegex = new Regex(@"(read\s*\(\s*)&", RegexOptions.Compiled);
 
-        private readonly Regex refRegex = new Regex(@"([\(,\s])(&)([\u0370-\u03FFa-zA-Z_])", RegexOptions.Compiled);
+        private readonly Regex refRegex = new Regex(@"([\(,\s])(&)([α-ωΑ-Ωa-zA-Z_])", RegexOptions.Compiled);
 
         private readonly Regex varFunctionRegex =
             new Regex(
@@ -224,7 +224,7 @@ namespace Computator.NET.Compilation
             result = numberRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
 
 
-            //([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*) // valid variable using latin and greek alphabet
+            //([α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*) // valid variable using latin and greek alphabet
             //case 4 - variable^ANY_EXPONENT
             //   foreach (var c in Variables)
             // using System.CodeDom.Compiler;
@@ -234,7 +234,7 @@ namespace Computator.NET.Compilation
             // Valid
             //     }
             //   result = Regex.Replace(result,
-            //        @"([\u0370-\u03FFa-zA-Z_][\u0370-\u03FFa-z0-9A-Z_]*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
+            //        @"([α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
             //    "pow($1,$2)");
 
             result = variableRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation + @"$3");

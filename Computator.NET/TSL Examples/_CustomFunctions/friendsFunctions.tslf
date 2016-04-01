@@ -15,12 +15,12 @@ static real marcin(real x)
 
 static real krzysztof(real x, real y)
 {
-	return 2¹ᱸ²˙ᶜᵒˢ⁽ˣ⁾˙ᴹᵃᵗʰⁱᵉᵘᴹᶜ⁽¹՚²՚ʸ՚ˣ⁾;
+	return 2¹ᱸ²˙ᶜᵒˢ⁽ˣ⁾˙ᴹᵃᵗʰⁱᵉᵘᴹᶜ⁽¹ʹ²ʹʸʹˣ⁾;
 }
 
 static complex athena(complex z)
 {
 	var x = Re(z);
 	var y = Im(z);
-	return 2ᶜᵒˢᵉᶜʰ⁽ᶻ⁾⁺ˢᵉᶜʰ⁽ᶻ⁾˙ᶜᵒˢ⁽ˣ⁾˸ᴹᵃᵗʰⁱᵉᵘᴹᶜ⁽¹՚²՚ʸ՚ˣ⁾⁻ᶜᵒˢ⁽ˣ⁾˸¹ᱸ²˙ᴹᵃᵗʸᵃˢ⁽ˣ՚ʸ⁾;
+	return 2ᶜᵒˢᵉᶜʰ⁽ᶻ⁾⁺ˢᵉᶜʰ⁽ᶻ⁾˙ᶜᵒˢ⁽ˣ⁾˸ᴹᵃᵗʰⁱᵉᵘᴹᶜ⁽¹ʹ²ʹʸʹˣ⁾⁻ᶜᵒˢ⁽ˣ⁾˸¹ᱸ²˙ᴹᵃᵗʸᵃˢ⁽ˣʹʸ⁾;
 }
