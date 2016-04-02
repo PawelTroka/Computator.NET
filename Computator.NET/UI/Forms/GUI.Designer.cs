@@ -160,23 +160,17 @@ namespace Computator.NET
             this.constantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mathematicalConstantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.physicalConstantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
-            this.typeOfChartComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
-            this.seriesOfChartComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorsOfChartComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
-            this.positionLegendComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
-            this.aligmentLegendComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem16 = new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripSeparator();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripSeparator();
+            new System.Windows.Forms.ToolStripMenuItem();
             this.transformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem31 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem32 = new System.Windows.Forms.ToolStripMenuItem();
@@ -187,25 +181,21 @@ namespace Computator.NET
             this.toolStripMenuItem37 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem38 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem39 = new System.Windows.Forms.ToolStripMenuItem();
-            this.comlexChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem19 = new System.Windows.Forms.ToolStripMenuItem();
-            this.countourLinesToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.colorAssignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorAssignmentToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem21 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem22 = new System.Windows.Forms.ToolStripMenuItem();
-            this.chart3dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem24 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem25 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem26 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem27 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem28 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem29 = new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripSeparator();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripComboBox();
+            new System.Windows.Forms.ToolStripSeparator();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripSeparator();
+            new System.Windows.Forms.ToolStripMenuItem();
+
+            new System.Windows.Forms.ToolStripSeparator();
+            new System.Windows.Forms.ToolStripMenuItem();
+            new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.fullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1289,122 +1279,7 @@ namespace Computator.NET
             // 
             this.physicalConstantsToolStripMenuItem.Name = "physicalConstantsToolStripMenuItem";
             resources.ApplyResources(this.physicalConstantsToolStripMenuItem, "physicalConstantsToolStripMenuItem");
-            // 
-            // chartToolStripMenuItem
-            // 
-            this.chartToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem8,
-            this.toolStripSeparator9,
-            this.toolStripMenuItem9,
-            this.toolStripMenuItem10,
-            this.toolStripMenuItem11,
-            this.toolStripMenuItem12,
-            this.toolStripSeparator8,
-            this.toolStripMenuItem15,
-            this.toolStripMenuItem16});
-            this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            resources.ApplyResources(this.chartToolStripMenuItem, "chartToolStripMenuItem");
-            // 
-            // toolStripMenuItem8
-            // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            resources.ApplyResources(this.toolStripMenuItem8, "toolStripMenuItem8");
-            this.toolStripMenuItem8.Click += new System.EventHandler(this.exportChartToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            resources.ApplyResources(this.toolStripSeparator9, "toolStripSeparator9");
-            // 
-            // toolStripMenuItem9
-            // 
-            this.toolStripMenuItem9.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.typeOfChartComboBox});
-            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            resources.ApplyResources(this.toolStripMenuItem9, "toolStripMenuItem9");
-            // 
-            // typeOfChartComboBox
-            // 
-            this.typeOfChartComboBox.Name = "typeOfChartComboBox";
-            resources.ApplyResources(this.typeOfChartComboBox, "typeOfChartComboBox");
-            this.typeOfChartComboBox.SelectedIndexChanged += new System.EventHandler(this.typeOfChartComboBox_SelectedIndexChanged);
-            // 
-            // toolStripMenuItem10
-            // 
-            this.toolStripMenuItem10.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.seriesOfChartComboBox});
-            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            resources.ApplyResources(this.toolStripMenuItem10, "toolStripMenuItem10");
-            // 
-            // seriesOfChartComboBox
-            // 
-            this.seriesOfChartComboBox.Name = "seriesOfChartComboBox";
-            resources.ApplyResources(this.seriesOfChartComboBox, "seriesOfChartComboBox");
-            this.seriesOfChartComboBox.SelectedIndexChanged += new System.EventHandler(this.seriesOfChartComboBox_SelectedIndexChanged);
-            // 
-            // toolStripMenuItem11
-            // 
-            this.toolStripMenuItem11.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.colorsOfChartComboBox});
-            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            resources.ApplyResources(this.toolStripMenuItem11, "toolStripMenuItem11");
-            // 
-            // colorsOfChartComboBox
-            // 
-            this.colorsOfChartComboBox.Name = "colorsOfChartComboBox";
-            resources.ApplyResources(this.colorsOfChartComboBox, "colorsOfChartComboBox");
-            this.colorsOfChartComboBox.SelectedIndexChanged += new System.EventHandler(this.colorsOfChartComboBox_SelectedIndexChanged);
-            // 
-            // toolStripMenuItem12
-            // 
-            this.toolStripMenuItem12.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem13,
-            this.toolStripMenuItem14});
-            this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            resources.ApplyResources(this.toolStripMenuItem12, "toolStripMenuItem12");
-            // 
-            // toolStripMenuItem13
-            // 
-            this.toolStripMenuItem13.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.positionLegendComboBox});
-            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
-            resources.ApplyResources(this.toolStripMenuItem13, "toolStripMenuItem13");
-            // 
-            // positionLegendComboBox
-            // 
-            this.positionLegendComboBox.Name = "positionLegendComboBox";
-            resources.ApplyResources(this.positionLegendComboBox, "positionLegendComboBox");
-            this.positionLegendComboBox.SelectedIndexChanged += new System.EventHandler(this.positionLegendComboBox_SelectedIndexChanged);
-            // 
-            // toolStripMenuItem14
-            // 
-            this.toolStripMenuItem14.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aligmentLegendComboBox});
-            this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            resources.ApplyResources(this.toolStripMenuItem14, "toolStripMenuItem14");
-            // 
-            // aligmentLegendComboBox
-            // 
-            this.aligmentLegendComboBox.Name = "aligmentLegendComboBox";
-            resources.ApplyResources(this.aligmentLegendComboBox, "aligmentLegendComboBox");
-            this.aligmentLegendComboBox.SelectedIndexChanged += new System.EventHandler(this.aligmentLegendComboBox_SelectedIndexChanged);
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            resources.ApplyResources(this.toolStripSeparator8, "toolStripSeparator8");
-            // 
-            // toolStripMenuItem15
-            // 
-            this.toolStripMenuItem15.Name = "toolStripMenuItem15";
-            resources.ApplyResources(this.toolStripMenuItem15, "toolStripMenuItem15");
-            this.toolStripMenuItem15.Click += new System.EventHandler(this.editChartToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem16
-            // 
-            this.toolStripMenuItem16.Name = "toolStripMenuItem16";
-            resources.ApplyResources(this.toolStripMenuItem16, "toolStripMenuItem16");
-            this.toolStripMenuItem16.Click += new System.EventHandler(this.editChartPropertiesToolStripMenuItem_Click);
+         
             // 
             // transformToolStripMenuItem
             // 
@@ -1475,133 +1350,7 @@ namespace Computator.NET
             this.toolStripMenuItem39.Name = "toolStripMenuItem39";
             resources.ApplyResources(this.toolStripMenuItem39, "toolStripMenuItem39");
             this.toolStripMenuItem39.Click += new System.EventHandler(this.transformToolStripMenuItem_Click);
-            // 
-            // comlexChartToolStripMenuItem
-            // 
-            this.comlexChartToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem18,
-            this.toolStripSeparator11,
-            this.toolStripMenuItem19,
-            this.colorAssignmentToolStripMenuItem,
-            this.toolStripSeparator10,
-            this.toolStripMenuItem21,
-            this.toolStripMenuItem22});
-            this.comlexChartToolStripMenuItem.Name = "comlexChartToolStripMenuItem";
-            resources.ApplyResources(this.comlexChartToolStripMenuItem, "comlexChartToolStripMenuItem");
-            // 
-            // toolStripMenuItem18
-            // 
-            this.toolStripMenuItem18.Name = "toolStripMenuItem18";
-            resources.ApplyResources(this.toolStripMenuItem18, "toolStripMenuItem18");
-            this.toolStripMenuItem18.Click += new System.EventHandler(exportChartToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            resources.ApplyResources(this.toolStripSeparator11, "toolStripSeparator11");
-            // 
-            // toolStripMenuItem19
-            // 
-            this.toolStripMenuItem19.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.countourLinesToolStripComboBox});
-            this.toolStripMenuItem19.Name = "toolStripMenuItem19";
-            resources.ApplyResources(this.toolStripMenuItem19, "toolStripMenuItem19");
-            // 
-            // countourLinesToolStripComboBox
-            // 
-            this.countourLinesToolStripComboBox.Name = "countourLinesToolStripComboBox";
-            resources.ApplyResources(this.countourLinesToolStripComboBox, "countourLinesToolStripComboBox");
-            this.countourLinesToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.countourLinesToolStripComboBox_SelectedIndexChanged);
-            // 
-            // colorAssignmentToolStripMenuItem
-            // 
-            this.colorAssignmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.colorAssignmentToolStripComboBox});
-            this.colorAssignmentToolStripMenuItem.Name = "colorAssignmentToolStripMenuItem";
-            resources.ApplyResources(this.colorAssignmentToolStripMenuItem, "colorAssignmentToolStripMenuItem");
-            // 
-            // colorAssignmentToolStripComboBox
-            // 
-            this.colorAssignmentToolStripComboBox.Name = "colorAssignmentToolStripComboBox";
-            resources.ApplyResources(this.colorAssignmentToolStripComboBox, "colorAssignmentToolStripComboBox");
-            this.colorAssignmentToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.colorAssignmentToolStripComboBox_SelectedIndexChanged);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            resources.ApplyResources(this.toolStripSeparator10, "toolStripSeparator10");
-            // 
-            // toolStripMenuItem21
-            // 
-            this.toolStripMenuItem21.Name = "toolStripMenuItem21";
-            resources.ApplyResources(this.toolStripMenuItem21, "toolStripMenuItem21");
-            this.toolStripMenuItem21.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem22
-            // 
-            this.toolStripMenuItem22.Name = "toolStripMenuItem22";
-            resources.ApplyResources(this.toolStripMenuItem22, "toolStripMenuItem22");
-            this.toolStripMenuItem22.Click += new System.EventHandler(this.editChartPropertiesToolStripMenuItem_Click);
-            // 
-            // chart3dToolStripMenuItem
-            // 
-            this.chart3dToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem24,
-            this.toolStripSeparator12,
-            this.toolStripMenuItem25,
-            this.toolStripSeparator13,
-            this.toolStripMenuItem28,
-            this.toolStripMenuItem29});
-            this.chart3dToolStripMenuItem.Name = "chart3dToolStripMenuItem";
-            resources.ApplyResources(this.chart3dToolStripMenuItem, "chart3dToolStripMenuItem");
-            // 
-            // toolStripMenuItem24
-            // 
-            this.toolStripMenuItem24.Name = "toolStripMenuItem24";
-            resources.ApplyResources(this.toolStripMenuItem24, "toolStripMenuItem24");
-            this.toolStripMenuItem24.Click += new System.EventHandler(this.exportChartToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            resources.ApplyResources(this.toolStripSeparator12, "toolStripSeparator12");
-            // 
-            // toolStripMenuItem25
-            // 
-            this.toolStripMenuItem25.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem26,
-            this.toolStripMenuItem27});
-            this.toolStripMenuItem25.Name = "toolStripMenuItem25";
-            resources.ApplyResources(this.toolStripMenuItem25, "toolStripMenuItem25");
-            // 
-            // toolStripMenuItem26
-            // 
-            this.toolStripMenuItem26.Name = "toolStripMenuItem26";
-            resources.ApplyResources(this.toolStripMenuItem26, "toolStripMenuItem26");
-            this.toolStripMenuItem26.Click += new System.EventHandler(this.chart3dEqualAxesToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem27
-            // 
-            this.toolStripMenuItem27.Name = "toolStripMenuItem27";
-            resources.ApplyResources(this.toolStripMenuItem27, "toolStripMenuItem27");
-            this.toolStripMenuItem27.Click += new System.EventHandler(this.chart3dFitAxesToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
-            // 
-            // toolStripMenuItem28
-            // 
-            this.toolStripMenuItem28.Name = "toolStripMenuItem28";
-            resources.ApplyResources(this.toolStripMenuItem28, "toolStripMenuItem28");
-            this.toolStripMenuItem28.Click += new System.EventHandler(this.editChart3dToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem29
-            // 
-            this.toolStripMenuItem29.Name = "toolStripMenuItem29";
-            resources.ApplyResources(this.toolStripMenuItem29, "toolStripMenuItem29");
-            this.toolStripMenuItem29.Click += new System.EventHandler(this.editChartPropertiesToolStripMenuItem_Click);
+          
             // 
             // toolsToolStripMenuItem
             // 
@@ -2024,36 +1773,7 @@ namespace Computator.NET
         private System.Windows.Forms.ToolStripMenuItem constantsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mathematicalConstantsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem physicalConstantsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem chartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
-        private System.Windows.Forms.ToolStripComboBox typeOfChartComboBox;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
-        private System.Windows.Forms.ToolStripComboBox seriesOfChartComboBox;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
-        private System.Windows.Forms.ToolStripComboBox colorsOfChartComboBox;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
-        private System.Windows.Forms.ToolStripComboBox positionLegendComboBox;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
-        private System.Windows.Forms.ToolStripComboBox aligmentLegendComboBox;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem15;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem16;
-        private System.Windows.Forms.ToolStripMenuItem comlexChartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem18;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem19;
-        private System.Windows.Forms.ToolStripComboBox countourLinesToolStripComboBox;
-        private System.Windows.Forms.ToolStripMenuItem colorAssignmentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripComboBox colorAssignmentToolStripComboBox;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem21;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem22;
-        private System.Windows.Forms.ToolStripMenuItem chart3dToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem24;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem25;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem26;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem27;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem28;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem29;
+
         private System.Windows.Forms.ToolStripMenuItem transformToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem31;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem32;
@@ -2064,12 +1784,6 @@ namespace Computator.NET
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem37;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem38;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem39;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem40;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem41;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem42;

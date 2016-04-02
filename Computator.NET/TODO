@@ -74,7 +74,6 @@
 * enable better usage of transformation and charts scaling for loaded points
 * make transformations enable for complexchart and chart3d
 * Chart2D setting XMax<XMin error handling
-* make printing appear in chart menus
 
 
 ##I/O

@@ -71,8 +71,7 @@ namespace Computator.NET
         {
             var index = tabControl1.SelectedIndex;
 
-            transformToolStripMenuItem.Enabled = chartToolStripMenuItem.Enabled =
-                chart3dToolStripMenuItem.Enabled = comlexChartToolStripMenuItem.Enabled = index == 0;
+            editChartMenus.chartToolStripMenuItem.Enabled = transformToolStripMenuItem.Enabled  = index == 0;
 
             openToolStripMenuItem.Enabled = index == 0 || index == 5 || index == 4;
 
@@ -496,15 +495,15 @@ namespace Computator.NET
 
         private void SetMode(CalculationsMode mode)
         {
-            chartToolStripMenuItem.Visible =
+            
                 chart2d.Visible = mode == CalculationsMode.Real;
 
-            comlexChartToolStripMenuItem.Visible =
+           
                 calculationsComplexLabel.Visible =
                     calculationsImZnumericUpDown.Visible =
                         complexChart.Visible = mode == CalculationsMode.Complex;
 
-            chart3dToolStripMenuItem.Visible =
+            
                 elementHostChart3d.Visible = mode == CalculationsMode.Fxy;
 
             switch (mode)
@@ -785,9 +784,6 @@ DataSourceUpdateMode.Never);*/
 
         private void SetupAllComboBoxes()
         {
-            chart2d.setupComboBoxes(typeOfChartComboBox, seriesOfChartComboBox, colorsOfChartComboBox,
-                positionLegendComboBox, aligmentLegendComboBox);
-            complexChart.setupComboBoxes(countourLinesToolStripComboBox, colorAssignmentToolStripComboBox);
 
             NumericalCalculation.setupOperations(operationNumericalCalculationsComboBox);
             NumericalCalculation.setupMethods(methodNumericalCalculationsComboBox,
@@ -857,142 +853,6 @@ DataSourceUpdateMode.Never);*/
       
 
         #endregion
-
-
-
-        #region chart menu events
-
-        private SaveFileDialog saveChartImageFileDialog = new SaveFileDialog() {Filter = Strings.GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter,RestoreDirectory = true,DefaultExt = "png",AddExtension = true};
-
-        private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editChartWindow = new EditChartWindow(chart2d);
-            editChartWindow.ShowDialog(this);
-        }
-
-        private void exportChartToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            saveChartImageFileDialog.FileName =
-                $"{Strings.Chart} {DateTime.Now.ToString("u",CultureInfo.InvariantCulture).Replace(':','-').Replace("Z","")}";
-            if (saveChartImageFileDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                Thread.Sleep(20);
-                currentChart.SaveImage(saveChartImageFileDialog.FileName,FilterIndexToImageFormat(saveChartImageFileDialog.FilterIndex));
-            }
-        }
-
-
-        public void aligmentLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeChartLegendAligment(((ToolStripComboBox)s).SelectedItem.ToString());
-        }
-
-        public void positionLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeChartLegendPosition(((ToolStripComboBox)s).SelectedItem.ToString());
-        }
-
-        public void colorsOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeChartColor(((ToolStripComboBox)s).SelectedItem.ToString());
-        }
-
-        public void seriesOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeSeries(((ToolStripComboBox)s).SelectedItem.ToString());
-        }
-
-        public void typeOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
-        {
-            chart2d.changeChartType(((ToolStripComboBox)s).SelectedItem.ToString());
-        }
-
-
-
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editComplexChartWindow = new EditComplexChartWindow(complexChart);
-            editComplexChartWindow.ShowDialog(this);
-        }
-
-        private void countourLinesToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            complexChart.countourMode =
-                (CountourLinesMode)countourLinesToolStripComboBox.SelectedItem;
-            complexChart.Redraw();
-        }
-
-        private void colorAssignmentToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            complexChart.colorAssignmentMethod =
-                (AssignmentOfColorMethod)colorAssignmentToolStripComboBox.SelectedItem;
-            complexChart.Redraw();
-        }
-
-
-
-
-        private void editChart3dToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editChartWindow = new Charting.Chart3D.EditChartWindow(chart3d, elementHostChart3d);
-            editChartWindow.ShowDialog(this);
-        }
-
-        private void chart3dEqualAxesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chart3d.EqualAxes = true;
-        }
-
-        private void chart3dFitAxesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chart3d.EqualAxes = false;
-        }
-
-        private void editChartPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editChartProperties = new EditChartProperties(currentChart);
-            if (editChartProperties.ShowDialog(this) == DialogResult.OK)
-            {
-                currentChart.Redraw();
-            }
-        }
-
-
-        private static ImageFormat FilterIndexToImageFormat(int filterIndex)
-        {
-            ImageFormat format;
-
-            switch (filterIndex)
-            {
-                case 1:
-                    format = ImageFormat.Png;
-                    break;
-                case 2:
-                    format = ImageFormat.Gif;
-                    break;
-                case 3:
-                    format = ImageFormat.Jpeg;
-                    break;
-                case 4:
-                    format = ImageFormat.Bmp;
-                    break;
-                case 5:
-                    format = ImageFormat.Tiff;
-                    break;
-                case 6:
-                    format = ImageFormat.Wmf;
-                    break;
-                default:
-                    format = ImageFormat.Png;
-                    break;
-            }
-            return format;
-        }
-
-        #endregion
-
-
 
 
         #region main events
