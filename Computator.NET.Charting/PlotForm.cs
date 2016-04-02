@@ -38,8 +38,8 @@ namespace Computator.NET.Charting
             menuStrip1.Items.AddRange(new ToolStripItem[]
             {
                 editChartMenus.chartToolStripMenuItem,
-                editChartMenus.comlexChartToolStripMenuItem,
-                editChartMenus.chart3DToolStripMenuItem
+               // editChartMenus.comlexChartToolStripMenuItem,
+                //editChartMenus.chart3DToolStripMenuItem
             });
         }
 

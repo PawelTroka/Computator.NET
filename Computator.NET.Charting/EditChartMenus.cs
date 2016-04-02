@@ -20,30 +20,28 @@ namespace Computator.NET.Charting
         private readonly Dictionary<CalculationsMode, IChart> charts;
 
 
-
-
         public void SetMode(CalculationsMode mode)
         {
-            if (chartToolStripMenuItem != null)
-                chartToolStripMenuItem.Visible =
+         //   if (chart2d != null)
+                legendPositionsToolStripMenuItem.Visible = colorsOfChartToolStripMenuItem.Visible = seriesOfChartToolStripMenuItem.Visible = typeOfChartToolStripMenuItem.Visible=
                 mode == CalculationsMode.Real;
 
-            if(complexChart!=null)
-            comlexChartToolStripMenuItem.Visible =
-                
+       //     if(complexChart!=null)
+                colorAssignmentToolStripMenuItem.Visible = countourLinesToolStripMenuItem.Visible =
+
+
                          mode == CalculationsMode.Complex;
 
-            if (chart3DToolStripMenuItem != null)
-                chart3DToolStripMenuItem.Visible =
+           // if (chart3d != null)
+                rescaleToolStripMenuItem.Visible =
                  mode == CalculationsMode.Fxy;
 
 
             _calculationsMode = mode;
         }
 
-        public ToolStripMenuItem chart3DToolStripMenuItem { get; private set; }
+
         public ToolStripMenuItem chartToolStripMenuItem { get; private set; }
-        public ToolStripMenuItem comlexChartToolStripMenuItem { get; private set; }
 
 
         private ToolStripComboBox aligmentLegendComboBox;
@@ -73,24 +71,18 @@ namespace Computator.NET.Charting
         private ToolStripMenuItem toolStripMenuItem14;
         private ToolStripMenuItem editChartToolStripMenuItem;
         private ToolStripMenuItem editChartPropertiesToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItem18;
-        private ToolStripMenuItem toolStripMenuItem19;
-        private ToolStripMenuItem toolStripMenuItem21;
-        private ToolStripMenuItem toolStripMenuItem22;
-        private ToolStripMenuItem toolStripMenuItem24;
-        private ToolStripMenuItem toolStripMenuItem25;
-        private ToolStripMenuItem toolStripMenuItem26;
-        private ToolStripMenuItem toolStripMenuItem27;
-        private ToolStripMenuItem toolStripMenuItem28;
-        private ToolStripMenuItem toolStripMenuItem29;
+        private ToolStripMenuItem countourLinesToolStripMenuItem;
+
+        private ToolStripMenuItem rescaleToolStripMenuItem;
+        private ToolStripMenuItem chart3dEqualAxesToolStripMenuItem;
+        private ToolStripMenuItem chart3dFitAxesToolStripMenuItem;
+
         private ToolStripMenuItem exportToolStripMenuItem;
         private ToolStripMenuItem typeOfChartToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator10;
-        private ToolStripSeparator toolStripSeparator11;
-        private ToolStripSeparator toolStripSeparator12;
-        private ToolStripSeparator toolStripSeparator13;
-        private ToolStripSeparator toolStripSeparator8;
-        private ToolStripSeparator toolStripSeparator9;
+
+
+        private ToolStripSeparator secondToolStripSeparator;
+        private ToolStripSeparator firstToolStripSeparator;
 
         private ToolStripComboBox typeOfChartComboBox;
 
@@ -120,7 +112,7 @@ namespace Computator.NET.Charting
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.firstToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.typeOfChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.typeOfChartComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.seriesOfChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -132,29 +124,24 @@ namespace Computator.NET.Charting
             this.positionLegendComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             this.aligmentLegendComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.secondToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.editChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editChartPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 
-            this.comlexChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem19 = new System.Windows.Forms.ToolStripMenuItem();
+
+
+            this.countourLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem() {Visible = false};
             this.countourLinesToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.colorAssignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorAssignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem() { Visible = false };
             this.colorAssignmentToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem21 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem22 = new System.Windows.Forms.ToolStripMenuItem();
-            this.chart3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem24 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem25 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem26 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem27 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem28 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem29 = new System.Windows.Forms.ToolStripMenuItem();
+
+
+
+            this.rescaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem() { Visible = false };
+            this.chart3dEqualAxesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chart3dFitAxesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+
+
 
 
 
@@ -174,7 +161,7 @@ namespace Computator.NET.Charting
 
             // chartToolStripMenuItem
             // 
-            toolStripSeparator = new ToolStripSeparator();
+            thirdToolStripSeparator = new ToolStripSeparator();
 
 
 
@@ -182,15 +169,29 @@ namespace Computator.NET.Charting
             chartToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
                 exportToolStripMenuItem,//all
-                toolStripSeparator9,//all
+
+
+                firstToolStripSeparator,//all
+
+                                rescaleToolStripMenuItem,//chart3d
+                countourLinesToolStripMenuItem,//complexChart
+                colorAssignmentToolStripMenuItem,//complexChart
+
                 typeOfChartToolStripMenuItem,//chart2d
                 seriesOfChartToolStripMenuItem,//chart2d
                 colorsOfChartToolStripMenuItem,//all
                 legendPositionsToolStripMenuItem,//chart2d
-                toolStripSeparator8,//all
+
+
+                secondToolStripSeparator,//all
+
                 editChartToolStripMenuItem,//all
                 editChartPropertiesToolStripMenuItem,//all
-                toolStripSeparator,//all
+
+
+                thirdToolStripSeparator,//all
+
+
                 printToolStripMenuItem,//all
                 printPreviewToolStripMenuItem//all
             });
@@ -205,8 +206,8 @@ namespace Computator.NET.Charting
             // 
             // toolStripSeparator9
             // 
-            toolStripSeparator9.Name = "toolStripSeparator9";
-            resources.ApplyResources(toolStripSeparator9, "toolStripSeparator9");
+            firstToolStripSeparator.Name = "firstToolStripSeparator";
+            resources.ApplyResources(firstToolStripSeparator, "toolStripSeparator9");
             // 
             // toolStripMenuItem9
             // 
@@ -293,62 +294,31 @@ namespace Computator.NET.Charting
             resources.ApplyResources(aligmentLegendComboBox, "aligmentLegendComboBox");
             aligmentLegendComboBox.SelectedIndexChanged += aligmentLegendComboBox_SelectedIndexChanged;
             // 
-            // toolStripSeparator8
+
             // 
-            toolStripSeparator8.Name = "toolStripSeparator8";
-            resources.ApplyResources(toolStripSeparator8, "toolStripSeparator8");
+            secondToolStripSeparator.Name = "secondToolStripSeparator";
+            resources.ApplyResources(secondToolStripSeparator, "toolStripSeparator8");
             // 
-            // toolStripMenuItem15
+
             // 
             editChartToolStripMenuItem.Name = "editChartToolStripMenuItem";
             resources.ApplyResources(editChartToolStripMenuItem, "toolStripMenuItem15");
             editChartToolStripMenuItem.Click += editChartToolStripMenuItem_Click;
             // 
-            // toolStripMenuItem16
+
             // 
             editChartPropertiesToolStripMenuItem.Name = "editChartPropertiesToolStripMenuItem";
             resources.ApplyResources(editChartPropertiesToolStripMenuItem, "toolStripMenuItem16");
             editChartPropertiesToolStripMenuItem.Click += editChartPropertiesToolStripMenuItem_Click;
 
 
-            // 
-            // comlexChartToolStripMenuItem
-            // 
-            comlexChartToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
-            {
-                toolStripMenuItem18,
-                toolStripSeparator11,
-                toolStripMenuItem19,
-                colorAssignmentToolStripMenuItem,
-                toolStripSeparator10,
-                toolStripMenuItem21,
-                toolStripMenuItem22,
-                new ToolStripSeparator(),
-                printToolStripMenuItem,
-                printPreviewToolStripMenuItem
-            });
-            comlexChartToolStripMenuItem.Name = "comlexChartToolStripMenuItem";
-            resources.ApplyResources(comlexChartToolStripMenuItem, "comlexChartToolStripMenuItem");
-            // 
-            // toolStripMenuItem18
-            // 
-            toolStripMenuItem18.Name = "toolStripMenuItem18";
-            resources.ApplyResources(toolStripMenuItem18, "toolStripMenuItem18");
-            toolStripMenuItem18.Click += ExportChartExportToolStripMenuItemClick;
-            // 
-            // toolStripSeparator11
-            // 
-            toolStripSeparator11.Name = "toolStripSeparator11";
-            resources.ApplyResources(toolStripSeparator11, "toolStripSeparator11");
-            // 
-            // toolStripMenuItem19
-            // 
-            toolStripMenuItem19.DropDownItems.AddRange(new ToolStripItem[]
+            countourLinesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
                 countourLinesToolStripComboBox
             });
-            toolStripMenuItem19.Name = "toolStripMenuItem19";
-            resources.ApplyResources(toolStripMenuItem19, "toolStripMenuItem19");
+            countourLinesToolStripMenuItem.Name = "toolStripMenuItem19";
+            resources.ApplyResources(countourLinesToolStripMenuItem, "toolStripMenuItem19");
+
             // 
             // countourLinesToolStripComboBox
             // 
@@ -372,89 +342,33 @@ namespace Computator.NET.Charting
             colorAssignmentToolStripComboBox.SelectedIndexChanged +=
                 colorAssignmentToolStripComboBox_SelectedIndexChanged;
             // 
-            // toolStripSeparator10
-            // 
-            toolStripSeparator10.Name = "toolStripSeparator10";
-            resources.ApplyResources(toolStripSeparator10, "toolStripSeparator10");
-            // 
-            // toolStripMenuItem21
-            // 
-            toolStripMenuItem21.Name = "toolStripMenuItem21";
-            resources.ApplyResources(toolStripMenuItem21, "toolStripMenuItem21");
-            toolStripMenuItem21.Click += editToolStripMenuItem_Click;
-            // 
-            // toolStripMenuItem22
-            // 
-            toolStripMenuItem22.Name = "toolStripMenuItem22";
-            resources.ApplyResources(toolStripMenuItem22, "toolStripMenuItem22");
-            toolStripMenuItem22.Click += editChartPropertiesToolStripMenuItem_Click;
-            // 
-            // chart3dToolStripMenuItem
-            // 
-            chart3DToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
-            {
-                toolStripMenuItem24,
-                toolStripSeparator12,
-                toolStripMenuItem25,
-                toolStripSeparator13,
-                toolStripMenuItem28,
-                toolStripMenuItem29,
-                                new ToolStripSeparator(),
-                printToolStripMenuItem,
-                printPreviewToolStripMenuItem
-            });
-            chart3DToolStripMenuItem.Name = "chart3dToolStripMenuItem";
-            resources.ApplyResources(chart3DToolStripMenuItem, "chart3dToolStripMenuItem");
-            // 
-            // toolStripMenuItem24
-            // 
-            toolStripMenuItem24.Name = "toolStripMenuItem24";
-            resources.ApplyResources(toolStripMenuItem24, "toolStripMenuItem24");
-            toolStripMenuItem24.Click += ExportChartExportToolStripMenuItemClick;
-            // 
-            // toolStripSeparator12
-            // 
-            toolStripSeparator12.Name = "toolStripSeparator12";
-            resources.ApplyResources(toolStripSeparator12, "toolStripSeparator12");
+
+
+
             // 
             // toolStripMenuItem25
             // 
-            toolStripMenuItem25.DropDownItems.AddRange(new ToolStripItem[]
+            rescaleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
-                toolStripMenuItem26,
-                toolStripMenuItem27
+                chart3dEqualAxesToolStripMenuItem,
+                chart3dFitAxesToolStripMenuItem
             });
-            toolStripMenuItem25.Name = "toolStripMenuItem25";
-            resources.ApplyResources(toolStripMenuItem25, "toolStripMenuItem25");
+            rescaleToolStripMenuItem.Name = "rescaleToolStripMenuItem";
+            resources.ApplyResources(rescaleToolStripMenuItem, "toolStripMenuItem25");
             // 
             // toolStripMenuItem26
             // 
-            toolStripMenuItem26.Name = "toolStripMenuItem26";
-            resources.ApplyResources(toolStripMenuItem26, "toolStripMenuItem26");
-            toolStripMenuItem26.Click += chart3dEqualAxesToolStripMenuItem_Click;
+            chart3dEqualAxesToolStripMenuItem.Name = "chart3dEqualAxesToolStripMenuItem";
+            resources.ApplyResources(chart3dEqualAxesToolStripMenuItem, "toolStripMenuItem26");
+            chart3dEqualAxesToolStripMenuItem.Click += chart3dEqualAxesToolStripMenuItem_Click;
             // 
             // toolStripMenuItem27
             // 
-            toolStripMenuItem27.Name = "toolStripMenuItem27";
-            resources.ApplyResources(toolStripMenuItem27, "toolStripMenuItem27");
-            toolStripMenuItem27.Click += chart3dFitAxesToolStripMenuItem_Click;
-            // 
-            // toolStripSeparator13
-            // 
-            toolStripSeparator13.Name = "toolStripSeparator13";
-            resources.ApplyResources(toolStripSeparator13, "toolStripSeparator13");
-            // 
-            // toolStripMenuItem28
-            // 
-            toolStripMenuItem28.Name = "toolStripMenuItem28";
-            resources.ApplyResources(toolStripMenuItem28, "toolStripMenuItem28");
-            toolStripMenuItem28.Click += editChart3dToolStripMenuItem_Click;
-            // 
-            // toolStripMenuItem29
-            // 
-            toolStripMenuItem29.Name = "toolStripMenuItem29";
-            resources.ApplyResources(toolStripMenuItem29, "toolStripMenuItem29");
-            toolStripMenuItem29.Click += editChartPropertiesToolStripMenuItem_Click;
+            chart3dFitAxesToolStripMenuItem.Name = "chart3dFitAxesToolStripMenuItem";
+            resources.ApplyResources(chart3dFitAxesToolStripMenuItem, "toolStripMenuItem27");
+            chart3dFitAxesToolStripMenuItem.Click += chart3dFitAxesToolStripMenuItem_Click;
+
+
         }
 
         private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -486,11 +400,20 @@ namespace Computator.NET.Charting
         private CalculationsMode _calculationsMode = CalculationsMode.Fxy;
         private ToolStripMenuItem printToolStripMenuItem;
         private ToolStripMenuItem printPreviewToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator;
+        private ToolStripSeparator thirdToolStripSeparator;
 
         private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var editChartWindow = new EditChartWindow(chart2d);
+            var editChartWindow= new Form();
+
+            if(currentChart is Chart2D)
+                editChartWindow = new EditChartWindow(chart2d);
+            else if (currentChart is ComplexChart)
+                editChartWindow = new EditComplexChartWindow(complexChart);
+            else if(currentChart is Chart3DControl)
+                editChartWindow = new Chart3D.EditChartWindow(chart3d, elementHostChart3d);
+
+
             editChartWindow.ShowDialog();
         }
 
@@ -532,13 +455,6 @@ namespace Computator.NET.Charting
             chart2d.changeChartType(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editComplexChartWindow = new EditComplexChartWindow(complexChart);
-            editComplexChartWindow.ShowDialog();
-        }
-
         private void countourLinesToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             complexChart.countourMode =
@@ -553,12 +469,6 @@ namespace Computator.NET.Charting
             complexChart.Redraw();
         }
 
-
-        private void editChart3dToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var editChartWindow = new Chart3D.EditChartWindow(chart3d, elementHostChart3d);
-            editChartWindow.ShowDialog();
-        }
 
         private void chart3dEqualAxesToolStripMenuItem_Click(object sender, EventArgs e)
         {

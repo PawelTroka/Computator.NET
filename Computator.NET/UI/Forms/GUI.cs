@@ -746,8 +746,8 @@ DataSourceUpdateMode.Never);*/
             }
             editChartMenus = new EditChartMenus(chart2d,complexChart,chart3d,elementHostChart3d);
 
-            menuStrip2.Items.Insert(4, editChartMenus.chart3DToolStripMenuItem);
-            menuStrip2.Items.Insert(4, editChartMenus.comlexChartToolStripMenuItem);
+          //  menuStrip2.Items.Insert(4, editChartMenus.chart3DToolStripMenuItem);
+           // menuStrip2.Items.Insert(4, editChartMenus.comlexChartToolStripMenuItem);
             menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
 
         }
