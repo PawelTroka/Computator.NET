@@ -22,14 +22,14 @@
  * + TSL handles now full mathematical multiplying notation like 2x means 2*x
  * = Minor bufixes and changes to TSL Compiler allowing more freedom to user in defining things
  * = Bug in read() functions fixed - input is now CultureInvariant just like it should be
- * + ComplexChart now supports printing and printpreview
+ * + Chart3D and ComplexChart now supports printing and printpreview
  * = Moved Localization to Computator.NET.DataTypes, which makes localization of all the Computator.NET components a lot easier
  * + All charts now use the same SaveImage dialog with option for many different image formats, which makes exporting a chart nice experience
  * = Fixed bug in plot(f(x,y)) TSL function which made user unable to change chart area values (xmin,xmax, ymin, ymax)
  * = Unified Chart (edit) menus in GUI and scripting (they are now inside their own class, reusable), removed any code redundancies and errors (in chart3d in scripting export was generating invalid names)
  * = Cleanup for Chart3D
  * + New special symbols for better looking exponents
- * + You can now use functions with many parameters in expnents (added comma superscript symbol)
+ * + You can now use functions with many parameters in expnents (added comma superscript symbol compatible even with Win XP)
  * = Fixed bug in ScientificNumeriUpDown with Value sometimes over decimal.MaxValue or under decimal.MinValue 
  * + GSL can now be initialized with second method if first doesnt work
  * + Added exception handling for GSL initialization and logging all the errors
@@ -43,9 +43,11 @@
  * = Fixed bug in autocomplete, it was comparing substring including whole signature of function, now only uses name
  * = Fixed important bugs causing autocomplete to not show in exponent
  * + GSL updated to version 2.1
- * = Fixed HypergeometricU special function
+ * = Fixed some bugs in HypergeometricU, Hypergeometric1F1 special function
  * - Removed unused argument n from function EllipticD(φ,x)
  * = Mathieu functions should be a lot faster now, they are called directly now as a functions - not by passing a reference interop struct type
+ * = TSL now supports whitespace characters in exponent
+ * = Fixed bug in TSLCompiler related to multiple nested parenthesis with exponents
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

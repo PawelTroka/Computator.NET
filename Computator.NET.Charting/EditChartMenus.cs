@@ -66,13 +66,13 @@ namespace Computator.NET.Charting
         private ToolStripComboBox seriesOfChartComboBox;
 
 
-        private ToolStripMenuItem toolStripMenuItem10;
-        private ToolStripMenuItem toolStripMenuItem11;
-        private ToolStripMenuItem toolStripMenuItem12;
+        private ToolStripMenuItem seriesOfChartToolStripMenuItem;
+        private ToolStripMenuItem colorsOfChartToolStripMenuItem;
+        private ToolStripMenuItem legendPositionsToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem13;
         private ToolStripMenuItem toolStripMenuItem14;
-        private ToolStripMenuItem toolStripMenuItem15;
-        private ToolStripMenuItem toolStripMenuItem16;
+        private ToolStripMenuItem editChartToolStripMenuItem;
+        private ToolStripMenuItem editChartPropertiesToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem18;
         private ToolStripMenuItem toolStripMenuItem19;
         private ToolStripMenuItem toolStripMenuItem21;
@@ -83,8 +83,8 @@ namespace Computator.NET.Charting
         private ToolStripMenuItem toolStripMenuItem27;
         private ToolStripMenuItem toolStripMenuItem28;
         private ToolStripMenuItem toolStripMenuItem29;
-        private ToolStripMenuItem toolStripMenuItem8;
-        private ToolStripMenuItem toolStripMenuItem9;
+        private ToolStripMenuItem exportToolStripMenuItem;
+        private ToolStripMenuItem typeOfChartToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator10;
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripSeparator toolStripSeparator12;
@@ -116,23 +116,25 @@ namespace Computator.NET.Charting
 
         private void InitializeComponent()
         {
+            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.typeOfChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.typeOfChartComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.seriesOfChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seriesOfChartComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorsOfChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorsOfChartComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+            this.legendPositionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
             this.positionLegendComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             this.aligmentLegendComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem16 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editChartPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 
             this.comlexChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,28 +156,52 @@ namespace Computator.NET.Charting
             this.toolStripMenuItem28 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem29 = new System.Windows.Forms.ToolStripMenuItem();
 
+
+
+            // 
+            // printToolStripMenuItem
+            // 
+            resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
+            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            // 
+            // printPreviewToolStripMenuItem
+            // 
+            resources.ApplyResources(this.printPreviewToolStripMenuItem, "printPreviewToolStripMenuItem");
+            this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
+            this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
+
+
             // chartToolStripMenuItem
             // 
+            toolStripSeparator = new ToolStripSeparator();
+
+
+
+
             chartToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
-                toolStripMenuItem8,
-                toolStripSeparator9,
-                toolStripMenuItem9,
-                toolStripMenuItem10,
-                toolStripMenuItem11,
-                toolStripMenuItem12,
-                toolStripSeparator8,
-                toolStripMenuItem15,
-                toolStripMenuItem16
+                exportToolStripMenuItem,//all
+                toolStripSeparator9,//all
+                typeOfChartToolStripMenuItem,//chart2d
+                seriesOfChartToolStripMenuItem,//chart2d
+                colorsOfChartToolStripMenuItem,//all
+                legendPositionsToolStripMenuItem,//chart2d
+                toolStripSeparator8,//all
+                editChartToolStripMenuItem,//all
+                editChartPropertiesToolStripMenuItem,//all
+                toolStripSeparator,//all
+                printToolStripMenuItem,//all
+                printPreviewToolStripMenuItem//all
             });
             chartToolStripMenuItem.Name = "chartToolStripMenuItem";
             resources.ApplyResources(chartToolStripMenuItem, "chartToolStripMenuItem");
             // 
             // toolStripMenuItem8
             // 
-            toolStripMenuItem8.Name = "toolStripMenuItem8";
-            resources.ApplyResources(toolStripMenuItem8, "toolStripMenuItem8");
-            toolStripMenuItem8.Click += exportChartToolStripMenuItem_Click;
+            exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            resources.ApplyResources(exportToolStripMenuItem, "toolStripMenuItem8");
+            exportToolStripMenuItem.Click += ExportChartExportToolStripMenuItemClick;
             // 
             // toolStripSeparator9
             // 
@@ -184,12 +210,12 @@ namespace Computator.NET.Charting
             // 
             // toolStripMenuItem9
             // 
-            toolStripMenuItem9.DropDownItems.AddRange(new ToolStripItem[]
+            typeOfChartToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
                 typeOfChartComboBox
             });
-            toolStripMenuItem9.Name = "toolStripMenuItem9";
-            resources.ApplyResources(toolStripMenuItem9, "toolStripMenuItem9");
+            typeOfChartToolStripMenuItem.Name = "typeOfChartToolStripMenuItem";
+            resources.ApplyResources(typeOfChartToolStripMenuItem, "toolStripMenuItem9");
             // 
             // typeOfChartComboBox
             // 
@@ -199,12 +225,12 @@ namespace Computator.NET.Charting
             // 
             // toolStripMenuItem10
             // 
-            toolStripMenuItem10.DropDownItems.AddRange(new ToolStripItem[]
+            seriesOfChartToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
                 seriesOfChartComboBox
             });
-            toolStripMenuItem10.Name = "toolStripMenuItem10";
-            resources.ApplyResources(toolStripMenuItem10, "toolStripMenuItem10");
+            seriesOfChartToolStripMenuItem.Name = "seriesOfChartToolStripMenuItem";
+            resources.ApplyResources(seriesOfChartToolStripMenuItem, "toolStripMenuItem10");
             // 
             // seriesOfChartComboBox
             // 
@@ -214,12 +240,12 @@ namespace Computator.NET.Charting
             // 
             // toolStripMenuItem11
             // 
-            toolStripMenuItem11.DropDownItems.AddRange(new ToolStripItem[]
+            colorsOfChartToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
                 colorsOfChartComboBox
             });
-            toolStripMenuItem11.Name = "toolStripMenuItem11";
-            resources.ApplyResources(toolStripMenuItem11, "toolStripMenuItem11");
+            colorsOfChartToolStripMenuItem.Name = "colorsOfChartToolStripMenuItem";
+            resources.ApplyResources(colorsOfChartToolStripMenuItem, "toolStripMenuItem11");
             // 
             // colorsOfChartComboBox
             // 
@@ -229,13 +255,13 @@ namespace Computator.NET.Charting
             // 
             // toolStripMenuItem12
             // 
-            toolStripMenuItem12.DropDownItems.AddRange(new ToolStripItem[]
+            legendPositionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
                 toolStripMenuItem13,
                 toolStripMenuItem14
             });
-            toolStripMenuItem12.Name = "toolStripMenuItem12";
-            resources.ApplyResources(toolStripMenuItem12, "toolStripMenuItem12");
+            legendPositionsToolStripMenuItem.Name = "legendPositionsToolStripMenuItem";
+            resources.ApplyResources(legendPositionsToolStripMenuItem, "toolStripMenuItem12");
             // 
             // toolStripMenuItem13
             // 
@@ -274,15 +300,15 @@ namespace Computator.NET.Charting
             // 
             // toolStripMenuItem15
             // 
-            toolStripMenuItem15.Name = "toolStripMenuItem15";
-            resources.ApplyResources(toolStripMenuItem15, "toolStripMenuItem15");
-            toolStripMenuItem15.Click += editChartToolStripMenuItem_Click;
+            editChartToolStripMenuItem.Name = "editChartToolStripMenuItem";
+            resources.ApplyResources(editChartToolStripMenuItem, "toolStripMenuItem15");
+            editChartToolStripMenuItem.Click += editChartToolStripMenuItem_Click;
             // 
             // toolStripMenuItem16
             // 
-            toolStripMenuItem16.Name = "toolStripMenuItem16";
-            resources.ApplyResources(toolStripMenuItem16, "toolStripMenuItem16");
-            toolStripMenuItem16.Click += editChartPropertiesToolStripMenuItem_Click;
+            editChartPropertiesToolStripMenuItem.Name = "editChartPropertiesToolStripMenuItem";
+            resources.ApplyResources(editChartPropertiesToolStripMenuItem, "toolStripMenuItem16");
+            editChartPropertiesToolStripMenuItem.Click += editChartPropertiesToolStripMenuItem_Click;
 
 
             // 
@@ -296,7 +322,10 @@ namespace Computator.NET.Charting
                 colorAssignmentToolStripMenuItem,
                 toolStripSeparator10,
                 toolStripMenuItem21,
-                toolStripMenuItem22
+                toolStripMenuItem22,
+                new ToolStripSeparator(),
+                printToolStripMenuItem,
+                printPreviewToolStripMenuItem
             });
             comlexChartToolStripMenuItem.Name = "comlexChartToolStripMenuItem";
             resources.ApplyResources(comlexChartToolStripMenuItem, "comlexChartToolStripMenuItem");
@@ -305,7 +334,7 @@ namespace Computator.NET.Charting
             // 
             toolStripMenuItem18.Name = "toolStripMenuItem18";
             resources.ApplyResources(toolStripMenuItem18, "toolStripMenuItem18");
-            toolStripMenuItem18.Click += exportChartToolStripMenuItem_Click;
+            toolStripMenuItem18.Click += ExportChartExportToolStripMenuItemClick;
             // 
             // toolStripSeparator11
             // 
@@ -369,7 +398,10 @@ namespace Computator.NET.Charting
                 toolStripMenuItem25,
                 toolStripSeparator13,
                 toolStripMenuItem28,
-                toolStripMenuItem29
+                toolStripMenuItem29,
+                                new ToolStripSeparator(),
+                printToolStripMenuItem,
+                printPreviewToolStripMenuItem
             });
             chart3DToolStripMenuItem.Name = "chart3dToolStripMenuItem";
             resources.ApplyResources(chart3DToolStripMenuItem, "chart3dToolStripMenuItem");
@@ -378,7 +410,7 @@ namespace Computator.NET.Charting
             // 
             toolStripMenuItem24.Name = "toolStripMenuItem24";
             resources.ApplyResources(toolStripMenuItem24, "toolStripMenuItem24");
-            toolStripMenuItem24.Click += exportChartToolStripMenuItem_Click;
+            toolStripMenuItem24.Click += ExportChartExportToolStripMenuItemClick;
             // 
             // toolStripSeparator12
             // 
@@ -425,6 +457,16 @@ namespace Computator.NET.Charting
             toolStripMenuItem29.Click += editChartPropertiesToolStripMenuItem_Click;
         }
 
+        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentChart.PrintPreview();
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentChart.Print();
+        }
+
         private IChart currentChart => charts[_calculationsMode];
 
         private Chart2D chart2d => charts[CalculationsMode.Real] as Chart2D;
@@ -442,6 +484,9 @@ namespace Computator.NET.Charting
         };
 
         private CalculationsMode _calculationsMode = CalculationsMode.Fxy;
+        private ToolStripMenuItem printToolStripMenuItem;
+        private ToolStripMenuItem printPreviewToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator;
 
         private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -449,7 +494,7 @@ namespace Computator.NET.Charting
             editChartWindow.ShowDialog();
         }
 
-        private void exportChartToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExportChartExportToolStripMenuItemClick(object sender, EventArgs e)
         {
             saveChartImageFileDialog.FileName =
                 $"{Strings.Chart} {DateTime.Now.ToString("u", CultureInfo.InvariantCulture).Replace(':', '-').Replace("Z", "")}";

@@ -183,7 +183,7 @@ namespace Computator.NET.Compilation
             var result = input;
 
             while(expressionInParenthesesRaisedToAnyPowerRegex.IsMatch(result))
-                result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(result,
+                result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(result,//http://stackoverflow.com/questions/7898310/using-regex-to-balance-match-parenthesis
                 nativeCompilerCompatiblePowerNotation);
 
             result = numberRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
