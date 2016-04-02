@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Computator.NET.DataTypes;
@@ -70,6 +71,12 @@ namespace Computator.NET.Compilation
                 RegexOptions.Compiled);
 
 
+        private readonly Regex absRegex =
+            new Regex(@"\|((?:[^|]|(?<open>\|)|(?<-open>\|))+(?(open)(?!)))\|",
+                RegexOptions.Compiled);
+
+
+
         private const string legalFirstIdentifier = @"α-ωΑ-Ωa-zA-Z_";
 
         private const string identifier = @"[α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*";
@@ -103,10 +110,10 @@ namespace Computator.NET.Compilation
 
         public TslCompiler()
         {
-            Version = 3.5;
+            Version = 3.7m;
         }
 
-        public double Version { get; private set; }
+        public decimal Version { get; private set; }
 
         public string TransformToCSharp(string tslCode)
         {
@@ -121,6 +128,9 @@ namespace Computator.NET.Compilation
 
             listOfResults.Add(refRegex.Replace(listOfResults.Last(), @"$1 ref $3"));
 
+
+
+           // listOfResults.Add(ReplaceAbs(listOfResults.Last()));
 
             //TODO: this little thing
             // Func<double, double> fafa = (x) => x;
@@ -140,6 +150,15 @@ namespace Computator.NET.Compilation
             return listOfResults.Last();
         }
 
+        private string ReplaceAbs(string code)
+        {
+            var result = code;
+            
+            while (result.Count(c => c == '|') > 0 && result.Count(c => c == '|')%2 == 0)
+                result = absRegex.Replace(result, @"abs($1)");
+            return result;
+        }
+
         private string ReplaceLocalFunctions(string code)
         {
             var secondPhase = functionRegex.Replace(code, @"var $1 = TypeDeducer.Func(($2) => $3)");
@@ -152,16 +171,6 @@ namespace Computator.NET.Compilation
                 @"{{ENGINERING#NOTATION}$1#$2{ENGINERING#NOTATION}$3{ENGINERING#NOTATION}}");
 
             result = multiplyingRegex.Replace(result, "$1$2*$3");
-            /* delegate (Match match)
-            {
-
-                string v = match.Result("$1$2$3");//match.ToString();
-
-                if (engineeringNotationRegex.IsMatch(v))//we don't wanna change engineering notation
-                    return v;
-
-                return match.Result(@"$1$2*$3");
-            });*/
 
             result = changeBackEngineeringNotationRegex.Replace(result, @"$1$2$3");
             return result;
@@ -170,54 +179,17 @@ namespace Computator.NET.Compilation
         private string ReplacePow(string input) //OK
         {
             var nativeCompilerCompatiblePowerNotation = @"pow($1,$2)$3";
-            //string result = input.ReplacePow(@"(\d*x)\^(\d+\.?\d*)");
-            //return result.ReplacePow(@"\(([^\^]+)\)\^(\d+\.?\d*)");
-            //var result = input;
 
-            //case 1 - x^ANY_EXPONENT, 9.5y^ANY_EXPONENT, etc. 
-            //   foreach (var c in Variables)
-            //     result = Regex.Replace(result,
-            //       @"(\d*" + c + @")([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
-            //     "pow($1,$2)");
+            var result = input;
 
-            //case 2 - (anything in parenthesis)^ANY_EXPONENT
-            // result = result.ReplacePow(@"\(([^\^]+)\)([" + GlobalConfig.Superscripts + @"]+)");
-
-            // result =
-            //   Regex.Replace(result,
-            //     @"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))([" +
-            //   SpecialSymbols.SuperscriptsWithoutSpace + @"]+)", "pow($1,$2)");
-
-
-            var result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(input,
+            while(expressionInParenthesesRaisedToAnyPowerRegex.IsMatch(result))
+                result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(result,
                 nativeCompilerCompatiblePowerNotation);
-            //# First '(' # Match all non-braces # Match '(', and capture into 'open' # Match ')', and delete the 'open' capture # Fails if 'open' stack isn't empty!
-
-            //case 3 - (any ordinary number)^ANY_EXPONENT
-            //     result = Regex.Replace(result,
-            //      @"(\d+\.?\d*)([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
-            //   "pow($1,$2)");
 
             result = numberRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
 
-
-            //({identifier}) // valid variable using latin and greek alphabet
-            //case 4 - variable^ANY_EXPONENT
-            //   foreach (var c in Variables)
-            // using System.CodeDom.Compiler;
-            // CodeDomProvider provider = CodeDomProvider.CreateProvider("C#");
-            //    if (provider.IsValidIdentifier(YOUR_VARIABLE_NAME))
-            //   {
-            // Valid
-            //     }
-            //   result = Regex.Replace(result,
-            //        @"({identifier})([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)",
-            //    "pow($1,$2)");
-
             result = variableRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
 
-
-            //replace superscripts with normal characters:
             result = SpecialSymbols.SuperscriptsToAscii(result);
 
             return result;
@@ -225,19 +197,7 @@ namespace Computator.NET.Compilation
 
         private string ReplaceToDoubles(string input)
         {
-            //return Regex.Replace(input, @"(\d+)(?:[^\.]\d+)", "$1.0");
-
-            //1. X/5 => X/5.0
-            // var ret = Regex.Replace(input, @"[\/](\d+)([^\.\d]|$)", @"/$1.0$2");
-
             var ret = divisionByIntegerRegex.Replace(input, @"/$1.0$2");
-
-
-            //System.Windows.Forms.MessageBox.Show(ret);
-            //2. X/(4+9+...+i) => X/(1.0*(4+9+...+i)) 
-            //   ret = Regex.Replace(ret,
-            //  @"[\/](\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", "/(1.0*($1))");
-            //System.Windows.Forms.MessageBox.Show(ret);
 
             ret = divisionByParenthesisRegex.Replace(ret, @"/(1.0*($1))");
 

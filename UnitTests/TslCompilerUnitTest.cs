@@ -83,6 +83,38 @@ Actual:
 
 
         [TestMethod]
+        public void LocalFunctionUsingExponentWithParenthesisTest()
+        {
+            var func = $@"var f(real x, real y) = (x / y)²;";
+
+            Assert.AreEqual(@"var f = TypeDeducer.Func((real x, real y) => pow((x / y),2));", tslCompiler.TransformToCSharp(func));
+        }
+
+        [TestMethod]
+        public void LocalFunctionUsingParenthesisTest()
+        {
+            var func = $@"var f(real x, real y) = (x)+(y)+(2);";
+
+            Assert.AreEqual(@"var f = TypeDeducer.Func((real x, real y) => (x)+(y)+(2));", tslCompiler.TransformToCSharp(func));
+        }
+
+        [TestMethod]
+        public void ParenthesisWithinParenthesisAllToExponentTest()
+        {
+            Assert.AreEqual(@"pow((pow((x+y),1/2.0)+pow((z-x-y),z)),2)", tslCompiler.TransformToCSharp(@"((x+y)¹˸²+(z-x-y)ᶻ)²"));
+        }
+
+
+       /* [TestMethod]
+        public void AbsTest()
+        {
+
+            Assert.AreEqual(@"abs(cos(x))=abs(y)", tslCompiler.TransformToCSharp(@"|cos(x)|=|y|"));
+        }*/
+
+        //|cos(x)|=|y|
+
+        [TestMethod]
         public void Test1()
         {
            // tslCompiler.Variables.Add("x");

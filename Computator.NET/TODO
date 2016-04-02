@@ -4,6 +4,7 @@
 * we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
 * make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
 * maybe handle cases like 2²x for multiplying
+* Handle abs - |x+2|=|cos(y)| should give us abs(x+2)=abs(cos(y))
 
 
 ##UI
