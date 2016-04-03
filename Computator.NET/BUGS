@@ -1,5 +1,4 @@
 ﻿1. Binding exponent mode from edit menu to exponent mode in AvalonEdit doesnt work because AvalonEdit is in WPF and cant implement INotifyPropertyChanged
-2. Ctrl+T does not create a new tab in scripting and custom functions when focus is on code editor
 3. setup.gif for default installation theme doesnt seem to show in installation
 4. Underflow error for MathieuMc(1,-20,2.04081632653062,-100), MathieuMc(1,-20,x,-100) caused by GSL itself
 5. Folding does not work in AvalonEdit when working with documents

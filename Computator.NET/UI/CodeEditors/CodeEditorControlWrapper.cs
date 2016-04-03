@@ -81,6 +81,19 @@ namespace Computator.NET.UI.CodeEditors
 
             //TODO: somehow manage to get avalonedit codeeditor ExponentMode bind to this ExponentMode property
             //avalonEditor.DataBindings.Add("ExponentMode", this, "ExponentMode", false, DataSourceUpdateMode.OnPropertyChanged);
+
+            
+        }
+
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.T))
+            {
+                NewDocument();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         public override bool Focused

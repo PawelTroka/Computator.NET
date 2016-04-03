@@ -48,6 +48,7 @@
  * = Mathieu functions should be a lot faster now, they are called directly now as a functions - not by passing a reference interop struct type
  * = TSL now supports whitespace characters in exponent
  * = Fixed bug in TSLCompiler related to multiple nested parenthesis with exponents
+ * = Fixed bug ctrl+T does not create a new tab in scripting and custom functions when focus is on code editor
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
