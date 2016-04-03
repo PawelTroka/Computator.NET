@@ -33,6 +33,7 @@ namespace Computator.NET.Localization
                     ApplyResources(this, value);
 
                     culture = value;
+                    //ScanNonControls();
                     OnCultureChanged();
                 }
             }
@@ -54,8 +55,32 @@ namespace Computator.NET.Localization
             foreach (Control ctl in parent.Controls)
             {
                 ApplyResources(ctl, culture);
+
+                var menuStr = ctl as MenuStrip;
+                if (menuStr == null) continue;
+
+                var menuStrip = menuStr;
+
+                foreach (ToolStripItem item in menuStrip.Items)
+                {
+                    ApplyResources(item, culture);
+                }
             }
         }
+
+        private void ApplyResources(ToolStripItem item, CultureInfo culture)
+        {
+            resManager.ApplyResources(item, item.Name, culture);
+
+            var downItem = item as ToolStripDropDownItem;
+            if (downItem == null) return;
+
+            foreach (ToolStripItem it in downItem.DropDownItems)
+            {
+                ApplyResources(it, culture);
+            }
+        }
+
 
         protected void OnCultureChanged()
         {
@@ -66,20 +91,54 @@ namespace Computator.NET.Localization
 
         protected void ScanNonControls()
         {
-            var fieldInfo = GetType().GetFields(BindingFlags.NonPublic
-                                                | BindingFlags.Instance |
-                                                BindingFlags.Public);
-            for (var i = 0; i < fieldInfo.Length; i++)
-            {
-                var obj = fieldInfo[i].GetValue(this);
-                var fieldName = fieldInfo[i].Name;
-                if (obj is ToolStripMenuItem)
+            LocalizeType(GetType(), this, 1);
+        }
+
+        private void LocalizeType(Type type, object owner, int howDeep)
+        {
+            if (owner == null|| howDeep==0)
+                return;
+
+
+                var memberInfos = type.GetMembers(BindingFlags.NonPublic
+                              | BindingFlags.Instance |
+                              BindingFlags.Public);
+
+                foreach (MemberInfo memberInfo in memberInfos)
                 {
-                    var menuItem = (ToolStripMenuItem) obj;
-                    menuItem.Text = (string) (resManager.GetObject(fieldName +
-                                                                   ".Text", culture));
-                    // etc.
+                    LocalizeMember(memberInfo, owner);
+
+                    var fieldInfo = memberInfo as FieldInfo;
+                    if (fieldInfo != null && !fieldInfo.FieldType.IsValueType)
+                        LocalizeType(fieldInfo.FieldType,fieldInfo.GetValue(owner),howDeep-1);
+
+                    var propertyInfo = memberInfo as PropertyInfo;
+                    if (propertyInfo != null && propertyInfo.CanRead && !propertyInfo.PropertyType.IsValueType && propertyInfo.GetIndexParameters().Length == 0)
+                        try { LocalizeType(propertyInfo.PropertyType, propertyInfo.GetValue(owner,null), howDeep - 1);}
+                        catch(Exception ex)
+                        {
+                        }
                 }
+
+        }
+
+        private void LocalizeMember(MemberInfo member, object owner)
+        {
+            object obj = null;
+            if(member is FieldInfo)
+             obj= ((FieldInfo)member).GetValue(owner);
+            else if(member is PropertyInfo && ((PropertyInfo)member).CanRead && ((PropertyInfo)member).GetIndexParameters().Length==0)
+               try { obj = ((PropertyInfo)member).GetValue(owner,null);}
+               catch
+               {
+               }
+            var fieldName = member.Name;
+            if (obj is ToolStripMenuItem)
+            {
+                var menuItem = (ToolStripMenuItem) obj;
+                menuItem.Text = (string) (resManager.GetObject(fieldName +
+                                                               ".Text", culture));
+                // etc.
             }
         }
     }
