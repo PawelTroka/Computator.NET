@@ -153,6 +153,29 @@ namespace UnitTests
 
 
         [TestMethod]
+        public void EnTest()
+        {
+            object ret = null;
+
+            foreach (var i in A)
+                    foreach (var d1 in X)
+
+                    {
+                        Trace.WriteLine($"Testing {nameof(EnTest)}, parameters: {i}; {d1}");
+                        try
+                        {
+                            ret = SpecialFunctions.En(i,d1);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
+
+        [TestMethod]
         public void HypergeometricUIntTest()
         {
             object ret = null;

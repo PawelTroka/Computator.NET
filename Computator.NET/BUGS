@@ -11,7 +11,6 @@
 12. Not yet fully tested
 13. Some parts are still untranslated
 14. TSL has some untested experimantal features not yet included in tutorials
-15. function En(n,x) throws exceptions on some arguments - n<-1, n>2
 16. Showing toolTip causes an overhead on CPU, fix by setting up a delay in showing the toolTip
 17. Lack of implicit conversion from MathNet.Numerics.LinearAlgebra.Double.DenseMatrix to MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix coupled with dynamic sqrt(x) causes a lot of bugs https://github.com/mathnet/mathnet-numerics/issues/304
 	eg this is bug:
