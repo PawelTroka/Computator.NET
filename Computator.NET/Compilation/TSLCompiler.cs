@@ -26,7 +26,7 @@ namespace Computator.NET.Compilation
 
 
         private static readonly string powerCatchingGroup =
-            $@"(\s*[{SpecialSymbols.SuperscriptsWithoutSpace}][{SpecialSymbols.Superscripts}]*)((?:(?:[^{SpecialSymbols.Superscripts}])|$))";
+            $@"(\s*[{SpecialSymbols.SuperscriptsWithoutSpace}][{SpecialSymbols.Superscripts}]*)((?:(?:[^{SpecialSymbols.Superscripts}\(])|$))";
 
 
         public static readonly string[] Keywords =

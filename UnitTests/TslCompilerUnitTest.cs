@@ -51,6 +51,18 @@ namespace UnitTests
             IsTheSameAfterCompilation(@"Derivative.derivative((real x) => MathieuSE(1,1,x),x,6)");
         }
 
+        [TestMethod]
+        public void FunctionWithSuperscriptInItsNameShouldntBeInterpretedAsExponentTest()
+        {
+            IsTheSameAfterCompilation(@"r+=e+ψⁿ(j,r);");
+        }
+
+        [TestMethod]
+        public void FunctionWithSuperscriptInItsNameShouldntBeInterpretedAsExponentShortTest()
+        {
+            IsTheSameAfterCompilation(@"ψⁿ(x);");
+        }
+
         private bool IsTheSameAfterCompilation(string code)
         {
             var afterTransform = tslCompiler.TransformToCSharp(code);
