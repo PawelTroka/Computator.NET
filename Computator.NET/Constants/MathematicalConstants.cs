@@ -25,6 +25,10 @@ namespace Computator.NET.Constants
 
         public static readonly double e = System.Math.E;
 
+        public static readonly double NaN = double.NaN;
+
+        public static readonly double Infinity = double.PositiveInfinity;
+
 
         public static readonly double EulerMascheroni = 0.57721566490153286060651209008240243104215933593992;
 
@@ -197,6 +201,9 @@ namespace Computator.NET.Constants
 
         public static readonly double e = System.Math.E;
 
+        public static readonly double NaN = double.NaN;
+
+        public static readonly double Infinity = double.PositiveInfinity;
 
         public static readonly double EulerMascheroni = 0.57721566490153286060651209008240243104215933593992;
 

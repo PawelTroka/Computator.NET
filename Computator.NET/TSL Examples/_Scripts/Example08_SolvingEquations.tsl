@@ -1,0 +1,27 @@
+﻿//Solving linear equations in Computator.NET TSL script is easy
+
+//the first thing you gonnna need is a matrix representing your equation set
+//eg for set of equations:
+//x + 2y + 3z = 4
+//4x + 6y + 2z = 3
+//5x + 2y + 3z = 1
+
+//we can define matrix presented below:
+var eq = matrix({{1,2,3,4},
+				{4,6,2,3},
+				{5,2,3,1}});
+
+//as you already saw it is very easy representation
+
+//next we will gonna call function solve on this matrix and save the result to new variable 'results'
+
+var results = solve(eq);
+
+//solve returns vector, so we can just use writeln function on it to see the results arranged in column
+writeln(result);
+
+//alternatively we could call it on all it's elements
+writeln("x = "); write(results[0]);
+writeln("y = "); write(results[1]);
+writeln("z = "); write(results[2]);
+//of course that would be not very useful for bigger sets of equations

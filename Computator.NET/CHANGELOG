@@ -51,6 +51,8 @@
  * = Fixed bug ctrl+T does not create a new tab in scripting and custom functions when focus is on code editor
  * = Fixed bug with localization - now even top menu is reloaded if language has been changed
  * = Fixed all bugs and enhanced domain for En(n,x) function
+ * + Added solve(m) function for solving linear equations in matrix representation
+ * = Introduced ∞ symbol for Infinity
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

@@ -7,6 +7,19 @@ using Computator.NET.Evaluation;//this one is neeeded!!!!!!!!!!!!!!!!!!!!!!! don
 
 namespace Computator.NET.Functions
 {
+
+
+    /*
+    
+var M = matrix({{1,2,3,4},
+				{4,6,2,3},
+				{5,2,3,1}});
+
+var result = solve(M);
+
+writeln(result);
+        */
+
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public static class MatrixFunctions
     {
@@ -348,6 +361,18 @@ where T : struct, System.IEquatable<T>, System.IFormattable
                 resultMatrix.PointwiseDivide(matrices[i], resultMatrix);
 
             return resultMatrix;
+        }
+
+        #endregion
+
+        #region solvers
+
+        public static MathNet.Numerics.LinearAlgebra.Vector<T> solve<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+    where T : struct, System.IEquatable<T>, System.IFormattable
+        {
+            var result = M.SubMatrix(0, M.RowCount, 0, M.ColumnCount - 1).Solve(M.Column(M.ColumnCount - 1));
+
+            return result;
         }
 
         #endregion
@@ -753,9 +778,23 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 
         #endregion
 
-        #region matrix utils
 
-        private static byte[] ToBits(int value)
+        #region solvers
+
+        public static MathNet.Numerics.LinearAlgebra.Vector<T> solve<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+    where T : struct, System.IEquatable<T>, System.IFormattable
+        {
+            var result = M.SubMatrix(0, M.RowCount, 0, M.ColumnCount - 1).Solve(M.Column(M.ColumnCount - 1));
+
+            return result;
+        }
+
+    #endregion
+
+
+    #region matrix utils
+
+    private static byte[] ToBits(int value)
         {
             System.Collections.BitArray b = new System.Collections.BitArray(new int[] { value });
 

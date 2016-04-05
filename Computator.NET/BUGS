@@ -4,7 +4,6 @@
 5. Folding does not work in AvalonEdit when working with documents
 6. When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
 7. Caret sometimes not showing when switching to exponent mode
-8. 
 9. Functions 2F1 and 1F1 still has errors
 10. Transformations (FFT, IFFT, ...) dont work
 11. Functions descriptions not yet done for every function

@@ -147,6 +147,8 @@ namespace Computator.NET.Compilation
 
             listOfResults.Add(listOfResults.Last().Replace(SpecialSymbols.DotSymbol, '*'));
 
+            listOfResults.Add(listOfResults.Last().Replace(SpecialSymbols.Infinity, "double.PositiveInfinity"));
+
             return listOfResults.Last();
         }
 

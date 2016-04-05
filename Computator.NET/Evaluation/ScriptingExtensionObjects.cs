@@ -172,7 +172,13 @@ namespace Computator.NET.Evaluation
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
                     var str = x.ToString(System.Globalization.CultureInfo.InvariantCulture);
                     if (!str.Contains("E") && !str.Contains("e"))
+                    {
+                        if (x == double.PositiveInfinity)
+                            return Computator.NET.DataTypes.SpecialSymbols.Infinity;
+                        else if(x == double.NegativeInfinity)
+                            return string.Format("-{0}", Computator.NET.DataTypes.SpecialSymbols.Infinity);
                         return str;
+                    }
                     var chunks = str.Split('E', 'e');
                     var ret = string.Format("{0}{1}10{2}", chunks[0], Computator.NET.DataTypes.SpecialSymbols.DotSymbol,
                         Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(double.Parse(chunks[1]).ToString(System.Globalization.CultureInfo.InvariantCulture)));//we parse first then apply ToString() again to get rid of notations from engineering notation like eg +019 (when original walue was 1E+19) simple hack :)
@@ -396,7 +402,13 @@ namespace Computator.NET.Evaluation
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
                     var str = x.ToString(System.Globalization.CultureInfo.InvariantCulture);
                     if (!str.Contains(""E"") && !str.Contains(""e""))
+                    {
+                        if (x == double.PositiveInfinity)
+                            return Computator.NET.DataTypes.SpecialSymbols.Infinity;
+                        else if(x == double.NegativeInfinity)
+                            return string.Format(""-{0}"", Computator.NET.DataTypes.SpecialSymbols.Infinity);
                         return str;
+                    }
                     var chunks = str.Split('E', 'e');
                     var ret = string.Format(""{0}{1}10{2}"", chunks[0], Computator.NET.DataTypes.SpecialSymbols.DotSymbol,
                         Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(double.Parse(chunks[1]).ToString(System.Globalization.CultureInfo.InvariantCulture)));//we parse first then apply ToString() again to get rid of notations from engineering notation like eg +019 (when original walue was 1E+19) simple hack :)

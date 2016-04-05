@@ -17,6 +17,8 @@ namespace Computator.NET.DataTypes
         //ॱ 
         //˸
 
+        public const string Infinity = "∞";
+
         public static readonly string DecimalSeparatorSuperscript = @"ᱸ";//(Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
 
         public static readonly string CommaSuperscript = @"ʹ";//"\u0315";//(Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";

@@ -404,6 +404,9 @@
     <Content Include="UI\fonts\consola.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TSL Examples\_Scripts\Example08_SolvingEquations.tsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SymbolicCalculations\" />

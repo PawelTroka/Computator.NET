@@ -168,20 +168,23 @@ namespace Computator.NET.Functions
             writer.WriteLine(objectToString(o));
             writer.Close();
         }
+        private const int maxWidth = 80;
+        private const int maxPerColumnOrRow = 999999;
 
         private static string objectToString(object o)
         {
             //complex matrix
+             
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
-                        2, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                        maxWidth, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
             //complex vector
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseVector))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToVectorString(999999 - 2, 2, "..", "  ",
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
                         System.Environment.NewLine,
                         z => (z).ToMathString()));
 
@@ -189,14 +192,14 @@ namespace Computator.NET.Functions
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseMatrix))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
-                        2, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
+                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                        maxWidth, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
 
             //real vector
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseVector))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToVectorString(999999 - 2, 2, "..", "  ",
+                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
                         System.Environment.NewLine,
                         z => z.ToMathString()));
 
@@ -580,20 +583,23 @@ namespace Computator.NET.Functions
             writer.WriteLine(objectToString(o));
             writer.Close();
         }
+   private const int maxWidth = 80;
+        private const int maxPerColumnOrRow = 999999;
 
         private static string objectToString(object o)
         {
             //complex matrix
+             
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
-                        2, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                        maxWidth, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
             //complex vector
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseVector))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToVectorString(999999 - 2, 2, "".."", ""  "",
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
                         System.Environment.NewLine,
                         z => (z).ToMathString()));
 
@@ -601,14 +607,14 @@ namespace Computator.NET.Functions
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseMatrix))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToMatrixString(999999 - 2, 2, 999999 - 2,
-                        2, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
+                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                        maxWidth, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
 
             //real vector
             if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseVector))
                 return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToVectorString(999999 - 2, 2, "".."", ""  "",
+                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
                         System.Environment.NewLine,
                         z => z.ToMathString()));
 
