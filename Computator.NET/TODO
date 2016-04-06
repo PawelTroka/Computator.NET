@@ -5,6 +5,7 @@
 * make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
 * maybe handle cases like 2²x for multiplying
 * Handle abs - |x+2|=|cos(y)| should give us abs(x+2)=abs(cos(y)), then add it to superscript
+* include in tutorials and test experimantal features
 
 
 ##UI

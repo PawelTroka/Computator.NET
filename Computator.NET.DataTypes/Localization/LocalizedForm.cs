@@ -59,9 +59,7 @@ namespace Computator.NET.Localization
                 var menuStr = ctl as MenuStrip;
                 if (menuStr == null) continue;
 
-                var menuStrip = menuStr;
-
-                foreach (ToolStripItem item in menuStrip.Items)
+                foreach (ToolStripItem item in menuStr.Items)
                 {
                     ApplyResources(item, culture);
                 }

@@ -6,10 +6,6 @@
 7. Caret sometimes not showing when switching to exponent mode
 9. Functions 2F1 and 1F1 still has errors
 10. Transformations (FFT, IFFT, ...) dont work
-11. Functions descriptions not yet done for every function
-12. Not yet fully tested
-13. Some parts are still untranslated
-14. TSL has some untested experimantal features not yet included in tutorials
 16. Showing toolTip causes an overhead on CPU, fix by setting up a delay in showing the toolTip
 17. Lack of implicit conversion from MathNet.Numerics.LinearAlgebra.Double.DenseMatrix to MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix coupled with dynamic sqrt(x) causes a lot of bugs https://github.com/mathnet/mathnet-numerics/issues/304
 	eg this is bug:
