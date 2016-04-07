@@ -53,6 +53,7 @@
  * = Fixed all bugs and enhanced domain for En(n,x) function
  * + Added solve(m) function for solving linear equations in matrix representation
  * = Introduced ∞ symbol for Infinity
+ * = Fixed all known bugs with changing editor type with opened documents
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

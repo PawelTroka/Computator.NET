@@ -18,7 +18,7 @@ namespace Computator.NET.UI.Controls
         private ToolStripMenuItem closeTabToolStripMenuItem;
         private ContextMenuStrip contextMenuStrip1;
         //public Dictionary<string,string> Documents { get; private set; }
-        private int id = 2;
+        private int id = 1;
         private ImageList imageList1;
         private ToolStripMenuItem newTabToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
@@ -64,7 +64,7 @@ namespace Computator.NET.UI.Controls
             // this
             // 
             ContextMenuStrip = contextMenuStrip1;
-            TabPages.Add("NewFile1", "NewFile1", 1);
+            //TabPages.Add("NewFile1", "NewFile1", 1);
             TabPages.Add(addTabPage);
             Dock = DockStyle.Fill;
             Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular,

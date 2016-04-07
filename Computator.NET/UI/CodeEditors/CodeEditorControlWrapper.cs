@@ -67,7 +67,7 @@ namespace Computator.NET.UI.CodeEditors
             tableLayout.Controls.Add(tabControl, 0, 0);
             tableLayout.Controls.Add(panel, 0, 1);
             Controls.Add(tableLayout);
-            ChangeEditorType(true);
+            SetEditorVisibility();
             SetFont(Settings.Default.ScriptingFont);
 
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
@@ -82,7 +82,7 @@ namespace Computator.NET.UI.CodeEditors
             //TODO: somehow manage to get avalonedit codeeditor ExponentMode bind to this ExponentMode property
             //avalonEditor.DataBindings.Add("ExponentMode", this, "ExponentMode", false, DataSourceUpdateMode.OnPropertyChanged);
 
-            
+            NewDocument();
         }
 
 
@@ -267,7 +267,6 @@ namespace Computator.NET.UI.CodeEditors
             // if (_codeEditorType == CodeEditorType.Scintilla)
             {
                 CloseDocument(e.Control.Text);
-                //MessageBox.Show("Chuj!!!"+ e.Control.Text);
             }
         }
 
@@ -326,9 +325,11 @@ namespace Computator.NET.UI.CodeEditors
 
         public IEnumerable<string> Documents { get { return CurrentCodeEditor.Documents; } }
 
-        public void ChangeEditorType(bool firstTime=false)
+        public void ChangeEditorType()//TODO: test
         {
-            if (_codeEditorType == Settings.Default.CodeEditor && !firstTime) return;
+            if (_codeEditorType == Settings.Default.CodeEditor) return;
+
+            var currentDocument = CurrentFileName;
 
             var documents = new Dictionary<string, string>();
 
@@ -336,9 +337,27 @@ namespace Computator.NET.UI.CodeEditors
             {
                 SwitchDocument(document);
                 documents.Add(document, Text);
-                
+                CloseDocument(document);
             }
 
+            SetEditorVisibility();
+
+            foreach (var document in documents)
+            {
+                if(CurrentCodeEditor.ContainsDocument(document.Key))
+                    SwitchDocument(document.Key);
+                else
+                    CurrentCodeEditor.NewDocument(document.Key);
+
+                Text = document.Value;
+               // MessageBox.Show(Text);
+            }
+
+            SwitchDocument(currentDocument);
+        }
+
+        private void SetEditorVisibility()
+        {
             _codeEditorType = Settings.Default.CodeEditor;
 
             switch (_codeEditorType)
@@ -353,13 +372,6 @@ namespace Computator.NET.UI.CodeEditors
                     avalonEditorWrapper.Hide();
                     scintillaEditor.Show();
                     break;
-            }
-
-            foreach (var document in documents)
-            {
-                SwitchDocument(document.Key);
-                Text = document.Value;
-               // MessageBox.Show(Text);
             }
         }
 

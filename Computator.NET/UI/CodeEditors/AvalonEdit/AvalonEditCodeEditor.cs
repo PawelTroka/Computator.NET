@@ -17,6 +17,7 @@ using System.Xml;
 using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Localization;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
@@ -61,7 +62,7 @@ namespace Computator.NET.UI.CodeEditors
             _documents =
                 new Dictionary<string, TextDocument>
                 {
-                  //  {"NewFile1", Document}
+                  //  {Strings.DocumentsTabControl_AddTab_NewFile+1, Document}
                 };
             this.TextArea.TextView.LineTransformers.Add(_offsetColorizer);
             
@@ -108,7 +109,7 @@ namespace Computator.NET.UI.CodeEditors
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
             if (_documents.Count > 0)
-                SwitchDocument(Enumerable.Last(_documents.Keys));
+                SwitchDocument(_documents.Keys.Last());
         }
 
         public void HighlightErrors(List<CompilerError> errors)

@@ -16,6 +16,7 @@ using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Localization;
 using ScintillaNET;
 using Settings = Computator.NET.Properties.Settings;
 
@@ -61,7 +62,7 @@ namespace Computator.NET.UI.CodeEditors
             Dock = DockStyle.Fill;
             _documents = new Dictionary<string, Document>
             {
-               // {"NewFile1", Document}
+            //    {Strings.DocumentsTabControl_AddTab_NewFile+1, Document}
             };
             SizeChanged += (o, e) => { _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height); };
             
@@ -197,7 +198,7 @@ namespace Computator.NET.UI.CodeEditors
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
             if(_documents.Count>0)
-            SwitchDocument(Enumerable.Last(_documents.Keys));
+            SwitchDocument(_documents.Keys.Last());
         }
 
         public void HighlightErrors(List<CompilerError> errors)
