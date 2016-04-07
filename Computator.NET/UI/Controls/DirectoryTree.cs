@@ -8,8 +8,6 @@ using Computator.NET.UI.CodeEditors;
 
 namespace Computator.NET
 {
-    public enum ButtonClick { None, New, Delete, Rename }
-
     public class DirectoryTree : TreeView
     {
         public CodeEditorControlWrapper CodeEditorWrapper { get; set; }
@@ -24,6 +22,7 @@ namespace Computator.NET
         {
             InitializeComponent();
             AfterSelect += _AfterSelect;
+            
             ContextMenu = new ContextMenu(new MenuItem[] {
             new MenuItem(Strings.DirectoryTree_DirectoryTree_New_file, (o, e) =>
             {
@@ -94,13 +93,13 @@ namespace Computator.NET
                 return;
             //MessageBox.Show(e.Label);
             //MessageBox.Show(e.Node.Text);
-            if (e.Label == null && System.IO.File.Exists(e.Node.FullPath))
+            if (e.Label == null && !System.IO.File.Exists(e.Node.FullPath)) // there was no change in default name and file does not yet exists - we need to create a new one
             {
                 createFile(e.Node.FullPath);
                 e.Node.EndEdit(false);
                 return;
             }
-            if (e.Label == null)
+            if (e.Label == null)//no changes to already existing file's name - do nothing
                 return;
 
             if (e.Label.Length > 0)
@@ -229,6 +228,9 @@ namespace Computator.NET
 
             Fill(rootNode);
             Nodes[0].Expand();
+
+            if (ctxNode == null)
+                ctxNode = rootNode;
         }
 
         private void Fill(TreeNode dirNode)
