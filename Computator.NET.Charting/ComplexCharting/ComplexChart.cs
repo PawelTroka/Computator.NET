@@ -172,33 +172,16 @@ namespace Computator.NET.Charting.ComplexCharting
                 var z = pointsValues[x, y].Z;
 
                 toolTip.SetToolTip(this,
-                    string.Format(
-                        "f(z) = {0:0.###}{1:+0.###;-0.###}i = {2:0.###} exp({3:0.###})\nz = {4:0.###}{5:+0.###;-#0.###}i = {6:0.###} exp({7:0.###})",
-                        fz.Real, fz.Imaginary, fz.Magnitude, fz.Phase, z.Real, z.Imaginary, z.Magnitude, z.Phase));
+                    $"f(z) = {fz.Real:0.###}{fz.Imaginary:+0.###;-0.###}i = {fz.Magnitude:0.###} exp({fz.Phase:0.###})\nz = {z.Real:0.###}{z.Imaginary:+0.###;-#0.###}i = {z.Magnitude:0.###} exp({z.Phase:0.###})");
                 toolTip.ShowAlways = true;
             }
-        }
-
-        private void _MouseMove(object s, MouseEventArgs e)
-        {
-            /* if (drawn)
-             {
-                 // this.Capture = true;
-                 Complex fz = pointsValues[e.Location.X, e.Location.Y].Fz;
-                 Complex z = pointsValues[e.Location.X, e.Location.Y].Z;
-
-                 //toolTip.SetToolTip(this, String.Format("f(z)={0}{1:+#;-#;0}i = {2} exp({3})\nz={4}{5:+#;-#;0}i = {6} exp({7})", fz.Real, fz.Imaginary, fz.Magnitude, fz.Phase, z.Real, z.Imaginary, z.Magnitude, z.Phase));
-                 toolTip.Show(String.Format("f(z) = {0:0.###}{1:+0.###;-0.###}i = {2:0.###} exp({3:0.###})\nz = {4:0.###}{5:+0.###;-#0.###}i = {6:0.###} exp({7:0.###})", fz.Real, fz.Imaginary, fz.Magnitude, fz.Phase, z.Real, z.Imaginary, z.Magnitude, z.Phase), this, new Point(e.X + 31, e.Y + 31), int.MaxValue);
-                 toolTip.ShowAlways = true;
-             }*/
-            // toolTip.SetToolTip(this, "x = " + ((double)e.Location.X) / ((double)(Width)) + "\ny = " + ((double)e.Location.Y) / ((double)(Height)));
         }
 
         #endregion
 
         #region public methods
 
-        public void addFx(Function Fz)
+        public void AddFunction(Function Fz)
         {
             function = Fz;
             title = Fz.Name;
@@ -234,19 +217,16 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void SaveImage(string path, ImageFormat imageFormat)
         {
-          //  var dialog = new SaveFileDialog();
+            //  var dialog = new SaveFileDialog();
          //   dialog.Filter = "Portable Network Graphics (*.png)|*.png";
          //   dialog.RestoreDirectory = true;
 
-            if (image != null)
-              //  if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                  //  using (var writer = dialog.OpenFile())
-                    {
-                   //     if (writer == null) return;
-                        image.Save(path, imageFormat);
-                    }
-                }
+            if (image == null) return;
+            //  using (var writer = dialog.OpenFile())
+            {
+                //     if (writer == null) return;
+                image.Save(path, imageFormat);
+            }
         }
 
         #endregion

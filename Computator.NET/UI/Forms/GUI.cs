@@ -863,7 +863,7 @@ DataSourceUpdateMode.Never);*/
             {
                 try
                 {
-                    currentChart.addFx(expressionsEvaluator.Evaluate(expressionTextBox.Text,
+                    currentChart.AddFunction(expressionsEvaluator.Evaluate(expressionTextBox.Text,
                         customFunctionsCodeEditor.Text, _calculationsMode));
                 }
                 catch (Exception ex)

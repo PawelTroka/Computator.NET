@@ -257,7 +257,7 @@ namespace Computator.NET.Charting.Chart3D
             TransformChart();
         }
 
-        public void addFx(Function fxy)
+        public void AddFunction(Function fxy)
         {
             _functions.Add(fxy);
             Redraw();

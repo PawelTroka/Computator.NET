@@ -98,6 +98,7 @@
     <Compile Include="ComplexCharting\ComplexChart.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ComplexCharting\ComplexChartPresenter.cs" />
     <Compile Include="ComplexCharting\ComplexPoint.cs" />
     <Compile Include="ComplexCharting\CountourLinesMode.cs" />
     <Compile Include="ComplexCharting\EditComplexChartWindow.cs">
@@ -106,6 +107,7 @@
     <Compile Include="ComplexCharting\EditComplexChartWindow.Designer.cs">
       <DependentUpon>EditComplexChartWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ComplexCharting\IComplexChartView.cs" />
     <Compile Include="EditChartMenus.cs" />
     <Compile Include="EditChartProperties.cs">
       <SubType>Form</SubType>

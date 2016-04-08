@@ -617,7 +617,7 @@ namespace Computator.NET.Charting.RealCharting
                 zoomOut();
         }
 
-        public void addFx(Function f)
+        public void AddFunction(Function f)
         {
             if (!Series.IsUniqueName(f.Name)) //nothing new to add
                 return;
