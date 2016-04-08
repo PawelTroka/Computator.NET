@@ -107,7 +107,7 @@ namespace Computator.NET.Charting.Chart3D
             }
         }
 
-        ///
+
         public bool VisibilityAxes
         {
             get { return _visibilityAxes; }
@@ -198,7 +198,7 @@ namespace Computator.NET.Charting.Chart3D
             get { return quality; }
         }
 
-        private double quality=0.5;
+        private double quality;
 
         public Chart3DMode Mode
         {
@@ -208,16 +208,17 @@ namespace Computator.NET.Charting.Chart3D
                 if (value != mode)
                 {
                     mode = value;
-                    if (value == Chart3DMode.Points)
-                        m_3dChart = new ScatterChart3D();//TestScatterPlot(1);
-                    else if (value == Chart3DMode.Surface)
-                        m_3dChart = new UniformSurfaceChart3D();//TestSurfacePlot(1);
-
-
-                    //TransformChart();
                     Redraw();
                 }
             }
+        }
+
+        private void ClearChartData()
+        {
+            if (mode == Chart3DMode.Points)
+                m_3dChart = new ScatterChart3D(); //TestScatterPlot(1);
+            else if (mode == Chart3DMode.Surface)
+                m_3dChart = new UniformSurfaceChart3D(); //TestSurfacePlot(1);
         }
 
         private void Chart3DControl_MouseEnter(object sender, MouseEventArgs e)
@@ -235,18 +236,17 @@ namespace Computator.NET.Charting.Chart3D
                 N = 100 + (int) value;
 
             if (mode == Chart3DMode.Surface)
-                N += 25;
+                N += 50;
+            else
+                N = N*0.75;
         }
 
-        public void Clear()
+        public void ClearAll()
         {
             _functions.Clear();
             _points.Clear();
 
-            if (mode == Chart3DMode.Points)
-                m_3dChart = new ScatterChart3D();//TestScatterPlot(1);
-            else if (mode == Chart3DMode.Surface)
-                m_3dChart = new UniformSurfaceChart3D();//TestSurfacePlot(1);
+            ClearChartData();
 
             ReloadPoints();
 
@@ -361,6 +361,7 @@ namespace Computator.NET.Charting.Chart3D
 
         public void Redraw()
         {
+            ClearChartData();
             //TODO: make it possible to draw more than one function in surface chart
             foreach (var f in _functions)
             {
@@ -474,6 +475,8 @@ namespace Computator.NET.Charting.Chart3D
 
         public void AddPoints(IList<Point3D> points)
         {
+            if(Mode==Chart3DMode.Surface)
+                Mode = Chart3DMode.Points;
             _points.Add(new List<Point3D>(points));
             AddPoints(points,GetRandomColor());
         }

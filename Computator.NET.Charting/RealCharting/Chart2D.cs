@@ -295,7 +295,7 @@ namespace Computator.NET.Charting.RealCharting
             if (Math.Abs(_lastMouseLocation.X - e.Location.X) <= 1 &&
                 Math.Abs(_lastMouseLocation.Y - e.Location.Y) <= 1) return;
             var elements = HitTest(e.X, e.Y, ChartElementType.PlottingArea);
-            if (elements == null || elements.Object == null)
+            if (elements?.Object == null)
                 return;
 
             var deltaX = (ChartAreas[0].AxisX.PixelPositionToValue(_lastMouseLocation.X) -
@@ -417,6 +417,12 @@ namespace Computator.NET.Charting.RealCharting
 
             ChartAreas[0].AxisX.ScaleView.MinSize = 0.1;
             ChartAreas[0].AxisY.ScaleView.MinSize = 0.1;
+
+
+            this.Legends[0].Font = CustomFonts.GetMathFont(this.Legends[0].Font.Size);
+            const float fontsize = 17.0F;
+
+            this.Font = CustomFonts.GetMathFont(fontsize);
         }
 
         private void _MouseUp(object sender, MouseEventArgs e)

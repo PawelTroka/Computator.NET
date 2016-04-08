@@ -1,8 +1,11 @@
-﻿using System;
+﻿//#define _COMPILE_TO_FUNCTION_CLASS_INSTEAD_OF_FUNC_DELEGATE
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Computator.NET.DataTypes;
+
 
 namespace Computator.NET.Compilation
 {
@@ -168,12 +171,11 @@ namespace Computator.NET.Compilation
 
         private string ReplaceLocalFunctions(string code)
         {
-            //   var secondPhase = functionRegex.Replace(code, @"var $1 = TypeDeducer.Func(($2) => $3)");
-
-
+#if _COMPILE_TO_FUNCTION_CLASS_INSTEAD_OF_FUNC_DELEGATE
             var secondPhase = functionRegex.Replace(code, @"var $1 = new Computator.NET.DataTypes.Function(TypeDeducer.Func(($2) => $3),""$3"",null,false)");
-
-
+#else
+            var secondPhase = functionRegex.Replace(code, @"var $1 = TypeDeducer.Func(($2) => $3)");
+#endif
             return secondPhase;
         }
 

@@ -21,6 +21,8 @@ namespace Computator.NET.Charting
         void SetChartAreaValues(double x0, double xn, double y0, double yn);
 
         void SaveImage(string path, ImageFormat imageFormat);
+
+        void ClearAll();
     }
   /*  internal interface IChart<T>
     {

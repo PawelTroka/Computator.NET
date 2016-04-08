@@ -15,6 +15,23 @@ namespace Computator.NET.Transformations
 
             switch (transformate)
             {
+                case "FFT":
+                    var complexArray = Array.ConvertAll(copyofFunctionsPoints, (double x) => new Complex(x, 0));
+
+                    FourierTransform.DFT(complexArray,FourierTransform.Direction.Forward);
+
+                    copyofFunctionsPoints = Array.ConvertAll(complexArray, (z) => z.Real);
+                    break;
+
+                case "IFFT":
+                    var complexArray2 = Array.ConvertAll(copyofFunctionsPoints, (double x) => new Complex(x, 0));
+
+                    FourierTransform.DFT(complexArray2, FourierTransform.Direction.Backward);
+
+                    copyofFunctionsPoints = Array.ConvertAll(complexArray2, (z) => z.Real);
+                    break;
+
+
                 case "DST":
                     SineTransform.DST(copyofFunctionsPoints);
                     break;

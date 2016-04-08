@@ -600,10 +600,7 @@ namespace Computator.NET
 
         private void InitializeFonts()
         {
-            chart2d.Legends[0].Font = CustomFonts.GetMathFont(chart2d.Legends[0].Font.Size);
-            const float fontsize = 17.0F;
 
-            chart2d.Font = CustomFonts.GetMathFont(fontsize);
 
             function.DefaultCellStyle.Font = CustomFonts.GetMathFont(function.DefaultCellStyle.Font.Size);
             result.DefaultCellStyle.Font = CustomFonts.GetMathFont(result.DefaultCellStyle.Font.Size);
@@ -931,10 +928,10 @@ DataSourceUpdateMode.Never);*/
 
         private void clearChartButton_Click(object sender, EventArgs e)
         {
-            // this.chart2d.DataBindings
-            chart2d.ClearAll();
-            complexChart.ClearAll();
-            chart3d.Clear();
+            foreach (var chart in charts)
+            {
+                chart.Value.ClearAll();
+            }
         }
 
 
@@ -1207,8 +1204,11 @@ DataSourceUpdateMode.Never);*/
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            chart3d.Quality =
-                chart2d.Quality = complexChart.Quality = trackBar1.Value/(double) trackBar1.Maximum*100.0;
+            foreach (var chart in charts)
+            {
+                chart.Value.Quality = (trackBar1.Value / (double)trackBar1.Maximum) * 100.0;
+            }
+            
         }
 
 
