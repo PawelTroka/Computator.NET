@@ -1066,7 +1066,7 @@ DataSourceUpdateMode.Never);*/
 
             try
             {
-                scriptingCodeEditor.ProcessScript(consoleOutputTextBox, customFunctionsCodeEditor.Text);
+                scriptingCodeEditor.ProcessScript((output) => consoleOutputTextBox.AppendText(output), customFunctionsCodeEditor.Text);
             }
             catch (Exception ex)
             {

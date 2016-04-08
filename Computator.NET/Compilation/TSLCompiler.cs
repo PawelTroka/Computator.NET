@@ -87,6 +87,11 @@ namespace Computator.NET.Compilation
                 $@"(?:var|function)\s+({identifier})\(((?:\s*{identifier}\s+{identifier}\s*,)*(?:\s*{identifier}\s+{identifier}\s*)*\s*)\)\s*[=]\s*([^;]+)",
                 RegexOptions.Compiled);
 
+        private readonly Regex lambdaRegex =
+    new Regex(
+        $@"",
+        RegexOptions.Compiled);
+
 
         private readonly Regex matrixRegex = new Regex(@"matrix\s*\(\s*\{", RegexOptions.Compiled);
 
@@ -163,7 +168,12 @@ namespace Computator.NET.Compilation
 
         private string ReplaceLocalFunctions(string code)
         {
-            var secondPhase = functionRegex.Replace(code, @"var $1 = TypeDeducer.Func(($2) => $3)");
+            //   var secondPhase = functionRegex.Replace(code, @"var $1 = TypeDeducer.Func(($2) => $3)");
+
+
+            var secondPhase = functionRegex.Replace(code, @"var $1 = new Computator.NET.DataTypes.Function(TypeDeducer.Func(($2) => $3),""$3"",null,false)");
+
+
             return secondPhase;
         }
 

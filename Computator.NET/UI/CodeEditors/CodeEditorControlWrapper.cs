@@ -311,11 +311,11 @@ namespace Computator.NET.UI.CodeEditors
             scintillaEditor.SetFont(font);
         }
 
-        public void ProcessScript(RichTextBox things, string customCode = "")
+        public void ProcessScript(Action<string> consoleCallback, string customCode)
         {
             ClearHighlightedErrors();
             var function = _eval.Evaluate(CurrentCodeEditor.Text, customCode);
-            function.Evaluate(things);
+            function.Evaluate(consoleCallback);
         }
 
         public void HighlightErrors(List<CompilerError> errors)

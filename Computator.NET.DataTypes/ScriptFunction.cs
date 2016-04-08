@@ -16,11 +16,11 @@ namespace Computator.NET.DataTypes
             logger = new SimpleLogger {ClassName = GetType().FullName};
         }
 
-        public void Evaluate(RichTextBox consoleOutput)
+        public void Evaluate(Action<string> consoleCallback)
         {
             try
             {
-                ((Action<RichTextBox>) _function)(consoleOutput);
+                ((Action<Action<string>>) _function)(consoleCallback);
             }
             catch (Exception exception)
             {

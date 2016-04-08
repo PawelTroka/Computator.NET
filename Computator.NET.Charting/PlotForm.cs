@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Computator.NET.Charting.Chart3D;
@@ -17,10 +18,17 @@ namespace Computator.NET.Charting
     public partial class PlotForm : Form
     {
 
-        public PlotForm(Control control)
+        public PlotForm(IChart chart)
         {
             InitializeComponent();
-            InitializeChart(control);
+
+
+            if (chart is Chart3DControl)
+                InitializeChart(new ElementHost() { Child = chart as Chart3DControl });
+            else
+                InitializeChart(chart as Control);
+
+
         }
 
         private void InitializeChart(Control control)
@@ -29,18 +37,14 @@ namespace Computator.NET.Charting
             control.Dock = DockStyle.Fill;
             control.BringToFront();
 
+            editChartMenus = new EditChartMenus(control as Chart2D, control as ComplexChart, (control as ElementHost)?.Child as Chart3DControl, control as ElementHost);
 
-            var chart3DElementHost = control as ElementHost;
-
-            editChartMenus = new EditChartMenus(control as Chart2D, control as ComplexChart, chart3DElementHost?.Child as Chart3DControl, chart3DElementHost);
-            SetMode(control.GetType());
 
             menuStrip1.Items.AddRange(new ToolStripItem[]
             {
-                editChartMenus.chartToolStripMenuItem,
-               // editChartMenus.comlexChartToolStripMenuItem,
-                //editChartMenus.chart3DToolStripMenuItem
+                            editChartMenus.chartToolStripMenuItem,
             });
+            SetMode(control.GetType());
         }
 
         private void SetMode(Type chartType)

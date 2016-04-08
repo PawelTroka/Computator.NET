@@ -19,9 +19,9 @@ namespace Computator.NET.Evaluation
     internal class ExpressionsEvaluator
     {
         private const string LambdaScript = MatrixFunctions.ToCode + ScriptingFunctions.ToCode + @"
-            public static void CustomFunction(System.Windows.Forms.RichTextBox CONSOLE_OUTPUTref)
+            public static void CustomFunction(System.Action<string> CONSOLE_OUTPUT_CALLBACK)
             {
-            CONSOLE_OUTPUT = CONSOLE_OUTPUTref;
+            CONSOLE_OUTPUT = CONSOLE_OUTPUT_CALLBACK;
             ";
         private const string LambdaX = @"           
             public static double CustomFunction(double x)
@@ -151,7 +151,7 @@ namespace Computator.NET.Evaluation
                     _delegateType = typeof (Func<double, double, double, double>);
                     break;
                 case FunctionType.Scripting:
-                    _delegateType = typeof (Action<RichTextBox>);
+                    _delegateType = typeof (Action<Action<string>>);
                     _functionSignature = LambdaScript;
                     break;
             }

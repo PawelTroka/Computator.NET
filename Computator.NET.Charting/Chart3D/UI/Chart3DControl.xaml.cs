@@ -26,42 +26,33 @@ namespace Computator.NET.Charting.Chart3D
     /// </summary>
     public partial class Chart3DControl : UserControl, IChart
     {
-        private readonly List<Function> _functions;
-        private readonly List<List<Point3D>> _points;
-        private Color _axesColor;
-        private double _dotSize;
-        private bool _equalAxes;
-        private double _scale;
+        private readonly List<Function> _functions = new List<Function>();
+        private readonly List<List<Point3D>> _points = new List<List<Point3D>>();
+        private Color _axesColor = Colors.MediumSlateBlue;
+        private double _dotSize = 0.02;
+        private bool _equalAxes = true;
+        private double _scale = 0.5;
 
-        private bool _visibilityAxes;
+        private bool _visibilityAxes = true;
         private AxisLabels axisLabels;
         private Chart3D m_3dChart; // data for 3d chart
         public int m_nChartModelIndex = -1; // model index in the Viewport3d
         public TransformMatrix m_transformMatrix = new TransformMatrix();
         private Chart3DMode mode;
-        private double N;
-        private double xmax;
-        private double xmin;
-        private double ymax;
-        private double ymin;
+        private double N = 100;
+        private double xmax=5;
+        private double xmin=-5;
+        private double ymax=5;
+        private double ymin=-5;
 
         public Chart3DControl()
         {
             InitializeComponent();
 
             axisLabels = new AxisLabels(canvasOn3D);
-            _functions = new List<Function>();
-            _points = new List<List<Point3D>>();
 
-            _visibilityAxes = _equalAxes = true;
             Focusable = true;
-            _axesColor = Colors.MediumSlateBlue;
 
-            _scale = 0.5;
-            _dotSize = 0.02;
-            xmax = ymax = 5;
-            xmin = ymin = -5;
-            N = 100;
 
             Mode = Chart3DMode.Surface;
 
@@ -71,6 +62,7 @@ namespace Computator.NET.Charting.Chart3D
             // this.MouseEnter += new MouseEventHandler(Chart3DControl_MouseEnter);
             MouseWheel += OnViewportMouseWheel;
             KeyDown += OnKeyDown;
+            Quality = 0.5;
         }
 
         public double Scale
@@ -195,13 +187,18 @@ namespace Computator.NET.Charting.Chart3D
         {
             set
             {
-                if (value <= 100.0 && value >= 0.0)
-                {
-                    calculateN(value);
-                    Redraw();
-                }
+                if (value > 100)
+                    value = 100;
+                if (value < 0)
+                    value = 0;
+                quality = value;
+                calculateN(value);
+                Redraw();
             }
+            get { return quality; }
         }
+
+        private double quality=0.5;
 
         public Chart3DMode Mode
         {
@@ -260,13 +257,6 @@ namespace Computator.NET.Charting.Chart3D
         public void AddFunction(Function fxy)
         {
             _functions.Add(fxy);
-            Redraw();
-        }
-
-        public void addFx(Func<double,double,double> fxy, double n)
-        {
-            N = n;
-            _functions.Add(new Function(fxy,"function1","function1"));
             Redraw();
         }
 

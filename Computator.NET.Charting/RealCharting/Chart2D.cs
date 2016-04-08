@@ -16,17 +16,17 @@ namespace Computator.NET.Charting.RealCharting
         private const double OVERFLOW_VALUE = (double)decimal.MaxValue/10;//1073741951.0/500; //1111117;
         private const double UNDERFLOW_VALUE = (double) decimal.MinValue/10;//-1073741760.0/500; // 1111117;
         private const int MOVE_N = 100;
-        private readonly List<Function> functions;
+        private readonly List<Function> functions = new List<Function>();
         // private readonly List<Function<double>> implicitFunctions;
-        private readonly List<List<Point2D>> points;
+        private readonly List<List<Point2D>> points = new List<List<Point2D>>();
         private Point _lastMouseLocation;
-        private int _lineThickness;
+        private int _lineThickness = 2;
         private double _oldN;
-        private int _pointsSize;
+        private int _pointsSize = 2;
         private bool _rightButtonPressed;
         private SeriesChartType defaultExplicitFunctionsChartType = SeriesChartType.Line;//SeriesChartType.FastLine;
         private SeriesChartType defaultImplicitFunctionsChartType = SeriesChartType.FastPoint;
-        private double scalingFactor;
+        private double scalingFactor = 1;
         private ToolStripComboBox seriesComboBox;
         /*
          * It turns out that GDI+ has hard bounds for drawing coordinates for DrawLine method //http://stackoverflow.com/questions/3468495/what-are-the-hard-bounds-for-drawing-coordinates-in-gdi
@@ -43,7 +43,6 @@ namespace Computator.NET.Charting.RealCharting
 
         public Chart2D()
         {
-            functions = new List<Function>();
             MouseDoubleClick += _MouseDoubleClick;
             MouseClick += _MouseClick;
             MouseWheel += _MouseWheel;
@@ -52,21 +51,15 @@ namespace Computator.NET.Charting.RealCharting
             MouseMove += _MouseMove;
             Resize += (o, e) => NotifyPropertyChanged("XyRatio");
          //   defaultExplicitFunctionsChartType = SeriesChartType.Line;//////////////////////////////////
-            scalingFactor = 1;
             xOnlyZoomMode = yOnlyZoomMode = false;
-            initChart();
-            AxesEqual = true;
-            N = 3571;
-            _pointsSize = 2;
-            _lineThickness = 2;
-            points = new List<List<Point2D>>();
+            InitializeComponent();
             //implicitFunctions= new List<Function<double>>();
             //   addSampleImplicitFunction();
             //implicitFunctions.Add(new Function<double>((x, y) => Math.Sin(x*x-y*y) - Math.Sin(x+y)-Math.Cos(x*y), "|sin(x²-y²)| = sin(x+y)+cos(x·y)"));
-            
+            Quality = 0.5;
         }
 
-        public int lineThickness
+        public int LineThickness
         {
             get { return _lineThickness; }
             set
@@ -79,7 +72,7 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
-        public int pointsSize
+        public int PointsSize
         {
             get { return _pointsSize; }
             set
@@ -178,19 +171,25 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
-        private double N { get; set; }
+        private double N { get; set; } = 3571;
 
         public double Quality
         {
+            get { return quality; }
             set
             {
-                if (value <= 100 && value >= 0)
-                {
-                    calculateN(value);
-                    _refreshFunctions();
-                }
+                if (value > 100)
+                    value = 100;
+                if (value < 0)
+                    value = 0;
+
+                quality = value;
+                calculateN(value);
+                _refreshFunctions();
             }
         }
+
+        private double quality;
 
         public string XLabel
         {
@@ -243,7 +242,7 @@ namespace Computator.NET.Charting.RealCharting
         //public double axisArrowRelativeSize { get; set; }
 
         public bool ShouldDrawAxes { get; set; }
-        public bool AxesEqual { get; set; }
+        public bool AxesEqual { get; set; } = true;
 
         public double XyRatio
         {
@@ -348,7 +347,7 @@ namespace Computator.NET.Charting.RealCharting
             _refreshFunctions();
         }
 
-        private void initChart()
+        private void InitializeComponent()
         {
             var chartArea1 = new ChartArea();
             var legend1 = new Legend();
@@ -456,7 +455,7 @@ namespace Computator.NET.Charting.RealCharting
         private void _MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Middle)
-                autoScaleHard();
+                AutoScaleHard();
         }
 
         private void _MouseClick(object sender, MouseEventArgs e)
@@ -466,12 +465,12 @@ namespace Computator.NET.Charting.RealCharting
                 
             }
                 if (e.Button == MouseButtons.Middle)
-                autoScaleSmooth();
+                AutoScaleSmooth();
             if (e.Button == MouseButtons.XButton2)
                 xOnlyZoomMode = true;
         }
 
-        private void autoScaleSmooth()
+        private void AutoScaleSmooth()
         {
             ChartAreas[0].AxisY.Minimum = double.NaN; //min;
             ChartAreas[0].AxisY.Maximum = double.NaN; //max;
@@ -483,7 +482,7 @@ namespace Computator.NET.Charting.RealCharting
             NotifyPropertyChanged("XyRatio");
         }
 
-        private void autoScaleHard()
+        private void AutoScaleHard()
         {
             double Xmax = double.MinValue, Xmin = double.MaxValue;
             double Ymax = double.MinValue, Ymin = double.MaxValue;
@@ -623,7 +622,7 @@ namespace Computator.NET.Charting.RealCharting
                 return;
 
             functions.Add(f);
-            _addNewFunction(f.IsImplicit);
+            _addNewFunction();
         }
 
         public void Print()
@@ -634,15 +633,6 @@ namespace Computator.NET.Charting.RealCharting
         public void PrintPreview()
         {
             Printing.PrintPreview();
-        }
-
-        public void addFx(Func<double, double> f, string name)
-        {
-            if (!Series.IsUniqueName(name)) //nothing new to add
-                return;
-
-            functions.Add(new Function(Delegate.CreateDelegate(typeof (Func<double, double>), f.Method), name, name));
-            _addNewFunction(false);
         }
 
         private void _refreshFunctions()
@@ -658,8 +648,8 @@ namespace Computator.NET.Charting.RealCharting
                 var series = new Series
                 {
                     ChartType = fx.IsImplicit ? defaultImplicitFunctionsChartType : defaultExplicitFunctionsChartType,
-                    MarkerSize = pointsSize,
-                    BorderWidth = lineThickness,
+                    MarkerSize = PointsSize,
+                    BorderWidth = LineThickness,
                     Name = fx.Name
                 };
 
@@ -688,8 +678,8 @@ namespace Computator.NET.Charting.RealCharting
                 var series = new Series
                 {
                     ChartType = SeriesChartType.FastPoint,
-                    MarkerSize = pointsSize,
-                    BorderWidth = lineThickness
+                    MarkerSize = PointsSize,
+                    BorderWidth = LineThickness
                 };
 
                 foreach (var p in point)
@@ -706,7 +696,7 @@ namespace Computator.NET.Charting.RealCharting
             NotifyPropertyChanged("XyRatio");
         }
 
-        private void _addNewFunction(bool isImplicit)
+        private void _addNewFunction()
         {
             double dx = (Math.Abs(XMin - XMax))/N, dy = (Math.Abs(YMin - YMax))/(N);
             ;
@@ -715,8 +705,8 @@ namespace Computator.NET.Charting.RealCharting
             var series = new Series
             {
                 ChartType = functions.Last().IsImplicit ? defaultImplicitFunctionsChartType : defaultExplicitFunctionsChartType,
-                MarkerSize = pointsSize,
-                BorderWidth = lineThickness,
+                MarkerSize = PointsSize,
+                BorderWidth = LineThickness,
                 Name = functions.Last().Name
             };
 
@@ -755,30 +745,6 @@ namespace Computator.NET.Charting.RealCharting
         {
             return !double.IsInfinity(x) && !double.IsNaN(x) && !double.IsInfinity(y) && !double.IsNaN(y) &&
                    !(x > OVERFLOW_VALUE) && !(y > OVERFLOW_VALUE) && !(x < UNDERFLOW_VALUE) && !(y < UNDERFLOW_VALUE);
-        }
-
-        public void addPoints(List<Point2D> points, string name = "", bool newPoints = false)
-        {
-            var series = new Series();
-            if (name != "")
-                series.Name = name;
-
-            series.ChartType = SeriesChartType.FastPoint;
-            ;
-
-            foreach (var p in points)
-                series.Points.AddXY(p.x, p.y);
-
-            if (newPoints)
-                Series.Clear();
-
-            Series.Add(series);
-
-            foreach (var s in Series)
-                s.ToolTip = "x = #VALX\ny = #VALY";
-
-            reloadChartSeriesComboBox();
-            this.points.Add(points);
         }
 
         //exp(x/20)*(sin(1/2*x)+cos(3*x)+0.2*sin(4*x)*cos(40*x))
@@ -871,56 +837,9 @@ namespace Computator.NET.Charting.RealCharting
             //  chartType = SeriesChartType.FastLine;
         }
 
-        private void loadChartData(List<List<double>> Y, List<double> t, int mode = 0, bool firstTime = false,
-            bool newLoad = true)
-        {
-            var visibleLegend = true;
-            if (Series.Count > 0)
-                visibleLegend = Series[0].IsVisibleInLegend;
+  
 
-            var seriesNames = new List<string>();
-
-            foreach (var serieName in Series)
-                seriesNames.Add(serieName.LegendText);
-
-            Series.Clear();
-
-            for (var i = 0; i < Y.Count; i++)
-            {
-                if (mode == 0 || i == mode - 1)
-                {
-                    Series.Add("Seria " + (i + 1));
-                    for (var j = 0; j < Y[i].Count; j++)
-                    {
-                        Series.Last().Points.AddXY(t[j], Y[i][j]);
-                        Series.Last().ChartType = defaultExplicitFunctionsChartType;
-                        Series.Last().ToolTip = "x=#VALX\ny=#VAL";
-                        Series.Last().Font = new Font("Times New Roman", 2.0f);
-                        if (Series.Count > 0)
-                            Series.Last().IsVisibleInLegend = visibleLegend;
-                        if (seriesNames.Count >= i + 1)
-                            Series.Last().LegendText = seriesNames[i];
-                    }
-                }
-            }
-
-            if (firstTime)
-            {
-                /*owner.Items.Clear();
-                owner.Items.Add("Wszystkie");
-                foreach (var serie in this.Series)
-                    owner.Items.Add(serie);
-                owner.SelectedIndex = 0;*/
-
-                ChartAreas[0].AxisY.Title = "Y";
-                ChartAreas[0].AxisX.Title = "X";
-                Titles[0].Text = "Wykres 1";
-            }
-            if (newLoad)
-                autoScaleSmooth();
-        }
-
-        public void addChartDataPoints(List<double> y, List<double> x)
+        public void AddDataPoints(List<double> y, List<double> x)
         {
             var visibleLegend = true;
             if (Series.Count > 0)

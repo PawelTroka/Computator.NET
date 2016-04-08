@@ -13,6 +13,9 @@ namespace Computator.NET.Charting
         double XMin { get; set; }
         double YMax { get; set; }
         double YMin { get; set; }
+
+        double Quality { get; set; }
+
         void AddFunction(Function function);
 
         void SetChartAreaValues(double x0, double xn, double y0, double yn);

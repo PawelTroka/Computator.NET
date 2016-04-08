@@ -8,10 +8,10 @@ namespace Computator.NET.DataTypes
 {
     public class Function : BaseFunction
     {
-        public Function(Delegate function, string tslCode, string csCode)
+        public Function(Delegate function, string tslCode, string csCode, bool isImplicit)
             : base(function, tslCode, csCode)
         {
-            guessType();
+            DeduceType(isImplicit);
 
             logger = new SimpleLogger {ClassName = GetType().FullName};
             //    setInvoker();
@@ -28,10 +28,59 @@ namespace Computator.NET.DataTypes
         // public virtual Complex Evaluate(params Complex[] arguments) { return new Complex(double.NaN,double.NaN);}
         public string Name
         {
-            get { return tslCode; }
+            get
+            {
+                if(!string.IsNullOrEmpty(tslCode) && !string.IsNullOrWhiteSpace(tslCode))
+                    return tslCode;
+                if (!string.IsNullOrEmpty(csCode) && !string.IsNullOrWhiteSpace(csCode))
+                    return csCode;
+                return "Function" + GetHashCode();
+            }
         }
 
-        private void guessType()
+
+        public static implicit operator Func<double>(Function function)
+        {
+            return function._function as Func<double>;
+        }
+
+        public static implicit operator Func<double, double>(Function function)
+        {
+            return function._function as Func<double, double>;
+        }
+
+        public static implicit operator Func<double, double, double>(Function function)
+        {
+            return function._function as Func<double, double, double>;
+        }
+
+        public static implicit operator Func<double, double, double, double>(Function function)
+        {
+            return function._function as Func<double, double, double, double>;
+        }
+
+
+        public static implicit operator Func<Complex>(Function function)
+        {
+            return function._function as Func<Complex>;
+        }
+
+        public static implicit operator Func<Complex, Complex>(Function function)
+        {
+            return function._function as Func<Complex, Complex>;
+        }
+
+        public static implicit operator Func<Complex, Complex, Complex>(Function function)
+        {
+            return function._function as Func<Complex, Complex, Complex>;
+        }
+
+        public static implicit operator Func<Complex, Complex, Complex, Complex>(Function function)
+        {
+            return function._function as Func<Complex, Complex, Complex, Complex>;
+        }
+
+        private void DeduceType(bool isImplicit)
         {
             if (_function.Method.ReturnType == typeof (Complex))
             {
@@ -53,7 +102,7 @@ namespace Computator.NET.DataTypes
                         FunctionType = FunctionType.Real2D;
                         break;
                     case 2:
-                        FunctionType = FunctionType.Real3D; //or Real2DImplicit, we really cannot tell
+                        FunctionType = isImplicit ? FunctionType.Real2DImplicit : FunctionType.Real3D; 
                         break;
                     case 3:
                         FunctionType = FunctionType.Real3DImplicit;

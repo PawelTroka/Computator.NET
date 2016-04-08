@@ -2,7 +2,8 @@
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 
-using System.Linq;
+using System;
+using System.Linq.Expressions;
 using Computator.NET.Evaluation;//we have to use this
 // ReSharper disable LocalizableElement
 
@@ -40,7 +41,7 @@ namespace Computator.NET.Functions
                 if (x is System.Numerics.Complex)
                     x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
             }
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + s + " " + objectToString(x));
+            CONSOLE_OUTPUT (System.Environment.NewLine + s + " " + objectToString(x));
             return x;
         }
 
@@ -66,7 +67,7 @@ namespace Computator.NET.Functions
                 if (x is System.Numerics.Complex)
                     x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
             }
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + s + " " + objectToString(x));
+            CONSOLE_OUTPUT (System.Environment.NewLine + s + " " + objectToString(x));
         }
 
 
@@ -88,7 +89,7 @@ namespace Computator.NET.Functions
             if (x is System.Numerics.Complex)
                 x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
 
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + "read: " + " " + objectToString(x));
+            CONSOLE_OUTPUT (System.Environment.NewLine + "read: " + " " + objectToString(x));
         }
 
 
@@ -110,7 +111,7 @@ namespace Computator.NET.Functions
             if (x is System.Numerics.Complex)
                 x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
 
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + "read: " + " " + objectToString(x));
+            CONSOLE_OUTPUT (System.Environment.NewLine + "read: " + " " + objectToString(x));
         }
 
 
@@ -118,13 +119,13 @@ namespace Computator.NET.Functions
         {
             var result = file.readAll();
 
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + "read: " + " " + result);
+            CONSOLE_OUTPUT (System.Environment.NewLine + "read: " + " " + result);
             return result;
         }
 
         public static void write(object o)
         {
-            CONSOLE_OUTPUT.Text += objectToString(o);
+            CONSOLE_OUTPUT(objectToString(o));
         }
 
         public static void writeln(object o)
@@ -265,31 +266,22 @@ namespace Computator.NET.Functions
 
         #region plotting functions
 
-        public static void plot(System.Func<double, double, double> fxy, double XMin = -5, double XMax = 5,
+        public static void plot(System.Linq.Expressions.Expression<System.Func<double, double, double>> fxy, double XMin = -5, double XMax = 5,
             double YMin = -5,
-            double YMax = 5, double N = 1e2)
+            double YMax = 5, double quality=0.5)
         {
-            var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl();
-            chart3d.SetChartAreaValues(XMin,XMax,YMin,YMax);
-            
-            chart3d.addFx(fxy,N);
-
-            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
-
-            //var chartplot = new Chart2D();
-            //chartplot.addFx((x) => x+1,"x+1");
-            var plotForm = new Computator.NET.Charting.PlotForm(ehost);
-            plotForm.Show();
+            var function = new Computator.NET.DataTypes.Function(fxy.Compile(), null, fxy.ToString(), Computator.NET.DataTypes.FunctionType.Real3D);
+            plot(function, XMin, XMax, YMin, YMin, quality);
         }
 
 
-        public static void plot(params System.Func<double, double, double>[] fxys)
+        public static void plot(params System.Linq.Expressions.Expression<System.Func<double, double, double>>[] fxys)
         {
             double XMin = -5;
             double XMax = 5;
             double YMin = -5;
             double YMax = 5;
-            var N = 1e2;
+
             var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl
             {
                 Mode = (fxys.Length > 1) ? Computator.NET.Charting.Chart3D.Chart3DMode.Points : Computator.NET.Charting.Chart3D.Chart3DMode.Surface
@@ -298,14 +290,11 @@ namespace Computator.NET.Functions
 
             foreach (var fxy in fxys)
             {
-                chart3d.addFx(fxy, N);
+                chart3d.AddFunction(new Computator.NET.DataTypes.Function(fxy.Compile(), null, fxy.ToString(), Computator.NET.DataTypes.FunctionType.Real3D));
             }
 
-            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
-
-            //var chartplot = new Chart2D();
-            //chartplot.addFx((x) => x+1,"x+1");
-            var plotForm = new Computator.NET.Charting.PlotForm(ehost);
+     
+            var plotForm = new Computator.NET.Charting.PlotForm(chart3d);
             plotForm.Show();
         }
 
@@ -326,26 +315,56 @@ namespace Computator.NET.Functions
 
             chart3d.AddPoints(points);
 
-            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
-
-            var plotForm = new Computator.NET.Charting.PlotForm(ehost);
+            var plotForm = new Computator.NET.Charting.PlotForm(chart3d);
             plotForm.Show();
         }
 
-        public static void plot(System.Func<double, double> fx, double XMin = -5, double XMax = 5, double YMin = -5,
+
+        public static void plot(System.Linq.Expressions.Expression<System.Func<double, double>> fx, double XMin = -5, double XMax = 5, double YMin = -5,
+    double YMax = 5, double quality = 0.5)
+        {
+            var function = new Computator.NET.DataTypes.Function(fx.Compile(), null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D);
+            plot(function,XMin,XMax,YMin,YMin,quality);
+        }
+
+
+        public static void plot(Computator.NET.DataTypes.Function f, double XMin = -5, double XMax = 5, double YMin = -5,
             double YMax = 5, double quality = 0.5)
         {
-            var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.SetChartAreaValues(XMin, XMax, YMin, YMax);
-            chart2d.Quality = quality*100;
-            chart2d.addFx(fx, "function");
 
-            var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
+            Computator.NET.Charting.IChart chart;
+
+            switch (f.FunctionType)
+            {
+                case Computator.NET.DataTypes.FunctionType.Real2D:
+                case Computator.NET.DataTypes.FunctionType.Real2DImplicit:
+                    chart = new Computator.NET.Charting.RealCharting.Chart2D();
+                    break;
+                case Computator.NET.DataTypes.FunctionType.Real3D:
+                case Computator.NET.DataTypes.FunctionType.Real3DImplicit:
+                    chart = new Computator.NET.Charting.Chart3D.Chart3DControl();
+                    break;
+                case Computator.NET.DataTypes.FunctionType.Complex:
+                case Computator.NET.DataTypes.FunctionType.ComplexImplicit:
+                    chart = new Computator.NET.Charting.ComplexCharting.ComplexChart();
+                    break;
+                case Computator.NET.DataTypes.FunctionType.Scripting:
+                default:
+                    throw new System.ArgumentOutOfRangeException();
+            }
+
+
+            chart.SetChartAreaValues(XMin, XMax, YMin, YMax);
+            chart.Quality = quality*100;
+
+            chart.AddFunction(f);
+
+            var plotForm = new Computator.NET.Charting.PlotForm(chart);
             plotForm.Show();
         }
 
 
-        public static void plot(params System.Func<double, double>[] fxs)
+        public static void plot(params System.Linq.Expressions.Expression<System.Func<double, double>>[] fxs)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
             double XMin = -5;
@@ -356,24 +375,17 @@ namespace Computator.NET.Functions
             chart2d.SetChartAreaValues(XMin, XMax, YMin, YMax);
             chart2d.Quality = quality*100;
 
-            for (var i = 0; i < fxs.Length; i++)
-                chart2d.addFx(fxs[i], "function" + (i + 1));
+            foreach (Expression<Func<double, double>> fx in fxs)
+                chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx.Compile(), null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D));
 
             var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
             plotForm.Show();
         }
 
-        public static void plot(System.Func<System.Numerics.Complex, System.Numerics.Complex> fz, double XMin = -5,
-            double XMax = 5, double YMin = -5,
-            double YMax = 5, double quality = 0.5)
+        public static void plot(System.Linq.Expressions.Expression<System.Func<System.Numerics.Complex, System.Numerics.Complex>> fz, double XMin = -5, double XMax = 5, double YMin = -5, double YMax = 5, double quality = 0.5)
         {
-            var chart = new Computator.NET.Charting.ComplexCharting.ComplexChart();
-            chart.SetChartAreaValues(XMin, XMax, YMin, YMax);
-            chart.Quality = quality*100;
-            chart.addFx(fz, "function");
-
-            var plotForm = new Computator.NET.Charting.PlotForm(chart);
-            plotForm.Show();
+            var function = new Computator.NET.DataTypes.Function(fz.Compile(), null, fz.ToString(), Computator.NET.DataTypes.FunctionType.Complex);
+            plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
         public static void plot(double[] x, double[] y)
@@ -384,19 +396,19 @@ namespace Computator.NET.Functions
         public static void plot(System.Collections.Generic.List<double> x, System.Collections.Generic.List<double> y)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.addChartDataPoints(y, x);
+            chart2d.AddDataPoints(y, x);
             chart2d.changeChartType("FastPoint");
             var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
             plotForm.Show();
         }
 
-        public static void plot(System.Func<double, double> fx, params System.Collections.Generic.List<double>[] xys)
+        public static void plot(System.Linq.Expressions.Expression<System.Func<double, double>> fx, params System.Collections.Generic.List<double>[] xys)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.addFx(fx, "function");
+            chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx.Compile(),null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D));
             for (int i = 0; i < xys.Length - 1; i++)
             {
-                chart2d.addChartDataPoints(xys[i], xys[i + 1]);
+                chart2d.AddDataPoints(xys[i], xys[i + 1]);
             }
 
             //chart2d.changeChartType("FastPoint");
@@ -404,13 +416,13 @@ namespace Computator.NET.Functions
             plotForm.Show();
         }
 
-        public static void plot(System.Func<double, double> fx, params double[][] xys)
+        public static void plot(System.Linq.Expressions.Expression<System.Func<double, double>> fx, params double[][] xys)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.addFx(fx, "function");
+            chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx.Compile(), null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D));
             for (int i = 0; i < xys.Length - 1; i++)
             {
-                chart2d.addChartDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
+                chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
             }
 
             //chart2d.changeChartType("FastPoint");
@@ -420,13 +432,12 @@ namespace Computator.NET.Functions
 
         #endregion
 
-        private static System.Windows.Forms.RichTextBox CONSOLE_OUTPUT;
-
+        private static System.Action<string> CONSOLE_OUTPUT;
 
         #region utils
 
         public const string ToCode = @"
-        #region input and output
+         #region input and output
 
         public static void show(object o, string showcaption = ""Show output: "")
         {
@@ -455,7 +466,7 @@ namespace Computator.NET.Functions
                 if (x is System.Numerics.Complex)
                     x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
             }
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + s + "" "" + objectToString(x));
+            CONSOLE_OUTPUT (System.Environment.NewLine + s + "" "" + objectToString(x));
             return x;
         }
 
@@ -481,7 +492,7 @@ namespace Computator.NET.Functions
                 if (x is System.Numerics.Complex)
                     x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
             }
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + s + "" "" + objectToString(x));
+            CONSOLE_OUTPUT (System.Environment.NewLine + s + "" "" + objectToString(x));
         }
 
 
@@ -503,7 +514,7 @@ namespace Computator.NET.Functions
             if (x is System.Numerics.Complex)
                 x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
 
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + ""read: "" + "" "" + objectToString(x));
+            CONSOLE_OUTPUT (System.Environment.NewLine + ""read: "" + "" "" + objectToString(x));
         }
 
 
@@ -525,7 +536,7 @@ namespace Computator.NET.Functions
             if (x is System.Numerics.Complex)
                 x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
 
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + ""read: "" + "" "" + objectToString(x));
+            CONSOLE_OUTPUT (System.Environment.NewLine + ""read: "" + "" "" + objectToString(x));
         }
 
 
@@ -533,13 +544,13 @@ namespace Computator.NET.Functions
         {
             var result = file.readAll();
 
-            CONSOLE_OUTPUT.Text += (System.Environment.NewLine + ""read: "" + "" "" + result);
+            CONSOLE_OUTPUT (System.Environment.NewLine + ""read: "" + "" "" + result);
             return result;
         }
 
         public static void write(object o)
         {
-            CONSOLE_OUTPUT.Text += objectToString(o);
+            CONSOLE_OUTPUT(objectToString(o));
         }
 
         public static void writeln(object o)
@@ -583,7 +594,7 @@ namespace Computator.NET.Functions
             writer.WriteLine(objectToString(o));
             writer.Close();
         }
-   private const int maxWidth = 80;
+        private const int maxWidth = 80;
         private const int maxPerColumnOrRow = 999999;
 
         private static string objectToString(object o)
@@ -639,7 +650,7 @@ namespace Computator.NET.Functions
             var path = ""file.txt"";
 
             var of = new System.Windows.Forms.OpenFileDialog();
-        var sf = new System.Windows.Forms.SaveFileDialog() { CheckFileExists = false, CheckPathExists = false, RestoreDirectory = true };
+            var sf = new System.Windows.Forms.SaveFileDialog() {CheckFileExists = false,CheckPathExists = false,RestoreDirectory = true};
 
           //  if (of.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             //    path = of.FileName;
@@ -649,9 +660,9 @@ namespace Computator.NET.Functions
                 path = sf.FileName;
 
             return new File(path);
-    }
+        }
 
-    public static System.IO.StreamReader FileReader(string path)
+        public static System.IO.StreamReader FileReader(string path)
         {
             return new System.IO.StreamReader(path);
         }
@@ -680,48 +691,39 @@ namespace Computator.NET.Functions
 
         #region plotting functions
 
-        public static void plot(System.Func<double, double, double> fxy, double XMin = -5, double XMax = 5,
+        public static void plot(System.Linq.Expressions.Expression<System.Func<double, double, double>> fxy, double XMin = -5, double XMax = 5,
             double YMin = -5,
-            double YMax = 5, double N = 1e2)
+            double YMax = 5, double quality=0.5)
         {
-            var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl();
-            chart3d.SetChartAreaValues(XMin,XMax,YMin,YMax);
-            
-            chart3d.addFx(fxy,N);
-
-            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
-
-            //var chartplot = new Chart2D();
-            var plotForm = new Computator.NET.Charting.PlotForm(ehost);
-        plotForm.Show();
+            var function = new Computator.NET.DataTypes.Function(fxy.Compile(), null, fxy.ToString(), Computator.NET.DataTypes.FunctionType.Real3D);
+            plot(function, XMin, XMax, YMin, YMin, quality);
         }
 
 
-    public static void plot(params System.Func<double, double, double>[] fxys)
-    {
-        double XMin = -5;
-        double XMax = 5;
-        double YMin = -5;
-        double YMax = 5;
-        var N = 1e2;
-        var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl
+        public static void plot(params System.Linq.Expressions.Expression<System.Func<double, double, double>>[] fxys)
         {
-            Mode = (fxys.Length > 1) ? Computator.NET.Charting.Chart3D.Chart3DMode.Points : Computator.NET.Charting.Chart3D.Chart3DMode.Surface
-        };
-        chart3d.SetChartAreaValues(XMin, XMax, YMin, YMax);
+            double XMin = -5;
+            double XMax = 5;
+            double YMin = -5;
+            double YMax = 5;
 
-        foreach (var fxy in fxys)
-        {
-            chart3d.addFx(fxy, N);
+            var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl
+            {
+                Mode = (fxys.Length > 1) ? Computator.NET.Charting.Chart3D.Chart3DMode.Points : Computator.NET.Charting.Chart3D.Chart3DMode.Surface
+            };
+            chart3d.SetChartAreaValues(XMin, XMax, YMin, YMax);
+
+            foreach (var fxy in fxys)
+            {
+                chart3d.AddFunction(new Computator.NET.DataTypes.Function(fxy.Compile(), null, fxy.ToString(), Computator.NET.DataTypes.FunctionType.Real3D));
+            }
+
+     
+            var plotForm = new Computator.NET.Charting.PlotForm(chart3d);
+            plotForm.Show();
         }
 
-        var ehost = new System.Windows.Forms.Integration.ElementHost { Child = chart3d };
-
-        var plotForm = new Computator.NET.Charting.PlotForm(ehost);
-        plotForm.Show();
-    }
-
-    public static void plot(System.Collections.Generic.List<double> x, System.Collections.Generic.List<double> y,
+        public static void plot(System.Collections.Generic.List<double> x, System.Collections.Generic.List<double> y,
             System.Collections.Generic.List<double> z)
         {
             plot(x.ToArray(), y.ToArray(), z.ToArray());
@@ -738,26 +740,56 @@ namespace Computator.NET.Functions
 
             chart3d.AddPoints(points);
 
-            var ehost = new System.Windows.Forms.Integration.ElementHost {Child = chart3d};
-
-            var plotForm = new Computator.NET.Charting.PlotForm(ehost);
+            var plotForm = new Computator.NET.Charting.PlotForm(chart3d);
             plotForm.Show();
         }
 
-        public static void plot(System.Func<double, double> fx, double XMin = -5, double XMax = 5, double YMin = -5,
+
+        public static void plot(System.Linq.Expressions.Expression<System.Func<double, double>> fx, double XMin = -5, double XMax = 5, double YMin = -5,
+    double YMax = 5, double quality = 0.5)
+        {
+            var function = new Computator.NET.DataTypes.Function(fx.Compile(), null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D);
+            plot(function,XMin,XMax,YMin,YMin,quality);
+        }
+
+
+        public static void plot(Computator.NET.DataTypes.Function f, double XMin = -5, double XMax = 5, double YMin = -5,
             double YMax = 5, double quality = 0.5)
         {
-            var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.SetChartAreaValues(XMin, XMax, YMin, YMax);
-            chart2d.Quality = quality*100;
-            chart2d.addFx(fx, ""function"");
 
-            var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
+            Computator.NET.Charting.IChart chart;
+
+            switch (f.FunctionType)
+            {
+                case Computator.NET.DataTypes.FunctionType.Real2D:
+                case Computator.NET.DataTypes.FunctionType.Real2DImplicit:
+                    chart = new Computator.NET.Charting.RealCharting.Chart2D();
+                    break;
+                case Computator.NET.DataTypes.FunctionType.Real3D:
+                case Computator.NET.DataTypes.FunctionType.Real3DImplicit:
+                    chart = new Computator.NET.Charting.Chart3D.Chart3DControl();
+                    break;
+                case Computator.NET.DataTypes.FunctionType.Complex:
+                case Computator.NET.DataTypes.FunctionType.ComplexImplicit:
+                    chart = new Computator.NET.Charting.ComplexCharting.ComplexChart();
+                    break;
+                case Computator.NET.DataTypes.FunctionType.Scripting:
+                default:
+                    throw new System.ArgumentOutOfRangeException();
+            }
+
+
+            chart.SetChartAreaValues(XMin, XMax, YMin, YMax);
+            chart.Quality = quality*100;
+
+            chart.AddFunction(f);
+
+            var plotForm = new Computator.NET.Charting.PlotForm(chart);
             plotForm.Show();
         }
 
 
-        public static void plot(params System.Func<double, double>[] fxs)
+        public static void plot(params System.Linq.Expressions.Expression<System.Func<double, double>>[] fxs)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
             double XMin = -5;
@@ -769,23 +801,16 @@ namespace Computator.NET.Functions
             chart2d.Quality = quality*100;
 
             for (var i = 0; i < fxs.Length; i++)
-                chart2d.addFx(fxs[i], ""function"" + (i + 1));
+                chart2d.AddFunction(new Computator.NET.DataTypes.Function(fxs[i].Compile(), null, fxs[i].ToString(), Computator.NET.DataTypes.FunctionType.Real2D));
 
             var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
             plotForm.Show();
         }
 
-        public static void plot(System.Func<System.Numerics.Complex, System.Numerics.Complex> fz, double XMin = -5,
-            double XMax = 5, double YMin = -5,
-            double YMax = 5, double quality = 0.5)
+        public static void plot(System.Linq.Expressions.Expression<System.Func<System.Numerics.Complex, System.Numerics.Complex>> fz, double XMin = -5, double XMax = 5, double YMin = -5, double YMax = 5, double quality = 0.5)
         {
-            var chart = new Computator.NET.Charting.ComplexCharting.ComplexChart();
-            chart.SetChartAreaValues(XMin, XMax, YMin, YMax);
-            chart.Quality = quality*100;
-            chart.addFx(fz, ""function"");
-
-            var plotForm = new Computator.NET.Charting.PlotForm(chart);
-            plotForm.Show();
+            var function = new Computator.NET.DataTypes.Function(fz.Compile(), null, fz.ToString(), Computator.NET.DataTypes.FunctionType.Complex);
+            plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
         public static void plot(double[] x, double[] y)
@@ -796,19 +821,19 @@ namespace Computator.NET.Functions
         public static void plot(System.Collections.Generic.List<double> x, System.Collections.Generic.List<double> y)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.addChartDataPoints(y, x);
+            chart2d.AddDataPoints(y, x);
             chart2d.changeChartType(""FastPoint"");
             var plotForm = new Computator.NET.Charting.PlotForm(chart2d);
             plotForm.Show();
         }
 
-        public static void plot(System.Func<double, double> fx, params System.Collections.Generic.List<double>[] xys)
+        public static void plot(System.Linq.Expressions.Expression<System.Func<double, double>> fx, params System.Collections.Generic.List<double>[] xys)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.addFx(fx,""function"");
-            for (int i = 0; i < xys.Length-1; i++)
+            chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx.Compile(),null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D));
+            for (int i = 0; i < xys.Length - 1; i++)
             {
-                chart2d.addChartDataPoints(xys[i], xys[i+1]);
+                chart2d.AddDataPoints(xys[i], xys[i + 1]);
             }
 
             //chart2d.changeChartType(""FastPoint"");
@@ -816,13 +841,13 @@ namespace Computator.NET.Functions
             plotForm.Show();
         }
 
-        public static void plot(System.Func<double, double> fx, params double[][] xys)
+        public static void plot(System.Linq.Expressions.Expression<System.Func<double, double>> fx, params double[][] xys)
         {
             var chart2d = new Computator.NET.Charting.RealCharting.Chart2D();
-            chart2d.addFx(fx, ""function"");
+            chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx.Compile(), null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D));
             for (int i = 0; i < xys.Length - 1; i++)
             {
-                chart2d.addChartDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
+                chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
             }
 
             //chart2d.changeChartType(""FastPoint"");
@@ -832,11 +857,9 @@ namespace Computator.NET.Functions
 
         #endregion
 
-        private static System.Windows.Forms.RichTextBox CONSOLE_OUTPUT;
-
+        private static System.Action<string> CONSOLE_OUTPUT;
 
         ";
-
 
         #endregion
     }

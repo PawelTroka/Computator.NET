@@ -25,8 +25,8 @@ namespace Computator.NET.Charting.RealCharting
 
         private void loadData()
         {
-            lineThicknessNumericUpDown.Value = chart.lineThickness;
-            pointsSizeNumericUpDown.Value = chart.pointsSize;
+            lineThicknessNumericUpDown.Value = chart.LineThickness;
+            pointsSizeNumericUpDown.Value = chart.PointsSize;
             tittleOfChartTextBox.Text = chart.Titles[0].Text;
             yLabelChartTextBox.Text = chart.ChartAreas[0].AxisY.Title;
             xLabelChartTextBox.Text = chart.ChartAreas[0].AxisX.Title;
@@ -59,8 +59,8 @@ namespace Computator.NET.Charting.RealCharting
 
         private void saveData()
         {
-            chart.lineThickness = (int) lineThicknessNumericUpDown.Value;
-            chart.pointsSize = (int) pointsSizeNumericUpDown.Value;
+            chart.LineThickness = (int) lineThicknessNumericUpDown.Value;
+            chart.PointsSize = (int) pointsSizeNumericUpDown.Value;
             chart.Titles[0].Text = tittleOfChartTextBox.Text;
             chart.ChartAreas[0].AxisY.Title = yLabelChartTextBox.Text;
             chart.ChartAreas[0].AxisX.Title = xLabelChartTextBox.Text;

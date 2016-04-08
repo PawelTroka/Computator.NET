@@ -12,19 +12,24 @@ using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.ComplexCharting
 {
-    public class ComplexChart : Control, IChart //, INotifyPropertyChanged
+    public sealed class ComplexChart : Control, IChart //, INotifyPropertyChanged
     {
         #region private fields
 
        // private Graphics g;
         private double quality;
       //  private Task RedrawTask;
-        private readonly Color[,] pointsColors;
-        private readonly ComplexPoint[,] pointsValues;
-        private bool drawn;
+        private readonly Color[,] pointsColors = new Color[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
+        private readonly ComplexPoint[,] pointsValues = new ComplexPoint[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
+        private bool drawn = false;
         private Function function;
-        private Bitmap image;
-        private ToolTip toolTip;
+        private Bitmap image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+        private ToolTip toolTip = new ToolTip
+        {
+            AutoPopDelay = 5000,
+            InitialDelay = 1000,
+            ReshowDelay = 500
+        };
         private readonly BackgroundWorker worker;
         //private bool doNotRecalculate;
 
@@ -32,20 +37,23 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region public properties
 
-        public double countourLinesStep { get; set; }
-        public CountourLinesMode countourMode { get; set; }
-        public AssignmentOfColorMethod colorAssignmentMethod { get; set; }
-        public double axisArrowRelativeSize { get; set; }
+        public double countourLinesStep { get; set; } = Math.E;
+        public CountourLinesMode countourMode { get; set; } = CountourLinesMode.Logarithmic;
+        public AssignmentOfColorMethod colorAssignmentMethod { get; set; } = AssignmentOfColorMethod.GreaterIsDarker;
+        public double axisArrowRelativeSize { get; set; } = 0.02;
 
         public double Quality
         {
             set
             {
-                if (value <= 100 && value >= 0)
-                {
-                    calculateQuality(value);
-                    Redraw();
-                }
+                if (value > 100)
+                    value = 100;
+                if (value < 0)
+                    value = 0;
+
+
+                calculateQuality(value);
+                Redraw();
             }
             get { return quality*100; }
         }
@@ -60,17 +68,17 @@ namespace Computator.NET.Charting.ComplexCharting
         public double YMin { get; set; }
         public double YMax { get; set; }
 
-        public string xLabel { get; set; }
-        public string yLabel { get; set; }
+        public string xLabel { get; set; } = "Re(z)";
+        public string yLabel { get; set; } = "Im(z)";
         public string title { get; set; }
 
-        public Font titleFont { get; set; }
-        public Font labelsFont { get; set; }
-        public Color labelsColor { get; set; }
-        public Color titleColor { get; set; }
-        public Color axesColor { get; set; }
+        public Font titleFont { get; set; } = CustomFonts.GetMathFont(13);
+        public Font labelsFont { get; set; } = CustomFonts.GetMathFont(13);
+        public Color labelsColor { get; set; } = Color.Black;
+        public Color titleColor { get; set; } = Color.Black;
+        public Color axesColor { get; set; } = Color.Black;
 
-        public bool shouldDrawAxes { get; set; }
+        public bool shouldDrawAxes { get; set; } = true;
         public bool AxesEqual { get; set; }
 
         private void calculateQuality(double value)
@@ -90,21 +98,20 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public ComplexChart()
         {
-            pointsValues = new ComplexPoint[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
-            pointsColors = new Color[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
-            image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
             InitializeComponent();
+
+ 
+
             attachEventHandlers();
-            quality = 1.0;
-            worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
+            Quality = 0.5;
+
+            worker = new BackgroundWorker {WorkerReportsProgress = true};
             worker.DoWork += ((o, e) =>
             {
                 var bw = o as BackgroundWorker;
                 calculateValuesAndColors();
-                for (var x = 0; x < drawWidth; x++)
-                    for (var y = 0; y < drawHeight; y++)
+                for (var x = 0; x < DrawWidth; x++)
+                    for (var y = 0; y < DrawHeight; y++)
                         image.SetPixel(x, y, pointsColors[x, y]);
                 drawn = true;
                 Invalidate();
@@ -121,28 +128,8 @@ namespace Computator.NET.Charting.ComplexCharting
         {
             Name = "complexChart";
             BackColor = Color.White;
-            toolTip = new ToolTip
-            {
-                AutoPopDelay = 5000,
-                InitialDelay = 1000,
-                ReshowDelay = 500
-            };
-            drawn = false;
-            axisArrowRelativeSize = 0.02;
-            countourLinesStep = Math.E;
-            countourMode = CountourLinesMode.Logarithmic;
-            colorAssignmentMethod = AssignmentOfColorMethod.GreaterIsDarker;
             //doNotRecalculate = false;
             Dock = DockStyle.Fill;
-            shouldDrawAxes = true;
-
-            xLabel = "Re(z)";
-            yLabel = "Im(z)";
-            labelsFont = CustomFonts.GetMathFont(13);//new Font("Cambria", 13, FontStyle.Regular);
-            labelsColor = Color.Black;
-            titleColor = Color.Black;
-            axesColor = Color.Black;
-            titleFont = CustomFonts.GetMathFont(13); //new Font("Cambria", 13, FontStyle.Regular);
         }
 
         #endregion
@@ -155,11 +142,6 @@ namespace Computator.NET.Charting.ComplexCharting
                 Redraw();
             //else
             //doNotRecalculate = true;
-        }
-
-        private void _MouseLeave(object s, EventArgs e)
-        {
-            toolTip.Hide(this);
         }
 
         private void _MouseClick(object s, MouseEventArgs e)
@@ -200,13 +182,6 @@ namespace Computator.NET.Charting.ComplexCharting
             imagePrinter.PrintPreview(image);
         }
 
-        public void addFx(Func<Complex, Complex> Fz, string name)
-        {
-            function = new Function(Delegate.CreateDelegate(typeof (Func<Complex, Complex>), Fz.Method), name, name);
-            title = function.Name;
-            Redraw();
-        }
-
         public void SetChartAreaValues(double x0, double xn, double y0, double yn)
         {
             XMin = x0;
@@ -233,12 +208,12 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region drawing
 
-        private int drawWidth
+        private int DrawWidth
         {
             get { return (int) (Width*quality); }
         }
 
-        private int drawHeight
+        private int DrawHeight
         {
             get { return (int) (Height*quality); }
         }
@@ -246,20 +221,20 @@ namespace Computator.NET.Charting.ComplexCharting
         public void ClearAll()
         {
             function = null;
-            image = new Bitmap(drawWidth, drawHeight);
+            image = new Bitmap(DrawWidth, DrawHeight);
             Invalidate();
         }
 
         public void Redraw()
         {
-            if (function != null && drawWidth > 0 && drawHeight > 0)
+            if (function != null && DrawWidth > 0 && DrawHeight > 0)
             {
                 //if (!worker.IsBusy)
                 //worker.RunWorkerAsync();
                 calculateValuesAndColors();
-                image = new Bitmap(drawWidth, drawHeight);
-                for (var x = 0; x < drawWidth; x++)
-                    for (var y = 0; y < drawHeight; y++)
+                image = new Bitmap(DrawWidth, DrawHeight);
+                for (var x = 0; x < DrawWidth; x++)
+                    for (var y = 0; y < DrawHeight; y++)
                         image.SetPixel(x, y, pointsColors[x, y]);
                 drawn = true;
             }
@@ -273,20 +248,20 @@ namespace Computator.NET.Charting.ComplexCharting
             {
                 //if(!worker.IsBusy)
                 pe.Graphics.DrawImage(image, new Rectangle(0, 0, Width, Height),
-                    new Rectangle(0, 0, drawWidth, drawHeight), GraphicsUnit.Pixel);
+                    new Rectangle(0, 0, DrawWidth, DrawHeight), GraphicsUnit.Pixel);
             }
             else
                 drawn = false;
             if (shouldDrawAxes)
-                drawAxes(pe);
+                DrawAxes(pe);
         }
 
 
-        private void drawAxes(PaintEventArgs pe)
+        private void DrawAxes(PaintEventArgs pe)
         {
             using (var myPen = new Pen(axesColor))
             {
-                var middlePoint = getMiddlePoint();
+                var middlePoint = GetMiddlePoint();
 
                 var xEnd = new Point(Width, middlePoint.Y);
                 var yEnd = new Point(middlePoint.X, Height);
@@ -321,7 +296,7 @@ namespace Computator.NET.Charting.ComplexCharting
             }
         }
 
-        private Point getMiddlePoint()
+        private Point GetMiddlePoint()
         {
             var x = (int) ((Math.Abs(XMin)/(XMax - XMin))*Width);
             var y = (int) ((Math.Abs(YMax)/(YMax - YMin))*Height);
@@ -345,12 +320,12 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private void calculateValuesAndColors()
         {
-            Parallel.For(0, drawWidth, x =>
+            Parallel.For(0, DrawWidth, x =>
             {
-                var re = XMin + x*(XMax - XMin)/drawWidth;
-                for (var y = 0; y < drawHeight; y++)
+                var re = XMin + x*(XMax - XMin)/DrawWidth;
+                for (var y = 0; y < DrawHeight; y++)
                 {
-                    var im = YMax - y*(YMax - YMin)/drawHeight;
+                    var im = YMax - y*(YMax - YMin)/DrawHeight;
 
                     var z = new Complex(re, im);
 
