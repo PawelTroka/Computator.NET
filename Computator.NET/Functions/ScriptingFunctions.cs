@@ -271,7 +271,7 @@ namespace Computator.NET.Functions
             double YMax = 5, double quality=0.5)
         {
             var function = new Computator.NET.DataTypes.Function(fxy.Compile(), null, fxy.ToString(), Computator.NET.DataTypes.FunctionType.Real3D);
-            plot(function, XMin, XMax, YMin, YMin, quality);
+            plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
 
@@ -324,7 +324,7 @@ namespace Computator.NET.Functions
     double YMax = 5, double quality = 0.5)
         {
             var function = new Computator.NET.DataTypes.Function(fx.Compile(), null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D);
-            plot(function,XMin,XMax,YMin,YMin,quality);
+            plot(function,XMin,XMax,YMin,YMax,quality);
         }
 
 
@@ -696,7 +696,7 @@ namespace Computator.NET.Functions
             double YMax = 5, double quality=0.5)
         {
             var function = new Computator.NET.DataTypes.Function(fxy.Compile(), null, fxy.ToString(), Computator.NET.DataTypes.FunctionType.Real3D);
-            plot(function, XMin, XMax, YMin, YMin, quality);
+            plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
 
@@ -749,7 +749,7 @@ namespace Computator.NET.Functions
     double YMax = 5, double quality = 0.5)
         {
             var function = new Computator.NET.DataTypes.Function(fx.Compile(), null, fx.ToString(), Computator.NET.DataTypes.FunctionType.Real2D);
-            plot(function,XMin,XMax,YMin,YMin,quality);
+            plot(function,XMin,XMax,YMin,YMax,quality);
         }
 
 

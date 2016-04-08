@@ -79,7 +79,6 @@ namespace Computator.NET.Charting.ComplexCharting
         public Color axesColor { get; set; } = Color.Black;
 
         public bool shouldDrawAxes { get; set; } = true;
-        public bool AxesEqual { get; set; }
 
         private void calculateQuality(double value)
         {
@@ -99,8 +98,6 @@ namespace Computator.NET.Charting.ComplexCharting
         public ComplexChart()
         {
             InitializeComponent();
-
- 
 
             attachEventHandlers();
             Quality = 0.5;
