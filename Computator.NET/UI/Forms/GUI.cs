@@ -102,6 +102,7 @@ namespace Computator.NET
                     else
                         SendKeys.Send("^X");
                     break;
+
                 case 5:
                     if (customFunctionsCodeEditor.Focused)
                         customFunctionsCodeEditor.Cut();
