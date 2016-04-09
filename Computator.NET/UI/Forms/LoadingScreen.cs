@@ -60,8 +60,7 @@ namespace Computator.NET.UI.Forms
 
             if (loadingScreen != null)
                 return;
-            var thread = new Thread(ShowForm);
-            thread.IsBackground = true;
+            var thread = new Thread(ShowForm) {IsBackground = true};
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }

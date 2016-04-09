@@ -67,11 +67,17 @@
             // 
             // EditChartProperties
             // 
+            this.AcceptButton = this.button1;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button2;
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditChartProperties";
+            this.ShowInTaskbar = false;
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

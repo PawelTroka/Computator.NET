@@ -212,6 +212,9 @@
     <Compile Include="Data\AutocompletionData.cs" />
     <Compile Include="Natives\NativeMethods.cs" />
     <Compile Include="UI\AutocompleteMenu\Colors.cs" />
+    <Compile Include="UI\AutocompleteMenu\WebBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\AutocompleteMenu\Wrappers\AvalonWrapper.cs" />
     <Compile Include="UI\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
     <Compile Include="UI\CodeEditors\AvalonEdit\BitmapExtension.cs" />
@@ -255,7 +258,7 @@
     <Compile Include="UI\AutocompleteMenu\Range.cs" />
     <Compile Include="UI\AutocompleteMenu\Wrappers\TextBoxWrapper.cs" />
     <Compile Include="UI\AutocompleteMenu\WebBrowserTooltip.cs">
-      <SubType>form</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\DirectoryTree.cs">
       <SubType>Component</SubType>
@@ -335,9 +338,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\ReadForm.resx">
-      <DependentUpon>ReadForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Computator.NET.pfx" />

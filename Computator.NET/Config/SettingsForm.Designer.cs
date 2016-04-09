@@ -39,8 +39,8 @@
             // 
             // propertyGrid1
             // 
-            resources.ApplyResources(this.propertyGrid1, "propertyGrid1");
             this.propertyGrid1.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+            resources.ApplyResources(this.propertyGrid1, "propertyGrid1");
             this.propertyGrid1.LargeButtons = true;
             this.propertyGrid1.Name = "propertyGrid1";
             // 
@@ -53,6 +53,7 @@
             // 
             // button2
             // 
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.button2, "button2");
             this.button2.Name = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -60,10 +61,10 @@
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // button3
@@ -75,10 +76,13 @@
             // 
             // SettingsForm
             // 
+            this.AcceptButton = this.button1;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button2;
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.panel1);
+            this.MinimizeBox = false;
             this.Name = "SettingsForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Settings_FormClosed);
             this.panel1.ResumeLayout(false);

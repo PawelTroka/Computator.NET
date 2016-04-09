@@ -93,6 +93,13 @@ namespace Computator.NET
             // 
             // ReadForm
             // 
+            AcceptButton = button1;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            ShowInTaskbar = false;
+            StartPosition= System.Windows.Forms.FormStartPosition.CenterParent;
+            ShowIcon = false;
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(391, 128);
@@ -201,6 +208,15 @@ namespace Computator.NET
             // 
             // ReadForm
             // 
+
+            AcceptButton = button1;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            ShowInTaskbar = false;
+            StartPosition= System.Windows.Forms.FormStartPosition.CenterParent;
+            ShowIcon = false;
+
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(391, 128);

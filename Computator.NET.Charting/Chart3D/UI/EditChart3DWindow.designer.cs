@@ -49,7 +49,7 @@
             this.axesColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.axesColorDialog = new System.Windows.Forms.ColorDialog();
             this.okButton = new System.Windows.Forms.Button();
-            this.anulujButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.backgroundColorDialog = new System.Windows.Forms.ColorDialog();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -102,13 +102,13 @@
             // 
             // scaleNumericUpDown
             // 
-            resources.ApplyResources(this.scaleNumericUpDown, "scaleNumericUpDown");
             this.scaleNumericUpDown.DecimalPlaces = 2;
             this.scaleNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
+            resources.ApplyResources(this.scaleNumericUpDown, "scaleNumericUpDown");
             this.scaleNumericUpDown.Maximum = new decimal(new int[] {
             2,
             0,
@@ -138,13 +138,13 @@
             // 
             // dotSizeNumericUpDown
             // 
-            resources.ApplyResources(this.dotSizeNumericUpDown, "dotSizeNumericUpDown");
             this.dotSizeNumericUpDown.DecimalPlaces = 4;
             this.dotSizeNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             262144});
+            resources.ApplyResources(this.dotSizeNumericUpDown, "dotSizeNumericUpDown");
             this.dotSizeNumericUpDown.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -178,7 +178,6 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.chartTypeComboBox);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label4);
@@ -189,14 +188,15 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.scaleNumericUpDown);
             this.groupBox1.Controls.Add(this.shapeContainer3);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
             // chartTypeComboBox
             // 
-            resources.ApplyResources(this.chartTypeComboBox, "chartTypeComboBox");
             this.chartTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.chartTypeComboBox.FormattingEnabled = true;
+            resources.ApplyResources(this.chartTypeComboBox, "chartTypeComboBox");
             this.chartTypeComboBox.Name = "chartTypeComboBox";
             // 
             // label13
@@ -211,7 +211,6 @@
             // 
             // unitsComboBox
             // 
-            resources.ApplyResources(this.unitsComboBox, "unitsComboBox");
             this.unitsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.unitsComboBox.FormattingEnabled = true;
             this.unitsComboBox.Items.AddRange(new object[] {
@@ -358,7 +357,17 @@
             resources.GetString("unitsComboBox.Items140"),
             resources.GetString("unitsComboBox.Items141"),
             resources.GetString("unitsComboBox.Items142"),
-            resources.GetString("unitsComboBox.Items143")});
+            resources.GetString("unitsComboBox.Items143"),
+            resources.GetString("unitsComboBox.Items144"),
+            resources.GetString("unitsComboBox.Items145"),
+            resources.GetString("unitsComboBox.Items146"),
+            resources.GetString("unitsComboBox.Items147"),
+            resources.GetString("unitsComboBox.Items148"),
+            resources.GetString("unitsComboBox.Items149"),
+            resources.GetString("unitsComboBox.Items150"),
+            resources.GetString("unitsComboBox.Items151"),
+            resources.GetString("unitsComboBox.Items152")});
+            resources.ApplyResources(this.unitsComboBox, "unitsComboBox");
             this.unitsComboBox.Name = "unitsComboBox";
             // 
             // label5
@@ -383,11 +392,11 @@
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.equalAxesCheckBox);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.visibleAxesCheckBox);
             this.groupBox2.Controls.Add(this.shapeContainer2);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -408,22 +417,22 @@
             // 
             // okButton
             // 
-            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.Name = "okButton";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
-            // anulujButton
+            // cancelButton
             // 
-            resources.ApplyResources(this.anulujButton, "anulujButton");
-            this.anulujButton.Name = "anulujButton";
-            this.anulujButton.UseVisualStyleBackColor = true;
-            this.anulujButton.Click += new System.EventHandler(this.anulujButton_Click);
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.cancelButton, "cancelButton");
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.anulujButton_Click);
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.groupBox7);
@@ -433,6 +442,7 @@
             this.groupBox3.Controls.Add(this.groupBox4);
             this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.shapeContainer1);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -448,11 +458,11 @@
             // 
             // groupBox7
             // 
-            resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Controls.Add(this.yOffsetNumericUpDown);
             this.groupBox7.Controls.Add(this.xOffsetNumericUpDown);
             this.groupBox7.Controls.Add(this.label10);
             this.groupBox7.Controls.Add(this.label8);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
             // 
@@ -504,10 +514,10 @@
             // 
             // groupBox6
             // 
-            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Controls.Add(this.zActiveCheckBox);
             this.groupBox6.Controls.Add(this.label7);
             this.groupBox6.Controls.Add(this.zLabelTextBox);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
@@ -529,10 +539,10 @@
             // 
             // groupBox5
             // 
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.yActiveCheckBox);
             this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Controls.Add(this.yLabelTextBox);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -554,10 +564,10 @@
             // 
             // groupBox4
             // 
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.xActiveCheckBox);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.xLabelTextBox);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -601,7 +611,6 @@
             // 
             // groupBox8
             // 
-            resources.ApplyResources(this.groupBox8, "groupBox8");
             this.groupBox8.Controls.Add(this.xMaxChartTextBox);
             this.groupBox8.Controls.Add(this.xMinChartTextBox);
             this.groupBox8.Controls.Add(this.label20);
@@ -610,6 +619,7 @@
             this.groupBox8.Controls.Add(this.label22);
             this.groupBox8.Controls.Add(this.yMaxChartTextBox);
             this.groupBox8.Controls.Add(this.label23);
+            resources.ApplyResources(this.groupBox8, "groupBox8");
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.TabStop = false;
             // 
@@ -655,15 +665,21 @@
             // 
             // EditChartWindow
             // 
+            this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cancelButton;
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.anulujButton);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditChartWindow";
+            this.ShowInTaskbar = false;
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeNumericUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -702,7 +718,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ColorDialog axesColorDialog;
         private System.Windows.Forms.Button okButton;
-        private System.Windows.Forms.Button anulujButton;
+        private System.Windows.Forms.Button cancelButton;
         private UnitsComboBox unitsComboBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ColorDialog backgroundColorDialog;

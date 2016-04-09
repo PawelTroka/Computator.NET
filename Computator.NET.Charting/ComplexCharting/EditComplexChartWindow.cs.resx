@@ -120,15 +120,6 @@
   <data name="button2.Text" xml:space="preserve">
     <value>Zrušit</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>x maximální</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>y maximální</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>osa y</value>
-  </data>
   <data name="label6.Text" xml:space="preserve">
     <value>osa x</value>
   </data>
@@ -137,15 +128,6 @@
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>režim přiřazení barev  :</value>
-  </data>
-  <data name="drawAxes.Text" xml:space="preserve">
-    <value>kreslit osy ?</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Hodnoty na osách</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Etikety</value>
   </data>
   <data name="button6.Text" xml:space="preserve">
     <value>Číselné hodnoty</value>
@@ -156,20 +138,23 @@
   <data name="button3.Text" xml:space="preserve">
     <value>Název grafu </value>
   </data>
-  <data name="fontsGroupBox.Text" xml:space="preserve">
-    <value>Font</value>
-  </data>
   <data name="label9.Text" xml:space="preserve">
     <value>režim</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>krok =</value>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>barvy</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>barva názvu</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Vrstevnice</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>barva názvu</value>
+  <data name="label8.Text" xml:space="preserve">
+    <value>krok =</value>
+  </data>
+  <data name="drawAxes.Text" xml:space="preserve">
+    <value>kreslit osy ?</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>barva etiket</value>
@@ -177,11 +162,26 @@
   <data name="label10.Text" xml:space="preserve">
     <value>barva osy</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>barvy</value>
+  <data name="fontsGroupBox.Text" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Etikety</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Hodnoty na osách</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Editovat komplexní graf</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>osa y</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>y maximální</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>x maximální</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">

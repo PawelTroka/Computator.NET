@@ -86,16 +86,16 @@
             // 
             // button1
             // 
-            resources.ApplyResources(this.button1, "button1");
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            resources.ApplyResources(this.button2, "button2");
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.button2, "button2");
             this.button2.Name = "button2";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -172,7 +172,6 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.pointsSizeNumericUpDown);
@@ -191,6 +190,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.yMaxChartTextBox);
             this.groupBox1.Controls.Add(this.label3);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -276,19 +276,18 @@
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.tittleOfChartTextBox);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.yLabelChartTextBox);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.xLabelChartTextBox);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.legendaEtykieta2);
             this.groupBox3.Controls.Add(this.legendaEtykieta1);
             this.groupBox3.Controls.Add(this.legendVisible);
@@ -298,6 +297,7 @@
             this.groupBox3.Controls.Add(this.legendaEtykieta4);
             this.groupBox3.Controls.Add(this.legendaEtykieta3);
             this.groupBox3.Controls.Add(this.label10);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -349,11 +349,11 @@
             // 
             // fontsGroupBox
             // 
-            resources.ApplyResources(this.fontsGroupBox, "fontsGroupBox");
             this.fontsGroupBox.Controls.Add(this.button6);
             this.fontsGroupBox.Controls.Add(this.button5);
             this.fontsGroupBox.Controls.Add(this.button4);
             this.fontsGroupBox.Controls.Add(this.button3);
+            resources.ApplyResources(this.fontsGroupBox, "fontsGroupBox");
             this.fontsGroupBox.Name = "fontsGroupBox";
             this.fontsGroupBox.TabStop = false;
             // 
@@ -387,15 +387,21 @@
             // 
             // EditChartWindow
             // 
+            this.AcceptButton = this.button1;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button2;
             this.Controls.Add(this.fontsGroupBox);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditChartWindow";
+            this.ShowInTaskbar = false;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pointsSizeNumericUpDown)).EndInit();

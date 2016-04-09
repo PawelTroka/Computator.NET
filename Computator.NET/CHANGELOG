@@ -55,6 +55,7 @@
  * = Introduced ∞ symbol for Infinity
  * = Fixed all known bugs with changing editor type with opened documents
  * = Fixed minor bugs in directory tree / solution explorer
+ * = All windows and dialogs of app are now behaving consistently with what they are (resizing, icons, look etc)
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

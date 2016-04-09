@@ -82,16 +82,16 @@
             // 
             // button1
             // 
-            resources.ApplyResources(this.button1, "button1");
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            resources.ApplyResources(this.button2, "button2");
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.button2, "button2");
             this.button2.Name = "button2";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -168,7 +168,6 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.colorAssigmentComboBox);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.drawAxes);
@@ -180,14 +179,15 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.yMaxChartTextBox);
             this.groupBox1.Controls.Add(this.label3);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
             // colorAssigmentComboBox
             // 
-            resources.ApplyResources(this.colorAssigmentComboBox, "colorAssigmentComboBox");
             this.colorAssigmentComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.colorAssigmentComboBox.FormattingEnabled = true;
+            resources.ApplyResources(this.colorAssigmentComboBox, "colorAssigmentComboBox");
             this.colorAssigmentComboBox.Name = "colorAssigmentComboBox";
             // 
             // label13
@@ -203,13 +203,13 @@
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.tittleOfChartTextBox);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.yLabelChartTextBox);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.xLabelChartTextBox);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -219,10 +219,10 @@
             // 
             // fontsGroupBox
             // 
-            resources.ApplyResources(this.fontsGroupBox, "fontsGroupBox");
             this.fontsGroupBox.Controls.Add(this.button6);
             this.fontsGroupBox.Controls.Add(this.button4);
             this.fontsGroupBox.Controls.Add(this.button3);
+            resources.ApplyResources(this.fontsGroupBox, "fontsGroupBox");
             this.fontsGroupBox.Name = "fontsGroupBox";
             this.fontsGroupBox.TabStop = false;
             // 
@@ -261,11 +261,11 @@
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.contourLinesComboBox);
             this.groupBox3.Controls.Add(this.contourLinesStepNumericUpDown);
             this.groupBox3.Controls.Add(this.label8);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -276,15 +276,15 @@
             // 
             // contourLinesComboBox
             // 
-            resources.ApplyResources(this.contourLinesComboBox, "contourLinesComboBox");
             this.contourLinesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.contourLinesComboBox.FormattingEnabled = true;
+            resources.ApplyResources(this.contourLinesComboBox, "contourLinesComboBox");
             this.contourLinesComboBox.Name = "contourLinesComboBox";
             // 
             // contourLinesStepNumericUpDown
             // 
-            resources.ApplyResources(this.contourLinesStepNumericUpDown, "contourLinesStepNumericUpDown");
             this.contourLinesStepNumericUpDown.DecimalPlaces = 9;
+            resources.ApplyResources(this.contourLinesStepNumericUpDown, "contourLinesStepNumericUpDown");
             this.contourLinesStepNumericUpDown.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -309,11 +309,11 @@
             // 
             // groupBox4
             // 
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.shapeContainer1);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -362,8 +362,10 @@
             // 
             // EditComplexChartWindow
             // 
+            this.AcceptButton = this.button1;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button2;
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.fontsGroupBox);
@@ -371,7 +373,11 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditComplexChartWindow";
+            this.ShowInTaskbar = false;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
