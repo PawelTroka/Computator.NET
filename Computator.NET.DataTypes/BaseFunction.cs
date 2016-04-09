@@ -6,15 +6,14 @@ namespace Computator.NET.DataTypes
     public abstract class BaseFunction
     {
         protected readonly Delegate _function;
-        protected string csCode;
+        public string CsCode { get; set; }
         protected SimpleLogger logger;
-        protected string tslCode;
+        public string TslCode { get; set; }
 
-        protected BaseFunction(Delegate function, string tslCode, string csCode)
+        protected BaseFunction(Delegate function)
         {
             _function = function;
-            this.tslCode = tslCode;
-            this.csCode = csCode;
+
         }
 
         public FunctionType FunctionType { get; protected set; }

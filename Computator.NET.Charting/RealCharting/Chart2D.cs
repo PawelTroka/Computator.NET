@@ -845,7 +845,7 @@ namespace Computator.NET.Charting.RealCharting
 
   
 
-        public void AddDataPoints(List<double> y, List<double> x)
+        public void AddDataPoints(List<double> y, List<double> x)//TODO: fix bugs in scripting or revert to old version
         {
             var visibleLegend = true;
             if (Series.Count > 0)

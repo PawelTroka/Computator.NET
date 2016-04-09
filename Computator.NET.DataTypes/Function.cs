@@ -8,21 +8,19 @@ namespace Computator.NET.DataTypes
 {
     public class Function : BaseFunction
     {
-        public Function(Delegate function, string tslCode, string csCode, bool isImplicit)
-            : base(function, tslCode, csCode)
+
+        private Function(Delegate function) : base(function)
+        {
+            logger = new SimpleLogger { ClassName = GetType().FullName };
+        }
+        public Function(Delegate function, bool isImplicit) : this(function) 
         {
             DeduceType(isImplicit);
-
-            logger = new SimpleLogger {ClassName = GetType().FullName};
-            //    setInvoker();
         }
 
-        public Function(Delegate function, string tslCode, string csCode, FunctionType functionType)
-            : base(function, tslCode, csCode)
+        public Function(Delegate function, FunctionType functionType) : this(function)
         {
             FunctionType = functionType;
-            logger = new SimpleLogger {ClassName = GetType().FullName};
-            //    setInvoker();
         }
 
         // public virtual Complex Evaluate(params Complex[] arguments) { return new Complex(double.NaN,double.NaN);}
@@ -30,14 +28,19 @@ namespace Computator.NET.DataTypes
         {
             get
             {
-                if(!string.IsNullOrEmpty(tslCode) && !string.IsNullOrWhiteSpace(tslCode))
-                    return tslCode;
-                if (!string.IsNullOrEmpty(csCode) && !string.IsNullOrWhiteSpace(csCode))
-                    return csCode;
+                if (!string.IsNullOrEmpty(name) && !string.IsNullOrWhiteSpace(name))
+                    return name;
+                    if (!string.IsNullOrEmpty(TslCode) && !string.IsNullOrWhiteSpace(TslCode))
+                    return TslCode;
+                if (!string.IsNullOrEmpty(CsCode) && !string.IsNullOrWhiteSpace(CsCode))
+                    return CsCode;
                 return "Function" + GetHashCode();
             }
+            set { name = value; }
         }
 
+
+        private string name;
 
         public static implicit operator Func<double>(Function function)
         {
@@ -138,8 +141,8 @@ namespace Computator.NET.DataTypes
                 if (exception is Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)//hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
                     return double.NaN;
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Parameters["TSLCode"] = tslCode;
-                logger.Parameters["CSCode"] = csCode;
+                logger.Parameters["TSLCode"] = TslCode;
+                logger.Parameters["CSCode"] = CsCode;
                 logger.Parameters["FunctionType"] = FunctionType;
                 logger.Parameters["Name"] = Name;
                 logger.Parameters["arg0"] = arguments[0];
@@ -188,8 +191,8 @@ namespace Computator.NET.DataTypes
                 if (exception is Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)//hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
                     return (T)(object)double.NaN;
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Parameters["TSLCode"] = tslCode;
-                logger.Parameters["CSCode"] = csCode;
+                logger.Parameters["TSLCode"] = TslCode;
+                logger.Parameters["CSCode"] = CsCode;
                 logger.Parameters["FunctionType"] = FunctionType;
                 logger.Parameters["Name"] = Name;
                 logger.Parameters["arg0"] = arguments[0];

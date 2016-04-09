@@ -1,0 +1,10 @@
+var pointsX = list<real>();
+var pointsY = list<real>();
+
+for(var x=-5;x<=5;x+=0.01)
+	{
+		pointsX.Add(x);
+		pointsY.Add(random(-5.0,5.0));
+	}
+
+plot(pointsX,pointsY);

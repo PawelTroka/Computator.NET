@@ -73,7 +73,7 @@ namespace Computator.NET.Evaluation
                 //DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
 
             var function = Compile();
-            return new ScriptFunction(function, MainTslCode, MainCSharpCode);
+            return new ScriptFunction(function) {TslCode = MainTslCode, CsCode = MainCSharpCode };
         }
     }
 }

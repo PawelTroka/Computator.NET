@@ -97,7 +97,7 @@ namespace Computator.NET.Evaluation
 
 
             var function = Compile();
-            return new Function(function, MainTslCode, MainCSharpCode, FunctionType);
+            return new Function(function, FunctionType) { TslCode = MainTslCode, CsCode = MainCSharpCode };
         }
 
 

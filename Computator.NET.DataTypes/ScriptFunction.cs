@@ -8,8 +8,8 @@ namespace Computator.NET.DataTypes
 {
     public class ScriptFunction : BaseFunction
     {
-        public ScriptFunction(Delegate function, string tslCode, string csCode)
-            : base(function, tslCode, csCode)
+        public ScriptFunction(Delegate function) : base(function)
+            
         {
             FunctionType = FunctionType.Scripting;
 
@@ -25,8 +25,8 @@ namespace Computator.NET.DataTypes
             catch (Exception exception)
             {
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Parameters["TSLCode"] = tslCode;
-                logger.Parameters["CSCode"] = csCode;
+                logger.Parameters["TSLCode"] = TslCode;
+                logger.Parameters["CSCode"] = CsCode;
                 logger.Parameters["FunctionType"] = FunctionType;
                 logger.Log(exception.Message, ErrorType.Calculation, exception);
 
