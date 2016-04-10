@@ -98,9 +98,9 @@ namespace Computator.NET.Charting.ComplexCharting
         public ComplexChart()
         {
             InitializeComponent();
-
+            DoubleBuffered = true;
             attachEventHandlers();
-            Quality = 0.5;
+            Quality = 50;
 
             worker = new BackgroundWorker {WorkerReportsProgress = true};
             worker.DoWork += ((o, e) =>

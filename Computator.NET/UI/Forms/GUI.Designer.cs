@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using Computator.NET.Charting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.UI.Controls;
@@ -1566,6 +1567,7 @@ namespace Computator.NET
             // GUI
             // 
             resources.ApplyResources(this, "$this");
+            MinimumSize = new Size(591,628);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);

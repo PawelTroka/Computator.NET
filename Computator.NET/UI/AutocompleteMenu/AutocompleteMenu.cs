@@ -290,8 +290,21 @@ namespace AutocompleteMenuNS
         [DefaultValue(true)]
         public bool Enabled { get; set; }
 
+        protected new bool DesignMode
+        {
+            get
+            {
+                if (base.DesignMode)
+                    return true;
+
+                return LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+            }
+        }
+
+
         private void setupAutocomplete()
         {
+            if(!DesignMode)
             Font = CustomFonts.GetMathFont(18);//new Font("Cambria", 18.0F, GraphicsUnit.Point);
             //GlobalConfig.mathFont;
             ImageList = null;

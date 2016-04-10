@@ -62,7 +62,7 @@ namespace Computator.NET.Charting.Chart3D
             // this.MouseEnter += new MouseEventHandler(Chart3DControl_MouseEnter);
             MouseWheel += OnViewportMouseWheel;
             KeyDown += OnKeyDown;
-            Quality = 0.5;
+            Quality = 50;
         }
 
         public double Scale

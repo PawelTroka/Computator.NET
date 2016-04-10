@@ -56,7 +56,7 @@ namespace Computator.NET.Charting.RealCharting
             //implicitFunctions= new List<Function<double>>();
             //   addSampleImplicitFunction();
             //implicitFunctions.Add(new Function<double>((x, y) => Math.Sin(x*x-y*y) - Math.Sin(x+y)-Math.Cos(x*y), "|sin(x²-y²)| = sin(x+y)+cos(x·y)"));
-            Quality = 0.5;
+            Quality = 50;
         }
 
         public int LineThickness

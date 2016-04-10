@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -77,10 +78,25 @@ namespace Computator.NET.UI
             }
         }
 
+        protected new bool DesignMode
+        {
+            get
+            {
+                if (base.DesignMode)
+                    return true;
+
+                return LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+            }
+        }
+
         public new Font Font
         {
             get { return base.Font; }
-            set { base.Font = CustomFonts.GetMathFont(value.Size); }
+            set
+            {
+                if(!DesignMode)
+                base.Font = CustomFonts.GetMathFont(value.Size);
+            }
         }
 
         public bool ExponentialMode => ((double) (Value)).ToString(CultureInfo.InvariantCulture).Contains('E') ||
@@ -106,6 +122,8 @@ namespace Computator.NET.UI
             }
         }*/
 
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+            public new int DecimalPlaces { get { return base.DecimalPlaces; } set { base.DecimalPlaces = value; } }
 
         private bool IsCaretInExponent()
         {
