@@ -38,23 +38,24 @@ namespace Computator.NET.UI
         {
             InitializeComponent();
 
-            
-            Minimum = decimal.MinValue/10;
-            Maximum = decimal.MaxValue/10;
-          
-
-            TextAlign = HorizontalAlignment.Center;
-            Font = base.Font;
-
-            ValueChanged += (o, e) =>
+            if (!DesignMode)
             {
-                if (!ExponentialMode)
-                    Increment = Math.Max(Epsilon,
-                        Math.Abs((0.3m * Value).RoundToSignificantDigits(1)));
-              //if (Increment == 0)
-                //Increment = 1;
-            };
-            
+                Minimum = decimal.MinValue/10;
+                Maximum = decimal.MaxValue/10;
+
+
+                TextAlign = HorizontalAlignment.Center;
+                Font = base.Font;
+
+                ValueChanged += (o, e) =>
+                {
+                    if (!ExponentialMode)
+                        Increment = Math.Max(Epsilon,
+                            Math.Abs((0.3m*Value).RoundToSignificantDigits(1)));
+                    //if (Increment == 0)
+                    //Increment = 1;
+                };
+            }
         }
 
 
@@ -92,10 +93,8 @@ namespace Computator.NET.UI
         public new Font Font
         {
             get { return base.Font; }
-            set
-            {
-                if(!DesignMode)
-                base.Font = CustomFonts.GetMathFont(value.Size);
+            set {
+                base.Font = !DesignMode ? CustomFonts.GetMathFont(value.Size) : value;
             }
         }
 

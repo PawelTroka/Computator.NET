@@ -120,26 +120,17 @@
   <data name="consoleOutputTextBox.Text" xml:space="preserve">
     <value>Konsolenausgabe :</value>
   </data>
-  <data name="saveScriptButton.Text" xml:space="preserve">
-    <value>speichern Sie das Skript</value>
-  </data>
   <data name="openScriptingDirectoryButton.Text" xml:space="preserve">
     <value>öffnen Sie das Skript</value>
   </data>
   <data name="processButton.Text" xml:space="preserve">
     <value>Führen Sie das Skript</value>
   </data>
-  <data name="saveCustomFunctions.Text" xml:space="preserve">
-    <value>Speichern</value>
-  </data>
-  <data name="openCustomFunctions.Text" xml:space="preserve">
-    <value>offen</value>
+  <data name="calculateButton.Text" xml:space="preserve">
+    <value>Zählen!</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Werte:</value>
-  </data>
-  <data name="calculateButton.Text" xml:space="preserve">
-    <value>Zählen!</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Ergebnis:</value>
@@ -149,6 +140,15 @@
   </data>
   <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
     <value>Ergebnis</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Punkt x =</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Ordnung n =</value>
+  </data>
+  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
+    <value>Die Ableitung der Funktion an</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Ergebnis:</value>
@@ -167,6 +167,48 @@
   </data>
   <data name="result.HeaderText" xml:space="preserve">
     <value>Ergebnis</value>
+  </data>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Tabelle</value>
+  </data>
+  <data name="calculationsTabPage.Text" xml:space="preserve">
+    <value>Rechner</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Methode:</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Operation:</value>
+  </data>
+  <data name="numericalOperationButton.Text" xml:space="preserve">
+    <value>berechnen</value>
+  </data>
+  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
+    <value>numerischen Berechnungen</value>
+  </data>
+  <data name="scriptingTabPage.Text" xml:space="preserve">
+    <value>Skript</value>
+  </data>
+  <data name="customFunctionsTabPage.Text" xml:space="preserve">
+    <value>Custom-Funktionen</value>
+  </data>
+  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
+    <value>symbolische Berechnungen</value>
+  </data>
+  <data name="symbolicOperationButton.Text" xml:space="preserve">
+    <value>berechnen</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Ausdruck :</value>
+  </data>
+  <data name="saveScriptButton.Text" xml:space="preserve">
+    <value>speichern Sie das Skript</value>
+  </data>
+  <data name="saveCustomFunctions.Text" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="openCustomFunctions.Text" xml:space="preserve">
+    <value>offen</value>
   </data>
   <data name="wczytajDaneToolStripMenuItem.Text" xml:space="preserve">
     <value>Load Data</value>
@@ -270,65 +312,11 @@
   <data name="helpToolStripMenuItem.Text" xml:space="preserve">
     <value>Hilfe</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Qualität Diagramm:</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Die Werte in der Tabelle</value>
-  </data>
-  <data name="clearChartButton.Text" xml:space="preserve">
-    <value>klar</value>
-  </data>
-  <data name="addToChartButton.Text" xml:space="preserve">
-    <value>Ansicht hinzufügen</value>
-  </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Tabelle</value>
-  </data>
-  <data name="calculationsTabPage.Text" xml:space="preserve">
-    <value>Rechner</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Methode:</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Operation:</value>
-  </data>
-  <data name="numericalOperationButton.Text" xml:space="preserve">
-    <value>berechnen</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Ordnung n =</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>Punkt x =</value>
-  </data>
-  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Die Ableitung der Funktion an</value>
-  </data>
   <data name="numericalIntegrationGroupBox.Text" xml:space="preserve">
     <value>das Integrationsintervall</value>
   </data>
   <data name="rootOfFunctionGroupBox.Text" xml:space="preserve">
     <value>Preis Suchfunktion Element</value>
-  </data>
-  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
-    <value>numerischen Berechnungen</value>
-  </data>
-  <data name="symbolicOperationButton.Text" xml:space="preserve">
-    <value>berechnen</value>
-  </data>
-  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
-    <value>symbolische Berechnungen</value>
-  </data>
-  <data name="scriptingTabPage.Text" xml:space="preserve">
-    <value>Skript</value>
-  </data>
-  <data name="customFunctionsTabPage.Text" xml:space="preserve">
-    <value>Custom-Funktionen</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Ausdruck :</value>
   </data>
   <data name="realNumbersRadioButton.Text" xml:space="preserve">
     <value>Aktuell: f (x)</value>
@@ -342,28 +330,40 @@
   <data name="sortExpressionsCheckBox.Text" xml:space="preserve">
     <value>alphabetisch sortieren</value>
   </data>
-  <data name="transformToolStripMenuItem_Text" xml:space="preserve">
-    <value>Transformaty</value>
-  </data>
-  <data name="functionsToolStripMenuItem_Text" xml:space="preserve">
-    <value>Funkcje</value>
-  </data>
-  <data name="elementaryFunctionsToolStripMenuItem_Text" xml:space="preserve">
-    <value>Funkcje elementarne</value>
-  </data>
-  <data name="specialFunctionsToolStripMenuItem_Text" xml:space="preserve">
-    <value>Funkcje specjalne</value>
-  </data>
-  <data name="constantsToolStripMenuItem_Text" xml:space="preserve">
-    <value>Stałe</value>
+  <data name="physicalConstantsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Stałe fizyczne</value>
   </data>
   <data name="mathematicalConstantsToolStripMenuItem_Text" xml:space="preserve">
     <value>Stałe matematyczne</value>
   </data>
-  <data name="physicalConstantsToolStripMenuItem_Text" xml:space="preserve">
-    <value>Stałe fizyczne</value>
+  <data name="constantsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Stałe</value>
+  </data>
+  <data name="specialFunctionsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Funkcje specjalne</value>
+  </data>
+  <data name="elementaryFunctionsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Funkcje elementarne</value>
+  </data>
+  <data name="functionsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Funkcje</value>
+  </data>
+  <data name="transformToolStripMenuItem_Text" xml:space="preserve">
+    <value>Transformaty</value>
   </data>
   <data name="optionsToolStripMenuItem.Text" xml:space="preserve">
     <value>Optionen</value>
+  </data>
+  <data name="addToChartButton.Text" xml:space="preserve">
+    <value>Ansicht hinzufügen</value>
+  </data>
+  <data name="clearChartButton.Text" xml:space="preserve">
+    <value>klar</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Die Werte in der Tabelle</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Qualität Diagramm:</value>
   </data>
 </root>

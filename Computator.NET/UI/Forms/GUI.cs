@@ -31,6 +31,7 @@ using Computator.NET.Transformations;
 using Computator.NET.UI;
 using Computator.NET.UI.AutocompleteMenu;
 using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Controls;
 using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
 using File = System.IO.File;
 using Settings = Computator.NET.Properties.Settings;
@@ -39,6 +40,8 @@ namespace Computator.NET
 {
     public partial class GUI : LocalizedForm
     {
+        private IChartAreaValuesView chartAreaValuesView1;
+
         private readonly CultureInfo[] AllCultures =
             CultureInfo.GetCultures(CultureTypes.NeutralCultures);
 
@@ -434,9 +437,7 @@ namespace Computator.NET
         public GUI()
         {
             logger = new SimpleLogger(this);
-            //evaluator2d = new Function2DEvaluator();
-            //evaluator3d = new Function3DEvaluator();
-            //complexEvaluator = new FunctionComplexEvaluator();
+
             expressionsEvaluator = new ExpressionsEvaluator();
 
             menuFunctionsToolTip = new WebBrowserForm();
@@ -467,18 +468,6 @@ namespace Computator.NET
 
             expressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             HandleCommandLine();
-
-           // (new Form() {Controls = { new ScientificNumericUpDown() { Dock = DockStyle.Fill }, new Button() {Dock=DockStyle.Bottom,Text="button"} } } ).Show();
-           // Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
-
-
-          //  MessageBox.Show(Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator);
-          //  MessageBox.Show(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-
-           // foreach (var cultureInfo in AllCultures)
-            //{
-              //  scriptingCodeEditor.AppendText(cultureInfo.NumberFormat.NumberDecimalSeparator);
-           // }
         }
         
 
@@ -512,7 +501,7 @@ namespace Computator.NET
                 case CalculationsMode.Complex:
                     calculationsRealLabel.Text = "Re(z) =";
                     calculationsComplexLabel.Text = "Im(z) =";
-                    addToChartButton.Text = Strings.DrawChart;
+                    chartAreaValuesView1.AddChartLabel = Strings.DrawChart;
                     // chart2d.ClearAll();
                     //chart3d.Clear();
                     modeToolStripDropDownButton.Text = "Mode[Complex : f(z)]";
@@ -521,14 +510,14 @@ namespace Computator.NET
                     calculationsComplexLabel.Visible = calculationsImZnumericUpDown.Visible = true;
                     calculationsRealLabel.Text = "       x =";
                     calculationsComplexLabel.Text = "       y =";
-                    addToChartButton.Text = Strings.AddToChart;
+                    chartAreaValuesView1.AddChartLabel = Strings.AddToChart;
                     //complexChart.ClearAll();
                     //chart2d.ClearAll();
                     modeToolStripDropDownButton.Text = "Mode[3D : f(x,y)]";
                     break;
                 case CalculationsMode.Real:
                     calculationsRealLabel.Text = "       x =";
-                    addToChartButton.Text = Strings.AddToChart;
+                    chartAreaValuesView1.AddChartLabel = Strings.AddToChart;
                     //complexChart.ClearAll();
                     //chart3d.Clear();
                     modeToolStripDropDownButton.Text = "Mode[Real : f(x)]";
@@ -671,42 +660,30 @@ namespace Computator.NET
              customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
 
 
-/*
-            y0NumericUpDown.DataBindings.Add("Maximum", yNNumericUpDown, "Value", false,
-    DataSourceUpdateMode.Never);
 
-            yNNumericUpDown.DataBindings.Add("Minimum", y0NumericUpDown, "Value", false,
-DataSourceUpdateMode.Never);
-
-            x0NumericUpDown.DataBindings.Add("Maximum", xnNumericUpDown, "Value", false,
-DataSourceUpdateMode.Never);
-
-            xnNumericUpDown.DataBindings.Add("Minimum", x0NumericUpDown, "Value", false,
-DataSourceUpdateMode.Never);*/
-
-
-            y0NumericUpDown.DataBindings.Add("Value", chart3d, "YMin", false,
+            (chartAreaValuesView1 as Control).DataBindings.Add("YMin", chart3d, "YMin", false,
                 DataSourceUpdateMode.OnPropertyChanged);
-            yNNumericUpDown.DataBindings.Add("Value", chart3d, "YMax", false,
+            (chartAreaValuesView1 as Control).DataBindings.Add("YMax", chart3d, "YMax", false,
                 DataSourceUpdateMode.OnPropertyChanged);
-            x0NumericUpDown.DataBindings.Add("Value", chart3d, "XMin", false,
+            (chartAreaValuesView1 as Control).DataBindings.Add("XMin", chart3d, "XMin", false,
                 DataSourceUpdateMode.OnPropertyChanged);
-            xnNumericUpDown.DataBindings.Add("Value", chart3d, "XMax", false,
+            (chartAreaValuesView1 as Control).DataBindings.Add("XMax", chart3d, "XMax", false,
                 DataSourceUpdateMode.OnPropertyChanged);
+            
             //working OK
-            complexChart.DataBindings.Add("YMin", y0NumericUpDown, "Value", false,
+            complexChart.DataBindings.Add("YMin", chartAreaValuesView1, "YMin", false,
                 DataSourceUpdateMode.OnPropertyChanged);
-            complexChart.DataBindings.Add("YMax", yNNumericUpDown, "Value", false,
+            complexChart.DataBindings.Add("YMax", chartAreaValuesView1, "YMax", false,
                 DataSourceUpdateMode.OnPropertyChanged);
-            complexChart.DataBindings.Add("XMin", x0NumericUpDown, "Value", false,
+            complexChart.DataBindings.Add("XMin", chartAreaValuesView1, "XMin", false,
                 DataSourceUpdateMode.OnPropertyChanged);
-            complexChart.DataBindings.Add("XMax", xnNumericUpDown, "Value", false,
+            complexChart.DataBindings.Add("XMax", chartAreaValuesView1, "XMax", false,
                 DataSourceUpdateMode.OnPropertyChanged);
 
-            BindField(chart2d, "YMin", y0NumericUpDown, "Value");
-            BindField(chart2d, "YMax", yNNumericUpDown, "Value");
-            BindField(chart2d, "XMin", x0NumericUpDown, "Value");
-            BindField(chart2d, "XMax", xnNumericUpDown, "Value");
+            BindField(chart2d, "YMin", chartAreaValuesView1, "YMin");
+            BindField(chart2d, "YMax", chartAreaValuesView1, "YMax");
+            BindField(chart2d, "XMin", chartAreaValuesView1, "XMin");
+            BindField(chart2d, "XMax", chartAreaValuesView1, "XMax");
 
             chart2d.PropertyChanged += (o, e) =>
             {
@@ -717,13 +694,23 @@ DataSourceUpdateMode.Never);*/
 
         private void InitializeCharts()
         {
+            chartAreaValuesView1 = new ChartAreaValuesView() { Dock = DockStyle.Right };
+
+            panel2.Controls.Add(chartAreaValuesView1 as Control);
+
+            chartAreaValuesView1.AddClicked += addToChartButton_Click;
+            chartAreaValuesView1.ClearClicked += clearChartButton_Click;
+            chartAreaValuesView1.QualityChanged += trackBar1_Scroll;
+
+
             elementHostChart3d = new ElementHost
             {
                 BackColor = Color.White,
                 Dock = DockStyle.Fill,
                 Child = chart3d
             };
-            ((ISupportInitialize) chart2d).BeginInit();
+          //  ((ISupportInitialize) chart2d).BeginInit();
+
 
             panel2.Controls.Add(chart2d);
             panel2.Controls.Add(complexChart);
@@ -733,20 +720,19 @@ DataSourceUpdateMode.Never);*/
             elementHostChart3d.BringToFront();
             complexChart.Visible = false;
             elementHostChart3d.Visible = false;
-            ((ISupportInitialize) chart2d).EndInit();
+           // ((ISupportInitialize) chart2d).EndInit();
 
 
             foreach (var chart in charts)
             {
-                chart.Value.SetChartAreaValues((double) x0NumericUpDown.Value, (double) xnNumericUpDown.Value,
-                    (double) y0NumericUpDown.Value, (double) yNNumericUpDown.Value);
+                chart.Value.SetChartAreaValues((double) chartAreaValuesView1.XMin, (double)chartAreaValuesView1.XMax,
+                    (double)chartAreaValuesView1.YMin, (double)chartAreaValuesView1.YMax);
             }
             editChartMenus = new EditChartMenus(chart2d,complexChart,chart3d,elementHostChart3d);
 
           //  menuStrip2.Items.Insert(4, editChartMenus.chart3DToolStripMenuItem);
            // menuStrip2.Items.Insert(4, editChartMenus.comlexChartToolStripMenuItem);
             menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
-
         }
 
         private void InitializeScripting()
@@ -1207,7 +1193,7 @@ DataSourceUpdateMode.Never);*/
         {
             foreach (var chart in charts)
             {
-                chart.Value.Quality = (trackBar1.Value / (double)trackBar1.Maximum) * 100.0;
+                chart.Value.Quality = chartAreaValuesView1.Quality;
             }
             
         }

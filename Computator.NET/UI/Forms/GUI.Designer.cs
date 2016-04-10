@@ -45,11 +45,9 @@ namespace Computator.NET
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.consoleOutputTextBox = new System.Windows.Forms.RichTextBox();
-            this.scriptingDirectoryTree = new Computator.NET.DirectoryTree();
             this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.processButton = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.customFunctionsDirectoryTree = new Computator.NET.DirectoryTree();
             this.openCustomFunctionsDirectoryButton = new System.Windows.Forms.Button();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -100,20 +98,6 @@ namespace Computator.NET
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.chartingTabPage = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.yNNumericUpDown = new ScientificNumericUpDown();
-            this.y0NumericUpDown = new ScientificNumericUpDown();
-            this.yNlabel = new System.Windows.Forms.Label();
-            this.y0label = new System.Windows.Forms.Label();
-            this.xnNumericUpDown = new ScientificNumericUpDown();
-            this.x0NumericUpDown = new ScientificNumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.clearChartButton = new System.Windows.Forms.Button();
-            this.addToChartButton = new System.Windows.Forms.Button();
             this.calculationsTabPage = new System.Windows.Forms.TabPage();
             this.numericalCalculationsTabPage = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
@@ -127,7 +111,6 @@ namespace Computator.NET
             this.customFunctionsTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.expressionTextBox = new Computator.NET.UI.Controls.ExpressionTextBox();
             this.openCustomFunctionsFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveCustomFunctionsFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -154,24 +137,12 @@ namespace Computator.NET
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
-            this.exponentiationToolStripMenuItem = new Computator.NET.UI.Controls.BindableToolStripMenuItem();
             this.functionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.elementaryFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.specialFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.constantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mathematicalConstantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.physicalConstantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripSeparator();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripSeparator();
-            new System.Windows.Forms.ToolStripMenuItem();
             this.transformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem31 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem32 = new System.Windows.Forms.ToolStripMenuItem();
@@ -182,21 +153,6 @@ namespace Computator.NET
             this.toolStripMenuItem37 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem38 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem39 = new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripSeparator();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripComboBox();
-            new System.Windows.Forms.ToolStripSeparator();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripSeparator();
-            new System.Windows.Forms.ToolStripMenuItem();
-
-            new System.Windows.Forms.ToolStripSeparator();
-            new System.Windows.Forms.ToolStripMenuItem();
-            new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.fullscreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -227,6 +183,10 @@ namespace Computator.NET
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.runToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.scriptingDirectoryTree = new Computator.NET.DirectoryTree();
+            this.customFunctionsDirectoryTree = new Computator.NET.DirectoryTree();
+            this.expressionTextBox = new Computator.NET.UI.Controls.ExpressionTextBox();
+            this.exponentiationToolStripMenuItem = new Computator.NET.UI.Controls.BindableToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -262,14 +222,6 @@ namespace Computator.NET
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.chartingTabPage.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.y0NumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xnNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.x0NumericUpDown)).BeginInit();
             this.calculationsTabPage.SuspendLayout();
             this.numericalCalculationsTabPage.SuspendLayout();
             this.symbolicCalculationsTabPage.SuspendLayout();
@@ -314,15 +266,6 @@ namespace Computator.NET
             this.consoleOutputTextBox.Name = "consoleOutputTextBox";
             this.consoleOutputTextBox.ReadOnly = true;
             // 
-            // scriptingDirectoryTree
-            // 
-            this.scriptingDirectoryTree.CodeEditorWrapper = null;
-            resources.ApplyResources(this.scriptingDirectoryTree, "scriptingDirectoryTree");
-            this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
-            this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
-            this.scriptingDirectoryTree.Path = null;
-            // 
             // openScriptingDirectoryButton
             // 
             resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
@@ -346,15 +289,6 @@ namespace Computator.NET
             // 
             this.splitContainer3.Panel2.Controls.Add(this.customFunctionsDirectoryTree);
             this.splitContainer3.Panel2.Controls.Add(this.openCustomFunctionsDirectoryButton);
-            // 
-            // customFunctionsDirectoryTree
-            // 
-            this.customFunctionsDirectoryTree.CodeEditorWrapper = null;
-            resources.ApplyResources(this.customFunctionsDirectoryTree, "customFunctionsDirectoryTree");
-            this.customFunctionsDirectoryTree.Name = "customFunctionsDirectoryTree";
-            this.customFunctionsDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("customFunctionsDirectoryTree.Nodes")))});
-            this.customFunctionsDirectoryTree.Path = null;
             // 
             // openCustomFunctionsDirectoryButton
             // 
@@ -833,133 +767,8 @@ namespace Computator.NET
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.panel1);
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.trackBar1);
-            this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Controls.Add(this.clearChartButton);
-            this.panel1.Controls.Add(this.addToChartButton);
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.LargeChange = 20;
-            resources.ApplyResources(this.trackBar1, "trackBar1");
-            this.trackBar1.Maximum = 200;
-            this.trackBar1.Minimum = 10;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.SmallChange = 10;
-            this.trackBar1.TickFrequency = 10;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.trackBar1.Value = 100;
-            this.trackBar1.MouseCaptureChanged += new System.EventHandler(this.trackBar1_Scroll);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.yNNumericUpDown);
-            this.groupBox2.Controls.Add(this.y0NumericUpDown);
-            this.groupBox2.Controls.Add(this.yNlabel);
-            this.groupBox2.Controls.Add(this.y0label);
-            this.groupBox2.Controls.Add(this.xnNumericUpDown);
-            this.groupBox2.Controls.Add(this.x0NumericUpDown);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // yNNumericUpDown
-            // 
-            this.yNNumericUpDown.DecimalPlaces = 4;
-            resources.ApplyResources(this.yNNumericUpDown, "yNNumericUpDown");
-            
-            this.yNNumericUpDown.Name = "yNNumericUpDown";
-            this.yNNumericUpDown.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
-            // y0NumericUpDown
-            // 
-            this.y0NumericUpDown.DecimalPlaces = 4;
-            resources.ApplyResources(this.y0NumericUpDown, "y0NumericUpDown");
-
-            this.y0NumericUpDown.Name = "y0NumericUpDown";
-            this.y0NumericUpDown.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            -2147483648});
-            // 
-            // yNlabel
-            // 
-            resources.ApplyResources(this.yNlabel, "yNlabel");
-            this.yNlabel.Name = "yNlabel";
-            // 
-            // y0label
-            // 
-            resources.ApplyResources(this.y0label, "y0label");
-            this.y0label.Name = "y0label";
-            // 
-            // xnNumericUpDown
-            // 
-            this.xnNumericUpDown.DecimalPlaces = 4;
-            resources.ApplyResources(this.xnNumericUpDown, "xnNumericUpDown");
-
-            this.xnNumericUpDown.Name = "xnNumericUpDown";
-            this.xnNumericUpDown.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
-            // x0NumericUpDown
-            // 
-            this.x0NumericUpDown.DecimalPlaces = 4;
-            resources.ApplyResources(this.x0NumericUpDown, "x0NumericUpDown");
-
-            this.x0NumericUpDown.Name = "x0NumericUpDown";
-            this.x0NumericUpDown.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            -2147483648});
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // clearChartButton
-            // 
-            resources.ApplyResources(this.clearChartButton, "clearChartButton");
-            this.clearChartButton.Name = "clearChartButton";
-            this.clearChartButton.UseVisualStyleBackColor = true;
-            this.clearChartButton.Click += new System.EventHandler(this.clearChartButton_Click);
-            // 
-            // addToChartButton
-            // 
-            resources.ApplyResources(this.addToChartButton, "addToChartButton");
-            this.addToChartButton.Name = "addToChartButton";
-            this.addToChartButton.UseVisualStyleBackColor = true;
-            this.addToChartButton.Click += new System.EventHandler(this.addToChartButton_Click);
             // 
             // calculationsTabPage
             // 
@@ -1052,13 +861,6 @@ namespace Computator.NET
             this.tableLayoutPanel1.Controls.Add(this.expressionTextBox, 1, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
-            // expressionTextBox
-            // 
-            resources.ApplyResources(this.expressionTextBox, "expressionTextBox");
-            this.expressionTextBox.ExponentMode = false;
-            this.expressionTextBox.Name = "expressionTextBox";
-            this.expressionTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.expressionTextBox_KeyPress);
-            // 
             // openCustomFunctionsFileDialog
             // 
             this.openCustomFunctionsFileDialog.FileName = "custom functions.tslf";
@@ -1090,10 +892,7 @@ namespace Computator.NET
             this.editToolStripMenuItem1,
             this.functionsToolStripMenuItem,
             this.constantsToolStripMenuItem,
-            //this.chartToolStripMenuItem,
             this.transformToolStripMenuItem,
-            //this.comlexChartToolStripMenuItem,
-            //this.chart3dToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem1});
             resources.ApplyResources(this.menuStrip2, "menuStrip2");
@@ -1239,12 +1038,6 @@ namespace Computator.NET
             this.toolStripSeparator18.Name = "toolStripSeparator18";
             resources.ApplyResources(this.toolStripSeparator18, "toolStripSeparator18");
             // 
-            // exponentiationToolStripMenuItem
-            // 
-            this.exponentiationToolStripMenuItem.CheckOnClick = true;
-            this.exponentiationToolStripMenuItem.Name = "exponentiationToolStripMenuItem";
-            resources.ApplyResources(this.exponentiationToolStripMenuItem, "exponentiationToolStripMenuItem");
-            // 
             // functionsToolStripMenuItem
             // 
             this.functionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1280,11 +1073,9 @@ namespace Computator.NET
             // 
             this.physicalConstantsToolStripMenuItem.Name = "physicalConstantsToolStripMenuItem";
             resources.ApplyResources(this.physicalConstantsToolStripMenuItem, "physicalConstantsToolStripMenuItem");
-         
             // 
             // transformToolStripMenuItem
             // 
-            transformToolStripMenuItem.Visible = false;
             this.transformToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem31,
             this.toolStripMenuItem32,
@@ -1351,7 +1142,6 @@ namespace Computator.NET
             this.toolStripMenuItem39.Name = "toolStripMenuItem39";
             resources.ApplyResources(this.toolStripMenuItem39, "toolStripMenuItem39");
             this.toolStripMenuItem39.Click += new System.EventHandler(this.transformToolStripMenuItem_Click);
-          
             // 
             // toolsToolStripMenuItem
             // 
@@ -1564,10 +1354,40 @@ namespace Computator.NET
             this.runToolStripButton.Name = "runToolStripButton";
             this.runToolStripButton.Click += new System.EventHandler(this.runToolStripButton_Click);
             // 
+            // scriptingDirectoryTree
+            // 
+            this.scriptingDirectoryTree.CodeEditorWrapper = null;
+            resources.ApplyResources(this.scriptingDirectoryTree, "scriptingDirectoryTree");
+            this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
+            this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
+            this.scriptingDirectoryTree.Path = null;
+            // 
+            // customFunctionsDirectoryTree
+            // 
+            this.customFunctionsDirectoryTree.CodeEditorWrapper = null;
+            resources.ApplyResources(this.customFunctionsDirectoryTree, "customFunctionsDirectoryTree");
+            this.customFunctionsDirectoryTree.Name = "customFunctionsDirectoryTree";
+            this.customFunctionsDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("customFunctionsDirectoryTree.Nodes")))});
+            this.customFunctionsDirectoryTree.Path = null;
+            // 
+            // expressionTextBox
+            // 
+            resources.ApplyResources(this.expressionTextBox, "expressionTextBox");
+            this.expressionTextBox.ExponentMode = false;
+            this.expressionTextBox.Name = "expressionTextBox";
+            this.expressionTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.expressionTextBox_KeyPress);
+            // 
+            // exponentiationToolStripMenuItem
+            // 
+            this.exponentiationToolStripMenuItem.CheckOnClick = true;
+            this.exponentiationToolStripMenuItem.Name = "exponentiationToolStripMenuItem";
+            resources.ApplyResources(this.exponentiationToolStripMenuItem, "exponentiationToolStripMenuItem");
+            // 
             // GUI
             // 
             resources.ApplyResources(this, "$this");
-            MinimumSize = new Size(591,628);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
@@ -1618,16 +1438,6 @@ namespace Computator.NET
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.chartingTabPage.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.y0NumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xnNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.x0NumericUpDown)).EndInit();
             this.calculationsTabPage.ResumeLayout(false);
             this.numericalCalculationsTabPage.ResumeLayout(false);
             this.numericalCalculationsTabPage.PerformLayout();
@@ -1653,7 +1463,6 @@ namespace Computator.NET
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TabPage calculationsTabPage;
         private System.Windows.Forms.TabPage numericalCalculationsTabPage;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox calculationValueTextBox;
@@ -1663,17 +1472,6 @@ namespace Computator.NET
         private System.Windows.Forms.TabPage symbolicCalculationsTabPage;
         private System.Windows.Forms.Button numericalOperationButton;
         private System.Windows.Forms.Button symbolicOperationButton;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private ScientificNumericUpDown yNNumericUpDown;
-        private ScientificNumericUpDown y0NumericUpDown;
-        private System.Windows.Forms.Label yNlabel;
-        private System.Windows.Forms.Label y0label;
-        private ScientificNumericUpDown xnNumericUpDown;
-        private ScientificNumericUpDown x0NumericUpDown;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button clearChartButton;
-        private System.Windows.Forms.Button addToChartButton;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ComboBox operationNumericalCalculationsComboBox;
         private System.Windows.Forms.ComboBox methodNumericalCalculationsComboBox;
@@ -1710,8 +1508,6 @@ namespace Computator.NET
         private System.Windows.Forms.Button openScriptingDirectoryButton;
 
         private DirectoryTree scriptingDirectoryTree;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripStatusLabel XYRatioToolStripStatusLabel;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;

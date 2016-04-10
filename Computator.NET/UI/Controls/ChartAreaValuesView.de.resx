@@ -117,13 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="chartToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
   </data>
-  <data name="comlexChartToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 496</value>
   </data>
-  <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ChartAreaValuesView</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Qualität Diagramm:</value>
+  </data>
+  <data name="clearChartButton.Text" xml:space="preserve">
+    <value>klar</value>
+  </data>
+  <data name="addToChartButton.Text" xml:space="preserve">
+    <value>Ansicht hinzufügen</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Die Werte in der Tabelle</value>
   </data>
 </root>

@@ -230,6 +230,7 @@
     <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\ChartAreaValuesPresenter.cs" />
     <Compile Include="UI\Controls\ChartAreaValuesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -239,6 +240,7 @@
     <Compile Include="UI\Controls\DocumentsTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\IChartAreaValuesView.cs" />
     <Compile Include="UI\Forms\AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -319,6 +321,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Config\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ChartAreaValuesView.cs.resx">
+      <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ChartAreaValuesView.de.resx">
+      <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ChartAreaValuesView.pl.resx">
+      <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\ChartAreaValuesView.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
