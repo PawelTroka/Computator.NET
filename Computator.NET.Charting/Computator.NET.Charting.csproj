@@ -108,9 +108,7 @@
       <DependentUpon>EditComplexChartWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ComplexCharting\IComplexChartView.cs" />
-    <Compile Include="Controls\ChartAreaValuesPresenter.cs" />
     <Compile Include="Controls\EditChartMenus.cs" />
-    <Compile Include="Controls\IChartAreaValuesView.cs" />
     <Compile Include="EditChartProperties.cs">
       <SubType>Form</SubType>
     </Compile>

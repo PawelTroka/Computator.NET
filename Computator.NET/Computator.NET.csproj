@@ -230,10 +230,18 @@
     <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\ChartAreaValuesView.cs">
+    <Compile Include="UI\Views\CalculationsPresenter.cs" />
+    <Compile Include="UI\Views\CalculationsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\ChartAreaValuesView.Designer.cs">
+    <Compile Include="UI\Views\CalculationsView.Designer.cs">
+      <DependentUpon>CalculationsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\ChartAreaValuesPresenter.cs" />
+    <Compile Include="UI\Views\ChartAreaValuesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Views\ChartAreaValuesView.Designer.cs">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\DocumentsTabControl.cs">
@@ -306,6 +314,8 @@
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs" />
+    <Compile Include="UI\Views\ICalculationsView.cs" />
+    <Compile Include="UI\Views\IChartAreaValuesView.cs" />
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -321,16 +331,19 @@
     <EmbeddedResource Include="Config\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\ChartAreaValuesView.cs.resx">
+    <EmbeddedResource Include="UI\Views\CalculationsView.resx">
+      <DependentUpon>CalculationsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\ChartAreaValuesView.cs.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\ChartAreaValuesView.de.resx">
+    <EmbeddedResource Include="UI\Views\ChartAreaValuesView.de.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\ChartAreaValuesView.pl.resx">
+    <EmbeddedResource Include="UI\Views\ChartAreaValuesView.pl.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\ChartAreaValuesView.resx">
+    <EmbeddedResource Include="UI\Views\ChartAreaValuesView.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\DocumentsTabControl.resx">
