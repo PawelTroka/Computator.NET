@@ -3,16 +3,13 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Computator.NET.DataTypes;
+using Computator.NET.UI.Controls;
 
 namespace Computator.NET.Charting
 {
-    public interface IChart : IPrinting
+    public interface IChart : IPrinting, IAreaValues
     {
         void Redraw();
-        double XMax { get; set; }
-        double XMin { get; set; }
-        double YMax { get; set; }
-        double YMin { get; set; }
 
         double Quality { get; set; }
 

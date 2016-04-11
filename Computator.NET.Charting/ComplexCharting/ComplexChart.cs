@@ -63,10 +63,58 @@ namespace Computator.NET.Charting.ComplexCharting
             get { return ((XMax - XMin)/Width)/((YMax - YMin)/Height); }
         }
 
-        public double XMin { get; set; }
-        public double XMax { get; set; }
-        public double YMin { get; set; }
-        public double YMax { get; set; }
+        public double XMin
+        {
+            get { return _xMin; }
+            set
+            {
+                if (value != _xMin)
+                {
+                    _xMin = value; XMinChanged?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+
+        public double XMax
+        {
+            get { return _xMax; }
+            set
+            {
+                if (value != _xMax)
+                {
+                    _xMax = value;
+                    XMaxChanged?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+
+        public double YMin
+        {
+            get { return _yMin; }
+            set
+            {
+                if (value != _yMin)
+                { _yMin = value; YMinChanged?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+
+        public double YMax
+        {
+            get { return _yMax; }
+            set {
+                if (value != _yMax)
+                {
+                    _yMax = value;
+                    YMaxChanged?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+
+        public event EventHandler XMinChanged;
+        public event EventHandler XMaxChanged;
+        public event EventHandler YMinChanged;
+        public event EventHandler YMaxChanged;
 
         public string xLabel { get; set; } = "Re(z)";
         public string yLabel { get; set; } = "Im(z)";
@@ -168,6 +216,10 @@ namespace Computator.NET.Charting.ComplexCharting
         }
 
         private ImagePrinter imagePrinter= new ImagePrinter();
+        private double _xMin;
+        private double _xMax;
+        private double _yMin;
+        private double _yMax;
 
         public void Print()
         {

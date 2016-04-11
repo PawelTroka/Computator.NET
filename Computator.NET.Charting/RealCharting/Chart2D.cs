@@ -99,7 +99,8 @@ namespace Computator.NET.Charting.RealCharting
 
 
                 ChartAreas[0].AxisX.Minimum = value;
-                NotifyPropertyChanged("XMin");
+                XMinChanged?.Invoke(this, new EventArgs());
+
                 NotifyPropertyChanged("XyRatio");
                 _refreshFunctions();
             }
@@ -125,7 +126,7 @@ namespace Computator.NET.Charting.RealCharting
 
 
                 ChartAreas[0].AxisX.Maximum = value;
-                NotifyPropertyChanged("XMax");
+                XMaxChanged?.Invoke(this, new EventArgs());
                 _refreshFunctions();
             }
         }
@@ -148,7 +149,7 @@ namespace Computator.NET.Charting.RealCharting
 
 
                 ChartAreas[0].AxisY.Minimum = value;
-                NotifyPropertyChanged("YMin");
+                YMinChanged?.Invoke(this, new EventArgs());
                 _refreshFunctions();
             }
         }
@@ -166,10 +167,15 @@ namespace Computator.NET.Charting.RealCharting
 
                 if (ChartAreas[0].AxisY.Maximum == value) return;
                 ChartAreas[0].AxisY.Maximum = value;
-                NotifyPropertyChanged("YMax");
+                YMaxChanged?.Invoke(this, new EventArgs());
                 _refreshFunctions();
             }
         }
+
+        public event EventHandler XMinChanged;
+        public event EventHandler XMaxChanged;
+        public event EventHandler YMinChanged;
+        public event EventHandler YMaxChanged;
 
         private double N { get; set; } = 3571;
 
@@ -340,10 +346,10 @@ namespace Computator.NET.Charting.RealCharting
 
         private void Refresh2()
         {
-            NotifyPropertyChanged("XMin");
-            NotifyPropertyChanged("XMax");
-            NotifyPropertyChanged("YMin");
-            NotifyPropertyChanged("YMax");
+            XMinChanged?.Invoke(this, new EventArgs());
+            XMaxChanged?.Invoke(this, new EventArgs());
+            YMinChanged?.Invoke(this, new EventArgs());
+            YMaxChanged?.Invoke(this, new EventArgs());
             _refreshFunctions();
         }
 
@@ -481,10 +487,10 @@ namespace Computator.NET.Charting.RealCharting
             ChartAreas[0].AxisY.Minimum = double.NaN; //min;
             ChartAreas[0].AxisY.Maximum = double.NaN; //max;
             ChartAreas[0].RecalculateAxesScale(); //this.Update();
-            NotifyPropertyChanged("XMin");
-            NotifyPropertyChanged("XMax");
-            NotifyPropertyChanged("YMin");
-            NotifyPropertyChanged("YMax");
+            XMinChanged?.Invoke(this, new EventArgs());
+            XMaxChanged?.Invoke(this, new EventArgs());
+            YMinChanged?.Invoke(this, new EventArgs());
+            YMaxChanged?.Invoke(this, new EventArgs());
             NotifyPropertyChanged("XyRatio");
         }
 
@@ -520,10 +526,10 @@ namespace Computator.NET.Charting.RealCharting
 
             ChartAreas[0].AxisY.Minimum = Ymin; //min;
             ChartAreas[0].AxisY.Maximum = Ymax; //max;
-            NotifyPropertyChanged("XMin");
-            NotifyPropertyChanged("XMax");
-            NotifyPropertyChanged("YMin");
-            NotifyPropertyChanged("YMax");
+            XMinChanged?.Invoke(this, new EventArgs());
+            XMaxChanged?.Invoke(this, new EventArgs());
+            YMinChanged?.Invoke(this, new EventArgs());
+            YMaxChanged?.Invoke(this, new EventArgs());
             NotifyPropertyChanged("XyRatio");
         }
 
@@ -576,10 +582,10 @@ namespace Computator.NET.Charting.RealCharting
             if (any)
             {
                 _refreshFunctions();
-                NotifyPropertyChanged("XMin");
-                NotifyPropertyChanged("XMax");
-                NotifyPropertyChanged("YMin");
-                NotifyPropertyChanged("YMax");
+                XMinChanged?.Invoke(this, new EventArgs());
+                XMaxChanged?.Invoke(this, new EventArgs());
+                YMinChanged?.Invoke(this, new EventArgs());
+                YMaxChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -601,15 +607,15 @@ namespace Computator.NET.Charting.RealCharting
             {
                 ChartAreas[0].AxisX.Minimum -= xScale;
                 ChartAreas[0].AxisX.Maximum += xScale;
-                NotifyPropertyChanged("XMin");
-                NotifyPropertyChanged("XMax");
+                XMinChanged?.Invoke(this, new EventArgs());
+                XMaxChanged?.Invoke(this, new EventArgs());
             }
             if (!xOnlyZoomMode)
             {
                 ChartAreas[0].AxisY.Minimum -= yScale;
                 ChartAreas[0].AxisY.Maximum += yScale;
-                NotifyPropertyChanged("YMin");
-                NotifyPropertyChanged("YMax");
+                YMinChanged?.Invoke(this, new EventArgs());
+                YMaxChanged?.Invoke(this, new EventArgs());
             }
             _refreshFunctions();
         }

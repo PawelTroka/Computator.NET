@@ -138,6 +138,7 @@ namespace Computator.NET.Charting.Chart3D
                 {
                     xmin = value;
                     Redraw();
+                    XMinChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -153,6 +154,7 @@ namespace Computator.NET.Charting.Chart3D
                 {
                     xmax = value;
                     Redraw();
+                    XMaxChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -166,6 +168,7 @@ namespace Computator.NET.Charting.Chart3D
                 {
                     ymin = value;
                     Redraw();
+                    YMinChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -179,9 +182,15 @@ namespace Computator.NET.Charting.Chart3D
                 {
                     ymax = value;
                     Redraw();
+                    YMaxChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
+
+        public event EventHandler XMinChanged;
+        public event EventHandler XMaxChanged;
+        public event EventHandler YMinChanged;
+        public event EventHandler YMaxChanged;
 
         public double Quality
         {

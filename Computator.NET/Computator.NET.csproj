@@ -230,7 +230,6 @@
     <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\ChartAreaValuesPresenter.cs" />
     <Compile Include="UI\Controls\ChartAreaValuesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -240,7 +239,6 @@
     <Compile Include="UI\Controls\DocumentsTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\IChartAreaValuesView.cs" />
     <Compile Include="UI\Forms\AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -284,6 +282,7 @@
     <Compile Include="UI\Forms\LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\Forms\MainFormPresenter.cs" />
     <Compile Include="UI\NameAttribute.cs" />
     <Compile Include="NumericalCalculations\FunctionRoot.cs" />
     <Compile Include="NumericalCalculations\Derivative.cs" />

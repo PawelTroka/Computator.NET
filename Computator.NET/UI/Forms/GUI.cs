@@ -40,6 +40,7 @@ namespace Computator.NET
 {
     public partial class GUI : LocalizedForm
     {
+        private MainFormPresenter presenter;
         private IChartAreaValuesView chartAreaValuesView1;
 
         private readonly CultureInfo[] AllCultures =
@@ -468,6 +469,7 @@ namespace Computator.NET
 
             expressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             HandleCommandLine();
+            presenter = new MainFormPresenter(chartAreaValuesView1,charts);
         }
         
 
@@ -660,31 +662,6 @@ namespace Computator.NET
              customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
 
 
-
-            (chartAreaValuesView1 as Control).DataBindings.Add("YMin", chart3d, "YMin", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-            (chartAreaValuesView1 as Control).DataBindings.Add("YMax", chart3d, "YMax", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-            (chartAreaValuesView1 as Control).DataBindings.Add("XMin", chart3d, "XMin", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-            (chartAreaValuesView1 as Control).DataBindings.Add("XMax", chart3d, "XMax", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-            
-            //working OK
-            complexChart.DataBindings.Add("YMin", chartAreaValuesView1, "YMin", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-            complexChart.DataBindings.Add("YMax", chartAreaValuesView1, "YMax", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-            complexChart.DataBindings.Add("XMin", chartAreaValuesView1, "XMin", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-            complexChart.DataBindings.Add("XMax", chartAreaValuesView1, "XMax", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-
-            BindField(chart2d, "YMin", chartAreaValuesView1, "YMin");
-            BindField(chart2d, "YMax", chartAreaValuesView1, "YMax");
-            BindField(chart2d, "XMin", chartAreaValuesView1, "XMin");
-            BindField(chart2d, "XMax", chartAreaValuesView1, "XMax");
-
             chart2d.PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == "XyRatio")
@@ -700,7 +677,6 @@ namespace Computator.NET
 
             chartAreaValuesView1.AddClicked += addToChartButton_Click;
             chartAreaValuesView1.ClearClicked += clearChartButton_Click;
-            chartAreaValuesView1.QualityChanged += trackBar1_Scroll;
 
 
             elementHostChart3d = new ElementHost
@@ -1189,14 +1165,6 @@ namespace Computator.NET
 
   
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            foreach (var chart in charts)
-            {
-                chart.Value.Quality = chartAreaValuesView1.Quality;
-            }
-            
-        }
 
 
         private void benchmarkToolStripMenuItem_Click(object sender, EventArgs e)

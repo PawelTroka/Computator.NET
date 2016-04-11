@@ -18,66 +18,50 @@ namespace Computator.NET.UI.Controls
         {
             InitializeComponent();
             presenter = new ChartAreaValuesPresenter(this);
-
-            x0NumericUpDown.ValueChanged += (o, e) => OnPropertyChanged("XMin");
-            xnNumericUpDown.ValueChanged += (o, e) => OnPropertyChanged("XMax");
-            y0NumericUpDown.ValueChanged += (o, e) => OnPropertyChanged("YMin");
-            yNNumericUpDown.ValueChanged += (o, e) => OnPropertyChanged("YMax");
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public decimal XMin
+        public double XMin
         {
 
-            get { return x0NumericUpDown.Value; }
+            get { return (double)x0NumericUpDown.Value; }
             set
             {
                 if (value != XMin)
                 {
-                    x0NumericUpDown.Value = value;
-                    OnPropertyChanged("XMin");
+                    x0NumericUpDown.Value = (decimal)value;
                 }
             }
         }
-        public decimal XMax
+        public double XMax
         {
-            get { return xnNumericUpDown.Value; }
+            get { return (double)xnNumericUpDown.Value; }
             set
             {
                 if (value != XMax)
                 {
-                    xnNumericUpDown.Value = value;
-                    OnPropertyChanged("XMax");
+                    xnNumericUpDown.Value = (decimal)value;
                 }
             }
         }
-        public decimal YMin
+        public double YMin
         {
-            get { return y0NumericUpDown.Value; }
+            get { return (double)y0NumericUpDown.Value; }
             set
             {
                 if (value != YMin)
                 {
-                    y0NumericUpDown.Value = value;
-                    OnPropertyChanged("YMin");
+                    y0NumericUpDown.Value = (decimal)value;
                 }
             }
         }
-        public decimal YMax
+        public double YMax
         {
-            get { return yNNumericUpDown.Value; }
+            get { return (double)yNNumericUpDown.Value; }
             set
             {
                 if (value != YMax)
                 {
-                    yNNumericUpDown.Value = value;
-                    OnPropertyChanged("YMax");
+                    yNNumericUpDown.Value = (decimal)value;
                 }
             }
         }
@@ -103,6 +87,27 @@ namespace Computator.NET.UI.Controls
         {
             add { trackBar1.Scroll += value; }
             remove { trackBar1.Scroll -= value; }
+        }
+
+        public event EventHandler XMinChanged
+        {
+            add { x0NumericUpDown.ValueChanged += value; }
+            remove { x0NumericUpDown.ValueChanged -= value; }
+        }
+        public event EventHandler XMaxChanged
+        {
+            add { xnNumericUpDown.ValueChanged += value; }
+            remove { xnNumericUpDown.ValueChanged -= value; }
+        }
+        public event EventHandler YMinChanged
+        {
+            add { y0NumericUpDown.ValueChanged += value; }
+            remove { y0NumericUpDown.ValueChanged -= value; }
+        }
+        public event EventHandler YMaxChanged
+        {
+            add { yNNumericUpDown.ValueChanged += value; }
+            remove { yNNumericUpDown.ValueChanged -= value; }
         }
     }
 }

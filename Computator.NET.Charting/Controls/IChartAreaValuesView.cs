@@ -3,15 +3,8 @@ using System.ComponentModel;
 
 namespace Computator.NET.UI.Controls
 {
-    public interface IChartAreaValuesView : INotifyPropertyChanged
+    public interface IChartAreaValuesView : IAreaValues
     {
-        decimal XMin { get; set; }
-        decimal XMax { get; set; }
-        decimal YMin { get; set; }
-        decimal YMax { get; set; }
-
-
-
         string AddChartLabel { set; }
 
         double Quality { get; }
