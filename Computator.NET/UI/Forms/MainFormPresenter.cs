@@ -1,80 +1,92 @@
 using System;
-using System.Collections.Generic;
 using Computator.NET.Charting;
 using Computator.NET.Evaluation;
-using Computator.NET.UI.Controls;
 
 namespace Computator.NET
 {
     public class MainFormPresenter
     {
-        IChart chart2d { get { return charts[CalculationsMode.Real]; } }
-        IChart complexChart { get { return charts[CalculationsMode.Complex]; } }
-        IChart chart3d { get { return charts[CalculationsMode.Fxy]; } }
+        IChart chart2d { get { return _view.charts[CalculationsMode.Real]; } }
+        IChart complexChart { get { return _view.charts[CalculationsMode.Complex]; } }
+        IChart chart3d { get { return _view.charts[CalculationsMode.Fxy]; } }
 
-        private readonly Dictionary<CalculationsMode, IChart> charts;
 
-        private IChartAreaValuesView chartAreaValuesView;
+        private IMainForm _view;
 
-        public MainFormPresenter(IChartAreaValuesView chartAreaValuesView, Dictionary<CalculationsMode, IChart> charts)
+        public MainFormPresenter(IMainForm view)
         {
-            this.chartAreaValuesView = chartAreaValuesView;
-            this.charts = charts;
+            _view = view;
 
-            chartAreaValuesView.QualityChanged += ChartAreaValuesView_QualityChanged;
+            _view.chartAreaValuesView1.QualityChanged += ChartAreaValuesView_QualityChanged;
 
-            chartAreaValuesView.XMinChanged += ChartAreaValuesView_XMinChanged;
-            chartAreaValuesView.XMaxChanged += ChartAreaValuesView_XMaxChanged;
-            chartAreaValuesView.YMinChanged += ChartAreaValuesView_YMinChanged;
-            this.chartAreaValuesView.YMaxChanged += ChartAreaValuesView_YMaxChanged;
+            _view.chartAreaValuesView1.XMinChanged += ChartAreaValuesView_XMinChanged;
+            _view.chartAreaValuesView1.XMaxChanged += ChartAreaValuesView_XMaxChanged;
+            _view.chartAreaValuesView1.YMinChanged += ChartAreaValuesView_YMinChanged;
+            _view.chartAreaValuesView1.YMaxChanged += ChartAreaValuesView_YMaxChanged;
 
-            foreach (var chart in charts)
+            foreach (var chart in _view.charts)
             {
-                chart.Value.XMinChanged += (o, e) => chartAreaValuesView.XMin=chart.Value.XMin;
-                chart.Value.XMaxChanged += (o, e) => chartAreaValuesView.XMax = chart.Value.XMax;
-                chart.Value.YMinChanged += (o, e) => chartAreaValuesView.YMin = chart.Value.YMin;
-                chart.Value.YMaxChanged += (o, e) => chartAreaValuesView.YMax = chart.Value.YMax;
+                chart.Value.XMinChanged += (o, e) => _view.chartAreaValuesView1.XMin=chart.Value.XMin;
+                chart.Value.XMaxChanged += (o, e) => _view.chartAreaValuesView1.XMax = chart.Value.XMax;
+                chart.Value.YMinChanged += (o, e) => _view.chartAreaValuesView1.YMin = chart.Value.YMin;
+                chart.Value.YMaxChanged += (o, e) => _view.chartAreaValuesView1.YMax = chart.Value.YMax;
+            }
+
+            _view.chartAreaValuesView1.ClearClicked += ChartAreaValuesView1_ClearClicked;
+
+            foreach (var chart in _view.charts)
+            {
+                chart.Value.SetChartAreaValues(_view.chartAreaValuesView1.XMin, _view.chartAreaValuesView1.XMax,
+                    _view.chartAreaValuesView1.YMin, _view.chartAreaValuesView1.YMax);
             }
 
         }
 
+        private void ChartAreaValuesView1_ClearClicked(object sender, EventArgs e)
+        {
+            foreach (var chart in _view.charts)
+            {
+                chart.Value.ClearAll();
+            }
+        }
+
         private void ChartAreaValuesView_YMaxChanged(object sender, EventArgs e)
         {
-            foreach (var chart in charts)
+            foreach (var chart in _view.charts)
             {
-                chart.Value.YMax = (double)chartAreaValuesView.YMax;
+                chart.Value.YMax = _view.chartAreaValuesView1.YMax;
             }
         }
 
         private void ChartAreaValuesView_YMinChanged(object sender, EventArgs e)
         {
-            foreach (var chart in charts)
+            foreach (var chart in _view.charts)
             {
-                chart.Value.YMin = (double)chartAreaValuesView.YMin;
+                chart.Value.YMin = _view.chartAreaValuesView1.YMin;
             }
         }
 
         private void ChartAreaValuesView_XMaxChanged(object sender, EventArgs e)
         {
-            foreach (var chart in charts)
+            foreach (var chart in _view.charts)
             {
-                chart.Value.XMax = (double)chartAreaValuesView.XMax;
+                chart.Value.XMax = _view.chartAreaValuesView1.XMax;
             }
         }
 
         private void ChartAreaValuesView_XMinChanged(object sender, EventArgs e)
         {
-            foreach (var chart in charts)
+            foreach (var chart in _view.charts)
             {
-                chart.Value.XMin = (double)chartAreaValuesView.XMin;
+                chart.Value.XMin = _view.chartAreaValuesView1.XMin;
             }
         }
 
         private void ChartAreaValuesView_QualityChanged(object sender, EventArgs e)
         {
-            foreach (var chart in charts)
+            foreach (var chart in _view.charts)
             {
-                chart.Value.Quality = chartAreaValuesView.Quality;
+                chart.Value.Quality = _view.chartAreaValuesView1.Quality;
             }
         }
     }

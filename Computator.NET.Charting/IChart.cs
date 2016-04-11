@@ -20,6 +20,8 @@ namespace Computator.NET.Charting
         void SaveImage(string path, ImageFormat imageFormat);
 
         void ClearAll();
+
+        bool Visible { get; set; }
     }
   /*  internal interface IChart<T>
     {

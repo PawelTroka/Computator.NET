@@ -37,6 +37,8 @@ namespace Computator.NET
 
             var mainForm = new GUI();
 
+            var mainFormPresenter = new MainFormPresenter(mainForm);
+
             LoadingScreen.CloseForm();
             Application.Run(mainForm);
         }

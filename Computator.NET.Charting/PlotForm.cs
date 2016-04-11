@@ -24,7 +24,7 @@ namespace Computator.NET.Charting
 
 
             if (chart is Chart3DControl)
-                InitializeChart(new ElementHost() { Child = chart as Chart3DControl });
+                InitializeChart((chart as Chart3DControl).ParentControl);
             else
                 InitializeChart(chart as Control);
 

@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using Accord.Collections;
 using Computator.NET.Benchmarking;
 using Computator.NET.Charting;
 using Computator.NET.Charting.Chart3D;
@@ -38,20 +39,36 @@ using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET
 {
-    public partial class GUI : LocalizedForm
+    public interface IMainForm
     {
-        private MainFormPresenter presenter;
-        private IChartAreaValuesView chartAreaValuesView1;
+        IChartAreaValuesView chartAreaValuesView1 { get; }
+        ReadOnlyDictionary<CalculationsMode, IChart> charts { get; }
+        IExpressionView ExpressionView { get; }
+        string ModeText { get; set; }
+    }
 
-        private readonly CultureInfo[] AllCultures =
-            CultureInfo.GetCultures(CultureTypes.NeutralCultures);
+    public partial class GUI : LocalizedForm, IMainForm
+    {
+        public IChartAreaValuesView chartAreaValuesView1 { get; } = new ChartAreaValuesView() { Dock = DockStyle.Right };
 
-        private readonly Dictionary<CalculationsMode, IChart> charts = new Dictionary<CalculationsMode, IChart>
+
+        public ReadOnlyDictionary<CalculationsMode, IChart> charts { get; } = new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>
         {
             {CalculationsMode.Real, new Chart2D()},
             {CalculationsMode.Complex, new ComplexChart()},
             {CalculationsMode.Fxy, new Chart3DControl()}
-        };
+        });
+
+        public IExpressionView ExpressionView { get { return expressionTextBox; } }
+        public string ModeText { get { return modeToolStripDropDownButton.Text; } set
+        {
+            modeToolStripDropDownButton.Text = value;
+        } }
+
+
+        private readonly CultureInfo[] AllCultures =
+    CultureInfo.GetCultures(CultureTypes.NeutralCultures);
+
 
         //  private readonly FunctionComplexEvaluator complexEvaluator;
         private readonly ExpressionsEvaluator expressionsEvaluator;
@@ -62,7 +79,7 @@ namespace Computator.NET
 
         private CodeEditorControlWrapper customFunctionsCodeEditor;
         private List<Action<object, EventArgs>> defaultActions;
-        private ElementHost elementHostChart3d;
+
 
         private CodeEditorControlWrapper scriptingCodeEditor;
         private IChart currentChart => charts[_calculationsMode];
@@ -469,7 +486,6 @@ namespace Computator.NET
 
             expressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             HandleCommandLine();
-            presenter = new MainFormPresenter(chartAreaValuesView1,charts);
         }
         
 
@@ -487,16 +503,14 @@ namespace Computator.NET
 
         private void SetMode(CalculationsMode mode)
         {
-            
-                chart2d.Visible = mode == CalculationsMode.Real;
+            chart2d.Visible = mode == CalculationsMode.Real;
 
-           
                 calculationsComplexLabel.Visible =
                     calculationsImZnumericUpDown.Visible =
                         complexChart.Visible = mode == CalculationsMode.Complex;
 
             
-                elementHostChart3d.Visible = mode == CalculationsMode.Fxy;
+                chart3d.Visible = mode == CalculationsMode.Fxy;
 
             switch (mode)
             {
@@ -671,40 +685,29 @@ namespace Computator.NET
 
         private void InitializeCharts()
         {
-            chartAreaValuesView1 = new ChartAreaValuesView() { Dock = DockStyle.Right };
-
             panel2.Controls.Add(chartAreaValuesView1 as Control);
 
             chartAreaValuesView1.AddClicked += addToChartButton_Click;
             chartAreaValuesView1.ClearClicked += clearChartButton_Click;
 
 
-            elementHostChart3d = new ElementHost
-            {
-                BackColor = Color.White,
-                Dock = DockStyle.Fill,
-                Child = chart3d
-            };
+
           //  ((ISupportInitialize) chart2d).BeginInit();
 
 
             panel2.Controls.Add(chart2d);
             panel2.Controls.Add(complexChart);
-            panel2.Controls.Add(elementHostChart3d);
+            panel2.Controls.Add(chart3d.ParentControl);
             chart2d.BringToFront();
             complexChart.BringToFront();
-            elementHostChart3d.BringToFront();
+            chart3d.ParentControl.BringToFront();
             complexChart.Visible = false;
-            elementHostChart3d.Visible = false;
+            chart3d.ParentControl.Visible = false;
            // ((ISupportInitialize) chart2d).EndInit();
 
 
-            foreach (var chart in charts)
-            {
-                chart.Value.SetChartAreaValues((double) chartAreaValuesView1.XMin, (double)chartAreaValuesView1.XMax,
-                    (double)chartAreaValuesView1.YMin, (double)chartAreaValuesView1.YMax);
-            }
-            editChartMenus = new EditChartMenus(chart2d,complexChart,chart3d,elementHostChart3d);
+
+            editChartMenus = new EditChartMenus(chart2d,complexChart,chart3d, chart3d.ParentControl);
 
           //  menuStrip2.Items.Insert(4, editChartMenus.chart3DToolStripMenuItem);
            // menuStrip2.Items.Insert(4, editChartMenus.comlexChartToolStripMenuItem);

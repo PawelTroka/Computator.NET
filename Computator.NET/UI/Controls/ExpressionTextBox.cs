@@ -12,7 +12,14 @@ using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.UI.Controls
 {
-    internal class ExpressionTextBox : TextBox, INotifyPropertyChanged
+
+    public interface IExpressionView
+    {
+       string Text { get; set; }
+        event EventHandler TextChanged;
+    }
+
+    internal class ExpressionTextBox : TextBox, INotifyPropertyChanged, IExpressionView
     {
         private AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
         private bool _exponentMode;
@@ -50,8 +57,6 @@ namespace Computator.NET.UI.Controls
             get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
             set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
         }
-
-        public string Expression => base.Text.Replace(SpecialSymbols.DotSymbol, '*');
 
         public bool IsInDesignMode
         {

@@ -6,7 +6,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -15,9 +16,13 @@ using Computator.NET.Charting.Chart3D.Splines;
 using Computator.NET.Charting.Printing;
 using Computator.NET.DataTypes;
 using Color = System.Windows.Media.Color;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Windows.Point;
+using PrintDialog = System.Windows.Controls.PrintDialog;
 using Size = System.Windows.Size;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace Computator.NET.Charting.Chart3D
 {
@@ -47,12 +52,16 @@ namespace Computator.NET.Charting.Chart3D
 
         public Chart3DControl()
         {
+            ParentControl = new ElementHost() { Child = this,
+                BackColor = System.Drawing.Color.White,
+                Dock = DockStyle.Fill,
+            };
             InitializeComponent();
 
             axisLabels = new AxisLabels(canvasOn3D);
 
             Focusable = true;
-
+            
 
             Mode = Chart3DMode.Surface;
 
@@ -64,6 +73,8 @@ namespace Computator.NET.Charting.Chart3D
             KeyDown += OnKeyDown;
             Quality = 50;
         }
+
+        public ElementHost ParentControl { get; } 
 
         public double Scale
         {
@@ -262,6 +273,8 @@ namespace Computator.NET.Charting.Chart3D
             axisLabels.Remove();
             TransformChart();
         }
+
+        public bool Visible { get { return ParentControl.Visible; } set { ParentControl.Visible = value; } }
 
         public void AddFunction(Function fxy)
         {
