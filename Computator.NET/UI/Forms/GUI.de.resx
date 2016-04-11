@@ -141,11 +141,11 @@
   <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
     <value>Ergebnis</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>Punkt x =</value>
-  </data>
   <data name="label14.Text" xml:space="preserve">
     <value>Ordnung n =</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Punkt x =</value>
   </data>
   <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
     <value>Die Ableitung der Funktion an</value>

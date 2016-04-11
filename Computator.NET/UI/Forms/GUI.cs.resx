@@ -141,11 +141,11 @@
   <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
     <value>Výsledek</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>bod x =</value>
-  </data>
   <data name="label14.Text" xml:space="preserve">
     <value>řada n =</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>bod x =</value>
   </data>
   <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
     <value>Derivace funkce v bodě</value>

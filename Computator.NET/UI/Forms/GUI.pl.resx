@@ -180,29 +180,20 @@
   <data name="stepsGroupBox.Text" xml:space="preserve">
     <value>Liczba kroków:</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Wynik:</value>
-  </data>
-  <data name="intervalGroupBox.Text" xml:space="preserve">
-    <value>Przedział</value>
-  </data>
-  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Pochodna funkcji w punkcie</value>
+  <data name="label14.Text" xml:space="preserve">
+    <value>rząd n =</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
     <value>punkt x =</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>rząd n =</value>
+  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
+    <value>Pochodna funkcji w punkcie</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 24</value>
+  <data name="intervalGroupBox.Text" xml:space="preserve">
+    <value>Przedział</value>
   </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 22</value>
-  </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 22</value>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Wynik:</value>
   </data>
   <data name="function.HeaderText" xml:space="preserve">
     <value>Funkcja</value>
@@ -221,6 +212,15 @@
   </data>
   <data name="chartingTabPage.Text" xml:space="preserve">
     <value>Wykres</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 24</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 22</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 22</value>
   </data>
   <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Kalkulator</value>

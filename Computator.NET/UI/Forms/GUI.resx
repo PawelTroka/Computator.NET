@@ -467,6 +467,96 @@
   <data name="openCustomFunctionsDirectoryButton.Text" xml:space="preserve">
     <value>Open directory</value>
   </data>
+  <data name="calculationsRealLabel.Text" xml:space="preserve">
+    <value>       x =</value>
+  </data>
+  <data name="calculationsComplexLabel.Text" xml:space="preserve">
+    <value>Im(z) =</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>for values:</value>
+  </data>
+  <data name="calculateButton.Text" xml:space="preserve">
+    <value>Calculate!</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Result:</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>Expression</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn4.HeaderText" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Chart</value>
+  </data>
+  <data name="modeToolStripDropDownButton.Text" xml:space="preserve">
+    <value>Mode[Real : f(x)]</value>
+  </data>
+  <data name="mode3DFxyToolStripMenuItem.Text" xml:space="preserve">
+    <value>3D : f(x,y)</value>
+  </data>
+  <data name="fdsfdsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Complex : f(z)</value>
+  </data>
+  <data name="dd212ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Real : f(x)</value>
+  </data>
+  <data name="result.HeaderText" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="parameters.HeaderText" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="method.HeaderText" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="operation.HeaderText" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="function.HeaderText" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Result:</value>
+  </data>
+  <data name="intervalGroupBox.Text" xml:space="preserve">
+    <value>Searching interval</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>a =</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>b =</value>
+  </data>
+  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
+    <value>Derivative at point x of order n</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>point x =</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>order n =</value>
+  </data>
+  <data name="stepsGroupBox.Text" xml:space="preserve">
+    <value>Number of steps:</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>N =</value>
+  </data>
+  <data name="maxErrorGroupBox.Text" xml:space="preserve">
+    <value>Max error:</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>ε =</value>
+  </data>
+  <data name="epsTextBox.Text" xml:space="preserve">
+    <value>1e-8</value>
+  </data>
   <data name="&gt;&gt;openCustomFunctionsDirectoryButton.Name" xml:space="preserve">
     <value>openCustomFunctionsDirectoryButton</value>
   </data>
@@ -578,9 +668,6 @@
   <data name="calculationsRealLabel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="calculationsRealLabel.Text" xml:space="preserve">
-    <value>       x =</value>
-  </data>
   <data name="&gt;&gt;calculationsRealLabel.Name" xml:space="preserve">
     <value>calculationsRealLabel</value>
   </data>
@@ -640,9 +727,6 @@
   </data>
   <data name="calculationsComplexLabel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
-  </data>
-  <data name="calculationsComplexLabel.Text" xml:space="preserve">
-    <value>Im(z) =</value>
   </data>
   <data name="calculationsComplexLabel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -704,9 +788,6 @@
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>for values:</value>
-  </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
   </data>
@@ -767,9 +848,6 @@
   <data name="calculateButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="calculateButton.Text" xml:space="preserve">
-    <value>Calculate!</value>
-  </data>
   <data name="&gt;&gt;calculateButton.Name" xml:space="preserve">
     <value>calculateButton</value>
   </data>
@@ -806,9 +884,6 @@
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Result:</value>
-  </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>
   </data>
@@ -839,21 +914,12 @@
   <metadata name="dataGridViewTextBoxColumn1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>Expression</value>
-  </data>
   <metadata name="dataGridViewTextBoxColumn4.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="dataGridViewTextBoxColumn4.HeaderText" xml:space="preserve">
-    <value>Argument</value>
-  </data>
   <metadata name="dataGridViewTextBoxColumn5.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
-    <value>Result</value>
-  </data>
   <data name="calculationsHistoryDataGridView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -944,9 +1010,6 @@
   <data name="epsTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="epsTextBox.Text" xml:space="preserve">
-    <value>1e-8</value>
-  </data>
   <data name="&gt;&gt;epsTextBox.Name" xml:space="preserve">
     <value>epsTextBox</value>
   </data>
@@ -980,9 +1043,6 @@
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>ε =</value>
-  </data>
   <data name="&gt;&gt;label10.Name" xml:space="preserve">
     <value>label10</value>
   </data>
@@ -1012,9 +1072,6 @@
   </data>
   <data name="maxErrorGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
-  </data>
-  <data name="maxErrorGroupBox.Text" xml:space="preserve">
-    <value>Max error:</value>
   </data>
   <data name="&gt;&gt;maxErrorGroupBox.Name" xml:space="preserve">
     <value>maxErrorGroupBox</value>
@@ -1076,9 +1133,6 @@
   <data name="label19.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="label19.Text" xml:space="preserve">
-    <value>N =</value>
-  </data>
   <data name="&gt;&gt;label19.Name" xml:space="preserve">
     <value>label19</value>
   </data>
@@ -1108,9 +1162,6 @@
   </data>
   <data name="stepsGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
-  </data>
-  <data name="stepsGroupBox.Text" xml:space="preserve">
-    <value>Number of steps:</value>
   </data>
   <data name="&gt;&gt;stepsGroupBox.Name" xml:space="preserve">
     <value>stepsGroupBox</value>
@@ -1229,9 +1280,6 @@
   <data name="label14.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>order n =</value>
-  </data>
   <data name="&gt;&gt;label14.Name" xml:space="preserve">
     <value>label14</value>
   </data>
@@ -1265,9 +1313,6 @@
   <data name="label15.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>point x =</value>
-  </data>
   <data name="&gt;&gt;label15.Name" xml:space="preserve">
     <value>label15</value>
   </data>
@@ -1297,9 +1342,6 @@
   </data>
   <data name="derivativeAtPointGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
-  </data>
-  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Derivative at point x of order n</value>
   </data>
   <data name="&gt;&gt;derivativeAtPointGroupBox.Name" xml:space="preserve">
     <value>derivativeAtPointGroupBox</value>
@@ -1388,9 +1430,6 @@
   <data name="label12.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>b =</value>
-  </data>
   <data name="&gt;&gt;label12.Name" xml:space="preserve">
     <value>label12</value>
   </data>
@@ -1424,9 +1463,6 @@
   <data name="label13.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>a =</value>
-  </data>
   <data name="&gt;&gt;label13.Name" xml:space="preserve">
     <value>label13</value>
   </data>
@@ -1456,9 +1492,6 @@
   </data>
   <data name="intervalGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
-  </data>
-  <data name="intervalGroupBox.Text" xml:space="preserve">
-    <value>Searching interval</value>
   </data>
   <data name="&gt;&gt;intervalGroupBox.Name" xml:space="preserve">
     <value>intervalGroupBox</value>
@@ -1496,9 +1529,6 @@
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Result:</value>
-  </data>
   <data name="&gt;&gt;label8.Name" xml:space="preserve">
     <value>label8</value>
   </data>
@@ -1529,33 +1559,18 @@
   <metadata name="function.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="function.HeaderText" xml:space="preserve">
-    <value>Function</value>
-  </data>
   <metadata name="operation.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="operation.HeaderText" xml:space="preserve">
-    <value>Operation</value>
-  </data>
   <metadata name="method.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="method.HeaderText" xml:space="preserve">
-    <value>Method</value>
-  </data>
   <metadata name="parameters.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="parameters.HeaderText" xml:space="preserve">
-    <value>Parameters</value>
-  </data>
   <metadata name="result.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="result.HeaderText" xml:space="preserve">
-    <value>Result</value>
-  </data>
   <data name="numericalCalculationsDataGridView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1631,20 +1646,11 @@
   <data name="dd212ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 22</value>
   </data>
-  <data name="dd212ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Real : f(x)</value>
-  </data>
   <data name="fdsfdsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 22</value>
   </data>
-  <data name="fdsfdsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Complex : f(z)</value>
-  </data>
   <data name="mode3DFxyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 22</value>
-  </data>
-  <data name="mode3DFxyToolStripMenuItem.Text" xml:space="preserve">
-    <value>3D : f(x,y)</value>
   </data>
   <data name="modeToolStripDropDownButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1666,9 +1672,6 @@
   </data>
   <data name="modeToolStripDropDownButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 20</value>
-  </data>
-  <data name="modeToolStripDropDownButton.Text" xml:space="preserve">
-    <value>Mode[Real : f(x)]</value>
   </data>
   <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 620</value>
@@ -1732,9 +1735,6 @@
   </data>
   <data name="chartingTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
-  </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Chart</value>
   </data>
   <data name="&gt;&gt;chartingTabPage.Name" xml:space="preserve">
     <value>chartingTabPage</value>
@@ -3256,6 +3256,12 @@
   <data name="&gt;&gt;toolStripSeparator18.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;exponentiationToolStripMenuItem.Name" xml:space="preserve">
+    <value>exponentiationToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;exponentiationToolStripMenuItem.Type" xml:space="preserve">
+    <value>Computator.NET.UI.Controls.BindableToolStripMenuItem, Computator.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;functionsToolStripMenuItem.Name" xml:space="preserve">
     <value>functionsToolStripMenuItem</value>
   </data>
@@ -3525,12 +3531,6 @@
   </data>
   <data name="&gt;&gt;runToolStripButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;exponentiationToolStripMenuItem.Name" xml:space="preserve">
-    <value>exponentiationToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;exponentiationToolStripMenuItem.Type" xml:space="preserve">
-    <value>Computator.NET.UI.Controls.BindableToolStripMenuItem, Computator.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>GUI</value>

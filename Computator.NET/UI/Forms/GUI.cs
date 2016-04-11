@@ -33,6 +33,7 @@ using Computator.NET.UI;
 using Computator.NET.UI.AutocompleteMenu;
 using Computator.NET.UI.CodeEditors;
 using Computator.NET.UI.Controls;
+using Computator.NET.UI.Views;
 using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
 using File = System.IO.File;
 using Settings = Computator.NET.Properties.Settings;
@@ -42,6 +43,8 @@ namespace Computator.NET
     public interface IMainForm
     {
         IChartAreaValuesView chartAreaValuesView1 { get; }
+        ICalculationsView CalculationsView { get; }
+
         ReadOnlyDictionary<CalculationsMode, IChart> charts { get; }
         IExpressionView ExpressionView { get; }
         string ModeText { get; set; }
@@ -50,7 +53,7 @@ namespace Computator.NET
     public partial class GUI : LocalizedForm, IMainForm
     {
         public IChartAreaValuesView chartAreaValuesView1 { get; } = new ChartAreaValuesView() { Dock = DockStyle.Right };
-
+        public ICalculationsView CalculationsView { get; } = new CalculationsView() {Dock = DockStyle.Fill};
 
         public ReadOnlyDictionary<CalculationsMode, IChart> charts { get; } = new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>
         {
@@ -71,11 +74,11 @@ namespace Computator.NET
 
 
         //  private readonly FunctionComplexEvaluator complexEvaluator;
-        private readonly ExpressionsEvaluator expressionsEvaluator;
+        private readonly ExpressionsEvaluator expressionsEvaluator = new ExpressionsEvaluator();
         // private readonly Function2DEvaluator evaluator2d;
         // private readonly Function3DEvaluator evaluator3d;
         private readonly SimpleLogger logger;
-        private readonly WebBrowserForm menuFunctionsToolTip;
+        private readonly WebBrowserForm menuFunctionsToolTip = new WebBrowserForm();
 
         private CodeEditorControlWrapper customFunctionsCodeEditor;
         private List<Action<object, EventArgs>> defaultActions;
@@ -450,18 +453,14 @@ namespace Computator.NET
 
         #region initialization and construction
 
-        private readonly ModeDeterminer modeDeterminer;
+        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
 
         public GUI()
         {
             logger = new SimpleLogger(this);
 
-            expressionsEvaluator = new ExpressionsEvaluator();
-
-            menuFunctionsToolTip = new WebBrowserForm();
-            modeDeterminer = new ModeDeterminer();
-
             InitializeComponent();
+            /////calculationsTabPage.Controls.Add(CalculationsView as Control);
             InitializeFunctions();
             InitializeCharts(); //takes more time then it should
             expressionTextBox.RefreshAutoComplete();

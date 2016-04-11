@@ -45,9 +45,11 @@ namespace Computator.NET
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.consoleOutputTextBox = new System.Windows.Forms.RichTextBox();
+            this.scriptingDirectoryTree = new Computator.NET.DirectoryTree();
             this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.processButton = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.customFunctionsDirectoryTree = new Computator.NET.DirectoryTree();
             this.openCustomFunctionsDirectoryButton = new System.Windows.Forms.Button();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -111,6 +113,7 @@ namespace Computator.NET
             this.customFunctionsTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.expressionTextBox = new Computator.NET.UI.Controls.ExpressionTextBox();
             this.openCustomFunctionsFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveCustomFunctionsFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -137,6 +140,7 @@ namespace Computator.NET
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.exponentiationToolStripMenuItem = new Computator.NET.UI.Controls.BindableToolStripMenuItem();
             this.functionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.elementaryFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.specialFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,10 +187,6 @@ namespace Computator.NET
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.runToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.scriptingDirectoryTree = new Computator.NET.DirectoryTree();
-            this.customFunctionsDirectoryTree = new Computator.NET.DirectoryTree();
-            this.expressionTextBox = new Computator.NET.UI.Controls.ExpressionTextBox();
-            this.exponentiationToolStripMenuItem = new Computator.NET.UI.Controls.BindableToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -266,6 +266,15 @@ namespace Computator.NET
             this.consoleOutputTextBox.Name = "consoleOutputTextBox";
             this.consoleOutputTextBox.ReadOnly = true;
             // 
+            // scriptingDirectoryTree
+            // 
+            this.scriptingDirectoryTree.CodeEditorWrapper = null;
+            resources.ApplyResources(this.scriptingDirectoryTree, "scriptingDirectoryTree");
+            this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
+            this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
+            this.scriptingDirectoryTree.Path = null;
+            // 
             // openScriptingDirectoryButton
             // 
             resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
@@ -289,6 +298,15 @@ namespace Computator.NET
             // 
             this.splitContainer3.Panel2.Controls.Add(this.customFunctionsDirectoryTree);
             this.splitContainer3.Panel2.Controls.Add(this.openCustomFunctionsDirectoryButton);
+            // 
+            // customFunctionsDirectoryTree
+            // 
+            this.customFunctionsDirectoryTree.CodeEditorWrapper = null;
+            resources.ApplyResources(this.customFunctionsDirectoryTree, "customFunctionsDirectoryTree");
+            this.customFunctionsDirectoryTree.Name = "customFunctionsDirectoryTree";
+            this.customFunctionsDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("customFunctionsDirectoryTree.Nodes")))});
+            this.customFunctionsDirectoryTree.Path = null;
             // 
             // openCustomFunctionsDirectoryButton
             // 
@@ -861,6 +879,13 @@ namespace Computator.NET
             this.tableLayoutPanel1.Controls.Add(this.expressionTextBox, 1, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
+            // expressionTextBox
+            // 
+            resources.ApplyResources(this.expressionTextBox, "expressionTextBox");
+            this.expressionTextBox.ExponentMode = false;
+            this.expressionTextBox.Name = "expressionTextBox";
+            this.expressionTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.expressionTextBox_KeyPress);
+            // 
             // openCustomFunctionsFileDialog
             // 
             this.openCustomFunctionsFileDialog.FileName = "custom functions.tslf";
@@ -1037,6 +1062,12 @@ namespace Computator.NET
             // 
             this.toolStripSeparator18.Name = "toolStripSeparator18";
             resources.ApplyResources(this.toolStripSeparator18, "toolStripSeparator18");
+            // 
+            // exponentiationToolStripMenuItem
+            // 
+            this.exponentiationToolStripMenuItem.CheckOnClick = true;
+            this.exponentiationToolStripMenuItem.Name = "exponentiationToolStripMenuItem";
+            resources.ApplyResources(this.exponentiationToolStripMenuItem, "exponentiationToolStripMenuItem");
             // 
             // functionsToolStripMenuItem
             // 
@@ -1353,37 +1384,6 @@ namespace Computator.NET
             resources.ApplyResources(this.runToolStripButton, "runToolStripButton");
             this.runToolStripButton.Name = "runToolStripButton";
             this.runToolStripButton.Click += new System.EventHandler(this.runToolStripButton_Click);
-            // 
-            // scriptingDirectoryTree
-            // 
-            this.scriptingDirectoryTree.CodeEditorWrapper = null;
-            resources.ApplyResources(this.scriptingDirectoryTree, "scriptingDirectoryTree");
-            this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
-            this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
-            this.scriptingDirectoryTree.Path = null;
-            // 
-            // customFunctionsDirectoryTree
-            // 
-            this.customFunctionsDirectoryTree.CodeEditorWrapper = null;
-            resources.ApplyResources(this.customFunctionsDirectoryTree, "customFunctionsDirectoryTree");
-            this.customFunctionsDirectoryTree.Name = "customFunctionsDirectoryTree";
-            this.customFunctionsDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("customFunctionsDirectoryTree.Nodes")))});
-            this.customFunctionsDirectoryTree.Path = null;
-            // 
-            // expressionTextBox
-            // 
-            resources.ApplyResources(this.expressionTextBox, "expressionTextBox");
-            this.expressionTextBox.ExponentMode = false;
-            this.expressionTextBox.Name = "expressionTextBox";
-            this.expressionTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.expressionTextBox_KeyPress);
-            // 
-            // exponentiationToolStripMenuItem
-            // 
-            this.exponentiationToolStripMenuItem.CheckOnClick = true;
-            this.exponentiationToolStripMenuItem.Name = "exponentiationToolStripMenuItem";
-            resources.ApplyResources(this.exponentiationToolStripMenuItem, "exponentiationToolStripMenuItem");
             // 
             // GUI
             // 

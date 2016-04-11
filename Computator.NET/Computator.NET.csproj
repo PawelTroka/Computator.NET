@@ -331,6 +331,15 @@
     <EmbeddedResource Include="Config\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\CalculationsView.cs.resx">
+      <DependentUpon>CalculationsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\CalculationsView.de.resx">
+      <DependentUpon>CalculationsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\CalculationsView.pl.resx">
+      <DependentUpon>CalculationsView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\CalculationsView.resx">
       <DependentUpon>CalculationsView.cs</DependentUpon>
     </EmbeddedResource>
