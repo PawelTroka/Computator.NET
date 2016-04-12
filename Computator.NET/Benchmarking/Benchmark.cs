@@ -1234,7 +1234,7 @@ namespace Computator.NET.Benchmarking
 
         private double result
         {
-            get { return Enumerable.Average(results); }
+            get { return results.Average(); }
         }
 
         public double Result
@@ -1303,7 +1303,7 @@ namespace Computator.NET.Benchmarking
 
                 results.Add(stopWatch.ElapsedMilliseconds);
 
-                bw.ReportProgress((int) ((100.0*i)/(1.0*loops)));
+                bw.ReportProgress((int) (100.0*i/(1.0*loops)));
             }
         }
 
@@ -1357,7 +1357,7 @@ namespace Computator.NET.Benchmarking
                 tempString += tab[random.Next(0, maxsize)];
 
                 results.Add(stopWatch.ElapsedMilliseconds);
-                bw.ReportProgress((int) ((100.0*j)/(1.0*(maxsize - 1))));
+                bw.ReportProgress((int) (100.0*j/(1.0*(maxsize - 1))));
             }
             //var k = 1;
         }

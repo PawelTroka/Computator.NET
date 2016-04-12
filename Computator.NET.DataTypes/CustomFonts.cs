@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Reflection;
-using System.Windows.Forms;
 using Computator.NET.Logging;
 
 namespace Computator.NET.Config
@@ -19,9 +18,6 @@ namespace Computator.NET.Config
         private static PrivateFontCollection scriptingFontCollection;
 
 
-
-
-
         public static Font GetMathFont(float fontSize)
         {
             if (mathFontCollection == null) GetCustomFonts();
@@ -33,7 +29,6 @@ namespace Computator.NET.Config
             if (scriptingFontCollection == null) GetCustomFonts();
             return new Font(scriptingFontCollection.Families[0], fontSize, GraphicsUnit.Point);
         }
-
 
 
         private static void GetCustomFonts()
@@ -50,7 +45,9 @@ namespace Computator.NET.Config
             }
             catch (Exception ex)
             {
-                var nex = new Exception("Probably missing " + pathToFont + " or "+pathToFont2+" file\nDetails:" + ex.Message, ex);
+                var nex =
+                    new Exception(
+                        "Probably missing " + pathToFont + " or " + pathToFont2 + " file\nDetails:" + ex.Message, ex);
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
                 logger.Log("Probably missing " + pathToFont + " file\nDetails:" + ex.Message, ErrorType.General, nex);
                 throw nex;

@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
 {
-
     [TestClass]
     public class FunctionDetailsUnitTests
     {
@@ -23,7 +22,7 @@ namespace UnitTests
 
                 Assert.IsNotNull(keyValuePair.Value.Url);
 
-                Assert.AreEqual(keyValuePair.Key,keyValuePair.Value.Signature);
+                Assert.AreEqual(keyValuePair.Key, keyValuePair.Value.Signature);
             }
         }
 

@@ -1,26 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.Properties;
 using Computator.NET.UI.AutocompleteMenu;
-using Settings = Computator.NET.Properties.Settings;
 
 namespace AutocompleteMenuNS
 {
     public class AutocompleteListView : UserControl, IAutocompleteListView
     {
-        public int HighlightedItemIndex { get; set; }
-        /// <summary>
-        /// Colors
-        /// </summary>
-        public Colors Colors { get; set; }
         private readonly WebBrowserForm formTip;
         //private readonly int hoveredItemIndex = -1;
         private readonly WebBrowserToolTip toolTip;
@@ -28,6 +20,8 @@ namespace AutocompleteMenuNS
         //private Task _showToolTipTask = null;
         //private BackgroundWorker _showToolTipWorker = null;
         private int itemHeight;
+
+        private Point mouseEnterPoint;
         private int oldItemCount;
         private int selectedItemIndex = -1;
         private IList<AutocompleteItem> visibleItems;
@@ -56,7 +50,6 @@ namespace AutocompleteMenuNS
         }
 
 
-
         public int ItemHeight
         {
             get { return itemHeight; }
@@ -80,6 +73,12 @@ namespace AutocompleteMenuNS
         }
 
         public int LeftPadding { get; set; }
+        public int HighlightedItemIndex { get; set; }
+
+        /// <summary>
+        ///     Colors
+        /// </summary>
+        public Colors Colors { get; set; }
 
         /// <summary>
         ///     Duration (ms) of tooltip showing
@@ -128,7 +127,7 @@ namespace AutocompleteMenuNS
                     ShowToolTip(item);
                     ScrollToSelected();
                 }
-                
+
                 Invalidate();
             }
         }
@@ -252,7 +251,6 @@ namespace AutocompleteMenuNS
         }
 
 
-
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             e.Graphics.Clear(Colors.BackColor);
@@ -260,7 +258,6 @@ namespace AutocompleteMenuNS
 
         protected override void OnPaint(PaintEventArgs e)
         {
-
             var rtl = RightToLeft == RightToLeft.Yes;
             AdjustScroll();
             var startI = VerticalScroll.Value/ItemHeight - 1;
@@ -337,19 +334,17 @@ namespace AutocompleteMenuNS
             }
         }
 
-        private Point mouseEnterPoint;
-
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            mouseEnterPoint = Control.MousePosition;
+            mouseEnterPoint = MousePosition;
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
 
-            if (mouseEnterPoint != Control.MousePosition)
+            if (mouseEnterPoint != MousePosition)
             {
                 HighlightedItemIndex = PointToItemIndex(e.Location);
                 Invalidate();

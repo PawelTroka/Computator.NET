@@ -26,7 +26,7 @@ namespace Computator.NET.Charting.Chart3D
             for (var i = 0; i < nRes; i++)
             {
                 n1 = i;
-                if (i == (nRes - 1)) n2 = 0;
+                if (i == nRes - 1) n2 = 0;
                 else n2 = i + 1;
                 SetTriangle(i*4 + 0, n1, n2, nRes + n1); // side
                 SetTriangle(i*4 + 1, nRes + n1, n2, nRes + n2); // side
@@ -40,7 +40,7 @@ namespace Computator.NET.Charting.Chart3D
         // set mesh vertex location
         private void SetData(double a, double b, double h)
         {
-            var aXYStep = 2.0f*3.1415926f/((double) m_nRes);
+            var aXYStep = 2.0f*3.1415926f/(double) m_nRes;
             for (var i = 0; i < m_nRes; i++)
             {
                 var aXY = i*aXYStep;

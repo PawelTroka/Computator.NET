@@ -30,7 +30,6 @@ namespace Computator.NET.UI.AutocompleteMenu
 
 
             Controls.Add(webBrowser);
-
         }
 
         public string HTMLCode

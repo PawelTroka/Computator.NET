@@ -4,13 +4,14 @@ using System.Windows.Forms.Integration;
 using System.Windows.Media.Media3D;
 using Computator.NET.Config;
 using Computator.NET.DataTypes;
-using Settings = Computator.NET.Properties.Settings;
+using Computator.NET.Properties;
 
 namespace Computator.NET.Evaluation
 {
     internal class ScriptEvaluator : ExpressionsEvaluator
     {
         private readonly string _additionalObjectsCodeCopy;
+
         public ScriptEvaluator()
         {
             FunctionType = FunctionType.Scripting;
@@ -44,7 +45,7 @@ namespace Computator.NET.Evaluation
             NativeCompiler.AddDll("System.Windows.Forms.dll");
             NativeCompiler.AddDll("System.Xaml.dll");
             //NativeCompiler.AddDll("Microsoft.CSharp.dll");
-            
+
 
             NativeCompiler.AddDll(typeof (AmbientLight).Assembly.Location);
             //"PresentationCore.dll");
@@ -57,7 +58,7 @@ namespace Computator.NET.Evaluation
 
             NativeCompiler.IsScripting = true;
 
-            _additionalObjectsCodeCopy=AdditionalObjectsCode = ScriptingExtensionObjects.ToCode;
+            _additionalObjectsCodeCopy = AdditionalObjectsCode = ScriptingExtensionObjects.ToCode;
             Logger.ClassName = GetType().FullName;
         }
 
@@ -70,10 +71,10 @@ namespace Computator.NET.Evaluation
                 @"Properties.Settings.Default.NumericalOutputNotation",
                 "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." +
                 Settings.Default.NumericalOutputNotation);
-                //DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
+            //DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
 
             var function = Compile();
-            return new ScriptFunction(function) {TslCode = MainTslCode, CsCode = MainCSharpCode };
+            return new ScriptFunction(function) {TslCode = MainTslCode, CsCode = MainCSharpCode};
         }
     }
 }

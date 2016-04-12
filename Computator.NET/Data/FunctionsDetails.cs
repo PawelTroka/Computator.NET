@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Xml;
 using System.Xml.Serialization;
 using AutocompleteMenuNS;
 using Computator.NET.Config;
@@ -17,7 +16,7 @@ namespace Computator.NET.Data
         private FunctionsDetails()
         {
             _details = LoadFunctionsDetailsFromXmlFile();
-          //  SaveEmptyFunctionDetailsToXmlFile();
+            //  SaveEmptyFunctionDetailsToXmlFile();
         }
 
         public static FunctionsDetails Details { get; } = new FunctionsDetails();
@@ -40,7 +39,7 @@ namespace Computator.NET.Data
 
 
             serializer.Serialize(stream,
-                Enumerable.ToArray(Enumerable.Select(_details, kv =>
+                _details.Select(kv =>
                     new FunctionInfo
                     {
                         Signature = kv.Key,
@@ -49,7 +48,7 @@ namespace Computator.NET.Data
                         Title = kv.Value.Title,
                         Category = kv.Value.Category,
                         Type = kv.Value.Type
-                    })));
+                    }).ToArray());
         }
 
         //TODO: this function should create new functions file with all it's previous content and empty spaces for new functions which exists in ElementaryFuntions, SpecialFunctions etc but not in the xml file yet
@@ -64,7 +63,7 @@ namespace Computator.NET.Data
             var stream = new StreamWriter("functions_empty_saved.xml");
 
 
-            var detailsWithEmpties = new Dictionary<string,FunctionInfo>();
+            var detailsWithEmpties = new Dictionary<string, FunctionInfo>();
 
             var items = AutocompletionData.GetAutocompleteItemsForScripting();
             items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
@@ -76,7 +75,7 @@ namespace Computator.NET.Data
 
 
             serializer.Serialize(stream,
-                Enumerable.ToArray(Enumerable.Select(detailsWithEmpties, kv =>
+                detailsWithEmpties.Select(kv =>
                     new FunctionInfo
                     {
                         Signature = kv.Key,
@@ -85,7 +84,7 @@ namespace Computator.NET.Data
                         Title = kv.Value.Title,
                         Category = kv.Value.Category,
                         Type = kv.Value.Type
-                    })));
+                    }).ToArray());
         }
 
         private Dictionary<string, FunctionInfo> LoadFunctionsDetailsFromXmlFile()
@@ -97,8 +96,7 @@ namespace Computator.NET.Data
                 new XmlRootAttribute("FunctionsDetails"));
             var stream = new StreamReader(GlobalConfig.FullPath("Data", "functions.xml"));
 
-            var functionsInfos = Enumerable.ToDictionary(((FunctionInfo[]) serializer.Deserialize(stream)),
-                kv => kv.Signature,
+            var functionsInfos = ((FunctionInfo[]) serializer.Deserialize(stream)).ToDictionary(kv => kv.Signature,
                 kv =>
                     new FunctionInfo
                     {
@@ -120,7 +118,7 @@ namespace Computator.NET.Data
 
         public KeyValuePair<string, FunctionInfo>[] ToArray()
         {
-            return Enumerable.ToArray(_details);
+            return _details.ToArray();
         }
     }
 }

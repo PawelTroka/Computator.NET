@@ -1,23 +1,36 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace AutocompleteMenuNS
 {
-    [System.ComponentModel.ToolboxItem(false)]
+    [ToolboxItem(false)]
     internal class AutocompleteMenuHost : ToolStripDropDown
     {
-        private IAutocompleteListView listView;
-        public ToolStripControlHost Host { get; set; }
         public readonly AutocompleteMenu Menu;
+        private IAutocompleteListView listView;
 
-        public IAutocompleteListView ListView 
-        { 
+        public AutocompleteMenuHost(AutocompleteMenu menu)
+        {
+            AutoClose = false;
+            AutoSize = false;
+            Margin = Padding.Empty;
+            Padding = Padding.Empty;
+
+            Menu = menu;
+            ListView = new AutocompleteListView();
+        }
+
+        public ToolStripControlHost Host { get; set; }
+
+        public IAutocompleteListView ListView
+        {
             get { return listView; }
-            set {
-
-                if(listView != null)
-                    (listView as Control).LostFocus -= new EventHandler(ListView_LostFocus);
+            set
+            {
+                if (listView != null)
+                    (listView as Control).LostFocus -= ListView_LostFocus;
 
                 if (value == null)
                     listView = new AutocompleteListView();
@@ -37,24 +50,23 @@ namespace AutocompleteMenuNS
 
                 (ListView as Control).MaximumSize = Menu.MaximumSize;
                 (ListView as Control).Size = Menu.MaximumSize;
-                (ListView as Control).LostFocus += new EventHandler(ListView_LostFocus);
+                (ListView as Control).LostFocus += ListView_LostFocus;
 
                 CalcSize();
-                base.Items.Clear();
-                base.Items.Add(Host);
+                Items.Clear();
+                Items.Add(Host);
                 (ListView as Control).Parent = this;
             }
         }
 
-        public AutocompleteMenuHost(AutocompleteMenu menu)
+        public override RightToLeft RightToLeft
         {
-            AutoClose = false;
-            AutoSize = false;
-            Margin = Padding.Empty;
-            Padding = Padding.Empty;
-
-            Menu = menu;
-            ListView = new AutocompleteListView();
+            get { return base.RightToLeft; }
+            set
+            {
+                base.RightToLeft = value;
+                (ListView as Control).RightToLeft = value;
+            }
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)
@@ -66,30 +78,17 @@ namespace AutocompleteMenuNS
         internal void CalcSize()
         {
             Host.Size = (ListView as Control).Size;
-            Size = new System.Drawing.Size((ListView as Control).Size.Width + 4, (ListView as Control).Size.Height + 4);
+            Size = new Size((ListView as Control).Size.Width + 4, (ListView as Control).Size.Height + 4);
         }
 
-        public override RightToLeft RightToLeft
-        {
-            get
-            {
-                return base.RightToLeft;
-            }
-            set
-            {
-                base.RightToLeft = value;
-                (ListView as Control).RightToLeft = value;
-            }
-        }
-        
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);
-            if(!(ListView as Control).Focused)
+            if (!(ListView as Control).Focused)
                 Close();
         }
 
-        void ListView_LostFocus(object sender, EventArgs e)
+        private void ListView_LostFocus(object sender, EventArgs e)
         {
             if (!Focused)
                 Close();

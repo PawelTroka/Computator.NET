@@ -57,8 +57,8 @@ namespace Computator.NET.Charting.Chart3D
             //}
             if (m_mouseRdown) //Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
             {
-                var shiftX = 2*(pt.X - m_movePoint.X)/(width);
-                var shiftY = -2*(pt.Y - m_movePoint.Y)/(width);
+                var shiftX = 2*(pt.X - m_movePoint.X)/width;
+                var shiftY = -2*(pt.Y - m_movePoint.Y)/width;
                 m_viewMatrix.Translate(new Vector3D(shiftX, shiftY, 0));
                 m_movePoint = pt;
             }
@@ -213,8 +213,8 @@ namespace Computator.NET.Charting.Chart3D
             var width = viewPort.ActualWidth;
             var height = viewPort.ActualHeight;
 
-            var x3 = width/2 + (pt2.X)*width/2;
-            var y3 = height/2 - (pt2.Y)*width/2;
+            var x3 = width/2 + pt2.X*width/2;
+            var y3 = height/2 - pt2.Y*width/2;
 
             return new Point(x3, y3);
         }

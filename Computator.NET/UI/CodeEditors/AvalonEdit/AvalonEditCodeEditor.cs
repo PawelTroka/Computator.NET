@@ -12,16 +12,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Xml;
 using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.Localization;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Indentation.CSharp;
@@ -29,7 +26,6 @@ using ICSharpCode.AvalonEdit.Search;
 using FontFamily = System.Windows.Media.FontFamily;
 using FontStyle = System.Drawing.FontStyle;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using Size = System.Windows.Size;
 
 namespace Computator.NET.UI.CodeEditors
 {
@@ -51,7 +47,7 @@ namespace Computator.NET.UI.CodeEditors
 
         //protected OverloadInsightWindow insightWindow;
         private SearchPanel searchPanel;
-        private OffsetColorizer _offsetColorizer = new OffsetColorizer();
+        private readonly OffsetColorizer _offsetColorizer = new OffsetColorizer();
 
         public AvalonEditCodeEditor()
         {
@@ -60,12 +56,8 @@ namespace Computator.NET.UI.CodeEditors
                     AutocompletionData.GetAutocompleteItemsForScripting());
             InitializeComponent();
             _documents =
-                new Dictionary<string, TextDocument>
-                {
-                  //  {Strings.DocumentsTabControl_AddTab_NewFile+1, Document}
-                };
-            this.TextArea.TextView.LineTransformers.Add(_offsetColorizer);
-            
+                new Dictionary<string, TextDocument>();
+            TextArea.TextView.LineTransformers.Add(_offsetColorizer);
         }
 
         public bool ContainsDocument(string filename)
@@ -115,13 +107,16 @@ namespace Computator.NET.UI.CodeEditors
         public void HighlightErrors(List<CompilerError> errors)
         {
             _offsetColorizer.LinesWithErrors.Clear();
-            foreach (CompilerError error in errors)
+            foreach (var error in errors)
             {
                 _offsetColorizer.LinesWithErrors.Add(error.Line);
             }
         }
 
-        public IEnumerable<string> Documents { get { return _documents.Keys.ToList(); } }
+        public IEnumerable<string> Documents
+        {
+            get { return _documents.Keys.ToList(); }
+        }
 
         public void RenameDocument(string filename, string newFilename)
         {
@@ -140,8 +135,8 @@ namespace Computator.NET.UI.CodeEditors
 
         public void ClearHighlightedErrors()
         {
-            this._offsetColorizer.LinesWithErrors.Clear();
-            this.TextArea.TextView.Redraw();
+            _offsetColorizer.LinesWithErrors.Clear();
+            TextArea.TextView.Redraw();
         }
 
         public bool ExponentMode { get; set; }
@@ -382,7 +377,7 @@ namespace Computator.NET.UI.CodeEditors
                 {
                     if (c.AddedLength == 0) continue;
                     tb.Select(c.Offset, c.AddedLength);
-                    if (Enumerable.Contains(tb.SelectedText, '*'))
+                    if (tb.SelectedText.Contains('*'))
                     {
                         tb.SelectedText = tb.SelectedText.Replace('*', SpecialSymbols.DotSymbol);
                     }
@@ -395,7 +390,7 @@ namespace Computator.NET.UI.CodeEditors
 
         private void OnTextEntered(object sender, TextCompositionEventArgs textCompositionEventArgs)
         {
-            if (char.IsLetterOrDigit(Enumerable.Last(textCompositionEventArgs.Text)))
+            if (char.IsLetterOrDigit(textCompositionEventArgs.Text.Last()))
                 ShowCompletion(textCompositionEventArgs.Text, false);
         }
 
@@ -493,11 +488,10 @@ namespace Computator.NET.UI.CodeEditors
 
         #endregion
 
-
         public bool IsExponentMode { get; set; }
 
+        #region Folding
 
-#region Folding
 #if USE_FOLDING
         private FoldingManager foldingManager;
         private object foldingStrategy;
@@ -515,6 +509,7 @@ namespace Computator.NET.UI.CodeEditors
             }
         }
 #endif
-#endregion
+
+        #endregion
     }
 }

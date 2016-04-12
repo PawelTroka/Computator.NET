@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -13,8 +12,8 @@ namespace Computator.NET.Charting.RealCharting
 {
     public class Chart2D : Chart, IChart /*, IChart<double>*/, INotifyPropertyChanged
     {
-        private const double OVERFLOW_VALUE = (double)decimal.MaxValue/10;//1073741951.0/500; //1111117;
-        private const double UNDERFLOW_VALUE = (double) decimal.MinValue/10;//-1073741760.0/500; // 1111117;
+        private const double OVERFLOW_VALUE = (double) decimal.MaxValue/10; //1073741951.0/500; //1111117;
+        private const double UNDERFLOW_VALUE = (double) decimal.MinValue/10; //-1073741760.0/500; // 1111117;
         private const int MOVE_N = 100;
         private readonly List<Function> functions = new List<Function>();
         // private readonly List<Function<double>> implicitFunctions;
@@ -24,8 +23,10 @@ namespace Computator.NET.Charting.RealCharting
         private double _oldN;
         private int _pointsSize = 2;
         private bool _rightButtonPressed;
-        private SeriesChartType defaultExplicitFunctionsChartType = SeriesChartType.Line;//SeriesChartType.FastLine;
-        private SeriesChartType defaultImplicitFunctionsChartType = SeriesChartType.FastPoint;
+        private SeriesChartType defaultExplicitFunctionsChartType = SeriesChartType.Line; //SeriesChartType.FastLine;
+        private readonly SeriesChartType defaultImplicitFunctionsChartType = SeriesChartType.FastPoint;
+
+        private double quality;
         private double scalingFactor = 1;
         private ToolStripComboBox seriesComboBox;
         /*
@@ -50,7 +51,7 @@ namespace Computator.NET.Charting.RealCharting
             MouseUp += _MouseUp;
             MouseMove += _MouseMove;
             Resize += (o, e) => NotifyPropertyChanged("XyRatio");
-         //   defaultExplicitFunctionsChartType = SeriesChartType.Line;//////////////////////////////////
+            //   defaultExplicitFunctionsChartType = SeriesChartType.Line;//////////////////////////////////
             xOnlyZoomMode = yOnlyZoomMode = false;
             InitializeComponent();
             //implicitFunctions= new List<Function<double>>();
@@ -85,117 +86,7 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
-        public double XMin
-        {
-            get { return ChartAreas[0].AxisX.Minimum; }
-            set
-            {                if (value < UNDERFLOW_VALUE)
-                    value = UNDERFLOW_VALUE;
-
-                if (value > OVERFLOW_VALUE)
-                    value = OVERFLOW_VALUE;
-                if (ChartAreas[0].AxisX.Minimum == value) return;
-
-
-
-                ChartAreas[0].AxisX.Minimum = value;
-                XMinChanged?.Invoke(this, new EventArgs());
-
-                NotifyPropertyChanged("XyRatio");
-                _refreshFunctions();
-            }
-        }
-
-        public void Redraw()
-        {
-            Invalidate();
-        }
-
-        public double XMax
-        {
-            get { return ChartAreas[0].AxisX.Maximum; }
-            set
-            {                if (value < UNDERFLOW_VALUE)
-                    value = UNDERFLOW_VALUE;
-
-                if (value > OVERFLOW_VALUE)
-                    value = OVERFLOW_VALUE;
-                if (ChartAreas[0].AxisX.Maximum == value) return;
-
-
-
-
-                ChartAreas[0].AxisX.Maximum = value;
-                XMaxChanged?.Invoke(this, new EventArgs());
-                _refreshFunctions();
-            }
-        }
-
-        public double YMin
-        {
-            get { return ChartAreas[0].AxisY.Minimum; }
-            set
-            {
-
-                if (value < UNDERFLOW_VALUE)
-                    value = UNDERFLOW_VALUE;
-
-                if (value > OVERFLOW_VALUE)
-                    value = OVERFLOW_VALUE;
-
-                if (ChartAreas[0].AxisY.Minimum == value) return;
-
-
-
-
-                ChartAreas[0].AxisY.Minimum = value;
-                YMinChanged?.Invoke(this, new EventArgs());
-                _refreshFunctions();
-            }
-        }
-
-        public double YMax
-        {
-            get { return ChartAreas[0].AxisY.Maximum; }
-            set
-            {
-                if (value < UNDERFLOW_VALUE)
-                    value = UNDERFLOW_VALUE;
-
-                if (value > OVERFLOW_VALUE)
-                    value = OVERFLOW_VALUE;
-
-                if (ChartAreas[0].AxisY.Maximum == value) return;
-                ChartAreas[0].AxisY.Maximum = value;
-                YMaxChanged?.Invoke(this, new EventArgs());
-                _refreshFunctions();
-            }
-        }
-
-        public event EventHandler XMinChanged;
-        public event EventHandler XMaxChanged;
-        public event EventHandler YMinChanged;
-        public event EventHandler YMaxChanged;
-
         private double N { get; set; } = 3571;
-
-        public double Quality
-        {
-            get { return quality; }
-            set
-            {
-                if (value > 100)
-                    value = 100;
-                if (value < 0)
-                    value = 0;
-
-                quality = value;
-                calculateN(value);
-                _refreshFunctions();
-            }
-        }
-
-        private double quality;
 
         public string XLabel
         {
@@ -256,13 +147,153 @@ namespace Computator.NET.Charting.RealCharting
             {
                 if (functions == null || functions.Count == 0)
                     return 1.0;
-                return ((XMax - XMin)/
-                        Math.Abs(ChartAreas[0].AxisX.ValueToPixelPosition(XMax) -
-                                 ChartAreas[0].AxisX.ValueToPixelPosition(XMin)))/
+                return (XMax - XMin)/
+                       Math.Abs(ChartAreas[0].AxisX.ValueToPixelPosition(XMax) -
+                                ChartAreas[0].AxisX.ValueToPixelPosition(XMin))/
                        ((YMax - YMin)/
                         Math.Abs(ChartAreas[0].AxisY.ValueToPixelPosition(YMax) -
                                  ChartAreas[0].AxisY.ValueToPixelPosition(YMin)));
             }
+        }
+
+        public double XMin
+        {
+            get { return ChartAreas[0].AxisX.Minimum; }
+            set
+            {
+                if (value < UNDERFLOW_VALUE)
+                    value = UNDERFLOW_VALUE;
+
+                if (value > OVERFLOW_VALUE)
+                    value = OVERFLOW_VALUE;
+                if (ChartAreas[0].AxisX.Minimum == value) return;
+
+
+                ChartAreas[0].AxisX.Minimum = value;
+                XMinChanged?.Invoke(this, new EventArgs());
+
+                NotifyPropertyChanged("XyRatio");
+                _refreshFunctions();
+            }
+        }
+
+        public void Redraw()
+        {
+            Invalidate();
+        }
+
+        public double XMax
+        {
+            get { return ChartAreas[0].AxisX.Maximum; }
+            set
+            {
+                if (value < UNDERFLOW_VALUE)
+                    value = UNDERFLOW_VALUE;
+
+                if (value > OVERFLOW_VALUE)
+                    value = OVERFLOW_VALUE;
+                if (ChartAreas[0].AxisX.Maximum == value) return;
+
+
+                ChartAreas[0].AxisX.Maximum = value;
+                XMaxChanged?.Invoke(this, new EventArgs());
+                _refreshFunctions();
+            }
+        }
+
+        public double YMin
+        {
+            get { return ChartAreas[0].AxisY.Minimum; }
+            set
+            {
+                if (value < UNDERFLOW_VALUE)
+                    value = UNDERFLOW_VALUE;
+
+                if (value > OVERFLOW_VALUE)
+                    value = OVERFLOW_VALUE;
+
+                if (ChartAreas[0].AxisY.Minimum == value) return;
+
+
+                ChartAreas[0].AxisY.Minimum = value;
+                YMinChanged?.Invoke(this, new EventArgs());
+                _refreshFunctions();
+            }
+        }
+
+        public double YMax
+        {
+            get { return ChartAreas[0].AxisY.Maximum; }
+            set
+            {
+                if (value < UNDERFLOW_VALUE)
+                    value = UNDERFLOW_VALUE;
+
+                if (value > OVERFLOW_VALUE)
+                    value = OVERFLOW_VALUE;
+
+                if (ChartAreas[0].AxisY.Maximum == value) return;
+                ChartAreas[0].AxisY.Maximum = value;
+                YMaxChanged?.Invoke(this, new EventArgs());
+                _refreshFunctions();
+            }
+        }
+
+        public event EventHandler XMinChanged;
+        public event EventHandler XMaxChanged;
+        public event EventHandler YMinChanged;
+        public event EventHandler YMaxChanged;
+
+        public double Quality
+        {
+            get { return quality; }
+            set
+            {
+                if (value > 100)
+                    value = 100;
+                if (value < 0)
+                    value = 0;
+
+                quality = value;
+                calculateN(value);
+                _refreshFunctions();
+            }
+        }
+
+        public void SetChartAreaValues(double x0, double xn, double y0, double yn)
+        {
+            ChartAreas[0].AxisX.Minimum = x0;
+            ChartAreas[0].AxisX.Maximum = xn;
+
+            ChartAreas[0].AxisY.Minimum = y0; //min;
+            ChartAreas[0].AxisY.Maximum = yn; //max;
+        }
+
+        public void AddFunction(Function f)
+        {
+            if (!Series.IsUniqueName(f.Name)) //nothing new to add
+                return;
+
+            functions.Add(f);
+            _addNewFunction();
+        }
+
+        public void Print()
+        {
+            Printing.Print(true);
+        }
+
+        public void PrintPreview()
+        {
+            Printing.PrintPreview();
+        }
+
+        //exp(x/20)*(sin(1/2*x)+cos(3*x)+0.2*sin(4*x)*cos(40*x))
+
+        public void ClearAll()
+        {
+            Series.Clear();
+            functions.Clear();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -304,11 +335,11 @@ namespace Computator.NET.Charting.RealCharting
             if (elements?.Object == null)
                 return;
 
-            var deltaX = (ChartAreas[0].AxisX.PixelPositionToValue(_lastMouseLocation.X) -
-                          ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X));
+            var deltaX = ChartAreas[0].AxisX.PixelPositionToValue(_lastMouseLocation.X) -
+                         ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X);
 
-            var deltaY = (ChartAreas[0].AxisY.PixelPositionToValue(_lastMouseLocation.Y) -
-                          ChartAreas[0].AxisY.PixelPositionToValue(e.Location.Y));
+            var deltaY = ChartAreas[0].AxisY.PixelPositionToValue(_lastMouseLocation.Y) -
+                         ChartAreas[0].AxisY.PixelPositionToValue(e.Location.Y);
 
 
             SetChartAreaValues(XMin + deltaX.RoundToSignificantDigits(1),
@@ -333,15 +364,6 @@ namespace Computator.NET.Charting.RealCharting
                     serie.Points[i].YValues[0] = yvaluesAfterTransform[i];
                 serie.Name = transformateName + "(" + serie.Name + ")";
             }
-        }
-
-        public void SetChartAreaValues(double x0, double xn, double y0, double yn)
-        {
-            ChartAreas[0].AxisX.Minimum = x0;
-            ChartAreas[0].AxisX.Maximum = xn;
-
-            ChartAreas[0].AxisY.Minimum = y0; //min;
-            ChartAreas[0].AxisY.Maximum = yn; //max;
         }
 
         private void Refresh2()
@@ -405,12 +427,12 @@ namespace Computator.NET.Charting.RealCharting
 
 
             chartArea1.Name = "ChartArea1";
-            
+
             ChartAreas.Add(chartArea1);
-            legend1.Font = CustomFonts.GetMathFont(13.8F);//new Font("Cambria", 13.8F);
+            legend1.Font = CustomFonts.GetMathFont(13.8F); //new Font("Cambria", 13.8F);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
-            
+
             Legends.Add(legend1);
 
             //this.N = 0D;
@@ -425,10 +447,10 @@ namespace Computator.NET.Charting.RealCharting
             ChartAreas[0].AxisY.ScaleView.MinSize = 0.1;
 
 
-            this.Legends[0].Font = CustomFonts.GetMathFont(this.Legends[0].Font.Size);
+            Legends[0].Font = CustomFonts.GetMathFont(Legends[0].Font.Size);
             const float fontsize = 17.0F;
 
-            this.Font = CustomFonts.GetMathFont(fontsize);
+            Font = CustomFonts.GetMathFont(fontsize);
         }
 
         private void _MouseUp(object sender, MouseEventArgs e)
@@ -439,7 +461,8 @@ namespace Computator.NET.Charting.RealCharting
             if (e.Button == MouseButtons.XButton1)
                 yOnlyZoomMode = false;
 
-            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left)//TODO: find better usage for one of these buttons
+            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left)
+                //TODO: find better usage for one of these buttons
             {
                 _rightButtonPressed = false;
                 N = _oldN;
@@ -455,7 +478,8 @@ namespace Computator.NET.Charting.RealCharting
             if (e.Button == MouseButtons.XButton1)
                 yOnlyZoomMode = true;
 
-            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left)//TODO: find better usage for one of these buttons
+            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left)
+                //TODO: find better usage for one of these buttons
             {
                 _oldN = N;
                 N = MOVE_N;
@@ -472,11 +496,10 @@ namespace Computator.NET.Charting.RealCharting
 
         private void _MouseClick(object sender, MouseEventArgs e)
         {
-         //   if (e.Button == MouseButtons.Right)
+            //   if (e.Button == MouseButtons.Right)
             {
-                
             }
-                if (e.Button == MouseButtons.Middle)
+            if (e.Button == MouseButtons.Middle)
                 AutoScaleSmooth();
             if (e.Button == MouseButtons.XButton2)
                 xOnlyZoomMode = true;
@@ -628,30 +651,11 @@ namespace Computator.NET.Charting.RealCharting
                 zoomOut();
         }
 
-        public void AddFunction(Function f)
-        {
-            if (!Series.IsUniqueName(f.Name)) //nothing new to add
-                return;
-
-            functions.Add(f);
-            _addNewFunction();
-        }
-
-        public void Print()
-        {
-            Printing.Print(true);
-        }
-
-        public void PrintPreview()
-        {
-            Printing.PrintPreview();
-        }
-
         private void _refreshFunctions()
         {
             Series.Clear();
 
-            double dx = (Math.Abs(XMin - XMax))/N, dy = (Math.Abs(YMin - YMax))/(N);
+            double dx = Math.Abs(XMin - XMax)/N, dy = Math.Abs(YMin - YMax)/N;
             ;
             TOLERANCE = dx + dy;
 
@@ -710,13 +714,14 @@ namespace Computator.NET.Charting.RealCharting
 
         private void _addNewFunction()
         {
-            double dx = (Math.Abs(XMin - XMax))/N, dy = (Math.Abs(YMin - YMax))/(N);
+            double dx = Math.Abs(XMin - XMax)/N, dy = Math.Abs(YMin - YMax)/N;
             ;
             TOLERANCE = dx + dy;
 
             var series = new Series
             {
-                ChartType = functions.Last().IsImplicit ? defaultImplicitFunctionsChartType : defaultExplicitFunctionsChartType,
+                ChartType =
+                    functions.Last().IsImplicit ? defaultImplicitFunctionsChartType : defaultExplicitFunctionsChartType,
                 MarkerSize = PointsSize,
                 BorderWidth = LineThickness,
                 Name = functions.Last().Name
@@ -750,21 +755,13 @@ namespace Computator.NET.Charting.RealCharting
 
         private bool IsNearZero(double value)
         {
-            return (Math.Abs(value) < TOLERANCE);
+            return Math.Abs(value) < TOLERANCE;
         }
 
         private bool IsPointValid(double x, double y)
         {
             return !double.IsInfinity(x) && !double.IsNaN(x) && !double.IsInfinity(y) && !double.IsNaN(y) &&
                    !(x > OVERFLOW_VALUE) && !(y > OVERFLOW_VALUE) && !(x < UNDERFLOW_VALUE) && !(y < UNDERFLOW_VALUE);
-        }
-
-        //exp(x/20)*(sin(1/2*x)+cos(3*x)+0.2*sin(4*x)*cos(40*x))
-
-        public void ClearAll()
-        {
-            Series.Clear();
-            functions.Clear();
         }
 
         public void setupComboBoxes(params ToolStripComboBox[] owners)
@@ -779,7 +776,7 @@ namespace Computator.NET.Charting.RealCharting
         private void setupChartLegendAligments(ToolStripComboBox owner)
         {
             var items =
-                Enum.GetValues(typeof (StringAlignment)).Cast<StringAlignment>().ToList<StringAlignment>();
+                Enum.GetValues(typeof (StringAlignment)).Cast<StringAlignment>().ToList();
 
             foreach (var v in items)
                 owner.Items.Add(v.ToString());
@@ -796,7 +793,7 @@ namespace Computator.NET.Charting.RealCharting
             var items =
                 Enum.GetValues(typeof (Docking))
                     .Cast<Docking>()
-                    .ToList<Docking>();
+                    .ToList();
 
             foreach (var v in items)
                 owner.Items.Add(v.ToString());
@@ -812,7 +809,7 @@ namespace Computator.NET.Charting.RealCharting
             var items =
                 Enum.GetValues(typeof (ChartColorPalette))
                     .Cast<ChartColorPalette>()
-                    .ToList<ChartColorPalette>();
+                    .ToList();
 
             foreach (var v in items)
                 owner.Items.Add(v.ToString());
@@ -836,7 +833,7 @@ namespace Computator.NET.Charting.RealCharting
             var items =
                 Enum.GetValues(typeof (SeriesChartType))
                     .Cast<SeriesChartType>()
-                    .ToList<SeriesChartType>();
+                    .ToList();
             owner.Items.Clear();
 
             foreach (var v in items)
@@ -849,9 +846,8 @@ namespace Computator.NET.Charting.RealCharting
             //  chartType = SeriesChartType.FastLine;
         }
 
-  
 
-        public void AddDataPoints(List<double> y, List<double> x)//TODO: fix bugs in scripting or revert to old version
+        public void AddDataPoints(List<double> y, List<double> x) //TODO: fix bugs in scripting or revert to old version
         {
             var visibleLegend = true;
             if (Series.Count > 0)
@@ -884,7 +880,7 @@ namespace Computator.NET.Charting.RealCharting
             //Titles[0].Text = "Wykres 1";
         }
 
-      /*  public void saveImage()
+        /*  public void saveImage()
         {
             
             var dialog = new SaveFileDialog();
@@ -926,7 +922,7 @@ namespace Computator.NET.Charting.RealCharting
 
         public void changeChartType(string chartType)
         {
-            this.defaultExplicitFunctionsChartType =
+            defaultExplicitFunctionsChartType =
                 (SeriesChartType) Enum.Parse(typeof (SeriesChartType), chartType);
             for (var i = 0; i < Series.Count; i++)
                 Series[i].ChartType =

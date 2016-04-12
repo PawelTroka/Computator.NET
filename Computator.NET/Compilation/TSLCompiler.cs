@@ -1,11 +1,9 @@
 ﻿//#define _COMPILE_TO_FUNCTION_CLASS_INSTEAD_OF_FUNC_DELEGATE
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Computator.NET.DataTypes;
-
 
 namespace Computator.NET.Compilation
 {
@@ -25,11 +23,17 @@ namespace Computator.NET.Compilation
         using integer = System.Int64;";
 
 
-      //  private static readonly string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
+        private const string legalFirstIdentifier = @"α-ωΑ-Ωa-zA-Z_";
+
+        private const string identifier = @"[α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*";
+
+
+        //  private static readonly string powerCatchingGroup = @"([" + SpecialSymbols.SuperscriptsWithoutSpace + @"]+)";
 
 
         private static readonly string powerCatchingGroup =
-            $@"(\s*[{SpecialSymbols.SuperscriptsWithoutSpace}][{SpecialSymbols.Superscripts}]*)((?:(?:[^{SpecialSymbols.Superscripts}\(])|$))";
+            $@"(\s*[{SpecialSymbols.SuperscriptsWithoutSpace}][{SpecialSymbols.Superscripts}]*)((?:(?:[^{
+                SpecialSymbols.Superscripts}\(])|$))";
 
 
         public static readonly string[] Keywords =
@@ -51,8 +55,12 @@ namespace Computator.NET.Compilation
             "natural integer real complex function Matrix bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void";
 
 
+        private readonly Regex absRegex =
+            new Regex(@"\|((?:[^|]|(?<open>\|)|(?<-open>\|))+(?(open)(?!)))\|",
+                RegexOptions.Compiled);
 
-      //  private string legalNames = 
+
+        //  private string legalNames = 
 
         private readonly Regex changeBackEngineeringNotationRegex =
             new Regex(
@@ -74,26 +82,16 @@ namespace Computator.NET.Compilation
                 RegexOptions.Compiled);
 
 
-        private readonly Regex absRegex =
-            new Regex(@"\|((?:[^|]|(?<open>\|)|(?<-open>\|))+(?(open)(?!)))\|",
-                RegexOptions.Compiled);
-
-
-
-        private const string legalFirstIdentifier = @"α-ωΑ-Ωa-zA-Z_";
-
-        private const string identifier = @"[α-ωΑ-Ωa-zA-Z_][α-ωΑ-Ωa-z0-9A-Z_]*";
-
-
         private readonly Regex functionRegex =
             new Regex(
-                $@"(?:var|function)\s+({identifier})\(((?:\s*{identifier}\s+{identifier}\s*,)*(?:\s*{identifier}\s+{identifier}\s*)*\s*)\)\s*[=]\s*([^;]+)",
+                $@"(?:var|function)\s+({identifier})\(((?:\s*{identifier}\s+{identifier}\s*,)*(?:\s*{identifier}\s+{
+                    identifier}\s*)*\s*)\)\s*[=]\s*([^;]+)",
                 RegexOptions.Compiled);
 
         private readonly Regex lambdaRegex =
-    new Regex(
-        $@"",
-        RegexOptions.Compiled);
+            new Regex(
+                $@"",
+                RegexOptions.Compiled);
 
 
         private readonly Regex matrixRegex = new Regex(@"matrix\s*\(\s*\{", RegexOptions.Compiled);
@@ -137,8 +135,7 @@ namespace Computator.NET.Compilation
             listOfResults.Add(refRegex.Replace(listOfResults.Last(), @"$1 ref $3"));
 
 
-
-           // listOfResults.Add(ReplaceAbs(listOfResults.Last()));
+            // listOfResults.Add(ReplaceAbs(listOfResults.Last()));
 
             //TODO: this little thing
             // Func<double, double> fafa = (x) => x;
@@ -163,7 +160,7 @@ namespace Computator.NET.Compilation
         private string ReplaceAbs(string code)
         {
             var result = code;
-            
+
             while (result.Count(c => c == '|') > 0 && result.Count(c => c == '|')%2 == 0)
                 result = absRegex.Replace(result, @"abs($1)");
             return result;
@@ -196,9 +193,10 @@ namespace Computator.NET.Compilation
 
             var result = input;
 
-            while(expressionInParenthesesRaisedToAnyPowerRegex.IsMatch(result))
-                result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(result,//http://stackoverflow.com/questions/7898310/using-regex-to-balance-match-parenthesis
-                nativeCompilerCompatiblePowerNotation);
+            while (expressionInParenthesesRaisedToAnyPowerRegex.IsMatch(result))
+                result = expressionInParenthesesRaisedToAnyPowerRegex.Replace(result,
+                    //http://stackoverflow.com/questions/7898310/using-regex-to-balance-match-parenthesis
+                    nativeCompilerCompatiblePowerNotation);
 
             result = numberRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
 

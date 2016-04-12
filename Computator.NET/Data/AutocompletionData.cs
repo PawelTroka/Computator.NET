@@ -22,9 +22,9 @@ namespace Computator.NET.Data
         {
             var items = GetFunctionsNamesWithDescription(typeof (ElementaryFunctions));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(FunctionRoot), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Integral), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof(Derivative), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (FunctionRoot), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Integral), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof (Derivative), false, true));
 
             items.AddRange(GetFunctionsNamesWithDescription(typeof (StatisticsFunctions)));
 
@@ -120,13 +120,12 @@ namespace Computator.NET.Data
 
         public static AutocompleteItem[] GetAutocompleteItemsForScripting()
         {
-            var items = Enumerable.ToList(GetAutocompleteItemsForExpressions());
+            var items = GetAutocompleteItemsForExpressions().ToList();
 
             items.AddRange(GetFunctionsNamesWithDescription(typeof (MatrixFunctions)));
             items.AddRange(GetFunctionsNamesWithDescription(typeof (MathematicalTransformations)));
             items.AddRange(GetFunctionsNamesWithDescription(typeof (ScriptingFunctions)));
-            items.AddRange(Enumerable.Select(TslCompiler.Keywords,
-                s => new AutocompleteItem(s)));
+            items.AddRange(TslCompiler.Keywords.Select(s => new AutocompleteItem(s)));
 
             items.Sort((i1, i2) => i1.Text.CompareTo(i2.Text));
             items.ForEach(i => i.IsScripting = true);
@@ -138,8 +137,7 @@ namespace Computator.NET.Data
             AutocompleteItem[] autocompleteItems)
         {
             return
-                Enumerable.ToList(Enumerable.Select(autocompleteItems,
-                    autocompleteItem => autocompleteItem.ToCompletionData()));
+                autocompleteItems.Select(autocompleteItem => autocompleteItem.ToCompletionData()).ToList();
         }
 
         //TODO: differ menutext from text by adding types of arguments and maybe type of return
@@ -147,14 +145,16 @@ namespace Computator.NET.Data
         //do extensive testing
 
 
-        static bool IsDynamic(MemberInfo memberInfo)
+        private static bool IsDynamic(MemberInfo memberInfo)
         {
-            bool isDynamic = memberInfo.GetCustomAttributes(typeof(DynamicAttribute), true).Length > 0;
+            var isDynamic = memberInfo.GetCustomAttributes(typeof (DynamicAttribute), true).Length > 0;
 
-            var methodInfo = (memberInfo as MethodInfo);
+            var methodInfo = memberInfo as MethodInfo;
             if (methodInfo != null)
             {
-                isDynamic = methodInfo.ReturnTypeCustomAttributes.GetCustomAttributes(typeof(DynamicAttribute), true).Length > 0;
+                isDynamic =
+                    methodInfo.ReturnTypeCustomAttributes.GetCustomAttributes(typeof (DynamicAttribute), true).Length >
+                    0;
             }
 
             return isDynamic;
@@ -185,14 +185,16 @@ namespace Computator.NET.Data
                         var sig = m.GetSignature(true);
                         var nameAndAddition = sig.Split('(');
 
-                        items.Add(new AutocompleteItem(nameAndAddition[0],MakeAddition(m,false), MakeAddition(m, true), TypeNameToAlias(m.ReturnType.Name), GetImageIndexFromType(m.ReturnType.Name)));
+                        items.Add(new AutocompleteItem(nameAndAddition[0], MakeAddition(m, false), MakeAddition(m, true),
+                            TypeNameToAlias(m.ReturnType.Name), GetImageIndexFromType(m.ReturnType.Name)));
                     }
                     else
-                    AddSignatureWithType(fullNameExtension + m.Name, MakeAddition(m, false), MakeAddition(m, true),
-                        IsDynamic(m) ? /*&& m.GetParameters().Length>0 ? m.GetParameters()[0].ParameterType.Name*/ "T" : m.ReturnType.Name, items);
+                        AddSignatureWithType(fullNameExtension + m.Name, MakeAddition(m, false), MakeAddition(m, true),
+                            IsDynamic(m)
+                                ? /*&& m.GetParameters().Length>0 ? m.GetParameters()[0].ParameterType.Name*/ "T"
+                                : m.ReturnType.Name, items);
 
                     AddMetadata(m, type, items);
-                    
                 }
 
             foreach (var p in properties)
@@ -203,10 +205,8 @@ namespace Computator.NET.Data
 
             foreach (var f in fields)
             {
-
-                    AddSignatureWithType(f.Name, "", "", f.FieldType.Name, items);
-                    AddMetadata(f, type, items);
-                
+                AddSignatureWithType(f.Name, "", "", f.FieldType.Name, items);
+                AddMetadata(f, type, items);
             }
 
             foreach (var t in type.GetNestedTypes())
@@ -221,12 +221,12 @@ namespace Computator.NET.Data
         private static string MakeAddition(MethodInfo m, bool withType)
         {
             var parameters = m.GetParameters();
-            
+
             var addition = "";
 
             if (m.IsGenericMethodDefinition || m.IsGenericMethod)
             {
-               // return m.GetSignature(true);
+                // return m.GetSignature(true);
                 /*addition += '<';
                 foreach (var genericArgument in m.GetGenericArguments())
                 {
@@ -245,25 +245,26 @@ namespace Computator.NET.Data
             {
                 if (MethodInfoExtensions.IsParamArray(parameters[i]))
                 {
-                    for (int j = 1; j < 3; j++)
+                    for (var j = 1; j < 3; j++)
                     {
                         //var parameterName = parameters[i].Name + "1, " + parameters[i].Name + "2, ...";
-                        addition += (withType)
-                            ? TypeNameToAlias(parameters[i].ParameterType.Name.Replace("[]", "")) + " " + parameters[i].Name+ j +
+                        addition += withType
+                            ? TypeNameToAlias(parameters[i].ParameterType.Name.Replace("[]", "")) + " " +
+                              parameters[i].Name + j +
                               ", "
-                            : parameters[i].Name+j + ",";
+                            : parameters[i].Name + j + ",";
                     }
                     addition += " ...";
                 }
                 else
-                    addition += (withType)
+                    addition += withType
                         ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name + ", "
                         : parameters[i].Name + ",";
             }
 
 
             if (addition.EndsWith(", "))
-                addition = addition.Substring(0, addition.Length - 2)+')';
+                addition = addition.Substring(0, addition.Length - 2) + ')';
             else if (addition.EndsWith(","))
                 addition = addition.Substring(0, addition.Length - 1) + ')';
             else
@@ -276,29 +277,29 @@ namespace Computator.NET.Data
         private static void AddMetadata(MemberInfo p, Type type,
             List<AutocompleteItem> items)
         {
-            if (Enumerable.Any((p.GetCustomAttributes(typeof (NameAttribute), false))))
+            if (p.GetCustomAttributes(typeof (NameAttribute), false).Any())
 
-                Enumerable.Last(items).ToolTipTitle =
-                    ((NameAttribute) (p.GetCustomAttributes(typeof (NameAttribute), false)[0])).Name;
+                items.Last().ToolTipTitle =
+                    ((NameAttribute) p.GetCustomAttributes(typeof (NameAttribute), false)[0]).Name;
 
-            if (Enumerable.Any((p.GetCustomAttributes(typeof (DescriptionAttribute), false))))
-                Enumerable.Last(items).ToolTipText =
-                    (((DescriptionAttribute)
-                        (p.GetCustomAttributes(typeof (DescriptionAttribute), false)[0])))
+            if (p.GetCustomAttributes(typeof (DescriptionAttribute), false).Any())
+                items.Last().ToolTipText =
+                    ((DescriptionAttribute)
+                        p.GetCustomAttributes(typeof (DescriptionAttribute), false)[0])
                         .Description;
             if (items.Count > 0)
             {
-                if (Enumerable.Any(p.GetCustomAttributes(typeof (CategoryAttribute), false)))
-                    Enumerable.Last(items).Info.Category =
-                        (((CategoryAttribute)
-                            (p.GetCustomAttributes(typeof (CategoryAttribute), false)[0])))
+                if (p.GetCustomAttributes(typeof (CategoryAttribute), false).Any())
+                    items.Last().Info.Category =
+                        ((CategoryAttribute)
+                            p.GetCustomAttributes(typeof (CategoryAttribute), false)[0])
                             .Category ??
                         "";
 
-                Enumerable.Last(items).Info.Signature = Enumerable.Last(items).Text ?? "";
-                Enumerable.Last(items).Info.Title = Enumerable.Last(items).ToolTipTitle ?? "";
-                Enumerable.Last(items).Info.Description = Enumerable.Last(items).ToolTipText ?? "";
-                Enumerable.Last(items).Info.Type = type.Name;
+                items.Last().Info.Signature = items.Last().Text ?? "";
+                items.Last().Info.Title = items.Last().ToolTipTitle ?? "";
+                items.Last().Info.Description = items.Last().ToolTipText ?? "";
+                items.Last().Info.Type = type.Name;
             }
         }
 
@@ -337,7 +338,7 @@ namespace Computator.NET.Data
                     return typeName.ToLower();
 
                 case "Func`2":
-                    //return "f(x)";
+                //return "f(x)";
 
                 case "Func`3":
                     //return "f(x,y)";
@@ -388,9 +389,5 @@ namespace Computator.NET.Data
             }
             return imageIndex;
         }
-
-      
-
-    
     }
 }

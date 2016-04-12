@@ -116,9 +116,9 @@ namespace Computator.NET.Charting.Chart3D
         public static MeshGeometry3D GetGeometry(Viewport3D viewport3d, int nModelIndex)
         {
             if (nModelIndex == -1) return null;
-            var visual3d = (ModelVisual3D) (viewport3d.Children[nModelIndex]);
+            var visual3d = (ModelVisual3D) viewport3d.Children[nModelIndex];
             if (visual3d.Content == null) return null;
-            var triangleModel = (GeometryModel3D) (visual3d.Content);
+            var triangleModel = (GeometryModel3D) visual3d.Content;
             return (MeshGeometry3D) triangleModel.Geometry;
         }
 

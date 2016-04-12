@@ -39,7 +39,7 @@ namespace Computator.NET.Charting.Chart3D
         // h: cone height
         private void SetData(double a, double b, double h)
         {
-            var aXYStep = 2.0f*3.1415926f/((double) m_nRes);
+            var aXYStep = 2.0f*3.1415926f/(double) m_nRes;
             for (var i = 0; i < m_nRes; i++)
             {
                 var aXY = i*aXYStep;

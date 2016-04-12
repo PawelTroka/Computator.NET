@@ -4,14 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 using Accord.Collections;
 using Computator.NET.Benchmarking;
 using Computator.NET.Charting;
@@ -28,60 +25,17 @@ using Computator.NET.Logging;
 using Computator.NET.NumericalCalculations;
 using Computator.NET.Properties;
 using Computator.NET.Transformations;
-using Computator.NET.UI;
 using Computator.NET.UI.AutocompleteMenu;
 using Computator.NET.UI.CodeEditors;
 using Computator.NET.UI.Controls;
 using Computator.NET.UI.Views;
-using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
-using File = System.IO.File;
-using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET
 {
     public partial class GUI : LocalizedForm, IMainForm
     {
-        public IChartAreaValuesView chartAreaValuesView1 { get; } = new ChartAreaValuesView() { Dock = DockStyle.Right };
-        public ICalculationsView CalculationsView { get; } = new CalculationsView() {Dock = DockStyle.Fill};
-        public ICodeEditorControl ScriptingCodeEditorControl { get { return scriptingCodeEditor; } }
-        public ICodeEditorControl CustomFunctionsCodeEditorControl { get { return customFunctionsCodeEditor; } }
-
-        public ReadOnlyDictionary<CalculationsMode, IChart> charts { get; } = new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>
-        {
-            {CalculationsMode.Real, new Chart2D()},
-            {CalculationsMode.Complex, new ComplexChart()},
-            {CalculationsMode.Fxy, new Chart3DControl()}
-        });
-
-        public IExpressionView ExpressionView { get { return expressionTextBox; } }
-        public string ModeText { get { return modeToolStripDropDownButton.Text; } set
-        {
-            modeToolStripDropDownButton.Text = value;
-        } }
-
-        public IEditChartMenus EditChartMenus { get { return editChartMenus; } }
-
-
-        public event EventHandler PrintClicked { add { printToolStripButton.Click += value; printToolStripMenuItem.Click += value; } remove { printToolStripButton.Click -= value; printToolStripMenuItem.Click -= value; } }
-        public event EventHandler PrintPreviewClicked { add { printPreviewToolStripMenuItem.Click += value; } remove { printPreviewToolStripMenuItem.Click -= value; } }
-
-
-        public event EventHandler ModeForcedToReal { add { dd212ToolStripMenuItem.Click += value; } remove { dd212ToolStripMenuItem.Click -= value; } }
-        public event EventHandler ModeForcedToComplex { add { fdsfdsToolStripMenuItem.Click += value; } remove { fdsfdsToolStripMenuItem.Click -= value; } }
-        public event EventHandler ModeForcedToFxy { add { mode3DFxyToolStripMenuItem.Click += value; } remove { mode3DFxyToolStripMenuItem.Click -= value; } }
-        public void SendStringAsKey(string key)
-        {
-            SendKeys.Send(key);
-        }
-
-        public int SelectedViewIndex { get { return tabControl1.SelectedIndex; } set
-        {
-            tabControl1.SelectedIndex = value;
-        } }
-
-
         private readonly CultureInfo[] AllCultures =
-    CultureInfo.GetCultures(CultureTypes.NeutralCultures);
+            CultureInfo.GetCultures(CultureTypes.NeutralCultures);
 
 
         //  private readonly FunctionComplexEvaluator complexEvaluator;
@@ -100,12 +54,95 @@ namespace Computator.NET
         private Chart2D chart2d => charts[CalculationsMode.Real] as Chart2D;
         private Chart3DControl chart3d => charts[CalculationsMode.Fxy] as Chart3DControl;
         private ComplexChart complexChart => charts[CalculationsMode.Complex] as ComplexChart;
+        public IChartAreaValuesView chartAreaValuesView1 { get; } = new ChartAreaValuesView {Dock = DockStyle.Right};
+        public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
+
+        public ICodeEditorControl ScriptingCodeEditorControl
+        {
+            get { return scriptingCodeEditor; }
+        }
+
+        public ICodeEditorControl CustomFunctionsCodeEditorControl
+        {
+            get { return customFunctionsCodeEditor; }
+        }
+
+        public ReadOnlyDictionary<CalculationsMode, IChart> charts { get; } =
+            new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>
+            {
+                {CalculationsMode.Real, new Chart2D()},
+                {CalculationsMode.Complex, new ComplexChart()},
+                {CalculationsMode.Fxy, new Chart3DControl()}
+            });
+
+        public IExpressionView ExpressionView
+        {
+            get { return expressionTextBox; }
+        }
+
+        public string ModeText
+        {
+            get { return modeToolStripDropDownButton.Text; }
+            set { modeToolStripDropDownButton.Text = value; }
+        }
+
+        public event EventHandler PrintClicked
+        {
+            add
+            {
+                printToolStripButton.Click += value;
+                printToolStripMenuItem.Click += value;
+            }
+            remove
+            {
+                printToolStripButton.Click -= value;
+                printToolStripMenuItem.Click -= value;
+            }
+        }
+
+        public event EventHandler PrintPreviewClicked
+        {
+            add { printPreviewToolStripMenuItem.Click += value; }
+            remove { printPreviewToolStripMenuItem.Click -= value; }
+        }
+
+
+        public event EventHandler ModeForcedToReal
+        {
+            add { dd212ToolStripMenuItem.Click += value; }
+            remove { dd212ToolStripMenuItem.Click -= value; }
+        }
+
+        public event EventHandler ModeForcedToComplex
+        {
+            add { fdsfdsToolStripMenuItem.Click += value; }
+            remove { fdsfdsToolStripMenuItem.Click -= value; }
+        }
+
+        public event EventHandler ModeForcedToFxy
+        {
+            add { mode3DFxyToolStripMenuItem.Click += value; }
+            remove { mode3DFxyToolStripMenuItem.Click -= value; }
+        }
+
+        public void SendStringAsKey(string key)
+        {
+            SendKeys.Send(key);
+        }
+
+        public int SelectedViewIndex
+        {
+            get { return tabControl1.SelectedIndex; }
+            set { tabControl1.SelectedIndex = value; }
+        }
+
+        public event EventHandler EnterClicked;
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var index = tabControl1.SelectedIndex;
 
-            editChartMenus.chartToolStripMenuItem.Enabled = transformToolStripMenuItem.Enabled  = index == 0;
+            editChartMenus.chartToolStripMenuItem.Enabled = transformToolStripMenuItem.Enabled = index == 0;
 
             openToolStripMenuItem.Enabled = index == 0 || index == 5 || index == 4;
 
@@ -115,20 +152,17 @@ namespace Computator.NET
             tableLayoutPanel1.Visible = !(index == 5 || index == 4);
         }
 
-  
 
         private void runToolStripButton_Click(object s, EventArgs e)
         {
-                EnterClicked?.Invoke(s, e);
+            EnterClicked?.Invoke(s, e);
         }
+
         private void expressionTextBox_KeyPress(object s, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)13)
-                EnterClicked?.Invoke(s, e);//defaultActions[tabControl1.SelectedIndex].Invoke(s, e);
+            if (e.KeyChar == (char) 13)
+                EnterClicked?.Invoke(s, e); //defaultActions[tabControl1.SelectedIndex].Invoke(s, e);
         }
-
-        public event EventHandler EnterClicked;
-
 
         #region edit menu events
 
@@ -406,26 +440,12 @@ namespace Computator.NET
 #endif
         }
 
-        private void printToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         #endregion
 
         #region initialization and construction
 
- 
-
         public GUI()
         {
-
-
             InitializeComponent();
             calculationsTabPage.Controls.Add(CalculationsView as Control);
             InitializeFunctions();
@@ -433,9 +453,11 @@ namespace Computator.NET
             expressionTextBox.RefreshAutoComplete();
             SetupAllComboBoxes();
             toolStripStatusLabel1.Text = GlobalConfig.version;
-            customFunctionsDirectoryTree.Path = Settings.Default.CustomFunctionsDirectory; //Path.Combine(GlobalConfig.basePath,
-                //Settings.Default.CustomFunctionsDirectory);// Settings.Default.ScriptingDirectory;//GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
-            scriptingDirectoryTree.Path = Settings.Default.ScriptingDirectory;// Path.Combine(GlobalConfig.basePath, Settings.Default.ScriptingDirectory);//GlobalConfig.FullPath("TSL Examples", "_Scripts");
+            customFunctionsDirectoryTree.Path = Settings.Default.CustomFunctionsDirectory;
+                //Path.Combine(GlobalConfig.basePath,
+            //Settings.Default.CustomFunctionsDirectory);// Settings.Default.ScriptingDirectory;//GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
+            scriptingDirectoryTree.Path = Settings.Default.ScriptingDirectory;
+                // Path.Combine(GlobalConfig.basePath, Settings.Default.ScriptingDirectory);//GlobalConfig.FullPath("TSL Examples", "_Scripts");
 
             InitializeScripting(); //takes a lot of time, TODO: optimize
             InitializeFonts();
@@ -451,13 +473,10 @@ namespace Computator.NET
 
             HandleCommandLine();
         }
-        
-
 
 
         private EditChartMenus editChartMenus;
 
-       
 
         private void HandleCommandLine()
         {
@@ -513,7 +532,7 @@ namespace Computator.NET
                 case "ScriptingFont":
                     scriptingCodeEditor.SetFont(Settings.Default.ScriptingFont);
                     customFunctionsCodeEditor.SetFont(Settings.Default.ScriptingFont);
-                    
+
                     break;
             }
         }
@@ -570,20 +589,21 @@ namespace Computator.NET
             exponentiationToolStripMenuItem.DataBindings.Add("Checked", expressionTextBox, "ExponentMode", false,
                 DataSourceUpdateMode.OnPropertyChanged);
 
-             scriptingCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
-             customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
+            scriptingCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,
+                DataSourceUpdateMode.OnPropertyChanged);
+            customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,
+                DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void InitializeCharts()
         {
             panel2.Controls.Add(chartAreaValuesView1 as Control);
 
-          //  chartAreaValuesView1.AddClicked += addToChartButton_Click;
-        //    chartAreaValuesView1.ClearClicked += clearChartButton_Click;
+            //  chartAreaValuesView1.AddClicked += addToChartButton_Click;
+            //    chartAreaValuesView1.ClearClicked += clearChartButton_Click;
 
 
-
-          //  ((ISupportInitialize) chart2d).BeginInit();
+            //  ((ISupportInitialize) chart2d).BeginInit();
 
 
             panel2.Controls.Add(chart2d);
@@ -594,14 +614,13 @@ namespace Computator.NET
             chart3d.ParentControl.BringToFront();
             complexChart.Visible = false;
             chart3d.ParentControl.Visible = false;
-           // ((ISupportInitialize) chart2d).EndInit();
+            // ((ISupportInitialize) chart2d).EndInit();
 
 
+            editChartMenus = new EditChartMenus(chart2d, complexChart, chart3d, chart3d.ParentControl);
 
-            editChartMenus = new EditChartMenus(chart2d,complexChart,chart3d, chart3d.ParentControl);
-
-          //  menuStrip2.Items.Insert(4, editChartMenus.chart3DToolStripMenuItem);
-           // menuStrip2.Items.Insert(4, editChartMenus.comlexChartToolStripMenuItem);
+            //  menuStrip2.Items.Insert(4, editChartMenus.chart3DToolStripMenuItem);
+            // menuStrip2.Items.Insert(4, editChartMenus.comlexChartToolStripMenuItem);
             menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
         }
 
@@ -625,7 +644,6 @@ namespace Computator.NET
 
         private void SetupAllComboBoxes()
         {
-
             NumericalCalculation.setupOperations(operationNumericalCalculationsComboBox);
             NumericalCalculation.setupMethods(methodNumericalCalculationsComboBox,
                 operationNumericalCalculationsComboBox);
@@ -652,18 +670,7 @@ namespace Computator.NET
 
         #endregion
 
-        #region helpers
-
-
-
-      
-
-        #endregion
-
-
         #region main events
-
-
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -675,18 +682,9 @@ namespace Computator.NET
         {
         }
 
-
-
         #endregion
 
-
-
         #region eventHandlers
-
-
-
-     
-
 
         private void Item_Click(object sender, MouseEventArgs e)
         {
@@ -702,14 +700,11 @@ namespace Computator.NET
                 else if (tabControl1.SelectedIndex == 5)
                     customFunctionsCodeEditor.AppendText(menuItem.Text);
             }
-            else if (e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right && FunctionsDetails.Details.ContainsKey(menuItem.Text))
             {
-                if (FunctionsDetails.Details.ContainsKey(menuItem.Text))
-                {
-                    menuFunctionsToolTip.setFunctionInfo(FunctionsDetails.Details[menuItem.Text]);
-                    //menuFunctionsToolTip.Show(this, menuItem.Width + 3, 0);
-                    menuFunctionsToolTip.Show();
-                }
+                menuFunctionsToolTip.setFunctionInfo(FunctionsDetails.Details[menuItem.Text]);
+                //menuFunctionsToolTip.Show(this, menuItem.Width + 3, 0);
+                menuFunctionsToolTip.Show();
             }
         }
 
@@ -805,7 +800,8 @@ namespace Computator.NET
 
             try
             {
-                scriptingCodeEditor.ProcessScript((output) => consoleOutputTextBox.AppendText(output), customFunctionsCodeEditor.Text);
+                scriptingCodeEditor.ProcessScript(output => consoleOutputTextBox.AppendText(output),
+                    customFunctionsCodeEditor.Text);
             }
             catch (Exception ex)
             {
@@ -813,12 +809,10 @@ namespace Computator.NET
                 if (exception != null)
                 {
                     scriptingCodeEditor.HighlightErrors(exception.Errors[CompilationErrorPlace.MainCode]);
-
                 }
                 /////////HandleException(ex); ///TODO: MVP
             }
         }
-
 
 
         private void featuresToolStripMenuItem_Click(object sender, EventArgs e)
@@ -856,7 +850,7 @@ namespace Computator.NET
 
         private void bugReportingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var richtextbox = new RichTextBox()
+            var richtextbox = new RichTextBox
             {
                 Text =
                     $@"{Environment.NewLine}{Strings.PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk}{Environment.NewLine
@@ -868,35 +862,35 @@ namespace Computator.NET
                 ReadOnly = true
             };
 
-            richtextbox.LinkClicked += (ooo, eee) => System.Diagnostics.Process.Start(GlobalConfig.issuesUrl);
+            richtextbox.LinkClicked += (ooo, eee) => Process.Start(GlobalConfig.issuesUrl);
 
-            (new Form()
+            new Form
             {
-                Size = new Size(650,300),
+                Size = new Size(650, 300),
                 FormBorderStyle = FormBorderStyle.FixedDialog,
 
-            // Set the MaximizeBox to false to remove the maximize box.
-            MaximizeBox = false,
+                // Set the MaximizeBox to false to remove the maximize box.
+                MaximizeBox = false,
 
-            // Set the MinimizeBox to false to remove the minimize box.
-            MinimizeBox = false,
+                // Set the MinimizeBox to false to remove the minimize box.
+                MinimizeBox = false,
 
-            // Set the start position of the form to the center of the screen.
-            //StartPosition = FormStartPosition.CenterScreen,
-            Controls =
+                // Set the start position of the form to the center of the screen.
+                //StartPosition = FormStartPosition.CenterScreen,
+                Controls =
                 {
                     richtextbox
                 },
                 Font = new Font(FontFamily.GenericSansSerif, 17.0F),
-                Text =  Strings.BugReporting 
-            }).ShowDialog(this);
+                Text = Strings.BugReporting
+            }.ShowDialog(this);
         }
 
 
         private void openScriptDirectoryButton_Click(object sender, EventArgs e)
         {
             //var result = openScriptFileDialog.ShowDialog(this);
-            var fbd = new FolderBrowserDialog() {ShowNewFolderButton = true};
+            var fbd = new FolderBrowserDialog {ShowNewFolderButton = true};
 
             if (fbd.ShowDialog(this) == DialogResult.OK)
             {
@@ -908,24 +902,22 @@ namespace Computator.NET
 
         private void openCustomFunctionsDirectoryButton_Click(object sender, EventArgs e)
         {
-            var fbd = new FolderBrowserDialog() { ShowNewFolderButton = true };
+            var fbd = new FolderBrowserDialog {ShowNewFolderButton = true};
 
-            if (fbd.ShowDialog(this) == DialogResult.OK)
-            {
-                customFunctionsDirectoryTree.Path = fbd.SelectedPath;
-                Settings.Default.CustomFunctionsDirectory = customFunctionsDirectoryTree.Path;
-                Settings.Default.Save();
-            }
+            if (fbd.ShowDialog(this) != DialogResult.OK) return;
+            customFunctionsDirectoryTree.Path = fbd.SelectedPath;
+            Settings.Default.CustomFunctionsDirectory = customFunctionsDirectoryTree.Path;
+            Settings.Default.Save();
         }
 
         private void transformToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var menuitem = sender as ToolStripDropDownItem;
 
-          ////  if (_calculationsMode == CalculationsMode.Real)//TODO: MVP
-                chart2d.Transform(
-                    points => MathematicalTransformations.Transform(points, menuitem.Text),
-                    menuitem.Text);
+            ////  if (_calculationsMode == CalculationsMode.Real)//TODO: MVP
+            chart2d.Transform(
+                points => MathematicalTransformations.Transform(points, menuitem.Text),
+                menuitem.Text);
             //  else if (complexNumbersModeRadioBox.Checked)
             //    else if(fxyModeRadioBox.Checked)
         }
@@ -938,14 +930,11 @@ namespace Computator.NET
 
         #endregion
 
-
-
-
         #region tools menu events
 
         private void languageToolStripComboBox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            var selectedCulture = AllCultures.First(c => c.NativeName == (string)languageToolStripComboBox.SelectedItem);
+            var selectedCulture = AllCultures.First(c => c.NativeName == (string) languageToolStripComboBox.SelectedItem);
             Thread.CurrentThread.CurrentCulture = selectedCulture;
             LocalizationManager.GlobalUICulture = selectedCulture;
             Settings.Default.Language = selectedCulture;
@@ -954,7 +943,7 @@ namespace Computator.NET
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new Config.SettingsForm().ShowDialog(this);
+            new SettingsForm().ShowDialog(this);
         }
 
         private void logsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -966,25 +955,21 @@ namespace Computator.NET
                     Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_);
         }
 
-
-
         private void fullscreenToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             if (fullscreenToolStripMenuItem.Checked)
             {
                 // this.TopMost = true;
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.WindowState = FormWindowState.Maximized;
+                FormBorderStyle = FormBorderStyle.None;
+                WindowState = FormWindowState.Maximized;
             }
             else
             {
-
                 // this.TopMost = false;
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-              this.WindowState = FormWindowState.Normal;
+                FormBorderStyle = FormBorderStyle.Sizable;
+                WindowState = FormWindowState.Normal;
             }
         }
-
 
         #endregion
     }

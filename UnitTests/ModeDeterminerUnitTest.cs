@@ -6,7 +6,7 @@ namespace UnitTests
     [TestClass]
     public class ModeDeterminerUnitTest
     {
-        private ModeDeterminer modeDeterminer = new ModeDeterminer();
+        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
 
         [TestMethod]
         public void AloneImaginaryUnit_shouldReturnComplex()
@@ -31,13 +31,15 @@ namespace UnitTests
         {
             Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("2+z"));
         }
+
         [TestMethod]
         public void VariableXPlusNumber_shouldReturnReal()
         {
             Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2+x"));
         }
+
         [TestMethod]
-        public void VariableYPlusNumber_shouldReturnFxy()//
+        public void VariableYPlusNumber_shouldReturnFxy() //
         {
             Assert.AreEqual(CalculationsMode.Fxy, modeDeterminer.DetermineMode("2+y"));
         }
@@ -51,26 +53,29 @@ namespace UnitTests
         [TestMethod]
         public void expressionWithRealExponent_shouldReturnReal()
         {
-            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2¹⁰³²¹³ॱ³²³²³²"));//z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾
+            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2¹⁰³²¹³ॱ³²³²³²"));
+                //z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾
         }
 
         [TestMethod]
         public void XYZ_shouldReturnComplex()
         {
-            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾"));//(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
+            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾"));
+                //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
         }
 
         [TestMethod]
         public void expressionWithXVariableAndExponents_shouldReturnReal()
         {
-            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))"));//(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
+            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))"));
+                //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
         }
 
 
         [TestMethod]
         public void implicitRealFunction_shouldReturnReal()
         {
-            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("x²+y²=5"));//x²+y²+z²=52²
+            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("x²+y²=5")); //x²+y²+z²=52²
         }
 
         [TestMethod]

@@ -2,9 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Localization;
 
 namespace Computator.NET.UI.Controls
 {
@@ -23,6 +21,12 @@ namespace Computator.NET.UI.Controls
         private ToolStripMenuItem newTabToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
 
+        public DocumentsTabControl()
+        {
+            InitializeComponent();
+            var h = Handle;
+        }
+
         public void RenameTab(string oldName, string newName)
         {
             //if (TabPages.ContainsKey(oldName))
@@ -36,12 +40,6 @@ namespace Computator.NET.UI.Controls
                     }
                 }
             }
-        }
-
-        public DocumentsTabControl()
-        {
-            InitializeComponent();
-            IntPtr h = this.Handle;
         }
 
         private void InitializeComponent()
@@ -131,14 +129,16 @@ namespace Computator.NET.UI.Controls
             // 
             closeTabsToTheRightToolStripMenuItem.Name = "closeTabsToTheRightToolStripMenuItem";
             closeTabsToTheRightToolStripMenuItem.Size = new Size(190, 22);
-            closeTabsToTheRightToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right;
+            closeTabsToTheRightToolStripMenuItem.Text =
+                Strings.DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right;
             closeTabsToTheRightToolStripMenuItem.Click += closeTabsToTheRightToolStripMenuItem_Click;
             // 
             // closeTabsToTheLeftToolStripMenuItem
             // 
             closeTabsToTheLeftToolStripMenuItem.Name = "closeTabsToTheLeftToolStripMenuItem";
             closeTabsToTheLeftToolStripMenuItem.Size = new Size(190, 22);
-            closeTabsToTheLeftToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left;
+            closeTabsToTheLeftToolStripMenuItem.Text =
+                Strings.DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left;
             closeTabsToTheLeftToolStripMenuItem.Click += closeTabsToTheLeftToolStripMenuItem_Click;
             // 
             // tabPage1
@@ -161,7 +161,7 @@ namespace Computator.NET.UI.Controls
             // imageList1
             // 
             imageList1.ImageStream =
-                ((ImageListStreamer) (resources.GetObject("imageList1.ImageStream")));
+                (ImageListStreamer) resources.GetObject("imageList1.ImageStream");
             imageList1.TransparentColor = Color.Transparent;
             imageList1.Images.SetKeyName(0, "saved.png");
             imageList1.Images.SetKeyName(1, "unsaved.png");
@@ -174,7 +174,7 @@ namespace Computator.NET.UI.Controls
             Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular,
                 GraphicsUnit.Point, 0);
 
-         //   addTabPage.Font = CustomFonts.GetMathFont(Font.Size);
+            //   addTabPage.Font = CustomFonts.GetMathFont(Font.Size);
             Margin = new Padding(0);
             MinimumSize = new Size(800, 27);
             Name = "DocumentsTabControl";
@@ -192,10 +192,9 @@ namespace Computator.NET.UI.Controls
             var tabPage = new TabPage();
             if (string.IsNullOrEmpty(filename))
             {
-                tabPage.Text = Strings.DocumentsTabControl_AddTab_NewFile + id.ToString();
+                tabPage.Text = Strings.DocumentsTabControl_AddTab_NewFile + id;
                 tabPage.ImageIndex = 1;
-                tabPage.Name= Strings.DocumentsTabControl_AddTab_NewFile + id.ToString();
-
+                tabPage.Name = Strings.DocumentsTabControl_AddTab_NewFile + id;
             }
             else
             {
@@ -217,8 +216,8 @@ namespace Computator.NET.UI.Controls
         {
             foreach (TabPage tabPage in TabPages)
             {
-                if(tabPage!=SelectedTab && tabPage!=addTabPage)
-                       TabPages.Remove(tabPage);
+                if (tabPage != SelectedTab && tabPage != addTabPage)
+                    TabPages.Remove(tabPage);
             }
             // Documents.Remove(this.SelectedTab.Text);
 
@@ -227,15 +226,15 @@ namespace Computator.NET.UI.Controls
 
         private void closeTabsToTheRightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = SelectedIndex+1; TabPages[i] != SelectedTab && TabPages[i] != addTabPage;)
+            for (var i = SelectedIndex + 1; TabPages[i] != SelectedTab && TabPages[i] != addTabPage;)
             {
-                    TabPages.RemoveAt(i);
+                TabPages.RemoveAt(i);
             }
         }
 
         private void closeTabsToTheLeftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; TabPages[i] != SelectedTab && TabPages[i] != addTabPage;)
+            for (var i = 0; TabPages[i] != SelectedTab && TabPages[i] != addTabPage;)
             {
                 TabPages.RemoveAt(i);
             }

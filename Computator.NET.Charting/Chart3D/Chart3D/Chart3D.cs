@@ -17,7 +17,7 @@ namespace Computator.NET.Charting.Chart3D
             CYLINDER,
             CONE,
             PYRAMID
-        };
+        }
 
         public static int SHAPE_NO = 5;
         private readonly float m_axisLengthWidthRatio = 200; // axis length / width ratio
@@ -243,7 +243,7 @@ namespace Computator.NET.Charting.Chart3D
             Mesh3D xAxisCylinder = new Cylinder3D(radius, radius, m_xAxisLength/10, 6);
             xAxisCylinder.SetColor(m_axisXColor);
             TransformMatrix.Transform(xAxisCylinder,
-                new Point3D(m_xAxisCenter/15 + (m_xAxisLength/10)/2, m_yAxisCenter/15, m_zAxisCenter/15), 0, 90);
+                new Point3D(m_xAxisCenter/15 + m_xAxisLength/10/2, m_yAxisCenter/15, m_zAxisCenter/15), 0, 90);
             meshs.Add(xAxisCylinder);
 
             Mesh3D xAxisCone = new Cone3D(2*radius, 2*radius, radius*5, 6);
@@ -255,7 +255,7 @@ namespace Computator.NET.Charting.Chart3D
             Mesh3D yAxisCylinder = new Cylinder3D(radius, radius, m_yAxisLength/10, 6);
             yAxisCylinder.SetColor(m_axisYColor);
             TransformMatrix.Transform(yAxisCylinder,
-                new Point3D(m_xAxisCenter/15, m_yAxisCenter/15 + (m_yAxisLength/10)/2, m_zAxisCenter/15), 90, 90);
+                new Point3D(m_xAxisCenter/15, m_yAxisCenter/15 + m_yAxisLength/10/2, m_zAxisCenter/15), 90, 90);
             meshs.Add(yAxisCylinder);
 
             Mesh3D yAxisCone = new Cone3D(2*radius, 2*radius, radius*5, 6);
@@ -267,7 +267,7 @@ namespace Computator.NET.Charting.Chart3D
             Mesh3D zAxisCylinder = new Cylinder3D(radius, radius, m_zAxisLength/10, 6);
             zAxisCylinder.SetColor(m_axisZColor);
             TransformMatrix.Transform(zAxisCylinder,
-                new Point3D(m_xAxisCenter/15, m_yAxisCenter/15, m_zAxisCenter/15 + (m_zAxisLength/10)/2), 0, 0);
+                new Point3D(m_xAxisCenter/15, m_yAxisCenter/15, m_zAxisCenter/15 + m_zAxisLength/10/2), 0, 0);
             meshs.Add(zAxisCylinder);
 
             Mesh3D zAxisCone = new Cone3D(2*radius, 2*radius, radius*5, 6);

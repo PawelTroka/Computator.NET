@@ -2,13 +2,11 @@
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Localization;
 
 namespace Computator.NET
 {
-    partial class AboutBox1 : Form
+    internal partial class AboutBox1 : Form
     {
         public AboutBox1()
         {

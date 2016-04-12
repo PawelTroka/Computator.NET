@@ -94,48 +94,55 @@ namespace Computator.NET.Localization
 
         private void LocalizeType(Type type, object owner, int howDeep)
         {
-            if (owner == null|| howDeep==0)
+            if (owner == null || howDeep == 0)
                 return;
 
 
-                var memberInfos = type.GetMembers(BindingFlags.NonPublic
-                              | BindingFlags.Instance |
-                              BindingFlags.Public);
+            var memberInfos = type.GetMembers(BindingFlags.NonPublic
+                                              | BindingFlags.Instance |
+                                              BindingFlags.Public);
 
-                foreach (MemberInfo memberInfo in memberInfos)
-                {
-                    LocalizeMember(memberInfo, owner);
+            foreach (var memberInfo in memberInfos)
+            {
+                LocalizeMember(memberInfo, owner);
 
-                    var fieldInfo = memberInfo as FieldInfo;
-                    if (fieldInfo != null && !fieldInfo.FieldType.IsValueType)
-                        LocalizeType(fieldInfo.FieldType,fieldInfo.GetValue(owner),howDeep-1);
+                var fieldInfo = memberInfo as FieldInfo;
+                if (fieldInfo != null && !fieldInfo.FieldType.IsValueType)
+                    LocalizeType(fieldInfo.FieldType, fieldInfo.GetValue(owner), howDeep - 1);
 
-                    var propertyInfo = memberInfo as PropertyInfo;
-                    if (propertyInfo != null && propertyInfo.CanRead && !propertyInfo.PropertyType.IsValueType && propertyInfo.GetIndexParameters().Length == 0)
-                        try { LocalizeType(propertyInfo.PropertyType, propertyInfo.GetValue(owner,null), howDeep - 1);}
-                        catch(Exception ex)
-                        {
-                        }
-                }
-
+                var propertyInfo = memberInfo as PropertyInfo;
+                if (propertyInfo != null && propertyInfo.CanRead && !propertyInfo.PropertyType.IsValueType &&
+                    propertyInfo.GetIndexParameters().Length == 0)
+                    try
+                    {
+                        LocalizeType(propertyInfo.PropertyType, propertyInfo.GetValue(owner, null), howDeep - 1);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+            }
         }
 
         private void LocalizeMember(MemberInfo member, object owner)
         {
             object obj = null;
-            if(member is FieldInfo)
-             obj= ((FieldInfo)member).GetValue(owner);
-            else if(member is PropertyInfo && ((PropertyInfo)member).CanRead && ((PropertyInfo)member).GetIndexParameters().Length==0)
-               try { obj = ((PropertyInfo)member).GetValue(owner,null);}
-               catch
-               {
-               }
+            if (member is FieldInfo)
+                obj = ((FieldInfo) member).GetValue(owner);
+            else if (member is PropertyInfo && ((PropertyInfo) member).CanRead &&
+                     ((PropertyInfo) member).GetIndexParameters().Length == 0)
+                try
+                {
+                    obj = ((PropertyInfo) member).GetValue(owner, null);
+                }
+                catch
+                {
+                }
             var fieldName = member.Name;
             if (obj is ToolStripMenuItem)
             {
                 var menuItem = (ToolStripMenuItem) obj;
-                menuItem.Text = (string) (resManager.GetObject(fieldName +
-                                                               ".Text", culture));
+                menuItem.Text = (string) resManager.GetObject(fieldName +
+                                                              ".Text", culture);
                 // etc.
             }
         }

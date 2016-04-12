@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -18,7 +17,6 @@ using Computator.NET.DataTypes;
 using Color = System.Windows.Media.Color;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Windows.Point;
 using PrintDialog = System.Windows.Controls.PrintDialog;
 using Size = System.Windows.Size;
@@ -31,6 +29,7 @@ namespace Computator.NET.Charting.Chart3D
     /// </summary>
     public partial class Chart3DControl : UserControl, IChart
     {
+        private readonly DiffuseMaterial _backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
         private readonly List<Function> _functions = new List<Function>();
         private readonly List<List<Point3D>> _points = new List<List<Point3D>>();
         private Color _axesColor = Colors.MediumSlateBlue;
@@ -40,28 +39,35 @@ namespace Computator.NET.Charting.Chart3D
 
         private bool _visibilityAxes = true;
         private AxisLabels axisLabels;
+
+        private readonly ImagePrinter imagePrinter = new ImagePrinter();
         private Chart3D m_3dChart; // data for 3d chart
         public int m_nChartModelIndex = -1; // model index in the Viewport3d
         public TransformMatrix m_transformMatrix = new TransformMatrix();
         private Chart3DMode mode;
         private double N = 100;
-        private double xmax=5;
-        private double xmin=-5;
-        private double ymax=5;
-        private double ymin=-5;
+
+        private double quality;
+        private readonly Random random = new Random();
+        private double xmax = 5;
+        private double xmin = -5;
+        private double ymax = 5;
+        private double ymin = -5;
 
         public Chart3DControl()
         {
-            ParentControl = new ElementHost() { Child = this,
+            ParentControl = new ElementHost
+            {
+                Child = this,
                 BackColor = System.Drawing.Color.White,
-                Dock = DockStyle.Fill,
+                Dock = DockStyle.Fill
             };
             InitializeComponent();
 
             axisLabels = new AxisLabels(canvasOn3D);
 
             Focusable = true;
-            
+
 
             Mode = Chart3DMode.Surface;
 
@@ -74,7 +80,7 @@ namespace Computator.NET.Charting.Chart3D
             Quality = 50;
         }
 
-        public ElementHost ParentControl { get; } 
+        public ElementHost ParentControl { get; }
 
         public double Scale
         {
@@ -140,6 +146,19 @@ namespace Computator.NET.Charting.Chart3D
             }
         }
 
+        public Chart3DMode Mode
+        {
+            get { return mode; }
+            set
+            {
+                if (value != mode)
+                {
+                    mode = value;
+                    Redraw();
+                }
+            }
+        }
+
         public double XMin
         {
             get { return xmin; }
@@ -153,7 +172,6 @@ namespace Computator.NET.Charting.Chart3D
                 }
             }
         }
-
 
 
         public double XMax
@@ -218,19 +236,99 @@ namespace Computator.NET.Charting.Chart3D
             get { return quality; }
         }
 
-        private double quality;
-
-        public Chart3DMode Mode
+        public void ClearAll()
         {
-            get { return mode; }
-            set
+            _functions.Clear();
+            _points.Clear();
+
+            ClearChartData();
+
+            ReloadPoints();
+
+            axisLabels.Remove();
+            TransformChart();
+        }
+
+        public bool Visible
+        {
+            get { return ParentControl.Visible; }
+            set { ParentControl.Visible = value; }
+        }
+
+        public void AddFunction(Function fxy)
+        {
+            _functions.Add(fxy);
+            Redraw();
+        }
+
+        public void Print()
+        {
+            var prnt = new PrintDialog();
+
+            if (prnt.ShowDialog() == true)
             {
-                if (value != mode)
-                {
-                    mode = value;
-                    Redraw();
-                }
+                prnt.PrintVisual(this, "Computator.NET - Chart3D");
             }
+            //imagePrinter.Print(GetBitmap());
+        }
+
+        public void PrintPreview()
+        {
+            imagePrinter.PrintPreview(GetBitmap());
+        }
+
+        public void SetChartAreaValues(double x0, double xn, double y0, double yn)
+        {
+            xmax = xn;
+            xmin = x0;
+            ymax = yn;
+            ymin = y0;
+            Redraw();
+        }
+
+        public void SaveImage(string path, ImageFormat imageFormat)
+        {
+            BitmapEncoder encoder;
+
+            if (Equals(imageFormat, ImageFormat.Png))
+                encoder = new PngBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Bmp))
+                encoder = new BmpBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Gif))
+                encoder = new GifBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Jpeg))
+                encoder = new JpegBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Tiff))
+                encoder = new TiffBitmapEncoder();
+            else if (Equals(imageFormat, ImageFormat.Wmf))
+                encoder = new WmpBitmapEncoder();
+            else
+                encoder = new PngBitmapEncoder();
+
+
+            var bitmap = new RenderTargetBitmap((int) ActualWidth, (int) ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(this);
+            var frame = BitmapFrame.Create(bitmap);
+            encoder.Frames.Add(frame);
+
+            using (var stream = File.Create(path))
+            {
+                encoder.Save(stream);
+            }
+        }
+
+        public void Redraw()
+        {
+            ClearChartData();
+            //TODO: make it possible to draw more than one function in surface chart
+            foreach (var f in _functions)
+            {
+                DrawFunction((x, y) => f.Evaluate(x, y));
+            }
+
+
+            foreach (var point in _points)
+                AddPoints(point, GetRandomColor());
         }
 
         private void ClearChartData()
@@ -261,103 +359,21 @@ namespace Computator.NET.Charting.Chart3D
                 N = N*0.75;
         }
 
-        public void ClearAll()
+        private Bitmap GetBitmap()
         {
-            _functions.Clear();
-            _points.Clear();
+            var w = (int) ActualWidth;
+            var h = (int) ActualHeight;
 
-            ClearChartData();
+            BitmapEncoder encoder = new BmpBitmapEncoder();
+            var bitmap = new RenderTargetBitmap(w, h, 96, 96, PixelFormats.Pbgra32);
 
-            ReloadPoints();
 
-            axisLabels.Remove();
-            TransformChart();
-        }
-
-        public bool Visible { get { return ParentControl.Visible; } set { ParentControl.Visible = value; } }
-
-        public void AddFunction(Function fxy)
-        {
-            _functions.Add(fxy);
-            Redraw();
-        }
-
-        private ImagePrinter imagePrinter = new ImagePrinter();
-
-        public void Print()
-        {
-
-            PrintDialog prnt = new PrintDialog();
-
-            if (prnt.ShowDialog() == true)
+            var drawingVisual = new DrawingVisual();
+            using (var drawingContext = drawingVisual.RenderOpen())
             {
-                prnt.PrintVisual(this,"Computator.NET - Chart3D");
-            }
-            //imagePrinter.Print(GetBitmap());
-        }
-
-        public void PrintPreview()
-        {
-            imagePrinter.PrintPreview(GetBitmap());
-        }
-
-        public void SetChartAreaValues(double x0, double xn, double y0, double yn)
-        {
-            xmax = xn;
-            xmin = x0;
-            ymax = yn;
-            ymin = y0;
-            Redraw();
-        }
-
-        public void SaveImage(string path, ImageFormat imageFormat)
-        {
-            BitmapEncoder encoder;
-
-            if(Equals(imageFormat, ImageFormat.Png))
-                encoder= new PngBitmapEncoder();
-            else if(Equals(imageFormat, ImageFormat.Bmp))
-                encoder = new BmpBitmapEncoder();
-            else if (Equals(imageFormat, ImageFormat.Gif))
-                encoder = new GifBitmapEncoder();
-            else if (Equals(imageFormat, ImageFormat.Jpeg))
-                encoder = new JpegBitmapEncoder();
-            else if (Equals(imageFormat, ImageFormat.Tiff))
-                encoder = new TiffBitmapEncoder();
-            else if (Equals(imageFormat, ImageFormat.Wmf))
-                encoder = new WmpBitmapEncoder();
-            else
-                encoder = new PngBitmapEncoder();
-
-
-            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)this.ActualWidth, (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-            bitmap.Render(this);
-            BitmapFrame frame = BitmapFrame.Create(bitmap);
-            encoder.Frames.Add(frame);
-
-            using (var stream = File.Create(path))
-            {
-                encoder.Save(stream);
-            }
-        }
-
-        Bitmap GetBitmap()
-        {
-            var w = (int) this.ActualWidth;
-            var h = (int) this.ActualHeight;
-
-            BitmapEncoder encoder=new BmpBitmapEncoder();
-            RenderTargetBitmap bitmap = new RenderTargetBitmap(w,h, 96, 96, PixelFormats.Pbgra32);
-
-
-
-
-            DrawingVisual drawingVisual = new DrawingVisual();
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-            {
-                VisualBrush visualBrush = new VisualBrush(this);
+                var visualBrush = new VisualBrush(this);
                 drawingContext.DrawRectangle(visualBrush, null,
-                  new Rect(new Point(), new Size(w,h)));
+                    new Rect(new Point(), new Size(w, h)));
             }
 
             bitmap.Render(drawingVisual);
@@ -366,33 +382,19 @@ namespace Computator.NET.Charting.Chart3D
             //  Background = new SolidColorBrush(Colors.White);
             //  InvalidateVisual();
 
-            BitmapFrame frame = BitmapFrame.Create(bitmap);
-            
-            encoder.Frames.Add(frame);
-            
+            var frame = BitmapFrame.Create(bitmap);
 
-            MemoryStream stream = new MemoryStream();
+            encoder.Frames.Add(frame);
+
+
+            var stream = new MemoryStream();
             encoder.Save(stream);
 
-            Bitmap bmp = new Bitmap(stream);
+            var bmp = new Bitmap(stream);
 
-       //     Background = new SolidColorBrush(Colors.Transparent);
+            //     Background = new SolidColorBrush(Colors.Transparent);
 
             return bmp;
-        }
-
-        public void Redraw()
-        {
-            ClearChartData();
-            //TODO: make it possible to draw more than one function in surface chart
-            foreach (var f in _functions)
-            {
-                DrawFunction((x, y) => f.Evaluate(x, y));
-            }
-            
-
-            foreach (var point in _points)
-                AddPoints(point, GetRandomColor());
         }
 
         private void DrawFunction(Func<double, double, double> fxy)
@@ -409,12 +411,15 @@ namespace Computator.NET.Charting.Chart3D
         }
 
 
-
         private Color GetRandomColor()
         {
-            return new Color {R = (byte) random.Next(0, 256), G = (byte) random.Next(0, 256), B = (byte) random.Next(0, 256)};
+            return new Color
+            {
+                R = (byte) random.Next(0, 256),
+                G = (byte) random.Next(0, 256),
+                B = (byte) random.Next(0, 256)
+            };
         }
-        private Random random = new Random();
 
         private Spline3D CalculateSpline3D(Func<double, double, double> fxy)
         {
@@ -454,8 +459,6 @@ namespace Computator.NET.Charting.Chart3D
 
             UpdateChart();
         }
-
-        private readonly DiffuseMaterial _backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
 
         private void AddSurface(Func<double, double, double> fxy)
         {
@@ -497,10 +500,10 @@ namespace Computator.NET.Charting.Chart3D
 
         public void AddPoints(IList<Point3D> points)
         {
-            if(Mode==Chart3DMode.Surface)
+            if (Mode == Chart3DMode.Surface)
                 Mode = Chart3DMode.Points;
             _points.Add(new List<Point3D>(points));
-            AddPoints(points,GetRandomColor());
+            AddPoints(points, GetRandomColor());
         }
 
         private void AddPoints(IList<Point3D> points, Color color)
@@ -513,16 +516,16 @@ namespace Computator.NET.Charting.Chart3D
             {
                 var plotItem = new ScatterPlotItem
                 {
-                    w = (float)DotSize,//size of plotItem
-                    h = (float)DotSize,//size of plotItem
-                    x = (float)points[i].X,
-                    y = (float)points[i].Y,
-                    z = (float)points[i].Z,
-                    shape = (int)Chart3D.SHAPE.ELLIPSE,
+                    w = (float) DotSize, //size of plotItem
+                    h = (float) DotSize, //size of plotItem
+                    x = (float) points[i].X,
+                    y = (float) points[i].Y,
+                    z = (float) points[i].Z,
+                    shape = (int) Chart3D.SHAPE.ELLIPSE,
                     color = color
                 };
 
-                ((ScatterChart3D)m_3dChart).SetVertex(oldSize + i, plotItem);
+                ((ScatterChart3D) m_3dChart).SetVertex(oldSize + i, plotItem);
             }
 
             UpdateChart();
@@ -537,23 +540,25 @@ namespace Computator.NET.Charting.Chart3D
 
             ArrayList meshs = null;
             if (mode == Chart3DMode.Points)
-                meshs = ((ScatterChart3D)m_3dChart).GetMeshes();
+                meshs = ((ScatterChart3D) m_3dChart).GetMeshes();
             else if (mode == Chart3DMode.Surface)
-                meshs = ((UniformSurfaceChart3D)m_3dChart).GetMeshes();
+                meshs = ((UniformSurfaceChart3D) m_3dChart).GetMeshes();
 
             UpdateChartLabels(meshs);
 
-            m_nChartModelIndex = (new Model3D()).UpdateModel(meshs, (m_3dChart is UniformSurfaceChart3D) ? _backMaterial : null, m_nChartModelIndex, mainViewport);
+            m_nChartModelIndex = new Model3D().UpdateModel(meshs,
+                m_3dChart is UniformSurfaceChart3D ? _backMaterial : null, m_nChartModelIndex, mainViewport);
 
             RescaleProjectionMatrix();
-          //  TransformChart();
+            //  TransformChart();
         }
 
         public void RescaleProjectionMatrix()
         {
             if (EqualAxes)
-                m_transformMatrix.CalculateProjectionMatrix(Math.Min(m_3dChart.XMin(), Math.Min(m_3dChart.YMin(), m_3dChart.ZMin())),
-                    Math.Max(m_3dChart.XMax(),Math.Max(m_3dChart.YMax(),m_3dChart.ZMax())), Scale);
+                m_transformMatrix.CalculateProjectionMatrix(
+                    Math.Min(m_3dChart.XMin(), Math.Min(m_3dChart.YMin(), m_3dChart.ZMin())),
+                    Math.Max(m_3dChart.XMax(), Math.Max(m_3dChart.YMax(), m_3dChart.ZMax())), Scale);
             else
                 m_transformMatrix.CalculateProjectionMatrix(m_3dChart.XMin(), m_3dChart.XMax(), m_3dChart.YMin(),
                     m_3dChart.YMax(), m_3dChart.ZMin(), m_3dChart.ZMax(), Scale);
@@ -685,7 +690,7 @@ namespace Computator.NET.Charting.Chart3D
         private void TransformChart()
         {
             if (m_nChartModelIndex == -1) return;
-            var visual3d = (ModelVisual3D) (mainViewport.Children[m_nChartModelIndex]);
+            var visual3d = (ModelVisual3D) mainViewport.Children[m_nChartModelIndex];
 
             if (visual3d.Content == null) return;
             var group1 = visual3d.Content.Transform as Transform3DGroup;

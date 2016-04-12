@@ -16,20 +16,26 @@ namespace Computator.NET.Charting.ComplexCharting
     {
         #region private fields
 
-       // private Graphics g;
+        // private Graphics g;
         private double quality;
-      //  private Task RedrawTask;
-        private readonly Color[,] pointsColors = new Color[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
-        private readonly ComplexPoint[,] pointsValues = new ComplexPoint[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
-        private bool drawn = false;
+        //  private Task RedrawTask;
+        private readonly Color[,] pointsColors =
+            new Color[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
+
+        private readonly ComplexPoint[,] pointsValues =
+            new ComplexPoint[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
+
+        private bool drawn;
         private Function function;
         private Bitmap image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-        private ToolTip toolTip = new ToolTip
+
+        private readonly ToolTip toolTip = new ToolTip
         {
             AutoPopDelay = 5000,
             InitialDelay = 1000,
             ReshowDelay = 500
         };
+
         private readonly BackgroundWorker worker;
         //private bool doNotRecalculate;
 
@@ -60,7 +66,7 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public double XYRatio
         {
-            get { return ((XMax - XMin)/Width)/((YMax - YMin)/Height); }
+            get { return (XMax - XMin)/Width/((YMax - YMin)/Height); }
         }
 
         public double XMin
@@ -70,7 +76,8 @@ namespace Computator.NET.Charting.ComplexCharting
             {
                 if (value != _xMin)
                 {
-                    _xMin = value; XMinChanged?.Invoke(this, new EventArgs());
+                    _xMin = value;
+                    XMinChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -94,7 +101,9 @@ namespace Computator.NET.Charting.ComplexCharting
             set
             {
                 if (value != _yMin)
-                { _yMin = value; YMinChanged?.Invoke(this, new EventArgs());
+                {
+                    _yMin = value;
+                    YMinChanged?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -102,7 +111,8 @@ namespace Computator.NET.Charting.ComplexCharting
         public double YMax
         {
             get { return _yMax; }
-            set {
+            set
+            {
                 if (value != _yMax)
                 {
                     _yMax = value;
@@ -133,7 +143,7 @@ namespace Computator.NET.Charting.ComplexCharting
             if (value >= 50)
                 quality = 1.0;
             else
-                quality = (value/50);
+                quality = value/50;
 
             if (quality < 0.1)
                 quality = 0.1;
@@ -151,7 +161,7 @@ namespace Computator.NET.Charting.ComplexCharting
             Quality = 50;
 
             worker = new BackgroundWorker {WorkerReportsProgress = true};
-            worker.DoWork += ((o, e) =>
+            worker.DoWork += (o, e) =>
             {
                 var bw = o as BackgroundWorker;
                 calculateValuesAndColors();
@@ -160,7 +170,7 @@ namespace Computator.NET.Charting.ComplexCharting
                         image.SetPixel(x, y, pointsColors[x, y]);
                 drawn = true;
                 Invalidate();
-            });
+            };
         }
 
         private void attachEventHandlers()
@@ -215,7 +225,7 @@ namespace Computator.NET.Charting.ComplexCharting
             Redraw();
         }
 
-        private ImagePrinter imagePrinter= new ImagePrinter();
+        private readonly ImagePrinter imagePrinter = new ImagePrinter();
         private double _xMin;
         private double _xMax;
         private double _yMin;
@@ -242,8 +252,8 @@ namespace Computator.NET.Charting.ComplexCharting
         public void SaveImage(string path, ImageFormat imageFormat)
         {
             //  var dialog = new SaveFileDialog();
-         //   dialog.Filter = "Portable Network Graphics (*.png)|*.png";
-         //   dialog.RestoreDirectory = true;
+            //   dialog.Filter = "Portable Network Graphics (*.png)|*.png";
+            //   dialog.RestoreDirectory = true;
 
             if (image == null) return;
             //  using (var writer = dialog.OpenFile())
@@ -347,8 +357,8 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private Point GetMiddlePoint()
         {
-            var x = (int) ((Math.Abs(XMin)/(XMax - XMin))*Width);
-            var y = (int) ((Math.Abs(YMax)/(YMax - YMin))*Height);
+            var x = (int) (Math.Abs(XMin)/(XMax - XMin)*Width);
+            var y = (int) (Math.Abs(YMax)/(YMax - YMin)*Height);
 
             if (XMax <= 0) //we have only negative numbers for x
                 x = Width - 1;
@@ -454,7 +464,7 @@ namespace Computator.NET.Charting.ComplexCharting
             else
             {
                 //if(m>1)
-                var coefficient = (Math.Log(m + 1, 2))/(Math.Log(double.MaxValue, 2));
+                var coefficient = Math.Log(m + 1, 2)/Math.Log(double.MaxValue, 2);
                 //else
                 //coefficient = (Math.Pow(m,1/100))/(Math.Pow(double.MaxValue,1/100));
                 switch (colorAssignmentMethod)
@@ -463,13 +473,13 @@ namespace Computator.NET.Charting.ComplexCharting
                         //s = 0.4 + 0.6*coefficient;
                         //v = 0.6 + 0.4*(1 - coefficient);
 
-                        v = 1 - 2 * Math.Atan(m) / Math.PI;
-                        s = v <= 0.5 ? 2 * v : (2 - 2 * v);
+                        v = 1 - 2*Math.Atan(m)/Math.PI;
+                        s = v <= 0.5 ? 2*v : 2 - 2*v;
 
                         break;
                     case AssignmentOfColorMethod.GreaterIsLighter:
-                        s = 1 - 2 * Math.Atan(m) / Math.PI;
-                        v = s <= 0.5 ? 2 * s : (2 - 2 * s);
+                        s = 1 - 2*Math.Atan(m)/Math.PI;
+                        v = s <= 0.5 ? 2*s : 2 - 2*s;
                         break;
                 }
             }
@@ -486,7 +496,7 @@ namespace Computator.NET.Charting.ComplexCharting
             comboBoxes[0].AutoSize = true;
             comboBoxes[1].AutoSize = true;
             var vartosci =
-                Enum.GetValues(typeof (CountourLinesMode)).Cast<CountourLinesMode>().ToList<CountourLinesMode>();
+                Enum.GetValues(typeof (CountourLinesMode)).Cast<CountourLinesMode>().ToList();
             foreach (var v in vartosci)
                 comboBoxes[0].Items.Add(v);
             comboBoxes[0].SelectedItem = countourMode;
@@ -495,7 +505,7 @@ namespace Computator.NET.Charting.ComplexCharting
             var vartosci2 =
                 Enum.GetValues(typeof (AssignmentOfColorMethod))
                     .Cast<AssignmentOfColorMethod>()
-                    .ToList<AssignmentOfColorMethod>();
+                    .ToList();
             foreach (var v in vartosci2)
                 comboBoxes[1].Items.Add(v);
             comboBoxes[1].SelectedItem = colorAssignmentMethod;

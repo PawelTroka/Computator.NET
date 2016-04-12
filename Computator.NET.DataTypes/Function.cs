@@ -3,17 +3,20 @@ using System.Numerics;
 using System.Reflection;
 using Computator.NET.Config;
 using Computator.NET.Logging;
+using Microsoft.CSharp.RuntimeBinder;
 
 namespace Computator.NET.DataTypes
 {
     public class Function : BaseFunction
     {
+        private string name;
 
         private Function(Delegate function) : base(function)
         {
-            logger = new SimpleLogger { ClassName = GetType().FullName };
+            logger = new SimpleLogger {ClassName = GetType().FullName};
         }
-        public Function(Delegate function, bool isImplicit) : this(function) 
+
+        public Function(Delegate function, bool isImplicit) : this(function)
         {
             DeduceType(isImplicit);
         }
@@ -30,7 +33,7 @@ namespace Computator.NET.DataTypes
             {
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrWhiteSpace(name))
                     return name;
-                    if (!string.IsNullOrEmpty(TslCode) && !string.IsNullOrWhiteSpace(TslCode))
+                if (!string.IsNullOrEmpty(TslCode) && !string.IsNullOrWhiteSpace(TslCode))
                     return TslCode;
                 if (!string.IsNullOrEmpty(CsCode) && !string.IsNullOrWhiteSpace(CsCode))
                     return CsCode;
@@ -38,9 +41,6 @@ namespace Computator.NET.DataTypes
             }
             set { name = value; }
         }
-
-
-        private string name;
 
         public static implicit operator Func<double>(Function function)
         {
@@ -105,7 +105,7 @@ namespace Computator.NET.DataTypes
                         FunctionType = FunctionType.Real2D;
                         break;
                     case 2:
-                        FunctionType = isImplicit ? FunctionType.Real2DImplicit : FunctionType.Real3D; 
+                        FunctionType = isImplicit ? FunctionType.Real2DImplicit : FunctionType.Real3D;
                         break;
                     case 3:
                         FunctionType = FunctionType.Real3DImplicit;
@@ -122,23 +122,26 @@ namespace Computator.NET.DataTypes
                 switch (FunctionType)
                 {
                     case FunctionType.Real2D:
-                        return ((Func<double, double>)_function)(arguments[0]);
+                        return ((Func<double, double>) _function)(arguments[0]);
                     case FunctionType.Complex:
-                        return ((Func<Complex, Complex>)_function)(new Complex(arguments[0], arguments[1]));
+                        return ((Func<Complex, Complex>) _function)(new Complex(arguments[0], arguments[1]));
                     case FunctionType.Real2DImplicit:
                     case FunctionType.Real3D:
-                        return ((Func<double, double, double>)_function)(arguments[0], arguments[1]);
+                        return ((Func<double, double, double>) _function)(arguments[0], arguments[1]);
 
                     case FunctionType.ComplexImplicit:
-                        return ((Func<Complex, Complex, Complex>)_function)(new Complex(arguments[0], arguments[1]), new Complex(arguments[2], arguments[3]));
+                        return ((Func<Complex, Complex, Complex>) _function)(new Complex(arguments[0], arguments[1]),
+                            new Complex(arguments[2], arguments[3]));
 
                     case FunctionType.Real3DImplicit:
-                        return ((Func<double, double, double, double>)_function)(arguments[0], arguments[1], arguments[2]);
+                        return ((Func<double, double, double, double>) _function)(arguments[0], arguments[1],
+                            arguments[2]);
                 }
             }
             catch (Exception exception)
             {
-                if (exception is Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)//hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
+                if (exception is RuntimeBinderException)
+                    //hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
                     return double.NaN;
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
                 logger.Parameters["TSLCode"] = TslCode;
@@ -171,7 +174,7 @@ namespace Computator.NET.DataTypes
                 switch (FunctionType)
                 {
                     case FunctionType.Real2D:
-                        value = ((Func<T, T>)_function)(arguments[0]);
+                        value = ((Func<T, T>) _function)(arguments[0]);
                         break;
                     case FunctionType.Complex:
                         value = ((Func<T, T>) _function)(arguments[0]);
@@ -188,8 +191,9 @@ namespace Computator.NET.DataTypes
             }
             catch (Exception exception)
             {
-                if (exception is Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)//hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
-                    return (T)(object)double.NaN;
+                if (exception is RuntimeBinderException)
+                    //hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
+                    return (T) (object) double.NaN;
                 logger.MethodName = MethodBase.GetCurrentMethod().Name;
                 logger.Parameters["TSLCode"] = TslCode;
                 logger.Parameters["CSCode"] = CsCode;

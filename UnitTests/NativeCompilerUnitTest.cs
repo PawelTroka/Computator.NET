@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Computator.NET.Compilation;
-using MathNet.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests

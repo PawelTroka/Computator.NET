@@ -48,7 +48,7 @@ namespace Computator.NET.Charting.Chart3D.Splines
         {
             position = position*(xCubics.Count - 1);
             var cubicNum = (int) position;
-            var cubicPos = (position - cubicNum);
+            var cubicPos = position - cubicNum;
 
             return new Point3D(xCubics[cubicNum].eval(cubicPos),
                 yCubics[cubicNum].eval(cubicPos),

@@ -5,16 +5,15 @@ using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Localization;
 using Computator.NET.Logging;
+using Computator.NET.Properties;
 using Computator.NET.UI.Forms;
-using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger logger = new SimpleLogger { ClassName = "Program" };
+        private static readonly SimpleLogger logger = new SimpleLogger {ClassName = "Program"};
 
         /// <summary>
         ///     The main entry point for the application.
@@ -44,30 +43,29 @@ namespace Computator.NET
         }
 
 
-
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            
             MessageBox.Show(e.Exception.Message, Strings.Program_Application_ThreadException_Unhandled_Thread_Exception);
 
             logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log(Strings.Program_Application_ThreadException_Unhandled_Thread_Exception, ErrorType.General, e.Exception);
+            logger.Log(Strings.Program_Application_ThreadException_Unhandled_Thread_Exception, ErrorType.General,
+                e.Exception);
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var ex = (e.ExceptionObject as Exception);
+            var ex = e.ExceptionObject as Exception;
             MessageBox.Show(ex.Message,
                 Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception);
 
-            if (ex.Message.Contains("Font")|| ex.Message.Contains("font"))
+            if (ex.Message.Contains("Font") || ex.Message.Contains("font"))
             {
                 //e.IsTerminating = false;
-                
+
                 MessageBox.Show(Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_);
                 Process.Start(GlobalConfig.FullPath("UI", "fonts", "CAMBRIA.TTC"));
             }
-            
+
 
             logger.MethodName = MethodBase.GetCurrentMethod().Name;
             logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, ex);

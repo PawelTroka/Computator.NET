@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Computator.NET.Config;
 using Computator.NET.Evaluation;
@@ -42,24 +36,43 @@ namespace Computator.NET.UI.Views
             add { calculateButton.Click += value; }
             remove { calculateButton.Click -= value; }
         }
-        public string XLabel { set { calculationsRealLabel.Text = value; } }
-        public string YLabel {  set { calculationsComplexLabel.Text = value; } }
-        public bool YVisible {  set
-        {
-            calculationsComplexLabel.Visible = value;
-                calculationsImZnumericUpDown.Visible = value;
-            } }
 
-        public double X { get { return (double)valueForCalculationNumericUpDown.Value; } }
-        public double Y { get { return (double)calculationsImZnumericUpDown.Value; } }
+        public string XLabel
+        {
+            set { calculationsRealLabel.Text = value; }
+        }
+
+        public string YLabel
+        {
+            set { calculationsComplexLabel.Text = value; }
+        }
+
+        public bool YVisible
+        {
+            set
+            {
+                calculationsComplexLabel.Visible = value;
+                calculationsImZnumericUpDown.Visible = value;
+            }
+        }
+
+        public double X
+        {
+            get { return (double) valueForCalculationNumericUpDown.Value; }
+        }
+
+        public double Y
+        {
+            get { return (double) calculationsImZnumericUpDown.Value; }
+        }
 
         public void AddResult(string expression, string arguments, string result)
         {
             calculationValueTextBox.Text = result;
             calculationsHistoryDataGridView.Rows.Insert(0,
-                                    expression,
-                                    arguments,
-                                    result);
+                expression,
+                arguments,
+                result);
         }
     }
 }

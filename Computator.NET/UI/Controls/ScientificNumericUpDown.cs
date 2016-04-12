@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
@@ -22,17 +21,17 @@ namespace Computator.NET.UI
             if (d == 0)
                 return 0;
 
-            var scale = (decimal)Math.Pow(10, (double) (Math.Floor( (decimal)Math.Log10(Math.Abs((double)d)) ) + 1.0m));
-            return scale * Math.Round(d / scale, digits);
+            var scale = (decimal) Math.Pow(10, (double) (Math.Floor((decimal) Math.Log10(Math.Abs((double) d))) + 1.0m));
+            return scale*Math.Round(d/scale, digits);
         }
     }
 
     public sealed partial class ScientificNumericUpDown : NumericUpDown
     {
-     //   private readonly char dotSymbol = '·'; //'⋅'
+        //   private readonly char dotSymbol = '·'; //'⋅'
         private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
         private readonly string toReplace = "0123456789-";
-        private int _multiplyFactor = 10;
+        private readonly int _multiplyFactor = 10;
 
         public ScientificNumericUpDown()
         {
@@ -61,22 +60,10 @@ namespace Computator.NET.UI
 
         public decimal Epsilon { get; set; } = 0.001m;
 
-        private decimal ToInsideRange(double value)
-        {
-            if (value > (double)Maximum)
-                return Maximum;
-            if (value < (double)Minimum)
-                return Minimum;
-            return (decimal)value;
-        }
-
         public new decimal Value
         {
             get { return base.Value; }
-            set
-            {
-               base.Value = ToInsideRange((double)value);
-            }
+            set { base.Value = ToInsideRange((double) value); }
         }
 
         protected new bool DesignMode
@@ -93,13 +80,11 @@ namespace Computator.NET.UI
         public new Font Font
         {
             get { return base.Font; }
-            set {
-                base.Font = !DesignMode ? CustomFonts.GetMathFont(value.Size) : value;
-            }
+            set { base.Font = !DesignMode ? CustomFonts.GetMathFont(value.Size) : value; }
         }
 
-        public bool ExponentialMode => ((double) (Value)).ToString(CultureInfo.InvariantCulture).Contains('E') ||
-                                       ((double) (Value)).ToString(CultureInfo.InvariantCulture).Contains('e');
+        public bool ExponentialMode => ((double) Value).ToString(CultureInfo.InvariantCulture).Contains('E') ||
+                                       ((double) Value).ToString(CultureInfo.InvariantCulture).Contains('e');
 
         /*  private void Control_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -121,12 +106,28 @@ namespace Computator.NET.UI
             }
         }*/
 
-            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-            public new int DecimalPlaces { get { return base.DecimalPlaces; } set { base.DecimalPlaces = value; } }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new int DecimalPlaces
+        {
+            get { return base.DecimalPlaces; }
+            set { base.DecimalPlaces = value; }
+        }
+
+
+        private int CaretPosition => (Controls[1] as TextBoxBase).SelectionStart;
+
+        private decimal ToInsideRange(double value)
+        {
+            if (value > (double) Maximum)
+                return Maximum;
+            if (value < (double) Minimum)
+                return Minimum;
+            return (decimal) value;
+        }
 
         private bool IsCaretInExponent()
         {
-            for (int i = CaretPosition - 1; i >=3; i--)
+            for (var i = CaretPosition - 1; i >= 3; i--)
             {
                 if (exponents.Contains(Text[i]))
                     continue;
@@ -139,10 +140,6 @@ namespace Computator.NET.UI
         }
 
 
-        private int CaretPosition => (Controls[1] as TextBoxBase).SelectionStart;
-
-
-
         //     private Regex properExpressionRegex = new Regex(@"\-?(\d+\.?\d*)[eE]\d+");
 
         protected override void OnTextBoxKeyPress(object source, KeyPressEventArgs e)
@@ -150,26 +147,30 @@ namespace Computator.NET.UI
             if (IsCaretInExponent())
             {
                 var expKeyChar = CovertToExponent(e.KeyChar);
-                if (expKeyChar != ' ' && !(Text.Contains('⁻') && expKeyChar== '⁻'))
+                if (expKeyChar != ' ' && !(Text.Contains('⁻') && expKeyChar == '⁻'))
                     e.KeyChar = expKeyChar;
-                else if(!char.IsControl(e.KeyChar))
+                else if (!char.IsControl(e.KeyChar))
                     e.Handled = true;
             }
-            else if (e.KeyChar == '-' && ! ((IsCharOnLeftOfCaret('E')|| IsCharOnLeftOfCaret('e')) && !IsCharOnRightOfCaret('-')) &&!(CaretPosition==0 && !Text.StartsWith("-")))
+            else if (e.KeyChar == '-' &&
+                     !((IsCharOnLeftOfCaret('E') || IsCharOnLeftOfCaret('e')) && !IsCharOnRightOfCaret('-')) &&
+                     !(CaretPosition == 0 && !Text.StartsWith("-")))
                 e.Handled = true;
 
             else if (e.KeyChar == '*' && !Text.Contains(SpecialSymbols.DotSymbol))
                 e.KeyChar = SpecialSymbols.DotSymbol;
             else if (e.KeyChar == 'E' || e.KeyChar == 'e')
             {
-               // Text += dotSymbol + "10";
-               // e.Handled = true;
+                // Text += dotSymbol + "10";
+                // e.Handled = true;
             }
-           else if (e.KeyChar == ',' || e.KeyChar == '.' || e.KeyChar== Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0] || e.KeyChar == Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0])
+            else if (e.KeyChar == ',' || e.KeyChar == '.' ||
+                     e.KeyChar == Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0] ||
+                     e.KeyChar == Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0])
             {
                 e.KeyChar = '.';
-               // //Text += '.';
-               // //e.Handled = true;
+                // //Text += '.';
+                // //e.Handled = true;
             }
             else
                 base.OnTextBoxKeyPress(source, e);
@@ -177,7 +178,7 @@ namespace Computator.NET.UI
 
         private bool IsCharOnRightOfCaret(char v)
         {
-            if (CaretPosition > Text.Length-1)
+            if (CaretPosition > Text.Length - 1)
                 return false;
 
             return Text[CaretPosition] == v;
@@ -185,15 +186,15 @@ namespace Computator.NET.UI
 
         private bool IsCharOnLeftOfCaret(char c)
         {
-            if (CaretPosition < 1|| Text.Length==0)
+            if (CaretPosition < 1 || Text.Length == 0)
                 return false;
 
-            return Text[CaretPosition-1]==c;
+            return Text[CaretPosition - 1] == c;
         }
 
-        protected override void ValidateEditText()//basically it sets Value after Text was edited
+        protected override void ValidateEditText() //basically it sets Value after Text was edited
         {
-           // try
+            // try
             {
                 if (Text.Contains('E') || Text.Contains('e'))
                 {
@@ -221,9 +222,9 @@ namespace Computator.NET.UI
                     Value = decimal.Parse(Text, CultureInfo.InvariantCulture);
                 }
             }
-          //  catch (Exception ex)
+            //  catch (Exception ex)
             {
-         //       base.ValidateEditText();
+                //       base.ValidateEditText();
             }
             base.ValidateEditText();
         }
@@ -233,16 +234,17 @@ namespace Computator.NET.UI
             if (!ExponentialMode)
             {
                 base.UpButton();
-                Value = Value.RoundToSignificantDigits(2);//beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
+                Value = Value.RoundToSignificantDigits(2);
+                    //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
             }
             else
             {
-                    if(Value>0)
-                    Value = ToInsideRange((double)Value * _multiplyFactor);
-                    else if (Value < 0)
-                        Value = ToInsideRange((double)Value / _multiplyFactor);
+                if (Value > 0)
+                    Value = ToInsideRange((double) Value*_multiplyFactor);
+                else if (Value < 0)
+                    Value = ToInsideRange((double) Value/_multiplyFactor);
 
-                    //UpdateEditText();
+                //UpdateEditText();
             }
         }
 
@@ -251,22 +253,23 @@ namespace Computator.NET.UI
             if (!ExponentialMode)
             {
                 base.DownButton();
-                Value = Value.RoundToSignificantDigits(2);//beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
+                Value = Value.RoundToSignificantDigits(2);
+                    //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
             }
             else
             {
-                    if (Value > 0)
-                        Value = ToInsideRange((double)Value /_multiplyFactor);
-                    else if (Value < 0)
-                        Value = ToInsideRange((double)Value * _multiplyFactor);
-                    //UpdateEditText();
+                if (Value > 0)
+                    Value = ToInsideRange((double) Value/_multiplyFactor);
+                else if (Value < 0)
+                    Value = ToInsideRange((double) Value*_multiplyFactor);
+                //UpdateEditText();
             }
         }
 
 
-        protected override void UpdateEditText()//basically it sets Text after Value was established
+        protected override void UpdateEditText() //basically it sets Text after Value was established
         {
-            Text = ((double)Value).ToMathString();
+            Text = ((double) Value).ToMathString();
             //var str = ((double) Value).ToString(CultureInfo.InvariantCulture);
             /*if (!ExponentialMode)
                 Text = Value.ToString(CultureInfo.InvariantCulture);
@@ -297,12 +300,12 @@ namespace Computator.NET.UI
 
         private char CovertToExponent(char v)
         {
-           // var sb = new StringBuilder(v);
+            // var sb = new StringBuilder(v);
 
             //for (var i = 0; i < sb.Length; i++)
-                for (var j = 0; j < exponents.Length; j++)
-                    if (v == toReplace[j])
-                        return exponents[j];
+            for (var j = 0; j < exponents.Length; j++)
+                if (v == toReplace[j])
+                    return exponents[j];
             return ' ';
         }
 
@@ -320,7 +323,8 @@ namespace Computator.NET.UI
                     if (sb[i] == exponents[j])
                         sb[i] = toReplace[j];
 
-            return (decimal)double.Parse(sb.ToString(), CultureInfo.InvariantCulture);//maybe decimal should parse this
+            return (decimal) double.Parse(sb.ToString(), CultureInfo.InvariantCulture);
+                //maybe decimal should parse this
         }
 
 
@@ -328,13 +332,8 @@ namespace Computator.NET.UI
         {
             var val = double.Parse(v, CultureInfo.InvariantCulture);
 
-            
 
-            return ToInsideRange(val);//maybe decimal should parse this
+            return ToInsideRange(val); //maybe decimal should parse this
         }
     }
-
-
-
-
 }

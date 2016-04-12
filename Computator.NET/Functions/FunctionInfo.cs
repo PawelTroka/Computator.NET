@@ -1,5 +1,4 @@
-﻿using System.Xml;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Computator.NET.Functions
 {
@@ -10,8 +9,7 @@ namespace Computator.NET.Functions
 
 
         //[XmlIgnore]
-        [XmlElement("Description")]
-        public string Description;
+        [XmlElement("Description")] public string Description;
 
         [XmlAttribute(DataType = "string", AttributeName = "Signature")] public string
             Signature;
@@ -19,7 +17,6 @@ namespace Computator.NET.Functions
         [XmlElement("Title")] public string Title;
         [XmlElement("Type")] public string Type;
         [XmlElement("Url")] public string Url;
-
 
 
         public FunctionInfo()

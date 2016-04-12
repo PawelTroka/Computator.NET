@@ -35,7 +35,7 @@ namespace Computator.NET.Charting.Chart3D
             var j = 1;
             for (i = 0; i < nRes; i++)
             {
-                if (i == (nRes - 1)) nI2 = 0;
+                if (i == nRes - 1) nI2 = 0;
                 else nI2 = i + 1;
 
                 n00 = 1 + (j - 1)*nRes + i;
@@ -46,11 +46,11 @@ namespace Computator.NET.Charting.Chart3D
                 nTriIndex++;
             }
             // set middle bands
-            for (j = 1; j < (nRes - 2); j++)
+            for (j = 1; j < nRes - 2; j++)
             {
                 for (i = 0; i < nRes; i++)
                 {
-                    if (i == (nRes - 1)) nI2 = 0;
+                    if (i == nRes - 1) nI2 = 0;
                     else nI2 = i + 1;
                     n00 = 1 + (j - 1)*nRes + i;
                     n10 = 1 + (j - 1)*nRes + nI2;
@@ -66,7 +66,7 @@ namespace Computator.NET.Charting.Chart3D
             j = nRes - 2;
             for (i = 0; i < nRes; i++)
             {
-                if (i == (nRes - 1)) nI2 = 0;
+                if (i == nRes - 1) nI2 = 0;
                 else nI2 = i + 1;
 
                 n00 = 1 + (j - 1)*nRes + i;
@@ -89,7 +89,7 @@ namespace Computator.NET.Charting.Chart3D
 
             int i, j;
             double x1, y1, z1;
-            for (j = 1; j < (m_nRes - 1); j++)
+            for (j = 1; j < m_nRes - 1; j++)
             {
                 for (i = 0; i < m_nRes; i++)
                 {

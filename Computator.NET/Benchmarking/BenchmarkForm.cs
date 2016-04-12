@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Localization;
 
 namespace Computator.NET.Benchmarking
 {
@@ -39,7 +38,6 @@ namespace Computator.NET.Benchmarking
             {
                 // ReSharper disable LocalizableElement
                 MessageBox.Show(Strings.Error + ": " + e.Error.Message,
-
                     Strings.Error + "!");
                 // ReSharper restore LocalizableElement
             }

@@ -10,7 +10,7 @@ namespace AutocompleteMenuNS
         }
 
         public FuzzyAutoCompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
-            int imageIndex) : base(name,addition,additionWithTypes,returnTypeName,imageIndex)
+            int imageIndex) : base(name, addition, additionWithTypes, returnTypeName, imageIndex)
         {
         }
 
@@ -204,14 +204,14 @@ namespace AutocompleteMenuNS
 
             using (var brush = new SolidBrush(e.IsSelected ? e.Colors.SelectedForeColor : e.Colors.ForeColor))
                 for (var i = 0; i < MenuTextByColumns.Length; i++)
-            {
-                var width = columnWidth[i];
-                var rect = new RectangleF(x, e.TextRect.Top, width, e.TextRect.Height);
-                e.Graphics.DrawLine(pen, new PointF(x, e.TextRect.Top),
-                    new PointF(x, e.TextRect.Bottom));
-                e.Graphics.DrawString(MenuTextByColumns[i], e.Font, brush, rect, e.StringFormat);
-                x += width;
-            }
+                {
+                    var width = columnWidth[i];
+                    var rect = new RectangleF(x, e.TextRect.Top, width, e.TextRect.Height);
+                    e.Graphics.DrawLine(pen, new PointF(x, e.TextRect.Top),
+                        new PointF(x, e.TextRect.Bottom));
+                    e.Graphics.DrawString(MenuTextByColumns[i], e.Font, brush, rect, e.StringFormat);
+                    x += width;
+                }
         }
     }
 }

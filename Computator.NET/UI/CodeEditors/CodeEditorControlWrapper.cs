@@ -3,16 +3,14 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Evaluation;
+using Computator.NET.Properties;
 using Computator.NET.UI.Controls;
 using File = System.IO.File;
-using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.UI.CodeEditors
 {
@@ -52,10 +50,10 @@ namespace Computator.NET.UI.CodeEditors
             avalonEditorWrapper.Child = avalonEditor;
 
 
-            tabControl = new DocumentsTabControl { Dock = DockStyle.Top };
+            tabControl = new DocumentsTabControl {Dock = DockStyle.Top};
 
-            var panel = new Panel { Dock = DockStyle.Fill };
-            panel.Controls.AddRange(new Control[] { avalonEditorWrapper, scintillaEditor });
+            var panel = new Panel {Dock = DockStyle.Fill};
+            panel.Controls.AddRange(new Control[] {avalonEditorWrapper, scintillaEditor});
 
             var tableLayout = new TableLayoutPanel
             {
@@ -74,7 +72,7 @@ namespace Computator.NET.UI.CodeEditors
             tabControl.ControlRemoved += TabControl_ControlRemoved;
             tabControl.ControlAdded += TabControl_ControlAdded;
 
-            
+
             scintillaEditor.DataBindings.Add("ExponentMode", this, "ExponentMode", false,
                 DataSourceUpdateMode.OnPropertyChanged);
 
@@ -85,22 +83,11 @@ namespace Computator.NET.UI.CodeEditors
             NewDocument();
         }
 
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Control | Keys.T))
-            {
-                NewDocument();
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
         public override bool Focused
             =>
-                (_codeEditorType == CodeEditorType.AvalonEdit)
+                _codeEditorType == CodeEditorType.AvalonEdit
                     ? avalonEditorWrapper.Focused
-                    : ((Control)(CurrentCodeEditor)).Focused;
+                    : ((Control) CurrentCodeEditor).Focused;
 
         private ICodeEditorControl CurrentCodeEditor
         {
@@ -215,7 +202,28 @@ namespace Computator.NET.UI.CodeEditors
             CurrentCodeEditor.CloseDocument(filename);
         }
 
+        public void HighlightErrors(List<CompilerError> errors)
+        {
+            CurrentCodeEditor.HighlightErrors(errors);
+        }
+
+        public IEnumerable<string> Documents
+        {
+            get { return CurrentCodeEditor.Documents; }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.T))
+            {
+                NewDocument();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
 
         public void Save()
         {
@@ -318,14 +326,7 @@ namespace Computator.NET.UI.CodeEditors
             function.Evaluate(consoleCallback);
         }
 
-        public void HighlightErrors(List<CompilerError> errors)
-        {
-            CurrentCodeEditor.HighlightErrors(errors);
-        }
-
-        public IEnumerable<string> Documents { get { return CurrentCodeEditor.Documents; } }
-
-        public void ChangeEditorType()//TODO: test
+        public void ChangeEditorType() //TODO: test
         {
             if (_codeEditorType == Settings.Default.CodeEditor) return;
 
@@ -344,13 +345,13 @@ namespace Computator.NET.UI.CodeEditors
 
             foreach (var document in documents)
             {
-                if(CurrentCodeEditor.ContainsDocument(document.Key))
+                if (CurrentCodeEditor.ContainsDocument(document.Key))
                     SwitchDocument(document.Key);
                 else
                     CurrentCodeEditor.NewDocument(document.Key);
 
                 Text = document.Value;
-               // MessageBox.Show(Text);
+                // MessageBox.Show(Text);
             }
 
             SwitchDocument(currentDocument);

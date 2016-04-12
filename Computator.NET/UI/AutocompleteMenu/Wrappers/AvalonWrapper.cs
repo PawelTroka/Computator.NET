@@ -28,21 +28,21 @@ namespace AutocompleteMenuNS
                 var start = target.SelectionStart;
 
                 //Delete the current text between selections.
-                target.DeleteRange(target.SelectionStart, (target.SelectionEnd - target.SelectionStart));
+                target.DeleteRange(target.SelectionStart, target.SelectionEnd - target.SelectionStart);
 
                 //Add the text in the same postion.
                 target.InsertText(start, value);
 
                 //Clear selection and make sure the caret is at the end.
-                target.SelectionStart = (start + value.Length);
-                target.SelectionEnd = (start + value.Length);
+                target.SelectionStart = start + value.Length;
+                target.SelectionEnd = start + value.Length;
             }
         }
 
         public int SelectionLength
         {
-            get { return (target.SelectionEnd - target.SelectionStart); }
-            set { target.SelectionEnd = (target.SelectionStart + value); }
+            get { return target.SelectionEnd - target.SelectionStart; }
+            set { target.SelectionEnd = target.SelectionStart + value; }
         }
 
         public int SelectionStart

@@ -11,10 +11,14 @@ namespace Computator.NET.UI.CodeEditors
         // public int EndOffset { get; set; }
         //
 
-        private SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(100,255,0,0));
+        private readonly SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(100, 255, 0, 0));
         public List<int> LinesWithErrors { get; set; } = new List<int>();
 
-        public ITextRunConstructionContext Context { get { return CurrentContext; } }
+        public ITextRunConstructionContext Context
+        {
+            get { return CurrentContext; }
+        }
+
         protected override void ColorizeLine(DocumentLine line)
         {
             if (!LinesWithErrors.Contains(line.LineNumber))
@@ -26,8 +30,8 @@ namespace Computator.NET.UI.CodeEditors
 
             // int start = line.Offset > StartOffset ? line.Offset : StartOffset;
             //int end = EndOffset > line.EndOffset ? line.EndOffset : EndOffset;
-            int start = line.Offset;
-            int end = line.EndOffset;
+            var start = line.Offset;
+            var end = line.EndOffset;
 
             ChangeLinePart(start, end, element => element.TextRunProperties.SetBackgroundBrush(brush));
         }

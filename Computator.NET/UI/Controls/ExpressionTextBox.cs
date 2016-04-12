@@ -8,14 +8,13 @@ using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
-using Settings = Computator.NET.Properties.Settings;
+using Computator.NET.Properties;
 
 namespace Computator.NET.UI.Controls
 {
-
     public interface IExpressionView
     {
-       string Text { get; set; }
+        string Text { get; set; }
         event EventHandler TextChanged;
     }
 
@@ -31,7 +30,11 @@ namespace Computator.NET.UI.Controls
             GotFocus += ExpressionTextBox_GotFocus;
             MouseDoubleClick += Control_MouseDoubleClick;
             SetFont(Settings.Default.ExpressionFont);
-            SizeChanged += (o, e) => { _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height); };
+            SizeChanged +=
+                (o, e) =>
+                {
+                    _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height);
+                };
         }
 
         public bool ExponentMode
@@ -52,12 +55,6 @@ namespace Computator.NET.UI.Controls
         public bool Sort
             => Settings.Default.FunctionsOrder == FunctionsOrder.Alphabetical;
 
-        public override string Text
-        {
-            get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
-            set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
-        }
-
         public bool IsInDesignMode
         {
             get
@@ -76,6 +73,12 @@ namespace Computator.NET.UI.Controls
 
                 return true;
             }
+        }
+
+        public override string Text
+        {
+            get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
+            set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -145,7 +148,7 @@ namespace Computator.NET.UI.Controls
         {
             if (ExponentMode)
             {
-                if (Enumerable.Contains(SpecialSymbols.AsciiForSuperscripts, e.KeyChar))
+                if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
                 {
                     e.KeyChar = SpecialSymbols.AsciiToSuperscript(e.KeyChar);
                 }

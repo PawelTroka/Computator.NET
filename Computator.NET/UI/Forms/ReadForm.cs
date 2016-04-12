@@ -2,9 +2,12 @@
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 
+using System.ComponentModel;
+using System.Windows.Forms;
+
 namespace Computator.NET
 {
-    internal class ReadForm : System.Windows.Forms.Form
+    internal class ReadForm : Form
     {
         public const string ToCode =
             @"
@@ -125,11 +128,11 @@ namespace Computator.NET
         /// <summary>
         ///     Required designer variable.
         /// </summary>
-        private readonly System.ComponentModel.IContainer components = null;
+        private readonly IContainer components = null;
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label readQuestion;
-        private System.Windows.Forms.TextBox textBox1;
+        private Button button1;
+        private Label readQuestion;
+        private TextBox textBox1;
 
         public ReadForm(string str)
         {
@@ -138,7 +141,7 @@ namespace Computator.NET
             readQuestion.Text = str;
             readQuestion.AutoSize = true;
             readQuestion.Invalidate();
-            AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowOnly;
+            AutoSizeMode = AutoSizeMode.GrowOnly;
             AutoSize = true;
             Invalidate();
         }
@@ -214,7 +217,7 @@ namespace Computator.NET
             MinimizeBox = false;
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             ShowInTaskbar = false;
-            StartPosition= System.Windows.Forms.FormStartPosition.CenterParent;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             ShowIcon = false;
 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);

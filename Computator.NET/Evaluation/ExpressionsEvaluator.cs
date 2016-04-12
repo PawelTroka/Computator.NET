@@ -11,6 +11,7 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Functions;
 using Computator.NET.Logging;
+using Computator.NET.NumericalCalculations;
 
 namespace Computator.NET.Evaluation
 {
@@ -47,7 +48,8 @@ namespace Computator.NET.Evaluation
             public class FunctionsCreator 
             {
         " + MathematicalConstants.ToCode + PhysicalConstants.ToCode + ElementaryFunctions.ToCode +
-                                       SpecialFunctions.ToCode + StatisticsFunctions.ToCode + NumericalCalculations.Integral.ToCode + NumericalCalculations.Derivative.ToCode+ NumericalCalculations.FunctionRoot.ToCode;
+                                       SpecialFunctions.ToCode + StatisticsFunctions.ToCode + Integral.ToCode +
+                                       Derivative.ToCode + FunctionRoot.ToCode;
 
         protected const string End = @";
                 }
@@ -63,23 +65,29 @@ namespace Computator.NET.Evaluation
 
         protected string AdditionalObjectsCode;
         protected string AdditionalUsings;
-        protected string MainCSharpCode;
         protected string CustomFunctionsTslCode;
         protected FunctionType FunctionType;
+
+        private readonly Regex implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
         protected SimpleLogger Logger;
-        protected NativeCompiler NativeCompiler;
+        protected string MainCSharpCode;
         protected string MainTslCode;
+        protected NativeCompiler NativeCompiler;
 
         public ExpressionsEvaluator()
         {
             NativeCompiler = new NativeCompiler();
             _tslCompiler = new TslCompiler();
-            Logger = new SimpleLogger { ClassName = GetType().FullName };
+            Logger = new SimpleLogger {ClassName = GetType().FullName};
             AdditionalObjectsCode = "";
             AdditionalUsings = "";
         }
 
-        private Regex implicitFunctionRegex = new Regex(@"=[^>]",RegexOptions.Compiled);
+
+        private bool IsImplicit
+            =>
+                FunctionType == FunctionType.ComplexImplicit || FunctionType == FunctionType.Real2DImplicit ||
+                FunctionType == FunctionType.Real3DImplicit;
 
         public Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode)
         {
@@ -93,9 +101,8 @@ namespace Computator.NET.Evaluation
             CustomFunctionsTslCode = customFunctionsCode;
 
 
-
             var function = Compile();
-            return new Function(function, FunctionType) { TslCode = MainTslCode, CsCode = MainCSharpCode };
+            return new Function(function, FunctionType) {TslCode = MainTslCode, CsCode = MainCSharpCode};
         }
 
 
@@ -116,9 +123,6 @@ namespace Computator.NET.Evaluation
             }
         }
 
-
-        private bool IsImplicit => FunctionType == FunctionType.ComplexImplicit || FunctionType == FunctionType.Real2DImplicit || FunctionType == FunctionType.Real3DImplicit;
-
         protected void SetVariablesAndSignatures()
         {
             switch (FunctionType)
@@ -129,22 +133,22 @@ namespace Computator.NET.Evaluation
                     _delegateType = typeof (Func<double, double>);
                     break;
                 case FunctionType.Complex:
-                  //  _tslCompiler.Variables.Add("z");
-                   // _tslCompiler.Variables.Add("i");
+                    //  _tslCompiler.Variables.Add("z");
+                    // _tslCompiler.Variables.Add("i");
                     _functionSignature = LambdaZ;
                     _delegateType = typeof (Func<Complex, Complex>);
                     break;
                 case FunctionType.Real2DImplicit:
                 case FunctionType.Real3D:
-                  //  _tslCompiler.Variables.Add("x");
-                  //  _tslCompiler.Variables.Add("y");
+                    //  _tslCompiler.Variables.Add("x");
+                    //  _tslCompiler.Variables.Add("y");
                     _delegateType = typeof (Func<double, double, double>);
                     _functionSignature = LambdaXy;
                     break;
                 case FunctionType.Real3DImplicit:
-                //    _tslCompiler.Variables.Add("x");
-                //    _tslCompiler.Variables.Add("y");
-                //    _tslCompiler.Variables.Add("z");
+                    //    _tslCompiler.Variables.Add("x");
+                    //    _tslCompiler.Variables.Add("y");
+                    //    _tslCompiler.Variables.Add("z");
                     _functionSignature = LambdaXyz;
                     _delegateType = typeof (Func<double, double, double, double>);
                     break;
@@ -159,11 +163,11 @@ namespace Computator.NET.Evaluation
         {
             if (IsImplicit)
             {
-
                 var match = implicitFunctionRegex.Match(MainCSharpCode);
 
 
-                MainCSharpCode = MainCSharpCode.Substring(0, match.Index) + "-(" + MainCSharpCode.Substring(match.Index + 1) + ")";
+                MainCSharpCode = MainCSharpCode.Substring(0, match.Index) + "-(" +
+                                 MainCSharpCode.Substring(match.Index + 1) + ")";
             }
         }
 
@@ -188,7 +192,9 @@ namespace Computator.NET.Evaluation
                 if (ex is CompilationException)
                     throw;
 
-                var message = Strings.ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression;
+                var message =
+                    Strings
+                        .ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression;
                 message += Environment.NewLine + Strings.Details;
                 message += Environment.NewLine + ex.Message;
 
@@ -205,17 +211,19 @@ namespace Computator.NET.Evaluation
         private string BuildCode()
         {
             var codeBuilder = new StringBuilder();
-            NativeCompiler.CustomFunctionsStartOffsetLine = AdditionalUsings.Count(c => c == '\n')+ Begin.Count(c => c == '\n');
+            NativeCompiler.CustomFunctionsStartOffsetLine = AdditionalUsings.Count(c => c == '\n') +
+                                                            Begin.Count(c => c == '\n');
             NativeCompiler.CustomFunctionsEndOffsetLine = NativeCompiler.CustomFunctionsStartOffsetLine +
                                                           _customFunctionsCSharpCode.Count(c => c == '\n') + 1;
 
-            NativeCompiler.MainCodeStarOffsetLine = NativeCompiler.CustomFunctionsEndOffsetLine-1 + _functionSignature.Count(c => c == '\n');
-            NativeCompiler.MainCodeEndOffsetLine = NativeCompiler.MainCodeStarOffsetLine + MainCSharpCode.Count(c => c == '\n') + 1;
+            NativeCompiler.MainCodeStarOffsetLine = NativeCompiler.CustomFunctionsEndOffsetLine - 1 +
+                                                    _functionSignature.Count(c => c == '\n');
+            NativeCompiler.MainCodeEndOffsetLine = NativeCompiler.MainCodeStarOffsetLine +
+                                                   MainCSharpCode.Count(c => c == '\n') + 1;
 
 
             codeBuilder.Append(AdditionalUsings);
             codeBuilder.Append(Begin);
-
 
 
             codeBuilder.Append(_customFunctionsCSharpCode);

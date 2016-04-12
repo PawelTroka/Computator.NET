@@ -1,6 +1,6 @@
 ﻿// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
-
+// ReSharper disable UseStringInterpolation
 
 // ReSharper disable LocalizableElement
 namespace Computator.NET.NumericalCalculations

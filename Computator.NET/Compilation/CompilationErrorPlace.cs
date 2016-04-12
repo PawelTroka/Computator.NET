@@ -4,6 +4,6 @@ namespace Computator.NET.Compilation
     {
         MainCode,
         CustomFunctions,
-        Internal,
+        Internal
     }
 }

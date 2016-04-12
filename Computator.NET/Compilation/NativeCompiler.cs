@@ -1,12 +1,10 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Localization;
 using Computator.NET.Logging;
 using Microsoft.CSharp;
 
@@ -14,12 +12,29 @@ using Microsoft.CSharp;
 
 namespace Computator.NET.Compilation
 {
-  
-
     public class NativeCompiler : CSharpCodeProvider
     {
         private readonly SimpleLogger logger;
         private readonly CompilerParameters parameters;
+
+        public NativeCompiler()
+        {
+            logger = new SimpleLogger {ClassName = GetType().FullName};
+            parameters = new CompilerParameters
+            {
+                GenerateInMemory = true,
+                TempFiles = {KeepFiles = false}
+            };
+            parameters.ReferencedAssemblies.Add("System.dll");
+            parameters.ReferencedAssemblies.Add("System.Core.dll");
+            parameters.ReferencedAssemblies.Add("System.Numerics.dll");
+            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Meta.Numerics.dll"));
+            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("MathNet.Numerics.dll"));
+            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Accord.Math.dll"));
+            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Accord.dll"));
+            parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll"); //dynamic
+        }
+
         public int MainCodeStarOffsetLine { get; set; }
         public int MainCodeEndOffsetLine { get; set; }
 
@@ -29,52 +44,31 @@ namespace Computator.NET.Compilation
         public bool IsScripting { get; set; } = false;
 
 
-
         private int GetLineForPlace(int line, CompilationErrorPlace place)
         {
             if (place == CompilationErrorPlace.CustomFunctions)
                 return line - CustomFunctionsStartOffsetLine;
-            else if (place == CompilationErrorPlace.MainCode)
+            if (place == CompilationErrorPlace.MainCode)
                 return line - MainCodeStarOffsetLine;
-            else
-                return line;
+            return line;
         }
 
         private bool IsLineInPlace(int line, CompilationErrorPlace place)
         {
             if (place == CompilationErrorPlace.MainCode)
                 return line >= MainCodeStarOffsetLine && line <= MainCodeEndOffsetLine;
-            else if (place == CompilationErrorPlace.CustomFunctions)
+            if (place == CompilationErrorPlace.CustomFunctions)
                 return line >= CustomFunctionsStartOffsetLine && line <= CustomFunctionsEndOffsetLine;
-            else
-                return true;
+            return true;
         }
 
         private CompilationErrorPlace GetPlaceForLine(int line)
         {
-            return (line >= MainCodeStarOffsetLine && line <= MainCodeEndOffsetLine)
+            return line >= MainCodeStarOffsetLine && line <= MainCodeEndOffsetLine
                 ? CompilationErrorPlace.MainCode
                 : (line >= CustomFunctionsStartOffsetLine && line <= CustomFunctionsEndOffsetLine
                     ? CompilationErrorPlace.CustomFunctions
                     : CompilationErrorPlace.Internal);
-        }
-
-        public NativeCompiler()
-        {
-            logger = new SimpleLogger { ClassName = GetType().FullName };
-            parameters = new CompilerParameters
-            {
-                GenerateInMemory = true,
-                TempFiles = { KeepFiles = false }
-            };
-            parameters.ReferencedAssemblies.Add("System.dll");
-            parameters.ReferencedAssemblies.Add("System.Core.dll");
-            parameters.ReferencedAssemblies.Add("System.Numerics.dll");
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Meta.Numerics.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("MathNet.Numerics.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Accord.Math.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Accord.dll"));
-            parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");//dynamic
         }
 
         public Assembly Compile(string input)
@@ -83,28 +77,36 @@ namespace Computator.NET.Compilation
 
             if (results.Errors.Count > 0)
             {
-                var message = new StringBuilder($"{Strings.NativeCompiler_Compile_Syntax_error}{Environment.NewLine}{Strings.Details}");
+                var message =
+                    new StringBuilder(
+                        $"{Strings.NativeCompiler_Compile_Syntax_error}{Environment.NewLine}{Strings.Details}");
                 var compilationException = CreateCompilationExceptionFromCompilerResults(results);
 
                 if (compilationException.HasMainCodeErrors)
                 {
-                    message.Append( $"{Environment.NewLine} {(IsScripting ? Strings.NativeCompiler_Compile_Script_errors : Strings.NativeCompiler_Compile_Expression_errors)}:");
-                    message.Append( errorCollectionToString(compilationException.Errors[CompilationErrorPlace.MainCode]));
+                    message.Append(
+                        $"{Environment.NewLine} {(IsScripting ? Strings.NativeCompiler_Compile_Script_errors : Strings.NativeCompiler_Compile_Expression_errors)}:");
+                    message.Append(errorCollectionToString(compilationException.Errors[CompilationErrorPlace.MainCode]));
                 }
 
                 if (compilationException.HasCustomFunctionsErrors)
                 {
-                    message.Append( $"{Environment.NewLine} {Strings.NativeCompiler_Compile_Custom_functions_errors}:");
-                    message.Append( errorCollectionToString(compilationException.Errors[CompilationErrorPlace.CustomFunctions]));
+                    message.Append($"{Environment.NewLine} {Strings.NativeCompiler_Compile_Custom_functions_errors}:");
+                    message.Append(
+                        errorCollectionToString(compilationException.Errors[CompilationErrorPlace.CustomFunctions]));
                 }
 
-                if (compilationException.HasInternalErrors)//if there is any warning in our internal code that means we are aware of it and we dont wanna show it to user :)
+                if (compilationException.HasInternalErrors)
+                    //if there is any warning in our internal code that means we are aware of it and we dont wanna show it to user :)
                 {
-                    message.Append( $"{Environment.NewLine} {Strings.NativeCompiler_Compile_Internal_errors}:");
-                    message.Append( errorCollectionToString(compilationException.Errors[CompilationErrorPlace.Internal]));
+                    message.Append($"{Environment.NewLine} {Strings.NativeCompiler_Compile_Internal_errors}:");
+                    message.Append(errorCollectionToString(compilationException.Errors[CompilationErrorPlace.Internal]));
                 }
 
-                compilationException = new CompilationException(message.ToString()) { Errors = compilationException.Errors };
+                compilationException = new CompilationException(message.ToString())
+                {
+                    Errors = compilationException.Errors
+                };
                 // compilationException.Message = message;
                 // var ex = new CompilationException(message) {Errors = compilerErrors};
 
@@ -155,7 +157,8 @@ namespace Computator.NET.Compilation
             var war = Strings.NativeCompiler_CompilerErrorToString_warning;
             var err = Strings.NativeCompiler_CompilerErrorToString_error;
 
-            return $"{Environment.NewLine}  ({Strings.NativeCompiler_CompilerErrorToString_Line}: {error.Line} {Strings.NativeCompiler_CompilerErrorToString_Column}: {error.Column}):{(error.IsWarning ? " " + Strings.NativeCompiler_CompilerErrorToString_warning+ " " : " " + Strings.NativeCompiler_CompilerErrorToString_error + " ")}{error.ErrorNumber}: {error.ErrorText}";
+            return
+                $"{Environment.NewLine}  ({Strings.NativeCompiler_CompilerErrorToString_Line}: {error.Line} {Strings.NativeCompiler_CompilerErrorToString_Column}: {error.Column}):{(error.IsWarning ? " " + Strings.NativeCompiler_CompilerErrorToString_warning + " " : " " + Strings.NativeCompiler_CompilerErrorToString_error + " ")}{error.ErrorNumber}: {error.ErrorText}";
         }
 
         public void AddDll(string dllPath)

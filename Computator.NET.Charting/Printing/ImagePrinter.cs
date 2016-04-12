@@ -1,39 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Printing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Computator.NET.Charting.Printing
 {
-    class ImagePrinter
+    internal class ImagePrinter
     {
-        Image imageToPrint;
-        readonly PrintDocument printDocument = new PrintDocument();
+        private readonly PrintDocument printDocument = new PrintDocument();
+        private Image imageToPrint;
+
+        private readonly PrintDialog printdlg = new PrintDialog();
+        private readonly PrintPreviewDialog printPrvDlg = new PrintPreviewDialog();
+
         public ImagePrinter()
         {
-           // printDocument.DefaultPageSettings.PrinterSettings.PrinterName = "Printer Name";
-           // printDocument.DefaultPageSettings.Landscape = true; //or false!
+            // printDocument.DefaultPageSettings.PrinterSettings.PrinterName = "Printer Name";
+            // printDocument.DefaultPageSettings.Landscape = true; //or false!
             printDocument.PrintPage += (sender, args) =>
             {
                 if (imageToPrint == null)
                     return;
 
-                Rectangle m = args.MarginBounds;
+                var m = args.MarginBounds;
 
-                if ((double)imageToPrint.Width / (double)imageToPrint.Height > (double)m.Width / (double)m.Height) // image is wider
+                if (imageToPrint.Width/(double) imageToPrint.Height > m.Width/(double) m.Height) // image is wider
                 {
-                    m.Height = (int)((double)imageToPrint.Height / (double)imageToPrint.Width * (double)m.Width);
+                    m.Height = (int) (imageToPrint.Height/(double) imageToPrint.Width*m.Width);
                 }
                 else
                 {
-                    m.Width = (int)((double)imageToPrint.Width / (double)imageToPrint.Height * (double)m.Height);
+                    m.Width = (int) (imageToPrint.Width/(double) imageToPrint.Height*m.Height);
                 }
                 args.Graphics.DrawImage(imageToPrint, m);
             };
-
 
 
             // preview the assigned document or you can create a different previewButton for it
@@ -43,24 +42,15 @@ namespace Computator.NET.Charting.Printing
             printdlg.Document = printDocument;
         }
 
-        PrintDialog printdlg = new PrintDialog();
-        PrintPreviewDialog printPrvDlg = new PrintPreviewDialog();
-
         public void Print(Image image)
         {
-
             imageToPrint = image;
-
-
 
 
             if (printdlg.ShowDialog() == DialogResult.OK)
             {
                 printDocument.Print();
             }
-
-
-
         }
 
 
@@ -70,6 +60,5 @@ namespace Computator.NET.Charting.Printing
 
             printPrvDlg.ShowDialog(); // this shows the preview and then show the Printer Dlg below
         }
-
     }
 }

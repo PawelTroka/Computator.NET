@@ -22,7 +22,7 @@ namespace Computator.NET
         IExpressionView ExpressionView { get; }
         string ModeText { get; set; }
 
-        IEditChartMenus EditChartMenus { get; }
+        int SelectedViewIndex { get; set; }
 
         event EventHandler ModeForcedToReal;
         event EventHandler ModeForcedToComplex;
@@ -32,8 +32,6 @@ namespace Computator.NET
         event EventHandler PrintPreviewClicked;
 
         void SendStringAsKey(string key);
-
-        int SelectedViewIndex { get; set; }
 
         event EventHandler EnterClicked;
     }

@@ -5,9 +5,10 @@ namespace Computator.NET.UI.CodeEditors
 {
     public interface ICodeEditorControl
     {
-        void ClearHighlightedErrors();
         string Text { get; set; }
         bool ExponentMode { get; set; }
+        IEnumerable<string> Documents { get; }
+        void ClearHighlightedErrors();
         void Undo();
         void Redo();
         void Cut();
@@ -22,6 +23,5 @@ namespace Computator.NET.UI.CodeEditors
         void CloseDocument(string filename);
 
         void HighlightErrors(List<CompilerError> errors);
-        IEnumerable<string> Documents { get; }
     }
 }

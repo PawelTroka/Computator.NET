@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
+﻿using System.Drawing.Imaging;
 using Computator.NET.DataTypes;
 using Computator.NET.UI.Controls;
 
@@ -9,9 +6,10 @@ namespace Computator.NET.Charting
 {
     public interface IChart : IPrinting, IAreaValues
     {
-        void Redraw();
-
         double Quality { get; set; }
+
+        bool Visible { get; set; }
+        void Redraw();
 
         void AddFunction(Function function);
 
@@ -20,10 +18,9 @@ namespace Computator.NET.Charting
         void SaveImage(string path, ImageFormat imageFormat);
 
         void ClearAll();
-
-        bool Visible { get; set; }
     }
-  /*  internal interface IChart<T>
+
+    /*  internal interface IChart<T>
     {
         Color axesColor { get; set; }
         bool AxesEqual { get; set; }

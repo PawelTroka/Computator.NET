@@ -1,6 +1,6 @@
-﻿using System.Configuration;
-using System.Drawing;
+﻿using System;
 using System.Windows.Forms;
+using Computator.NET.Properties;
 
 namespace Computator.NET.Config
 {
@@ -11,31 +11,31 @@ namespace Computator.NET.Config
             InitializeComponent();
             //propertyGrid1.LargeButtons = true;
             //propertyGrid1.Font = new Font(propertyGrid1.Font.FontFamily, 14);
-            propertyGrid1.SelectedObject = Properties.Settings.Default;
+            propertyGrid1.SelectedObject = Settings.Default;
         }
 
         private void Settings_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Properties.Settings.Default.Reload();
-           // propertyGrid1.Refresh();
+            Settings.Default.Reload();
+            // propertyGrid1.Refresh();
         }
 
-        private void button2_Click(object sender, System.EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Reload();
+            Settings.Default.Reload();
             //propertyGrid1.Refresh();
             Close();
         }
 
-        private void button1_Click(object sender, System.EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
             Close();
         }
 
-        private void button3_Click(object sender, System.EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Reset();
+            Settings.Default.Reset();
             propertyGrid1.Refresh();
         }
     }

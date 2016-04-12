@@ -6,14 +6,17 @@ namespace Computator.NET.Evaluation
 {
     public class ModeDeterminer
     {
+        private readonly Regex FindI;
         private readonly Regex FindY;
         private readonly Regex FindZ;
-        private readonly string post = $@")(?:[\+\-{SpecialSymbols.DotSymbol}\/\,\)\s{SpecialSymbols.Superscripts}](?:\n|\r|\r\n|.)*)?$";
+
+        private readonly string post =
+            $@")(?:[\+\-{SpecialSymbols.DotSymbol}\/\,\)\s{SpecialSymbols.Superscripts}](?:\n|\r|\r\n|.)*)?$";
+
         private readonly string postExponent = $@")(?:(?:[^{SpecialSymbols.SuperscriptAlphabet}]+)|$)";
         //^(?:(?:\n|\r|\r\n|.)*[\+\-·\/\,\(\s])?(x)(?:[\+\-·\/\,\)\s](?:\n|\r|\r\n|.)*)?$
         private readonly string pre = $@"^(?:(?:\n|\r|\r\n|.)*[\+\-{SpecialSymbols.DotSymbol}\/\,\(\s])?(";
         private readonly string preExponent = $@"[^{SpecialSymbols.SuperscriptAlphabet}]+(";
-        private readonly Regex FindI;
         //private Regex FindX;
 
         public ModeDeterminer()

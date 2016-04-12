@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Configuration;
 using System.IO;
 using Computator.NET.Config;
+using Microsoft.VisualBasic.FileIO;
 
-namespace Computator.NET.Properties {
-    
-    
+namespace Computator.NET.Properties
+{
     // This class allows you to handle specific events on the settings class:
     //  The SettingChanging event is raised before a setting's value is changed.
     //  The PropertyChanged event is raised after a setting's value is changed.
@@ -12,7 +14,6 @@ namespace Computator.NET.Properties {
     //  The SettingsSaving event is raised before the setting values are saved.
     internal sealed partial class Settings
     {
-
         private const string SCRIPTING_RAW_DIR = @"TSL Examples\_Scripts";
         private const string CUSTOM_FUNCTIONS_RAW_DIR = @"TSL Examples\_CustomFunctions";
 
@@ -35,23 +36,26 @@ namespace Computator.NET.Properties {
             {
                 if (Directory.Exists(GlobalConfig.FullPath(SCRIPTING_RAW_DIR)))
                 {
-                    Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(GlobalConfig.FullPath(SCRIPTING_RAW_DIR), ScriptingDirectory);
+                    FileSystem.CopyDirectory(GlobalConfig.FullPath(SCRIPTING_RAW_DIR), ScriptingDirectory);
                 }
                 else
                 {
-                    throw new FileNotFoundException($"Scripting examples not found in {GlobalConfig.FullPath(SCRIPTING_RAW_DIR)}");
+                    throw new FileNotFoundException(
+                        $"Scripting examples not found in {GlobalConfig.FullPath(SCRIPTING_RAW_DIR)}");
                 }
             }
 
-            if (CustomFunctionsDirectory.Contains(CUSTOM_FUNCTIONS_RAW_DIR) && !Directory.Exists(CustomFunctionsDirectory))
+            if (CustomFunctionsDirectory.Contains(CUSTOM_FUNCTIONS_RAW_DIR) &&
+                !Directory.Exists(CustomFunctionsDirectory))
             {
                 if (Directory.Exists(GlobalConfig.FullPath(CUSTOM_FUNCTIONS_RAW_DIR)))
                 {
-                    Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(GlobalConfig.FullPath(CUSTOM_FUNCTIONS_RAW_DIR), CustomFunctionsDirectory);
+                    FileSystem.CopyDirectory(GlobalConfig.FullPath(CUSTOM_FUNCTIONS_RAW_DIR), CustomFunctionsDirectory);
                 }
                 else
                 {
-                    throw new FileNotFoundException($"Custom functions examples not found in {GlobalConfig.FullPath(CUSTOM_FUNCTIONS_RAW_DIR)}");
+                    throw new FileNotFoundException(
+                        $"Custom functions examples not found in {GlobalConfig.FullPath(CUSTOM_FUNCTIONS_RAW_DIR)}");
                 }
             }
         }
@@ -67,11 +71,13 @@ namespace Computator.NET.Properties {
             }
         }
 
-        private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e) {
+        private void SettingChangingEventHandler(object sender, SettingChangingEventArgs e)
+        {
             // Add code to handle the SettingChangingEvent event here.
         }
-        
-        private void SettingsSavingEventHandler(object sender, System.ComponentModel.CancelEventArgs e) {
+
+        private void SettingsSavingEventHandler(object sender, CancelEventArgs e)
+        {
             // Add code to handle the SettingsSaving event here.
         }
     }

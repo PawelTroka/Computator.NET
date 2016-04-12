@@ -12,12 +12,12 @@
 
 //MERGED WITH MASTER ON 13.12.2015
 //#define USE_TEXT_WIDTH
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Computator.NET.Config;
@@ -65,7 +65,6 @@ namespace AutocompleteMenuNS
             MinFragmentLength = 2;
 
             setupAutocomplete();
-
         }
 
         [Browsable(false)]
@@ -90,12 +89,7 @@ namespace AutocompleteMenuNS
         public int SelectedItemIndex
         {
             get { return Host.ListView.SelectedItemIndex; }
-            internal set
-            {
-                Host.ListView.SelectedItemIndex = value;
-
-
-            }
+            internal set { Host.ListView.SelectedItemIndex = value; }
         }
 
         internal AutocompleteMenuHost Host { get; set; }
@@ -117,7 +111,7 @@ namespace AutocompleteMenuNS
                 }
             }
         }
-        
+
         /// <summary>
         ///     Maximum size of popup menu
         /// </summary>
@@ -165,15 +159,15 @@ namespace AutocompleteMenuNS
         }
 
         /// <summary>
-        /// Colors of foreground and background
+        ///     Colors of foreground and background
         /// </summary>
         [Browsable(true)]
         [Description("Colors of foreground and background.")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [TypeConverter(typeof (ExpandableObjectConverter))]
         public Colors Colors
         {
-            get { return (Host.ListView as IAutocompleteListView).Colors; }
-            set { (Host.ListView as IAutocompleteListView).Colors = value; }
+            get { return Host.ListView.Colors; }
+            set { Host.ListView.Colors = value; }
         }
 
         /// <summary>
@@ -301,11 +295,37 @@ namespace AutocompleteMenuNS
             }
         }
 
+        private bool IsExponent
+        {
+            get
+            {
+                var expressionTextBox = TargetControlWrapper.TargetControl as ExpressionTextBox;
+                var scintillaEditor =
+                    TargetControlWrapper.TargetControl as ScintillaCodeEditorControl;
+
+                var isExponent = false;
+
+                if (expressionTextBox != null)
+                    isExponent = expressionTextBox.ExponentMode;
+                else if (scintillaEditor != null)
+                    isExponent = scintillaEditor.ExponentMode;
+                return isExponent;
+            }
+        }
+
+        /// <summary>
+        ///     Menu is visible
+        /// </summary>
+        public bool Visible
+        {
+            get { return Host != null && Host.Visible; }
+        }
+
 
         private void setupAutocomplete()
         {
-            if(!DesignMode)
-            Font = CustomFonts.GetMathFont(18);//new Font("Cambria", 18.0F, GraphicsUnit.Point);
+            if (!DesignMode)
+                Font = CustomFonts.GetMathFont(18); //new Font("Cambria", 18.0F, GraphicsUnit.Point);
             //GlobalConfig.mathFont;
             ImageList = null;
             TargetControlWrapper = null;
@@ -346,8 +366,6 @@ namespace AutocompleteMenuNS
 
         public void OnHovered(HoveredEventArgs e)
         {
-
-
             if (Hovered != null)
                 Hovered(this, e);
         }
@@ -492,20 +510,16 @@ namespace AutocompleteMenuNS
         {
             TargetControlWrapper = FindWrapper(sender as Control);
 
-            bool backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
-
-
+            var backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
 
 
             if (Host.Visible)
             {
-                if (ProcessKey((char)e.KeyCode, Control.ModifierKeys))
+                if (ProcessKey((char) e.KeyCode, Control.ModifierKeys))
                     e.SuppressKeyPress = true;
 
 
-                else
-
-                    if (!backspaceORdel)
+                else if (!backspaceORdel)
                     ResetTimer(1);
                 else
                     ResetTimer();
@@ -526,10 +540,10 @@ namespace AutocompleteMenuNS
                     case Keys.End:
                     case Keys.Home:
                     case Keys.ControlKey:
-                        {
-                            timer.Stop();
-                            return;
-                        }
+                    {
+                        timer.Stop();
+                        return;
+                    }
                 }
 
                 if (Control.ModifierKeys == Keys.Control && e.KeyCode == Keys.Space)
@@ -624,7 +638,6 @@ namespace AutocompleteMenuNS
 
         private void ShowMenu()
         {
-
             if (!Host.Visible)
             {
                 var args = new CancelEventArgs();
@@ -665,7 +678,7 @@ namespace AutocompleteMenuNS
             {
                 text = "";
             }
-          //  else if (IsExponent)
+            //  else if (IsExponent)
             //    text = text.Substring(index);
 
             //
@@ -728,7 +741,7 @@ namespace AutocompleteMenuNS
 
             //go backward
             i = startPos;
-            while (i > 0 && (i - 1) < text.Length)
+            while (i > 0 && i - 1 < text.Length)
             {
                 if (!regex.IsMatch(text[i - 1].ToString()))
                     break;
@@ -797,8 +810,6 @@ namespace AutocompleteMenuNS
                 return;
 
 
-
-
             var item = VisibleItems[SelectedItemIndex];
             var args = new SelectingEventArgs
             {
@@ -837,7 +848,7 @@ namespace AutocompleteMenuNS
             var newText = item.GetTextForReplace();
             //replace text of fragment
 
-            
+
             var index = fragment.Text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
 
             if (index == 0)
@@ -849,31 +860,11 @@ namespace AutocompleteMenuNS
                 newText = fragment.Text.Substring(0, index) + SpecialSymbols.AsciiToSuperscript(newText);
             }
             else if (IsExponent)
-                    newText = fragment.Text+SpecialSymbols.AsciiToSuperscript(newText);
-
-
+                newText = fragment.Text + SpecialSymbols.AsciiToSuperscript(newText);
 
 
             fragment.Text = newText;
             fragment.TargetWrapper.TargetControl.Focus();
-        }
-
-        private bool IsExponent
-        {
-            get
-            {
-                var expressionTextBox = (TargetControlWrapper.TargetControl as ExpressionTextBox);
-                var scintillaEditor =
-                    (TargetControlWrapper.TargetControl as ScintillaCodeEditorControl);
-
-                var isExponent = false;
-
-                if (expressionTextBox != null)
-                    isExponent = expressionTextBox.ExponentMode;
-                else if (scintillaEditor != null)
-                    isExponent = scintillaEditor.ExponentMode;
-                return isExponent;
-            }
         }
 
         internal void OnSelecting(SelectingEventArgs args)
@@ -931,14 +922,6 @@ namespace AutocompleteMenuNS
                 }
 
             return false;
-        }
-
-        /// <summary>
-        /// Menu is visible
-        /// </summary>
-        public bool Visible
-        {
-            get { return Host != null && Host.Visible; }
         }
 
         #region IExtenderProvider Members

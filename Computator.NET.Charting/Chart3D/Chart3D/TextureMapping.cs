@@ -46,7 +46,7 @@ namespace Computator.NET.Charting.Chart3D
                     {
                         for (var b = 0; b < 16; b++)
                         {
-                            var nX = (g%4)*16 + b;
+                            var nX = g%4*16 + b;
                             var nY = r*4 + g/4;
 
                             *(pStart + nY*nL + nX*3 + 0) = (byte) (b*17);
@@ -86,7 +86,7 @@ namespace Computator.NET.Charting.Chart3D
                     for (var nX = 0; nX < 64; nX++)
                     {
                         var nI = nY*64 + nX;
-                        var k = ((double) nI)/4095;
+                        var k = (double) nI/4095;
 
                         var color = PseudoColor(k);
 
@@ -119,9 +119,9 @@ namespace Computator.NET.Charting.Chart3D
         {
             if (bPseudoColor && color != Colors.Transparent)
             {
-                var r = ((double) color.R)/255;
-                var g = ((double) color.G)/255;
-                var b = ((double) color.B)/255;
+                var r = (double) color.R/255;
+                var g = (double) color.G/255;
+                var b = (double) color.B/255;
 
                 double k = 0;
                 if ((b >= g) && (b > r))
@@ -153,11 +153,11 @@ namespace Computator.NET.Charting.Chart3D
             }
             else
             {
-                var nR = (color.R)/17;
-                var nG = (color.G)/17;
-                var nB = (color.B)/17;
+                var nR = color.R/17;
+                var nG = color.G/17;
+                var nB = color.B/17;
 
-                var nX = (nG%4)*16 + nB;
+                var nX = nG%4*16 + nB;
                 var nY = nR*4 + nG/4;
 
                 double x1 = nX;

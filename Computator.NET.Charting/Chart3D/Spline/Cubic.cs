@@ -17,7 +17,7 @@
 
         public double eval(double u)
         {
-            return (((d*u) + c)*u + b)*u + a;
+            return ((d*u + c)*u + b)*u + a;
         }
     }
 }

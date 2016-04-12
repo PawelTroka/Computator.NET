@@ -39,13 +39,13 @@ namespace Computator.NET.Charting.ComplexCharting
             titleFont = titleFontDialog.Font = chart.titleFont;
             axesFont = axisLabelsFontDialog.Font = chart.labelsFont;
             /////////////
-            contourLinesStepNumericUpDown.Value = (decimal) (chart.countourLinesStep);
+            contourLinesStepNumericUpDown.Value = (decimal) chart.countourLinesStep;
             drawAxes.Checked = chart.shouldDrawAxes;
 
 
             //enums
             var vartosci =
-                Enum.GetValues(typeof (CountourLinesMode)).Cast<CountourLinesMode>().ToList<CountourLinesMode>();
+                Enum.GetValues(typeof (CountourLinesMode)).Cast<CountourLinesMode>().ToList();
             foreach (var v in vartosci)
                 contourLinesComboBox.Items.Add(v);
             contourLinesComboBox.SelectedItem = chart.countourMode;
@@ -53,7 +53,7 @@ namespace Computator.NET.Charting.ComplexCharting
             var vartosci2 =
                 Enum.GetValues(typeof (AssignmentOfColorMethod))
                     .Cast<AssignmentOfColorMethod>()
-                    .ToList<AssignmentOfColorMethod>();
+                    .ToList();
             foreach (var v in vartosci2)
                 colorAssigmentComboBox.Items.Add(v);
             colorAssigmentComboBox.SelectedItem = chart.colorAssignmentMethod;
@@ -79,7 +79,7 @@ namespace Computator.NET.Charting.ComplexCharting
             chart.titleFont = titleFont;
             chart.labelsFont = axesFont;
 
-            chart.countourLinesStep = (double) (contourLinesStepNumericUpDown.Value);
+            chart.countourLinesStep = (double) contourLinesStepNumericUpDown.Value;
             chart.shouldDrawAxes = drawAxes.Checked;
 
 

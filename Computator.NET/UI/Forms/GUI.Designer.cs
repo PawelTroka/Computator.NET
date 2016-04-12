@@ -813,13 +813,11 @@ namespace Computator.NET
             // 
             resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // printPreviewToolStripMenuItem
             // 
             resources.ApplyResources(this.printPreviewToolStripMenuItem, "printPreviewToolStripMenuItem");
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -1169,7 +1167,6 @@ namespace Computator.NET
             this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(this.printToolStripButton, "printToolStripButton");
             this.printToolStripButton.Name = "printToolStripButton";
-            this.printToolStripButton.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 

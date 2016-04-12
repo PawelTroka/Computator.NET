@@ -6,7 +6,8 @@ namespace Computator.NET.UI.Controls
 {
     public class ChartAreaValuesPresenter
     {
-        private IChartAreaValuesView _view;
+        private readonly IChartAreaValuesView _view;
+
         public ChartAreaValuesPresenter(IChartAreaValuesView view)
         {
             _view = view;
@@ -15,7 +16,9 @@ namespace Computator.NET.UI.Controls
 
         private void OnCalculationsModeChangedEvent(CalculationsModeChangedEvent e)
         {
-            _view.AddChartLabel = e.CalculationsMode == CalculationsMode.Complex ? Strings.DrawChart : Strings.AddToChart;
+            _view.AddChartLabel = e.CalculationsMode == CalculationsMode.Complex
+                ? Strings.DrawChart
+                : Strings.AddToChart;
         }
     }
 }

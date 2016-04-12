@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 
 namespace Computator.NET.DataTypes
@@ -19,18 +18,6 @@ namespace Computator.NET.DataTypes
 
         public const string Infinity = "∞";
 
-        public static readonly string DecimalSeparatorSuperscript = @"ᱸ";//(Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
-
-        public static readonly string CommaSuperscript = @"ʹ";//"\u0315";//(Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";
-        //2ᴹᵃᵗʸᵃˢ⁽ˣʹʸ⁾
-
-
-        public static readonly string SuperscriptsWithoutSpace =
-            "⁽⁾⁺⁻˙˸⁼"+DecimalSeparatorSuperscript+SuperscriptAlphabet+CommaSuperscript;
-
-
-        public static readonly string Superscripts = " " + SuperscriptsWithoutSpace;
-
         public const string SuperscriptAlphabet = "⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ";
 
         public const string AsciiForSuperscripts =
@@ -38,6 +25,21 @@ namespace Computator.NET.DataTypes
 
         private const char blankCharacter = 'ⱽ';
         public const char ExponentModeSymbol = '^';
+
+        public static readonly string DecimalSeparatorSuperscript = @"ᱸ";
+            //(Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
+
+        public static readonly string CommaSuperscript = @"ʹ";
+            //"\u0315";//(Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";
+
+        //2ᴹᵃᵗʸᵃˢ⁽ˣʹʸ⁾
+
+
+        public static readonly string SuperscriptsWithoutSpace =
+            "⁽⁾⁺⁻˙˸⁼" + DecimalSeparatorSuperscript + SuperscriptAlphabet + CommaSuperscript;
+
+
+        public static readonly string Superscripts = " " + SuperscriptsWithoutSpace;
 
         public static string SuperscriptsToAscii(string s)
         {
@@ -75,7 +77,7 @@ namespace Computator.NET.DataTypes
 
         public static bool IsAscii(char c)
         {
-            return (c < 128 && c > 31);
+            return c < 128 && c > 31;
         }
     }
 }

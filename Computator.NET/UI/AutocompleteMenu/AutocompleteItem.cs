@@ -1,18 +1,15 @@
 ﻿//#define USE_TEXT_WIDTH
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using Computator.NET.DataTypes;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
 using Computator.NET.UI.CodeEditors;
 
-
-
 namespace AutocompleteMenuNS
 {
-
     public class AutocompleteItemEqualityComparer : IEqualityComparer<AutocompleteItem>
     {
         public bool Equals(AutocompleteItem x, AutocompleteItem y)
@@ -35,13 +32,9 @@ namespace AutocompleteMenuNS
         private readonly string _additionWithTypes;
         private readonly string _name;
         private readonly string _returnTypeName;
-       // private readonly string menuText;
 
-        public FunctionInfo Info { get; } = new FunctionInfo();
+        private readonly string _textForComparison;
         public object Tag;
-        private string toolTipText;
-        private string toolTipTitle;
-        public string AssemblyName { get; set; }
 
         protected AutocompleteItem()
         {
@@ -62,7 +55,7 @@ namespace AutocompleteMenuNS
         {
             Text = name + addition;
             _textForComparison = name.ToLowerInvariant();
-            
+
 
             ImageIndex = imageIndex;
 
@@ -71,6 +64,11 @@ namespace AutocompleteMenuNS
             _addition = addition;
             _additionWithTypes = additionWithTypes;
         }
+
+        // private readonly string menuText;
+
+        public FunctionInfo Info { get; } = new FunctionInfo();
+        public string AssemblyName { get; set; }
 
         /// <summary>
         ///     Parent AutocompleteMenu
@@ -82,8 +80,6 @@ namespace AutocompleteMenuNS
         /// </summary>
         public string Text { get; set; }
 
-        private readonly string _textForComparison;
-
         /// <summary>
         ///     Image index for this item
         /// </summary>
@@ -93,21 +89,13 @@ namespace AutocompleteMenuNS
         ///     Title for tooltip.
         /// </summary>
         /// <remarks>Return null for disable tooltip for this item</remarks>
-        public virtual string ToolTipTitle
-        {
-            get { return toolTipTitle; }
-            set { toolTipTitle = value; }
-        }
+        public virtual string ToolTipTitle { get; set; }
 
         /// <summary>
         ///     Tooltip text.
         /// </summary>
         /// <remarks>For display tooltip text, ToolTipTitle must be not null</remarks>
-        public virtual string ToolTipText
-        {
-            get { return toolTipText; }
-            set { toolTipText = value; }
-        }
+        public virtual string ToolTipText { get; set; }
 
         /// <summary>
         ///     Menu text. This text is displayed in the drop-down menu.
@@ -119,7 +107,7 @@ namespace AutocompleteMenuNS
                 string ret;
                 if (IsScripting)
                 {
-                    ret = ((Settings.Default.ShowReturnTypeInScripting)
+                    ret = (Settings.Default.ShowReturnTypeInScripting
                         ? _returnTypeName + " "
                         : "") + _name +
                           (Settings.Default.ShowParametersTypeInScripting
@@ -128,7 +116,7 @@ namespace AutocompleteMenuNS
                 }
                 else
                 {
-                    ret = ((Settings.Default.ShowReturnTypeInExpression)
+                    ret = (Settings.Default.ShowReturnTypeInExpression
                         ? _returnTypeName + " "
                         : "") + _name +
                           (Settings.Default.ShowParametersTypeInExpression
@@ -163,7 +151,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Compares fragment text with this item
         /// </summary>
-       /* public virtual CompareResult Compare(string fragmentText)
+        /* public virtual CompareResult Compare(string fragmentText)
         {
             if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
                 Text != fragmentText)
@@ -171,23 +159,18 @@ namespace AutocompleteMenuNS
 
             return CompareResult.Hidden;
         }*/
-
-
-
-
-        public virtual CompareResult Compare(string fragmentText)//hybrid compare
+        public virtual CompareResult Compare(string fragmentText) //hybrid compare
         {
             var normalizedFragmentText = NormalizeString(fragmentText);
 
             var compareExpliciteResult = CompareExplicite(normalizedFragmentText);
 
-            if (normalizedFragmentText.Length < 3 || compareExpliciteResult!=CompareResult.Hidden)
+            if (normalizedFragmentText.Length < 3 || compareExpliciteResult != CompareResult.Hidden)
                 return compareExpliciteResult;
-            else
-            {
-                var substringCompareResult = CompareSubstring(normalizedFragmentText);
-                return substringCompareResult == CompareResult.Hidden ? CompareFuzzy(normalizedFragmentText) : substringCompareResult;
-            }
+            var substringCompareResult = CompareSubstring(normalizedFragmentText);
+            return substringCompareResult == CompareResult.Hidden
+                ? CompareFuzzy(normalizedFragmentText)
+                : substringCompareResult;
         }
 
         private static string NormalizeString(string str)
@@ -208,12 +191,8 @@ namespace AutocompleteMenuNS
 
         public CompareResult CompareSubstring(string fragmentText)
         {
-
-
-
             if (_textForComparison.Contains(fragmentText.ToLowerInvariant()))
                 return CompareResult.Visible;
-
 
 
             return CompareResult.Hidden;
@@ -221,11 +200,11 @@ namespace AutocompleteMenuNS
 
         private CompareResult CompareExplicite(string fragmentText)
         {
-            if(_textForComparison == fragmentText)
+            if (_textForComparison == fragmentText)
                 return CompareResult.VisibleAndSelected;
 
             if (_textForComparison.StartsWith(fragmentText)
-                )//we dont wanna show something if it is the same as typed string
+                ) //we dont wanna show something if it is the same as typed string
                 return CompareResult.Visible;
             return CompareResult.Hidden;
         }
@@ -243,10 +222,10 @@ namespace AutocompleteMenuNS
 
         public static float Levenshtein(string src, string dest)
         {
-            int[,] d = new int[src.Length + 1, dest.Length + 1];
+            var d = new int[src.Length + 1, dest.Length + 1];
             int i, j, cost;
-            char[] str1 = src.ToCharArray();
-            char[] str2 = dest.ToCharArray();
+            var str1 = src.ToCharArray();
+            var str2 = dest.ToCharArray();
 
             for (i = 0; i <= str1.Length; i++)
             {
@@ -260,7 +239,6 @@ namespace AutocompleteMenuNS
             {
                 for (j = 1; j <= str2.Length; j++)
                 {
-
                     if (str1[i - 1] == str2[j - 1])
                         cost = 0;
                     else
@@ -268,22 +246,22 @@ namespace AutocompleteMenuNS
 
                     d[i, j] =
                         Math.Min(
-                            d[i - 1, j] + 1,              // Deletion
+                            d[i - 1, j] + 1, // Deletion
                             Math.Min(
-                                d[i, j - 1] + 1,          // Insertion
+                                d[i, j - 1] + 1, // Insertion
                                 d[i - 1, j - 1] + cost)); // Substitution
 
                     if ((i > 1) && (j > 1) && (str1[i - 1] ==
-                        str2[j - 2]) && (str1[i - 2] == str2[j - 1]))
+                                               str2[j - 2]) && (str1[i - 2] == str2[j - 1]))
                     {
                         d[i, j] = Math.Min(d[i, j], d[i - 2, j - 2] + cost);
                     }
                 }
             }
 
-            var dist = (float)d[str1.Length, str2.Length];
+            var dist = (float) d[str1.Length, str2.Length];
 
-            return 1 - dist / Math.Max(str1.Length, str2.Length);
+            return 1 - dist/Math.Max(str1.Length, str2.Length);
         }
 
 
@@ -292,7 +270,7 @@ namespace AutocompleteMenuNS
         /// </summary>
         public override string ToString()
         {
-            return  MenuText;
+            return MenuText;
         }
 
         /// <summary>
@@ -311,7 +289,6 @@ namespace AutocompleteMenuNS
             TextWidth = TextRenderer.MeasureText(ToString(), e.Font).Width;
             //TextWidth = (int)(Graphics.MeasureString(ToString(), e.Font, new SizeF(10000F,10000F), e.StringFormat).Width);
 #endif
-
         }
     }
 

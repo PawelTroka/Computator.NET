@@ -7,8 +7,6 @@ namespace Computator.NET.Compilation
 {
     internal class CompilationException : Exception
     {
-        public Dictionary<CompilationErrorPlace,List<CompilerError>> Errors { get; set; }
-
         public CompilationException(string message, Exception innerException)
             : base(message, innerException)
         {
@@ -21,7 +19,7 @@ namespace Computator.NET.Compilation
         }
 
         public CompilationException(string message)
-           : base(message)
+            : base(message)
         {
             Errors = new Dictionary<CompilationErrorPlace, List<CompilerError>>
             {
@@ -41,11 +39,22 @@ namespace Computator.NET.Compilation
             };
         }
 
+        public Dictionary<CompilationErrorPlace, List<CompilerError>> Errors { get; set; }
 
-        public bool HasInternalErrors => Errors.ContainsKey(CompilationErrorPlace.Internal) && Errors[CompilationErrorPlace.Internal].Any(er => !er.IsWarning);
 
-        public bool HasMainCodeErrors => Errors.ContainsKey(CompilationErrorPlace.MainCode) && Errors[CompilationErrorPlace.MainCode].Any(er => !er.IsWarning);
+        public bool HasInternalErrors
+            =>
+                Errors.ContainsKey(CompilationErrorPlace.Internal) &&
+                Errors[CompilationErrorPlace.Internal].Any(er => !er.IsWarning);
 
-        public bool HasCustomFunctionsErrors => Errors.ContainsKey(CompilationErrorPlace.CustomFunctions) && Errors[CompilationErrorPlace.CustomFunctions].Any(er => !er.IsWarning);
+        public bool HasMainCodeErrors
+            =>
+                Errors.ContainsKey(CompilationErrorPlace.MainCode) &&
+                Errors[CompilationErrorPlace.MainCode].Any(er => !er.IsWarning);
+
+        public bool HasCustomFunctionsErrors
+            =>
+                Errors.ContainsKey(CompilationErrorPlace.CustomFunctions) &&
+                Errors[CompilationErrorPlace.CustomFunctions].Any(er => !er.IsWarning);
     }
 }

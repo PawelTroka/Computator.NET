@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Reflection;
-using System.Windows.Forms;
 using Computator.NET.Charting;
 using Computator.NET.Compilation;
 using Computator.NET.Config;
@@ -15,25 +13,28 @@ namespace Computator.NET
 {
     public class MainFormPresenter
     {
-        IChart chart2d { get { return _view.charts[CalculationsMode.Real]; } }
-        IChart complexChart { get { return _view.charts[CalculationsMode.Complex]; } }
-        IChart chart3d { get { return _view.charts[CalculationsMode.Fxy]; } }
+        private readonly ExpressionsEvaluator expressionsEvaluator = new ExpressionsEvaluator();
 
-        private IChart currentChart => _view.charts[_calculationsMode];
+        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
 
-        private IMainForm _view;
-        private IErrorHandler errorHandler;
+        private CalculationsMode _calculationsMode = CalculationsMode.Fxy;
+
+        private readonly IMainForm _view;
+
+
+        private readonly List<Action<object, EventArgs>> defaultActions;
+        private readonly IErrorHandler errorHandler;
 
         public MainFormPresenter(IMainForm view, IErrorHandler errorHandler)
         {
             defaultActions = new List<Action<object, EventArgs>>
             {
                 ChartAreaValuesView1_AddClicked,
-                CalculationsView_CalculateClicked,
-              //  numericalOperationButton_Click,
-               // symbolicOperationButton_Click,
-              //  processButton_Click
-             };
+                CalculationsView_CalculateClicked
+                //  numericalOperationButton_Click,
+                // symbolicOperationButton_Click,
+                //  processButton_Click
+            };
 
 
             _view = view;
@@ -66,7 +67,6 @@ namespace Computator.NET
             _view.ExpressionView.TextChanged += ExpressionView_TextChanged;
 
 
-
             _view.PrintClicked += _view_PrintClicked;
             _view.PrintPreviewClicked += _view_PrintPreviewClicked;
 
@@ -81,11 +81,25 @@ namespace Computator.NET
             _view.CalculationsView.CalculateClicked += CalculationsView_CalculateClicked;
         }
 
+        private IChart chart2d
+        {
+            get { return _view.charts[CalculationsMode.Real]; }
+        }
 
-        List<Action<object, EventArgs>> defaultActions;
+        private IChart complexChart
+        {
+            get { return _view.charts[CalculationsMode.Complex]; }
+        }
+
+        private IChart chart3d
+        {
+            get { return _view.charts[CalculationsMode.Fxy]; }
+        }
+
+        private IChart currentChart => _view.charts[_calculationsMode];
 
 
-    private void CalculationsView_CalculateClicked(object sender, EventArgs e)
+        private void CalculationsView_CalculateClicked(object sender, EventArgs e)
         {
             if (_view.ExpressionView.Text != "")
             {
@@ -96,9 +110,9 @@ namespace Computator.NET
 
                     var x = _view.CalculationsView.X;
                     var y = _view.CalculationsView.Y;
-                    var z = new Complex(x,y);
+                    var z = new Complex(x, y);
 
-                    dynamic result = function.EvaluateDynamic(x,y);
+                    dynamic result = function.EvaluateDynamic(x, y);
 
                     var resultStr = ScriptingExtensions.ToMathString(result);
 
@@ -118,10 +132,10 @@ namespace Computator.NET
             }
             else
                 errorHandler.DispalyError(
-                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_, Strings.GUI_numericalOperationButton_Click_Warning_);
+                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
+                    Strings.GUI_numericalOperationButton_Click_Warning_);
         }
 
-        private readonly ExpressionsEvaluator expressionsEvaluator = new ExpressionsEvaluator();
         private void ChartAreaValuesView1_AddClicked(object sender, EventArgs e)
         {
             if (_view.ExpressionView.Text != "")
@@ -138,7 +152,8 @@ namespace Computator.NET
             }
             else
                 errorHandler.DispalyError(
-                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_, Strings.GUI_numericalOperationButton_Click_Warning_);
+                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
+                    Strings.GUI_numericalOperationButton_Click_Warning_);
         }
 
         private void HandleException(Exception ex)
@@ -160,9 +175,10 @@ namespace Computator.NET
 
             if (exception == null)
                 return;
-            _view.CustomFunctionsCodeEditorControl.HighlightErrors(exception.Errors[CompilationErrorPlace.CustomFunctions]);
+            _view.CustomFunctionsCodeEditorControl.HighlightErrors(
+                exception.Errors[CompilationErrorPlace.CustomFunctions]);
 
-            if ((exception.HasCustomFunctionsErrors && !exception.HasMainCodeErrors))
+            if (exception.HasCustomFunctionsErrors && !exception.HasMainCodeErrors)
                 _view.SelectedViewIndex = 5; //tabControl1.SelectedTab = customFunctionsTabPage;
         }
 
@@ -226,8 +242,6 @@ namespace Computator.NET
 #endif
         }
 
-        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
-
         private void ExpressionView_TextChanged(object sender, EventArgs e)
         {
             var mode = modeDeterminer.DetermineMode(_view.ExpressionView.Text);
@@ -256,15 +270,12 @@ namespace Computator.NET
             }
 
             _calculationsMode = mode;
-          //  _view.EditChartMenus.SetMode(_calculationsMode);
+            //  _view.EditChartMenus.SetMode(_calculationsMode);
 
             EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(mode));
 
 //            EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>((mode) => SetMode(mode.CalculationsMode));
         }
-
-        private CalculationsMode _calculationsMode = CalculationsMode.Fxy;
-
 
 
         private void ChartAreaValuesView1_ClearClicked(object sender, EventArgs e)

@@ -1,5 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Computator.NET.Properties" GeneratedClassName="Settings">
+
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
+              GeneratedClassNamespace="Computator.NET.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="Language" GenerateDefaultValueInCode="false" Type="System.Globalization.CultureInfo" Scope="User">
@@ -32,7 +34,8 @@
     <Setting Name="ShowParametersTypeInScripting" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="NumericalOutputNotation" Type="Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType" Scope="User">
+    <Setting Name="NumericalOutputNotation" Type="Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType"
+             Scope="User">
       <Value Profile="(Default)">MathematicalNotation</Value>
     </Setting>
     <Setting Name="ScriptingDirectory" Type="System.String" Scope="User">

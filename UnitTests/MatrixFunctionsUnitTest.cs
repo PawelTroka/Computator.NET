@@ -1,4 +1,5 @@
 using Computator.NET.Functions;
+using MathNet.Numerics.LinearAlgebra.Double;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
@@ -6,11 +7,11 @@ namespace UnitTests
     [TestClass]
     public class MatrixFunctionsUnitTest
     {
-        private MathNet.Numerics.LinearAlgebra.Double.DenseMatrix _identityMatrix =
-            MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.CreateIdentity(10);
+        private readonly DenseMatrix _identityMatrix =
+            DenseMatrix.CreateIdentity(10);
 
-        private MathNet.Numerics.LinearAlgebra.Double.DenseMatrix _notIdentityMatrix =
-            MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(new[,] {{1.1, 2, 3}, {1, 2, 3}});
+        private readonly DenseMatrix _notIdentityMatrix =
+            DenseMatrix.OfArray(new[,] {{1.1, 2, 3}, {1, 2, 3}});
 
         [TestMethod]
         public void IsIndentityTest_shouldReturnTrue()

@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Computator.NET.Evaluation;
 
 namespace Computator.NET.DataTypes
 {
     public interface IApplicationEvent
     {
-        
     }
 
     public class CalculationsModeChangedEvent : IApplicationEvent
     {
-        public CalculationsMode CalculationsMode { get; private set; }
         public CalculationsModeChangedEvent(CalculationsMode mode)
         {
             CalculationsMode = mode;
         }
+
+        public CalculationsMode CalculationsMode { get; private set; }
     }
 
     public interface IEventAggregator
@@ -30,11 +28,15 @@ namespace Computator.NET.DataTypes
 
     public class EventAggregator : IEventAggregator
     {
+        private readonly ConcurrentDictionary<Type, List<object>> subscriptions =
+            new ConcurrentDictionary<Type, List<object>>();
+
+        private EventAggregator()
+        {
+        }
+
         public static EventAggregator Instance { get; } = new EventAggregator();
 
-        private EventAggregator() { }
-
-        private readonly ConcurrentDictionary<Type, List<object>> subscriptions = new ConcurrentDictionary<Type, List<object>>();
         public void Publish<T>(T message) where T : IApplicationEvent
         {
             List<object> subscribers;
@@ -55,13 +57,13 @@ namespace Computator.NET.DataTypes
                 if (!subscriptions.ContainsKey(typeof (T)))
                     subscriptions.TryAdd(typeof (T), new List<object>());
             }
-            subscriptions[(typeof(T))].Add(action);
+            subscriptions[typeof (T)].Add(action);
         }
 
         public void Unsubscribe<T>(Action<T> action) where T : IApplicationEvent
         {
-            if(subscriptions.ContainsKey(typeof(T)))
-                subscriptions[(typeof(T))].Remove(action);
+            if (subscriptions.ContainsKey(typeof (T)))
+                subscriptions[typeof (T)].Remove(action);
         }
     }
 }

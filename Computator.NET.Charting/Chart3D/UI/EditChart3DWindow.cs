@@ -17,7 +17,7 @@ namespace Computator.NET.Charting.Chart3D
         private readonly ElementHost elementHost;
         private Color colorAxes;
         private Color colorBackground;
-        private Color colorLabels;//, colorSpline;
+        private Color colorLabels; //, colorSpline;
         private Font font;
         private bool fontChanged;
 
@@ -102,7 +102,7 @@ namespace Computator.NET.Charting.Chart3D
                 (double) yOffsetNumericUpDown.Value);
 
 
-            chart3d.XMin= double.Parse(xMinChartTextBox.Text, CultureInfo.InvariantCulture);
+            chart3d.XMin = double.Parse(xMinChartTextBox.Text, CultureInfo.InvariantCulture);
             chart3d.XMax = double.Parse(xMaxChartTextBox.Text, CultureInfo.InvariantCulture);
 
             chart3d.YMin = double.Parse(yMinChartTextBox.Text, CultureInfo.InvariantCulture);

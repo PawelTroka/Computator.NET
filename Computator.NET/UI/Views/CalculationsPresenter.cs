@@ -7,7 +7,7 @@ namespace Computator.NET.UI.Views
 {
     public class CalculationsPresenter
     {
-        private ICalculationsView _view;
+        private readonly ICalculationsView _view;
         private CalculationsMode calculationsMode;
 
         public CalculationsPresenter(ICalculationsView view)

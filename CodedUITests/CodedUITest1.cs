@@ -21,7 +21,7 @@ namespace CodedUITests
         {
             get
             {
-                if ((map == null))
+                if (map == null)
                 {
                     map = new UIMap();
                 }
@@ -33,8 +33,7 @@ namespace CodedUITests
         [TestMethod]
         public void MathieuFunctionOn3DChartTest()
         {
-
-            this.UIMap.TypeComplicatedRealExpressionAndMake2DChart();
+            UIMap.TypeComplicatedRealExpressionAndMake2DChart();
             UIMap.Make3dChartForMathieuFunction();
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }

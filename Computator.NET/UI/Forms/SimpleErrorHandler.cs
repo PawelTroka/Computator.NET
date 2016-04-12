@@ -8,15 +8,15 @@ namespace Computator.NET
 {
     public class SimpleErrorHandler : IErrorHandler
     {
+        private static SimpleErrorHandler _instance;
         private readonly SimpleLogger logger;
 
-        public static SimpleErrorHandler Instance => _instance ?? (_instance = new SimpleErrorHandler());
-
-        private static SimpleErrorHandler _instance;
         private SimpleErrorHandler()
         {
             logger = new SimpleLogger(this);
         }
+
+        public static SimpleErrorHandler Instance => _instance ?? (_instance = new SimpleErrorHandler());
 
         public void DispalyError(string message, string title)
         {

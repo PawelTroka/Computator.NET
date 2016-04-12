@@ -5,10 +5,10 @@ using System.Windows.Forms.Integration;
 using AutocompleteMenuNS;
 using Computator.NET.Config;
 using Computator.NET.Data;
+using Computator.NET.Properties;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Rendering;
 using Point = System.Windows.Point;
-using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.UI.CodeEditors
 {
@@ -152,7 +152,7 @@ namespace Computator.NET.UI.CodeEditors
         private int[] GetLineAndColumn(int pos)
         {
             var substr = Text.Substring(0, pos + 1);
-            var lineIndex = Enumerable.Count(substr, c => c == '\n');
+            var lineIndex = substr.Count(c => c == '\n');
 
             var index = substr.LastIndexOf('\n');
 

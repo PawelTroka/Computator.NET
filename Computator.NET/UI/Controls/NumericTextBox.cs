@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Computator.NET.DataTypes;
+
 // ReSharper disable LocalizableElement
 
 namespace Computator.NET.UI
@@ -16,16 +17,16 @@ namespace Computator.NET.UI
 
         private void NumericTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (!Enumerable.Contains(Text, 'E') && !Enumerable.Contains(Text, 'e')) return;
+            if (!Text.Contains('E') && !Text.Contains('e')) return;
 
             var chunks = Text.Split('E', 'e', 'i');
-            if (!Enumerable.Contains(Text, 'i'))
+            if (!Text.Contains('i'))
                 Text = chunks[0] + SpecialSymbols.DotSymbol + "10" +
                        SpecialSymbols.AsciiToSuperscript(chunks[1]);
             else
             {
                 //1. -1E-11 + 5E-11i
-                if (Enumerable.Count(Text, c => c == 'E') >= 2)
+                if (Text.Count(c => c == 'E') >= 2)
                 {
                     var midChunk = chunks[1].Insert(chunks[1].LastIndexOfAny(new[] {'+', '-'}) + 1, "(");
 
@@ -41,7 +42,7 @@ namespace Computator.NET.UI
                 }
                 else
                 {
-                    if (Enumerable.Count(chunks[0], c => c == '+') == 0 &&
+                    if (chunks[0].Count(c => c == '+') == 0 &&
                         Regex.IsMatch(chunks[1], @"^[+\-]?(\d+)$") &&
                         Regex.IsMatch(chunks[0], @"^-?(\d+\.?\d*)$"))
                         //2.      5E-11i//-5·16²²·i

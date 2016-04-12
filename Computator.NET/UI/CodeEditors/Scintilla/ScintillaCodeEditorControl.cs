@@ -16,9 +16,8 @@ using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Properties;
 using ScintillaNET;
-using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET.UI.CodeEditors
 {
@@ -35,12 +34,18 @@ namespace Computator.NET.UI.CodeEditors
 
     internal class ScintillaCodeEditorControl : Scintilla, ICodeEditorControl, INotifyPropertyChanged
     {
+        // Indicators 0-7 could be in use by a lexer
+        // so we'll use indicator 8 to highlight words.
+        private const int NUM = 8;
+
+        private const int BOOKMARK_MARGIN = 1; // Conventionally the symbol margin
+        private const int BOOKMARK_MARKER = 3; // Arbitrary. Any valid index would work.
         private readonly AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
         private readonly Dictionary<string, Document> _documents;
         private string _autoCompleteList;
+        private bool _exponentMode;
         private int lastCaretPos;
         private int maxLineNumberCharLength;
-        private bool _exponentMode;
 
         public ScintillaCodeEditorControl(string code) : this()
         {
@@ -53,94 +58,26 @@ namespace Computator.NET.UI.CodeEditors
             {
                 TargetControlWrapper = new ScintillaWrapper(this),
                 MaximumSize = new Size(500, 180)
-               
             };
             _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
             //_autocompleteMenu.CaptureFocus = true;
             InitializeComponent();
             // this.BorderStyle=BorderStyle.None;
             Dock = DockStyle.Fill;
-            _documents = new Dictionary<string, Document>
-            {
-            //    {Strings.DocumentsTabControl_AddTab_NewFile+1, Document}
-            };
-            SizeChanged += (o, e) => { _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height); };
-            
+            _documents = new Dictionary<string, Document>();
+            SizeChanged +=
+                (o, e) =>
+                {
+                    _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height);
+                };
         }
-
-
-
-        private void HighlightText(string text, Color color)
-        {
-            // Indicators 0-7 could be in use by a lexer
-            // so we'll use indicator 8 to highlight words.
-            const int NUM = 8;
-
-            // Remove all uses of our indicator
-            this.IndicatorCurrent = NUM;
-            this.IndicatorClearRange(0, this.TextLength);
-
-            // Update indicator appearance
-            this.Indicators[NUM].Style = IndicatorStyle.StraightBox;
-            this.Indicators[NUM].Under = true;
-            this.Indicators[NUM].ForeColor = color;
-            this.Indicators[NUM].OutlineAlpha = 50;
-            this.Indicators[NUM].Alpha = 30;
-
-            // Search the document
-            this.TargetStart = 0;
-            this.TargetEnd = this.TextLength;
-            this.SearchFlags = SearchFlags.None;
-            while (this.SearchInTarget(text) != -1)
-            {
-                // Mark the search results with the current indicator
-                this.IndicatorFillRange(this.TargetStart, this.TargetEnd - this.TargetStart);
-
-                // Search the remainder of the document
-                this.TargetStart = this.TargetEnd;
-                this.TargetEnd = this.TextLength;
-            }
-        }
-
-        // Indicators 0-7 could be in use by a lexer
-        // so we'll use indicator 8 to highlight words.
-        const int NUM = 8;
 
 
         public void ClearHighlightedErrors()
         {
             // Remove all uses of our indicator
-            this.IndicatorCurrent = NUM;
-            this.IndicatorClearRange(0, this.TextLength);
-        }
-
-        private void HighlightLine(int line)
-        {
-            // Update indicator appearance
-            this.Indicators[NUM].Style = IndicatorStyle.RoundBox;
-            this.Indicators[NUM].Under = true;
-            this.Indicators[NUM].ForeColor = Color.Red;
-            this.Indicators[NUM].OutlineAlpha = 50;
-            this.Indicators[NUM].Alpha = 100;
-            //this.Indicators[NUM].Flags =IndicatorFlags.ValueFore;
-
-            // Search the document
-            //this.TargetStart = 0;
-            //this.TargetEnd = this.TextLength;
-            //this.SearchFlags = SearchFlags.None;
-            //while (this.SearchInTarget() != -1)
-            {
-                // Mark the search results with the current indicator
-                var lineWithError = Lines.FirstOrDefault(l => l.Index+1 == line);
-                //this.IndicatorFillRange(this.TargetStart, this.TargetEnd - this.TargetStart);
-                if (lineWithError != null)
-                {
-                    //lineWithError.MarkerAdd(BOOKMARK_MARKER);
-                    IndicatorFillRange(lineWithError.Position, lineWithError.EndPosition- lineWithError.Position);
-                }
-                
-                // Search the remainder of the document
-            }
+            IndicatorCurrent = NUM;
+            IndicatorClearRange(0, TextLength);
         }
 
         public bool ContainsDocument(string filename)
@@ -197,19 +134,22 @@ namespace Computator.NET.UI.CodeEditors
             var doc = _documents[filename];
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
-            if(_documents.Count>0)
-            SwitchDocument(_documents.Keys.Last());
+            if (_documents.Count > 0)
+                SwitchDocument(_documents.Keys.Last());
         }
 
         public void HighlightErrors(List<CompilerError> errors)
         {
-            foreach (CompilerError error in errors)
+            foreach (var error in errors)
             {
                 HighlightLine(error.Line);
             }
         }
 
-        public IEnumerable<string> Documents { get { return _documents.Keys.ToList(); } }
+        public IEnumerable<string> Documents
+        {
+            get { return _documents.Keys.ToList(); }
+        }
 
         //Troka Scripting Language (*.tsl)|*.tsl
         //Troka Scripting Language Functions(*.tslf)|*.tslf
@@ -223,7 +163,9 @@ namespace Computator.NET.UI.CodeEditors
         public bool ExponentMode
         {
             get { return _exponentMode; }
-            set { _exponentMode = value;
+            set
+            {
+                _exponentMode = value;
                 OnPropertyChanged(nameof(ExponentMode));
             }
         }
@@ -232,6 +174,70 @@ namespace Computator.NET.UI.CodeEditors
         {
             get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
             set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        private void HighlightText(string text, Color color)
+        {
+            // Indicators 0-7 could be in use by a lexer
+            // so we'll use indicator 8 to highlight words.
+            const int NUM = 8;
+
+            // Remove all uses of our indicator
+            IndicatorCurrent = NUM;
+            IndicatorClearRange(0, TextLength);
+
+            // Update indicator appearance
+            Indicators[NUM].Style = IndicatorStyle.StraightBox;
+            Indicators[NUM].Under = true;
+            Indicators[NUM].ForeColor = color;
+            Indicators[NUM].OutlineAlpha = 50;
+            Indicators[NUM].Alpha = 30;
+
+            // Search the document
+            TargetStart = 0;
+            TargetEnd = TextLength;
+            SearchFlags = SearchFlags.None;
+            while (SearchInTarget(text) != -1)
+            {
+                // Mark the search results with the current indicator
+                IndicatorFillRange(TargetStart, TargetEnd - TargetStart);
+
+                // Search the remainder of the document
+                TargetStart = TargetEnd;
+                TargetEnd = TextLength;
+            }
+        }
+
+        private void HighlightLine(int line)
+        {
+            // Update indicator appearance
+            Indicators[NUM].Style = IndicatorStyle.RoundBox;
+            Indicators[NUM].Under = true;
+            Indicators[NUM].ForeColor = Color.Red;
+            Indicators[NUM].OutlineAlpha = 50;
+            Indicators[NUM].Alpha = 100;
+            //this.Indicators[NUM].Flags =IndicatorFlags.ValueFore;
+
+            // Search the document
+            //this.TargetStart = 0;
+            //this.TargetEnd = this.TextLength;
+            //this.SearchFlags = SearchFlags.None;
+            //while (this.SearchInTarget() != -1)
+            {
+                // Mark the search results with the current indicator
+                var lineWithError = Lines.FirstOrDefault(l => l.Index + 1 == line);
+                //this.IndicatorFillRange(this.TargetStart, this.TargetEnd - this.TargetStart);
+                if (lineWithError != null)
+                {
+                    //lineWithError.MarkerAdd(BOOKMARK_MARKER);
+                    IndicatorFillRange(lineWithError.Position, lineWithError.EndPosition - lineWithError.Position);
+                }
+
+                // Search the remainder of the document
+            }
         }
 
         public void SetFont(Font font)
@@ -374,12 +380,9 @@ namespace Computator.NET.UI.CodeEditors
             Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
 
             // Enable automatic folding
-            AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click |
-                             AutomaticFold.Change);
+            AutomaticFold = AutomaticFold.Show | AutomaticFold.Click |
+                            AutomaticFold.Change;
         }
-
-        private const int BOOKMARK_MARGIN = 1; // Conventionally the symbol margin
-        private const int BOOKMARK_MARKER = 3; // Arbitrary. Any valid index would work.
 
         private void InitializeComponent()
         {
@@ -399,7 +402,7 @@ namespace Computator.NET.UI.CodeEditors
             IndentWidth = 4;
 
 
-           /* var margin = this.Margins[BOOKMARK_MARGIN];
+            /* var margin = this.Margins[BOOKMARK_MARGIN];
             margin.Width = 16;
             margin.Sensitive = true;
             margin.Type = MarginType.Symbol;
@@ -437,7 +440,7 @@ namespace Computator.NET.UI.CodeEditors
 
                     // Is there a brace to the left or right?
                     if (caretPos > 0 && IsBrace(GetCharAt(caretPos - 1)))
-                        bracePos1 = (caretPos - 1);
+                        bracePos1 = caretPos - 1;
                     else if (IsBrace(GetCharAt(caretPos)))
                         bracePos1 = caretPos;
 
@@ -515,7 +518,7 @@ namespace Computator.NET.UI.CodeEditors
 
 #elif SCINTILLA_30
             var acList = new List<string>();
-            acList.AddRange(Enumerable.Select(array, t => t.Text));
+            acList.AddRange(array.Select(t => t.Text));
 
             var sb = new StringBuilder();
             foreach (var item in acList)
@@ -543,7 +546,7 @@ namespace Computator.NET.UI.CodeEditors
 
             if (ExponentMode)
             {
-                if (Enumerable.Contains(SpecialSymbols.AsciiForSuperscripts, e.KeyChar))
+                if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
                 {
                     e.KeyChar = SpecialSymbols.AsciiToSuperscript(e.KeyChar);
                 }
@@ -618,8 +621,6 @@ namespace Computator.NET.UI.CodeEditors
                 return true;
             return false;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

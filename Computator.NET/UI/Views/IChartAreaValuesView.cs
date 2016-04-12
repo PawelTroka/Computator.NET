@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 
 namespace Computator.NET.UI.Controls
 {

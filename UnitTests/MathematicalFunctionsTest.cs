@@ -7,6 +7,7 @@ using System.Reflection;
 using Computator.NET;
 using Computator.NET.Functions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 // ReSharper disable LocalizableElement
 
 namespace UnitTests
@@ -18,16 +19,17 @@ namespace UnitTests
         private const int steps = 50;
         private const double min = -10;
         private const double max = 10;
+        private readonly int[] A = Enumerable.Range(-10, 21).ToArray(); // {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        private readonly int[] Asmall = Enumerable.Range(-5, 11).ToArray();
 
         private readonly int[] Averysmall = Enumerable.Range(-3, 7).ToArray();
-        private readonly int[] Asmall = Enumerable.Range(-5, 11).ToArray();
-        private readonly int[] A = Enumerable.Range(-10, 21).ToArray();// {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
-                                                                       //  new int[] { -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-
-        private readonly double[] Xsmall = Enumerable.Range(0, stepsSmall)
-.Select(i => min + (max - min) * ((double)i / (steps - 1))).ToArray();
 
         private readonly double[] X = Enumerable.Range(0, steps)
+            .Select(i => min + (max - min)*((double) i/(steps - 1))).ToArray();
+
+        //  new int[] { -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+
+        private readonly double[] Xsmall = Enumerable.Range(0, stepsSmall)
             .Select(i => min + (max - min)*((double) i/(steps - 1))).ToArray();
 
         private Complex[] C;
@@ -67,7 +69,8 @@ namespace UnitTests
         public void StatisticsFunctionsTest()
         {
             var sstatisticsFunctions = new List<MethodInfo>();
-            sstatisticsFunctions.AddRange(typeof(StatisticsFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            sstatisticsFunctions.AddRange(
+                typeof (StatisticsFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
             //methodsToTest.AddRange(typeof(ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
             // methodsToTest.AddRange(typeof(StatisticFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
             TestFunctions(sstatisticsFunctions);
@@ -100,7 +103,7 @@ namespace UnitTests
                     {
                         var d = X[index1];
                         for (var i1 = 0;
-                            i1 < C.Length && (parameters.Any(p => p.ParameterType.IsComplex() || i1 == 0));
+                            i1 < C.Length && parameters.Any(p => p.ParameterType.IsComplex() || i1 == 0);
                             i1++)
                         {
                             var c = C[i1];
@@ -151,27 +154,26 @@ namespace UnitTests
         }
 
 
-
         [TestMethod]
         public void EnTest()
         {
             object ret = null;
 
             foreach (var i in A)
-                    foreach (var d1 in X)
+                foreach (var d1 in X)
 
+                {
+                    Trace.WriteLine($"Testing {nameof(EnTest)}, parameters: {i}; {d1}");
+                    try
                     {
-                        Trace.WriteLine($"Testing {nameof(EnTest)}, parameters: {i}; {d1}");
-                        try
-                        {
-                            ret = SpecialFunctions.En(i,d1);
-                        }
-                        catch (Exception ex)
-                        {
-                            Assert.Fail("Exception occured: " + ex);
-                        }
-                        Assert.IsNotNull(ret);
+                        ret = SpecialFunctions.En(i, d1);
                     }
+                    catch (Exception ex)
+                    {
+                        Assert.Fail("Exception occured: " + ex);
+                    }
+                    Assert.IsNotNull(ret);
+                }
         }
 
 
@@ -211,7 +213,7 @@ namespace UnitTests
                         Trace.WriteLine($"Testing {nameof(HypergeometricUTest)}, parameters: {d1}; {d2}; {d3}");
                         try
                         {
-                            ret = SpecialFunctions.HypergeometricU(d1,d2,d3);
+                            ret = SpecialFunctions.HypergeometricU(d1, d2, d3);
                         }
                         catch (Exception ex)
                         {
@@ -267,7 +269,6 @@ namespace UnitTests
                         Assert.IsNotNull(ret);
                     }
         }
-
 
 
         [TestMethod]
@@ -512,20 +513,20 @@ namespace UnitTests
         {
             object ret = null;
             foreach (var a in A)
-            foreach (var d1 in X)
-                foreach (var d2 in X)
+                foreach (var d1 in X)
+                    foreach (var d2 in X)
 
-                {
-                    try
                     {
-                        ret = SpecialFunctions.EllipticΠ(d1, d2,a);
+                        try
+                        {
+                            ret = SpecialFunctions.EllipticΠ(d1, d2, a);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
                     }
-                    catch (Exception ex)
-                    {
-                        Assert.Fail("Exception occured: " + ex);
-                    }
-                    Assert.IsNotNull(ret);
-                }
         }
 
         //MathieuMc
@@ -538,20 +539,20 @@ namespace UnitTests
             foreach (var a1 in A)
                 foreach (var a2 in A)
                     foreach (var d1 in X)
-                foreach (var d2 in X)
+                        foreach (var d2 in X)
 
-                {
-                    try
-                    {
-                                Debug.WriteLine(string.Format(@"MathieuMc({0},{1},{2},{3}", a1, a2, d1, d2));
+                        {
+                            try
+                            {
+                                Debug.WriteLine(@"MathieuMc({0},{1},{2},{3}", a1, a2, d1, d2);
                                 ret = SpecialFunctions.MathieuMc(a1, a2, d1, d2);
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.Fail("Exception occured: " + ex);
-                    }
-                    Assert.IsNotNull(ret);
-                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Assert.Fail("Exception occured: " + ex);
+                            }
+                            Assert.IsNotNull(ret);
+                        }
         }
 
         [TestMethod]
@@ -567,7 +568,7 @@ namespace UnitTests
                         {
                             try
                             {
-                                Debug.WriteLine(string.Format(@"MathieuMs({0},{1},{2},{3}", a1,a2,d1,d2));
+                                Debug.WriteLine(@"MathieuMs({0},{1},{2},{3}", a1, a2, d1, d2);
                                 ret = SpecialFunctions.MathieuMs(a1, a2, d1, d2);
                             }
                             catch (Exception ex)

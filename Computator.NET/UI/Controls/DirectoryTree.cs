@@ -3,83 +3,84 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Localization;
 using Computator.NET.UI.CodeEditors;
 
 namespace Computator.NET
 {
     public class DirectoryTree : TreeView
     {
-        public CodeEditorControlWrapper CodeEditorWrapper { get; set; }
-        private int id = 1;
+        public delegate void DirectorySelectedDelegate(object sender, DirectorySelectedEventArgs e);
+
+        private string _path;
         //private ContextMenu ctxMenu;
         //private ButtonClick _buttonClicked;
 
         private TreeNode ctxNode;
+        private int id = 1;
 
 
         public DirectoryTree()
         {
             InitializeComponent();
             AfterSelect += _AfterSelect;
-            
-            ContextMenu = new ContextMenu(new MenuItem[] {
-            new MenuItem(Strings.DirectoryTree_DirectoryTree_New_file, (o, e) =>
+
+            ContextMenu = new ContextMenu(new[]
             {
-                var attr = File.GetAttributes(ctxNode.FullPath);
-
-                TreeNode newNode = null;
-                if (attr.HasFlag(FileAttributes.Directory))
+                new MenuItem(Strings.DirectoryTree_DirectoryTree_New_file, (o, e) =>
                 {
-                    newNode = ctxNode.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file+" " + id);
+                    var attr = File.GetAttributes(ctxNode.FullPath);
 
-                }
-                else
-                {
-                    newNode = ctxNode.Parent.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file+" " + id);
-                }
-                id++;
+                    TreeNode newNode = null;
+                    if (attr.HasFlag(FileAttributes.Directory))
+                    {
+                        newNode = ctxNode.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id);
+                    }
+                    else
+                    {
+                        newNode = ctxNode.Parent.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id);
+                    }
+                    id++;
 
-                this.LabelEdit = true;
-                if(!newNode.IsEditing)
+                    LabelEdit = true;
+                    if (!newNode.IsEditing)
+                    {
+                        newNode.BeginEdit();
+                    }
+                    //CodeEditorWrapper?.NewDocument();
+                    //RefreshDisplay();
+                    //_buttonClicked = ButtonClick.New;
+                }),
+                new MenuItem(Strings.DirectoryTree_DirectoryTree_Rename_file, (o, e) =>
                 {
-                    newNode.BeginEdit();
-                }
-                //CodeEditorWrapper?.NewDocument();
-                //RefreshDisplay();
-                //_buttonClicked = ButtonClick.New;
-            }),
-            new MenuItem(Strings.DirectoryTree_DirectoryTree_Rename_file, (o, e) =>
-            {
-                //oldPath = ctxNode.FullPath;
-                if (ctxNode == TopNode)
-                    return;
-                this.LabelEdit = true;
+                    //oldPath = ctxNode.FullPath;
+                    if (ctxNode == TopNode)
+                        return;
+                    LabelEdit = true;
 
-                if (!ctxNode.IsEditing)
-                {
-                    ctxNode.BeginEdit();
-                    //ctxNode.EndEdit(true);
-                   /* if (oldPath != ctxNode.FullPath)
+                    if (!ctxNode.IsEditing)
+                    {
+                        ctxNode.BeginEdit();
+                        //ctxNode.EndEdit(true);
+                        /* if (oldPath != ctxNode.FullPath)
                     {
                         System.IO.File.Move(oldPath, ctxNode.FullPath);
                         CodeEditorWrapper?.RenameDocument(oldPath, ctxNode.FullPath);
                     }*/
+                        //RefreshDisplay();
+                        //_buttonClicked = ButtonClick.Rename;
+                    }
+                }),
+                new MenuItem(Strings.DirectoryTree_DirectoryTree_Delete_file, (o, e) =>
+                {
+                    if (ctxNode == TopNode)
+                        return;
+                    CodeEditorWrapper?.RemoveTab(ctxNode.FullPath);
+                    File.Delete(ctxNode.FullPath);
+                    Nodes.Remove(ctxNode);
+                    SelectedNode = TopNode;
                     //RefreshDisplay();
-                    //_buttonClicked = ButtonClick.Rename;
-                }
-            }),
-            new MenuItem(Strings.DirectoryTree_DirectoryTree_Delete_file, (o, e) =>
-            {
-                if (ctxNode == TopNode)
-                    return;
-                CodeEditorWrapper?.RemoveTab(ctxNode.FullPath);
-                File.Delete(ctxNode.FullPath);
-                Nodes.Remove(ctxNode);
-                SelectedNode = TopNode;
-                //RefreshDisplay();
-                //_buttonClicked =  ButtonClick.Delete;
-            })
+                    //_buttonClicked =  ButtonClick.Delete;
+                })
             });
 
             NodeMouseClick += DirectoryTree_NodeMouseDoubleClick;
@@ -87,24 +88,38 @@ namespace Computator.NET
             AfterLabelEdit += treeView1_AfterLabelEdit;
         }
 
-        private void treeView1_AfterLabelEdit(object sender, System.Windows.Forms.NodeLabelEditEventArgs e)
+        public CodeEditorControlWrapper CodeEditorWrapper { get; set; }
+
+        public string Path
+        {
+            get { return _path; }
+            set
+            {
+                _path = value;
+                if (_path != null)
+                    RefreshDisplay();
+            }
+        }
+
+        private void treeView1_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             if (CodeEditorWrapper == null)
                 return;
             //MessageBox.Show(e.Label);
             //MessageBox.Show(e.Node.Text);
-            if (e.Label == null && !System.IO.File.Exists(e.Node.FullPath)) // there was no change in default name and file does not yet exists - we need to create a new one
+            if (e.Label == null && !File.Exists(e.Node.FullPath))
+                // there was no change in default name and file does not yet exists - we need to create a new one
             {
                 createFile(e.Node.FullPath);
                 e.Node.EndEdit(false);
                 return;
             }
-            if (e.Label == null)//no changes to already existing file's name - do nothing
+            if (e.Label == null) //no changes to already existing file's name - do nothing
                 return;
 
             if (e.Label.Length > 0)
             {
-                if (e.Label.IndexOfAny(new char[] { '/', '\\', ':', '*', '<', '>', '|', '?', '"' }) == -1)
+                if (e.Label.IndexOfAny(new[] {'/', '\\', ':', '*', '<', '>', '|', '?', '"'}) == -1)
                 {
                     // Stop editing without canceling the label change.
 
@@ -113,7 +128,7 @@ namespace Computator.NET
                     {
                         var oldPath = e.Node.FullPath;
                         e.Node.Text = e.Label;
-                        if (oldPath != e.Node.FullPath || !System.IO.File.Exists(oldPath))
+                        if (oldPath != e.Node.FullPath || !File.Exists(oldPath))
                         {
                             File.Delete(e.Node.FullPath);
                             //if(File.Exists(oldPath))
@@ -122,7 +137,7 @@ namespace Computator.NET
                             var containsDocument = CodeEditorWrapper.ContainsDocument(oldPath);
                             if (containsDocument)
                             {
-                                System.IO.File.Move(oldPath, e.Node.FullPath);
+                                File.Move(oldPath, e.Node.FullPath);
                                 CodeEditorWrapper?.RenameDocument(oldPath, e.Node.FullPath);
                             }
                             else
@@ -140,8 +155,8 @@ namespace Computator.NET
                     //  place the node in edit mode again.
                     e.CancelEdit = true;
                     MessageBox.Show(Strings.DirectoryTree_treeView1_AfterLabelEdit_ +
-                       Strings.DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters,
-                       Strings.DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit);
+                                    Strings.DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters,
+                        Strings.DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit);
                     e.Node.BeginEdit();
                 }
             }
@@ -150,7 +165,9 @@ namespace Computator.NET
                 /* Cancel the label edit action, inform the user, and 
                        place the node in edit mode again. */
                 e.CancelEdit = true;
-                MessageBox.Show(Strings.DirectoryTree_treeView1_AfterLabelEdit_+Strings.DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank
+                MessageBox.Show(
+                    Strings.DirectoryTree_treeView1_AfterLabelEdit_ +
+                    Strings.DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank
                     ,
                     Strings.DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit);
                 e.Node.BeginEdit();
@@ -159,7 +176,7 @@ namespace Computator.NET
 
         private void createFile(string fullPath)
         {
-            var sr = System.IO.File.CreateText(fullPath);
+            var sr = File.CreateText(fullPath);
             sr.Close();
             CodeEditorWrapper.NewDocument(fullPath);
         }
@@ -183,33 +200,18 @@ namespace Computator.NET
         {
             if (CodeEditorWrapper == null) return;
 
-            if (CodeEditorWrapper.ContainsDocument(this.SelectedNode.FullPath))
+            if (CodeEditorWrapper.ContainsDocument(SelectedNode.FullPath))
             {
-                if (CodeEditorWrapper.CurrentFileName != this.SelectedNode.FullPath)
+                if (CodeEditorWrapper.CurrentFileName != SelectedNode.FullPath)
                 {
-                    CodeEditorWrapper.SwitchTab(this.SelectedNode.FullPath);
+                    CodeEditorWrapper.SwitchTab(SelectedNode.FullPath);
                     //CodeEditorWrapper.CurrentFileName = this.SelectedNode.FullPath;
                     //CodeEditorWrapper.SwitchDocument(this.SelectedNode.FullPath);
                 }
             }
-            else if (File.Exists(this.SelectedNode.FullPath))
+            else if (File.Exists(SelectedNode.FullPath))
             {
-                CodeEditorWrapper.NewDocument(this.SelectedNode.FullPath);
-            }
-        }
-
-        public delegate void DirectorySelectedDelegate(object sender, DirectorySelectedEventArgs e);
-
-        private string _path;
-
-        public string Path
-        {
-            get { return _path; }
-            set
-            {
-                _path = value;
-                if (_path != null)
-                    RefreshDisplay();
+                CodeEditorWrapper.NewDocument(SelectedNode.FullPath);
             }
         }
 

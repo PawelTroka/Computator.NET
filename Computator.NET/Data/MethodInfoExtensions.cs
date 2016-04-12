@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Computator.NET.Data
@@ -8,17 +9,14 @@ namespace Computator.NET.Data
     public static class MethodInfoExtensions
     {
         /// <summary>
-        /// Return the method signature as a string.
+        ///     Return the method signature as a string.
         /// </summary>
-        ///
         /// <param name="property">
-        /// The property to act on.
+        ///     The property to act on.
         /// </param>
-        ///
         /// <returns>
-        /// Method signature.
+        ///     Method signature.
         /// </returns>
-
         public static string GetSignature(this PropertyInfo property)
         {
             var getter = property.GetGetMethod();
@@ -48,27 +46,22 @@ namespace Computator.NET.Data
             }
             sigBuilder.Append("}");
             return sigBuilder.ToString();
-
         }
 
         /// <summary>
-        /// Return the method signature as a string.
+        ///     Return the method signature as a string.
         /// </summary>
-        ///
         /// <param name="method">
-        /// The Method.
+        ///     The Method.
         /// </param>
         /// <param name="callable">
-        /// Return as an callable string(public void a(string b) would return a(b))
+        ///     Return as an callable string(public void a(string b) would return a(b))
         /// </param>
-        ///
         /// <returns>
-        /// Method signature.
+        ///     Method signature.
         /// </returns>
-
         public static string GetSignature(this MethodInfo method, bool callable = false)
         {
-
             var sigBuilder = new StringBuilder();
 
             BuildReturnSignature(sigBuilder, method, callable);
@@ -84,7 +77,7 @@ namespace Computator.NET.Data
                 if (firstParam)
                 {
                     firstParam = false;
-                    if (method.IsDefined(typeof(System.Runtime.CompilerServices.ExtensionAttribute), false))
+                    if (method.IsDefined(typeof (ExtensionAttribute), false))
                     {
                         if (callable)
                         {
@@ -94,7 +87,7 @@ namespace Computator.NET.Data
                         sigBuilder.Append("this ");
                     }
                 }
-                else if (secondParam == true)
+                else if (secondParam)
                     secondParam = false;
                 else
                     sigBuilder.Append(", ");
@@ -131,7 +124,7 @@ namespace Computator.NET.Data
 
             foreach (var arg in method.GetGenericArguments())
             {
-                List<string> constraints = new List<string>();
+                var constraints = new List<string>();
                 foreach (var constraint in arg.GetGenericParameterConstraints())
                 {
                     constraints.Add(TypeName(constraint));
@@ -153,28 +146,23 @@ namespace Computator.NET.Data
                 }
                 if (constraints.Count > 0)
                 {
-                    sigBuilder.Append(" where " + TypeName(arg) + ": " + String.Join(", ", constraints));
+                    sigBuilder.Append(" where " + TypeName(arg) + ": " + string.Join(", ", constraints));
                 }
             }
-
-
 
 
             return sigBuilder.ToString();
         }
 
         /// <summary>
-        /// Get full type name with full namespace names.
+        ///     Get full type name with full namespace names.
         /// </summary>
-        ///
         /// <param name="type">
-        /// Type. May be generic or nullable.
+        ///     Type. May be generic or nullable.
         /// </param>
-        ///
         /// <returns>
-        /// Full type name, fully qualified namespaces.
+        ///     Full type name, fully qualified namespaces.
         /// </returns>
-
         public static string TypeName(Type type)
         {
             var nullableType = Nullable.GetUnderlyingType(type);
@@ -193,7 +181,6 @@ namespace Computator.NET.Data
 
                 //if (type.Si
                 return TypeNameToAliasTsl(type.Name);
-
             }
 
             var sb = new StringBuilder(type.Name.Substring(0,
@@ -218,22 +205,33 @@ namespace Computator.NET.Data
         {
             switch (type.Name)
             {
-                case "String": return "string";
-                case "Int16": return "short";
-                case "UInt16": return "ushort";
-                case "Int32": return "int";
-                case "UInt32": return "uint";
-                case "Int64": return "long";
-                case "UInt64": return "ulong";
-                case "Decimal": return "decimal";
-                case "Double": return "double";
-                case "Object": return "object";
-                case "Void": return "void";
+                case "String":
+                    return "string";
+                case "Int16":
+                    return "short";
+                case "UInt16":
+                    return "ushort";
+                case "Int32":
+                    return "int";
+                case "UInt32":
+                    return "uint";
+                case "Int64":
+                    return "long";
+                case "UInt64":
+                    return "ulong";
+                case "Decimal":
+                    return "decimal";
+                case "Double":
+                    return "double";
+                case "Object":
+                    return "object";
+                case "Void":
+                    return "void";
 
                 default:
-                    {
-                        return string.IsNullOrWhiteSpace(type.FullName) ? type.Name : type.FullName;
-                    }
+                {
+                    return string.IsNullOrWhiteSpace(type.FullName) ? type.Name : type.FullName;
+                }
             }
         }
 
@@ -302,23 +300,19 @@ namespace Computator.NET.Data
                 }
                 sigBuilder.Append(">");
             }
-
         }
 
         private static string Visibility(MethodInfo method)
         {
             if (method.IsPublic)
                 return "public";
-            else if (method.IsPrivate)
+            if (method.IsPrivate)
                 return "private";
-            else if (method.IsAssembly)
+            if (method.IsAssembly)
                 return "internal";
-            else if (method.IsFamily)
+            if (method.IsFamily)
                 return "protected";
-            else
-            {
-                throw new Exception("I wasn't able to parse the visibility of this method.");
-            }
+            throw new Exception("I wasn't able to parse the visibility of this method.");
         }
 
         private static MethodInfo LeastRestrictiveVisibility(MethodInfo member1, MethodInfo member2)
@@ -327,42 +321,37 @@ namespace Computator.NET.Data
             {
                 return member1;
             }
-            else if (member2 != null && member1 == null)
+            if (member2 != null && member1 == null)
             {
                 return member2;
             }
 
-            int vis1 = VisibilityValue(member1);
-            int vis2 = VisibilityValue(member2);
+            var vis1 = VisibilityValue(member1);
+            var vis2 = VisibilityValue(member2);
             if (vis1 < vis2)
             {
                 return member1;
             }
-            else
-            {
-                return member2;
-            }
+            return member2;
         }
 
         private static int VisibilityValue(MethodInfo method)
         {
             if (method.IsPublic)
                 return 1;
-            else if (method.IsFamily)
+            if (method.IsFamily)
                 return 2;
-            else if (method.IsAssembly)
+            if (method.IsAssembly)
                 return 3;
-            else if (method.IsPrivate)
+            if (method.IsPrivate)
                 return 4;
-            else
-            {
-                throw new Exception("I wasn't able to parse the visibility of this method.");
-            }
+            throw new Exception("I wasn't able to parse the visibility of this method.");
         }
 
         public static bool IsParamArray(ParameterInfo info)
         {
-            return info.GetCustomAttributes(typeof(ParamArrayAttribute), true) != null && info.GetCustomAttributes(typeof(ParamArrayAttribute), true).Length>0;
+            return info.GetCustomAttributes(typeof (ParamArrayAttribute), true) != null &&
+                   info.GetCustomAttributes(typeof (ParamArrayAttribute), true).Length > 0;
         }
     }
 }
