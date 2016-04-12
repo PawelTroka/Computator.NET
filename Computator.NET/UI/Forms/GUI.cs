@@ -9,7 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -40,68 +39,6 @@ using Settings = Computator.NET.Properties.Settings;
 
 namespace Computator.NET
 {
-    public interface IMainForm
-    {
-        IChartAreaValuesView chartAreaValuesView1 { get; }
-        ICalculationsView CalculationsView { get; }
-
-        ICodeEditorControl ScriptingCodeEditorControl { get; }
-
-        ICodeEditorControl CustomFunctionsCodeEditorControl { get; }
-
-
-        ReadOnlyDictionary<CalculationsMode, IChart> charts { get; }
-        IExpressionView ExpressionView { get; }
-        string ModeText { get; set; }
-
-        IEditChartMenus EditChartMenus { get; }
-
-        event EventHandler ModeForcedToReal;
-        event EventHandler ModeForcedToComplex;
-        event EventHandler ModeForcedToFxy;
-
-        event EventHandler PrintClicked;
-        event EventHandler PrintPreviewClicked;
-
-        void SendStringAsKey(string key);
-
-        int SelectedViewIndex { get; set; }
-
-        event EventHandler EnterClicked;
-    }
-
-
-    public interface IErrorHandler
-    {
-        void DispalyError(string message, string title);
-        void LogError(string message, ErrorType errorType, Exception ex);
-    }
-
-    public class SimpleErrorHandler : IErrorHandler
-{
-        private readonly SimpleLogger logger;
-
-        public static SimpleErrorHandler Instance => _instance ?? (_instance = new SimpleErrorHandler());
-
-        private static SimpleErrorHandler _instance;
-        private SimpleErrorHandler()
-        {
-            logger = new SimpleLogger(this);
-        }
-
-        public void DispalyError(string message, string title)
-        {
-            MessageBox.Show(message, title);
-        }
-
-        public void LogError(string message, ErrorType errorType, Exception ex)
-        {
-            logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log(message, ErrorType.General, ex);
-        }
-}
-
-
     public partial class GUI : LocalizedForm, IMainForm
     {
         public IChartAreaValuesView chartAreaValuesView1 { get; } = new ChartAreaValuesView() { Dock = DockStyle.Right };
@@ -490,12 +427,11 @@ namespace Computator.NET
 
 
             InitializeComponent();
-            /////calculationsTabPage.Controls.Add(CalculationsView as Control);
+            calculationsTabPage.Controls.Add(CalculationsView as Control);
             InitializeFunctions();
             InitializeCharts(); //takes more time then it should
             expressionTextBox.RefreshAutoComplete();
             SetupAllComboBoxes();
-            attachEventHandlers();
             toolStripStatusLabel1.Text = GlobalConfig.version;
             customFunctionsDirectoryTree.Path = Settings.Default.CustomFunctionsDirectory; //Path.Combine(GlobalConfig.basePath,
                 //Settings.Default.CustomFunctionsDirectory);// Settings.Default.ScriptingDirectory;//GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
@@ -685,11 +621,6 @@ namespace Computator.NET
 
             scriptingDirectoryTree.CodeEditorWrapper = scriptingCodeEditor;
             customFunctionsDirectoryTree.CodeEditorWrapper = customFunctionsCodeEditor;
-        }
-
-        private void attachEventHandlers()
-        {
-
         }
 
         private void SetupAllComboBoxes()

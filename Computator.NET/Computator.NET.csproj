@@ -136,6 +136,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Numerics" />
@@ -230,6 +231,9 @@
     <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Forms\IErrorHandler.cs" />
+    <Compile Include="UI\Forms\IMainForm.cs" />
+    <Compile Include="UI\Forms\SimpleErrorHandler.cs" />
     <Compile Include="UI\Views\CalculationsPresenter.cs" />
     <Compile Include="UI\Views\CalculationsView.cs">
       <SubType>UserControl</SubType>
@@ -497,6 +501,9 @@
       <Project>{9c4052d5-2c6b-404c-adac-66e93069824e}</Project>
       <Name>SimpleLogger</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

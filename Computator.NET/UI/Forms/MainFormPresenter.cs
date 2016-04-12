@@ -35,10 +35,10 @@ namespace Computator.NET
               //  processButton_Click
              };
 
-            _view.EnterClicked += (o, e) => defaultActions[_view.SelectedViewIndex].Invoke(o, e);
 
             _view = view;
             this.errorHandler = errorHandler;
+            _view.EnterClicked += (o, e) => defaultActions[_view.SelectedViewIndex].Invoke(o, e);
 
             _view.chartAreaValuesView1.QualityChanged += ChartAreaValuesView_QualityChanged;
 
