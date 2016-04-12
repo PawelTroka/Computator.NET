@@ -7,7 +7,9 @@ using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Properties;
+using Computator.NET.UI.Controls;
 using Computator.NET.UI.Forms;
+using Computator.NET.UI.Views;
 
 namespace Computator.NET
 {
@@ -36,10 +38,23 @@ namespace Computator.NET
 
             var mainForm = new GUI();
 
-            var mainFormPresenter = new MainFormPresenter(mainForm, SimpleErrorHandler.Instance);
+            SetPresenters(mainForm);
+
+
 
             LoadingScreen.CloseForm();
             Application.Run(mainForm);
+        }
+
+        private static void SetPresenters(IMainForm mainForm)
+        {
+            var mainFormPresenter = new MainFormPresenter(mainForm, SimpleErrorHandler.Instance);
+            var chartAreaViewPresenter = new ChartAreaValuesPresenter(mainForm.chartAreaValuesView1);
+            var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView);
+            var numericalCalculationsPresenter = new NumericalCalculationsPresenter(mainForm.NumericalCalculationsView,
+                SimpleErrorHandler.Instance,
+                mainForm.ExpressionView,mainForm.CustomFunctionsCodeEditorControl);
+
         }
 
 

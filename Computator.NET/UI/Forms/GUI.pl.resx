@@ -149,20 +149,11 @@
   <data name="openCustomFunctionsDirectoryButton.Text" xml:space="preserve">
     <value>Otwórz katalog</value>
   </data>
-  <data name="maxErrorGroupBox.Text" xml:space="preserve">
-    <value>Maksymalny błąd:</value>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Wykres</value>
   </data>
   <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Kalkulator</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Metoda:</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Operacja:</value>
-  </data>
-  <data name="numericalOperationButton.Text" xml:space="preserve">
-    <value>Oblicz</value>
   </data>
   <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
     <value>Obliczenia numeryczne</value>
@@ -178,33 +169,6 @@
   </data>
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Własne funkcje</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Wyrażenie:</value>
-  </data>
-  <data name="newToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Nowy</value>
-  </data>
-  <data name="openToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Otwórz</value>
-  </data>
-  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
-    <value>Zapi&amp;sz</value>
-  </data>
-  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Z&amp;apisz jako</value>
-  </data>
-  <data name="printToolStripMenuItem.Text" xml:space="preserve">
-    <value>Drukuj</value>
-  </data>
-  <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
-    <value>Podgląd wydruku</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>Wyjście</value>
-  </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Plik</value>
   </data>
   <data name="undoToolStripMenuItem.Text" xml:space="preserve">
     <value>Cofnij                            Ctrl+Z</value>
@@ -263,9 +227,6 @@
   <data name="toolStripMenuItem41.Text" xml:space="preserve">
     <value>&amp;Logi</value>
   </data>
-  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Narzędzia</value>
-  </data>
   <data name="toolStripMenuItem43.Text" xml:space="preserve">
     <value>Możliwości</value>
   </data>
@@ -277,9 +238,6 @@
   </data>
   <data name="toolStripMenuItem46.Text" xml:space="preserve">
     <value>Zgłaszanie &amp;błędów</value>
-  </data>
-  <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Pomoc</value>
   </data>
   <data name="newToolStripButton.Text" xml:space="preserve">
     <value>&amp;Nowy</value>
@@ -308,6 +266,39 @@
   <data name="runToolStripButton.Text" xml:space="preserve">
     <value>Uruchom</value>
   </data>
+  <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Pomoc</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Narzędzia</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wyjście</value>
+  </data>
+  <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
+    <value>Podgląd wydruku</value>
+  </data>
+  <data name="printToolStripMenuItem.Text" xml:space="preserve">
+    <value>Drukuj</value>
+  </data>
+  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Z&amp;apisz jako</value>
+  </data>
+  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zapi&amp;sz</value>
+  </data>
+  <data name="openToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Otwórz</value>
+  </data>
+  <data name="newToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Nowy</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Wyrażenie:</value>
+  </data>
   <data name="chartToolStripMenuItem.Text" xml:space="preserve">
     <value>Wykres</value>
   </data>
@@ -316,6 +307,9 @@
   </data>
   <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
     <value>Wykres</value>
+  </data>
+  <data name="mathematicalConstantsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Stałe matematyczne</value>
   </data>
   <data name="addToChartButton.Text" xml:space="preserve">
     <value>Dodaj do wykresu</value>
@@ -328,6 +322,66 @@
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Jakość wykresu:</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
+    <value>Rezultat</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>Wyrażenie</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Wynik:</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>dla wartości:</value>
+  </data>
+  <data name="calculateButton.Text" xml:space="preserve">
+    <value>Policz!</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Metoda:</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>rząd n =</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>punkt x =</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Operacja:</value>
+  </data>
+  <data name="numericalOperationButton.Text" xml:space="preserve">
+    <value>Oblicz</value>
+  </data>
+  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
+    <value>Pochodna funkcji w punkcie</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Wynik:</value>
+  </data>
+  <data name="result.HeaderText" xml:space="preserve">
+    <value>Rezultat</value>
+  </data>
+  <data name="parameters.HeaderText" xml:space="preserve">
+    <value>Parametry</value>
+  </data>
+  <data name="method.HeaderText" xml:space="preserve">
+    <value>Metoda</value>
+  </data>
+  <data name="operation.HeaderText" xml:space="preserve">
+    <value>Operacja</value>
+  </data>
+  <data name="function.HeaderText" xml:space="preserve">
+    <value>Funkcja</value>
+  </data>
+  <data name="maxErrorGroupBox.Text" xml:space="preserve">
+    <value>Maksymalny błąd:</value>
+  </data>
+  <data name="stepsGroupBox.Text" xml:space="preserve">
+    <value>Liczba kroków:</value>
+  </data>
+  <data name="intervalGroupBox.Text" xml:space="preserve">
+    <value>Przedział</value>
   </data>
   <data name="toolStripMenuItem8.Text" xml:space="preserve">
     <value>Eksportuj</value>
@@ -388,57 +442,6 @@
   </data>
   <data name="toolStripMenuItem29.Text" xml:space="preserve">
     <value>Edytuj właściwości...</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
-    <value>Rezultat</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>Wyrażenie</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Wynik:</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>dla wartości:</value>
-  </data>
-  <data name="calculateButton.Text" xml:space="preserve">
-    <value>Policz!</value>
-  </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Wykres</value>
-  </data>
-  <data name="result.HeaderText" xml:space="preserve">
-    <value>Rezultat</value>
-  </data>
-  <data name="parameters.HeaderText" xml:space="preserve">
-    <value>Parametry</value>
-  </data>
-  <data name="method.HeaderText" xml:space="preserve">
-    <value>Metoda</value>
-  </data>
-  <data name="operation.HeaderText" xml:space="preserve">
-    <value>Operacja</value>
-  </data>
-  <data name="function.HeaderText" xml:space="preserve">
-    <value>Funkcja</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Wynik:</value>
-  </data>
-  <data name="intervalGroupBox.Text" xml:space="preserve">
-    <value>Przedział</value>
-  </data>
-  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Pochodna funkcji w punkcie</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>punkt x =</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>rząd n =</value>
-  </data>
-  <data name="stepsGroupBox.Text" xml:space="preserve">
-    <value>Liczba kroków:</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">

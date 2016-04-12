@@ -370,4 +370,67 @@
   <data name="GSLInitializer_HandleUnmanagedException_Error_code" xml:space="preserve">
     <value>Error code</value>
   </data>
+  <data name="trapezoidal_method" xml:space="preserve">
+    <value>trapezoidal method</value>
+  </data>
+  <data name="rectangle_method" xml:space="preserve">
+    <value>rectangle method</value>
+  </data>
+  <data name="Simpson_s_method" xml:space="preserve">
+    <value>Simpson's method</value>
+  </data>
+  <data name="double_exponential_transformation" xml:space="preserve">
+    <value>double exponential transformation</value>
+  </data>
+  <data name="Monte_Carlo_method" xml:space="preserve">
+    <value>Monte Carlo method</value>
+  </data>
+  <data name="Romberg_s_method" xml:space="preserve">
+    <value>Romberg's method</value>
+  </data>
+  <data name="Integral" xml:space="preserve">
+    <value>Integral</value>
+  </data>
+  <data name="Derivative" xml:space="preserve">
+    <value>Derivative</value>
+  </data>
+  <data name="Function_root" xml:space="preserve">
+    <value>Function root</value>
+  </data>
+  <data name="centered_order_point_method" xml:space="preserve">
+    <value>centered order-point method</value>
+  </data>
+  <data name="finite_difference_formula" xml:space="preserve">
+    <value>finite difference formula</value>
+  </data>
+  <data name="two_point_finite_difference_formula" xml:space="preserve">
+    <value>two-point finite difference formula</value>
+  </data>
+  <data name="stable_finite_difference_formula" xml:space="preserve">
+    <value>stable finite difference formula</value>
+  </data>
+  <data name="centered_five_point_method" xml:space="preserve">
+    <value>centered five-point method</value>
+  </data>
+  <data name="bisection_method" xml:space="preserve">
+    <value>bisection method</value>
+  </data>
+  <data name="secant_method" xml:space="preserve">
+    <value>secant method</value>
+  </data>
+  <data name="Brent_s_method" xml:space="preserve">
+    <value>Brent's method</value>
+  </data>
+  <data name="Broyden_s_method" xml:space="preserve">
+    <value>Broyden's method</value>
+  </data>
+  <data name="secant_Newton_Raphson_method" xml:space="preserve">
+    <value>secant Newton Raphson method</value>
+  </data>
+  <data name="non_adaptive_Gauss_Kronrod_method" xml:space="preserve">
+    <value>non-adaptive Gauss–Kronrod method</value>
+  </data>
+  <data name="infinity_adaptive_Gauss_Kronrod_method" xml:space="preserve">
+    <value>infinity-adaptive Gauss–Kronrod method</value>
+  </data>
 </root>

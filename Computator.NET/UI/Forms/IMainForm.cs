@@ -13,6 +13,8 @@ namespace Computator.NET
         IChartAreaValuesView chartAreaValuesView1 { get; }
         ICalculationsView CalculationsView { get; }
 
+        INumericalCalculationsView NumericalCalculationsView { get; }
+
         ICodeEditorControl ScriptingCodeEditorControl { get; }
 
         ICodeEditorControl CustomFunctionsCodeEditorControl { get; }

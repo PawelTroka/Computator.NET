@@ -88,11 +88,38 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to bisection method.
+        /// </summary>
+        public static string bisection_method {
+            get {
+                return ResourceManager.GetString("bisection_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to source:.
         /// </summary>
         public static string BrBrISourceBrAHref {
             get {
                 return ResourceManager.GetString("BrBrISourceBrAHref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brent&apos;s method.
+        /// </summary>
+        public static string Brent_s_method {
+            get {
+                return ResourceManager.GetString("Brent_s_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Broyden&apos;s method.
+        /// </summary>
+        public static string Broyden_s_method {
+            get {
+                return ResourceManager.GetString("Broyden_s_method", resourceCulture);
             }
         }
         
@@ -115,6 +142,24 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to centered five-point method.
+        /// </summary>
+        public static string centered_five_point_method {
+            get {
+                return ResourceManager.GetString("centered_five_point_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to centered order-point method.
+        /// </summary>
+        public static string centered_order_point_method {
+            get {
+                return ResourceManager.GetString("centered_order_point_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chart.
         /// </summary>
         public static string Chart {
@@ -129,6 +174,15 @@ namespace Computator.NET.DataTypes.Localization {
         public static string ConsoleOutput {
             get {
                 return ResourceManager.GetString("ConsoleOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Derivative.
+        /// </summary>
+        public static string Derivative {
+            get {
+                return ResourceManager.GetString("Derivative", resourceCulture);
             }
         }
         
@@ -278,6 +332,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to double exponential transformation.
+        /// </summary>
+        public static string double_exponential_transformation {
+            get {
+                return ResourceManager.GetString("double_exponential_transformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draw chart.
         /// </summary>
         public static string DrawChart {
@@ -347,12 +410,30 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to finite difference formula.
+        /// </summary>
+        public static string finite_difference_formula {
+            get {
+                return ResourceManager.GetString("finite_difference_formula", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For chosen values one (or more) of the functions in your expression cannot convergence
         ///.
         /// </summary>
         public static string ForChosenValuesOneOrMoreOfTheFunctionsInYourExpressionCannotConvergence {
             get {
                 return ResourceManager.GetString("ForChosenValuesOneOrMoreOfTheFunctionsInYourExpressionCannotConvergence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function root.
+        /// </summary>
+        public static string Function_root {
+            get {
+                return ResourceManager.GetString("Function_root", resourceCulture);
             }
         }
         
@@ -523,6 +604,24 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to infinity-adaptive Gauss–Kronrod method.
+        /// </summary>
+        public static string infinity_adaptive_Gauss_Kronrod_method {
+            get {
+                return ResourceManager.GetString("infinity_adaptive_Gauss_Kronrod_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Integral.
+        /// </summary>
+        public static string Integral {
+            get {
+                return ResourceManager.GetString("Integral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of steps should be small, default is 6.
         /// </summary>
         public static string Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6 {
@@ -582,6 +681,15 @@ namespace Computator.NET.DataTypes.Localization {
         public static string memoryTestBackgroundWorker_RunWorkerCompleted {
             get {
                 return ResourceManager.GetString("memoryTestBackgroundWorker_RunWorkerCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monte Carlo method.
+        /// </summary>
+        public static string Monte_Carlo_method {
+            get {
+                return ResourceManager.GetString("Monte_Carlo_method", resourceCulture);
             }
         }
         
@@ -685,6 +793,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to non-adaptive Gauss–Kronrod method.
+        /// </summary>
+        public static string non_adaptive_Gauss_Kronrod_method {
+            get {
+                return ResourceManager.GetString("non_adaptive_Gauss_Kronrod_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to other contributors.
         /// </summary>
         public static string otherContributors {
@@ -748,11 +865,56 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to rectangle method.
+        /// </summary>
+        public static string rectangle_method {
+            get {
+                return ResourceManager.GetString("rectangle_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  result: .
         /// </summary>
         public static string Result {
             get {
                 return ResourceManager.GetString("Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Romberg&apos;s method.
+        /// </summary>
+        public static string Romberg_s_method {
+            get {
+                return ResourceManager.GetString("Romberg_s_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to secant method.
+        /// </summary>
+        public static string secant_method {
+            get {
+                return ResourceManager.GetString("secant_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to secant Newton Raphson method.
+        /// </summary>
+        public static string secant_Newton_Raphson_method {
+            get {
+                return ResourceManager.GetString("secant_Newton_Raphson_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simpson&apos;s method.
+        /// </summary>
+        public static string Simpson_s_method {
+            get {
+                return ResourceManager.GetString("Simpson_s_method", resourceCulture);
             }
         }
         
@@ -766,11 +928,38 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to stable finite difference formula.
+        /// </summary>
+        public static string stable_finite_difference_formula {
+            get {
+                return ResourceManager.GetString("stable_finite_difference_formula", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to translators.
         /// </summary>
         public static string translators {
             get {
                 return ResourceManager.GetString("translators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to trapezoidal method.
+        /// </summary>
+        public static string trapezoidal_method {
+            get {
+                return ResourceManager.GetString("trapezoidal_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to two-point finite difference formula.
+        /// </summary>
+        public static string two_point_finite_difference_formula {
+            get {
+                return ResourceManager.GetString("two_point_finite_difference_formula", resourceCulture);
             }
         }
         

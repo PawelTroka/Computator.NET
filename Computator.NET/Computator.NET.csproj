@@ -320,6 +320,14 @@
     <Compile Include="UI\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs" />
     <Compile Include="UI\Views\ICalculationsView.cs" />
     <Compile Include="UI\Views\IChartAreaValuesView.cs" />
+    <Compile Include="UI\Views\INumericalCalculationsView.cs" />
+    <Compile Include="UI\Views\NumericalCalculationsPresenter.cs" />
+    <Compile Include="UI\Views\NumericalCalculationsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Views\NumericalCalculationsView.Designer.cs">
+      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -383,6 +391,18 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\NumericalCalculationsView.cs.resx">
+      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\NumericalCalculationsView.de.resx">
+      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\NumericalCalculationsView.pl.resx">
+      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\NumericalCalculationsView.resx">
+      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Computator.NET.pfx" />

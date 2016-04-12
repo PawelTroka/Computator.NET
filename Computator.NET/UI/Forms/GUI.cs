@@ -56,6 +56,7 @@ namespace Computator.NET
         private ComplexChart complexChart => charts[CalculationsMode.Complex] as ComplexChart;
         public IChartAreaValuesView chartAreaValuesView1 { get; } = new ChartAreaValuesView {Dock = DockStyle.Right};
         public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
+        public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView() { Dock = DockStyle.Fill };
 
         public ICodeEditorControl ScriptingCodeEditorControl
         {
@@ -448,6 +449,7 @@ namespace Computator.NET
         {
             InitializeComponent();
             calculationsTabPage.Controls.Add(CalculationsView as Control);
+            numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
             InitializeFunctions();
             InitializeCharts(); //takes more time then it should
             expressionTextBox.RefreshAutoComplete();
@@ -503,11 +505,8 @@ namespace Computator.NET
             }
         }
 
-        //int licz = 0;
-
         private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //MessageBox.Show("chuj: " + (++licz));
             switch (e.PropertyName)
             {
                 case "Language":
@@ -539,11 +538,7 @@ namespace Computator.NET
 
         private void InitializeFonts()
         {
-            function.DefaultCellStyle.Font = CustomFonts.GetMathFont(function.DefaultCellStyle.Font.Size);
-            result.DefaultCellStyle.Font = CustomFonts.GetMathFont(result.DefaultCellStyle.Font.Size);
 
-            resultNumericalCalculationsTextBox.Font =
-                CustomFonts.GetMathFont(resultNumericalCalculationsTextBox.Font.Size);
 
             consoleOutputTextBox.Font = CustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
         }
@@ -599,13 +594,6 @@ namespace Computator.NET
         {
             panel2.Controls.Add(chartAreaValuesView1 as Control);
 
-            //  chartAreaValuesView1.AddClicked += addToChartButton_Click;
-            //    chartAreaValuesView1.ClearClicked += clearChartButton_Click;
-
-
-            //  ((ISupportInitialize) chart2d).BeginInit();
-
-
             panel2.Controls.Add(chart2d);
             panel2.Controls.Add(complexChart);
             panel2.Controls.Add(chart3d.ParentControl);
@@ -614,13 +602,9 @@ namespace Computator.NET
             chart3d.ParentControl.BringToFront();
             complexChart.Visible = false;
             chart3d.ParentControl.Visible = false;
-            // ((ISupportInitialize) chart2d).EndInit();
-
 
             editChartMenus = new EditChartMenus(chart2d, complexChart, chart3d, chart3d.ParentControl);
 
-            //  menuStrip2.Items.Insert(4, editChartMenus.chart3DToolStripMenuItem);
-            // menuStrip2.Items.Insert(4, editChartMenus.comlexChartToolStripMenuItem);
             menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
         }
 
@@ -644,14 +628,6 @@ namespace Computator.NET
 
         private void SetupAllComboBoxes()
         {
-            NumericalCalculation.setupOperations(operationNumericalCalculationsComboBox);
-            NumericalCalculation.setupMethods(methodNumericalCalculationsComboBox,
-                operationNumericalCalculationsComboBox);
-            NumericalCalculation.setupGroupBoxes(operationNumericalCalculationsComboBox,
-                derivativeAtPointGroupBox,
-                intervalGroupBox, maxErrorGroupBox, stepsGroupBox);
-
-
             languageToolStripComboBox.Items.Add(new CultureInfo("en").NativeName);
             languageToolStripComboBox.Items.Add(new CultureInfo("pl").NativeName);
             languageToolStripComboBox.Items.Add(new CultureInfo("de").NativeName);
@@ -707,82 +683,6 @@ namespace Computator.NET
                 menuFunctionsToolTip.Show();
             }
         }
-
-        private void operationNumericalCalculationsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            NumericalCalculation.setupMethods(methodNumericalCalculationsComboBox,
-                operationNumericalCalculationsComboBox);
-
-            NumericalCalculation.setupGroupBoxes(operationNumericalCalculationsComboBox,
-                derivativeAtPointGroupBox,
-                intervalGroupBox, maxErrorGroupBox, stepsGroupBox);
-        }
-
-        private void numericalOperationButton_Click(object sender, EventArgs e)
-        {
-            var method = methodNumericalCalculationsComboBox.SelectedItem.ToString();
-            var operation = operationNumericalCalculationsComboBox.SelectedItem.ToString();
-
-/*//TODO: MVP
-            if (_calculationsMode == CalculationsMode.Real)
-            {
-                var function = expressionsEvaluator.Evaluate(expressionTextBox.Text,
-                    customFunctionsCodeEditor.Text, _calculationsMode);
-
-                Func<double, double> fx = (double x) => function.Evaluate(x);
-
-                var result = double.NaN;
-                double eps;
-
-                if (!double.TryParse(epsTextBox.Text, out eps))
-                {
-                    MessageBox.Show(Strings.GivenΕIsNotValid, Strings.Error);
-                    return;
-                }
-                if (!(eps > 0.0) || !(eps < 1))
-                {
-                    MessageBox.Show(
-                        Strings.GivenΕIsNotValidΕShouldBeSmallPositiveNumber, Strings.Error);
-                    return;
-                }
-
-                var a = (double) aIntervalNumericUpDown.Value;
-                var b = (double) bIntervalNumericUpDown.Value;
-                var n = (int) nStepsNumericUpDown.Value;
-                var order = (uint) nOrderDerivativeNumericUpDown.Value;
-                var xPoint = (double) xDerivativePointNumericUpDown.Value;
-                var parametersStr="";
-
-                switch (operation)
-                {
-                    case "Integral":
-                        result = Integral.integrate(method, fx, a, b, n);
-                        parametersStr= $"a={a.ToMathString()}; b={b.ToMathString()}; N={n}";
-                        break;
-                    case "Derivative":
-                        result = Derivative.derivative(method, fx,xPoint,order, eps);
-                        parametersStr = $"n={order}; x={xPoint.ToMathString()}; ε={eps.ToMathString()}";
-                        break;
-                    case "Function root":
-                        result = FunctionRoot.findRoot(method, fx, a, b, eps, n);
-                        parametersStr = $"a={a.ToMathString()}; b={b.ToMathString()}; ε={eps.ToMathString()}; N={n}";
-                        break;
-                }
-
-                resultNumericalCalculationsTextBox.Text = result.ToMathString();
-                numericalCalculationsDataGridView.Rows.Insert(0, expressionTextBox.Text,operation,method, parametersStr, resultNumericalCalculationsTextBox.Text);
-            }
-            else
-            {
-                MessageBox.Show(
-                    Strings
-                        .GUI_numericalOperationButton_Click_Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_ +
-                    Environment.NewLine +
-                    Strings.GUI_numericalOperationButton_Click__Check__Real___f_x___mode,
-                    Strings.GUI_numericalOperationButton_Click_Warning_);
-            }*/
-        }
-
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -42,31 +42,31 @@ namespace Computator.NET.NumericalCalculations
             return double.NaN;
         }
 
-        public static double monteCarloMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
+        public static double monteCarloMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            return Accord.Math.Integration.MonteCarloIntegration.Integrate(fx, a, b, N);
+            return Accord.Math.Integration.MonteCarloIntegration.Integrate(fx, a, b, (int)N);
         }
 
-        public static double infiniteAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
+        public static double infiniteAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var iagk = new Accord.Math.Integration.InfiniteAdaptiveGaussKronrod(N, fx, a, b);
+            var iagk = new Accord.Math.Integration.InfiniteAdaptiveGaussKronrod((int) N, fx, a, b);
             //iagk.ToleranceAbsolute = iagk.ToleranceRelative = 0;//?????????????????????????????????????????????????????
             return iagk.Compute() ? iagk.Area : double.NaN;
         }
 
-        public static double nonAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
+        public static double nonAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
             return Accord.Math.Integration.NonAdaptiveGaussKronrod.Integrate(fx, a, b, 1.0/N);
         }
 
-        public static double rombergMethod(System.Func<double, double> fx, double a, double b, int N = 6)
+        public static double rombergMethod(System.Func<double, double> fx, double a, double b, double N = 6)
         {
             if(N>30)
                 throw new System.ArgumentException("Number of steps should be small for rombergMethod, default is 6", "N");
-            return Accord.Math.Integration.RombergMethod.Integrate(fx, a, b, N);
+            return Accord.Math.Integration.RombergMethod.Integrate(fx, a, b, (int) N);
         }
 
-        public static double doubleExponentialTransformation(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
+        public static double doubleExponentialTransformation(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
             return MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(fx, a, b, 1.0/N);
         }

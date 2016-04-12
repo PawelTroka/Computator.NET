@@ -90,12 +90,13 @@ namespace Computator.NET.NumericalCalculations
 
         public static double derivativeAtPoint(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
-            if (order == 0)
-                return fx(x);
-            if (order == 1)
-                return (fx(x + double.Epsilon) - fx(x))/double.Epsilon;
-            return (derivativeAtPoint(fx, x + double.Epsilon, order - 1) - derivativeAtPoint(fx, x, order - 1))/
-                   double.Epsilon;
+            return MathNet.Numerics.Differentiate.Derivative(fx, x, (int)order);
+            //if (order == 0)
+            //    return fx(x);
+            //if (order == 1)
+            //    return (fx(x + double.Epsilon) - fx(x))/double.Epsilon;
+            //return (derivativeAtPoint(fx, x + double.Epsilon, order - 1) - derivativeAtPoint(fx, x, order - 1))/
+            //       double.Epsilon;
         }
 
         public static double derivative(System.Func<double, double> fx, double x, uint order = 1)

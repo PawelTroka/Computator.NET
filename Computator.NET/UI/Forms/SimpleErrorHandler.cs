@@ -16,7 +16,7 @@ namespace Computator.NET
             logger = new SimpleLogger(this);
         }
 
-        public static SimpleErrorHandler Instance => _instance ?? (_instance = new SimpleErrorHandler());
+        public static SimpleErrorHandler Instance { get; } = new SimpleErrorHandler();
 
         public void DispalyError(string message, string title)
         {

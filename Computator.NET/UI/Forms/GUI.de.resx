@@ -126,24 +126,6 @@
   <data name="processButton.Text" xml:space="preserve">
     <value>Führen Sie das Skript</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Ordnung n =</value>
-  </data>
-  <data name="calculationsTabPage.Text" xml:space="preserve">
-    <value>Rechner</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Methode:</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Operation:</value>
-  </data>
-  <data name="numericalOperationButton.Text" xml:space="preserve">
-    <value>berechnen</value>
-  </data>
-  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
-    <value>numerischen Berechnungen</value>
-  </data>
   <data name="symbolicOperationButton.Text" xml:space="preserve">
     <value>berechnen</value>
   </data>
@@ -339,8 +321,26 @@
   <data name="calculateButton.Text" xml:space="preserve">
     <value>Zählen!</value>
   </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Tabelle</value>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Methode:</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Ordnung n =</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Punkt x =</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Operation:</value>
+  </data>
+  <data name="numericalOperationButton.Text" xml:space="preserve">
+    <value>berechnen</value>
+  </data>
+  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
+    <value>Die Ableitung der Funktion an</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Ergebnis:</value>
   </data>
   <data name="result.HeaderText" xml:space="preserve">
     <value>Ergebnis</value>
@@ -357,13 +357,13 @@
   <data name="function.HeaderText" xml:space="preserve">
     <value>Funktion</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Ergebnis:</value>
+  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
+    <value>numerischen Berechnungen</value>
   </data>
-  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Die Ableitung der Funktion an</value>
+  <data name="calculationsTabPage.Text" xml:space="preserve">
+    <value>Rechner</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>Punkt x =</value>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Tabelle</value>
   </data>
 </root>

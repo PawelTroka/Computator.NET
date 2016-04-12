@@ -1,13 +1,15 @@
-#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
+﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading.Tasks;
 using Computator.NET.Charting;
 using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
+using Computator.NET.NumericalCalculations;
 
 namespace Computator.NET
 {
@@ -21,6 +23,10 @@ namespace Computator.NET
 
         private readonly IMainForm _view;
 
+     /*   public async Task DoTask()
+        {
+            
+        }*/
 
         private readonly List<Action<object, EventArgs>> defaultActions;
         private readonly IErrorHandler errorHandler;
@@ -30,8 +36,8 @@ namespace Computator.NET
             defaultActions = new List<Action<object, EventArgs>>
             {
                 ChartAreaValuesView1_AddClicked,
-                CalculationsView_CalculateClicked
-                //  numericalOperationButton_Click,
+                CalculationsView_CalculateClicked,
+              //  NumericalCalculationsView_ComputeClicked,
                 // symbolicOperationButton_Click,
                 //  processButton_Click
             };

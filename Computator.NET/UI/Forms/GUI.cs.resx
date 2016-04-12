@@ -126,20 +126,11 @@
   <data name="processButton.Text" xml:space="preserve">
     <value>Spusť skript</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>řada n =</value>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Graf</value>
   </data>
   <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Kalkulačka</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Metoda:</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Operace:</value>
-  </data>
-  <data name="numericalOperationButton.Text" xml:space="preserve">
-    <value>Spočítat</value>
   </data>
   <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
     <value>Numerické výpočty</value>
@@ -155,6 +146,9 @@
   </data>
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Uživatelské funkce</value>
+  </data>
+  <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Matematické konstanty</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Výraz:</value>
@@ -339,8 +333,26 @@
   <data name="calculateButton.Text" xml:space="preserve">
     <value>Spočítat!</value>
   </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Graf</value>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Metoda:</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>řada n =</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>bod x =</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Operace:</value>
+  </data>
+  <data name="numericalOperationButton.Text" xml:space="preserve">
+    <value>Spočítat</value>
+  </data>
+  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
+    <value>Derivace funkce v bodě</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Výsledek:</value>
   </data>
   <data name="result.HeaderText" xml:space="preserve">
     <value>Výsledek</value>
@@ -356,14 +368,5 @@
   </data>
   <data name="function.HeaderText" xml:space="preserve">
     <value>Funkce</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Výsledek:</value>
-  </data>
-  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Derivace funkce v bodě</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>bod x =</value>
   </data>
 </root>
