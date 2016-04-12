@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Computator.NET.Charting.Chart3D;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
 using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
 
 namespace Computator.NET.Charting
 {
-    public class EditChartMenus
+    public interface IEditChartMenus
+    {
+        void SetMode(CalculationsMode mode);
+    }
+
+    public class EditChartMenus : IEditChartMenus
     {
         private readonly Dictionary<CalculationsMode, IChart> charts;
 
@@ -104,6 +111,8 @@ namespace Computator.NET.Charting
               positionLegendComboBox, aligmentLegendComboBox);
             complexChart?.setupComboBoxes(countourLinesToolStripComboBox, colorAssignmentToolStripComboBox);
 
+            if(charts.All(c => c.Value != null))
+                EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>((mode) => SetMode(mode.CalculationsMode));
         }
 
         private void InitializeComponent()

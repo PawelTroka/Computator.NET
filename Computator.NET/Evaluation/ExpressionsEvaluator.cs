@@ -4,14 +4,12 @@ using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.Constants;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Functions;
-using Computator.NET.Localization;
 using Computator.NET.Logging;
 
 namespace Computator.NET.Evaluation

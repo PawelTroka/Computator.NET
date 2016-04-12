@@ -7,12 +7,15 @@ namespace Computator.NET.UI.Views
 {
     public interface ICalculationsView
     {
-        CalculationsMode CalculationsMode { get; set; }
-        event EventHandler ModeChanged;
-
+        event EventHandler CalculateClicked;
         string XLabel { set; }
         string YLabel { set; }
 
         bool YVisible { set; }
+
+        double X { get; }
+        double Y { get; }
+
+        void AddResult(string expression, string arguments, string result);
     }
 }

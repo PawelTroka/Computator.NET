@@ -45,15 +45,69 @@ namespace Computator.NET
         IChartAreaValuesView chartAreaValuesView1 { get; }
         ICalculationsView CalculationsView { get; }
 
+        ICodeEditorControl ScriptingCodeEditorControl { get; }
+
+        ICodeEditorControl CustomFunctionsCodeEditorControl { get; }
+
+
         ReadOnlyDictionary<CalculationsMode, IChart> charts { get; }
         IExpressionView ExpressionView { get; }
         string ModeText { get; set; }
+
+        IEditChartMenus EditChartMenus { get; }
+
+        event EventHandler ModeForcedToReal;
+        event EventHandler ModeForcedToComplex;
+        event EventHandler ModeForcedToFxy;
+
+        event EventHandler PrintClicked;
+        event EventHandler PrintPreviewClicked;
+
+        void SendStringAsKey(string key);
+
+        int SelectedViewIndex { get; set; }
+
+        event EventHandler EnterClicked;
     }
+
+
+    public interface IErrorHandler
+    {
+        void DispalyError(string message, string title);
+        void LogError(string message, ErrorType errorType, Exception ex);
+    }
+
+    public class SimpleErrorHandler : IErrorHandler
+{
+        private readonly SimpleLogger logger;
+
+        public static SimpleErrorHandler Instance => _instance ?? (_instance = new SimpleErrorHandler());
+
+        private static SimpleErrorHandler _instance;
+        private SimpleErrorHandler()
+        {
+            logger = new SimpleLogger(this);
+        }
+
+        public void DispalyError(string message, string title)
+        {
+            MessageBox.Show(message, title);
+        }
+
+        public void LogError(string message, ErrorType errorType, Exception ex)
+        {
+            logger.MethodName = MethodBase.GetCurrentMethod().Name;
+            logger.Log(message, ErrorType.General, ex);
+        }
+}
+
 
     public partial class GUI : LocalizedForm, IMainForm
     {
         public IChartAreaValuesView chartAreaValuesView1 { get; } = new ChartAreaValuesView() { Dock = DockStyle.Right };
         public ICalculationsView CalculationsView { get; } = new CalculationsView() {Dock = DockStyle.Fill};
+        public ICodeEditorControl ScriptingCodeEditorControl { get { return scriptingCodeEditor; } }
+        public ICodeEditorControl CustomFunctionsCodeEditorControl { get { return customFunctionsCodeEditor; } }
 
         public ReadOnlyDictionary<CalculationsMode, IChart> charts { get; } = new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>
         {
@@ -68,24 +122,43 @@ namespace Computator.NET
             modeToolStripDropDownButton.Text = value;
         } }
 
+        public IEditChartMenus EditChartMenus { get { return editChartMenus; } }
+
+
+        public event EventHandler PrintClicked { add { printToolStripButton.Click += value; printToolStripMenuItem.Click += value; } remove { printToolStripButton.Click -= value; printToolStripMenuItem.Click -= value; } }
+        public event EventHandler PrintPreviewClicked { add { printPreviewToolStripMenuItem.Click += value; } remove { printPreviewToolStripMenuItem.Click -= value; } }
+
+
+        public event EventHandler ModeForcedToReal { add { dd212ToolStripMenuItem.Click += value; } remove { dd212ToolStripMenuItem.Click -= value; } }
+        public event EventHandler ModeForcedToComplex { add { fdsfdsToolStripMenuItem.Click += value; } remove { fdsfdsToolStripMenuItem.Click -= value; } }
+        public event EventHandler ModeForcedToFxy { add { mode3DFxyToolStripMenuItem.Click += value; } remove { mode3DFxyToolStripMenuItem.Click -= value; } }
+        public void SendStringAsKey(string key)
+        {
+            SendKeys.Send(key);
+        }
+
+        public int SelectedViewIndex { get { return tabControl1.SelectedIndex; } set
+        {
+            tabControl1.SelectedIndex = value;
+        } }
+
 
         private readonly CultureInfo[] AllCultures =
     CultureInfo.GetCultures(CultureTypes.NeutralCultures);
 
 
         //  private readonly FunctionComplexEvaluator complexEvaluator;
-        private readonly ExpressionsEvaluator expressionsEvaluator = new ExpressionsEvaluator();
+
         // private readonly Function2DEvaluator evaluator2d;
         // private readonly Function3DEvaluator evaluator3d;
-        private readonly SimpleLogger logger;
+
         private readonly WebBrowserForm menuFunctionsToolTip = new WebBrowserForm();
 
         private CodeEditorControlWrapper customFunctionsCodeEditor;
-        private List<Action<object, EventArgs>> defaultActions;
 
 
         private CodeEditorControlWrapper scriptingCodeEditor;
-        private IChart currentChart => charts[_calculationsMode];
+
 
         private Chart2D chart2d => charts[CalculationsMode.Real] as Chart2D;
         private Chart3DControl chart3d => charts[CalculationsMode.Fxy] as Chart3DControl;
@@ -107,14 +180,21 @@ namespace Computator.NET
 
   
 
-        private void runToolStripButton_Click(object sender, EventArgs e)
+        private void runToolStripButton_Click(object s, EventArgs e)
         {
-            defaultActions[tabControl1.SelectedIndex].Invoke(sender, e);
+                EnterClicked?.Invoke(s, e);
         }
+        private void expressionTextBox_KeyPress(object s, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+                EnterClicked?.Invoke(s, e);//defaultActions[tabControl1.SelectedIndex].Invoke(s, e);
+        }
+
+        public event EventHandler EnterClicked;
 
 
         #region edit menu events
-        
+
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
@@ -124,22 +204,22 @@ namespace Computator.NET
                     if (scriptingCodeEditor.Focused)
                         scriptingCodeEditor.Cut();
                     else
-                        SendKeys.Send("^X");
+                        SendStringAsKey("^X");
                     break;
 
                 case 5:
                     if (customFunctionsCodeEditor.Focused)
                         customFunctionsCodeEditor.Cut();
                     else
-                        SendKeys.Send("^X");
+                        SendStringAsKey("^X");
                     break;
 
                 default: //if (tabControl1.SelectedIndex < 4)
-                    SendKeys.Send("^X"); //expressionTextBox.Cut();
+                    SendStringAsKey("^X"); //expressionTextBox.Cut();
                     break;
             }
 #else
-            SendKeys.Send("^X");
+            SendStringAsKey("^X");
 #endif
         }
 
@@ -147,23 +227,23 @@ namespace Computator.NET
         {
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
             if (tabControl1.SelectedIndex < 4)
-                SendKeys.Send("^Z"); //expressionTextBox.Undo();
+                SendStringAsKey("^Z"); //expressionTextBox.Undo();
             else if (tabControl1.SelectedIndex == 4)
             {
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Undo();
                 else
-                    SendKeys.Send("^Z");
+                    SendStringAsKey("^Z");
             }
             else
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.Undo();
                 else
-                    SendKeys.Send("^Z");
+                    SendStringAsKey("^Z");
             }
 #else
-            SendKeys.Send("^Z");
+            SendStringAsKey("^Z");
 
 #endif
         }
@@ -173,7 +253,7 @@ namespace Computator.NET
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
             if (tabControl1.SelectedIndex < 4)
             {
-                SendKeys.Send("^Y");
+                SendStringAsKey("^Y");
                 //expressionTextBox.do()
             }
             else if (tabControl1.SelectedIndex == 4)
@@ -182,17 +262,17 @@ namespace Computator.NET
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Redo();
                 else
-                    SendKeys.Send("^Y");
+                    SendStringAsKey("^Y");
             }
             else
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.Redo();
                 else
-                    SendKeys.Send("^Y");
+                    SendStringAsKey("^Y");
             }
 #else
-              SendKeys.Send("^Y");
+              SendStringAsKey("^Y");
 #endif
         }
 
@@ -201,24 +281,24 @@ namespace Computator.NET
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
             if (tabControl1.SelectedIndex < 4)
             {
-                SendKeys.Send("^C"); //expressionTextBox.Copy();
+                SendStringAsKey("^C"); //expressionTextBox.Copy();
             }
             else if (tabControl1.SelectedIndex == 4)
             {
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Copy();
                 else
-                    SendKeys.Send("^C");
+                    SendStringAsKey("^C");
             }
             else
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.Copy();
                 else
-                    SendKeys.Send("^C");
+                    SendStringAsKey("^C");
             }
 #else
-            SendKeys.Send("^C");
+            SendStringAsKey("^C");
 #endif
         }
 
@@ -227,25 +307,25 @@ namespace Computator.NET
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
             if (tabControl1.SelectedIndex < 4)
             {
-                SendKeys.Send("^V"); //expressionTextBox.Paste();
+                SendStringAsKey("^V"); //expressionTextBox.Paste();
             }
             else if (tabControl1.SelectedIndex == 4)
             {
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Paste();
                 else
-                    SendKeys.Send("^V");
+                    SendStringAsKey("^V");
             }
             else
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.Paste();
                 else
-                    SendKeys.Send("^V");
+                    SendStringAsKey("^V");
             }
 
 #else
-            SendKeys.Send("^V");
+            SendStringAsKey("^V");
 #endif
         }
 
@@ -254,24 +334,24 @@ namespace Computator.NET
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
             if (tabControl1.SelectedIndex < 4)
             {
-                SendKeys.Send("^A"); //expressionTextBox.SelectAll();
+                SendStringAsKey("^A"); //expressionTextBox.SelectAll();
             }
             else if (tabControl1.SelectedIndex == 4)
             {
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.SelectAll();
                 else
-                    SendKeys.Send("^A");
+                    SendStringAsKey("^A");
             }
             else
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.SelectAll();
                 else
-                    SendKeys.Send("^A");
+                    SendStringAsKey("^A");
             }
 #else
-            SendKeys.Send("^A");
+            SendStringAsKey("^A");
 #endif
         }
 
@@ -282,7 +362,7 @@ namespace Computator.NET
             {
                 case 0:
 
-                    //SendKeys.Send("^S");
+                    //SendStringAsKey("^S");
                     break;
 
                 case 4:
@@ -294,11 +374,11 @@ namespace Computator.NET
                     break;
 
                 default:
-                    //SendKeys.Send("^S");
+                    //SendStringAsKey("^S");
                     break;
             }
 #else
-    //SendKeys.Send("^S");
+    //SendStringAsKey("^S");
 #endif
         }
 
@@ -315,7 +395,7 @@ namespace Computator.NET
             {
                 case 0:
 
-                    //SendKeys.Send("^S");
+                    //SendStringAsKey("^S");
                     break;
 
                 case 4:
@@ -327,11 +407,11 @@ namespace Computator.NET
                     break;
 
                 default:
-                    //SendKeys.Send("^S");
+                    //SendStringAsKey("^S");
                     break;
             }
 #else
-    //SendKeys.Send("^S");
+    //SendStringAsKey("^S");
 #endif
         }
 
@@ -342,7 +422,7 @@ namespace Computator.NET
             {
                 case 0:
 
-                    //SendKeys.Send("^S");
+                    //SendStringAsKey("^S");
                     break;
 
                 case 4:
@@ -354,11 +434,11 @@ namespace Computator.NET
                     break;
 
                 default:
-                    //SendKeys.Send("^S");
+                    //SendStringAsKey("^S");
                     break;
             }
 #else
-            SendKeys.Send("^S");
+            SendStringAsKey("^S");
 #endif
         }
 
@@ -369,7 +449,7 @@ namespace Computator.NET
             {
                 case 0:
 
-                    //SendKeys.Send("^S");
+                    //SendStringAsKey("^S");
                     break;
 
                 case 4:
@@ -381,83 +461,33 @@ namespace Computator.NET
                     break;
 
                 default:
-                    //SendKeys.Send("^S");
+                    //SendStringAsKey("^S");
                     break;
             }
 #else
-            SendKeys.Send("^S");
+            SendStringAsKey("^S");
 #endif
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    //if (_calculationsMode == CalculationsMode.Real)
-                    currentChart.Print();
-                    // else
-                    //  SendKeys.Send("^P");
-                    break;
 
-                case 4:
-                    //scriptingCodeEditor();
-                    
-                    break;
-
-                case 5:
-                    //this.customFunctionsCodeEditor
-                    break;
-
-                default:
-                    SendKeys.Send("^P"); //this.chart2d.Printing.PrintPreview();
-                    break;
-            }
-#else
-            SendKeys.Send("^P");
-#endif
         }
 
         private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    currentChart.PrintPreview();
-                    /*if (_calculationsMode == CalculationsMode.Real)
-                        chart2d.Printing.PrintPreview();
-                    else
-                        SendKeys.Send("^P");*/
-                    break;
 
-                case 4:
-                    //scriptingCodeEditor();
-                    break;
-
-                case 5:
-                    //this.customFunctionsCodeEditor
-                    break;
-
-                default:
-                    SendKeys.Send("^P"); //this.chart2d.Printing.PrintPreview();
-                    break;
-            }
-#else
-            SendKeys.Send("^P");
-#endif
         }
 
         #endregion
 
         #region initialization and construction
 
-        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
+ 
 
         public GUI()
         {
-            logger = new SimpleLogger(this);
+
 
             InitializeComponent();
             /////calculationsTabPage.Controls.Add(CalculationsView as Control);
@@ -470,7 +500,7 @@ namespace Computator.NET
             customFunctionsDirectoryTree.Path = Settings.Default.CustomFunctionsDirectory; //Path.Combine(GlobalConfig.basePath,
                 //Settings.Default.CustomFunctionsDirectory);// Settings.Default.ScriptingDirectory;//GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
             scriptingDirectoryTree.Path = Settings.Default.ScriptingDirectory;// Path.Combine(GlobalConfig.basePath, Settings.Default.ScriptingDirectory);//GlobalConfig.FullPath("TSL Examples", "_Scripts");
-            UpdateXyRatio();
+
             InitializeScripting(); //takes a lot of time, TODO: optimize
             InitializeFonts();
             InitializeDataBindings();
@@ -483,66 +513,15 @@ namespace Computator.NET
 
             symbolicCalculationsTabPage.Enabled = false;
 
-            expressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             HandleCommandLine();
         }
         
 
-        private CalculationsMode _calculationsMode = CalculationsMode.Fxy;
 
-        private void ExpressionTextBox_TextChanged(object sender, EventArgs e)
-        {
-            var mode = modeDeterminer.DetermineMode(expressionTextBox.Text);
-            if (mode == _calculationsMode) return;
-
-            SetMode(mode);
-        }
 
         private EditChartMenus editChartMenus;
 
-        private void SetMode(CalculationsMode mode)
-        {
-            chart2d.Visible = mode == CalculationsMode.Real;
-
-                calculationsComplexLabel.Visible =
-                    calculationsImZnumericUpDown.Visible =
-                        complexChart.Visible = mode == CalculationsMode.Complex;
-
-            
-                chart3d.Visible = mode == CalculationsMode.Fxy;
-
-            switch (mode)
-            {
-                case CalculationsMode.Complex:
-                    calculationsRealLabel.Text = "Re(z) =";
-                    calculationsComplexLabel.Text = "Im(z) =";
-                    chartAreaValuesView1.AddChartLabel = Strings.DrawChart;
-                    // chart2d.ClearAll();
-                    //chart3d.Clear();
-                    modeToolStripDropDownButton.Text = "Mode[Complex : f(z)]";
-                    break;
-                case CalculationsMode.Fxy:
-                    calculationsComplexLabel.Visible = calculationsImZnumericUpDown.Visible = true;
-                    calculationsRealLabel.Text = "       x =";
-                    calculationsComplexLabel.Text = "       y =";
-                    chartAreaValuesView1.AddChartLabel = Strings.AddToChart;
-                    //complexChart.ClearAll();
-                    //chart2d.ClearAll();
-                    modeToolStripDropDownButton.Text = "Mode[3D : f(x,y)]";
-                    break;
-                case CalculationsMode.Real:
-                    calculationsRealLabel.Text = "       x =";
-                    chartAreaValuesView1.AddChartLabel = Strings.AddToChart;
-                    //complexChart.ClearAll();
-                    //chart3d.Clear();
-                    modeToolStripDropDownButton.Text = "Mode[Real : f(x)]";
-                    break;
-            }
-
-            _calculationsMode = mode;
-            editChartMenus.SetMode(_calculationsMode);
-            UpdateXyRatio();
-        }
+       
 
         private void HandleCommandLine()
         {
@@ -605,29 +584,13 @@ namespace Computator.NET
 
         private void InitializeFonts()
         {
-
-
             function.DefaultCellStyle.Font = CustomFonts.GetMathFont(function.DefaultCellStyle.Font.Size);
             result.DefaultCellStyle.Font = CustomFonts.GetMathFont(result.DefaultCellStyle.Font.Size);
 
-            calculationValueTextBox.Font = CustomFonts.GetMathFont(calculationValueTextBox.Font.Size);
             resultNumericalCalculationsTextBox.Font =
                 CustomFonts.GetMathFont(resultNumericalCalculationsTextBox.Font.Size);
 
             consoleOutputTextBox.Font = CustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
-
-            calculationsHistoryDataGridView.Columns[0].DefaultCellStyle.Font =
-                CustomFonts.GetMathFont(calculationsHistoryDataGridView.Columns[0].DefaultCellStyle.Font.Size);
-
-            calculationsHistoryDataGridView.Columns[calculationsHistoryDataGridView.Columns.Count - 1].DefaultCellStyle
-                .Font =
-                CustomFonts.GetMathFont(
-                    calculationsHistoryDataGridView.Columns[calculationsHistoryDataGridView.Columns.Count - 1]
-                        .DefaultCellStyle.Font.Size);
-
-          //  scriptingCodeEditor.Font = CustomFonts.GetScriptingFont(scriptingCodeEditor.Font.Size);
-          //  customFunctionsCodeEditor.Font = CustomFonts.GetScriptingFont(customFunctionsCodeEditor.Font.Size);
-
         }
 
         private void InitializeFunctions()
@@ -673,21 +636,14 @@ namespace Computator.NET
 
              scriptingCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
              customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,DataSourceUpdateMode.OnPropertyChanged);
-
-
-            chart2d.PropertyChanged += (o, e) =>
-            {
-                if (e.PropertyName == "XyRatio")
-                    XYRatioToolStripStatusLabel.Text = string.Format(Strings.XYRatio0, chart2d.XyRatio);
-            };
         }
 
         private void InitializeCharts()
         {
             panel2.Controls.Add(chartAreaValuesView1 as Control);
 
-            chartAreaValuesView1.AddClicked += addToChartButton_Click;
-            chartAreaValuesView1.ClearClicked += clearChartButton_Click;
+          //  chartAreaValuesView1.AddClicked += addToChartButton_Click;
+        //    chartAreaValuesView1.ClearClicked += clearChartButton_Click;
 
 
 
@@ -733,15 +689,7 @@ namespace Computator.NET
 
         private void attachEventHandlers()
         {
-            Resize += (o, e) => UpdateXyRatio();
-            defaultActions = new List<Action<object, EventArgs>>
-            {
-                addToChartButton_Click,
-                calculateButton_Click,
-                numericalOperationButton_Click,
-                symbolicOperationButton_Click,
-                processButton_Click
-            };
+
         }
 
         private void SetupAllComboBoxes()
@@ -775,42 +723,7 @@ namespace Computator.NET
 
         #region helpers
 
-        private void HandleException(Exception ex)
-        {
-            HandleCustomFunctionsErrors(ex as CompilationException);
 
-            var message = ex.Message + Environment.NewLine + (ex.InnerException?.Message ?? "");
-            MessageBox.Show(message, Strings.Error);
-
-            if (!ex.IsInternal())
-            {
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Log(message, ErrorType.General, ex);
-            }
-        }
-
-
-        private void UpdateXyRatio()
-        {
-            var ratio = 1.0;
-            ratio = _calculationsMode != CalculationsMode.Complex ? chart2d.XyRatio : complexChart.XYRatio;
-            XYRatioToolStripStatusLabel.Text = string.Format(Strings.XYRatio0, ratio);
-        }
-
-        public static void BindField(Control control, string propertyName,
-            object dataSource, string dataMember)
-        {
-            Binding bd;
-
-            for (var index = control.DataBindings.Count - 1; index == 0; index--)
-            {
-                bd = control.DataBindings[index];
-                if (bd.PropertyName == propertyName)
-                    control.DataBindings.Remove(bd);
-            }
-            control.DataBindings.Add(propertyName, dataSource, dataMember, false,
-                DataSourceUpdateMode.OnPropertyChanged);
-        }
 
       
 
@@ -819,61 +732,6 @@ namespace Computator.NET
 
         #region main events
 
-        private void addToChartButton_Click(object sender, EventArgs e)
-        {
-            if (expressionTextBox.Text != "")
-            {
-                try
-                {
-                    currentChart.AddFunction(expressionsEvaluator.Evaluate(expressionTextBox.Text,
-                        customFunctionsCodeEditor.Text, _calculationsMode));
-                }
-                catch (Exception ex)
-                {
-                    HandleException(ex);
-                }
-            }
-            else
-                MessageBox.Show(
-                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_);
-        }
-
-        private void calculateButton_Click(object sender, EventArgs e)
-        {
-            if (expressionTextBox.Text == "")
-                MessageBox.Show(
-                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_);
-            else
-            {
-                try
-                {
-                    var function = expressionsEvaluator.Evaluate(expressionTextBox.Text,
-                        customFunctionsCodeEditor.Text, _calculationsMode);
-
-                    var x = (double)valueForCalculationNumericUpDown.Value;
-                    var y = (double)calculationsImZnumericUpDown.Value;
-                    var z = new Complex(x, y);
-
-                    dynamic result = function.EvaluateDynamic(x, y);
-
-                    calculationValueTextBox.Text = ScriptingExtensions.ToMathString(result);
-
-                    calculationsHistoryDataGridView.Rows.Insert(0,
-                        expressionTextBox.Text,
-                        _calculationsMode == CalculationsMode.Complex
-                            ? z.ToMathString()
-                            : (_calculationsMode == CalculationsMode.Fxy
-                                ? $"{x.ToMathString()}, {y.ToMathString()}"
-                                : x.ToMathString()),
-                        calculationValueTextBox.Text);
-                }
-                catch (Exception ex)
-                {
-                    HandleException(ex);
-                }
-            }
-        }
-
 
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -881,23 +739,11 @@ namespace Computator.NET
             Application.Exit();
         }
 
-        private void expressionTextBox_KeyPress(object s, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13)
-                defaultActions[tabControl1.SelectedIndex].Invoke(s, e);
-        }
 
         private void symbolicOperationButton_Click(object sender, EventArgs e)
         {
         }
 
-        private void clearChartButton_Click(object sender, EventArgs e)
-        {
-            foreach (var chart in charts)
-            {
-                chart.Value.ClearAll();
-            }
-        }
 
 
         #endregion
@@ -951,7 +797,7 @@ namespace Computator.NET
             var method = methodNumericalCalculationsComboBox.SelectedItem.ToString();
             var operation = operationNumericalCalculationsComboBox.SelectedItem.ToString();
 
-
+/*//TODO: MVP
             if (_calculationsMode == CalculationsMode.Real)
             {
                 var function = expressionsEvaluator.Evaluate(expressionTextBox.Text,
@@ -1008,7 +854,7 @@ namespace Computator.NET
                     Environment.NewLine +
                     Strings.GUI_numericalOperationButton_Click__Check__Real___f_x___mode,
                     Strings.GUI_numericalOperationButton_Click_Warning_);
-            }
+            }*/
         }
 
 
@@ -1038,21 +884,11 @@ namespace Computator.NET
                     scriptingCodeEditor.HighlightErrors(exception.Errors[CompilationErrorPlace.MainCode]);
 
                 }
-                HandleException(ex);
+                /////////HandleException(ex); ///TODO: MVP
             }
         }
 
-        private void HandleCustomFunctionsErrors(CompilationException exception)
-        {
-            customFunctionsCodeEditor.ClearHighlightedErrors();
 
-            if (exception == null)
-                return;
-            customFunctionsCodeEditor.HighlightErrors(exception.Errors[CompilationErrorPlace.CustomFunctions]);
-
-            if ((exception.HasCustomFunctionsErrors && !exception.HasMainCodeErrors))
-                tabControl1.SelectedTab = customFunctionsTabPage;
-        }
 
         private void featuresToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1155,19 +991,13 @@ namespace Computator.NET
         {
             var menuitem = sender as ToolStripDropDownItem;
 
-            if (_calculationsMode == CalculationsMode.Real)
+          ////  if (_calculationsMode == CalculationsMode.Real)//TODO: MVP
                 chart2d.Transform(
                     points => MathematicalTransformations.Transform(points, menuitem.Text),
                     menuitem.Text);
             //  else if (complexNumbersModeRadioBox.Checked)
             //    else if(fxyModeRadioBox.Checked)
         }
-
-    
-
-  
-
-
 
         private void benchmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1205,22 +1035,7 @@ namespace Computator.NET
                     Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_);
         }
 
-        private void modeRealToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var txt = (sender as ToolStripMenuItem).Text;
-            switch (txt)
-            {
-                case "Real : f(x)":
-                    SetMode(CalculationsMode.Real);
-                    break;
-                case "Complex : f(z)":
-                    SetMode(CalculationsMode.Complex);
-                    break;
-                case "3D : f(x,y)":
-                    SetMode(CalculationsMode.Fxy);
-                    break;
-            }
-        }
+
 
         private void fullscreenToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {

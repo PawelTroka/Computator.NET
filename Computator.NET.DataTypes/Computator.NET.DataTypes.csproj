@@ -46,6 +46,7 @@
     <Compile Include="BaseFunction.cs" />
     <Compile Include="CalculationException.cs" />
     <Compile Include="CalculationsMode.cs" />
+    <Compile Include="EventAggregator.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="FunctionType.cs" />
     <Compile Include="GlobalConfig.cs" />

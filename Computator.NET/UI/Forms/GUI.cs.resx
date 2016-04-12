@@ -126,50 +126,8 @@
   <data name="processButton.Text" xml:space="preserve">
     <value>Spusť skript</value>
   </data>
-  <data name="calculateButton.Text" xml:space="preserve">
-    <value>Spočítat!</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>hodnoty:</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Výsledek:</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>Výraz</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
-    <value>Výsledek</value>
-  </data>
   <data name="label14.Text" xml:space="preserve">
     <value>řada n =</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>bod x =</value>
-  </data>
-  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Derivace funkce v bodě</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Výsledek:</value>
-  </data>
-  <data name="function.HeaderText" xml:space="preserve">
-    <value>Funkce</value>
-  </data>
-  <data name="operation.HeaderText" xml:space="preserve">
-    <value>Operace</value>
-  </data>
-  <data name="method.HeaderText" xml:space="preserve">
-    <value>Metoda</value>
-  </data>
-  <data name="parameters.HeaderText" xml:space="preserve">
-    <value>Parametry</value>
-  </data>
-  <data name="result.HeaderText" xml:space="preserve">
-    <value>Výsledek</value>
-  </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Graf</value>
   </data>
   <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Kalkulačka</value>
@@ -186,17 +144,17 @@
   <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
     <value>Numerické výpočty</value>
   </data>
+  <data name="symbolicOperationButton.Text" xml:space="preserve">
+    <value>Spočítat</value>
+  </data>
+  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
+    <value>Symbolické výpočty</value>
+  </data>
   <data name="scriptingTabPage.Text" xml:space="preserve">
     <value>Skript</value>
   </data>
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Uživatelské funkce</value>
-  </data>
-  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
-    <value>Symbolické výpočty</value>
-  </data>
-  <data name="symbolicOperationButton.Text" xml:space="preserve">
-    <value>Spočítat</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Výraz:</value>
@@ -365,5 +323,47 @@
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Kvalita grafu :</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>Výraz</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Výsledek:</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>hodnoty:</value>
+  </data>
+  <data name="calculateButton.Text" xml:space="preserve">
+    <value>Spočítat!</value>
+  </data>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Graf</value>
+  </data>
+  <data name="result.HeaderText" xml:space="preserve">
+    <value>Výsledek</value>
+  </data>
+  <data name="parameters.HeaderText" xml:space="preserve">
+    <value>Parametry</value>
+  </data>
+  <data name="method.HeaderText" xml:space="preserve">
+    <value>Metoda</value>
+  </data>
+  <data name="operation.HeaderText" xml:space="preserve">
+    <value>Operace</value>
+  </data>
+  <data name="function.HeaderText" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Výsledek:</value>
+  </data>
+  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
+    <value>Derivace funkce v bodě</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>bod x =</value>
   </data>
 </root>

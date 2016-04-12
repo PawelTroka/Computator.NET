@@ -39,9 +39,6 @@ namespace Computator.NET
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.consoleOutputTextBox = new System.Windows.Forms.RichTextBox();
@@ -51,20 +48,6 @@ namespace Computator.NET
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.customFunctionsDirectoryTree = new Computator.NET.DirectoryTree();
             this.openCustomFunctionsDirectoryButton = new System.Windows.Forms.Button();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.calculationsImZnumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.calculationsRealLabel = new System.Windows.Forms.Label();
-            this.valueForCalculationNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.calculationsComplexLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.calculationValueTextBox = new System.Windows.Forms.TextBox();
-            this.calculateButton = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.calculationsHistoryDataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.maxErrorGroupBox = new System.Windows.Forms.GroupBox();
             this.epsTextBox = new System.Windows.Forms.TextBox();
@@ -197,14 +180,6 @@ namespace Computator.NET
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.calculationsImZnumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.valueForCalculationNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.calculationsHistoryDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
@@ -222,7 +197,6 @@ namespace Computator.NET
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.chartingTabPage.SuspendLayout();
-            this.calculationsTabPage.SuspendLayout();
             this.numericalCalculationsTabPage.SuspendLayout();
             this.symbolicCalculationsTabPage.SuspendLayout();
             this.scriptingTabPage.SuspendLayout();
@@ -314,140 +288,6 @@ namespace Computator.NET
             this.openCustomFunctionsDirectoryButton.Name = "openCustomFunctionsDirectoryButton";
             this.openCustomFunctionsDirectoryButton.UseVisualStyleBackColor = true;
             this.openCustomFunctionsDirectoryButton.Click += new System.EventHandler(this.openCustomFunctionsDirectoryButton_Click);
-            // 
-            // splitContainer4
-            // 
-            resources.ApplyResources(this.splitContainer4, "splitContainer4");
-            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer4.Name = "splitContainer4";
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.groupBox3);
-            this.splitContainer4.Panel1.Controls.Add(this.label5);
-            this.splitContainer4.Panel1.Controls.Add(this.calculationValueTextBox);
-            this.splitContainer4.Panel1.Controls.Add(this.calculateButton);
-            this.splitContainer4.Panel1.Controls.Add(this.label7);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.calculationsHistoryDataGridView);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.calculationsImZnumericUpDown);
-            this.groupBox3.Controls.Add(this.calculationsRealLabel);
-            this.groupBox3.Controls.Add(this.valueForCalculationNumericUpDown);
-            this.groupBox3.Controls.Add(this.calculationsComplexLabel);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.TabStop = false;
-            // 
-            // calculationsImZnumericUpDown
-            // 
-            this.calculationsImZnumericUpDown.DecimalPlaces = 5;
-            resources.ApplyResources(this.calculationsImZnumericUpDown, "calculationsImZnumericUpDown");
-            this.calculationsImZnumericUpDown.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.calculationsImZnumericUpDown.Minimum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            -2147483648});
-            this.calculationsImZnumericUpDown.Name = "calculationsImZnumericUpDown";
-            // 
-            // calculationsRealLabel
-            // 
-            resources.ApplyResources(this.calculationsRealLabel, "calculationsRealLabel");
-            this.calculationsRealLabel.Name = "calculationsRealLabel";
-            // 
-            // valueForCalculationNumericUpDown
-            // 
-            this.valueForCalculationNumericUpDown.DecimalPlaces = 5;
-            resources.ApplyResources(this.valueForCalculationNumericUpDown, "valueForCalculationNumericUpDown");
-            this.valueForCalculationNumericUpDown.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.valueForCalculationNumericUpDown.Minimum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            -2147483648});
-            this.valueForCalculationNumericUpDown.Name = "valueForCalculationNumericUpDown";
-            // 
-            // calculationsComplexLabel
-            // 
-            resources.ApplyResources(this.calculationsComplexLabel, "calculationsComplexLabel");
-            this.calculationsComplexLabel.Name = "calculationsComplexLabel";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // calculationValueTextBox
-            // 
-            resources.ApplyResources(this.calculationValueTextBox, "calculationValueTextBox");
-            this.calculationValueTextBox.Name = "calculationValueTextBox";
-            // 
-            // calculateButton
-            // 
-            resources.ApplyResources(this.calculateButton, "calculateButton");
-            this.calculateButton.Name = "calculateButton";
-            this.calculateButton.UseVisualStyleBackColor = true;
-            this.calculateButton.Click += new System.EventHandler(this.calculateButton_Click);
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // calculationsHistoryDataGridView
-            // 
-            this.calculationsHistoryDataGridView.AllowUserToAddRows = false;
-            this.calculationsHistoryDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.calculationsHistoryDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.calculationsHistoryDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5});
-            resources.ApplyResources(this.calculationsHistoryDataGridView, "calculationsHistoryDataGridView");
-            this.calculationsHistoryDataGridView.Name = "calculationsHistoryDataGridView";
-            this.calculationsHistoryDataGridView.ReadOnly = true;
-            this.calculationsHistoryDataGridView.RowTemplate.Height = 24;
-            this.calculationsHistoryDataGridView.RowTemplate.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle2;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn4, "dataGridViewTextBoxColumn4");
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle3;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn5, "dataGridViewTextBoxColumn5");
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
             // 
             // splitContainer5
             // 
@@ -677,8 +517,8 @@ namespace Computator.NET
             // function
             // 
             this.function.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.function.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.function.DefaultCellStyle = dataGridViewCellStyle1;
             resources.ApplyResources(this.function, "function");
             this.function.Name = "function";
             this.function.ReadOnly = true;
@@ -700,8 +540,8 @@ namespace Computator.NET
             // parameters
             // 
             this.parameters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.parameters.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.parameters.DefaultCellStyle = dataGridViewCellStyle2;
             resources.ApplyResources(this.parameters, "parameters");
             this.parameters.Name = "parameters";
             this.parameters.ReadOnly = true;
@@ -709,8 +549,8 @@ namespace Computator.NET
             // result
             // 
             this.result.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.result.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.result.DefaultCellStyle = dataGridViewCellStyle3;
             resources.ApplyResources(this.result, "result");
             this.result.Name = "result";
             this.result.ReadOnly = true;
@@ -749,19 +589,16 @@ namespace Computator.NET
             // 
             this.dd212ToolStripMenuItem.Name = "dd212ToolStripMenuItem";
             resources.ApplyResources(this.dd212ToolStripMenuItem, "dd212ToolStripMenuItem");
-            this.dd212ToolStripMenuItem.Click += new System.EventHandler(this.modeRealToolStripMenuItem_Click);
             // 
             // fdsfdsToolStripMenuItem
             // 
             this.fdsfdsToolStripMenuItem.Name = "fdsfdsToolStripMenuItem";
             resources.ApplyResources(this.fdsfdsToolStripMenuItem, "fdsfdsToolStripMenuItem");
-            this.fdsfdsToolStripMenuItem.Click += new System.EventHandler(this.modeRealToolStripMenuItem_Click);
             // 
             // mode3DFxyToolStripMenuItem
             // 
             this.mode3DFxyToolStripMenuItem.Name = "mode3DFxyToolStripMenuItem";
             resources.ApplyResources(this.mode3DFxyToolStripMenuItem, "mode3DFxyToolStripMenuItem");
-            this.mode3DFxyToolStripMenuItem.Click += new System.EventHandler(this.modeRealToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -790,7 +627,6 @@ namespace Computator.NET
             // 
             // calculationsTabPage
             // 
-            this.calculationsTabPage.Controls.Add(this.splitContainer4);
             resources.ApplyResources(this.calculationsTabPage, "calculationsTabPage");
             this.calculationsTabPage.Name = "calculationsTabPage";
             this.calculationsTabPage.UseVisualStyleBackColor = true;
@@ -1405,16 +1241,6 @@ namespace Computator.NET
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel1.PerformLayout();
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.calculationsImZnumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.valueForCalculationNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.calculationsHistoryDataGridView)).EndInit();
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel1.PerformLayout();
             this.splitContainer5.Panel2.ResumeLayout(false);
@@ -1438,7 +1264,6 @@ namespace Computator.NET
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.chartingTabPage.ResumeLayout(false);
-            this.calculationsTabPage.ResumeLayout(false);
             this.numericalCalculationsTabPage.ResumeLayout(false);
             this.numericalCalculationsTabPage.PerformLayout();
             this.symbolicCalculationsTabPage.ResumeLayout(false);
@@ -1464,11 +1289,6 @@ namespace Computator.NET
         private System.Windows.Forms.TabPage calculationsTabPage;
         private System.Windows.Forms.TabPage numericalCalculationsTabPage;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox calculationValueTextBox;
-        private System.Windows.Forms.Button calculateButton;
-        private System.Windows.Forms.NumericUpDown valueForCalculationNumericUpDown;
-        private System.Windows.Forms.Label calculationsRealLabel;
         private System.Windows.Forms.TabPage symbolicCalculationsTabPage;
         private System.Windows.Forms.Button numericalOperationButton;
         private System.Windows.Forms.Button symbolicOperationButton;
@@ -1489,9 +1309,6 @@ namespace Computator.NET
         private System.Windows.Forms.NumericUpDown xDerivativePointNumericUpDown;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.DataGridView calculationsHistoryDataGridView;
-        private System.Windows.Forms.NumericUpDown calculationsImZnumericUpDown;
-        private System.Windows.Forms.Label calculationsComplexLabel;
         private System.Windows.Forms.TabPage scriptingTabPage;
         private System.Windows.Forms.SplitContainer splitContainer1;
 
@@ -1509,15 +1326,9 @@ namespace Computator.NET
 
         private DirectoryTree scriptingDirectoryTree;
         private System.Windows.Forms.ToolStripStatusLabel XYRatioToolStripStatusLabel;
-        private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private ExpressionTextBox expressionTextBox;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn function;
         private System.Windows.Forms.DataGridViewTextBoxColumn operation;
         private System.Windows.Forms.DataGridViewTextBoxColumn method;

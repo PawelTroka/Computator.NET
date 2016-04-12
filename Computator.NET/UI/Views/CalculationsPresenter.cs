@@ -1,5 +1,6 @@
 ﻿// Computator.NET Copyright © 2016 - 2016 Pawel Troka
 
+using Computator.NET.DataTypes;
 using Computator.NET.Evaluation;
 
 namespace Computator.NET.UI.Views
@@ -7,18 +8,22 @@ namespace Computator.NET.UI.Views
     public class CalculationsPresenter
     {
         private ICalculationsView _view;
+        private CalculationsMode calculationsMode;
 
         public CalculationsPresenter(ICalculationsView view)
         {
             _view = view;
-            _view.ModeChanged += _view_ModeChanged;
+            EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(_ModeChanged);
         }
 
-        private void _view_ModeChanged(object sender, System.EventArgs e)
+        private void _ModeChanged(CalculationsModeChangedEvent calculationsModeChangedEvent)
         {
-            _view.YVisible = _view.CalculationsMode == CalculationsMode.Complex || _view.CalculationsMode == CalculationsMode.Fxy;
+            if (calculationsModeChangedEvent.CalculationsMode == calculationsMode) return;
 
-            switch (_view.CalculationsMode)
+            _view.YVisible = calculationsModeChangedEvent.CalculationsMode == CalculationsMode.Complex ||
+                             calculationsModeChangedEvent.CalculationsMode == CalculationsMode.Fxy;
+
+            switch (calculationsModeChangedEvent.CalculationsMode)
             {
                 case CalculationsMode.Complex:
                     _view.XLabel = "Re(z) =";
@@ -32,6 +37,8 @@ namespace Computator.NET.UI.Views
                     _view.XLabel = "       x =";
                     break;
             }
+
+            calculationsMode = calculationsModeChangedEvent.CalculationsMode;
         }
     }
 }

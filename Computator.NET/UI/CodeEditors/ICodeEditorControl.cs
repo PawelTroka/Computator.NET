@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    internal interface ICodeEditorControl
+    public interface ICodeEditorControl
     {
         void ClearHighlightedErrors();
         string Text { get; set; }

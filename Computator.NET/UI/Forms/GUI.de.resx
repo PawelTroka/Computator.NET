@@ -126,50 +126,8 @@
   <data name="processButton.Text" xml:space="preserve">
     <value>Führen Sie das Skript</value>
   </data>
-  <data name="calculateButton.Text" xml:space="preserve">
-    <value>Zählen!</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Werte:</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Ergebnis:</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>Ausdruck</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
-    <value>Ergebnis</value>
-  </data>
   <data name="label14.Text" xml:space="preserve">
     <value>Ordnung n =</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>Punkt x =</value>
-  </data>
-  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Die Ableitung der Funktion an</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Ergebnis:</value>
-  </data>
-  <data name="function.HeaderText" xml:space="preserve">
-    <value>Funktion</value>
-  </data>
-  <data name="operation.HeaderText" xml:space="preserve">
-    <value>Betrieb</value>
-  </data>
-  <data name="method.HeaderText" xml:space="preserve">
-    <value>Verfahren</value>
-  </data>
-  <data name="parameters.HeaderText" xml:space="preserve">
-    <value>Parameter</value>
-  </data>
-  <data name="result.HeaderText" xml:space="preserve">
-    <value>Ergebnis</value>
-  </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Tabelle</value>
   </data>
   <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Rechner</value>
@@ -186,17 +144,17 @@
   <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
     <value>numerischen Berechnungen</value>
   </data>
+  <data name="symbolicOperationButton.Text" xml:space="preserve">
+    <value>berechnen</value>
+  </data>
+  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
+    <value>symbolische Berechnungen</value>
+  </data>
   <data name="scriptingTabPage.Text" xml:space="preserve">
     <value>Skript</value>
   </data>
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Custom-Funktionen</value>
-  </data>
-  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
-    <value>symbolische Berechnungen</value>
-  </data>
-  <data name="symbolicOperationButton.Text" xml:space="preserve">
-    <value>berechnen</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Ausdruck :</value>
@@ -365,5 +323,47 @@
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Qualität Diagramm:</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
+    <value>Ergebnis</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>Ausdruck</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Ergebnis:</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Werte:</value>
+  </data>
+  <data name="calculateButton.Text" xml:space="preserve">
+    <value>Zählen!</value>
+  </data>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Tabelle</value>
+  </data>
+  <data name="result.HeaderText" xml:space="preserve">
+    <value>Ergebnis</value>
+  </data>
+  <data name="parameters.HeaderText" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="method.HeaderText" xml:space="preserve">
+    <value>Verfahren</value>
+  </data>
+  <data name="operation.HeaderText" xml:space="preserve">
+    <value>Betrieb</value>
+  </data>
+  <data name="function.HeaderText" xml:space="preserve">
+    <value>Funktion</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Ergebnis:</value>
+  </data>
+  <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
+    <value>Die Ableitung der Funktion an</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Punkt x =</value>
   </data>
 </root>
