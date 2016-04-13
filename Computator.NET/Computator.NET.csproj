@@ -328,6 +328,12 @@
     <Compile Include="UI\Views\NumericalCalculationsView.Designer.cs">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Views\ScriptingView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Views\ScriptingView.Designer.cs">
+      <DependentUpon>ScriptingView.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -403,6 +409,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\NumericalCalculationsView.resx">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\ScriptingView.cs.resx">
+      <DependentUpon>ScriptingView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\ScriptingView.de.resx">
+      <DependentUpon>ScriptingView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\ScriptingView.pl.resx">
+      <DependentUpon>ScriptingView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\ScriptingView.resx">
+      <DependentUpon>ScriptingView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Computator.NET.pfx" />
