@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Computator.NET.Config;
@@ -14,46 +15,46 @@ using File = System.IO.File;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    public class CodeEditorControlWrapper : UserControl, ICodeEditorControl,
+    public class CodeEditorControlWrapper : UserControl, ICodeEditorView, IDocumentsEditor,
         INotifyPropertyChanged
     {
-        private readonly ScriptEvaluator _eval;
-        private readonly /*AvalonEditCodeEditorControl*/ AvalonEditCodeEditor avalonEditor;
+
+
         private readonly ElementHost avalonEditorWrapper;
+
+
+        private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors = new Dictionary<CodeEditorType, ICodeEditorControl>()            {
+                {  CodeEditorType.Scintilla, new ScintillaCodeEditorControl
+            {
+                Dock = DockStyle.Fill
+            }},
+                {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor() }
+        };
 
         private readonly SaveFileDialog saveFileDialog = new SaveFileDialog
         {
             Filter = GlobalConfig.tslFilesFIlter
         };
 
-        private readonly ScintillaCodeEditorControl scintillaEditor;
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
 
-        //private Dictionary<CodeEditorType, ICodeEditorControl> codeEditors;
-
         public CodeEditorControlWrapper()
         {
-            _eval = new ScriptEvaluator();
-            avalonEditor = new AvalonEditCodeEditor();
-
             avalonEditorWrapper = new ElementHost
             {
                 BackColor = Color.White,
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                Child = (_codeEditors[CodeEditorType.AvalonEdit] as UIElement)
             };
 
-            scintillaEditor = new ScintillaCodeEditorControl
-            {
-                Dock = DockStyle.Fill
-            };
-            avalonEditorWrapper.Child = avalonEditor;
 
 
-            tabControl = new DocumentsTabControl {Dock = DockStyle.Top};
 
-            var panel = new Panel {Dock = DockStyle.Fill};
-            panel.Controls.AddRange(new Control[] {avalonEditorWrapper, scintillaEditor});
+            tabControl = new DocumentsTabControl { Dock = DockStyle.Top };
+
+            var panel = new Panel { Dock = DockStyle.Fill };
+            panel.Controls.AddRange(new Control[] { avalonEditorWrapper, (_codeEditors[CodeEditorType.Scintilla] as Control) });
 
             var tableLayout = new TableLayoutPanel
             {
@@ -73,7 +74,7 @@ namespace Computator.NET.UI.CodeEditors
             tabControl.ControlAdded += TabControl_ControlAdded;
 
 
-            scintillaEditor.DataBindings.Add("ExponentMode", this, "ExponentMode", false,
+            (_codeEditors[CodeEditorType.Scintilla] as Control).DataBindings.Add("ExponentMode", this, "ExponentMode", false,
                 DataSourceUpdateMode.OnPropertyChanged);
 
 
@@ -81,28 +82,38 @@ namespace Computator.NET.UI.CodeEditors
             //avalonEditor.DataBindings.Add("ExponentMode", this, "ExponentMode", false, DataSourceUpdateMode.OnPropertyChanged);
 
             NewDocument();
+
+
+            Settings.Default.PropertyChanged += (o, e) =>
+            {
+                switch (e.PropertyName)
+                {
+
+
+                    case "CodeEditor":
+                        this.ChangeEditorType();
+                        break;
+
+
+
+
+                    case "ScriptingFont":
+                        this.SetFont(Settings.Default.ScriptingFont);
+
+                        break;
+                }
+            };
         }
 
         public override bool Focused
             =>
                 _codeEditorType == CodeEditorType.AvalonEdit
                     ? avalonEditorWrapper.Focused
-                    : ((Control) CurrentCodeEditor).Focused;
+                    : ((Control)CurrentCodeEditor).Focused;
 
         private ICodeEditorControl CurrentCodeEditor
         {
-            get
-            {
-                switch (_codeEditorType)
-                {
-                    case CodeEditorType.AvalonEdit:
-                        return avalonEditor;
-                    case CodeEditorType.Scintilla:
-                        return scintillaEditor;
-                    default:
-                        return null;
-                }
-            }
+            get { return _codeEditors[_codeEditorType]; }
         }
 
         public string CurrentFileName
@@ -205,11 +216,6 @@ namespace Computator.NET.UI.CodeEditors
         public void HighlightErrors(List<CompilerError> errors)
         {
             CurrentCodeEditor.HighlightErrors(errors);
-        }
-
-        public IEnumerable<string> Documents
-        {
-            get { return CurrentCodeEditor.Documents; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -315,15 +321,10 @@ namespace Computator.NET.UI.CodeEditors
 
         public void SetFont(Font font)
         {
-            avalonEditor.SetFont(font);
-            scintillaEditor.SetFont(font);
-        }
-
-        public void ProcessScript(Action<string> consoleCallback, string customCode)
-        {
-            ClearHighlightedErrors();
-            var function = _eval.Evaluate(CurrentCodeEditor.Text, customCode);
-            function.Evaluate(consoleCallback);
+            foreach (var codeEditorControl in _codeEditors)
+            {
+                codeEditorControl.Value.SetFont(font);
+            }
         }
 
         public void ChangeEditorType() //TODO: test
@@ -334,7 +335,7 @@ namespace Computator.NET.UI.CodeEditors
 
             var documents = new Dictionary<string, string>();
 
-            foreach (var document in Documents)
+            foreach (var document in CurrentCodeEditor.Documents)
             {
                 SwitchDocument(document);
                 documents.Add(document, Text);
@@ -364,14 +365,14 @@ namespace Computator.NET.UI.CodeEditors
             switch (_codeEditorType)
             {
                 case CodeEditorType.AvalonEdit:
-                    //  avalonEditor.Text = scintillaEditor.Text;
+                    //  avalonEditor.Text = (_codeEditors[CodeEditorType.Scintilla] as Control).Text;
                     avalonEditorWrapper.Show();
-                    scintillaEditor.Hide();
+                    (_codeEditors[CodeEditorType.Scintilla] as Control).Hide();
                     break;
                 case CodeEditorType.Scintilla:
-                    // scintillaEditor.Text = avalonEditor.Text;
+                    // (_codeEditors[CodeEditorType.Scintilla] as Control).Text = avalonEditor.Text;
                     avalonEditorWrapper.Hide();
-                    scintillaEditor.Show();
+                    (_codeEditors[CodeEditorType.Scintilla] as Control).Show();
                     break;
             }
         }

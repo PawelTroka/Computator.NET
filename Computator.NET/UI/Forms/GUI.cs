@@ -34,21 +34,8 @@ namespace Computator.NET
 {
     public partial class GUI : LocalizedForm, IMainForm
     {
-        private readonly CultureInfo[] AllCultures =
-            CultureInfo.GetCultures(CultureTypes.NeutralCultures);
-
-
-        //  private readonly FunctionComplexEvaluator complexEvaluator;
-
-        // private readonly Function2DEvaluator evaluator2d;
-        // private readonly Function3DEvaluator evaluator3d;
 
         private readonly WebBrowserForm menuFunctionsToolTip = new WebBrowserForm();
-
-        private CodeEditorControlWrapper customFunctionsCodeEditor;
-
-
-        private CodeEditorControlWrapper scriptingCodeEditor;
 
 
         private Chart2D chart2d => charts[CalculationsMode.Real] as Chart2D;
@@ -58,14 +45,23 @@ namespace Computator.NET
         public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
         public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView() { Dock = DockStyle.Fill };
 
-        public ICodeEditorControl ScriptingCodeEditorControl
+        public IScriptingView ScriptingView { get; } = new ScriptingView() {Dock = DockStyle.Fill};
+
+        public void SetLanguages(object[] languages)
         {
-            get { return scriptingCodeEditor; }
+            languageToolStripComboBox.Items.Clear();
+            languageToolStripComboBox.Items.AddRange(languages);
         }
 
-        public ICodeEditorControl CustomFunctionsCodeEditorControl
+
+
+        public string SelectedLanguage
         {
-            get { return customFunctionsCodeEditor; }
+            get
+            {
+                return languageToolStripComboBox.SelectedItem.ToString();
+            } 
+            set { languageToolStripComboBox.SelectedItem = value; }
         }
 
         public ReadOnlyDictionary<CalculationsMode, IChart> charts { get; } =
@@ -138,6 +134,11 @@ namespace Computator.NET
         }
 
         public event EventHandler EnterClicked;
+        public event EventHandler SelectedLanguageChanged
+        {
+            add { languageToolStripComboBox.SelectedIndexChanged += value; }
+            remove { languageToolStripComboBox.SelectedIndexChanged -= value; }
+        }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -165,7 +166,7 @@ namespace Computator.NET
                 EnterClicked?.Invoke(s, e); //defaultActions[tabControl1.SelectedIndex].Invoke(s, e);
         }
 
-        #region edit menu events
+        #region edit menu eventsi
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -173,17 +174,17 @@ namespace Computator.NET
             switch (tabControl1.SelectedIndex)
             {
                 case 4:
-                    if (scriptingCodeEditor.Focused)
-                        scriptingCodeEditor.Cut();
-                    else
-                        SendStringAsKey("^X");
+                    //TODO: MVP//        if (scriptingCodeEditor.Focused)
+                    //TODO: MVP//        scriptingCodeEditor.Cut();
+                    //TODO: MVP//       else
+                    SendStringAsKey("^X");
                     break;
 
                 case 5:
-                    if (customFunctionsCodeEditor.Focused)
-                        customFunctionsCodeEditor.Cut();
-                    else
-                        SendStringAsKey("^X");
+                    //TODO: MVP//        if (customFunctionsCodeEditor.Focused)
+                    //TODO: MVP//         customFunctionsCodeEditor.Cut();
+                    //TODO: MVP//         else
+                    SendStringAsKey("^X");
                     break;
 
                 default: //if (tabControl1.SelectedIndex < 4)
@@ -202,17 +203,17 @@ namespace Computator.NET
                 SendStringAsKey("^Z"); //expressionTextBox.Undo();
             else if (tabControl1.SelectedIndex == 4)
             {
-                if (scriptingCodeEditor.Focused)
-                    scriptingCodeEditor.Undo();
-                else
-                    SendStringAsKey("^Z");
+                //TODO: MVP//     if (scriptingCodeEditor.Focused)
+                //TODO: MVP//      scriptingCodeEditor.Undo();
+                //TODO: MVP//     else
+                SendStringAsKey("^Z");
             }
             else
             {
-                if (customFunctionsCodeEditor.Focused)
-                    customFunctionsCodeEditor.Undo();
-                else
-                    SendStringAsKey("^Z");
+                //TODO: MVP//      if (customFunctionsCodeEditor.Focused)
+                //TODO: MVP//    customFunctionsCodeEditor.Undo();
+                //TODO: MVP//    else
+                SendStringAsKey("^Z");
             }
 #else
             SendStringAsKey("^Z");
@@ -229,19 +230,19 @@ namespace Computator.NET
                 //expressionTextBox.do()
             }
             else if (tabControl1.SelectedIndex == 4)
-                //scriptingCodeEditor.Focus();
+            //scriptingCodeEditor.Focus();
             {
-                if (scriptingCodeEditor.Focused)
-                    scriptingCodeEditor.Redo();
-                else
-                    SendStringAsKey("^Y");
+                //TODO: MVP//     if (scriptingCodeEditor.Focused)
+                //TODO: MVP//     scriptingCodeEditor.Redo();
+                //TODO: MVP//    else
+                SendStringAsKey("^Y");
             }
             else
             {
-                if (customFunctionsCodeEditor.Focused)
-                    customFunctionsCodeEditor.Redo();
-                else
-                    SendStringAsKey("^Y");
+                //TODO: MVP//        if (customFunctionsCodeEditor.Focused)
+                //TODO: MVP//     customFunctionsCodeEditor.Redo();
+                //TODO: MVP//    else
+                SendStringAsKey("^Y");
             }
 #else
               SendStringAsKey("^Y");
@@ -257,17 +258,17 @@ namespace Computator.NET
             }
             else if (tabControl1.SelectedIndex == 4)
             {
-                if (scriptingCodeEditor.Focused)
-                    scriptingCodeEditor.Copy();
-                else
-                    SendStringAsKey("^C");
+                //TODO: MVP//    if (scriptingCodeEditor.Focused)
+                //TODO: MVP//     scriptingCodeEditor.Copy();
+                //TODO: MVP//     else
+                SendStringAsKey("^C");
             }
             else
             {
-                if (customFunctionsCodeEditor.Focused)
-                    customFunctionsCodeEditor.Copy();
-                else
-                    SendStringAsKey("^C");
+                //TODO: MVP//    if (customFunctionsCodeEditor.Focused)
+                //TODO: MVP//    customFunctionsCodeEditor.Copy();
+                //TODO: MVP//    else
+                SendStringAsKey("^C");
             }
 #else
             SendStringAsKey("^C");
@@ -283,17 +284,17 @@ namespace Computator.NET
             }
             else if (tabControl1.SelectedIndex == 4)
             {
-                if (scriptingCodeEditor.Focused)
-                    scriptingCodeEditor.Paste();
-                else
-                    SendStringAsKey("^V");
+                //TODO: MVP//     if (scriptingCodeEditor.Focused)
+                //TODO: MVP//     scriptingCodeEditor.Paste();
+                //TODO: MVP//       else
+                SendStringAsKey("^V");
             }
             else
             {
-                if (customFunctionsCodeEditor.Focused)
-                    customFunctionsCodeEditor.Paste();
-                else
-                    SendStringAsKey("^V");
+                //TODO: MVP//    if (customFunctionsCodeEditor.Focused)
+                //TODO: MVP//     customFunctionsCodeEditor.Paste();
+                //TODO: MVP//     else
+                SendStringAsKey("^V");
             }
 
 #else
@@ -310,16 +311,16 @@ namespace Computator.NET
             }
             else if (tabControl1.SelectedIndex == 4)
             {
-                if (scriptingCodeEditor.Focused)
-                    scriptingCodeEditor.SelectAll();
-                else
-                    SendStringAsKey("^A");
+                //TODO: MVP//      if (scriptingCodeEditor.Focused)
+                //TODO: MVP//      scriptingCodeEditor.SelectAll();
+                //TODO: MVP//      else
+                SendStringAsKey("^A");
             }
             else
             {
-                if (customFunctionsCodeEditor.Focused)
-                    customFunctionsCodeEditor.SelectAll();
-                else
+             //TODO: MVP//   if (customFunctionsCodeEditor.Focused)
+                 //TODO: MVP//   customFunctionsCodeEditor.SelectAll();
+              //  else
                     SendStringAsKey("^A");
             }
 #else
@@ -338,11 +339,11 @@ namespace Computator.NET
                     break;
 
                 case 4:
-                    scriptingCodeEditor.NewDocument();
+                    //TODO: MVP//    scriptingCodeEditor.NewDocument();
                     break;
 
                 case 5:
-                    customFunctionsCodeEditor.NewDocument();
+                    //TODO: MVP//   customFunctionsCodeEditor.NewDocument();
                     break;
 
                 default:
@@ -371,11 +372,11 @@ namespace Computator.NET
                     break;
 
                 case 4:
-                    scriptingCodeEditor.NewDocument(ofd.FileName);
+                    //TODO: MVP//    scriptingCodeEditor.NewDocument(ofd.FileName);
                     break;
 
                 case 5:
-                    customFunctionsCodeEditor.NewDocument(ofd.FileName);
+                    //TODO: MVP//    customFunctionsCodeEditor.NewDocument(ofd.FileName);
                     break;
 
                 default:
@@ -398,11 +399,11 @@ namespace Computator.NET
                     break;
 
                 case 4:
-                    scriptingCodeEditor.Save();
+                    //TODO: MVP// scriptingCodeEditor.Save();
                     break;
 
                 case 5:
-                    customFunctionsCodeEditor.Save();
+                    //TODO: MVP//customFunctionsCodeEditor.Save();
                     break;
 
                 default:
@@ -425,11 +426,11 @@ namespace Computator.NET
                     break;
 
                 case 4:
-                    scriptingCodeEditor.SaveAs();
+                    //TODO: MVP//scriptingCodeEditor.SaveAs();
                     break;
 
                 case 5:
-                    customFunctionsCodeEditor.SaveAs();
+                    //TODO: MVP//customFunctionsCodeEditor.SaveAs();
                     break;
 
                 default:
@@ -450,26 +451,18 @@ namespace Computator.NET
             InitializeComponent();
             calculationsTabPage.Controls.Add(CalculationsView as Control);
             numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
+            scriptingTabPage.Controls.Add(ScriptingView as Control);
             InitializeFunctions();
             InitializeCharts(); //takes more time then it should
-            expressionTextBox.RefreshAutoComplete();
-            SetupAllComboBoxes();
+
             toolStripStatusLabel1.Text = GlobalConfig.version;
             customFunctionsDirectoryTree.Path = Settings.Default.CustomFunctionsDirectory;
-                //Path.Combine(GlobalConfig.basePath,
-            //Settings.Default.CustomFunctionsDirectory);// Settings.Default.ScriptingDirectory;//GlobalConfig.FullPath("TSL Examples", "_CustomFunctions");
-            scriptingDirectoryTree.Path = Settings.Default.ScriptingDirectory;
-                // Path.Combine(GlobalConfig.basePath, Settings.Default.ScriptingDirectory);//GlobalConfig.FullPath("TSL Examples", "_Scripts");
 
             InitializeScripting(); //takes a lot of time, TODO: optimize
-            InitializeFonts();
             InitializeDataBindings();
-            BringToFront();
-            Focus();
+           // BringToFront();
+           // Focus();
             Icon = Resources.computator_net_icon;
-
-            //Settings.Default. += Default_SettingsSaving;
-            Settings.Default.PropertyChanged += Default_PropertyChanged;
 
             symbolicCalculationsTabPage.Enabled = false;
 
@@ -488,7 +481,8 @@ namespace Computator.NET
 
             if (args[1].Contains(".tslf"))
             {
-                customFunctionsCodeEditor.NewDocument(args[1]);
+                //TODO: MVP
+             //   customFunctionsCodeEditor.NewDocument(args[1]);
                 //customFunctionsCodeEditor.CurrentFileName = args[1];
                 // customFunctionsCodeEditor.Text = code;
                 tabControl1.SelectedIndex = 5;
@@ -496,7 +490,8 @@ namespace Computator.NET
             }
             else
             {
-                scriptingCodeEditor.NewDocument(args[1]);
+                //TODO: MVP
+               // scriptingCodeEditor.NewDocument(args[1]);
                 //scriptingCodeEditor.CurrentFileName = args[1];
                 //scriptingCodeEditor.Text = code;
 
@@ -505,43 +500,6 @@ namespace Computator.NET
             }
         }
 
-        private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "Language":
-                    Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
-                    LocalizationManager.GlobalUICulture = Settings.Default.Language;
-                    break;
-
-                case "CodeEditor":
-                    scriptingCodeEditor.ChangeEditorType();
-                    customFunctionsCodeEditor.ChangeEditorType();
-                    break;
-
-                case "FunctionsOrder":
-                    expressionTextBox.RefreshAutoComplete();
-                    break;
-
-                case "ExpressionFont":
-                    expressionTextBox.SetFont(Settings.Default.ExpressionFont);
-                    break;
-
-
-                case "ScriptingFont":
-                    scriptingCodeEditor.SetFont(Settings.Default.ScriptingFont);
-                    customFunctionsCodeEditor.SetFont(Settings.Default.ScriptingFont);
-
-                    break;
-            }
-        }
-
-        private void InitializeFonts()
-        {
-
-
-            consoleOutputTextBox.Font = CustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
-        }
 
         private void InitializeFunctions()
         {
@@ -584,10 +542,11 @@ namespace Computator.NET
             exponentiationToolStripMenuItem.DataBindings.Add("Checked", expressionTextBox, "ExponentMode", false,
                 DataSourceUpdateMode.OnPropertyChanged);
 
-            scriptingCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-            customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,
-                DataSourceUpdateMode.OnPropertyChanged);
+            //TODO: MVP
+     //       scriptingCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,
+ //               DataSourceUpdateMode.OnPropertyChanged);
+   //         customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,
+     //           DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void InitializeCharts()
@@ -607,41 +566,16 @@ namespace Computator.NET
 
             menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
         }
+        
 
         private void InitializeScripting()
-        {
-            scriptingCodeEditor = new CodeEditorControlWrapper();
-            customFunctionsCodeEditor = new CodeEditorControlWrapper();
+        {            //TODO: MVP
+           // customFunctionsCodeEditor 
 
-            splitContainer2.Panel1.Controls.Add(scriptingCodeEditor);
-            scriptingCodeEditor.Name = "scriptingCodeEditor";
-            scriptingCodeEditor.Dock = DockStyle.Fill;
-            scriptingCodeEditor.BringToFront();
+            //splitContainer3.Panel1.Controls.Add(customFunctionsCodeEditor);
 
-            splitContainer3.Panel1.Controls.Add(customFunctionsCodeEditor);
-            customFunctionsCodeEditor.Dock = DockStyle.Fill;
-            customFunctionsCodeEditor.Name = "customFunctionsCodeEditor";
-
-            scriptingDirectoryTree.CodeEditorWrapper = scriptingCodeEditor;
-            customFunctionsDirectoryTree.CodeEditorWrapper = customFunctionsCodeEditor;
-        }
-
-        private void SetupAllComboBoxes()
-        {
-            languageToolStripComboBox.Items.Add(new CultureInfo("en").NativeName);
-            languageToolStripComboBox.Items.Add(new CultureInfo("pl").NativeName);
-            languageToolStripComboBox.Items.Add(new CultureInfo("de").NativeName);
-            languageToolStripComboBox.Items.Add(new CultureInfo("cs").NativeName);
-
-
-            languageToolStripComboBox.AutoSize = true;
-            languageToolStripComboBox.Invalidate();
-
-            languageToolStripComboBox.SelectedItem =
-                AllCultures.First(c =>
-                    c.TwoLetterISOLanguageName ==
-                    Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName)
-                    .NativeName;
+            //scriptingDirectoryTree.CodeEditorWrapper = scriptingCodeEditor;
+            //customFunctionsDirectoryTree.CodeEditorWrapper = customFunctionsCodeEditor;
         }
 
         #endregion
@@ -671,10 +605,12 @@ namespace Computator.NET
                     expressionTextBox.AppendText(menuItem.Text);
                 else if (tabControl1.SelectedIndex == 4)
                 {
-                    scriptingCodeEditor.AppendText(menuItem.Text);
+                    //TODO: MVP
+                    //scriptingCodeEditor.AppendText(menuItem.Text);
                 }
-                else if (tabControl1.SelectedIndex == 5)
-                    customFunctionsCodeEditor.AppendText(menuItem.Text);
+                else if (tabControl1.SelectedIndex == 5) { }
+                    //TODO: MVP
+                    //customFunctionsCodeEditor.AppendText(menuItem.Text);
             }
             else if (e.Button == MouseButtons.Right && FunctionsDetails.Details.ContainsKey(menuItem.Text))
             {
@@ -689,29 +625,6 @@ namespace Computator.NET
             //MessageBox.Show("Computator.NET "+GlobalConfig.version+"\nthis is beta version, some functions may not work properly\n\nAuthor: Paweł Troka\nE-mail: ptroka@fizyka.dk\nWebsite: http://fizyka.dk", "About Computator.NET");
             var about = new AboutBox1();
             about.ShowDialog(this);
-        }
-
-        private void processButton_Click(object sender, EventArgs e)
-        {
-            consoleOutputTextBox.Text = Strings.ConsoleOutput;
-
-            scriptingCodeEditor.ClearHighlightedErrors();
-            customFunctionsCodeEditor.ClearHighlightedErrors();
-
-            try
-            {
-                scriptingCodeEditor.ProcessScript(output => consoleOutputTextBox.AppendText(output),
-                    customFunctionsCodeEditor.Text);
-            }
-            catch (Exception ex)
-            {
-                var exception = ex as CompilationException;
-                if (exception != null)
-                {
-                    scriptingCodeEditor.HighlightErrors(exception.Errors[CompilationErrorPlace.MainCode]);
-                }
-                /////////HandleException(ex); ///TODO: MVP
-            }
         }
 
 
@@ -787,18 +700,7 @@ namespace Computator.NET
         }
 
 
-        private void openScriptDirectoryButton_Click(object sender, EventArgs e)
-        {
-            //var result = openScriptFileDialog.ShowDialog(this);
-            var fbd = new FolderBrowserDialog {ShowNewFolderButton = true};
 
-            if (fbd.ShowDialog(this) == DialogResult.OK)
-            {
-                scriptingDirectoryTree.Path = fbd.SelectedPath;
-                Settings.Default.ScriptingDirectory = scriptingDirectoryTree.Path;
-                Settings.Default.Save();
-            }
-        }
 
         private void openCustomFunctionsDirectoryButton_Click(object sender, EventArgs e)
         {
@@ -832,14 +734,7 @@ namespace Computator.NET
 
         #region tools menu events
 
-        private void languageToolStripComboBox_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            var selectedCulture = AllCultures.First(c => c.NativeName == (string) languageToolStripComboBox.SelectedItem);
-            Thread.CurrentThread.CurrentCulture = selectedCulture;
-            LocalizationManager.GlobalUICulture = selectedCulture;
-            Settings.Default.Language = selectedCulture;
-            Settings.Default.Save();
-        }
+
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {

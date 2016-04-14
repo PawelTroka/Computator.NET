@@ -15,10 +15,10 @@ namespace Computator.NET
 
         INumericalCalculationsView NumericalCalculationsView { get; }
 
-        ICodeEditorControl ScriptingCodeEditorControl { get; }
+        IScriptingView ScriptingView { get; }
 
-        ICodeEditorControl CustomFunctionsCodeEditorControl { get; }
-
+        void SetLanguages(object[] languages);
+        string SelectedLanguage { get; set; }
 
         ReadOnlyDictionary<CalculationsMode, IChart> charts { get; }
         IExpressionView ExpressionView { get; }
@@ -36,5 +36,7 @@ namespace Computator.NET
         void SendStringAsKey(string key);
 
         event EventHandler EnterClicked;
+
+        event EventHandler SelectedLanguageChanged;
     }
 }

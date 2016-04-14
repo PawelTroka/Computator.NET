@@ -7,7 +7,16 @@ using Computator.NET.UI.CodeEditors;
 
 namespace Computator.NET
 {
-    public class DirectoryTree : TreeView
+    public interface IDirectoryTree
+    {
+        string Path { get; set; }
+        event DirectoryTree.DirectorySelectedDelegate DirectorySelected;
+        IDocumentsEditor CodeEditorWrapper { get; set; }
+    }
+
+
+
+    public sealed class DirectoryTree : TreeView, IDirectoryTree
     {
         public delegate void DirectorySelectedDelegate(object sender, DirectorySelectedEventArgs e);
 
@@ -30,15 +39,7 @@ namespace Computator.NET
                 {
                     var attr = File.GetAttributes(ctxNode.FullPath);
 
-                    TreeNode newNode = null;
-                    if (attr.HasFlag(FileAttributes.Directory))
-                    {
-                        newNode = ctxNode.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id);
-                    }
-                    else
-                    {
-                        newNode = ctxNode.Parent.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id);
-                    }
+                    var newNode = attr.HasFlag(FileAttributes.Directory) ? ctxNode.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id) : ctxNode.Parent.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id);
                     id++;
 
                     LabelEdit = true;
@@ -88,7 +89,7 @@ namespace Computator.NET
             AfterLabelEdit += treeView1_AfterLabelEdit;
         }
 
-        public CodeEditorControlWrapper CodeEditorWrapper { get; set; }
+        public IDocumentsEditor CodeEditorWrapper { get; set; }
 
         public string Path
         {
@@ -278,11 +279,8 @@ namespace Computator.NET
             base.OnAfterSelect(e);
 
             // Raise the DirectorySelected event.
-            if (DirectorySelected != null)
-            {
-                DirectorySelected(this,
-                    new DirectorySelectedEventArgs(e.Node.FullPath));
-            }
+            DirectorySelected?.Invoke(this,
+                new DirectorySelectedEventArgs(e.Node.FullPath));
         }
     }
 

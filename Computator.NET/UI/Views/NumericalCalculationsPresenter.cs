@@ -26,12 +26,12 @@ namespace Computator.NET.UI.Views
         private readonly ReadOnlyDictionary<string,ReadOnlyDictionary<string, Delegate>> _methods;
 
         private readonly IErrorHandler errorHandler;
-        private readonly IExpressionView expressionView;
+        private readonly ITextProvider expressionView;
 
         private CalculationsMode _calculationsMode;
-        private ICodeEditorControl _customFunctionsCodeEditor;
+        private ITextProvider _customFunctionsCodeEditor;
 
-        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler, IExpressionView expressionView, ICodeEditorControl customFunctionsCodeEditor)
+        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler, ITextProvider expressionView, ITextProvider customFunctionsCodeEditor)
         {
             _methods = new ReadOnlyDictionary<string, ReadOnlyDictionary<string, Delegate>>(
                 new Dictionary<string, ReadOnlyDictionary<string, Delegate>>
@@ -159,8 +159,7 @@ namespace Computator.NET.UI.Views
                 }
                 catch (Exception ex)//TODO: introduce real exception handling just like in MainFormPresenter for Calculations or add fuction to chart
                 {
-                    errorHandler.DispalyError(ex.Message,Strings.Error);
-                    errorHandler.LogError(ex.Message,ErrorType.Calculation, ex);
+                    ExceptionsHandler.Instance.HandleException(ex,errorHandler);
                 }
             }
             else

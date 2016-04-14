@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="consoleOutputTextBox.Text" xml:space="preserve">
-    <value>Výstup Konzoli:</value>
-  </data>
-  <data name="openScriptingDirectoryButton.Text" xml:space="preserve">
-    <value>Otevřít skript</value>
-  </data>
-  <data name="processButton.Text" xml:space="preserve">
-    <value>Spusť skript</value>
-  </data>
   <data name="chartingTabPage.Text" xml:space="preserve">
     <value>Graf</value>
   </data>
@@ -149,6 +140,15 @@
   </data>
   <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
     <value>Matematické konstanty</value>
+  </data>
+  <data name="processButton.Text" xml:space="preserve">
+    <value>Spusť skript</value>
+  </data>
+  <data name="openScriptingDirectoryButton.Text" xml:space="preserve">
+    <value>Otevřít skript</value>
+  </data>
+  <data name="consoleOutputTextBox.Text" xml:space="preserve">
+    <value>Výstup Konzoli:</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Výraz:</value>

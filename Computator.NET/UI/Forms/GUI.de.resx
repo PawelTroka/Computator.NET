@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="consoleOutputTextBox.Text" xml:space="preserve">
-    <value>Konsolenausgabe :</value>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Tabelle</value>
   </data>
-  <data name="openScriptingDirectoryButton.Text" xml:space="preserve">
-    <value>öffnen Sie das Skript</value>
+  <data name="calculationsTabPage.Text" xml:space="preserve">
+    <value>Rechner</value>
   </data>
-  <data name="processButton.Text" xml:space="preserve">
-    <value>Führen Sie das Skript</value>
+  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
+    <value>numerischen Berechnungen</value>
   </data>
   <data name="symbolicOperationButton.Text" xml:space="preserve">
     <value>berechnen</value>
@@ -137,6 +137,15 @@
   </data>
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Custom-Funktionen</value>
+  </data>
+  <data name="processButton.Text" xml:space="preserve">
+    <value>Führen Sie das Skript</value>
+  </data>
+  <data name="openScriptingDirectoryButton.Text" xml:space="preserve">
+    <value>öffnen Sie das Skript</value>
+  </data>
+  <data name="consoleOutputTextBox.Text" xml:space="preserve">
+    <value>Konsolenausgabe :</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Ausdruck :</value>
@@ -356,14 +365,5 @@
   </data>
   <data name="function.HeaderText" xml:space="preserve">
     <value>Funktion</value>
-  </data>
-  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
-    <value>numerischen Berechnungen</value>
-  </data>
-  <data name="calculationsTabPage.Text" xml:space="preserve">
-    <value>Rechner</value>
-  </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Tabelle</value>
   </data>
 </root>

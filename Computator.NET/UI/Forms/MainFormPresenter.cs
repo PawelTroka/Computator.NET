@@ -1,7 +1,10 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using Computator.NET.Charting;
 using Computator.NET.Compilation;
@@ -9,11 +12,16 @@ using Computator.NET.Config;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
+using Computator.NET.Localization;
 using Computator.NET.NumericalCalculations;
+using Computator.NET.Properties;
 
 namespace Computator.NET
 {
-    public class MainFormPresenter
+
+
+
+    public class MainFormPresenter 
     {
         private readonly ExpressionsEvaluator expressionsEvaluator = new ExpressionsEvaluator();
 
@@ -23,28 +31,26 @@ namespace Computator.NET
 
         private readonly IMainForm _view;
 
-     /*   public async Task DoTask()
-        {
-            
-        }*/
+        private IErrorHandler _errorHandler;
 
         private readonly List<Action<object, EventArgs>> defaultActions;
-        private readonly IErrorHandler errorHandler;
+
 
         public MainFormPresenter(IMainForm view, IErrorHandler errorHandler)
         {
-            defaultActions = new List<Action<object, EventArgs>>
+            _errorHandler = errorHandler;
+
+               defaultActions = new List<Action<object, EventArgs>>
             {
                 ChartAreaValuesView1_AddClicked,
-                CalculationsView_CalculateClicked,
-              //  NumericalCalculationsView_ComputeClicked,
+                //CalculationsView_CalculateClicked,
+                //  NumericalCalculationsView_ComputeClicked,
                 // symbolicOperationButton_Click,
                 //  processButton_Click
             };
 
 
             _view = view;
-            this.errorHandler = errorHandler;
             _view.EnterClicked += (o, e) => defaultActions[_view.SelectedViewIndex].Invoke(o, e);
 
             _view.chartAreaValuesView1.QualityChanged += ChartAreaValuesView_QualityChanged;
@@ -81,66 +87,66 @@ namespace Computator.NET
             _view.ModeForcedToComplex += (sender, args) => SetMode(CalculationsMode.Complex);
             _view.ModeForcedToFxy += (sender, args) => SetMode(CalculationsMode.Fxy);
 
-            // EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>((mode) => SetMode(mode.CalculationsMode));
+
+            _view.SetLanguages(new object[]
+            {
+                new CultureInfo("en").NativeName,
+
+                new CultureInfo("pl").NativeName,
+                new CultureInfo("de").NativeName,
+                new CultureInfo("cs").NativeName
+            });
+            _view.SelectedLanguageChanged += _view_SelectedLanguageChanged;
 
 
-            _view.CalculationsView.CalculateClicked += CalculationsView_CalculateClicked;
+            _view.SelectedLanguage =
+                AllCultures.First(c =>
+                    c.TwoLetterISOLanguageName ==
+                    Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName)
+                    .NativeName;
+
+            Settings.Default.PropertyChanged += (o, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case "Language":
+                        Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
+                        LocalizationManager.GlobalUICulture = Settings.Default.Language;
+                        break;
+                }
+            };
+
+            EventAggregator.Instance.Subscribe<ChangeViewEvent>((cv) =>
+            {
+                _view.SelectedViewIndex = (int) cv.View;
+            });
+
+            EventAggregator.Instance.Subscribe<ErrorsInCustomFunctionsEvent>(eicc =>
+            {
+                
+            });
+            EventAggregator.Instance.Subscribe<NoErrorsInCustomFunctionsEvent>((a) =>
+            {
+                
+            });
         }
 
-        private IChart chart2d
+        private void _view_SelectedLanguageChanged(object sender, EventArgs e)
         {
-            get { return _view.charts[CalculationsMode.Real]; }
+            var selectedCulture = AllCultures.First(c => c.NativeName == _view.SelectedLanguage);
+            Thread.CurrentThread.CurrentCulture = selectedCulture;
+            LocalizationManager.GlobalUICulture = selectedCulture;
+            Settings.Default.Language = selectedCulture;
+            Settings.Default.Save();
         }
 
-        private IChart complexChart
-        {
-            get { return _view.charts[CalculationsMode.Complex]; }
-        }
+        private readonly CultureInfo[] AllCultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
 
-        private IChart chart3d
-        {
-            get { return _view.charts[CalculationsMode.Fxy]; }
-        }
 
         private IChart currentChart => _view.charts[_calculationsMode];
 
 
-        private void CalculationsView_CalculateClicked(object sender, EventArgs e)
-        {
-            if (_view.ExpressionView.Text != "")
-            {
-                try
-                {
-                    var function = expressionsEvaluator.Evaluate(_view.ExpressionView.Text,
-                        _view.CustomFunctionsCodeEditorControl.Text, _calculationsMode);
-
-                    var x = _view.CalculationsView.X;
-                    var y = _view.CalculationsView.Y;
-                    var z = new Complex(x, y);
-
-                    dynamic result = function.EvaluateDynamic(x, y);
-
-                    var resultStr = ScriptingExtensions.ToMathString(result);
-
-                    _view.CalculationsView.AddResult(
-                        _view.ExpressionView.Text,
-                        _calculationsMode == CalculationsMode.Complex
-                            ? z.ToMathString()
-                            : (_calculationsMode == CalculationsMode.Fxy
-                                ? $"{x.ToMathString()}, {y.ToMathString()}"
-                                : x.ToMathString()),
-                        resultStr);
-                }
-                catch (Exception ex)
-                {
-                    HandleException(ex);
-                }
-            }
-            else
-                errorHandler.DispalyError(
-                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
-                    Strings.GUI_numericalOperationButton_Click_Warning_);
-        }
+     
 
         private void ChartAreaValuesView1_AddClicked(object sender, EventArgs e)
         {
@@ -148,46 +154,20 @@ namespace Computator.NET
             {
                 try
                 {
-                    currentChart.AddFunction(expressionsEvaluator.Evaluate(_view.ExpressionView.Text,
-                        _view.CustomFunctionsCodeEditorControl.Text, _calculationsMode));
+                    currentChart.AddFunction(expressionsEvaluator.Evaluate(_view.ExpressionView.Text, 
+                        "",//_view.CustomFunctionsCodeEditorControl.Text,
+                        _calculationsMode));
                 }
                 catch (Exception ex)
                 {
-                    HandleException(ex);
+                   ExceptionsHandler.Instance.HandleException(ex,_errorHandler);
                 }
             }
             else
-                errorHandler.DispalyError(
-                    Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
-                    Strings.GUI_numericalOperationButton_Click_Warning_);
+                _errorHandler.DispalyError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_, Strings.GUI_numericalOperationButton_Click_Warning_);
         }
 
-        private void HandleException(Exception ex)
-        {
-            HandleCustomFunctionsErrors(ex as CompilationException);
-
-            var message = ex.Message + Environment.NewLine + (ex.InnerException?.Message ?? "");
-            errorHandler.DispalyError(message, Strings.Error);
-
-            if (!ex.IsInternal())
-            {
-                errorHandler.LogError(message, ErrorType.General, ex);
-            }
-        }
-
-        private void HandleCustomFunctionsErrors(CompilationException exception)
-        {
-            _view.CustomFunctionsCodeEditorControl.ClearHighlightedErrors();
-
-            if (exception == null)
-                return;
-            _view.CustomFunctionsCodeEditorControl.HighlightErrors(
-                exception.Errors[CompilationErrorPlace.CustomFunctions]);
-
-            if (exception.HasCustomFunctionsErrors && !exception.HasMainCodeErrors)
-                _view.SelectedViewIndex = 5; //tabControl1.SelectedTab = customFunctionsTabPage;
-        }
-
+        private ExceptionsHandler exceptionsHandler;
         private void _view_PrintPreviewClicked(object sender, EventArgs e)
         {
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS

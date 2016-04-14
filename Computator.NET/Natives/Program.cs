@@ -7,6 +7,7 @@ using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Properties;
+using Computator.NET.UI.CodeEditors;
 using Computator.NET.UI.Controls;
 using Computator.NET.UI.Forms;
 using Computator.NET.UI.Views;
@@ -53,7 +54,8 @@ namespace Computator.NET
             var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView);
             var numericalCalculationsPresenter = new NumericalCalculationsPresenter(mainForm.NumericalCalculationsView,
                 SimpleErrorHandler.Instance,
-                mainForm.ExpressionView,mainForm.CustomFunctionsCodeEditorControl);
+                mainForm.ExpressionView,new CodeEditorControlWrapper());
+            var scriptingViewPresenter = new ScriptingViewPresenter(mainForm.ScriptingView,new CodeEditorControlWrapper(), SimpleErrorHandler.Instance);
 
         }
 

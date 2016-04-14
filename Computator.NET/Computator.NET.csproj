@@ -321,6 +321,7 @@
     <Compile Include="UI\Views\ICalculationsView.cs" />
     <Compile Include="UI\Views\IChartAreaValuesView.cs" />
     <Compile Include="UI\Views\INumericalCalculationsView.cs" />
+    <Compile Include="UI\Views\IScriptingView.cs" />
     <Compile Include="UI\Views\NumericalCalculationsPresenter.cs" />
     <Compile Include="UI\Views\NumericalCalculationsView.cs">
       <SubType>UserControl</SubType>
@@ -334,6 +335,7 @@
     <Compile Include="UI\Views\ScriptingView.Designer.cs">
       <DependentUpon>ScriptingView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Views\ScriptingViewPresenter.cs" />
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -493,6 +495,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SymbolicCalculations\" />
+    <Folder Include="UI\Commands\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\functions.xml">

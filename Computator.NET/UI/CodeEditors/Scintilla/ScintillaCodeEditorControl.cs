@@ -32,7 +32,7 @@ namespace Computator.NET.UI.CodeEditors
         }
     }
 
-    internal class ScintillaCodeEditorControl : Scintilla, ICodeEditorControl, INotifyPropertyChanged
+    internal class ScintillaCodeEditorControl : Scintilla, INotifyPropertyChanged, ICodeEditorControl
     {
         // Indicators 0-7 could be in use by a lexer
         // so we'll use indicator 8 to highlight words.

@@ -9,12 +9,12 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Properties;
+using Computator.NET.UI.CodeEditors;
 
 namespace Computator.NET.UI.Controls
 {
-    public interface IExpressionView
+    public interface IExpressionView : ITextProvider
     {
-        string Text { get; set; }
         event EventHandler TextChanged;
     }
 
@@ -35,6 +35,23 @@ namespace Computator.NET.UI.Controls
                 {
                     _autocompleteMenu.MaximumSize = new Size(Size.Width, _autocompleteMenu.MaximumSize.Height);
                 };
+
+            Settings.Default.PropertyChanged += (o, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case "FunctionsOrder":
+                        this.RefreshAutoComplete();
+                        break;
+
+                    case "ExpressionFont":
+                        this.SetFont(Settings.Default.ExpressionFont);
+                        break;
+                }
+            };
+
+            if(!DesignMode)
+                RefreshAutoComplete();
         }
 
         public bool ExponentMode
@@ -128,7 +145,7 @@ namespace Computator.NET.UI.Controls
             }
         }
 
-        public void RefreshAutoComplete()
+        private void RefreshAutoComplete()
         {
             var array = AutocompletionData.GetAutocompleteItemsForExpressions(true);
             if (Sort)

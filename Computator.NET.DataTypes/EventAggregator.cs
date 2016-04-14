@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Computator.NET.Evaluation;
@@ -17,6 +18,33 @@ namespace Computator.NET.DataTypes
         }
 
         public CalculationsMode CalculationsMode { get; private set; }
+    }
+
+    public class ChangeViewEvent : IApplicationEvent
+    {
+        public ChangeViewEvent(ViewName view)
+        {
+            View = view;
+        }
+
+        public ViewName View { get; private set; }
+    }
+
+    public class NoErrorsInCustomFunctionsEvent : IApplicationEvent { }
+
+    public class ErrorsInCustomFunctionsEvent : IApplicationEvent
+    {
+        public ErrorsInCustomFunctionsEvent(IEnumerable<CompilerError> errors)
+        {
+            Errors = errors;
+        }
+
+        public IEnumerable<CompilerError> Errors { get; private set; } 
+    }
+
+    public enum ViewName
+    {
+        Charting,Calculations,NumericalCalculations,SymbolicCalculations,Scripting,CustomFunctions
     }
 
     public interface IEventAggregator

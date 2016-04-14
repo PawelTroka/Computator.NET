@@ -14,6 +14,12 @@ namespace Computator.NET.UI.Views
         {
             _view = view;
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(_ModeChanged);
+            _view.CalculateClicked += _view_CalculateClicked;
+        }
+
+        private void _view_CalculateClicked(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
 
         private void _ModeChanged(CalculationsModeChangedEvent calculationsModeChangedEvent)

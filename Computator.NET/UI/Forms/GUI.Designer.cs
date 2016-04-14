@@ -36,12 +36,6 @@ namespace Computator.NET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.consoleOutputTextBox = new System.Windows.Forms.RichTextBox();
-            this.scriptingDirectoryTree = new Computator.NET.DirectoryTree();
-            this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
-            this.processButton = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.customFunctionsDirectoryTree = new Computator.NET.DirectoryTree();
             this.openCustomFunctionsDirectoryButton = new System.Windows.Forms.Button();
@@ -137,13 +131,6 @@ namespace Computator.NET
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.runToolStripButton = new System.Windows.Forms.ToolStripButton();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -151,69 +138,11 @@ namespace Computator.NET
             this.tabControl1.SuspendLayout();
             this.chartingTabPage.SuspendLayout();
             this.symbolicCalculationsTabPage.SuspendLayout();
-            this.scriptingTabPage.SuspendLayout();
             this.customFunctionsTabPage.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // splitContainer1
-            // 
-            resources.ApplyResources(this.splitContainer1, "splitContainer1");
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.scriptingDirectoryTree);
-            this.splitContainer1.Panel2.Controls.Add(this.openScriptingDirectoryButton);
-            this.splitContainer1.Panel2.Controls.Add(this.processButton);
-            // 
-            // splitContainer2
-            // 
-            resources.ApplyResources(this.splitContainer2, "splitContainer2");
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.consoleOutputTextBox);
-            // 
-            // consoleOutputTextBox
-            // 
-            this.consoleOutputTextBox.BackColor = System.Drawing.Color.White;
-            this.consoleOutputTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.consoleOutputTextBox.Cursor = System.Windows.Forms.Cursors.Default;
-            resources.ApplyResources(this.consoleOutputTextBox, "consoleOutputTextBox");
-            this.consoleOutputTextBox.ForeColor = System.Drawing.Color.Black;
-            this.consoleOutputTextBox.Name = "consoleOutputTextBox";
-            this.consoleOutputTextBox.ReadOnly = true;
-            // 
-            // scriptingDirectoryTree
-            // 
-            this.scriptingDirectoryTree.CodeEditorWrapper = null;
-            resources.ApplyResources(this.scriptingDirectoryTree, "scriptingDirectoryTree");
-            this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
-            this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
-            this.scriptingDirectoryTree.Path = null;
-            // 
-            // openScriptingDirectoryButton
-            // 
-            resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
-            this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
-            this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
-            this.openScriptingDirectoryButton.Click += new System.EventHandler(this.openScriptDirectoryButton_Click);
-            // 
-            // processButton
-            // 
-            resources.ApplyResources(this.processButton, "processButton");
-            this.processButton.Name = "processButton";
-            this.processButton.UseVisualStyleBackColor = true;
-            this.processButton.Click += new System.EventHandler(this.processButton_Click);
             // 
             // splitContainer3
             // 
@@ -339,7 +268,6 @@ namespace Computator.NET
             // 
             // scriptingTabPage
             // 
-            this.scriptingTabPage.Controls.Add(this.splitContainer1);
             resources.ApplyResources(this.scriptingTabPage, "scriptingTabPage");
             this.scriptingTabPage.Name = "scriptingTabPage";
             this.scriptingTabPage.UseVisualStyleBackColor = true;
@@ -694,7 +622,6 @@ namespace Computator.NET
             this.languageToolStripComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.languageToolStripComboBox.Name = "languageToolStripComboBox";
             resources.ApplyResources(this.languageToolStripComboBox, "languageToolStripComboBox");
-            this.languageToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.languageToolStripComboBox_SelectedIndexChanged_1);
             // 
             // toolStripSeparator15
             // 
@@ -876,13 +803,6 @@ namespace Computator.NET
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip2);
             this.Name = "GUI";
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
@@ -891,7 +811,6 @@ namespace Computator.NET
             this.tabControl1.ResumeLayout(false);
             this.chartingTabPage.ResumeLayout(false);
             this.symbolicCalculationsTabPage.ResumeLayout(false);
-            this.scriptingTabPage.ResumeLayout(false);
             this.customFunctionsTabPage.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -917,21 +836,13 @@ namespace Computator.NET
         private System.Windows.Forms.Button symbolicOperationButton;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.TabPage scriptingTabPage;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-
-        private System.Windows.Forms.Button processButton;
         private System.Windows.Forms.TabPage customFunctionsTabPage;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.RichTextBox consoleOutputTextBox;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private DirectoryTree customFunctionsDirectoryTree;
         private System.Windows.Forms.OpenFileDialog openCustomFunctionsFileDialog;
         private System.Windows.Forms.SaveFileDialog saveCustomFunctionsFileDialog;
         private System.Windows.Forms.OpenFileDialog openScriptFileDialog;
         private System.Windows.Forms.SaveFileDialog saveScriptFileDialog;
-        private System.Windows.Forms.Button openScriptingDirectoryButton;
-
-        private DirectoryTree scriptingDirectoryTree;
         private System.Windows.Forms.ToolStripStatusLabel XYRatioToolStripStatusLabel;
         private ExpressionTextBox expressionTextBox;
         private System.Windows.Forms.MenuStrip menuStrip2;

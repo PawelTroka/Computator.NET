@@ -14,14 +14,12 @@ namespace Computator.NET.UI.Views
         public NumericalCalculationsView()
         {
             InitializeComponent();
-            if (!DesignMode)
-            {
-                function.DefaultCellStyle.Font = CustomFonts.GetMathFont(function.DefaultCellStyle.Font.Size);
-                result.DefaultCellStyle.Font = CustomFonts.GetMathFont(result.DefaultCellStyle.Font.Size);
+            if (DesignMode) return;
+            function.DefaultCellStyle.Font = CustomFonts.GetMathFont(function.DefaultCellStyle.Font.Size);
+            result.DefaultCellStyle.Font = CustomFonts.GetMathFont(result.DefaultCellStyle.Font.Size);
 
-                resultNumericalCalculationsTextBox.Font =
-                    CustomFonts.GetMathFont(resultNumericalCalculationsTextBox.Font.Size);
-            }
+            resultNumericalCalculationsTextBox.Font =
+                CustomFonts.GetMathFont(resultNumericalCalculationsTextBox.Font.Size);
         }
 
         public bool StepsVisible { set { stepsGroupBox.Visible = value; } }
