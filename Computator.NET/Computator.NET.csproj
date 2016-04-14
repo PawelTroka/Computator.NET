@@ -318,10 +318,19 @@
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs" />
+    <Compile Include="UI\Views\CustomFunctionsPresenter.cs" />
+    <Compile Include="UI\Views\CustomFunctionsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Views\CustomFunctionsView.Designer.cs">
+      <DependentUpon>CustomFunctionsView.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Views\ICalculationsView.cs" />
     <Compile Include="UI\Views\IChartAreaValuesView.cs" />
+    <Compile Include="UI\Views\ICustomFunctionsView.cs" />
     <Compile Include="UI\Views\INumericalCalculationsView.cs" />
     <Compile Include="UI\Views\IScriptingView.cs" />
+    <Compile Include="UI\Views\ISolutionExplorerView.cs" />
     <Compile Include="UI\Views\NumericalCalculationsPresenter.cs" />
     <Compile Include="UI\Views\NumericalCalculationsView.cs">
       <SubType>UserControl</SubType>
@@ -336,6 +345,13 @@
       <DependentUpon>ScriptingView.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Views\ScriptingViewPresenter.cs" />
+    <Compile Include="UI\Views\SolutionExplorerPresenter.cs" />
+    <Compile Include="UI\Views\SolutionExplorerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Views\SolutionExplorerView.Designer.cs">
+      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -400,6 +416,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\CustomFunctionsView.resx">
+      <DependentUpon>CustomFunctionsView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\NumericalCalculationsView.cs.resx">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </EmbeddedResource>
@@ -423,6 +442,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\ScriptingView.resx">
       <DependentUpon>ScriptingView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\SolutionExplorerView.cs.resx">
+      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\SolutionExplorerView.de.resx">
+      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\SolutionExplorerView.pl.resx">
+      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Views\SolutionExplorerView.resx">
+      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Computator.NET.pfx" />

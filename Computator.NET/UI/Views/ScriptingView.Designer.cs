@@ -32,8 +32,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.consoleOutputTextBox = new System.Windows.Forms.RichTextBox();
-            this.scriptingDirectoryTree = new Computator.NET.DirectoryTree();
-            this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.processButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -55,8 +53,6 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.scriptingDirectoryTree);
-            this.splitContainer1.Panel2.Controls.Add(this.openScriptingDirectoryButton);
             this.splitContainer1.Panel2.Controls.Add(this.processButton);
             // 
             // splitContainer2
@@ -77,21 +73,6 @@
             this.consoleOutputTextBox.ForeColor = System.Drawing.Color.Black;
             this.consoleOutputTextBox.Name = "consoleOutputTextBox";
             this.consoleOutputTextBox.ReadOnly = true;
-            // 
-            // scriptingDirectoryTree
-            // 
-            this.scriptingDirectoryTree.CodeEditorWrapper = null;
-            resources.ApplyResources(this.scriptingDirectoryTree, "scriptingDirectoryTree");
-            this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
-            this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
-            this.scriptingDirectoryTree.Path = null;
-            // 
-            // openScriptingDirectoryButton
-            // 
-            resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
-            this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
-            this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
             // 
             // processButton
             // 
@@ -121,8 +102,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox consoleOutputTextBox;
-        private DirectoryTree scriptingDirectoryTree;
-        private System.Windows.Forms.Button openScriptingDirectoryButton;
         private System.Windows.Forms.Button processButton;
     }
 }

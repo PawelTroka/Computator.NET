@@ -46,6 +46,7 @@ namespace Computator.NET
         public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView() { Dock = DockStyle.Fill };
 
         public IScriptingView ScriptingView { get; } = new ScriptingView() {Dock = DockStyle.Fill};
+        public ICustomFunctionsView CustomFunctionsView { get; } = new CustomFunctionsView() {Dock = DockStyle.Fill};
 
         public void SetLanguages(object[] languages)
         {
@@ -126,6 +127,8 @@ namespace Computator.NET
         {
             SendKeys.Send(key);
         }
+
+        public string StatusText {set { toolStripStatusLabel1.Text = value; } }
 
         public int SelectedViewIndex
         {
@@ -446,17 +449,19 @@ namespace Computator.NET
 
         #region initialization and construction
 
+
+
         public GUI()
         {
             InitializeComponent();
             calculationsTabPage.Controls.Add(CalculationsView as Control);
             numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
             scriptingTabPage.Controls.Add(ScriptingView as Control);
+            customFunctionsTabPage.Controls.Add(CustomFunctionsView as Control);
+
             InitializeFunctions();
             InitializeCharts(); //takes more time then it should
 
-            toolStripStatusLabel1.Text = GlobalConfig.version;
-            customFunctionsDirectoryTree.Path = Settings.Default.CustomFunctionsDirectory;
 
             InitializeScripting(); //takes a lot of time, TODO: optimize
             InitializeDataBindings();
@@ -697,19 +702,6 @@ namespace Computator.NET
                 Font = new Font(FontFamily.GenericSansSerif, 17.0F),
                 Text = Strings.BugReporting
             }.ShowDialog(this);
-        }
-
-
-
-
-        private void openCustomFunctionsDirectoryButton_Click(object sender, EventArgs e)
-        {
-            var fbd = new FolderBrowserDialog {ShowNewFolderButton = true};
-
-            if (fbd.ShowDialog(this) != DialogResult.OK) return;
-            customFunctionsDirectoryTree.Path = fbd.SelectedPath;
-            Settings.Default.CustomFunctionsDirectory = customFunctionsDirectoryTree.Path;
-            Settings.Default.Save();
         }
 
         private void transformToolStripMenuItem_Click(object sender, EventArgs e)

@@ -19,30 +19,24 @@ namespace Computator.NET.UI.Views
 
             var codeEditor = new CodeEditorControlWrapper() { Dock = DockStyle.Fill };
             splitContainer2.Panel1.Controls.Add(codeEditor);
-            DirectoryTree.CodeEditorWrapper = codeEditor;
+            splitContainer1.Panel2.Controls.Add(SolutionExplorerView as Control);
+            splitContainer1.Panel2.Controls[1].BringToFront();
             CodeEditorView = codeEditor;
-            openScriptingDirectoryButton.Click +=
-                (o, e) =>
-                {
-                    if (directoryBrowserDialog.ShowDialog(this) == DialogResult.OK)
-                        DirectoryChanged?.Invoke(this,
-                            new DirectorySelectedEventArgs(directoryBrowserDialog.SelectedPath));
-                };
+
 
             if(!DesignMode)
                 consoleOutputTextBox.Font = CustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
         }
 
-        private FolderBrowserDialog directoryBrowserDialog = new FolderBrowserDialog { ShowNewFolderButton = true };
-        public ICodeEditorView CodeEditorView { get; }
-        public IDirectoryTree DirectoryTree { get { return scriptingDirectoryTree; } }
+        public ICodeDocumentsEditor CodeEditorView { get; }
+        public ISolutionExplorerView SolutionExplorerView { get; } = new SolutionExplorerView() {Dock = DockStyle.Fill};
+
         public event EventHandler ProcessClicked
         {
             add { processButton.Click += value; }
             remove { processButton.Click -= value; }
         }
 
-        public event DirectoryTree.DirectorySelectedDelegate DirectoryChanged;
 
         public string ConsoleOutput
         {

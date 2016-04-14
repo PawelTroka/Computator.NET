@@ -5,11 +5,11 @@ namespace Computator.NET.UI.Views
 {
     public interface IScriptingView
     {
-        ICodeEditorView CodeEditorView { get; }
-        IDirectoryTree DirectoryTree { get; }
+        ICodeDocumentsEditor CodeEditorView { get; }
+        ISolutionExplorerView SolutionExplorerView { get; }
 
         event EventHandler ProcessClicked;
-        event DirectoryTree.DirectorySelectedDelegate DirectoryChanged;
+
         string ConsoleOutput { set; }
         void AppendToConsole(string output);
     }

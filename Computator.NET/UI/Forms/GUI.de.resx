@@ -138,6 +138,9 @@
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Custom-Funktionen</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Ausdruck :</value>
+  </data>
   <data name="processButton.Text" xml:space="preserve">
     <value>Führen Sie das Skript</value>
   </data>
@@ -146,9 +149,6 @@
   </data>
   <data name="consoleOutputTextBox.Text" xml:space="preserve">
     <value>Konsolenausgabe :</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Ausdruck :</value>
   </data>
   <data name="saveScriptButton.Text" xml:space="preserve">
     <value>speichern Sie das Skript</value>

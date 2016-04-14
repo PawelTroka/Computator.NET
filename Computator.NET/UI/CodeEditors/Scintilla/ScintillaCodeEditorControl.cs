@@ -138,7 +138,7 @@ namespace Computator.NET.UI.CodeEditors
                 SwitchDocument(_documents.Keys.Last());
         }
 
-        public void HighlightErrors(List<CompilerError> errors)
+        public void HighlightErrors(IEnumerable<CompilerError> errors)
         {
             foreach (var error in errors)
             {

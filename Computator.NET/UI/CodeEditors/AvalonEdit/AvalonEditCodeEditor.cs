@@ -104,7 +104,7 @@ namespace Computator.NET.UI.CodeEditors
                 SwitchDocument(_documents.Keys.Last());
         }
 
-        public void HighlightErrors(List<CompilerError> errors)
+        public void HighlightErrors(IEnumerable<CompilerError> errors)
         {
             _offsetColorizer.LinesWithErrors.Clear();
             foreach (var error in errors)

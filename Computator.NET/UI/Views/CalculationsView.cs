@@ -7,12 +7,10 @@ namespace Computator.NET.UI.Views
 {
     public partial class CalculationsView : UserControl, ICalculationsView
     {
-        private CalculationsMode _calculationsMode;
 
         public CalculationsView()
         {
             InitializeComponent();
-            var presenter = new CalculationsPresenter(this);
 
             if (!DesignMode)
             {

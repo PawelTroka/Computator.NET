@@ -36,9 +36,6 @@ namespace Computator.NET
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.customFunctionsDirectoryTree = new Computator.NET.DirectoryTree();
-            this.openCustomFunctionsDirectoryButton = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.XYRatioToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -131,44 +128,14 @@ namespace Computator.NET
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.runToolStripButton = new System.Windows.Forms.ToolStripButton();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.chartingTabPage.SuspendLayout();
             this.symbolicCalculationsTabPage.SuspendLayout();
-            this.customFunctionsTabPage.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // splitContainer3
-            // 
-            resources.ApplyResources(this.splitContainer3, "splitContainer3");
-            this.splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.customFunctionsDirectoryTree);
-            this.splitContainer3.Panel2.Controls.Add(this.openCustomFunctionsDirectoryButton);
-            // 
-            // customFunctionsDirectoryTree
-            // 
-            this.customFunctionsDirectoryTree.CodeEditorWrapper = null;
-            resources.ApplyResources(this.customFunctionsDirectoryTree, "customFunctionsDirectoryTree");
-            this.customFunctionsDirectoryTree.Name = "customFunctionsDirectoryTree";
-            this.customFunctionsDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("customFunctionsDirectoryTree.Nodes")))});
-            this.customFunctionsDirectoryTree.Path = null;
-            // 
-            // openCustomFunctionsDirectoryButton
-            // 
-            resources.ApplyResources(this.openCustomFunctionsDirectoryButton, "openCustomFunctionsDirectoryButton");
-            this.openCustomFunctionsDirectoryButton.Name = "openCustomFunctionsDirectoryButton";
-            this.openCustomFunctionsDirectoryButton.UseVisualStyleBackColor = true;
-            this.openCustomFunctionsDirectoryButton.Click += new System.EventHandler(this.openCustomFunctionsDirectoryButton_Click);
             // 
             // statusStrip1
             // 
@@ -274,7 +241,6 @@ namespace Computator.NET
             // 
             // customFunctionsTabPage
             // 
-            this.customFunctionsTabPage.Controls.Add(this.splitContainer3);
             resources.ApplyResources(this.customFunctionsTabPage, "customFunctionsTabPage");
             this.customFunctionsTabPage.Name = "customFunctionsTabPage";
             this.customFunctionsTabPage.UseVisualStyleBackColor = true;
@@ -803,15 +769,11 @@ namespace Computator.NET
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip2);
             this.Name = "GUI";
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.chartingTabPage.ResumeLayout(false);
             this.symbolicCalculationsTabPage.ResumeLayout(false);
-            this.customFunctionsTabPage.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.menuStrip2.ResumeLayout(false);
@@ -837,8 +799,6 @@ namespace Computator.NET
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.TabPage scriptingTabPage;
         private System.Windows.Forms.TabPage customFunctionsTabPage;
-        private System.Windows.Forms.SplitContainer splitContainer3;
-        private DirectoryTree customFunctionsDirectoryTree;
         private System.Windows.Forms.OpenFileDialog openCustomFunctionsFileDialog;
         private System.Windows.Forms.SaveFileDialog saveCustomFunctionsFileDialog;
         private System.Windows.Forms.OpenFileDialog openScriptFileDialog;
@@ -919,7 +879,6 @@ namespace Computator.NET
         private System.Windows.Forms.ToolStripButton runToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
         private BindableToolStripMenuItem exponentiationToolStripMenuItem;
-        private Button openCustomFunctionsDirectoryButton;
         private ToolStripMenuItem fullscreenToolStripMenuItem;
     }
 }

@@ -16,7 +16,7 @@ namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger logger = new SimpleLogger {ClassName = "Program"};
+        private static readonly SimpleLogger logger = new SimpleLogger { ClassName = "Program" };
 
         /// <summary>
         ///     The main entry point for the application.
@@ -41,8 +41,6 @@ namespace Computator.NET
 
             SetPresenters(mainForm);
 
-
-
             LoadingScreen.CloseForm();
             Application.Run(mainForm);
         }
@@ -51,12 +49,12 @@ namespace Computator.NET
         {
             var mainFormPresenter = new MainFormPresenter(mainForm, SimpleErrorHandler.Instance);
             var chartAreaViewPresenter = new ChartAreaValuesPresenter(mainForm.chartAreaValuesView1);
-            var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView);
+            var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView,mainForm.ExpressionView,mainForm.CustomFunctionsView.CustomFunctionsEditor,SimpleErrorHandler.Instance);
             var numericalCalculationsPresenter = new NumericalCalculationsPresenter(mainForm.NumericalCalculationsView,
                 SimpleErrorHandler.Instance,
-                mainForm.ExpressionView,new CodeEditorControlWrapper());
-            var scriptingViewPresenter = new ScriptingViewPresenter(mainForm.ScriptingView,new CodeEditorControlWrapper(), SimpleErrorHandler.Instance);
-
+                mainForm.ExpressionView, mainForm.CustomFunctionsView.CustomFunctionsEditor);
+            var scriptingViewPresenter = new ScriptingViewPresenter(mainForm.ScriptingView, mainForm.CustomFunctionsView.CustomFunctionsEditor, SimpleErrorHandler.Instance);
+            var customFunctionsViewPresenter = new CustomFunctionsPresenter(mainForm.CustomFunctionsView);
         }
 
 

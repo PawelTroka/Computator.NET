@@ -121,14 +121,9 @@ namespace Computator.NET
                 _view.SelectedViewIndex = (int) cv.View;
             });
 
-            EventAggregator.Instance.Subscribe<ErrorsInCustomFunctionsEvent>(eicc =>
-            {
-                
-            });
-            EventAggregator.Instance.Subscribe<NoErrorsInCustomFunctionsEvent>((a) =>
-            {
-                
-            });
+
+
+            _view.StatusText = GlobalConfig.version;
         }
 
         private void _view_SelectedLanguageChanged(object sender, EventArgs e)
@@ -155,7 +150,7 @@ namespace Computator.NET
                 try
                 {
                     currentChart.AddFunction(expressionsEvaluator.Evaluate(_view.ExpressionView.Text, 
-                        "",//_view.CustomFunctionsCodeEditorControl.Text,
+                        _view.CustomFunctionsView.CustomFunctionsEditor.Text,
                         _calculationsMode));
                 }
                 catch (Exception ex)
@@ -167,7 +162,6 @@ namespace Computator.NET
                 _errorHandler.DispalyError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_, Strings.GUI_numericalOperationButton_Click_Warning_);
         }
 
-        private ExceptionsHandler exceptionsHandler;
         private void _view_PrintPreviewClicked(object sender, EventArgs e)
         {
 #if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS

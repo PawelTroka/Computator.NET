@@ -8,7 +8,7 @@ namespace Computator.NET.UI.CodeEditors
     public interface ISupportsExceptionHighliting
     {
         void ClearHighlightedErrors();
-        void HighlightErrors(List<CompilerError> compilerErrors);
+        void HighlightErrors(IEnumerable<CompilerError> compilerErrors);
     }
 
     public interface ICodeEditorView : ITextProvider, ISupportsExceptionHighliting
@@ -32,6 +32,11 @@ namespace Computator.NET.UI.CodeEditors
         void SwitchTab(string fullPath);
     }
 
+    public interface ICodeDocumentsEditor : IDocumentsEditor, ICodeEditorView
+    {
+        
+    }
+
     public interface ICodeEditorControl
     {
         string Text { get; set; }
@@ -48,7 +53,7 @@ namespace Computator.NET.UI.CodeEditors
         void CloseDocument(string filename);
         void NewDocument(string text);
         void RenameDocument(string filename, string newFilename);
-        void HighlightErrors(List<CompilerError> errors);
+        void HighlightErrors(IEnumerable<CompilerError> errors);
         bool ContainsDocument(string filename);
         void ClearHighlightedErrors();
         void SetFont(Font font);

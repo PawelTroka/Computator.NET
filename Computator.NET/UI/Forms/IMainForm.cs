@@ -17,13 +17,15 @@ namespace Computator.NET
 
         IScriptingView ScriptingView { get; }
 
+        ICustomFunctionsView CustomFunctionsView { get; }
+
         void SetLanguages(object[] languages);
         string SelectedLanguage { get; set; }
 
         ReadOnlyDictionary<CalculationsMode, IChart> charts { get; }
         IExpressionView ExpressionView { get; }
         string ModeText { get; set; }
-
+        string StatusText { set; }
         int SelectedViewIndex { get; set; }
 
         event EventHandler ModeForcedToReal;

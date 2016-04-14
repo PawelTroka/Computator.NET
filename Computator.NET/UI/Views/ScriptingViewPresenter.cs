@@ -10,25 +10,19 @@ namespace Computator.NET.UI.Views
     public class ScriptingViewPresenter
     {
         private readonly IScriptingView _view;
-        private readonly ITextProvider CustomFunctionsEditorView;
-        private readonly IErrorHandler errorHandler;
+        private readonly ITextProvider _customFunctionsEditorView;
+        private readonly IErrorHandler _errorHandler;
 
         public ScriptingViewPresenter(IScriptingView view, ITextProvider customFunctionsEditorView, IErrorHandler errorHandler)
         {
             _view = view;
-            CustomFunctionsEditorView = customFunctionsEditorView;
-            this.errorHandler = errorHandler;
-            _view.DirectoryTree.Path = Settings.Default.ScriptingDirectory;
+            _customFunctionsEditorView = customFunctionsEditorView;
+            this._errorHandler = errorHandler;
             _view.ProcessClicked += _view_ProcessClicked;
-            _view.DirectoryChanged += _view_DirectoryChanged;
-        }
+            var solutionExplorerPresenter = new SolutionExplorerPresenter(_view.SolutionExplorerView,_view.CodeEditorView,true);
+}
 
-        private void _view_DirectoryChanged(object sender, DirectorySelectedEventArgs e)
-        {
-            _view.DirectoryTree.Path = e.DirectoryName;
-            Settings.Default.ScriptingDirectory = e.DirectoryName;
-            Settings.Default.Save();
-        }
+
 
         private readonly ScriptEvaluator _eval = new ScriptEvaluator();
         private void _view_ProcessClicked(object sender, EventArgs e)
@@ -39,7 +33,7 @@ namespace Computator.NET.UI.Views
 
             try
             {
-                var function = _eval.Evaluate(_view.CodeEditorView.Text, CustomFunctionsEditorView.Text);
+                var function = _eval.Evaluate(_view.CodeEditorView.Text, _customFunctionsEditorView.Text);
                 function.Evaluate(output => _view.AppendToConsole(output));
 
             }
@@ -50,7 +44,7 @@ namespace Computator.NET.UI.Views
                 {
                     _view.CodeEditorView.HighlightErrors(exception.Errors[CompilationErrorPlace.MainCode]);
                 }
-                ExceptionsHandler.Instance.HandleException(ex, errorHandler);
+                ExceptionsHandler.Instance.HandleException(ex, _errorHandler);
             }
         }
     }

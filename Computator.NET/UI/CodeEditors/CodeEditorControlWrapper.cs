@@ -15,7 +15,7 @@ using File = System.IO.File;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    public class CodeEditorControlWrapper : UserControl, ICodeEditorView, IDocumentsEditor,
+    public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor,
         INotifyPropertyChanged
     {
 
@@ -213,7 +213,7 @@ namespace Computator.NET.UI.CodeEditors
             CurrentCodeEditor.CloseDocument(filename);
         }
 
-        public void HighlightErrors(List<CompilerError> errors)
+        public void HighlightErrors(IEnumerable<CompilerError> errors)
         {
             CurrentCodeEditor.HighlightErrors(errors);
         }
