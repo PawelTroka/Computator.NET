@@ -157,7 +157,7 @@ namespace Computator.NET.UI.Views
                         parametersStr,
                         result.ToMathString());
                 }
-                catch (Exception ex)//TODO: introduce real exception handling just like in MainFormPresenter for Calculations or add fuction to chart
+                catch (Exception ex)
                 {
                     ExceptionsHandler.Instance.HandleException(ex,errorHandler);
                 }

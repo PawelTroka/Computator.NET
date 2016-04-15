@@ -82,7 +82,7 @@ namespace UnitTests
 
             foreach (var specialMethod in methodsToTest)
             {
-                if (specialMethod.Name.Contains("Hypergeometric"))
+                if (specialMethod.Name.Contains("Hypergeometric"))//TODO: repair Hypergeometric functions and get rid of that filthy hack
                     continue;
 
                 Debug.WriteLine("Testing: " + specialMethod);

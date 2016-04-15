@@ -1,27 +1,9 @@
 ﻿using Computator.NET.Compilation;
-using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
 {
-    [TestClass]
-    public class AutocompletionDataTest
-    {
-        [TestMethod]
-        public void TestScripting()
-        {
-            var content = AutocompletionData.GetAutocompleteItemsForScripting();
-        }
-
-        [TestMethod]
-        public void TestExpressions()
-        {
-            var content = AutocompletionData.GetAutocompleteItemsForExpressions();
-        }
-    }
-
-
     [TestClass]
     public class TslCompilerUnitTest
     {
@@ -505,9 +487,9 @@ Actual:
 (1e)"), "Fail!!!");
         }
 
-        //1e+1e+1e+1e+1e+1e
+        //2e-10e
         //1e+1E
 
-        //2e-10e
+        //1e+1e+1e+1e+1e+1e
     }
 }

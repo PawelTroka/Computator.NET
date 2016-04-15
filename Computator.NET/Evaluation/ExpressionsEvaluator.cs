@@ -98,7 +98,8 @@ namespace Computator.NET.Evaluation
                 throw new ArgumentException(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_);
 
             MainTslCode = input;
-            CustomFunctionsTslCode = customFunctionsCode;
+            CustomFunctionsTslCode =
+                (!string.IsNullOrEmpty(customFunctionsCode) && !string.IsNullOrWhiteSpace(customFunctionsCode)) ? customFunctionsCode : "";
 
 
             var function = Compile();

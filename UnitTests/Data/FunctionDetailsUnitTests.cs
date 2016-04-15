@@ -1,4 +1,4 @@
-﻿using Computator.NET.Data;
+using Computator.NET.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
@@ -31,10 +31,5 @@ namespace UnitTests
         {
             FunctionsDetails.Details.SaveEmptyFunctionDetailsToXmlFile();
         }
-    }
-
-    [TestClass]
-    public class EvaluationUnitTest
-    {
     }
 }

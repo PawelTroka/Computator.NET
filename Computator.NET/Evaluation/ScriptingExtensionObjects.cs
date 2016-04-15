@@ -120,7 +120,7 @@ namespace Computator.NET.Evaluation
 
 
 
-    internal static class ScriptingExtensions
+    public static class ScriptingExtensions
     {
         public static int size<T>(this MathNet.Numerics.LinearAlgebra.Vector<T> vector)
             where T : struct, System.IEquatable<T>, System.IFormattable

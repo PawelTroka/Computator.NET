@@ -65,7 +65,8 @@ namespace Computator.NET.Evaluation
         public ScriptFunction Evaluate(string input, string customFunctionsCode)
         {
             MainTslCode = input;
-            CustomFunctionsTslCode = customFunctionsCode;
+            CustomFunctionsTslCode = 
+                (!string.IsNullOrEmpty(customFunctionsCode) && !string.IsNullOrWhiteSpace(customFunctionsCode)) ? customFunctionsCode : ""; ;
 
             AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation",

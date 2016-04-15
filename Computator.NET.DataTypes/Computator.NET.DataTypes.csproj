@@ -79,6 +79,7 @@
     <Compile Include="ScriptFunction.cs" />
     <Compile Include="SettingsTypes\CodeEditorType.cs" />
     <Compile Include="SpecialSymbols.cs" />
+    <Compile Include="TypeExtenstion.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">

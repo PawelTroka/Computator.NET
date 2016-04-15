@@ -54,21 +54,21 @@ namespace UnitTests
         public void expressionWithRealExponent_shouldReturnReal()
         {
             Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2¹⁰³²¹³ॱ³²³²³²"));
-                //z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾
+            //z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾
         }
 
         [TestMethod]
         public void XYZ_shouldReturnComplex()
         {
             Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾"));
-                //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
+            //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
         }
 
         [TestMethod]
         public void expressionWithXVariableAndExponents_shouldReturnReal()
         {
             Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))"));
-                //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
+            //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
         }
 
 

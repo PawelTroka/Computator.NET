@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Computator.NET.Config;
@@ -28,11 +29,23 @@ namespace Computator.NET.Compilation
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Core.dll");
             parameters.ReferencedAssemblies.Add("System.Numerics.dll");
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Meta.Numerics.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("MathNet.Numerics.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Accord.Math.dll"));
-            parameters.ReferencedAssemblies.Add(GlobalConfig.FullPath("Accord.dll"));
+            parameters.ReferencedAssemblies.Add(GetDllPath("Meta.Numerics.dll"));
+            parameters.ReferencedAssemblies.Add(GetDllPath("MathNet.Numerics.dll"));
+            parameters.ReferencedAssemblies.Add(GetDllPath("Accord.Math.dll"));
+            parameters.ReferencedAssemblies.Add(GetDllPath("Accord.dll"));
             parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll"); //dynamic
+        }
+
+        private string GetDllPath(string dllName)
+        {
+            var dllDirectory = GlobalConfig.FullPath(dllName);
+            if (System.IO.File.Exists(dllDirectory))
+                return dllDirectory;
+
+            var path = GlobalConfig.FullPath(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),dllName);
+            if (path.Contains(@"\file:\"))//hack for tests
+                return path.Split(new string[] {@"\file:\"}, StringSplitOptions.RemoveEmptyEntries).Last();
+            return path;
         }
 
         public int MainCodeStarOffsetLine { get; set; }
