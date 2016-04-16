@@ -107,16 +107,19 @@ namespace Computator.NET.UI.Views
                     var result = double.NaN;
                     var eps = _view.Epsilon;
 
-                    if (double.IsNaN(eps))
+                    if (_view.SelectedOperation == Strings.Derivative || _view.SelectedOperation==Strings.Function_root)
                     {
-                        errorHandler.DispalyError(Strings.GivenΕIsNotValid, Strings.Error);
-                        return;
-                    }
-                    if (!(eps > 0.0) || !(eps < 1))
-                    {
-                        errorHandler.DispalyError(
-                            Strings.GivenΕIsNotValidΕShouldBeSmallPositiveNumber, Strings.Error);
-                        return;
+                        if (double.IsNaN(eps))
+                        {
+                            errorHandler.DispalyError(Strings.GivenΕIsNotValid, Strings.Error);
+                            return;
+                        }
+                        if (!(eps > 0.0) || !(eps < 1))
+                        {
+                            errorHandler.DispalyError(
+                                Strings.GivenΕIsNotValidΕShouldBeSmallPositiveNumber, Strings.Error);
+                            return;
+                        }
                     }
 
                     var parametersStr = "";

@@ -1,13 +1,12 @@
 using Computator.NET.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class FunctionDetailsUnitTests
     {
-        [TestMethod]
-        [DeploymentItem("Data", "Data")]
+     /*   [Test]
         public void TestLoading()
         {
             var array = FunctionsDetails.Details.ToArray();
@@ -26,10 +25,10 @@ namespace UnitTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestSavingWithEmpties()
         {
             FunctionsDetails.Details.SaveEmptyFunctionDetailsToXmlFile();
-        }
+        }*/
     }
 }

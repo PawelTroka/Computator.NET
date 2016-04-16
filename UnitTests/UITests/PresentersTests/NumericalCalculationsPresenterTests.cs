@@ -6,12 +6,12 @@ using Computator.NET.Evaluation;
 using Computator.NET.NumericalCalculations;
 using Computator.NET.UI.CodeEditors;
 using Computator.NET.UI.Views;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NUnit.Framework;
 
 namespace UnitTests.UITests.PresentersTests
 {
-    [TestClass]
+    [TestFixture]
     public class NumericalCalculationsPresenterTests
     {
         private Mock<ITextProvider> _customFunctionsViewMock;
@@ -21,7 +21,7 @@ namespace UnitTests.UITests.PresentersTests
         private Mock<INumericalCalculationsView> _numericalCalculationsViewMock;
 
 
-        [TestInitialize]
+        [SetUp]
         public void Init()
         {
             _errorHandlerMock = new Mock<IErrorHandler>();
@@ -37,7 +37,7 @@ namespace UnitTests.UITests.PresentersTests
 //            _expressionViewMock.SetupAllProperties();
         }
 
-        [TestMethod]
+        [Test]
         public void ComputeClickedForValidParametersTest_ShouldReturnCorrectValues()
         {
             EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(CalculationsMode.Real));

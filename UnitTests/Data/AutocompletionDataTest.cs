@@ -1,19 +1,19 @@
 using Computator.NET.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class AutocompletionDataTest
     {
-        [TestMethod]
+        [Test]
         public void TestScripting()
         {
             var content = AutocompletionData.GetAutocompleteItemsForScripting();
             Assert.IsNotNull(content);
         }
 
-        [TestMethod]
+        [Test]
         public void TestExpressions()
         {
             var content = AutocompletionData.GetAutocompleteItemsForExpressions();

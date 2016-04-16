@@ -6,13 +6,13 @@ using System.Numerics;
 using System.Reflection;
 using Computator.NET;
 using Computator.NET.Functions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 // ReSharper disable LocalizableElement
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class MathematicalFunctionsTest
     {
         private const int stepsSmall = 25;
@@ -34,15 +34,14 @@ namespace UnitTests
 
         private Complex[] C;
 
-        [TestInitialize]
+        [SetUp]
         public void Init()
         {
             C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
             GSLInitializer.Initialize();
         }
 
-        [TestMethod]
-        [Timeout(TestTimeout.Infinite)]
+        [Test]
         public void ElementaryFunctionsTest()
         {
             var elementaryFunctions = new List<MethodInfo>();
@@ -53,8 +52,7 @@ namespace UnitTests
             TestFunctions(elementaryFunctions);
         }
 
-        [TestMethod]
-        [Timeout(TestTimeout.Infinite)]
+        [Test]
         public void SpecialFunctionsTest()
         {
             var specialFunctions = new List<MethodInfo>();
@@ -64,8 +62,7 @@ namespace UnitTests
             TestFunctions(specialFunctions);
         }
 
-        [TestMethod]
-        [Timeout(TestTimeout.Infinite)]
+        [Test]
         public void StatisticsFunctionsTest()
         {
             var sstatisticsFunctions = new List<MethodInfo>();
@@ -154,7 +151,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void EnTest()
         {
             object ret = null;
@@ -177,7 +174,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void HypergeometricUIntTest()
         {
             object ret = null;
@@ -201,7 +198,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void HypergeometricUTest()
         {
             object ret = null;
@@ -224,7 +221,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void Hypergeometric1F1Test()
         {
             object ret = null;
@@ -247,7 +244,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void Hypergeometric1F1IntTest()
         {
             object ret = null;
@@ -271,7 +268,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void Hypergeometric2F1IntTest()
         {
             object ret = null;
@@ -295,7 +292,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void Hypergeometric2F1Test()
         {
             object ret = null;
@@ -317,7 +314,7 @@ namespace UnitTests
                     }
         }
 
-        [TestMethod]
+        [Test]
         public void MathieuCETest()
         {
             object ret = null;
@@ -382,7 +379,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void MathieuBnTest()
         {
             object ret = null;
@@ -403,7 +400,7 @@ namespace UnitTests
                 }
         }
 
-        [TestMethod]
+        [Test]
         public void SphericalBesselYnTest()
         {
             object ret = null;
@@ -424,7 +421,7 @@ namespace UnitTests
                 }
         }
 
-        [TestMethod]
+        [Test]
         public void SphericalBesselJnTest()
         {
             object ret = null;
@@ -445,7 +442,7 @@ namespace UnitTests
                 }
         }
 
-        [TestMethod]
+        [Test]
         public void ModifiedSphericalBesselInTest()
         {
             object ret = null;
@@ -466,7 +463,7 @@ namespace UnitTests
                 }
         }
 
-        [TestMethod]
+        [Test]
         public void PolyLogTest()
         {
             object ret = null;
@@ -487,7 +484,7 @@ namespace UnitTests
                 }
         }
 
-        [TestMethod]
+        [Test]
         public void EllipticΠTest()
         {
             object ret = null;
@@ -508,7 +505,7 @@ namespace UnitTests
                 }
         }
 
-        [TestMethod]
+        [Test]
         public void EllipticΠIncompleteTest()
         {
             object ret = null;
@@ -531,7 +528,7 @@ namespace UnitTests
 
         //MathieuMc
 
-        [TestMethod]
+        [Test]
         public void MathieuMcTest()
         {
             object ret = null;
@@ -555,8 +552,7 @@ namespace UnitTests
                         }
         }
 
-        [TestMethod]
-        [Timeout(TestTimeout.Infinite)]
+        [Test]
         public void MathieuMsTest()
         {
             object ret = null;
@@ -579,7 +575,7 @@ namespace UnitTests
                         }
         }
 
-        [TestMethod]
+        [Test]
         public void Coupling3jTest()
         {
             object ret = null;
@@ -603,7 +599,7 @@ namespace UnitTests
                                 }
         }
 
-        [TestMethod]
+        [Test]
         public void Coupling3jIntTest()
         {
             object ret = null;
@@ -627,7 +623,7 @@ namespace UnitTests
                                 }
         }
 
-        [TestMethod]
+        [Test]
         public void Coupling6jIntTest()
         {
             object ret = null;
@@ -651,7 +647,7 @@ namespace UnitTests
                                 }
         }
 
-        [TestMethod]
+        [Test]
         public void ClebschGordanTest()
         {
             object ret = null;
@@ -675,7 +671,7 @@ namespace UnitTests
                                 }
         }
 
-        [TestMethod]
+        [Test]
         public void Coupling6jTest()
         {
             object ret = null;
@@ -699,7 +695,7 @@ namespace UnitTests
                                 }
         }
 
-        [TestMethod]
+        [Test]
         public void CouplingRacahW()
         {
             object ret = null;
@@ -723,7 +719,7 @@ namespace UnitTests
                                 }
         }
 
-        [TestMethod]
+        [Test]
         public void Coupling9jIntTest()
         {
             object ret = null;

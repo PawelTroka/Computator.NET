@@ -1,21 +1,21 @@
 ﻿using System.Reflection;
 using Computator.NET.Compilation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests
 {
-    [TestClass]
+    [TestFixture]
     public class NativeCompilerUnitTest
     {
         private NativeCompiler nativeCompiler;
 
-        [TestInitialize]
+        [SetUp]
         public void Init()
         {
             nativeCompiler = new NativeCompiler();
         }
 
-        [TestMethod]
+        [Test]
         public void Test1()
         {
             var assembly = nativeCompiler.Compile(@"using System;
