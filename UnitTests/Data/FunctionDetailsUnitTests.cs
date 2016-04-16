@@ -6,7 +6,7 @@ namespace UnitTests
     [TestFixture]
     public class FunctionDetailsUnitTests
     {
-     /*   [Test]
+        [Test]
         public void TestLoading()
         {
             var array = FunctionsDetails.Details.ToArray();
@@ -29,6 +29,6 @@ namespace UnitTests
         public void TestSavingWithEmpties()
         {
             FunctionsDetails.Details.SaveEmptyFunctionDetailsToXmlFile();
-        }*/
+        }
     }
 }
