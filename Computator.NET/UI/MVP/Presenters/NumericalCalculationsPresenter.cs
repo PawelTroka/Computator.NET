@@ -6,6 +6,7 @@ using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
 using Computator.NET.UI.CodeEditors;
 using Computator.NET.UI.Controls;
+using Computator.NET.UI.MVP;
 
 namespace Computator.NET.UI.Views
 {
@@ -21,17 +22,15 @@ namespace Computator.NET.UI.Views
         private readonly Type _functionRootType = typeof(Func<Func<double, double>, double, double, double, uint, double>);
 
         private readonly IErrorHandler _errorHandler;
-        private readonly ITextProvider _expressionView;
+
 
         private CalculationsMode _calculationsMode;
-        private readonly ITextProvider _customFunctionsCodeEditor;
 
-        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler, ITextProvider expressionView, ITextProvider customFunctionsCodeEditor)
+
+        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler)
         {
             _view = view;
             this._errorHandler = errorHandler;
-            this._expressionView = expressionView;
-            _customFunctionsCodeEditor = customFunctionsCodeEditor;
             _view.SetOperations(NumericalMethodsInfo.Instance._methods.Keys.ToArray());
             _view.SelectedOperation = NumericalMethodsInfo.Instance._methods.Keys.First();
             _view.OperationChanged += _view_OperationChanged;
@@ -58,8 +57,9 @@ namespace Computator.NET.UI.Views
             {
                 try
                 {
-                    var function = expressionsEvaluator.Evaluate(_expressionView.Text,
-                        _customFunctionsCodeEditor.Text, _calculationsMode);
+                    SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
+                   var function = expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText,
+                        SharedViewState.Instance.CustomFunctionsText, _calculationsMode);
 
                     Func<double, double> fx = (double x) => function.Evaluate(x);
 
@@ -113,7 +113,7 @@ namespace Computator.NET.UI.Views
                             $"a={_view.A.ToMathString()}; b={_view.B.ToMathString()}; ε={eps.ToMathString()}; N={_view.N}";
                     }
 
-                    _view.AddResult(_expressionView.Text,
+                    _view.AddResult(SharedViewState.Instance.ExpressionText,
                         _view.SelectedOperation,
                         _view.SelectedMethod,
                         parametersStr,

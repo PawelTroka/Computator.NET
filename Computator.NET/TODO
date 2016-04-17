@@ -16,7 +16,7 @@
 * shift+r_mouse_click on item_key activates new window
 * Special function search list arrangement ( or arrangement by user).
 * Cancel doesnt work to second option in benchmark if first option was already cancelled and second started later
-* Command pattern for buttons, including EditChartMenus / or semothing better
+* Command pattern for buttons, including EditChartMenus / or something better
 * Windows Ribbon control?
 * Metro Modern UI - Metro Framework?
 

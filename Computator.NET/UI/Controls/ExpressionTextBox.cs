@@ -52,6 +52,8 @@ namespace Computator.NET.UI.Controls
 
             if(!DesignMode)
                 RefreshAutoComplete();
+
+            EventAggregator.Instance.Subscribe<ExponentModeChangedEvent>( emce => ExponentMode=emce.IsExponentMode);
         }
 
         public bool ExponentMode

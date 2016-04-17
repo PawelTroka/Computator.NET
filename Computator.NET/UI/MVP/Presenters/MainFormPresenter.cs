@@ -15,6 +15,7 @@ using Computator.NET.Evaluation;
 using Computator.NET.Localization;
 using Computator.NET.NumericalCalculations;
 using Computator.NET.Properties;
+using Computator.NET.UI.MVP;
 
 namespace Computator.NET
 {
@@ -31,7 +32,7 @@ namespace Computator.NET
 
         private readonly IMainForm _view;
 
-        private IErrorHandler _errorHandler;
+        private readonly IErrorHandler _errorHandler;
 
         private readonly List<Action<object, EventArgs>> defaultActions;
 
@@ -145,12 +146,13 @@ namespace Computator.NET
 
         private void ChartAreaValuesView1_AddClicked(object sender, EventArgs e)
         {
-            if (_view.ExpressionView.Text != "")
+            if (SharedViewState.Instance.ExpressionText != "")
             {
                 try
                 {
-                    currentChart.AddFunction(expressionsEvaluator.Evaluate(_view.ExpressionView.Text, 
-                        _view.CustomFunctionsView.CustomFunctionsEditor.Text,
+                    SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
+                    currentChart.AddFunction(expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText, 
+                        SharedViewState.Instance.CustomFunctionsText,
                         _calculationsMode));
                 }
                 catch (Exception ex)
@@ -224,7 +226,7 @@ namespace Computator.NET
 
         private void ExpressionView_TextChanged(object sender, EventArgs e)
         {
-            var mode = modeDeterminer.DetermineMode(_view.ExpressionView.Text);
+            var mode = modeDeterminer.DetermineMode(SharedViewState.Instance.ExpressionText);
             if (mode == _calculationsMode) return;
 
             SetMode(mode);

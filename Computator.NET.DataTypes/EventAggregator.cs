@@ -30,17 +30,17 @@ namespace Computator.NET.DataTypes
         public ViewName View { get; private set; }
     }
 
-    public class NoErrorsInCustomFunctionsEvent : IApplicationEvent { }
 
-    public class ErrorsInCustomFunctionsEvent : IApplicationEvent
+    public class ExponentModeChangedEvent : IApplicationEvent
     {
-        public ErrorsInCustomFunctionsEvent(IEnumerable<CompilerError> errors)
+        public ExponentModeChangedEvent(bool isExponentMode)
         {
-            Errors = errors;
+            IsExponentMode = isExponentMode;
         }
 
-        public IEnumerable<CompilerError> Errors { get; private set; } 
+        public bool IsExponentMode { get; private set; }
     }
+
 
     public enum ViewName
     {

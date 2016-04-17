@@ -4,6 +4,7 @@ using Computator.NET.Config;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.MVP;
 
 namespace Computator.NET
 {
@@ -36,12 +37,14 @@ namespace Computator.NET
         private void HandleCustomFunctionsErrors(CompilationException exception)
         {
             //CustomFunctionsCodeEditorControl.ClearHighlightedErrors();
-            EventAggregator.Instance.Publish(new NoErrorsInCustomFunctionsEvent());
+        //    EventAggregator.Instance.Publish(new NoErrorsInCustomFunctionsEvent());
 
             if (exception == null)
                 return;
 
-            EventAggregator.Instance.Publish<ErrorsInCustomFunctionsEvent>(new ErrorsInCustomFunctionsEvent(exception.Errors[CompilationErrorPlace.CustomFunctions]));
+         //   EventAggregator.Instance.Publish<ErrorsInCustomFunctionsEvent>(new ErrorsInCustomFunctionsEvent(exception.Errors[CompilationErrorPlace.CustomFunctions]));
+
+            SharedViewState.Instance.CustomFunctionsEditor.HighlightErrors(exception.Errors[CompilationErrorPlace.CustomFunctions]);
 
             // CustomFunctionsCodeEditorControl.HighlightErrors(
             //   exception.Errors[CompilationErrorPlace.CustomFunctions]);

@@ -6,22 +6,20 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
 using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.MVP;
 
 namespace Computator.NET.UI.Views
 {
     public class CalculationsPresenter
     {
         private readonly ICalculationsView _view;
-        private readonly ITextProvider _expression;
-        private readonly ITextProvider _customFunctions;
         private readonly IErrorHandler _errorHandler;
         private CalculationsMode _calculationsMode;
 
-        public CalculationsPresenter(ICalculationsView view, ITextProvider expression, ITextProvider customFunctions, IErrorHandler errorHandler)
+        public CalculationsPresenter(ICalculationsView view,  IErrorHandler errorHandler)
         {
             _view = view;
-            _expression = expression;
-            _customFunctions = customFunctions;
+
             _errorHandler = errorHandler;
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(_ModeChanged);
             _view.CalculateClicked += _view_CalculateClicked;
@@ -31,11 +29,12 @@ namespace Computator.NET.UI.Views
 
         private void _view_CalculateClicked(object sender, System.EventArgs e)
         {
-            if (_expression.Text != "")
+            if (SharedViewState.Instance.ExpressionText != "")
             {
                 try
                 {
-                    var function = _expressionsEvaluator.Evaluate(_expression.Text, _customFunctions.Text, _calculationsMode);
+                    SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
+                    var function = _expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText, SharedViewState.Instance.CustomFunctionsText, _calculationsMode);
 
                     var x = _view.X;
                     var y = _view.Y;
@@ -45,7 +44,7 @@ namespace Computator.NET.UI.Views
 
                     var resultStr = ScriptingExtensions.ToMathString(result);
 
-                    _view.AddResult(_expression.Text, _calculationsMode == CalculationsMode.Complex ? z.ToMathString() : (_calculationsMode == CalculationsMode.Fxy ? $"{x.ToMathString()}, {y.ToMathString()}" : x.ToMathString()), resultStr);
+                    _view.AddResult(SharedViewState.Instance.ExpressionText, _calculationsMode == CalculationsMode.Complex ? z.ToMathString() : (_calculationsMode == CalculationsMode.Fxy ? $"{x.ToMathString()}, {y.ToMathString()}" : x.ToMathString()), resultStr);
                 }
                 catch (Exception ex)
                 {
