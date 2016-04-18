@@ -11,6 +11,13 @@ namespace Computator.NET.UI.Views
         string SelectedMethod { get; set; }
         string SelectedOperation { get; set; }
 
+        double A { get; }
+        double B { get; }
+        double X { get; }
+        uint Order { get; }
+        uint N { get; }
+        double Epsilon { get; }
+
         event EventHandler MethodChanged;
         event EventHandler OperationChanged;
 
@@ -19,13 +26,6 @@ namespace Computator.NET.UI.Views
         void SetOperations(object[] operations);
 
         void AddResult(string expression, string operation, string method, string parameters, string result);
-
-        double A { get; }
-        double B { get; }
-        double X { get; }
-        uint Order { get; }
-        uint N { get; }
-        double Epsilon { get; }
 
         event EventHandler ComputeClicked;
     }

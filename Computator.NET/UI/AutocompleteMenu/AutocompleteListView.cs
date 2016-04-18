@@ -166,7 +166,7 @@ namespace AutocompleteMenuNS
             else if (Settings.Default.TooltipType ==
                      TooltipType.Form)
             {
-                formTip.setFunctionInfo(functionInfo);
+                formTip.SetFunctionInfo(functionInfo);
                 formTip.Show();
             }
         }

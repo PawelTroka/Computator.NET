@@ -10,12 +10,12 @@ namespace AutocompleteMenuNS
     /// </summary>
     public class TextBoxWrapper : ITextBoxWrapper
     {
+        private readonly Control target;
         private MethodInfo getPositionFromCharIndex;
         private PropertyInfo readonlyProperty;
         private PropertyInfo selectedText;
         private PropertyInfo selectionLength;
         private PropertyInfo selectionStart;
-        private readonly Control target;
 
         private TextBoxWrapper(Control targetControl)
         {

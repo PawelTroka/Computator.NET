@@ -6,6 +6,7 @@ using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
 using Computator.NET.Functions;
 using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.MVP;
 using Computator.NET.UI.Views;
 using Moq;
 using NUnit.Framework;
@@ -20,7 +21,7 @@ namespace UnitTests.UITests.PresentersTests
         {
             _numericalCalculationsViewMock.SetupAllProperties();
             _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-    _errorHandlerMock.Object, _expressionViewMock.Object, _customFunctionsViewMock.Object);
+    _errorHandlerMock.Object);
 
             _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Integral);
 
@@ -38,7 +39,7 @@ namespace UnitTests.UITests.PresentersTests
         {
             _numericalCalculationsViewMock.SetupAllProperties();
             _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-    _errorHandlerMock.Object, _expressionViewMock.Object, _customFunctionsViewMock.Object);
+    _errorHandlerMock.Object);
 
             _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Function_root);
 
@@ -56,7 +57,7 @@ namespace UnitTests.UITests.PresentersTests
         {
             _numericalCalculationsViewMock.SetupAllProperties();
             _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-    _errorHandlerMock.Object, _expressionViewMock.Object, _customFunctionsViewMock.Object);
+    _errorHandlerMock.Object);
 
             _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Derivative);
 
@@ -82,12 +83,13 @@ namespace UnitTests.UITests.PresentersTests
             _numericalCalculationsViewMock = new Mock<INumericalCalculationsView>();
             //        _numericalCalculationsViewMock.SetupAllProperties();
 
-            _customFunctionsViewMock = new Mock<ITextProvider>();
+            _customFunctionsViewMock = new Mock<ICodeEditorView>();
             //          _customFunctionsViewMock.SetupAllProperties();
 
             _expressionViewMock = new Mock<ITextProvider>();
             //            _expressionViewMock.SetupAllProperties();
 
+            SharedViewState.Initialize(_expressionViewMock.Object,_customFunctionsViewMock.Object);
 
 
             _numericalCalculationsViewMock.Setup(
@@ -166,7 +168,7 @@ namespace UnitTests.UITests.PresentersTests
 
         public static object[] _functionRootTestCases;
 
-        private Mock<ITextProvider> _customFunctionsViewMock;
+        private Mock<ICodeEditorView> _customFunctionsViewMock;
         private Mock<IErrorHandler> _errorHandlerMock;
         private Mock<ITextProvider> _expressionViewMock;
         private NumericalCalculationsPresenter _numericalCalculationsPresenter;
@@ -201,7 +203,7 @@ namespace UnitTests.UITests.PresentersTests
             _numericalCalculationsViewMock.SetupGet(m => m.SelectedMethod).Returns(method);
 
             _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-    _errorHandlerMock.Object, _expressionViewMock.Object, _customFunctionsViewMock.Object);
+    _errorHandlerMock.Object);
         }
 
         private void SetupForIntegral(string method, string expression, double a, double b, uint n)

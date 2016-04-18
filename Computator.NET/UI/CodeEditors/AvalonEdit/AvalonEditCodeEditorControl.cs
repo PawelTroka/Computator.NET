@@ -80,11 +80,6 @@ namespace Computator.NET.UI.CodeEditors
             set { _codeEditor.Text = value; }
         }
 
-        public bool ExponentMode
-        {
-            get { return _codeEditor.IsExponentMode; }
-            set { _codeEditor.IsExponentMode = value; }
-        }
 
         public void Undo()
         {

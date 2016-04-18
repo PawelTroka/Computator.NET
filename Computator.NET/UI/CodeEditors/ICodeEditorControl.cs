@@ -4,7 +4,6 @@ using System.Drawing;
 
 namespace Computator.NET.UI.CodeEditors
 {
-
     public interface ISupportsExceptionHighliting
     {
         void ClearHighlightedErrors();
@@ -13,7 +12,6 @@ namespace Computator.NET.UI.CodeEditors
 
     public interface ICodeEditorView : ITextProvider, ISupportsExceptionHighliting
     {
-
     }
 
 
@@ -24,23 +22,21 @@ namespace Computator.NET.UI.CodeEditors
 
     public interface IDocumentsEditor
     {
+        string CurrentFileName { get; set; }
         void RemoveTab(string fullPath);
         bool ContainsDocument(string oldPath);
         void RenameDocument(string oldPath, string fullPath);
         void NewDocument(string fullPath);
-        string CurrentFileName { get; set; }
         void SwitchTab(string fullPath);
     }
 
     public interface ICodeDocumentsEditor : IDocumentsEditor, ICodeEditorView
     {
-        
     }
 
     public interface ICodeEditorControl
     {
         string Text { get; set; }
-        bool ExponentMode { get; set; }
         IEnumerable<string> Documents { get; }
         void Undo();
         void Redo();

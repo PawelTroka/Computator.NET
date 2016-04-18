@@ -1,7 +1,7 @@
 ﻿##TSL
 * functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
 * Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3)) //it would make possible to have string representation of user function in scripting -> plot() functions could produce better looking charts with labels corresponding to functions by string representation
-* we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
+* we should add something like cos(x) or cos(x)² instead of having to write (cos(x))²
 * make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
 * maybe handle cases like 2²x for multiplying
 * Handle abs - |x+2|=|cos(y)| should give us abs(x+2)=abs(cos(y)), then add it to superscript
@@ -19,6 +19,8 @@
 * Command pattern for buttons, including EditChartMenus / or something better
 * Windows Ribbon control?
 * Metro Modern UI - Metro Framework?
+* use mode.error more often - use it for empty text and errors etc
+* use exponent (superscript) button in toolbarview like x²
 
 
 ##Functions and constants
@@ -59,6 +61,7 @@
 ##Installer
 * test installer and upgrade options
 * right now, because of lack of support from Flexera's site, installer stores both versions of Visual C++ Runtime 2015 Update 1 within itself - should download from internet only if needed
+* flexera did update their dependencies on website - take advantage of download VC++ runtime
 
 
 ##Autocomplete

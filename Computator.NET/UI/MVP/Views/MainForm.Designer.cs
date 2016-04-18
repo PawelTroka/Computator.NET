@@ -1,7 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.Benchmarking;
 using Computator.NET.Charting;
 using Computator.NET.Charting.RealCharting;
+using Computator.NET.Config;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.UI.Controls;
 using Computator.NET.UI;
 
@@ -45,16 +49,12 @@ namespace Computator.NET
             this.mode3DFxyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.chartingTabPage = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.calculationsTabPage = new System.Windows.Forms.TabPage();
             this.numericalCalculationsTabPage = new System.Windows.Forms.TabPage();
             this.symbolicCalculationsTabPage = new System.Windows.Forms.TabPage();
             this.symbolicOperationButton = new System.Windows.Forms.Button();
             this.scriptingTabPage = new System.Windows.Forms.TabPage();
             this.customFunctionsTabPage = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.expressionTextBox = new Computator.NET.UI.Controls.ExpressionTextBox();
             this.openCustomFunctionsFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveCustomFunctionsFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -130,9 +130,7 @@ namespace Computator.NET
             this.runToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.chartingTabPage.SuspendLayout();
             this.symbolicCalculationsTabPage.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -197,15 +195,9 @@ namespace Computator.NET
             // 
             // chartingTabPage
             // 
-            this.chartingTabPage.Controls.Add(this.panel2);
             resources.ApplyResources(this.chartingTabPage, "chartingTabPage");
             this.chartingTabPage.Name = "chartingTabPage";
             this.chartingTabPage.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            resources.ApplyResources(this.panel2, "panel2");
-            this.panel2.Name = "panel2";
             // 
             // calculationsTabPage
             // 
@@ -231,7 +223,6 @@ namespace Computator.NET
             resources.ApplyResources(this.symbolicOperationButton, "symbolicOperationButton");
             this.symbolicOperationButton.Name = "symbolicOperationButton";
             this.symbolicOperationButton.UseVisualStyleBackColor = true;
-            this.symbolicOperationButton.Click += new System.EventHandler(this.symbolicOperationButton_Click);
             // 
             // scriptingTabPage
             // 
@@ -244,25 +235,6 @@ namespace Computator.NET
             resources.ApplyResources(this.customFunctionsTabPage, "customFunctionsTabPage");
             this.customFunctionsTabPage.Name = "customFunctionsTabPage";
             this.customFunctionsTabPage.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.expressionTextBox, 1, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // expressionTextBox
-            // 
-            resources.ApplyResources(this.expressionTextBox, "expressionTextBox");
-            this.expressionTextBox.ExponentMode = false;
-            this.expressionTextBox.Name = "expressionTextBox";
-            this.expressionTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.expressionTextBox_KeyPress);
             // 
             // openCustomFunctionsFileDialog
             // 
@@ -370,7 +342,6 @@ namespace Computator.NET
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             resources.ApplyResources(this.exitToolStripMenuItem, "exitToolStripMenuItem");
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem1
             // 
@@ -567,14 +538,12 @@ namespace Computator.NET
             // 
             this.optionsToolStripMenuItem1.Name = "optionsToolStripMenuItem1";
             resources.ApplyResources(this.optionsToolStripMenuItem1, "optionsToolStripMenuItem1");
-            this.optionsToolStripMenuItem1.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // fullscreenToolStripMenuItem
             // 
             this.fullscreenToolStripMenuItem.CheckOnClick = true;
             this.fullscreenToolStripMenuItem.Name = "fullscreenToolStripMenuItem";
             resources.ApplyResources(this.fullscreenToolStripMenuItem, "fullscreenToolStripMenuItem");
-            this.fullscreenToolStripMenuItem.CheckedChanged += new System.EventHandler(this.fullscreenToolStripMenuItem_CheckedChanged);
             // 
             // toolStripMenuItem42
             // 
@@ -598,7 +567,6 @@ namespace Computator.NET
             // 
             this.toolStripMenuItem40.Name = "toolStripMenuItem40";
             resources.ApplyResources(this.toolStripMenuItem40, "toolStripMenuItem40");
-            this.toolStripMenuItem40.Click += new System.EventHandler(this.benchmarkToolStripMenuItem_Click);
             // 
             // toolStripSeparator16
             // 
@@ -609,7 +577,6 @@ namespace Computator.NET
             // 
             this.toolStripMenuItem41.Name = "toolStripMenuItem41";
             resources.ApplyResources(this.toolStripMenuItem41, "toolStripMenuItem41");
-            this.toolStripMenuItem41.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
@@ -628,13 +595,11 @@ namespace Computator.NET
             // 
             this.toolStripMenuItem43.Name = "toolStripMenuItem43";
             resources.ApplyResources(this.toolStripMenuItem43, "toolStripMenuItem43");
-            this.toolStripMenuItem43.Click += new System.EventHandler(this.featuresToolStripMenuItem_Click);
             // 
             // toolStripMenuItem45
             // 
             this.toolStripMenuItem45.Name = "toolStripMenuItem45";
             resources.ApplyResources(this.toolStripMenuItem45, "toolStripMenuItem45");
-            this.toolStripMenuItem45.Click += new System.EventHandler(this.changelogToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -645,7 +610,6 @@ namespace Computator.NET
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
             resources.ApplyResources(this.aboutToolStripMenuItem1, "aboutToolStripMenuItem1");
-            this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripSeparator14
             // 
@@ -656,13 +620,11 @@ namespace Computator.NET
             // 
             this.toolStripMenuItem44.Name = "toolStripMenuItem44";
             resources.ApplyResources(this.toolStripMenuItem44, "toolStripMenuItem44");
-            this.toolStripMenuItem44.Click += new System.EventHandler(this.thanksToToolStripMenuItem_Click);
             // 
             // toolStripMenuItem46
             // 
             this.toolStripMenuItem46.Name = "toolStripMenuItem46";
             resources.ApplyResources(this.toolStripMenuItem46, "toolStripMenuItem46");
-            this.toolStripMenuItem46.Click += new System.EventHandler(this.bugReportingToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -745,7 +707,6 @@ namespace Computator.NET
             this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(this.helpToolStripButton, "helpToolStripButton");
             this.helpToolStripButton.Name = "helpToolStripButton";
-            this.helpToolStripButton.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripSeparator17
             // 
@@ -757,7 +718,6 @@ namespace Computator.NET
             this.runToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(this.runToolStripButton, "runToolStripButton");
             this.runToolStripButton.Name = "runToolStripButton";
-            this.runToolStripButton.Click += new System.EventHandler(this.runToolStripButton_Click);
             // 
             // GUI
             // 
@@ -765,17 +725,13 @@ namespace Computator.NET
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip2);
             this.Name = "GUI";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.chartingTabPage.ResumeLayout(false);
             this.symbolicCalculationsTabPage.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -790,10 +746,8 @@ namespace Computator.NET
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage chartingTabPage;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TabPage calculationsTabPage;
         private System.Windows.Forms.TabPage numericalCalculationsTabPage;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage symbolicCalculationsTabPage;
         private System.Windows.Forms.Button symbolicOperationButton;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
@@ -804,7 +758,6 @@ namespace Computator.NET
         private System.Windows.Forms.OpenFileDialog openScriptFileDialog;
         private System.Windows.Forms.SaveFileDialog saveScriptFileDialog;
         private System.Windows.Forms.ToolStripStatusLabel XYRatioToolStripStatusLabel;
-        private ExpressionTextBox expressionTextBox;
         private System.Windows.Forms.MenuStrip menuStrip2;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -846,7 +799,6 @@ namespace Computator.NET
         private System.Windows.Forms.ToolStripMenuItem dd212ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fdsfdsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mode3DFxyToolStripMenuItem;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ToolStripMenuItem functionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem elementaryFunctionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specialFunctionsToolStripMenuItem;

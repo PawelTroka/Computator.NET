@@ -41,7 +41,7 @@ namespace Computator.NET.UI.AutocompleteMenu
             }
         }
 
-        public void setFunctionInfo(FunctionInfo functionInfo)
+        public void SetFunctionInfo(FunctionInfo functionInfo)
         {
             HTMLCode = @"<b>" + functionInfo.Title + @"</b>" + @"<hr>" + functionInfo.Description + @" <br /><br /><i>" +
                        Strings.BrBrISourceBrAHref + @"<br /><a href=""" +

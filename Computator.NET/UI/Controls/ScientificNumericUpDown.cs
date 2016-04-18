@@ -28,10 +28,10 @@ namespace Computator.NET.UI
 
     public sealed partial class ScientificNumericUpDown : NumericUpDown
     {
+        private readonly int _multiplyFactor = 10;
         //   private readonly char dotSymbol = '·'; //'⋅'
         private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
         private readonly string toReplace = "0123456789-";
-        private readonly int _multiplyFactor = 10;
 
         public ScientificNumericUpDown()
         {
@@ -235,7 +235,7 @@ namespace Computator.NET.UI
             {
                 base.UpButton();
                 Value = Value.RoundToSignificantDigits(2);
-                    //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
+                //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
             }
             else
             {
@@ -254,7 +254,7 @@ namespace Computator.NET.UI
             {
                 base.DownButton();
                 Value = Value.RoundToSignificantDigits(2);
-                    //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
+                //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
             }
             else
             {
@@ -324,7 +324,7 @@ namespace Computator.NET.UI
                         sb[i] = toReplace[j];
 
             return (decimal) double.Parse(sb.ToString(), CultureInfo.InvariantCulture);
-                //maybe decimal should parse this
+            //maybe decimal should parse this
         }
 
 

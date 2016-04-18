@@ -1,52 +1,43 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
-using Accord.Collections;
 using Computator.NET.Benchmarking;
 using Computator.NET.Charting;
 using Computator.NET.Charting.Chart3D;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
-using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
 using Computator.NET.Localization;
 using Computator.NET.Logging;
-using Computator.NET.NumericalCalculations;
 using Computator.NET.Properties;
-using Computator.NET.Transformations;
 using Computator.NET.UI.AutocompleteMenu;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Controls;
+using Computator.NET.UI.Dialogs;
+using Computator.NET.UI.MVP;
+using Computator.NET.UI.MVP.Views;
 using Computator.NET.UI.Views;
 
 namespace Computator.NET
 {
     public partial class GUI : LocalizedForm, IMainForm
     {
-
         private readonly WebBrowserForm menuFunctionsToolTip = new WebBrowserForm();
 
-
-        private Chart2D chart2d => charts[CalculationsMode.Real] as Chart2D;
-        private Chart3DControl chart3d => charts[CalculationsMode.Fxy] as Chart3DControl;
-        private ComplexChart complexChart => charts[CalculationsMode.Complex] as ComplexChart;
-        public IChartAreaValuesView chartAreaValuesView1 { get; } = new ChartAreaValuesView {Dock = DockStyle.Right};
         public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
-        public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView() { Dock = DockStyle.Fill };
 
-        public IScriptingView ScriptingView { get; } = new ScriptingView() {Dock = DockStyle.Fill};
-        public ICustomFunctionsView CustomFunctionsView { get; } = new CustomFunctionsView() {Dock = DockStyle.Fill};
+        public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView
+        {
+            Dock = DockStyle.Fill
+        };
+
+        public IScriptingView ScriptingView { get; } = new ScriptingView {Dock = DockStyle.Fill};
+        public ICustomFunctionsView CustomFunctionsView { get; } = new CustomFunctionsView {Dock = DockStyle.Fill};
+        public IChartingView ChartingView { get; } = new ChartingView {Dock = DockStyle.Fill};
 
         public void SetLanguages(object[] languages)
         {
@@ -55,28 +46,12 @@ namespace Computator.NET
         }
 
 
-
         public string SelectedLanguage
         {
-            get
-            {
-                return languageToolStripComboBox.SelectedItem.ToString();
-            } 
+            get { return languageToolStripComboBox.SelectedItem.ToString(); }
             set { languageToolStripComboBox.SelectedItem = value; }
         }
 
-        public ReadOnlyDictionary<CalculationsMode, IChart> charts { get; } =
-            new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>
-            {
-                {CalculationsMode.Real, new Chart2D()},
-                {CalculationsMode.Complex, new ComplexChart()},
-                {CalculationsMode.Fxy, new Chart3DControl()}
-            });
-
-        public IExpressionView ExpressionView
-        {
-            get { return expressionTextBox; }
-        }
 
         public string ModeText
         {
@@ -128,7 +103,10 @@ namespace Computator.NET
             SendKeys.Send(key);
         }
 
-        public string StatusText {set { toolStripStatusLabel1.Text = value; } }
+        public string StatusText
+        {
+            set { toolStripStatusLabel1.Text = value; }
+        }
 
         public int SelectedViewIndex
         {
@@ -136,11 +114,24 @@ namespace Computator.NET
             set { tabControl1.SelectedIndex = value; }
         }
 
-        public event EventHandler EnterClicked;
+        public IExpressionView ExpressionView { get; } = new ExpressionView {Dock = DockStyle.Top};
+
+        public event EventHandler EnterClicked
+        {
+            add { runToolStripButton.Click += value; }
+            remove { runToolStripButton.Click -= value; }
+        }
+
         public event EventHandler SelectedLanguageChanged
         {
             add { languageToolStripComboBox.SelectedIndexChanged += value; }
             remove { languageToolStripComboBox.SelectedIndexChanged -= value; }
+        }
+
+        public event EventHandler SelectedViewChanged
+        {
+            add { tabControl1.SelectedIndexChanged += value; }
+            remove { tabControl1.SelectedIndexChanged -= value; }
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -154,19 +145,7 @@ namespace Computator.NET
             saveToolStripMenuItem.Enabled = index == 4 || index == 5;
 
             //expressionTextBox.Visible = !(index ==5||index==4);
-            tableLayoutPanel1.Visible = !(index == 5 || index == 4);
-        }
-
-
-        private void runToolStripButton_Click(object s, EventArgs e)
-        {
-            EnterClicked?.Invoke(s, e);
-        }
-
-        private void expressionTextBox_KeyPress(object s, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char) 13)
-                EnterClicked?.Invoke(s, e); //defaultActions[tabControl1.SelectedIndex].Invoke(s, e);
+            //TODO: MVP//tableLayoutPanel1.Visible = !(index == 5 || index == 4);
         }
 
         #region edit menu eventsi
@@ -233,7 +212,7 @@ namespace Computator.NET
                 //expressionTextBox.do()
             }
             else if (tabControl1.SelectedIndex == 4)
-            //scriptingCodeEditor.Focus();
+                //scriptingCodeEditor.Focus();
             {
                 //TODO: MVP//     if (scriptingCodeEditor.Focused)
                 //TODO: MVP//     scriptingCodeEditor.Redo();
@@ -321,10 +300,10 @@ namespace Computator.NET
             }
             else
             {
-             //TODO: MVP//   if (customFunctionsCodeEditor.Focused)
-                 //TODO: MVP//   customFunctionsCodeEditor.SelectAll();
-              //  else
-                    SendStringAsKey("^A");
+                //TODO: MVP//   if (customFunctionsCodeEditor.Focused)
+                //TODO: MVP//   customFunctionsCodeEditor.SelectAll();
+                //  else
+                SendStringAsKey("^A");
             }
 #else
             SendStringAsKey("^A");
@@ -449,33 +428,86 @@ namespace Computator.NET
 
         #region initialization and construction
 
-
-
         public GUI()
         {
             InitializeComponent();
+
+            Controls.Add(ExpressionView as Control);
+            Controls.SetChildIndex(ExpressionView as Control, 2);
+
+            chartingTabPage.Controls.Add(ChartingView as Control);
             calculationsTabPage.Controls.Add(CalculationsView as Control);
             numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
             scriptingTabPage.Controls.Add(ScriptingView as Control);
             customFunctionsTabPage.Controls.Add(CustomFunctionsView as Control);
 
             InitializeFunctions();
-            InitializeCharts(); //takes more time then it should
 
 
-            InitializeScripting(); //takes a lot of time, TODO: optimize
-            InitializeDataBindings();
-           // BringToFront();
-           // Focus();
+            editChartMenus = new EditChartMenus(ChartingView.Charts[CalculationsMode.Real] as Chart2D,
+                ChartingView.Charts[CalculationsMode.Complex] as ComplexChart,
+                ChartingView.Charts[CalculationsMode.Fxy] as Chart3DControl,
+                (( ChartingView.Charts[CalculationsMode.Fxy] as Chart3DControl).ParentControl));
+
+            menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
+
+
+            exponentiationToolStripMenuItem.DataBindings.Add("Checked", SharedViewState.Instance, "IsExponent", false,
+                DataSourceUpdateMode.OnPropertyChanged);
+
             Icon = Resources.computator_net_icon;
 
             symbolicCalculationsTabPage.Enabled = false;
 
             HandleCommandLine();
+
+            toolStripMenuItem40.Click += (s, e) => new BenchmarkForm().ShowDialog(this);
+
+            helpToolStripButton.Click += (s, e) => new AboutBox1().ShowDialog(this);
+            aboutToolStripMenuItem1.Click += (s, e2) => new AboutBox1().ShowDialog(this);
+
+            toolStripMenuItem46.Click += (o, e) => new BugReportingForm().ShowDialog(this);
+            toolStripMenuItem45.Click += (o, e) => new ChangelogForm().ShowDialog(this);
+            optionsToolStripMenuItem1.Click += (sender, e) => new SettingsForm().ShowDialog(this);
+
+            exitToolStripMenuItem.Click += (o, e) => Application.Exit();
+
+            toolStripMenuItem43.Click += (s, e) => MessageBox.Show(Strings.featuresInclude, Strings.Features);
+
+            toolStripMenuItem44.Click += (s, e) => MessageBox.Show(
+                GlobalConfig.betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.translators +
+                Environment.NewLine + Environment.NewLine +
+                GlobalConfig.libraries + Environment.NewLine + Environment.NewLine +
+                GlobalConfig.others, Strings.SpecialThanksTo);
+
+            toolStripMenuItem41.Click += (o, e) =>
+            {
+                if (Directory.Exists(SimpleLogger.LogsDirectory))
+                    Process.Start(SimpleLogger.LogsDirectory);
+                else
+                    MessageBox.Show(
+                        Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_);
+            };
+
+            fullscreenToolStripMenuItem.Click += (o, e) =>
+            {
+                if (fullscreenToolStripMenuItem.Checked)
+                {
+                    // this.TopMost = true;
+                    FormBorderStyle = FormBorderStyle.None;
+                    WindowState = FormWindowState.Maximized;
+                }
+                else
+                {
+                    // this.TopMost = false;
+                    FormBorderStyle = FormBorderStyle.Sizable;
+                    WindowState = FormWindowState.Normal;
+                }
+            };
         }
 
 
-        private EditChartMenus editChartMenus;
+        private readonly EditChartMenus editChartMenus;
 
 
         private void HandleCommandLine()
@@ -487,7 +519,7 @@ namespace Computator.NET
             if (args[1].Contains(".tslf"))
             {
                 //TODO: MVP
-             //   customFunctionsCodeEditor.NewDocument(args[1]);
+                //   customFunctionsCodeEditor.NewDocument(args[1]);
                 //customFunctionsCodeEditor.CurrentFileName = args[1];
                 // customFunctionsCodeEditor.Text = code;
                 tabControl1.SelectedIndex = 5;
@@ -496,7 +528,7 @@ namespace Computator.NET
             else
             {
                 //TODO: MVP
-               // scriptingCodeEditor.NewDocument(args[1]);
+                // scriptingCodeEditor.NewDocument(args[1]);
                 //scriptingCodeEditor.CurrentFileName = args[1];
                 //scriptingCodeEditor.Text = code;
 
@@ -542,61 +574,6 @@ namespace Computator.NET
             }
         }
 
-        private void InitializeDataBindings()
-        {
-            exponentiationToolStripMenuItem.DataBindings.Add("Checked", expressionTextBox, "ExponentMode", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-
-            //TODO: MVP
-     //       scriptingCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,
- //               DataSourceUpdateMode.OnPropertyChanged);
-   //         customFunctionsCodeEditor.DataBindings.Add("ExponentMode", exponentiationToolStripMenuItem, "Checked", false,
-     //           DataSourceUpdateMode.OnPropertyChanged);
-        }
-
-        private void InitializeCharts()
-        {
-            panel2.Controls.Add(chartAreaValuesView1 as Control);
-
-            panel2.Controls.Add(chart2d);
-            panel2.Controls.Add(complexChart);
-            panel2.Controls.Add(chart3d.ParentControl);
-            chart2d.BringToFront();
-            complexChart.BringToFront();
-            chart3d.ParentControl.BringToFront();
-            complexChart.Visible = false;
-            chart3d.ParentControl.Visible = false;
-
-            editChartMenus = new EditChartMenus(chart2d, complexChart, chart3d, chart3d.ParentControl);
-
-            menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
-        }
-        
-
-        private void InitializeScripting()
-        {            //TODO: MVP
-           // customFunctionsCodeEditor 
-
-            //splitContainer3.Panel1.Controls.Add(customFunctionsCodeEditor);
-
-            //scriptingDirectoryTree.CodeEditorWrapper = scriptingCodeEditor;
-            //customFunctionsDirectoryTree.CodeEditorWrapper = customFunctionsCodeEditor;
-        }
-
-        #endregion
-
-        #region main events
-
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-
-        private void symbolicOperationButton_Click(object sender, EventArgs e)
-        {
-        }
-
         #endregion
 
         #region eventHandlers
@@ -607,155 +584,39 @@ namespace Computator.NET
             if (e.Button == MouseButtons.Left)
             {
                 if (tabControl1.SelectedIndex < 4)
-                    expressionTextBox.AppendText(menuItem.Text);
+                {
+                } //TODO: MVP//   expressionTextBox.AppendText(menuItem.Text);
                 else if (tabControl1.SelectedIndex == 4)
                 {
                     //TODO: MVP
                     //scriptingCodeEditor.AppendText(menuItem.Text);
                 }
-                else if (tabControl1.SelectedIndex == 5) { }
-                    //TODO: MVP
-                    //customFunctionsCodeEditor.AppendText(menuItem.Text);
+                else if (tabControl1.SelectedIndex == 5)
+                {
+                }
+                //TODO: MVP
+                //customFunctionsCodeEditor.AppendText(menuItem.Text);
             }
             else if (e.Button == MouseButtons.Right && FunctionsDetails.Details.ContainsKey(menuItem.Text))
             {
-                menuFunctionsToolTip.setFunctionInfo(FunctionsDetails.Details[menuItem.Text]);
+                menuFunctionsToolTip.SetFunctionInfo(FunctionsDetails.Details[menuItem.Text]);
                 //menuFunctionsToolTip.Show(this, menuItem.Width + 3, 0);
                 menuFunctionsToolTip.Show();
             }
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //MessageBox.Show("Computator.NET "+GlobalConfig.version+"\nthis is beta version, some functions may not work properly\n\nAuthor: Paweł Troka\nE-mail: ptroka@fizyka.dk\nWebsite: http://fizyka.dk", "About Computator.NET");
-            var about = new AboutBox1();
-            about.ShowDialog(this);
-        }
-
-
-        private void featuresToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(Strings.featuresInclude, Strings.Features);
-        }
-
-        private void thanksToToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(
-                GlobalConfig.betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.translators +
-                Environment.NewLine + Environment.NewLine +
-                GlobalConfig.libraries + Environment.NewLine + Environment.NewLine +
-                GlobalConfig.others, Strings.SpecialThanksTo);
-        }
-
-        private void changelogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var sr = new StreamReader(GlobalConfig.FullPath("CHANGELOG")))
-            {
-                var changelogForm = new Form
-                {
-                    Text = Strings.GUI_changelogToolStripMenuItem_Click_Changelog,
-                    Size = Size
-                };
-                changelogForm.Controls.Add(new RichTextBox
-                {
-                    Text = sr.ReadToEnd(),
-                    ReadOnly = true,
-                    Dock = DockStyle.Fill
-                });
-                changelogForm.ShowDialog(this);
-            }
-        }
-
-        private void bugReportingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var richtextbox = new RichTextBox
-            {
-                Text =
-                    $@"{Environment.NewLine}{Strings.PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk}{Environment.NewLine
-                        }{Environment.NewLine}{
-                        Strings
-                            .GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below
-                        }{Environment.NewLine}{GlobalConfig.issuesUrl}",
-                Dock = DockStyle.Fill,
-                ReadOnly = true
-            };
-
-            richtextbox.LinkClicked += (ooo, eee) => Process.Start(GlobalConfig.issuesUrl);
-
-            new Form
-            {
-                Size = new Size(650, 300),
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-
-                // Set the MaximizeBox to false to remove the maximize box.
-                MaximizeBox = false,
-
-                // Set the MinimizeBox to false to remove the minimize box.
-                MinimizeBox = false,
-
-                // Set the start position of the form to the center of the screen.
-                //StartPosition = FormStartPosition.CenterScreen,
-                Controls =
-                {
-                    richtextbox
-                },
-                Font = new Font(FontFamily.GenericSansSerif, 17.0F),
-                Text = Strings.BugReporting
-            }.ShowDialog(this);
-        }
 
         private void transformToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var menuitem = sender as ToolStripDropDownItem;
 
-            ////  if (_calculationsMode == CalculationsMode.Real)//TODO: MVP
-            chart2d.Transform(
-                points => MathematicalTransformations.Transform(points, menuitem.Text),
-                menuitem.Text);
+            ////  if (_calculationsMode == CalculationsMode.Real)
+            /// //TODO: MVP
+            //    chart2d.Transform(
+            //      points => MathematicalTransformations.Transform(points, menuitem.Text),
+            //    menuitem.Text);
             //  else if (complexNumbersModeRadioBox.Checked)
             //    else if(fxyModeRadioBox.Checked)
-        }
-
-        private void benchmarkToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var bch = new BenchmarkForm();
-            bch.ShowDialog(this);
-        }
-
-        #endregion
-
-        #region tools menu events
-
-
-
-        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new SettingsForm().ShowDialog(this);
-        }
-
-        private void logsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Directory.Exists(SimpleLogger.LogsDirectory))
-                Process.Start(SimpleLogger.LogsDirectory);
-            else
-                MessageBox.Show(
-                    Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_);
-        }
-
-        private void fullscreenToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            if (fullscreenToolStripMenuItem.Checked)
-            {
-                // this.TopMost = true;
-                FormBorderStyle = FormBorderStyle.None;
-                WindowState = FormWindowState.Maximized;
-            }
-            else
-            {
-                // this.TopMost = false;
-                FormBorderStyle = FormBorderStyle.Sizable;
-                WindowState = FormWindowState.Normal;
-            }
         }
 
         #endregion

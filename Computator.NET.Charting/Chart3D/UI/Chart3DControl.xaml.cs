@@ -56,12 +56,13 @@ namespace Computator.NET.Charting.Chart3D
 
         public Chart3DControl()
         {
-            ParentControl = new ElementHost
+            //BUG in WPF probably - really slow performance - dont do it
+            /*ParentControl = new ElementHost
             {
                 Child = this,
                 BackColor = System.Drawing.Color.White,
                 Dock = DockStyle.Fill
-            };
+            };*/
             InitializeComponent();
 
             axisLabels = new AxisLabels(canvasOn3D);
@@ -80,7 +81,7 @@ namespace Computator.NET.Charting.Chart3D
             Quality = 50;
         }
 
-        public ElementHost ParentControl { get; }
+        public ElementHost ParentControl { get; set; }
 
         public double Scale
         {

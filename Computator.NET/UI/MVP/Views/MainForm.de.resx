@@ -139,7 +139,7 @@
     <value>Custom-Funktionen</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Ausdruck :</value>
+    <value>Ausdruck:</value>
   </data>
   <data name="processButton.Text" xml:space="preserve">
     <value>Führen Sie das Skript</value>

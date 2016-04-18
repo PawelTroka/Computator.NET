@@ -10,10 +10,9 @@ namespace Computator.NET
     public interface IDirectoryTree
     {
         string Path { get; set; }
-        event DirectoryTree.DirectorySelectedDelegate DirectorySelected;
         IDocumentsEditor CodeEditorWrapper { get; set; }
+        event DirectoryTree.DirectorySelectedDelegate DirectorySelected;
     }
-
 
 
     public sealed class DirectoryTree : TreeView, IDirectoryTree
@@ -39,7 +38,9 @@ namespace Computator.NET
                 {
                     var attr = File.GetAttributes(ctxNode.FullPath);
 
-                    var newNode = attr.HasFlag(FileAttributes.Directory) ? ctxNode.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id) : ctxNode.Parent.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id);
+                    var newNode = attr.HasFlag(FileAttributes.Directory)
+                        ? ctxNode.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id)
+                        : ctxNode.Parent.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id);
                     id++;
 
                     LabelEdit = true;
@@ -101,6 +102,8 @@ namespace Computator.NET
                     RefreshDisplay();
             }
         }
+
+        public event DirectorySelectedDelegate DirectorySelected;
 
         private void treeView1_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
@@ -216,7 +219,6 @@ namespace Computator.NET
             }
         }
 
-        public event DirectorySelectedDelegate DirectorySelected;
         // This is public so a Refresh can be triggered manually.
         public void RefreshDisplay()
         {

@@ -5,12 +5,12 @@ namespace Computator.NET.UI.Controls
 {
     public partial class ChartAreaValuesView : UserControl, IChartAreaValuesView
     {
-        private ChartAreaValuesPresenter presenter;
+        //private ChartAreaValuesPresenter presenter;
 
         public ChartAreaValuesView()
         {
             InitializeComponent();
-            presenter = new ChartAreaValuesPresenter(this);
+            //presenter = new ChartAreaValuesPresenter(this);
         }
 
         public double XMin

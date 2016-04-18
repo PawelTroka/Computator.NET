@@ -133,86 +133,17 @@
   <data name="dd212ToolStripMenuItem.Text" xml:space="preserve">
     <value>Real : f(x)</value>
   </data>
-  <data name="fdsfdsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Complex : f(z)</value>
-  </data>
-  <data name="mode3DFxyToolStripMenuItem.Text" xml:space="preserve">
-    <value>3D : f(x,y)</value>
-  </data>
-  <data name="modeToolStripDropDownButton.Text" xml:space="preserve">
-    <value>Mode[Real : f(x)]</value>
-  </data>
-  <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Chart</value>
-  </data>
-  <data name="calculationsTabPage.Text" xml:space="preserve">
-    <value>Calculator</value>
-  </data>
-  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
-    <value>Numerical calculations</value>
-  </data>
-  <data name="symbolicOperationButton.Text" xml:space="preserve">
-    <value>Compute</value>
-  </data>
-  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
-    <value>Symbolic calculations</value>
-  </data>
-  <data name="scriptingTabPage.Text" xml:space="preserve">
-    <value>Scripting</value>
-  </data>
-  <data name="customFunctionsTabPage.Text" xml:space="preserve">
-    <value>Custom functions</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Expression:</value>
-  </data>
-  <data name="openCustomFunctionsFileDialog.Filter" xml:space="preserve">
-    <value>Troka Scripting Language Functions (*.tslf)|*.tslf</value>
-  </data>
-  <data name="saveCustomFunctionsFileDialog.Filter" xml:space="preserve">
-    <value>Troka Scripting Language Functions (*.tslf)|*.tslf</value>
-  </data>
-  <data name="openScriptFileDialog.Filter" xml:space="preserve">
-    <value>Troka Scripting Language (*.tsl)|*.tsl</value>
-  </data>
-  <data name="saveScriptFileDialog.Filter" xml:space="preserve">
-    <value>Troka Scripting Language (*.tsl)|*.tsl</value>
-  </data>
-  <data name="newToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;New</value>
-  </data>
-  <data name="openToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Open</value>
-  </data>
-  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Save</value>
-  </data>
-  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Save &amp;As</value>
-  </data>
-  <data name="printToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Print</value>
-  </data>
-  <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
-    <value>Print Pre&amp;view</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fi&amp;le</value>
-  </data>
-  <data name="redoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Redo          Ctrl+Y</value>
-  </data>
-  <data name="undoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Undo         Ctrl+Z</value>
-  </data>
   <data name="fdsfdsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 22</value>
   </data>
+  <data name="fdsfdsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Complex : f(z)</value>
+  </data>
   <data name="mode3DFxyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 22</value>
+  </data>
+  <data name="mode3DFxyToolStripMenuItem.Text" xml:space="preserve">
+    <value>3D : f(x,y)</value>
   </data>
   <data name="modeToolStripDropDownButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -234,6 +165,9 @@
   </data>
   <data name="modeToolStripDropDownButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 20</value>
+  </data>
+  <data name="modeToolStripDropDownButton.Text" xml:space="preserve">
+    <value>Mode[Real : f(x)]</value>
   </data>
   <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 620</value>
@@ -261,30 +195,6 @@
   <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="panel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 2</value>
-  </data>
-  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 489</value>
-  </data>
-  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
-    <value>chartingTabPage</value>
-  </data>
-  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="chartingTabPage.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 25</value>
   </data>
@@ -295,10 +205,13 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="chartingTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 493</value>
+    <value>746, 542</value>
   </data>
   <data name="chartingTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="chartingTabPage.Text" xml:space="preserve">
+    <value>Chart</value>
   </data>
   <data name="&gt;&gt;chartingTabPage.Name" xml:space="preserve">
     <value>chartingTabPage</value>
@@ -322,10 +235,13 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="calculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 493</value>
+    <value>746, 542</value>
   </data>
   <data name="calculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="calculationsTabPage.Text" xml:space="preserve">
+    <value>Calculator</value>
   </data>
   <data name="&gt;&gt;calculationsTabPage.Name" xml:space="preserve">
     <value>calculationsTabPage</value>
@@ -349,10 +265,13 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="numericalCalculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 493</value>
+    <value>746, 542</value>
   </data>
   <data name="numericalCalculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
+  </data>
+  <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
+    <value>Numerical calculations</value>
   </data>
   <data name="&gt;&gt;numericalCalculationsTabPage.Name" xml:space="preserve">
     <value>numericalCalculationsTabPage</value>
@@ -387,6 +306,9 @@
   <data name="symbolicOperationButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="symbolicOperationButton.Text" xml:space="preserve">
+    <value>Compute</value>
+  </data>
   <data name="&gt;&gt;symbolicOperationButton.Name" xml:space="preserve">
     <value>symbolicOperationButton</value>
   </data>
@@ -409,10 +331,13 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="symbolicCalculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 493</value>
+    <value>746, 542</value>
   </data>
   <data name="symbolicCalculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
+  </data>
+  <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
+    <value>Symbolic calculations</value>
   </data>
   <data name="&gt;&gt;symbolicCalculationsTabPage.Name" xml:space="preserve">
     <value>symbolicCalculationsTabPage</value>
@@ -436,10 +361,13 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="scriptingTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 493</value>
+    <value>746, 542</value>
   </data>
   <data name="scriptingTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
+  </data>
+  <data name="scriptingTabPage.Text" xml:space="preserve">
+    <value>Scripting</value>
   </data>
   <data name="&gt;&gt;scriptingTabPage.Name" xml:space="preserve">
     <value>scriptingTabPage</value>
@@ -463,10 +391,13 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="customFunctionsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 493</value>
+    <value>746, 542</value>
   </data>
   <data name="customFunctionsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
+  </data>
+  <data name="customFunctionsTabPage.Text" xml:space="preserve">
+    <value>Custom functions</value>
   </data>
   <data name="&gt;&gt;customFunctionsTabPage.Name" xml:space="preserve">
     <value>customFunctionsTabPage</value>
@@ -487,13 +418,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 98</value>
+    <value>0, 49</value>
   </data>
   <data name="tabControl1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>754, 522</value>
+    <value>754, 571</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -510,117 +441,30 @@
   <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 16.2pt</value>
-  </data>
-  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 10</value>
-  </data>
-  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 10, 2, 0</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 26</value>
-  </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="expressionTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="expressionTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 18pt</value>
-  </data>
-  <data name="expressionTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 5</value>
-  </data>
-  <data name="expressionTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 5, 5, 5</value>
-  </data>
-  <data name="expressionTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>614, 36</value>
-  </data>
-  <data name="expressionTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;expressionTextBox.Name" xml:space="preserve">
-    <value>expressionTextBox</value>
-  </data>
-  <data name="&gt;&gt;expressionTextBox.Type" xml:space="preserve">
-    <value>Computator.NET.UI.Controls.ExpressionTextBox, Computator.NET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;expressionTextBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;expressionTextBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 49</value>
-  </data>
-  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>754, 49</value>
-  </data>
-  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="expressionTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,130,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
   <metadata name="openCustomFunctionsFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>281, 17</value>
   </metadata>
+  <data name="openCustomFunctionsFileDialog.Filter" xml:space="preserve">
+    <value>Troka Scripting Language Functions (*.tslf)|*.tslf</value>
+  </data>
   <metadata name="saveCustomFunctionsFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>554, 17</value>
   </metadata>
+  <data name="saveCustomFunctionsFileDialog.Filter" xml:space="preserve">
+    <value>Troka Scripting Language Functions (*.tslf)|*.tslf</value>
+  </data>
   <metadata name="openScriptFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 60</value>
   </metadata>
+  <data name="openScriptFileDialog.Filter" xml:space="preserve">
+    <value>Troka Scripting Language (*.tsl)|*.tsl</value>
+  </data>
   <metadata name="saveScriptFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>211, 60</value>
   </metadata>
+  <data name="saveScriptFileDialog.Filter" xml:space="preserve">
+    <value>Troka Scripting Language (*.tsl)|*.tsl</value>
+  </data>
   <metadata name="menuStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>371, 60</value>
   </metadata>
@@ -643,6 +487,9 @@
   </data>
   <data name="newToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
+  </data>
+  <data name="newToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;New</value>
   </data>
   <data name="openToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -668,6 +515,9 @@
   </data>
   <data name="openToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
+  </data>
+  <data name="openToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Open</value>
   </data>
   <data name="toolStripSeparator.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 6</value>
@@ -697,8 +547,14 @@
   <data name="saveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
   </data>
+  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Save</value>
+  </data>
   <data name="saveAsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
+  </data>
+  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Save &amp;As</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 6</value>
@@ -727,6 +583,9 @@
   <data name="printToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
   </data>
+  <data name="printToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Print</value>
+  </data>
   <data name="printPreviewToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -746,17 +605,197 @@
   <data name="printPreviewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
   </data>
+  <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
+    <value>Print Pre&amp;view</value>
+  </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 6</value>
   </data>
   <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
   </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
   <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 20</value>
   </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fi&amp;le</value>
+  </data>
   <data name="undoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 22</value>
+  </data>
+  <data name="undoToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Undo         Ctrl+Z</value>
+  </data>
+  <data name="redoToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Redo          Ctrl+Y</value>
+  </data>
+  <data name="toolStripMenuItem39.Text" xml:space="preserve">
+    <value>DHT</value>
+  </data>
+  <data name="toolStripMenuItem38.ToolTipText" xml:space="preserve">
+    <value>Inverse Fast Hilbert Transform</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Computator.NET © Pawel Troka</value>
+  </data>
+  <data name="toolStrip1.Text" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="runToolStripButton.Text" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="helpToolStripButton.Text" xml:space="preserve">
+    <value>He&amp;lp</value>
+  </data>
+  <data name="pasteToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Paste</value>
+  </data>
+  <data name="copyToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="cutToolStripButton.Text" xml:space="preserve">
+    <value>C&amp;ut</value>
+  </data>
+  <data name="printToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Print</value>
+  </data>
+  <data name="saveToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Save</value>
+  </data>
+  <data name="openToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Open</value>
+  </data>
+  <data name="newToolStripButton.Text" xml:space="preserve">
+    <value>&amp;New</value>
+  </data>
+  <data name="menuStrip2.Text" xml:space="preserve">
+    <value>menuStrip2</value>
+  </data>
+  <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="toolStripMenuItem46.Text" xml:space="preserve">
+    <value>&amp;Bug reporting</value>
+  </data>
+  <data name="toolStripMenuItem44.Text" xml:space="preserve">
+    <value>&amp;Thanks to</value>
+  </data>
+  <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;About...</value>
+  </data>
+  <data name="toolStripMenuItem45.Text" xml:space="preserve">
+    <value>&amp;Changelog</value>
+  </data>
+  <data name="toolStripMenuItem43.Text" xml:space="preserve">
+    <value>&amp;Features</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Tools</value>
+  </data>
+  <data name="toolStripMenuItem41.Text" xml:space="preserve">
+    <value>&amp;Logs</value>
+  </data>
+  <data name="toolStripMenuItem40.Text" xml:space="preserve">
+    <value>&amp;Benchmark</value>
+  </data>
+  <data name="toolStripMenuItem42.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="fullscreenToolStripMenuItem.Text" xml:space="preserve">
+    <value>Full Screen</value>
+  </data>
+  <data name="optionsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Options</value>
+  </data>
+  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tran&amp;sform</value>
+  </data>
+  <data name="toolStripMenuItem39.ToolTipText" xml:space="preserve">
+    <value>Discrete Hartley Transform</value>
+  </data>
+  <data name="toolStripMenuItem38.Text" xml:space="preserve">
+    <value>IFHT</value>
+  </data>
+  <data name="toolStripMenuItem37.ToolTipText" xml:space="preserve">
+    <value>Fast Hilbert Transform</value>
+  </data>
+  <data name="toolStripMenuItem37.Text" xml:space="preserve">
+    <value>FHT</value>
+  </data>
+  <data name="toolStripMenuItem36.ToolTipText" xml:space="preserve">
+    <value>Inverse Discrete Cosine Transform</value>
+  </data>
+  <data name="toolStripMenuItem36.Text" xml:space="preserve">
+    <value>IDCT</value>
+  </data>
+  <data name="toolStripMenuItem35.ToolTipText" xml:space="preserve">
+    <value>Discrete Cosine Transform</value>
+  </data>
+  <data name="toolStripMenuItem35.Text" xml:space="preserve">
+    <value>DCT</value>
+  </data>
+  <data name="toolStripMenuItem34.ToolTipText" xml:space="preserve">
+    <value>Inverse Discrete Sine Transform</value>
+  </data>
+  <data name="toolStripMenuItem34.Text" xml:space="preserve">
+    <value>IDST</value>
+  </data>
+  <data name="toolStripMenuItem33.ToolTipText" xml:space="preserve">
+    <value>Discrete Sine Transform</value>
+  </data>
+  <data name="toolStripMenuItem33.Text" xml:space="preserve">
+    <value>DST</value>
+  </data>
+  <data name="toolStripMenuItem32.ToolTipText" xml:space="preserve">
+    <value>Inverse Fast Fourier Transform</value>
+  </data>
+  <data name="toolStripMenuItem32.Text" xml:space="preserve">
+    <value>IFFT</value>
+  </data>
+  <data name="toolStripMenuItem31.ToolTipText" xml:space="preserve">
+    <value>Fast Fourier Transform</value>
+  </data>
+  <data name="toolStripMenuItem31.Text" xml:space="preserve">
+    <value>FFT</value>
+  </data>
+  <data name="constantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Constants</value>
+  </data>
+  <data name="physicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Physical constants</value>
+  </data>
+  <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Mathematical constants</value>
+  </data>
+  <data name="functionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Functions</value>
+  </data>
+  <data name="specialFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Special functions</value>
+  </data>
+  <data name="elementaryFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Elementary functions</value>
+  </data>
+  <data name="editToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="exponentiationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Exponent    Shift+6</value>
+  </data>
+  <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>Select &amp;All    Ctrl+A</value>
+  </data>
+  <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Paste          Ctrl+V</value>
+  </data>
+  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Copy          Ctrl+C</value>
+  </data>
+  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
+    <value>Cu&amp;t             Ctrl+X</value>
   </data>
   <data name="redoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 22</value>
@@ -918,9 +957,6 @@
   <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 20</value>
   </data>
-  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
-    <value>Cu&amp;t             Ctrl+X</value>
-  </data>
   <data name="toolStripMenuItem43.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 22</value>
   </data>
@@ -945,9 +981,6 @@
   <data name="helpToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 20</value>
   </data>
-  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Copy          Ctrl+C</value>
-  </data>
   <data name="menuStrip2.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -956,165 +989,6 @@
   </data>
   <data name="menuStrip2.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
-  </data>
-  <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
-  <data name="menuStrip2.Text" xml:space="preserve">
-    <value>menuStrip2</value>
-  </data>
-  <data name="toolStrip1.Text" xml:space="preserve">
-    <value>toolStrip1</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Computator.NET © Pawel Troka</value>
-  </data>
-  <data name="runToolStripButton.Text" xml:space="preserve">
-    <value>Run</value>
-  </data>
-  <data name="helpToolStripButton.Text" xml:space="preserve">
-    <value>He&amp;lp</value>
-  </data>
-  <data name="pasteToolStripButton.Text" xml:space="preserve">
-    <value>&amp;Paste</value>
-  </data>
-  <data name="copyToolStripButton.Text" xml:space="preserve">
-    <value>&amp;Copy</value>
-  </data>
-  <data name="cutToolStripButton.Text" xml:space="preserve">
-    <value>C&amp;ut</value>
-  </data>
-  <data name="printToolStripButton.Text" xml:space="preserve">
-    <value>&amp;Print</value>
-  </data>
-  <data name="saveToolStripButton.Text" xml:space="preserve">
-    <value>&amp;Save</value>
-  </data>
-  <data name="openToolStripButton.Text" xml:space="preserve">
-    <value>&amp;Open</value>
-  </data>
-  <data name="newToolStripButton.Text" xml:space="preserve">
-    <value>&amp;New</value>
-  </data>
-  <data name="toolStripMenuItem46.Text" xml:space="preserve">
-    <value>&amp;Bug reporting</value>
-  </data>
-  <data name="toolStripMenuItem44.Text" xml:space="preserve">
-    <value>&amp;Thanks to</value>
-  </data>
-  <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;About...</value>
-  </data>
-  <data name="toolStripMenuItem45.Text" xml:space="preserve">
-    <value>&amp;Changelog</value>
-  </data>
-  <data name="toolStripMenuItem43.Text" xml:space="preserve">
-    <value>&amp;Features</value>
-  </data>
-  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Tools</value>
-  </data>
-  <data name="toolStripMenuItem41.Text" xml:space="preserve">
-    <value>&amp;Logs</value>
-  </data>
-  <data name="toolStripMenuItem40.Text" xml:space="preserve">
-    <value>&amp;Benchmark</value>
-  </data>
-  <data name="toolStripMenuItem42.Text" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="fullscreenToolStripMenuItem.Text" xml:space="preserve">
-    <value>Full Screen</value>
-  </data>
-  <data name="optionsToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Options</value>
-  </data>
-  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tran&amp;sform</value>
-  </data>
-  <data name="toolStripMenuItem39.ToolTipText" xml:space="preserve">
-    <value>Discrete Hartley Transform</value>
-  </data>
-  <data name="toolStripMenuItem39.Text" xml:space="preserve">
-    <value>DHT</value>
-  </data>
-  <data name="toolStripMenuItem38.ToolTipText" xml:space="preserve">
-    <value>Inverse Fast Hilbert Transform</value>
-  </data>
-  <data name="toolStripMenuItem38.Text" xml:space="preserve">
-    <value>IFHT</value>
-  </data>
-  <data name="toolStripMenuItem37.ToolTipText" xml:space="preserve">
-    <value>Fast Hilbert Transform</value>
-  </data>
-  <data name="toolStripMenuItem37.Text" xml:space="preserve">
-    <value>FHT</value>
-  </data>
-  <data name="toolStripMenuItem36.ToolTipText" xml:space="preserve">
-    <value>Inverse Discrete Cosine Transform</value>
-  </data>
-  <data name="toolStripMenuItem36.Text" xml:space="preserve">
-    <value>IDCT</value>
-  </data>
-  <data name="toolStripMenuItem35.ToolTipText" xml:space="preserve">
-    <value>Discrete Cosine Transform</value>
-  </data>
-  <data name="toolStripMenuItem35.Text" xml:space="preserve">
-    <value>DCT</value>
-  </data>
-  <data name="toolStripMenuItem34.ToolTipText" xml:space="preserve">
-    <value>Inverse Discrete Sine Transform</value>
-  </data>
-  <data name="toolStripMenuItem34.Text" xml:space="preserve">
-    <value>IDST</value>
-  </data>
-  <data name="toolStripMenuItem33.ToolTipText" xml:space="preserve">
-    <value>Discrete Sine Transform</value>
-  </data>
-  <data name="toolStripMenuItem33.Text" xml:space="preserve">
-    <value>DST</value>
-  </data>
-  <data name="toolStripMenuItem32.ToolTipText" xml:space="preserve">
-    <value>Inverse Fast Fourier Transform</value>
-  </data>
-  <data name="toolStripMenuItem32.Text" xml:space="preserve">
-    <value>IFFT</value>
-  </data>
-  <data name="toolStripMenuItem31.ToolTipText" xml:space="preserve">
-    <value>Fast Fourier Transform</value>
-  </data>
-  <data name="toolStripMenuItem31.Text" xml:space="preserve">
-    <value>FFT</value>
-  </data>
-  <data name="constantsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Constants</value>
-  </data>
-  <data name="physicalConstantsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Physical constants</value>
-  </data>
-  <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Mathematical constants</value>
-  </data>
-  <data name="functionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Functions</value>
-  </data>
-  <data name="specialFunctionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Special functions</value>
-  </data>
-  <data name="elementaryFunctionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Elementary functions</value>
-  </data>
-  <data name="editToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Edit</value>
-  </data>
-  <data name="exponentiationToolStripMenuItem.Text" xml:space="preserve">
-    <value>Exponent    Shift+6</value>
-  </data>
-  <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
-    <value>Select &amp;All    Ctrl+A</value>
-  </data>
-  <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Paste          Ctrl+V</value>
   </data>
   <data name="&gt;&gt;menuStrip2.Name" xml:space="preserve">
     <value>menuStrip2</value>
@@ -1126,7 +1000,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;menuStrip2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>486, 60</value>
@@ -1347,7 +1221,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

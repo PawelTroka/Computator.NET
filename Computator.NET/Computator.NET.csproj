@@ -227,8 +227,22 @@
     </Compile>
     <Compile Include="UI\CodeEditors\AvalonEdit\CompletionData.cs" />
     <Compile Include="UI\CodeEditors\ICodeEditorControl.cs" />
+    <Compile Include="UI\Commands\CommandBase.cs" />
     <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\IExpressionTextBox.cs" />
+    <Compile Include="UI\Dialogs\BugReportingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\BugReportingForm.Designer.cs">
+      <DependentUpon>BugReportingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\ChangelogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\ChangelogForm.Designer.cs">
+      <DependentUpon>ChangelogForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\IErrorHandler.cs" />
     <Compile Include="UI\MVP\SharedViewState.cs" />
@@ -251,10 +265,10 @@
     <Compile Include="UI\Controls\DocumentsTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Forms\AboutBox1.cs">
+    <Compile Include="UI\Dialogs\AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\AboutBox1.Designer.cs">
+    <Compile Include="UI\Dialogs\AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants\MathematicalConstants.cs" />
@@ -285,13 +299,29 @@
     <Compile Include="UI\Controls\ExpressionTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\MVP\Views\ChartingView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\MVP\Views\ChartingView.Designer.cs">
+      <DependentUpon>ChartingView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MVP\Presenters\ChartingViewPresenter.cs" />
+    <Compile Include="UI\MVP\Views\ExpressionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\MVP\Views\ExpressionView.Designer.cs">
+      <DependentUpon>ExpressionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MVP\Presenters\ExpressionViewPresenter.cs" />
+    <Compile Include="UI\MVP\Interfaces\IChartingView.cs" />
+    <Compile Include="UI\MVP\Interfaces\IExpressionView.cs" />
     <Compile Include="UI\MVP\Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\MVP\Views\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Forms\LoadingScreen.cs">
+    <Compile Include="UI\Dialogs\LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\MVP\Presenters\MainFormPresenter.cs" />
@@ -309,7 +339,7 @@
     <Compile Include="UI\Controls\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Forms\ReadForm.cs">
+    <Compile Include="UI\Dialogs\ReadForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Controls\ScientificNumericUpDown.cs" />
@@ -367,6 +397,9 @@
     <EmbeddedResource Include="Config\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\ChangelogForm.resx">
+      <DependentUpon>ChangelogForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\MVP\Views\CalculationsView.cs.resx">
       <DependentUpon>CalculationsView.cs</DependentUpon>
     </EmbeddedResource>
@@ -394,8 +427,23 @@
     <EmbeddedResource Include="UI\Controls\DocumentsTabControl.resx">
       <DependentUpon>DocumentsTabControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Forms\AboutBox1.resx">
+    <EmbeddedResource Include="UI\Dialogs\AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MVP\Views\ChartingView.resx">
+      <DependentUpon>ChartingView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MVP\Views\ExpressionView.cs.resx">
+      <DependentUpon>ExpressionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MVP\Views\ExpressionView.de.resx">
+      <DependentUpon>ExpressionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MVP\Views\ExpressionView.pl.resx">
+      <DependentUpon>ExpressionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MVP\Views\ExpressionView.resx">
+      <DependentUpon>ExpressionView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MVP\Views\MainForm.cs.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -526,7 +574,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SymbolicCalculations\" />
-    <Folder Include="UI\Commands\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\functions.xml">

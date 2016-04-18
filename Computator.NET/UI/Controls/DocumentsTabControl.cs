@@ -44,7 +44,7 @@ namespace Computator.NET.UI.Controls
 
         private void InitializeComponent()
         {
-            var resources = new ComponentResourceManager(typeof (DocumentsTabControl));
+            var resources = new ComponentResourceManager(typeof(DocumentsTabControl));
             contextMenuStrip1 = new ContextMenuStrip();
             newTabToolStripMenuItem = new ToolStripMenuItem();
             cloneTabToolStripMenuItem = new ToolStripMenuItem();

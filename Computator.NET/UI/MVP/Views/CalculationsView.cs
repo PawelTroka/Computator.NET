@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using Computator.NET.Config;
-using Computator.NET.Evaluation;
 
 namespace Computator.NET.UI.Views
 {
     public partial class CalculationsView : UserControl, ICalculationsView
     {
-
         public CalculationsView()
         {
             InitializeComponent();

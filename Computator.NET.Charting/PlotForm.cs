@@ -18,7 +18,11 @@ namespace Computator.NET.Charting
 
 
             if (chart is Chart3DControl)
-                InitializeChart((chart as Chart3DControl).ParentControl);
+            {
+                var el = new ElementHost {Child = chart as Chart3DControl};
+                (chart as Chart3DControl).ParentControl = el;
+                InitializeChart(el);
+            }
             else
                 InitializeChart(chart as Control);
         }

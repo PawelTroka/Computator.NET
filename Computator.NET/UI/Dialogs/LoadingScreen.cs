@@ -15,7 +15,7 @@ namespace Computator.NET.UI.Forms
             FormBorderStyle = FormBorderStyle.None;
             StartPosition = FormStartPosition.CenterScreen;
             Icon = Resources.computator_net_icon;
-           //  this.BackColor = Color.White;
+            //  this.BackColor = Color.White;
             //this.TransparencyKey = Color.White;
             var img = Resources.computator_net_logo;
             // this.BackgroundImage = Properties.Resources.computator_net_icon.ToBitmap();

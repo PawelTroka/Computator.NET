@@ -2,58 +2,9 @@
 using System.CodeDom.Compiler;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Computator.NET.Evaluation;
 
 namespace Computator.NET.DataTypes
 {
-    public interface IApplicationEvent
-    {
-    }
-
-    public class CalculationsModeChangedEvent : IApplicationEvent
-    {
-        public CalculationsModeChangedEvent(CalculationsMode mode)
-        {
-            CalculationsMode = mode;
-        }
-
-        public CalculationsMode CalculationsMode { get; private set; }
-    }
-
-    public class ChangeViewEvent : IApplicationEvent
-    {
-        public ChangeViewEvent(ViewName view)
-        {
-            View = view;
-        }
-
-        public ViewName View { get; private set; }
-    }
-
-
-    public class ExponentModeChangedEvent : IApplicationEvent
-    {
-        public ExponentModeChangedEvent(bool isExponentMode)
-        {
-            IsExponentMode = isExponentMode;
-        }
-
-        public bool IsExponentMode { get; private set; }
-    }
-
-
-    public enum ViewName
-    {
-        Charting,Calculations,NumericalCalculations,SymbolicCalculations,Scripting,CustomFunctions
-    }
-
-    public interface IEventAggregator
-    {
-        void Publish<T>(T message) where T : IApplicationEvent;
-        void Subscribe<T>(Action<T> action) where T : IApplicationEvent;
-        void Unsubscribe<T>(Action<T> action) where T : IApplicationEvent;
-    }
-
     public class EventAggregator : IEventAggregator
     {
         public static IEventAggregator Instance { get; } = new EventAggregator();

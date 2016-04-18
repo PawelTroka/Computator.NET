@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Linq;
-using Computator.NET.Config;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Controls;
 using Computator.NET.UI.MVP;
 
 namespace Computator.NET.UI.Views
 {
     public class NumericalCalculationsPresenter
     {
+        private readonly Type _derivationType = typeof(Func<Func<double, double>, double, uint, double, double>);
+
+        private readonly IErrorHandler _errorHandler;
+
+        private readonly Type _functionRootType =
+            typeof(Func<Func<double, double>, double, double, double, uint, double>);
+
+
+        private readonly Type _integrationType = typeof(Func<Func<double, double>, double, double, double, double>);
+        private readonly NumericalMethodsInfo _numericalMethodsInfo;
         private readonly INumericalCalculationsView _view;
 
 
-        private readonly Type _integrationType = typeof (Func<Func<double, double>, double, double, double, double>);
-
-        private readonly Type _derivationType = typeof(Func<Func<double, double>, double, uint, double, double>);
-
-        private readonly Type _functionRootType = typeof(Func<Func<double, double>, double, double, double, uint, double>);
-
-        private readonly IErrorHandler _errorHandler;
+        private readonly ExpressionsEvaluator expressionsEvaluator = new ExpressionsEvaluator();
 
 
         private CalculationsMode _calculationsMode;
@@ -30,25 +31,22 @@ namespace Computator.NET.UI.Views
         public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler)
         {
             _view = view;
-            this._errorHandler = errorHandler;
+            _errorHandler = errorHandler;
             _view.SetOperations(NumericalMethodsInfo.Instance._methods.Keys.ToArray());
             _view.SelectedOperation = NumericalMethodsInfo.Instance._methods.Keys.First();
             _view.OperationChanged += _view_OperationChanged;
 
             _view_OperationChanged(null, null);
 
-            EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(c => _calculationsMode=c.CalculationsMode);
+            EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(c => _calculationsMode = c.CalculationsMode);
 
+            SharedViewState.Instance.DefaultActions[ViewName.NumericalCalculations] = _view_ComputeClicked;
             _view.ComputeClicked += _view_ComputeClicked;
         }
 
-
-        private readonly ExpressionsEvaluator expressionsEvaluator = new ExpressionsEvaluator();
-        private readonly NumericalMethodsInfo _numericalMethodsInfo;
-
         public T Cast<T>(object input)
         {
-            return (T)input;
+            return (T) input;
         }
 
         private void _view_ComputeClicked(object sender, EventArgs e)
@@ -58,15 +56,16 @@ namespace Computator.NET.UI.Views
                 try
                 {
                     SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
-                   var function = expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText,
+                    var function = expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText,
                         SharedViewState.Instance.CustomFunctionsText, _calculationsMode);
 
-                    Func<double, double> fx = (double x) => function.Evaluate(x);
+                    Func<double, double> fx = x => function.Evaluate(x);
 
                     var result = double.NaN;
                     var eps = _view.Epsilon;
 
-                    if (_view.SelectedOperation == Strings.Derivative || _view.SelectedOperation==Strings.Function_root)
+                    if (_view.SelectedOperation == Strings.Derivative ||
+                        _view.SelectedOperation == Strings.Function_root)
                     {
                         if (double.IsNaN(eps))
                         {
@@ -88,7 +87,9 @@ namespace Computator.NET.UI.Views
                     {
                         result =
                             ((dynamic)
-                                Convert.ChangeType(NumericalMethodsInfo.Instance._methods[_view.SelectedOperation][_view.SelectedMethod],
+                                Convert.ChangeType(
+                                    NumericalMethodsInfo.Instance._methods[_view.SelectedOperation][_view.SelectedMethod
+                                        ],
                                     _integrationType))
                                 (fx, _view.A, _view.B, _view.N);
                         parametersStr = $"a={_view.A.ToMathString()}; b={_view.B.ToMathString()}; N={_view.N}";
@@ -97,7 +98,9 @@ namespace Computator.NET.UI.Views
                     {
                         result =
                             ((dynamic)
-                                Convert.ChangeType(NumericalMethodsInfo.Instance._methods[_view.SelectedOperation][_view.SelectedMethod],
+                                Convert.ChangeType(
+                                    NumericalMethodsInfo.Instance._methods[_view.SelectedOperation][_view.SelectedMethod
+                                        ],
                                     _derivationType))
                                 (fx, _view.X, _view.Order, eps);
                         parametersStr = $"n={_view.Order}; x={_view.X.ToMathString()}; ε={eps.ToMathString()}";
@@ -106,7 +109,9 @@ namespace Computator.NET.UI.Views
                     {
                         result =
                             ((dynamic)
-                                Convert.ChangeType(NumericalMethodsInfo.Instance._methods[_view.SelectedOperation][_view.SelectedMethod],
+                                Convert.ChangeType(
+                                    NumericalMethodsInfo.Instance._methods[_view.SelectedOperation][_view.SelectedMethod
+                                        ],
                                     _functionRootType))
                                 (fx, _view.A, _view.B, eps, _view.N);
                         parametersStr =
@@ -121,7 +126,7 @@ namespace Computator.NET.UI.Views
                 }
                 catch (Exception ex)
                 {
-                    ExceptionsHandler.Instance.HandleException(ex,_errorHandler);
+                    ExceptionsHandler.Instance.HandleException(ex, _errorHandler);
                 }
             }
             else

@@ -49,7 +49,6 @@
             this.Name = "PlotForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "plot(...)";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

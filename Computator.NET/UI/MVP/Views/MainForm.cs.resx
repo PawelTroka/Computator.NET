@@ -138,6 +138,9 @@
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Uživatelské funkce</value>
   </data>
+  <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Matematické konstanty</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Výraz:</value>
   </data>
@@ -365,8 +368,5 @@
   </data>
   <data name="function.HeaderText" xml:space="preserve">
     <value>Funkce</value>
-  </data>
-  <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Matematické konstanty</value>
   </data>
 </root>

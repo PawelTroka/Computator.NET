@@ -23,12 +23,11 @@ using System.Windows.Forms;
 using Computator.NET.Config;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Controls;
+using Computator.NET.UI.MVP;
 
 namespace AutocompleteMenuNS
 {
-    [ProvideProperty("AutocompleteMenu", typeof (Control))]
+    [ProvideProperty("AutocompleteMenu", typeof(Control))]
     public class AutocompleteMenu : Component, IExtenderProvider
     {
         private static readonly Dictionary<Control, AutocompleteMenu>
@@ -115,7 +114,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Maximum size of popup menu
         /// </summary>
-        [DefaultValue(typeof (Size), "180, 200")]
+        [DefaultValue(typeof(Size), "180, 200")]
         [Description("Maximum size of popup menu")]
         public Size MaximumSize
         {
@@ -163,7 +162,7 @@ namespace AutocompleteMenuNS
         /// </summary>
         [Browsable(true)]
         [Description("Colors of foreground and background.")]
-        [TypeConverter(typeof (ExpandableObjectConverter))]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public Colors Colors
         {
             get { return Host.ListView.Colors; }
@@ -190,7 +189,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Indicates whether the component should draw right-to-left for RTL languages.
         /// </summary>
-        [DefaultValue(typeof (RightToLeft), "No")]
+        [DefaultValue(typeof(RightToLeft), "No")]
         [Description(
             "Indicates whether the component should draw right-to-left for RTL languages.")]
         public RightToLeft RightToLeft
@@ -295,23 +294,6 @@ namespace AutocompleteMenuNS
             }
         }
 
-        private bool IsExponent
-        {
-            get
-            {
-                var expressionTextBox = TargetControlWrapper.TargetControl as ExpressionTextBox;
-                var scintillaEditor =
-                    TargetControlWrapper.TargetControl as ScintillaCodeEditorControl;
-
-                var isExponent = false;
-
-                if (expressionTextBox != null)
-                    isExponent = expressionTextBox.ExponentMode;
-                else if (scintillaEditor != null)
-                    isExponent = scintillaEditor.ExponentMode;
-                return isExponent;
-            }
-        }
 
         /// <summary>
         ///     Menu is visible
@@ -674,7 +656,7 @@ namespace AutocompleteMenuNS
 
             var index = text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
 
-            if (IsExponent && index == -1)
+            if (SharedViewState.Instance.IsExponent && index == -1)
             {
                 text = "";
             }
@@ -859,7 +841,7 @@ namespace AutocompleteMenuNS
             {
                 newText = fragment.Text.Substring(0, index) + SpecialSymbols.AsciiToSuperscript(newText);
             }
-            else if (IsExponent)
+            else if (SharedViewState.Instance.IsExponent)
                 newText = fragment.Text + SpecialSymbols.AsciiToSuperscript(newText);
 
 

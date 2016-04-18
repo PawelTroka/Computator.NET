@@ -3,33 +3,34 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Computator.NET.Config;
 using Computator.NET.DataTypes.SettingsTypes;
-using Computator.NET.Evaluation;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls;
-using File = System.IO.File;
 
 namespace Computator.NET.UI.CodeEditors
 {
     public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor,
         INotifyPropertyChanged
     {
+        private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors = new Dictionary
+            <CodeEditorType, ICodeEditorControl>
+        {
+            {
+                CodeEditorType.Scintilla, new ScintillaCodeEditorControl
+                {
+                    Dock = DockStyle.Fill
+                }
+            },
+            {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor()}
+        };
 
 
         private readonly ElementHost avalonEditorWrapper;
-
-
-        private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors = new Dictionary<CodeEditorType, ICodeEditorControl>()            {
-                {  CodeEditorType.Scintilla, new ScintillaCodeEditorControl
-            {
-                Dock = DockStyle.Fill
-            }},
-                {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor() }
-        };
 
         private readonly SaveFileDialog saveFileDialog = new SaveFileDialog
         {
@@ -45,16 +46,14 @@ namespace Computator.NET.UI.CodeEditors
             {
                 BackColor = Color.White,
                 Dock = DockStyle.Fill,
-                Child = (_codeEditors[CodeEditorType.AvalonEdit] as UIElement)
+                Child = _codeEditors[CodeEditorType.AvalonEdit] as UIElement
             };
 
 
+            tabControl = new DocumentsTabControl {Dock = DockStyle.Top};
 
-
-            tabControl = new DocumentsTabControl { Dock = DockStyle.Top };
-
-            var panel = new Panel { Dock = DockStyle.Fill };
-            panel.Controls.AddRange(new Control[] { avalonEditorWrapper, (_codeEditors[CodeEditorType.Scintilla] as Control) });
+            var panel = new Panel {Dock = DockStyle.Fill};
+            panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control});
 
             var tableLayout = new TableLayoutPanel
             {
@@ -73,14 +72,6 @@ namespace Computator.NET.UI.CodeEditors
             tabControl.ControlRemoved += TabControl_ControlRemoved;
             tabControl.ControlAdded += TabControl_ControlAdded;
 
-
-            (_codeEditors[CodeEditorType.Scintilla] as Control).DataBindings.Add("ExponentMode", this, "ExponentMode", false,
-                DataSourceUpdateMode.OnPropertyChanged);
-
-
-            //TODO: somehow manage to get avalonedit codeeditor ExponentMode bind to this ExponentMode property
-            //avalonEditor.DataBindings.Add("ExponentMode", this, "ExponentMode", false, DataSourceUpdateMode.OnPropertyChanged);
-
             NewDocument();
 
 
@@ -88,17 +79,13 @@ namespace Computator.NET.UI.CodeEditors
             {
                 switch (e.PropertyName)
                 {
-
-
                     case "CodeEditor":
-                        this.ChangeEditorType();
+                        ChangeEditorType();
                         break;
 
 
-
-
                     case "ScriptingFont":
-                        this.SetFont(Settings.Default.ScriptingFont);
+                        SetFont(Settings.Default.ScriptingFont);
 
                         break;
                 }
@@ -109,7 +96,7 @@ namespace Computator.NET.UI.CodeEditors
             =>
                 _codeEditorType == CodeEditorType.AvalonEdit
                     ? avalonEditorWrapper.Focused
-                    : ((Control)CurrentCodeEditor).Focused;
+                    : ((Control) CurrentCodeEditor).Focused;
 
         private ICodeEditorControl CurrentCodeEditor
         {
@@ -132,6 +119,57 @@ namespace Computator.NET.UI.CodeEditors
             get { return CurrentCodeEditor.Text; }
             set { CurrentCodeEditor.Text = value; }
         }
+
+        public void RenameDocument(string filename, string newFilename)
+        {
+            if (CurrentCodeEditor.ContainsDocument(filename))
+            {
+                CurrentCodeEditor.RenameDocument(filename, newFilename);
+                tabControl.RenameTab(filename, newFilename);
+            }
+        }
+
+        public bool ContainsDocument(string filename)
+        {
+            return CurrentCodeEditor.ContainsDocument(filename);
+        }
+
+        public void NewDocument(string filename = "")
+        {
+            //   if(string.IsNullOrEmpty(filename))
+            tabControl.AddTab(filename);
+            // else
+            // this.CurrentCodeEditor.NewDocument(filename);
+        }
+
+        public void HighlightErrors(IEnumerable<CompilerError> errors)
+        {
+            CurrentCodeEditor.HighlightErrors(errors);
+        }
+
+        public void SwitchTab(string tabName)
+        {
+            foreach (TabPage tabPage in tabControl.TabPages)
+            {
+                if (tabPage.Text == tabName)
+                {
+                    tabControl.SelectedTab = tabPage;
+                }
+            }
+        }
+
+        public void RemoveTab(string tabName)
+        {
+            foreach (TabPage tabPage in tabControl.TabPages)
+            {
+                if (tabPage.Text == tabName)
+                {
+                    tabControl.TabPages.Remove(tabPage);
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void Undo()
         {
@@ -163,44 +201,9 @@ namespace Computator.NET.UI.CodeEditors
             CurrentCodeEditor.SelectAll();
         }
 
-        public bool ExponentMode
-        {
-            get { return CurrentCodeEditor.ExponentMode; }
-            set
-            {
-                if (CurrentCodeEditor.ExponentMode != value)
-                {
-                    CurrentCodeEditor.ExponentMode = value;
-                    OnPropertyChanged(nameof(ExponentMode));
-                }
-            }
-        }
-
         public void AppendText(string text)
         {
             CurrentCodeEditor.AppendText(text);
-        }
-
-        public void RenameDocument(string filename, string newFilename)
-        {
-            if (CurrentCodeEditor.ContainsDocument(filename))
-            {
-                CurrentCodeEditor.RenameDocument(filename, newFilename);
-                tabControl.RenameTab(filename, newFilename);
-            }
-        }
-
-        public bool ContainsDocument(string filename)
-        {
-            return CurrentCodeEditor.ContainsDocument(filename);
-        }
-
-        public void NewDocument(string filename = "")
-        {
-            //   if(string.IsNullOrEmpty(filename))
-            tabControl.AddTab(filename);
-            // else
-            // this.CurrentCodeEditor.NewDocument(filename);
         }
 
         public void SwitchDocument(string filename)
@@ -212,13 +215,6 @@ namespace Computator.NET.UI.CodeEditors
         {
             CurrentCodeEditor.CloseDocument(filename);
         }
-
-        public void HighlightErrors(IEnumerable<CompilerError> errors)
-        {
-            CurrentCodeEditor.HighlightErrors(errors);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -293,28 +289,6 @@ namespace Computator.NET.UI.CodeEditors
                 else
                 {
                     CurrentCodeEditor.NewDocument(tabControl.SelectedTab.Text);
-                }
-            }
-        }
-
-        public void SwitchTab(string tabName)
-        {
-            foreach (TabPage tabPage in tabControl.TabPages)
-            {
-                if (tabPage.Text == tabName)
-                {
-                    tabControl.SelectedTab = tabPage;
-                }
-            }
-        }
-
-        public void RemoveTab(string tabName)
-        {
-            foreach (TabPage tabPage in tabControl.TabPages)
-            {
-                if (tabPage.Text == tabName)
-                {
-                    tabControl.TabPages.Remove(tabPage);
                 }
             }
         }

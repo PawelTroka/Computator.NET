@@ -1,29 +1,30 @@
 using System;
 using Computator.NET.Compilation;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
-using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
 using Computator.NET.UI.MVP;
 
 namespace Computator.NET.UI.Views
 {
     public class ScriptingViewPresenter
     {
-        private readonly IScriptingView _view;
         private readonly IErrorHandler _errorHandler;
+
+
+        private readonly ScriptEvaluator _eval = new ScriptEvaluator();
+        private readonly IScriptingView _view;
 
         public ScriptingViewPresenter(IScriptingView view, IErrorHandler errorHandler)
         {
             _view = view;
-            this._errorHandler = errorHandler;
+            _errorHandler = errorHandler;
             _view.ProcessClicked += _view_ProcessClicked;
-            var solutionExplorerPresenter = new SolutionExplorerPresenter(_view.SolutionExplorerView,_view.CodeEditorView,true);
-}
+            SharedViewState.Instance.DefaultActions[ViewName.Scripting] = _view_ProcessClicked;
+            var solutionExplorerPresenter = new SolutionExplorerPresenter(_view.SolutionExplorerView,
+                _view.CodeEditorView, true);
+        }
 
-
-
-        private readonly ScriptEvaluator _eval = new ScriptEvaluator();
         private void _view_ProcessClicked(object sender, EventArgs e)
         {
             _view.ConsoleOutput = Strings.ConsoleOutput;
@@ -35,7 +36,6 @@ namespace Computator.NET.UI.Views
             {
                 var function = _eval.Evaluate(_view.CodeEditorView.Text, SharedViewState.Instance.CustomFunctionsText);
                 function.Evaluate(output => _view.AppendToConsole(output));
-
             }
             catch (Exception ex)
             {

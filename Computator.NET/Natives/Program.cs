@@ -11,6 +11,7 @@ using Computator.NET.UI.CodeEditors;
 using Computator.NET.UI.Controls;
 using Computator.NET.UI.Forms;
 using Computator.NET.UI.MVP;
+using Computator.NET.UI.MVP.Views;
 using Computator.NET.UI.Views;
 
 namespace Computator.NET
@@ -48,15 +49,15 @@ namespace Computator.NET
 
         private static void SetPresenters(IMainForm mainForm)
         {
-            var mainFormPresenter = new MainFormPresenter(mainForm, SimpleErrorHandler.Instance);
-            var chartAreaViewPresenter = new ChartAreaValuesPresenter(mainForm.chartAreaValuesView1);
+            var mainFormPresenter = new MainFormPresenter(mainForm);
+            var chartingViewPresenter = new ChartingViewPresenter(mainForm.ChartingView,SimpleErrorHandler.Instance);
             var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView,SimpleErrorHandler.Instance);
             var numericalCalculationsPresenter = new NumericalCalculationsPresenter(mainForm.NumericalCalculationsView,
                 SimpleErrorHandler.Instance);
             var scriptingViewPresenter = new ScriptingViewPresenter(mainForm.ScriptingView, SimpleErrorHandler.Instance);
             var customFunctionsViewPresenter = new CustomFunctionsPresenter(mainForm.CustomFunctionsView);
 
-            SharedViewState.Initialize(mainForm.ExpressionView,mainForm.CustomFunctionsView.CustomFunctionsEditor);
+            SharedViewState.Initialize(mainForm.ExpressionView.ExpressionTextBox,mainForm.CustomFunctionsView.CustomFunctionsEditor);
         }
 
 

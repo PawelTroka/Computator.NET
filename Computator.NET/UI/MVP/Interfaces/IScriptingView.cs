@@ -8,9 +8,9 @@ namespace Computator.NET.UI.Views
         ICodeDocumentsEditor CodeEditorView { get; }
         ISolutionExplorerView SolutionExplorerView { get; }
 
-        event EventHandler ProcessClicked;
-
         string ConsoleOutput { set; }
+
+        event EventHandler ProcessClicked;
         void AppendToConsole(string output);
     }
 }

@@ -17,6 +17,7 @@ using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
+using Computator.NET.UI.MVP;
 using ScintillaNET;
 
 namespace Computator.NET.UI.CodeEditors
@@ -43,7 +44,6 @@ namespace Computator.NET.UI.CodeEditors
         private readonly AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
         private readonly Dictionary<string, Document> _documents;
         private string _autoCompleteList;
-        private bool _exponentMode;
         private int lastCaretPos;
         private int maxLineNumberCharLength;
 
@@ -160,20 +160,63 @@ namespace Computator.NET.UI.CodeEditors
             _documents.RenameKey(filename, newFilename);
         }
 
-        public bool ExponentMode
-        {
-            get { return _exponentMode; }
-            set
-            {
-                _exponentMode = value;
-                OnPropertyChanged(nameof(ExponentMode));
-            }
-        }
 
         public override string Text
         {
             get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
             set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
+        }
+
+        public void SetFont(Font font)
+        {
+            // Configuring the default style with properties
+            // we have common to every lexer style saves time.
+            StyleResetDefault();
+            if (font.FontFamily.Name == "Cambria")
+            {
+                Font = CustomFonts.GetMathFont(font.Size);
+                Styles[Style.Default].Font = CustomFonts.GetMathFont(font.Size).Name;
+
+                _autocompleteMenu.Font = CustomFonts.GetMathFont(font.Size);
+            }
+            else if (font.FontFamily.Name == "Consolas")
+            {
+                Font = CustomFonts.GetScriptingFont(font.Size);
+                Styles[Style.Default].Font = CustomFonts.GetScriptingFont(font.Size).Name;
+
+                _autocompleteMenu.Font = CustomFonts.GetScriptingFont(font.Size);
+            }
+            else
+            {
+                Styles[Style.Default].Font = font.Name;
+                Font = font;
+                _autocompleteMenu.Font = font;
+            }
+            Styles[Style.Default].Size = (int) font.Size;
+
+            StyleClearAll();
+
+            // Configure the CPP (C#) lexer styles
+            Styles[Style.Cpp.Default].ForeColor = Color.Silver; /////////////////////
+            Styles[Style.Cpp.Comment].ForeColor = Color.FromArgb(0, 128, 0); // Green
+            Styles[Style.Cpp.CommentLine].ForeColor = Color.FromArgb(0, 128, 0); // Green
+            Styles[Style.Cpp.CommentLineDoc].ForeColor = Color.FromArgb(128, 128, 128);
+            // Gray
+            Styles[Style.Cpp.Number].ForeColor = Color.Olive;
+            Styles[Style.Cpp.Word].ForeColor = Color.Blue;
+            Styles[Style.Cpp.Word2].ForeColor = Color.Teal;
+            Styles[Style.Cpp.String].ForeColor = Color.FromArgb(163, 21, 21); // Red
+            Styles[Style.Cpp.Character].ForeColor = Color.FromArgb(163, 21, 21); // Red
+            Styles[Style.Cpp.Verbatim].ForeColor = Color.FromArgb(163, 21, 21); // Red
+            Styles[Style.Cpp.StringEol].BackColor = Color.Pink;
+            Styles[Style.Cpp.Operator].ForeColor = Color.Purple;
+            Styles[Style.Cpp.Preprocessor].ForeColor = Color.Maroon;
+            Styles[Style.BraceLight].BackColor = Color.LightGray;
+            Styles[Style.BraceLight].ForeColor = Color.BlueViolet;
+            Styles[Style.BraceBad].ForeColor = Color.Red;
+            //this.Styles[Style.Cpp.CommentDoc]
+
+            Lexer = Lexer.Cpp;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -238,58 +281,6 @@ namespace Computator.NET.UI.CodeEditors
 
                 // Search the remainder of the document
             }
-        }
-
-        public void SetFont(Font font)
-        {
-            // Configuring the default style with properties
-            // we have common to every lexer style saves time.
-            StyleResetDefault();
-            if (font.FontFamily.Name == "Cambria")
-            {
-                Font = CustomFonts.GetMathFont(font.Size);
-                Styles[Style.Default].Font = CustomFonts.GetMathFont(font.Size).Name;
-
-                _autocompleteMenu.Font = CustomFonts.GetMathFont(font.Size);
-            }
-            else if (font.FontFamily.Name == "Consolas")
-            {
-                Font = CustomFonts.GetScriptingFont(font.Size);
-                Styles[Style.Default].Font = CustomFonts.GetScriptingFont(font.Size).Name;
-
-                _autocompleteMenu.Font = CustomFonts.GetScriptingFont(font.Size);
-            }
-            else
-            {
-                Styles[Style.Default].Font = font.Name;
-                Font = font;
-                _autocompleteMenu.Font = font;
-            }
-            Styles[Style.Default].Size = (int) font.Size;
-
-            StyleClearAll();
-
-            // Configure the CPP (C#) lexer styles
-            Styles[Style.Cpp.Default].ForeColor = Color.Silver; /////////////////////
-            Styles[Style.Cpp.Comment].ForeColor = Color.FromArgb(0, 128, 0); // Green
-            Styles[Style.Cpp.CommentLine].ForeColor = Color.FromArgb(0, 128, 0); // Green
-            Styles[Style.Cpp.CommentLineDoc].ForeColor = Color.FromArgb(128, 128, 128);
-            // Gray
-            Styles[Style.Cpp.Number].ForeColor = Color.Olive;
-            Styles[Style.Cpp.Word].ForeColor = Color.Blue;
-            Styles[Style.Cpp.Word2].ForeColor = Color.Teal;
-            Styles[Style.Cpp.String].ForeColor = Color.FromArgb(163, 21, 21); // Red
-            Styles[Style.Cpp.Character].ForeColor = Color.FromArgb(163, 21, 21); // Red
-            Styles[Style.Cpp.Verbatim].ForeColor = Color.FromArgb(163, 21, 21); // Red
-            Styles[Style.Cpp.StringEol].BackColor = Color.Pink;
-            Styles[Style.Cpp.Operator].ForeColor = Color.Purple;
-            Styles[Style.Cpp.Preprocessor].ForeColor = Color.Maroon;
-            Styles[Style.BraceLight].BackColor = Color.LightGray;
-            Styles[Style.BraceLight].ForeColor = Color.BlueViolet;
-            Styles[Style.BraceBad].ForeColor = Color.Red;
-            //this.Styles[Style.Cpp.CommentDoc]
-
-            Lexer = Lexer.Cpp;
         }
 
         private void scintilla_TextChanged(object sender, EventArgs e)
@@ -544,7 +535,7 @@ namespace Computator.NET.UI.CodeEditors
                 return;
             }
 
-            if (ExponentMode)
+            if (SharedViewState.Instance.IsExponent)
             {
                 if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
                 {
@@ -556,7 +547,7 @@ namespace Computator.NET.UI.CodeEditors
             {
                 if (e.KeyChar == SpecialSymbols.ExponentModeSymbol)
                 {
-                    ExponentMode = !ExponentMode;
+                    SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
                     //_showCaret();
                     e.Handled = true;
                     //return;

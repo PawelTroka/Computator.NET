@@ -9,24 +9,18 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.MVP;
 
 namespace Computator.NET.UI.Controls
 {
-    public interface IExpressionView : ITextProvider
-    {
-        event EventHandler TextChanged;
-    }
-
-    internal class ExpressionTextBox : TextBox, INotifyPropertyChanged, IExpressionView
+    internal class ExpressionTextBox : TextBox, INotifyPropertyChanged, IExpressionTextBox
     {
         private AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
-        private bool _exponentMode;
 
         public ExpressionTextBox()
         {
             InitializeComponent();
-            _exponentMode = false;
+
             GotFocus += ExpressionTextBox_GotFocus;
             MouseDoubleClick += Control_MouseDoubleClick;
             SetFont(Settings.Default.ExpressionFont);
@@ -40,36 +34,26 @@ namespace Computator.NET.UI.Controls
             {
                 switch (e.PropertyName)
                 {
-                    case "FunctionsOrder":
-                        this.RefreshAutoComplete();
+                    case nameof(Settings.Default.FunctionsOrder):
+                        RefreshAutoComplete();
                         break;
 
-                    case "ExpressionFont":
-                        this.SetFont(Settings.Default.ExpressionFont);
+                    case nameof(Settings.Default.ExpressionFont):
+                        SetFont(Settings.Default.ExpressionFont);
                         break;
                 }
             };
 
-            if(!DesignMode)
-                RefreshAutoComplete();
-
-            EventAggregator.Instance.Subscribe<ExponentModeChangedEvent>( emce => ExponentMode=emce.IsExponentMode);
-        }
-
-        public bool ExponentMode
-        {
-            get { return _exponentMode; }
-            set
+            if (!DesignMode)
             {
-                if (value != _exponentMode)
+                RefreshAutoComplete();
+                SharedViewState.Instance.PropertyChanged += (o, e) =>
                 {
-                    _exponentMode = value;
-                    _showCaret();
-                    OnPropertyChanged(nameof(ExponentMode));
-                    //Invalidate();
-                }
+                    if (e.PropertyName == nameof(SharedViewState.IsExponent)) _showCaret();
+                };
             }
         }
+
 
         public bool Sort
             => Settings.Default.FunctionsOrder == FunctionsOrder.Alphabetical;
@@ -104,7 +88,7 @@ namespace Computator.NET.UI.Controls
 
         private void Control_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ExponentMode = false;
+            SharedViewState.Instance.IsExponent = false;
         }
 
         private void ExpressionTextBox_GotFocus(object sender, EventArgs e)
@@ -119,7 +103,7 @@ namespace Computator.NET.UI.Controls
         private void _showCaret()
         {
             var blob = TextRenderer.MeasureText("x", Font);
-            if (ExponentMode)
+            if (SharedViewState.Instance.IsExponent)
                 NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height/2);
             else
                 NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height);
@@ -165,7 +149,7 @@ namespace Computator.NET.UI.Controls
 
         private void ExpressionTextBox_KeyPress(object s, KeyPressEventArgs e)
         {
-            if (ExponentMode)
+            if (SharedViewState.Instance.IsExponent)
             {
                 if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
                 {
@@ -177,8 +161,9 @@ namespace Computator.NET.UI.Controls
             {
                 if (e.KeyChar == SpecialSymbols.ExponentModeSymbol)
                 {
-                    ExponentMode = !ExponentMode;
-                    //_showCaret();
+                    SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
+                    _showCaret();
+                    // EventAggregator.Instance.Publish<ExponentModeChangedEvent>(new ExponentModeChangedEvent(SharedViewState.Instance.IsExponent));
                     e.Handled = true;
                     //return;
                 }

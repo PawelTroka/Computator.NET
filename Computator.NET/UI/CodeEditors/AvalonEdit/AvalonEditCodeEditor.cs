@@ -4,6 +4,7 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,7 @@ using System.Xml;
 using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
+using Computator.NET.UI.MVP;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
@@ -29,7 +31,7 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    internal class AvalonEditCodeEditor : TextEditor, ICodeEditorControl
+    internal class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
     {
         private readonly Dictionary<string, TextDocument>
             _documents;
@@ -138,8 +140,6 @@ namespace Computator.NET.UI.CodeEditors
             _offsetColorizer.LinesWithErrors.Clear();
             TextArea.TextView.Redraw();
         }
-
-        public bool ExponentMode { get; set; }
 
         public string SaveAs(string filename)
         {
@@ -335,13 +335,13 @@ namespace Computator.NET.UI.CodeEditors
                 (Keyboard.Modifiers & ModifierKeys.Shift) ==
                 ModifierKeys.Shift)
             {
-                IsExponentMode = !IsExponentMode;
+                SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
 
                 e.Handled = true;
                 return;
             }
 
-            if (IsExponentMode)
+            if (SharedViewState.Instance.IsExponent)
             {
                 var ch = GetCharFromKey(e.Key);
                 if (SpecialSymbols.IsAscii(ch))
@@ -488,8 +488,6 @@ namespace Computator.NET.UI.CodeEditors
 
         #endregion
 
-        public bool IsExponentMode { get; set; }
-
         #region Folding
 
 #if USE_FOLDING
@@ -511,5 +509,12 @@ namespace Computator.NET.UI.CodeEditors
 #endif
 
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

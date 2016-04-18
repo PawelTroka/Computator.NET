@@ -28,7 +28,7 @@ namespace Computator.NET
             {
                 var attributes =
                     Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
+                        .GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
                     var titleAttribute = (AssemblyTitleAttribute) attributes[0];
@@ -54,7 +54,7 @@ namespace Computator.NET
             {
                 var attributes =
                     Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+                        .GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -69,7 +69,7 @@ namespace Computator.NET
             {
                 var attributes =
                     Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (AssemblyProductAttribute), false);
+                        .GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -84,7 +84,7 @@ namespace Computator.NET
             {
                 var attributes =
                     Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+                        .GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
@@ -99,7 +99,7 @@ namespace Computator.NET
             {
                 var attributes =
                     Assembly.GetExecutingAssembly()
-                        .GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
+                        .GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return "";
