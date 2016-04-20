@@ -23,6 +23,9 @@ namespace Computator.NET.UI.Commands
         private bool _checked;
         private bool _checkOnClick;
 
+        private ToolStripItemImageScaling _imageScaling;
+        private ToolStripItemDisplayStyle _displayStyle;
+
         private string _text;
         private Image icon;
         private bool isEnabled;
@@ -119,6 +122,32 @@ namespace Computator.NET.UI.Commands
         }
 
         public IEnumerable<IToolbarCommand> ChildrenCommands { get; set; }
+
+        public ToolStripItemImageScaling ImageScaling
+        {
+            get { return _imageScaling; }
+            set
+            {
+                if (_imageScaling != value)
+                {
+                    _imageScaling = value;
+                    OnPropertyChanged(nameof(ImageScaling));
+                }
+            }
+        }
+
+        public ToolStripItemDisplayStyle DisplayStyle
+        {
+            get { return _displayStyle; }
+            set
+            {
+                if (_displayStyle != value)
+                {
+                    _displayStyle = value;
+                    OnPropertyChanged(nameof(DisplayStyle));
+                }
+            }
+        }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

@@ -26,7 +26,8 @@ namespace Computator.NET
 {
     public partial class GUI : LocalizedForm, IMainForm
     {
-        private readonly WebBrowserForm menuFunctionsToolTip = new WebBrowserForm();
+
+        #region IMainForm
 
         public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
 
@@ -134,6 +135,8 @@ namespace Computator.NET
             remove { tabControl1.SelectedIndexChanged -= value; }
         }
 
+        #endregion
+
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var index = tabControl1.SelectedIndex;
@@ -147,6 +150,10 @@ namespace Computator.NET
             //expressionTextBox.Visible = !(index ==5||index==4);
             //TODO: MVP//tableLayoutPanel1.Visible = !(index == 5 || index == 4);
         }
+
+        private readonly WebBrowserForm menuFunctionsToolTip = new WebBrowserForm();
+
+
 
         #region edit menu eventsi
 
@@ -434,7 +441,6 @@ namespace Computator.NET
 
             Controls.Add(ExpressionView as Control);
             Controls.SetChildIndex(ExpressionView as Control, 2);
-
             chartingTabPage.Controls.Add(ChartingView as Control);
             calculationsTabPage.Controls.Add(CalculationsView as Control);
             numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);

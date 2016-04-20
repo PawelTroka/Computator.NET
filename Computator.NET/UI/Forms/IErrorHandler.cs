@@ -52,7 +52,7 @@ namespace Computator.NET
             //   exception.Errors[CompilationErrorPlace.CustomFunctions]);
 
             if (exception.HasCustomFunctionsErrors && !exception.HasMainCodeErrors)
-                EventAggregator.Instance.Publish(new ChangeViewEvent(ViewName.CustomFunctions));
+                SharedViewState.Instance.CurrentView = ViewName.CustomFunctions; ///////////////////////////EventAggregator.Instance.Publish(new ChangeViewEvent(ViewName.CustomFunctions));
             //_view.SelectedViewIndex = 5; //tabControl1.SelectedTab = customFunctionsTabPage;
         }
     }

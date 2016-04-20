@@ -1,6 +1,6 @@
 namespace Computator.NET.DataTypes
 {
-    public class ChangeViewEvent : IApplicationEvent
+ /*   public class ChangeViewEvent : IApplicationEvent
     {
         public ChangeViewEvent(ViewName view)
         {
@@ -8,5 +8,5 @@ namespace Computator.NET.DataTypes
         }
 
         public ViewName View { get; private set; }
-    }
+    }*/
 }

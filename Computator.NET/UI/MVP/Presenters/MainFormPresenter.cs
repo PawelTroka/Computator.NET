@@ -82,10 +82,26 @@ namespace Computator.NET
                 }
             };
 
-            EventAggregator.Instance.Subscribe<ChangeViewEvent>(cv => { _view.SelectedViewIndex = (int) cv.View; });
+            ///////EventAggregator.Instance.Subscribe<ChangeViewEvent>(cv => { _view.SelectedViewIndex = (int) cv.View; });
 
+            SharedViewState.Instance.PropertyChanged += (o, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(SharedViewState.Instance.CurrentView):
+                        _view.SelectedViewIndex = (int)SharedViewState.Instance.CurrentView;
+                        break;
+                }
+            };
+
+            _view.SelectedViewChanged += _view_SelectedViewChanged;
 
             _view.StatusText = GlobalConfig.version;
+        }
+
+        private void _view_SelectedViewChanged(object sender, EventArgs e)
+        {
+            SharedViewState.Instance.CurrentView = (ViewName) _view.SelectedViewIndex;
         }
 
         private void _view_SelectedLanguageChanged(object sender, EventArgs e)
