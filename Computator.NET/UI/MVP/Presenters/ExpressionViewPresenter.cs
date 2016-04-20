@@ -16,6 +16,14 @@ namespace Computator.NET.UI.MVP.Views
             _view = view;
             _view.ExpressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             _view.ExpressionTextBox.KeyPress += ExpressionTextBox_KeyPress;
+
+            SharedViewState.Instance.PropertyChanged += (o, e) =>
+            {
+                if (e.PropertyName == nameof(SharedViewState.Instance.CurrentView))
+                    _view.Visible =
+                        !(SharedViewState.Instance.CurrentView == ViewName.Scripting ||
+                          SharedViewState.Instance.CurrentView == ViewName.CustomFunctions);
+            };
         }
 
         private void ExpressionTextBox_KeyPress(object sender, KeyPressEventArgs e)

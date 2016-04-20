@@ -227,7 +227,7 @@
     </Compile>
     <Compile Include="UI\CodeEditors\AvalonEdit\CompletionData.cs" />
     <Compile Include="UI\CodeEditors\ICodeEditorControl.cs" />
-    <Compile Include="UI\Commands\CommandBase.cs" />
+    <Compile Include="UI\Menus\Commands\CommandBase.cs" />
     <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
@@ -245,6 +245,7 @@
       <DependentUpon>ChangelogForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\IErrorHandler.cs" />
+    <Compile Include="UI\Menus\Commands\IToolbarCommand.cs" />
     <Compile Include="UI\MVP\SharedViewState.cs" />
     <Compile Include="UI\MVP\Interfaces\IMainForm.cs" />
     <Compile Include="UI\Forms\SimpleErrorHandler.cs" />
