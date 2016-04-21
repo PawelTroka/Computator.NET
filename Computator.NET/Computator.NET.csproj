@@ -246,6 +246,11 @@
     </Compile>
     <Compile Include="UI\Forms\IErrorHandler.cs" />
     <Compile Include="UI\Menus\Commands\IToolbarCommand.cs" />
+    <Compile Include="UI\Menus\Commands\MenuStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MenuStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="UI\MVP\SharedViewState.cs" />
     <Compile Include="UI\MVP\Interfaces\IMainForm.cs" />
     <Compile Include="UI\Forms\SimpleErrorHandler.cs" />
@@ -326,6 +331,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\MVP\Presenters\MainFormPresenter.cs" />
+    <Compile Include="UI\MVP\Views\ToolBarView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\MVP\Views\ToolBarView.Designer.cs">
+      <DependentUpon>ToolBarView.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\NameAttribute.cs" />
     <Compile Include="NumericalCalculations\FunctionRoot.cs" />
     <Compile Include="NumericalCalculations\Derivative.cs" />
@@ -400,6 +411,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ChangelogForm.resx">
       <DependentUpon>ChangelogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Menus\Commands\MenuStrings.cs.resx" />
+    <EmbeddedResource Include="UI\Menus\Commands\MenuStrings.de.resx" />
+    <EmbeddedResource Include="UI\Menus\Commands\MenuStrings.pl.resx" />
+    <EmbeddedResource Include="UI\Menus\Commands\MenuStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MVP\Views\CalculationsView.cs.resx">
       <DependentUpon>CalculationsView.cs</DependentUpon>
@@ -504,6 +522,9 @@
     <EmbeddedResource Include="UI\MVP\Views\SolutionExplorerView.resx">
       <DependentUpon>SolutionExplorerView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\MVP\Views\ToolBarView.resx">
+      <DependentUpon>ToolBarView.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Computator.NET.pfx" />
     <None Include="packages.config" />
@@ -524,6 +545,7 @@
     <Content Include="CHANGELOG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Graphics\exponentation.png" />
     <Content Include="TODO">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

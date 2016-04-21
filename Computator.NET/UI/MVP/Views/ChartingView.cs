@@ -22,10 +22,11 @@ namespace Computator.NET.UI.MVP.Views
 
             panel2.Controls.AddRange(new[]
             {
-                ChartAreaValuesView as Control,
+               
                 chart2d,
                 complexChart,
-                el
+                el,
+                 ChartAreaValuesView as Control,
             });
         }
 

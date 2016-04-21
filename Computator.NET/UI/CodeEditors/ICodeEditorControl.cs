@@ -29,8 +29,24 @@ namespace Computator.NET.UI.CodeEditors
         void NewDocument(string fullPath);
         void SwitchTab(string fullPath);
     }
+    
 
-    public interface ICodeDocumentsEditor : IDocumentsEditor, ICodeEditorView
+    public interface ICanFileEdit
+    {
+        void NewDocument();
+        bool Focused { get; }
+        void Save();
+        void SaveAs();
+        void Undo();
+        void Redo();
+        void Cut();
+        void Paste();
+        void Copy();
+        void SelectAll();
+        void NewDocument(string fileName);
+    }
+
+    public interface ICodeDocumentsEditor : IDocumentsEditor, ICodeEditorView, ICanFileEdit
     {
     }
 

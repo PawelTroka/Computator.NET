@@ -1,5 +1,6 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -8,6 +9,7 @@ using Computator.NET.DataTypes;
 using Computator.NET.Evaluation;
 using Computator.NET.Localization;
 using Computator.NET.Properties;
+using Computator.NET.UI.Commands;
 using Computator.NET.UI.MVP;
 using Computator.NET.UI.MVP.Views;
 
@@ -27,14 +29,34 @@ namespace Computator.NET
         {
 
 
+
+
             _view = view;
-            _view.EnterClicked += (o, e) => SharedViewState.Instance.CurrentAction?.Invoke(o, e);
+
+            _view.ToolbarView.SetCommands(new List<IToolbarCommand>()
+            {
+                new NewCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
+                new OpenCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
+                new SaveCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
+                new PrintCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
+                null,
+
+                new CutCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
+                                new CopyCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
+                                                new PasteCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
+               null,
+                         new HelpCommand(),
+                               null,
+              new ExponentCommand(),
+               null,
+               new RunCommand()
+            });
+
+          //  _view.EnterClicked += (o, e) => SharedViewState.Instance.CurrentAction?.Invoke(o, e);
 
             var expressionViewPresenter = new ExpressionViewPresenter(_view.ExpressionView);
 
 
-            _view.PrintClicked += _view_PrintClicked;
-            _view.PrintPreviewClicked += _view_PrintPreviewClicked;
 
 
             _view.ModeForcedToReal += (sender, args) =>
@@ -113,66 +135,6 @@ namespace Computator.NET
             Settings.Default.Save();
         }
 
-
-        private void _view_PrintPreviewClicked(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (_view.SelectedViewIndex)
-            {
-                case 0:
-                    //TODO: MVP//      currentChart.PrintPreview();
-                    /*if (_calculationsMode == CalculationsMode.Real)
-                        chart2d.Printing.PrintPreview();
-                    else
-                        SendStringAsKey("^P");*/
-                    break;
-
-                case 4:
-                    //scriptingCodeEditor();
-                    break;
-
-                case 5:
-                    //this.customFunctionsCodeEditor
-                    break;
-
-                default:
-                    _view.SendStringAsKey("^P"); //this.chart2d.Printing.PrintPreview();
-                    break;
-            }
-#else
-            SendStringAsKey("^P");
-#endif
-        }
-
-        private void _view_PrintClicked(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (_view.SelectedViewIndex)
-            {
-                case 0:
-                    //if (_calculationsMode == CalculationsMode.Real)
-                    //TODO: MVP//      currentChart.Print();
-                    // else
-                    //  SendStringAsKey("^P");
-                    break;
-
-                case 4:
-                    //scriptingCodeEditor();
-
-                    break;
-
-                case 5:
-                    //this.customFunctionsCodeEditor
-                    break;
-
-                default:
-                    _view.SendStringAsKey("^P"); //this.chart2d.Printing.PrintPreview();
-                    break;
-            }
-#else
-            SendStringAsKey("^P");
-#endif
-        }
 
 
         private void SetMode(CalculationsMode mode)

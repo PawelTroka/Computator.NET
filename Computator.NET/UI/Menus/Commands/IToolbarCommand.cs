@@ -9,6 +9,8 @@ namespace Computator.NET.UI.Commands
     {
         bool IsEnabled { get; set; }
         Image Icon { get; set; }
+
+        string Text { get; set; }
         string ToolTip { get; set; }
         Keys ShortcutKey { get; set; }
         bool Checked { get; set; }

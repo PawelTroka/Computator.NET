@@ -14,7 +14,7 @@ using Computator.NET.UI.Controls;
 
 namespace Computator.NET.UI.CodeEditors
 {
-    public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor,
+    public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor, ICanFileEdit,
         INotifyPropertyChanged
     {
         private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors = new Dictionary
@@ -92,6 +92,11 @@ namespace Computator.NET.UI.CodeEditors
             };
         }
 
+        public void NewDocument()
+        {
+            NewDocument("");
+        }
+
         public override bool Focused
             =>
                 _codeEditorType == CodeEditorType.AvalonEdit
@@ -134,7 +139,7 @@ namespace Computator.NET.UI.CodeEditors
             return CurrentCodeEditor.ContainsDocument(filename);
         }
 
-        public void NewDocument(string filename = "")
+        public void NewDocument(string filename)
         {
             //   if(string.IsNullOrEmpty(filename))
             tabControl.AddTab(filename);

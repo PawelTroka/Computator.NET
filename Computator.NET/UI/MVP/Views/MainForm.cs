@@ -29,6 +29,7 @@ namespace Computator.NET
 
         #region IMainForm
 
+        public IToolbarView ToolbarView { get; } = new ToolBarView() {Dock=DockStyle.Top};
         public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
 
         public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView
@@ -60,25 +61,6 @@ namespace Computator.NET
             set { modeToolStripDropDownButton.Text = value; }
         }
 
-        public event EventHandler PrintClicked
-        {
-            add
-            {
-                printToolStripButton.Click += value;
-                printToolStripMenuItem.Click += value;
-            }
-            remove
-            {
-                printToolStripButton.Click -= value;
-                printToolStripMenuItem.Click -= value;
-            }
-        }
-
-        public event EventHandler PrintPreviewClicked
-        {
-            add { printPreviewToolStripMenuItem.Click += value; }
-            remove { printPreviewToolStripMenuItem.Click -= value; }
-        }
 
 
         public event EventHandler ModeForcedToReal
@@ -117,11 +99,6 @@ namespace Computator.NET
 
         public IExpressionView ExpressionView { get; } = new ExpressionView {Dock = DockStyle.Top};
 
-        public event EventHandler EnterClicked
-        {
-            add { runToolStripButton.Click += value; }
-            remove { runToolStripButton.Click -= value; }
-        }
 
         public event EventHandler SelectedLanguageChanged
         {
@@ -153,294 +130,21 @@ namespace Computator.NET
 
         private readonly WebBrowserForm menuFunctionsToolTip = new WebBrowserForm();
 
-
-
-        #region edit menu eventsi
-
-        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (tabControl1.SelectedIndex)
-            {
-                case 4:
-                    //TODO: MVP//        if (scriptingCodeEditor.Focused)
-                    //TODO: MVP//        scriptingCodeEditor.Cut();
-                    //TODO: MVP//       else
-                    SendStringAsKey("^X");
-                    break;
-
-                case 5:
-                    //TODO: MVP//        if (customFunctionsCodeEditor.Focused)
-                    //TODO: MVP//         customFunctionsCodeEditor.Cut();
-                    //TODO: MVP//         else
-                    SendStringAsKey("^X");
-                    break;
-
-                default: //if (tabControl1.SelectedIndex < 4)
-                    SendStringAsKey("^X"); //expressionTextBox.Cut();
-                    break;
-            }
-#else
-            SendStringAsKey("^X");
-#endif
-        }
-
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            if (tabControl1.SelectedIndex < 4)
-                SendStringAsKey("^Z"); //expressionTextBox.Undo();
-            else if (tabControl1.SelectedIndex == 4)
-            {
-                //TODO: MVP//     if (scriptingCodeEditor.Focused)
-                //TODO: MVP//      scriptingCodeEditor.Undo();
-                //TODO: MVP//     else
-                SendStringAsKey("^Z");
-            }
-            else
-            {
-                //TODO: MVP//      if (customFunctionsCodeEditor.Focused)
-                //TODO: MVP//    customFunctionsCodeEditor.Undo();
-                //TODO: MVP//    else
-                SendStringAsKey("^Z");
-            }
-#else
-            SendStringAsKey("^Z");
-
-#endif
-        }
-
-        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            if (tabControl1.SelectedIndex < 4)
-            {
-                SendStringAsKey("^Y");
-                //expressionTextBox.do()
-            }
-            else if (tabControl1.SelectedIndex == 4)
-                //scriptingCodeEditor.Focus();
-            {
-                //TODO: MVP//     if (scriptingCodeEditor.Focused)
-                //TODO: MVP//     scriptingCodeEditor.Redo();
-                //TODO: MVP//    else
-                SendStringAsKey("^Y");
-            }
-            else
-            {
-                //TODO: MVP//        if (customFunctionsCodeEditor.Focused)
-                //TODO: MVP//     customFunctionsCodeEditor.Redo();
-                //TODO: MVP//    else
-                SendStringAsKey("^Y");
-            }
-#else
-              SendStringAsKey("^Y");
-#endif
-        }
-
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            if (tabControl1.SelectedIndex < 4)
-            {
-                SendStringAsKey("^C"); //expressionTextBox.Copy();
-            }
-            else if (tabControl1.SelectedIndex == 4)
-            {
-                //TODO: MVP//    if (scriptingCodeEditor.Focused)
-                //TODO: MVP//     scriptingCodeEditor.Copy();
-                //TODO: MVP//     else
-                SendStringAsKey("^C");
-            }
-            else
-            {
-                //TODO: MVP//    if (customFunctionsCodeEditor.Focused)
-                //TODO: MVP//    customFunctionsCodeEditor.Copy();
-                //TODO: MVP//    else
-                SendStringAsKey("^C");
-            }
-#else
-            SendStringAsKey("^C");
-#endif
-        }
-
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            if (tabControl1.SelectedIndex < 4)
-            {
-                SendStringAsKey("^V"); //expressionTextBox.Paste();
-            }
-            else if (tabControl1.SelectedIndex == 4)
-            {
-                //TODO: MVP//     if (scriptingCodeEditor.Focused)
-                //TODO: MVP//     scriptingCodeEditor.Paste();
-                //TODO: MVP//       else
-                SendStringAsKey("^V");
-            }
-            else
-            {
-                //TODO: MVP//    if (customFunctionsCodeEditor.Focused)
-                //TODO: MVP//     customFunctionsCodeEditor.Paste();
-                //TODO: MVP//     else
-                SendStringAsKey("^V");
-            }
-
-#else
-            SendStringAsKey("^V");
-#endif
-        }
-
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            if (tabControl1.SelectedIndex < 4)
-            {
-                SendStringAsKey("^A"); //expressionTextBox.SelectAll();
-            }
-            else if (tabControl1.SelectedIndex == 4)
-            {
-                //TODO: MVP//      if (scriptingCodeEditor.Focused)
-                //TODO: MVP//      scriptingCodeEditor.SelectAll();
-                //TODO: MVP//      else
-                SendStringAsKey("^A");
-            }
-            else
-            {
-                //TODO: MVP//   if (customFunctionsCodeEditor.Focused)
-                //TODO: MVP//   customFunctionsCodeEditor.SelectAll();
-                //  else
-                SendStringAsKey("^A");
-            }
-#else
-            SendStringAsKey("^A");
-#endif
-        }
-
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-
-                    //SendStringAsKey("^S");
-                    break;
-
-                case 4:
-                    //TODO: MVP//    scriptingCodeEditor.NewDocument();
-                    break;
-
-                case 5:
-                    //TODO: MVP//   customFunctionsCodeEditor.NewDocument();
-                    break;
-
-                default:
-                    //SendStringAsKey("^S");
-                    break;
-            }
-#else
-    //SendStringAsKey("^S");
-#endif
-        }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var ofd = new OpenFileDialog {Filter = GlobalConfig.tslFilesFIlter};
-
-            if (ofd.ShowDialog(this) != DialogResult.OK)
-                return;
-
-
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-
-                    //SendStringAsKey("^S");
-                    break;
-
-                case 4:
-                    //TODO: MVP//    scriptingCodeEditor.NewDocument(ofd.FileName);
-                    break;
-
-                case 5:
-                    //TODO: MVP//    customFunctionsCodeEditor.NewDocument(ofd.FileName);
-                    break;
-
-                default:
-                    //SendStringAsKey("^S");
-                    break;
-            }
-#else
-    //SendStringAsKey("^S");
-#endif
-        }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-
-                    //SendStringAsKey("^S");
-                    break;
-
-                case 4:
-                    //TODO: MVP// scriptingCodeEditor.Save();
-                    break;
-
-                case 5:
-                    //TODO: MVP//customFunctionsCodeEditor.Save();
-                    break;
-
-                default:
-                    //SendStringAsKey("^S");
-                    break;
-            }
-#else
-            SendStringAsKey("^S");
-#endif
-        }
-
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-
-                    //SendStringAsKey("^S");
-                    break;
-
-                case 4:
-                    //TODO: MVP//scriptingCodeEditor.SaveAs();
-                    break;
-
-                case 5:
-                    //TODO: MVP//customFunctionsCodeEditor.SaveAs();
-                    break;
-
-                default:
-                    //SendStringAsKey("^S");
-                    break;
-            }
-#else
-            SendStringAsKey("^S");
-#endif
-        }
-
-        #endregion
-
         #region initialization and construction
 
         public GUI()
         {
+
+
             InitializeComponent();
 
-            Controls.Add(ExpressionView as Control);
+                        Controls.Add(ExpressionView as Control);
+            Controls.Add(ToolbarView as Control);
+
             Controls.SetChildIndex(ExpressionView as Control, 2);
+            Controls.SetChildIndex(ToolbarView as Control, 3);
+
+
             chartingTabPage.Controls.Add(ChartingView as Control);
             calculationsTabPage.Controls.Add(CalculationsView as Control);
             numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
@@ -468,8 +172,7 @@ namespace Computator.NET
             HandleCommandLine();
 
             toolStripMenuItem40.Click += (s, e) => new BenchmarkForm().ShowDialog(this);
-
-            helpToolStripButton.Click += (s, e) => new AboutBox1().ShowDialog(this);
+            
             aboutToolStripMenuItem1.Click += (s, e2) => new AboutBox1().ShowDialog(this);
 
             toolStripMenuItem46.Click += (o, e) => new BugReportingForm().ShowDialog(this);

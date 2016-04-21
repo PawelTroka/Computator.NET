@@ -6,6 +6,7 @@ namespace Computator.NET
 {
     public interface IMainForm
     {
+        IToolbarView ToolbarView { get; }
         IChartingView ChartingView { get; }
 
         ICalculationsView CalculationsView { get; }
@@ -29,12 +30,10 @@ namespace Computator.NET
         event EventHandler ModeForcedToComplex;
         event EventHandler ModeForcedToFxy;
 
-        event EventHandler PrintClicked;
-        event EventHandler PrintPreviewClicked;
 
         void SendStringAsKey(string key);
 
-        event EventHandler EnterClicked;
+     //   event EventHandler EnterClicked;
 
         event EventHandler SelectedLanguageChanged;
 

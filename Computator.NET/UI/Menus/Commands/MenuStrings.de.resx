@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,22 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ChartAreaValuesView</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Jakość wykresu:</value>
-  </data>
-  <data name="clearChartButton.Text" xml:space="preserve">
-    <value>Wyczyść</value>
-  </data>
-  <data name="addToChartButton.Text" xml:space="preserve">
-    <value>Dodaj do wykresu</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Wartości na wykresie</value>
-  </data>
 </root>

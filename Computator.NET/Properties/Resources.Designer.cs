@@ -91,6 +91,36 @@ namespace Computator.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap copyToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("copyToolStripButtonImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap cutToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("cutToolStripButtonImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap exponentation {
+            get {
+                object obj = ResourceManager.GetObject("exponentation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] gsl_x64 {
@@ -107,6 +137,16 @@ namespace Computator.NET.Properties {
             get {
                 object obj = ResourceManager.GetObject("gsl_x86", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap helpToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("helpToolStripButtonImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -143,6 +183,46 @@ namespace Computator.NET.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap newToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("newToolStripButtonImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap openToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("openToolStripButtonImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap pasteToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("pasteToolStripButtonImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap printToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("printToolStripButtonImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap Rational {
             get {
                 object obj = ResourceManager.GetObject("Rational", resourceCulture);
@@ -166,6 +246,26 @@ namespace Computator.NET.Properties {
         public static System.Drawing.Bitmap run_icon {
             get {
                 object obj = ResourceManager.GetObject("run_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap runToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("runToolStripButtonImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap saveToolStripButtonImage {
+            get {
+                object obj = ResourceManager.GetObject("saveToolStripButtonImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
