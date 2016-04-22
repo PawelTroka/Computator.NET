@@ -331,6 +331,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\MVP\Presenters\MainFormPresenter.cs" />
+    <Compile Include="UI\MVP\Views\MenuStripView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\MVP\Views\MenuStripView.Designer.cs">
+      <DependentUpon>MenuStripView.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\MVP\Views\ToolBarView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -485,6 +491,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MVP\Views\CustomFunctionsView.resx">
       <DependentUpon>CustomFunctionsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MVP\Views\MenuStripView.resx">
+      <DependentUpon>MenuStripView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MVP\Views\NumericalCalculationsView.cs.resx">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>

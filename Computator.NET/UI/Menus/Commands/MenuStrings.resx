@@ -127,10 +127,10 @@
   <data name="redoToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Redo          Ctrl+Y</value>
   </data>
-  <data name="toolStripMenuItem39.Text" xml:space="preserve">
+  <data name="DHT.Text" xml:space="preserve">
     <value>DHT</value>
   </data>
-  <data name="toolStripMenuItem38.ToolTipText" xml:space="preserve">
+  <data name="IFHT.ToolTipText" xml:space="preserve">
     <value>Inverse Fast Hilbert Transform</value>
   </data>
   <data name="runToolStripButton.Text" xml:space="preserve">
@@ -163,31 +163,31 @@
   <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;Help</value>
   </data>
-  <data name="toolStripMenuItem46.Text" xml:space="preserve">
+  <data name="BugReporting.Text" xml:space="preserve">
     <value>&amp;Bug reporting</value>
   </data>
-  <data name="toolStripMenuItem44.Text" xml:space="preserve">
+  <data name="ThanksTo.Text" xml:space="preserve">
     <value>&amp;Thanks to</value>
   </data>
   <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
     <value>&amp;About...</value>
   </data>
-  <data name="toolStripMenuItem45.Text" xml:space="preserve">
+  <data name="Changelog.Text" xml:space="preserve">
     <value>&amp;Changelog</value>
   </data>
-  <data name="toolStripMenuItem43.Text" xml:space="preserve">
+  <data name="Features.Text" xml:space="preserve">
     <value>&amp;Features</value>
   </data>
   <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Tools</value>
   </data>
-  <data name="toolStripMenuItem41.Text" xml:space="preserve">
+  <data name="Logs.Text" xml:space="preserve">
     <value>&amp;Logs</value>
   </data>
-  <data name="toolStripMenuItem40.Text" xml:space="preserve">
+  <data name="Benchmark.Text" xml:space="preserve">
     <value>&amp;Benchmark</value>
   </data>
-  <data name="toolStripMenuItem42.Text" xml:space="preserve">
+  <data name="Language.Text" xml:space="preserve">
     <value>Language</value>
   </data>
   <data name="fullscreenToolStripMenuItem.Text" xml:space="preserve">
@@ -199,52 +199,52 @@
   <data name="transformToolStripMenuItem.Text" xml:space="preserve">
     <value>Tran&amp;sform</value>
   </data>
-  <data name="toolStripMenuItem39.ToolTipText" xml:space="preserve">
+  <data name="DHT.ToolTipText" xml:space="preserve">
     <value>Discrete Hartley Transform</value>
   </data>
-  <data name="toolStripMenuItem38.Text" xml:space="preserve">
+  <data name="IFHT.Text" xml:space="preserve">
     <value>IFHT</value>
   </data>
-  <data name="toolStripMenuItem37.ToolTipText" xml:space="preserve">
+  <data name="FHT.ToolTipText" xml:space="preserve">
     <value>Fast Hilbert Transform</value>
   </data>
-  <data name="toolStripMenuItem37.Text" xml:space="preserve">
+  <data name="FHT.Text" xml:space="preserve">
     <value>FHT</value>
   </data>
-  <data name="toolStripMenuItem36.ToolTipText" xml:space="preserve">
+  <data name="IDCT.ToolTipText" xml:space="preserve">
     <value>Inverse Discrete Cosine Transform</value>
   </data>
-  <data name="toolStripMenuItem36.Text" xml:space="preserve">
+  <data name="IDCT.Text" xml:space="preserve">
     <value>IDCT</value>
   </data>
-  <data name="toolStripMenuItem35.ToolTipText" xml:space="preserve">
+  <data name="DCT.ToolTipText" xml:space="preserve">
     <value>Discrete Cosine Transform</value>
   </data>
-  <data name="toolStripMenuItem35.Text" xml:space="preserve">
+  <data name="DCT.Text" xml:space="preserve">
     <value>DCT</value>
   </data>
-  <data name="toolStripMenuItem34.ToolTipText" xml:space="preserve">
+  <data name="IDST.ToolTipText" xml:space="preserve">
     <value>Inverse Discrete Sine Transform</value>
   </data>
-  <data name="toolStripMenuItem34.Text" xml:space="preserve">
+  <data name="IDST.Text" xml:space="preserve">
     <value>IDST</value>
   </data>
-  <data name="toolStripMenuItem33.ToolTipText" xml:space="preserve">
+  <data name="DST.ToolTipText" xml:space="preserve">
     <value>Discrete Sine Transform</value>
   </data>
-  <data name="toolStripMenuItem33.Text" xml:space="preserve">
+  <data name="DST.Text" xml:space="preserve">
     <value>DST</value>
   </data>
-  <data name="toolStripMenuItem32.ToolTipText" xml:space="preserve">
+  <data name="IFFT.ToolTipText" xml:space="preserve">
     <value>Inverse Fast Fourier Transform</value>
   </data>
-  <data name="toolStripMenuItem32.Text" xml:space="preserve">
+  <data name="IFFT.Text" xml:space="preserve">
     <value>IFFT</value>
   </data>
-  <data name="toolStripMenuItem31.ToolTipText" xml:space="preserve">
+  <data name="FFT.ToolTip.Text" xml:space="preserve">
     <value>Fast Fourier Transform</value>
   </data>
-  <data name="toolStripMenuItem31.Text" xml:space="preserve">
+  <data name="FFT.Text" xml:space="preserve">
     <value>FFT</value>
   </data>
   <data name="constantsToolStripMenuItem.Text" xml:space="preserve">

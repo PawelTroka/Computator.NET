@@ -70,6 +70,33 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Benchmark.
+        /// </summary>
+        public static string Benchmark_Text {
+            get {
+                return ResourceManager.GetString("Benchmark.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Bug reporting.
+        /// </summary>
+        public static string BugReporting_Text {
+            get {
+                return ResourceManager.GetString("BugReporting.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Changelog.
+        /// </summary>
+        public static string Changelog_Text {
+            get {
+                return ResourceManager.GetString("Changelog.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Constants.
         /// </summary>
         public static string constantsToolStripMenuItem_Text {
@@ -115,6 +142,60 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DCT.
+        /// </summary>
+        public static string DCT_Text {
+            get {
+                return ResourceManager.GetString("DCT.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discrete Cosine Transform.
+        /// </summary>
+        public static string DCT_ToolTipText {
+            get {
+                return ResourceManager.GetString("DCT.ToolTipText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DHT.
+        /// </summary>
+        public static string DHT_Text {
+            get {
+                return ResourceManager.GetString("DHT.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discrete Hartley Transform.
+        /// </summary>
+        public static string DHT_ToolTipText {
+            get {
+                return ResourceManager.GetString("DHT.ToolTipText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DST.
+        /// </summary>
+        public static string DST_Text {
+            get {
+                return ResourceManager.GetString("DST.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discrete Sine Transform.
+        /// </summary>
+        public static string DST_ToolTipText {
+            get {
+                return ResourceManager.GetString("DST.ToolTipText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Edit.
         /// </summary>
         public static string editToolStripMenuItem1_Text {
@@ -147,6 +228,51 @@ namespace Computator.NET.UI.Menus.Commands {
         public static string exponentiationToolStripMenuItem_Text {
             get {
                 return ResourceManager.GetString("exponentiationToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Features.
+        /// </summary>
+        public static string Features_Text {
+            get {
+                return ResourceManager.GetString("Features.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FFT.
+        /// </summary>
+        public static string FFT_Text {
+            get {
+                return ResourceManager.GetString("FFT.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fast Fourier Transform.
+        /// </summary>
+        public static string FFT_ToolTip_Text {
+            get {
+                return ResourceManager.GetString("FFT.ToolTip.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FHT.
+        /// </summary>
+        public static string FHT_Text {
+            get {
+                return ResourceManager.GetString("FHT.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fast Hilbert Transform.
+        /// </summary>
+        public static string FHT_ToolTipText {
+            get {
+                return ResourceManager.GetString("FHT.ToolTipText", resourceCulture);
             }
         }
         
@@ -192,6 +318,96 @@ namespace Computator.NET.UI.Menus.Commands {
         public static string helpToolStripMenuItem1_Text {
             get {
                 return ResourceManager.GetString("helpToolStripMenuItem1.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IDCT.
+        /// </summary>
+        public static string IDCT_Text {
+            get {
+                return ResourceManager.GetString("IDCT.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inverse Discrete Cosine Transform.
+        /// </summary>
+        public static string IDCT_ToolTipText {
+            get {
+                return ResourceManager.GetString("IDCT.ToolTipText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IDST.
+        /// </summary>
+        public static string IDST_Text {
+            get {
+                return ResourceManager.GetString("IDST.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inverse Discrete Sine Transform.
+        /// </summary>
+        public static string IDST_ToolTipText {
+            get {
+                return ResourceManager.GetString("IDST.ToolTipText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IFFT.
+        /// </summary>
+        public static string IFFT_Text {
+            get {
+                return ResourceManager.GetString("IFFT.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inverse Fast Fourier Transform.
+        /// </summary>
+        public static string IFFT_ToolTipText {
+            get {
+                return ResourceManager.GetString("IFFT.ToolTipText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IFHT.
+        /// </summary>
+        public static string IFHT_Text {
+            get {
+                return ResourceManager.GetString("IFHT.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inverse Fast Hilbert Transform.
+        /// </summary>
+        public static string IFHT_ToolTipText {
+            get {
+                return ResourceManager.GetString("IFHT.ToolTipText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Language_Text {
+            get {
+                return ResourceManager.GetString("Language.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Logs.
+        /// </summary>
+        public static string Logs_Text {
+            get {
+                return ResourceManager.GetString("Logs.Text", resourceCulture);
             }
         }
         
@@ -367,236 +583,20 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Thanks to.
+        /// </summary>
+        public static string ThanksTo_Text {
+            get {
+                return ResourceManager.GetString("ThanksTo.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Tools.
         /// </summary>
         public static string toolsToolStripMenuItem_Text {
             get {
                 return ResourceManager.GetString("toolsToolStripMenuItem.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FFT.
-        /// </summary>
-        public static string toolStripMenuItem31_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem31.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fast Fourier Transform.
-        /// </summary>
-        public static string toolStripMenuItem31_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem31.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to IFFT.
-        /// </summary>
-        public static string toolStripMenuItem32_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem32.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inverse Fast Fourier Transform.
-        /// </summary>
-        public static string toolStripMenuItem32_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem32.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DST.
-        /// </summary>
-        public static string toolStripMenuItem33_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem33.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Discrete Sine Transform.
-        /// </summary>
-        public static string toolStripMenuItem33_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem33.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to IDST.
-        /// </summary>
-        public static string toolStripMenuItem34_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem34.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inverse Discrete Sine Transform.
-        /// </summary>
-        public static string toolStripMenuItem34_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem34.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DCT.
-        /// </summary>
-        public static string toolStripMenuItem35_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem35.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Discrete Cosine Transform.
-        /// </summary>
-        public static string toolStripMenuItem35_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem35.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to IDCT.
-        /// </summary>
-        public static string toolStripMenuItem36_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem36.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inverse Discrete Cosine Transform.
-        /// </summary>
-        public static string toolStripMenuItem36_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem36.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FHT.
-        /// </summary>
-        public static string toolStripMenuItem37_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem37.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fast Hilbert Transform.
-        /// </summary>
-        public static string toolStripMenuItem37_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem37.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to IFHT.
-        /// </summary>
-        public static string toolStripMenuItem38_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem38.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inverse Fast Hilbert Transform.
-        /// </summary>
-        public static string toolStripMenuItem38_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem38.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DHT.
-        /// </summary>
-        public static string toolStripMenuItem39_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem39.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Discrete Hartley Transform.
-        /// </summary>
-        public static string toolStripMenuItem39_ToolTipText {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem39.ToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Benchmark.
-        /// </summary>
-        public static string toolStripMenuItem40_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem40.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Logs.
-        /// </summary>
-        public static string toolStripMenuItem41_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem41.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Language.
-        /// </summary>
-        public static string toolStripMenuItem42_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem42.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Features.
-        /// </summary>
-        public static string toolStripMenuItem43_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem43.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Thanks to.
-        /// </summary>
-        public static string toolStripMenuItem44_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem44.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Changelog.
-        /// </summary>
-        public static string toolStripMenuItem45_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem45.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Bug reporting.
-        /// </summary>
-        public static string toolStripMenuItem46_Text {
-            get {
-                return ResourceManager.GetString("toolStripMenuItem46.Text", resourceCulture);
             }
         }
         

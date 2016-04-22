@@ -13,6 +13,7 @@ namespace Computator.NET.UI.Commands
         string Text { get; set; }
         string ToolTip { get; set; }
         Keys ShortcutKey { get; set; }
+        string ShortcutKeyString { get; set; }
         bool Checked { get; set; }
         bool CheckOnClick { get; set; }
 

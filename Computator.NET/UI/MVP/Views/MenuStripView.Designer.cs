@@ -1,6 +1,6 @@
 ﻿namespace Computator.NET.UI.MVP.Views
 {
-    partial class ToolBarView
+    partial class MenuStripView
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // menuStrip2
             // 
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(754, 25);
-            this.toolStrip1.TabIndex = 8;
-            this.toolStrip1.Text = "toolStrip1";
+            this.menuStrip2.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip2.Name = "menuStrip2";
+            this.menuStrip2.Size = new System.Drawing.Size(754, 24);
+            this.menuStrip2.TabIndex = 7;
+            this.menuStrip2.Text = "menuStrip2";
             // 
-            // ToolBarView
+            // MenuStripView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.Controls.Add(this.toolStrip1);
-            this.Name = "ToolBarView";
-            this.Size = new System.Drawing.Size(754, 25);
+            this.Controls.Add(this.menuStrip2);
+            this.Name = "MenuStripView";
+            this.Size = new System.Drawing.Size(754, 24);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -52,6 +52,6 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.MenuStrip menuStrip2;
     }
 }

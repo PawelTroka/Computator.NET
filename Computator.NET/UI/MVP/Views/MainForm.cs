@@ -29,6 +29,7 @@ namespace Computator.NET
 
         #region IMainForm
 
+        public IToolbarView MenuStripView { get; } = new MenuStripView() { Dock = DockStyle.Top };
         public IToolbarView ToolbarView { get; } = new ToolBarView() {Dock=DockStyle.Top};
         public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
 
@@ -123,9 +124,6 @@ namespace Computator.NET
             openToolStripMenuItem.Enabled = index == 0 || index == 5 || index == 4;
 
             saveToolStripMenuItem.Enabled = index == 4 || index == 5;
-
-            //expressionTextBox.Visible = !(index ==5||index==4);
-            //TODO: MVP//tableLayoutPanel1.Visible = !(index == 5 || index == 4);
         }
 
         private readonly WebBrowserForm menuFunctionsToolTip = new WebBrowserForm();
@@ -137,13 +135,15 @@ namespace Computator.NET
 
 
             InitializeComponent();
-
-                        Controls.Add(ExpressionView as Control);
+            
+            Controls.Add(ExpressionView as Control);
             Controls.Add(ToolbarView as Control);
+            Controls.Add(MenuStripView as Control);
+
 
             Controls.SetChildIndex(ExpressionView as Control, 2);
             Controls.SetChildIndex(ToolbarView as Control, 3);
-
+            Controls.SetChildIndex(ToolbarView as Control, 4);
 
             chartingTabPage.Controls.Add(ChartingView as Control);
             calculationsTabPage.Controls.Add(CalculationsView as Control);

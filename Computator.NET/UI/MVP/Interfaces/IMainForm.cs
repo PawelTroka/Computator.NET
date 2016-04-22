@@ -7,6 +7,8 @@ namespace Computator.NET
     public interface IMainForm
     {
         IToolbarView ToolbarView { get; }
+
+        IToolbarView MenuStripView { get; }
         IChartingView ChartingView { get; }
 
         ICalculationsView CalculationsView { get; }

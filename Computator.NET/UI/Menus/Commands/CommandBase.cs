@@ -13,12 +13,30 @@ using Computator.NET.UI.MVP.Views;
 namespace Computator.NET.UI.Commands
 {
 
+    class DummyCommand : CommandBase
+    {
+        public DummyCommand(string text, string toolTip=null)
+        {
+            //this.Icon = Resources.runToolStripButtonImage;
+            this.Text = text;
+            this.ToolTip = toolTip ?? text;
+        }
+        
+        public override void Execute()
+        {
+            
+        }
+    }
+
+
+
+
     class ExponentCommand : CommandBase
     {
         public ExponentCommand()
         {
             this.CheckOnClick = true;
-
+            this.ShortcutKeyString = "Shift+6";
             SharedViewState.Instance.PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == nameof(SharedViewState.Instance.IsExponent))
@@ -34,6 +52,23 @@ namespace Computator.NET.UI.Commands
         public override void Execute()
         {
             SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
+        }
+    }
+
+    class ExitCommand : CommandBase
+    {
+
+
+        public ExitCommand()
+        {
+            this.Text = MenuStrings.exitToolStripMenuItem_Text;
+            this.ToolTip = MenuStrings.exitToolStripMenuItem_Text;
+        }
+
+
+        public override void Execute()
+        {
+            Application.Exit();
         }
     }
 
@@ -82,7 +117,7 @@ namespace Computator.NET.UI.Commands
 
         public PrintPreviewCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, IMainForm mainFormView)
         {
-          //  this.Icon = Resources.printToolStripButtonImage;
+            this.Icon = Resources.printPreviewToolStripMenuItemImage;
             this.Text = MenuStrings.printPreviewToolStripMenuItem_Text;
             this.ToolTip = MenuStrings.printPreviewToolStripMenuItem_Text;
 
@@ -131,7 +166,7 @@ namespace Computator.NET.UI.Commands
             this.Icon = Resources.printToolStripButtonImage;
             this.Text = MenuStrings.printToolStripButton_Text;
             this.ToolTip = MenuStrings.printToolStripButton_Text;
-
+            this.ShortcutKeyString = "Ctrl+P";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -177,7 +212,7 @@ namespace Computator.NET.UI.Commands
             //this.Icon = Resources.copyToolStripButtonImage;
             this.Text = MenuStrings.undoToolStripMenuItem_Text;
             this.ToolTip = MenuStrings.undoToolStripMenuItem_Text;
-
+            this.ShortcutKeyString = "Ctrl+Z";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -219,7 +254,7 @@ namespace Computator.NET.UI.Commands
             //this.Icon = Resources.copyToolStripButtonImage;
             this.Text = MenuStrings.redoToolStripMenuItem_Text;
             this.ToolTip = MenuStrings.redoToolStripMenuItem_Text;
-
+            this.ShortcutKeyString = "Ctrl+Y";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -267,7 +302,7 @@ namespace Computator.NET.UI.Commands
             //this.Icon = Resources.copyToolStripButtonImage;
             this.Text = MenuStrings.selectAllToolStripMenuItem_Text;
             this.ToolTip = MenuStrings.selectAllToolStripMenuItem_Text;
-
+            this.ShortcutKeyString = "Ctrl+A";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -316,7 +351,7 @@ namespace Computator.NET.UI.Commands
             this.Icon = Resources.cutToolStripButtonImage;
             this.Text = MenuStrings.cutToolStripButton_Text;
             this.ToolTip = MenuStrings.cutToolStripButton_Text;
-
+            this.ShortcutKeyString = "Ctrl+X";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -361,7 +396,7 @@ namespace Computator.NET.UI.Commands
             this.Icon = Resources.copyToolStripButtonImage;
             this.Text = MenuStrings.copyToolStripButton_Text;
             this.ToolTip = MenuStrings.copyToolStripButton_Text;
-
+            this.ShortcutKeyString = "Ctrl+C";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -401,6 +436,7 @@ namespace Computator.NET.UI.Commands
 
         public PasteCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, IMainForm mainFormView)
         {
+            this.ShortcutKeyString = "Ctrl+V";
             this.Icon = Resources.pasteToolStripButtonImage;
             this.Text = MenuStrings.pasteToolStripButton_Text;
             this.ToolTip = MenuStrings.pasteToolStripButton_Text;
@@ -487,6 +523,7 @@ namespace Computator.NET.UI.Commands
 
         public SaveCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
         {
+            this.ShortcutKeyString = "Ctrl+S";
             this.Icon = Resources.saveToolStripButtonImage;
             this.Text = MenuStrings.saveToolStripButton_Text;
             this.ToolTip = MenuStrings.saveToolStripButton_Text;
@@ -535,7 +572,7 @@ namespace Computator.NET.UI.Commands
             this.Icon = Resources.openToolStripButtonImage;
             this.Text = MenuStrings.openToolStripButton_Text;
             this.ToolTip = MenuStrings.openToolStripButton_Text;
-
+            this.ShortcutKeyString = "Ctrl+O";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             // this.mainFormView = mainFormView;
@@ -588,7 +625,8 @@ namespace Computator.NET.UI.Commands
 
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-           // this.mainFormView = mainFormView;
+            this.ShortcutKeyString = "Ctrl+N";
+            // this.mainFormView = mainFormView;
         }
 
 
@@ -646,6 +684,20 @@ namespace Computator.NET.UI.Commands
                 {
                     _text = value;
                     OnPropertyChanged(nameof(Text));
+                }
+            }
+        }
+
+        private string _ShortcutKeyString;
+        public string ShortcutKeyString
+        {
+            get { return _ShortcutKeyString; }
+            set
+            {
+                if (_ShortcutKeyString != value)
+                {
+                    _ShortcutKeyString = value;
+                    OnPropertyChanged(nameof(ShortcutKeyString));
                 }
             }
         }
