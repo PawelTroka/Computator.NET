@@ -162,8 +162,8 @@ namespace Computator.NET
             menuStrip2.Items.Insert(4, editChartMenus.chartToolStripMenuItem);
 
 
-            exponentiationToolStripMenuItem.DataBindings.Add("Checked", SharedViewState.Instance, "IsExponent", false,
-                DataSourceUpdateMode.OnPropertyChanged);
+        //    exponentiationToolStripMenuItem.DataBindings.Add("Checked", SharedViewState.Instance, "IsExponent", false,
+             //   DataSourceUpdateMode.OnPropertyChanged);
 
             Icon = Resources.computator_net_icon;
 
@@ -217,8 +217,7 @@ namespace Computator.NET
 
 
         private readonly EditChartMenus editChartMenus;
-
-
+        
         private void HandleCommandLine()
         {
             var args = Environment.GetCommandLineArgs();

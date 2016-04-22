@@ -1,17 +1,240 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
+using Computator.NET.Benchmarking;
 using Computator.NET.Config;
+using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
+using Computator.NET.Logging;
 using Computator.NET.Properties;
 using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Dialogs;
 using Computator.NET.UI.Menus.Commands;
 using Computator.NET.UI.MVP;
 using Computator.NET.UI.MVP.Views;
+using Application = System.Windows.Forms.Application;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace Computator.NET.UI.Commands
 {
+
+
+    class LanguageCommand : DropDownCommand<CultureInfo>
+    {
+        public LanguageCommand()
+        {
+            Items = new CultureInfo[] {new CultureInfo("en"),
+                new CultureInfo("pl"),
+                new CultureInfo("de"),
+                new CultureInfo("cs")};
+
+            SelectedItem = CultureInfo.CurrentCulture;
+            DisplayProperty = "NativeName";
+        }
+
+        public override void Execute()
+        {
+            Thread.CurrentThread.CurrentCulture = SelectedItem;
+            LocalizationManager.GlobalUICulture = SelectedItem;
+            Settings.Default.Language = SelectedItem;
+            Settings.Default.Save();
+        }
+    }
+
+
+    abstract class DropDownCommand<T> : CommandBase
+    {
+        public IEnumerable<T> Items { get; set; }
+        public T SelectedItem { get; set; }
+        public string DisplayProperty { get; set; }
+    }
+
+
+
+    class OptionsCommand : CommandBase
+    {
+        public OptionsCommand()
+        {
+            //this.ShortcutKeyString = "Shift+6";
+            //this.Icon = Resources.exponentation;
+            this.Text = MenuStrings.optionsToolStripMenuItem1_Text;
+            this.ToolTip = MenuStrings.optionsToolStripMenuItem1_Text;
+        }
+
+
+        public override void Execute()
+        {
+            new SettingsForm().ShowDialog(/*this*/);
+        }
+    }
+
+    class FullScreenCommand : CommandBase
+    {
+
+        private readonly IMainForm mainFormView;
+
+        public FullScreenCommand(IMainForm mainFormView)
+        {
+            //this.Icon = Resources;
+            this.Text = MenuStrings.fullscreenToolStripMenuItem_Text;
+            this.ToolTip = MenuStrings.fullscreenToolStripMenuItem_Text;
+         //   this.CheckOnClick = true;
+            this.mainFormView = mainFormView;
+        }
+
+
+        public override void Execute()
+        {
+            this.Checked = !this.Checked;
+            if (this.Checked)
+            {
+                // this.TopMost = true;
+                mainFormView.FormBorderStyle = FormBorderStyle.None;
+                mainFormView.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                // this.TopMost = false;
+                mainFormView.FormBorderStyle = FormBorderStyle.Sizable;
+                mainFormView.WindowState = FormWindowState.Normal;
+            }
+        }
+    }
+
+    class LogsCommand : CommandBase
+    {
+        public LogsCommand()
+        {
+            //this.ShortcutKeyString = "Shift+6";
+            //this.Icon = Resources.exponentation;
+            this.Text = MenuStrings.Logs_Text;
+            this.ToolTip = MenuStrings.Logs_Text;
+        }
+
+
+        public override void Execute()
+        {
+            if (Directory.Exists(SimpleLogger.LogsDirectory))
+                Process.Start(SimpleLogger.LogsDirectory);
+            else
+                MessageBox.Show(
+                    Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_);
+        }
+    }
+
+    class ThanksToCommand : CommandBase
+    {
+        public ThanksToCommand()
+        {
+            //this.ShortcutKeyString = "Shift+6";
+            //this.Icon = Resources.exponentation;
+            this.Text = MenuStrings.ThanksTo_Text;
+            this.ToolTip = MenuStrings.ThanksTo_Text;
+        }
+
+
+        public override void Execute()
+        {
+            MessageBox.Show(
+                           GlobalConfig.betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.translators +
+                           Environment.NewLine + Environment.NewLine +
+                           GlobalConfig.libraries + Environment.NewLine + Environment.NewLine +
+                           GlobalConfig.others, Strings.SpecialThanksTo);
+        }
+    }
+
+    class FeaturesCommand : CommandBase
+    {
+        public FeaturesCommand()
+        {
+            //this.ShortcutKeyString = "Shift+6";
+            //this.Icon = Resources.exponentation;
+            this.Text = MenuStrings.Features_Text;
+            this.ToolTip = MenuStrings.Features_Text;
+        }
+
+
+        public override void Execute()
+        {
+            MessageBox.Show(Strings.featuresInclude, Strings.Features);
+        }
+    }
+
+    class ChangelogCommand : CommandBase
+    {
+        public ChangelogCommand()
+        {
+            //this.ShortcutKeyString = "Shift+6";
+            //this.Icon = Resources.exponentation;
+            this.Text = MenuStrings.Changelog_Text;
+            this.ToolTip = MenuStrings.Changelog_Text;
+        }
+
+
+        public override void Execute()
+        {
+            new ChangelogForm().ShowDialog(/*this*/);
+        }
+    }
+
+    class BugReportingCommand : CommandBase
+    {
+        public BugReportingCommand()
+        {
+            //this.ShortcutKeyString = "Shift+6";
+            //this.Icon = Resources.exponentation;
+            this.Text = MenuStrings.BugReporting_Text;
+            this.ToolTip = MenuStrings.BugReporting_Text;
+        }
+
+
+        public override void Execute()
+        {
+            new BugReportingForm().ShowDialog(/*this*/);
+        }
+    }
+
+    class AboutCommand : CommandBase
+    {
+        public AboutCommand()
+        {
+            //this.ShortcutKeyString = "Shift+6";
+            //this.Icon = Resources.exponentation;
+            this.Text = MenuStrings.aboutToolStripMenuItem1_Text;
+            this.ToolTip = MenuStrings.aboutToolStripMenuItem1_Text;
+        }
+
+
+        public override void Execute()
+        {
+            new AboutBox1().ShowDialog(/*this*/);
+        }
+    }
+
+    class BenchmarkCommand : CommandBase
+    {
+        public BenchmarkCommand()
+        {
+            //this.ShortcutKeyString = "Shift+6";
+            //this.Icon = Resources.exponentation;
+            this.Text = MenuStrings.Benchmark_Text;
+            this.ToolTip = MenuStrings.Benchmark_Text;
+        }
+
+
+        public override void Execute()
+        {
+            new BenchmarkForm().ShowDialog(/*this*/);
+        }
+    }
+
 
     class DummyCommand : CommandBase
     {

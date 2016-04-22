@@ -125,12 +125,17 @@ new DummyCommand(MenuStrings.physicalConstantsToolStripMenuItem_Text) {ChildrenC
 
                             new DummyCommand(MenuStrings.toolsToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
                 {
-
+                                new OptionsCommand(),
+                                new DummyCommand(MenuStrings.Language_Text) {ChildrenCommands = new List<IToolbarCommand>()
+                                {
+                                    new LanguageCommand(),
+                                }},
+                                new FullScreenCommand(_view),null,new BenchmarkCommand(),null,new LogsCommand()
                 }},
 
                             new DummyCommand(MenuStrings.helpToolStripMenuItem1_Text) {ChildrenCommands = new List<IToolbarCommand>()
                 {
-
+new FeaturesCommand(),new ChangelogCommand(),null,new AboutCommand(),null,new ThanksToCommand(), new BugReportingCommand()
                 }},
             });
 
