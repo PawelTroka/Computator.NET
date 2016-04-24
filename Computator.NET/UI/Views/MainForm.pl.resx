@@ -158,104 +158,8 @@
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
     <value>Własne funkcje</value>
   </data>
-  <data name="newToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Nowy</value>
-  </data>
-  <data name="openToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Otwórz</value>
-  </data>
-  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
-    <value>Zapi&amp;sz</value>
-  </data>
-  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Z&amp;apisz jako</value>
-  </data>
-  <data name="printToolStripMenuItem.Text" xml:space="preserve">
-    <value>Drukuj</value>
-  </data>
-  <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
-    <value>Podgląd wydruku</value>
-  </data>
-  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
-    <value>Wyjście</value>
-  </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Plik</value>
-  </data>
-  <data name="undoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Cofnij                            Ctrl+Z</value>
-  </data>
-  <data name="redoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Powtórz                        Ctrl+Y</value>
-  </data>
-  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
-    <value>Wy&amp;tnij                           Ctrl+X</value>
-  </data>
-  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Kopiuj                           Ctrl+C</value>
-  </data>
-  <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
-    <value>Wklej                            Ctrl+V</value>
-  </data>
-  <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
-    <value>Z&amp;aznacz wszystko       Ctrl+A</value>
-  </data>
-  <data name="exponentiationToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tryb potęgi                 Shift+6</value>
-  </data>
-  <data name="editToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Edycja</value>
-  </data>
-  <data name="elementaryFunctionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Funkcje elementarne</value>
-  </data>
-  <data name="specialFunctionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Funkcje specjalne</value>
-  </data>
-  <data name="functionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Funkcje</value>
-  </data>
   <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
     <value>Stałe matematyczne</value>
-  </data>
-  <data name="physicalConstantsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Stałe fizyczne</value>
-  </data>
-  <data name="constantsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Stałe</value>
-  </data>
-  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
-    <value>Transformaty</value>
-  </data>
-  <data name="optionsToolStripMenuItem1.Text" xml:space="preserve">
-    <value>&amp;Opcje</value>
-  </data>
-  <data name="fullscreenToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tryb pełnoekranowy</value>
-  </data>
-  <data name="toolStripMenuItem42.Text" xml:space="preserve">
-    <value>Język</value>
-  </data>
-  <data name="toolStripMenuItem41.Text" xml:space="preserve">
-    <value>&amp;Logi</value>
-  </data>
-  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Narzędzia</value>
-  </data>
-  <data name="toolStripMenuItem43.Text" xml:space="preserve">
-    <value>Możliwości</value>
-  </data>
-  <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
-    <value>O programie...</value>
-  </data>
-  <data name="toolStripMenuItem44.Text" xml:space="preserve">
-    <value>Podziękowania</value>
-  </data>
-  <data name="toolStripMenuItem46.Text" xml:space="preserve">
-    <value>Zgłaszanie &amp;błędów</value>
-  </data>
-  <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Pomoc</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Wyrażenie:</value>
@@ -441,6 +345,102 @@
     <value>&amp;Otwórz</value>
   </data>
   <data name="newToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Nowy</value>
+  </data>
+  <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Pomoc</value>
+  </data>
+  <data name="toolStripMenuItem46.Text" xml:space="preserve">
+    <value>Zgłaszanie &amp;błędów</value>
+  </data>
+  <data name="toolStripMenuItem44.Text" xml:space="preserve">
+    <value>Podziękowania</value>
+  </data>
+  <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
+    <value>O programie...</value>
+  </data>
+  <data name="toolStripMenuItem43.Text" xml:space="preserve">
+    <value>Możliwości</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Narzędzia</value>
+  </data>
+  <data name="toolStripMenuItem41.Text" xml:space="preserve">
+    <value>&amp;Logi</value>
+  </data>
+  <data name="toolStripMenuItem42.Text" xml:space="preserve">
+    <value>Język</value>
+  </data>
+  <data name="fullscreenToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tryb pełnoekranowy</value>
+  </data>
+  <data name="optionsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Opcje</value>
+  </data>
+  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
+    <value>Transformaty</value>
+  </data>
+  <data name="constantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stałe</value>
+  </data>
+  <data name="physicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stałe fizyczne</value>
+  </data>
+  <data name="functionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Funkcje</value>
+  </data>
+  <data name="specialFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Funkcje specjalne</value>
+  </data>
+  <data name="elementaryFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Funkcje elementarne</value>
+  </data>
+  <data name="editToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Edycja</value>
+  </data>
+  <data name="exponentiationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tryb potęgi                 Shift+6</value>
+  </data>
+  <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>Z&amp;aznacz wszystko       Ctrl+A</value>
+  </data>
+  <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wklej                            Ctrl+V</value>
+  </data>
+  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Kopiuj                           Ctrl+C</value>
+  </data>
+  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wy&amp;tnij                           Ctrl+X</value>
+  </data>
+  <data name="redoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Powtórz                        Ctrl+Y</value>
+  </data>
+  <data name="undoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Cofnij                            Ctrl+Z</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wyjście</value>
+  </data>
+  <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
+    <value>Podgląd wydruku</value>
+  </data>
+  <data name="printToolStripMenuItem.Text" xml:space="preserve">
+    <value>Drukuj</value>
+  </data>
+  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Z&amp;apisz jako</value>
+  </data>
+  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zapi&amp;sz</value>
+  </data>
+  <data name="openToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Otwórz</value>
+  </data>
+  <data name="newToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Nowy</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

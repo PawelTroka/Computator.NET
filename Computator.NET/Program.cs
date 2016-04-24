@@ -37,7 +37,7 @@ namespace Computator.NET
             Application.SetCompatibleTextRenderingDefault(false);
             Application.AddMessageFilter(new MyMessageFilter());
 
-            var mainForm = new GUI();
+            var mainForm = new MainForm();
 
             SetPresenters(mainForm);
 

@@ -20,18 +20,23 @@ namespace Computator.NET.UI.CodeEditors
         string Text { get; set; }
     }
 
-    public interface IDocumentsEditor
+    public interface ICanOpenFiles
+    {
+        void NewDocument(string fullPath);
+    }
+     
+    public interface IDocumentsEditor : ICanOpenFiles
     {
         string CurrentFileName { get; set; }
         void RemoveTab(string fullPath);
         bool ContainsDocument(string oldPath);
         void RenameDocument(string oldPath, string fullPath);
-        void NewDocument(string fullPath);
+        
         void SwitchTab(string fullPath);
     }
     
 
-    public interface ICanFileEdit
+    public interface ICanFileEdit : ICanOpenFiles
     {
         void NewDocument();
         bool Focused { get; }
@@ -43,7 +48,6 @@ namespace Computator.NET.UI.CodeEditors
         void Paste();
         void Copy();
         void SelectAll();
-        void NewDocument(string fileName);
     }
 
     public interface ICodeDocumentsEditor : IDocumentsEditor, ICodeEditorView, ICanFileEdit

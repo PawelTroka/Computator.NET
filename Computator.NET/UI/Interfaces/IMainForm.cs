@@ -20,8 +20,6 @@ namespace Computator.NET
         IScriptingView ScriptingView { get; }
 
         ICustomFunctionsView CustomFunctionsView { get; }
-        string SelectedLanguage { get; set; }
-
 
         IExpressionView ExpressionView { get; }
         string ModeText { get; set; }
@@ -30,7 +28,7 @@ namespace Computator.NET
         FormBorderStyle FormBorderStyle { set; }
         FormWindowState WindowState {  set; }
 
-        void SetLanguages(object[] languages);
+   
 
         event EventHandler ModeForcedToReal;
         event EventHandler ModeForcedToComplex;
@@ -39,10 +37,8 @@ namespace Computator.NET
 
         void SendStringAsKey(string key);
 
-     //   event EventHandler EnterClicked;
 
-        event EventHandler SelectedLanguageChanged;
-
+        event EventHandler Load;
         event EventHandler SelectedViewChanged;
     }
 }

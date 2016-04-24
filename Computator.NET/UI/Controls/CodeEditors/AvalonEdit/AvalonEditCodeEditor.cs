@@ -187,7 +187,7 @@ namespace Computator.NET.UI.CodeEditors
 
             using (
                 XmlReader reader =
-                    new XmlTextReader(GlobalConfig.FullPath("UI", "CodeEditors", "TSL-Syntax.xshd")))
+                    new XmlTextReader(GlobalConfig.FullPath("UI","Controls", "CodeEditors", "TSL-Syntax.xshd")))
             {
                 customHighlighting = HighlightingLoader.Load(reader,
                     HighlightingManager.Instance);

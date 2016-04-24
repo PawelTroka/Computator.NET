@@ -17,8 +17,7 @@ namespace Computator.NET
 {
     public class MainFormPresenter
     {
-        private readonly CultureInfo[] _allCultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
-
+       
 
         private readonly IMainForm _view;
 
@@ -32,7 +31,7 @@ namespace Computator.NET
 
 
             _view = view;
-
+            _view.Load += (sender, args) => HandleCommandLine();
             _view.ToolbarView.SetCommands(new List<IToolbarCommand>()
             {
                 new NewCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
@@ -80,21 +79,7 @@ namespace Computator.NET
 
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(mode => SetMode(mode.CalculationsMode));
 
-            _view.SetLanguages(new object[]
-            {
-                new CultureInfo("en").NativeName,
-                new CultureInfo("pl").NativeName,
-                new CultureInfo("de").NativeName,
-                new CultureInfo("cs").NativeName
-            });
-            _view.SelectedLanguageChanged += _view_SelectedLanguageChanged;
 
-
-            _view.SelectedLanguage =
-                _allCultures.First(c =>
-                    c.TwoLetterISOLanguageName ==
-                    Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName)
-                    .NativeName;
 
             Settings.Default.PropertyChanged += (o, e) =>
             {
@@ -131,16 +116,27 @@ namespace Computator.NET
             SharedViewState.Instance.CurrentView = (ViewName) _view.SelectedViewIndex;
         }
 
-        private void _view_SelectedLanguageChanged(object sender, EventArgs e)
+
+
+        private void HandleCommandLine()
         {
-            var selectedCulture = _allCultures.First(c => c.NativeName == _view.SelectedLanguage);
-            Thread.CurrentThread.CurrentCulture = selectedCulture;
-            LocalizationManager.GlobalUICulture = selectedCulture;
-            Settings.Default.Language = selectedCulture;
-            Settings.Default.Save();
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length < 2) return;
+            if (!args[1].Contains(".tsl")) return;
+
+            if (args[1].Contains(".tslf"))
+            {
+                _view.CustomFunctionsView.CustomFunctionsEditor.NewDocument(args[1]);
+                _view.CustomFunctionsView.CustomFunctionsEditor.CurrentFileName = args[1];
+                SharedViewState.Instance.CurrentView = ViewName.CustomFunctions;
+            }
+            else
+            {
+                _view.ScriptingView.CodeEditorView.NewDocument(args[1]);
+                _view.ScriptingView.CodeEditorView.CurrentFileName = args[1];
+                SharedViewState.Instance.CurrentView = ViewName.Scripting;
+            }
         }
-
-
 
         private void SetMode(CalculationsMode mode)
         {
