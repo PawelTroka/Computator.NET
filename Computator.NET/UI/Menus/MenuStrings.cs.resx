@@ -120,4 +120,13 @@
   <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
     <value>Matematické konstanty</value>
   </data>
+  <data name="comlexChartToolStripMenuItem.Text" xml:space="preserve">
+    <value>Graf</value>
+  </data>
+  <data name="chartToolStripMenuItem.Text" xml:space="preserve">
+    <value>Graf</value>
+  </data>
+  <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
+    <value>Graf</value>
+  </data>
 </root>

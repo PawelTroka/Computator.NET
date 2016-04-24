@@ -12,7 +12,7 @@ using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.ComplexCharting
 {
-    public sealed class ComplexChart : Control, IChart //, INotifyPropertyChanged
+    public sealed class ComplexChart : Control, IChart, INotifyPropertyChanged
     {
         #region private fields
 
@@ -44,8 +44,32 @@ namespace Computator.NET.Charting.ComplexCharting
         #region public properties
 
         public double countourLinesStep { get; set; } = Math.E;
-        public CountourLinesMode countourMode { get; set; } = CountourLinesMode.Logarithmic;
-        public AssignmentOfColorMethod colorAssignmentMethod { get; set; } = AssignmentOfColorMethod.GreaterIsDarker;
+
+        public CountourLinesMode countourMode
+        {
+            get { return _countourMode; }
+            set {
+                if (_countourMode != value)
+                {
+                    _countourMode = value;
+                    OnPropertyChanged(nameof(countourMode));
+                }
+            }
+        }
+
+        public AssignmentOfColorMethod colorAssignmentMethod
+        {
+            get { return _colorAssignmentMethod; }
+            set
+            {
+                if (_colorAssignmentMethod != value)
+                {
+                    _colorAssignmentMethod = value;
+                    OnPropertyChanged(nameof(colorAssignmentMethod));
+                }
+            }
+        }
+
         public double axisArrowRelativeSize { get; set; } = 0.02;
 
         public double Quality
@@ -230,6 +254,8 @@ namespace Computator.NET.Charting.ComplexCharting
         private double _xMax;
         private double _yMin;
         private double _yMax;
+        private CountourLinesMode _countourMode = CountourLinesMode.Logarithmic;
+        private AssignmentOfColorMethod _colorAssignmentMethod = AssignmentOfColorMethod.GreaterIsDarker;
 
         public void Print()
         {
@@ -586,5 +612,12 @@ namespace Computator.NET.Charting.ComplexCharting
         }
 
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

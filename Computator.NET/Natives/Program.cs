@@ -7,8 +7,6 @@ using Computator.NET.Config;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Controls;
 using Computator.NET.UI.Forms;
 using Computator.NET.UI.MVP;
 using Computator.NET.UI.MVP.Views;
@@ -30,7 +28,7 @@ namespace Computator.NET
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
+            
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
 

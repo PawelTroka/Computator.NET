@@ -805,7 +805,7 @@ namespace Computator.NET.Charting.RealCharting
 
         private void setupChartColors(ToolStripComboBox owner)
         {
-            Palette = ChartColorPalette.Berry;
+           // Palette = ChartColorPalette.Berry;
             var items =
                 Enum.GetValues(typeof (ChartColorPalette))
                     .Cast<ChartColorPalette>()
@@ -910,43 +910,38 @@ namespace Computator.NET.Charting.RealCharting
 
         #region changeMethods
 
-        public void changeChartLegendPosition(string chartLegendPosition)
-        {
-            Legends[0].Docking = (Docking) Enum.Parse(typeof (Docking), chartLegendPosition);
-        }
 
-        public void changeChartLegendAligment(string chartLegendAligment)
+        public SeriesChartType ChartType
         {
-            Legends[0].Alignment = (StringAlignment) Enum.Parse(typeof (StringAlignment), chartLegendAligment);
-        }
-
-        public void changeChartType(string chartType)
-        {
-            defaultExplicitFunctionsChartType =
-                (SeriesChartType) Enum.Parse(typeof (SeriesChartType), chartType);
-            for (var i = 0; i < Series.Count; i++)
-                Series[i].ChartType =
-                    (SeriesChartType) Enum.Parse(typeof (SeriesChartType), chartType);
-        }
-
-        public void changeChartColor(string chartColor)
-        {
-            Palette = (ChartColorPalette) Enum.Parse(typeof (ChartColorPalette), chartColor);
-        }
-
-        public void changeSeries(string serie)
-        {
-            if (serie == "Wszystkie serie" || serie == "All series")
-                foreach (var s in Series)
-                    s.Enabled = true;
-            else
+            get { return defaultExplicitFunctionsChartType; }
+            set
             {
-                foreach (var s in Series)
-                    s.Enabled = false;
-                Series[serie].Enabled = true;
+                if (value != defaultExplicitFunctionsChartType)
+                {
+                    defaultExplicitFunctionsChartType = value;
+                    for (var i = 0; i < Series.Count; i++)
+                        Series[i].ChartType = value;
+                    NotifyPropertyChanged(nameof(ChartType));
+                }
             }
         }
+        
 
+        /* //TODO: think about making it work good with menu / command pattern etc
+        public void ShowAllSeries()
+        {
+            foreach (var s in Series)
+                s.Enabled = true;
+        }
+        public void ShowSeries(string series)
+        {
+
+                foreach (var s in Series)
+                    s.Enabled = false;
+                Series[series].Enabled = true;
+            
+        }
+        */
         #endregion
     }
 

@@ -26,6 +26,7 @@ namespace Computator.NET.UI
         }
     }
 
+
     public sealed partial class ScientificNumericUpDown : NumericUpDown
     {
         private readonly int _multiplyFactor = 10;

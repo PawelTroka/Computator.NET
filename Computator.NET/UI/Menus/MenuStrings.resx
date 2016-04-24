@@ -122,10 +122,10 @@
     <value>Fi&amp;le</value>
   </data>
   <data name="undoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Undo         Ctrl+Z</value>
+    <value>&amp;Undo</value>
   </data>
   <data name="redoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Redo          Ctrl+Y</value>
+    <value>&amp;Redo</value>
   </data>
   <data name="DHT.Text" xml:space="preserve">
     <value>DHT</value>
@@ -269,18 +269,69 @@
     <value>&amp;Edit</value>
   </data>
   <data name="exponentiationToolStripMenuItem.Text" xml:space="preserve">
-    <value>Exponent    Shift+6</value>
+    <value>Exponent</value>
   </data>
   <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
-    <value>Select &amp;All    Ctrl+A</value>
+    <value>Select &amp;All</value>
   </data>
   <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Paste          Ctrl+V</value>
+    <value>&amp;Paste</value>
   </data>
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Copy          Ctrl+C</value>
+    <value>&amp;Copy</value>
   </data>
   <data name="cutToolStripMenuItem.Text" xml:space="preserve">
-    <value>Cu&amp;t             Ctrl+X</value>
+    <value>Cu&amp;t</value>
+  </data>
+  <data name="type.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="export.Text" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="editProperties.Text" xml:space="preserve">
+    <value>Edit properties...</value>
+  </data>
+  <data name="edit.Text" xml:space="preserve">
+    <value>Edit...</value>
+  </data>
+  <data name="fitAxes.Text" xml:space="preserve">
+    <value>Fit axes</value>
+  </data>
+  <data name="equalAxes.Text" xml:space="preserve">
+    <value>Equal axes</value>
+  </data>
+  <data name="rescale.Text" xml:space="preserve">
+    <value>Rescale</value>
+  </data>
+  <data name="contourLinesMode.Text" xml:space="preserve">
+    <value>Countour lines mode</value>
+  </data>
+  <data name="aligment.Text" xml:space="preserve">
+    <value>aligment</value>
+  </data>
+  <data name="placement.Text" xml:space="preserve">
+    <value>placement</value>
+  </data>
+  <data name="legendPositions.Text" xml:space="preserve">
+    <value>Legend postions</value>
+  </data>
+  <data name="color.Text" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="series.Text" xml:space="preserve">
+    <value>Series</value>
+  </data>
+  <data name="comlexChartToolStripMenuItem.Text" xml:space="preserve">
+    <value>Chart</value>
+  </data>
+  <data name="colorAssignmentToolStripMenuItem.Text" xml:space="preserve">
+    <value>Color assignment mode</value>
+  </data>
+  <data name="chartToolStripMenuItem.Text" xml:space="preserve">
+    <value>Chart</value>
+  </data>
+  <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
+    <value>Chart</value>
   </data>
 </root>

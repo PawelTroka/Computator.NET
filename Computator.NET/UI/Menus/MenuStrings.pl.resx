@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="newToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Nowy</value>
+  </data>
+  <data name="openToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Otwórz</value>
+  </data>
+  <data name="saveToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zapi&amp;sz</value>
+  </data>
+  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Z&amp;apisz jako</value>
+  </data>
+  <data name="printToolStripMenuItem.Text" xml:space="preserve">
+    <value>Drukuj</value>
+  </data>
+  <data name="printPreviewToolStripMenuItem.Text" xml:space="preserve">
+    <value>Podgląd wydruku</value>
+  </data>
+  <data name="exitToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wyjście</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="undoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Cofnij</value>
+  </data>
+  <data name="redoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Powtórz</value>
+  </data>
+  <data name="runToolStripButton.Text" xml:space="preserve">
+    <value>Uruchom</value>
+  </data>
+  <data name="helpToolStripButton.Text" xml:space="preserve">
+    <value>Pomoc</value>
+  </data>
+  <data name="pasteToolStripButton.Text" xml:space="preserve">
+    <value>Wklej</value>
+  </data>
+  <data name="copyToolStripButton.Text" xml:space="preserve">
+    <value>Kopiuj</value>
+  </data>
+  <data name="cutToolStripButton.Text" xml:space="preserve">
+    <value>Wytnij</value>
+  </data>
+  <data name="printToolStripButton.Text" xml:space="preserve">
+    <value>Drukuj</value>
+  </data>
+  <data name="saveToolStripButton.Text" xml:space="preserve">
+    <value>Zapi&amp;sz</value>
+  </data>
+  <data name="openToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Otwórz</value>
+  </data>
+  <data name="newToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Nowy</value>
+  </data>
+  <data name="helpToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Pomoc</value>
+  </data>
+  <data name="BugReporting.Text" xml:space="preserve">
+    <value>Zgłaszanie &amp;błędów</value>
+  </data>
+  <data name="ThanksTo.Text" xml:space="preserve">
+    <value>Podziękowania</value>
+  </data>
+  <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
+    <value>O programie...</value>
+  </data>
+  <data name="Features.Text" xml:space="preserve">
+    <value>Możliwości</value>
+  </data>
+  <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Narzędzia</value>
+  </data>
+  <data name="Logs.Text" xml:space="preserve">
+    <value>&amp;Logi</value>
+  </data>
+  <data name="Language.Text" xml:space="preserve">
+    <value>Język</value>
+  </data>
+  <data name="fullscreenToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tryb pełnoekranowy</value>
+  </data>
+  <data name="optionsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Opcje</value>
+  </data>
+  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
+    <value>Transformaty</value>
+  </data>
+  <data name="constantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stałe</value>
+  </data>
+  <data name="physicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stałe fizyczne</value>
+  </data>
+  <data name="mathematicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stałe matematyczne</value>
+  </data>
+  <data name="functionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Funkcje</value>
+  </data>
+  <data name="specialFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Funkcje specjalne</value>
+  </data>
+  <data name="elementaryFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Funkcje elementarne</value>
+  </data>
+  <data name="editToolStripMenuItem1.Text" xml:space="preserve">
+    <value>&amp;Edycja</value>
+  </data>
+  <data name="exponentiationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tryb potęgi</value>
+  </data>
+  <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>Z&amp;aznacz wszystko</value>
+  </data>
+  <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wklej</value>
+  </data>
+  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Kopiuj</value>
+  </data>
+  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wy&amp;tnij</value>
+  </data>
+  <data name="type.Text" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="export.Text" xml:space="preserve">
+    <value>Eksportuj</value>
+  </data>
+  <data name="editProperties.Text" xml:space="preserve">
+    <value>Edytuj właściwości...</value>
+  </data>
+  <data name="edit.Text" xml:space="preserve">
+    <value>Edytuj...</value>
+  </data>
+  <data name="fitAxes.Text" xml:space="preserve">
+    <value>Dopasowane osie</value>
+  </data>
+  <data name="equalAxes.Text" xml:space="preserve">
+    <value>Równe osie</value>
+  </data>
+  <data name="rescale.Text" xml:space="preserve">
+    <value>Reskaluj</value>
+  </data>
+  <data name="contourLinesMode.Text" xml:space="preserve">
+    <value>Tryb linii konturowych</value>
+  </data>
+  <data name="aligment.Text" xml:space="preserve">
+    <value>wyrównanie</value>
+  </data>
+  <data name="placement.Text" xml:space="preserve">
+    <value>położenie</value>
+  </data>
+  <data name="legendPositions.Text" xml:space="preserve">
+    <value>Pozycje legendy</value>
+  </data>
+  <data name="color.Text" xml:space="preserve">
+    <value>Kolor</value>
+  </data>
+  <data name="series.Text" xml:space="preserve">
+    <value>Seria</value>
+  </data>
+  <data name="comlexChartToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wykres</value>
+  </data>
+  <data name="colorAssignmentToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tryb przypisywania koloru</value>
+  </data>
+  <data name="chartToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wykres</value>
+  </data>
+  <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wykres</value>
+  </data>
+</root>

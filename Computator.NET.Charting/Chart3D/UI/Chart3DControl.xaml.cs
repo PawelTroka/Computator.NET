@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -27,7 +28,7 @@ namespace Computator.NET.Charting.Chart3D
     /// <summary>
     ///     Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class Chart3DControl : UserControl, IChart
+    public partial class Chart3DControl : UserControl, IChart, INotifyPropertyChanged
     {
         private readonly DiffuseMaterial _backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
         private readonly List<Function> _functions = new List<Function>();
@@ -120,8 +121,12 @@ namespace Computator.NET.Charting.Chart3D
             get { return _equalAxes; }
             set
             {
-                _equalAxes = value;
-                RescaleProjectionMatrix();
+                if (value!=_equalAxes)
+                {
+                    _equalAxes = value;
+                    RescaleProjectionMatrix();
+                    OnPropertyChanged(nameof(EqualAxes));
+                }
             }
         }
 
@@ -708,6 +713,13 @@ namespace Computator.NET.Charting.Chart3D
                     m_transformMatrix.VertexToScreenPt(y, mainViewport),
                     m_transformMatrix.VertexToScreenPt(z, mainViewport));
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

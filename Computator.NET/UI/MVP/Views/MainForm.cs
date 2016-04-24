@@ -18,7 +18,6 @@ using Computator.NET.Logging;
 using Computator.NET.Properties;
 using Computator.NET.UI.AutocompleteMenu;
 using Computator.NET.UI.Dialogs;
-using Computator.NET.UI.MVP;
 using Computator.NET.UI.MVP.Views;
 using Computator.NET.UI.Views;
 
@@ -30,6 +29,11 @@ namespace Computator.NET
         #region IMainForm
 
         public IToolbarView MenuStripView { get; } = new MenuStripView() { Dock = DockStyle.Top };
+        public void Restart()
+        {
+            Application.Restart();
+        }
+
         public IToolbarView ToolbarView { get; } = new ToolBarView() {Dock=DockStyle.Top};
         public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
 

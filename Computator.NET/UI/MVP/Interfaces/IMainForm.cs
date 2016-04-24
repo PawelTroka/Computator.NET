@@ -7,6 +7,7 @@ namespace Computator.NET
 {
     public interface IMainForm
     {
+        void Restart();
         IToolbarView ToolbarView { get; }
 
         IToolbarView MenuStripView { get; }

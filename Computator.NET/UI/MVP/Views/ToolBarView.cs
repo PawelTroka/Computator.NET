@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Computator.NET.UI.Commands;
 
@@ -38,6 +32,10 @@ namespace Computator.NET.UI.MVP.Views
                     ImageScaling = ToolStripItemImageScaling.None,
                     DisplayStyle = ToolStripItemDisplayStyle.Image
                 };
+
+
+     
+
                 var c = command; // create a closure around the command
                 command.PropertyChanged += (o, s) =>
                 {

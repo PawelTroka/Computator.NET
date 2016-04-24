@@ -432,27 +432,27 @@ namespace Computator.NET.Charting
 
         public void aligmentLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeChartLegendAligment(((ToolStripComboBox) s).SelectedItem.ToString());
+         //  / chart2d.changeChartLegendAligment(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void positionLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeChartLegendPosition(((ToolStripComboBox) s).SelectedItem.ToString());
+            //chart2d.changeChartLegendPosition(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void colorsOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeChartColor(((ToolStripComboBox) s).SelectedItem.ToString());
+        //    chart2d.changeChartColor(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void seriesOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeSeries(((ToolStripComboBox) s).SelectedItem.ToString());
+           //////////////////// chart2d.changeSeries(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void typeOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-            chart2d.changeChartType(((ToolStripComboBox) s).SelectedItem.ToString());
+       //     chart2d.changeChartType(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         private void countourLinesToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)

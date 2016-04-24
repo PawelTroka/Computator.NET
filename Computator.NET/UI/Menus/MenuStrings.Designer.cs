@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.UI.Menus.Commands {
+namespace Computator.NET.UI.Menus {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Computator.NET.UI.Menus.Commands {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.UI.Menus.Commands.MenuStrings", typeof(MenuStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.UI.Menus.MenuStrings", typeof(MenuStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -66,6 +66,15 @@ namespace Computator.NET.UI.Menus.Commands {
         public static string aboutToolStripMenuItem1_Text {
             get {
                 return ResourceManager.GetString("aboutToolStripMenuItem1.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to aligment.
+        /// </summary>
+        public static string aligment_Text {
+            get {
+                return ResourceManager.GetString("aligment.Text", resourceCulture);
             }
         }
         
@@ -97,11 +106,65 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chart.
+        /// </summary>
+        public static string chart3dToolStripMenuItem_Text {
+            get {
+                return ResourceManager.GetString("chart3dToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chart.
+        /// </summary>
+        public static string chartToolStripMenuItem_Text {
+            get {
+                return ResourceManager.GetString("chartToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color.
+        /// </summary>
+        public static string color_Text {
+            get {
+                return ResourceManager.GetString("color.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color assignment mode.
+        /// </summary>
+        public static string colorAssignmentToolStripMenuItem_Text {
+            get {
+                return ResourceManager.GetString("colorAssignmentToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chart.
+        /// </summary>
+        public static string comlexChartToolStripMenuItem_Text {
+            get {
+                return ResourceManager.GetString("comlexChartToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Constants.
         /// </summary>
         public static string constantsToolStripMenuItem_Text {
             get {
                 return ResourceManager.GetString("constantsToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Countour lines mode.
+        /// </summary>
+        public static string contourLinesMode_Text {
+            get {
+                return ResourceManager.GetString("contourLinesMode.Text", resourceCulture);
             }
         }
         
@@ -115,7 +178,7 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Copy          Ctrl+C.
+        ///   Looks up a localized string similar to &amp;Copy.
         /// </summary>
         public static string copyToolStripMenuItem_Text {
             get {
@@ -133,7 +196,7 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cu&amp;t             Ctrl+X.
+        ///   Looks up a localized string similar to Cu&amp;t.
         /// </summary>
         public static string cutToolStripMenuItem_Text {
             get {
@@ -196,6 +259,24 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit....
+        /// </summary>
+        public static string edit_Text {
+            get {
+                return ResourceManager.GetString("edit.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit properties....
+        /// </summary>
+        public static string editProperties_Text {
+            get {
+                return ResourceManager.GetString("editProperties.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Edit.
         /// </summary>
         public static string editToolStripMenuItem1_Text {
@@ -214,6 +295,15 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equal axes.
+        /// </summary>
+        public static string equalAxes_Text {
+            get {
+                return ResourceManager.GetString("equalAxes.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E&amp;xit.
         /// </summary>
         public static string exitToolStripMenuItem_Text {
@@ -223,11 +313,20 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exponent    Shift+6.
+        ///   Looks up a localized string similar to Exponent.
         /// </summary>
         public static string exponentiationToolStripMenuItem_Text {
             get {
                 return ResourceManager.GetString("exponentiationToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string export_Text {
+            get {
+                return ResourceManager.GetString("export.Text", resourceCulture);
             }
         }
         
@@ -282,6 +381,15 @@ namespace Computator.NET.UI.Menus.Commands {
         public static string fileToolStripMenuItem_Text {
             get {
                 return ResourceManager.GetString("fileToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fit axes.
+        /// </summary>
+        public static string fitAxes_Text {
+            get {
+                return ResourceManager.GetString("fitAxes.Text", resourceCulture);
             }
         }
         
@@ -403,6 +511,15 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Legend postions.
+        /// </summary>
+        public static string legendPositions_Text {
+            get {
+                return ResourceManager.GetString("legendPositions.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Logs.
         /// </summary>
         public static string Logs_Text {
@@ -475,7 +592,7 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Paste          Ctrl+V.
+        ///   Looks up a localized string similar to &amp;Paste.
         /// </summary>
         public static string pasteToolStripMenuItem_Text {
             get {
@@ -489,6 +606,15 @@ namespace Computator.NET.UI.Menus.Commands {
         public static string physicalConstantsToolStripMenuItem_Text {
             get {
                 return ResourceManager.GetString("physicalConstantsToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to placement.
+        /// </summary>
+        public static string placement_Text {
+            get {
+                return ResourceManager.GetString("placement.Text", resourceCulture);
             }
         }
         
@@ -520,11 +646,20 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Redo          Ctrl+Y.
+        ///   Looks up a localized string similar to &amp;Redo.
         /// </summary>
         public static string redoToolStripMenuItem_Text {
             get {
                 return ResourceManager.GetString("redoToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rescale.
+        /// </summary>
+        public static string rescale_Text {
+            get {
+                return ResourceManager.GetString("rescale.Text", resourceCulture);
             }
         }
         
@@ -565,11 +700,20 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select &amp;All    Ctrl+A.
+        ///   Looks up a localized string similar to Select &amp;All.
         /// </summary>
         public static string selectAllToolStripMenuItem_Text {
             get {
                 return ResourceManager.GetString("selectAllToolStripMenuItem.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Series.
+        /// </summary>
+        public static string series_Text {
+            get {
+                return ResourceManager.GetString("series.Text", resourceCulture);
             }
         }
         
@@ -610,7 +754,16 @@ namespace Computator.NET.UI.Menus.Commands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Undo         Ctrl+Z.
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string type_Text {
+            get {
+                return ResourceManager.GetString("type.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Undo.
         /// </summary>
         public static string undoToolStripMenuItem_Text {
             get {

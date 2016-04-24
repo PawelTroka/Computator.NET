@@ -10,7 +10,6 @@ using Computator.NET.Evaluation;
 using Computator.NET.Localization;
 using Computator.NET.Properties;
 using Computator.NET.UI.Commands;
-using Computator.NET.UI.Menus.Commands;
 using Computator.NET.UI.MVP;
 using Computator.NET.UI.MVP.Views;
 
@@ -54,90 +53,7 @@ namespace Computator.NET
             });
 
 
-            _view.MenuStripView.SetCommands(new List<IToolbarCommand>()
-            {
-                new DummyCommand(MenuStrings.fileToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                {
-                new NewCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
-                new OpenCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
-                null,
-                new SaveCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
-                new SaveAsCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
-                null,
-                new PrintCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                 new PrintPreviewCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                 null,
-                 new ExitCommand()
-                }},
-
-                                new DummyCommand(MenuStrings.editToolStripMenuItem1_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                {
-                        new UndoCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                         new RedoCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                         null,
-                          new CutCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                           new CopyCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                            new PasteCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                            null,
-                             new SelectAllCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                             null,
-                              new ExponentCommand(),
-                }},
-
-                                                new DummyCommand(MenuStrings.functionsToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                {
-new DummyCommand(MenuStrings.elementaryFunctionsToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-{
-    
-} },
-
-new DummyCommand(MenuStrings.specialFunctionsToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-{
-
-} },
-                }},
-
-                         new DummyCommand(MenuStrings.constantsToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                {
-new DummyCommand(MenuStrings.mathematicalConstantsToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-{
-
-} },
-
-new DummyCommand(MenuStrings.physicalConstantsToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-{
-
-} },
-                }},
-
-
-                           new DummyCommand(MenuStrings.fileToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                {
-
-                }},
-
-
-
-                            new DummyCommand(MenuStrings.transformToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                {
-
-                }},
-
-                            new DummyCommand(MenuStrings.toolsToolStripMenuItem_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                {
-                                new OptionsCommand(),
-                                new DummyCommand(MenuStrings.Language_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                                {
-                                    new LanguageCommand(),
-                                }},
-                                new FullScreenCommand(_view),null,new BenchmarkCommand(),null,new LogsCommand()
-                }},
-
-                            new DummyCommand(MenuStrings.helpToolStripMenuItem1_Text) {ChildrenCommands = new List<IToolbarCommand>()
-                {
-new FeaturesCommand(),new ChangelogCommand(),null,new AboutCommand(),null,new ThanksToCommand(), new BugReportingCommand()
-                }},
-            });
+            _view.MenuStripView.SetCommands(MenuStripCommandBuilder.BuildMenuStripCommands(this._view));
 
           //  _view.EnterClicked += (o, e) => SharedViewState.Instance.CurrentAction?.Invoke(o, e);
 
@@ -185,8 +101,10 @@ new FeaturesCommand(),new ChangelogCommand(),null,new AboutCommand(),null,new Th
                 switch (e.PropertyName)
                 {
                     case nameof(Settings.Default.Language):
+                        
                         Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
                         LocalizationManager.GlobalUICulture = Settings.Default.Language;
+                        //////////////////////////////////_view.Restart();
                         break;
                 }
             };

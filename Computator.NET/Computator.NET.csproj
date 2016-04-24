@@ -227,6 +227,32 @@
     </Compile>
     <Compile Include="UI\CodeEditors\AvalonEdit\CompletionData.cs" />
     <Compile Include="UI\CodeEditors\ICodeEditorControl.cs" />
+    <Compile Include="UI\Controls\ToolStripRadioButtonMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ChartOption.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ColorAssigmentCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ColorsCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ContourLinesCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\EqualAxesCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\FitAxesCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\LegendAligmentCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\LegendPlacementCommand.cs" />
+    <Compile Include="UI\Menus\Commands\DummyCommands\LegendPositionsCommand.cs" />
+    <Compile Include="UI\Menus\Commands\DummyCommands\RescaleCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\SeriesCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\TypeOfChartCommand.cs" />
+    <Compile Include="UI\Menus\Commands\HelpCommands\AboutCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ToolsCommands\BenchmarkCommand.cs" />
+    <Compile Include="UI\Menus\Commands\HelpCommands\BugReportingCommand.cs" />
+    <Compile Include="UI\Menus\Commands\HelpCommands\ChangelogCommand.cs" />
+    <Compile Include="UI\Menus\Commands\DummyCommands\ChartCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\BaseCommandForCharts.cs" />
+    <Compile Include="UI\Menus\Commands\BindingUtils.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\EditChartCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\EditChartPropertiesCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\PrintChartCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\PrintPreviewChartCommand.cs" />
     <Compile Include="UI\Menus\Commands\CommandBase.cs" />
     <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
@@ -245,12 +271,37 @@
       <DependentUpon>ChangelogForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\IErrorHandler.cs" />
+    <Compile Include="UI\Menus\Commands\ChartCommands\ExportCommand.cs" />
+    <Compile Include="UI\Menus\Commands\EditCommands\CopyCommand.cs" />
+    <Compile Include="UI\Menus\Commands\EditCommands\CutCommand.cs" />
+    <Compile Include="UI\Menus\Commands\DummyCommands\DummyCommand.cs" />
+    <Compile Include="UI\Menus\Commands\FileCommands\ExitCommand.cs" />
+    <Compile Include="UI\Menus\Commands\EditCommands\ExponentCommand.cs" />
+    <Compile Include="UI\Menus\Commands\HelpCommands\FeaturesCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ToolsCommands\FullScreenCommand.cs" />
+    <Compile Include="UI\Menus\Commands\HelpCommands\HelpCommand.cs" />
     <Compile Include="UI\Menus\Commands\IToolbarCommand.cs" />
-    <Compile Include="UI\Menus\Commands\MenuStrings.Designer.cs">
+    <Compile Include="UI\Menus\Commands\CommandsWithOptions\LanguageCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ToolsCommands\LogsCommand.cs" />
+    <Compile Include="UI\Menus\MenuStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MenuStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="UI\Menus\Commands\FileCommands\NewCommand.cs" />
+    <Compile Include="UI\Menus\Commands\FileCommands\OpenCommand.cs" />
+    <Compile Include="UI\Menus\Commands\ToolsCommands\OptionsCommand.cs" />
+    <Compile Include="UI\Menus\Commands\EditCommands\PasteCommand.cs" />
+    <Compile Include="UI\Menus\Commands\FileCommands\PrintCommand.cs" />
+    <Compile Include="UI\Menus\Commands\FileCommands\PrintPreviewCommand.cs" />
+    <Compile Include="UI\Menus\Commands\EditCommands\RedoCommand.cs" />
+    <Compile Include="UI\Menus\Commands\RunCommand.cs" />
+    <Compile Include="UI\Menus\Commands\FileCommands\SaveAsCommand.cs" />
+    <Compile Include="UI\Menus\Commands\FileCommands\SaveCommand.cs" />
+    <Compile Include="UI\Menus\Commands\EditCommands\SelectAllCommand.cs" />
+    <Compile Include="UI\Menus\Commands\HelpCommands\ThanksToCommand.cs" />
+    <Compile Include="UI\Menus\Commands\EditCommands\UndoCommand.cs" />
+    <Compile Include="UI\Menus\MenuStripCommandBuilder.cs" />
     <Compile Include="UI\MVP\SharedViewState.cs" />
     <Compile Include="UI\MVP\Interfaces\IMainForm.cs" />
     <Compile Include="UI\Forms\SimpleErrorHandler.cs" />
@@ -418,10 +469,10 @@
     <EmbeddedResource Include="UI\Dialogs\ChangelogForm.resx">
       <DependentUpon>ChangelogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Menus\Commands\MenuStrings.cs.resx" />
-    <EmbeddedResource Include="UI\Menus\Commands\MenuStrings.de.resx" />
-    <EmbeddedResource Include="UI\Menus\Commands\MenuStrings.pl.resx" />
-    <EmbeddedResource Include="UI\Menus\Commands\MenuStrings.resx">
+    <EmbeddedResource Include="UI\Menus\MenuStrings.cs.resx" />
+    <EmbeddedResource Include="UI\Menus\MenuStrings.de.resx" />
+    <EmbeddedResource Include="UI\Menus\MenuStrings.pl.resx" />
+    <EmbeddedResource Include="UI\Menus\MenuStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MenuStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>

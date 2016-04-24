@@ -13,3 +13,4 @@
 18. TSL 'FIle' class parameterless contructor creates OpenFileDialog, we need Open/Save File Dialog
 20. images do not appear in installation on win xp and win vista
 21. decimal dot in superscript missing in windows xp
+22. stack overflow exception in ScientificNumericUpDown in languages with other decimal dot than . (polish, deutsch has , )

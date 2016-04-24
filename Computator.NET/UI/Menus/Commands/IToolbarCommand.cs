@@ -7,9 +7,10 @@ namespace Computator.NET.UI.Commands
 {
     public interface IToolbarCommand : INotifyPropertyChanged
     {
+        bool Visible { get; set; }
         bool IsEnabled { get; set; }
         Image Icon { get; set; }
-
+        bool IsOption { get; set; }
         string Text { get; set; }
         string ToolTip { get; set; }
         Keys ShortcutKey { get; set; }
