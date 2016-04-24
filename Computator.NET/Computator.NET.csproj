@@ -242,6 +242,7 @@
     <Compile Include="UI\Menus\Commands\DummyCommands\RescaleCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\SeriesCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\TypeOfChartCommand.cs" />
+    <Compile Include="UI\Menus\Commands\FunctionOrConstantCommand.cs" />
     <Compile Include="UI\Menus\Commands\HelpCommands\AboutCommand.cs" />
     <Compile Include="UI\Menus\Commands\ToolsCommands\BenchmarkCommand.cs" />
     <Compile Include="UI\Menus\Commands\HelpCommands\BugReportingCommand.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="UI\Menus\Commands\IToolbarCommand.cs" />
     <Compile Include="UI\Menus\Commands\CommandsWithOptions\LanguageCommand.cs" />
     <Compile Include="UI\Menus\Commands\ToolsCommands\LogsCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TransformOptionCommand.cs" />
     <Compile Include="UI\Menus\MenuStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

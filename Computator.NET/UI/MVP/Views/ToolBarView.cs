@@ -29,6 +29,8 @@ namespace Computator.NET.UI.MVP.Views
                     Text = command.Text,
                     Image = command.Icon,
                     Enabled = command.IsEnabled,
+                    Visible = command.Visible,
+
                     ImageScaling = ToolStripItemImageScaling.None,
                     DisplayStyle = ToolStripItemDisplayStyle.Image
                 };
@@ -42,8 +44,9 @@ namespace Computator.NET.UI.MVP.Views
                     button.CheckOnClick = c.CheckOnClick;
                     button.Checked = c.Checked;
                     button.ToolTipText = c.ToolTip;
-
-                    button.Text = c.ToolTip;
+                    
+                    button.Visible = c.Visible;
+                    button.Text = c.Text;
                     button.Image = c.Icon;
                     button.Enabled = c.IsEnabled;
                 };

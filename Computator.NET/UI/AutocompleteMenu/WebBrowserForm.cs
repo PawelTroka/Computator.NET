@@ -8,7 +8,12 @@ namespace Computator.NET.UI.AutocompleteMenu
 {
     internal class WebBrowserForm : Form
     {
-        public WebBrowser webBrowser;
+        private static WebBrowserForm _instance = new WebBrowserForm();
+        public static void Show(FunctionInfo functionInfo) { _instance.SetFunctionInfo(functionInfo); _instance.Show();}
+
+
+        private WebBrowser webBrowser;
+
 
         public WebBrowserForm()
         {

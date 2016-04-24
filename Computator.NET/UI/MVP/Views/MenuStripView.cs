@@ -50,11 +50,12 @@ namespace Computator.NET.UI.MVP.Views
             var c = command; // create a closure around the command
             command.PropertyChanged += (o, s) =>
             {
+                button.ShortcutKeyDisplayString = c.ShortcutKeyString;
                 button.CheckOnClick = c.CheckOnClick;
                 button.Checked = c.Checked;
                 button.ToolTipText = c.ToolTip;
                 button.Visible = c.Visible;
-                button.Text = c.ToolTip;
+                button.Text = c.Text;
                 button.Image = c.Icon;
                 button.Enabled = c.IsEnabled;
             };

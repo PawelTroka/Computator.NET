@@ -14,4 +14,15 @@ namespace Computator.NET.UI.Commands
 
         }
     }
+
+    class TransformCommand : DummyCommand
+    {
+        public TransformCommand() : base(MenuStrings.transformToolStripMenuItem_Text)
+        {
+            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CurrentView),
+                () => this.IsEnabled = SharedViewState.Instance.CurrentView == ViewName.Charting);
+
+
+        }
+    }
 }
