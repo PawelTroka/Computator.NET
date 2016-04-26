@@ -1,12 +1,11 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Windows.Forms;
-using Computator.NET.DataTypes.Localization;
 using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Views
 {
-    public partial class MainForm : LocalizedForm, IMainForm
+    public partial class MainForm : Form, IMainForm
     {
         #region initialization and construction
 

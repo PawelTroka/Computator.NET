@@ -1,6 +1,8 @@
-﻿namespace Computator.NET.UI.Views
+﻿using System.Windows.Forms;
+
+namespace Computator.NET.UI.Views
 {
-    partial class MainForm
+    partial class MainForm : Form
     {
         /// <summary>
         /// Required designer variable.

@@ -71,8 +71,7 @@ namespace Computator.NET.UI.Menus.Commands.CommandsWithOptions
 
             public override void Execute()
             {
-                Thread.CurrentThread.CurrentCulture = language;
-                LocalizationManager.GlobalUICulture = language;
+             //   Thread.CurrentThread.CurrentCulture = language;
                 Settings.Default.Language = language;
                 Settings.Default.Save();
             }

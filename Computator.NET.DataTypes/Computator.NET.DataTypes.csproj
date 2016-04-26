@@ -56,10 +56,6 @@
     <Compile Include="Function.cs" />
     <Compile Include="FunctionType.cs" />
     <Compile Include="GlobalConfig.cs" />
-    <Compile Include="Localization\LocalizationManager.cs" />
-    <Compile Include="Localization\LocalizedForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Localization\Strings.cs.Designer.cs">
       <DependentUpon>Strings.cs.resx</DependentUpon>
       <AutoGen>True</AutoGen>

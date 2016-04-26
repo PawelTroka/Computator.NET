@@ -1,7 +1,9 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
@@ -21,6 +23,7 @@ namespace Computator.NET.UI.Presenters
 
 
         private CalculationsMode _calculationsMode;
+        private bool _applicationNeedRestart;
 
         public MainFormPresenter(IMainForm view)
         {
@@ -80,11 +83,17 @@ namespace Computator.NET.UI.Presenters
                 switch (e.PropertyName)
                 {
                     case nameof(Settings.Default.Language):
-
-                        Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
-                        LocalizationManager.GlobalUICulture = Settings.Default.Language;
-                        //////////////////////////////////_view.Restart();
+                        _applicationNeedRestart = !Equals(CultureInfo.CurrentCulture, Settings.Default.Language);
                         break;
+                }
+            };
+
+            Settings.Default.SettingsSaving += (o, e) =>
+            {
+                if (_applicationNeedRestart)
+                {
+                    _applicationNeedRestart = false;
+                    Task.Factory.StartNew(() => { Thread.Sleep(200); _view.Restart(); });
                 }
             };
 
@@ -95,7 +104,7 @@ namespace Computator.NET.UI.Presenters
                 switch (e.PropertyName)
                 {
                     case nameof(SharedViewState.Instance.CurrentView):
-                        _view.SelectedViewIndex = (int) SharedViewState.Instance.CurrentView;
+                        _view.SelectedViewIndex = (int)SharedViewState.Instance.CurrentView;
                         break;
                 }
             };
@@ -107,7 +116,7 @@ namespace Computator.NET.UI.Presenters
 
         private void _view_SelectedViewChanged(object sender, EventArgs e)
         {
-            SharedViewState.Instance.CurrentView = (ViewName) _view.SelectedViewIndex;
+            SharedViewState.Instance.CurrentView = (ViewName)_view.SelectedViewIndex;
         }
 
 
