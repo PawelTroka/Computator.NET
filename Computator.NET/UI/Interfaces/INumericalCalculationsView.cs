@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.UI.Interfaces
 {
     public interface INumericalCalculationsView
     {

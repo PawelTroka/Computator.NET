@@ -1,17 +1,16 @@
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {
-    class DummyCommand : CommandBase
+    internal class DummyCommand : CommandBase
     {
-        public DummyCommand(string text, string toolTip=null)
+        public DummyCommand(string text, string toolTip = null)
         {
             //this.Icon = Resources.runToolStripButtonImage;
-            this.Text = text;
-            this.ToolTip = toolTip ?? text;
+            Text = text;
+            ToolTip = toolTip ?? text;
         }
-        
+
         public override void Execute()
         {
-            
         }
     }
 }

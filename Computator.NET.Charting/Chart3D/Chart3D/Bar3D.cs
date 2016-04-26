@@ -9,7 +9,7 @@
 //        7 ___________ 6 
 
 
-namespace Computator.NET.Charting.Chart3D
+namespace Computator.NET.Charting.Chart3D.Chart3D
 {
     public class Bar3D : Mesh3D
     {

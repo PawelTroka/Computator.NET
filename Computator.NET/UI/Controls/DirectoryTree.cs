@@ -3,9 +3,9 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Controls.CodeEditors;
 
-namespace Computator.NET
+namespace Computator.NET.UI.Controls
 {
     public interface IDirectoryTree
     {

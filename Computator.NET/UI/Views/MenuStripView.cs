@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using Computator.NET.UI.Commands;
+using Computator.NET.UI.Controls;
+using Computator.NET.UI.Menus.Commands;
+using Computator.NET.UI.Menus.Commands.DummyCommands;
 
-namespace Computator.NET.UI.MVP.Views
+namespace Computator.NET.UI.Views
 {
     public partial class MenuStripView : UserControl, IToolbarView
     {
@@ -31,9 +33,8 @@ namespace Computator.NET.UI.MVP.Views
 
         private static ToolStripMenuItem CommandToButton(IToolbarCommand command)
         {
-
             var button = new ToolStripMenuItem();
-            if(command.IsOption)
+            if (command.IsOption)
                 button = new ToolStripRadioButtonMenuItem();
 
             button.Checked = command.Checked;
@@ -78,13 +79,11 @@ namespace Computator.NET.UI.MVP.Views
                 }
 
                 var newButton = CommandToButton(childrenCommand);
-                    button?.DropDownItems.Add(newButton);
-                
+                button?.DropDownItems.Add(newButton);
+
 
                 AddChildren(newButton, childrenCommand.ChildrenCommands);
             }
         }
     }
-
-   
 }

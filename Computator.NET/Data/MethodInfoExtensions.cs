@@ -77,7 +77,7 @@ namespace Computator.NET.Data
                 if (firstParam)
                 {
                     firstParam = false;
-                    if (method.IsDefined(typeof (ExtensionAttribute), false))
+                    if (method.IsDefined(typeof(ExtensionAttribute), false))
                     {
                         if (callable)
                         {
@@ -350,8 +350,8 @@ namespace Computator.NET.Data
 
         public static bool IsParamArray(ParameterInfo info)
         {
-            return info.GetCustomAttributes(typeof (ParamArrayAttribute), true) != null &&
-                   info.GetCustomAttributes(typeof (ParamArrayAttribute), true).Length > 0;
+            return info.GetCustomAttributes(typeof(ParamArrayAttribute), true) != null &&
+                   info.GetCustomAttributes(typeof(ParamArrayAttribute), true).Length > 0;
         }
     }
 }

@@ -4,19 +4,23 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
+using Computator.NET.Natives;
 using Computator.NET.Properties;
-using Computator.NET.UI.Forms;
-using Computator.NET.UI.MVP;
-using Computator.NET.UI.MVP.Views;
+using Computator.NET.UI;
+using Computator.NET.UI.Dialogs;
+using Computator.NET.UI.ErrorHandling;
+using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Presenters;
 using Computator.NET.UI.Views;
 
 namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger logger = new SimpleLogger { ClassName = "Program" };
+        private static readonly SimpleLogger logger = new SimpleLogger {ClassName = "Program"};
 
         /// <summary>
         ///     The main entry point for the application.
@@ -28,7 +32,7 @@ namespace Computator.NET
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            
+
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
 
@@ -48,14 +52,16 @@ namespace Computator.NET
         private static void SetPresenters(IMainForm mainForm)
         {
             var mainFormPresenter = new MainFormPresenter(mainForm);
-            var chartingViewPresenter = new ChartingViewPresenter(mainForm.ChartingView,SimpleErrorHandler.Instance);
-            var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView,SimpleErrorHandler.Instance);
+            var chartingViewPresenter = new ChartingViewPresenter(mainForm.ChartingView, SimpleErrorHandler.Instance);
+            var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView,
+                SimpleErrorHandler.Instance);
             var numericalCalculationsPresenter = new NumericalCalculationsPresenter(mainForm.NumericalCalculationsView,
                 SimpleErrorHandler.Instance);
             var scriptingViewPresenter = new ScriptingViewPresenter(mainForm.ScriptingView, SimpleErrorHandler.Instance);
             var customFunctionsViewPresenter = new CustomFunctionsPresenter(mainForm.CustomFunctionsView);
 
-            SharedViewState.Initialize(mainForm.ExpressionView.ExpressionTextBox,mainForm.CustomFunctionsView.CustomFunctionsEditor);
+            SharedViewState.Initialize(mainForm.ExpressionView.ExpressionTextBox,
+                mainForm.CustomFunctionsView.CustomFunctionsEditor);
         }
 
 

@@ -2,19 +2,19 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using AutocompleteMenuNS;
-using Computator.NET.Config;
 using Computator.NET.Data;
+using Computator.NET.DataTypes;
 using Computator.NET.Properties;
+using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Rendering;
 using Point = System.Windows.Point;
 
-namespace Computator.NET.UI.CodeEditors
+namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
 {
     internal class AvalonEditCodeEditorControl : ElementHost
     {
-        private readonly AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
+        private readonly AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
         private readonly AvalonEditCodeEditor _codeEditor;
 
         public AvalonEditCodeEditorControl()
@@ -25,7 +25,7 @@ namespace Computator.NET.UI.CodeEditors
             Dock = DockStyle.Fill;
             Child = _codeEditor;
             //   codeEditor.TextArea.TextView.GetVisualPosition(new TextViewPosition(5) {Location = }, VisualYPosition.TextMiddle)
-            _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu
             {
                 TargetControlWrapper = new AvalonWrapper(this)
             };

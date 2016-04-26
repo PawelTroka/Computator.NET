@@ -1,9 +1,8 @@
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Controls;
+using Computator.NET.DataTypes;
 
-namespace Computator.NET.UI.MVP.Views
+namespace Computator.NET.UI.Interfaces
 {
     public interface IChartingView
     {

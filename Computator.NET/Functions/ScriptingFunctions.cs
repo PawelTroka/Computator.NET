@@ -279,7 +279,7 @@ namespace Computator.NET.Functions
                     break;
                 case Computator.NET.DataTypes.FunctionType.Real3D:
                 case Computator.NET.DataTypes.FunctionType.Real3DImplicit:
-                    chart = new Computator.NET.Charting.Chart3D.Chart3DControl();
+                    chart = new Computator.NET.Charting.Chart3D.UI.Chart3DControl();
                     break;
                 case Computator.NET.DataTypes.FunctionType.Complex:
                 case Computator.NET.DataTypes.FunctionType.ComplexImplicit:
@@ -315,7 +315,7 @@ namespace Computator.NET.Functions
 
         public static void plot(params System.Func<double, double, double>[] fxys)
         {
-            var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl
+            var chart3d = new Computator.NET.Charting.Chart3D.UI.Chart3DControl
             {
                 Mode = (fxys.Length > 1) ? Computator.NET.Charting.Chart3D.Chart3DMode.Points : Computator.NET.Charting.Chart3D.Chart3DMode.Surface
             };
@@ -335,7 +335,7 @@ namespace Computator.NET.Functions
             var ya = System.Linq.Enumerable.ToArray(y);
             var za = System.Linq.Enumerable.ToArray(z);
 
-            var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl();
+            var chart3d = new Computator.NET.Charting.Chart3D.UI.Chart3DControl();
 
             var points = new System.Collections.Generic.List<System.Windows.Media.Media3D.Point3D>();
             var n = System.Math.Min(System.Math.Min(xa.Length, ya.Length), za.Length);
@@ -675,7 +675,7 @@ double YMax = 5, double quality = 0.5)
                     break;
                 case Computator.NET.DataTypes.FunctionType.Real3D:
                 case Computator.NET.DataTypes.FunctionType.Real3DImplicit:
-                    chart = new Computator.NET.Charting.Chart3D.Chart3DControl();
+                    chart = new Computator.NET.Charting.Chart3D.UI.Chart3DControl();
                     break;
                 case Computator.NET.DataTypes.FunctionType.Complex:
                 case Computator.NET.DataTypes.FunctionType.ComplexImplicit:
@@ -711,7 +711,7 @@ double YMax = 5, double quality = 0.5)
 
         public static void plot(params System.Func<double, double, double>[] fxys)
         {
-            var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl
+            var chart3d = new Computator.NET.Charting.Chart3D.UI.Chart3DControl
             {
                 Mode = (fxys.Length > 1) ? Computator.NET.Charting.Chart3D.Chart3DMode.Points : Computator.NET.Charting.Chart3D.Chart3DMode.Surface
             };
@@ -731,7 +731,7 @@ double YMax = 5, double quality = 0.5)
             var ya = System.Linq.Enumerable.ToArray(y);
             var za = System.Linq.Enumerable.ToArray(z);
 
-            var chart3d = new Computator.NET.Charting.Chart3D.Chart3DControl();
+            var chart3d = new Computator.NET.Charting.Chart3D.UI.Chart3DControl();
 
             var points = new System.Collections.Generic.List<System.Windows.Media.Media3D.Point3D>();
             var n = System.Math.Min(System.Math.Min(xa.Length, ya.Length), za.Length);

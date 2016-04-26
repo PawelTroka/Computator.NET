@@ -3,19 +3,21 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands
 {
-    
     internal abstract class CommandBase : IToolbarCommand
     {
-        private bool _visible;
         private bool _checked;
         private bool _checkOnClick;
-
-        private ToolStripItemImageScaling _imageScaling;
         private ToolStripItemDisplayStyle _displayStyle;
 
+        private ToolStripItemImageScaling _imageScaling;
+        private bool _isOption;
+
+        private string _shortcutKeyString;
+
         private string _text;
+        private bool _visible;
         private Image icon;
         private bool isEnabled;
         private string toolTip;
@@ -27,10 +29,37 @@ namespace Computator.NET.UI.Commands
             _visible = true;
         }
 
+        public ToolStripItemImageScaling ImageScaling
+        {
+            get { return _imageScaling; }
+            set
+            {
+                if (_imageScaling != value)
+                {
+                    _imageScaling = value;
+                    OnPropertyChanged(nameof(ImageScaling));
+                }
+            }
+        }
+
+        public ToolStripItemDisplayStyle DisplayStyle
+        {
+            get { return _displayStyle; }
+            set
+            {
+                if (_displayStyle != value)
+                {
+                    _displayStyle = value;
+                    OnPropertyChanged(nameof(DisplayStyle));
+                }
+            }
+        }
+
         public bool IsOption
         {
             get { return _isOption; }
-            set {
+            set
+            {
                 if (_isOption != value)
                 {
                     _isOption = value;
@@ -51,9 +80,6 @@ namespace Computator.NET.UI.Commands
                 }
             }
         }
-
-        private string _shortcutKeyString;
-        private bool _isOption;
 
         public string ShortcutKeyString
         {
@@ -141,36 +167,11 @@ namespace Computator.NET.UI.Commands
 
         public IEnumerable<IToolbarCommand> ChildrenCommands { get; set; }
 
-        public ToolStripItemImageScaling ImageScaling
-        {
-            get { return _imageScaling; }
-            set
-            {
-                if (_imageScaling != value)
-                {
-                    _imageScaling = value;
-                    OnPropertyChanged(nameof(ImageScaling));
-                }
-            }
-        }
-
-        public ToolStripItemDisplayStyle DisplayStyle
-        {
-            get { return _displayStyle; }
-            set
-            {
-                if (_displayStyle != value)
-                {
-                    _displayStyle = value;
-                    OnPropertyChanged(nameof(DisplayStyle));
-                }
-            }
-        }
-
         public bool Visible
         {
             get { return _visible; }
-            set {
+            set
+            {
                 if (_visible != value)
                 {
                     _visible = value;

@@ -1,17 +1,15 @@
 using Computator.NET.Properties;
-using Computator.NET.UI.Menus;
+using Computator.NET.UI.Dialogs;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    class HelpCommand : CommandBase
+    internal class HelpCommand : CommandBase
     {
-
-
         public HelpCommand()
         {
-            this.Icon = Resources.helpToolStripButtonImage;
-            this.Text = MenuStrings.helpToolStripButton_Text;
-            this.ToolTip = MenuStrings.helpToolStripButton_Text;
+            Icon = Resources.helpToolStripButtonImage;
+            Text = MenuStrings.helpToolStripButton_Text;
+            ToolTip = MenuStrings.helpToolStripButton_Text;
         }
 
 

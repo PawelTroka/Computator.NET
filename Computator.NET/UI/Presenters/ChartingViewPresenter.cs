@@ -1,11 +1,13 @@
 using System;
 using Computator.NET.Charting;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
-using Computator.NET.UI.Controls;
+using Computator.NET.UI.ErrorHandling;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.MVP.Views
+namespace Computator.NET.UI.Presenters
 {
     public class ChartingViewPresenter
     {

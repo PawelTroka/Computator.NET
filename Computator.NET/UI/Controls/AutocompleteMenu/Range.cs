@@ -1,4 +1,6 @@
-﻿namespace AutocompleteMenuNS
+﻿using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
+
+namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
     public class Range
     {

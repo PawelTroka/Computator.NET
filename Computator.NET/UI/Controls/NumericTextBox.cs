@@ -6,7 +6,7 @@ using Computator.NET.DataTypes;
 
 // ReSharper disable LocalizableElement
 
-namespace Computator.NET.UI
+namespace Computator.NET.UI.Controls
 {
     internal class NumericTextBox : TextBox
     {

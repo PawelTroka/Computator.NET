@@ -7,13 +7,19 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Computator.NET.Charting.Printing;
-using Computator.NET.Config;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.ComplexCharting
 {
     public sealed class ComplexChart : Control, IChart, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         #region private fields
 
         // private Graphics g;
@@ -48,7 +54,8 @@ namespace Computator.NET.Charting.ComplexCharting
         public CountourLinesMode countourMode
         {
             get { return _countourMode; }
-            set {
+            set
+            {
                 if (_countourMode != value)
                 {
                     _countourMode = value;
@@ -522,14 +529,14 @@ namespace Computator.NET.Charting.ComplexCharting
             comboBoxes[0].AutoSize = true;
             comboBoxes[1].AutoSize = true;
             var vartosci =
-                Enum.GetValues(typeof (CountourLinesMode)).Cast<CountourLinesMode>().ToList();
+                Enum.GetValues(typeof(CountourLinesMode)).Cast<CountourLinesMode>().ToList();
             foreach (var v in vartosci)
                 comboBoxes[0].Items.Add(v);
             comboBoxes[0].SelectedItem = countourMode;
             comboBoxes[0].DropDownStyle = ComboBoxStyle.DropDownList;
 
             var vartosci2 =
-                Enum.GetValues(typeof (AssignmentOfColorMethod))
+                Enum.GetValues(typeof(AssignmentOfColorMethod))
                     .Cast<AssignmentOfColorMethod>()
                     .ToList();
             foreach (var v in vartosci2)
@@ -612,12 +619,5 @@ namespace Computator.NET.Charting.ComplexCharting
         }
 
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

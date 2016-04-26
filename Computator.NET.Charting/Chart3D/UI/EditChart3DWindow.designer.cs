@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Charting.Chart3D
+﻿namespace Computator.NET.Charting.Chart3D.UI
 {
     partial class EditChartWindow
     {
@@ -40,7 +40,7 @@
             this.chartTypeComboBox = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.unitsComboBox = new Computator.NET.Charting.Chart3D.UnitsComboBox();
+            this.unitsComboBox = new UnitsComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.shapeContainer3 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.backgroundColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();

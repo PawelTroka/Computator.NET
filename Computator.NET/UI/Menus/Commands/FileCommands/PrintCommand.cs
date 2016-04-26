@@ -1,23 +1,23 @@
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
+using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    class PrintCommand : CommandBase
+    internal class PrintCommand : CommandBase
     {
-        private ICanFileEdit scriptingCodeEditor;
         private ICanFileEdit customFunctionsCodeEditor;
 
-        private IMainForm mainFormView;
+        private readonly IMainForm mainFormView;
+        private ICanFileEdit scriptingCodeEditor;
 
-        public PrintCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, IMainForm mainFormView)
+        public PrintCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
+            IMainForm mainFormView)
         {
-            this.Icon = Resources.printToolStripButtonImage;
-            this.Text = MenuStrings.printToolStripButton_Text;
-            this.ToolTip = MenuStrings.printToolStripButton_Text;
-            this.ShortcutKeyString = "Ctrl+P";
+            Icon = Resources.printToolStripButtonImage;
+            Text = MenuStrings.printToolStripButton_Text;
+            ToolTip = MenuStrings.printToolStripButton_Text;
+            ShortcutKeyString = "Ctrl+P";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -26,7 +26,7 @@ namespace Computator.NET.UI.Commands
 
         public override void Execute()
         {
-            switch ((int)SharedViewState.Instance.CurrentView)
+            switch ((int) SharedViewState.Instance.CurrentView)
             {
                 case 0:
                     //if (_calculationsMode == CalculationsMode.Real)
@@ -48,7 +48,6 @@ namespace Computator.NET.UI.Commands
                     mainFormView.SendStringAsKey("^P"); //this.chart2d.Printing.PrintPreview();
                     break;
             }
-
         }
     }
 }

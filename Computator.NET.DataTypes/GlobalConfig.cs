@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
 
-namespace Computator.NET.Config
+namespace Computator.NET.DataTypes
 {
     public static class GlobalConfig
     {

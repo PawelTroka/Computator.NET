@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Computator.NET.Charting.Chart3D
+namespace Computator.NET.Charting.Chart3D.UI
 {
     internal class UnitsComboBox : ComboBox
     {

@@ -4,15 +4,14 @@ using Computator.NET.DataTypes.Localization;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
 
-namespace Computator.NET.UI.AutocompleteMenu
+namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
     internal class WebBrowserForm : Form
     {
-        private static WebBrowserForm _instance = new WebBrowserForm();
-        public static void Show(FunctionInfo functionInfo) { _instance.SetFunctionInfo(functionInfo); _instance.Show();}
+        private static readonly WebBrowserForm _instance = new WebBrowserForm();
 
 
-        private WebBrowser webBrowser;
+        private readonly WebBrowser webBrowser;
 
 
         public WebBrowserForm()
@@ -44,6 +43,12 @@ namespace Computator.NET.UI.AutocompleteMenu
                 webBrowser.Size = webBrowser.MinimumSize;
                 webBrowser.DocumentText = value;
             }
+        }
+
+        public static void Show(FunctionInfo functionInfo)
+        {
+            _instance.SetFunctionInfo(functionInfo);
+            _instance.Show();
         }
 
         public void SetFunctionInfo(FunctionInfo functionInfo)

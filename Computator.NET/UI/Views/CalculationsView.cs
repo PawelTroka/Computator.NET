@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
+using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Views
 {

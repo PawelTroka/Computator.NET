@@ -1,13 +1,11 @@
 using System;
 using System.Windows.Forms;
-using Computator.NET.UI.MVP.Views;
 using Computator.NET.UI.Views;
 
-namespace Computator.NET
+namespace Computator.NET.UI.Interfaces
 {
     public interface IMainForm
     {
-        void Restart();
         IToolbarView ToolbarView { get; }
 
         IToolbarView MenuStripView { get; }
@@ -26,9 +24,9 @@ namespace Computator.NET
         string StatusText { set; }
         int SelectedViewIndex { get; set; }
         FormBorderStyle FormBorderStyle { set; }
-        FormWindowState WindowState {  set; }
+        FormWindowState WindowState { set; }
+        void Restart();
 
-   
 
         event EventHandler ModeForcedToReal;
         event EventHandler ModeForcedToComplex;

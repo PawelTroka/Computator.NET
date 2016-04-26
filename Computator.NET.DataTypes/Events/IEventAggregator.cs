@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Events
 {
     public interface IEventAggregator
     {

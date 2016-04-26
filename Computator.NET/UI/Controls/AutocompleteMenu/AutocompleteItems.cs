@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace AutocompleteMenuNS
+namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
     public class FuzzyAutoCompleteItem : AutocompleteItem
     {

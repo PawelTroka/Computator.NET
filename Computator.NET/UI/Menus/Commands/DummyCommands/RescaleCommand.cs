@@ -1,16 +1,14 @@
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
+using Computator.NET.DataTypes;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {
-    class RescaleCommand : DummyCommand
+    internal class RescaleCommand : DummyCommand
     {
         public RescaleCommand() : base(MenuStrings.rescale_Text)
         {
-            this.Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Fxy;
+            Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Fxy;
             BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
-                () => this.Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Fxy);
+                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Fxy);
         }
     }
 }

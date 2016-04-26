@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Computator.NET;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
-using Computator.NET.Functions;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.MVP;
-using Computator.NET.UI.Views;
+using Computator.NET.NumericalCalculations;
+using Computator.NET.UI;
+using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.ErrorHandling;
+using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Presenters;
 using Moq;
 using NUnit.Framework;
 
@@ -16,64 +18,6 @@ namespace UnitTests.UITests.PresentersTests
     [TestFixture]
     public class NumericalCalculationsPresenterTests
     {
-        [Test]
-        public void IntegralSelectedOperationChanged_ShouldChangeVisibility()
-        {
-            _numericalCalculationsViewMock.SetupAllProperties();
-            _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-    _errorHandlerMock.Object);
-
-            _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Integral);
-
-            _numericalCalculationsViewMock.Raise(m => m.OperationChanged += null, new EventArgs());
-            
-            _numericalCalculationsViewMock.VerifySet(m=>m.IntervalVisible=true);
-            _numericalCalculationsViewMock.VerifySet(m => m.StepsVisible = true);
-
-            _numericalCalculationsViewMock.VerifySet(m => m.ErrorVisible = false);
-            _numericalCalculationsViewMock.VerifySet(m => m.DerrivativeVisible = false);
-        }
-
-        [Test]
-        public void FunctionRootSelectedOperationChanged_ShouldChangeVisibility()
-        {
-            _numericalCalculationsViewMock.SetupAllProperties();
-            _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-    _errorHandlerMock.Object);
-
-            _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Function_root);
-
-            _numericalCalculationsViewMock.Raise(m => m.OperationChanged += null, new EventArgs());
-
-            _numericalCalculationsViewMock.VerifySet(m => m.IntervalVisible = true);
-            _numericalCalculationsViewMock.VerifySet(m => m.StepsVisible = true);
-
-            _numericalCalculationsViewMock.VerifySet(m => m.ErrorVisible = true);
-            _numericalCalculationsViewMock.VerifySet(m => m.DerrivativeVisible = false);
-        }
-
-        [Test]
-        public void DerrivativeSelectedOperationChanged_ShouldChangeVisibility()
-        {
-            _numericalCalculationsViewMock.SetupAllProperties();
-            _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-    _errorHandlerMock.Object);
-
-            _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Derivative);
-
-            _numericalCalculationsViewMock.Raise(m => m.OperationChanged += null, new EventArgs());
-
-
-            _numericalCalculationsViewMock.VerifySet(m => m.DerrivativeVisible = true);
-            _numericalCalculationsViewMock.VerifySet(m => m.ErrorVisible = true);
-
-            _numericalCalculationsViewMock.VerifySet(m => m.IntervalVisible = false);
-            _numericalCalculationsViewMock.VerifySet(m => m.StepsVisible = false);
-
-
-            
-        }
-
         [SetUp]
         public void Init()
         {
@@ -89,7 +33,7 @@ namespace UnitTests.UITests.PresentersTests
             _expressionViewMock = new Mock<ITextProvider>();
             //            _expressionViewMock.SetupAllProperties();
 
-            SharedViewState.Initialize(_expressionViewMock.Object,_customFunctionsViewMock.Object);
+            SharedViewState.Initialize(_expressionViewMock.Object, _customFunctionsViewMock.Object);
 
 
             _numericalCalculationsViewMock.Setup(
@@ -107,7 +51,7 @@ namespace UnitTests.UITests.PresentersTests
         private const int EpsMax = 1;
         private const double EpsInc = 0.5;
 
-        private  static void GenerateTestCases()
+        private static void GenerateTestCases()
         {
             var interalsTestCases = new List<object>();
             var functionRootTestCases = new List<object>();
@@ -116,20 +60,22 @@ namespace UnitTests.UITests.PresentersTests
             foreach (var function in functions)
                 for (double a = AMin; a <= AMax; a += AInc)
                 {
-                    for (uint n = 1000; n <= NMax*1000; n+=1000)
+                    for (uint n = 1000; n <= NMax*1000; n += 1000)
                     {
-
                         for (var b = a; b <= AMax; b += AInc)
                         {
                             foreach (var integrationMethod in NumericalMethodsInfo.Instance.IntegrationMethods)
-                                if(integrationMethod.Key != Strings.Monte_Carlo_method)
+                                if (integrationMethod.Key != Strings.Monte_Carlo_method)
                                 {
-                                    
                                     interalsTestCases.Add(new object[]
-                                {integrationMethod.Value, function.Value, integrationMethod.Key, function.Key, a, b,
-
-                                (integrationMethod.Key != Strings.Romberg_s_method) ?
-                                    n : n/1000 + 2 });}
+                                    {
+                                        integrationMethod.Value, function.Value, integrationMethod.Key, function.Key, a,
+                                        b,
+                                        integrationMethod.Key != Strings.Romberg_s_method
+                                            ? n
+                                            : n/1000 + 2
+                                    });
+                                }
 
                             for (var eps = EpsMin; eps < EpsMax; eps += EpsInc)
                                 foreach (var functionRootMethod in NumericalMethodsInfo.Instance.FunctionRootMethods)
@@ -175,14 +121,13 @@ namespace UnitTests.UITests.PresentersTests
         private Mock<INumericalCalculationsView> _numericalCalculationsViewMock;
 
 
-
         private static readonly Dictionary<string, Func<double, double>> functions = new Dictionary
             <string, Func<double, double>>
         {
             {"cos(x)", Math.Cos},
             {"sin(x)", Math.Sin},
             {"tan(x)", Math.Tan},
-         //   {"AiryAi(x)", x => SpecialFunctions.AiryAi(x)},
+            //   {"AiryAi(x)", x => SpecialFunctions.AiryAi(x)},
             {"x+0.001", x => x + 0.001}
         };
 
@@ -190,7 +135,6 @@ namespace UnitTests.UITests.PresentersTests
         [OneTimeSetUp]
         public void SetupTestCases()
         {
-          
         }
 
 
@@ -203,7 +147,7 @@ namespace UnitTests.UITests.PresentersTests
             _numericalCalculationsViewMock.SetupGet(m => m.SelectedMethod).Returns(method);
 
             _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-    _errorHandlerMock.Object);
+                _errorHandlerMock.Object);
         }
 
         private void SetupForIntegral(string method, string expression, double a, double b, uint n)
@@ -240,7 +184,7 @@ namespace UnitTests.UITests.PresentersTests
         public void DerrivativeForValidParametersTest_ShouldReturnCorrectValues(
             Func<Func<double, double>, double, uint, double, double> func,
             Func<double, double> function,
-            string method, string expression,  double x, uint order, double eps)
+            string method, string expression, double x, uint order, double eps)
         {
             SetupForDerrivative(method, expression, eps, x, order);
 
@@ -300,20 +244,87 @@ namespace UnitTests.UITests.PresentersTests
 
         public static object[] IntegralTestCases
         {
-            get { if (_integralTestCases == null) GenerateTestCases(); return _integralTestCases; }
+            get
+            {
+                if (_integralTestCases == null) GenerateTestCases();
+                return _integralTestCases;
+            }
             set { _integralTestCases = value; }
         }
 
         public static object[] DerrivativeTestCases
         {
-            get { if (_derrivativeTestCases == null) GenerateTestCases(); return _derrivativeTestCases; }
+            get
+            {
+                if (_derrivativeTestCases == null) GenerateTestCases();
+                return _derrivativeTestCases;
+            }
             set { _derrivativeTestCases = value; }
         }
 
         public static object[] FunctionRootTestCases
         {
-            get { if(_functionRootTestCases==null) GenerateTestCases(); return _functionRootTestCases; }
+            get
+            {
+                if (_functionRootTestCases == null) GenerateTestCases();
+                return _functionRootTestCases;
+            }
             set { _functionRootTestCases = value; }
+        }
+
+        [Test]
+        public void DerrivativeSelectedOperationChanged_ShouldChangeVisibility()
+        {
+            _numericalCalculationsViewMock.SetupAllProperties();
+            _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
+                _errorHandlerMock.Object);
+
+            _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Derivative);
+
+            _numericalCalculationsViewMock.Raise(m => m.OperationChanged += null, new EventArgs());
+
+
+            _numericalCalculationsViewMock.VerifySet(m => m.DerrivativeVisible = true);
+            _numericalCalculationsViewMock.VerifySet(m => m.ErrorVisible = true);
+
+            _numericalCalculationsViewMock.VerifySet(m => m.IntervalVisible = false);
+            _numericalCalculationsViewMock.VerifySet(m => m.StepsVisible = false);
+        }
+
+        [Test]
+        public void FunctionRootSelectedOperationChanged_ShouldChangeVisibility()
+        {
+            _numericalCalculationsViewMock.SetupAllProperties();
+            _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
+                _errorHandlerMock.Object);
+
+            _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Function_root);
+
+            _numericalCalculationsViewMock.Raise(m => m.OperationChanged += null, new EventArgs());
+
+            _numericalCalculationsViewMock.VerifySet(m => m.IntervalVisible = true);
+            _numericalCalculationsViewMock.VerifySet(m => m.StepsVisible = true);
+
+            _numericalCalculationsViewMock.VerifySet(m => m.ErrorVisible = true);
+            _numericalCalculationsViewMock.VerifySet(m => m.DerrivativeVisible = false);
+        }
+
+        [Test]
+        public void IntegralSelectedOperationChanged_ShouldChangeVisibility()
+        {
+            _numericalCalculationsViewMock.SetupAllProperties();
+            _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
+                _errorHandlerMock.Object);
+
+            _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(Strings.Integral);
+
+            _numericalCalculationsViewMock.Raise(m => m.OperationChanged += null, new EventArgs());
+
+            _numericalCalculationsViewMock.VerifySet(m => m.IntervalVisible = true);
+            _numericalCalculationsViewMock.VerifySet(m => m.StepsVisible = true);
+
+            _numericalCalculationsViewMock.VerifySet(m => m.ErrorVisible = false);
+            _numericalCalculationsViewMock.VerifySet(m => m.DerrivativeVisible = false);
         }
     }
 }

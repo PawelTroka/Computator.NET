@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Charting
 {
     public interface IAreaValues
     {

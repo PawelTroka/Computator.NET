@@ -1,16 +1,13 @@
 using System.Windows.Forms;
-using Computator.NET.UI.Menus;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    class ExitCommand : CommandBase
+    internal class ExitCommand : CommandBase
     {
-
-
         public ExitCommand()
         {
-            this.Text = MenuStrings.exitToolStripMenuItem_Text;
-            this.ToolTip = MenuStrings.exitToolStripMenuItem_Text;
+            Text = MenuStrings.exitToolStripMenuItem_Text;
+            ToolTip = MenuStrings.exitToolStripMenuItem_Text;
         }
 
 

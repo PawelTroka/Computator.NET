@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using System.Reflection;
-using Computator.NET.Config;
 using Computator.NET.Logging;
 using Microsoft.CSharp.RuntimeBinder;
 
@@ -85,7 +84,7 @@ namespace Computator.NET.DataTypes
 
         private void DeduceType(bool isImplicit)
         {
-            if (_function.Method.ReturnType == typeof (Complex))
+            if (_function.Method.ReturnType == typeof(Complex))
             {
                 switch (_function.Method.GetParameters().Length)
                 {
@@ -97,7 +96,7 @@ namespace Computator.NET.DataTypes
                         break;
                 }
             }
-            else if (_function.Method.ReturnType == typeof (double))
+            else if (_function.Method.ReturnType == typeof(double))
             {
                 switch (_function.Method.GetParameters().Length)
                 {

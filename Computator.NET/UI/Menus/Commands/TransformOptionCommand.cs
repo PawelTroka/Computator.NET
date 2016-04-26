@@ -1,28 +1,29 @@
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Evaluation;
+using Computator.NET.DataTypes;
 using Computator.NET.Transformations;
-using Computator.NET.UI.MVP;
+using Computator.NET.UI.Menus.Commands.ChartCommands;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands
 {
-    class TransformOptionCommand : BaseCommandForCharts
+    internal class TransformOptionCommand : BaseCommandForCharts
     {
+        public TransformOptionCommand(string text, string toolTip, ReadOnlyDictionary<CalculationsMode, IChart> charts)
+            : base(charts)
+        {
+            Text = text;
+            ToolTip = toolTip;
+        }
+
         public override void Execute()
         {
             if (SharedViewState.Instance.CalculationsMode == CalculationsMode.Real)
- 
+
                 chart2d.Transform(
-                    points => MathematicalTransformations.Transform(points, this.Text),
-                    this.Text);
+                    points => MathematicalTransformations.Transform(points, Text),
+                    Text);
             //  else if (complexNumbersModeRadioBox.Checked)
             //    else if(fxyModeRadioBox.Checked)
-        }
-
-        public TransformOptionCommand(string text, string toolTip,ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
-        {
-            this.Text = text;
-            this.ToolTip = toolTip;
         }
     }
 }

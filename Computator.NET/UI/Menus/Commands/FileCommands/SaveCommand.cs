@@ -1,22 +1,20 @@
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
+using Computator.NET.UI.Controls.CodeEditors;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    class SaveCommand : CommandBase
+    internal class SaveCommand : CommandBase
     {
-        private ICanFileEdit scriptingCodeEditor;
-        private ICanFileEdit customFunctionsCodeEditor;
+        private readonly ICanFileEdit customFunctionsCodeEditor;
+        private readonly ICanFileEdit scriptingCodeEditor;
 
 
         public SaveCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
         {
-            this.ShortcutKeyString = "Ctrl+S";
-            this.Icon = Resources.saveToolStripButtonImage;
-            this.Text = MenuStrings.saveToolStripButton_Text;
-            this.ToolTip = MenuStrings.saveToolStripButton_Text;
+            ShortcutKeyString = "Ctrl+S";
+            Icon = Resources.saveToolStripButtonImage;
+            Text = MenuStrings.saveToolStripButton_Text;
+            ToolTip = MenuStrings.saveToolStripButton_Text;
 
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
@@ -26,8 +24,7 @@ namespace Computator.NET.UI.Commands
 
         public override void Execute()
         {
-
-            switch ((int)SharedViewState.Instance.CurrentView)
+            switch ((int) SharedViewState.Instance.CurrentView)
             {
                 case 0:
 

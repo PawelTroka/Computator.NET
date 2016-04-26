@@ -1,14 +1,12 @@
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
+using Computator.NET.DataTypes;
+using Computator.NET.UI.Menus.Commands.DummyCommands;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
     //TODO: make it work somehow with good API from Chart2D
 
-    class SeriesCommand : DummyCommand
+    internal class SeriesCommand : DummyCommand
     {
-
         /*private class SeriesOption : ChartOption
  {
 
@@ -22,10 +20,11 @@ namespace Computator.NET.UI.Commands
          this.IsOption = true;
      }
  }*/
+
         public SeriesCommand() : base(MenuStrings.series_Text)
         {
             BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
-                () => this.Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real);
+                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real);
         }
     }
 }

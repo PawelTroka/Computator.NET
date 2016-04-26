@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Computator.NET.UI.CodeEditors
+namespace Computator.NET.UI.Controls.CodeEditors
 {
     public interface ISupportsExceptionHighliting
     {
@@ -24,22 +24,22 @@ namespace Computator.NET.UI.CodeEditors
     {
         void NewDocument(string fullPath);
     }
-     
+
     public interface IDocumentsEditor : ICanOpenFiles
     {
         string CurrentFileName { get; set; }
         void RemoveTab(string fullPath);
         bool ContainsDocument(string oldPath);
         void RenameDocument(string oldPath, string fullPath);
-        
+
         void SwitchTab(string fullPath);
     }
-    
+
 
     public interface ICanFileEdit : ICanOpenFiles
     {
-        void NewDocument();
         bool Focused { get; }
+        void NewDocument();
         void Save();
         void SaveAs();
         void Undo();

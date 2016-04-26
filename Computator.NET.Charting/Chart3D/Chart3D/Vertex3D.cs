@@ -3,7 +3,7 @@
 
 using System.Windows.Media;
 
-namespace Computator.NET.Charting.Chart3D
+namespace Computator.NET.Charting.Chart3D.Chart3D
 {
     internal class Vertex3D
     {

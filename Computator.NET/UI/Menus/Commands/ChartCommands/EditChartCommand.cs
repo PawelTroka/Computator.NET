@@ -1,17 +1,21 @@
 using System.Windows.Forms;
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Charting.Chart3D;
+using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Menus;
+using Computator.NET.DataTypes;
 using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    class EditChartCommand : BaseCommandForCharts
+    internal class EditChartCommand : BaseCommandForCharts
     {
+        public EditChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        {
+            Text = MenuStrings.edit_Text;
+            ToolTip = MenuStrings.edit_Text;
+        }
 
 
         public override void Execute()
@@ -22,16 +26,10 @@ namespace Computator.NET.UI.Commands
             else if (currentChart is ComplexChart)
                 editChartWindow = new EditComplexChartWindow(complexChart);
             else if (currentChart is Chart3DControl)
-                editChartWindow = new Charting.Chart3D.EditChartWindow(chart3d, chart3d.ParentControl);
+                editChartWindow = new Charting.Chart3D.UI.EditChartWindow(chart3d, chart3d.ParentControl);
 
 
             editChartWindow.ShowDialog();
-        }
-
-        public EditChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
-        {
-            this.Text = MenuStrings.edit_Text;
-            this.ToolTip = MenuStrings.edit_Text;
         }
     }
 }

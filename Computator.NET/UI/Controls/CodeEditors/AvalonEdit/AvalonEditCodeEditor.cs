@@ -14,10 +14,10 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
-using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.MVP;
+using Computator.NET.Natives;
+using Computator.NET.UI.Controls.CodeEditors.Scintilla;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
@@ -29,7 +29,7 @@ using FontFamily = System.Windows.Media.FontFamily;
 using FontStyle = System.Drawing.FontStyle;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
-namespace Computator.NET.UI.CodeEditors
+namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
 {
     internal class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
     {
@@ -187,7 +187,7 @@ namespace Computator.NET.UI.CodeEditors
 
             using (
                 XmlReader reader =
-                    new XmlTextReader(GlobalConfig.FullPath("UI","Controls", "CodeEditors", "TSL-Syntax.xshd")))
+                    new XmlTextReader(GlobalConfig.FullPath("UI", "Controls", "CodeEditors", "TSL-Syntax.xshd")))
             {
                 customHighlighting = HighlightingLoader.Load(reader,
                     HighlightingManager.Instance);

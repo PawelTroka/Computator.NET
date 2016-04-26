@@ -1,21 +1,21 @@
-using Computator.NET.UI.Menus;
+using Computator.NET.UI.Dialogs;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    class AboutCommand : CommandBase
+    internal class AboutCommand : CommandBase
     {
         public AboutCommand()
         {
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
-            this.Text = MenuStrings.aboutToolStripMenuItem1_Text;
-            this.ToolTip = MenuStrings.aboutToolStripMenuItem1_Text;
+            Text = MenuStrings.aboutToolStripMenuItem1_Text;
+            ToolTip = MenuStrings.aboutToolStripMenuItem1_Text;
         }
 
 
         public override void Execute()
         {
-            new AboutBox1().ShowDialog(/*this*/);
+            new AboutBox1().ShowDialog( /*this*/);
         }
     }
 }

@@ -1,40 +1,44 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Windows.Forms;
-using Computator.NET.Benchmarking;
-using Computator.NET.Charting;
-using Computator.NET.Charting.Chart3D;
-using Computator.NET.Charting.ComplexCharting;
-using Computator.NET.Charting.RealCharting;
-using Computator.NET.Config;
-using Computator.NET.Data;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Evaluation;
-using Computator.NET.Localization;
-using Computator.NET.Logging;
-using Computator.NET.Properties;
-using Computator.NET.UI.AutocompleteMenu;
-using Computator.NET.UI.Dialogs;
-using Computator.NET.UI.MVP.Views;
-using Computator.NET.UI.Views;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET
+namespace Computator.NET.UI.Views
 {
     public partial class MainForm : LocalizedForm, IMainForm
     {
+        #region initialization and construction
+
+        public MainForm()
+        {
+            InitializeComponent();
+
+            Controls.Add(ExpressionView as Control);
+            Controls.Add(ToolbarView as Control);
+            Controls.Add(MenuStripView as Control);
+
+            chartingTabPage.Controls.Add(ChartingView as Control);
+            calculationsTabPage.Controls.Add(CalculationsView as Control);
+            numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
+            scriptingTabPage.Controls.Add(ScriptingView as Control);
+            customFunctionsTabPage.Controls.Add(CustomFunctionsView as Control);
+
+            symbolicCalculationsTabPage.Enabled = false;
+        }
+
+        #endregion
 
         #region IMainForm
 
-        public IToolbarView MenuStripView { get; } = new MenuStripView() { Dock = DockStyle.Top };
+        public IToolbarView MenuStripView { get; } = new MenuStripView {Dock = DockStyle.Top};
+
         public void Restart()
         {
             Application.Restart();
         }
 
-        public IToolbarView ToolbarView { get; } = new ToolBarView() {Dock=DockStyle.Top};
+        public IToolbarView ToolbarView { get; } = new ToolBarView {Dock = DockStyle.Top};
         public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
 
         public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView
@@ -47,15 +51,11 @@ namespace Computator.NET
         public IChartingView ChartingView { get; } = new ChartingView {Dock = DockStyle.Fill};
 
 
-
-
-
         public string ModeText
         {
             get { return modeToolStripDropDownButton.Text; }
             set { modeToolStripDropDownButton.Text = value; }
         }
-
 
 
         public event EventHandler ModeForcedToReal
@@ -95,8 +95,6 @@ namespace Computator.NET
         public IExpressionView ExpressionView { get; } = new ExpressionView {Dock = DockStyle.Top};
 
 
-
-
         public event EventHandler SelectedViewChanged
         {
             add { tabControl1.SelectedIndexChanged += value; }
@@ -104,31 +102,5 @@ namespace Computator.NET
         }
 
         #endregion
-
-
-        
-
-        #region initialization and construction
-
-        public MainForm()
-        {
-            InitializeComponent();
-            
-            Controls.Add(ExpressionView as Control);
-            Controls.Add(ToolbarView as Control);
-            Controls.Add(MenuStripView as Control);
-
-            chartingTabPage.Controls.Add(ChartingView as Control);
-            calculationsTabPage.Controls.Add(CalculationsView as Control);
-            numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
-            scriptingTabPage.Controls.Add(ScriptingView as Control);
-            customFunctionsTabPage.Controls.Add(CustomFunctionsView as Control);
-            
-            symbolicCalculationsTabPage.Enabled = false;
-        }
-        
-        #endregion
-
-
     }
 }

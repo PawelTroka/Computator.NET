@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.UI.Dialogs

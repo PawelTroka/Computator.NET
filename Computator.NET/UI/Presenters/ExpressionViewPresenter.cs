@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.Evaluation;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.MVP.Views
+namespace Computator.NET.UI.Presenters
 {
     public class ExpressionViewPresenter
     {
-        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
         private readonly IExpressionView _view;
+        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
 
 
         public ExpressionViewPresenter(IExpressionView view)

@@ -27,10 +27,10 @@ namespace Computator.NET.DataTypes
         public const char ExponentModeSymbol = '^';
 
         public static readonly string DecimalSeparatorSuperscript = @"ᱸ";
-            //(Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
+        //(Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
 
         public static readonly string CommaSuperscript = @"ʹ";
-            //"\u0315";//(Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";
+        //"\u0315";//(Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";
 
         //2ᴹᵃᵗʸᵃˢ⁽ˣʹʸ⁾
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AutocompleteMenuNS
+namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
     /// <summary>
     ///     Control for displaying menu items, hosted in AutocompleteMenu.

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Properties;
 
-namespace Computator.NET.UI.Forms
+namespace Computator.NET.UI.Dialogs
 {
     internal class LoadingScreen : Form
     {

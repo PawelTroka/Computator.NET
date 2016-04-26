@@ -1,19 +1,15 @@
 using System;
 using Computator.NET.Properties;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands
 {
-    class RunCommand : CommandBase
+    internal class RunCommand : CommandBase
     {
-
-
         public RunCommand()
         {
-            this.Icon = Resources.runToolStripButtonImage;
-            this.Text = MenuStrings.runToolStripButton_Text;
-            this.ToolTip = MenuStrings.runToolStripButton_Text;
+            Icon = Resources.runToolStripButtonImage;
+            Text = MenuStrings.runToolStripButton_Text;
+            ToolTip = MenuStrings.runToolStripButton_Text;
         }
 
 

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands
 {
     public interface IToolbarCommand : INotifyPropertyChanged
     {

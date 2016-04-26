@@ -1,4 +1,6 @@
-﻿namespace Computator.NET.UI.Views
+﻿using Computator.NET.UI.Controls;
+
+namespace Computator.NET.UI.Views
 {
     partial class SolutionExplorerView
     {
@@ -29,7 +31,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SolutionExplorerView));
-            this.scriptingDirectoryTree = new Computator.NET.DirectoryTree();
+            this.scriptingDirectoryTree = new DirectoryTree();
             this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.directoryBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();

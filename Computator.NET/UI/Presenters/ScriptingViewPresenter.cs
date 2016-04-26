@@ -1,11 +1,12 @@
 using System;
 using Computator.NET.Compilation;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
-using Computator.NET.UI.MVP;
+using Computator.NET.UI.ErrorHandling;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.UI.Presenters
 {
     public class ScriptingViewPresenter
     {

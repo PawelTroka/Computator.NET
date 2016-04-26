@@ -1,4 +1,6 @@
-﻿namespace Computator.NET.UI.Controls
+﻿using Computator.NET.UI.Controls;
+
+namespace Computator.NET.UI.Views
 {
     partial class ChartAreaValuesView
     {
@@ -38,10 +40,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
-            this.yNNumericUpDown = new Computator.NET.UI.ScientificNumericUpDown();
-            this.y0NumericUpDown = new Computator.NET.UI.ScientificNumericUpDown();
-            this.xnNumericUpDown = new Computator.NET.UI.ScientificNumericUpDown();
-            this.x0NumericUpDown = new Computator.NET.UI.ScientificNumericUpDown();
+            this.yNNumericUpDown = new ScientificNumericUpDown();
+            this.y0NumericUpDown = new ScientificNumericUpDown();
+            this.xnNumericUpDown = new ScientificNumericUpDown();
+            this.x0NumericUpDown = new ScientificNumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).BeginInit();

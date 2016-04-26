@@ -7,12 +7,13 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.Controls;
+using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;
+using Computator.NET.UI.Controls.CodeEditors.Scintilla;
 
-namespace Computator.NET.UI.CodeEditors
+namespace Computator.NET.UI.Controls.CodeEditors
 {
     public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor, ICanFileEdit,
         INotifyPropertyChanged
@@ -92,6 +93,11 @@ namespace Computator.NET.UI.CodeEditors
             };
         }
 
+        private ICodeEditorControl CurrentCodeEditor
+        {
+            get { return _codeEditors[_codeEditorType]; }
+        }
+
         public void NewDocument()
         {
             NewDocument("");
@@ -102,11 +108,6 @@ namespace Computator.NET.UI.CodeEditors
                 _codeEditorType == CodeEditorType.AvalonEdit
                     ? avalonEditorWrapper.Focused
                     : ((Control) CurrentCodeEditor).Focused;
-
-        private ICodeEditorControl CurrentCodeEditor
-        {
-            get { return _codeEditors[_codeEditorType]; }
-        }
 
         public string CurrentFileName
         {
@@ -174,8 +175,6 @@ namespace Computator.NET.UI.CodeEditors
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public void Undo()
         {
             CurrentCodeEditor.Undo();
@@ -204,32 +203,6 @@ namespace Computator.NET.UI.CodeEditors
         public void SelectAll()
         {
             CurrentCodeEditor.SelectAll();
-        }
-
-        public void AppendText(string text)
-        {
-            CurrentCodeEditor.AppendText(text);
-        }
-
-        public void SwitchDocument(string filename)
-        {
-            CurrentCodeEditor.SwitchDocument(filename);
-        }
-
-        public void CloseDocument(string filename)
-        {
-            CurrentCodeEditor.CloseDocument(filename);
-        }
-
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Control | Keys.T))
-            {
-                NewDocument();
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         public void Save()
@@ -269,6 +242,34 @@ namespace Computator.NET.UI.CodeEditors
                 CurrentFileName = saveFileDialog.FileName;
             }
             tabControl.SelectedTab.ImageIndex = 0;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void AppendText(string text)
+        {
+            CurrentCodeEditor.AppendText(text);
+        }
+
+        public void SwitchDocument(string filename)
+        {
+            CurrentCodeEditor.SwitchDocument(filename);
+        }
+
+        public void CloseDocument(string filename)
+        {
+            CurrentCodeEditor.CloseDocument(filename);
+        }
+
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.T))
+            {
+                NewDocument();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void TabControl_ControlAdded(object sender, ControlEventArgs e)

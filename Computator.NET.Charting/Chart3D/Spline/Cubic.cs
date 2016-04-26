@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Charting.Chart3D.Splines
+﻿namespace Computator.NET.Charting.Chart3D.Spline
 {
     public class Cubic
     {

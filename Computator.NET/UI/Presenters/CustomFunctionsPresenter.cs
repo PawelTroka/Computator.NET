@@ -1,4 +1,6 @@
-﻿namespace Computator.NET.UI.Views
+﻿using Computator.NET.UI.Interfaces;
+
+namespace Computator.NET.UI.Presenters
 {
     public class CustomFunctionsPresenter
     {

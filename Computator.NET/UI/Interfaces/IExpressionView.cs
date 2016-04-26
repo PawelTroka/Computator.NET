@@ -1,6 +1,6 @@
 ﻿using Computator.NET.UI.Controls;
 
-namespace Computator.NET.UI.MVP.Views
+namespace Computator.NET.UI.Interfaces
 {
     public interface IExpressionView
     {

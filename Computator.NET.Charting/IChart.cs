@@ -1,6 +1,5 @@
 ﻿using System.Drawing.Imaging;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Controls;
 
 namespace Computator.NET.Charting
 {

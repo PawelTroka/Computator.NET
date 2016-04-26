@@ -1,22 +1,22 @@
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
+using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
-    class CopyCommand : CommandBase
+    internal class CopyCommand : CommandBase
     {
-        private ICanFileEdit scriptingCodeEditor;
-        private ICanFileEdit customFunctionsCodeEditor;
-        private IMainForm mainFormView;
+        private readonly ICanFileEdit customFunctionsCodeEditor;
+        private readonly IMainForm mainFormView;
+        private readonly ICanFileEdit scriptingCodeEditor;
 
-        public CopyCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, IMainForm mainFormView)
+        public CopyCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
+            IMainForm mainFormView)
         {
-            this.Icon = Resources.copyToolStripButtonImage;
-            this.Text = MenuStrings.copyToolStripButton_Text;
-            this.ToolTip = MenuStrings.copyToolStripButton_Text;
-            this.ShortcutKeyString = "Ctrl+C";
+            Icon = Resources.copyToolStripButtonImage;
+            Text = MenuStrings.copyToolStripButton_Text;
+            ToolTip = MenuStrings.copyToolStripButton_Text;
+            ShortcutKeyString = "Ctrl+C";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -26,12 +26,11 @@ namespace Computator.NET.UI.Commands
 
         public override void Execute()
         {
-
-            if ((int)SharedViewState.Instance.CurrentView < 4)
+            if ((int) SharedViewState.Instance.CurrentView < 4)
             {
                 mainFormView.SendStringAsKey("^C"); //expressionTextBox.Copy();
             }
-            else if ((int)SharedViewState.Instance.CurrentView == 4)
+            else if ((int) SharedViewState.Instance.CurrentView == 4)
             {
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Copy();

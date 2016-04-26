@@ -1,11 +1,10 @@
 using System;
 using Computator.NET.Compilation;
-using Computator.NET.Config;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.MVP;
+using Computator.NET.Logging;
 
-namespace Computator.NET
+namespace Computator.NET.UI.ErrorHandling
 {
     public interface IErrorHandler
     {
@@ -52,7 +51,8 @@ namespace Computator.NET
             //   exception.Errors[CompilationErrorPlace.CustomFunctions]);
 
             if (exception.HasCustomFunctionsErrors && !exception.HasMainCodeErrors)
-                SharedViewState.Instance.CurrentView = ViewName.CustomFunctions; ///////////////////////////EventAggregator.Instance.Publish(new ChangeViewEvent(ViewName.CustomFunctions));
+                SharedViewState.Instance.CurrentView = ViewName.CustomFunctions;
+                    ///////////////////////////EventAggregator.Instance.Publish(new ChangeViewEvent(ViewName.CustomFunctions));
             //_view.SelectedViewIndex = 5; //tabControl1.SelectedTab = customFunctionsTabPage;
         }
     }

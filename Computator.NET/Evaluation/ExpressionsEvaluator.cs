@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Computator.NET.Compilation;
-using Computator.NET.Config;
 using Computator.NET.Constants;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
@@ -59,6 +58,8 @@ namespace Computator.NET.Evaluation
         }";
 
         private readonly TslCompiler _tslCompiler;
+
+        private readonly Regex implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
         private string _customFunctionsCSharpCode;
         private Type _delegateType;
         private string _functionSignature;
@@ -67,8 +68,6 @@ namespace Computator.NET.Evaluation
         protected string AdditionalUsings;
         protected string CustomFunctionsTslCode;
         protected FunctionType FunctionType;
-
-        private readonly Regex implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
         protected SimpleLogger Logger;
         protected string MainCSharpCode;
         protected string MainTslCode;
@@ -99,7 +98,9 @@ namespace Computator.NET.Evaluation
 
             MainTslCode = input;
             CustomFunctionsTslCode =
-                (!string.IsNullOrEmpty(customFunctionsCode) && !string.IsNullOrWhiteSpace(customFunctionsCode)) ? customFunctionsCode : "";
+                !string.IsNullOrEmpty(customFunctionsCode) && !string.IsNullOrWhiteSpace(customFunctionsCode)
+                    ? customFunctionsCode
+                    : "";
 
 
             var function = Compile();
@@ -131,19 +132,19 @@ namespace Computator.NET.Evaluation
                 case FunctionType.Real2D:
                     //_tslCompiler.Variables.Add("x");
                     _functionSignature = LambdaX;
-                    _delegateType = typeof (Func<double, double>);
+                    _delegateType = typeof(Func<double, double>);
                     break;
                 case FunctionType.Complex:
                     //  _tslCompiler.Variables.Add("z");
                     // _tslCompiler.Variables.Add("i");
                     _functionSignature = LambdaZ;
-                    _delegateType = typeof (Func<Complex, Complex>);
+                    _delegateType = typeof(Func<Complex, Complex>);
                     break;
                 case FunctionType.Real2DImplicit:
                 case FunctionType.Real3D:
                     //  _tslCompiler.Variables.Add("x");
                     //  _tslCompiler.Variables.Add("y");
-                    _delegateType = typeof (Func<double, double, double>);
+                    _delegateType = typeof(Func<double, double, double>);
                     _functionSignature = LambdaXy;
                     break;
                 case FunctionType.Real3DImplicit:
@@ -151,10 +152,10 @@ namespace Computator.NET.Evaluation
                     //    _tslCompiler.Variables.Add("y");
                     //    _tslCompiler.Variables.Add("z");
                     _functionSignature = LambdaXyz;
-                    _delegateType = typeof (Func<double, double, double, double>);
+                    _delegateType = typeof(Func<double, double, double, double>);
                     break;
                 case FunctionType.Scripting:
-                    _delegateType = typeof (Action<Action<string>>);
+                    _delegateType = typeof(Action<Action<string>>);
                     _functionSignature = LambdaScript;
                     break;
             }

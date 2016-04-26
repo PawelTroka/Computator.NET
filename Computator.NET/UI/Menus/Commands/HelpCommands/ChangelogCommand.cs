@@ -1,22 +1,21 @@
 using Computator.NET.UI.Dialogs;
-using Computator.NET.UI.Menus;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    class ChangelogCommand : CommandBase
+    internal class ChangelogCommand : CommandBase
     {
         public ChangelogCommand()
         {
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
-            this.Text = MenuStrings.Changelog_Text;
-            this.ToolTip = MenuStrings.Changelog_Text;
+            Text = MenuStrings.Changelog_Text;
+            ToolTip = MenuStrings.Changelog_Text;
         }
 
 
         public override void Execute()
         {
-            new ChangelogForm().ShowDialog(/*this*/);
+            new ChangelogForm().ShowDialog( /*this*/);
         }
     }
 }

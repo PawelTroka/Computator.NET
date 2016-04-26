@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
 
-namespace Computator.NET
+namespace Computator.NET.UI.Dialogs
 {
     internal partial class AboutBox1 : Form
     {

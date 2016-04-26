@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Computator.NET.Localization
+namespace Computator.NET.DataTypes.Localization
 {
     public class LocalizedForm : Form
     {

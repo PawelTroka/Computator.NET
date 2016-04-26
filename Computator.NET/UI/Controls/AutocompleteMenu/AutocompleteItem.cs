@@ -6,9 +6,9 @@ using System.Drawing;
 using Computator.NET.DataTypes;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;
 
-namespace AutocompleteMenuNS
+namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
     public class AutocompleteItemEqualityComparer : IEqualityComparer<AutocompleteItem>
     {

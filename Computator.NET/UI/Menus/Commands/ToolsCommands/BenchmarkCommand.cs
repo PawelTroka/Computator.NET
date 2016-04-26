@@ -1,22 +1,21 @@
 using Computator.NET.Benchmarking;
-using Computator.NET.UI.Menus;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
-    class BenchmarkCommand : CommandBase
+    internal class BenchmarkCommand : CommandBase
     {
         public BenchmarkCommand()
         {
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
-            this.Text = MenuStrings.Benchmark_Text;
-            this.ToolTip = MenuStrings.Benchmark_Text;
+            Text = MenuStrings.Benchmark_Text;
+            ToolTip = MenuStrings.Benchmark_Text;
         }
 
 
         public override void Execute()
         {
-            new BenchmarkForm().ShowDialog(/*this*/);
+            new BenchmarkForm().ShowDialog( /*this*/);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Functions;
 
-namespace Computator.NET.UI.AutocompleteMenu
+namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
     internal class WebBrowserToolTip : ToolStripDropDown
     {

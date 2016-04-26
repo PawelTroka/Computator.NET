@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using Computator.NET.Charting.Chart3D;
+using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
+using Computator.NET.Charting.Controls;
 using Computator.NET.Charting.RealCharting;
-using Computator.NET.Evaluation;
+using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting
 {
@@ -46,15 +47,15 @@ namespace Computator.NET.Charting
 
         private void SetMode(Type chartType)
         {
-            if (chartType == typeof (Chart2D))
+            if (chartType == typeof(Chart2D))
             {
                 editChartMenus.SetMode(CalculationsMode.Real);
             }
-            else if (chartType == typeof (ComplexChart))
+            else if (chartType == typeof(ComplexChart))
             {
                 editChartMenus.SetMode(CalculationsMode.Complex);
             }
-            else if (chartType == typeof (ElementHost))
+            else if (chartType == typeof(ElementHost))
             {
                 editChartMenus.SetMode(CalculationsMode.Fxy);
             }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Computator.NET.DataTypes;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.DataTypes.Events;
+using Computator.NET.UI.Controls.CodeEditors;
 
-namespace Computator.NET.UI.MVP
+namespace Computator.NET.UI
 {
     public class SharedViewState : INotifyPropertyChanged
     {

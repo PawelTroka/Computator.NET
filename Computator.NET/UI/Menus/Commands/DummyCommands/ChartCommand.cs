@@ -1,28 +1,22 @@
-using Computator.NET.DataTypes;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
+using Computator.NET.DataTypes.Events;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {
-    class ChartCommand : DummyCommand
+    internal class ChartCommand : DummyCommand
     {
         public ChartCommand() : base(MenuStrings.chartToolStripMenuItem_Text)
         {
             BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CurrentView),
-                () => this.IsEnabled = SharedViewState.Instance.CurrentView==ViewName.Charting);
-
-
+                () => IsEnabled = SharedViewState.Instance.CurrentView == ViewName.Charting);
         }
     }
 
-    class TransformCommand : DummyCommand
+    internal class TransformCommand : DummyCommand
     {
         public TransformCommand() : base(MenuStrings.transformToolStripMenuItem_Text)
         {
             BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CurrentView),
-                () => this.IsEnabled = SharedViewState.Instance.CurrentView == ViewName.Charting);
-
-
+                () => IsEnabled = SharedViewState.Instance.CurrentView == ViewName.Charting);
         }
     }
 }

@@ -7,9 +7,8 @@ using System.Windows.Forms;
 using Computator.NET.Data;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.AutocompleteMenu;
 
-namespace AutocompleteMenuNS
+namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
     public class AutocompleteListView : UserControl, IAutocompleteListView
     {

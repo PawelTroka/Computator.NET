@@ -1,4 +1,4 @@
-﻿namespace Computator.NET
+﻿namespace Computator.NET.UI.Dialogs
 {
     partial class AboutBox1
     {

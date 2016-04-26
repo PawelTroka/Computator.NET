@@ -1,17 +1,17 @@
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Evaluation;
+using Computator.NET.DataTypes;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    abstract class ChartOption   : BaseCommandForCharts
+    internal abstract class ChartOption : BaseCommandForCharts
     {
-        protected ChartOption(object value,ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        protected ChartOption(object value, ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
         {
-            this.IsOption = true;
-            this.CheckOnClick = true;
-            this.Text = value.ToString();
-            this.ToolTip = value.ToString();
+            IsOption = true;
+            CheckOnClick = true;
+            Text = value.ToString();
+            ToolTip = value.ToString();
         }
     }
 }

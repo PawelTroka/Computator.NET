@@ -2,7 +2,7 @@
 // version 0.1
 
 
-namespace Computator.NET.Charting.Chart3D
+namespace Computator.NET.Charting.Chart3D.Chart3D
 {
     internal class ScatterPlotItem : Vertex3D
     {

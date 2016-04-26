@@ -7,15 +7,15 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using Computator.NET.Charting.Chart3D;
+using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Evaluation;
 using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
 
-namespace Computator.NET.Charting
+namespace Computator.NET.Charting.Controls
 {
     public interface IEditChartMenus
     {
@@ -26,7 +26,10 @@ namespace Computator.NET.Charting
     {
         private readonly Dictionary<CalculationsMode, IChart> charts;
 
-        private readonly ComponentResourceManager resources = new ComponentResourceManager(typeof (EditChartMenus));
+
+        private readonly ElementHost elementHostChart3d;
+
+        private readonly ComponentResourceManager resources = new ComponentResourceManager(typeof(EditChartMenus));
 
 
         private ToolStripComboBox aligmentLegendComboBox;
@@ -42,9 +45,6 @@ namespace Computator.NET.Charting
         private ToolStripMenuItem countourLinesToolStripMenuItem;
         private ToolStripMenuItem editChartPropertiesToolStripMenuItem;
         private ToolStripMenuItem editChartToolStripMenuItem;
-
-
-        private readonly ElementHost elementHostChart3d;
 
         private ToolStripMenuItem exportToolStripMenuItem;
         private ToolStripSeparator firstToolStripSeparator;
@@ -411,7 +411,7 @@ namespace Computator.NET.Charting
             else if (currentChart is ComplexChart)
                 editChartWindow = new EditComplexChartWindow(complexChart);
             else if (currentChart is Chart3DControl)
-                editChartWindow = new Chart3D.EditChartWindow(chart3d, elementHostChart3d);
+                editChartWindow = new Chart3D.UI.EditChartWindow(chart3d, elementHostChart3d);
 
 
             editChartWindow.ShowDialog();
@@ -432,7 +432,7 @@ namespace Computator.NET.Charting
 
         public void aligmentLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-         //  / chart2d.changeChartLegendAligment(((ToolStripComboBox) s).SelectedItem.ToString());
+            //  / chart2d.changeChartLegendAligment(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void positionLegendComboBox_SelectedIndexChanged(object s, EventArgs e)
@@ -442,17 +442,17 @@ namespace Computator.NET.Charting
 
         public void colorsOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-        //    chart2d.changeChartColor(((ToolStripComboBox) s).SelectedItem.ToString());
+            //    chart2d.changeChartColor(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void seriesOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-           //////////////////// chart2d.changeSeries(((ToolStripComboBox) s).SelectedItem.ToString());
+            //////////////////// chart2d.changeSeries(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         public void typeOfChartComboBox_SelectedIndexChanged(object s, EventArgs e)
         {
-       //     chart2d.changeChartType(((ToolStripComboBox) s).SelectedItem.ToString());
+            //     chart2d.changeChartType(((ToolStripComboBox) s).SelectedItem.ToString());
         }
 
         private void countourLinesToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)

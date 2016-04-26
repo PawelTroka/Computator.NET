@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Views
 {

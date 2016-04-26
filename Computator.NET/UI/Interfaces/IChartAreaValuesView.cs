@@ -1,6 +1,7 @@
 using System;
+using Computator.NET.Charting;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.UI.Interfaces
 {
     public interface IChartAreaValuesView : IAreaValues
     {

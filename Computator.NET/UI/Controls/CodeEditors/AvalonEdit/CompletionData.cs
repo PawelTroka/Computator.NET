@@ -8,7 +8,7 @@ using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 
-namespace Computator.NET.UI.CodeEditors
+namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
 {
     /// <summary>
     ///     Implements AvalonEdit ICompletionData interface to provide the entries in the completion drop down.

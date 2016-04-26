@@ -1,4 +1,6 @@
 ﻿using System.Windows.Forms;
+using Computator.NET.UI.Controls;
+using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Views
 {

@@ -45,13 +45,13 @@ namespace Computator.NET.Charting.ComplexCharting
 
             //enums
             var vartosci =
-                Enum.GetValues(typeof (CountourLinesMode)).Cast<CountourLinesMode>().ToList();
+                Enum.GetValues(typeof(CountourLinesMode)).Cast<CountourLinesMode>().ToList();
             foreach (var v in vartosci)
                 contourLinesComboBox.Items.Add(v);
             contourLinesComboBox.SelectedItem = chart.countourMode;
 
             var vartosci2 =
-                Enum.GetValues(typeof (AssignmentOfColorMethod))
+                Enum.GetValues(typeof(AssignmentOfColorMethod))
                     .Cast<AssignmentOfColorMethod>()
                     .ToList();
             foreach (var v in vartosci2)

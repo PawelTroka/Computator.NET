@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Computator.NET.Charting.Chart3D
+namespace Computator.NET.Charting.Chart3D.Chart3D
 {
     public class Cone3D : Mesh3D
     {

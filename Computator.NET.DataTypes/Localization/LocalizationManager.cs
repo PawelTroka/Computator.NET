@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Computator.NET.Localization
+namespace Computator.NET.DataTypes.Localization
 {
     public class LocalizationManager
     {

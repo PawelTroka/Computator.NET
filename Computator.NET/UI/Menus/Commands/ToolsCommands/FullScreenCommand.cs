@@ -1,18 +1,17 @@
 using System.Windows.Forms;
-using Computator.NET.UI.Menus;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
-    class FullScreenCommand : CommandBase
+    internal class FullScreenCommand : CommandBase
     {
-
         private readonly IMainForm mainFormView;
 
         public FullScreenCommand(IMainForm mainFormView)
         {
             //this.Icon = Resources;
-            this.Text = MenuStrings.fullscreenToolStripMenuItem_Text;
-            this.ToolTip = MenuStrings.fullscreenToolStripMenuItem_Text;
+            Text = MenuStrings.fullscreenToolStripMenuItem_Text;
+            ToolTip = MenuStrings.fullscreenToolStripMenuItem_Text;
             //   this.CheckOnClick = true;
             this.mainFormView = mainFormView;
         }
@@ -20,8 +19,8 @@ namespace Computator.NET.UI.Commands
 
         public override void Execute()
         {
-            this.Checked = !this.Checked;
-            if (this.Checked)
+            Checked = !Checked;
+            if (Checked)
             {
                 // this.TopMost = true;
                 mainFormView.FormBorderStyle = FormBorderStyle.None;

@@ -1,22 +1,22 @@
 using Computator.NET.Data;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace UnitTests.Data
 {
     [TestFixture]
     public class AutocompletionDataTest
     {
         [Test]
-        public void TestScripting()
+        public void TestExpressions()
         {
-            var content = AutocompletionData.GetAutocompleteItemsForScripting();
+            var content = AutocompletionData.GetAutocompleteItemsForExpressions();
             Assert.IsNotNull(content);
         }
 
         [Test]
-        public void TestExpressions()
+        public void TestScripting()
         {
-            var content = AutocompletionData.GetAutocompleteItemsForExpressions();
+            var content = AutocompletionData.GetAutocompleteItemsForScripting();
             Assert.IsNotNull(content);
         }
     }

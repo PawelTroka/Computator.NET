@@ -1,10 +1,9 @@
 using System;
 using System.Reflection;
 using System.Windows.Forms;
-using Computator.NET.Config;
 using Computator.NET.Logging;
 
-namespace Computator.NET
+namespace Computator.NET.UI.ErrorHandling
 {
     public class SimpleErrorHandler : IErrorHandler
     {

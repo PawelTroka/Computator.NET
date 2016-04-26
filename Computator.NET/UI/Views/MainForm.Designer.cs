@@ -1,15 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Computator.NET.Benchmarking;
-using Computator.NET.Charting;
-using Computator.NET.Charting.RealCharting;
-using Computator.NET.Config;
-using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.Controls;
-using Computator.NET.UI;
-
-namespace Computator.NET
+﻿namespace Computator.NET.UI.Views
 {
     partial class MainForm
     {

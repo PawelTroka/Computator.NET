@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Computator.NET.Properties

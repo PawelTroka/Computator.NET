@@ -1,21 +1,21 @@
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
+using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
-    class RedoCommand : CommandBase
+    internal class RedoCommand : CommandBase
     {
-        private ICanFileEdit scriptingCodeEditor;
-        private ICanFileEdit customFunctionsCodeEditor;
-        private IMainForm mainFormView;
+        private readonly ICanFileEdit customFunctionsCodeEditor;
+        private readonly IMainForm mainFormView;
+        private readonly ICanFileEdit scriptingCodeEditor;
 
-        public RedoCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, IMainForm mainFormView)
+        public RedoCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
+            IMainForm mainFormView)
         {
             //this.Icon = Resources.copyToolStripButtonImage;
-            this.Text = MenuStrings.redoToolStripMenuItem_Text;
-            this.ToolTip = MenuStrings.redoToolStripMenuItem_Text;
-            this.ShortcutKeyString = "Ctrl+Y";
+            Text = MenuStrings.redoToolStripMenuItem_Text;
+            ToolTip = MenuStrings.redoToolStripMenuItem_Text;
+            ShortcutKeyString = "Ctrl+Y";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
@@ -25,12 +25,12 @@ namespace Computator.NET.UI.Commands
 
         public override void Execute()
         {
-            if ((int)SharedViewState.Instance.CurrentView < 4)
+            if ((int) SharedViewState.Instance.CurrentView < 4)
             {
                 mainFormView.SendStringAsKey("^Y");
                 //expressionTextBox.do()
             }
-            else if ((int)SharedViewState.Instance.CurrentView == 4)
+            else if ((int) SharedViewState.Instance.CurrentView == 4)
                 //scriptingCodeEditor.Focus();
             {
                 if (scriptingCodeEditor.Focused)

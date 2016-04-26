@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Computator.NET.Charting.Chart3D.Chart3DControl"
+﻿<UserControl x:Class="Computator.NET.Charting.Chart3D.UI.Chart3DControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

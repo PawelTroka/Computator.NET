@@ -4,18 +4,17 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.Natives;
 using Computator.NET.Properties;
-using Computator.NET.UI.MVP;
 
 namespace Computator.NET.UI.Controls
 {
     internal class ExpressionTextBox : TextBox, INotifyPropertyChanged, IExpressionTextBox
     {
-        private AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
+        private AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
 
         public ExpressionTextBox()
         {
@@ -113,7 +112,7 @@ namespace Computator.NET.UI.Controls
         private void InitializeComponent()
         {
             KeyPress += ExpressionTextBox_KeyPress;
-            _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu();
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu();
             _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
         }
 

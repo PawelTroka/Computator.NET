@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml.Serialization;
-using AutocompleteMenuNS;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Computator.NET.Functions;
+using Computator.NET.UI.Controls.AutocompleteMenu;
 
 namespace Computator.NET.Data
 {
@@ -33,7 +33,7 @@ namespace Computator.NET.Data
             //foreach (var item in sourceItems)
             //_details.Add(item.FunctionInfo.Signature, item.FunctionInfo);
 
-            var serializer = new XmlSerializer(typeof (FunctionInfo[]),
+            var serializer = new XmlSerializer(typeof(FunctionInfo[]),
                 new XmlRootAttribute("FunctionsDetails"));
             var stream = new StreamWriter("functions_saved.xml");
 
@@ -58,7 +58,7 @@ namespace Computator.NET.Data
             //foreach (var item in sourceItems)
             //_details.Add(item.FunctionInfo.Signature, item.FunctionInfo);
 
-            var serializer = new XmlSerializer(typeof (FunctionInfo[]),
+            var serializer = new XmlSerializer(typeof(FunctionInfo[]),
                 new XmlRootAttribute("FunctionsDetails"));
             var stream = new StreamWriter("functions_empty_saved.xml");
 
@@ -92,7 +92,7 @@ namespace Computator.NET.Data
             // Constants.PhysicalConstants.parseConstantsFromNIST();
             //Constants.MathematicalConstants.parseConstantsFromNIST();
 
-            var serializer = new XmlSerializer(typeof (FunctionInfo[]),
+            var serializer = new XmlSerializer(typeof(FunctionInfo[]),
                 new XmlRootAttribute("FunctionsDetails"));
             var stream = new StreamReader(GlobalConfig.FullPath("Data", "functions.xml"));
 

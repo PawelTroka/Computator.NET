@@ -1,24 +1,22 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Threading;
-using Computator.NET.Config;
 using Computator.NET.DataTypes;
-using Computator.NET.Evaluation;
-using Computator.NET.Localization;
+using Computator.NET.DataTypes.Events;
+using Computator.NET.DataTypes.Localization;
 using Computator.NET.Properties;
-using Computator.NET.UI.Commands;
-using Computator.NET.UI.MVP;
-using Computator.NET.UI.MVP.Views;
+using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Menus;
+using Computator.NET.UI.Menus.Commands;
+using Computator.NET.UI.Menus.Commands.EditCommands;
+using Computator.NET.UI.Menus.Commands.FileCommands;
+using Computator.NET.UI.Menus.Commands.HelpCommands;
 
-namespace Computator.NET
+namespace Computator.NET.UI.Presenters
 {
     public class MainFormPresenter
     {
-       
-
         private readonly IMainForm _view;
 
 
@@ -26,39 +24,36 @@ namespace Computator.NET
 
         public MainFormPresenter(IMainForm view)
         {
-
-
-
-
             _view = view;
             _view.Load += (sender, args) => HandleCommandLine();
-            _view.ToolbarView.SetCommands(new List<IToolbarCommand>()
+            _view.ToolbarView.SetCommands(new List<IToolbarCommand>
             {
-                new NewCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
-                new OpenCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
-                new SaveCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor),
-                new PrintCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
+                new NewCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor),
+                new OpenCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor),
+                new SaveCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor),
+                new PrintCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,
+                    _view),
                 null,
-
-                new CutCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                                new CopyCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-                                                new PasteCommand(_view.ScriptingView.CodeEditorView,_view.CustomFunctionsView.CustomFunctionsEditor, _view),
-               null,
-                         new HelpCommand(),
-                               null,
-              new ExponentCommand(),
-               null,
-               new RunCommand()
+                new CutCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,
+                    _view),
+                new CopyCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,
+                    _view),
+                new PasteCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,
+                    _view),
+                null,
+                new HelpCommand(),
+                null,
+                new ExponentCommand(),
+                null,
+                new RunCommand()
             });
 
 
-            _view.MenuStripView.SetCommands(MenuStripCommandBuilder.BuildMenuStripCommands(this._view));
+            _view.MenuStripView.SetCommands(MenuStripCommandBuilder.BuildMenuStripCommands(_view));
 
-          //  _view.EnterClicked += (o, e) => SharedViewState.Instance.CurrentAction?.Invoke(o, e);
+            //  _view.EnterClicked += (o, e) => SharedViewState.Instance.CurrentAction?.Invoke(o, e);
 
             var expressionViewPresenter = new ExpressionViewPresenter(_view.ExpressionView);
-
-
 
 
             _view.ModeForcedToReal += (sender, args) =>
@@ -80,13 +75,12 @@ namespace Computator.NET
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(mode => SetMode(mode.CalculationsMode));
 
 
-
             Settings.Default.PropertyChanged += (o, e) =>
             {
                 switch (e.PropertyName)
                 {
                     case nameof(Settings.Default.Language):
-                        
+
                         Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
                         LocalizationManager.GlobalUICulture = Settings.Default.Language;
                         //////////////////////////////////_view.Restart();
@@ -101,7 +95,7 @@ namespace Computator.NET
                 switch (e.PropertyName)
                 {
                     case nameof(SharedViewState.Instance.CurrentView):
-                        _view.SelectedViewIndex = (int)SharedViewState.Instance.CurrentView;
+                        _view.SelectedViewIndex = (int) SharedViewState.Instance.CurrentView;
                         break;
                 }
             };
@@ -115,7 +109,6 @@ namespace Computator.NET
         {
             SharedViewState.Instance.CurrentView = (ViewName) _view.SelectedViewIndex;
         }
-
 
 
         private void HandleCommandLine()

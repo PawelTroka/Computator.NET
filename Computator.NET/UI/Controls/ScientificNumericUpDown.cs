@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Computator.NET.Config;
 using Computator.NET.DataTypes;
 using Computator.NET.Evaluation;
 
 // ReSharper disable LocalizableElement
 
-namespace Computator.NET.UI
+namespace Computator.NET.UI.Controls
 {
     public static class DoubleExtensions
     {

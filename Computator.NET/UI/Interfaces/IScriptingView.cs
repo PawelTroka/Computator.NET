@@ -1,7 +1,7 @@
 using System;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Controls.CodeEditors;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.UI.Interfaces
 {
     public interface IScriptingView
     {

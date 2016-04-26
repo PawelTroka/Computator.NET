@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.Natives;
 
 namespace Computator.NET.Config
 {

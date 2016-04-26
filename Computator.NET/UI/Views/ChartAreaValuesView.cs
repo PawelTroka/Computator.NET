@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.UI.Views
 {
     public partial class ChartAreaValuesView : UserControl, IChartAreaValuesView
     {

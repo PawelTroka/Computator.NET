@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 
-namespace Computator.NET.Charting.Chart3D.Splines
+namespace Computator.NET.Charting.Chart3D.Spline
 {
     public abstract class BasicSpline
     {

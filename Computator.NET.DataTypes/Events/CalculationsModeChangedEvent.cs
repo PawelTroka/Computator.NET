@@ -1,6 +1,4 @@
-using Computator.NET.Evaluation;
-
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Events
 {
     public class CalculationsModeChangedEvent : IApplicationEvent
     {

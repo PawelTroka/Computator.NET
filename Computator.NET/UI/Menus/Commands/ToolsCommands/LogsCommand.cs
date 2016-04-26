@@ -3,18 +3,17 @@ using System.IO;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
-using Computator.NET.UI.Menus;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
-    class LogsCommand : CommandBase
+    internal class LogsCommand : CommandBase
     {
         public LogsCommand()
         {
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
-            this.Text = MenuStrings.Logs_Text;
-            this.ToolTip = MenuStrings.Logs_Text;
+            Text = MenuStrings.Logs_Text;
+            ToolTip = MenuStrings.Logs_Text;
         }
 
 

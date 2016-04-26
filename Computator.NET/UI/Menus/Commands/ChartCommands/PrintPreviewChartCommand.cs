@@ -1,24 +1,23 @@
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Evaluation;
+using Computator.NET.DataTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.Menus;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    class PrintPreviewChartCommand : BaseCommandForCharts
+    internal class PrintPreviewChartCommand : BaseCommandForCharts
     {
+        public PrintPreviewChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        {
+            Icon = Resources.printPreviewToolStripMenuItemImage;
+            Text = MenuStrings.printPreviewToolStripMenuItem_Text;
+            ToolTip = MenuStrings.printPreviewToolStripMenuItem_Text;
+            //this.ShortcutKeyString = "Ctrl+P";
+        }
+
         public override void Execute()
         {
             currentChart.Print();
-        }
-
-        public PrintPreviewChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
-        {
-            this.Icon = Resources.printPreviewToolStripMenuItemImage;
-            this.Text = MenuStrings.printPreviewToolStripMenuItem_Text;
-            this.ToolTip = MenuStrings.printPreviewToolStripMenuItem_Text;
-            //this.ShortcutKeyString = "Ctrl+P";
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using Computator.NET.Config;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.RealCharting
@@ -15,6 +14,7 @@ namespace Computator.NET.Charting.RealCharting
         private const double OVERFLOW_VALUE = (double) decimal.MaxValue/10; //1073741951.0/500; //1111117;
         private const double UNDERFLOW_VALUE = (double) decimal.MinValue/10; //-1073741760.0/500; // 1111117;
         private const int MOVE_N = 100;
+        private readonly SeriesChartType defaultImplicitFunctionsChartType = SeriesChartType.FastPoint;
         private readonly List<Function> functions = new List<Function>();
         // private readonly List<Function<double>> implicitFunctions;
         private readonly List<List<Point2D>> points = new List<List<Point2D>>();
@@ -24,7 +24,6 @@ namespace Computator.NET.Charting.RealCharting
         private int _pointsSize = 2;
         private bool _rightButtonPressed;
         private SeriesChartType defaultExplicitFunctionsChartType = SeriesChartType.Line; //SeriesChartType.FastLine;
-        private readonly SeriesChartType defaultImplicitFunctionsChartType = SeriesChartType.FastPoint;
 
         private double quality;
         private double scalingFactor = 1;
@@ -155,6 +154,42 @@ namespace Computator.NET.Charting.RealCharting
                                  ChartAreas[0].AxisY.ValueToPixelPosition(YMin)));
             }
         }
+
+        #region changeMethods
+
+        public SeriesChartType ChartType
+        {
+            get { return defaultExplicitFunctionsChartType; }
+            set
+            {
+                if (value != defaultExplicitFunctionsChartType)
+                {
+                    defaultExplicitFunctionsChartType = value;
+                    for (var i = 0; i < Series.Count; i++)
+                        Series[i].ChartType = value;
+                    NotifyPropertyChanged(nameof(ChartType));
+                }
+            }
+        }
+
+
+        /* //TODO: think about making it work good with menu / command pattern etc
+        public void ShowAllSeries()
+        {
+            foreach (var s in Series)
+                s.Enabled = true;
+        }
+        public void ShowSeries(string series)
+        {
+
+                foreach (var s in Series)
+                    s.Enabled = false;
+                Series[series].Enabled = true;
+            
+        }
+        */
+
+        #endregion
 
         public double XMin
         {
@@ -776,7 +811,7 @@ namespace Computator.NET.Charting.RealCharting
         private void setupChartLegendAligments(ToolStripComboBox owner)
         {
             var items =
-                Enum.GetValues(typeof (StringAlignment)).Cast<StringAlignment>().ToList();
+                Enum.GetValues(typeof(StringAlignment)).Cast<StringAlignment>().ToList();
 
             foreach (var v in items)
                 owner.Items.Add(v.ToString());
@@ -791,7 +826,7 @@ namespace Computator.NET.Charting.RealCharting
             //legend1.Alignment = System.Drawing.StringAlignment.Center;
 
             var items =
-                Enum.GetValues(typeof (Docking))
+                Enum.GetValues(typeof(Docking))
                     .Cast<Docking>()
                     .ToList();
 
@@ -805,9 +840,9 @@ namespace Computator.NET.Charting.RealCharting
 
         private void setupChartColors(ToolStripComboBox owner)
         {
-           // Palette = ChartColorPalette.Berry;
+            // Palette = ChartColorPalette.Berry;
             var items =
-                Enum.GetValues(typeof (ChartColorPalette))
+                Enum.GetValues(typeof(ChartColorPalette))
                     .Cast<ChartColorPalette>()
                     .ToList();
 
@@ -831,7 +866,7 @@ namespace Computator.NET.Charting.RealCharting
         private void setupChartTypes(ToolStripComboBox owner)
         {
             var items =
-                Enum.GetValues(typeof (SeriesChartType))
+                Enum.GetValues(typeof(SeriesChartType))
                     .Cast<SeriesChartType>()
                     .ToList();
             owner.Items.Clear();
@@ -906,42 +941,6 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
-        #endregion
-
-        #region changeMethods
-
-
-        public SeriesChartType ChartType
-        {
-            get { return defaultExplicitFunctionsChartType; }
-            set
-            {
-                if (value != defaultExplicitFunctionsChartType)
-                {
-                    defaultExplicitFunctionsChartType = value;
-                    for (var i = 0; i < Series.Count; i++)
-                        Series[i].ChartType = value;
-                    NotifyPropertyChanged(nameof(ChartType));
-                }
-            }
-        }
-        
-
-        /* //TODO: think about making it work good with menu / command pattern etc
-        public void ShowAllSeries()
-        {
-            foreach (var s in Series)
-                s.Enabled = true;
-        }
-        public void ShowSeries(string series)
-        {
-
-                foreach (var s in Series)
-                    s.Enabled = false;
-                Series[series].Enabled = true;
-            
-        }
-        */
         #endregion
     }
 

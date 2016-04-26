@@ -4,13 +4,13 @@ using System.Drawing.Text;
 using System.Reflection;
 using Computator.NET.Logging;
 
-namespace Computator.NET.Config
+namespace Computator.NET.DataTypes
 {
     public static class CustomFonts
     {
         private static readonly SimpleLogger logger = new SimpleLogger
         {
-            ClassName = typeof (GlobalConfig).FullName
+            ClassName = typeof(GlobalConfig).FullName
         };
 
         private static PrivateFontCollection mathFontCollection;

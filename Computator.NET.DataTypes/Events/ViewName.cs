@@ -1,7 +1,12 @@
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Events
 {
     public enum ViewName
     {
-        Charting,Calculations,NumericalCalculations,SymbolicCalculations,Scripting,CustomFunctions
+        Charting,
+        Calculations,
+        NumericalCalculations,
+        SymbolicCalculations,
+        Scripting,
+        CustomFunctions
     }
 }

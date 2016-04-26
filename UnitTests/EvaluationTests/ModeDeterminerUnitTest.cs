@@ -1,7 +1,8 @@
-﻿using Computator.NET.Evaluation;
+﻿using Computator.NET.DataTypes;
+using Computator.NET.Evaluation;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace UnitTests.EvaluationTests
 {
     [TestFixture]
     public class ModeDeterminerUnitTest
@@ -15,33 +16,17 @@ namespace UnitTests
         }
 
         [Test]
-        public void ImaginaryUnitInSimpleExpression_shouldReturnComplex()
+        public void expressionWithRealExponent_shouldReturnReal()
         {
-            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("2/i"));
+            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2¹⁰³²¹³ॱ³²³²³²"));
+            //z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾
         }
 
         [Test]
-        public void VariableZAndImaginaryUnitInSimpleExpression_shouldReturnComplex()
+        public void expressionWithXVariableAndExponents_shouldReturnReal()
         {
-            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("z+z²+1-1+i"));
-        }
-
-        [Test]
-        public void VariableZPlusNumber_shouldReturnComplex()
-        {
-            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("2+z"));
-        }
-
-        [Test]
-        public void VariableXPlusNumber_shouldReturnReal()
-        {
-            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2+x"));
-        }
-
-        [Test]
-        public void VariableYPlusNumber_shouldReturnFxy() //
-        {
-            Assert.AreEqual(CalculationsMode.Fxy, modeDeterminer.DetermineMode("2+y"));
+            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))"));
+            //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
         }
 
         [Test]
@@ -51,24 +36,9 @@ namespace UnitTests
         }
 
         [Test]
-        public void expressionWithRealExponent_shouldReturnReal()
+        public void ImaginaryUnitInSimpleExpression_shouldReturnComplex()
         {
-            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2¹⁰³²¹³ॱ³²³²³²"));
-            //z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾
-        }
-
-        [Test]
-        public void XYZ_shouldReturnComplex()
-        {
-            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾"));
-            //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
-        }
-
-        [Test]
-        public void expressionWithXVariableAndExponents_shouldReturnReal()
-        {
-            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))"));
-            //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
+            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("2/i"));
         }
 
 
@@ -101,6 +71,37 @@ namespace UnitTests
         public void RealNumberWithRealNumbersInExponent_shouldReturnReal()
         {
             Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2¹²+12-6¹²"));
+        }
+
+        [Test]
+        public void VariableXPlusNumber_shouldReturnReal()
+        {
+            Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2+x"));
+        }
+
+        [Test]
+        public void VariableYPlusNumber_shouldReturnFxy() //
+        {
+            Assert.AreEqual(CalculationsMode.Fxy, modeDeterminer.DetermineMode("2+y"));
+        }
+
+        [Test]
+        public void VariableZAndImaginaryUnitInSimpleExpression_shouldReturnComplex()
+        {
+            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("z+z²+1-1+i"));
+        }
+
+        [Test]
+        public void VariableZPlusNumber_shouldReturnComplex()
+        {
+            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("2+z"));
+        }
+
+        [Test]
+        public void XYZ_shouldReturnComplex()
+        {
+            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾"));
+            //(10²·x)/(10-6·x²+(25-x²)²+10·(25-x²))
         }
     }
 }

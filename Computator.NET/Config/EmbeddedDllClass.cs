@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Computator.NET.Natives;
 
 namespace Computator.NET.Config
 {
@@ -65,7 +66,7 @@ namespace Computator.NET.Config
 
             // Add the temporary dirName to the PATH environment variable (at the head!)
             var path = Environment.GetEnvironmentVariable("PATH") ?? "";
-                //Environment variable names are not case-sensitive.
+            //Environment variable names are not case-sensitive.
 
             var pathPieces = path.Split(';');
             var found = false;

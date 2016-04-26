@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Forms;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Controls.CodeEditors;
 
 namespace Computator.NET.UI.Controls
 {

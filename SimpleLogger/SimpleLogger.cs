@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Computator.NET.Config;
 
 namespace Computator.NET.Logging
 {
@@ -54,7 +53,7 @@ namespace Computator.NET.Logging
 
 
             sw.WriteLine("System: ");
-            foreach (var prop in typeof (Environment).GetProperties())
+            foreach (var prop in typeof(Environment).GetProperties())
             {
                 if (prop.CanRead)
                     sw.WriteLine(prop.Name + ":" + "" + prop.GetValue(null, null));

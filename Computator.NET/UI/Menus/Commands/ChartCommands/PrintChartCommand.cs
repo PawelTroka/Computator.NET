@@ -1,24 +1,23 @@
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Evaluation;
+using Computator.NET.DataTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.Menus;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    class PrintChartCommand : BaseCommandForCharts
+    internal class PrintChartCommand : BaseCommandForCharts
     {
+        public PrintChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        {
+            Icon = Resources.printToolStripButtonImage;
+            Text = MenuStrings.printToolStripButton_Text;
+            ToolTip = MenuStrings.printToolStripButton_Text;
+            ShortcutKeyString = "Ctrl+P";
+        }
+
         public override void Execute()
         {
             currentChart.Print();
-        }
-
-        public PrintChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
-        {
-            this.Icon = Resources.printToolStripButtonImage;
-            this.Text = MenuStrings.printToolStripButton_Text;
-            this.ToolTip = MenuStrings.printToolStripButton_Text;
-            this.ShortcutKeyString = "Ctrl+P";
         }
     }
 }

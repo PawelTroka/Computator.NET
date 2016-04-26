@@ -1,10 +1,11 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 using Microsoft.CSharp;
@@ -36,18 +37,6 @@ namespace Computator.NET.Compilation
             parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll"); //dynamic
         }
 
-        private string GetDllPath(string dllName)
-        {
-            var dllDirectory = GlobalConfig.FullPath(dllName);
-            if (System.IO.File.Exists(dllDirectory))
-                return dllDirectory;
-
-            var path = GlobalConfig.FullPath(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase),dllName);
-            if (path.Contains(@"\file:\"))//hack for tests
-                return path.Split(new string[] {@"\file:\"}, StringSplitOptions.RemoveEmptyEntries).Last();
-            return path;
-        }
-
         public int MainCodeStarOffsetLine { get; set; }
         public int MainCodeEndOffsetLine { get; set; }
 
@@ -55,6 +44,18 @@ namespace Computator.NET.Compilation
         public int CustomFunctionsEndOffsetLine { get; set; }
 
         public bool IsScripting { get; set; } = false;
+
+        private string GetDllPath(string dllName)
+        {
+            var dllDirectory = GlobalConfig.FullPath(dllName);
+            if (File.Exists(dllDirectory))
+                return dllDirectory;
+
+            var path = GlobalConfig.FullPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase), dllName);
+            if (path.Contains(@"\file:\")) //hack for tests
+                return path.Split(new[] {@"\file:\"}, StringSplitOptions.RemoveEmptyEntries).Last();
+            return path;
+        }
 
 
         private int GetLineForPlace(int line, CompilationErrorPlace place)

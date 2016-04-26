@@ -4,13 +4,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using AutocompleteMenuNS;
 using Computator.NET.Compilation;
 using Computator.NET.Constants;
 using Computator.NET.Functions;
 using Computator.NET.NumericalCalculations;
 using Computator.NET.Transformations;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI;
+using Computator.NET.UI.Controls.AutocompleteMenu;
+using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;
 using MathNet.Numerics.Distributions;
 
 namespace Computator.NET.Data
@@ -20,92 +21,92 @@ namespace Computator.NET.Data
         public static AutocompleteItem[] GetAutocompleteItemsForExpressions(
             bool removeAdvanced = false)
         {
-            var items = GetFunctionsNamesWithDescription(typeof (ElementaryFunctions));
+            var items = GetFunctionsNamesWithDescription(typeof(ElementaryFunctions));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (FunctionRoot), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Integral), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Derivative), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(FunctionRoot), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Integral), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Derivative), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (StatisticsFunctions)));
-
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Normal), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(StatisticsFunctions)));
 
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Bernoulli), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Normal), false, true));
+
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Bernoulli), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Beta), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Binomial), false,
-                true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Categorical), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Beta), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Binomial), false,
                 true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Cauchy), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Chi), false, true));
-
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (ChiSquared), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Categorical), false,
                 true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (ContinuousUniform),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Cauchy), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Chi), false, true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(ChiSquared), false,
+                true));
+
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(ContinuousUniform),
                 false, true));
 
             items.AddRange(GetFunctionsNamesWithDescription(
-                typeof (ConwayMaxwellPoisson), false, true));
+                typeof(ConwayMaxwellPoisson), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Dirichlet), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Dirichlet), false,
                 true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (DiscreteUniform),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(DiscreteUniform),
                 false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Erlang), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Erlang), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Exponential), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Exponential), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (FisherSnedecor),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(FisherSnedecor),
                 false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Gamma), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Geometric), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Gamma), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Geometric), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Hypergeometric),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Hypergeometric),
                 false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (InverseGamma), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(InverseGamma), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (InverseWishart),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(InverseWishart),
                 false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Laplace), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Laplace), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (LogNormal), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(LogNormal), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MatrixNormal), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(MatrixNormal), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Multinomial), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Multinomial), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (NegativeBinomial),
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(NegativeBinomial),
                 false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (NormalGamma), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(NormalGamma), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Pareto), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Poisson), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Pareto), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Poisson), false, true));
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Rayleigh), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Rayleigh), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Stable), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (StudentT), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Stable), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(StudentT), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Triangular), false,
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Triangular), false,
                 true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Weibull), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Wishart), false, true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (Zipf), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Weibull), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Wishart), false, true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(Zipf), false, true));
 
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (SpecialFunctions)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathematicalConstants), true));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (PhysicalConstants), true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(SpecialFunctions)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(MathematicalConstants), true));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(PhysicalConstants), true));
 
 
             items.RemoveAll(i => i.Text == "ToCode");
@@ -122,9 +123,9 @@ namespace Computator.NET.Data
         {
             var items = GetAutocompleteItemsForExpressions().ToList();
 
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MatrixFunctions)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (MathematicalTransformations)));
-            items.AddRange(GetFunctionsNamesWithDescription(typeof (ScriptingFunctions)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(MatrixFunctions)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(MathematicalTransformations)));
+            items.AddRange(GetFunctionsNamesWithDescription(typeof(ScriptingFunctions)));
             items.AddRange(TslCompiler.Keywords.Select(s => new AutocompleteItem(s)));
 
             items.Sort((i1, i2) => i1.Text.CompareTo(i2.Text));
@@ -147,13 +148,13 @@ namespace Computator.NET.Data
 
         private static bool IsDynamic(MemberInfo memberInfo)
         {
-            var isDynamic = memberInfo.GetCustomAttributes(typeof (DynamicAttribute), true).Length > 0;
+            var isDynamic = memberInfo.GetCustomAttributes(typeof(DynamicAttribute), true).Length > 0;
 
             var methodInfo = memberInfo as MethodInfo;
             if (methodInfo != null)
             {
                 isDynamic =
-                    methodInfo.ReturnTypeCustomAttributes.GetCustomAttributes(typeof (DynamicAttribute), true).Length >
+                    methodInfo.ReturnTypeCustomAttributes.GetCustomAttributes(typeof(DynamicAttribute), true).Length >
                     0;
             }
 
@@ -277,22 +278,22 @@ namespace Computator.NET.Data
         private static void AddMetadata(MemberInfo p, Type type,
             List<AutocompleteItem> items)
         {
-            if (p.GetCustomAttributes(typeof (NameAttribute), false).Any())
+            if (p.GetCustomAttributes(typeof(NameAttribute), false).Any())
 
                 items.Last().ToolTipTitle =
-                    ((NameAttribute) p.GetCustomAttributes(typeof (NameAttribute), false)[0]).Name;
+                    ((NameAttribute) p.GetCustomAttributes(typeof(NameAttribute), false)[0]).Name;
 
-            if (p.GetCustomAttributes(typeof (DescriptionAttribute), false).Any())
+            if (p.GetCustomAttributes(typeof(DescriptionAttribute), false).Any())
                 items.Last().ToolTipText =
                     ((DescriptionAttribute)
-                        p.GetCustomAttributes(typeof (DescriptionAttribute), false)[0])
+                        p.GetCustomAttributes(typeof(DescriptionAttribute), false)[0])
                         .Description;
             if (items.Count > 0)
             {
-                if (p.GetCustomAttributes(typeof (CategoryAttribute), false).Any())
+                if (p.GetCustomAttributes(typeof(CategoryAttribute), false).Any())
                     items.Last().Info.Category =
                         ((CategoryAttribute)
-                            p.GetCustomAttributes(typeof (CategoryAttribute), false)[0])
+                            p.GetCustomAttributes(typeof(CategoryAttribute), false)[0])
                             .Category ??
                         "";
 

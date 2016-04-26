@@ -1,24 +1,22 @@
 using Computator.NET.Properties;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
-    class ExponentCommand : CommandBase
+    internal class ExponentCommand : CommandBase
     {
         public ExponentCommand()
         {
-            this.CheckOnClick = true;
-            this.ShortcutKeyString = "Shift+6";
+            CheckOnClick = true;
+            ShortcutKeyString = "Shift+6";
             SharedViewState.Instance.PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == nameof(SharedViewState.Instance.IsExponent))
-                    this.Checked = SharedViewState.Instance.IsExponent;
+                    Checked = SharedViewState.Instance.IsExponent;
             };
 
-            this.Icon = Resources.exponentation;
-            this.Text = MenuStrings.exponentiationToolStripMenuItem_Text;
-            this.ToolTip = MenuStrings.exponentiationToolStripMenuItem_Text;
+            Icon = Resources.exponentation;
+            Text = MenuStrings.exponentiationToolStripMenuItem_Text;
+            ToolTip = MenuStrings.exponentiationToolStripMenuItem_Text;
         }
 
 

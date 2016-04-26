@@ -1,7 +1,9 @@
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.UI.Controls;
+using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.UI.Presenters
 {
     public class SolutionExplorerPresenter
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Computator.NET
+namespace Computator.NET.UI
 {
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     internal class NameAttribute : Attribute

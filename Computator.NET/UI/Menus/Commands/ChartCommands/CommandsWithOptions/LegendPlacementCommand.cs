@@ -4,33 +4,16 @@ using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Menus;
+using Computator.NET.DataTypes;
+using Computator.NET.UI.Menus.Commands.DummyCommands;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    class LegendPlacementCommand : DummyCommand
+    internal class LegendPlacementCommand : DummyCommand
     {
-
-        private class LegendPlacementOption : ChartOption
+        public LegendPlacementCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts)
+            : base(MenuStrings.placement_Text)
         {
-            private Docking placement;
-            public override void Execute()
-            {
-                chart2d.Legends[0].Docking = placement;
-            }
-
-            public LegendPlacementOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, Docking placement) : base(placement, charts)
-            {
-                this.Checked = chart2d.Legends[0].Docking == placement;
-                this.placement = placement;
-                this.IsOption = true;
-            }
-        }
-
-        public LegendPlacementCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.placement_Text)
-        {
-
             var list = new List<IToolbarCommand>();
 
             foreach (var docking in Enum.GetValues(typeof(Docking))
@@ -39,6 +22,24 @@ namespace Computator.NET.UI.Commands
                 list.Add(new LegendPlacementOption(charts, docking));
             }
             ChildrenCommands = list;
+        }
+
+        private class LegendPlacementOption : ChartOption
+        {
+            private readonly Docking placement;
+
+            public LegendPlacementOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, Docking placement)
+                : base(placement, charts)
+            {
+                Checked = chart2d.Legends[0].Docking == placement;
+                this.placement = placement;
+                IsOption = true;
+            }
+
+            public override void Execute()
+            {
+                chart2d.Legends[0].Docking = placement;
+            }
         }
     }
 }

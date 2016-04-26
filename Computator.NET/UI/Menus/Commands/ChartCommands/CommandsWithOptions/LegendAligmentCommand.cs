@@ -4,32 +4,15 @@ using System.Drawing;
 using System.Linq;
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Menus;
+using Computator.NET.DataTypes;
+using Computator.NET.UI.Menus.Commands.DummyCommands;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    class LegendAligmentCommand : DummyCommand
+    internal class LegendAligmentCommand : DummyCommand
     {
-        private class LegendAligmentOption : ChartOption
-        {
-            private StringAlignment aligment;
-
-            public override void Execute()
-            {
-                chart2d.Legends[0].Alignment = aligment;
-
-            }
-
-            public LegendAligmentOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, StringAlignment aligment) : base(aligment, charts)
-            {
-                this.aligment = aligment;
-                this.IsOption = true;
-                this.Checked = chart2d.Legends[0].Alignment == aligment;
-            }
-        }
-
-        public LegendAligmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.aligment_Text)
+        public LegendAligmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts)
+            : base(MenuStrings.aligment_Text)
         {
             var list = new List<IToolbarCommand>();
 
@@ -39,6 +22,24 @@ namespace Computator.NET.UI.Commands
                 list.Add(new LegendAligmentOption(charts, aligment));
             }
             ChildrenCommands = list;
+        }
+
+        private class LegendAligmentOption : ChartOption
+        {
+            private readonly StringAlignment aligment;
+
+            public LegendAligmentOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, StringAlignment aligment)
+                : base(aligment, charts)
+            {
+                this.aligment = aligment;
+                IsOption = true;
+                Checked = chart2d.Legends[0].Alignment == aligment;
+            }
+
+            public override void Execute()
+            {
+                chart2d.Legends[0].Alignment = aligment;
+            }
         }
     }
 }

@@ -6,24 +6,22 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
-using Computator.NET.Charting.Chart3D.Splines;
+using Computator.NET.Charting.Chart3D.Chart3D;
+using Computator.NET.Charting.Chart3D.Spline;
 using Computator.NET.Charting.Printing;
 using Computator.NET.DataTypes;
 using Color = System.Windows.Media.Color;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using Model3D = Computator.NET.Charting.Chart3D.Chart3D.Model3D;
 using Point = System.Windows.Point;
-using PrintDialog = System.Windows.Controls.PrintDialog;
 using Size = System.Windows.Size;
-using UserControl = System.Windows.Controls.UserControl;
 
-namespace Computator.NET.Charting.Chart3D
+namespace Computator.NET.Charting.Chart3D.UI
 {
     /// <summary>
     ///     Interaction logic for UserControl1.xaml
@@ -33,6 +31,9 @@ namespace Computator.NET.Charting.Chart3D
         private readonly DiffuseMaterial _backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
         private readonly List<Function> _functions = new List<Function>();
         private readonly List<List<Point3D>> _points = new List<List<Point3D>>();
+
+        private readonly ImagePrinter imagePrinter = new ImagePrinter();
+        private readonly Random random = new Random();
         private Color _axesColor = Colors.MediumSlateBlue;
         private double _dotSize = 0.02;
         private bool _equalAxes = true;
@@ -40,16 +41,13 @@ namespace Computator.NET.Charting.Chart3D
 
         private bool _visibilityAxes = true;
         private AxisLabels axisLabels;
-
-        private readonly ImagePrinter imagePrinter = new ImagePrinter();
-        private Chart3D m_3dChart; // data for 3d chart
+        private Chart3D.Chart3D m_3dChart; // data for 3d chart
         public int m_nChartModelIndex = -1; // model index in the Viewport3d
         public TransformMatrix m_transformMatrix = new TransformMatrix();
         private Chart3DMode mode;
         private double N = 100;
 
         private double quality;
-        private readonly Random random = new Random();
         private double xmax = 5;
         private double xmin = -5;
         private double ymax = 5;
@@ -121,7 +119,7 @@ namespace Computator.NET.Charting.Chart3D
             get { return _equalAxes; }
             set
             {
-                if (value!=_equalAxes)
+                if (value != _equalAxes)
                 {
                     _equalAxes = value;
                     RescaleProjectionMatrix();
@@ -337,6 +335,8 @@ namespace Computator.NET.Charting.Chart3D
                 AddPoints(point, GetRandomColor());
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void ClearChartData()
         {
             if (mode == Chart3DMode.Points)
@@ -527,7 +527,7 @@ namespace Computator.NET.Charting.Chart3D
                     x = (float) points[i].X,
                     y = (float) points[i].Y,
                     z = (float) points[i].Z,
-                    shape = (int) Chart3D.SHAPE.ELLIPSE,
+                    shape = (int) Chart3D.Chart3D.SHAPE.ELLIPSE,
                     color = color
                 };
 
@@ -673,7 +673,7 @@ namespace Computator.NET.Charting.Chart3D
 
             for (var i = 0; i < meshs.Count; i++)
             {
-                if (meshs[i].GetType() == typeof (Cone3D))
+                if (meshs[i].GetType() == typeof(Cone3D))
                 {
                     whichTimeCone3dAppear++;
                     if (whichTimeCone3dAppear == 1)
@@ -714,8 +714,6 @@ namespace Computator.NET.Charting.Chart3D
                     m_transformMatrix.VertexToScreenPt(z, mainViewport));
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

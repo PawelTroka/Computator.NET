@@ -1,15 +1,15 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Events
 {
     public class EventAggregator : IEventAggregator
     {
-        public static IEventAggregator Instance { get; } = new EventAggregator();
+        private readonly ConcurrentDictionary<Type, List<object>> subscriptions =
+            new ConcurrentDictionary<Type, List<object>>();
 
-        private readonly ConcurrentDictionary<Type, List<object>> subscriptions = new ConcurrentDictionary<Type, List<object>>();
+        public static IEventAggregator Instance { get; } = new EventAggregator();
 
         public void Publish<T>(T message) where T : IApplicationEvent
         {
@@ -19,7 +19,7 @@ namespace Computator.NET.DataTypes
                 // To Array creates a copy in case someone unsubscribes in their own handler
                 foreach (var subscriber in subscribers.ToArray())
                 {
-                    ((Action<T>)subscriber)(message);
+                    ((Action<T>) subscriber)(message);
                 }
             }
         }

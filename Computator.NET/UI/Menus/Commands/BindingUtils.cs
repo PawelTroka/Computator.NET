@@ -1,12 +1,12 @@
 using System;
 using System.ComponentModel;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands
 {
     public class BindingUtils
     {
-
-        public static void OnPropertyChanged(INotifyPropertyChanged dataSource, string dataSourcePropertyName, Action action)
+        public static void OnPropertyChanged(INotifyPropertyChanged dataSource, string dataSourcePropertyName,
+            Action action)
         {
             dataSource.PropertyChanged += (o, e) =>
             {
@@ -15,7 +15,8 @@ namespace Computator.NET.UI.Commands
             };
         }
 
-        public static void OneWayBinding(object dataReceiver, string dataReceiverPropertyName, INotifyPropertyChanged dataSource, string dataSourcePropertyName)
+        public static void OneWayBinding(object dataReceiver, string dataReceiverPropertyName,
+            INotifyPropertyChanged dataSource, string dataSourcePropertyName)
         {
             var receiverProperty = dataReceiver.GetType().GetProperty(dataReceiverPropertyName);
             var sourceProperty = dataSource.GetType().GetProperty(dataSourcePropertyName);
@@ -36,10 +37,11 @@ namespace Computator.NET.UI.Commands
             };
         }
 
-        public static void TwoWayBinding(INotifyPropertyChanged object1, string propertyName1, INotifyPropertyChanged object2, string propertyName2)
+        public static void TwoWayBinding(INotifyPropertyChanged object1, string propertyName1,
+            INotifyPropertyChanged object2, string propertyName2)
         {
-            OneWayBinding(object1,propertyName1,object2,propertyName2);
-            OneWayBinding( object2, propertyName2, object1, propertyName1);
+            OneWayBinding(object1, propertyName1, object2, propertyName2);
+            OneWayBinding(object2, propertyName2, object1, propertyName1);
             /*var property1 = object1.GetType().GetProperty(propertyName1);
             var property2 = object2.GetType().GetProperty(propertyName2);
 

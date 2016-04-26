@@ -18,7 +18,7 @@ using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Computator.NET.Charting.Chart3D
+namespace Computator.NET.Charting.Chart3D.Chart3D
 {
     internal class ViewportRect : Mesh3D
     {

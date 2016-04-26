@@ -1,22 +1,21 @@
 using Computator.NET.UI.Dialogs;
-using Computator.NET.UI.Menus;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    class BugReportingCommand : CommandBase
+    internal class BugReportingCommand : CommandBase
     {
         public BugReportingCommand()
         {
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
-            this.Text = MenuStrings.BugReporting_Text;
-            this.ToolTip = MenuStrings.BugReporting_Text;
+            Text = MenuStrings.BugReporting_Text;
+            ToolTip = MenuStrings.BugReporting_Text;
         }
 
 
         public override void Execute()
         {
-            new BugReportingForm().ShowDialog(/*this*/);
+            new BugReportingForm().ShowDialog( /*this*/);
         }
     }
 }

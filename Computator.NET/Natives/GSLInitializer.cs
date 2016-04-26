@@ -3,11 +3,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Properties;
 
-namespace Computator.NET
+namespace Computator.NET.Natives
 {
     public class GSLInitializer
     {

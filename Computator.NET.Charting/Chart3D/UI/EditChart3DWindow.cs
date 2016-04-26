@@ -9,7 +9,7 @@ using FontFamily = System.Windows.Media.FontFamily;
 using FontStyle = System.Windows.FontStyle;
 using Point = System.Windows.Point;
 
-namespace Computator.NET.Charting.Chart3D
+namespace Computator.NET.Charting.Chart3D.UI
 {
     public partial class EditChartWindow : Form
     {
@@ -27,7 +27,7 @@ namespace Computator.NET.Charting.Chart3D
             this.chart3d = chart3d;
             this.elementHost = elementHost;
 
-            chartTypeComboBox.Items.AddRange(Enum.GetNames(typeof (Chart3DMode)));
+            chartTypeComboBox.Items.AddRange(Enum.GetNames(typeof(Chart3DMode)));
 
             loadData();
         }
@@ -83,7 +83,7 @@ namespace Computator.NET.Charting.Chart3D
 
         private void saveData()
         {
-            chart3d.Mode = (Chart3DMode) Enum.Parse(typeof (Chart3DMode), chartTypeComboBox.SelectedItem.ToString());
+            chart3d.Mode = (Chart3DMode) Enum.Parse(typeof(Chart3DMode), chartTypeComboBox.SelectedItem.ToString());
             //bools:
             chart3d.EqualAxes = equalAxesCheckBox.Checked;
             chart3d.VisibilityAxes = visibleAxesCheckBox.Checked;

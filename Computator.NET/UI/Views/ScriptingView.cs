@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using Computator.NET.Config;
-using Computator.NET.UI.CodeEditors;
+using Computator.NET.DataTypes;
+using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Views
 {

@@ -2,7 +2,6 @@
 using System.Windows.Data;
 using System.Windows.Forms.Integration;
 using System.Windows.Media.Media3D;
-using Computator.NET.Config;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 
@@ -47,13 +46,13 @@ namespace Computator.NET.Evaluation
             //NativeCompiler.AddDll("Microsoft.CSharp.dll");
 
 
-            NativeCompiler.AddDll(typeof (AmbientLight).Assembly.Location);
+            NativeCompiler.AddDll(typeof(AmbientLight).Assembly.Location);
             //"PresentationCore.dll");
-            NativeCompiler.AddDll(typeof (XmlDataProvider).Assembly.Location);
+            NativeCompiler.AddDll(typeof(XmlDataProvider).Assembly.Location);
             //"PresentationFramework.dll");
-            NativeCompiler.AddDll(typeof (PresentationTraceSources).Assembly.Location);
+            NativeCompiler.AddDll(typeof(PresentationTraceSources).Assembly.Location);
             //"WindowsBase.dll");
-            NativeCompiler.AddDll(typeof (ElementHost).Assembly.Location);
+            NativeCompiler.AddDll(typeof(ElementHost).Assembly.Location);
             //"WindowsFormsIntegration.dll");
 
             NativeCompiler.IsScripting = true;
@@ -65,8 +64,11 @@ namespace Computator.NET.Evaluation
         public ScriptFunction Evaluate(string input, string customFunctionsCode)
         {
             MainTslCode = input;
-            CustomFunctionsTslCode = 
-                (!string.IsNullOrEmpty(customFunctionsCode) && !string.IsNullOrWhiteSpace(customFunctionsCode)) ? customFunctionsCode : ""; ;
+            CustomFunctionsTslCode =
+                !string.IsNullOrEmpty(customFunctionsCode) && !string.IsNullOrWhiteSpace(customFunctionsCode)
+                    ? customFunctionsCode
+                    : "";
+            ;
 
             AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation",

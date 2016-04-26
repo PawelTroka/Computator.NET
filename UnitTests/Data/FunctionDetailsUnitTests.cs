@@ -1,7 +1,7 @@
 using Computator.NET.Data;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace UnitTests.Data
 {
     [TestFixture]
     public class FunctionDetailsUnitTests

@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
 
-namespace Computator.NET
+namespace Computator.NET.Natives
 {
     [SuppressUnmanagedCodeSecurity]
     internal class NativeMethods

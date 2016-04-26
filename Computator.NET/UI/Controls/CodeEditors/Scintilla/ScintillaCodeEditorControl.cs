@@ -11,16 +11,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using AutocompleteMenuNS;
 using Computator.NET.Compilation;
-using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.MVP;
+using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
 using ScintillaNET;
 
-namespace Computator.NET.UI.CodeEditors
+namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
 {
     public static class DocumentExtension
     {
@@ -33,7 +31,7 @@ namespace Computator.NET.UI.CodeEditors
         }
     }
 
-    internal class ScintillaCodeEditorControl : Scintilla, INotifyPropertyChanged, ICodeEditorControl
+    internal class ScintillaCodeEditorControl : ScintillaNET.Scintilla, INotifyPropertyChanged, ICodeEditorControl
     {
         // Indicators 0-7 could be in use by a lexer
         // so we'll use indicator 8 to highlight words.
@@ -41,7 +39,7 @@ namespace Computator.NET.UI.CodeEditors
 
         private const int BOOKMARK_MARGIN = 1; // Conventionally the symbol margin
         private const int BOOKMARK_MARKER = 3; // Arbitrary. Any valid index would work.
-        private readonly AutocompleteMenuNS.AutocompleteMenu _autocompleteMenu;
+        private readonly AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
         private readonly Dictionary<string, Document> _documents;
         private string _autoCompleteList;
         private int lastCaretPos;
@@ -54,7 +52,7 @@ namespace Computator.NET.UI.CodeEditors
 
         public ScintillaCodeEditorControl()
         {
-            _autocompleteMenu = new AutocompleteMenuNS.AutocompleteMenu
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu
             {
                 TargetControlWrapper = new ScintillaWrapper(this),
                 MaximumSize = new Size(500, 180)

@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.UI.MVP.Views
+﻿namespace Computator.NET.UI.Views
 {
     partial class ExpressionView
     {

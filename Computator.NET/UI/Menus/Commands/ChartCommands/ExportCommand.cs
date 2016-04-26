@@ -5,15 +5,13 @@ using System.Threading;
 using System.Windows.Forms;
 using Accord.Collections;
 using Computator.NET.Charting;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Menus;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    class ExportCommand : BaseCommandForCharts
+    internal class ExportCommand : BaseCommandForCharts
     {
-
         private readonly SaveFileDialog saveChartImageFileDialog = new SaveFileDialog
         {
             Filter = Strings.GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter,
@@ -21,6 +19,12 @@ namespace Computator.NET.UI.Commands
             DefaultExt = "png",
             AddExtension = true
         };
+
+        public ExportCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        {
+            Text = MenuStrings.export_Text;
+            ToolTip = MenuStrings.export_Text;
+        }
 
 
         private static ImageFormat FilterIndexToImageFormat(int filterIndex)
@@ -53,6 +57,7 @@ namespace Computator.NET.UI.Commands
             }
             return format;
         }
+
         public override void Execute()
         {
             saveChartImageFileDialog.FileName =
@@ -63,13 +68,6 @@ namespace Computator.NET.UI.Commands
                 currentChart.SaveImage(saveChartImageFileDialog.FileName,
                     FilterIndexToImageFormat(saveChartImageFileDialog.FilterIndex));
             }
-            
-        }
-
-        public ExportCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
-        {
-            this.Text = MenuStrings.export_Text;
-            this.ToolTip = MenuStrings.export_Text;
         }
     }
 }

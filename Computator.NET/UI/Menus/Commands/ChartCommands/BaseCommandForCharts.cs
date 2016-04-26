@@ -1,14 +1,13 @@
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Charting.Chart3D;
+using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.MVP;
+using Computator.NET.DataTypes;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    abstract class BaseCommandForCharts : CommandBase
+    internal abstract class BaseCommandForCharts : CommandBase
     {
         protected readonly ReadOnlyDictionary<CalculationsMode, IChart> _charts;
 

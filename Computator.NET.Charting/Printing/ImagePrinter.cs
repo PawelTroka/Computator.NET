@@ -6,11 +6,10 @@ namespace Computator.NET.Charting.Printing
 {
     internal class ImagePrinter
     {
-        private readonly PrintDocument printDocument = new PrintDocument();
-        private Image imageToPrint;
-
         private readonly PrintDialog printdlg = new PrintDialog();
+        private readonly PrintDocument printDocument = new PrintDocument();
         private readonly PrintPreviewDialog printPrvDlg = new PrintPreviewDialog();
+        private Image imageToPrint;
 
         public ImagePrinter()
         {

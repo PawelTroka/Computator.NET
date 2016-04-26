@@ -4,17 +4,25 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
-using Computator.NET;
+using Computator.NET.DataTypes;
 using Computator.NET.Functions;
+using Computator.NET.Natives;
 using NUnit.Framework;
 
 // ReSharper disable LocalizableElement
 
-namespace UnitTests
+namespace UnitTests.Functions
 {
     [TestFixture]
     public class MathematicalFunctionsTest
     {
+        [SetUp]
+        public void Init()
+        {
+            C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
+            GSLInitializer.Initialize();
+        }
+
         private const int stepsSmall = 25;
         private const int steps = 50;
         private const double min = -10;
@@ -34,52 +42,14 @@ namespace UnitTests
 
         private Complex[] C;
 
-        [SetUp]
-        public void Init()
-        {
-            C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
-            GSLInitializer.Initialize();
-        }
-
-        [Test]
-        public void ElementaryFunctionsTest()
-        {
-            var elementaryFunctions = new List<MethodInfo>();
-            elementaryFunctions.AddRange(
-                typeof (ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            //methodsToTest.AddRange(typeof(ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            // methodsToTest.AddRange(typeof(StatisticFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            TestFunctions(elementaryFunctions);
-        }
-
-        [Test]
-        public void SpecialFunctionsTest()
-        {
-            var specialFunctions = new List<MethodInfo>();
-            specialFunctions.AddRange(typeof (SpecialFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            //methodsToTest.AddRange(typeof(ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            // methodsToTest.AddRange(typeof(StatisticFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            TestFunctions(specialFunctions);
-        }
-
-        [Test]
-        public void StatisticsFunctionsTest()
-        {
-            var sstatisticsFunctions = new List<MethodInfo>();
-            sstatisticsFunctions.AddRange(
-                typeof (StatisticsFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            //methodsToTest.AddRange(typeof(ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            // methodsToTest.AddRange(typeof(StatisticFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
-            TestFunctions(sstatisticsFunctions);
-        }
-
         private void TestFunctions(List<MethodInfo> methodsToTest)
         {
             object ret = null;
 
             foreach (var specialMethod in methodsToTest)
             {
-                if (specialMethod.Name.Contains("Hypergeometric"))//TODO: repair Hypergeometric functions and get rid of that filthy hack
+                if (specialMethod.Name.Contains("Hypergeometric"))
+                    //TODO: repair Hypergeometric functions and get rid of that filthy hack
                     continue;
 
                 Debug.WriteLine("Testing: " + specialMethod);
@@ -150,6 +120,272 @@ namespace UnitTests
             }
         }
 
+        public void MathieuSETest()
+        {
+            object ret = null;
+
+            foreach (var i in A)
+                foreach (var d1 in X)
+                    foreach (var d2 in X)
+
+                    {
+                        try
+                        {
+                            ret = SpecialFunctions.MathieuSE(i, d1, d2);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
+        public void LegendreH3DTest()
+        {
+            object ret = null;
+
+            foreach (var i in A)
+                foreach (var d1 in X)
+                    foreach (var d2 in X)
+
+                    {
+                        try
+                        {
+                            ret = SpecialFunctions.LegendreH3D(i, d1, d2);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
+        [Test]
+        public void ClebschGordanTest()
+        {
+            object ret = null;
+
+            foreach (var d1 in A)
+                foreach (var d2 in A)
+                    foreach (var d3 in A)
+                        foreach (var d4 in A)
+                            foreach (var d5 in A)
+                                foreach (var d6 in A)
+                                {
+                                    try
+                                    {
+                                        ret = SpecialFunctions.ClebschGordan(d1, d2, d3, d4, d5, d6);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Assert.Fail("Exception occured: " + ex);
+                                    }
+                                    Assert.IsNotNull(ret);
+                                }
+        }
+
+        [Test]
+        public void Coupling3jIntTest()
+        {
+            object ret = null;
+
+            foreach (var d1 in A)
+                foreach (var d2 in A)
+                    foreach (var d3 in A)
+                        foreach (var d4 in A)
+                            foreach (var d5 in A)
+                                foreach (var d6 in A)
+                                {
+                                    try
+                                    {
+                                        ret = SpecialFunctions.Coupling3j(d1, d2, d3, d4, d5, d6);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Assert.Fail("Exception occured: " + ex);
+                                    }
+                                    Assert.IsNotNull(ret);
+                                }
+        }
+
+        [Test]
+        public void Coupling3jTest()
+        {
+            object ret = null;
+
+            foreach (var d1 in Xsmall)
+                foreach (var d2 in Xsmall)
+                    foreach (var d3 in Xsmall)
+                        foreach (var d4 in Xsmall)
+                            foreach (var d5 in Xsmall)
+                                foreach (var d6 in Xsmall)
+                                {
+                                    try
+                                    {
+                                        ret = SpecialFunctions.Coupling3j(d1, d2, d3, d4, d5, d6);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Assert.Fail("Exception occured: " + ex);
+                                    }
+                                    Assert.IsNotNull(ret);
+                                }
+        }
+
+        [Test]
+        public void Coupling6jIntTest()
+        {
+            object ret = null;
+
+            foreach (var d1 in A)
+                foreach (var d2 in A)
+                    foreach (var d3 in A)
+                        foreach (var d4 in A)
+                            foreach (var d5 in A)
+                                foreach (var d6 in A)
+                                {
+                                    try
+                                    {
+                                        ret = SpecialFunctions.Coupling6j(d1, d2, d3, d4, d5, d6);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Assert.Fail("Exception occured: " + ex);
+                                    }
+                                    Assert.IsNotNull(ret);
+                                }
+        }
+
+        [Test]
+        public void Coupling6jTest()
+        {
+            object ret = null;
+
+            foreach (var d1 in Xsmall)
+                foreach (var d2 in Xsmall)
+                    foreach (var d3 in Xsmall)
+                        foreach (var d4 in Xsmall)
+                            foreach (var d5 in Xsmall)
+                                foreach (var d6 in Xsmall)
+                                {
+                                    try
+                                    {
+                                        ret = SpecialFunctions.Coupling6j(d1, d2, d3, d4, d5, d6);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Assert.Fail("Exception occured: " + ex);
+                                    }
+                                    Assert.IsNotNull(ret);
+                                }
+        }
+
+        [Test]
+        public void Coupling9jIntTest()
+        {
+            object ret = null;
+
+            foreach (var d1 in Averysmall)
+                foreach (var d2 in Averysmall)
+                    foreach (var d3 in Averysmall)
+                        foreach (var d4 in Averysmall)
+                            foreach (var d5 in Averysmall)
+                                foreach (var d6 in Averysmall)
+                                    foreach (var d7 in Averysmall)
+                                        foreach (var d8 in Averysmall)
+                                            foreach (var d9 in Averysmall)
+                                            {
+                                                try
+                                                {
+                                                    ret = SpecialFunctions.Coupling9j(d1, d2, d3, d4, d5, d6, d7, d8, d9);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    Assert.Fail("Exception occured: " + ex);
+                                                }
+                                                Assert.IsNotNull(ret);
+                                            }
+        }
+
+        [Test]
+        public void CouplingRacahW()
+        {
+            object ret = null;
+
+            foreach (var d1 in A)
+                foreach (var d2 in A)
+                    foreach (var d3 in A)
+                        foreach (var d4 in A)
+                            foreach (var d5 in A)
+                                foreach (var d6 in A)
+                                {
+                                    try
+                                    {
+                                        ret = SpecialFunctions.CouplingRacahW(d1, d2, d3, d4, d5, d6);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Assert.Fail("Exception occured: " + ex);
+                                    }
+                                    Assert.IsNotNull(ret);
+                                }
+        }
+
+        [Test]
+        public void ElementaryFunctionsTest()
+        {
+            var elementaryFunctions = new List<MethodInfo>();
+            elementaryFunctions.AddRange(
+                typeof(ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            //methodsToTest.AddRange(typeof(ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            // methodsToTest.AddRange(typeof(StatisticFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            TestFunctions(elementaryFunctions);
+        }
+
+        [Test]
+        public void EllipticΠIncompleteTest()
+        {
+            object ret = null;
+            foreach (var a in A)
+                foreach (var d1 in X)
+                    foreach (var d2 in X)
+
+                    {
+                        try
+                        {
+                            ret = SpecialFunctions.EllipticΠ(d1, d2, a);
+                        }
+                        catch (Exception ex)
+                        {
+                            Assert.Fail("Exception occured: " + ex);
+                        }
+                        Assert.IsNotNull(ret);
+                    }
+        }
+
+        [Test]
+        public void EllipticΠTest()
+        {
+            object ret = null;
+
+            foreach (var d1 in X)
+                foreach (var d2 in X)
+
+                {
+                    try
+                    {
+                        ret = SpecialFunctions.EllipticΠ(d1, d2);
+                    }
+                    catch (Exception ex)
+                    {
+                        Assert.Fail("Exception occured: " + ex);
+                    }
+                    Assert.IsNotNull(ret);
+                }
+        }
+
 
         [Test]
         public void EnTest()
@@ -175,7 +411,7 @@ namespace UnitTests
 
 
         [Test]
-        public void HypergeometricUIntTest()
+        public void Hypergeometric1F1IntTest()
         {
             object ret = null;
 
@@ -184,33 +420,10 @@ namespace UnitTests
                     foreach (var d1 in X)
 
                     {
-                        Trace.WriteLine($"Testing {nameof(HypergeometricUIntTest)}, parameters: {i}; {j}; {d1}");
+                        Trace.WriteLine($"Testing {nameof(Hypergeometric1F1IntTest)}, parameters: {i}; {j}; {d1}");
                         try
                         {
-                            ret = SpecialFunctions.HypergeometricU(i, j, d1);
-                        }
-                        catch (Exception ex)
-                        {
-                            Assert.Fail("Exception occured: " + ex);
-                        }
-                        Assert.IsNotNull(ret);
-                    }
-        }
-
-
-        [Test]
-        public void HypergeometricUTest()
-        {
-            object ret = null;
-            foreach (var d1 in X)
-                foreach (var d2 in X)
-                    foreach (var d3 in X)
-
-                    {
-                        Trace.WriteLine($"Testing {nameof(HypergeometricUTest)}, parameters: {d1}; {d2}; {d3}");
-                        try
-                        {
-                            ret = SpecialFunctions.HypergeometricU(d1, d2, d3);
+                            ret = SpecialFunctions.Hypergeometric1F1(i, j, d1);
                         }
                         catch (Exception ex)
                         {
@@ -234,30 +447,6 @@ namespace UnitTests
                         try
                         {
                             ret = SpecialFunctions.Hypergeometric1F1(d1, d2, d3);
-                        }
-                        catch (Exception ex)
-                        {
-                            Assert.Fail("Exception occured: " + ex);
-                        }
-                        Assert.IsNotNull(ret);
-                    }
-        }
-
-
-        [Test]
-        public void Hypergeometric1F1IntTest()
-        {
-            object ret = null;
-
-            foreach (var i in A)
-                foreach (var j in A)
-                    foreach (var d1 in X)
-
-                    {
-                        Trace.WriteLine($"Testing {nameof(Hypergeometric1F1IntTest)}, parameters: {i}; {j}; {d1}");
-                        try
-                        {
-                            ret = SpecialFunctions.Hypergeometric1F1(i, j, d1);
                         }
                         catch (Exception ex)
                         {
@@ -314,19 +503,21 @@ namespace UnitTests
                     }
         }
 
+
         [Test]
-        public void MathieuCETest()
+        public void HypergeometricUIntTest()
         {
             object ret = null;
 
             foreach (var i in A)
-                foreach (var d1 in X)
-                    foreach (var d2 in X)
+                foreach (var j in A)
+                    foreach (var d1 in X)
 
                     {
+                        Trace.WriteLine($"Testing {nameof(HypergeometricUIntTest)}, parameters: {i}; {j}; {d1}");
                         try
                         {
-                            ret = SpecialFunctions.MathieuCE(i, d1, d2);
+                            ret = SpecialFunctions.HypergeometricU(i, j, d1);
                         }
                         catch (Exception ex)
                         {
@@ -336,39 +527,20 @@ namespace UnitTests
                     }
         }
 
-        public void MathieuSETest()
+
+        [Test]
+        public void HypergeometricUTest()
         {
             object ret = null;
-
-            foreach (var i in A)
-                foreach (var d1 in X)
-                    foreach (var d2 in X)
-
-                    {
-                        try
-                        {
-                            ret = SpecialFunctions.MathieuSE(i, d1, d2);
-                        }
-                        catch (Exception ex)
-                        {
-                            Assert.Fail("Exception occured: " + ex);
-                        }
-                        Assert.IsNotNull(ret);
-                    }
-        }
-
-        public void LegendreH3DTest()
-        {
-            object ret = null;
-
-            foreach (var i in A)
-                foreach (var d1 in X)
-                    foreach (var d2 in X)
+            foreach (var d1 in X)
+                foreach (var d2 in X)
+                    foreach (var d3 in X)
 
                     {
+                        Trace.WriteLine($"Testing {nameof(HypergeometricUTest)}, parameters: {d1}; {d2}; {d3}");
                         try
                         {
-                            ret = SpecialFunctions.LegendreH3D(i, d1, d2);
+                            ret = SpecialFunctions.HypergeometricU(d1, d2, d3);
                         }
                         catch (Exception ex)
                         {
@@ -401,122 +573,18 @@ namespace UnitTests
         }
 
         [Test]
-        public void SphericalBesselYnTest()
+        public void MathieuCETest()
         {
             object ret = null;
 
             foreach (var i in A)
-                foreach (var d1 in X)
-
-                {
-                    try
-                    {
-                        ret = SpecialFunctions.SphericalBesselYn(i, d1);
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.Fail("Exception occured: " + ex);
-                    }
-                    Assert.IsNotNull(ret);
-                }
-        }
-
-        [Test]
-        public void SphericalBesselJnTest()
-        {
-            object ret = null;
-
-            foreach (var i in A)
-                foreach (var d1 in X)
-
-                {
-                    try
-                    {
-                        ret = SpecialFunctions.SphericalBesselJn(i, d1);
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.Fail("Exception occured: " + ex);
-                    }
-                    Assert.IsNotNull(ret);
-                }
-        }
-
-        [Test]
-        public void ModifiedSphericalBesselInTest()
-        {
-            object ret = null;
-
-            foreach (var i in A)
-                foreach (var d1 in X)
-
-                {
-                    try
-                    {
-                        ret = SpecialFunctions.ModifiedSphericalBesselIn(i, d1);
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.Fail("Exception occured: " + ex);
-                    }
-                    Assert.IsNotNull(ret);
-                }
-        }
-
-        [Test]
-        public void PolyLogTest()
-        {
-            object ret = null;
-
-            foreach (var i in A)
-                foreach (var d1 in X)
-
-                {
-                    try
-                    {
-                        ret = SpecialFunctions.PolyLog(i, d1);
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.Fail("Exception occured: " + ex);
-                    }
-                    Assert.IsNotNull(ret);
-                }
-        }
-
-        [Test]
-        public void EllipticΠTest()
-        {
-            object ret = null;
-
-            foreach (var d1 in X)
-                foreach (var d2 in X)
-
-                {
-                    try
-                    {
-                        ret = SpecialFunctions.EllipticΠ(d1, d2);
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.Fail("Exception occured: " + ex);
-                    }
-                    Assert.IsNotNull(ret);
-                }
-        }
-
-        [Test]
-        public void EllipticΠIncompleteTest()
-        {
-            object ret = null;
-            foreach (var a in A)
                 foreach (var d1 in X)
                     foreach (var d2 in X)
 
                     {
                         try
                         {
-                            ret = SpecialFunctions.EllipticΠ(d1, d2, a);
+                            ret = SpecialFunctions.MathieuCE(i, d1, d2);
                         }
                         catch (Exception ex)
                         {
@@ -576,174 +644,108 @@ namespace UnitTests
         }
 
         [Test]
-        public void Coupling3jTest()
+        public void ModifiedSphericalBesselInTest()
         {
             object ret = null;
 
-            foreach (var d1 in Xsmall)
-                foreach (var d2 in Xsmall)
-                    foreach (var d3 in Xsmall)
-                        foreach (var d4 in Xsmall)
-                            foreach (var d5 in Xsmall)
-                                foreach (var d6 in Xsmall)
-                                {
-                                    try
-                                    {
-                                        ret = SpecialFunctions.Coupling3j(d1, d2, d3, d4, d5, d6);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Assert.Fail("Exception occured: " + ex);
-                                    }
-                                    Assert.IsNotNull(ret);
-                                }
+            foreach (var i in A)
+                foreach (var d1 in X)
+
+                {
+                    try
+                    {
+                        ret = SpecialFunctions.ModifiedSphericalBesselIn(i, d1);
+                    }
+                    catch (Exception ex)
+                    {
+                        Assert.Fail("Exception occured: " + ex);
+                    }
+                    Assert.IsNotNull(ret);
+                }
         }
 
         [Test]
-        public void Coupling3jIntTest()
+        public void PolyLogTest()
         {
             object ret = null;
 
-            foreach (var d1 in A)
-                foreach (var d2 in A)
-                    foreach (var d3 in A)
-                        foreach (var d4 in A)
-                            foreach (var d5 in A)
-                                foreach (var d6 in A)
-                                {
-                                    try
-                                    {
-                                        ret = SpecialFunctions.Coupling3j(d1, d2, d3, d4, d5, d6);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Assert.Fail("Exception occured: " + ex);
-                                    }
-                                    Assert.IsNotNull(ret);
-                                }
+            foreach (var i in A)
+                foreach (var d1 in X)
+
+                {
+                    try
+                    {
+                        ret = SpecialFunctions.PolyLog(i, d1);
+                    }
+                    catch (Exception ex)
+                    {
+                        Assert.Fail("Exception occured: " + ex);
+                    }
+                    Assert.IsNotNull(ret);
+                }
         }
 
         [Test]
-        public void Coupling6jIntTest()
+        public void SpecialFunctionsTest()
         {
-            object ret = null;
-
-            foreach (var d1 in A)
-                foreach (var d2 in A)
-                    foreach (var d3 in A)
-                        foreach (var d4 in A)
-                            foreach (var d5 in A)
-                                foreach (var d6 in A)
-                                {
-                                    try
-                                    {
-                                        ret = SpecialFunctions.Coupling6j(d1, d2, d3, d4, d5, d6);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Assert.Fail("Exception occured: " + ex);
-                                    }
-                                    Assert.IsNotNull(ret);
-                                }
+            var specialFunctions = new List<MethodInfo>();
+            specialFunctions.AddRange(typeof(SpecialFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            //methodsToTest.AddRange(typeof(ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            // methodsToTest.AddRange(typeof(StatisticFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            TestFunctions(specialFunctions);
         }
 
         [Test]
-        public void ClebschGordanTest()
+        public void SphericalBesselJnTest()
         {
             object ret = null;
 
-            foreach (var d1 in A)
-                foreach (var d2 in A)
-                    foreach (var d3 in A)
-                        foreach (var d4 in A)
-                            foreach (var d5 in A)
-                                foreach (var d6 in A)
-                                {
-                                    try
-                                    {
-                                        ret = SpecialFunctions.ClebschGordan(d1, d2, d3, d4, d5, d6);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Assert.Fail("Exception occured: " + ex);
-                                    }
-                                    Assert.IsNotNull(ret);
-                                }
+            foreach (var i in A)
+                foreach (var d1 in X)
+
+                {
+                    try
+                    {
+                        ret = SpecialFunctions.SphericalBesselJn(i, d1);
+                    }
+                    catch (Exception ex)
+                    {
+                        Assert.Fail("Exception occured: " + ex);
+                    }
+                    Assert.IsNotNull(ret);
+                }
         }
 
         [Test]
-        public void Coupling6jTest()
+        public void SphericalBesselYnTest()
         {
             object ret = null;
 
-            foreach (var d1 in Xsmall)
-                foreach (var d2 in Xsmall)
-                    foreach (var d3 in Xsmall)
-                        foreach (var d4 in Xsmall)
-                            foreach (var d5 in Xsmall)
-                                foreach (var d6 in Xsmall)
-                                {
-                                    try
-                                    {
-                                        ret = SpecialFunctions.Coupling6j(d1, d2, d3, d4, d5, d6);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Assert.Fail("Exception occured: " + ex);
-                                    }
-                                    Assert.IsNotNull(ret);
-                                }
+            foreach (var i in A)
+                foreach (var d1 in X)
+
+                {
+                    try
+                    {
+                        ret = SpecialFunctions.SphericalBesselYn(i, d1);
+                    }
+                    catch (Exception ex)
+                    {
+                        Assert.Fail("Exception occured: " + ex);
+                    }
+                    Assert.IsNotNull(ret);
+                }
         }
 
         [Test]
-        public void CouplingRacahW()
+        public void StatisticsFunctionsTest()
         {
-            object ret = null;
-
-            foreach (var d1 in A)
-                foreach (var d2 in A)
-                    foreach (var d3 in A)
-                        foreach (var d4 in A)
-                            foreach (var d5 in A)
-                                foreach (var d6 in A)
-                                {
-                                    try
-                                    {
-                                        ret = SpecialFunctions.CouplingRacahW(d1, d2, d3, d4, d5, d6);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Assert.Fail("Exception occured: " + ex);
-                                    }
-                                    Assert.IsNotNull(ret);
-                                }
-        }
-
-        [Test]
-        public void Coupling9jIntTest()
-        {
-            object ret = null;
-
-            foreach (var d1 in Averysmall)
-                foreach (var d2 in Averysmall)
-                    foreach (var d3 in Averysmall)
-                        foreach (var d4 in Averysmall)
-                            foreach (var d5 in Averysmall)
-                                foreach (var d6 in Averysmall)
-                                    foreach (var d7 in Averysmall)
-                                        foreach (var d8 in Averysmall)
-                                            foreach (var d9 in Averysmall)
-                                            {
-                                                try
-                                                {
-                                                    ret = SpecialFunctions.Coupling9j(d1, d2, d3, d4, d5, d6, d7, d8, d9);
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    Assert.Fail("Exception occured: " + ex);
-                                                }
-                                                Assert.IsNotNull(ret);
-                                            }
+            var sstatisticsFunctions = new List<MethodInfo>();
+            sstatisticsFunctions.AddRange(
+                typeof(StatisticsFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            //methodsToTest.AddRange(typeof(ElementaryFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            // methodsToTest.AddRange(typeof(StatisticFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
+            TestFunctions(sstatisticsFunctions);
         }
     }
 }

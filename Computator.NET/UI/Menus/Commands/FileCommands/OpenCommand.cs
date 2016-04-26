@@ -1,24 +1,22 @@
 using System.Windows.Forms;
-using Computator.NET.Config;
+using Computator.NET.DataTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.CodeEditors;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.MVP;
+using Computator.NET.UI.Controls.CodeEditors;
 
-namespace Computator.NET.UI.Commands
+namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    class OpenCommand : CommandBase
+    internal class OpenCommand : CommandBase
     {
-        private ICanFileEdit scriptingCodeEditor;
-        private ICanFileEdit customFunctionsCodeEditor;
+        private readonly ICanFileEdit customFunctionsCodeEditor;
+        private readonly ICanFileEdit scriptingCodeEditor;
 
 
         public OpenCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
         {
-            this.Icon = Resources.openToolStripButtonImage;
-            this.Text = MenuStrings.openToolStripButton_Text;
-            this.ToolTip = MenuStrings.openToolStripButton_Text;
-            this.ShortcutKeyString = "Ctrl+O";
+            Icon = Resources.openToolStripButtonImage;
+            Text = MenuStrings.openToolStripButton_Text;
+            ToolTip = MenuStrings.openToolStripButton_Text;
+            ShortcutKeyString = "Ctrl+O";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             // this.mainFormView = mainFormView;
@@ -27,13 +25,13 @@ namespace Computator.NET.UI.Commands
 
         public override void Execute()
         {
-            var ofd = new OpenFileDialog { Filter = GlobalConfig.tslFilesFIlter };//TODO: move this to mainView or something
+            var ofd = new OpenFileDialog {Filter = GlobalConfig.tslFilesFIlter};
+                //TODO: move this to mainView or something
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
 
-
-            switch ((int)SharedViewState.Instance.CurrentView)
+            switch ((int) SharedViewState.Instance.CurrentView)
             {
                 case 0:
 

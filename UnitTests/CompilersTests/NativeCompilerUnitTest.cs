@@ -2,18 +2,18 @@
 using Computator.NET.Compilation;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace UnitTests.CompilersTests
 {
     [TestFixture]
     public class NativeCompilerUnitTest
     {
-        private NativeCompiler nativeCompiler;
-
         [SetUp]
         public void Init()
         {
             nativeCompiler = new NativeCompiler();
         }
+
+        private NativeCompiler nativeCompiler;
 
         [Test]
         public void Test1()

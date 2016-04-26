@@ -3,13 +3,13 @@ using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Accord.Collections;
 using Computator.NET.Charting;
-using Computator.NET.Charting.Chart3D;
+using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Controls;
+using Computator.NET.DataTypes;
+using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.MVP.Views
+namespace Computator.NET.UI.Views
 {
     public partial class ChartingView : UserControl, IChartingView
     {
@@ -17,16 +17,15 @@ namespace Computator.NET.UI.MVP.Views
         {
             InitializeComponent();
 
-            var el = new ElementHost() {Child = chart3d, Dock = DockStyle.Fill};
+            var el = new ElementHost {Child = chart3d, Dock = DockStyle.Fill};
             chart3d.ParentControl = el;
 
             panel2.Controls.AddRange(new[]
             {
-               
                 chart2d,
                 complexChart,
                 el,
-                 ChartAreaValuesView as Control,
+                ChartAreaValuesView as Control
             });
         }
 
