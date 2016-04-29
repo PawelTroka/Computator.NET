@@ -22,6 +22,8 @@ namespace Computator.NET
     {
         private static readonly SimpleLogger logger = new SimpleLogger {ClassName = "Program"};
 
+
+
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
@@ -32,6 +34,10 @@ namespace Computator.NET
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+
+
+
 
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
@@ -48,6 +54,9 @@ namespace Computator.NET
             LoadingScreen.CloseForm();
             Application.Run(mainForm);
         }
+
+
+
 
         private static void SetPresenters(IMainForm mainForm)
         {

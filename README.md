@@ -38,8 +38,8 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 #####Programmers
 * This repo supports **Fork & Pull Model**, you can do any useful changes and when you are done make a pull request. If your work is of good quality, it will be included in main branch.
-* List of **things to do** is **updated constantly**, you can view it here: [TODO file](../master/Computator.NET/TODO). Choose wisely because some of those things are way harder than it looks.
-* List of known bugs (often with little or no reasonable solutions) is here: [BUGS file](../master/Computator.NET/BUGS).
+* List of **things to do** is **updated constantly**, you can view it here: [TODO file](../master/TODO). Choose wisely because some of those things are way harder than it looks.
+* List of known bugs (often with little or no reasonable solutions) is here: [BUGS file](../master/BUGS).
 
 #####Testers
 * Our **unit tests coverage is small**, partly because of the fact that there is good chunk of UI code here. Still I am afraid that there are lots and lots of not found bugs. If you want to help us fix those bugs, first try to catch them by **writing good unit tests**.

@@ -34,6 +34,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodedUITests", "CodedUITests\CodedUITests.csproj", "{36F8A68E-0713-42A3-B9C3-C723B5D92922}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C3C81D6D-AB05-4A8A-BA72-7866DF0988CE}"
+	ProjectSection(SolutionItems) = preProject
+		BUGS = BUGS
+		Computator.NET\CHANGELOG = Computator.NET\CHANGELOG
+		docs\eula.rtf = docs\eula.rtf
+		LICENSE = LICENSE
+		README.md = README.md
+		docs\readme.rtf = docs\readme.rtf
+		TODO = TODO
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU

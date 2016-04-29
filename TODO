@@ -1,0 +1,103 @@
+﻿##TSL
+* functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
+* Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3)) //it would make possible to have string representation of user function in scripting -> plot() functions could produce better looking charts with labels corresponding to functions by string representation
+* we should add something like cos(x) or cos(x)² instead of having to write (cos(x))²
+* make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
+* maybe handle cases like 2²x for multiplying
+* Handle abs - |x+2|=|cos(y)| should give us abs(x+2)=abs(cos(y)), then add it to superscript
+* include in tutorials and test experimantal features
+
+
+##UI
+* NumericUpDown is shit for our needs, we need invariant culture ScientificNumericUpDown with support for TSL numbers notation, engineering notation, variable increment based on current value etc
+* Scientificnumericupdown is working bad with increment near small values, do we even need small values?
+* Used functions history log
+* Scripting: tracking user variables
+* shift+r_mouse_click on item_key activates new window
+* Special function search list arrangement ( or arrangement by user).
+* Cancel doesnt work to second option in benchmark if first option was already cancelled and second started later
+* Command pattern for buttons, including EditChartMenus / or something better
+* Windows Ribbon control?
+* Metro Modern UI - Metro Framework?
+* use mode.error more often - use it for empty text and errors etc
+
+
+##Functions and constants
+* recreate function logGamma with fixed all errors
+* Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
+* make it possible to create distrubution like normal from array of elemenets and from mean stdev and make functions from elemenets like CDF(elements,x)
+* Matrix division
+* rest of special functions
+* matrix more opearations
+* Weiestrass functions
+* theta functions
+* numerical calculations for f(z) and f(x,y) functions too
+* add functions from gsl_diff.h, gsl_deriv.h, rk methods etc
+* add stefanson method for function root roots/steffenson.c and qk61 method from integration
+* add numerical methods for solving ordinary differential equations (ODEs) (ode-initval/gsl_odeiv.h, Meta Numerics too), maybe other types of DE too 
+* add polynomials: operations, solving (solving general case is in GSL), evaluating
+* add extreme and minima of fucntions
+* take a look on MathNet.Numerics.Euclid
+
+
+##General design
+* in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
+* Unify exceptions and logging model in whole application, refactor it
+* refactor settings.save() usage and make it optimal
+* refactor exception in whole project, unify them
+* differ exception in expressions from those in scripting
+* make descriptions and names, categories, etc for settingstypes
+* add symbolic calculations
+
+
+##Code editors
+* remember last open documents with editors, mybe with content
+* if we changed a document note this with red disk and ask for save
+* add search and replace windows to scripting
+* add printing option to codeeditors
+
+
+##Installer
+* test installer and upgrade options
+* right now, because of lack of support from Flexera's site, installer stores both versions of Visual C++ Runtime 2015 Update 1 within itself - should download from internet only if needed
+* flexera did update their dependencies on website - take advantage of download VC++ runtime
+
+
+##Autocomplete
+* search in the internet/base of knowledge about the function if we have nothing in function info
+* make autocomplete resize on items
+* make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
+* better autocomplete, also for variables after (.) dot symbol
+
+
+##Functions&constants info
+* Functions description
+* build new functioninfo.xml with empty data
+
+
+##Charts
+* enable data loading for charts
+* enable better usage of transformation and charts scaling for loaded points
+* enable transformations for chart2d, complexchart and chart3d
+* Chart2D setting XMax<XMin error handling
+
+
+##I/O
+enable data saving
+
+
+##Help
+* Multi-language help files.
+* tutorials on youtube
+* more tsl examples
+* tutorials and help https://github.com/PawelTroka/Computator.NET/wiki
+
+
+##Translations
+* Update Deutsch and Czech translations to 2.0.0 version
+
+
+##Tests
+* fix evaluation and native compiler unit tests
+* add unit tests for testing culture invariant output
+* add tests for presenters from MVP
