@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 
@@ -19,11 +20,16 @@ namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 
         public override void Execute()
         {
-            if (Directory.Exists(SimpleLogger.LogsDirectory))
-                Process.Start(SimpleLogger.LogsDirectory);
-            else
+
+            try
+            {
+                (new SimpleLogger.SimpleLogger(GlobalConfig.AppName)).OpenLogsDirectory();
+            }
+            catch
+            {
                 MessageBox.Show(
                     Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_);
+            }
         }
     }
 }

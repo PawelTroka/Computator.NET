@@ -8,7 +8,7 @@ namespace Computator.NET.DataTypes
 {
     public static class CustomFonts
     {
-        private static readonly SimpleLogger logger = new SimpleLogger
+        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName)
         {
             ClassName = typeof(GlobalConfig).FullName
         };

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Forms.Integration;
 using System.Windows.Media.Media3D;
@@ -69,6 +70,12 @@ namespace Computator.NET.Evaluation
                     ? customFunctionsCode
                     : "";
             ;
+
+            foreach (var functionsPackage in Extensions.ExtensionsProvider.Instance.GetFunctionsPackages(true))
+            {
+                CustomFunctionsTslCode+=(functionsPackage.ToCode);
+            }
+
 
             AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation",

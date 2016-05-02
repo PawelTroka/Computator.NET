@@ -59,6 +59,7 @@
  * = MVP pattern implemented for UI
  * = Command pattern implemented for Top Menu and Toolbar Menu
  * + Introduction of SharedViewState representing shared state of application for various uses
+ * + Computator.NET now support MEF model of extensions -  you can write plugins for Computator.NET just by implementing interfaces from Computator.NET.Extensibility library and putting compiled extensions in "Extensions" directory
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

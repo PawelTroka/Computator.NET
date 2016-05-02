@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Media;
 using Computator.NET.Data;
+using Computator.NET.Extensibility;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
 using ICSharpCode.AvalonEdit.CodeCompletion;

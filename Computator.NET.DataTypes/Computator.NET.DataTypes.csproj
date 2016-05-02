@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleLogger.NET, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleLogger.NET.2.0.0.0\lib\net40\SimpleLogger.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -46,6 +50,7 @@
     <Compile Include="BaseFunction.cs" />
     <Compile Include="CalculationException.cs" />
     <Compile Include="CalculationsMode.cs" />
+    <Compile Include="ErrorType.cs" />
     <Compile Include="Events\CalculationsModeChangedEvent.cs" />
     <Compile Include="Events\ChangeViewEvent.cs" />
     <Compile Include="Events\EventAggregator.cs" />
@@ -84,12 +89,6 @@
     <Compile Include="TypeExtenstion.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
-      <Project>{9c4052d5-2c6b-404c-adac-66e93069824e}</Project>
-      <Name>SimpleLogger</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Localization\Strings.cs.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.cs.Designer.cs</LastGenOutput>
@@ -109,6 +108,9 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

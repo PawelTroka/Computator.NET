@@ -14,7 +14,7 @@ namespace Computator.NET.Natives
     {
         private static gsl_error_handler_t UnmanagedHandler;
 
-        private static readonly SimpleLogger logger = new SimpleLogger {ClassName = nameof(GSLInitializer)};
+        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) { ClassName = nameof(GSLInitializer)};
 
         public static void Initialize()
         {

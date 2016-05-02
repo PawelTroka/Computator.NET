@@ -6,6 +6,7 @@ namespace Computator.NET.DataTypes
 {
     public static class GlobalConfig
     {
+        public const string AppName = "Computator.NET";
         public const string version = "v2.0.0ß";
         public const string authorWithEmail = author + " (pawel.troka@outlook.com)";
         public const string author = "Paweł Troka";

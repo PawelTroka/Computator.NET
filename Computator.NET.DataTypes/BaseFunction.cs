@@ -6,7 +6,7 @@ namespace Computator.NET.DataTypes
     public abstract class BaseFunction
     {
         protected readonly Delegate _function;
-        protected SimpleLogger logger;
+        protected SimpleLogger.SimpleLogger logger;
 
         protected BaseFunction(Delegate function)
         {

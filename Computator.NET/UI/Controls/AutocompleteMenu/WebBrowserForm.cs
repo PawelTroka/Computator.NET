@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
+using Computator.NET.Extensibility;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
 

@@ -1,17 +1,16 @@
 ﻿using System.Reflection;
-using System.Resources;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("SimpleLogger")]
-[assembly: AssemblyDescription("A simple logger library written for Computator.NET")]
+[assembly: AssemblyTitle("SampleFunctionsPackages")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Pawel Troka")]
-[assembly: AssemblyProduct("SimpleLogger")]
-[assembly: AssemblyCopyright("Copyright ©  2016 Pawel Troka")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("SampleFunctionsPackages")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -23,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("2905889b-fcd6-41be-9629-040c06f7e9dc")]
+[assembly: Guid("9d820bf9-c6fc-4c8c-aea7-91e2f500d7eb")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -36,6 +35,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: NeutralResourcesLanguage("en")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

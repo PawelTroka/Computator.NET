@@ -41,9 +41,13 @@
 			<Name>Computator.NET.DataTypes</Name>
 			<Project>{715165A2-D015-42AE-9381-5563204F8508}</Project>
 		</ProjectReference>
-		<ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
-			<Name>SimpleLogger</Name>
-			<Project>{9C4052D5-2C6B-404C-ADAC-66E93069824E}</Project>
+		<ProjectReference Include="..\Computator.NET.Extensibility\Computator.NET.Extensibility.csproj">
+			<Name>Computator.NET.Extensibility</Name>
+			<Project>{B1CEB073-5C94-42A5-AA3E-8480414397F2}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\SampleFunctionsPackageExtension\SampleFunctionsPackageExtension.csproj">
+			<Name>SampleFunctionsPackageExtension</Name>
+			<Project>{9D820BF9-C6FC-4C8C-AEA7-91E2F500D7EB}</Project>
 		</ProjectReference>
 	</ItemGroup>
 </Project>

@@ -45,9 +45,8 @@
       <HintPath>..\packages\Accord.Math.3.0.2\lib\net45\Accord.Math.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.11.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.3.11.1\lib\net40\MathNet.Numerics.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.11.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <HintPath>..\packages\Meta.Numerics.3.0.0\lib\Meta.Numerics.dll</HintPath>
@@ -89,6 +88,10 @@
       <Project>{31264a50-a9b4-410c-85bb-ec81d5076747}</Project>
       <Name>Computator.NET.Charting</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Computator.NET.Extensibility\Computator.NET.Extensibility.csproj">
+      <Project>{b1ceb073-5c94-42a5-aa3e-8480414397f2}</Project>
+      <Name>Computator.NET.Extensibility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Computator.NET\Computator.NET.csproj">
       <Project>{5731ed79-dfc9-41d5-8a2e-82c578ad1d96}</Project>
       <Name>Computator.NET</Name>
@@ -96,10 +99,6 @@
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
-      <Project>{9c4052d5-2c6b-404c-adac-66e93069824e}</Project>
-      <Name>SimpleLogger</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

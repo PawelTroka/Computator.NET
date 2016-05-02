@@ -16,12 +16,12 @@ namespace Computator.NET.Compilation
 {
     public class NativeCompiler : CSharpCodeProvider
     {
-        private readonly SimpleLogger logger;
+        private readonly SimpleLogger.SimpleLogger logger;
         private readonly CompilerParameters parameters;
 
         public NativeCompiler()
         {
-            logger = new SimpleLogger {ClassName = GetType().FullName};
+            logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) { ClassName = GetType().FullName};
             parameters = new CompilerParameters
             {
                 GenerateInMemory = true,

@@ -108,6 +108,11 @@ namespace Computator.NET.Data
             items.AddRange(GetFunctionsNamesWithDescription(typeof(MathematicalConstants), true));
             items.AddRange(GetFunctionsNamesWithDescription(typeof(PhysicalConstants), true));
 
+            foreach (var extensionsType in Extensions.ExtensionsProvider.Instance.GetExtensionsTypes(false))
+            {
+                items.AddRange(GetFunctionsNamesWithDescription(extensionsType));
+            }
+            
 
             items.RemoveAll(i => i.Text == "ToCode");
 
@@ -127,6 +132,11 @@ namespace Computator.NET.Data
             items.AddRange(GetFunctionsNamesWithDescription(typeof(MathematicalTransformations)));
             items.AddRange(GetFunctionsNamesWithDescription(typeof(ScriptingFunctions)));
             items.AddRange(TslCompiler.Keywords.Select(s => new AutocompleteItem(s)));
+
+            foreach (var extensionsType in Extensions.ExtensionsProvider.Instance.GetExtensionsTypes(true))
+            {
+                items.AddRange(GetFunctionsNamesWithDescription(extensionsType));
+            }
 
             items.Sort((i1, i2) => i1.Text.CompareTo(i2.Text));
             items.ForEach(i => i.IsScripting = true);
@@ -165,15 +175,12 @@ namespace Computator.NET.Data
             GetFunctionsNamesWithDescription(Type type, bool noMethod = false,
                 bool fullName = false)
         {
-            var properties =
-                type.GetProperties(BindingFlags.Static | BindingFlags.Public);
-            var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public);
-            var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
+
 
             var items = new List<AutocompleteItem>();
 
             if (!noMethod)
-                foreach (var m in methods)
+                foreach (var m in type.GetMethods(BindingFlags.Static | BindingFlags.Public))
                 {
                     var fullNameExtension = "";
                     if (fullName)
@@ -198,13 +205,13 @@ namespace Computator.NET.Data
                     AddMetadata(m, type, items);
                 }
 
-            foreach (var p in properties)
+            foreach (var p in type.GetProperties(BindingFlags.Static | BindingFlags.Public))
             {
                 AddSignatureWithType(p.Name, "", "", p.PropertyType.Name, items);
                 AddMetadata(p, type, items);
             }
 
-            foreach (var f in fields)
+            foreach (var f in type.GetFields(BindingFlags.Static | BindingFlags.Public))
             {
                 AddSignatureWithType(f.Name, "", "", f.FieldType.Name, items);
                 AddMetadata(f, type, items);

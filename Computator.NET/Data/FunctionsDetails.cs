@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Xml.Serialization;
 using Computator.NET.DataTypes;
+using Computator.NET.Extensibility;
 using Computator.NET.Functions;
 using Computator.NET.UI.Controls.AutocompleteMenu;
 
@@ -16,7 +17,28 @@ namespace Computator.NET.Data
         private FunctionsDetails()
         {
             _details = LoadFunctionsDetailsFromXmlFile();
+
+            AddFunctionsFromExtensions();
             //  SaveEmptyFunctionDetailsToXmlFile();
+        }
+
+        private void AddFunctionsFromExtensions()
+        {
+            foreach (var functionsPackage in Extensions.ExtensionsProvider.Instance.GetFunctionsPackages(false))
+            {
+                foreach (var functionInfo in functionsPackage.FunctionsInfo)
+                {
+                    _details.Add(functionInfo.Signature, functionInfo);
+                }
+            }
+
+            foreach (var functionsPackage in Extensions.ExtensionsProvider.Instance.GetFunctionsPackages(true))
+            {
+                foreach (var functionInfo in functionsPackage.FunctionsInfo)
+                {
+                    _details.Add(functionInfo.Signature, functionInfo);
+                }
+            }
         }
 
         public static FunctionsDetails Details { get; } = new FunctionsDetails();

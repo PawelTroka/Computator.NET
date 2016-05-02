@@ -20,7 +20,7 @@ namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger logger = new SimpleLogger {ClassName = "Program"};
+        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) {ClassName = "Program"};
 
 
 

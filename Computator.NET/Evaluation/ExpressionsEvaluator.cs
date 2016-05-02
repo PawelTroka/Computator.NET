@@ -68,7 +68,7 @@ namespace Computator.NET.Evaluation
         protected string AdditionalUsings;
         protected string CustomFunctionsTslCode;
         protected FunctionType FunctionType;
-        protected SimpleLogger Logger;
+        protected SimpleLogger.SimpleLogger Logger;
         protected string MainCSharpCode;
         protected string MainTslCode;
         protected NativeCompiler NativeCompiler;
@@ -77,7 +77,7 @@ namespace Computator.NET.Evaluation
         {
             NativeCompiler = new NativeCompiler();
             _tslCompiler = new TslCompiler();
-            Logger = new SimpleLogger {ClassName = GetType().FullName};
+            Logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) { ClassName = GetType().FullName};
             AdditionalObjectsCode = "";
             AdditionalUsings = "";
         }
@@ -229,6 +229,13 @@ namespace Computator.NET.Evaluation
 
 
             codeBuilder.Append(_customFunctionsCSharpCode);
+
+            foreach (var functionsPackage in Extensions.ExtensionsProvider.Instance.GetFunctionsPackages(false))
+            {
+                codeBuilder.Append(functionsPackage.ToCode);
+            }
+            
+
             codeBuilder.Append(_functionSignature);
 
 /////

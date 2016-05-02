@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Computator.NET.DataTypes;
+using Computator.NET.Extensibility;
 using Computator.NET.Functions;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;

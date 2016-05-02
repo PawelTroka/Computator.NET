@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Windows.Forms;
+using Computator.NET.DataTypes;
 using Computator.NET.Logging;
 
 namespace Computator.NET.UI.ErrorHandling
@@ -8,11 +9,11 @@ namespace Computator.NET.UI.ErrorHandling
     public class SimpleErrorHandler : IErrorHandler
     {
         private static SimpleErrorHandler _instance;
-        private readonly SimpleLogger logger;
+        private readonly SimpleLogger.SimpleLogger logger;
 
         private SimpleErrorHandler()
         {
-            logger = new SimpleLogger(this);
+            logger = new SimpleLogger.SimpleLogger((GlobalConfig.AppName));
         }
 
         public static SimpleErrorHandler Instance { get; } = new SimpleErrorHandler();
