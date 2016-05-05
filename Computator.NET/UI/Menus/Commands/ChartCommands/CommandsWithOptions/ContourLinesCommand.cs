@@ -38,15 +38,15 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             {
                 this.contourLinesMode = contourLinesMode;
                 IsOption = true;
-                Checked = complexChart.countourMode == contourLinesMode;
+                Checked = complexChart.CountourMode == contourLinesMode;
 
-                BindingUtils.OnPropertyChanged(complexChart, nameof(complexChart.countourMode), () =>
-                    Checked = complexChart.countourMode == contourLinesMode);
+                BindingUtils.OnPropertyChanged(complexChart, nameof(complexChart.CountourMode), () =>
+                    Checked = complexChart.CountourMode == contourLinesMode);
             }
 
             public override void Execute()
             {
-                complexChart.countourMode = contourLinesMode;
+                complexChart.CountourMode = contourLinesMode;
                 complexChart.Redraw();
             }
         }

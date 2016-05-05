@@ -38,15 +38,15 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             {
                 this.assignmentOfColorMethod = assignmentOfColorMethod;
                 IsOption = true;
-                Checked = complexChart.colorAssignmentMethod == assignmentOfColorMethod;
+                Checked = complexChart.ColorAssignmentMethod == assignmentOfColorMethod;
 
-                BindingUtils.OnPropertyChanged(complexChart, nameof(complexChart.colorAssignmentMethod), () =>
-                    Checked = complexChart.colorAssignmentMethod == assignmentOfColorMethod);
+                BindingUtils.OnPropertyChanged(complexChart, nameof(complexChart.ColorAssignmentMethod), () =>
+                    Checked = complexChart.ColorAssignmentMethod == assignmentOfColorMethod);
             }
 
             public override void Execute()
             {
-                complexChart.colorAssignmentMethod = assignmentOfColorMethod;
+                complexChart.ColorAssignmentMethod = assignmentOfColorMethod;
                 complexChart.Redraw();
             }
         }

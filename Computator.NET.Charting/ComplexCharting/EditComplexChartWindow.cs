@@ -26,9 +26,9 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private void loadData()
         {
-            tittleOfChartTextBox.Text = chart.title;
-            yLabelChartTextBox.Text = chart.yLabel;
-            xLabelChartTextBox.Text = chart.xLabel;
+            tittleOfChartTextBox.Text = chart.Title;
+            yLabelChartTextBox.Text = chart.YLabel;
+            xLabelChartTextBox.Text = chart.XLabel;
 
             xMinChartTextBox.Text = chart.XMin.ToString();
             yMinChartTextBox.Text = chart.YMin.ToString();
@@ -36,11 +36,11 @@ namespace Computator.NET.Charting.ComplexCharting
             xMaxChartTextBox.Text = chart.XMax.ToString();
             yMaxChartTextBox.Text = chart.YMax.ToString();
 
-            titleFont = titleFontDialog.Font = chart.titleFont;
-            axesFont = axisLabelsFontDialog.Font = chart.labelsFont;
+            titleFont = titleFontDialog.Font = chart.TitleFont;
+            axesFont = axisLabelsFontDialog.Font = chart.LabelsFont;
             /////////////
-            contourLinesStepNumericUpDown.Value = (decimal) chart.countourLinesStep;
-            drawAxes.Checked = chart.shouldDrawAxes;
+            contourLinesStepNumericUpDown.Value = (decimal) chart.CountourLinesStep;
+            drawAxes.Checked = chart.ShouldDrawAxes;
 
 
             //enums
@@ -48,7 +48,7 @@ namespace Computator.NET.Charting.ComplexCharting
                 Enum.GetValues(typeof(CountourLinesMode)).Cast<CountourLinesMode>().ToList();
             foreach (var v in vartosci)
                 contourLinesComboBox.Items.Add(v);
-            contourLinesComboBox.SelectedItem = chart.countourMode;
+            contourLinesComboBox.SelectedItem = chart.CountourMode;
 
             var vartosci2 =
                 Enum.GetValues(typeof(AssignmentOfColorMethod))
@@ -56,19 +56,19 @@ namespace Computator.NET.Charting.ComplexCharting
                     .ToList();
             foreach (var v in vartosci2)
                 colorAssigmentComboBox.Items.Add(v);
-            colorAssigmentComboBox.SelectedItem = chart.colorAssignmentMethod;
+            colorAssigmentComboBox.SelectedItem = chart.ColorAssignmentMethod;
 
             //colors
-            axesColorRectangleShape.FillColor = chart.axesColor;
-            labelsColorRectangleShape.FillColor = chart.labelsColor;
-            titlesColorRectangleShape.FillColor = chart.titleColor;
+            axesColorRectangleShape.FillColor = chart.AxesColor;
+            labelsColorRectangleShape.FillColor = chart.LabelsColor;
+            titlesColorRectangleShape.FillColor = chart.TitleColor;
         }
 
         private void saveData()
         {
-            chart.title = tittleOfChartTextBox.Text;
-            chart.yLabel = yLabelChartTextBox.Text;
-            chart.xLabel = xLabelChartTextBox.Text;
+            chart.Title = tittleOfChartTextBox.Text;
+            chart.YLabel = yLabelChartTextBox.Text;
+            chart.XLabel = xLabelChartTextBox.Text;
 
             chart.YMin = double.Parse(yMinChartTextBox.Text);
             chart.YMax = double.Parse(yMaxChartTextBox.Text);
@@ -76,21 +76,21 @@ namespace Computator.NET.Charting.ComplexCharting
             chart.XMax = double.Parse(xMaxChartTextBox.Text);
             chart.XMin = double.Parse(xMinChartTextBox.Text);
 
-            chart.titleFont = titleFont;
-            chart.labelsFont = axesFont;
+            chart.TitleFont = titleFont;
+            chart.LabelsFont = axesFont;
 
-            chart.countourLinesStep = (double) contourLinesStepNumericUpDown.Value;
-            chart.shouldDrawAxes = drawAxes.Checked;
+            chart.CountourLinesStep = (double) contourLinesStepNumericUpDown.Value;
+            chart.ShouldDrawAxes = drawAxes.Checked;
 
 
             //enums
-            chart.countourMode = (CountourLinesMode) contourLinesComboBox.SelectedItem;
-            chart.colorAssignmentMethod = (AssignmentOfColorMethod) colorAssigmentComboBox.SelectedItem;
+            chart.CountourMode = (CountourLinesMode) contourLinesComboBox.SelectedItem;
+            chart.ColorAssignmentMethod = (AssignmentOfColorMethod) colorAssigmentComboBox.SelectedItem;
 
             //colors
-            chart.axesColor = axesColorRectangleShape.FillColor;
-            chart.labelsColor = labelsColorRectangleShape.FillColor;
-            chart.titleColor = titlesColorRectangleShape.FillColor;
+            chart.AxesColor = axesColorRectangleShape.FillColor;
+            chart.LabelsColor = labelsColorRectangleShape.FillColor;
+            chart.TitleColor = titlesColorRectangleShape.FillColor;
             chart.Redraw();
         }
 

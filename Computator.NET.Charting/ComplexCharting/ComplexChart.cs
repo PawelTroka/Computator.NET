@@ -25,11 +25,9 @@ namespace Computator.NET.Charting.ComplexCharting
         // private Graphics g;
         private double quality;
         //  private Task RedrawTask;
-        private readonly Color[,] pointsColors =
-            new Color[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
+        private  Color[,] _pointsColors;
 
-        private readonly ComplexPoint[,] pointsValues =
-            new ComplexPoint[Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height];
+        private  ComplexPoint[,] _pointsValues;
 
         private bool drawn;
         private Function function;
@@ -49,9 +47,9 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region public properties
 
-        public double countourLinesStep { get; set; } = Math.E;
+        public double CountourLinesStep { get; set; } = Math.E;
 
-        public CountourLinesMode countourMode
+        public CountourLinesMode CountourMode
         {
             get { return _countourMode; }
             set
@@ -59,12 +57,12 @@ namespace Computator.NET.Charting.ComplexCharting
                 if (_countourMode != value)
                 {
                     _countourMode = value;
-                    OnPropertyChanged(nameof(countourMode));
+                    OnPropertyChanged(nameof(CountourMode));
                 }
             }
         }
 
-        public AssignmentOfColorMethod colorAssignmentMethod
+        public AssignmentOfColorMethod ColorAssignmentMethod
         {
             get { return _colorAssignmentMethod; }
             set
@@ -72,12 +70,12 @@ namespace Computator.NET.Charting.ComplexCharting
                 if (_colorAssignmentMethod != value)
                 {
                     _colorAssignmentMethod = value;
-                    OnPropertyChanged(nameof(colorAssignmentMethod));
+                    OnPropertyChanged(nameof(ColorAssignmentMethod));
                 }
             }
         }
 
-        public double axisArrowRelativeSize { get; set; } = 0.02;
+        public double AxisArrowRelativeSize { get; set; } = 0.02;
 
         public double Quality
         {
@@ -89,7 +87,7 @@ namespace Computator.NET.Charting.ComplexCharting
                     value = 0;
 
 
-                calculateQuality(value);
+                CalculateQuality(value);
                 Redraw();
             }
             get { return quality*100; }
@@ -157,19 +155,19 @@ namespace Computator.NET.Charting.ComplexCharting
         public event EventHandler YMinChanged;
         public event EventHandler YMaxChanged;
 
-        public string xLabel { get; set; } = "Re(z)";
-        public string yLabel { get; set; } = "Im(z)";
-        public string title { get; set; }
+        public string XLabel { get; set; } = "Re(z)";
+        public string YLabel { get; set; } = "Im(z)";
+        public string Title { get; set; }
 
-        public Font titleFont { get; set; } = CustomFonts.GetMathFont(13);
-        public Font labelsFont { get; set; } = CustomFonts.GetMathFont(13);
-        public Color labelsColor { get; set; } = Color.Black;
-        public Color titleColor { get; set; } = Color.Black;
-        public Color axesColor { get; set; } = Color.Black;
+        public Font TitleFont { get; set; } = CustomFonts.GetMathFont(13);
+        public Font LabelsFont { get; set; } = CustomFonts.GetMathFont(13);
+        public Color LabelsColor { get; set; } = Color.Black;
+        public Color TitleColor { get; set; } = Color.Black;
+        public Color AxesColor { get; set; } = Color.Black;
 
-        public bool shouldDrawAxes { get; set; } = true;
+        public bool ShouldDrawAxes { get; set; } = true;
 
-        private void calculateQuality(double value)
+        private void CalculateQuality(double value)
         {
             if (value >= 50)
                 quality = 1.0;
@@ -184,25 +182,62 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region constructing
 
+        private Bitmap CalculateValuesAndColors()
+        {
+            _pointsValues = new ComplexPoint[DrawWidth, DrawHeight];
+            _pointsColors = new Color[_pointsValues.GetLength(0), _pointsValues.GetLength(1)];
+
+
+            Parallel.For(0, _pointsValues.GetLength(0), x =>
+            {
+                var re = XMin + x * (XMax - XMin) / _pointsValues.GetLength(0);
+                for (var y = 0; y < _pointsValues.GetLength(1); y++)
+                {
+                    var im = YMax - y * (YMax - YMin) / _pointsValues.GetLength(1);
+
+                    var z = new Complex(re, im);
+
+                    var fz = function.Evaluate(z);
+                    _pointsValues[x, y] = new ComplexPoint(z, fz);
+
+                    if (double.IsInfinity(fz.Real) || double.IsNaN(fz.Real) || double.IsInfinity(fz.Imaginary) ||
+                        double.IsNaN(fz.Imaginary))
+                    {
+                        _pointsColors[x, y] = Color.White;
+                    }
+                    else
+                    {
+                        if (function.IsImplicit)
+                        {
+                            _pointsColors[x, y] = ComplexToColor(fz);
+                        }
+                        else
+                            _pointsColors[x, y] = ComplexToColor(fz);
+                        //image.SetPixel(x, y, ComplexToColor(fz)/*pointsColors[x, y]*/);
+                    }
+
+                }
+            });
+
+            var bitmap = new Bitmap(_pointsColors.GetLength(0), _pointsColors.GetLength(1));
+
+            for (int x = 0; x < bitmap.Width; x++)
+                for (int y = 0; y < bitmap.Height; y++)
+                    bitmap.SetPixel(x, y, _pointsColors[x, y]);
+            return bitmap;
+        }
+
         public ComplexChart()
         {
             InitializeComponent();
+      
             DoubleBuffered = true;
             attachEventHandlers();
-            Quality = 50;
-
-            worker = new BackgroundWorker {WorkerReportsProgress = true};
-            worker.DoWork += (o, e) =>
-            {
-                var bw = o as BackgroundWorker;
-                calculateValuesAndColors();
-                for (var x = 0; x < DrawWidth; x++)
-                    for (var y = 0; y < DrawHeight; y++)
-                        image.SetPixel(x, y, pointsColors[x, y]);
-                drawn = true;
-                Invalidate();
-            };
+            Quality = 50;       
         }
+
+
+        
 
         private void attachEventHandlers()
         {
@@ -216,6 +251,7 @@ namespace Computator.NET.Charting.ComplexCharting
             BackColor = Color.White;
             //doNotRecalculate = false;
             Dock = DockStyle.Fill;
+            
         }
 
         #endregion
@@ -232,12 +268,12 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private void _MouseClick(object s, MouseEventArgs e)
         {
-            if (drawn)
+            var x = (int)(e.Location.X * quality);
+            var y = (int)(e.Location.Y * quality);
+            if (_pointsValues!=null && x< _pointsValues.GetLength(0) && y<_pointsValues.GetLength(1))
             {
-                var x = (int) (e.Location.X*quality);
-                var y = (int) (e.Location.Y*quality);
-                var fz = pointsValues[x, y].Fz;
-                var z = pointsValues[x, y].Z;
+                var fz = _pointsValues[x, y].Fz;
+                var z = _pointsValues[x, y].Z;
 
                 toolTip.SetToolTip(this,
                     $"f(z) = {fz.Real:0.###}{fz.Imaginary:+0.###;-0.###}i = {fz.Magnitude:0.###} exp({fz.Phase:0.###})\nz = {z.Real:0.###}{z.Imaginary:+0.###;-#0.###}i = {z.Magnitude:0.###} exp({z.Phase:0.###})");
@@ -252,7 +288,7 @@ namespace Computator.NET.Charting.ComplexCharting
         public void AddFunction(Function Fz)
         {
             function = Fz;
-            title = Fz.Name;
+            Title = Fz.Name;
             Redraw();
         }
 
@@ -300,15 +336,9 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region drawing
 
-        private int DrawWidth
-        {
-            get { return (int) (Width*quality); }
-        }
+        private int DrawWidth => (int) (ClientRectangle.Width * quality);
 
-        private int DrawHeight
-        {
-            get { return (int) (Height*quality); }
-        }
+        private int DrawHeight => (int) (ClientRectangle.Height*quality);
 
         public void ClearAll()
         {
@@ -317,74 +347,69 @@ namespace Computator.NET.Charting.ComplexCharting
             Invalidate();
         }
 
-        public void Redraw()
+        public async void Redraw()
         {
-            if (function != null && DrawWidth > 0 && DrawHeight > 0)
+            if (function == null || DrawWidth <= 0 || DrawHeight <= 0)
+                return;
+            if (CalculateValuesAndColorsTask == null||CalculateValuesAndColorsTask.IsCompleted)
             {
-                //if (!worker.IsBusy)
-                //worker.RunWorkerAsync();
-                calculateValuesAndColors();
-                image = new Bitmap(DrawWidth, DrawHeight);
-                for (var x = 0; x < DrawWidth; x++)
-                    for (var y = 0; y < DrawHeight; y++)
-                        image.SetPixel(x, y, pointsColors[x, y]);
-                drawn = true;
+                CalculateValuesAndColorsTask = new Task<Bitmap>(CalculateValuesAndColors);
+                Cursor = Cursors.WaitCursor;
+                CalculateValuesAndColorsTask.Start();
+                image = await CalculateValuesAndColorsTask;
+
+                Cursor = Cursors.Default;
+                Invalidate();
             }
-            Invalidate();
-            Update();
         }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            if (function != null)
+            if (image != null && CalculateValuesAndColorsTask!=null && CalculateValuesAndColorsTask.IsCompleted)
             {
-                //if(!worker.IsBusy)
-                pe.Graphics.DrawImage(image, new Rectangle(0, 0, Width, Height),
-                    new Rectangle(0, 0, DrawWidth, DrawHeight), GraphicsUnit.Pixel);
+                pe.Graphics.DrawImage(image,ClientRectangle);
             }
-            else
-                drawn = false;
-            if (shouldDrawAxes)
-                DrawAxes(pe);
+            if (ShouldDrawAxes)
+                DrawAxes(pe.Graphics);
         }
 
 
-        private void DrawAxes(PaintEventArgs pe)
+        private void DrawAxes(Graphics g)
         {
-            using (var myPen = new Pen(axesColor))
+            using (var myPen = new Pen(AxesColor))
             {
                 var middlePoint = GetMiddlePoint();
 
                 var xEnd = new Point(Width, middlePoint.Y);
                 var yEnd = new Point(middlePoint.X, Height);
 
-                var xEnd1Axis = new Point((int) (Width*(1 - axisArrowRelativeSize)),
-                    (int) (middlePoint.Y*(1 - axisArrowRelativeSize)));
-                var xEnd2Axis = new Point((int) (Width*(1 - axisArrowRelativeSize)),
-                    (int) (middlePoint.Y*(1 + axisArrowRelativeSize)));
+                var xEnd1Axis = new Point((int)(Width * (1 - AxisArrowRelativeSize)),
+                    (int)(middlePoint.Y * (1 - AxisArrowRelativeSize)));
+                var xEnd2Axis = new Point((int)(Width * (1 - AxisArrowRelativeSize)),
+                    (int)(middlePoint.Y * (1 + AxisArrowRelativeSize)));
 
-                var yEnd1Axis = new Point((int) (middlePoint.X*(1 - axisArrowRelativeSize)),
-                    (int) (Height*axisArrowRelativeSize));
-                var yEnd2Axis = new Point((int) (middlePoint.X*(1 + axisArrowRelativeSize)),
-                    (int) (Height*axisArrowRelativeSize));
+                var yEnd1Axis = new Point((int)(middlePoint.X * (1 - AxisArrowRelativeSize)),
+                    (int)(Height * AxisArrowRelativeSize));
+                var yEnd2Axis = new Point((int)(middlePoint.X * (1 + AxisArrowRelativeSize)),
+                    (int)(Height * AxisArrowRelativeSize));
 
 
                 var xStart = new Point(0, middlePoint.Y);
                 var yStart = new Point(middlePoint.X, 0);
 
                 //Y axis (ImZ)
-                pe.Graphics.DrawLine(myPen, middlePoint, yEnd);
-                pe.Graphics.DrawLine(myPen, middlePoint, yStart);
-                pe.Graphics.DrawLine(myPen, yStart, yEnd1Axis);
-                pe.Graphics.DrawLine(myPen, yStart, yEnd2Axis);
-                pe.Graphics.DrawString(yLabel, labelsFont, new SolidBrush(labelsColor), middlePoint.X - 60, 15);
+                g.DrawLine(myPen, middlePoint, yEnd);
+                g.DrawLine(myPen, middlePoint, yStart);
+                g.DrawLine(myPen, yStart, yEnd1Axis);
+                g.DrawLine(myPen, yStart, yEnd2Axis);
+                g.DrawString(YLabel, LabelsFont, new SolidBrush(LabelsColor), middlePoint.X - 60, 15);
 
                 //X axis(ReZ)
-                pe.Graphics.DrawLine(myPen, middlePoint, xEnd);
-                pe.Graphics.DrawLine(myPen, middlePoint, xStart);
-                pe.Graphics.DrawLine(myPen, xEnd, xEnd1Axis);
-                pe.Graphics.DrawLine(myPen, xEnd, xEnd2Axis);
-                pe.Graphics.DrawString(xLabel, labelsFont, new SolidBrush(labelsColor), Width - 60, middlePoint.Y + 10);
+                g.DrawLine(myPen, middlePoint, xEnd);
+                g.DrawLine(myPen, middlePoint, xStart);
+                g.DrawLine(myPen, xEnd, xEnd1Axis);
+                g.DrawLine(myPen, xEnd, xEnd2Axis);
+                g.DrawString(XLabel, LabelsFont, new SolidBrush(LabelsColor), Width - 60, middlePoint.Y + 10);
             }
         }
 
@@ -410,38 +435,8 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region calculations
 
-        private void calculateValuesAndColors()
-        {
-            Parallel.For(0, DrawWidth, x =>
-            {
-                var re = XMin + x*(XMax - XMin)/DrawWidth;
-                for (var y = 0; y < DrawHeight; y++)
-                {
-                    var im = YMax - y*(YMax - YMin)/DrawHeight;
-
-                    var z = new Complex(re, im);
-
-                    var fz = function.Evaluate(z);
-                    pointsValues[x, y] = new ComplexPoint(z, fz);
-
-                    if (double.IsInfinity(fz.Real) || double.IsNaN(fz.Real) || double.IsInfinity(fz.Imaginary) ||
-                        double.IsNaN(fz.Imaginary))
-                    {
-                        pointsColors[x, y] = Color.White;
-                    }
-                    else
-                    {
-                        if (function.IsImplicit)
-                        {
-                            pointsColors[x, y] = ComplexToColor(fz);
-                        }
-                        else
-                            pointsColors[x, y] = ComplexToColor(fz);
-                        //image.SetPixel(x, y, ComplexToColor(fz)/*pointsColors[x, y]*/);
-                    }
-                }
-            });
-        }
+        private Task<Bitmap> CalculateValuesAndColorsTask;
+        
 
         private Color ComplexToColor(Complex z)
         {
@@ -453,37 +448,37 @@ namespace Computator.NET.Charting.ComplexCharting
             double h = t/(2*Math.PI), s = 0, v = 0;
             double r0 = 0, r1 = 1;
 
-            switch (countourMode)
+            switch (CountourMode)
             {
                 case CountourLinesMode.Logarithmic:
                     //Based on Claudio Rocchini C++ algorithm for complex functions domain coloring http://en.wikipedia.org/wiki/File:Color_complex_plot.jpg
                     while (m > r1)
                     {
                         r0 = r1;
-                        r1 = r1*countourLinesStep;
+                        r1 = r1*CountourLinesStep;
                     }
                     break;
 
                 case CountourLinesMode.Linear:
-                    r1 = countourLinesStep;
+                    r1 = CountourLinesStep;
                     while (m > r1)
                     {
                         r0 = r1;
-                        r1 = r1 + countourLinesStep;
+                        r1 = r1 + CountourLinesStep;
                     }
                     break;
 
                 case CountourLinesMode.Exponential:
-                    r1 = Math.Log(Math.Pow(m, 1/m), countourLinesStep);
+                    r1 = Math.Log(Math.Pow(m, 1/m), CountourLinesStep);
                     while (m > r1)
                     {
                         r0 = r1;
-                        r1 = r1 + Math.Log(Math.Pow(m, 1/m), countourLinesStep);
+                        r1 = r1 + Math.Log(Math.Pow(m, 1/m), CountourLinesStep);
                     }
                     break;
             }
 
-            if (countourMode != CountourLinesMode.NoCountourLines)
+            if (CountourMode != CountourLinesMode.NoCountourLines)
             {
                 //Based on Claudio Rocchini C++ algorithm for complex functions domain coloring http://en.wikipedia.org/wiki/File:Color_complex_plot.jpg
                 var r = (m - r0)/(r1 - r0);
@@ -500,7 +495,7 @@ namespace Computator.NET.Charting.ComplexCharting
                 var coefficient = Math.Log(m + 1, 2)/Math.Log(double.MaxValue, 2);
                 //else
                 //coefficient = (Math.Pow(m,1/100))/(Math.Pow(double.MaxValue,1/100));
-                switch (colorAssignmentMethod)
+                switch (ColorAssignmentMethod)
                 {
                     case AssignmentOfColorMethod.GreaterIsDarker:
                         //s = 0.4 + 0.6*coefficient;
@@ -532,7 +527,7 @@ namespace Computator.NET.Charting.ComplexCharting
                 Enum.GetValues(typeof(CountourLinesMode)).Cast<CountourLinesMode>().ToList();
             foreach (var v in vartosci)
                 comboBoxes[0].Items.Add(v);
-            comboBoxes[0].SelectedItem = countourMode;
+            comboBoxes[0].SelectedItem = CountourMode;
             comboBoxes[0].DropDownStyle = ComboBoxStyle.DropDownList;
 
             var vartosci2 =
@@ -541,7 +536,7 @@ namespace Computator.NET.Charting.ComplexCharting
                     .ToList();
             foreach (var v in vartosci2)
                 comboBoxes[1].Items.Add(v);
-            comboBoxes[1].SelectedItem = colorAssignmentMethod;
+            comboBoxes[1].SelectedItem = ColorAssignmentMethod;
             comboBoxes[1].DropDownStyle = ComboBoxStyle.DropDownList;
         }
 

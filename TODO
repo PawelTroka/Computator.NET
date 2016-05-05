@@ -23,6 +23,8 @@
 * use some good controls like Navigator from Krypton Toolkit  https://github.com/ComponentFactory/Krypton (Navigator can be used for TabControl, CheckedListBox for chosing what Functions to load (eg SpecialFunctions etc), DOcking for Console output / solution explorer etc, Workspace for CodeEditors, KryptonColorButton for ChartEdit picking colors)
 * MVP is nice but maybe we should switch to MVVM using ReactiveUI http://www.codeproject.com/Articles/801986/Using-ReactiveUI-for-WinForms-MVVM-Design
 * useful controls: https://github.com/AdamsLair/winforms https://www.nuget.org/packages/OpenTK.GLControl https://github.com/nathanchere/FerretLib.WinForms http://ascendnet.codeplex.com https://github.com/AdamsLair/winforms
+* MVP is still done poorly, IViews shouldnt have nested IViews, Forms should take Controls from Constructors and we should drop our model of singletons (Presenters should use ISharedView state representing one SharedViewState instance but not singleton etc - same for error handler etc - dont be so affraid of huge constructors etc - later introduce IoC containers!!!!!!!!!!!!!!!!!!!!!!!) 
+* Use mark_heath tips
 
 
 ##Functions and constants

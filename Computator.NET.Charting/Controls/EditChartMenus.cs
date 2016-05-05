@@ -457,14 +457,14 @@ namespace Computator.NET.Charting.Controls
 
         private void countourLinesToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            complexChart.countourMode =
+            complexChart.CountourMode =
                 (CountourLinesMode) countourLinesToolStripComboBox.SelectedItem;
             complexChart.Redraw();
         }
 
         private void colorAssignmentToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            complexChart.colorAssignmentMethod =
+            complexChart.ColorAssignmentMethod =
                 (AssignmentOfColorMethod) colorAssignmentToolStripComboBox.SelectedItem;
             complexChart.Redraw();
         }
