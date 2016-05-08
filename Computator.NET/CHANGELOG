@@ -1,6 +1,6 @@
  * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
 
- ### --------- Unreleased -----------  24.04.2016 23:20
+ ### --------- Unreleased -----------  08.05.2016 23:12
  * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor (still doesnt work in AvalonEdit thought)
  * = Fixed bug in chart edit property window causing ComplexChart to not redraw after changes
  * = Fixed bug in ComplexChart GreaterIsLighter and GreaterIsDarker methods when NoCountourLines selected causing pitch black chart in GreaterIsLighter mode and not accurate chart in GreaterIsDarker mode
@@ -61,6 +61,7 @@
  * + Introduction of SharedViewState representing shared state of application for various uses
  * + Computator.NET now support MEF model of extensions -  you can write plugins for Computator.NET just by implementing interfaces from Computator.NET.Extensibility library and putting compiled extensions in "Extensions" directory
  * + Finally introduced async and await for longer running background tasks like ComplexChart drawing
+ * + ExponentMode menu command works now for AvalonEdit code editor too
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42
