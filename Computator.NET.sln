@@ -46,6 +46,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Extensibilit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleFunctionsPackageExtension", "SampleFunctionsPackageExtension\SampleFunctionsPackageExtension.csproj", "{9D820BF9-C6FC-4C8C-AEA7-91E2F500D7EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{1B05602E-FAF6-4ABC-84C0-9749F14EBDFE}"
+	ProjectSection(SolutionItems) = preProject
+		Presentation\1.8.1alpha bug fixed.jpg = Presentation\1.8.1alpha bug fixed.jpg
+		Presentation\Computator.NET v1.8 is coming - functions with description.jpg = Presentation\Computator.NET v1.8 is coming - functions with description.jpg
+		Presentation\Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart.jpg = Presentation\Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart.jpg
+		Presentation\Computator.NET_alpha_01.jpg = Presentation\Computator.NET_alpha_01.jpg
+		Presentation\eps-propagation.jpg = Presentation\eps-propagation.jpg
+		Presentation\eps-truncation-error.jpg = Presentation\eps-truncation-error.jpg
+		Presentation\functions and constants details.jpg = Presentation\functions and constants details.jpg
+		Presentation\functions and constants details.png = Presentation\functions and constants details.png
+		Presentation\gamma by computator.net.jpg = Presentation\gamma by computator.net.jpg
+		Presentation\gamma by computator.net.png = Presentation\gamma by computator.net.png
+		Presentation\interesting implicit function.jpg = Presentation\interesting implicit function.jpg
+		Presentation\quick_presentation.gif = Presentation\quick_presentation.gif
+		Presentation\simple implicit function.jpg = Presentation\simple implicit function.jpg
+		Presentation\simple implicit function.png = Presentation\simple implicit function.png
+		Presentation\solving equations graphically.gif = Presentation\solving equations graphically.gif
+		Presentation\solving equations using numerical calculations.gif = Presentation\solving equations using numerical calculations.gif
+		Presentation\writing-in-exponent.gif = Presentation\writing-in-exponent.gif
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -308,5 +329,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1B05602E-FAF6-4ABC-84C0-9749F14EBDFE} = {C3C81D6D-AB05-4A8A-BA72-7866DF0988CE}
 	EndGlobalSection
 EndGlobal
