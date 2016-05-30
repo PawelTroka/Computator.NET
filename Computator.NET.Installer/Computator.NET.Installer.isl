@@ -1949,7 +1949,6 @@
 		<row><td>computator.net.charting.prim</td><td>Computator.NET.Charting.Primary_output</td><td>Computator.NET.Charting.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.content_files</td><td>Computator.NET.Content_Files</td><td>Computator.NET.Content Files</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>computator.net.datatypes.pri</td><td>Computator.NET.DataTypes.Primary_output</td><td>Computator.NET.DataTypes.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|Built</td><td>3</td><td/></row>
-		<row><td>computator.net.extensibility</td><td>Computator.NET.Extensibility.Primary_output</td><td>Computator.NET.Extensibility.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Extensibility&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.localized_res</td><td>Computator.NET.Localized_resources</td><td>Computator.NET.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.primary_outpu</td><td>Computator.NET.Primary_output</td><td>Computator.NET.Primary output</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|Built</td><td>3</td><td/></row>
 		<row><td>consola.ttf</td><td>ISX_DEFAULTCOMPONENT3</td><td>consola.ttf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\UI\fonts\consola.ttf</td><td>1</td><td/></row>
@@ -1966,7 +1965,6 @@
 		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
 		<row><td>regid.2014_01.dk.fizyka_soft</td><td>ISO19770_SystemTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
 		<row><td>regid.2014_01.dk.fizyka_soft1</td><td>ISO19770_LocalTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
-		<row><td>samplefunctionspackageextens</td><td>SampleFunctionsPackageExtension.Primary_output</td><td>SampleFunctionsPackageExtension.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SampleFunctionsPackageExtension&gt;|Built</td><td>3</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2731,9 +2729,9 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_50176821_FAE5_483E_BC4A_442E6D05DBE3_</td><td>Microsoft Visual C++ 2015 Update 1 Redistributable Package (x64).prq</td><td>1</td><td>1</td><td/></row>
-		<row><td>_5920CB72_8584_4844_A2B5_B27792E58CD6_</td><td>Microsoft Visual C++ 2015 Update 1 Redistributable Package (x86).prq</td><td>0</td><td>1</td><td/></row>
+		<row><td>_7ED3A7AB_DCBA_40DC_A9E9_8D3093C9B1AB_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x86).prq</td><td>0</td><td>2</td><td/></row>
 		<row><td>_87606832_B2F4_4287_ACC2_0C563D0576AB_</td><td>Microsoft .NET Framework 4.0 Full (Web Download).prq</td><td>2</td><td>1</td><td/></row>
+		<row><td>_D29F1CCC_7084_448C_B133_F43EB2113417_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x64).prq</td><td>1</td><td>2</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">
