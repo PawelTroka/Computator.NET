@@ -220,10 +220,10 @@
     <Compile Include="Evaluation\ModeDeterminer.cs" />
     <Compile Include="Evaluation\ScriptEvaluator.cs" />
     <Compile Include="Evaluation\ScriptingExtensionObjects.cs" />
-    <Compile Include="Extensions\ExtensionsProvider.cs" />
     <Compile Include="Functions\ElementaryFunctions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\FunctionInfo.cs" />
     <Compile Include="Functions\MatrixFunctions.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -633,9 +633,6 @@
     <Content Include="CHANGELOG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Extensions\HERE PUT COMPILED EXTENSIONS">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Graphics\exponentation.png" />
     <Content Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -726,10 +723,6 @@
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Computator.NET.Extensibility\Computator.NET.Extensibility.csproj">
-      <Project>{b1ceb073-5c94-42a5-aa3e-8480414397f2}</Project>
-      <Name>Computator.NET.Extensibility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

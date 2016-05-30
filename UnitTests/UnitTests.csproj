@@ -93,10 +93,6 @@
       <Project>{31264a50-a9b4-410c-85bb-ec81d5076747}</Project>
       <Name>Computator.NET.Charting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Computator.NET.Extensibility\Computator.NET.Extensibility.csproj">
-      <Project>{b1ceb073-5c94-42a5-aa3e-8480414397f2}</Project>
-      <Name>Computator.NET.Extensibility</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Computator.NET\Computator.NET.csproj">
       <Project>{5731ed79-dfc9-41d5-8a2e-82c578ad1d96}</Project>
       <Name>Computator.NET</Name>

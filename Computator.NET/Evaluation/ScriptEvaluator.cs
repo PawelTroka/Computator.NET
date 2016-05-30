@@ -71,11 +71,6 @@ namespace Computator.NET.Evaluation
                     : "";
             ;
 
-            foreach (var functionsPackage in Extensions.ExtensionsProvider.Instance.GetFunctionsPackages(true))
-            {
-                CustomFunctionsTslCode+=(functionsPackage.ToCode);
-            }
-
 
             AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation",

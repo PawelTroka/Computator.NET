@@ -229,12 +229,7 @@ namespace Computator.NET.Evaluation
 
 
             codeBuilder.Append(_customFunctionsCSharpCode);
-
-            foreach (var functionsPackage in Extensions.ExtensionsProvider.Instance.GetFunctionsPackages(false))
-            {
-                codeBuilder.Append(functionsPackage.ToCode);
-            }
-            
+          
 
             codeBuilder.Append(_functionSignature);
 

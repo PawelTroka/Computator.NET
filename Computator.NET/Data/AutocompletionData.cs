@@ -108,10 +108,7 @@ namespace Computator.NET.Data
             items.AddRange(GetFunctionsNamesWithDescription(typeof(MathematicalConstants), true));
             items.AddRange(GetFunctionsNamesWithDescription(typeof(PhysicalConstants), true));
 
-            foreach (var extensionsType in Extensions.ExtensionsProvider.Instance.GetExtensionsTypes(false))
-            {
-                items.AddRange(GetFunctionsNamesWithDescription(extensionsType));
-            }
+
             
 
             items.RemoveAll(i => i.Text == "ToCode");
@@ -133,10 +130,6 @@ namespace Computator.NET.Data
             items.AddRange(GetFunctionsNamesWithDescription(typeof(ScriptingFunctions)));
             items.AddRange(TslCompiler.Keywords.Select(s => new AutocompleteItem(s)));
 
-            foreach (var extensionsType in Extensions.ExtensionsProvider.Instance.GetExtensionsTypes(true))
-            {
-                items.AddRange(GetFunctionsNamesWithDescription(extensionsType));
-            }
 
             items.Sort((i1, i2) => i1.Text.CompareTo(i2.Text));
             items.ForEach(i => i.IsScripting = true);
