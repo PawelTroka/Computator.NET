@@ -72,6 +72,17 @@ Alternatively, you can always solve equations graphically, simply by looking at 
 ![solving equations graphically](http://raw.githubusercontent.com/PawelTroka/Computator.NET/master/Presentation/solving%20equations%20graphically.gif "solving equations graphically")
 
 
+# Minimum system requirements
+
+* **.NET Framework** **4.0 Full** or later (https://www.microsoft.com/en-US/download/details.aspx?id=17718) (downloadable by installer)
+* **Microsoft Visual C++ 2015 Update 1 Redistributable Package** (vc_redist 14.0.23506) (downloadable by installer)
+* Operating system Windows XP SP3 or later (Windows Vista or later is recommended, Windows 10 is the best option because of continous testing on it)
+* Processor 1GHz or faster
+* Memory 512 MB	or more
+* DirectX 9.0 support
+* Graphics memory 128 MB or more
+* Free HDD space 100MB or more
+
 
 # License
 
