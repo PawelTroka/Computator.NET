@@ -346,7 +346,6 @@
 		<row><td>Computator.NET.Charting.Primary_output</td><td>{3380F027-AF56-4399-B366-44C5E28C41F1}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.charting.prim</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Content_Files</td><td>{22F900B2-F6ED-49B9-9F25-0245378E544D}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.content_files</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.DataTypes.Primary_output</td><td>{AB600449-E8A5-45C3-9D00-4EEC98D76664}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.datatypes.pri</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Computator.NET.Extensibility.Primary_output</td><td>{51A114FD-1359-48AA-81BA-BD34AD199D51}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.extensibility</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Localized_resources</td><td>{1BC58DEE-A243-40D1-834B-7AD0944D76B0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.localized_res</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Primary_output</td><td>{62C6C3A0-32A0-4EEB-8984-72C4B29D07D0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.primary_outpu</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISO19770_LocalTag</td><td>{17645320-C673-487A-9B87-15DD3D26087C}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -360,7 +359,6 @@
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td>{C1E7907C-AEF7-44D5-B528-CF3B5D5AA20D}</td><td>_SCRIPTS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td>{FFA1F361-6693-4FF3-B0DC-5D24E26F3787}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{10969478-5974-4DEC-B989-CED85A6FBE30}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>SampleFunctionsPackageExtension.Primary_output</td><td>{200FBFF4-3CE3-4C82-8A81-C41F9C36368B}</td><td>INSTALLDIR</td><td>2</td><td/><td>samplefunctionspackageextens</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1078,7 +1076,6 @@
 		<row><td>INSTALLDIR</td><td>Computator.NET.Charting.Localized_resources</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Charting.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.DataTypes.Primary_output</td></row>
-		<row><td>INSTALLDIR</td><td>Computator.NET.Extensibility.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>ISO19770_LocalTag</td></row>
 		<row><td>INSTALLDIR</td><td>ISO19770_SystemTag</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT</td></row>
@@ -1090,7 +1087,6 @@
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>INSTALLDIR</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent1</td></row>
-		<row><td>INSTALLDIR</td><td>SampleFunctionsPackageExtension.Primary_output</td></row>
 		<row><td>PersonalFolder</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>TSL_EXAMPLES</td><td>ISX_DEFAULTCOMPONENT4</td></row>
 		<row><td>_CUSTOMFUNCTIONS</td><td>ISX_DEFAULTCOMPONENT5</td></row>
@@ -1915,7 +1911,6 @@
 		<row><td>AlwaysInstall</td><td>Computator.NET.Charting.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Content_Files</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.DataTypes.Primary_output</td></row>
-		<row><td>AlwaysInstall</td><td>Computator.NET.Extensibility.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>ISO19770_LocalTag</td></row>
@@ -1929,7 +1924,6 @@
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>AlwaysInstall</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
-		<row><td>AlwaysInstall</td><td>SampleFunctionsPackageExtension.Primary_output</td></row>
 	</table>
 
 	<table name="File">
@@ -2114,7 +2108,6 @@
 		<row><td>Computator.NET.Charting.Primary_output</td><td/><td/><td>_5B2B8478_B44B_47B1_A5A0_3871818ADADE_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Content_Files</td><td/><td/><td>_69A0B3BF_4644_42E7_9D44_6486D068272B_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.DataTypes.Primary_output</td><td/><td/><td>_21ED120C_C994_4967_85A4_BE0EBBE2B8B5_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Computator.NET.Extensibility.Primary_output</td><td/><td/><td>_4B14FF56_A4C9_4B97_9C2D_876991B90BE8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Localized_resources</td><td/><td/><td>_BAE0EB1C_3DBD_4D3E_98F5_AACA8C6FA4A7_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Primary_output</td><td/><td/><td>_23B95E1A_2E63_4B35_B302_E3E339C87F9F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISO19770_LocalTag</td><td/><td/><td>_402983FC_C35B_4557_9F0D_C1956698FAFF_FILTER</td><td/><td/><td/><td/></row>
@@ -2128,7 +2121,6 @@
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td/><td/><td>_A0C5B437_07E5_4C80_8208_EE7123C3CAA8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td/><td/><td>_80E3F1A6_D009_4D8A_A096_E35724FAAF8F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_38D42019_79C8_404E_B558_89FFB7078B5D_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>SampleFunctionsPackageExtension.Primary_output</td><td/><td/><td>_A2D62840_3D2D_408C_AB5F_6386240D0785_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2449,13 +2441,11 @@
 		<row><td>Computator.NET</td><td>Computator.NET\Computator.NET.csproj</td><td/><td>2</td></row>
 		<row><td>Computator.NET.Charting</td><td>Computator.NET.Charting\Computator.NET.Charting.csproj</td><td/><td>2</td></row>
 		<row><td>Computator.NET.DataTypes</td><td>Computator.NET.DataTypes\Computator.NET.DataTypes.csproj</td><td/><td>2</td></row>
-		<row><td>Computator.NET.Extensibility</td><td>Computator.NET.Extensibility\Computator.NET.Extensibility.csproj</td><td/><td>2</td></row>
 		<row><td>ISPROJECTDIR</td><td/><td/><td>1</td></row>
 		<row><td>ISProductFolder</td><td/><td/><td>1</td></row>
 		<row><td>ISProjectDataFolder</td><td/><td/><td>1</td></row>
 		<row><td>ISProjectFolder</td><td/><td/><td>1</td></row>
 		<row><td>ProgramFilesFolder</td><td/><td/><td>1</td></row>
-		<row><td>SampleFunctionsPackageExtension</td><td>SampleFunctionsPackageExtension\SampleFunctionsPackageExtension.csproj</td><td/><td>2</td></row>
 		<row><td>SimpleLogger</td><td>SimpleLogger\SimpleLogger.csproj</td><td/><td>2</td></row>
 		<row><td>SystemFolder</td><td/><td/><td>1</td></row>
 		<row><td>WindowsFolder</td><td/><td/><td>1</td></row>
