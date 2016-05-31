@@ -62,6 +62,8 @@
  * + Computator.NET now support MEF model of extensions -  you can write plugins for Computator.NET just by implementing interfaces from Computator.NET.Extensibility library and putting compiled extensions in "Extensions" directory
  * + Finally introduced async and await for longer running background tasks like ComplexChart drawing
  * + ExponentMode menu command works now for AvalonEdit code editor too
+ * = GSL is now compiled with Visual Studio 2015 Update 2, installer includes Visual C++ Redistributable for Visual Studio 2015 Update 2
+ * + Installer now includes .NET 4.0 KB2468871 update for async and await support on .NET 4.0
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

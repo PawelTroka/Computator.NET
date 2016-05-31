@@ -359,6 +359,9 @@
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td>{C1E7907C-AEF7-44D5-B528-CF3B5D5AA20D}</td><td>_SCRIPTS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td>{FFA1F361-6693-4FF3-B0DC-5D24E26F3787}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{10969478-5974-4DEC-B989-CED85A6FBE30}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.IO.dll</td><td>{288F2654-C2CF-4304-B9D5-3348E72A4C90}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.io.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Runtime.dll</td><td>{92875FA4-84BD-4718-B9F7-FF707D3769C6}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.runtime.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Threading.Tasks.dll</td><td>{2B24581D-B29A-44E6-83A9-7B6BD32E8866}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.threading.tasks.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1087,6 +1090,9 @@
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>INSTALLDIR</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent1</td></row>
+		<row><td>INSTALLDIR</td><td>System.IO.dll</td></row>
+		<row><td>INSTALLDIR</td><td>System.Runtime.dll</td></row>
+		<row><td>INSTALLDIR</td><td>System.Threading.Tasks.dll</td></row>
 		<row><td>PersonalFolder</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>TSL_EXAMPLES</td><td>ISX_DEFAULTCOMPONENT4</td></row>
 		<row><td>_CUSTOMFUNCTIONS</td><td>ISX_DEFAULTCOMPONENT5</td></row>
@@ -1924,6 +1930,9 @@
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>AlwaysInstall</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
+		<row><td>AlwaysInstall</td><td>System.IO.dll</td></row>
+		<row><td>AlwaysInstall</td><td>System.Runtime.dll</td></row>
+		<row><td>AlwaysInstall</td><td>System.Threading.Tasks.dll</td></row>
 	</table>
 
 	<table name="File">
@@ -1959,6 +1968,9 @@
 		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
 		<row><td>regid.2014_01.dk.fizyka_soft</td><td>ISO19770_SystemTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
 		<row><td>regid.2014_01.dk.fizyka_soft1</td><td>ISO19770_LocalTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
+		<row><td>system.io.dll</td><td>System.IO.dll</td><td>SYSTEM~1.DLL|System.IO.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</td><td>1</td><td/></row>
+		<row><td>system.runtime.dll</td><td>System.Runtime.dll</td><td>SYSTEM~1.DLL|System.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</td><td>1</td><td/></row>
+		<row><td>system.threading.tasks.dll</td><td>System.Threading.Tasks.dll</td><td>SYSTEM~1.DLL|System.Threading.Tasks.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2121,6 +2133,9 @@
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td/><td/><td>_A0C5B437_07E5_4C80_8208_EE7123C3CAA8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td/><td/><td>_80E3F1A6_D009_4D8A_A096_E35724FAAF8F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_38D42019_79C8_404E_B558_89FFB7078B5D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.IO.dll</td><td/><td/><td>_63E3E8AF_B440_492B_BF26_0876ED61C9A8_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Runtime.dll</td><td/><td/><td>_92A76A0F_7B9D_4008_A49F_654211607AA1_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Threading.Tasks.dll</td><td/><td/><td>_EEDAA082_FD1B_408A_8847_8C0F4F8BEB11_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2719,9 +2734,11 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_7ED3A7AB_DCBA_40DC_A9E9_8D3093C9B1AB_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x86).prq</td><td>0</td><td>2</td><td/></row>
+		<row><td>_0C7BED3F_04F0_4340_9B56_046205ED384A_</td><td>Microsoft .NET Framework 4.0 KB2468871 (x86).prq</td><td>4</td><td>2</td><td/></row>
+		<row><td>_7ED3A7AB_DCBA_40DC_A9E9_8D3093C9B1AB_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x86).prq</td><td>1</td><td>2</td><td/></row>
 		<row><td>_87606832_B2F4_4287_ACC2_0C563D0576AB_</td><td>Microsoft .NET Framework 4.0 Full (Web Download).prq</td><td>2</td><td>1</td><td/></row>
-		<row><td>_D29F1CCC_7084_448C_B133_F43EB2113417_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x64).prq</td><td>1</td><td>2</td><td/></row>
+		<row><td>_D29F1CCC_7084_448C_B133_F43EB2113417_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x64).prq</td><td>0</td><td>2</td><td/></row>
+		<row><td>_DAA9CBB6_2CFA_45F2_8145_B17347D2FF67_</td><td>Microsoft .NET Framework 4.0 KB2468871 (x64).prq</td><td>3</td><td>2</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">
