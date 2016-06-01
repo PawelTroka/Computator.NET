@@ -64,8 +64,6 @@
 
 ##Installer
 * test installer and upgrade options
-* right now, because of lack of support from Flexera's site, installer stores both versions of Visual C++ Runtime 2015 Update 1 within itself - should download from internet only if needed
-* flexera did update their dependencies on website - take advantage of download VC++ runtime
 
 
 ##Autocomplete

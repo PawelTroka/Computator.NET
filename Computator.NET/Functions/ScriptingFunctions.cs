@@ -219,6 +219,7 @@ namespace Computator.NET.Functions
             return new File(path);
         }
 
+
         public static File File()
         {
             var path = "file.txt";

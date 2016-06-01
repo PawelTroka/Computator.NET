@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Computator.NET.Extensibility
+namespace Computator.NET.Data
 {
     [XmlRoot("FunctionInfo")]
     public class FunctionInfo

@@ -1,6 +1,6 @@
  * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
 
- ### --------- Unreleased -----------  08.05.2016 23:12
+ ### --------- Unreleased -----------  02.06.2016 01:10
  * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor (still doesnt work in AvalonEdit thought)
  * = Fixed bug in chart edit property window causing ComplexChart to not redraw after changes
  * = Fixed bug in ComplexChart GreaterIsLighter and GreaterIsDarker methods when NoCountourLines selected causing pitch black chart in GreaterIsLighter mode and not accurate chart in GreaterIsDarker mode
@@ -64,6 +64,7 @@
  * + ExponentMode menu command works now for AvalonEdit code editor too
  * = GSL is now compiled with Visual Studio 2015 Update 2, installer includes Visual C++ Redistributable for Visual Studio 2015 Update 2
  * + Installer now includes .NET 4.0 KB2468871 update for async and await support on .NET 4.0
+ * + Due to compatibility issues installer now includes all needed redistributables instead of just downloading them
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

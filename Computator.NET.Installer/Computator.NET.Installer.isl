@@ -2734,11 +2734,11 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_0C7BED3F_04F0_4340_9B56_046205ED384A_</td><td>Microsoft .NET Framework 4.0 KB2468871 (x86).prq</td><td>4</td><td>2</td><td/></row>
-		<row><td>_7ED3A7AB_DCBA_40DC_A9E9_8D3093C9B1AB_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x86).prq</td><td>1</td><td>2</td><td/></row>
-		<row><td>_87606832_B2F4_4287_ACC2_0C563D0576AB_</td><td>Microsoft .NET Framework 4.0 Full (Web Download).prq</td><td>2</td><td>1</td><td/></row>
-		<row><td>_D29F1CCC_7084_448C_B133_F43EB2113417_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x64).prq</td><td>0</td><td>2</td><td/></row>
-		<row><td>_DAA9CBB6_2CFA_45F2_8145_B17347D2FF67_</td><td>Microsoft .NET Framework 4.0 KB2468871 (x64).prq</td><td>3</td><td>2</td><td/></row>
+		<row><td>_0C7BED3F_04F0_4340_9B56_046205ED384A_</td><td>Microsoft .NET Framework 4.0 KB2468871 (x86).prq</td><td>4</td><td>1</td><td/></row>
+		<row><td>_34185AAF_7AC8_4B84_ACA0_3B4EB3D683F2_</td><td>Microsoft .NET Framework 4.0 Full.prq</td><td>2</td><td>1</td><td/></row>
+		<row><td>_7ED3A7AB_DCBA_40DC_A9E9_8D3093C9B1AB_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x86).prq</td><td>1</td><td>1</td><td/></row>
+		<row><td>_D29F1CCC_7084_448C_B133_F43EB2113417_</td><td>Microsoft Visual C++ 2015 Update 2 Redistributable Package (x64).prq</td><td>0</td><td>1</td><td/></row>
+		<row><td>_DAA9CBB6_2CFA_45F2_8145_B17347D2FF67_</td><td>Microsoft .NET Framework 4.0 KB2468871 (x64).prq</td><td>3</td><td>1</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">
