@@ -1176,28 +1176,28 @@ Harris and Stocker (1998, p.&nbsp;300) call secant and cosecant "rarely used fun
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="gcd(n,m,)">
+  <FunctionInfo Signature="gcd(a,b)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="nwd(n,m,)">
+  <FunctionInfo Signature="nwd(a,b)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="lcm(n,m,)">
+  <FunctionInfo Signature="lcm(a,b)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="nww(n,m,)">
+  <FunctionInfo Signature="nww(a,b)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>
@@ -1333,35 +1333,35 @@ Harris and Stocker (1998, p.&nbsp;300) call secant and cosecant "rarely used fun
   <FunctionInfo Signature="CarlsonD(x,y,z)">
     <Title>Carlson Rd(x,y,z) elliptic integral</Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CarlsonF(x,y,z)">
     <Title>Carlson Rf(x,y,z) elliptic integral</Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[In mathematics, the Carlson symmetric forms of elliptic integrals are a small canonical set of elliptic integrals to which all others may be reduced. They are a modern alternative to the Legendre forms. The Legendre forms may be expressed in terms of the Carlson forms and vice versa.]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CarlsonC(x,y)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="CarlsonJ(x,y,z,p)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticK(x)">
     <Title>Complete elliptic integral of the first kind K(k)</Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[Elliptic Integrals are said to be 'complete' when the amplitude φ=π/2 and therefore x=1.
 K(k)=F(π/2,k)]]></Description>
     <Url> </Url>
@@ -1369,70 +1369,70 @@ K(k)=F(π/2,k)]]></Description>
   <FunctionInfo Signature="EllipticF(φ,x)">
     <Title>Incomplete elliptic integral of the first kind F(φ,k)</Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description />
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticE(φ,x)">
     <Title>Incomplete elliptic integral of the second kind E(φ,k)</Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description />
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticΠ(φ,x,n)">
     <Title>Incomplete elliptic integral of the third kind Π(φ,x,n)</Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description />
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="EllipticD(φ,x,n)">
+  <FunctionInfo Signature="EllipticD(φ,x)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticE(x)">
     <Title>Complete elliptic integral of the second kind E(k)</Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[The complete elliptic integral of the second kind E is defined as E(k)=E(π/2,k)]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticD(x)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="EllipticΠ(x,n)">
     <Title>Complete elliptic integral of the third kind Π(x,n)</Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="JacobiEllipticSn(u,m)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="JacobiEllipticCn(u,m)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="JacobiEllipticDn(u,m)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
-    <Category>Elliptic functions</Category>
+    <Category>Elliptic integrals</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
@@ -1668,21 +1668,21 @@ K(k)=F(π/2,k)]]></Description>
 <i>n</i></span>(<i>x</i>) are <a href="/wiki/Orthogonal_polynomials" title="Orthogonal polynomials">orthogonal polynomials</a> on the interval [−1,1] with respect to the <a href="/wiki/Weight_function" title="Weight function">weight function</a> (1&nbsp;−&nbsp;<i>x</i><sup>2</sup>)<sup><i>α</i>–1/2</sup>. They generalize <a href="/wiki/Legendre_polynomials" title="Legendre polynomials">Legendre polynomials</a> and <a href="/wiki/Chebyshev_polynomials" title="Chebyshev polynomials">Chebyshev polynomials</a>, and are special cases of <a href="/wiki/Jacobi_polynomials" title="Jacobi polynomials">Jacobi polynomials</a>. They are named after <a href="/wiki/Leopold_Gegenbauer" title="Leopold Gegenbauer">Leopold Gegenbauer</a>.]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="Gegenbauer1(ν,x)">
+  <FunctionInfo Signature="Gegenbauer1(α,x)">
     <Title>description</Title>
     <Type>SpecialFunctions</Type>
     <Category>Orthogonal polynomials</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="Gegenbauer2(ν,x)">
+  <FunctionInfo Signature="Gegenbauer2(α,x)">
     <Title>description</Title>
     <Type>SpecialFunctions</Type>
     <Category>Orthogonal polynomials</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="Gegenbauer3(ν,x)">
+  <FunctionInfo Signature="Gegenbauer3(α,x)">
     <Title>description</Title>
     <Type>SpecialFunctions</Type>
     <Category>Orthogonal polynomials</Category>
@@ -1805,14 +1805,14 @@ K(k)=F(π/2,k)]]></Description>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="Ackley(xi)">
+  <FunctionInfo Signature="Ackley(xi1,xi2, ...)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
     <Category>Test functions for optimization</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="Rastrigin(xi)">
+  <FunctionInfo Signature="Rastrigin(xi1,xi2, ...)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
     <Category>Test functions for optimization</Category>
@@ -1865,7 +1865,7 @@ K(k)=F(π/2,k)]]></Description>
 <p>It has a global minimum at <img class="mwe-math-fallback-png-inline tex" alt="(x, y)=(a, a^2)" src="http://upload.wikimedia.org/math/3/6/e/36edc88de4c68593f3ea7c668f9dd334.png">, where <img class="mwe-math-fallback-png-inline tex" alt="f(x, y)=0" src="http://upload.wikimedia.org/math/a/4/e/a4e83e912ce616d6298f3b1ab55b7bdb.png">. Usually <img class="mwe-math-fallback-png-inline tex" alt="a = 1" src="http://upload.wikimedia.org/math/3/8/7/3872c9ae3f427af0be0ead09d07ae2cf.png"> and <img class="mwe-math-fallback-png-inline tex" alt="b = 100" src="http://upload.wikimedia.org/math/9/c/b/9cbfd4cf83ead3123a27e57561457de0.png">.</p>]]></Description>
     <Url>http://en.wikipedia.org/wiki/Rosenbrock_function</Url>
   </FunctionInfo>
-  <FunctionInfo Signature="Rosenbrock(xi)">
+  <FunctionInfo Signature="Rosenbrock(xi1,xi2, ...)">
     <Title>Multidimensional generalisation of Rosenbrock function</Title>
     <Type>SpecialFunctions</Type>
     <Category>Test functions for optimization</Category>
@@ -2000,14 +2000,14 @@ K(k)=F(π/2,k)]]></Description>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="leftRegularizedGamma(ν,x)">
+  <FunctionInfo Signature="leftRegularizedGamma(a,x)">
     <Title>_title_</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="rightRegularizedGamma(ν,x)">
+  <FunctionInfo Signature="rightRegularizedGamma(a,x)">
     <Title>_title_</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
@@ -2280,14 +2280,14 @@ where <img src="http://mathworld.wolfram.com/images/equations/EinFunction/Inline
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Si(x)">
-    <Title>description</Title>
+    <Title>Sine integral</Title>
     <Type>SpecialFunctions</Type>
     <Category>Integral functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Ci(x)">
-    <Title>description</Title>
+    <Title>Cosine integral</Title>
     <Type>SpecialFunctions</Type>
     <Category>Integral functions</Category>
     <Description><![CDATA[description]]></Description>
@@ -2354,21 +2354,28 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Shi(x)">
-    <Title>description</Title>
+    <Title>Hyperbolic sine integral</Title>
     <Type>SpecialFunctions</Type>
     <Category>Integral functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Chi(x)">
-    <Title>description</Title>
+    <Title>Hyperbolic cosine integral</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Integral functions</Category>
+    <Description><![CDATA[description]]></Description>
+    <Url> </Url>
+  </FunctionInfo>
+    <FunctionInfo Signature="Ti(x)">
+    <Title>Inverse tangent itegral</Title>
     <Type>SpecialFunctions</Type>
     <Category>Integral functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
   <FunctionInfo Signature="Tai(x)">
-    <Title>description</Title>
+    <Title>Arcus tangent integral</Title>
     <Type>SpecialFunctions</Type>
     <Category>Integral functions</Category>
     <Description><![CDATA[description]]></Description>
@@ -2838,6 +2845,44 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
 <dd><img class="mwe-math-fallback-png-inline tex" alt=" \zeta(s) = \frac{1}{\Gamma(s)} \int_{0}^{\infty} \frac{x ^ {s-1}}{e ^ x - 1} \mathrm{d}x " src="http://upload.wikimedia.org/math/1/0/a/10ac80fc5aa8268b147be8406dbb0c8f.png">]]></Description>
     <Url>http://en.wikipedia.org/wiki/Riemann_zeta_function</Url>
   </FunctionInfo>
+  
+      <FunctionInfo Signature="RiemannZeta(z)">
+    <Title>Riemann zeta function</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Zeta and L-functions</Category>
+    <Description><![CDATA[The <b>Riemann zeta function</b> or <b>Euler–Riemann zeta function</b>, <i>ζ</i>(<i>s</i>), is a <a href="/wiki/Function_(mathematics)" title="Function (mathematics)">function</a> of a <a href="/wiki/Complex_variable" title="Complex variable" class="mw-redirect">complex variable</a> <i>s</i> that <a href="/wiki/Analytic_continuation" title="Analytic continuation">analytically continues</a> the sum of the <a href="/wiki/Infinite_series" title="Infinite series" class="mw-redirect">infinite series</a> <img class="mwe-math-fallback-png-inline tex" alt="\sum_{n=1}^\infty\frac{1}{n^s}" src="http://upload.wikimedia.org/math/b/2/e/b2e00286e36ac488cc86738ab6a43379.png">, which converges when the <a href="/wiki/Real_part" title="Real part" class="mw-redirect">real part</a> of <i>s</i> is greater than&nbsp;1. More general <a href="/wiki/Riemann_zeta#Representations" title="Riemann zeta" class="mw-redirect">representations</a> of <i>ζ</i>(<i>s</i>) for all <i>s</i> are given below. The Riemann zeta function plays a pivotal role in <a href="/wiki/Analytic_number_theory" title="Analytic number theory">analytic number theory</a> and has applications in <a href="/wiki/Physics" title="Physics">physics</a>, <a href="/wiki/Probability_theory" title="Probability theory">probability theory</a>, and applied <a href="/wiki/Statistics" title="Statistics">statistics</a>.</p>
+<p>This function, as a function of a real argument, was introduced and studied by <a href="/wiki/Leonhard_Euler" title="Leonhard Euler">Leonhard Euler</a> in the first half of the eighteenth century without using complex analysis, which was not available at that time. <a href="/wiki/Bernhard_Riemann" title="Bernhard Riemann">Bernhard Riemann</a> in his article "<a href="/wiki/On_the_Number_of_Primes_Less_Than_a_Given_Magnitude" title="On the Number of Primes Less Than a Given Magnitude">On the Number of Primes Less Than a Given Magnitude</a>" published in 1859 extended the Euler definition to a complex variable, proved its <a href="/wiki/Meromorphic" title="Meromorphic" class="mw-redirect">meromorphic</a> continuation and <a href="/wiki/Functional_equation" title="Functional equation">functional equation</a> and established a relation between its <a href="/wiki/Root_of_a_function" title="Root of a function" class="mw-redirect">zeros</a> and <a href="/wiki/Prime_number_theorem" title="Prime number theorem">the distribution of prime numbers</a>.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup></p>
+<p>The values of the Riemann zeta function at even positive integers were computed by Euler. The first of them, <i>ζ</i>(2), provides a solution to the <a href="/wiki/Basel_problem" title="Basel problem">Basel problem</a>. In 1979 <a href="/wiki/Ap%C3%A9ry" title="Apéry" class="mw-redirect">Apéry</a> proved the irrationality of <a href="/wiki/Ap%C3%A9ry%27s_constant" title="Apéry's constant"><i>ζ</i>(3)</a>. The values at negative integer points, also found by Euler, are <a href="/wiki/Rational_number" title="Rational number">rational numbers</a> and play an important role in the theory of <a href="/wiki/Modular_form" title="Modular form">modular forms</a>. Many generalizations of the Riemann zeta function, such as <a href="/wiki/Dirichlet_series" title="Dirichlet series">Dirichlet series</a>, <a href="/wiki/Dirichlet_L-function" title="Dirichlet L-function">Dirichlet L-functions</a> and <a href="/wiki/L-function" title="L-function">L-functions</a>, are known.</p><p>It can also be defined by the integral</p>
+<dl>
+<dd><img class="mwe-math-fallback-png-inline tex" alt=" \zeta(s) = \frac{1}{\Gamma(s)} \int_{0}^{\infty} \frac{x ^ {s-1}}{e ^ x - 1} \mathrm{d}x " src="http://upload.wikimedia.org/math/1/0/a/10ac80fc5aa8268b147be8406dbb0c8f.png">]]></Description>
+    <Url>http://en.wikipedia.org/wiki/Riemann_zeta_function</Url>
+  </FunctionInfo>
+  
+      <FunctionInfo Signature="Riemannζ(x)">
+    <Title>Riemann zeta function</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Zeta and L-functions</Category>
+    <Description><![CDATA[The <b>Riemann zeta function</b> or <b>Euler–Riemann zeta function</b>, <i>ζ</i>(<i>s</i>), is a <a href="/wiki/Function_(mathematics)" title="Function (mathematics)">function</a> of a <a href="/wiki/Complex_variable" title="Complex variable" class="mw-redirect">complex variable</a> <i>s</i> that <a href="/wiki/Analytic_continuation" title="Analytic continuation">analytically continues</a> the sum of the <a href="/wiki/Infinite_series" title="Infinite series" class="mw-redirect">infinite series</a> <img class="mwe-math-fallback-png-inline tex" alt="\sum_{n=1}^\infty\frac{1}{n^s}" src="http://upload.wikimedia.org/math/b/2/e/b2e00286e36ac488cc86738ab6a43379.png">, which converges when the <a href="/wiki/Real_part" title="Real part" class="mw-redirect">real part</a> of <i>s</i> is greater than&nbsp;1. More general <a href="/wiki/Riemann_zeta#Representations" title="Riemann zeta" class="mw-redirect">representations</a> of <i>ζ</i>(<i>s</i>) for all <i>s</i> are given below. The Riemann zeta function plays a pivotal role in <a href="/wiki/Analytic_number_theory" title="Analytic number theory">analytic number theory</a> and has applications in <a href="/wiki/Physics" title="Physics">physics</a>, <a href="/wiki/Probability_theory" title="Probability theory">probability theory</a>, and applied <a href="/wiki/Statistics" title="Statistics">statistics</a>.</p>
+<p>This function, as a function of a real argument, was introduced and studied by <a href="/wiki/Leonhard_Euler" title="Leonhard Euler">Leonhard Euler</a> in the first half of the eighteenth century without using complex analysis, which was not available at that time. <a href="/wiki/Bernhard_Riemann" title="Bernhard Riemann">Bernhard Riemann</a> in his article "<a href="/wiki/On_the_Number_of_Primes_Less_Than_a_Given_Magnitude" title="On the Number of Primes Less Than a Given Magnitude">On the Number of Primes Less Than a Given Magnitude</a>" published in 1859 extended the Euler definition to a complex variable, proved its <a href="/wiki/Meromorphic" title="Meromorphic" class="mw-redirect">meromorphic</a> continuation and <a href="/wiki/Functional_equation" title="Functional equation">functional equation</a> and established a relation between its <a href="/wiki/Root_of_a_function" title="Root of a function" class="mw-redirect">zeros</a> and <a href="/wiki/Prime_number_theorem" title="Prime number theorem">the distribution of prime numbers</a>.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup></p>
+<p>The values of the Riemann zeta function at even positive integers were computed by Euler. The first of them, <i>ζ</i>(2), provides a solution to the <a href="/wiki/Basel_problem" title="Basel problem">Basel problem</a>. In 1979 <a href="/wiki/Ap%C3%A9ry" title="Apéry" class="mw-redirect">Apéry</a> proved the irrationality of <a href="/wiki/Ap%C3%A9ry%27s_constant" title="Apéry's constant"><i>ζ</i>(3)</a>. The values at negative integer points, also found by Euler, are <a href="/wiki/Rational_number" title="Rational number">rational numbers</a> and play an important role in the theory of <a href="/wiki/Modular_form" title="Modular form">modular forms</a>. Many generalizations of the Riemann zeta function, such as <a href="/wiki/Dirichlet_series" title="Dirichlet series">Dirichlet series</a>, <a href="/wiki/Dirichlet_L-function" title="Dirichlet L-function">Dirichlet L-functions</a> and <a href="/wiki/L-function" title="L-function">L-functions</a>, are known.</p><p>It can also be defined by the integral</p>
+<dl>
+<dd><img class="mwe-math-fallback-png-inline tex" alt=" \zeta(s) = \frac{1}{\Gamma(s)} \int_{0}^{\infty} \frac{x ^ {s-1}}{e ^ x - 1} \mathrm{d}x " src="http://upload.wikimedia.org/math/1/0/a/10ac80fc5aa8268b147be8406dbb0c8f.png">]]></Description>
+    <Url>http://en.wikipedia.org/wiki/Riemann_zeta_function</Url>
+  </FunctionInfo>
+    
+  
+      <FunctionInfo Signature="Riemannζ(z)">
+    <Title>Riemann zeta function</Title>
+    <Type>SpecialFunctions</Type>
+    <Category>Zeta and L-functions</Category>
+    <Description><![CDATA[The <b>Riemann zeta function</b> or <b>Euler–Riemann zeta function</b>, <i>ζ</i>(<i>s</i>), is a <a href="/wiki/Function_(mathematics)" title="Function (mathematics)">function</a> of a <a href="/wiki/Complex_variable" title="Complex variable" class="mw-redirect">complex variable</a> <i>s</i> that <a href="/wiki/Analytic_continuation" title="Analytic continuation">analytically continues</a> the sum of the <a href="/wiki/Infinite_series" title="Infinite series" class="mw-redirect">infinite series</a> <img class="mwe-math-fallback-png-inline tex" alt="\sum_{n=1}^\infty\frac{1}{n^s}" src="http://upload.wikimedia.org/math/b/2/e/b2e00286e36ac488cc86738ab6a43379.png">, which converges when the <a href="/wiki/Real_part" title="Real part" class="mw-redirect">real part</a> of <i>s</i> is greater than&nbsp;1. More general <a href="/wiki/Riemann_zeta#Representations" title="Riemann zeta" class="mw-redirect">representations</a> of <i>ζ</i>(<i>s</i>) for all <i>s</i> are given below. The Riemann zeta function plays a pivotal role in <a href="/wiki/Analytic_number_theory" title="Analytic number theory">analytic number theory</a> and has applications in <a href="/wiki/Physics" title="Physics">physics</a>, <a href="/wiki/Probability_theory" title="Probability theory">probability theory</a>, and applied <a href="/wiki/Statistics" title="Statistics">statistics</a>.</p>
+<p>This function, as a function of a real argument, was introduced and studied by <a href="/wiki/Leonhard_Euler" title="Leonhard Euler">Leonhard Euler</a> in the first half of the eighteenth century without using complex analysis, which was not available at that time. <a href="/wiki/Bernhard_Riemann" title="Bernhard Riemann">Bernhard Riemann</a> in his article "<a href="/wiki/On_the_Number_of_Primes_Less_Than_a_Given_Magnitude" title="On the Number of Primes Less Than a Given Magnitude">On the Number of Primes Less Than a Given Magnitude</a>" published in 1859 extended the Euler definition to a complex variable, proved its <a href="/wiki/Meromorphic" title="Meromorphic" class="mw-redirect">meromorphic</a> continuation and <a href="/wiki/Functional_equation" title="Functional equation">functional equation</a> and established a relation between its <a href="/wiki/Root_of_a_function" title="Root of a function" class="mw-redirect">zeros</a> and <a href="/wiki/Prime_number_theorem" title="Prime number theorem">the distribution of prime numbers</a>.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup></p>
+<p>The values of the Riemann zeta function at even positive integers were computed by Euler. The first of them, <i>ζ</i>(2), provides a solution to the <a href="/wiki/Basel_problem" title="Basel problem">Basel problem</a>. In 1979 <a href="/wiki/Ap%C3%A9ry" title="Apéry" class="mw-redirect">Apéry</a> proved the irrationality of <a href="/wiki/Ap%C3%A9ry%27s_constant" title="Apéry's constant"><i>ζ</i>(3)</a>. The values at negative integer points, also found by Euler, are <a href="/wiki/Rational_number" title="Rational number">rational numbers</a> and play an important role in the theory of <a href="/wiki/Modular_form" title="Modular form">modular forms</a>. Many generalizations of the Riemann zeta function, such as <a href="/wiki/Dirichlet_series" title="Dirichlet series">Dirichlet series</a>, <a href="/wiki/Dirichlet_L-function" title="Dirichlet L-function">Dirichlet L-functions</a> and <a href="/wiki/L-function" title="L-function">L-functions</a>, are known.</p><p>It can also be defined by the integral</p>
+<dl>
+<dd><img class="mwe-math-fallback-png-inline tex" alt=" \zeta(s) = \frac{1}{\Gamma(s)} \int_{0}^{\infty} \frac{x ^ {s-1}}{e ^ x - 1} \mathrm{d}x " src="http://upload.wikimedia.org/math/1/0/a/10ac80fc5aa8268b147be8406dbb0c8f.png">]]></Description>
+    <Url>http://en.wikipedia.org/wiki/Riemann_zeta_function</Url>
+  </FunctionInfo>
+    
   <FunctionInfo Signature="DirichletEta(x)">
     <Title>Dirichlet eta function</Title>
     <Type>SpecialFunctions</Type>

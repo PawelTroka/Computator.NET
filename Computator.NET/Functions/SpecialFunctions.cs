@@ -7,6 +7,7 @@ namespace Computator.NET.Functions
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public static class SpecialFunctions
     {
+        [System.ComponentModel.Category("Root finding")]
         public static double findRoot(System.Func<double, double> f, double a, double b)
         {
             var ret = double.NaN;
@@ -22,13 +23,13 @@ namespace Computator.NET.Functions
         }
 
         #region signal processing
-
+        [System.ComponentModel.Category("Signal processing")]
         public static double Gabor(double x, double mean, double amplitude, double position, double width, double phase,
             double frequency)
         {
             return Accord.Math.Gabor.Function1D(x, mean, amplitude, position, width, phase, frequency);
         }
-
+        [System.ComponentModel.Category("Signal processing")]
         public static System.Numerics.Complex Gabor(System.Numerics.Complex z, double λ, double θ, double ψ, double σ,
             double γ)
         {
@@ -100,18 +101,18 @@ namespace Computator.NET.Functions
         {
             return (a <= 0 || x < 0) ? double.NaN : Meta.Numerics.Functions.AdvancedMath.RightRegularizedGamma(a, x);
         }
-
+        [System.ComponentModel.Category("Gamma and related functions")]
         public static double polyGamma(double x)
         {
             return Meta.Numerics.Functions.AdvancedMath.Psi(x);
         }
-
+        [System.ComponentModel.Category("Gamma and related functions")]
         public static double ψn(double x)
         {
             return polyGamma(x);
         }
 
-
+        [System.ComponentModel.Category("Gamma and related functions")]
         public static double ψⁿ(double x)
         {
             return polyGamma(x);
@@ -148,7 +149,7 @@ namespace Computator.NET.Functions
             return Meta.Numerics.Functions.AdvancedMath.Gamma((x));
         }
 
-
+        //[System.ComponentModel.Category("Gamma and related functions")]
         public static double logGamma(double x)
         {
             if ((x) <= 0.0)
@@ -355,7 +356,7 @@ namespace Computator.NET.Functions
         #endregion
 
         #region logarithm derrived functions
-
+        [System.ComponentModel.Category("Zeta and L-functions")]
         public static double PolyLog(int n, double x)
         {
             if (x > 1.0 || n < 0) return (double.NaN);
@@ -369,7 +370,7 @@ namespace Computator.NET.Functions
                 return (double.NaN);
             return Meta.Numerics.Functions.AdvancedMath.DiLog((x));
         }
-
+        [System.ComponentModel.Category("Zeta and L-functions")]
         public static double diLog(double x)
         {
             if (x > 1.0)
@@ -390,7 +391,7 @@ namespace Computator.NET.Functions
         {
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.DiLog(cmplxToMeta(z)));
         }
-
+        [System.ComponentModel.Category("Zeta and L-functions")]
         public static System.Numerics.Complex diLog(System.Numerics.Complex z)
         {
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.DiLog(cmplxToMeta(z)));
@@ -1579,11 +1580,11 @@ namespace Computator.NET.Functions
             return Meta.Numerics.Functions.AdvancedMath.EllipticE(φ, x);
         }
 
-        public static double EllipticΠ(double k, double n)
+        public static double EllipticΠ(double x, double n)
         {
-            if (k*k >= 1.0 || n <= -1.0)
+            if (x*x >= 1.0 || n <= -1.0)
                 return double.NaN;
-            return gsl_sf_ellint_Pcomp(k, n, 0);
+            return gsl_sf_ellint_Pcomp(x, n, 0);
         }
 
         public static double EllipticΠ(double φ, double x, int n)
@@ -1737,12 +1738,12 @@ namespace Computator.NET.Functions
             return 
             gsl_sf_hazard(x);
         }
-
+        [System.ComponentModel.Category("Functions related to probability distributions")]
         public static double OwenT(double h, double a)
         {
             return Accord.Math.OwensT.Function(h, a);
         }
-
+        [System.ComponentModel.Category("Functions related to probability distributions")]
         public static double OwenT(double h, double a, double ah)
         {
             return Accord.Math.OwensT.Function(h, a, ah);

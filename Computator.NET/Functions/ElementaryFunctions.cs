@@ -879,6 +879,20 @@ namespace Computator.NET.Functions
             return f;
         }
 
+        [System.ComponentModel.Category("Integer functions")]
+        public static double DoubleFactorial(double x)
+        {
+            return DoubleFactorial((long)x);
+        }
+        [System.ComponentModel.Category("Integer functions")]
+        public static double DoubleFactorial(long n)
+        {
+            if (n < 0)
+                return double.NaN;
+
+            return gsl_sf_doublefact((uint)n);
+        }
+
         /*Angielska nazwa funkcji"),
          System.ComponentModel.Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
          System.ComponentModel.Description("angielski opis funkcji*/
@@ -891,6 +905,7 @@ namespace Computator.NET.Functions
             return 0;
         }
 
+        [System.ComponentModel.Category("Integer functions")]
         public static bool isPrime(int n)
         {
             if(n <= 0)
@@ -929,7 +944,7 @@ namespace Computator.NET.Functions
             return primes;
         }
 
-
+        [System.ComponentModel.Category("Integer functions")]
         public static double Eulerφ(long n)
         {
             if (n < 1)
@@ -1000,9 +1015,6 @@ namespace Computator.NET.Functions
 
         #region a step like functions (non continuous)
 
-
-
-
         public static double H(double x)
         {
             return Heaviside(x);
@@ -1017,14 +1029,14 @@ namespace Computator.NET.Functions
     {
         return KroneckerDelta(i,j);
     }
-
+        [System.ComponentModel.Category("Step functions")]
         public static double abs(double x)
         {
             if (x >= 0.0)
                 return x;
             return -x;
         }
-
+        [System.ComponentModel.Category("Step functions")]
         public static System.Numerics.Complex abs(System.Numerics.Complex z)
         {
             return System.Numerics.Complex.Abs(z);
@@ -1080,18 +1092,6 @@ namespace Computator.NET.Functions
             return gsl_sf_taylorcoeff(n, x);
         }
 
-        public static double DoubleFactorial(double x)
-        {
-            return DoubleFactorial((long) x);
-        }
-
-        public static double DoubleFactorial(long n)
-        {
-            if (n < 0)
-                return double.NaN;
-
-            return gsl_sf_doublefact((uint) n);
-        }
 
         public static double BinomialCoeff(long n, long k)
         {
@@ -1125,7 +1125,7 @@ namespace Computator.NET.Functions
         {
             return MathNet.Numerics.Combinatorics.Combinations(n, k);
         }
-
+        [System.ComponentModel.Category("Combinatorics")]
         public static double Permutations(int n)
         {
             if (n < 0)
