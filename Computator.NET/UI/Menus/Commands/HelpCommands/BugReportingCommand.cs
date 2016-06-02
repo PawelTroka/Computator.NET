@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using Computator.NET.DataTypes;
 using Computator.NET.UI.Dialogs;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
@@ -15,7 +17,8 @@ namespace Computator.NET.UI.Menus.Commands.HelpCommands
 
         public override void Execute()
         {
-            new BugReportingForm().ShowDialog( /*this*/);
+            Process.Start(GlobalConfig.issuesUrl);
+            //new BugReportingForm().ShowDialog( /*this*/);
         }
     }
 }

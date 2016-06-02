@@ -7,7 +7,7 @@ namespace Computator.NET.DataTypes
     public static class GlobalConfig
     {
         public const string AppName = "Computator.NET";
-        public const string version = "v2.0.0ß";
+        public const string version = "v2.1.0ß";
         public const string authorWithEmail = author + " (pawel.troka@outlook.com)";
         public const string author = "Paweł Troka";
         //
@@ -16,7 +16,6 @@ namespace Computator.NET.DataTypes
 
         public const string gslDllName = "gsl.dll"; //"libgsl-0.dll";
         public const string gslCblasDllName = "cblas.dll"; //"libgslcblas-0.dll";
-        public const string msvcrDllName = "MSVCR120.DLL";
 
         public static readonly string betatesters = Strings.betaTesters +
                                                     ":\n - Kordian Czyżewski (kordiancz25@wp.pl)\n - Vojtech Mańkowski (vojtaman@gmail.com)\n - Marcin Piwowarski (marcpiwowarski@gmail.com)";
@@ -25,7 +24,7 @@ namespace Computator.NET.DataTypes
                                                     ":\n - Paweł Troka (pawel.troka@outlook.com) - English&Polish versions\n - Vojtech Mańkowski (vojtaman@gmail.com) - Czech version\n - Athena Hristanas (athena@fizyka.dk) - Deutsch version";
 
         public static readonly string libraries = Strings.librariesUsed +
-                                                  ":\n - Meta.Numerics v3.0.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v1.16 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.11.0 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.35 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.5.6 | © Garrett Serack | The MIT License (MIT)\n - Accord.Math v3.0.0 | © César Roberto de Souza | GNU LGPL v2.1";
+                                                  ":\n - Meta.Numerics v3.0.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v2.1 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.11.1 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.35 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.5.6 | © Garrett Serack | The MIT License (MIT)\n - Accord.Math v3.0.0 | © César Roberto de Souza | GNU LGPL v2.1\n - AvalonEdit v5.0.3 | © Daniel Grunwald | The MIT License (MIT)";
 
         public static readonly string others = Strings.otherContributors +
                                                ":\n - Jianzhong Zhang (" +

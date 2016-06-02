@@ -1965,6 +1965,9 @@
 		<row><td>example05_filesinputandoutpu</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example05_FilesInputAndOutput.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example05_FilesInputAndOutput.tsl</td><td>1</td><td/></row>
 		<row><td>example06_vectorsandmatrices</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example06_VectorsAndMatrices.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example06_VectorsAndMatrices.tsl</td><td>1</td><td/></row>
 		<row><td>example07_functionsandplotti</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example07_FunctionsAndPlotting.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example07_FunctionsAndPlotting.tsl</td><td>1</td><td/></row>
+		<row><td>example08_solvingequations.t</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example08_SolvingEquations.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example08_SolvingEquations.tsl</td><td>1</td><td/></row>
+		<row><td>example09_matrixdecompositio</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example09_MatrixDecompositions.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example09_MatrixDecompositions.tsl</td><td>1</td><td/></row>
+		<row><td>example10_simpleplotofpoints</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example10_SimplePlotOfPoints.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl</td><td>1</td><td/></row>
 		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
 		<row><td>regid.2014_01.dk.fizyka_soft</td><td>ISO19770_SystemTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
 		<row><td>regid.2014_01.dk.fizyka_soft1</td><td>ISO19770_LocalTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
@@ -2484,7 +2487,7 @@
 		<col key="yes" def="s72">ISProductConfiguration_</col>
 		<col key="yes" def="s72">Property</col>
 		<col def="L255">Value</col>
-		<row><td>Express</td><td>SetupFileName</td><td>Computator.NET.Installer v2.0.0</td></row>
+		<row><td>Express</td><td>SetupFileName</td><td>Computator.NET.Installer v2.1.0</td></row>
 	</table>
 
 	<table name="ISRelease">
@@ -4533,7 +4536,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Computator.NET.Primary output</td><td/></row>
 		<row><td>ProductCode</td><td>{53503207-1952-42E1-BDCE-1F9A18285A0B}</td><td/></row>
 		<row><td>ProductName</td><td>Computator.NET</td><td/></row>
-		<row><td>ProductVersion</td><td>2.0.0</td><td/></row>
+		<row><td>ProductVersion</td><td>2.1.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4826,7 +4829,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
 		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
-		<row><td>{86D89770-B31B-4467-BC5E-B54B0FF263A1}</td><td>1.0.0</td><td>2.0.0</td><td></td><td>772</td><td/><td>ISACTIONPROP1</td><td>NewUpgradeEntry1</td></row>
+		<row><td>{86D89770-B31B-4467-BC5E-B54B0FF263A1}</td><td>1.0.0</td><td>2.1.0</td><td></td><td>772</td><td/><td>ISACTIONPROP1</td><td>NewUpgradeEntry1</td></row>
 	</table>
 
 	<table name="Verb">

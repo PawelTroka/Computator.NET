@@ -18,7 +18,7 @@ var eq = matrix({{1,2,3,4},
 var results = solve(eq);
 
 //solve returns vector, so we can just use writeln function on it to see the results arranged in column
-writeln(result);
+writeln(results);
 
 //alternatively we could call it on all it's elements
 writeln("x = "); write(results[0]);

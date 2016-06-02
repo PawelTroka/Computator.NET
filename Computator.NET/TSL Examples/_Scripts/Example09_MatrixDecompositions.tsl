@@ -1,0 +1,36 @@
+﻿var m = matrix({{1.2, 2.3, 3.1},
+				{1.1, 2.5, 3.7},
+				{1.9, 2.4, 3.1}});
+
+writeln("-------------QR decomposition-------------");
+var qr = QR(m);
+writeln(qr.Q);
+writeln(qr.R);
+
+writeln("-------------LU decomposition-------------");
+var lu = LU(m);
+writeln(lu.L);
+writeln(lu.U);
+
+writeln("-------------Evd decomposition-------------");
+var evd = Evd(m);
+writeln(evd.EigenValues);
+writeln(evd.EigenVectors);
+writeln(evd.D);
+
+writeln("-------------Cholesky decomposition-------------");
+var cholevsky = Cholesky(matrix({{2,1},
+								 {1,2}}));
+writeln(cholevsky.Factor);
+
+writeln("-------------Svd decomposition-------------");
+var svd = Svd(m);
+writeln(svd.S);
+writeln(svd.U);
+writeln(svd.VT);
+writeln(svd.W);
+
+writeln("-------------GramSchmidt decomposition-------------");
+var gs = GramSchmidt(m);
+writeln(gs.Q);
+writeln(gs.R);

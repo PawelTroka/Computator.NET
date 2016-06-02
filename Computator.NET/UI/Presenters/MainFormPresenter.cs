@@ -93,7 +93,7 @@ namespace Computator.NET.UI.Presenters
                 if (_applicationNeedRestart)
                 {
                     _applicationNeedRestart = false;
-                    Task.Factory.StartNew(() => { Thread.Sleep(200); _view.Restart(); });
+                    Task.Factory.StartNew(() => { Thread.Sleep(400); _view.Restart(); });
                 }
             };
 

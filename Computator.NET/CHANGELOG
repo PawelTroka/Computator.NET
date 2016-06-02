@@ -1,48 +1,59 @@
- * Computator.NET, 2014-2016, Paweł Troka, ptroka@fizyka.dk
+ * Computator.NET, 2014-2016, Paweł Troka, pawel.troka@outlook.com
 
- ### --------- Unreleased -----------  02.06.2016 01:10
- * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor (still doesnt work in AvalonEdit thought)
+ ### --------- Version 2.1.0ß - beta -----------  02.06.2016 17:10
+
+ ## New features
+ * + Bug reporting now opens link to github project issues page
+ * + ScientificNumericUpDown supports now NumericalOutputNotation from settings
+ * + TSL finally supports anything with valid variable format raised to any power with superscript notation (before it worked only for x,y,z,i now it works for anything that looks like a variable or constant eg _niceVariableNameᶜᵒˢ⁽ˣ⁾˙ˢⁱⁿ⁽ʰᵃˣˣˣˣ⁾ is working just like it should) (it enabled us to simplify a lot of code in other places)
+ * + TSL handles now full mathematical multiplying notation like 2x means 2*x
+ * + Chart3D and ComplexChart now supports printing and printpreview
+ * + All charts now use the same SaveImage dialog with option for many different image formats, which makes exporting a chart nice experience
+ * + New special symbols for better looking exponents
+ * + You can now use functions with many parameters in exponents (added comma superscript symbol compatible even with Win XP)
+ * + GSL can now be initialized with second method if first doesnt work
+ * + Added exception handling for GSL initialization and logging all the errors
+ * + Installer will now always install Cambria font, Consolas font and TSL examples files
+ * + EditChart3DWindow can now edit chart area values properties
+ * + GSL updated to version 2.1
+ * + Added solve(m) function for solving linear equations in matrix representation
+ * + Added LU, QR, Cholevsky, Evd, Svd and GramSchmidt matrix decompositions
+ * + Added more TSL examples including matrix solving and decompositions
+ * + Introduction of SharedViewState representing shared state of application for various uses
+ * + Finally introduced async and await for longer running background tasks like ComplexChart drawing - this fixes UI freezing
+ * + ExponentMode menu command works now for AvalonEdit code editor too
+ * + Installer now includes .NET 4.0 KB2468871 update for async and await support on .NET 4.0
+ * + Due to compatibility issues installer now includes all needed redistributables instead of just downloading them
+ * + Constants and functions not presented in functions.xml are now included in menu by their data from autocomplete
+
+ ## Bugfixes
+ * = Fixed bug in binding exponent mode from edit menu to exponent mode in code editor
  * = Fixed bug in chart edit property window causing ComplexChart to not redraw after changes
  * = Fixed bug in ComplexChart GreaterIsLighter and GreaterIsDarker methods when NoCountourLines selected causing pitch black chart in GreaterIsLighter mode and not accurate chart in GreaterIsDarker mode
  * = Fixed visual bug in polish version of "for values" label (wrong placement)
  * = Fixed minor bugs and typos in dialogs like about, features etc (for english and polish versions)
  * = Translated all previously missing elements in polish version
- * + Bug reporting now includes link to github project issues page
  * = Fixed very important bug in ScriptingExtensions - all outputs in application are now culture invariant (not being culture invariant before caused some output in non-english versions to include comma (,) instead of dot (.) for decimal separator which caused bugs when output was used in input - because we always use decimal dot (.) in TSL for decimal separation)
  * = Fixed important bug in ToMathString(this double) method from ScriptingExtensions, in MathematicalNotation exponent was in format just like in engineering notation (eg we had 10⁺⁰²³ instead of just 10²³)
- * + ScientificNumericUpDown supports now NumericalOutputNotation from settings
  * = Fixed important bug with matrix unable to be created if it had any sqrt(real) functions inside (this was caused due to sqrt(real) returning dynamic, fixed by creating new matrix construction method)
  * = Fixed yet another (this time minor) bug in output - i or -i was resolving to 1·i or -1·i instead of just i or -i
- * - Transformations removed for now - they cost way too much work to make them useful
- * + TSL finally supports anything with valid variable format raised to any power with superscript notation (before it worked only for x,y,z,i now it works for anything that looks like a variable or constant eg _niceVariableNameᶜᵒˢ⁽ˣ⁾˙ˢⁱⁿ⁽ʰᵃˣˣˣˣ⁾ is working just like it should) (it enabled us to simplify a lot of code in other places)
  * = TSL Compiler's regular expressions are now compiled at the start of the program, evaluation of user's code and expressions should work a lot faster now
  * = Fixed bugs in root(x,n) and pow(x,y) functions, now they can return complex even for real parameters and root is finally working correcly for odd n
  * = NativeCompiler refactorization, errors and warnings translated to polish
  * = 'dynamic' functions (sqrt(real), root(n,x) and pow(x,y)), generic parameters/arguments and 'params' parameters now appear correctly in autocomplete
- * + TSL handles now full mathematical multiplying notation like 2x means 2*x
  * = Minor bufixes and changes to TSL Compiler allowing more freedom to user in defining things
  * = Bug in read() functions fixed - input is now CultureInvariant just like it should be
- * + Chart3D and ComplexChart now supports printing and printpreview
  * = Moved Localization to Computator.NET.DataTypes, which makes localization of all the Computator.NET components a lot easier
- * + All charts now use the same SaveImage dialog with option for many different image formats, which makes exporting a chart nice experience
  * = Fixed bug in plot(f(x,y)) TSL function which made user unable to change chart area values (xmin,xmax, ymin, ymax)
  * = Unified Chart (edit) menus in GUI and scripting (they are now inside their own class, reusable), removed any code redundancies and errors (in chart3d in scripting export was generating invalid names)
  * = Cleanup for Chart3D
- * + New special symbols for better looking exponents
- * + You can now use functions with many parameters in expnents (added comma superscript symbol compatible even with Win XP)
  * = Fixed bug in ScientificNumeriUpDown with Value sometimes over decimal.MaxValue or under decimal.MinValue 
- * + GSL can now be initialized with second method if first doesnt work
- * + Added exception handling for GSL initialization and logging all the errors
- * + User will now have option to install Cambria font if he doesnt have it in Regular style
- * + Installer will now always install Cambria font, Consolas font and TSL examples files
  * = Fixed bug with GSL library not loading - installer will now always install Visual C++ Redistributable for Visual Studio 2013 (MSVCRT120.DLL, used by gsl.dll and cblas.dll) if needed
  * = Fixed bug with application not starting on Windows XP because of icon -> now icon is not compressed, still 256x256
- * + EditChart3DWindow can now edit chart area values properties
  * - Removed option to select a rectangular area using the mouse right click over Chart2D
  * = Fixed important bug in ExpressionEvaluator - lambda expressions were interpreted as implicit functions which was preventing user from using them
  * = Fixed bug in autocomplete, it was comparing substring including whole signature of function, now only uses name
  * = Fixed important bugs causing autocomplete to not show in exponent
- * + GSL updated to version 2.1
  * = Fixed some bugs in HypergeometricU, Hypergeometric1F1 special function
  * - Removed unused argument n from function EllipticD(φ,x)
  * = Mathieu functions should be a lot faster now, they are called directly now as a functions - not by passing a reference interop struct type
@@ -51,20 +62,14 @@
  * = Fixed bug ctrl+T does not create a new tab in scripting and custom functions when focus is on code editor
  * = Fixed bug with localization - now even top menu is reloaded if language has been changed
  * = Fixed all bugs and enhanced domain for En(n,x) function
- * + Added solve(m) function for solving linear equations in matrix representation
  * = Introduced ∞ symbol for Infinity
  * = Fixed all known bugs with changing editor type with opened documents
  * = Fixed minor bugs in directory tree / solution explorer
  * = All windows and dialogs of app are now behaving consistently with what they are (resizing, icons, look etc)
  * = MVP pattern implemented for UI
  * = Command pattern implemented for Top Menu and Toolbar Menu
- * + Introduction of SharedViewState representing shared state of application for various uses
- * + Computator.NET now support MEF model of extensions -  you can write plugins for Computator.NET just by implementing interfaces from Computator.NET.Extensibility library and putting compiled extensions in "Extensions" directory
- * + Finally introduced async and await for longer running background tasks like ComplexChart drawing
- * + ExponentMode menu command works now for AvalonEdit code editor too
  * = GSL is now compiled with Visual Studio 2015 Update 2, installer includes Visual C++ Redistributable for Visual Studio 2015 Update 2
- * + Installer now includes .NET 4.0 KB2468871 update for async and await support on .NET 4.0
- * + Due to compatibility issues installer now includes all needed redistributables instead of just downloading them
+ * = Fixes in functions categories, fixed inconsistency between functions.xml signatures and assembly
 
 
  ### --------- Version 2.0.0ß - beta -----------  04.03.2016 17:42

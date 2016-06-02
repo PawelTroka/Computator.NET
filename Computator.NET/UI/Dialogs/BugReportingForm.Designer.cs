@@ -36,28 +36,32 @@ namespace Computator.NET.UI.Dialogs
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this._richtextbox = new System.Windows.Forms.RichTextBox();
+            this.SuspendLayout();
+            // 
+            // _richtextbox
+            // 
+            this._richtextbox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._richtextbox.Location = new System.Drawing.Point(0, 0);
+            this._richtextbox.Name = "_richtextbox";
+            this._richtextbox.ReadOnly = true;
+            this._richtextbox.Size = new System.Drawing.Size(434, 261);
+            this._richtextbox.TabIndex = 0;
+            this._richtextbox.Text = "";
+            // 
+            // BugReportingForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(434, 261);
+            this.Controls.Add(this._richtextbox);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 17F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "BugReportingForm";
             this.Text = "BugReportingForm";
-
-
-            _richtextbox = new RichTextBox();
-            _richtextbox.Dock = DockStyle.Fill;
-            _richtextbox.ReadOnly = true;
-
-            Size = new Size(650, 300);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-
-                // Set the MaximizeBox to false to remove the maximize box.
-            MaximizeBox = false;
-
-                // Set the MinimizeBox to false to remove the minimize box.
-            MinimizeBox = false;
-
-                // Set the start position of the form to the center of the screen.
-                //StartPosition = FormStartPosition.CenterScreen,
-                Controls.Add(_richtextbox);
-            Font = new Font(FontFamily.GenericSansSerif, 17.0F);
+            this.ResumeLayout(false);
 
         }
 

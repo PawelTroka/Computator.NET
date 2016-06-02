@@ -33,7 +33,7 @@ namespace Computator.NET.Charting
             Controls.Add(control);
             control.Dock = DockStyle.Fill;
             control.BringToFront();
-
+            //TODO: use menu builder and command pattern for menu instead of dirty EditChartMenus
             editChartMenus = new EditChartMenus(control as Chart2D, control as ComplexChart,
                 (control as ElementHost)?.Child as Chart3DControl, control as ElementHost);
 

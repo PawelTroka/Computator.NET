@@ -494,6 +494,9 @@
     <EmbeddedResource Include="Config\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\BugReportingForm.resx">
+      <DependentUpon>BugReportingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ChangelogForm.resx">
       <DependentUpon>ChangelogForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -666,6 +669,9 @@
     <Content Include="TSL Examples\_Scripts\Example07_FunctionsAndPlotting.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TSL Examples\_Scripts\Example09_MatrixDecompositions.tsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="UI\fonts\CAMBRIA.TTC">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -676,6 +682,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TSL Examples\_Scripts\Example08_SolvingEquations.tsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
