@@ -1040,7 +1040,7 @@ Harris and Stocker (1998, p.&nbsp;300) call secant and cosecant "rarely used fun
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="log(x,nbase)">
+  <FunctionInfo Signature="log(x,y)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Logarithms</Category>
@@ -1169,7 +1169,7 @@ Harris and Stocker (1998, p.&nbsp;300) call secant and cosecant "rarely used fun
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="prime(d)">
+  <FunctionInfo Signature="prime(x)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Integer functions</Category>
@@ -1253,7 +1253,7 @@ Harris and Stocker (1998, p.&nbsp;300) call secant and cosecant "rarely used fun
     <Description><![CDATA[here goes description (not done yet)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="DiracDelta(d)">
+  <FunctionInfo Signature="DiracDelta(x)">
     <Title>_title_</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Step functions</Category>
@@ -2193,7 +2193,7 @@ K(k)=F(π/2,k)]]></Description>
   <FunctionInfo Signature="Dawson(x)">
     <Title>description</Title>
     <Type>SpecialFunctions</Type>
-    <Category>integral functions</Category>
+    <Category>Integral functions</Category>
     <Description><![CDATA[description]]></Description>
     <Url> </Url>
   </FunctionInfo>
@@ -2778,28 +2778,28 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
     <Description><![CDATA[Derivative Bi'(x)]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="AiZeros(s)">
+  <FunctionInfo Signature="AiZeros(x)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
     <Category>Airy functions</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="BiZeros(s)">
+  <FunctionInfo Signature="BiZeros(x)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
     <Category>Airy functions</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="AiZerosPrime(s)">
+  <FunctionInfo Signature="AiZerosPrime(x)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
     <Category>Airy functions</Category>
     <Description><![CDATA[ ]]></Description>
     <Url> </Url>
   </FunctionInfo>
-  <FunctionInfo Signature="BiZerosPrime(s)">
+  <FunctionInfo Signature="BiZerosPrime(x)">
     <Title> </Title>
     <Type>SpecialFunctions</Type>
     <Category>Airy functions</Category>
@@ -2955,7 +2955,7 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
   <FunctionInfo Signature="PI">
     <Title>Number π</Title>
     <Type>MathematicalConstants</Type>
-    <Category>Math constants</Category>
+    <Category>Basic math constants</Category>
     <Description><![CDATA[The number <b><span class="texhtml">π</span></b> is a <a href="/wiki/Mathematical_constant" title="Mathematical constant">mathematical constant</a>, the <a href="/wiki/Ratio" title="Ratio">ratio</a> of a <a href="/wiki/Circle" title="Circle">circle</a>'s <a href="/wiki/Circumference" title="Circumference">circumference</a> to its <a href="/wiki/Diameter" title="Diameter">diameter</a>, approximately equal to 3.141592. It has been represented by the Greek letter "<span class="texhtml">π</span>" since the mid-18th century though it is also sometimes spelled out as "<b>pi</b>" (<span class="nowrap"><span title="Representation in the International Phonetic Alphabet (IPA)" class="IPA"><a href="/wiki/Help:IPA_for_English" title="Help:IPA for English">/</a></span><span class="IPA nopopups"><a href="/wiki/Help:IPA_for_English#Key" title="Help:IPA for English"><span title="'p' in 'pie'" style="border-bottom:1px dotted">p</span></a></span><span class="IPA nopopups"><a href="/wiki/Help:IPA_for_English#Key" title="Help:IPA for English"><span title="/aɪ/ long 'i' in 'bide'" style="border-bottom:1px dotted">aɪ</span></a></span><span title="Representation in the International Phonetic Alphabet (IPA)" class="IPA"><a href="/wiki/Help:IPA_for_English" title="Help:IPA for English">/</a></span></span>).</p>
 <p>Being an <a href="/wiki/Irrational_number" title="Irrational number">irrational number</a>, <span class="texhtml">π</span> cannot be expressed exactly as a <a href="/wiki/Common_fraction" title="Common fraction" class="mw-redirect">common fraction</a>, although fractions such as 22/7 and other rational numbers are commonly used to approximate <span class="texhtml">π</span>. Consequently its <a href="/wiki/Decimal_representation" title="Decimal representation">decimal representation</a> never ends and never <a href="/wiki/Repeating_decimal" title="Repeating decimal">settles into a permanent repeating pattern</a>. The digits appear to be randomly distributed although, to date, no proof of this has been discovered. Also, <span class="texhtml">π</span> is a <a href="/wiki/Transcendental_number" title="Transcendental number">transcendental number</a>&nbsp;– a number that is not the <a href="/wiki/Root_of_a_polynomial" title="Root of a polynomial" class="mw-redirect">root</a> of any non-zero <a href="/wiki/Polynomial" title="Polynomial">polynomial</a> having <a href="/wiki/Rational_number" title="Rational number">rational</a> <a href="/wiki/Coefficient" title="Coefficient">coefficients</a>. This <a href="/wiki/Transcendental_number" title="Transcendental number">transcendence</a> of <span class="texhtml">π</span> implies that it is impossible to solve the ancient challenge of <a href="/wiki/Squaring_the_circle" title="Squaring the circle">squaring the circle</a> with a compass and straight-edge.</p>]]></Description>
     <Url>http://en.wikipedia.org/wiki/Pi</Url>
@@ -2963,7 +2963,7 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
   <FunctionInfo Signature="e">
     <Title>Euler's number</Title>
     <Type>MathematicalConstants</Type>
-    <Category>Math constants</Category>
+    <Category>Basic math constants</Category>
     <Description><![CDATA[The number <b><span class="texhtml mvar" style="font-style:italic;">e</span></b> is an important <a href="/wiki/Mathematical_constant" title="Mathematical constant">mathematical constant</a> that is the base of the <a href="/wiki/Natural_logarithm" title="Natural logarithm">natural logarithm</a>. It is approximately equal to 2.71828,<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>1<span>]</span></a></sup> and is the <a href="/wiki/Limit_of_a_sequence" title="Limit of a sequence">limit</a> of <span class="texhtml">(1 + 1/<i>n</i>)<sup><i>n</i></sup></span> as <span class="texhtml mvar" style="font-style:italic;">n</span> approaches infinity, an expression that arises in the study of <a href="/wiki/Compound_interest" title="Compound interest">compound interest</a>. It can also be calculated as the sum of the infinite <a href="/wiki/Series_(mathematics)" title="Series (mathematics)">series</a><sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>2<span>]</span></a></sup></p>
 <dl>
 <dd><img class="mwe-math-fallback-png-inline tex" alt="e =  \displaystyle\sum\limits_{n = 0}^{ \infty} \dfrac{1}{n!} = 1 + \frac{1}{1} + \frac{1}{1\cdot 2} + \frac{1}{1\cdot 2\cdot 3} + \cdots" src="http://upload.wikimedia.org/math/6/5/2/652b73fdfa9e2066ad5716ed56e837a7.png"></dd>
@@ -2977,7 +2977,7 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
   <FunctionInfo Signature="EulerMascheroni">
     <Title>Euler–Mascheroni constant</Title>
     <Type>MathematicalConstants</Type>
-    <Category>Math constants</Category>
+    <Category>Basic math constants</Category>
     <Description><![CDATA[The <b>Euler–Mascheroni constant</b> (also called <b>Euler's constant</b>) is a <a href="/wiki/Mathematical_constant" title="Mathematical constant">mathematical constant</a> recurring in <a href="/wiki/Mathematical_analysis" title="Mathematical analysis">analysis</a> and <a href="/wiki/Number_theory" title="Number theory">number theory</a>, usually denoted by the lowercase Greek letter <span xml:lang="el" lang="el">gamma</span> (<img class="mwe-math-fallback-png-inline tex" alt="\gamma" src="http://upload.wikimedia.org/math/3/3/4/334de1ea38b615839e4ee6b65ee1b103.png">).</p>
 <p>It is defined as the <a href="/wiki/Limit_of_a_sequence" title="Limit of a sequence">limiting</a> difference between the <a href="/wiki/Harmonic_series_(mathematics)" title="Harmonic series (mathematics)">harmonic series</a> and the <a href="/wiki/Natural_logarithm" title="Natural logarithm">natural logarithm</a>:</p>
 <dl>
@@ -2993,7 +2993,7 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
   <FunctionInfo Signature="GoldenRatio">
     <Title>Golden ratio</Title>
     <Type>MathematicalConstants</Type>
-    <Category>Math constants</Category>
+    <Category>Basic math constants</Category>
     <Description><![CDATA[In <a href="/wiki/Mathematics" title="Mathematics">mathematics</a>, two quantities are in the <b>golden ratio</b> if their <a href="/wiki/Ratio" title="Ratio">ratio</a> is the same as the ratio of their <a href="/wiki/Sum" title="Sum" class="mw-redirect">sum</a> to the larger of the two quantities. Expressed algebraically, for quantities <i>a</i> and <i>b</i> with <i>a</i>&nbsp;&gt;&nbsp;<i>b</i>&nbsp;&gt;&nbsp;0,</p>
 <dl>
 <dd><img class="mwe-math-fallback-png-inline tex" alt=" \frac{a+b}{a} = \frac{a}{b} \ \stackrel{\text{def}}{=}\ \varphi," src="http://upload.wikimedia.org/math/c/e/5/ce58db09ebdb85bfc14b1e1e8d231a3a.png"></dd>
@@ -3008,7 +3008,7 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
   <FunctionInfo Signature="AperysConstant">
     <Title>Apéry's constant</Title>
     <Type>MathematicalConstants</Type>
-    <Category>Math constants</Category>
+    <Category>Basic math constants</Category>
     <Description><![CDATA[In <a href="/wiki/Mathematics" title="Mathematics">mathematics</a>, <b>Apéry's constant</b> is a number that occurs in a variety of situations. It arises naturally in a number of physical problems, including in the second- and third-order terms of the electron's <a href="/wiki/Gyromagnetic_ratio" title="Gyromagnetic ratio">gyromagnetic ratio</a> using quantum electrodynamics. It also arises in conjunction with the <a href="/wiki/Gamma_function" title="Gamma function">gamma function</a> when solving certain integrals involving exponential functions in a quotient which appear occasionally in physics, for instance when evaluating the two-dimensional case of the <a href="/wiki/Debye_model" title="Debye model">Debye model</a> and the <a href="/wiki/Stefan%E2%80%93Boltzmann_law" title="Stefan–Boltzmann law">Stefan–Boltzmann law</a>. It is defined as the number ζ(3),</p>
 <dl>
 <dd><img class="mwe-math-fallback-png-inline tex" alt="\zeta(3)=\sum_{k=1}^\infty\frac{1}{k^3}=1+\frac{1}{2^3} + \frac{1}{3^3} + \frac{1}{4^3} + \frac{1}{5^3} + \frac{1}{6^3} + \frac{1}{7^3} + \frac{1}{8^3} + \frac{1}{9^3} + \cdots\,\!" src="http://upload.wikimedia.org/math/6/4/7/6478e1cdf170e178c6cfaefe8a2c1a30.png"></dd>
@@ -3023,7 +3023,7 @@ For integer <img src="http://mathworld.wolfram.com/images/equations/En-Function/
   <FunctionInfo Signature="ConwaysConstant">
     <Title>Conway's Constant</Title>
     <Type>MathematicalConstants</Type>
-    <Category>Math constants</Category>
+    <Category>Basic math constants</Category>
     <Description><![CDATA[The constant
 </p>
 <div>
@@ -3054,7 +3054,7 @@ The <a href="http://mathworld.wolfram.com/ContinuedFraction.html">continued frac
   <FunctionInfo Signature="KhinchinsConstant">
     <Title>Khinchin's constant</Title>
     <Type>MathematicalConstants</Type>
-    <Category>Math constants</Category>
+    <Category>Basic math constants</Category>
     <Description><![CDATA[In <a href="/wiki/Number_theory" title="Number theory">number theory</a>, <a href="/wiki/Aleksandr_Yakovlevich_Khinchin" title="Aleksandr Yakovlevich Khinchin" class="mw-redirect">Aleksandr Yakovlevich Khinchin</a> proved that for <a href="/wiki/Almost_all" title="Almost all">almost all</a> real numbers <i>x</i>, coefficients <i>a</i><sub><i>i</i></sub> of the <a href="/wiki/Continued_fraction" title="Continued fraction">continued fraction</a> expansion of <i>x</i> have a finite <a href="/wiki/Geometric_mean" title="Geometric mean">geometric mean</a> that is independent of the value of <i>x</i> and is known as <b>Khinchin's constant</b>.</p>
 <p>That is, for</p>
 <dl>

@@ -342,9 +342,9 @@ namespace Computator.NET.Functions
         /*Angielska nazwa funkcji"),
          System.ComponentModel.Category("doubleu wpisz nazwę regionu (np. trigonometric functions)"),
          System.ComponentModel.Description("angielski opis funkcji*/
-        public static double log(double value, double nbase)
+        public static double log(double x, double y)
         {
-            return System.Math.Log(value, nbase);
+            return System.Math.Log(x, y);
         }
 
         #endregion
@@ -368,10 +368,10 @@ namespace Computator.NET.Functions
             return System.Math.Sqrt(x);
         }
 
-        public static dynamic root(double value, double n)
+        public static dynamic root(double x, double n)
         {
             //n-based root
-            return dpow(value, 1.0/n);
+            return dpow(x, 1.0/n);
         }
 
         #endregion
@@ -882,11 +882,11 @@ namespace Computator.NET.Functions
         /*Angielska nazwa funkcji"),
          System.ComponentModel.Category("Tu wpisz nazwę regionu (np. trigonometric functions)"),
          System.ComponentModel.Description("angielski opis funkcji*/
-        public static int prime(double d)
+        public static int prime(double x)
         {
-            if (d < 1)
+            if (x < 1)
                 return -1;
-            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) (d)))
+            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) (x)))
                 return 1;
             return 0;
         }

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Xml;
 using System.Xml.Serialization;
 using Computator.NET.DataTypes;
 using Computator.NET.Functions;
@@ -16,10 +18,21 @@ namespace Computator.NET.Data
         private FunctionsDetails()
         {
             _details = LoadFunctionsDetailsFromXmlFile();
-            
-            //  SaveEmptyFunctionDetailsToXmlFile();
+            AddDetailsFromMetadata();
+             //SaveEmptyFunctionDetailsToXmlFile();
         }
 
+        private void AddDetailsFromMetadata()
+        {
+            var items = AutocompletionData.GetAutocompleteItemsForScripting();
+            items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
+            foreach (var item in items)
+            {
+                if(!_details.ContainsKey(item.Text))
+                _details.Add(item.Text,
+                     item.Info);
+            }
+        }
 
         public static FunctionsDetails Details { get; } = new FunctionsDetails();
 
@@ -71,6 +84,7 @@ namespace Computator.NET.Data
             items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
             foreach (var item in items)
             {
+                //if(!_details.ContainsKey(item.Text))
                 detailsWithEmpties.Add(item.Text,
                     _details.ContainsKey(item.Text) ? _details[item.Text] : item.Info);
             }
@@ -82,11 +96,35 @@ namespace Computator.NET.Data
                     {
                         Signature = kv.Key,
                         Url = kv.Value.Url,
-                        Description = HttpUtility.HtmlEncode(kv.Value.Description),
+                        Description = ToHtmlXmlEncoded(kv.Value.Description),
                         Title = kv.Value.Title,
                         Category = kv.Value.Category,
                         Type = kv.Value.Type
                     }).ToArray());
+            stream.Close();
+
+            var sss = File.ReadAllText("functions_empty_saved.xml");
+            sss = sss.Replace(@"&gt;", @">");
+            sss = sss.Replace(@"&lt;", @"<");
+            File.WriteAllText("functions_empty_saved.xml",sss);
+        }
+
+        public static string XmlDecode(string value)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<root>" + value + "</root>");
+            return xmlDoc.InnerText;
+        }
+
+        private string ToHtmlXmlEncoded(string description)
+        {
+
+
+
+            description = HttpUtility.HtmlDecode(description);
+            description= description.Replace(@"&gt;", @">");
+            description = description.Replace(@"&lt;", @"<");
+            return $@"<![CDATA[{description}]]>";
         }
 
         private Dictionary<string, FunctionInfo> LoadFunctionsDetailsFromXmlFile()

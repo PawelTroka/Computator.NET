@@ -1295,9 +1295,9 @@ namespace Computator.NET.Functions
             return Meta.Numerics.Functions.AdvancedMath.Dawson(x);
         }
 
-        public static double Clausen(double d) { return gsl_sf_clausen(d); }
+        public static double Clausen(double x) { return gsl_sf_clausen(x); }
 
-        public static double Si(double d) { return Meta.Numerics.Functions.AdvancedMath.IntegralSi(d); } //sine integral
+        public static double Si(double x) { return Meta.Numerics.Functions.AdvancedMath.IntegralSi(x); } //sine integral
 
         public static double Ci(double x)//cosine integral
         {
@@ -1379,7 +1379,7 @@ namespace Computator.NET.Functions
                 return (x == 0.0) ? Meta.Numerics.Functions.AdvancedMath.IntegralEi(x) : gsl_sf_expint_Ei(x);
             }
 
-        public static double Shi(double d) { return gsl_sf_Shi(d); } //hyperbolic sine integral
+        public static double Shi(double x) { return gsl_sf_Shi(x); } //hyperbolic sine integral
 
 
 
@@ -1391,7 +1391,7 @@ namespace Computator.NET.Functions
             return (x == 0.0) ? double.NaN : gsl_sf_Chi(x);
         }
 
-        public static double Tai(double d) { return gsl_sf_atanint(d); } //arcus tangent integral
+        public static double Tai(double x) { return gsl_sf_atanint(x); } //arcus tangent integral
 
 
         //Integrals in optics
