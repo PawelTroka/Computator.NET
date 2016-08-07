@@ -15,13 +15,13 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 
 
-# Release 2.0 beta
-*This release is focused on removing all the limitations and inconsistencies that have been going throught Computator.NET history. Be careful, though it may be unstable, because of all the new features and huge changes to application architecture itself.*
-* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.0.0-beta)
-* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.0.0-beta/Computator.NET.Installer.v2.0.0.beta.exe)
-* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.0.0-beta/Computator.NET.v2.0.0-beta.zip)
-* Alternatively [download installer here](http://fizyka.dk/Computator.NET.Installer%20v2.0.0%20beta.exe)
-* Alternatively [download portable version (*.zip) here](http://fizyka.dk/Computator.NET v2.0.0-beta.zip)
+# Release 2.1 beta
+*This release is focused on making Computator.NET more stable. There are over 50 serious bugs and inconsistencies fixed since 2.0 release.*
+* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.1.0-beta)
+* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.1.0-beta/Computator.NET.Installer.v2.1.0.beta.exe)
+* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.1.0-beta/Computator.NET.v2.1.0-beta.zip)
+* Alternatively [download installer here](http://fizyka.dk/Computator.NET.Installer%20v2.1.0%20beta.exe)
+* Alternatively [download portable version (*.zip) here](http://fizyka.dk/Computator.NET v2.1.0-beta.zip)
 
 
 # Installation & Setup
