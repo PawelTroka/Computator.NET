@@ -5,7 +5,7 @@
 * make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
 * maybe handle cases like 2²x for multiplying
 * Handle abs - |x+2|=|cos(y)| should give us abs(x+2)=abs(cos(y)), then add it to superscript
-* include in tutorials and test experimantal features
+* include in tutorials and test experimental features
 
 
 ##UI
@@ -15,25 +15,25 @@
 * Scripting: tracking user variables
 * shift+r_mouse_click on item_key activates new window
 * Special function search list arrangement ( or arrangement by user).
-* Cancel doesnt work to second option in benchmark if first option was already cancelled and second started later
+* Cancel doesn't work to second option in benchmark if first option was already canceled and second started later
 * Command pattern for buttons, including EditChartMenus / or something better
 * Windows Ribbon control?
 * Metro Modern UI - Metro Framework or Material Design? ( or https://github.com/IgnaceMaes/MaterialSkin)
 * use mode.error more often - use it for empty text and errors etc
-* use some good controls like Navigator from Krypton Toolkit  https://github.com/ComponentFactory/Krypton (Navigator can be used for TabControl, CheckedListBox for chosing what Functions to load (eg SpecialFunctions etc), DOcking for Console output / solution explorer etc, Workspace for CodeEditors, KryptonColorButton for ChartEdit picking colors)
+* use some good controls like Navigator from Krypton Toolkit  https://github.com/ComponentFactory/Krypton (Navigator can be used for TabControl, CheckedListBox for choosing what Functions to load (eg SpecialFunctions etc), DOcking for Console output / solution explorer etc, Workspace for CodeEditors, KryptonColorButton for ChartEdit picking colors)
 * MVP is nice but maybe we should switch to MVVM using ReactiveUI http://www.codeproject.com/Articles/801986/Using-ReactiveUI-for-WinForms-MVVM-Design
 * useful controls: https://github.com/AdamsLair/winforms https://www.nuget.org/packages/OpenTK.GLControl https://github.com/nathanchere/FerretLib.WinForms http://ascendnet.codeplex.com https://github.com/AdamsLair/winforms
-* MVP is still done poorly, IViews shouldnt have nested IViews, Forms should take Controls from Constructors and we should drop our model of singletons (Presenters should use ISharedView state representing one SharedViewState instance but not singleton etc - same for error handler etc - dont be so affraid of huge constructors etc - later introduce IoC containers!!!!!!!!!!!!!!!!!!!!!!!) 
+* MVP is still done poorly, IViews shouldn't have nested IViews, Forms should take Controls from Constructors and we should drop our model of singletons (Presenters should use ISharedView state representing one SharedViewState instance but not singleton etc - same for error handler etc - don't be so afraid of huge constructors etc - later introduce IoC containers!!!!!!!!!!!!!!!!!!!!!!!) 
 * Use mark_heath tips
 
 
 ##Functions and constants
 * recreate function logGamma with fixed all errors
 * Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
-* make it possible to create distrubution like normal from array of elemenets and from mean stdev and make functions from elemenets like CDF(elements,x)
+* make it possible to create distribution like normal from array of elements and from mean stdev and make functions from elements like CDF(elements,x)
 * Matrix division
 * rest of special functions
-* matrix more opearations
+* matrix more operations
 * Weiestrass functions
 * theta functions
 * numerical calculations for f(z) and f(x,y) functions too
@@ -41,7 +41,7 @@
 * add stefanson method for function root roots/steffenson.c and qk61 method from integration
 * add numerical methods for solving ordinary differential equations (ODEs) (ode-initval/gsl_odeiv.h, Meta Numerics too), maybe other types of DE too 
 * add polynomials: operations, solving (solving general case is in GSL), evaluating
-* add extreme and minima of fucntions
+* add extreme and minima of functions
 * take a look on MathNet.Numerics.Euclid
 
 
@@ -56,7 +56,7 @@
 
 
 ##Code editors
-* remember last open documents with editors, mybe with content
+* remember last open documents with editors, maybe with content
 * if we changed a document note this with red disk and ask for save
 * add search and replace windows to scripting
 * add printing option to codeeditors
