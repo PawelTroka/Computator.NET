@@ -44,7 +44,7 @@ namespace Computator.NET.Evaluation
         //[^⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ](ˣ)(?:(?:[^⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ]+)|$)
 
 
-        private string mergePatterns(params string[] patterns)
+        private static string mergePatterns(params string[] patterns)
         {
             var sb = new StringBuilder();
             foreach (var pattern in patterns)

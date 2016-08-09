@@ -19,7 +19,12 @@ namespace UnitTests.EvaluationTests
         public void expressionWithRealExponent_shouldReturnReal()
         {
             Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2¹⁰³²¹³ॱ³²³²³²"));
-            //z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾
+        }
+
+        [Test]
+        public void expressionWithRealAndComplexComponentsAfterNumberWithoutDot_shouldReturnComplex()
+        {
+            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("2sin(2x)+2z"));
         }
 
         [Test]
