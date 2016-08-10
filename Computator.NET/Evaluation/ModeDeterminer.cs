@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Computator.NET.Compilation;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Evaluation
@@ -11,13 +12,14 @@ namespace Computator.NET.Evaluation
         private readonly Regex FindZ;
 
         private readonly string post =
-            $@")(?:[\+\-{SpecialSymbols.DotSymbol}\/\,\)\s{SpecialSymbols.Superscripts}](?:\n|\r|\r\n|.)*)?$";
+            $@")(?:[\+\-\*{SpecialSymbols.DotSymbol}\/\,\)\s{SpecialSymbols.Superscripts}](?:\n|\r|\r\n|.)*)?$";
 
         private readonly string postExponent = $@")(?:(?:[^{SpecialSymbols.SuperscriptAlphabet}]+)|$)";
         //^(?:(?:\n|\r|\r\n|.)*[\+\-·\/\,\(\s])?(x)(?:[\+\-·\/\,\)\s](?:\n|\r|\r\n|.)*)?$
-        private readonly string pre = $@"^(?:(?:\n|\r|\r\n|.)*[\+\-{SpecialSymbols.DotSymbol}\/\,\(\s])?(";
+        private readonly string pre = $@"^(?:(?:\n|\r|\r\n|.)*[\+\-\*{SpecialSymbols.DotSymbol}\/\,\(\s])?(";
         private readonly string preExponent = $@"[^{SpecialSymbols.SuperscriptAlphabet}]+(";
         //private Regex FindX;
+        private readonly TslCompiler _tslCompiler = new TslCompiler();
 
         public ModeDeterminer()
         {
@@ -59,6 +61,7 @@ namespace Computator.NET.Evaluation
         public CalculationsMode DetermineMode(string input)
         {
             var isImplicit = input.Contains("=");
+            input = _tslCompiler.TransformToCSharp(input);
             var isZ = FindZ.IsMatch(input);
             var isI = FindI.IsMatch(input);
             var isY = FindY.IsMatch(input);
@@ -73,7 +76,7 @@ namespace Computator.NET.Evaluation
             }
 
             if (isI)
-                return CalculationsMode.Error; //TODO: we dont have implicit mode for complex function yet
+                return CalculationsMode.Error; //TODO: we don't have implicit mode for complex function yet
 
             if (isZ && isY)
                 return CalculationsMode.Fxy;

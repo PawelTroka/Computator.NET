@@ -59,7 +59,7 @@ namespace Computator.NET.Evaluation
 
         private readonly TslCompiler _tslCompiler;
 
-        private readonly Regex implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
+        private readonly Regex _implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
         private string _customFunctionsCSharpCode;
         private Type _delegateType;
         private string _functionSignature;
@@ -90,7 +90,7 @@ namespace Computator.NET.Evaluation
 
         public Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode)
         {
-            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, implicitFunctionRegex.IsMatch(input));
+            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, _implicitFunctionRegex.IsMatch(input));
 
 
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
@@ -165,7 +165,7 @@ namespace Computator.NET.Evaluation
         {
             if (IsImplicit)
             {
-                var match = implicitFunctionRegex.Match(MainCSharpCode);
+                var match = _implicitFunctionRegex.Match(MainCSharpCode);
 
 
                 MainCSharpCode = MainCSharpCode.Substring(0, match.Index) + "-(" +
