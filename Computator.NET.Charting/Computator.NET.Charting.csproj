@@ -86,6 +86,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Chart3D\Chart3DMode.cs" />
     <Compile Include="Chart3D\Chart3D\AxisLabels.cs" />
     <Compile Include="Chart3D\Chart3D\Bar3D.cs" />

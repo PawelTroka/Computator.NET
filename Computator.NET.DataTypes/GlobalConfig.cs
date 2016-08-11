@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
 
@@ -7,7 +8,7 @@ namespace Computator.NET.DataTypes
     public static class GlobalConfig
     {
         public const string AppName = "Computator.NET";
-        public const string version = "v2.1.0ß";
+        public static readonly string version = $"v{Assembly.GetExecutingAssembly().GetName().Version}ß";
         public const string authorWithEmail = author + " (pawel.troka@outlook.com)";
         public const string author = "Paweł Troka";
         //
