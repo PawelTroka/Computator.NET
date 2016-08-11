@@ -253,7 +253,7 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<row><td>ISExpHlp.dll</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\ISExpHlp.dll</td></row>
 		<row><td>ISSELFREG.DLL</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\isregsvr.dll</td></row>
-		<row><td>NewBinary1</td><td/><td>&lt;ISProductFolder&gt;\Support\Themes\InstallShield Blue Theme\welcome.jpg</td></row>
+		<row><td>NewBinary1</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\Installer\InstallShield Computator.NET Theme\welcome.jpg</td></row>
 		<row><td>NewBinary10</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CompleteSetupIco.ibd</td></row>
 		<row><td>NewBinary11</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CustomSetupIco.ibd</td></row>
 		<row><td>NewBinary12</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\DestIcon.ibd</td></row>
@@ -265,10 +265,12 @@
 		<row><td>NewBinary18</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\InstallStateMenu.ico</td></row>
 		<row><td>NewBinary19</td><td/><td>&lt;ISProductFolder&gt;\redist\Language independent\i386\SerialNumCAHelper.dll</td></row>
 		<row><td>NewBinary2</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\New.ibd</td></row>
-		<row><td>NewBinary20</td><td/><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\Graphics\computator.gif</td></row>
+		<row><td>NewBinary20</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\computator.gif</td></row>
+		<row><td>NewBinary21</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\Installer\InstallShield Computator.NET Theme\welcome.jpg</td></row>
+		<row><td>NewBinary22</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\Installer\InstallShield Computator.NET Theme\banner.jpg</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
 		<row><td>NewBinary4</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\WarningIcon.ibd</td></row>
-		<row><td>NewBinary5</td><td/><td>&lt;ISProductFolder&gt;\Support\Themes\InstallShield Blue Theme\banner.jpg</td></row>
+		<row><td>NewBinary5</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\Installer\InstallShield Computator.NET Theme\banner.jpg</td></row>
 		<row><td>NewBinary6</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CustomSetupIco.ibd</td></row>
 		<row><td>NewBinary7</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\ReinstIco.ibd</td></row>
 		<row><td>NewBinary8</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\RemoveIco.ibd</td></row>
@@ -387,7 +389,7 @@
 		<col def="I4">ISControlId</col>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="S72">Binary_</col>
-		<row><td>AdminChangeFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>AdminChangeFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>AdminChangeFolder</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -404,7 +406,7 @@
 		<row><td>AdminChangeFolder</td><td>TailText</td><td>Text</td><td>21</td><td>193</td><td>99</td><td>13</td><td>3</td><td/><td>##IDS__IsAdminInstallBrowse_FolderName##</td><td>Tail</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminChangeFolder</td><td>Up</td><td>PushButton</td><td>310</td><td>66</td><td>19</td><td>19</td><td>3670019</td><td/><td/><td>NewFolder</td><td>##IDS__IsAdminInstallBrowse_UpOneLevel##</td><td>0</td><td/><td/><td>NewBinary3</td></row>
 		<row><td>AdminNetworkLocation</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>InstallNow</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>AdminNetworkLocation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>AdminNetworkLocation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>AdminNetworkLocation</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>AdminNetworkLocation</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminNetworkLocation</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -420,7 +422,7 @@
 		<row><td>AdminWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>AdminWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary1</td></row>
+		<row><td>AdminWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
 		<row><td>AdminWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>196611</td><td/><td>##IDS__IsAdminInstallPointWelcome_Wizard##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>AdminWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>45</td><td>196611</td><td/><td>##IDS__IsAdminInstallPointWelcome_ServerImage##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -429,7 +431,7 @@
 		<row><td>CancelSetup</td><td>Text</td><td>Text</td><td>48</td><td>15</td><td>194</td><td>30</td><td>131075</td><td/><td>##IDS__IsCancelDlg_ConfirmCancel##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CancelSetup</td><td>Yes</td><td>PushButton</td><td>62</td><td>57</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsCancelDlg_Yes##</td><td>No</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetup</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>CustomSetup</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>CustomSetup</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>CustomSetup</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>CustomSetup</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetup</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -448,7 +450,7 @@
 		<row><td>CustomSetup</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetup</td><td>Size</td><td>Text</td><td>241</td><td>133</td><td>120</td><td>50</td><td>3</td><td/><td>##IDS__IsCustomSelectionDlg_FeatureSize##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetup</td><td>Tree</td><td>SelectionTree</td><td>8</td><td>70</td><td>220</td><td>118</td><td>7</td><td>_BrowseProperty</td><td/><td>ChangeFolder</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>CustomSetupTips</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>CustomSetupTips</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>CustomSetupTips</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>CustomSetupTips</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetupTips</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -470,7 +472,7 @@
 		<row><td>CustomSetupTips</td><td>OK</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_SetupTips_OK##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomSetupTips</td><td>PartialText</td><td>Text</td><td>60</td><td>130</td><td>300</td><td>20</td><td>3</td><td/><td>##IDS_SetupTips_SubFeaturesInstalledLocal##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomerInformation</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>CustomerInformation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>CustomerInformation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>CustomerInformation</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>CustomerInformation</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomerInformation</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -488,7 +490,7 @@
 		<row><td>CustomerInformation</td><td>SerialLabel</td><td>Text</td><td>21</td><td>127</td><td>109</td><td>10</td><td>2</td><td/><td>##IDS__IsRegisterUserDlg_SerialNumber##</td><td>SerialNumber</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>CustomerInformation</td><td>SerialNumber</td><td>MaskedEdit</td><td>21</td><td>138</td><td>237</td><td>17</td><td>2</td><td>ISX_SERIALNUM</td><td/><td>RadioGroup</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DatabaseFolder</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>DatabaseFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>DatabaseFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>DatabaseFolder</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>DatabaseFolder</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DatabaseFolder</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -502,7 +504,7 @@
 		<row><td>DatabaseFolder</td><td>Location</td><td>Text</td><td>57</td><td>65</td><td>240</td><td>40</td><td>3</td><td>_BrowseProperty</td><td>##IDS__DatabaseFolder_DatabaseDir##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DatabaseFolder</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>DestinationFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>DestinationFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>DestinationFolder</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -515,7 +517,7 @@
 		<row><td>DestinationFolder</td><td>LocLabel</td><td>Text</td><td>57</td><td>52</td><td>290</td><td>10</td><td>131075</td><td/><td>##IDS__DestinationFolder_InstallTo##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Location</td><td>Text</td><td>57</td><td>65</td><td>240</td><td>40</td><td>3</td><td>_BrowseProperty</td><td>##IDS_INSTALLDIR##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DestinationFolder</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>DiskSpaceRequirements</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>DiskSpaceRequirements</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>DiskSpaceRequirements</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -525,7 +527,7 @@
 		<row><td>DiskSpaceRequirements</td><td>DlgTitle</td><td>Text</td><td>9</td><td>6</td><td>292</td><td>25</td><td>65539</td><td/><td>##IDS__IsFeatureDetailsDlg_DiskSpaceRequirements##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>List</td><td>VolumeCostList</td><td>8</td><td>55</td><td>358</td><td>125</td><td>393223</td><td/><td>##IDS__IsFeatureDetailsDlg_Numbers##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>DiskSpaceRequirements</td><td>OK</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFeatureDetailsDlg_OK##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>FilesInUse</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>FilesInUse</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>FilesInUse</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>FilesInUse</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FilesInUse</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -537,7 +539,7 @@
 		<row><td>FilesInUse</td><td>Ignore</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFilesInUse_Ignore##</td><td>Exit</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FilesInUse</td><td>List</td><td>ListBox</td><td>21</td><td>87</td><td>331</td><td>135</td><td>7</td><td>FileInUseProcess</td><td/><td>Retry</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>FilesInUse</td><td>Retry</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFilesInUse_Retry##</td><td>Ignore</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>InstallChangeFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>InstallChangeFolder</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>InstallChangeFolder</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>InstallChangeFolder</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallChangeFolder</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -557,13 +559,13 @@
 		<row><td>InstallWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallWelcome</td><td>Copyright</td><td>Text</td><td>135</td><td>144</td><td>228</td><td>73</td><td>65539</td><td/><td>##IDS__IsWelcomeDlg_WarningCopyright##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary1</td></row>
+		<row><td>InstallWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
 		<row><td>InstallWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>196611</td><td/><td>##IDS__IsWelcomeDlg_WelcomeProductName##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>45</td><td>196611</td><td/><td>##IDS__IsWelcomeDlg_InstallProductName##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Agree</td><td>RadioButtonGroup</td><td>8</td><td>190</td><td>291</td><td>40</td><td>3</td><td>AgreeToLicense</td><td/><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>LicenseAgreement</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>LicenseAgreement</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>LicenseAgreement</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -572,10 +574,10 @@
 		<row><td>LicenseAgreement</td><td>DlgLine</td><td>Line</td><td>48</td><td>234</td><td>326</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>DlgTitle</td><td>Text</td><td>13</td><td>6</td><td>292</td><td>25</td><td>65539</td><td/><td>##IDS__IsLicenseDlg_LicenseAgreement##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>LicenseAgreement</td><td>ISPrintButton</td><td>PushButton</td><td>301</td><td>188</td><td>65</td><td>17</td><td>3</td><td/><td>##IDS_PRINT_BUTTON##</td><td>Agree</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>LicenseAgreement</td><td>Memo</td><td>ScrollableText</td><td>8</td><td>55</td><td>358</td><td>130</td><td>7</td><td/><td/><td/><td/><td>0</td><td/><td>D:\PawelTroka-Projects\Computator.NET\docs\eula.rtf</td><td/></row>
+		<row><td>LicenseAgreement</td><td>Memo</td><td>ScrollableText</td><td>8</td><td>55</td><td>358</td><td>130</td><td>7</td><td/><td/><td/><td/><td>0</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\docs\eula.rtf</td><td/></row>
 		<row><td>LicenseAgreement</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceType</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>MaintenanceType</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>MaintenanceType</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>MaintenanceType</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>MaintenanceType</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceType</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -594,11 +596,11 @@
 		<row><td>MaintenanceWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>MaintenanceWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary1</td></row>
+		<row><td>MaintenanceWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
 		<row><td>MaintenanceWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>196611</td><td/><td>##IDS__IsMaintenanceWelcome_WizardWelcome##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MaintenanceWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>50</td><td>196611</td><td/><td>##IDS__IsMaintenanceWelcome_MaintenanceOptionsDescription##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>MsiRMFilesInUse</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>MsiRMFilesInUse</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>MsiRMFilesInUse</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>MsiRMFilesInUse</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MsiRMFilesInUse</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -610,7 +612,7 @@
 		<row><td>MsiRMFilesInUse</td><td>List</td><td>ListBox</td><td>21</td><td>66</td><td>331</td><td>130</td><td>3</td><td>FileInUseProcess</td><td/><td>OK</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MsiRMFilesInUse</td><td>OK</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_OK##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>MsiRMFilesInUse</td><td>Restart</td><td>RadioButtonGroup</td><td>19</td><td>187</td><td>343</td><td>40</td><td>3</td><td>RestartManagerOption</td><td/><td>List</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>OutOfSpace</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>OutOfSpace</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>OutOfSpace</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>OutOfSpace</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>OutOfSpace</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -623,12 +625,12 @@
 		<row><td>PatchWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>PatchWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>PatchWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>PatchWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary1</td></row>
+		<row><td>PatchWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
 		<row><td>PatchWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsPatchDlg_Update##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>PatchWelcome</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>196611</td><td/><td>##IDS__IsPatchDlg_WelcomePatchWizard##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>PatchWelcome</td><td>TextLine2</td><td>Text</td><td>135</td><td>54</td><td>228</td><td>45</td><td>196611</td><td/><td>##IDS__IsPatchDlg_PatchClickUpdate##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadmeInformation</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1048579</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>ReadmeInformation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td>DlgTitle</td><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>ReadmeInformation</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td>DlgTitle</td><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>ReadmeInformation</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>ReadmeInformation</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
 		<row><td>ReadmeInformation</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
@@ -637,9 +639,9 @@
 		<row><td>ReadmeInformation</td><td>DlgLine</td><td>Line</td><td>48</td><td>234</td><td>326</td><td>0</td><td>3</td><td/><td/><td/><td/><td>0</td><td>0</td><td/><td/></row>
 		<row><td>ReadmeInformation</td><td>DlgTitle</td><td>Text</td><td>13</td><td>6</td><td>193</td><td>13</td><td>65539</td><td/><td>##IDS__IsReadmeDlg_ReadMeInfo##</td><td>DlgDesc</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadmeInformation</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>1048579</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>ReadmeInformation</td><td>Readme</td><td>ScrollableText</td><td>10</td><td>55</td><td>353</td><td>166</td><td>3</td><td/><td/><td>Banner</td><td/><td>0</td><td/><td>D:\PawelTroka-Projects\Computator.NET\docs\readme.rtf</td><td/></row>
+		<row><td>ReadmeInformation</td><td>Readme</td><td>ScrollableText</td><td>10</td><td>55</td><td>353</td><td>166</td><td>3</td><td/><td/><td>Banner</td><td/><td>0</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\docs\readme.rtf</td><td/></row>
 		<row><td>ReadyToInstall</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>GroupBox1</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>ReadyToInstall</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>ReadyToInstall</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>ReadyToInstall</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>ReadyToInstall</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadyToInstall</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -665,7 +667,7 @@
 		<row><td>ReadyToInstall</td><td>UserInformationText</td><td>Text</td><td>23</td><td>171</td><td>306</td><td>13</td><td>3</td><td/><td>##IDS__IsVerifyReadyDlg_UserInfo##</td><td>UserNameText</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadyToInstall</td><td>UserNameText</td><td>Text</td><td>38</td><td>184</td><td>306</td><td>9</td><td>3</td><td/><td>##IDS__IsVerifyReadyDlg_UserName##</td><td>CompanyNameText</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadyToRemove</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_BACK##</td><td>RemoveNow</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>ReadyToRemove</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>ReadyToRemove</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>ReadyToRemove</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>ReadyToRemove</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>ReadyToRemove</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -684,7 +686,7 @@
 		<row><td>SetupCompleteError</td><td>Finish</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsFatalError_Finish##</td><td>Image</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteError</td><td>FinishText1</td><td>Text</td><td>135</td><td>80</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsFatalError_NotModified##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteError</td><td>FinishText2</td><td>Text</td><td>135</td><td>135</td><td>228</td><td>25</td><td>65539</td><td/><td>##IDS__IsFatalError_ClickFinish##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupCompleteError</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td>CheckShowMsiLog</td><td/><td/><td/><td/><td>NewBinary1</td></row>
+		<row><td>SetupCompleteError</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td>CheckShowMsiLog</td><td/><td/><td/><td/><td>NewBinary21</td></row>
 		<row><td>SetupCompleteError</td><td>RestContText1</td><td>Text</td><td>135</td><td>80</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsFatalError_KeepOrRestore##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteError</td><td>RestContText2</td><td>Text</td><td>135</td><td>135</td><td>228</td><td>25</td><td>65539</td><td/><td>##IDS__IsFatalError_RestoreOrContinueLater##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteError</td><td>ShowMsiLogText</td><td>Text</td><td>164</td><td>172</td><td>198</td><td>10</td><td>65538</td><td/><td>##IDS__IsSetupComplete_ShowMsiLog##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -698,7 +700,7 @@
 		<row><td>SetupCompleteSuccess</td><td>CheckLaunchReadme</td><td>CheckBox</td><td>151</td><td>148</td><td>10</td><td>9</td><td>2</td><td>LAUNCHREADME</td><td/><td>CheckBoxUpdates</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>CheckShowMsiLog</td><td>CheckBox</td><td>151</td><td>182</td><td>10</td><td>9</td><td>2</td><td>ISSHOWMSILOG</td><td/><td>Back</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>SetupCompleteSuccess</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td>CheckLaunchProgram</td><td/><td/><td/><td/><td>NewBinary1</td></row>
+		<row><td>SetupCompleteSuccess</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td>CheckLaunchProgram</td><td/><td/><td/><td/><td>NewBinary21</td></row>
 		<row><td>SetupCompleteSuccess</td><td>LaunchProgramText</td><td>Text</td><td>164</td><td>112</td><td>98</td><td>15</td><td>65538</td><td/><td>##IDS__IsExitDialog_LaunchProgram##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>LaunchReadmeText</td><td>Text</td><td>164</td><td>148</td><td>120</td><td>13</td><td>65538</td><td/><td>##IDS__IsExitDialog_ShowReadMe##</td><td/><td/><td>0</td><td>0</td><td/><td/></row>
 		<row><td>SetupCompleteSuccess</td><td>OK</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsExitDialog_Finish##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
@@ -723,7 +725,7 @@
 		<row><td>SetupInitialization</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInitialization</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInitialization</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>SetupInitialization</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary1</td></row>
+		<row><td>SetupInitialization</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary21</td></row>
 		<row><td>SetupInitialization</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_NEXT##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInitialization</td><td>TextLine1</td><td>Text</td><td>135</td><td>8</td><td>225</td><td>45</td><td>196611</td><td/><td>##IDS__IsInitDlg_WelcomeWizard##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInitialization</td><td>TextLine2</td><td>Text</td><td>135</td><td>55</td><td>228</td><td>30</td><td>196611</td><td/><td>##IDS__IsInitDlg_PreparingWizard##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -734,7 +736,7 @@
 		<row><td>SetupInterrupted</td><td>Finish</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS__IsUserExit_Finish##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInterrupted</td><td>FinishText1</td><td>Text</td><td>135</td><td>80</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsUserExit_NotModified##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInterrupted</td><td>FinishText2</td><td>Text</td><td>135</td><td>135</td><td>228</td><td>25</td><td>65539</td><td/><td>##IDS__IsUserExit_ClickFinish##</td><td/><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupInterrupted</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td>CheckShowMsiLog</td><td/><td/><td/><td/><td>NewBinary1</td></row>
+		<row><td>SetupInterrupted</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td>CheckShowMsiLog</td><td/><td/><td/><td/><td>NewBinary21</td></row>
 		<row><td>SetupInterrupted</td><td>RestContText1</td><td>Text</td><td>135</td><td>80</td><td>228</td><td>50</td><td>65539</td><td/><td>##IDS__IsUserExit_KeepOrRestore##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInterrupted</td><td>RestContText2</td><td>Text</td><td>135</td><td>135</td><td>228</td><td>25</td><td>65539</td><td/><td>##IDS__IsUserExit_RestoreOrContinue##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupInterrupted</td><td>ShowMsiLogText</td><td>Text</td><td>164</td><td>172</td><td>198</td><td>10</td><td>65538</td><td/><td>##IDS__IsSetupComplete_ShowMsiLog##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -743,7 +745,7 @@
 		<row><td>SetupProgress</td><td>ActionProgress95</td><td>ProgressBar</td><td>59</td><td>113</td><td>275</td><td>12</td><td>65537</td><td/><td>##IDS__IsProgressDlg_ProgressDone##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupProgress</td><td>ActionText</td><td>Text</td><td>59</td><td>100</td><td>275</td><td>12</td><td>3</td><td/><td>##IDS__IsProgressDlg_2##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupProgress</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>SetupProgress</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary5</td></row>
+		<row><td>SetupProgress</td><td>Banner</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>44</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td>NewBinary22</td></row>
 		<row><td>SetupProgress</td><td>BannerLine</td><td>Line</td><td>0</td><td>44</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 		<row><td>SetupProgress</td><td>Branding1</td><td>Text</td><td>4</td><td>229</td><td>50</td><td>13</td><td>3</td><td/><td>##IDS_INSTALLSHIELD_FORMATTED##</td><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>SetupProgress</td><td>Branding2</td><td>Text</td><td>3</td><td>228</td><td>50</td><td>13</td><td>65537</td><td/><td>##IDS_INSTALLSHIELD##</td><td/><td/><td>0</td><td/><td/><td/></row>
@@ -1117,7 +1119,7 @@
 		<row><td>LaunchProgramFileFromSetupCompleteSuccess</td><td>1</td><td>NewBinary19</td><td>LaunchProgram</td><td/><td/></row>
 		<row><td>LaunchReadmeFileFromSetupCompleteSuccess</td><td>1</td><td>NewBinary19</td><td>LaunchReadMe</td><td/><td/></row>
 		<row><td>SetARPINSTALLLOCATION</td><td>51</td><td>ARPINSTALLLOCATION</td><td>[INSTALLDIR]</td><td/><td/></row>
-		<row><td>SetARPReadme</td><td>51</td><td>ARPREADME</td><td>D:\PawelTroka-Projects\Computator.NET\docs\readme.rtf</td><td/><td/></row>
+		<row><td>SetARPReadme</td><td>51</td><td>ARPREADME</td><td>&lt;ISPROJECTFOLDER&gt;..\docs\readme.rtf</td><td/><td/></row>
 		<row><td>SetAllUsersProfileNT</td><td>51</td><td>ALLUSERSPROFILE</td><td>[%SystemRoot]\Profiles\All Users</td><td/><td/></row>
 		<row><td>ShowMsiLog</td><td>226</td><td>SystemFolder</td><td>[SystemFolder]notepad.exe "[MsiLogFileLocation]"</td><td/><td>Shows Property-driven MSI Log</td></row>
 		<row><td>setAllUsersProfile2K</td><td>51</td><td>ALLUSERSPROFILE</td><td>[%ALLUSERSPROFILE]</td><td/><td/></row>
@@ -1947,33 +1949,33 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>cambria.ttc</td><td>ISX_DEFAULTCOMPONENT3</td><td>CAMBRIA.TTC</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\UI\fonts\CAMBRIA.TTC</td><td>1</td><td/></row>
+		<row><td>cambria.ttc</td><td>ISX_DEFAULTCOMPONENT3</td><td>CAMBRIA.TTC</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\UI\fonts\CAMBRIA.TTC</td><td>1</td><td/></row>
 		<row><td>computator.net.charting.loca</td><td>Computator.NET.Charting.Localized_resources</td><td>Computator.NET.Charting.Localized resources</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.charting.prim</td><td>Computator.NET.Charting.Primary_output</td><td>Computator.NET.Charting.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.content_files</td><td>Computator.NET.Content_Files</td><td>Computator.NET.Content Files</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>computator.net.datatypes.pri</td><td>Computator.NET.DataTypes.Primary_output</td><td>Computator.NET.DataTypes.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.localized_res</td><td>Computator.NET.Localized_resources</td><td>Computator.NET.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.primary_outpu</td><td>Computator.NET.Primary_output</td><td>Computator.NET.Primary output</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|Built</td><td>3</td><td/></row>
-		<row><td>consola.ttf</td><td>ISX_DEFAULTCOMPONENT3</td><td>consola.ttf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\UI\fonts\consola.ttf</td><td>1</td><td/></row>
-		<row><td>example00_typesandsyntax.tsl</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example00_TypesAndSyntax.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl</td><td>1</td><td/></row>
-		<row><td>example01_inputandoutput.tsl</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example01_InputAndOutput.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example01_InputAndOutput.tsl</td><td>1</td><td/></row>
-		<row><td>example02_basicfunctionsusag</td><td>ISX_DEFAULTCOMPONENT5</td><td>EXAMPL~1.TSL|Example02_BasicFunctionsUsage.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf</td><td>1</td><td/></row>
-		<row><td>example02_basicfunctionsusag1</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example02_BasicFunctionsUsage.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example02_BasicFunctionsUsage.tsl</td><td>1</td><td/></row>
-		<row><td>example03_passingbyreference</td><td>ISX_DEFAULTCOMPONENT5</td><td>EXAMPL~1.TSL|Example03_PassingByReference.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\Example03_PassingByReference.tslf</td><td>1</td><td/></row>
-		<row><td>example03_passingbyreference1</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example03_PassingByReference.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example03_PassingByReference.tsl</td><td>1</td><td/></row>
-		<row><td>example04_matrixoperations.t</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example04_MatrixOperations.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example04_MatrixOperations.tsl</td><td>1</td><td/></row>
-		<row><td>example05_filesinputandoutpu</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example05_FilesInputAndOutput.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example05_FilesInputAndOutput.tsl</td><td>1</td><td/></row>
-		<row><td>example06_vectorsandmatrices</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example06_VectorsAndMatrices.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example06_VectorsAndMatrices.tsl</td><td>1</td><td/></row>
-		<row><td>example07_functionsandplotti</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example07_FunctionsAndPlotting.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example07_FunctionsAndPlotting.tsl</td><td>1</td><td/></row>
-		<row><td>example08_solvingequations.t</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example08_SolvingEquations.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example08_SolvingEquations.tsl</td><td>1</td><td/></row>
-		<row><td>example09_matrixdecompositio</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example09_MatrixDecompositions.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example09_MatrixDecompositions.tsl</td><td>1</td><td/></row>
-		<row><td>example10_simpleplotofpoints</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example10_SimplePlotOfPoints.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl</td><td>1</td><td/></row>
-		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
-		<row><td>regid.2014_01.dk.fizyka_soft</td><td>ISO19770_SystemTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
-		<row><td>regid.2014_01.dk.fizyka_soft1</td><td>ISO19770_LocalTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
-		<row><td>system.io.dll</td><td>System.IO.dll</td><td>SYSTEM~1.DLL|System.IO.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</td><td>1</td><td/></row>
-		<row><td>system.runtime.dll</td><td>System.Runtime.dll</td><td>SYSTEM~1.DLL|System.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</td><td>1</td><td/></row>
-		<row><td>system.threading.tasks.dll</td><td>System.Threading.Tasks.dll</td><td>SYSTEM~1.DLL|System.Threading.Tasks.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\PawelTroka-Projects\Computator.NET\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</td><td>1</td><td/></row>
+		<row><td>consola.ttf</td><td>ISX_DEFAULTCOMPONENT3</td><td>consola.ttf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\UI\fonts\consola.ttf</td><td>1</td><td/></row>
+		<row><td>example00_typesandsyntax.tsl</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example00_TypesAndSyntax.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl</td><td>1</td><td/></row>
+		<row><td>example01_inputandoutput.tsl</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example01_InputAndOutput.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example01_InputAndOutput.tsl</td><td>1</td><td/></row>
+		<row><td>example02_basicfunctionsusag</td><td>ISX_DEFAULTCOMPONENT5</td><td>EXAMPL~1.TSL|Example02_BasicFunctionsUsage.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf</td><td>1</td><td/></row>
+		<row><td>example02_basicfunctionsusag1</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example02_BasicFunctionsUsage.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example02_BasicFunctionsUsage.tsl</td><td>1</td><td/></row>
+		<row><td>example03_passingbyreference</td><td>ISX_DEFAULTCOMPONENT5</td><td>EXAMPL~1.TSL|Example03_PassingByReference.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_CustomFunctions\Example03_PassingByReference.tslf</td><td>1</td><td/></row>
+		<row><td>example03_passingbyreference1</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example03_PassingByReference.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example03_PassingByReference.tsl</td><td>1</td><td/></row>
+		<row><td>example04_matrixoperations.t</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example04_MatrixOperations.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example04_MatrixOperations.tsl</td><td>1</td><td/></row>
+		<row><td>example05_filesinputandoutpu</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example05_FilesInputAndOutput.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example05_FilesInputAndOutput.tsl</td><td>1</td><td/></row>
+		<row><td>example06_vectorsandmatrices</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example06_VectorsAndMatrices.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example06_VectorsAndMatrices.tsl</td><td>1</td><td/></row>
+		<row><td>example07_functionsandplotti</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example07_FunctionsAndPlotting.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example07_FunctionsAndPlotting.tsl</td><td>1</td><td/></row>
+		<row><td>example08_solvingequations.t</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example08_SolvingEquations.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example08_SolvingEquations.tsl</td><td>1</td><td/></row>
+		<row><td>example09_matrixdecompositio</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example09_MatrixDecompositions.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example09_MatrixDecompositions.tsl</td><td>1</td><td/></row>
+		<row><td>example10_simpleplotofpoints</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example10_SimplePlotOfPoints.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl</td><td>1</td><td/></row>
+		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
+		<row><td>regid.2014_01.dk.fizyka_soft</td><td>ISO19770_SystemTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
+		<row><td>regid.2014_01.dk.fizyka_soft1</td><td>ISO19770_LocalTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
+		<row><td>system.io.dll</td><td>System.IO.dll</td><td>SYSTEM~1.DLL|System.IO.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</td><td>1</td><td/></row>
+		<row><td>system.runtime.dll</td><td>System.Runtime.dll</td><td>SYSTEM~1.DLL|System.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</td><td>1</td><td/></row>
+		<row><td>system.threading.tasks.dll</td><td>System.Threading.Tasks.dll</td><td>SYSTEM~1.DLL|System.Threading.Tasks.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -4005,8 +4007,8 @@
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Computator.NET\Graphics\computator.net-logo.ico</td><td>0</td></row>
 		<row><td>NewShortcut1_A525FDCF0AAE4B4580240CAFF85F22D1.exe</td><td/><td>C:\Program Files (x86)\InstallShield\2015LE\Redist\Language Independent\OS Independent\uninstall.ico</td><td>0</td></row>
 		<row><td>_572423EC_23D9_433A_8683_A9607C0FFF6A</td><td/><td>&lt;VSSolutionFolder&gt;\Computator.NET\Graphics\tsl.ico</td><td>0</td></row>
-		<row><td>_60A0F3472BCF47B0A24735CBA3DA768F.exe</td><td/><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\bin\Release\Computator.NET.exe</td><td>0</td></row>
-		<row><td>_61242130417C41C6894BE2A2F16D6161.exe</td><td/><td>D:\PawelTroka-Projects\Computator.NET\Computator.NET\bin\Release\Computator.NET.exe</td><td>0</td></row>
+		<row><td>_60A0F3472BCF47B0A24735CBA3DA768F.exe</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\bin\Release\Computator.NET.exe</td><td>0</td></row>
+		<row><td>_61242130417C41C6894BE2A2F16D6161.exe</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\bin\Release\Computator.NET.exe</td><td>0</td></row>
 		<row><td>_8C2A6A4B_7ED0_4770_A282_DBE2BD474D86</td><td/><td>&lt;VSSolutionFolder&gt;\Computator.NET\Graphics\tsl.ico</td><td>0</td></row>
 		<row><td>_Built1_5D84239BDCB84C40A3DC7AEB381989D8.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Computator.NET\Graphics\computator.net-logo.ico</td><td>0</td></row>
 		<row><td>_Built_48823D3A4CE1401585D159BF775DB85E.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Computator.NET\Graphics\computator.net-logo.ico</td><td>0</td></row>
@@ -4461,7 +4463,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ARPHELPTELEPHONE</td><td>##ID_STRING5##</td><td/></row>
 		<row><td>ARPINSTALLLOCATION</td><td/><td/></row>
 		<row><td>ARPPRODUCTICON</td><td>ARPPRODUCTICON.exe</td><td/></row>
-		<row><td>ARPREADME</td><td>D:\PawelTroka-Projects\Computator.NET\docs\readme.rtf</td><td/></row>
+		<row><td>ARPREADME</td><td>&lt;ISPROJECTFOLDER&gt;..\docs\readme.rtf</td><td/></row>
 		<row><td>ARPSIZE</td><td/><td/></row>
 		<row><td>ARPURLINFOABOUT</td><td>##ID_STRING2##</td><td/></row>
 		<row><td>ARPURLUPDATEINFO</td><td>##ID_STRING6##</td><td/></row>
@@ -4501,7 +4503,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>IS_SQLSERVER_USERNAME</td><td>sa</td><td/></row>
 		<row><td>InstallChoice</td><td>AR</td><td/></row>
 		<row><td>LAUNCHPREADMECOMPCODE</td><td>{22F900B2-F6ED-49B9-9F25-0245378E544D}</td><td/></row>
-		<row><td>LAUNCHPREADMEFILEKEY</td><td>computator.net.content_files</td><td/></row>
+		<row><td>LAUNCHPREADMEFILEKEY</td><td>CHANGELOG</td><td/></row>
 		<row><td>LAUNCHPROGRAM</td><td>1</td><td/></row>
 		<row><td>LAUNCHPROGRAMCOMPCODE</td><td>{62C6C3A0-32A0-4EEB-8984-72C4B29D07D0}</td><td/></row>
 		<row><td>LAUNCHPROGRAMFILEKEY</td><td>computator.net.primary_outpu</td><td/></row>
@@ -4539,7 +4541,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
 		<row><td>ProgressType3</td><td>installs</td><td/></row>
-		<row><td>READMEFILETOLAUNCHATEND</td><td>[INSTALLDIR]Computator.NET.Content Files</td><td/></row>
+		<row><td>READMEFILETOLAUNCHATEND</td><td>[INSTALLDIR]CHANGELOG</td><td/></row>
 		<row><td>RebootYesNo</td><td>Yes</td><td/></row>
 		<row><td>ReinstallFileVersion</td><td>o</td><td/></row>
 		<row><td>ReinstallModeText</td><td>omus</td><td/></row>
