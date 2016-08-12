@@ -253,7 +253,7 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<row><td>ISExpHlp.dll</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\ISExpHlp.dll</td></row>
 		<row><td>ISSELFREG.DLL</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\isregsvr.dll</td></row>
-		<row><td>NewBinary1</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\Installer\InstallShield Computator.NET Theme\welcome.jpg</td></row>
+		<row><td>NewBinary1</td><td/><td>&lt;ISPROJECTFOLDER&gt;Graphics\InstallShield Computator.NET Theme\welcome.jpg</td></row>
 		<row><td>NewBinary10</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CompleteSetupIco.ibd</td></row>
 		<row><td>NewBinary11</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CustomSetupIco.ibd</td></row>
 		<row><td>NewBinary12</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\DestIcon.ibd</td></row>
@@ -266,11 +266,11 @@
 		<row><td>NewBinary19</td><td/><td>&lt;ISProductFolder&gt;\redist\Language independent\i386\SerialNumCAHelper.dll</td></row>
 		<row><td>NewBinary2</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\New.ibd</td></row>
 		<row><td>NewBinary20</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\computator.gif</td></row>
-		<row><td>NewBinary21</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\Installer\InstallShield Computator.NET Theme\welcome.jpg</td></row>
-		<row><td>NewBinary22</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\Installer\InstallShield Computator.NET Theme\banner.jpg</td></row>
+		<row><td>NewBinary21</td><td/><td>&lt;ISPROJECTFOLDER&gt;Graphics\InstallShield Computator.NET Theme\welcome.jpg</td></row>
+		<row><td>NewBinary22</td><td/><td>&lt;ISPROJECTFOLDER&gt;Graphics\InstallShield Computator.NET Theme\banner.jpg</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
 		<row><td>NewBinary4</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\WarningIcon.ibd</td></row>
-		<row><td>NewBinary5</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\Graphics\Installer\InstallShield Computator.NET Theme\banner.jpg</td></row>
+		<row><td>NewBinary5</td><td/><td>&lt;ISPROJECTFOLDER&gt;Graphics\InstallShield Computator.NET Theme\banner.jpg</td></row>
 		<row><td>NewBinary6</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\CustomSetupIco.ibd</td></row>
 		<row><td>NewBinary7</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\ReinstIco.ibd</td></row>
 		<row><td>NewBinary8</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\RemoveIco.ibd</td></row>

@@ -1,10 +1,11 @@
  * Computator.NET, 2014-2016, Pawel Troka, pawel.troka@outlook.com
 
- ### --------- Unreleased -----------  11.08.2016 11:48
+ ### --------- Unreleased -----------  12.08.2016 13:39
  * = GSL is now statically linked so Visual C++ Redistributable is not longer needed
  * = Build process is optimized - Release is faster and Debug is safer
  * = Some assembly informations are now shared for all projects
  * = Version is now unified Major.Minor.Bugfix.BuildNumber across all projects and with automatic BuildNumber increment after each build
+ * = Installer should now show correct images even on Windows XP
 
 
  ### --------- Version 2.1.0ß - beta -----------  02.06.2016 18:20

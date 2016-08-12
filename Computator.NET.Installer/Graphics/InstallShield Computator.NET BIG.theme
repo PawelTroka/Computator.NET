@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Theme Name="InstallShield Computator.NET Theme" Path="InstallShield Computator.NET Theme" Preview="preview.jpg" SetupImage="setup.gif">
+<Theme Name="InstallShield Computator.NET Theme" Path="InstallShield Computator.NET BIG Theme" Preview="preview.jpg" SetupImage="setup.gif">
 	<Name lang="1041">InstallShield Computator.NET テーマ</Name>
 	<Transform id="splash">
 		<Add Control="DlgLine" Type="Line" Region="0 318 1024 0" Attributes="1"/>
