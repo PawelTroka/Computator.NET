@@ -5,8 +5,10 @@ namespace Computator.NET.UI.Menus.Commands
 {
     internal class RunCommand : CommandBase
     {
-        public RunCommand()
+        private ISharedViewState _sharedViewState;
+        public RunCommand(ISharedViewState sharedViewState)
         {
+            _sharedViewState = sharedViewState;
             Icon = Resources.runToolStripButtonImage;
             Text = MenuStrings.runToolStripButton_Text;
             ToolTip = MenuStrings.runToolStripButton_Text;
@@ -15,7 +17,7 @@ namespace Computator.NET.UI.Menus.Commands
 
         public override void Execute()
         {
-            SharedViewState.Instance.CurrentAction.Invoke(this, new EventArgs());
+            _sharedViewState.CurrentAction.Invoke(this, new EventArgs());
         }
     }
 }

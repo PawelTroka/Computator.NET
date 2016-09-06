@@ -7,6 +7,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 
     internal class SeriesCommand : DummyCommand
     {
+        private ISharedViewState _sharedViewState;
         /*private class SeriesOption : ChartOption
  {
 
@@ -21,10 +22,11 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
      }
  }*/
 
-        public SeriesCommand() : base(MenuStrings.series_Text)
+        public SeriesCommand(ISharedViewState sharedViewState) : base(MenuStrings.series_Text)
         {
-            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
-                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real);
+            _sharedViewState = sharedViewState;
+            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CalculationsMode),
+                () => Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real);
         }
     }
 }

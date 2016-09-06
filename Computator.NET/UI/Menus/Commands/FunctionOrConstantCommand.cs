@@ -11,15 +11,16 @@ namespace Computator.NET.UI.Menus.Commands
         private readonly ITextProvider _customFunctionsTextProvider;
         private readonly ITextProvider _expressionTextProvider;
         private readonly ITextProvider _scriptingTextProvider;
-
+        private ISharedViewState _sharedViewState;
         public FunctionOrConstantCommand(string text, string toolTip, ITextProvider expressionTextProvider,
-            ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider)
+            ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider, ISharedViewState sharedViewState)
         {
             Text = text;
             ToolTip = toolTip;
             _expressionTextProvider = expressionTextProvider;
             _scriptingTextProvider = scriptingTextProvider;
             _customFunctionsTextProvider = customFunctionsTextProvider;
+            _sharedViewState = sharedViewState;
         }
 
 
@@ -38,14 +39,14 @@ namespace Computator.NET.UI.Menus.Commands
             }
             else
             {
-                if ((int) SharedViewState.Instance.CurrentView < 4)
+                if ((int) _sharedViewState.CurrentView < 4)
 
                     _expressionTextProvider.Text += Text;
-                else if ((int) SharedViewState.Instance.CurrentView == 4)
+                else if ((int) _sharedViewState.CurrentView == 4)
                 {
                     _scriptingTextProvider.Text += Text;
                 }
-                else if ((int) SharedViewState.Instance.CurrentView == 5)
+                else if ((int) _sharedViewState.CurrentView == 5)
 
 
                     _customFunctionsTextProvider.Text += Text;

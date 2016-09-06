@@ -8,16 +8,18 @@ namespace Computator.NET.UI.Menus.Commands
 {
     internal class TransformOptionCommand : BaseCommandForCharts
     {
-        public TransformOptionCommand(string text, string toolTip, ReadOnlyDictionary<CalculationsMode, IChart> charts)
+        private ISharedViewState _sharedViewState;
+        public TransformOptionCommand(string text, string toolTip, ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(charts)
         {
+            _sharedViewState = sharedViewState;
             Text = text;
             ToolTip = toolTip;
         }
 
         public override void Execute()
         {
-            if (SharedViewState.Instance.CalculationsMode == CalculationsMode.Real)
+            if (_sharedViewState.CalculationsMode == CalculationsMode.Real)
 
                 chart2d.Transform(
                     points => MathematicalTransformations.Transform(points, Text),

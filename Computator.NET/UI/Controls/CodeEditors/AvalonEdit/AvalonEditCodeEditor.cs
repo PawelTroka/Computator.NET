@@ -33,6 +33,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
 {
     internal class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
     {
+        private ISharedViewState _sharedViewState;
         private readonly Dictionary<string, TextDocument>
             _documents;
 
@@ -51,8 +52,9 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
         private SearchPanel searchPanel;
         private readonly OffsetColorizer _offsetColorizer = new OffsetColorizer();
 
-        public AvalonEditCodeEditor()
+        public AvalonEditCodeEditor(ISharedViewState sharedViewState)
         {
+            _sharedViewState = sharedViewState;
             completionDatas =
                 AutocompletionData.ConvertAutocompleteItemsToCompletionDatas(
                     AutocompletionData.GetAutocompleteItemsForScripting());
@@ -335,13 +337,13 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
                 (Keyboard.Modifiers & ModifierKeys.Shift) ==
                 ModifierKeys.Shift)
             {
-                SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
+                _sharedViewState.IsExponent = !_sharedViewState.IsExponent;
 
                 e.Handled = true;
                 return;
             }
 
-            if (SharedViewState.Instance.IsExponent)
+            if (_sharedViewState.IsExponent)
             {
                 var ch = GetCharFromKey(e.Key);
                 if (SpecialSymbols.IsAscii(ch))

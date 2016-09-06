@@ -14,11 +14,10 @@ namespace Computator.NET.UI.ErrorHandling
 
     public class ExceptionsHandler
     {
-        private ExceptionsHandler()
+        private ExceptionsHandler(ISharedViewState sharedViewState)
         {
+            _sharedViewState = sharedViewState;
         }
-
-        public static ExceptionsHandler Instance { get; } = new ExceptionsHandler();
 
         public void HandleException(Exception ex, IErrorHandler _errorHandler)
         {
@@ -34,6 +33,7 @@ namespace Computator.NET.UI.ErrorHandling
             }
         }
 
+        private ISharedViewState _sharedViewState;
         private void HandleCustomFunctionsErrors(CompilationException exception)
         {
             //CustomFunctionsCodeEditorControl.ClearHighlightedErrors();
@@ -44,14 +44,14 @@ namespace Computator.NET.UI.ErrorHandling
 
             //   EventAggregator.Instance.Publish<ErrorsInCustomFunctionsEvent>(new ErrorsInCustomFunctionsEvent(exception.Errors[CompilationErrorPlace.CustomFunctions]));
 
-            SharedViewState.Instance.CustomFunctionsEditor.HighlightErrors(
+            _sharedViewState.CustomFunctionsEditor.HighlightErrors(
                 exception.Errors[CompilationErrorPlace.CustomFunctions]);
 
             // CustomFunctionsCodeEditorControl.HighlightErrors(
             //   exception.Errors[CompilationErrorPlace.CustomFunctions]);
 
             if (exception.HasCustomFunctionsErrors && !exception.HasMainCodeErrors)
-                SharedViewState.Instance.CurrentView = ViewName.CustomFunctions;
+                _sharedViewState.CurrentView = ViewName.CustomFunctions;
                     ///////////////////////////EventAggregator.Instance.Publish(new ChangeViewEvent(ViewName.CustomFunctions));
             //_view.SelectedViewIndex = 5; //tabControl1.SelectedTab = customFunctionsTabPage;
         }

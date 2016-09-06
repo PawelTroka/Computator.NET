@@ -15,6 +15,7 @@ using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
 using Computator.NET.UI.Presenters;
 using Computator.NET.UI.Views;
+using Microsoft.Practices.Unity;
 
 namespace Computator.NET
 {
@@ -47,6 +48,7 @@ namespace Computator.NET
             Application.SetCompatibleTextRenderingDefault(false);
             Application.AddMessageFilter(new MyMessageFilter());
 
+
             var mainForm = new MainForm();
 
             SetPresenters(mainForm);
@@ -60,6 +62,25 @@ namespace Computator.NET
 
         private static void SetPresenters(IMainForm mainForm)
         {
+            var container = new UnityContainer();
+
+            container.RegisterType<IMainForm, MainForm>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<IChartingView, ChartingView>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IChartAreaValuesView, ChartAreaValuesView>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<ICalculationsView, CalculationsView>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<INumericalCalculationsView, NumericalCalculationsView>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<IScriptingView, ScriptingView>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISolutionExplorerView, SolutionExplorerView>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<ICustomFunctionsView, CustomFunctionsView>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
+
             var mainFormPresenter = new MainFormPresenter(mainForm);
             var chartingViewPresenter = new ChartingViewPresenter(mainForm.ChartingView, SimpleErrorHandler.Instance);
             var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView,

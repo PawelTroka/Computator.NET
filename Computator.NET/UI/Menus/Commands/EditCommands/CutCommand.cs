@@ -9,9 +9,10 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly IMainForm mainFormView;
         private readonly ICanFileEdit scriptingCodeEditor;
+        private ISharedViewState _sharedViewState;
 
         public CutCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
-            IMainForm mainFormView)
+            IMainForm mainFormView, ISharedViewState sharedViewState)
         {
             Icon = Resources.cutToolStripButtonImage;
             Text = MenuStrings.cutToolStripButton_Text;
@@ -20,13 +21,14 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
+            _sharedViewState = sharedViewState;
             // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            switch ((int) SharedViewState.Instance.CurrentView)
+            switch ((int) _sharedViewState.CurrentView)
             {
                 case 4:
                     if (scriptingCodeEditor.Focused)
@@ -42,7 +44,7 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
                         mainFormView.SendStringAsKey("^X");
                     break;
 
-                default: //if ((int)SharedViewState.Instance.CurrentView < 4)
+                default: //if ((int)_sharedViewState.CurrentView < 4)
                     mainFormView.SendStringAsKey("^X"); //expressionTextBox.Cut();
                     break;
             }

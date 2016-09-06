@@ -4,19 +4,23 @@ namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {
     internal class ChartCommand : DummyCommand
     {
-        public ChartCommand() : base(MenuStrings.chartToolStripMenuItem_Text)
+        private ISharedViewState _sharedViewState;
+        public ChartCommand(ISharedViewState sharedViewState) : base(MenuStrings.chartToolStripMenuItem_Text)
         {
-            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CurrentView),
-                () => IsEnabled = SharedViewState.Instance.CurrentView == ViewName.Charting);
+            _sharedViewState = sharedViewState;
+            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CurrentView),
+                () => IsEnabled = _sharedViewState.CurrentView == ViewName.Charting);
         }
     }
 
     internal class TransformCommand : DummyCommand
     {
-        public TransformCommand() : base(MenuStrings.transformToolStripMenuItem_Text)
+        private ISharedViewState _sharedViewState;
+        public TransformCommand(ISharedViewState sharedViewState) : base(MenuStrings.transformToolStripMenuItem_Text)
         {
-            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CurrentView),
-                () => IsEnabled = SharedViewState.Instance.CurrentView == ViewName.Charting);
+            _sharedViewState = sharedViewState;
+            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CurrentView),
+                () => IsEnabled = _sharedViewState.CurrentView == ViewName.Charting);
         }
     }
 }

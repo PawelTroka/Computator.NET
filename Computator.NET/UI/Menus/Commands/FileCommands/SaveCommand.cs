@@ -7,9 +7,9 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;
+        private ISharedViewState _sharedViewState;
 
-
-        public SaveCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
+        public SaveCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState)
         {
             ShortcutKeyString = "Ctrl+S";
             Icon = Resources.saveToolStripButtonImage;
@@ -18,13 +18,14 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
 
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
+            _sharedViewState = sharedViewState;
             // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            switch ((int) SharedViewState.Instance.CurrentView)
+            switch ((int) _sharedViewState.CurrentView)
             {
                 case 0:
 

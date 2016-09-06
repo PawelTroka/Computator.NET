@@ -14,18 +14,19 @@ namespace Computator.NET.UI.Presenters
         private readonly IErrorHandler _errorHandler;
         private readonly ExpressionsEvaluator _expressionsEvaluator = new ExpressionsEvaluator();
         private readonly IChartingView _view;
-
+        private ISharedViewState _sharedViewState;
         private CalculationsMode _calculationsMode;
 
-        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler)
+        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState)
         {
             _view = view;
             _errorHandler = errorHandler;
+            _sharedViewState = sharedViewState;
 
             var chartAreaValuesViewPresenter = new ChartAreaValuesPresenter(_view.ChartAreaValuesView);
 
 
-            SharedViewState.Instance.DefaultActions[ViewName.Charting] = ChartAreaValuesView1_AddClicked;
+            _sharedViewState.DefaultActions[ViewName.Charting] = ChartAreaValuesView1_AddClicked;
 
 
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(mode => SetMode(mode.CalculationsMode));
@@ -69,13 +70,13 @@ namespace Computator.NET.UI.Presenters
 
         private void ChartAreaValuesView1_AddClicked(object sender, EventArgs e)
         {
-            if (SharedViewState.Instance.ExpressionText != "")
+            if (_sharedViewState.ExpressionText != "")
             {
                 try
                 {
-                    SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
-                    CurrentChart.AddFunction(_expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText,
-                        SharedViewState.Instance.CustomFunctionsText,
+                    _sharedViewState.CustomFunctionsEditor.ClearHighlightedErrors();
+                    CurrentChart.AddFunction(_expressionsEvaluator.Evaluate(_sharedViewState.ExpressionText,
+                        _sharedViewState.CustomFunctionsText,
                         _calculationsMode));
                 }
                 catch (Exception ex)

@@ -10,34 +10,35 @@ namespace Computator.NET.UI.Presenters
     {
         private readonly IExpressionView _view;
         private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
+        private ISharedViewState _sharedViewState;
 
-
-        public ExpressionViewPresenter(IExpressionView view)
+        public ExpressionViewPresenter(IExpressionView view, ISharedViewState sharedViewState)
         {
             _view = view;
+            _sharedViewState = sharedViewState;
             _view.ExpressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             _view.ExpressionTextBox.KeyPress += ExpressionTextBox_KeyPress;
 
-            SharedViewState.Instance.PropertyChanged += (o, e) =>
+            _sharedViewState.PropertyChanged += (o, e) =>
             {
-                if (e.PropertyName == nameof(SharedViewState.Instance.CurrentView))
+                if (e.PropertyName == nameof(_sharedViewState.CurrentView))
                     _view.Visible =
-                        !(SharedViewState.Instance.CurrentView == ViewName.Scripting ||
-                          SharedViewState.Instance.CurrentView == ViewName.CustomFunctions);
+                        !(_sharedViewState.CurrentView == ViewName.Scripting ||
+                          _sharedViewState.CurrentView == ViewName.CustomFunctions);
             };
         }
 
         private void ExpressionTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == 13) //enter
-                SharedViewState.Instance.CurrentAction?.Invoke(this, e);
+                _sharedViewState.CurrentAction?.Invoke(this, e);
         }
 
         private void ExpressionTextBox_TextChanged(object sender, EventArgs e)
         {
-            var mode = modeDeterminer.DetermineMode(SharedViewState.Instance.ExpressionText);
-            if (mode == SharedViewState.Instance.CalculationsMode) return;
-            SharedViewState.Instance.CalculationsMode = mode;
+            var mode = modeDeterminer.DetermineMode(_sharedViewState.ExpressionText);
+            if (mode == _sharedViewState.CalculationsMode) return;
+            _sharedViewState.CalculationsMode = mode;
             EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(mode));
         }
     }

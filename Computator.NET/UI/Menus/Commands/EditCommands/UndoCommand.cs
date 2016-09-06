@@ -8,9 +8,10 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly IMainForm mainFormView;
         private readonly ICanFileEdit scriptingCodeEditor;
+        private ISharedViewState _sharedViewState;
 
         public UndoCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
-            IMainForm mainFormView)
+            IMainForm mainFormView, ISharedViewState sharedViewState)
         {
             //this.Icon = Resources.copyToolStripButtonImage;
             Text = MenuStrings.undoToolStripMenuItem_Text;
@@ -19,15 +20,16 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             this.mainFormView = mainFormView;
+            _sharedViewState = sharedViewState;
             // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            if ((int) SharedViewState.Instance.CurrentView < 4)
+            if ((int) _sharedViewState.CurrentView < 4)
                 mainFormView.SendStringAsKey("^Z"); //expressionTextBox.Undo();
-            else if ((int) SharedViewState.Instance.CurrentView == 4)
+            else if ((int) _sharedViewState.CurrentView == 4)
             {
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Undo();

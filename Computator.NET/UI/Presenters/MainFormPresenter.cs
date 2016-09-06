@@ -20,14 +20,15 @@ namespace Computator.NET.UI.Presenters
     public class MainFormPresenter
     {
         private readonly IMainForm _view;
-
+        private ISharedViewState _sharedViewState;
 
         private CalculationsMode _calculationsMode;
         private bool _applicationNeedRestart;
 
-        public MainFormPresenter(IMainForm view)
+        public MainFormPresenter(IMainForm view, ISharedViewState sharedViewState)
         {
             _view = view;
+            _sharedViewState = sharedViewState;
             _view.Load += (sender, args) => HandleCommandLine();
             _view.ToolbarView.SetCommands(new List<IToolbarCommand>
             {
@@ -54,7 +55,7 @@ namespace Computator.NET.UI.Presenters
 
             _view.MenuStripView.SetCommands(MenuStripCommandBuilder.BuildMenuStripCommands(_view));
 
-            //  _view.EnterClicked += (o, e) => SharedViewState.Instance.CurrentAction?.Invoke(o, e);
+            //  _view.EnterClicked += (o, e) => _sharedViewState.CurrentAction?.Invoke(o, e);
 
             var expressionViewPresenter = new ExpressionViewPresenter(_view.ExpressionView);
 
@@ -99,12 +100,12 @@ namespace Computator.NET.UI.Presenters
 
             ///////EventAggregator.Instance.Subscribe<ChangeViewEvent>(cv => { _view.SelectedViewIndex = (int) cv.View; });
 
-            SharedViewState.Instance.PropertyChanged += (o, e) =>
+            _sharedViewState.PropertyChanged += (o, e) =>
             {
                 switch (e.PropertyName)
                 {
-                    case nameof(SharedViewState.Instance.CurrentView):
-                        _view.SelectedViewIndex = (int)SharedViewState.Instance.CurrentView;
+                    case nameof(_sharedViewState.CurrentView):
+                        _view.SelectedViewIndex = (int)_sharedViewState.CurrentView;
                         break;
                 }
             };
@@ -116,7 +117,7 @@ namespace Computator.NET.UI.Presenters
 
         private void _view_SelectedViewChanged(object sender, EventArgs e)
         {
-            SharedViewState.Instance.CurrentView = (ViewName)_view.SelectedViewIndex;
+            _sharedViewState.CurrentView = (ViewName)_view.SelectedViewIndex;
         }
 
 
@@ -130,13 +131,13 @@ namespace Computator.NET.UI.Presenters
             {
                 _view.CustomFunctionsView.CustomFunctionsEditor.NewDocument(args[1]);
                 _view.CustomFunctionsView.CustomFunctionsEditor.CurrentFileName = args[1];
-                SharedViewState.Instance.CurrentView = ViewName.CustomFunctions;
+                _sharedViewState.CurrentView = ViewName.CustomFunctions;
             }
             else
             {
                 _view.ScriptingView.CodeEditorView.NewDocument(args[1]);
                 _view.ScriptingView.CodeEditorView.CurrentFileName = args[1];
-                SharedViewState.Instance.CurrentView = ViewName.Scripting;
+                _sharedViewState.CurrentView = ViewName.Scripting;
             }
         }
 

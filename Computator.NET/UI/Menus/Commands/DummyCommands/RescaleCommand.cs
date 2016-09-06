@@ -4,11 +4,13 @@ namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {
     internal class RescaleCommand : DummyCommand
     {
-        public RescaleCommand() : base(MenuStrings.rescale_Text)
+        private ISharedViewState _sharedViewState;
+        public RescaleCommand(ISharedViewState sharedViewState) : base(MenuStrings.rescale_Text)
         {
-            Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Fxy;
-            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
-                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Fxy);
+            _sharedViewState = sharedViewState;
+            Visible = _sharedViewState.CalculationsMode == CalculationsMode.Fxy;
+            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CalculationsMode),
+                () => Visible = _sharedViewState.CalculationsMode == CalculationsMode.Fxy);
         }
     }
 }

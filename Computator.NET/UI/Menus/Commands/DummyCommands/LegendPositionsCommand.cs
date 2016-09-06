@@ -4,11 +4,13 @@ namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {
     internal class LegendPositionsCommand : DummyCommand
     {
-        public LegendPositionsCommand() : base(MenuStrings.legendPositions_Text)
+        private ISharedViewState _sharedViewState;
+        public LegendPositionsCommand(ISharedViewState sharedViewState) : base(MenuStrings.legendPositions_Text)
         {
-            Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real;
-            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
-                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real);
+            _sharedViewState = sharedViewState;
+            Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real;
+            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CalculationsMode),
+                () => Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real);
         }
     }
 }

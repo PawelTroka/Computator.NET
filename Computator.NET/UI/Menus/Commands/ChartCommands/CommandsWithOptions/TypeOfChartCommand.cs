@@ -11,11 +11,13 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
     internal class TypeOfChartCommand : DummyCommand
     {
-        public TypeOfChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.type_Text)
+        private ISharedViewState _sharedViewState;
+        public TypeOfChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.type_Text)
         {
-            Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real;
-            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
-                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real);
+            _sharedViewState = sharedViewState;
+            Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real;
+            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CalculationsMode),
+                () => Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real);
 
 
             var list = new List<IToolbarCommand>();

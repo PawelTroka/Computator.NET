@@ -16,7 +16,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands
             _charts = charts;
         }
 
-        protected IChart currentChart => _charts[SharedViewState.Instance.CalculationsMode];
+        protected IChart currentChart => _charts[_sharedViewState.CalculationsMode];
 
         protected Chart2D chart2d => _charts[CalculationsMode.Real] as Chart2D;
         protected Chart3DControl chart3d => _charts[CalculationsMode.Fxy] as Chart3DControl;

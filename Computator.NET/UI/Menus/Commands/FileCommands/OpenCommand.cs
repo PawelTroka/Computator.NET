@@ -9,9 +9,9 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;
+        private ISharedViewState _sharedViewState;
 
-
-        public OpenCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
+        public OpenCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState)
         {
             Icon = Resources.openToolStripButtonImage;
             Text = MenuStrings.openToolStripButton_Text;
@@ -19,6 +19,7 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
             ShortcutKeyString = "Ctrl+O";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
+            _sharedViewState = sharedViewState;
             // this.mainFormView = mainFormView;
         }
 
@@ -31,7 +32,7 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
                 return;
 
 
-            switch ((int) SharedViewState.Instance.CurrentView)
+            switch ((int) _sharedViewState.CurrentView)
             {
                 case 0:
 

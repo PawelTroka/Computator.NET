@@ -14,30 +14,31 @@ namespace Computator.NET.UI.Presenters
     public class CalculationsPresenter
     {
         private readonly IErrorHandler _errorHandler;
-
+        private readonly ISharedViewState _sharedViewState;
         private readonly ExpressionsEvaluator _expressionsEvaluator = new ExpressionsEvaluator();
         private readonly ICalculationsView _view;
         private CalculationsMode _calculationsMode;
 
-        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler)
+        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState)
         {
             _view = view;
 
             _errorHandler = errorHandler;
+            _sharedViewState = sharedViewState;
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(_ModeChanged);
             _view.CalculateClicked += _view_CalculateClicked;
-            SharedViewState.Instance.DefaultActions[ViewName.Calculations] = _view_CalculateClicked;
+            _sharedViewState.DefaultActions[ViewName.Calculations] = _view_CalculateClicked;
         }
 
         private void _view_CalculateClicked(object sender, EventArgs e)
         {
-            if (SharedViewState.Instance.ExpressionText != "")
+            if (_sharedViewState.ExpressionText != "")
             {
                 try
                 {
-                    SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
-                    var function = _expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText,
-                        SharedViewState.Instance.CustomFunctionsText, _calculationsMode);
+                    _sharedViewState.CustomFunctionsEditor.ClearHighlightedErrors();
+                    var function = _expressionsEvaluator.Evaluate(_sharedViewState.ExpressionText,
+                        _sharedViewState.CustomFunctionsText, _calculationsMode);
 
                     var x = _view.X;
                     var y = _view.Y;
@@ -47,7 +48,7 @@ namespace Computator.NET.UI.Presenters
 
                     var resultStr = ScriptingExtensions.ToMathString(result);
 
-                    _view.AddResult(SharedViewState.Instance.ExpressionText,
+                    _view.AddResult(_sharedViewState.ExpressionText,
                         _calculationsMode == CalculationsMode.Complex
                             ? z.ToMathString()
                             : (_calculationsMode == CalculationsMode.Fxy

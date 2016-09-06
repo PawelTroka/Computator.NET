@@ -12,6 +12,7 @@ namespace Computator.NET.UI.Presenters
 {
     public class NumericalCalculationsPresenter
     {
+        private ISharedViewState _sharedViewState;
         private readonly Type _derivationType = typeof(Func<Func<double, double>, double, uint, double, double>);
 
         private readonly IErrorHandler _errorHandler;
@@ -31,10 +32,11 @@ namespace Computator.NET.UI.Presenters
         private CalculationsMode _calculationsMode;
 
 
-        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler)
+        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState)
         {
             _view = view;
             _errorHandler = errorHandler;
+            _sharedViewState = sharedViewState;
             _view.SetOperations(NumericalMethodsInfo.Instance._methods.Keys.ToArray());
             _view.SelectedOperation = NumericalMethodsInfo.Instance._methods.Keys.First();
             _view.OperationChanged += _view_OperationChanged;
@@ -43,7 +45,7 @@ namespace Computator.NET.UI.Presenters
 
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(c => _calculationsMode = c.CalculationsMode);
 
-            SharedViewState.Instance.DefaultActions[ViewName.NumericalCalculations] = _view_ComputeClicked;
+            _sharedViewState.DefaultActions[ViewName.NumericalCalculations] = _view_ComputeClicked;
             _view.ComputeClicked += _view_ComputeClicked;
         }
 
@@ -58,9 +60,9 @@ namespace Computator.NET.UI.Presenters
             {
                 try
                 {
-                    SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
-                    var function = expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText,
-                        SharedViewState.Instance.CustomFunctionsText, _calculationsMode);
+                    _sharedViewState.CustomFunctionsEditor.ClearHighlightedErrors();
+                    var function = expressionsEvaluator.Evaluate(_sharedViewState.ExpressionText,
+                        _sharedViewState.CustomFunctionsText, _calculationsMode);
 
                     Func<double, double> fx = x => function.Evaluate(x);
 
@@ -121,7 +123,7 @@ namespace Computator.NET.UI.Presenters
                             $"a={_view.A.ToMathString()}; b={_view.B.ToMathString()}; ε={eps.ToMathString()}; N={_view.N}";
                     }
 
-                    _view.AddResult(SharedViewState.Instance.ExpressionText,
+                    _view.AddResult(_sharedViewState.ExpressionText,
                         _view.SelectedOperation,
                         _view.SelectedMethod,
                         parametersStr,

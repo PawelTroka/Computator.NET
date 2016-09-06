@@ -7,23 +7,25 @@ using Computator.NET.UI.Controls.CodeEditors;
 
 namespace Computator.NET.UI
 {
-    public class SharedViewState : INotifyPropertyChanged
+
+    public class SharedViewState : ISharedViewState
     {
         private CalculationsMode _calculationsMode;
         private ViewName _currentView;
-        private ICodeEditorView _customFunctions;
+        private readonly ICodeEditorView _customFunctions;
 
-        private ITextProvider _expression;
+        private readonly ITextProvider _expression;
         private bool _isExponent;
 
 
-        private SharedViewState()
+        public SharedViewState(ITextProvider expression, ICodeEditorView customFunctions)
         {
+            this._expression = expression;
+            this._customFunctions = customFunctions;
+
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(
                 cmce => { CalculationsMode = cmce.CalculationsMode; });
         }
-
-        public static SharedViewState Instance { get; } = new SharedViewState();
 
         public Dictionary<ViewName, Action<object, EventArgs>> DefaultActions { get; } =
             new Dictionary<ViewName, Action<object, EventArgs>>();
@@ -70,14 +72,6 @@ namespace Computator.NET.UI
         public ISupportsExceptionHighliting CustomFunctionsEditor => _customFunctions;
         public string CustomFunctionsText => _customFunctions.Text;
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public static void Initialize(ITextProvider expression, ICodeEditorView customFunctions)
-        {
-            if (Instance._expression == null)
-                Instance._expression = expression;
-            if (Instance._customFunctions == null)
-                Instance._customFunctions = customFunctions;
-        }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

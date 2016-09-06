@@ -33,6 +33,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
 
     internal class ScintillaCodeEditorControl : ScintillaNET.Scintilla, INotifyPropertyChanged, ICodeEditorControl
     {
+        private ISharedViewState _sharedViewState;
         // Indicators 0-7 could be in use by a lexer
         // so we'll use indicator 8 to highlight words.
         private const int NUM = 8;
@@ -45,14 +46,15 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
         private int lastCaretPos;
         private int maxLineNumberCharLength;
 
-        public ScintillaCodeEditorControl(string code) : this()
+        public ScintillaCodeEditorControl(string code, ISharedViewState sharedViewState) : this(sharedViewState)
         {
             Text = code;
         }
 
-        public ScintillaCodeEditorControl()
+        public ScintillaCodeEditorControl(ISharedViewState sharedViewState)
         {
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu
+            _sharedViewState = sharedViewState;
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(sharedViewState)
             {
                 TargetControlWrapper = new ScintillaWrapper(this),
                 MaximumSize = new Size(500, 180)
@@ -533,7 +535,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
                 return;
             }
 
-            if (SharedViewState.Instance.IsExponent)
+            if (_sharedViewState.IsExponent)
             {
                 if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
                 {
@@ -545,7 +547,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
             {
                 if (e.KeyChar == SpecialSymbols.ExponentModeSymbol)
                 {
-                    SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
+                    _sharedViewState.IsExponent = !_sharedViewState.IsExponent;
                     //_showCaret();
                     e.Handled = true;
                     //return;

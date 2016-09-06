@@ -6,9 +6,9 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;
+        private ISharedViewState _sharedViewState;
 
-
-        public SaveAsCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
+        public SaveAsCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState)
         {
             //  this.Icon = Resources.save;
             Text = MenuStrings.saveAsToolStripMenuItem_Text;
@@ -16,13 +16,14 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
 
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
+            _sharedViewState = sharedViewState;
             // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            switch ((int) SharedViewState.Instance.CurrentView)
+            switch ((int) _sharedViewState.CurrentView)
             {
                 case 0:
 

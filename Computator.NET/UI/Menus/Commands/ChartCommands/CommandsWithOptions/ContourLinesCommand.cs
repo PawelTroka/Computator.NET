@@ -11,12 +11,14 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
     internal class ContourLinesCommand : DummyCommand
     {
-        public ContourLinesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts)
+        private ISharedViewState _sharedViewState;
+        public ContourLinesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.contourLinesMode_Text)
         {
-            Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Complex;
-            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
-                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Complex);
+            _sharedViewState = sharedViewState;
+            Visible = _sharedViewState.CalculationsMode == CalculationsMode.Complex;
+            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CalculationsMode),
+                () => Visible = _sharedViewState.CalculationsMode == CalculationsMode.Complex);
 
 
             var list = new List<IToolbarCommand>();

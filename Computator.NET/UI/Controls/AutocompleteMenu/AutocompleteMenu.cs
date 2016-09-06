@@ -47,8 +47,9 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
         private ITextBoxWrapper targetControlWrapper;
 
-        public AutocompleteMenu()
+        public AutocompleteMenu(ISharedViewState sharedViewState)
         {
+            _sharedViewState = sharedViewState;
             Host = new AutocompleteMenuHost(this);
             Host.ListView.ItemSelected += ListView_ItemSelected;
             Host.ListView.ItemHovered += ListView_ItemHovered;
@@ -642,7 +643,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             else
                 (Host.ListView as Control).Invalidate();
         }
-
+        private readonly ISharedViewState _sharedViewState;
         private void BuildAutocompleteList(bool forced)
         {
             var visibleItems = new List<AutocompleteItem>();
@@ -655,7 +656,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
             var index = text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
 
-            if (SharedViewState.Instance.IsExponent && index == -1)
+            if (_sharedViewState.IsExponent && index == -1)
             {
                 text = "";
             }
@@ -840,7 +841,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             {
                 newText = fragment.Text.Substring(0, index) + SpecialSymbols.AsciiToSuperscript(newText);
             }
-            else if (SharedViewState.Instance.IsExponent)
+            else if (_sharedViewState.IsExponent)
                 newText = fragment.Text + SpecialSymbols.AsciiToSuperscript(newText);
 
 

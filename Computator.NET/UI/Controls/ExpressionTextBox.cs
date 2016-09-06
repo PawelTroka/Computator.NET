@@ -14,10 +14,12 @@ namespace Computator.NET.UI.Controls
 {
     internal class ExpressionTextBox : TextBox, INotifyPropertyChanged, IExpressionTextBox
     {
+        private ISharedViewState _sharedViewState;
         private AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
 
-        public ExpressionTextBox()
+        public ExpressionTextBox(ISharedViewState sharedViewState)
         {
+            _sharedViewState = sharedViewState;
             InitializeComponent();
 
             GotFocus += ExpressionTextBox_GotFocus;
@@ -46,7 +48,7 @@ namespace Computator.NET.UI.Controls
             if (!DesignMode)
             {
                 RefreshAutoComplete();
-                SharedViewState.Instance.PropertyChanged += (o, e) =>
+                _sharedViewState.PropertyChanged += (o, e) =>
                 {
                     if (e.PropertyName == nameof(SharedViewState.IsExponent)) _showCaret();
                 };
@@ -87,7 +89,7 @@ namespace Computator.NET.UI.Controls
 
         private void Control_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            SharedViewState.Instance.IsExponent = false;
+            _sharedViewState.IsExponent = false;
         }
 
         private void ExpressionTextBox_GotFocus(object sender, EventArgs e)
@@ -102,7 +104,7 @@ namespace Computator.NET.UI.Controls
         private void _showCaret()
         {
             var blob = TextRenderer.MeasureText("x", Font);
-            if (SharedViewState.Instance.IsExponent)
+            if (_sharedViewState.IsExponent)
                 NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height/2);
             else
                 NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height);
@@ -148,7 +150,7 @@ namespace Computator.NET.UI.Controls
 
         private void ExpressionTextBox_KeyPress(object s, KeyPressEventArgs e)
         {
-            if (SharedViewState.Instance.IsExponent)
+            if (_sharedViewState.IsExponent)
             {
                 if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
                 {
@@ -160,9 +162,9 @@ namespace Computator.NET.UI.Controls
             {
                 if (e.KeyChar == SpecialSymbols.ExponentModeSymbol)
                 {
-                    SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
+                    _sharedViewState.IsExponent = !_sharedViewState.IsExponent;
                     _showCaret();
-                    // EventAggregator.Instance.Publish<ExponentModeChangedEvent>(new ExponentModeChangedEvent(SharedViewState.Instance.IsExponent));
+                    // EventAggregator.Instance.Publish<ExponentModeChangedEvent>(new ExponentModeChangedEvent(_sharedViewState.IsExponent));
                     e.Handled = true;
                     //return;
                 }

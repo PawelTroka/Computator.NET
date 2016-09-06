@@ -11,17 +11,18 @@ namespace Computator.NET.UI.Presenters
     public class ScriptingViewPresenter
     {
         private readonly IErrorHandler _errorHandler;
-
+        private ISharedViewState _sharedViewState;
 
         private readonly ScriptEvaluator _eval = new ScriptEvaluator();
         private readonly IScriptingView _view;
 
-        public ScriptingViewPresenter(IScriptingView view, IErrorHandler errorHandler)
+        public ScriptingViewPresenter(IScriptingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState)
         {
             _view = view;
             _errorHandler = errorHandler;
+            _sharedViewState = sharedViewState;
             _view.ProcessClicked += _view_ProcessClicked;
-            SharedViewState.Instance.DefaultActions[ViewName.Scripting] = _view_ProcessClicked;
+            _sharedViewState.DefaultActions[ViewName.Scripting] = _view_ProcessClicked;
             var solutionExplorerPresenter = new SolutionExplorerPresenter(_view.SolutionExplorerView,
                 _view.CodeEditorView, true);
         }
@@ -31,11 +32,11 @@ namespace Computator.NET.UI.Presenters
             _view.ConsoleOutput = Strings.ConsoleOutput;
 
             _view.CodeEditorView.ClearHighlightedErrors();
-            SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
+            _sharedViewState.CustomFunctionsEditor.ClearHighlightedErrors();
 
             try
             {
-                var function = _eval.Evaluate(_view.CodeEditorView.Text, SharedViewState.Instance.CustomFunctionsText);
+                var function = _eval.Evaluate(_view.CodeEditorView.Text, _sharedViewState.CustomFunctionsText);
                 function.Evaluate(output => _view.AppendToConsole(output));
             }
             catch (Exception ex)
