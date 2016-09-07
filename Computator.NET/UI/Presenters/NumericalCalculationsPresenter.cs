@@ -32,11 +32,12 @@ namespace Computator.NET.UI.Presenters
         private CalculationsMode _calculationsMode;
 
 
-        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState)
+        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler)
         {
             _view = view;
             _errorHandler = errorHandler;
             _sharedViewState = sharedViewState;
+            _exceptionsHandler = exceptionsHandler;
             _view.SetOperations(NumericalMethodsInfo.Instance._methods.Keys.ToArray());
             _view.SelectedOperation = NumericalMethodsInfo.Instance._methods.Keys.First();
             _view.OperationChanged += _view_OperationChanged;
@@ -131,7 +132,7 @@ namespace Computator.NET.UI.Presenters
                 }
                 catch (Exception ex)
                 {
-                    ExceptionsHandler.Instance.HandleException(ex, _errorHandler);
+                    _exceptionsHandler.HandleException(ex);
                 }
             }
             else
@@ -144,7 +145,7 @@ namespace Computator.NET.UI.Presenters
                     Strings.GUI_numericalOperationButton_Click_Warning_);
             }
         }
-
+        private IExceptionsHandler _exceptionsHandler;
         private void _view_OperationChanged(object sender, EventArgs e)
         {
             _view.SetMethods(NumericalMethodsInfo.Instance._methods[_view.SelectedOperation].Keys.ToArray());

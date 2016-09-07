@@ -12,14 +12,21 @@ namespace Computator.NET.UI.ErrorHandling
         void LogError(string message, ErrorType errorType, Exception ex);
     }
 
-    public class ExceptionsHandler
+    public interface IExceptionsHandler
     {
-        private ExceptionsHandler(ISharedViewState sharedViewState)
+        void HandleException(Exception ex);
+    }
+
+    public class ExceptionsHandler : IExceptionsHandler
+    {
+        private readonly IErrorHandler _errorHandler;
+        private ExceptionsHandler(ISharedViewState sharedViewState, IErrorHandler errorHandler)
         {
             _sharedViewState = sharedViewState;
+            _errorHandler = errorHandler;
         }
 
-        public void HandleException(Exception ex, IErrorHandler _errorHandler)
+        public void HandleException(Exception ex)
         {
             HandleCustomFunctionsErrors(ex as CompilationException);
 

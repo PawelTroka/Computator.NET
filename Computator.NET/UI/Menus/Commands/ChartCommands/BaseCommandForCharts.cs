@@ -9,11 +9,13 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
     internal abstract class BaseCommandForCharts : CommandBase
     {
+        private readonly ISharedViewState _sharedViewState;
         protected readonly ReadOnlyDictionary<CalculationsMode, IChart> _charts;
 
-        protected BaseCommandForCharts(ReadOnlyDictionary<CalculationsMode, IChart> charts)
+        protected BaseCommandForCharts(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
         {
             _charts = charts;
+            _sharedViewState = sharedViewState;
         }
 
         protected IChart currentChart => _charts[_sharedViewState.CalculationsMode];

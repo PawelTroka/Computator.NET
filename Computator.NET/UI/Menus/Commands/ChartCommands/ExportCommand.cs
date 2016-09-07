@@ -20,7 +20,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands
             AddExtension = true
         };
 
-        public ExportCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        public ExportCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Text = MenuStrings.export_Text;
             ToolTip = MenuStrings.export_Text;

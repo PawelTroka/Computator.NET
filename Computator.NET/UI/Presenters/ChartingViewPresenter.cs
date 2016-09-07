@@ -17,11 +17,12 @@ namespace Computator.NET.UI.Presenters
         private ISharedViewState _sharedViewState;
         private CalculationsMode _calculationsMode;
 
-        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState)
+        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler)
         {
             _view = view;
             _errorHandler = errorHandler;
             _sharedViewState = sharedViewState;
+            _exceptionsHandler = exceptionsHandler;
 
             var chartAreaValuesViewPresenter = new ChartAreaValuesPresenter(_view.ChartAreaValuesView);
 
@@ -81,7 +82,7 @@ namespace Computator.NET.UI.Presenters
                 }
                 catch (Exception ex)
                 {
-                    ExceptionsHandler.Instance.HandleException(ex, _errorHandler);
+                    _exceptionsHandler.HandleException(ex);
                 }
             }
             else
@@ -89,7 +90,7 @@ namespace Computator.NET.UI.Presenters
                     Strings.GUI_numericalOperationButton_Click_Warning_);
         }
 
-
+        private IExceptionsHandler _exceptionsHandler;
         private void ChartAreaValuesView1_ClearClicked(object sender, EventArgs e)
         {
             foreach (var chart in _view.Charts)

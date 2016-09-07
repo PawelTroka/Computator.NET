@@ -26,7 +26,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var val in Enum.GetValues(typeof(CountourLinesMode))
                 .Cast<CountourLinesMode>())
             {
-                list.Add(new ContourLinesOption(charts, val));
+                list.Add(new ContourLinesOption(charts, val,sharedViewState));
             }
             ChildrenCommands = list;
         }
@@ -36,7 +36,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             private readonly CountourLinesMode contourLinesMode;
 
             public ContourLinesOption(ReadOnlyDictionary<CalculationsMode, IChart> charts,
-                CountourLinesMode contourLinesMode) : base(contourLinesMode, charts)
+                CountourLinesMode contourLinesMode, ISharedViewState sharedViewState) : base(contourLinesMode, charts,sharedViewState)
             {
                 this.contourLinesMode = contourLinesMode;
                 IsOption = true;

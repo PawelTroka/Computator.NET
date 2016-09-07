@@ -16,17 +16,18 @@ namespace Computator.NET.UI.Presenters
         private readonly ScriptEvaluator _eval = new ScriptEvaluator();
         private readonly IScriptingView _view;
 
-        public ScriptingViewPresenter(IScriptingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState)
+        public ScriptingViewPresenter(IScriptingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler)
         {
             _view = view;
             _errorHandler = errorHandler;
             _sharedViewState = sharedViewState;
+            _exceptionsHandler = exceptionsHandler;
             _view.ProcessClicked += _view_ProcessClicked;
             _sharedViewState.DefaultActions[ViewName.Scripting] = _view_ProcessClicked;
             var solutionExplorerPresenter = new SolutionExplorerPresenter(_view.SolutionExplorerView,
                 _view.CodeEditorView, true);
         }
-
+        private IExceptionsHandler _exceptionsHandler;
         private void _view_ProcessClicked(object sender, EventArgs e)
         {
             _view.ConsoleOutput = Strings.ConsoleOutput;
@@ -46,7 +47,7 @@ namespace Computator.NET.UI.Presenters
                 {
                     _view.CodeEditorView.HighlightErrors(exception.Errors[CompilationErrorPlace.MainCode]);
                 }
-                ExceptionsHandler.Instance.HandleException(ex, _errorHandler);
+                _exceptionsHandler.HandleException(ex);
             }
         }
     }

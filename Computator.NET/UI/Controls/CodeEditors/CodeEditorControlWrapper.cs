@@ -18,18 +18,9 @@ namespace Computator.NET.UI.Controls.CodeEditors
     public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor, ICanFileEdit,
         INotifyPropertyChanged
     {
-        private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors = new Dictionary
-            <CodeEditorType, ICodeEditorControl>
-        {
-            {
-                CodeEditorType.Scintilla, new ScintillaCodeEditorControl
-                {
-                    Dock = DockStyle.Fill
-                }
-            },
-            {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor()}
-        };
+        private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors;
 
+        private readonly ISharedViewState _sharedViewState;
 
         private readonly ElementHost avalonEditorWrapper;
 
@@ -41,8 +32,20 @@ namespace Computator.NET.UI.Controls.CodeEditors
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
 
-        public CodeEditorControlWrapper()
+        public CodeEditorControlWrapper(ISharedViewState sharedViewState)
         {
+            _sharedViewState = sharedViewState;
+            _codeEditors = new Dictionary
+            <CodeEditorType, ICodeEditorControl>
+        {
+            {
+                CodeEditorType.Scintilla, new ScintillaCodeEditorControl(_sharedViewState)
+                {
+                    Dock = DockStyle.Fill
+                }
+            },
+            {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor(_sharedViewState)}
+        };
             avalonEditorWrapper = new ElementHost
             {
                 BackColor = Color.White,
@@ -51,10 +54,10 @@ namespace Computator.NET.UI.Controls.CodeEditors
             };
 
 
-            tabControl = new DocumentsTabControl {Dock = DockStyle.Top};
+            tabControl = new DocumentsTabControl { Dock = DockStyle.Top };
 
-            var panel = new Panel {Dock = DockStyle.Fill};
-            panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control});
+            var panel = new Panel { Dock = DockStyle.Fill };
+            panel.Controls.AddRange(new[] { avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control });
 
             var tableLayout = new TableLayoutPanel
             {
@@ -107,7 +110,7 @@ namespace Computator.NET.UI.Controls.CodeEditors
             =>
                 _codeEditorType == CodeEditorType.AvalonEdit
                     ? avalonEditorWrapper.Focused
-                    : ((Control) CurrentCodeEditor).Focused;
+                    : ((Control)CurrentCodeEditor).Focused;
 
         public string CurrentFileName
         {

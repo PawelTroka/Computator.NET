@@ -33,8 +33,8 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly ChartColorPalette color;
 
-            public ColorOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, ChartColorPalette color)
-                : base(color, charts)
+            public ColorOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, ChartColorPalette color, ISharedViewState sharedViewState)
+                : base(color, charts,sharedViewState)
             {
                 this.color = color;
                 Checked = chart2d.Palette == color;

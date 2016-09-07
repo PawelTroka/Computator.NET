@@ -16,16 +16,18 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
     {
         private readonly AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
         private readonly AvalonEditCodeEditor _codeEditor;
+        private ISharedViewState _sharedViewState;
 
-        public AvalonEditCodeEditorControl()
+        public AvalonEditCodeEditorControl(ISharedViewState sharedViewState)
         {
-            _codeEditor = new AvalonEditCodeEditor();
+            _sharedViewState = sharedViewState;
+            _codeEditor = new AvalonEditCodeEditor(_sharedViewState);
 
             BackColor = Color.White;
             Dock = DockStyle.Fill;
             Child = _codeEditor;
             //   codeEditor.TextArea.TextView.GetVisualPosition(new TextViewPosition(5) {Location = }, VisualYPosition.TextMiddle)
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState)
             {
                 TargetControlWrapper = new AvalonWrapper(this)
             };
@@ -34,11 +36,6 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
 
             _autocompleteMenu.MaximumSize = new Size(500, 180);
             //this.codeEditor.Document.
-        }
-
-        public AvalonEditCodeEditorControl(ICodeEditorControl codeEditor) : this()
-        {
-            Text = codeEditor.Text;
         }
 
         public string SelectedText

@@ -10,7 +10,7 @@ namespace Computator.NET.UI.Menus.Commands
     {
         private ISharedViewState _sharedViewState;
         public TransformOptionCommand(string text, string toolTip, ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
-            : base(charts)
+            : base(charts,sharedViewState)
         {
             _sharedViewState = sharedViewState;
             Text = text;

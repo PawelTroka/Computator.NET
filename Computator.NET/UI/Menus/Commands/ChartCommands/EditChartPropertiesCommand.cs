@@ -7,7 +7,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
     internal class EditChartPropertiesCommand : BaseCommandForCharts
     {
-        public EditChartPropertiesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        public EditChartPropertiesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Text = MenuStrings.editProperties_Text;
             ToolTip = MenuStrings.editProperties_Text;

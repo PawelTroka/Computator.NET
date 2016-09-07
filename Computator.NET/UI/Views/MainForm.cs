@@ -12,6 +12,19 @@ namespace Computator.NET.UI.Views
         public MainForm()
         {
             InitializeComponent();
+            symbolicCalculationsTabPage.Enabled = false;
+        }
+
+        public MainForm(IToolbarView menuStripView, IToolbarView toolbarView, ICalculationsView calculationsView, INumericalCalculationsView numericalCalculationsView, IScriptingView scriptingView, ICustomFunctionsView customFunctionsView, IChartingView chartingView) : this()
+        {
+            MenuStripView = menuStripView;
+            ToolbarView = toolbarView;
+            CalculationsView = calculationsView;
+            NumericalCalculationsView = numericalCalculationsView;
+            ScriptingView = scriptingView;
+            CustomFunctionsView = customFunctionsView;
+            ChartingView = chartingView;
+            InitializeComponent();
 
             Controls.Add(ExpressionView as Control);
             Controls.Add(ToolbarView as Control);
@@ -30,24 +43,21 @@ namespace Computator.NET.UI.Views
 
         #region IMainForm
 
-        public IToolbarView MenuStripView { get; } = new MenuStripView {Dock = DockStyle.Top};
+        public IToolbarView MenuStripView { get; }
 
         public void Restart()
         {
             Application.Restart();
         }
 
-        public IToolbarView ToolbarView { get; } = new ToolBarView {Dock = DockStyle.Top};
-        public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
+        public IToolbarView ToolbarView { get; }
+        public ICalculationsView CalculationsView { get; }
 
-        public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView
-        {
-            Dock = DockStyle.Fill
-        };
+        public INumericalCalculationsView NumericalCalculationsView { get; }
 
-        public IScriptingView ScriptingView { get; } = new ScriptingView {Dock = DockStyle.Fill};
-        public ICustomFunctionsView CustomFunctionsView { get; } = new CustomFunctionsView {Dock = DockStyle.Fill};
-        public IChartingView ChartingView { get; } = new ChartingView {Dock = DockStyle.Fill};
+        public IScriptingView ScriptingView { get; }
+        public ICustomFunctionsView CustomFunctionsView { get; }
+        public IChartingView ChartingView { get; }
 
 
         public string ModeText

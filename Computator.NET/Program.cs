@@ -36,10 +36,6 @@ namespace Computator.NET
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-
-
-
-
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
 
@@ -48,10 +44,7 @@ namespace Computator.NET
             Application.SetCompatibleTextRenderingDefault(false);
             Application.AddMessageFilter(new MyMessageFilter());
 
-
-            var mainForm = new MainForm();
-
-            SetPresenters(mainForm);
+            var mainForm = BootStrapper().Resolve<MainForm>();
 
             LoadingScreen.CloseForm();
             Application.Run(mainForm);
@@ -60,7 +53,7 @@ namespace Computator.NET
 
 
 
-        private static void SetPresenters(IMainForm mainForm)
+        private static UnityContainer BootStrapper()
         {
             var container = new UnityContainer();
 
@@ -81,17 +74,19 @@ namespace Computator.NET
 
             container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
 
-            var mainFormPresenter = new MainFormPresenter(mainForm);
-            var chartingViewPresenter = new ChartingViewPresenter(mainForm.ChartingView, SimpleErrorHandler.Instance);
-            var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView,
-                SimpleErrorHandler.Instance);
-            var numericalCalculationsPresenter = new NumericalCalculationsPresenter(mainForm.NumericalCalculationsView,
-                SimpleErrorHandler.Instance);
-            var scriptingViewPresenter = new ScriptingViewPresenter(mainForm.ScriptingView, SimpleErrorHandler.Instance);
-            var customFunctionsViewPresenter = new CustomFunctionsPresenter(mainForm.CustomFunctionsView);
+            container.RegisterType<IErrorHandler, IErrorHandler>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IExceptionsHandler, ExceptionsHandler>(new ContainerControlledLifetimeManager());
 
-            SharedViewState.Initialize(mainForm.ExpressionView.ExpressionTextBox,
-                mainForm.CustomFunctionsView.CustomFunctionsEditor);
+
+
+            var mainFormPresenter = container.Resolve<MainFormPresenter>();
+            var chartingViewPresenter = container.Resolve<ChartingViewPresenter>();
+            var calculationsViewPresenter = container.Resolve<CalculationsPresenter>();
+            var numericalCalculationsPresenter = container.Resolve<NumericalCalculationsPresenter>();
+            var scriptingViewPresenter = container.Resolve<ScriptingViewPresenter>();
+            var customFunctionsViewPresenter = container.Resolve<CustomFunctionsPresenter>();
+
+            return container;
         }
 
 

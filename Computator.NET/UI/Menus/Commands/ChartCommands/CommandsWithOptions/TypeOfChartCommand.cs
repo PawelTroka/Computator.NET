@@ -34,8 +34,8 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly SeriesChartType chartType;
 
-            public TypeOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, SeriesChartType chartType)
-                : base(chartType, charts)
+            public TypeOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, SeriesChartType chartType, ISharedViewState sharedViewState)
+                : base(chartType, charts,sharedViewState)
             {
                 this.chartType = chartType;
                 IsOption = true;

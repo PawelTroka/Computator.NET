@@ -13,11 +13,17 @@ namespace Computator.NET.UI.Views
 {
     public partial class ChartingView : UserControl, IChartingView
     {
+        public ChartingView(IChartAreaValuesView chartAreaValuesView) : this()
+        {
+            ChartAreaValuesView = chartAreaValuesView;
+            (ChartAreaValuesView as Control).Dock=DockStyle.Right;
+        }
+
         public ChartingView()
         {
             InitializeComponent();
 
-            var el = new ElementHost {Child = chart3d, Dock = DockStyle.Fill};
+            var el = new ElementHost { Child = chart3d, Dock = DockStyle.Fill };
             chart3d.ParentControl = el;
 
             panel2.Controls.AddRange(new[]
@@ -41,6 +47,6 @@ namespace Computator.NET.UI.Views
                 {CalculationsMode.Fxy, new Chart3DControl()}
             });
 
-        public IChartAreaValuesView ChartAreaValuesView { get; } = new ChartAreaValuesView {Dock = DockStyle.Right};
+        public IChartAreaValuesView ChartAreaValuesView { get; }
     }
 }

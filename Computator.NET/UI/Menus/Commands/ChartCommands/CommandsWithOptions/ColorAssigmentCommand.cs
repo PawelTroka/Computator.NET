@@ -26,7 +26,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var colorAssigment in Enum.GetValues(typeof(AssignmentOfColorMethod))
                 .Cast<AssignmentOfColorMethod>())
             {
-                list.Add(new ColorAssigmentOption(charts, colorAssigment));
+                list.Add(new ColorAssigmentOption(charts, colorAssigment,_sharedViewState));
             }
             ChildrenCommands = list;
         }
@@ -36,7 +36,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             private readonly AssignmentOfColorMethod assignmentOfColorMethod;
 
             public ColorAssigmentOption(ReadOnlyDictionary<CalculationsMode, IChart> charts,
-                AssignmentOfColorMethod assignmentOfColorMethod) : base(assignmentOfColorMethod, charts)
+                AssignmentOfColorMethod assignmentOfColorMethod, ISharedViewState sharedViewState) : base(assignmentOfColorMethod, charts,sharedViewState)
             {
                 this.assignmentOfColorMethod = assignmentOfColorMethod;
                 IsOption = true;

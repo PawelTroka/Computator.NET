@@ -47,7 +47,7 @@ namespace Computator.NET.UI.Presenters
                 null,
                 new HelpCommand(),
                 null,
-                new ExponentCommand(),
+                new ExponentCommand(sharedViewState),
                 null,
                 new RunCommand()
             });
@@ -57,7 +57,7 @@ namespace Computator.NET.UI.Presenters
 
             //  _view.EnterClicked += (o, e) => _sharedViewState.CurrentAction?.Invoke(o, e);
 
-            var expressionViewPresenter = new ExpressionViewPresenter(_view.ExpressionView);
+            var expressionViewPresenter = new ExpressionViewPresenter(_view.ExpressionView,sharedViewState);
 
 
             _view.ModeForcedToReal += (sender, args) =>

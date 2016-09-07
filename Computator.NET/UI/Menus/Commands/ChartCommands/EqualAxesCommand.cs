@@ -6,7 +6,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
     internal class EqualAxesCommand : BaseCommandForCharts
     {
-        public EqualAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        public EqualAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Text = MenuStrings.equalAxes_Text;
             ToolTip = MenuStrings.equalAxes_Text;

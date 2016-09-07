@@ -7,7 +7,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
     internal class PrintPreviewChartCommand : BaseCommandForCharts
     {
-        public PrintPreviewChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        public PrintPreviewChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Icon = Resources.printPreviewToolStripMenuItemImage;
             Text = MenuStrings.printPreviewToolStripMenuItem_Text;

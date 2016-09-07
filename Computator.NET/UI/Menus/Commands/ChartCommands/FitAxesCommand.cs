@@ -6,7 +6,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
     internal class FitAxesCommand : BaseCommandForCharts
     {
-        public FitAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+        public FitAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Text = MenuStrings.fitAxes_Text;
             ToolTip = MenuStrings.fitAxes_Text;

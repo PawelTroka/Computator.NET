@@ -19,12 +19,13 @@ namespace Computator.NET.UI.Presenters
         private readonly ICalculationsView _view;
         private CalculationsMode _calculationsMode;
 
-        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState)
+        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler)
         {
             _view = view;
 
             _errorHandler = errorHandler;
             _sharedViewState = sharedViewState;
+            _exceptionsHandler = exceptionsHandler;
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(_ModeChanged);
             _view.CalculateClicked += _view_CalculateClicked;
             _sharedViewState.DefaultActions[ViewName.Calculations] = _view_CalculateClicked;
@@ -57,13 +58,15 @@ namespace Computator.NET.UI.Presenters
                 }
                 catch (Exception ex)
                 {
-                    ExceptionsHandler.Instance.HandleException(ex, _errorHandler);
+                    _exceptionsHandler.HandleException(ex);
                 }
             }
             else
                 _errorHandler.DispalyError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
                     Strings.GUI_numericalOperationButton_Click_Warning_);
         }
+
+        private IExceptionsHandler _exceptionsHandler;
 
         private void _ModeChanged(CalculationsModeChangedEvent calculationsModeChangedEvent)
         {

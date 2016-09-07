@@ -114,7 +114,7 @@ namespace Computator.NET.UI.Controls
         private void InitializeComponent()
         {
             KeyPress += ExpressionTextBox_KeyPress;
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu();
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState);
             _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
         }
 
