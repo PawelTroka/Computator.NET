@@ -24,7 +24,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var chartType in Enum.GetValues(typeof(ChartColorPalette))
                 .Cast<ChartColorPalette>())
             {
-                list.Add(new ColorOption(charts, chartType));
+                list.Add(new ColorOption(charts, chartType,sharedViewState));
             }
             ChildrenCommands = list;
         }

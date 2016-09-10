@@ -8,7 +8,7 @@ namespace Computator.NET.UI.Interfaces
     {
         IToolbarView ToolbarView { get; }
 
-        IToolbarView MenuStripView { get; }
+        IMenuStripView MenuStripView { get; }
         IChartingView ChartingView { get; }
 
         ICalculationsView CalculationsView { get; }

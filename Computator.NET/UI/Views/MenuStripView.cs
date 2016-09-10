@@ -6,7 +6,7 @@ using Computator.NET.UI.Menus.Commands.DummyCommands;
 
 namespace Computator.NET.UI.Views
 {
-    public partial class MenuStripView : UserControl, IToolbarView
+    public partial class MenuStripView : UserControl, IMenuStripView
     {
         public MenuStripView()
         {

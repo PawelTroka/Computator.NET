@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Properties;
@@ -32,19 +33,21 @@ namespace Computator.NET.UI.Controls.CodeEditors
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
 
-        public CodeEditorControlWrapper(ISharedViewState sharedViewState)
+        private IFunctionsDetails _functionsDetails;
+        public CodeEditorControlWrapper(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {
             _sharedViewState = sharedViewState;
+            _functionsDetails = functionsDetails;
             _codeEditors = new Dictionary
             <CodeEditorType, ICodeEditorControl>
         {
             {
-                CodeEditorType.Scintilla, new ScintillaCodeEditorControl(_sharedViewState)
+                CodeEditorType.Scintilla, new ScintillaCodeEditorControl(_sharedViewState,_functionsDetails)
                 {
                     Dock = DockStyle.Fill
                 }
             },
-            {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor(_sharedViewState)}
+            {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor(_sharedViewState, functionsDetails)}
         };
             avalonEditorWrapper = new ElementHost
             {

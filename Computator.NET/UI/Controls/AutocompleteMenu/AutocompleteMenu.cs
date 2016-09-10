@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
@@ -47,10 +48,11 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
         private ITextBoxWrapper targetControlWrapper;
 
-        public AutocompleteMenu(ISharedViewState sharedViewState)
+        public AutocompleteMenu(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {
             _sharedViewState = sharedViewState;
-            Host = new AutocompleteMenuHost(this);
+            _functionsDetails = functionsDetails;
+            Host = new AutocompleteMenuHost(this, _functionsDetails);
             Host.ListView.ItemSelected += ListView_ItemSelected;
             Host.ListView.ItemHovered += ListView_ItemHovered;
             VisibleItems = new List<AutocompleteItem>();
@@ -644,6 +646,8 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
                 (Host.ListView as Control).Invalidate();
         }
         private readonly ISharedViewState _sharedViewState;
+        private readonly IFunctionsDetails _functionsDetails;
+
         private void BuildAutocompleteList(bool forced)
         {
             var visibleItems = new List<AutocompleteItem>();
@@ -750,7 +754,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
                 return;
             }
             foreach (var item in items)
-                list.Add(new AutocompleteItem(item));
+                list.Add(new AutocompleteItem(item,_functionsDetails));
             SetAutocompleteItems(list);
         }
 
@@ -761,7 +765,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
         public void AddItem(string item)
         {
-            AddItem(new AutocompleteItem(item));
+            AddItem(new AutocompleteItem(item, _functionsDetails));
         }
 
         public void AddItem(AutocompleteItem item)

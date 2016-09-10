@@ -13,7 +13,7 @@ namespace Computator.NET.UI.Menus.Commands
         private readonly ITextProvider _scriptingTextProvider;
         private ISharedViewState _sharedViewState;
         public FunctionOrConstantCommand(string text, string toolTip, ITextProvider expressionTextProvider,
-            ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider, ISharedViewState sharedViewState)
+            ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {
             Text = text;
             ToolTip = toolTip;
@@ -21,17 +21,18 @@ namespace Computator.NET.UI.Menus.Commands
             _scriptingTextProvider = scriptingTextProvider;
             _customFunctionsTextProvider = customFunctionsTextProvider;
             _sharedViewState = sharedViewState;
+            this.functionsDetails = functionsDetails;
         }
 
-
+        private IFunctionsDetails functionsDetails;
         public override void Execute()
         {
             if (SystemInformation.MouseButtonsSwapped || SystemParameters.SwapButtons)
                 //TODO: somehow get which mouse button invoked this command
             {
-                if (FunctionsDetails.Details.ContainsKey(Text))
+                if (functionsDetails.ContainsKey(Text))
                 {
-                    WebBrowserForm.Show(FunctionsDetails.Details[Text]);
+                    WebBrowserForm.Show(functionsDetails[Text]);
                     // menuFunctionsToolTip.SetFunctionInfo(FunctionsDetails.Details[this.Text]);
                     //menuFunctionsToolTip.Show(this, menuItem.Width + 3, 0);
                     // menuFunctionsToolTip.Show();

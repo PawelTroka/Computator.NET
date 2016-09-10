@@ -14,11 +14,11 @@ namespace Computator.NET.UI
         private ViewName _currentView;
         private readonly ICodeEditorView _customFunctions;
 
-        private readonly ITextProvider _expression;
+        private readonly Lazy<ITextProvider> _expression;
         private bool _isExponent;
 
 
-        public SharedViewState(ITextProvider expression, ICodeEditorView customFunctions)
+        public SharedViewState(Lazy<ITextProvider> expression, ICodeEditorView customFunctions)
         {
             this._expression = expression;
             this._customFunctions = customFunctions;
@@ -67,7 +67,7 @@ namespace Computator.NET.UI
             }
         }
 
-        public string ExpressionText => _expression.Text;
+        public string ExpressionText => _expression.Value.Text;
 
         public ISupportsExceptionHighliting CustomFunctionsEditor => _customFunctions;
         public string CustomFunctionsText => _customFunctions.Text;

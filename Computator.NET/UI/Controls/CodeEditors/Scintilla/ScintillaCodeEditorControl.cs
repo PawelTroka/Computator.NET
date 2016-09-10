@@ -45,21 +45,23 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
         private string _autoCompleteList;
         private int lastCaretPos;
         private int maxLineNumberCharLength;
+        private IFunctionsDetails _functionsDetails;
 
-        public ScintillaCodeEditorControl(string code, ISharedViewState sharedViewState) : this(sharedViewState)
+        public ScintillaCodeEditorControl(string code, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : this(sharedViewState, functionsDetails)
         {
             Text = code;
         }
 
-        public ScintillaCodeEditorControl(ISharedViewState sharedViewState)
+        public ScintillaCodeEditorControl(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {
             _sharedViewState = sharedViewState;
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(sharedViewState)
+            _functionsDetails = functionsDetails;
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(sharedViewState,_functionsDetails)
             {
                 TargetControlWrapper = new ScintillaWrapper(this),
                 MaximumSize = new Size(500, 180)
             };
-            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
+            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting(_functionsDetails));
             //_autocompleteMenu.CaptureFocus = true;
             InitializeComponent();
             // this.BorderStyle=BorderStyle.None;
@@ -478,7 +480,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
 
         private void SetupAutocomplete()
         {
-            var array = AutocompletionData.GetAutocompleteItemsForScripting();
+            var array = AutocompletionData.GetAutocompleteItemsForScripting(_functionsDetails);
 
 
             //if (Sort)

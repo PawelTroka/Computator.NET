@@ -9,15 +9,19 @@ namespace Computator.NET.UI.Views
         public CustomFunctionsView()
         {
             InitializeComponent();
+        }
+
+        public CustomFunctionsView(CodeEditorControlWrapper codeEditor, ISolutionExplorerView solutionExplorerView): this()
+        {
+            codeEditor.Dock=DockStyle.Fill;
+            CustomFunctionsEditor = codeEditor;
+            SolutionExplorerView = solutionExplorerView;
             splitContainer3.Panel1.Controls.Add(CustomFunctionsEditor as Control);
             splitContainer3.Panel2.Controls.Add(SolutionExplorerView as Control);
         }
 
-        public ISolutionExplorerView SolutionExplorerView { get; } = new SolutionExplorerView {Dock = DockStyle.Fill};
+        public ISolutionExplorerView SolutionExplorerView { get; }
 
-        public ICodeDocumentsEditor CustomFunctionsEditor { get; } = new CodeEditorControlWrapper
-        {
-            Dock = DockStyle.Fill
-        };
+        public ICodeDocumentsEditor CustomFunctionsEditor { get; }
     }
 }

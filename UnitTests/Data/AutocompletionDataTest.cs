@@ -16,7 +16,7 @@ namespace UnitTests.Data
         [Test]
         public void TestScripting()
         {
-            var content = AutocompletionData.GetAutocompleteItemsForScripting();
+            var content = AutocompletionData.GetAutocompleteItemsForScripting(TODO);
             Assert.IsNotNull(content);
         }
     }

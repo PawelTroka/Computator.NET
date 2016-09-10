@@ -52,9 +52,14 @@ namespace Computator.NET.UI.Views
             }
         }
     }
-
+    
 
     public interface IToolbarView
+    {
+        void SetCommands(IEnumerable<IToolbarCommand> commands);
+    }
+
+    public interface IMenuStripView
     {
         void SetCommands(IEnumerable<IToolbarCommand> commands);
     }

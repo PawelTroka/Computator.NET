@@ -11,7 +11,14 @@ using Computator.NET.UI.Controls.AutocompleteMenu;
 
 namespace Computator.NET.Data
 {
-    public class FunctionsDetails
+    public interface IFunctionsDetails
+    {
+        FunctionInfo this[string signature] { get; set; }
+        bool ContainsKey(string signature);
+        KeyValuePair<string, FunctionInfo>[] ToArray();
+    }
+
+    public class FunctionsDetails : IFunctionsDetails
     {
         private readonly Dictionary<string, FunctionInfo> _details;
 
@@ -24,7 +31,7 @@ namespace Computator.NET.Data
 
         private void AddDetailsFromMetadata()
         {
-            var items = AutocompletionData.GetAutocompleteItemsForScripting();
+            var items = AutocompletionData.GetAutocompleteItemsForScripting(this);
             items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
             foreach (var item in items)
             {
@@ -33,8 +40,6 @@ namespace Computator.NET.Data
                      item.Info);
             }
         }
-
-        public static FunctionsDetails Details { get; } = new FunctionsDetails();
 
         public FunctionInfo this[string signature]
         {
@@ -67,7 +72,7 @@ namespace Computator.NET.Data
         }
 
         //TODO: this function should create new functions file with all it's previous content and empty spaces for new functions which exists in ElementaryFuntions, SpecialFunctions etc but not in the xml file yet
-        public void SaveEmptyFunctionDetailsToXmlFile()
+        private void SaveEmptyFunctionDetailsToXmlFile()
         {
             //var _details = new Dictionary<string, FunctionInfo>();
             //foreach (var item in sourceItems)
@@ -80,7 +85,7 @@ namespace Computator.NET.Data
 
             var detailsWithEmpties = new Dictionary<string, FunctionInfo>();
 
-            var items = AutocompletionData.GetAutocompleteItemsForScripting();
+            var items = AutocompletionData.GetAutocompleteItemsForScripting(this);
             items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
             foreach (var item in items)
             {

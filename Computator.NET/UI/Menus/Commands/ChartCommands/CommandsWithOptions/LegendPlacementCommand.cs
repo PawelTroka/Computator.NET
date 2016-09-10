@@ -11,7 +11,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
     internal class LegendPlacementCommand : DummyCommand
     {
-        public LegendPlacementCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts)
+        public LegendPlacementCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.placement_Text)
         {
             var list = new List<IToolbarCommand>();
@@ -19,7 +19,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var docking in Enum.GetValues(typeof(Docking))
                 .Cast<Docking>())
             {
-                list.Add(new LegendPlacementOption(charts, docking));
+                list.Add(new LegendPlacementOption(charts, docking, sharedViewState));
             }
             ChildrenCommands = list;
         }
@@ -28,8 +28,8 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly Docking placement;
 
-            public LegendPlacementOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, Docking placement)
-                : base(placement, charts)
+            public LegendPlacementOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, Docking placement, ISharedViewState sharedViewState)
+                : base(placement, charts,sharedViewState)
             {
                 Checked = chart2d.Legends[0].Docking == placement;
                 this.placement = placement;

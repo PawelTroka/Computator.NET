@@ -11,7 +11,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
     internal class LegendAligmentCommand : DummyCommand
     {
-        public LegendAligmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts)
+        public LegendAligmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.aligment_Text)
         {
             var list = new List<IToolbarCommand>();
@@ -19,7 +19,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var aligment in Enum.GetValues(typeof(StringAlignment))
                 .Cast<StringAlignment>())
             {
-                list.Add(new LegendAligmentOption(charts, aligment));
+                list.Add(new LegendAligmentOption(charts, aligment,sharedViewState));
             }
             ChildrenCommands = list;
         }
@@ -28,8 +28,8 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly StringAlignment aligment;
 
-            public LegendAligmentOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, StringAlignment aligment)
-                : base(aligment, charts)
+            public LegendAligmentOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, StringAlignment aligment, ISharedViewState sharedViewState)
+                : base(aligment, charts,sharedViewState)
             {
                 this.aligment = aligment;
                 IsOption = true;

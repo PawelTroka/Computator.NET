@@ -25,7 +25,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var chartType in Enum.GetValues(typeof(SeriesChartType))
                 .Cast<SeriesChartType>())
             {
-                list.Add(new TypeOption(charts, chartType));
+                list.Add(new TypeOption(charts, chartType,sharedViewState));
             }
             ChildrenCommands = list;
         }

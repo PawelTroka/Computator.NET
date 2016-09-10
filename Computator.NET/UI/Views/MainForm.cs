@@ -1,22 +1,27 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Windows.Forms;
+using Computator.NET.Data;
 using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Views
 {
     public partial class MainForm : Form, IMainForm
     {
+        private ISharedViewState sharedViewState;
+
         #region initialization and construction
 
         public MainForm()
         {
+
             InitializeComponent();
             symbolicCalculationsTabPage.Enabled = false;
         }
 
-        public MainForm(IToolbarView menuStripView, IToolbarView toolbarView, ICalculationsView calculationsView, INumericalCalculationsView numericalCalculationsView, IScriptingView scriptingView, ICustomFunctionsView customFunctionsView, IChartingView chartingView) : this()
+        public MainForm(IMenuStripView menuStripView, IToolbarView toolbarView, ICalculationsView calculationsView, INumericalCalculationsView numericalCalculationsView, IScriptingView scriptingView, ICustomFunctionsView customFunctionsView, IChartingView chartingView, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : this()
         {
+            this.sharedViewState = sharedViewState;
             MenuStripView = menuStripView;
             ToolbarView = toolbarView;
             CalculationsView = calculationsView;
@@ -25,8 +30,8 @@ namespace Computator.NET.UI.Views
             CustomFunctionsView = customFunctionsView;
             ChartingView = chartingView;
             InitializeComponent();
-
-            Controls.Add(ExpressionView as Control);
+            ExpressionView = new ExpressionView(sharedViewState, functionsDetails) {Dock = DockStyle.Top};
+            Controls.Add((Control) ExpressionView);
             Controls.Add(ToolbarView as Control);
             Controls.Add(MenuStripView as Control);
 
@@ -43,7 +48,7 @@ namespace Computator.NET.UI.Views
 
         #region IMainForm
 
-        public IToolbarView MenuStripView { get; }
+        public IMenuStripView MenuStripView { get; }
 
         public void Restart()
         {
@@ -101,7 +106,7 @@ namespace Computator.NET.UI.Views
             set { tabControl1.SelectedIndex = value; }
         }
 
-        public IExpressionView ExpressionView { get; } = new ExpressionView {Dock = DockStyle.Top};
+        public IExpressionView ExpressionView { get; }
 
 
         public event EventHandler SelectedViewChanged

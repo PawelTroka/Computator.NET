@@ -17,21 +17,23 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
         private readonly AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
         private readonly AvalonEditCodeEditor _codeEditor;
         private ISharedViewState _sharedViewState;
+        private readonly IFunctionsDetails _functionsDetails;
 
-        public AvalonEditCodeEditorControl(ISharedViewState sharedViewState)
+        public AvalonEditCodeEditorControl(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {
             _sharedViewState = sharedViewState;
-            _codeEditor = new AvalonEditCodeEditor(_sharedViewState);
+            _functionsDetails = functionsDetails;
+            _codeEditor = new AvalonEditCodeEditor(_sharedViewState, functionsDetails);
 
             BackColor = Color.White;
             Dock = DockStyle.Fill;
             Child = _codeEditor;
             //   codeEditor.TextArea.TextView.GetVisualPosition(new TextViewPosition(5) {Location = }, VisualYPosition.TextMiddle)
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState)
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState, _functionsDetails)
             {
                 TargetControlWrapper = new AvalonWrapper(this)
             };
-            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
+            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting(functionsDetails));
             SetFont(Settings.Default.ScriptingFont);
 
             _autocompleteMenu.MaximumSize = new Size(500, 180);

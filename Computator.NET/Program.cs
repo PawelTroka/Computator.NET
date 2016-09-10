@@ -4,12 +4,15 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Natives;
 using Computator.NET.Properties;
 using Computator.NET.UI;
+using Computator.NET.UI.Controls;
+using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.Dialogs;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
@@ -60,6 +63,13 @@ namespace Computator.NET
             container.RegisterType<IMainForm, MainForm>(new ContainerControlledLifetimeManager());
             container.RegisterType<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
 
+            container.RegisterType<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());//check
+
+            container.RegisterType<ITextProvider, IExpressionTextBox>(new ContainerControlledLifetimeManager());//check
+
+            container.RegisterType<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IToolbarView, ToolBarView>(new ContainerControlledLifetimeManager());
+
             container.RegisterType<IChartingView, ChartingView>(new ContainerControlledLifetimeManager());
             container.RegisterType<IChartAreaValuesView, ChartAreaValuesView>(new ContainerControlledLifetimeManager());
 
@@ -73,11 +83,11 @@ namespace Computator.NET
             container.RegisterType<ICustomFunctionsView, CustomFunctionsView>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<IErrorHandler, IErrorHandler>(new ContainerControlledLifetimeManager());
             container.RegisterType<IExceptionsHandler, ExceptionsHandler>(new ContainerControlledLifetimeManager());
-
-
+            
 
             var mainFormPresenter = container.Resolve<MainFormPresenter>();
             var chartingViewPresenter = container.Resolve<ChartingViewPresenter>();

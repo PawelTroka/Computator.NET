@@ -8,11 +8,11 @@ namespace Computator.NET.UI.Views
 {
     public partial class ScriptingView : UserControl, IScriptingView
     {
-        public ScriptingView()
+        public ScriptingView(CodeEditorControlWrapper codeEditor)
         {
             InitializeComponent();
 
-            var codeEditor = new CodeEditorControlWrapper {Dock = DockStyle.Fill};
+            codeEditor.Dock=DockStyle.Fill;
             splitContainer2.Panel1.Controls.Add(codeEditor);
             splitContainer1.Panel2.Controls.Add(SolutionExplorerView as Control);
             splitContainer1.Panel2.Controls[1].BringToFront();

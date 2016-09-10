@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Drawing;
+using Computator.NET.Data;
 
 namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
     public class FuzzyAutoCompleteItem : AutocompleteItem
     {
-        public FuzzyAutoCompleteItem(string text) : base(text)
+        private IFunctionsDetails _functionsDetails;
+        public FuzzyAutoCompleteItem(string text, IFunctionsDetails functionsDetails) : base(text,functionsDetails)
         {
+            _functionsDetails = functionsDetails;
         }
 
         public FuzzyAutoCompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
-            int imageIndex) : base(name, addition, additionWithTypes, returnTypeName, imageIndex)
+            int imageIndex, IFunctionsDetails functionsDetails) : base(name, addition, additionWithTypes, returnTypeName, imageIndex, functionsDetails)
         {
+            _functionsDetails = functionsDetails;
         }
 
         public override CompareResult Compare(string fragmentText)
@@ -34,8 +38,8 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
         private readonly string lowercaseText;
         private string firstPart;
 
-        public MethodAutocompleteItem(string text)
-            : base(text)
+        public MethodAutocompleteItem(string text, IFunctionsDetails functionsDetails)
+            : base(text,functionsDetails)
         {
             lowercaseText = Text.ToLower();
         }
@@ -69,7 +73,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
     /// <remarks>Snippet can contain special char ^ for caret position.</remarks>
     public class SnippetAutocompleteItem : AutocompleteItem
     {
-        public SnippetAutocompleteItem(string snippet)
+        public SnippetAutocompleteItem(string snippet, IFunctionsDetails functionsDetails) : base(functionsDetails)
         {
             Text = snippet.Replace("\r", "");
             ToolTipTitle = "Code snippet:";
@@ -124,8 +128,8 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
         protected readonly bool ignoreCase;
         protected readonly string lowercaseText;
 
-        public SubstringAutocompleteItem(string text, bool ignoreCase = true)
-            : base(text)
+        public SubstringAutocompleteItem(string text, IFunctionsDetails functionsDetails, bool ignoreCase = true)
+            : base(text,functionsDetails)
         {
             this.ignoreCase = ignoreCase;
             if (ignoreCase)
@@ -154,9 +158,8 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
     /// </summary>
     public class MulticolumnAutocompleteItem : SubstringAutocompleteItem
     {
-        public MulticolumnAutocompleteItem(string[] menuTextByColumns, string insertingText,
-            bool compareBySubstring = true, bool ignoreCase = true)
-            : base(insertingText, ignoreCase)
+        public MulticolumnAutocompleteItem(string[] menuTextByColumns, string insertingText, IFunctionsDetails functionsDetails, bool compareBySubstring = true, bool ignoreCase = true)
+            : base(insertingText, functionsDetails, ignoreCase)
         {
             CompareBySubstring = compareBySubstring;
             MenuTextByColumns = menuTextByColumns;

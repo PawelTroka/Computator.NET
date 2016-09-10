@@ -25,8 +25,9 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
         private int selectedItemIndex = -1;
         private IList<AutocompleteItem> visibleItems;
 
-        internal AutocompleteListView()
+        internal AutocompleteListView(IFunctionsDetails functionDetails)
         {
+            _functionDetails = functionDetails;
             // functionsDetails = new Dictionary<string, FunctionInfo>();
             toolTip = new WebBrowserToolTip();
             SetStyle(
@@ -137,13 +138,14 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             return new Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
         }
 
+        private IFunctionsDetails _functionDetails;
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
             toolTip.Close();
             var signature = autocompleteItem.Text;
-            if (!FunctionsDetails.Details.ContainsKey(signature))
+            if (!_functionDetails.ContainsKey(signature))
                 return;
-            var functionInfo = FunctionsDetails.Details[signature];
+            var functionInfo = _functionDetails[signature];
 
             if (string.IsNullOrEmpty(functionInfo.Description) || string.IsNullOrWhiteSpace(functionInfo.Description) ||
                 string.IsNullOrEmpty(functionInfo.Title) || string.IsNullOrWhiteSpace(functionInfo.Title)

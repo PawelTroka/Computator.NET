@@ -4,16 +4,22 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Accord.Collections;
+using Computator.NET.Charting;
+using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Properties;
+using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.Interfaces;
 using Computator.NET.UI.Menus;
 using Computator.NET.UI.Menus.Commands;
+using Computator.NET.UI.Menus.Commands.DummyCommands;
 using Computator.NET.UI.Menus.Commands.EditCommands;
 using Computator.NET.UI.Menus.Commands.FileCommands;
 using Computator.NET.UI.Menus.Commands.HelpCommands;
+using HelpCommand = Computator.NET.UI.Menus.HelpCommand;
 
 namespace Computator.NET.UI.Presenters
 {
@@ -25,35 +31,52 @@ namespace Computator.NET.UI.Presenters
         private CalculationsMode _calculationsMode;
         private bool _applicationNeedRestart;
 
-        public MainFormPresenter(IMainForm view, ISharedViewState sharedViewState)
+        public MainFormPresenter(IMainForm view, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {
             _view = view;
             _sharedViewState = sharedViewState;
             _view.Load += (sender, args) => HandleCommandLine();
             _view.ToolbarView.SetCommands(new List<IToolbarCommand>
             {
-                new NewCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor),
-                new OpenCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor),
-                new SaveCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor),
+                new NewCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,sharedViewState),
+                new OpenCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,sharedViewState),
+                new SaveCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,sharedViewState),
                 new PrintCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,
-                    _view),
+                    _view,sharedViewState),
                 null,
                 new CutCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,
-                    _view),
+                    _view,sharedViewState),
                 new CopyCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,
-                    _view),
+                    _view,sharedViewState),
                 new PasteCommand(_view.ScriptingView.CodeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor,
-                    _view),
+                    _view,sharedViewState),
                 null,
                 new HelpCommand(),
                 null,
                 new ExponentCommand(sharedViewState),
                 null,
-                new RunCommand()
+                new RunCommand(sharedViewState)
             });
 
 
-            _view.MenuStripView.SetCommands(MenuStripCommandBuilder.BuildMenuStripCommands(_view));
+            ICanFileEdit codeEditorView = _view.ScriptingView.CodeEditorView;
+            ITextProvider codeEditorView1 = _view.ScriptingView.CodeEditorView;
+            ReadOnlyDictionary<CalculationsMode, IChart> charts = _view.ChartingView.Charts;
+            ITextProvider expressionTextBox = _view.ExpressionView.ExpressionTextBox;
+            ITextProvider customFunctionsEditor1 = _view.CustomFunctionsView.CustomFunctionsEditor;
+            _view.MenuStripView.SetCommands(new List<IToolbarCommand>
+            {
+                new FileCommand(_view, codeEditorView, codeEditorView,sharedViewState ),
+                new EditCommand(_view, codeEditorView, _view.CustomFunctionsView.CustomFunctionsEditor, sharedViewState),
+                new FunctionsCommand(expressionTextBox, codeEditorView1,
+                    customFunctionsEditor1, sharedViewState, functionsDetails),
+                new ConstantsCommand(expressionTextBox, codeEditorView1,
+                    customFunctionsEditor1, sharedViewState, functionsDetails),
+                new ChartCommand(charts,sharedViewState),
+                new TransformCommand(sharedViewState, charts),
+                new ToolsCommand(_view),
+                new HelpCommand(),
+            });
 
             //  _view.EnterClicked += (o, e) => _sharedViewState.CurrentAction?.Invoke(o, e);
 

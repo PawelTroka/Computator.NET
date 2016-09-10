@@ -5,7 +5,7 @@ namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
     internal class FullScreenCommand : CommandBase
     {
-        private readonly IMainForm mainFormView;
+        private readonly IMainForm _mainFormView;
 
         public FullScreenCommand(IMainForm mainFormView)
         {
@@ -13,7 +13,7 @@ namespace Computator.NET.UI.Menus.Commands.ToolsCommands
             Text = MenuStrings.fullscreenToolStripMenuItem_Text;
             ToolTip = MenuStrings.fullscreenToolStripMenuItem_Text;
             //   this.CheckOnClick = true;
-            this.mainFormView = mainFormView;
+            this._mainFormView = mainFormView;
         }
 
 
@@ -23,14 +23,14 @@ namespace Computator.NET.UI.Menus.Commands.ToolsCommands
             if (Checked)
             {
                 // this.TopMost = true;
-                mainFormView.FormBorderStyle = FormBorderStyle.None;
-                mainFormView.WindowState = FormWindowState.Maximized;
+                _mainFormView.FormBorderStyle = FormBorderStyle.None;
+                _mainFormView.WindowState = FormWindowState.Maximized;
             }
             else
             {
                 // this.TopMost = false;
-                mainFormView.FormBorderStyle = FormBorderStyle.Sizable;
-                mainFormView.WindowState = FormWindowState.Normal;
+                _mainFormView.FormBorderStyle = FormBorderStyle.Sizable;
+                _mainFormView.WindowState = FormWindowState.Normal;
             }
         }
     }

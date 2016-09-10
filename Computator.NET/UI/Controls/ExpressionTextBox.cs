@@ -15,11 +15,13 @@ namespace Computator.NET.UI.Controls
     internal class ExpressionTextBox : TextBox, INotifyPropertyChanged, IExpressionTextBox
     {
         private ISharedViewState _sharedViewState;
+        private IFunctionsDetails _functionsDetails;
         private AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
 
-        public ExpressionTextBox(ISharedViewState sharedViewState)
+        public ExpressionTextBox(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {
             _sharedViewState = sharedViewState;
+            _functionsDetails = functionsDetails;
             InitializeComponent();
 
             GotFocus += ExpressionTextBox_GotFocus;
@@ -114,7 +116,7 @@ namespace Computator.NET.UI.Controls
         private void InitializeComponent()
         {
             KeyPress += ExpressionTextBox_KeyPress;
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState);
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState, _functionsDetails);
             _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
         }
 
@@ -134,7 +136,7 @@ namespace Computator.NET.UI.Controls
 
         private void RefreshAutoComplete()
         {
-            var array = AutocompletionData.GetAutocompleteItemsForExpressions(true);
+            var array = AutocompletionData.GetAutocompleteItemsForExpressions(_functionsDetails,true);
             if (Sort)
                 Array.Sort(array, (a, b) => a.Text.CompareTo(b.Text));
             _autocompleteMenu.SetAutocompleteItems(array);
