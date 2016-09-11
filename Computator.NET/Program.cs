@@ -3,10 +3,12 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
+using Computator.NET.Evaluation;
 using Computator.NET.Logging;
 using Computator.NET.Natives;
 using Computator.NET.Properties;
@@ -60,12 +62,9 @@ namespace Computator.NET
         {
             var container = new UnityContainer();
 
+            //views
             container.RegisterType<IMainForm, MainForm>(new ContainerControlledLifetimeManager());
             container.RegisterType<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
-
-            container.RegisterType<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());//check
-
-            container.RegisterType<ITextProvider, IExpressionTextBox>(new ContainerControlledLifetimeManager());//check
 
             container.RegisterType<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());
             container.RegisterType<IToolbarView, ToolBarView>(new ContainerControlledLifetimeManager());
@@ -82,14 +81,40 @@ namespace Computator.NET
 
             container.RegisterType<ICustomFunctionsView, CustomFunctionsView>(new ContainerControlledLifetimeManager());
 
+            //shared singletons
             container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
             container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<IErrorHandler, IErrorHandler>(new ContainerControlledLifetimeManager());
+            //singleton handlers
+            container.RegisterType<IErrorHandler, SimpleErrorHandler>(new ContainerControlledLifetimeManager());
             container.RegisterType<IExceptionsHandler, ExceptionsHandler>(new ContainerControlledLifetimeManager());
-            
 
+
+            //components and controls
+            container.RegisterType<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());//check
+            container.RegisterType<ITextProvider>(new InjectionFactory(c => container.Resolve<ExpressionTextBox>()));//check
+
+            //container.RegisterInstance<CodeEditorControlWrapper>();
+            container.RegisterType<ICodeEditorView, CodeEditorControlWrapper>(new ContainerControlledLifetimeManager());//check
+            container.RegisterType<ICodeDocumentsEditor>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
+            container.RegisterType<IDocumentsEditor>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
+            container.RegisterType<ICanFileEdit>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
+            container.RegisterType<ICanOpenFiles>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
+            container.RegisterType<ITextProvider>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
+            container.RegisterType<ISupportsExceptionHighliting>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
+
+
+            //models and business objects
+            container.RegisterType<IModeDeterminer, ModeDeterminer>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITslCompiler, TslCompiler>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
+
+
+            //presenters
             var mainFormPresenter = container.Resolve<MainFormPresenter>();
+            var expressionViewPresenter = container.Resolve<ExpressionViewPresenter>();         
             var chartingViewPresenter = container.Resolve<ChartingViewPresenter>();
             var calculationsViewPresenter = container.Resolve<CalculationsPresenter>();
             var numericalCalculationsPresenter = container.Resolve<NumericalCalculationsPresenter>();

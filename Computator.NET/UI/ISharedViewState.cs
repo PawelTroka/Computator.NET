@@ -12,10 +12,7 @@ namespace Computator.NET.UI
         CalculationsMode CalculationsMode { get; set; }
         Action<object, EventArgs> CurrentAction { get; }
         ViewName CurrentView { get; set; }
-        ISupportsExceptionHighliting CustomFunctionsEditor { get; }
-        string CustomFunctionsText { get; }
         Dictionary<ViewName, Action<object, EventArgs>> DefaultActions { get; }
-        string ExpressionText { get; }
         bool IsExponent { get; set; }
     }
 }

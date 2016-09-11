@@ -12,7 +12,7 @@ using Computator.NET.Properties;
 
 namespace Computator.NET.UI.Controls
 {
-    internal class ExpressionTextBox : TextBox, INotifyPropertyChanged, IExpressionTextBox
+    public class ExpressionTextBox : TextBox, IExpressionTextBox
     {
         private ISharedViewState _sharedViewState;
         private IFunctionsDetails _functionsDetails;
@@ -185,11 +185,6 @@ namespace Computator.NET.UI.Controls
             if (c == '*' || c == '/' || c == '+' || c == '-' || c == '(' || c == '^' || c == '!')
                 return true;
             return false;
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

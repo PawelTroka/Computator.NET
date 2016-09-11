@@ -6,6 +6,7 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
+using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
 
@@ -18,14 +19,17 @@ namespace Computator.NET.UI.Presenters
         private readonly ExpressionsEvaluator _expressionsEvaluator = new ExpressionsEvaluator();
         private readonly ICalculationsView _view;
         private CalculationsMode _calculationsMode;
+        private readonly ITextProvider _expressionTextProvider;
 
-        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler)
+        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider, ICodeEditorView customFunctionsEditor)
         {
             _view = view;
 
             _errorHandler = errorHandler;
             _sharedViewState = sharedViewState;
             _exceptionsHandler = exceptionsHandler;
+            _expressionTextProvider = expressionTextProvider;
+            this.customFunctionsEditor = customFunctionsEditor;
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(_ModeChanged);
             _view.CalculateClicked += _view_CalculateClicked;
             _sharedViewState.DefaultActions[ViewName.Calculations] = _view_CalculateClicked;
@@ -33,13 +37,13 @@ namespace Computator.NET.UI.Presenters
 
         private void _view_CalculateClicked(object sender, EventArgs e)
         {
-            if (_sharedViewState.ExpressionText != "")
+            if (_expressionTextProvider.Text != "")
             {
                 try
                 {
-                    _sharedViewState.CustomFunctionsEditor.ClearHighlightedErrors();
-                    var function = _expressionsEvaluator.Evaluate(_sharedViewState.ExpressionText,
-                        _sharedViewState.CustomFunctionsText, _calculationsMode);
+                    customFunctionsEditor.ClearHighlightedErrors();
+                    var function = _expressionsEvaluator.Evaluate(_expressionTextProvider.Text,
+                        customFunctionsEditor.Text, _calculationsMode);
 
                     var x = _view.X;
                     var y = _view.Y;
@@ -49,7 +53,7 @@ namespace Computator.NET.UI.Presenters
 
                     var resultStr = ScriptingExtensions.ToMathString(result);
 
-                    _view.AddResult(_sharedViewState.ExpressionText,
+                    _view.AddResult(_expressionTextProvider.Text,
                         _calculationsMode == CalculationsMode.Complex
                             ? z.ToMathString()
                             : (_calculationsMode == CalculationsMode.Fxy
@@ -67,6 +71,7 @@ namespace Computator.NET.UI.Presenters
         }
 
         private IExceptionsHandler _exceptionsHandler;
+        private ICodeEditorView customFunctionsEditor;
 
         private void _ModeChanged(CalculationsModeChangedEvent calculationsModeChangedEvent)
         {

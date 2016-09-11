@@ -3,6 +3,7 @@ using Computator.NET.Compilation;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
+using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
 
@@ -10,34 +11,36 @@ namespace Computator.NET.UI.Presenters
 {
     public class ScriptingViewPresenter
     {
-        private readonly IErrorHandler _errorHandler;
         private ISharedViewState _sharedViewState;
 
-        private readonly ScriptEvaluator _eval = new ScriptEvaluator();
+        private readonly IScriptEvaluator _eval;
         private readonly IScriptingView _view;
 
-        public ScriptingViewPresenter(IScriptingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler)
+        public ScriptingViewPresenter(IScriptingView view, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ICodeEditorView customFunctionsEditor, IScriptEvaluator eval)
         {
             _view = view;
-            _errorHandler = errorHandler;
             _sharedViewState = sharedViewState;
             _exceptionsHandler = exceptionsHandler;
+            _customFunctionsEditor = customFunctionsEditor;
+            _eval = eval;
             _view.ProcessClicked += _view_ProcessClicked;
             _sharedViewState.DefaultActions[ViewName.Scripting] = _view_ProcessClicked;
             var solutionExplorerPresenter = new SolutionExplorerPresenter(_view.SolutionExplorerView,
                 _view.CodeEditorView, true);
         }
-        private IExceptionsHandler _exceptionsHandler;
+        private readonly IExceptionsHandler _exceptionsHandler;
+        private readonly ICodeEditorView _customFunctionsEditor;
+
         private void _view_ProcessClicked(object sender, EventArgs e)
         {
             _view.ConsoleOutput = Strings.ConsoleOutput;
 
             _view.CodeEditorView.ClearHighlightedErrors();
-            _sharedViewState.CustomFunctionsEditor.ClearHighlightedErrors();
+            _customFunctionsEditor.ClearHighlightedErrors();
 
             try
             {
-                var function = _eval.Evaluate(_view.CodeEditorView.Text, _sharedViewState.CustomFunctionsText);
+                var function = _eval.Evaluate(_view.CodeEditorView.Text, _customFunctionsEditor.Text);
                 function.Evaluate(output => _view.AppendToConsole(output));
             }
             catch (Exception ex)

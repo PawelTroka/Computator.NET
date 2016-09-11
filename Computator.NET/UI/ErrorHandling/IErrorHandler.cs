@@ -3,6 +3,7 @@ using Computator.NET.Compilation;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
+using Computator.NET.UI.Controls.CodeEditors;
 
 namespace Computator.NET.UI.ErrorHandling
 {
@@ -20,10 +21,11 @@ namespace Computator.NET.UI.ErrorHandling
     public class ExceptionsHandler : IExceptionsHandler
     {
         private readonly IErrorHandler _errorHandler;
-        private ExceptionsHandler(ISharedViewState sharedViewState, IErrorHandler errorHandler)
+        public ExceptionsHandler(ISharedViewState sharedViewState, IErrorHandler errorHandler, ISupportsExceptionHighliting customFunctionsEditor)
         {
             _sharedViewState = sharedViewState;
             _errorHandler = errorHandler;
+            this.customFunctionsEditor = customFunctionsEditor;
         }
 
         public void HandleException(Exception ex)
@@ -41,6 +43,8 @@ namespace Computator.NET.UI.ErrorHandling
         }
 
         private ISharedViewState _sharedViewState;
+        private ISupportsExceptionHighliting customFunctionsEditor;
+
         private void HandleCustomFunctionsErrors(CompilationException exception)
         {
             //CustomFunctionsCodeEditorControl.ClearHighlightedErrors();
@@ -51,7 +55,7 @@ namespace Computator.NET.UI.ErrorHandling
 
             //   EventAggregator.Instance.Publish<ErrorsInCustomFunctionsEvent>(new ErrorsInCustomFunctionsEvent(exception.Errors[CompilationErrorPlace.CustomFunctions]));
 
-            _sharedViewState.CustomFunctionsEditor.HighlightErrors(
+            customFunctionsEditor.HighlightErrors(
                 exception.Errors[CompilationErrorPlace.CustomFunctions]);
 
             // CustomFunctionsCodeEditorControl.HighlightErrors(

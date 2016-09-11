@@ -4,6 +4,7 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
+using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
 
@@ -14,15 +15,17 @@ namespace Computator.NET.UI.Presenters
         private readonly IErrorHandler _errorHandler;
         private readonly ExpressionsEvaluator _expressionsEvaluator = new ExpressionsEvaluator();
         private readonly IChartingView _view;
-        private ISharedViewState _sharedViewState;
+        private readonly ISharedViewState _sharedViewState;
         private CalculationsMode _calculationsMode;
-
-        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler)
+        private readonly ITextProvider _expressionTextProvider;
+        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider, ICodeEditorView customFunctionsEditor)
         {
             _view = view;
             _errorHandler = errorHandler;
             _sharedViewState = sharedViewState;
             _exceptionsHandler = exceptionsHandler;
+            _expressionTextProvider = expressionTextProvider;
+            this.customFunctionsEditor = customFunctionsEditor;
 
             var chartAreaValuesViewPresenter = new ChartAreaValuesPresenter(_view.ChartAreaValuesView);
 
@@ -69,15 +72,16 @@ namespace Computator.NET.UI.Presenters
             }
         }
 
+        private ICodeEditorView customFunctionsEditor;
         private void ChartAreaValuesView1_AddClicked(object sender, EventArgs e)
         {
-            if (_sharedViewState.ExpressionText != "")
+            if (_expressionTextProvider.Text != "")
             {
                 try
                 {
-                    _sharedViewState.CustomFunctionsEditor.ClearHighlightedErrors();
-                    CurrentChart.AddFunction(_expressionsEvaluator.Evaluate(_sharedViewState.ExpressionText,
-                        _sharedViewState.CustomFunctionsText,
+                    customFunctionsEditor.ClearHighlightedErrors();
+                    CurrentChart.AddFunction(_expressionsEvaluator.Evaluate(_expressionTextProvider.Text,
+                        customFunctionsEditor.Text,
                         _calculationsMode));
                 }
                 catch (Exception ex)

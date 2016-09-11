@@ -31,7 +31,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
         }
     }
 
-    internal class ScintillaCodeEditorControl : ScintillaNET.Scintilla, INotifyPropertyChanged, ICodeEditorControl
+    public class ScintillaCodeEditorControl : ScintillaNET.Scintilla, INotifyPropertyChanged, ICodeEditorControl
     {
         private ISharedViewState _sharedViewState;
         // Indicators 0-7 could be in use by a lexer
@@ -47,10 +47,6 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
         private int maxLineNumberCharLength;
         private IFunctionsDetails _functionsDetails;
 
-        public ScintillaCodeEditorControl(string code, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : this(sharedViewState, functionsDetails)
-        {
-            Text = code;
-        }
 
         public ScintillaCodeEditorControl(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {

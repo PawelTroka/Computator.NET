@@ -16,8 +16,8 @@ using Computator.NET.UI.Controls.CodeEditors.Scintilla;
 
 namespace Computator.NET.UI.Controls.CodeEditors
 {
-    public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor, ICanFileEdit,
-        INotifyPropertyChanged
+    public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor
+        
     {
         private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors;
 
@@ -33,21 +33,17 @@ namespace Computator.NET.UI.Controls.CodeEditors
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
 
-        private IFunctionsDetails _functionsDetails;
-        public CodeEditorControlWrapper(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+
+        public CodeEditorControlWrapper(ScintillaCodeEditorControl scintillaCodeEditorControl, AvalonEditCodeEditor avalonEditCodeEditor)
         {
-            _sharedViewState = sharedViewState;
-            _functionsDetails = functionsDetails;
+
             _codeEditors = new Dictionary
             <CodeEditorType, ICodeEditorControl>
         {
             {
-                CodeEditorType.Scintilla, new ScintillaCodeEditorControl(_sharedViewState,_functionsDetails)
-                {
-                    Dock = DockStyle.Fill
-                }
+                CodeEditorType.Scintilla, scintillaCodeEditorControl
             },
-            {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor(_sharedViewState, functionsDetails)}
+            {CodeEditorType.AvalonEdit, avalonEditCodeEditor}
         };
             avalonEditorWrapper = new ElementHost
             {
@@ -361,12 +357,6 @@ namespace Computator.NET.UI.Controls.CodeEditors
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Show();
                     break;
             }
-        }
-
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

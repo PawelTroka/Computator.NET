@@ -22,7 +22,7 @@ namespace Computator.NET.Data
     {
         private readonly Dictionary<string, FunctionInfo> _details;
 
-        private FunctionsDetails()
+        public FunctionsDetails()
         {
             _details = LoadFunctionsDetailsFromXmlFile();
             AddDetailsFromMetadata();

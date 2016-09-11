@@ -5,7 +5,12 @@ using Computator.NET.DataTypes;
 
 namespace Computator.NET.Evaluation
 {
-    public class ModeDeterminer
+    public interface IModeDeterminer
+    {
+        CalculationsMode DetermineMode(string input);
+    }
+
+    public class ModeDeterminer : IModeDeterminer
     {
         private readonly Regex FindI;
         private readonly Regex FindY;
@@ -19,10 +24,11 @@ namespace Computator.NET.Evaluation
         private readonly string pre = $@"^(?:(?:\n|\r|\r\n|.)*[\+\-\*{SpecialSymbols.DotSymbol}\/\,\(\s])?(";
         private readonly string preExponent = $@"[^{SpecialSymbols.SuperscriptAlphabet}]+(";
         //private Regex FindX;
-        private readonly TslCompiler _tslCompiler = new TslCompiler();
+        private readonly ITslCompiler _tslCompiler;
 
-        public ModeDeterminer()
+        public ModeDeterminer(ITslCompiler tslCompiler)
         {
+            _tslCompiler = tslCompiler;
             //  FindX = new Regex(pre + "x" + post, RegexOptions.Compiled);
             FindY =
                 new Regex(

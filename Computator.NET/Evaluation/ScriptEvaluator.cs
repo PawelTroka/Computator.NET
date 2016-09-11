@@ -8,7 +8,12 @@ using Computator.NET.Properties;
 
 namespace Computator.NET.Evaluation
 {
-    internal class ScriptEvaluator : ExpressionsEvaluator
+    public interface IScriptEvaluator
+    {
+        ScriptFunction Evaluate(string input, string customFunctionsCode);
+    }
+
+    public class ScriptEvaluator : ExpressionsEvaluator, IScriptEvaluator
     {
         private readonly string _additionalObjectsCodeCopy;
 

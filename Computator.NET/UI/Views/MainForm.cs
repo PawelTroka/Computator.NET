@@ -1,7 +1,6 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Windows.Forms;
-using Computator.NET.Data;
 using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Views
@@ -19,7 +18,7 @@ namespace Computator.NET.UI.Views
             symbolicCalculationsTabPage.Enabled = false;
         }
 
-        public MainForm(IMenuStripView menuStripView, IToolbarView toolbarView, ICalculationsView calculationsView, INumericalCalculationsView numericalCalculationsView, IScriptingView scriptingView, ICustomFunctionsView customFunctionsView, IChartingView chartingView, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : this()
+        public MainForm(IMenuStripView menuStripView, IToolbarView toolbarView, ICalculationsView calculationsView, INumericalCalculationsView numericalCalculationsView, IScriptingView scriptingView, ICustomFunctionsView customFunctionsView, IChartingView chartingView, ISharedViewState sharedViewState, IExpressionView expressionView) : this()
         {
             this.sharedViewState = sharedViewState;
             MenuStripView = menuStripView;
@@ -29,19 +28,32 @@ namespace Computator.NET.UI.Views
             ScriptingView = scriptingView;
             CustomFunctionsView = customFunctionsView;
             ChartingView = chartingView;
-            InitializeComponent();
-            ExpressionView = new ExpressionView(sharedViewState, functionsDetails) {Dock = DockStyle.Top};
-            Controls.Add((Control) ExpressionView);
+            ExpressionView = expressionView;
+
+
+            (ExpressionView as Control).Dock=DockStyle.Top;
+            Controls.Add(ExpressionView as Control);
+
+            (ToolbarView as Control).Dock=DockStyle.Top;
             Controls.Add(ToolbarView as Control);
+
+            (MenuStripView as Control).Dock = DockStyle.Top;
             Controls.Add(MenuStripView as Control);
 
+            (ChartingView as Control).Dock = DockStyle.Fill;
             chartingTabPage.Controls.Add(ChartingView as Control);
-            calculationsTabPage.Controls.Add(CalculationsView as Control);
-            numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
-            scriptingTabPage.Controls.Add(ScriptingView as Control);
-            customFunctionsTabPage.Controls.Add(CustomFunctionsView as Control);
 
-            symbolicCalculationsTabPage.Enabled = false;
+            (CalculationsView as Control).Dock = DockStyle.Fill;
+            calculationsTabPage.Controls.Add(CalculationsView as Control);
+
+            (NumericalCalculationsView as Control).Dock = DockStyle.Fill;
+            numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
+
+            (ScriptingView as Control).Dock = DockStyle.Fill;
+            scriptingTabPage.Controls.Add(ScriptingView as Control);
+
+            (CustomFunctionsView as Control).Dock = DockStyle.Fill;
+            customFunctionsTabPage.Controls.Add(CustomFunctionsView as Control);
         }
 
         #endregion

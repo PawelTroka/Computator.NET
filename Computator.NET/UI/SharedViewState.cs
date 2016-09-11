@@ -12,17 +12,12 @@ namespace Computator.NET.UI
     {
         private CalculationsMode _calculationsMode;
         private ViewName _currentView;
-        private readonly ICodeEditorView _customFunctions;
 
-        private readonly Lazy<ITextProvider> _expression;
         private bool _isExponent;
 
 
-        public SharedViewState(Lazy<ITextProvider> expression, ICodeEditorView customFunctions)
+        public SharedViewState()
         {
-            this._expression = expression;
-            this._customFunctions = customFunctions;
-
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(
                 cmce => { CalculationsMode = cmce.CalculationsMode; });
         }
@@ -67,10 +62,6 @@ namespace Computator.NET.UI
             }
         }
 
-        public string ExpressionText => _expression.Value.Text;
-
-        public ISupportsExceptionHighliting CustomFunctionsEditor => _customFunctions;
-        public string CustomFunctionsText => _customFunctions.Text;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

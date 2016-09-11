@@ -14,7 +14,12 @@ using Computator.NET.NumericalCalculations;
 
 namespace Computator.NET.Evaluation
 {
-    internal class ExpressionsEvaluator
+    public interface IExpressionsEvaluator
+    {
+        Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode);
+    }
+
+    public class ExpressionsEvaluator : IExpressionsEvaluator
     {
         private const string LambdaScript = MatrixFunctions.ToCode + ScriptingFunctions.ToCode + @"
             public static void CustomFunction(System.Action<string> CONSOLE_OUTPUT_CALLBACK)

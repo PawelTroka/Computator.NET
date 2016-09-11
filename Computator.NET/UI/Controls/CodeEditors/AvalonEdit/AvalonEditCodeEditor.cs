@@ -31,7 +31,7 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
 {
-    internal class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
+    public class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
     {
         private ISharedViewState _sharedViewState;
         private readonly Dictionary<string, TextDocument>

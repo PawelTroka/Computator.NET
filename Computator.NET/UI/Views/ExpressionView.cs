@@ -8,9 +8,9 @@ namespace Computator.NET.UI.Views
     public partial class ExpressionView : UserControl, IExpressionView
     {
         private Controls.ExpressionTextBox expressionTextBox;
-        public ExpressionView(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : this()
+        public ExpressionView(Controls.ExpressionTextBox expressionTextBox) : this()
         {
-            this.expressionTextBox = new Computator.NET.UI.Controls.ExpressionTextBox(sharedViewState,functionsDetails);
+            this.expressionTextBox = expressionTextBox;
             this.tableLayoutPanel1.Controls.Add(this.expressionTextBox, 1, 0);
         }
 

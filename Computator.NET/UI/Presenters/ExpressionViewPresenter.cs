@@ -9,13 +9,14 @@ namespace Computator.NET.UI.Presenters
     public class ExpressionViewPresenter
     {
         private readonly IExpressionView _view;
-        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
+        private readonly IModeDeterminer modeDeterminer;
         private ISharedViewState _sharedViewState;
 
-        public ExpressionViewPresenter(IExpressionView view, ISharedViewState sharedViewState)
+        public ExpressionViewPresenter(IExpressionView view, ISharedViewState sharedViewState, IModeDeterminer modeDeterminer)
         {
             _view = view;
             _sharedViewState = sharedViewState;
+            this.modeDeterminer = modeDeterminer;
             _view.ExpressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             _view.ExpressionTextBox.KeyPress += ExpressionTextBox_KeyPress;
 
@@ -36,7 +37,7 @@ namespace Computator.NET.UI.Presenters
 
         private void ExpressionTextBox_TextChanged(object sender, EventArgs e)
         {
-            var mode = modeDeterminer.DetermineMode(_sharedViewState.ExpressionText);
+            var mode = modeDeterminer.DetermineMode(_view.ExpressionTextBox.Text);
             if (mode == _sharedViewState.CalculationsMode) return;
             _sharedViewState.CalculationsMode = mode;
             EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(mode));

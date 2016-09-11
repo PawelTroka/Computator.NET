@@ -80,8 +80,6 @@ namespace Computator.NET.UI.Presenters
 
             //  _view.EnterClicked += (o, e) => _sharedViewState.CurrentAction?.Invoke(o, e);
 
-            var expressionViewPresenter = new ExpressionViewPresenter(_view.ExpressionView,sharedViewState);
-
 
             _view.ModeForcedToReal += (sender, args) =>
             {

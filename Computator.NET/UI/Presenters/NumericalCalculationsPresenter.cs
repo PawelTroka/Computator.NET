@@ -5,6 +5,7 @@ using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
 using Computator.NET.NumericalCalculations;
+using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
 
@@ -13,6 +14,7 @@ namespace Computator.NET.UI.Presenters
     public class NumericalCalculationsPresenter
     {
         private ISharedViewState _sharedViewState;
+        private readonly ITextProvider _expressionTextProvider;
         private readonly Type _derivationType = typeof(Func<Func<double, double>, double, uint, double, double>);
 
         private readonly IErrorHandler _errorHandler;
@@ -26,18 +28,21 @@ namespace Computator.NET.UI.Presenters
         private readonly INumericalCalculationsView _view;
 
 
-        private readonly ExpressionsEvaluator expressionsEvaluator = new ExpressionsEvaluator();
+        private readonly IExpressionsEvaluator expressionsEvaluator;
 
 
         private CalculationsMode _calculationsMode;
 
 
-        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler)
+        public NumericalCalculationsPresenter(INumericalCalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider, ICodeEditorView customFunctionsEditor, IExpressionsEvaluator expressionsEvaluator)
         {
             _view = view;
             _errorHandler = errorHandler;
             _sharedViewState = sharedViewState;
             _exceptionsHandler = exceptionsHandler;
+            _expressionTextProvider = expressionTextProvider;
+            this.customFunctionsEditor = customFunctionsEditor;
+            this.expressionsEvaluator = expressionsEvaluator;
             _view.SetOperations(NumericalMethodsInfo.Instance._methods.Keys.ToArray());
             _view.SelectedOperation = NumericalMethodsInfo.Instance._methods.Keys.First();
             _view.OperationChanged += _view_OperationChanged;
@@ -61,9 +66,9 @@ namespace Computator.NET.UI.Presenters
             {
                 try
                 {
-                    _sharedViewState.CustomFunctionsEditor.ClearHighlightedErrors();
-                    var function = expressionsEvaluator.Evaluate(_sharedViewState.ExpressionText,
-                        _sharedViewState.CustomFunctionsText, _calculationsMode);
+                    customFunctionsEditor.ClearHighlightedErrors();
+                    var function = expressionsEvaluator.Evaluate(_expressionTextProvider.Text,
+                        customFunctionsEditor.Text, _calculationsMode);
 
                     Func<double, double> fx = x => function.Evaluate(x);
 
@@ -124,7 +129,7 @@ namespace Computator.NET.UI.Presenters
                             $"a={_view.A.ToMathString()}; b={_view.B.ToMathString()}; ε={eps.ToMathString()}; N={_view.N}";
                     }
 
-                    _view.AddResult(_sharedViewState.ExpressionText,
+                    _view.AddResult(_expressionTextProvider.Text,
                         _view.SelectedOperation,
                         _view.SelectedMethod,
                         parametersStr,
@@ -146,6 +151,8 @@ namespace Computator.NET.UI.Presenters
             }
         }
         private IExceptionsHandler _exceptionsHandler;
+        private ICodeEditorView customFunctionsEditor;
+
         private void _view_OperationChanged(object sender, EventArgs e)
         {
             _view.SetMethods(NumericalMethodsInfo.Instance._methods[_view.SelectedOperation].Keys.ToArray());
