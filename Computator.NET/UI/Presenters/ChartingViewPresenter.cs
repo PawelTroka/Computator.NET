@@ -27,7 +27,7 @@ namespace Computator.NET.UI.Presenters
             _expressionTextProvider = expressionTextProvider;
             this.customFunctionsEditor = customFunctionsEditor;
 
-            var chartAreaValuesViewPresenter = new ChartAreaValuesPresenter(_view.ChartAreaValuesView);
+            /////////////var chartAreaValuesViewPresenter = new ChartAreaValuesPresenter(_view.ChartAreaValuesView);
 
 
             _sharedViewState.DefaultActions[ViewName.Charting] = ChartAreaValuesView1_AddClicked;

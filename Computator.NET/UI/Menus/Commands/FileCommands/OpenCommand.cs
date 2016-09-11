@@ -5,7 +5,7 @@ using Computator.NET.UI.Controls.CodeEditors;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    internal class OpenCommand : CommandBase
+    public class OpenCommand : CommandBase
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;

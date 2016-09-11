@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using Computator.NET.UI.Interfaces;
 
@@ -5,9 +6,9 @@ namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
     internal class FullScreenCommand : CommandBase
     {
-        private readonly IMainForm _mainFormView;
+        private readonly Lazy<IMainForm> _mainFormView;
 
-        public FullScreenCommand(IMainForm mainFormView)
+        public FullScreenCommand(Lazy<IMainForm> mainFormView)
         {
             //this.Icon = Resources;
             Text = MenuStrings.fullscreenToolStripMenuItem_Text;
@@ -23,14 +24,14 @@ namespace Computator.NET.UI.Menus.Commands.ToolsCommands
             if (Checked)
             {
                 // this.TopMost = true;
-                _mainFormView.FormBorderStyle = FormBorderStyle.None;
-                _mainFormView.WindowState = FormWindowState.Maximized;
+                _mainFormView.Value.FormBorderStyle = FormBorderStyle.None;
+                _mainFormView.Value.WindowState = FormWindowState.Maximized;
             }
             else
             {
                 // this.TopMost = false;
-                _mainFormView.FormBorderStyle = FormBorderStyle.Sizable;
-                _mainFormView.WindowState = FormWindowState.Normal;
+                _mainFormView.Value.FormBorderStyle = FormBorderStyle.Sizable;
+                _mainFormView.Value.WindowState = FormWindowState.Normal;
             }
         }
     }

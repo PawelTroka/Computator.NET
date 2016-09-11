@@ -1,6 +1,10 @@
+using Accord.Collections;
+using Computator.NET.Charting;
+using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
@@ -8,11 +12,11 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
     {
         private ICanFileEdit customFunctionsCodeEditor;
         private ISharedViewState _sharedViewState;
-        private readonly IMainForm mainFormView;
         private ICanFileEdit scriptingCodeEditor;
+        private IApplicationManager _applicationManager;
+        private ReadOnlyDictionary<CalculationsMode, IChart> _charts;
 
-        public PrintPreviewCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
-            IMainForm mainFormView, ISharedViewState sharedViewState)
+        public PrintPreviewCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager, ReadOnlyDictionary<CalculationsMode, IChart> charts)
         {
             Icon = Resources.printPreviewToolStripMenuItemImage;
             Text = MenuStrings.printPreviewToolStripMenuItem_Text;
@@ -20,8 +24,9 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
 
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-            this.mainFormView = mainFormView;
             _sharedViewState = sharedViewState;
+            _applicationManager = applicationManager;
+            _charts = charts;
         }
 
 
@@ -31,7 +36,7 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
             {
                 case 0:
                     //if (_calculationsMode == CalculationsMode.Real)
-                    mainFormView.ChartingView.Charts[_sharedViewState.CalculationsMode].PrintPreview();
+                    _charts[_sharedViewState.CalculationsMode].PrintPreview();
                     // else
                     //  SendStringAsKey("^P");
                     break;
@@ -46,7 +51,7 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
                     break;
 
                 default:
-                    mainFormView.SendStringAsKey("^P"); //this.chart2d.Printing.PrintPreview();
+                    _applicationManager.SendStringAsKey("^P"); //this.chart2d.Printing.PrintPreview();
                     break;
             }
         }

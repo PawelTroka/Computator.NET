@@ -7,7 +7,7 @@ using Computator.NET.UI.Menus.Commands.DummyCommands;
 
 namespace Computator.NET.UI.Menus
 {
-    class FunctionDetailsBasedCommand : DummyCommand
+    public class FunctionDetailsBasedCommand : DummyCommand
     {
         public FunctionDetailsBasedCommand(string name, Dictionary<string, string> KeyAndNameOfCommandCollection, ITextProvider expressionTextProvider, ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : base(name)
         {

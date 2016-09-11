@@ -7,11 +7,17 @@ namespace Computator.NET.UI.Views
 {
     public partial class ExpressionView : UserControl, IExpressionView
     {
-        private Controls.ExpressionTextBox expressionTextBox;
+        private readonly Controls.ExpressionTextBox _expressionTextBox;
         public ExpressionView(Controls.ExpressionTextBox expressionTextBox) : this()
         {
-            this.expressionTextBox = expressionTextBox;
-            this.tableLayoutPanel1.Controls.Add(this.expressionTextBox, 1, 0);
+            this._expressionTextBox = expressionTextBox;
+            this._expressionTextBox.Dock = DockStyle.Fill;
+            this._expressionTextBox.AutoSize = true;
+
+            this.tableLayoutPanel1.Controls.Add(this._expressionTextBox, 1, 0);
+
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(ExpressionView));
+            resources.ApplyResources(this._expressionTextBox, nameof(_expressionTextBox));
         }
 
         private ExpressionView()
@@ -21,7 +27,7 @@ namespace Computator.NET.UI.Views
 
         public IExpressionTextBox ExpressionTextBox
         {
-            get { return expressionTextBox; }
+            get { return _expressionTextBox; }
         }
     }
 }

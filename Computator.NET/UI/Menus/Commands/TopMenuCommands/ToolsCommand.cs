@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Computator.NET.UI.Interfaces;
 using Computator.NET.UI.Menus.Commands;
@@ -7,9 +8,9 @@ using Computator.NET.UI.Menus.Commands.ToolsCommands;
 
 namespace Computator.NET.UI.Menus
 {
-    class ToolsCommand : DummyCommand
+    public class ToolsCommand : DummyCommand
     {
-        public ToolsCommand(IMainForm view) : base(MenuStrings.toolsToolStripMenuItem_Text)
+        public ToolsCommand(Lazy<IMainForm> view) : base(MenuStrings.toolsToolStripMenuItem_Text)
         {
             ChildrenCommands = new List<IToolbarCommand>
             {

@@ -22,7 +22,9 @@ namespace Computator.NET.UI.Controls
         {
             _sharedViewState = sharedViewState;
             _functionsDetails = functionsDetails;
-            InitializeComponent();
+            KeyPress += ExpressionTextBox_KeyPress;
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState, _functionsDetails);
+            _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
 
             GotFocus += ExpressionTextBox_GotFocus;
             MouseDoubleClick += Control_MouseDoubleClick;
@@ -87,7 +89,6 @@ namespace Computator.NET.UI.Controls
             set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void Control_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -111,13 +112,6 @@ namespace Computator.NET.UI.Controls
             else
                 NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height);
             NativeMethods.ShowCaret(Handle);
-        }
-
-        private void InitializeComponent()
-        {
-            KeyPress += ExpressionTextBox_KeyPress;
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState, _functionsDetails);
-            _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
         }
 
         public void SetFont(Font font)

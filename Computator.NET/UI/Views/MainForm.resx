@@ -122,25 +122,25 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 17</value>
+    <value>0, 21</value>
   </data>
   <data name="XYRatioToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 17</value>
+    <value>0, 21</value>
   </data>
   <data name="dd212ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
+    <value>176, 26</value>
   </data>
   <data name="dd212ToolStripMenuItem.Text" xml:space="preserve">
     <value>Real : f(x)</value>
   </data>
   <data name="fdsfdsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
+    <value>176, 26</value>
   </data>
   <data name="fdsfdsToolStripMenuItem.Text" xml:space="preserve">
     <value>Complex : f(z)</value>
   </data>
   <data name="mode3DFxyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
+    <value>176, 26</value>
   </data>
   <data name="mode3DFxyToolStripMenuItem.Text" xml:space="preserve">
     <value>3D : f(x,y)</value>
@@ -148,7 +148,7 @@
   <data name="modeToolStripDropDownButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
         YKxG6WBogkMZKgPNCEVJFBGdGETEvgwyO9DJE5syZw3PIlPEE9pgBCLZ5XvdMB8Ew8gXbl54nuf63dd9
         0OGSnwCahxbPRNPAPMw9Xpg6ZmF46kZZ0xSKzJPIrhpDWsVnpBhGkKx3nAX8Pv7z1zg8OoY/cITdn4fw
         bf/C0kYAN3Ma/w3gWfZL5kzTKBxjWyK2DftwI9tyMYCZKXbNHaD91bLYJrDXsYbrWfUKwJrPE9M2M1Oc
@@ -164,20 +164,20 @@
     <value>Magenta</value>
   </data>
   <data name="modeToolStripDropDownButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 20</value>
+    <value>134, 24</value>
   </data>
   <data name="modeToolStripDropDownButton.Text" xml:space="preserve">
     <value>Mode[Real : f(x)]</value>
   </data>
   <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 620</value>
+    <value>0, 764</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="statusStrip1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>1, 0, 10, 0</value>
+    <value>1, 0, 13, 0</value>
   </data>
   <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>754, 22</value>
+    <value>1005, 26</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
@@ -196,16 +196,16 @@
     <value>1</value>
   </data>
   <data name="chartingTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 25</value>
+    <value>4, 29</value>
   </data>
   <data name="chartingTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="chartingTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="chartingTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 591</value>
+    <value>997, 731</value>
   </data>
   <data name="chartingTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -226,16 +226,16 @@
     <value>0</value>
   </data>
   <data name="calculationsTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 25</value>
+    <value>4, 29</value>
   </data>
   <data name="calculationsTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="calculationsTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="calculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 591</value>
+    <value>997, 731</value>
   </data>
   <data name="calculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -256,16 +256,16 @@
     <value>1</value>
   </data>
   <data name="numericalCalculationsTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 25</value>
+    <value>4, 29</value>
   </data>
   <data name="numericalCalculationsTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="numericalCalculationsTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="numericalCalculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 591</value>
+    <value>997, 731</value>
   </data>
   <data name="numericalCalculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -295,13 +295,13 @@
     <value>NoControl</value>
   </data>
   <data name="symbolicOperationButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>376, 140</value>
+    <value>501, 172</value>
   </data>
   <data name="symbolicOperationButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="symbolicOperationButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 59</value>
+    <value>168, 73</value>
   </data>
   <data name="symbolicOperationButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -322,16 +322,16 @@
     <value>0</value>
   </data>
   <data name="symbolicCalculationsTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 25</value>
+    <value>4, 29</value>
   </data>
   <data name="symbolicCalculationsTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="symbolicCalculationsTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="symbolicCalculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 591</value>
+    <value>997, 731</value>
   </data>
   <data name="symbolicCalculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -352,16 +352,16 @@
     <value>3</value>
   </data>
   <data name="scriptingTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 25</value>
+    <value>4, 29</value>
   </data>
   <data name="scriptingTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="scriptingTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="scriptingTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 591</value>
+    <value>997, 731</value>
   </data>
   <data name="scriptingTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -382,16 +382,16 @@
     <value>4</value>
   </data>
   <data name="customFunctionsTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 25</value>
+    <value>4, 29</value>
   </data>
   <data name="customFunctionsTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="customFunctionsTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="customFunctionsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 591</value>
+    <value>997, 731</value>
   </data>
   <data name="customFunctionsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -421,10 +421,10 @@
     <value>0, 0</value>
   </data>
   <data name="tabControl1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>754, 620</value>
+    <value>1005, 764</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -468,11 +468,8 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>754, 642</value>
+    <value>1005, 790</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4986,10 +4983,10 @@
 </value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>749, 592</value>
+    <value>993, 718</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Computator.NET © Pawel Troka</value>
@@ -5058,6 +5055,6 @@
     <value>MainForm</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Computator.NET.Localization.LocalizedForm, Computator.NET.DataTypes, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

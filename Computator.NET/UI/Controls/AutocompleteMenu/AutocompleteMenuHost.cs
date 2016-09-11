@@ -17,6 +17,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
         {
             AutoClose = false;
             AutoSize = false;
+            
             Margin = Padding.Empty;
             Padding = Padding.Empty;
 

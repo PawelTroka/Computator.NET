@@ -1,18 +1,17 @@
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
-    internal class CutCommand : CommandBase
+    public class CutCommand : CommandBase
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
-        private readonly IMainForm mainFormView;
         private readonly ICanFileEdit scriptingCodeEditor;
         private ISharedViewState _sharedViewState;
+        private readonly IApplicationManager _applicationManager;
 
-        public CutCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
-            IMainForm mainFormView, ISharedViewState sharedViewState)
+        public CutCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager)
         {
             Icon = Resources.cutToolStripButtonImage;
             Text = MenuStrings.cutToolStripButton_Text;
@@ -20,8 +19,8 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
             ShortcutKeyString = "Ctrl+X";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-            this.mainFormView = mainFormView;
             _sharedViewState = sharedViewState;
+            _applicationManager = applicationManager;
             // this.mainFormView = mainFormView;
         }
 
@@ -34,18 +33,18 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
                     if (scriptingCodeEditor.Focused)
                         scriptingCodeEditor.Cut();
                     else
-                        mainFormView.SendStringAsKey("^X");
+                        _applicationManager.SendStringAsKey("^X");
                     break;
 
                 case 5:
                     if (customFunctionsCodeEditor.Focused)
                         customFunctionsCodeEditor.Cut();
                     else
-                        mainFormView.SendStringAsKey("^X");
+                        _applicationManager.SendStringAsKey("^X");
                     break;
 
                 default: //if ((int)_sharedViewState.CurrentView < 4)
-                    mainFormView.SendStringAsKey("^X"); //expressionTextBox.Cut();
+                    _applicationManager.SendStringAsKey("^X"); //expressionTextBox.Cut();
                     break;
             }
         }

@@ -1,19 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.UI.Controls;
+using Computator.NET.UI.Menus;
 using Computator.NET.UI.Menus.Commands;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
+using Computator.NET.UI.Menus.Commands.FileCommands;
 
 namespace Computator.NET.UI.Views
 {
-    public partial class MenuStripView : UserControl, IMenuStripView
+    public partial class MenuStripView : UserControl
     {
-        public MenuStripView()
+        private MenuStripView()
         {
             InitializeComponent();
         }
 
-        public void SetCommands(IEnumerable<IToolbarCommand> commands)
+        public MenuStripView(FileCommand fileCommand, EditCommand editCommand, FunctionsCommand functionsCommand, ConstantsCommand constantsCommand, ChartCommand chartCommand, TransformCommand transformCommand, ToolsCommand toolsCommand, HelpCommand helpCommand) : this()
+        {
+            SetCommands(fileCommand, editCommand, functionsCommand, constantsCommand, chartCommand, transformCommand,
+                toolsCommand, helpCommand);
+        }
+
+        public void SetCommands(params IToolbarCommand[] commands)
         {
             menuStrip2.Items.Clear();
             foreach (var command in commands)

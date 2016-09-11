@@ -4,9 +4,9 @@ using Computator.NET.UI.Controls.CodeEditors;
 
 namespace Computator.NET.UI.Menus
 {
-    class ConstantsCommand : FunctionDetailsBasedCommand
+    public class ConstantsCommand : FunctionDetailsBasedCommand
     {
-        public ConstantsCommand(ITextProvider expressionTextProvider, ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : base(MenuStrings.functionsToolStripMenuItem_Text,
+        public ConstantsCommand(ITextProvider expressionTextProvider, ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : base(MenuStrings.constantsToolStripMenuItem_Text,
             new Dictionary<string, string>()
             {
                 {"MathematicalConstants",MenuStrings.mathematicalConstantsToolStripMenuItem_Text },

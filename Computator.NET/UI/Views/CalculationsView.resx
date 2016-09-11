@@ -141,7 +141,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="calculationsImZnumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 26</value>
+    <value>90, 31</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="calculationsImZnumericUpDown.TabIndex" type="System.Int32, mscorlib">
@@ -178,7 +178,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="calculationsRealLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
+    <value>63, 23</value>
   </data>
   <data name="calculationsRealLabel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -208,7 +208,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="valueForCalculationNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 26</value>
+    <value>90, 31</value>
   </data>
   <data name="valueForCalculationNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -241,7 +241,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="calculationsComplexLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 19</value>
+    <value>73, 23</value>
   </data>
   <data name="calculationsComplexLabel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -304,7 +304,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 20</value>
+    <value>102, 25</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -337,7 +337,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="calculationValueTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>607, 33</value>
+    <value>607, 39</value>
   </data>
   <data name="calculationValueTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -406,7 +406,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 26</value>
+    <value>104, 32</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>

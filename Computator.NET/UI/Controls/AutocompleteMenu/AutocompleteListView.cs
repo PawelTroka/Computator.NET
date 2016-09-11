@@ -47,6 +47,8 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             //  toolTip.LostFocus += ToolTip_LostFocus;
             formTip = new WebBrowserForm();
             Colors = new Colors();
+            AutoScaleMode=AutoScaleMode.None;
+            
         }
 
 

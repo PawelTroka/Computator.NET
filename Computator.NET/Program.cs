@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using Accord.Collections;
+using Computator.NET.Charting;
+using Computator.NET.Charting.Chart3D.UI;
+using Computator.NET.Charting.ComplexCharting;
+using Computator.NET.Charting.RealCharting;
 using Computator.NET.Compilation;
 using Computator.NET.Config;
 using Computator.NET.Data;
@@ -21,6 +27,7 @@ using Computator.NET.UI.Interfaces;
 using Computator.NET.UI.Presenters;
 using Computator.NET.UI.Views;
 using Microsoft.Practices.Unity;
+using Unity.Extensions;
 
 namespace Computator.NET
 {
@@ -61,13 +68,15 @@ namespace Computator.NET
         private static UnityContainer BootStrapper()
         {
             var container = new UnityContainer();
+            container.AddNewExtension<LazySupportExtension>();
+
 
             //views
             container.RegisterType<IMainForm, MainForm>(new ContainerControlledLifetimeManager());
             container.RegisterType<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IToolbarView, ToolBarView>(new ContainerControlledLifetimeManager());
+           // container.RegisterType<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());
+          //  container.RegisterType<IToolbarView, ToolBarView>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<IChartingView, ChartingView>(new ContainerControlledLifetimeManager());
             container.RegisterType<IChartAreaValuesView, ChartAreaValuesView>(new ContainerControlledLifetimeManager());
@@ -84,6 +93,7 @@ namespace Computator.NET
             //shared singletons
             container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
             container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IApplicationManager, ApplicationManager>(new ContainerControlledLifetimeManager());
 
             //singleton handlers
             container.RegisterType<IErrorHandler, SimpleErrorHandler>(new ContainerControlledLifetimeManager());
@@ -110,12 +120,18 @@ namespace Computator.NET
             container.RegisterType<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
             container.RegisterType<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
             container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
-
+            container.RegisterInstance(new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>()
+            {
+                {CalculationsMode.Real, new Chart2D()},
+                {CalculationsMode.Complex, new ComplexChart()},
+                {CalculationsMode.Fxy, new Chart3DControl()},
+            }));
 
             //presenters
             var mainFormPresenter = container.Resolve<MainFormPresenter>();
             var expressionViewPresenter = container.Resolve<ExpressionViewPresenter>();         
             var chartingViewPresenter = container.Resolve<ChartingViewPresenter>();
+            var chartAreaValuesViewPresenter = container.Resolve<ChartAreaValuesPresenter>();
             var calculationsViewPresenter = container.Resolve<CalculationsPresenter>();
             var numericalCalculationsPresenter = container.Resolve<NumericalCalculationsPresenter>();
             var scriptingViewPresenter = container.Resolve<ScriptingViewPresenter>();

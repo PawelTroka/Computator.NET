@@ -1,17 +1,16 @@
 using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
     internal class UndoCommand : CommandBase
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
-        private readonly IMainForm mainFormView;
         private readonly ICanFileEdit scriptingCodeEditor;
         private ISharedViewState _sharedViewState;
+        private IApplicationManager _applicationManager;
 
-        public UndoCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
-            IMainForm mainFormView, ISharedViewState sharedViewState)
+        public UndoCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager)
         {
             //this.Icon = Resources.copyToolStripButtonImage;
             Text = MenuStrings.undoToolStripMenuItem_Text;
@@ -19,8 +18,8 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
             ShortcutKeyString = "Ctrl+Z";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-            this.mainFormView = mainFormView;
             _sharedViewState = sharedViewState;
+            _applicationManager = applicationManager;
             // this.mainFormView = mainFormView;
         }
 
@@ -28,23 +27,23 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
         public override void Execute()
         {
             if ((int) _sharedViewState.CurrentView < 4)
-                mainFormView.SendStringAsKey("^Z"); //expressionTextBox.Undo();
+                _applicationManager.SendStringAsKey("^Z"); //expressionTextBox.Undo();
             else if ((int) _sharedViewState.CurrentView == 4)
             {
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Undo();
                 else
-                    mainFormView.SendStringAsKey("^Z");
+                    _applicationManager.SendStringAsKey("^Z");
             }
             else
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.Undo();
                 else
-                    mainFormView.SendStringAsKey("^Z");
+                    _applicationManager.SendStringAsKey("^Z");
             }
 
-            mainFormView.SendStringAsKey("^Z");
+            _applicationManager.SendStringAsKey("^Z");
         }
     }
 }

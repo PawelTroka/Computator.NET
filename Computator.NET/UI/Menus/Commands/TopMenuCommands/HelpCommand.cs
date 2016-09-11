@@ -5,7 +5,7 @@ using Computator.NET.UI.Menus.Commands.HelpCommands;
 
 namespace Computator.NET.UI.Menus
 {
-    class HelpCommand : DummyCommand
+    public class HelpCommand : DummyCommand
     {
         public HelpCommand() : base(MenuStrings.helpToolStripMenuItem1_Text)
         {

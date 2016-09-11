@@ -3,9 +3,9 @@ using Computator.NET.Properties;
 
 namespace Computator.NET.UI.Menus.Commands
 {
-    internal class RunCommand : CommandBase
+    public class RunCommand : CommandBase
     {
-        private ISharedViewState _sharedViewState;
+        private readonly ISharedViewState _sharedViewState;
         public RunCommand(ISharedViewState sharedViewState)
         {
             _sharedViewState = sharedViewState;

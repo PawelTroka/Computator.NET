@@ -8,23 +8,26 @@ namespace Computator.NET.UI.Views
 {
     public partial class ScriptingView : UserControl, IScriptingView
     {
-        public ScriptingView(CodeEditorControlWrapper codeEditor)
+        private ScriptingView()
         {
             InitializeComponent();
-
-            codeEditor.Dock=DockStyle.Fill;
-            splitContainer2.Panel1.Controls.Add(codeEditor);
-            splitContainer1.Panel2.Controls.Add(SolutionExplorerView as Control);
-            splitContainer1.Panel2.Controls[1].BringToFront();
-            CodeEditorView = codeEditor;
-
-
             if (!DesignMode)
                 consoleOutputTextBox.Font = CustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
         }
+        public ScriptingView(CodeEditorControlWrapper codeEditor, SolutionExplorerView solutionExplorerView1) : this()
+        {
+            codeEditor.Dock=DockStyle.Fill;
+            splitContainer2.Panel1.Controls.Add(codeEditor);
+            solutionExplorerView1.Dock=DockStyle.Fill;
+            splitContainer1.Panel2.Controls.Add(solutionExplorerView1);
+            splitContainer1.Panel2.Controls[1].BringToFront();
+
+            CodeEditorView = codeEditor;
+            SolutionExplorerView = solutionExplorerView1;
+        }
 
         public ICodeDocumentsEditor CodeEditorView { get; }
-        public ISolutionExplorerView SolutionExplorerView { get; } = new SolutionExplorerView {Dock = DockStyle.Fill};
+        public ISolutionExplorerView SolutionExplorerView { get; }
 
         public event EventHandler ProcessClicked
         {

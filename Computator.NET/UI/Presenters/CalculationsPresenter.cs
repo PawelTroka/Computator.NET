@@ -16,12 +16,12 @@ namespace Computator.NET.UI.Presenters
     {
         private readonly IErrorHandler _errorHandler;
         private readonly ISharedViewState _sharedViewState;
-        private readonly ExpressionsEvaluator _expressionsEvaluator = new ExpressionsEvaluator();
+        private readonly IExpressionsEvaluator _expressionsEvaluator;
         private readonly ICalculationsView _view;
         private CalculationsMode _calculationsMode;
         private readonly ITextProvider _expressionTextProvider;
 
-        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider, ICodeEditorView customFunctionsEditor)
+        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider, ICodeEditorView customFunctionsEditor, IExpressionsEvaluator expressionsEvaluator)
         {
             _view = view;
 
@@ -29,7 +29,8 @@ namespace Computator.NET.UI.Presenters
             _sharedViewState = sharedViewState;
             _exceptionsHandler = exceptionsHandler;
             _expressionTextProvider = expressionTextProvider;
-            this.customFunctionsEditor = customFunctionsEditor;
+            this._customFunctionsEditor = customFunctionsEditor;
+            _expressionsEvaluator = expressionsEvaluator;
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(_ModeChanged);
             _view.CalculateClicked += _view_CalculateClicked;
             _sharedViewState.DefaultActions[ViewName.Calculations] = _view_CalculateClicked;
@@ -41,9 +42,9 @@ namespace Computator.NET.UI.Presenters
             {
                 try
                 {
-                    customFunctionsEditor.ClearHighlightedErrors();
+                    _customFunctionsEditor.ClearHighlightedErrors();
                     var function = _expressionsEvaluator.Evaluate(_expressionTextProvider.Text,
-                        customFunctionsEditor.Text, _calculationsMode);
+                        _customFunctionsEditor.Text, _calculationsMode);
 
                     var x = _view.X;
                     var y = _view.Y;
@@ -70,8 +71,8 @@ namespace Computator.NET.UI.Presenters
                     Strings.GUI_numericalOperationButton_Click_Warning_);
         }
 
-        private IExceptionsHandler _exceptionsHandler;
-        private ICodeEditorView customFunctionsEditor;
+        private readonly IExceptionsHandler _exceptionsHandler;
+        private readonly ICodeEditorView _customFunctionsEditor;
 
         private void _ModeChanged(CalculationsModeChangedEvent calculationsModeChangedEvent)
         {

@@ -3,7 +3,7 @@ using Computator.NET.UI.Controls.CodeEditors;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    internal class SaveCommand : CommandBase
+    public class SaveCommand : CommandBase
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;

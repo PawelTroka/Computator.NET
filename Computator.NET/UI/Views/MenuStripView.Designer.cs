@@ -33,6 +33,7 @@
             // 
             // menuStrip2
             // 
+            this.menuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
             this.menuStrip2.Size = new System.Drawing.Size(754, 24);
@@ -42,6 +43,7 @@
             // MenuStripView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoSize = true;
             this.Controls.Add(this.menuStrip2);
             this.Name = "MenuStripView";
             this.Size = new System.Drawing.Size(754, 24);

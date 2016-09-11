@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Computator.NET.UI.Menus.Commands
 {
-    internal abstract class CommandBase : IToolbarCommand
+    public abstract class CommandBase : IToolbarCommand
     {
         private bool _checked;
         private bool _checkOnClick;

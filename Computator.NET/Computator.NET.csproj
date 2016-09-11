@@ -226,6 +226,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unity.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=148384d575fbf776, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Extensions.Lazy.1.1.1\lib\Unity.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase">
       <Private>False</Private>
     </Reference>
@@ -319,12 +323,13 @@
     <Compile Include="UI\Menus\Commands\DummyCommands\RescaleCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\SeriesCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\TypeOfChartCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\TransformCommand.cs" />
     <Compile Include="UI\Menus\Commands\FunctionOrConstantCommand.cs" />
     <Compile Include="UI\Menus\Commands\HelpCommands\AboutCommand.cs" />
     <Compile Include="UI\Menus\Commands\ToolsCommands\BenchmarkCommand.cs" />
     <Compile Include="UI\Menus\Commands\HelpCommands\BugReportingCommand.cs" />
     <Compile Include="UI\Menus\Commands\HelpCommands\ChangelogCommand.cs" />
-    <Compile Include="UI\Menus\Commands\DummyCommands\ChartCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\ChartCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\BaseCommandForCharts.cs" />
     <Compile Include="UI\Menus\Commands\BindingUtils.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\EditChartCommand.cs" />
@@ -362,12 +367,12 @@
     <Compile Include="UI\Menus\Commands\CommandsWithOptions\LanguageCommand.cs" />
     <Compile Include="UI\Menus\Commands\ToolsCommands\LogsCommand.cs" />
     <Compile Include="UI\Menus\Commands\TransformOptionCommand.cs" />
-    <Compile Include="UI\Menus\ConstantsCommand.cs" />
-    <Compile Include="UI\Menus\EditCommand.cs" />
-    <Compile Include="UI\Menus\FileCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\ConstantsCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\EditCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\FileCommand.cs" />
     <Compile Include="UI\Menus\FunctionDetailsBasedCommand.cs" />
-    <Compile Include="UI\Menus\FunctionsCommand.cs" />
-    <Compile Include="UI\Menus\HelpCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\FunctionsCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\HelpCommand.cs" />
     <Compile Include="UI\Menus\MenuStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -380,18 +385,19 @@
     <Compile Include="UI\Menus\Commands\FileCommands\PrintCommand.cs" />
     <Compile Include="UI\Menus\Commands\FileCommands\PrintPreviewCommand.cs" />
     <Compile Include="UI\Menus\Commands\EditCommands\RedoCommand.cs" />
-    <Compile Include="UI\Menus\Commands\RunCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\RunCommand.cs" />
     <Compile Include="UI\Menus\Commands\FileCommands\SaveAsCommand.cs" />
     <Compile Include="UI\Menus\Commands\FileCommands\SaveCommand.cs" />
     <Compile Include="UI\Menus\Commands\EditCommands\SelectAllCommand.cs" />
     <Compile Include="UI\Menus\Commands\HelpCommands\ThanksToCommand.cs" />
     <Compile Include="UI\Menus\Commands\EditCommands\UndoCommand.cs" />
     <Compile Include="UI\Menus\MenuStripCommandBuilder.cs" />
-    <Compile Include="UI\Menus\ToolsCommand.cs" />
+    <Compile Include="UI\Menus\Commands\TopMenuCommands\ToolsCommand.cs" />
     <Compile Include="UI\SharedViewState.cs" />
     <Compile Include="UI\Interfaces\IMainForm.cs" />
     <Compile Include="UI\ErrorHandling\SimpleErrorHandler.cs" />
     <Compile Include="UI\Presenters\CalculationsPresenter.cs" />
+    <Compile Include="UI\ApplicationManager.cs" />
     <Compile Include="UI\Views\CalculationsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -458,6 +464,7 @@
     <Compile Include="UI\Presenters\ExpressionViewPresenter.cs" />
     <Compile Include="UI\Interfaces\IChartingView.cs" />
     <Compile Include="UI\Interfaces\IExpressionView.cs" />
+    <Compile Include="UI\IApplicationManager.cs" />
     <Compile Include="UI\Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -749,7 +756,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SymbolicCalculations\" />
-    <Folder Include="UI\Menus\Commands\TopCommands\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\functions.xml">

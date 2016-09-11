@@ -1,17 +1,16 @@
 using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
     internal class RedoCommand : CommandBase
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
-        private readonly IMainForm mainFormView;
         private readonly ICanFileEdit scriptingCodeEditor;
         private ISharedViewState _sharedViewState;
+        private IApplicationManager _applicationManager;
 
-        public RedoCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
-            IMainForm mainFormView, ISharedViewState sharedViewState)
+        public RedoCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager)
         {
             //this.Icon = Resources.copyToolStripButtonImage;
             Text = MenuStrings.redoToolStripMenuItem_Text;
@@ -19,8 +18,8 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
             ShortcutKeyString = "Ctrl+Y";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-            this.mainFormView = mainFormView;
             _sharedViewState = sharedViewState;
+            _applicationManager = applicationManager;
             // this.mainFormView = mainFormView;
         }
 
@@ -29,7 +28,7 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
         {
             if ((int) _sharedViewState.CurrentView < 4)
             {
-                mainFormView.SendStringAsKey("^Y");
+                _applicationManager.SendStringAsKey("^Y");
                 //expressionTextBox.do()
             }
             else if ((int) _sharedViewState.CurrentView == 4)
@@ -38,17 +37,17 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Redo();
                 else
-                    mainFormView.SendStringAsKey("^Y");
+                    _applicationManager.SendStringAsKey("^Y");
             }
             else
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.Redo();
                 else
-                    mainFormView.SendStringAsKey("^Y");
+                    _applicationManager.SendStringAsKey("^Y");
             }
 
-            mainFormView.SendStringAsKey("^Y");
+            _applicationManager.SendStringAsKey("^Y");
         }
     }
 }

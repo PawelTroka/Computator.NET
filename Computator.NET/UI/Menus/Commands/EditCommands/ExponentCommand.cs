@@ -2,7 +2,7 @@ using Computator.NET.Properties;
 
 namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
-    internal class ExponentCommand : CommandBase
+    public class ExponentCommand : CommandBase
     {
         private ISharedViewState _sharedViewState;
         public ExponentCommand(ISharedViewState sharedViewState)
