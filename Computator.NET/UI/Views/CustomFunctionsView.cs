@@ -11,14 +11,14 @@ namespace Computator.NET.UI.Views
             InitializeComponent();
         }
 
-        public CustomFunctionsView(CodeEditorControlWrapper codeEditor, SolutionExplorerView solutionExplorerView): this()
+        public CustomFunctionsView(CodeEditorControlWrapper customFunctionsCodeEditor, SolutionExplorerView solutionExplorerView): this()
         {
-            codeEditor.Dock=DockStyle.Fill;
+            customFunctionsCodeEditor.Dock=DockStyle.Fill;
             solutionExplorerView.Dock=DockStyle.Fill;
-            splitContainer3.Panel1.Controls.Add(codeEditor);
+            splitContainer3.Panel1.Controls.Add(customFunctionsCodeEditor);
             splitContainer3.Panel2.Controls.Add(solutionExplorerView);
 
-            CustomFunctionsEditor = codeEditor;
+            CustomFunctionsEditor = customFunctionsCodeEditor;
             SolutionExplorerView = solutionExplorerView;
         }
 

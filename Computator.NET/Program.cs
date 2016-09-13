@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -26,14 +27,19 @@ using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
 using Computator.NET.UI.Presenters;
 using Computator.NET.UI.Views;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Utility;
 using Unity.Extensions;
 
 namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) {ClassName = "Program"};
+        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName)
+        {
+            ClassName = "Program"
+        };
 
 
 
@@ -56,7 +62,7 @@ namespace Computator.NET
             Application.SetCompatibleTextRenderingDefault(false);
             Application.AddMessageFilter(new MyMessageFilter());
 
-            var mainForm = BootStrapper().Resolve<MainForm>();
+            var mainForm = BootStrapper();
 
             LoadingScreen.CloseForm();
             Application.Run(mainForm);
@@ -65,7 +71,7 @@ namespace Computator.NET
 
 
 
-        private static UnityContainer BootStrapper()
+        private static MainForm BootStrapper()
         {
             var container = new UnityContainer();
             container.AddNewExtension<LazySupportExtension>();
@@ -75,18 +81,19 @@ namespace Computator.NET
             container.RegisterType<IMainForm, MainForm>(new ContainerControlledLifetimeManager());
             container.RegisterType<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
 
-           // container.RegisterType<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());
-          //  container.RegisterType<IToolbarView, ToolBarView>(new ContainerControlledLifetimeManager());
+            // container.RegisterType<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());
+            //  container.RegisterType<IToolbarView, ToolBarView>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<IChartingView, ChartingView>(new ContainerControlledLifetimeManager());
             container.RegisterType<IChartAreaValuesView, ChartAreaValuesView>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<ICalculationsView, CalculationsView>(new ContainerControlledLifetimeManager());
 
-            container.RegisterType<INumericalCalculationsView, NumericalCalculationsView>(new ContainerControlledLifetimeManager());
+            container.RegisterType<INumericalCalculationsView, NumericalCalculationsView>(
+                new ContainerControlledLifetimeManager());
 
             container.RegisterType<IScriptingView, ScriptingView>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ISolutionExplorerView, SolutionExplorerView>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISolutionExplorerView, SolutionExplorerView>();
 
             container.RegisterType<ICustomFunctionsView, CustomFunctionsView>(new ContainerControlledLifetimeManager());
 
@@ -101,17 +108,35 @@ namespace Computator.NET
 
 
             //components and controls
-            container.RegisterType<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());//check
-            container.RegisterType<ITextProvider>(new InjectionFactory(c => container.Resolve<ExpressionTextBox>()));//check
+            container.RegisterType<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());
+                //check
+           container.RegisterType<ITextProvider>(new InjectionFactory(c => container.Resolve<ExpressionTextBox>()));
+                //check
 
-            //container.RegisterInstance<CodeEditorControlWrapper>();
-            container.RegisterType<ICodeEditorView, CodeEditorControlWrapper>(new ContainerControlledLifetimeManager());//check
-            container.RegisterType<ICodeDocumentsEditor>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
-            container.RegisterType<IDocumentsEditor>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
-            container.RegisterType<ICanFileEdit>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
-            container.RegisterType<ICanOpenFiles>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
-            container.RegisterType<ITextProvider>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
-            container.RegisterType<ISupportsExceptionHighliting>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>()));
+            container.RegisterType<CodeEditorControlWrapper>("scripting");
+            container.RegisterType<CodeEditorControlWrapper>("customFunctions");
+
+            var resolver = new FuzzyMatchingParameterOverrideWithFallback<CodeEditorControlWrapper>(new Dictionary<string, CodeEditorControlWrapper>()
+            {
+                {"script", container.Resolve<CodeEditorControlWrapper>("scripting")},
+                {"customFunction", container.Resolve<CodeEditorControlWrapper>("customFunctions")},
+            });
+
+            //container.RegisterType<ICodeEditorView, CodeEditorControlWrapper>();//check
+            container.RegisterType<ICodeEditorView>(
+                new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>(resolver)));
+            container.RegisterType<ICodeDocumentsEditor>(
+                new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>(resolver)));
+            container.RegisterType<IDocumentsEditor>(
+                new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>(resolver)));
+            container.RegisterType<ICanFileEdit>(new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>(resolver)));
+            container.RegisterType<ICanOpenFiles>(
+                new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>(resolver)));
+            container.RegisterType<IScriptProvider>(
+                new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>(resolver)));
+            container.RegisterType<ISupportsExceptionHighliting>(
+                new InjectionFactory(c => container.Resolve<CodeEditorControlWrapper>(resolver)));
+
 
 
             //models and business objects
@@ -120,24 +145,25 @@ namespace Computator.NET
             container.RegisterType<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
             container.RegisterType<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
             container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
-            container.RegisterInstance(new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>()
-            {
-                {CalculationsMode.Real, new Chart2D()},
-                {CalculationsMode.Complex, new ComplexChart()},
-                {CalculationsMode.Fxy, new Chart3DControl()},
-            }));
+            container.RegisterInstance(
+                new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>()
+                {
+                    {CalculationsMode.Real, new Chart2D()},
+                    {CalculationsMode.Complex, new ComplexChart()},
+                    {CalculationsMode.Fxy, new Chart3DControl()},
+                }));
 
             //presenters
-            var mainFormPresenter = container.Resolve<MainFormPresenter>();
-            var expressionViewPresenter = container.Resolve<ExpressionViewPresenter>();         
-            var chartingViewPresenter = container.Resolve<ChartingViewPresenter>();
-            var chartAreaValuesViewPresenter = container.Resolve<ChartAreaValuesPresenter>();
-            var calculationsViewPresenter = container.Resolve<CalculationsPresenter>();
-            var numericalCalculationsPresenter = container.Resolve<NumericalCalculationsPresenter>();
-            var scriptingViewPresenter = container.Resolve<ScriptingViewPresenter>();
-            var customFunctionsViewPresenter = container.Resolve<CustomFunctionsPresenter>();
-
-            return container;
+            var mainFormPresenter = container.Resolve<MainFormPresenter>(resolver);
+            var expressionViewPresenter = container.Resolve<ExpressionViewPresenter>(resolver);
+            var chartingViewPresenter = container.Resolve<ChartingViewPresenter>(resolver);
+            var chartAreaValuesViewPresenter = container.Resolve<ChartAreaValuesPresenter>(resolver);
+            var calculationsViewPresenter = container.Resolve<CalculationsPresenter>(resolver);
+            var numericalCalculationsPresenter = container.Resolve<NumericalCalculationsPresenter>(resolver);
+            var scriptingViewPresenter = container.Resolve<ScriptingViewPresenter>(resolver);
+            var customFunctionsViewPresenter = container.Resolve<CustomFunctionsPresenter>(resolver);
+            
+            return container.Resolve<MainForm>(resolver);
         }
 
 
@@ -178,12 +204,107 @@ namespace Computator.NET
             // this project, this project's assembly and the assembly A get copied to the project's bin directory, but not
             // assembly B. So in order to get the required assembly B copied over, we add some dummy code here (that never
             // gets called) that references assembly B; this will flag VS/MSBuild to copy the required assembly B over as well.
-            var dummyType = typeof(System.Runtime.CompilerServices.AsyncTaskMethodBuilder);//System.Threading.Tasks.dll
+            var dummyType = typeof(System.Runtime.CompilerServices.AsyncTaskMethodBuilder); //System.Threading.Tasks.dll
             Console.WriteLine(dummyType.FullName);
 
-            dummyType = typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute);//System.Runtime.dll
-
+            dummyType = typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute); //System.Runtime.dll
+            var sss = new ParameterOverrides() {{"aaa", 1}, {"sss", 22}};
             Console.WriteLine(dummyType.FullName);
+        }
+    }
+
+
+
+
+    /// <summary>
+    /// A <see cref="ResolverOverride"/> class that lets you
+    /// override a named parameter passed to a constructor.
+    /// </summary>
+    public class FuzzyMatchingParameterOverride<T> : ResolverOverride
+    {
+        private readonly string parameterName;
+        private readonly InjectionParameterValue parameterValue;
+        /// <summary>
+        /// Construct a new <see cref="ParameterOverride"/> object that will
+        /// override the given named constructor parameter, and pass the given
+        /// value.
+        /// </summary>
+        /// <param name="parameterName">Name of the constructor parameter.</param>
+        /// <param name="parameterValue">Value to pass for the constructor.</param>
+        public FuzzyMatchingParameterOverride(string parameterName, T parameterValue)
+        {
+            this.parameterName = parameterName.ToLowerInvariant();
+            this.parameterValue = InjectionParameterValue.ToParameter(parameterValue);
+        }
+
+        /// <summary>
+        /// Return a <see cref="IDependencyResolverPolicy"/> that can be used to give a value
+        /// for the given desired dependency.
+        /// </summary>
+        /// <param name="context">Current build context.</param>
+        /// <param name="dependencyType">Type of dependency desired.</param>
+        /// <returns>a <see cref="IDependencyResolverPolicy"/> object if this override applies, null if not.</returns>
+        public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
+        {
+            Guard.ArgumentNotNull(context, "context");
+
+            var currentOperation = context.CurrentOperation as ConstructorArgumentResolveOperation;
+
+            if (currentOperation != null &&
+                //(typeof(T)==dependencyType || typeof(T).GetInterfaces().Contains(dependencyType))
+                dependencyType.IsAssignableFrom(typeof(T))
+                &&
+                currentOperation.ParameterName.ToLowerInvariant().Contains(this.parameterName))
+            {
+                return this.parameterValue.GetResolverPolicy(dependencyType);
+            }
+
+            return null;
+        }
+    }
+
+
+    /// <summary>
+    /// A <see cref="ResolverOverride"/> class that lets you
+    /// override a named parameter passed to a constructor.
+    /// </summary>
+    public class FuzzyMatchingParameterOverrideWithFallback<T> : ResolverOverride
+        where T : class
+    {
+        private readonly InjectionParameterValue _fallbackValue;
+
+        private readonly Dictionary<string, InjectionParameterValue> _injectionParameters;
+
+        public FuzzyMatchingParameterOverrideWithFallback(Dictionary<string,T> parameters, T fallbackValue=null)
+        {
+            if(fallbackValue!=null)
+            _fallbackValue = InjectionParameterValue.ToParameter(fallbackValue);
+
+            _injectionParameters = new Dictionary<string, InjectionParameterValue>();
+            foreach (var parameter in parameters)
+            {
+                _injectionParameters.Add(parameter.Key.ToLowerInvariant(), InjectionParameterValue.ToParameter(parameter.Value));
+            }
+        }
+
+        public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
+        {
+            Guard.ArgumentNotNull(context, "context");
+
+            var currentOperation = context.CurrentOperation as ConstructorArgumentResolveOperation;
+
+            if (currentOperation != null &&
+                //(typeof(T)==dependencyType || typeof(T).GetInterfaces().Contains(dependencyType))
+                dependencyType.IsAssignableFrom(typeof(T)))
+            {
+                var parameter =
+                _injectionParameters.FirstOrDefault(
+                    kv => currentOperation.ParameterName.ToLowerInvariant().Contains(kv.Key));//TODO: later introduce real fuzzy matching
+
+                return parameter.Key==null ? this._fallbackValue?.GetResolverPolicy(dependencyType) : parameter.Value.GetResolverPolicy(dependencyType);
+            }
+
+            return null;
         }
     }
 }

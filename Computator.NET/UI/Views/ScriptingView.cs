@@ -14,15 +14,15 @@ namespace Computator.NET.UI.Views
             if (!DesignMode)
                 consoleOutputTextBox.Font = CustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
         }
-        public ScriptingView(CodeEditorControlWrapper codeEditor, SolutionExplorerView solutionExplorerView1) : this()
+        public ScriptingView(CodeEditorControlWrapper scriptingCodeEditor, SolutionExplorerView solutionExplorerView1) : this()
         {
-            codeEditor.Dock=DockStyle.Fill;
-            splitContainer2.Panel1.Controls.Add(codeEditor);
+            scriptingCodeEditor.Dock=DockStyle.Fill;
+            splitContainer2.Panel1.Controls.Add(scriptingCodeEditor);
             solutionExplorerView1.Dock=DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(solutionExplorerView1);
             splitContainer1.Panel2.Controls[1].BringToFront();
 
-            CodeEditorView = codeEditor;
+            CodeEditorView = scriptingCodeEditor;
             SolutionExplorerView = solutionExplorerView1;
         }
 

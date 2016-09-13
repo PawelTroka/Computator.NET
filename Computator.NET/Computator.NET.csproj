@@ -391,7 +391,6 @@
     <Compile Include="UI\Menus\Commands\EditCommands\SelectAllCommand.cs" />
     <Compile Include="UI\Menus\Commands\HelpCommands\ThanksToCommand.cs" />
     <Compile Include="UI\Menus\Commands\EditCommands\UndoCommand.cs" />
-    <Compile Include="UI\Menus\MenuStripCommandBuilder.cs" />
     <Compile Include="UI\Menus\Commands\TopMenuCommands\ToolsCommand.cs" />
     <Compile Include="UI\SharedViewState.cs" />
     <Compile Include="UI\Interfaces\IMainForm.cs" />

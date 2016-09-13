@@ -10,10 +10,14 @@ namespace Computator.NET.UI.Controls.CodeEditors
         void HighlightErrors(IEnumerable<CompilerError> compilerErrors);
     }
 
-    public interface ICodeEditorView : ITextProvider, ISupportsExceptionHighliting
+    public interface ICodeEditorView : IScriptProvider, ISupportsExceptionHighliting
     {
     }
 
+    public interface IScriptProvider
+    {
+        string Text { get; set; }
+    }
 
     public interface ITextProvider
     {

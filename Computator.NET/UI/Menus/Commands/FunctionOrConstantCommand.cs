@@ -8,12 +8,12 @@ namespace Computator.NET.UI.Menus.Commands
 {
     internal class FunctionOrConstantCommand : CommandBase
     {
-        private readonly ITextProvider _customFunctionsTextProvider;
+        private readonly IScriptProvider _customFunctionsTextProvider;
         private readonly ITextProvider _expressionTextProvider;
-        private readonly ITextProvider _scriptingTextProvider;
-        private ISharedViewState _sharedViewState;
+        private readonly IScriptProvider _scriptingTextProvider;
+        private readonly ISharedViewState _sharedViewState;
         public FunctionOrConstantCommand(string text, string toolTip, ITextProvider expressionTextProvider,
-            ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+            IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
         {
             Text = text;
             ToolTip = toolTip;
@@ -21,18 +21,18 @@ namespace Computator.NET.UI.Menus.Commands
             _scriptingTextProvider = scriptingTextProvider;
             _customFunctionsTextProvider = customFunctionsTextProvider;
             _sharedViewState = sharedViewState;
-            this.functionsDetails = functionsDetails;
+            this._functionsDetails = functionsDetails;
         }
 
-        private IFunctionsDetails functionsDetails;
+        private readonly IFunctionsDetails _functionsDetails;
         public override void Execute()
         {
             if (SystemInformation.MouseButtonsSwapped || SystemParameters.SwapButtons)
                 //TODO: somehow get which mouse button invoked this command
             {
-                if (functionsDetails.ContainsKey(Text))
+                if (_functionsDetails.ContainsKey(Text))
                 {
-                    WebBrowserForm.Show(functionsDetails[Text]);
+                    WebBrowserForm.Show(_functionsDetails[Text]);
                     // menuFunctionsToolTip.SetFunctionInfo(FunctionsDetails.Details[this.Text]);
                     //menuFunctionsToolTip.Show(this, menuItem.Width + 3, 0);
                     // menuFunctionsToolTip.Show();

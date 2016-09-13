@@ -6,7 +6,7 @@ namespace Computator.NET.UI.Menus
 {
     public class FunctionsCommand : FunctionDetailsBasedCommand
     {
-        public FunctionsCommand(ITextProvider expressionTextProvider, ITextProvider scriptingTextProvider, ITextProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : base(MenuStrings.functionsToolStripMenuItem_Text,
+        public FunctionsCommand(ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : base(MenuStrings.functionsToolStripMenuItem_Text,
             new Dictionary<string, string>()
             {
                 {"ElementaryFunctions",MenuStrings.elementaryFunctionsToolStripMenuItem_Text },
