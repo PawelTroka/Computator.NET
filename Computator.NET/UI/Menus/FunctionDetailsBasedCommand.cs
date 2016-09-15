@@ -4,6 +4,7 @@ using Computator.NET.Data;
 using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.Menus.Commands;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus
 {

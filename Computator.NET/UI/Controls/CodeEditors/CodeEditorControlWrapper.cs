@@ -7,7 +7,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Properties;
@@ -17,34 +16,32 @@ using Computator.NET.UI.Controls.CodeEditors.Scintilla;
 namespace Computator.NET.UI.Controls.CodeEditors
 {
     public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor
-        
+
     {
         private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors;
-
-        private readonly ISharedViewState _sharedViewState;
 
         private readonly ElementHost avalonEditorWrapper;
 
         private readonly SaveFileDialog saveFileDialog = new SaveFileDialog
         {
-            Filter = GlobalConfig.tslFilesFIlter
+            Filter = GlobalConfig.TslFilesFIlter
         };
 
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
 
 
-        public CodeEditorControlWrapper(ScintillaCodeEditorControl scintillaCodeEditorControl, AvalonEditCodeEditor avalonEditCodeEditor)
+        public CodeEditorControlWrapper(ScintillaCodeEditorControl scintillaCodeEditorControl,
+            AvalonEditCodeEditor avalonEditCodeEditor)
         {
-
             _codeEditors = new Dictionary
-            <CodeEditorType, ICodeEditorControl>
-        {
+                <CodeEditorType, ICodeEditorControl>
             {
-                CodeEditorType.Scintilla, scintillaCodeEditorControl
-            },
-            {CodeEditorType.AvalonEdit, avalonEditCodeEditor}
-        };
+                {
+                    CodeEditorType.Scintilla, scintillaCodeEditorControl
+                },
+                {CodeEditorType.AvalonEdit, avalonEditCodeEditor}
+            };
             avalonEditorWrapper = new ElementHost
             {
                 BackColor = Color.White,
@@ -53,10 +50,10 @@ namespace Computator.NET.UI.Controls.CodeEditors
             };
 
 
-            tabControl = new DocumentsTabControl { Dock = DockStyle.Top };
+            tabControl = new DocumentsTabControl {Dock = DockStyle.Top};
 
-            var panel = new Panel { Dock = DockStyle.Fill };
-            panel.Controls.AddRange(new[] { avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control });
+            var panel = new Panel {Dock = DockStyle.Fill};
+            panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control});
 
             var tableLayout = new TableLayoutPanel
             {
@@ -109,7 +106,7 @@ namespace Computator.NET.UI.Controls.CodeEditors
             =>
                 _codeEditorType == CodeEditorType.AvalonEdit
                     ? avalonEditorWrapper.Focused
-                    : ((Control)CurrentCodeEditor).Focused;
+                    : ((Control) CurrentCodeEditor).Focused;
 
         public string CurrentFileName
         {

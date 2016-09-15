@@ -6,6 +6,7 @@ using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.Menus.Commands;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
 using Computator.NET.UI.Menus.Commands.FileCommands;
+using Computator.NET.UI.Models;
 using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus

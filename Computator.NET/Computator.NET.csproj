@@ -307,10 +307,14 @@
     </Compile>
     <Compile Include="UI\Controls\CodeEditors\AvalonEdit\CompletionData.cs" />
     <Compile Include="UI\Controls\CodeEditors\ICodeEditorControl.cs" />
-    <Compile Include="UI\Controls\ToolStripRadioButtonMenuItem.cs">
+    <Compile Include="UI\Controls\DoubleExtensions.cs" />
+    <Compile Include="UI\Controls\Interfaces\IDirectoryTree.cs" />
+    <Compile Include="UI\Controls\Views\ToolStripRadioButtonMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\ISharedViewState.cs" />
+    <Compile Include="UI\ErrorHandling\ExceptionsHandler.cs" />
+    <Compile Include="UI\ErrorHandling\IExceptionsHandler.cs" />
+    <Compile Include="UI\Models\ISharedViewState.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ChartOption.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ColorAssigmentCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ColorsCommand.cs" />
@@ -331,16 +335,16 @@
     <Compile Include="UI\Menus\Commands\HelpCommands\ChangelogCommand.cs" />
     <Compile Include="UI\Menus\Commands\TopMenuCommands\ChartCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\BaseCommandForCharts.cs" />
-    <Compile Include="UI\Menus\Commands\BindingUtils.cs" />
+    <Compile Include="UI\Models\BindingUtils.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\EditChartCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\EditChartPropertiesCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\PrintChartCommand.cs" />
     <Compile Include="UI\Menus\Commands\ChartCommands\PrintPreviewChartCommand.cs" />
     <Compile Include="UI\Menus\Commands\CommandBase.cs" />
-    <Compile Include="UI\Controls\BindableToolStripMenuItem .cs">
+    <Compile Include="UI\Controls\Views\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\IExpressionTextBox.cs" />
+    <Compile Include="UI\Controls\Interfaces\IExpressionTextBox.cs" />
     <Compile Include="UI\Dialogs\BugReportingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -392,11 +396,12 @@
     <Compile Include="UI\Menus\Commands\HelpCommands\ThanksToCommand.cs" />
     <Compile Include="UI\Menus\Commands\EditCommands\UndoCommand.cs" />
     <Compile Include="UI\Menus\Commands\TopMenuCommands\ToolsCommand.cs" />
-    <Compile Include="UI\SharedViewState.cs" />
+    <Compile Include="UI\Models\CommandLineHandler.cs" />
+    <Compile Include="UI\Models\SharedViewState.cs" />
     <Compile Include="UI\Interfaces\IMainForm.cs" />
     <Compile Include="UI\ErrorHandling\SimpleErrorHandler.cs" />
     <Compile Include="UI\Presenters\CalculationsPresenter.cs" />
-    <Compile Include="UI\ApplicationManager.cs" />
+    <Compile Include="UI\Models\ApplicationManager.cs" />
     <Compile Include="UI\Views\CalculationsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -410,7 +415,7 @@
     <Compile Include="UI\Views\ChartAreaValuesView.Designer.cs">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\DocumentsTabControl.cs">
+    <Compile Include="UI\Controls\Views\DocumentsTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Dialogs\AboutBox1.cs">
@@ -440,11 +445,11 @@
     <Compile Include="UI\Controls\AutocompleteMenu\WebBrowserTooltip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\DirectoryTree.cs">
+    <Compile Include="UI\Controls\Views\DirectoryTree.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditor.cs" />
-    <Compile Include="UI\Controls\ExpressionTextBox.cs">
+    <Compile Include="UI\Controls\Views\ExpressionTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Views\ChartingView.cs">
@@ -463,7 +468,7 @@
     <Compile Include="UI\Presenters\ExpressionViewPresenter.cs" />
     <Compile Include="UI\Interfaces\IChartingView.cs" />
     <Compile Include="UI\Interfaces\IExpressionView.cs" />
-    <Compile Include="UI\IApplicationManager.cs" />
+    <Compile Include="UI\Models\IApplicationManager.cs" />
     <Compile Include="UI\Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -486,7 +491,7 @@
     <Compile Include="UI\Views\ToolBarView.Designer.cs">
       <DependentUpon>ToolBarView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\NameAttribute.cs" />
+    <Compile Include="NameAttribute.cs" />
     <Compile Include="NumericalCalculations\FunctionRoot.cs" />
     <Compile Include="NumericalCalculations\Derivative.cs" />
     <Compile Include="NumericalCalculations\Integral.cs" />
@@ -497,13 +502,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\NumericTextBox.cs">
+    <Compile Include="UI\Controls\Views\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Dialogs\ReadForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Controls\ScientificNumericUpDown.cs" />
+    <Compile Include="UI\Controls\ScientificNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\ScientificNumericUpDown.Designer.cs">
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
@@ -595,7 +602,7 @@
     <EmbeddedResource Include="UI\Views\ChartAreaValuesView.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\DocumentsTabControl.resx">
+    <EmbeddedResource Include="UI\Controls\Views\DocumentsTabControl.resx">
       <DependentUpon>DocumentsTabControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\AboutBox1.resx">

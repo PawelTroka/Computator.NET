@@ -25,6 +25,7 @@ using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.Dialogs;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Models;
 using Computator.NET.UI.Presenters;
 using Computator.NET.UI.Views;
 using Microsoft.Practices.ObjectBuilder2;
@@ -101,6 +102,7 @@ namespace Computator.NET
             container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
             container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
             container.RegisterType<IApplicationManager, ApplicationManager>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ICommandLineHandler, CommandLineHandler>(new ContainerControlledLifetimeManager());
 
             //singleton handlers
             container.RegisterType<IErrorHandler, SimpleErrorHandler>(new ContainerControlledLifetimeManager());

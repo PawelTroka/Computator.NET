@@ -19,10 +19,10 @@ namespace Computator.NET.UI.Menus.Commands.HelpCommands
         public override void Execute()
         {
             MessageBox.Show(
-                GlobalConfig.betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.translators +
+                GlobalConfig.Betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.Translators +
                 Environment.NewLine + Environment.NewLine +
-                GlobalConfig.libraries + Environment.NewLine + Environment.NewLine +
-                GlobalConfig.others, Strings.SpecialThanksTo);
+                GlobalConfig.Libraries + Environment.NewLine + Environment.NewLine +
+                GlobalConfig.Others, Strings.SpecialThanksTo);
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace Computator.NET.UI.Views
+namespace Computator.NET.UI.Models
 {
     public interface IApplicationManager
     {

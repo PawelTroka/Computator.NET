@@ -24,6 +24,7 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Controls.AutocompleteMenu
 {

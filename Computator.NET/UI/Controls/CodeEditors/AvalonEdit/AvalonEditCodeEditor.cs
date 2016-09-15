@@ -18,6 +18,7 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Natives;
 using Computator.NET.UI.Controls.CodeEditors.Scintilla;
+using Computator.NET.UI.Models;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;

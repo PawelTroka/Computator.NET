@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace Computator.NET.UI.Menus.Commands
+namespace Computator.NET.UI.Models
 {
     public class BindingUtils
     {

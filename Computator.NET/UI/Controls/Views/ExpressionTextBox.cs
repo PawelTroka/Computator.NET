@@ -9,6 +9,7 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Natives;
 using Computator.NET.Properties;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Controls
 {

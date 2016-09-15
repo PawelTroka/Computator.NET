@@ -11,6 +11,7 @@ namespace Computator.NET.UI.Interfaces
         string ConsoleOutput { set; }
 
         event EventHandler ProcessClicked;
+        event EventHandler Load;
         void AppendToConsole(string output);
     }
 }

@@ -1,4 +1,5 @@
 using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.Models;
 using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus.Commands.EditCommands

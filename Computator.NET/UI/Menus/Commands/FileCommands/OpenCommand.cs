@@ -2,6 +2,7 @@ using System.Windows.Forms;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
@@ -9,7 +10,7 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;
-        private ISharedViewState _sharedViewState;
+        private readonly ISharedViewState _sharedViewState;
 
         public OpenCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState)
         {
@@ -26,7 +27,7 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
 
         public override void Execute()
         {
-            var ofd = new OpenFileDialog {Filter = GlobalConfig.tslFilesFIlter};
+            var ofd = new OpenFileDialog {Filter = GlobalConfig.TslFilesFIlter};
                 //TODO: move this to mainView or something
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;

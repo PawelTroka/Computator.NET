@@ -8,6 +8,7 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.Properties;
 using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Models;
 using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Presenters
@@ -19,13 +20,12 @@ namespace Computator.NET.UI.Presenters
 
         private CalculationsMode _calculationsMode;
         private bool _applicationNeedRestart;
-        private IApplicationManager _applicationManager;
+        private readonly IApplicationManager _applicationManager;
         public MainFormPresenter(IMainForm view, ISharedViewState sharedViewState, IApplicationManager applicationManager)
         {
             _view = view;
             _sharedViewState = sharedViewState;
             _applicationManager = applicationManager;
-            _view.Load += (sender, args) => HandleCommandLine();
          
 
             //  _view.EnterClicked += (o, e) => _sharedViewState.CurrentAction?.Invoke(o, e);
@@ -83,33 +83,12 @@ namespace Computator.NET.UI.Presenters
 
             _view.SelectedViewChanged += _view_SelectedViewChanged;
 
-            _view.StatusText = GlobalConfig.version;
+            _view.StatusText = GlobalConfig.Version;
         }
 
         private void _view_SelectedViewChanged(object sender, EventArgs e)
         {
             _sharedViewState.CurrentView = (ViewName)_view.SelectedViewIndex;
-        }
-
-
-        private void HandleCommandLine()
-        {
-            var args = Environment.GetCommandLineArgs();
-            if (args.Length < 2) return;
-            if (!args[1].Contains(".tsl")) return;
-
-            if (args[1].Contains(".tslf"))
-            {
-                _view.CustomFunctionsView.CustomFunctionsEditor.NewDocument(args[1]);
-                _view.CustomFunctionsView.CustomFunctionsEditor.CurrentFileName = args[1];
-                _sharedViewState.CurrentView = ViewName.CustomFunctions;
-            }
-            else
-            {
-                _view.ScriptingView.CodeEditorView.NewDocument(args[1]);
-                _view.ScriptingView.CodeEditorView.CurrentFileName = args[1];
-                _sharedViewState.CurrentView = ViewName.Scripting;
-            }
         }
 
         private void SetMode(CalculationsMode mode)

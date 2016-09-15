@@ -16,6 +16,7 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
+using Computator.NET.UI.Models;
 using ScintillaNET;
 
 namespace Computator.NET.UI.Controls.CodeEditors.Scintilla

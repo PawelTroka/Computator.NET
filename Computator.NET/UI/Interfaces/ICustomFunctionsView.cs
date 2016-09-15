@@ -1,4 +1,5 @@
-﻿using Computator.NET.UI.Controls.CodeEditors;
+﻿using System;
+using Computator.NET.UI.Controls.CodeEditors;
 
 namespace Computator.NET.UI.Interfaces
 {
@@ -6,5 +7,6 @@ namespace Computator.NET.UI.Interfaces
     {
         ISolutionExplorerView SolutionExplorerView { get; }
         ICodeDocumentsEditor CustomFunctionsEditor { get; }
+        event EventHandler Load;
     }
 }

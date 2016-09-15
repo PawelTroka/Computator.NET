@@ -3,12 +3,13 @@ using Computator.NET.Charting;
 using Computator.NET.DataTypes;
 using Computator.NET.Transformations;
 using Computator.NET.UI.Menus.Commands.ChartCommands;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands
 {
     internal class TransformOptionCommand : BaseCommandForCharts
     {
-        private ISharedViewState _sharedViewState;
+        private readonly ISharedViewState _sharedViewState;
         public TransformOptionCommand(string text, string toolTip, ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(charts,sharedViewState)
         {

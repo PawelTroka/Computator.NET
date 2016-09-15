@@ -4,6 +4,7 @@ using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.DataTypes;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {

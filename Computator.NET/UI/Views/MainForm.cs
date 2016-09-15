@@ -7,6 +7,18 @@ namespace Computator.NET.UI.Views
 {
     public partial class MainForm : Form, IMainForm
     {
+        private const int WS_EX_COMPOSITED = 0x02000000;
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= WS_EX_COMPOSITED;
+                return cp;
+            }
+        }
+
         #region initialization and construction
 
         private MainForm()
@@ -40,20 +52,11 @@ namespace Computator.NET.UI.Views
 
             customFunctionsView.Dock = DockStyle.Fill;
             customFunctionsTabPage.Controls.Add(customFunctionsView);
-
-
-            ScriptingView = scriptingView;
-            CustomFunctionsView = customFunctionsView;
-            ChartingView = chartingView;
         }
 
         #endregion
 
         #region IMainForm
-
-        public IScriptingView ScriptingView { get; }
-        public ICustomFunctionsView CustomFunctionsView { get; }
-        public IChartingView ChartingView { get; }
 
 
         public string ModeText

@@ -6,29 +6,16 @@ namespace Computator.NET.UI.Interfaces
 {
     public interface IMainForm
     {
-        IChartingView ChartingView { get; }
-
-
-
-        IScriptingView ScriptingView { get; }
-
-        ICustomFunctionsView CustomFunctionsView { get; }
-
-
         string ModeText { get; set; }
         string StatusText { set; }
         int SelectedViewIndex { get; set; }
         FormBorderStyle FormBorderStyle { set; }
         FormWindowState WindowState { set; }
-
-
+        
         event EventHandler ModeForcedToReal;
         event EventHandler ModeForcedToComplex;
         event EventHandler ModeForcedToFxy;
-
-
-
-
+        
 
         event EventHandler Load;
         event EventHandler SelectedViewChanged;

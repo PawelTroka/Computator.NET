@@ -4,6 +4,7 @@ using Computator.NET.UI.Interfaces;
 using Computator.NET.UI.Menus.Commands;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
 using Computator.NET.UI.Menus.Commands.EditCommands;
+using Computator.NET.UI.Models;
 using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus

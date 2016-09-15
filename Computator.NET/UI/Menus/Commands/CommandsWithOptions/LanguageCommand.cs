@@ -4,6 +4,7 @@ using System.Threading;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Properties;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.CommandsWithOptions
 {

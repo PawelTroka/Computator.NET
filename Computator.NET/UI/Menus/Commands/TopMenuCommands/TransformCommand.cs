@@ -3,6 +3,7 @@ using Accord.Collections;
 using Computator.NET.Charting;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {

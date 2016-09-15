@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
-using Computator.NET.UI.Controls.CodeEditors;
 
-namespace Computator.NET.UI
+namespace Computator.NET.UI.Models
 {
     public interface ISharedViewState : INotifyPropertyChanged
     {

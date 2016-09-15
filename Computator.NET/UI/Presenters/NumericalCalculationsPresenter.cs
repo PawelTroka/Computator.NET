@@ -8,6 +8,7 @@ using Computator.NET.NumericalCalculations;
 using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Presenters
 {

@@ -5,6 +5,7 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.UI.Menus.Commands.ChartCommands;
 using Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {

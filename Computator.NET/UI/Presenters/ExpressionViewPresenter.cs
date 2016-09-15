@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.Evaluation;
 using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Presenters
 {

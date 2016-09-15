@@ -6,6 +6,7 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
+using Computator.NET.UI.Models;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Rendering;
 using Point = System.Windows.Point;
