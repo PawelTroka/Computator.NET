@@ -248,6 +248,7 @@
     <Compile Include="Benchmarking\BenchmarkForm.Designer.cs">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Bootstrapping\Bootstrapper.cs" />
     <Compile Include="Compilation\CompilationErrorPlace.cs" />
     <Compile Include="Compilation\CompilationException.cs" />
     <Compile Include="Compilation\ExceptionExtensions.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="Functions\StatisticsFunctions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bootstrapping\FuzzyMatchingParameterOverrideWithFallback.cs" />
     <Compile Include="Natives\GSLInitializer.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Transformations\TrigonometricTransformations.cs" />
