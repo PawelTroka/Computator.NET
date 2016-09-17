@@ -74,8 +74,6 @@ namespace Computator.NET
         }
 
 
-
-
         private static MainForm BootStrapper()
         {
             var container = new UnityContainer();
