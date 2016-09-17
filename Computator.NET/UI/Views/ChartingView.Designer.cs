@@ -39,10 +39,10 @@
             // 
             // ChartingView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel2);
             this.Name = "ChartingView";
-            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
 
         }

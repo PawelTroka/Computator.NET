@@ -18,7 +18,6 @@ namespace Computator.NET.UI.Controls
         private TreeNode ctxNode;
         private int id = 1;
 
-
         public DirectoryTree()
         {
             InitializeComponent();

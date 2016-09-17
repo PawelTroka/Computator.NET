@@ -20,7 +20,6 @@ namespace Computator.NET.UI.Controls
         private ImageList imageList1;
         private ToolStripMenuItem newTabToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
-
         public DocumentsTabControl()
         {
             InitializeComponent();

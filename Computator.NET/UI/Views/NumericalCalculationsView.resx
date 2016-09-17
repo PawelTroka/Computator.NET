@@ -142,13 +142,13 @@
     <value>NoControl</value>
   </data>
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>68, 69</value>
+    <value>43, 70</value>
   </data>
   <data name="label9.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 24</value>
+    <value>100, 29</value>
   </data>
   <data name="label9.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -178,7 +178,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="epsTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 29</value>
+    <value>56, 34</value>
   </data>
   <data name="epsTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -214,7 +214,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>33, 22</value>
+    <value>41, 28</value>
   </data>
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -277,13 +277,13 @@
     <value>NoControl</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 32</value>
+    <value>17, 33</value>
   </data>
   <data name="label6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 24</value>
+    <value>126, 29</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -313,7 +313,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="nStepsNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 29</value>
+    <value>100, 34</value>
   </data>
   <data name="nStepsNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -346,7 +346,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 22</value>
+    <value>46, 28</value>
   </data>
   <data name="label19.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -409,7 +409,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="methodNumericalCalculationsComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>404, 34</value>
+    <value>404, 39</value>
   </data>
   <data name="methodNumericalCalculationsComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -436,7 +436,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="operationNumericalCalculationsComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>404, 34</value>
+    <value>404, 39</value>
   </data>
   <data name="operationNumericalCalculationsComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -457,7 +457,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="resultNumericalCalculationsTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 17.25pt</value>
+    <value>Cambria, 16.2pt</value>
   </data>
   <data name="resultNumericalCalculationsTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>147, 234</value>
@@ -466,7 +466,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="resultNumericalCalculationsTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>590, 34</value>
+    <value>590, 39</value>
   </data>
   <data name="resultNumericalCalculationsTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -526,7 +526,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 29</value>
+    <value>32, 34</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -553,7 +553,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 29</value>
+    <value>124, 34</value>
   </data>
   <data name="xDerivativePointNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -586,7 +586,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 22</value>
+    <value>106, 28</value>
   </data>
   <data name="label14.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -622,7 +622,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 22</value>
+    <value>101, 28</value>
   </data>
   <data name="label15.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -685,7 +685,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="bIntervalNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 29</value>
+    <value>124, 34</value>
   </data>
   <data name="bIntervalNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -712,7 +712,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="aIntervalNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 29</value>
+    <value>124, 34</value>
   </data>
   <data name="aIntervalNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -745,7 +745,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 22</value>
+    <value>43, 28</value>
   </data>
   <data name="label12.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -781,7 +781,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 22</value>
+    <value>42, 28</value>
   </data>
   <data name="label13.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -847,13 +847,13 @@
     <value>NoControl</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 240</value>
+    <value>56, 242</value>
   </data>
   <data name="label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 24</value>
+    <value>87, 29</value>
   </data>
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -886,7 +886,7 @@
     <value>0</value>
   </data>
   <data name="splitContainer5.Panel1MinSize" type="System.Int32, mscorlib">
-    <value>320</value>
+    <value>350</value>
   </data>
   <metadata name="function.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -928,7 +928,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="numericalCalculationsDataGridView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>742, 166</value>
+    <value>742, 136</value>
   </data>
   <data name="numericalCalculationsDataGridView.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -961,7 +961,7 @@
     <value>742, 489</value>
   </data>
   <data name="splitContainer5.SplitterDistance" type="System.Int32, mscorlib">
-    <value>320</value>
+    <value>350</value>
   </data>
   <data name="splitContainer5.SplitterWidth" type="System.Int32, mscorlib">
     <value>3</value>
@@ -984,6 +984,9 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>8, 16</value>
+  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>742, 489</value>
   </data>

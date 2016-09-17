@@ -18,6 +18,8 @@ namespace Computator.NET.UI.Views
         {
             scriptingCodeEditor.Dock=DockStyle.Fill;
             splitContainer2.Panel1.Controls.Add(scriptingCodeEditor);
+            splitContainer2.Panel1.Controls[0].Dock = DockStyle.Fill;
+
             solutionExplorerView1.Dock=DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(solutionExplorerView1);
             splitContainer1.Panel2.Controls[1].BringToFront();

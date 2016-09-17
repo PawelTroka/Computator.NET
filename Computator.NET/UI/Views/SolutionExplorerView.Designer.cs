@@ -31,10 +31,16 @@ namespace Computator.NET.UI.Views
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SolutionExplorerView));
-            this.scriptingDirectoryTree = new DirectoryTree();
             this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.directoryBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.scriptingDirectoryTree = new Computator.NET.UI.Controls.DirectoryTree();
             this.SuspendLayout();
+            // 
+            // openScriptingDirectoryButton
+            // 
+            resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
+            this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
+            this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
             // 
             // scriptingDirectoryTree
             // 
@@ -44,12 +50,6 @@ namespace Computator.NET.UI.Views
             this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
             this.scriptingDirectoryTree.Path = null;
-            // 
-            // openScriptingDirectoryButton
-            // 
-            resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
-            this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
-            this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
             // 
             // SolutionExplorerView
             // 

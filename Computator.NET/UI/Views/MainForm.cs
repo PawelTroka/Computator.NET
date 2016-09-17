@@ -7,18 +7,6 @@ namespace Computator.NET.UI.Views
 {
     public partial class MainForm : Form, IMainForm
     {
-        private const int WS_EX_COMPOSITED = 0x02000000;
-
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= WS_EX_COMPOSITED;
-                return cp;
-            }
-        }
-
         #region initialization and construction
 
         private MainForm()

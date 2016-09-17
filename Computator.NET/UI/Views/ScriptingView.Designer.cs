@@ -66,11 +66,12 @@
             // 
             // consoleOutputTextBox
             // 
-            this.consoleOutputTextBox.BackColor = System.Drawing.Color.White;
+            this.consoleOutputTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.consoleOutputTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.consoleOutputTextBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.consoleOutputTextBox.DetectUrls = false;
             resources.ApplyResources(this.consoleOutputTextBox, "consoleOutputTextBox");
-            this.consoleOutputTextBox.ForeColor = System.Drawing.Color.Black;
+            this.consoleOutputTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
             this.consoleOutputTextBox.Name = "consoleOutputTextBox";
             this.consoleOutputTextBox.ReadOnly = true;
             // 
@@ -82,10 +83,10 @@
             // 
             // ScriptingView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Name = "ScriptingView";
-            resources.ApplyResources(this, "$this");
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

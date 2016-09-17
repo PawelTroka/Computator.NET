@@ -12,6 +12,7 @@ using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;
 using Computator.NET.UI.Controls.CodeEditors.Scintilla;
+using Size = System.Drawing.Size;
 
 namespace Computator.NET.UI.Controls.CodeEditors
 {
@@ -34,6 +35,8 @@ namespace Computator.NET.UI.Controls.CodeEditors
         public CodeEditorControlWrapper(ScintillaCodeEditorControl scintillaCodeEditorControl,
             AvalonEditCodeEditor avalonEditCodeEditor)
         {
+            scintillaCodeEditorControl.Dock=DockStyle.Fill;
+
             _codeEditors = new Dictionary
                 <CodeEditorType, ICodeEditorControl>
             {
@@ -50,7 +53,7 @@ namespace Computator.NET.UI.Controls.CodeEditors
             };
 
 
-            tabControl = new DocumentsTabControl {Dock = DockStyle.Top};
+            tabControl = new DocumentsTabControl {Dock = DockStyle.Top, AutoSize = true};
 
             var panel = new Panel {Dock = DockStyle.Fill};
             panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control});

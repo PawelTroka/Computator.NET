@@ -42,7 +42,8 @@ namespace Computator.NET
             ClassName = "Program"
         };
 
-
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool SetProcessDPIAware();
 
         /// <summary>
         ///     The main entry point for the application.
@@ -50,6 +51,9 @@ namespace Computator.NET
         [STAThread]
         private static void Main()
         {
+            if (Environment.OSVersion.Version.Major >= 6)
+                SetProcessDPIAware();
+            
             Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
             Application.ThreadException += Application_ThreadException;
@@ -210,7 +214,6 @@ namespace Computator.NET
             Console.WriteLine(dummyType.FullName);
 
             dummyType = typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute); //System.Runtime.dll
-            var sss = new ParameterOverrides() {{"aaa", 1}, {"sss", 22}};
             Console.WriteLine(dummyType.FullName);
         }
     }
