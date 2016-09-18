@@ -34,7 +34,7 @@ namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName)
+        private static readonly SimpleLogger.SimpleLogger Logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName)
         {
             ClassName = "Program"
         };
@@ -75,8 +75,8 @@ namespace Computator.NET
         {
             MessageBox.Show(e.Exception.Message, Strings.Program_Application_ThreadException_Unhandled_Thread_Exception);
 
-            logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log(Strings.Program_Application_ThreadException_Unhandled_Thread_Exception, ErrorType.General,
+            Logger.MethodName = MethodBase.GetCurrentMethod().Name;
+            Logger.Log(Strings.Program_Application_ThreadException_Unhandled_Thread_Exception, ErrorType.General,
                 e.Exception);
         }
 
@@ -95,8 +95,8 @@ namespace Computator.NET
             }
 
 
-            logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, ex);
+            Logger.MethodName = MethodBase.GetCurrentMethod().Name;
+            Logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, ex);
         }
 
 
