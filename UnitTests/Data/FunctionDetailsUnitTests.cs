@@ -9,7 +9,7 @@ namespace UnitTests.Data
         [Test]
         public void TestLoading()
         {
-            var array = FunctionsDetails.Details.ToArray();
+            var array = (new FunctionsDetails()).ToArray();
             foreach (var keyValuePair in array)
             {
                 Assert.IsNotNull(keyValuePair.Value);
@@ -28,7 +28,7 @@ namespace UnitTests.Data
         [Test]
         public void TestSavingWithEmpties()
         {
-            FunctionsDetails.Details.SaveEmptyFunctionDetailsToXmlFile();
+            (new FunctionsDetails()).SaveEmptyFunctionDetailsToXmlFile();
         }
     }
 }

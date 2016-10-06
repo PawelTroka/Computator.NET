@@ -72,7 +72,7 @@ namespace Computator.NET.Data
         }
 
         //TODO: this function should create new functions file with all it's previous content and empty spaces for new functions which exists in ElementaryFuntions, SpecialFunctions etc but not in the xml file yet
-        private void SaveEmptyFunctionDetailsToXmlFile()
+        public void SaveEmptyFunctionDetailsToXmlFile()
         {
             //var _details = new Dictionary<string, FunctionInfo>();
             //foreach (var item in sourceItems)

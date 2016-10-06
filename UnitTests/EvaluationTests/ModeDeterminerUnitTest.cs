@@ -1,4 +1,5 @@
-﻿using Computator.NET.DataTypes;
+﻿using Computator.NET.Compilation;
+using Computator.NET.DataTypes;
 using Computator.NET.Evaluation;
 using NUnit.Framework;
 
@@ -7,7 +8,7 @@ namespace UnitTests.EvaluationTests
     [TestFixture]
     public class ModeDeterminerUnitTest
     {
-        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
+        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer(new TslCompiler());
 
         [Test]
         public void AloneImaginaryUnit_shouldReturnComplex()

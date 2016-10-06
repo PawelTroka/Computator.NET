@@ -1,34 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using Accord.Collections;
-using Computator.NET.Charting;
-using Computator.NET.Charting.Chart3D.UI;
-using Computator.NET.Charting.ComplexCharting;
-using Computator.NET.Charting.RealCharting;
-using Computator.NET.Compilation;
 using Computator.NET.Config;
-using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Evaluation;
 using Computator.NET.Logging;
 using Computator.NET.Natives;
 using Computator.NET.Properties;
-using Computator.NET.UI;
-using Computator.NET.UI.Controls;
-using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.Dialogs;
-using Computator.NET.UI.ErrorHandling;
-using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
-using Computator.NET.UI.Presenters;
-using Computator.NET.UI.Views;
-using Microsoft.Practices.Unity;
-using Unity.Extensions;
 
 namespace Computator.NET
 {

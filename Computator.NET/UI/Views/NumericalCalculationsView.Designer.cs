@@ -28,49 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NumericalCalculationsView));
             this.resultNumericalCalculationsTextBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.numericalCalculationsDataGridView = new System.Windows.Forms.DataGridView();
-            this.result = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.method = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.operation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.function = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.operation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.method = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.result = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label9 = new System.Windows.Forms.Label();
             this.operationNumericalCalculationsComboBox = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.methodNumericalCalculationsComboBox = new System.Windows.Forms.ComboBox();
             this.numericalOperationButton = new System.Windows.Forms.Button();
             this.derivativeAtPointGroupBox = new System.Windows.Forms.GroupBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.xDerivativePointNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.nOrderDerivativeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.xDerivativePointNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.stepsGroupBox = new System.Windows.Forms.GroupBox();
-            this.label19 = new System.Windows.Forms.Label();
             this.nStepsNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
             this.intervalGroupBox = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.aIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.bIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.aIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.maxErrorGroupBox = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.epsTextBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.numericalCalculationsDataGridView)).BeginInit();
             this.derivativeAtPointGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.xDerivativePointNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nOrderDerivativeNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xDerivativePointNumericUpDown)).BeginInit();
             this.stepsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nStepsNumericUpDown)).BeginInit();
             this.intervalGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.aIntervalNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bIntervalNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aIntervalNumericUpDown)).BeginInit();
             this.maxErrorGroupBox.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -106,14 +106,28 @@
             this.numericalCalculationsDataGridView.RowTemplate.Height = 24;
             this.numericalCalculationsDataGridView.RowTemplate.ReadOnly = true;
             // 
-            // result
+            // function
             // 
-            this.result.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.result.DefaultCellStyle = dataGridViewCellStyle3;
-            resources.ApplyResources(this.result, "result");
-            this.result.Name = "result";
-            this.result.ReadOnly = true;
+            this.function.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.function.DefaultCellStyle = dataGridViewCellStyle1;
+            resources.ApplyResources(this.function, "function");
+            this.function.Name = "function";
+            this.function.ReadOnly = true;
+            // 
+            // operation
+            // 
+            this.operation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.operation, "operation");
+            this.operation.Name = "operation";
+            this.operation.ReadOnly = true;
+            // 
+            // method
+            // 
+            this.method.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.method, "method");
+            this.method.Name = "method";
+            this.method.ReadOnly = true;
             // 
             // parameters
             // 
@@ -124,28 +138,14 @@
             this.parameters.Name = "parameters";
             this.parameters.ReadOnly = true;
             // 
-            // method
+            // result
             // 
-            this.method.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.method, "method");
-            this.method.Name = "method";
-            this.method.ReadOnly = true;
-            // 
-            // operation
-            // 
-            this.operation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.operation, "operation");
-            this.operation.Name = "operation";
-            this.operation.ReadOnly = true;
-            // 
-            // function
-            // 
-            this.function.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.function.DefaultCellStyle = dataGridViewCellStyle1;
-            resources.ApplyResources(this.function, "function");
-            this.function.Name = "function";
-            this.function.ReadOnly = true;
+            this.result.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.result.DefaultCellStyle = dataGridViewCellStyle3;
+            resources.ApplyResources(this.result, "result");
+            this.result.Name = "result";
+            this.result.ReadOnly = true;
             // 
             // label9
             // 
@@ -188,15 +188,20 @@
             this.derivativeAtPointGroupBox.Name = "derivativeAtPointGroupBox";
             this.derivativeAtPointGroupBox.TabStop = false;
             // 
-            // label15
+            // nOrderDerivativeNumericUpDown
             // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
+            resources.ApplyResources(this.nOrderDerivativeNumericUpDown, "nOrderDerivativeNumericUpDown");
+            this.nOrderDerivativeNumericUpDown.Maximum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            0});
+            this.nOrderDerivativeNumericUpDown.Name = "nOrderDerivativeNumericUpDown";
+            this.nOrderDerivativeNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // xDerivativePointNumericUpDown
             // 
@@ -219,20 +224,15 @@
             -2147483648});
             this.xDerivativePointNumericUpDown.Name = "xDerivativePointNumericUpDown";
             // 
-            // nOrderDerivativeNumericUpDown
+            // label14
             // 
-            resources.ApplyResources(this.nOrderDerivativeNumericUpDown, "nOrderDerivativeNumericUpDown");
-            this.nOrderDerivativeNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.nOrderDerivativeNumericUpDown.Name = "nOrderDerivativeNumericUpDown";
-            this.nOrderDerivativeNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
             // 
             // stepsGroupBox
             // 
@@ -241,11 +241,6 @@
             resources.ApplyResources(this.stepsGroupBox, "stepsGroupBox");
             this.stepsGroupBox.Name = "stepsGroupBox";
             this.stepsGroupBox.TabStop = false;
-            // 
-            // label19
-            // 
-            resources.ApplyResources(this.label19, "label19");
-            this.label19.Name = "label19";
             // 
             // nStepsNumericUpDown
             // 
@@ -267,6 +262,11 @@
             0,
             0});
             // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
             // intervalGroupBox
             // 
             this.intervalGroupBox.Controls.Add(this.bIntervalNumericUpDown);
@@ -276,42 +276,6 @@
             resources.ApplyResources(this.intervalGroupBox, "intervalGroupBox");
             this.intervalGroupBox.Name = "intervalGroupBox";
             this.intervalGroupBox.TabStop = false;
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
-            // 
-            // aIntervalNumericUpDown
-            // 
-            this.aIntervalNumericUpDown.DecimalPlaces = 9;
-            resources.ApplyResources(this.aIntervalNumericUpDown, "aIntervalNumericUpDown");
-            this.aIntervalNumericUpDown.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.aIntervalNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.aIntervalNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
-            this.aIntervalNumericUpDown.Name = "aIntervalNumericUpDown";
-            this.aIntervalNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
             // 
             // bIntervalNumericUpDown
             // 
@@ -339,6 +303,42 @@
             0,
             0});
             // 
+            // aIntervalNumericUpDown
+            // 
+            this.aIntervalNumericUpDown.DecimalPlaces = 9;
+            resources.ApplyResources(this.aIntervalNumericUpDown, "aIntervalNumericUpDown");
+            this.aIntervalNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.aIntervalNumericUpDown.Maximum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            0});
+            this.aIntervalNumericUpDown.Minimum = new decimal(new int[] {
+            -469762048,
+            -590869294,
+            5421010,
+            -2147483648});
+            this.aIntervalNumericUpDown.Name = "aIntervalNumericUpDown";
+            this.aIntervalNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
             // maxErrorGroupBox
             // 
             this.maxErrorGroupBox.Controls.Add(this.epsTextBox);
@@ -347,15 +347,15 @@
             this.maxErrorGroupBox.Name = "maxErrorGroupBox";
             this.maxErrorGroupBox.TabStop = false;
             // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
             // epsTextBox
             // 
             resources.ApplyResources(this.epsTextBox, "epsTextBox");
             this.epsTextBox.Name = "epsTextBox";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
             // 
             // tableLayoutPanel1
             // 
@@ -376,22 +376,22 @@
             // 
             // NumericalCalculationsView
             // 
-            resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel1);
+            resources.ApplyResources(this, "$this");
             this.Name = "NumericalCalculationsView";
             ((System.ComponentModel.ISupportInitialize)(this.numericalCalculationsDataGridView)).EndInit();
             this.derivativeAtPointGroupBox.ResumeLayout(false);
             this.derivativeAtPointGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.xDerivativePointNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nOrderDerivativeNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xDerivativePointNumericUpDown)).EndInit();
             this.stepsGroupBox.ResumeLayout(false);
             this.stepsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nStepsNumericUpDown)).EndInit();
             this.intervalGroupBox.ResumeLayout(false);
             this.intervalGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.aIntervalNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bIntervalNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.aIntervalNumericUpDown)).EndInit();
             this.maxErrorGroupBox.ResumeLayout(false);
             this.maxErrorGroupBox.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
