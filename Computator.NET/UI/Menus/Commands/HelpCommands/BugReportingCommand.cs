@@ -4,7 +4,7 @@ using Computator.NET.UI.Dialogs;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    internal class BugReportingCommand : CommandBase
+    public class BugReportingCommand : CommandBase
     {
         public BugReportingCommand()
         {

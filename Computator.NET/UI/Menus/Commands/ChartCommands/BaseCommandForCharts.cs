@@ -8,7 +8,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    internal abstract class BaseCommandForCharts : CommandBase
+    public abstract class BaseCommandForCharts : CommandBase
     {
         private readonly ISharedViewState _sharedViewState;
         protected readonly ReadOnlyDictionary<CalculationsMode, IChart> _charts;

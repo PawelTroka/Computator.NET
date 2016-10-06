@@ -10,7 +10,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    internal class LegendAligmentCommand : DummyCommand
+    public class LegendAligmentCommand : DummyCommand
     {
         public LegendAligmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.aligment_Text)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Windows;
 using System.Windows.Forms;
 using Computator.NET.UI.Controls;
 using Computator.NET.UI.Menus;
@@ -71,7 +72,16 @@ namespace Computator.NET.UI.Views
             };
 
             if (!(command is DummyCommand))
+            {
                 button.Click += (sender, args) => c.Execute();
+                button.MouseDown += (sender, args) =>
+                {
+                    if(args.Button!=MouseButtons.Left && !(SystemInformation.MouseButtonsSwapped || SystemParameters.SwapButtons))
+                    c.Execute();
+                    else if (args.Button != MouseButtons.Right && (SystemInformation.MouseButtonsSwapped || SystemParameters.SwapButtons))
+                        c.Execute();
+                };
+            }
             return button;
         }
 

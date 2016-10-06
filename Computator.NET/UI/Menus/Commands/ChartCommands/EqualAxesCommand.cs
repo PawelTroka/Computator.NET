@@ -5,7 +5,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    internal class EqualAxesCommand : BaseCommandForCharts
+    public class EqualAxesCommand : BaseCommandForCharts
     {
         public EqualAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {

@@ -9,7 +9,7 @@ using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    internal class PrintPreviewCommand : CommandBase
+    public class PrintPreviewCommand : CommandBase
     {
         private ICanFileEdit customFunctionsCodeEditor;
         private ISharedViewState _sharedViewState;

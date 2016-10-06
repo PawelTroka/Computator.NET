@@ -6,7 +6,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    internal class PrintPreviewChartCommand : BaseCommandForCharts
+    public class PrintPreviewChartCommand : BaseCommandForCharts
     {
         public PrintPreviewChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {

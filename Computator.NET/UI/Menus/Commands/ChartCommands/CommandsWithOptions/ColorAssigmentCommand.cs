@@ -10,9 +10,9 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    internal class ColorAssigmentCommand : DummyCommand
+    public class ColorAssigmentCommand : DummyCommand
     {
-        private ISharedViewState _sharedViewState;
+        private readonly ISharedViewState _sharedViewState;
         public ColorAssigmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.colorAssignmentToolStripMenuItem_Text)
         {

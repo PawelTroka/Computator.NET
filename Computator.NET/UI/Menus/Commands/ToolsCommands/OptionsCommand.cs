@@ -2,7 +2,7 @@ using Computator.NET.Config;
 
 namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
-    internal class OptionsCommand : CommandBase
+    public class OptionsCommand : CommandBase
     {
         public OptionsCommand()
         {

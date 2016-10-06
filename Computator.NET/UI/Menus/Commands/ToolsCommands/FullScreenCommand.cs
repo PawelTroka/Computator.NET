@@ -4,7 +4,7 @@ using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
-    internal class FullScreenCommand : CommandBase
+    public class FullScreenCommand : CommandBase
     {
         private readonly Lazy<IMainForm> _mainFormView;
 

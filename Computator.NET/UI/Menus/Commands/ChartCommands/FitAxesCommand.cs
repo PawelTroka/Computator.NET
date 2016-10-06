@@ -5,7 +5,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    internal class FitAxesCommand : BaseCommandForCharts
+    public class FitAxesCommand : BaseCommandForCharts
     {
         public FitAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {

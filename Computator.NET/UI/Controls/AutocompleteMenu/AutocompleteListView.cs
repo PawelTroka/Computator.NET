@@ -174,11 +174,6 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             }
         }
 
-        private void showToolTipTimer_Tick(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         public void closeToolTip()
         {
             toolTip.Close();

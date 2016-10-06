@@ -5,7 +5,7 @@ using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    internal class ThanksToCommand : CommandBase
+    public class ThanksToCommand : CommandBase
     {
         public ThanksToCommand()
         {

@@ -3,7 +3,7 @@ using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    internal class FeaturesCommand : CommandBase
+    public class FeaturesCommand : CommandBase
     {
         public FeaturesCommand()
         {

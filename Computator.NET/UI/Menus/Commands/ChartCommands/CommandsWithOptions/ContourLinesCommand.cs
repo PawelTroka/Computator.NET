@@ -10,7 +10,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    internal class ContourLinesCommand : DummyCommand
+    public class ContourLinesCommand : DummyCommand
     {
         private ISharedViewState _sharedViewState;
         public ContourLinesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)

@@ -11,7 +11,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    internal class ExportCommand : BaseCommandForCharts
+    public class ExportCommand : BaseCommandForCharts
     {
         private readonly SaveFileDialog saveChartImageFileDialog = new SaveFileDialog
         {

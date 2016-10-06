@@ -7,7 +7,7 @@ using Computator.NET.Logging;
 
 namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
-    internal class LogsCommand : CommandBase
+    public class LogsCommand : CommandBase
     {
         public LogsCommand()
         {

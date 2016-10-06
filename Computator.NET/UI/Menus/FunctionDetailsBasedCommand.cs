@@ -10,7 +10,7 @@ namespace Computator.NET.UI.Menus
 {
     public class FunctionDetailsBasedCommand : DummyCommand
     {
-        public FunctionDetailsBasedCommand(string name, Dictionary<string, string> KeyAndNameOfCommandCollection, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails) : base(name)
+        public FunctionDetailsBasedCommand(string name, Dictionary<string, string> KeyAndNameOfCommandCollection, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails, IClickedMouseButtonsProvider mouseButtonsProvider) : base(name)
         {
             var childrenCommands = new List<IToolbarCommand>();
 
@@ -19,7 +19,7 @@ namespace Computator.NET.UI.Menus
                 childrenCommands.Add(new DummyCommand(keyValue.Value)
                 {
                     ChildrenCommands = BuildFunctionsOrConstantsCommands(keyValue.Key, expressionTextProvider,
-                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, functionsDetails)
+                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, functionsDetails, mouseButtonsProvider)
                 });
             }
 
@@ -28,7 +28,7 @@ namespace Computator.NET.UI.Menus
         }
 
 
-        private static List<IToolbarCommand> BuildFunctionsOrConstantsCommands(string key, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        private static List<IToolbarCommand> BuildFunctionsOrConstantsCommands(string key, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails, IClickedMouseButtonsProvider mouseButtonsProvider)
         {
             var dict = new Dictionary<string, IToolbarCommand>();
 
@@ -52,7 +52,7 @@ namespace Computator.NET.UI.Menus
                 }
                 (dict[f.Value.Category].ChildrenCommands as List<IToolbarCommand>).Add(
                     new FunctionOrConstantCommand(f.Value.Signature, f.Value.Title, expressionTextProvider,
-                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, functionsDetails));
+                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, functionsDetails, mouseButtonsProvider));
             }
 
             return dict.Values.ToList();

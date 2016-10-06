@@ -10,17 +10,17 @@ namespace Computator.NET.UI.Menus
 {
     public class ToolsCommand : DummyCommand
     {
-        public ToolsCommand(Lazy<IMainForm> view) : base(MenuStrings.toolsToolStripMenuItem_Text)
+        public ToolsCommand(OptionsCommand optionsCommand, LanguageCommand languageCommand, FullScreenCommand fullScreenCommand, BenchmarkCommand benchmarkCommand, LogsCommand logsCommand) : base(MenuStrings.toolsToolStripMenuItem_Text)
         {
             ChildrenCommands = new List<IToolbarCommand>
             {
-                new OptionsCommand(),
-                new LanguageCommand(),
-                new FullScreenCommand(view),
+                optionsCommand,
+                languageCommand,
+                fullScreenCommand,
                 null,
-                new BenchmarkCommand(),
+                benchmarkCommand,
                 null,
-                new LogsCommand()
+                logsCommand
             };
         }
     }

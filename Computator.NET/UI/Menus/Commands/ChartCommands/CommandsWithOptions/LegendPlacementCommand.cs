@@ -10,7 +10,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    internal class LegendPlacementCommand : DummyCommand
+    public class LegendPlacementCommand : DummyCommand
     {
         public LegendPlacementCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.placement_Text)

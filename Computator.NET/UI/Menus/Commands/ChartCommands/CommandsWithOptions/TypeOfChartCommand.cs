@@ -10,7 +10,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    internal class TypeOfChartCommand : DummyCommand
+    public class TypeOfChartCommand : DummyCommand
     {
         private ISharedViewState _sharedViewState;
         public TypeOfChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.type_Text)

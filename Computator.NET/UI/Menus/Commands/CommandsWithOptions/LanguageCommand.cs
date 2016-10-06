@@ -33,7 +33,7 @@ namespace Computator.NET.UI.Menus.Commands.CommandsWithOptions
      }*/
 
 
-    internal class LanguageCommand : DummyCommand
+    public class LanguageCommand : DummyCommand
     {
         public LanguageCommand() : base(MenuStrings.Language_Text)
         {

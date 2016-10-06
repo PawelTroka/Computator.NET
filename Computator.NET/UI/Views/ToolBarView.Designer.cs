@@ -43,10 +43,11 @@
             // ToolBarView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoSize = true;
             this.Controls.Add(this.toolStrip1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ToolBarView";
-            this.Size = new System.Drawing.Size(566, 20);
+            this.Size = new System.Drawing.Size(566, 25);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -7,17 +7,17 @@ namespace Computator.NET.UI.Menus
 {
     public class HelpCommand : DummyCommand
     {
-        public HelpCommand() : base(MenuStrings.helpToolStripMenuItem1_Text)
+        public HelpCommand(FeaturesCommand featuresCommand, ChangelogCommand changelogCommand, AboutCommand aboutCommand, ThanksToCommand thanksToCommand, BugReportingCommand bugReportingCommand) : base(MenuStrings.helpToolStripMenuItem1_Text)
         {
             ChildrenCommands = new List<IToolbarCommand>
             {
-                new FeaturesCommand(),
-                new ChangelogCommand(),
+                featuresCommand,
+                changelogCommand,
                 null,
-                new AboutCommand(),
+                aboutCommand,
                 null,
-                new ThanksToCommand(),
-                new BugReportingCommand()
+                thanksToCommand,
+                bugReportingCommand
             };
         }
     }

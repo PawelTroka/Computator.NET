@@ -9,7 +9,7 @@ namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {
     public class TransformCommand : DummyCommand
     {
-        private ISharedViewState _sharedViewState;
+        private readonly ISharedViewState _sharedViewState;
         public TransformCommand(ISharedViewState sharedViewState, ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.transformToolStripMenuItem_Text)
         {
             _sharedViewState = sharedViewState;

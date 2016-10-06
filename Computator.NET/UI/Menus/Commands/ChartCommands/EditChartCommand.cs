@@ -10,7 +10,7 @@ using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    internal class EditChartCommand : BaseCommandForCharts
+    public class EditChartCommand : BaseCommandForCharts
     {
         public EditChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {

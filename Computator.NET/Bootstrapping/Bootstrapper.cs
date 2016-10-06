@@ -12,6 +12,8 @@ using Computator.NET.UI.Controls;
 using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Menus.Commands;
+using Computator.NET.UI.Menus.Commands.FileCommands;
 using Computator.NET.UI.Models;
 using Computator.NET.UI.Presenters;
 using Computator.NET.UI.Views;
@@ -77,6 +79,8 @@ namespace Computator.NET
             //ExpressionTextBox
             _container.RegisterType<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ITextProvider>(new InjectionFactory(c => _container.Resolve<ExpressionTextBox>()));
+            _container.RegisterType<IOpenFileDialog,OpenFileDialogWrapper>();
+            _container.RegisterType<IClickedMouseButtonsProvider, MouseButtonsProvider>();
 
             //Scripting and CustomFunctions
             _container.RegisterType<CodeEditorControlWrapper>("scripting");

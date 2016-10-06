@@ -14,21 +14,21 @@ namespace Computator.NET.UI.Menus
     public class FileCommand : DummyCommand
     {
 
-        public FileCommand(ICanFileEdit codeEditorView, ICanFileEdit customFunctionsEditor, ISharedViewState sharedViewState, ApplicationManager applicationManager, ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.fileToolStripMenuItem_Text)
+        public FileCommand(NewCommand newCommand, OpenCommand openCommand, SaveCommand saveCommand, SaveAsCommand saveAsCommand,
+            PrintCommand printCommand, PrintPreviewCommand printPreviewCommand, ExitCommand exitCommand) : base(MenuStrings.fileToolStripMenuItem_Text)
         {
             ChildrenCommands = new List<IToolbarCommand>
             {
-                new NewCommand(codeEditorView, customFunctionsEditor, sharedViewState),
-                new OpenCommand(codeEditorView, customFunctionsEditor, sharedViewState),
+                newCommand,
+                openCommand,
                 null,
-                new SaveCommand(codeEditorView, customFunctionsEditor, sharedViewState),
-                new SaveAsCommand(codeEditorView, customFunctionsEditor, sharedViewState),
+                saveCommand,
+                saveAsCommand,
                 null,
-                new PrintCommand(codeEditorView, customFunctionsEditor, sharedViewState, applicationManager,charts),
-                new PrintPreviewCommand(codeEditorView,
-                    customFunctionsEditor, sharedViewState,applicationManager,charts),
+                printCommand,
+                printPreviewCommand,
                 null,
-                new ExitCommand()
+                exitCommand
             };
         }
     }

@@ -6,7 +6,7 @@ using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    internal class EditChartPropertiesCommand : BaseCommandForCharts
+    public class EditChartPropertiesCommand : BaseCommandForCharts
     {
         public EditChartPropertiesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
