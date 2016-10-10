@@ -49,10 +49,12 @@
             // 
             // splitContainer1.Panel1
             // 
+            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             // 
             // splitContainer1.Panel2
             // 
+            resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
             this.splitContainer1.Panel2.Controls.Add(this.processButton);
             // 
             // splitContainer2
@@ -60,8 +62,13 @@
             resources.ApplyResources(this.splitContainer2, "splitContainer2");
             this.splitContainer2.Name = "splitContainer2";
             // 
+            // splitContainer2.Panel1
+            // 
+            resources.ApplyResources(this.splitContainer2.Panel1, "splitContainer2.Panel1");
+            // 
             // splitContainer2.Panel2
             // 
+            resources.ApplyResources(this.splitContainer2.Panel2, "splitContainer2.Panel2");
             this.splitContainer2.Panel2.Controls.Add(this.consoleOutputTextBox);
             // 
             // consoleOutputTextBox
@@ -84,11 +91,12 @@
             // ScriptingView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.splitContainer1);
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.splitContainer1);
             this.Name = "ScriptingView";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);

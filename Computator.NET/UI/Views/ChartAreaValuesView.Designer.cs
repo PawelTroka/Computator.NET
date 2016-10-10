@@ -34,16 +34,16 @@ namespace Computator.NET.UI.Views
             this.label2 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.yNNumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
-            this.y0NumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
             this.yNlabel = new System.Windows.Forms.Label();
             this.y0label = new System.Windows.Forms.Label();
-            this.xnNumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
-            this.x0NumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
+            this.yNNumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
+            this.y0NumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
+            this.xnNumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
+            this.x0NumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).BeginInit();
@@ -82,6 +82,38 @@ namespace Computator.NET.UI.Views
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // yNlabel
+            // 
+            resources.ApplyResources(this.yNlabel, "yNlabel");
+            this.yNlabel.Name = "yNlabel";
+            // 
+            // y0label
+            // 
+            resources.ApplyResources(this.y0label, "y0label");
+            this.y0label.Name = "y0label";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // clearChartButton
+            // 
+            resources.ApplyResources(this.clearChartButton, "clearChartButton");
+            this.clearChartButton.Name = "clearChartButton";
+            this.clearChartButton.UseVisualStyleBackColor = true;
+            // 
+            // addToChartButton
+            // 
+            resources.ApplyResources(this.addToChartButton, "addToChartButton");
+            this.addToChartButton.Name = "addToChartButton";
+            this.addToChartButton.UseVisualStyleBackColor = true;
             // 
             // yNNumericUpDown
             // 
@@ -143,16 +175,6 @@ namespace Computator.NET.UI.Views
             0,
             -2147483648});
             // 
-            // yNlabel
-            // 
-            resources.ApplyResources(this.yNlabel, "yNlabel");
-            this.yNlabel.Name = "yNlabel";
-            // 
-            // y0label
-            // 
-            resources.ApplyResources(this.y0label, "y0label");
-            this.y0label.Name = "y0label";
-            // 
             // xnNumericUpDown
             // 
             resources.ApplyResources(this.xnNumericUpDown, "xnNumericUpDown");
@@ -212,28 +234,6 @@ namespace Computator.NET.UI.Views
             0,
             0,
             -2147483648});
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // clearChartButton
-            // 
-            resources.ApplyResources(this.clearChartButton, "clearChartButton");
-            this.clearChartButton.Name = "clearChartButton";
-            this.clearChartButton.UseVisualStyleBackColor = true;
-            // 
-            // addToChartButton
-            // 
-            resources.ApplyResources(this.addToChartButton, "addToChartButton");
-            this.addToChartButton.Name = "addToChartButton";
-            this.addToChartButton.UseVisualStyleBackColor = true;
             // 
             // ChartAreaValuesView
             // 

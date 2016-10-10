@@ -377,8 +377,8 @@
             // NumericalCalculationsView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.tableLayoutPanel1);
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "NumericalCalculationsView";
             ((System.ComponentModel.ISupportInitialize)(this.numericalCalculationsDataGridView)).EndInit();
             this.derivativeAtPointGroupBox.ResumeLayout(false);
@@ -397,6 +397,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

@@ -40,8 +40,8 @@
             // ChartingView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.panel2);
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.panel2);
             this.Name = "ChartingView";
             this.ResumeLayout(false);
 

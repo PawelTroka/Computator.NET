@@ -71,7 +71,7 @@ namespace Computator.NET.UI.Controls
             Margin = new Padding(5, 4, 5, 4);
             Name = "this";
             SelectedIndex = 0;
-            Size = new Size(1010, 27);
+            Size = new Size(250, 27);
             TabIndex = 0;
             SelectedIndexChanged += this_SelectedIndexChanged;
             // 
@@ -150,7 +150,7 @@ namespace Computator.NET.UI.Controls
             addTabPage.Margin = new Padding(2);
             addTabPage.Name = "addTabPage";
             addTabPage.Padding = new Padding(2);
-            addTabPage.Size = new Size(1002, 0);
+            //addTabPage.Size = new Size(1002, 0);
             addTabPage.TabIndex = 1;
             // ReSharper disable once LocalizableElement
             addTabPage.Text = "( + )";
@@ -175,12 +175,14 @@ namespace Computator.NET.UI.Controls
 
             //   addTabPage.Font = CustomFonts.GetMathFont(Font.Size);
             Margin = new Padding(0);
-            MinimumSize = new Size(800, 27);
+          //  MinimumSize = new Size(800, 27);
             Name = "DocumentsTabControl";
-            Size = new Size(1010, 27);
+         //   Size = new Size(1010, 27);
+            AutoSize = true;
             ResumeLayout(false);
             contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
+            
         }
 
         public void AddTab(string filename = "")

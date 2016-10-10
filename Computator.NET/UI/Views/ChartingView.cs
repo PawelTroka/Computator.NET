@@ -19,13 +19,13 @@ namespace Computator.NET.UI.Views
             ChartAreaValuesView = chartAreaValuesView;
             Charts = charts;
 
-            var el = new ElementHost { Child = chart3d, Dock = DockStyle.Fill };
-            chart3d.ParentControl = el;
+            var el = new ElementHost { Child = (Charts[CalculationsMode.Fxy] as Chart3DControl), Dock = DockStyle.Fill };
+            (Charts[CalculationsMode.Fxy] as Chart3DControl).ParentControl = el;
 
             panel2.Controls.AddRange(new[]
             {
-                chart2d,
-                complexChart,
+                Charts[CalculationsMode.Real] as Chart2D,
+                Charts[CalculationsMode.Complex] as ComplexChart,
                 el,
                 (Control) chartAreaValuesView,
             });
@@ -35,10 +35,6 @@ namespace Computator.NET.UI.Views
         {
             InitializeComponent();
         }
-
-        private Chart2D chart2d => Charts[CalculationsMode.Real] as Chart2D;
-        private Chart3DControl chart3d => Charts[CalculationsMode.Fxy] as Chart3DControl;
-        private ComplexChart complexChart => Charts[CalculationsMode.Complex] as ComplexChart;
 
         public ReadOnlyDictionary<CalculationsMode, IChart> Charts { get; }
 

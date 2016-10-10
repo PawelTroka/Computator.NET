@@ -11,6 +11,7 @@
  * = Command pattern usage improved - all dependencies for commands are now injected, so every command is 100% unit testable
  * = Resolved countless DPI scaling issues
  * + Functions&Constants menu has now option to show function details on right mouse click just like it was before version 2.0
+ * = Fixed bug with tabs in scripting not showing up correctly on small windows size
 
 
  ### --------- Version 2.1.0ß - beta -----------  02.06.2016 18:20

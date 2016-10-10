@@ -48,8 +48,8 @@
             // ExpressionView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.tableLayoutPanel1);
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ExpressionView";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

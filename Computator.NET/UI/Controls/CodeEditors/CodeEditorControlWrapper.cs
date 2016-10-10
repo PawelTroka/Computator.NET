@@ -54,6 +54,7 @@ namespace Computator.NET.UI.Controls.CodeEditors
 
 
             tabControl = new DocumentsTabControl {Dock = DockStyle.Top, AutoSize = true};
+            
 
             var panel = new Panel {Dock = DockStyle.Fill};
             panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control});
@@ -62,15 +63,15 @@ namespace Computator.NET.UI.Controls.CodeEditors
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 1,
-                RowCount = 2
+                RowCount = 2,
+                AutoSize = true,
             };
-
+            AutoSize = true;
             tableLayout.Controls.Add(tabControl, 0, 0);
             tableLayout.Controls.Add(panel, 0, 1);
             Controls.Add(tableLayout);
             SetEditorVisibility();
             SetFont(Settings.Default.ScriptingFont);
-
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
             tabControl.ControlRemoved += TabControl_ControlRemoved;
             tabControl.ControlAdded += TabControl_ControlAdded;

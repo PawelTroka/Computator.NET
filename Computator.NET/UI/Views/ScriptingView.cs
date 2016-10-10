@@ -17,10 +17,13 @@ namespace Computator.NET.UI.Views
         public ScriptingView(CodeEditorControlWrapper scriptingCodeEditor, SolutionExplorerView solutionExplorerView1) : this()
         {
             scriptingCodeEditor.Dock=DockStyle.Fill;
-            splitContainer2.Panel1.Controls.Add(scriptingCodeEditor);
-            splitContainer2.Panel1.Controls[0].Dock = DockStyle.Fill;
+            //scriptingCodeEditor.Anchor=AnchorStyles.Top| AnchorStyles.Bottom | AnchorStyles.Left| AnchorStyles.Right;
+            solutionExplorerView1.Dock = DockStyle.Fill;
+            //solutionExplorerView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
-            solutionExplorerView1.Dock=DockStyle.Fill;
+            splitContainer2.Panel1.Controls.Add(scriptingCodeEditor);
+            //splitContainer2.Panel1.Controls[0].BringToFront();
+
             splitContainer1.Panel2.Controls.Add(solutionExplorerView1);
             splitContainer1.Panel2.Controls[1].BringToFront();
 
