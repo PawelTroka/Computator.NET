@@ -25,6 +25,7 @@
 * useful controls: https://github.com/AdamsLair/winforms https://www.nuget.org/packages/OpenTK.GLControl https://github.com/nathanchere/FerretLib.WinForms http://ascendnet.codeplex.com https://github.com/AdamsLair/winforms
 * MVP is still done poorly, IViews shouldn't have nested IViews
 * Use mark_heath tips
+* migrate all controls, even the advanced ones to use MVP
 
 
 ##Functions and constants

@@ -1,6 +1,6 @@
  * Computator.NET, 2014-2016, Pawel Troka, pawel.troka@outlook.com
 
- ### --------- Unreleased -----------  12.08.2016 13:39
+ ### --------- Unreleased -----------  10.10.2016 23:00
  * = GSL is now statically linked so Visual C++ Redistributable is not longer needed
  * = Build process is optimized - Release is faster and Debug is safer
  * = Some assembly informations are now shared for all projects
@@ -8,6 +8,9 @@
  * = Installer should now show correct images even on Windows XP
  * + Introduction of IoC Container (Unity)
  * = MVP implementation improved - forms and views now take controls from constructors, singleton model has been dropped, presenters now use ISharedView state representing one SharedViewState instance but not singleton, same for error handler etc - all the dependencies are now injected
+ * = Command pattern usage improved - all dependencies for commands are now injected, so every command is 100% unit testable
+ * = Resolved countless DPI scaling issues
+ * + Functions&Constants menu has now option to show function details on right mouse click just like it was before version 2.0
 
 
  ### --------- Version 2.1.0ß - beta -----------  02.06.2016 18:20

@@ -121,19 +121,22 @@
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
+  <data name="maxErrorGroupBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="epsTextBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Cambria, 12pt</value>
   </data>
   <data name="epsTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>47, 19</value>
+    <value>58, 24</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="epsTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="epsTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 26</value>
+    <value>75, 26</value>
   </data>
   <data name="epsTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -163,7 +166,7 @@
     <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 22</value>
+    <value>26, 27</value>
   </data>
   <data name="label10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -189,11 +192,14 @@
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="maxErrorGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
   <data name="maxErrorGroupBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 11.25pt</value>
   </data>
   <data name="maxErrorGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>423, 153</value>
+    <value>423, 186</value>
   </data>
   <data name="maxErrorGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -202,7 +208,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="maxErrorGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 50</value>
+    <value>137, 76</value>
   </data>
   <data name="maxErrorGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -222,11 +228,14 @@
   <data name="&gt;&gt;maxErrorGroupBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="intervalGroupBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="bIntervalNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Cambria, 12pt</value>
   </data>
   <data name="bIntervalNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>191, 19</value>
+    <value>191, 37</value>
   </data>
   <data name="bIntervalNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -253,7 +262,7 @@
     <value>Cambria, 12pt</value>
   </data>
   <data name="aIntervalNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 19</value>
+    <value>48, 37</value>
   </data>
   <data name="aIntervalNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -286,7 +295,7 @@
     <value>NoControl</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>161, 20</value>
+    <value>161, 38</value>
   </data>
   <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -322,7 +331,7 @@
     <value>NoControl</value>
   </data>
   <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 20</value>
+    <value>19, 38</value>
   </data>
   <data name="label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -348,6 +357,9 @@
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="intervalGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="intervalGroupBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 11.25pt</value>
   </data>
@@ -361,7 +373,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="intervalGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>302, 50</value>
+    <value>304, 84</value>
   </data>
   <data name="intervalGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -381,11 +393,14 @@
   <data name="&gt;&gt;intervalGroupBox.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="stepsGroupBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="nStepsNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Cambria, 12pt</value>
   </data>
   <data name="nStepsNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>47, 20</value>
+    <value>58, 37</value>
   </data>
   <data name="nStepsNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -418,7 +433,7 @@
     <value>NoControl</value>
   </data>
   <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 21</value>
+    <value>22, 39</value>
   </data>
   <data name="label19.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -444,6 +459,9 @@
   <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="stepsGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
   <data name="stepsGroupBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 11.25pt</value>
   </data>
@@ -457,7 +475,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="stepsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 51</value>
+    <value>137, 84</value>
   </data>
   <data name="stepsGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -477,11 +495,14 @@
   <data name="&gt;&gt;stepsGroupBox.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="derivativeAtPointGroupBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="nOrderDerivativeNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Cambria, 12pt</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>80, 20</value>
+    <value>82, 29</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -508,7 +529,7 @@
     <value>Cambria, 12pt</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 19</value>
+    <value>207, 28</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -541,7 +562,7 @@
     <value>NoControl</value>
   </data>
   <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 22</value>
+    <value>7, 31</value>
   </data>
   <data name="label14.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -577,7 +598,7 @@
     <value>NoControl</value>
   </data>
   <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>130, 22</value>
+    <value>132, 31</value>
   </data>
   <data name="label15.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -603,11 +624,14 @@
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="derivativeAtPointGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="derivativeAtPointGroupBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 11.25pt</value>
   </data>
   <data name="derivativeAtPointGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 153</value>
+    <value>115, 186</value>
   </data>
   <data name="derivativeAtPointGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -616,7 +640,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="derivativeAtPointGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>302, 51</value>
+    <value>304, 76</value>
   </data>
   <data name="derivativeAtPointGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -838,7 +862,7 @@
     <value>Fill</value>
   </data>
   <data name="numericalCalculationsDataGridView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 249</value>
+    <value>2, 307</value>
   </data>
   <data name="numericalCalculationsDataGridView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -874,7 +898,7 @@
     <value>NoControl</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>44, 214</value>
+    <value>44, 272</value>
   </data>
   <data name="label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -940,7 +964,7 @@
     <value>Cambria, 16.2pt</value>
   </data>
   <data name="resultNumericalCalculationsTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>117, 210</value>
+    <value>117, 268</value>
   </data>
   <data name="resultNumericalCalculationsTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 8, 4</value>

@@ -180,11 +180,11 @@
             // 
             // derivativeAtPointGroupBox
             // 
+            resources.ApplyResources(this.derivativeAtPointGroupBox, "derivativeAtPointGroupBox");
             this.derivativeAtPointGroupBox.Controls.Add(this.nOrderDerivativeNumericUpDown);
             this.derivativeAtPointGroupBox.Controls.Add(this.xDerivativePointNumericUpDown);
             this.derivativeAtPointGroupBox.Controls.Add(this.label14);
             this.derivativeAtPointGroupBox.Controls.Add(this.label15);
-            resources.ApplyResources(this.derivativeAtPointGroupBox, "derivativeAtPointGroupBox");
             this.derivativeAtPointGroupBox.Name = "derivativeAtPointGroupBox";
             this.derivativeAtPointGroupBox.TabStop = false;
             // 
@@ -236,9 +236,9 @@
             // 
             // stepsGroupBox
             // 
+            resources.ApplyResources(this.stepsGroupBox, "stepsGroupBox");
             this.stepsGroupBox.Controls.Add(this.nStepsNumericUpDown);
             this.stepsGroupBox.Controls.Add(this.label19);
-            resources.ApplyResources(this.stepsGroupBox, "stepsGroupBox");
             this.stepsGroupBox.Name = "stepsGroupBox";
             this.stepsGroupBox.TabStop = false;
             // 
@@ -269,11 +269,11 @@
             // 
             // intervalGroupBox
             // 
+            resources.ApplyResources(this.intervalGroupBox, "intervalGroupBox");
             this.intervalGroupBox.Controls.Add(this.bIntervalNumericUpDown);
             this.intervalGroupBox.Controls.Add(this.aIntervalNumericUpDown);
             this.intervalGroupBox.Controls.Add(this.label12);
             this.intervalGroupBox.Controls.Add(this.label13);
-            resources.ApplyResources(this.intervalGroupBox, "intervalGroupBox");
             this.intervalGroupBox.Name = "intervalGroupBox";
             this.intervalGroupBox.TabStop = false;
             // 
@@ -341,9 +341,9 @@
             // 
             // maxErrorGroupBox
             // 
+            resources.ApplyResources(this.maxErrorGroupBox, "maxErrorGroupBox");
             this.maxErrorGroupBox.Controls.Add(this.epsTextBox);
             this.maxErrorGroupBox.Controls.Add(this.label10);
-            resources.ApplyResources(this.maxErrorGroupBox, "maxErrorGroupBox");
             this.maxErrorGroupBox.Name = "maxErrorGroupBox";
             this.maxErrorGroupBox.TabStop = false;
             // 

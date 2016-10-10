@@ -121,6 +121,9 @@
   <data name="groupBox3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="calculationsImZnumericUpDown.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="calculationsImZnumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Cambria, 12pt</value>
@@ -133,7 +136,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="calculationsImZnumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 26</value>
+    <value>140, 26</value>
   </data>
   <data name="calculationsImZnumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -189,6 +192,9 @@
   <data name="&gt;&gt;calculationsRealLabel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="valueForCalculationNumericUpDown.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="valueForCalculationNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Cambria, 12pt</value>
   </data>
@@ -199,7 +205,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="valueForCalculationNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 26</value>
+    <value>140, 26</value>
   </data>
   <data name="valueForCalculationNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -268,7 +274,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 87</value>
+    <value>208, 92</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -304,7 +310,7 @@
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 91</value>
+    <value>81, 96</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -343,7 +349,7 @@
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>70, 113</value>
+    <value>70, 118</value>
   </data>
   <data name="label7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -394,7 +400,7 @@
     <value>Fill</value>
   </data>
   <data name="calculationsHistoryDataGridView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 154</value>
+    <value>2, 159</value>
   </data>
   <data name="calculationsHistoryDataGridView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -430,7 +436,7 @@
     <value>NoControl</value>
   </data>
   <data name="calculateButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 48</value>
+    <value>32, 50</value>
   </data>
   <data name="calculateButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -496,7 +502,7 @@
     <value>Cambria, 16.2pt</value>
   </data>
   <data name="calculationValueTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>156, 115</value>
+    <value>156, 120</value>
   </data>
   <data name="calculationValueTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 8, 4</value>

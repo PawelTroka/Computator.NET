@@ -65,8 +65,8 @@
             // 
             // calculationsImZnumericUpDown
             // 
-            this.calculationsImZnumericUpDown.DecimalPlaces = 5;
             resources.ApplyResources(this.calculationsImZnumericUpDown, "calculationsImZnumericUpDown");
+            this.calculationsImZnumericUpDown.DecimalPlaces = 5;
             this.calculationsImZnumericUpDown.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -86,8 +86,8 @@
             // 
             // valueForCalculationNumericUpDown
             // 
-            this.valueForCalculationNumericUpDown.DecimalPlaces = 5;
             resources.ApplyResources(this.valueForCalculationNumericUpDown, "valueForCalculationNumericUpDown");
+            this.valueForCalculationNumericUpDown.DecimalPlaces = 5;
             this.valueForCalculationNumericUpDown.Maximum = new decimal(new int[] {
             1000000000,
             0,
