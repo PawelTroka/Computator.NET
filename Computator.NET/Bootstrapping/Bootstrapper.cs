@@ -18,7 +18,6 @@ using Computator.NET.UI.Models;
 using Computator.NET.UI.Presenters;
 using Computator.NET.UI.Views;
 using Microsoft.Practices.Unity;
-using Unity.Extensions;
 
 namespace Computator.NET
 {
@@ -29,8 +28,6 @@ namespace Computator.NET
         private FuzzyMatchingParameterOverrideWithFallback<CodeEditorControlWrapper> _resolver;
         public Bootstrapper()
         {
-            _container.AddNewExtension<LazySupportExtension>();
-
             RegisterViews();
             RegisterSharedObjects();
             RegisterHandlers();
