@@ -1,13 +1,12 @@
 using Accord.Collections;
 using Computator.NET.Charting;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    public class FitAxesCommand : BaseCommandForCharts
+    internal class FitAxesCommand : BaseCommandForCharts
     {
-        public FitAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public FitAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
         {
             Text = MenuStrings.fitAxes_Text;
             ToolTip = MenuStrings.fitAxes_Text;

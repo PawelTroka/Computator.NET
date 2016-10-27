@@ -1,5 +1,4 @@
-﻿using Computator.NET.Compilation;
-using Computator.NET.DataTypes;
+﻿using Computator.NET.DataTypes;
 using Computator.NET.Evaluation;
 using NUnit.Framework;
 
@@ -8,7 +7,7 @@ namespace UnitTests.EvaluationTests
     [TestFixture]
     public class ModeDeterminerUnitTest
     {
-        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer(new TslCompiler());
+        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
 
         [Test]
         public void AloneImaginaryUnit_shouldReturnComplex()
@@ -20,12 +19,7 @@ namespace UnitTests.EvaluationTests
         public void expressionWithRealExponent_shouldReturnReal()
         {
             Assert.AreEqual(CalculationsMode.Real, modeDeterminer.DetermineMode("2¹⁰³²¹³ॱ³²³²³²"));
-        }
-
-        [Test]
-        public void expressionWithRealAndComplexComponentsAfterNumberWithoutDot_shouldReturnComplex()
-        {
-            Assert.AreEqual(CalculationsMode.Complex, modeDeterminer.DetermineMode("2sin(2x)+2z"));
+            //z·x·y+yˣ˙ᶻ˙ʸ⁺¹¹˙ˣ⁺ᶜᵒˢ⁽ˣ˸ʸ⁾
         }
 
         [Test]

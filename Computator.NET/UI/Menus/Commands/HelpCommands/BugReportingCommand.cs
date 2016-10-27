@@ -4,7 +4,7 @@ using Computator.NET.UI.Dialogs;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    public class BugReportingCommand : CommandBase
+    internal class BugReportingCommand : CommandBase
     {
         public BugReportingCommand()
         {
@@ -17,7 +17,7 @@ namespace Computator.NET.UI.Menus.Commands.HelpCommands
 
         public override void Execute()
         {
-            Process.Start(GlobalConfig.IssuesUrl);
+            Process.Start(GlobalConfig.issuesUrl);
             //new BugReportingForm().ShowDialog( /*this*/);
         }
     }

@@ -2,38 +2,16 @@ using System.Windows.Forms;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    public interface IOpenFileDialog
-    {
-        bool Show();
-        string Filter { get; set; }
-        string FileName { get; set; }
-    }
-
-    public class OpenFileDialogWrapper : IOpenFileDialog
-    {
-        private readonly OpenFileDialog ofd = new OpenFileDialog {Filter = GlobalConfig.TslFilesFIlter};
-    public bool Show()
-    {
-        return ofd.ShowDialog() == DialogResult.OK;
-    }
-
-        public string Filter { get {  return ofd.Filter; } set {ofd.Filter = value;} }
-
-        public string FileName { get { return ofd.FileName; } set { ofd.FileName = value; } }
-    }
-
-    public class OpenCommand : CommandBase
+    internal class OpenCommand : CommandBase
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;
-        private readonly ISharedViewState _sharedViewState;
-        private readonly IOpenFileDialog _openFileDialog;
 
-        public OpenCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IOpenFileDialog openFileDialog)
+
+        public OpenCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
         {
             Icon = Resources.openToolStripButtonImage;
             Text = MenuStrings.openToolStripButton_Text;
@@ -41,19 +19,19 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
             ShortcutKeyString = "Ctrl+O";
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-            _sharedViewState = sharedViewState;
-            _openFileDialog = openFileDialog;
-            _openFileDialog.Filter = GlobalConfig.TslFilesFIlter;
+            // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            if (!_openFileDialog.Show())
+            var ofd = new OpenFileDialog {Filter = GlobalConfig.tslFilesFIlter};
+                //TODO: move this to mainView or something
+            if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
 
-            switch ((int) _sharedViewState.CurrentView)
+            switch ((int) SharedViewState.Instance.CurrentView)
             {
                 case 0:
 
@@ -61,11 +39,11 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
                     break;
 
                 case 4:
-                    scriptingCodeEditor.NewDocument(_openFileDialog.FileName);
+                    scriptingCodeEditor.NewDocument(ofd.FileName);
                     break;
 
                 case 5:
-                    customFunctionsCodeEditor.NewDocument(_openFileDialog.FileName);
+                    customFunctionsCodeEditor.NewDocument(ofd.FileName);
                     break;
 
                 default:

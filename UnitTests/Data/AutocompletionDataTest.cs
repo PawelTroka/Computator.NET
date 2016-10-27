@@ -9,14 +9,14 @@ namespace UnitTests.Data
         [Test]
         public void TestExpressions()
         {
-            var content = AutocompletionData.GetAutocompleteItemsForExpressions(new FunctionsDetails());
+            var content = AutocompletionData.GetAutocompleteItemsForExpressions();
             Assert.IsNotNull(content);
         }
 
         [Test]
         public void TestScripting()
         {
-            var content = AutocompletionData.GetAutocompleteItemsForScripting(new FunctionsDetails());
+            var content = AutocompletionData.GetAutocompleteItemsForScripting();
             Assert.IsNotNull(content);
         }
     }

@@ -2,7 +2,7 @@ using Computator.NET.UI.Dialogs;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    public class AboutCommand : CommandBase
+    internal class AboutCommand : CommandBase
     {
         public AboutCommand()
         {

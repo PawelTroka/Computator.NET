@@ -6,20 +6,17 @@ using Computator.NET.Charting;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.DataTypes;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    public class ContourLinesCommand : DummyCommand
+    internal class ContourLinesCommand : DummyCommand
     {
-        private ISharedViewState _sharedViewState;
-        public ContourLinesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public ContourLinesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts)
             : base(MenuStrings.contourLinesMode_Text)
         {
-            _sharedViewState = sharedViewState;
-            Visible = _sharedViewState.CalculationsMode == CalculationsMode.Complex;
-            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CalculationsMode),
-                () => Visible = _sharedViewState.CalculationsMode == CalculationsMode.Complex);
+            Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Complex;
+            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
+                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Complex);
 
 
             var list = new List<IToolbarCommand>();
@@ -27,7 +24,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var val in Enum.GetValues(typeof(CountourLinesMode))
                 .Cast<CountourLinesMode>())
             {
-                list.Add(new ContourLinesOption(charts, val,sharedViewState));
+                list.Add(new ContourLinesOption(charts, val));
             }
             ChildrenCommands = list;
         }
@@ -37,7 +34,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             private readonly CountourLinesMode contourLinesMode;
 
             public ContourLinesOption(ReadOnlyDictionary<CalculationsMode, IChart> charts,
-                CountourLinesMode contourLinesMode, ISharedViewState sharedViewState) : base(contourLinesMode, charts,sharedViewState)
+                CountourLinesMode contourLinesMode) : base(contourLinesMode, charts)
             {
                 this.contourLinesMode = contourLinesMode;
                 IsOption = true;

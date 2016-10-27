@@ -5,14 +5,13 @@ using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Models;
 using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    public class EditChartCommand : BaseCommandForCharts
+    internal class EditChartCommand : BaseCommandForCharts
     {
-        public EditChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public EditChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
         {
             Text = MenuStrings.edit_Text;
             ToolTip = MenuStrings.edit_Text;

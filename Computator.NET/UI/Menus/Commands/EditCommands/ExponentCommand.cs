@@ -1,20 +1,17 @@
 using Computator.NET.Properties;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
-    public class ExponentCommand : CommandBase
+    internal class ExponentCommand : CommandBase
     {
-        private ISharedViewState _sharedViewState;
-        public ExponentCommand(ISharedViewState sharedViewState)
+        public ExponentCommand()
         {
-            _sharedViewState = sharedViewState;
             CheckOnClick = true;
             ShortcutKeyString = "Shift+6";
-            _sharedViewState.PropertyChanged += (o, e) =>
+            SharedViewState.Instance.PropertyChanged += (o, e) =>
             {
-                if (e.PropertyName == nameof(_sharedViewState.IsExponent))
-                    Checked = _sharedViewState.IsExponent;
+                if (e.PropertyName == nameof(SharedViewState.Instance.IsExponent))
+                    Checked = SharedViewState.Instance.IsExponent;
             };
 
             Icon = Resources.exponentation;
@@ -25,7 +22,7 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
 
         public override void Execute()
         {
-            _sharedViewState.IsExponent = !_sharedViewState.IsExponent;
+            SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
         }
     }
 }

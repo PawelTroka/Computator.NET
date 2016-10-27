@@ -7,11 +7,10 @@ using Accord.Collections;
 using Computator.NET.Charting;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    public class ExportCommand : BaseCommandForCharts
+    internal class ExportCommand : BaseCommandForCharts
     {
         private readonly SaveFileDialog saveChartImageFileDialog = new SaveFileDialog
         {
@@ -21,7 +20,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands
             AddExtension = true
         };
 
-        public ExportCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public ExportCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
         {
             Text = MenuStrings.export_Text;
             ToolTip = MenuStrings.export_Text;

@@ -41,7 +41,6 @@
             // 
             // tableLayoutPanel
             // 
-            this.tableLayoutPanel.AutoSize = true;
             this.tableLayoutPanel.ColumnCount = 2;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67F));
@@ -73,13 +72,12 @@
             this.logoPictureBox.Name = "logoPictureBox";
             this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 6);
             this.logoPictureBox.Size = new System.Drawing.Size(240, 307);
-            this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.logoPictureBox.TabIndex = 12;
             this.logoPictureBox.TabStop = false;
             // 
             // labelProductName
             // 
-            this.labelProductName.AutoSize = true;
             this.labelProductName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.labelProductName.Location = new System.Drawing.Point(252, 0);
@@ -93,7 +91,6 @@
             // 
             // labelVersion
             // 
-            this.labelVersion.AutoSize = true;
             this.labelVersion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.labelVersion.Location = new System.Drawing.Point(252, 31);
@@ -107,7 +104,6 @@
             // 
             // labelCopyright
             // 
-            this.labelCopyright.AutoSize = true;
             this.labelCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelCopyright.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.labelCopyright.Location = new System.Drawing.Point(252, 62);
@@ -121,7 +117,6 @@
             // 
             // labelCompanyName
             // 
-            this.labelCompanyName.AutoSize = true;
             this.labelCompanyName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelCompanyName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.labelCompanyName.Location = new System.Drawing.Point(252, 93);
@@ -179,7 +174,6 @@
             this.tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

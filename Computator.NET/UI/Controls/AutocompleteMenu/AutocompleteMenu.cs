@@ -20,11 +20,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
@@ -49,11 +47,9 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
         private ITextBoxWrapper targetControlWrapper;
 
-        public AutocompleteMenu(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        public AutocompleteMenu()
         {
-            _sharedViewState = sharedViewState;
-            _functionsDetails = functionsDetails;
-            Host = new AutocompleteMenuHost(this, _functionsDetails);
+            Host = new AutocompleteMenuHost(this);
             Host.ListView.ItemSelected += ListView_ItemSelected;
             Host.ListView.ItemHovered += ListView_ItemHovered;
             VisibleItems = new List<AutocompleteItem>();
@@ -646,8 +642,6 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             else
                 (Host.ListView as Control).Invalidate();
         }
-        private readonly ISharedViewState _sharedViewState;
-        private readonly IFunctionsDetails _functionsDetails;
 
         private void BuildAutocompleteList(bool forced)
         {
@@ -661,7 +655,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
             var index = text.IndexOfAny(SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray());
 
-            if (_sharedViewState.IsExponent && index == -1)
+            if (SharedViewState.Instance.IsExponent && index == -1)
             {
                 text = "";
             }
@@ -755,7 +749,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
                 return;
             }
             foreach (var item in items)
-                list.Add(new AutocompleteItem(item,_functionsDetails));
+                list.Add(new AutocompleteItem(item));
             SetAutocompleteItems(list);
         }
 
@@ -766,7 +760,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
         public void AddItem(string item)
         {
-            AddItem(new AutocompleteItem(item, _functionsDetails));
+            AddItem(new AutocompleteItem(item));
         }
 
         public void AddItem(AutocompleteItem item)
@@ -846,7 +840,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             {
                 newText = fragment.Text.Substring(0, index) + SpecialSymbols.AsciiToSuperscript(newText);
             }
-            else if (_sharedViewState.IsExponent)
+            else if (SharedViewState.Instance.IsExponent)
                 newText = fragment.Text + SpecialSymbols.AsciiToSuperscript(newText);
 
 

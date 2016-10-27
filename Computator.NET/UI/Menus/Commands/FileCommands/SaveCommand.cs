@@ -1,16 +1,15 @@
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    public class SaveCommand : CommandBase
+    internal class SaveCommand : CommandBase
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;
-        private ISharedViewState _sharedViewState;
 
-        public SaveCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState)
+
+        public SaveCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
         {
             ShortcutKeyString = "Ctrl+S";
             Icon = Resources.saveToolStripButtonImage;
@@ -19,14 +18,13 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
 
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-            _sharedViewState = sharedViewState;
             // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            switch ((int) _sharedViewState.CurrentView)
+            switch ((int) SharedViewState.Instance.CurrentView)
             {
                 case 0:
 

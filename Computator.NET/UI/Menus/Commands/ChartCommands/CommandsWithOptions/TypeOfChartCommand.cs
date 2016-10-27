@@ -6,19 +6,16 @@ using Accord.Collections;
 using Computator.NET.Charting;
 using Computator.NET.DataTypes;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    public class TypeOfChartCommand : DummyCommand
+    internal class TypeOfChartCommand : DummyCommand
     {
-        private ISharedViewState _sharedViewState;
-        public TypeOfChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.type_Text)
+        public TypeOfChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.type_Text)
         {
-            _sharedViewState = sharedViewState;
-            Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real;
-            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CalculationsMode),
-                () => Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real);
+            Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real;
+            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
+                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Real);
 
 
             var list = new List<IToolbarCommand>();
@@ -26,7 +23,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var chartType in Enum.GetValues(typeof(SeriesChartType))
                 .Cast<SeriesChartType>())
             {
-                list.Add(new TypeOption(charts, chartType,sharedViewState));
+                list.Add(new TypeOption(charts, chartType));
             }
             ChildrenCommands = list;
         }
@@ -35,8 +32,8 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly SeriesChartType chartType;
 
-            public TypeOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, SeriesChartType chartType, ISharedViewState sharedViewState)
-                : base(chartType, charts,sharedViewState)
+            public TypeOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, SeriesChartType chartType)
+                : base(chartType, charts)
             {
                 this.chartType = chartType;
                 IsOption = true;

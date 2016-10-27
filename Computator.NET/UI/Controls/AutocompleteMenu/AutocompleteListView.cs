@@ -25,9 +25,8 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
         private int selectedItemIndex = -1;
         private IList<AutocompleteItem> visibleItems;
 
-        internal AutocompleteListView(IFunctionsDetails functionDetails)
+        internal AutocompleteListView()
         {
-            _functionDetails = functionDetails;
             // functionsDetails = new Dictionary<string, FunctionInfo>();
             toolTip = new WebBrowserToolTip();
             SetStyle(
@@ -47,8 +46,6 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             //  toolTip.LostFocus += ToolTip_LostFocus;
             formTip = new WebBrowserForm();
             Colors = new Colors();
-            AutoScaleMode=AutoScaleMode.None;
-            
         }
 
 
@@ -140,14 +137,13 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             return new Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
         }
 
-        private IFunctionsDetails _functionDetails;
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
             toolTip.Close();
             var signature = autocompleteItem.Text;
-            if (!_functionDetails.ContainsKey(signature))
+            if (!FunctionsDetails.Details.ContainsKey(signature))
                 return;
-            var functionInfo = _functionDetails[signature];
+            var functionInfo = FunctionsDetails.Details[signature];
 
             if (string.IsNullOrEmpty(functionInfo.Description) || string.IsNullOrWhiteSpace(functionInfo.Description) ||
                 string.IsNullOrEmpty(functionInfo.Title) || string.IsNullOrWhiteSpace(functionInfo.Title)
@@ -172,6 +168,11 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
                 formTip.SetFunctionInfo(functionInfo);
                 formTip.Show();
             }
+        }
+
+        private void showToolTipTimer_Tick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public void closeToolTip()

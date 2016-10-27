@@ -2,7 +2,7 @@ using Computator.NET.Benchmarking;
 
 namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
-    public class BenchmarkCommand : CommandBase
+    internal class BenchmarkCommand : CommandBase
     {
         public BenchmarkCommand()
         {

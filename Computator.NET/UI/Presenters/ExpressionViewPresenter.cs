@@ -3,44 +3,41 @@ using System.Windows.Forms;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.Evaluation;
 using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Presenters
 {
     public class ExpressionViewPresenter
     {
         private readonly IExpressionView _view;
-        private readonly IModeDeterminer modeDeterminer;
-        private ISharedViewState _sharedViewState;
+        private readonly ModeDeterminer modeDeterminer = new ModeDeterminer();
 
-        public ExpressionViewPresenter(IExpressionView view, ISharedViewState sharedViewState, IModeDeterminer modeDeterminer)
+
+        public ExpressionViewPresenter(IExpressionView view)
         {
             _view = view;
-            _sharedViewState = sharedViewState;
-            this.modeDeterminer = modeDeterminer;
             _view.ExpressionTextBox.TextChanged += ExpressionTextBox_TextChanged;
             _view.ExpressionTextBox.KeyPress += ExpressionTextBox_KeyPress;
 
-            _sharedViewState.PropertyChanged += (o, e) =>
+            SharedViewState.Instance.PropertyChanged += (o, e) =>
             {
-                if (e.PropertyName == nameof(_sharedViewState.CurrentView))
+                if (e.PropertyName == nameof(SharedViewState.Instance.CurrentView))
                     _view.Visible =
-                        !(_sharedViewState.CurrentView == ViewName.Scripting ||
-                          _sharedViewState.CurrentView == ViewName.CustomFunctions);
+                        !(SharedViewState.Instance.CurrentView == ViewName.Scripting ||
+                          SharedViewState.Instance.CurrentView == ViewName.CustomFunctions);
             };
         }
 
         private void ExpressionTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == 13) //enter
-                _sharedViewState.CurrentAction?.Invoke(this, e);
+                SharedViewState.Instance.CurrentAction?.Invoke(this, e);
         }
 
         private void ExpressionTextBox_TextChanged(object sender, EventArgs e)
         {
-            var mode = modeDeterminer.DetermineMode(_view.ExpressionTextBox.Text);
-            if (mode == _sharedViewState.CalculationsMode) return;
-            _sharedViewState.CalculationsMode = mode;
+            var mode = modeDeterminer.DetermineMode(SharedViewState.Instance.ExpressionText);
+            if (mode == SharedViewState.Instance.CalculationsMode) return;
+            SharedViewState.Instance.CalculationsMode = mode;
             EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(mode));
         }
     }

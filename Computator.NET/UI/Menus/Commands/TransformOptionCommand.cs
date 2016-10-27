@@ -3,24 +3,21 @@ using Computator.NET.Charting;
 using Computator.NET.DataTypes;
 using Computator.NET.Transformations;
 using Computator.NET.UI.Menus.Commands.ChartCommands;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands
 {
     internal class TransformOptionCommand : BaseCommandForCharts
     {
-        private readonly ISharedViewState _sharedViewState;
-        public TransformOptionCommand(string text, string toolTip, ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
-            : base(charts,sharedViewState)
+        public TransformOptionCommand(string text, string toolTip, ReadOnlyDictionary<CalculationsMode, IChart> charts)
+            : base(charts)
         {
-            _sharedViewState = sharedViewState;
             Text = text;
             ToolTip = toolTip;
         }
 
         public override void Execute()
         {
-            if (_sharedViewState.CalculationsMode == CalculationsMode.Real)
+            if (SharedViewState.Instance.CalculationsMode == CalculationsMode.Real)
 
                 chart2d.Transform(
                     points => MathematicalTransformations.Transform(points, Text),

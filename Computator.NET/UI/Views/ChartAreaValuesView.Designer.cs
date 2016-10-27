@@ -40,10 +40,10 @@ namespace Computator.NET.UI.Views
             this.label3 = new System.Windows.Forms.Label();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
-            this.yNNumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
-            this.y0NumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
-            this.xnNumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
-            this.x0NumericUpDown = new Computator.NET.UI.Controls.ScientificNumericUpDown();
+            this.yNNumericUpDown = new ScientificNumericUpDown();
+            this.y0NumericUpDown = new ScientificNumericUpDown();
+            this.xnNumericUpDown = new ScientificNumericUpDown();
+            this.x0NumericUpDown = new ScientificNumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).BeginInit();
@@ -71,7 +71,6 @@ namespace Computator.NET.UI.Views
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.yNNumericUpDown);
             this.groupBox2.Controls.Add(this.y0NumericUpDown);
             this.groupBox2.Controls.Add(this.yNlabel);
@@ -80,6 +79,7 @@ namespace Computator.NET.UI.Views
             this.groupBox2.Controls.Add(this.x0NumericUpDown);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -117,12 +117,12 @@ namespace Computator.NET.UI.Views
             // 
             // yNNumericUpDown
             // 
-            resources.ApplyResources(this.yNNumericUpDown, "yNNumericUpDown");
             this.yNNumericUpDown.Epsilon = new decimal(new int[] {
             1,
             0,
             0,
             196608});
+            resources.ApplyResources(this.yNNumericUpDown, "yNNumericUpDown");
             this.yNNumericUpDown.Increment = new decimal(new int[] {
             9,
             0,
@@ -147,12 +147,12 @@ namespace Computator.NET.UI.Views
             // 
             // y0NumericUpDown
             // 
-            resources.ApplyResources(this.y0NumericUpDown, "y0NumericUpDown");
             this.y0NumericUpDown.Epsilon = new decimal(new int[] {
             1,
             0,
             0,
             196608});
+            resources.ApplyResources(this.y0NumericUpDown, "y0NumericUpDown");
             this.y0NumericUpDown.Increment = new decimal(new int[] {
             9,
             0,
@@ -177,12 +177,12 @@ namespace Computator.NET.UI.Views
             // 
             // xnNumericUpDown
             // 
-            resources.ApplyResources(this.xnNumericUpDown, "xnNumericUpDown");
             this.xnNumericUpDown.Epsilon = new decimal(new int[] {
             1,
             0,
             0,
             196608});
+            resources.ApplyResources(this.xnNumericUpDown, "xnNumericUpDown");
             this.xnNumericUpDown.Increment = new decimal(new int[] {
             20,
             0,
@@ -207,12 +207,12 @@ namespace Computator.NET.UI.Views
             // 
             // x0NumericUpDown
             // 
-            resources.ApplyResources(this.x0NumericUpDown, "x0NumericUpDown");
             this.x0NumericUpDown.Epsilon = new decimal(new int[] {
             1,
             0,
             0,
             196608});
+            resources.ApplyResources(this.x0NumericUpDown, "x0NumericUpDown");
             this.x0NumericUpDown.Increment = new decimal(new int[] {
             20,
             0,
@@ -237,23 +237,21 @@ namespace Computator.NET.UI.Views
             // 
             // ChartAreaValuesView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.trackBar1);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.addToChartButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.clearChartButton);
-            this.Controls.Add(this.addToChartButton);
-            resources.ApplyResources(this, "$this");
             this.Name = "ChartAreaValuesView";
+            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.y0NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xnNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.x0NumericUpDown)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

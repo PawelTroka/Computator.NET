@@ -4,7 +4,6 @@ using System.Threading;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Properties;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.CommandsWithOptions
 {
@@ -33,7 +32,7 @@ namespace Computator.NET.UI.Menus.Commands.CommandsWithOptions
      }*/
 
 
-    public class LanguageCommand : DummyCommand
+    internal class LanguageCommand : DummyCommand
     {
         public LanguageCommand() : base(MenuStrings.Language_Text)
         {

@@ -1,34 +1,26 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using Computator.NET.Compilation;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Evaluation
 {
-    public interface IModeDeterminer
-    {
-        CalculationsMode DetermineMode(string input);
-    }
-
-    public class ModeDeterminer : IModeDeterminer
+    public class ModeDeterminer
     {
         private readonly Regex FindI;
         private readonly Regex FindY;
         private readonly Regex FindZ;
 
         private readonly string post =
-            $@")(?:[\+\-\*{SpecialSymbols.DotSymbol}\/\,\)\s{SpecialSymbols.Superscripts}](?:\n|\r|\r\n|.)*)?$";
+            $@")(?:[\+\-{SpecialSymbols.DotSymbol}\/\,\)\s{SpecialSymbols.Superscripts}](?:\n|\r|\r\n|.)*)?$";
 
         private readonly string postExponent = $@")(?:(?:[^{SpecialSymbols.SuperscriptAlphabet}]+)|$)";
         //^(?:(?:\n|\r|\r\n|.)*[\+\-·\/\,\(\s])?(x)(?:[\+\-·\/\,\)\s](?:\n|\r|\r\n|.)*)?$
-        private readonly string pre = $@"^(?:(?:\n|\r|\r\n|.)*[\+\-\*{SpecialSymbols.DotSymbol}\/\,\(\s])?(";
+        private readonly string pre = $@"^(?:(?:\n|\r|\r\n|.)*[\+\-{SpecialSymbols.DotSymbol}\/\,\(\s])?(";
         private readonly string preExponent = $@"[^{SpecialSymbols.SuperscriptAlphabet}]+(";
         //private Regex FindX;
-        private readonly ITslCompiler _tslCompiler;
 
-        public ModeDeterminer(ITslCompiler tslCompiler)
+        public ModeDeterminer()
         {
-            _tslCompiler = tslCompiler;
             //  FindX = new Regex(pre + "x" + post, RegexOptions.Compiled);
             FindY =
                 new Regex(
@@ -52,7 +44,7 @@ namespace Computator.NET.Evaluation
         //[^⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ](ˣ)(?:(?:[^⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ]+)|$)
 
 
-        private static string mergePatterns(params string[] patterns)
+        private string mergePatterns(params string[] patterns)
         {
             var sb = new StringBuilder();
             foreach (var pattern in patterns)
@@ -67,7 +59,6 @@ namespace Computator.NET.Evaluation
         public CalculationsMode DetermineMode(string input)
         {
             var isImplicit = input.Contains("=");
-            input = _tslCompiler.TransformToCSharp(input);
             var isZ = FindZ.IsMatch(input);
             var isI = FindI.IsMatch(input);
             var isY = FindY.IsMatch(input);
@@ -82,7 +73,7 @@ namespace Computator.NET.Evaluation
             }
 
             if (isI)
-                return CalculationsMode.Error; //TODO: we don't have implicit mode for complex function yet
+                return CalculationsMode.Error; //TODO: we dont have implicit mode for complex function yet
 
             if (isZ && isY)
                 return CalculationsMode.Fxy;

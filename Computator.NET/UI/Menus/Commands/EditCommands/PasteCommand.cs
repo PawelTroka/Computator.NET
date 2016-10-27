@@ -1,17 +1,17 @@
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Models;
-using Computator.NET.UI.Views;
+using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
-    public class PasteCommand : CommandBase
+    internal class PasteCommand : CommandBase
     {
-        private readonly IApplicationManager _applicationManager;
         private readonly ICanFileEdit customFunctionsCodeEditor;
+        private readonly IMainForm mainFormView;
         private readonly ICanFileEdit scriptingCodeEditor;
-        private ISharedViewState _sharedViewState;
-        public PasteCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager)
+
+        public PasteCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
+            IMainForm mainFormView)
         {
             ShortcutKeyString = "Ctrl+V";
             Icon = Resources.pasteToolStripButtonImage;
@@ -20,31 +20,30 @@ namespace Computator.NET.UI.Menus.Commands.EditCommands
 
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-            _sharedViewState = sharedViewState;
-            _applicationManager = applicationManager;
+            this.mainFormView = mainFormView;
             // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            if ((int) _sharedViewState.CurrentView < 4)
+            if ((int) SharedViewState.Instance.CurrentView < 4)
             {
-                _applicationManager.SendStringAsKey("^V"); //expressionTextBox.Paste();
+                mainFormView.SendStringAsKey("^V"); //expressionTextBox.Paste();
             }
-            else if ((int) _sharedViewState.CurrentView == 4)
+            else if ((int) SharedViewState.Instance.CurrentView == 4)
             {
                 if (scriptingCodeEditor.Focused)
                     scriptingCodeEditor.Paste();
                 else
-                    _applicationManager.SendStringAsKey("^V");
+                    mainFormView.SendStringAsKey("^V");
             }
             else
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.Paste();
                 else
-                    _applicationManager.SendStringAsKey("^V");
+                    mainFormView.SendStringAsKey("^V");
             }
         }
     }

@@ -31,16 +31,10 @@ namespace Computator.NET.UI.Views
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SolutionExplorerView));
+            this.scriptingDirectoryTree = new DirectoryTree();
             this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.directoryBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.scriptingDirectoryTree = new Computator.NET.UI.Controls.DirectoryTree();
             this.SuspendLayout();
-            // 
-            // openScriptingDirectoryButton
-            // 
-            resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
-            this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
-            this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
             // 
             // scriptingDirectoryTree
             // 
@@ -51,9 +45,15 @@ namespace Computator.NET.UI.Views
             ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
             this.scriptingDirectoryTree.Path = null;
             // 
+            // openScriptingDirectoryButton
+            // 
+            resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
+            this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
+            this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
+            // 
             // SolutionExplorerView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.scriptingDirectoryTree);
             this.Controls.Add(this.openScriptingDirectoryButton);
             this.Name = "SolutionExplorerView";

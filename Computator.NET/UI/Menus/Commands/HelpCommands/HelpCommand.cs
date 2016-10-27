@@ -3,7 +3,7 @@ using Computator.NET.UI.Dialogs;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    public class HelpCommand : CommandBase
+    internal class HelpCommand : CommandBase
     {
         public HelpCommand()
         {

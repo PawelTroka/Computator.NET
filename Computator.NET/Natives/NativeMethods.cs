@@ -83,11 +83,11 @@ namespace Computator.NET.Natives
         [DllImport("user32.dll")]
         public static extern bool ShowCaret(IntPtr hWnd);
 
-        [DllImport(GlobalConfig.GslDllName,
+        [DllImport(GlobalConfig.gslDllName,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr gsl_set_error_handler_off();
 
-        [DllImport(GlobalConfig.GslDllName,
+        [DllImport(GlobalConfig.gslDllName,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern gsl_error_handler_t gsl_set_error_handler(gsl_error_handler_t new_handler);
     }

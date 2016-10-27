@@ -14,12 +14,7 @@ using Computator.NET.NumericalCalculations;
 
 namespace Computator.NET.Evaluation
 {
-    public interface IExpressionsEvaluator
-    {
-        Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode);
-    }
-
-    public class ExpressionsEvaluator : IExpressionsEvaluator
+    internal class ExpressionsEvaluator
     {
         private const string LambdaScript = MatrixFunctions.ToCode + ScriptingFunctions.ToCode + @"
             public static void CustomFunction(System.Action<string> CONSOLE_OUTPUT_CALLBACK)
@@ -64,7 +59,7 @@ namespace Computator.NET.Evaluation
 
         private readonly TslCompiler _tslCompiler;
 
-        private readonly Regex _implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
+        private readonly Regex implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
         private string _customFunctionsCSharpCode;
         private Type _delegateType;
         private string _functionSignature;
@@ -95,7 +90,7 @@ namespace Computator.NET.Evaluation
 
         public Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode)
         {
-            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, _implicitFunctionRegex.IsMatch(input));
+            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, implicitFunctionRegex.IsMatch(input));
 
 
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
@@ -170,7 +165,7 @@ namespace Computator.NET.Evaluation
         {
             if (IsImplicit)
             {
-                var match = _implicitFunctionRegex.Match(MainCSharpCode);
+                var match = implicitFunctionRegex.Match(MainCSharpCode);
 
 
                 MainCSharpCode = MainCSharpCode.Substring(0, match.Index) + "-(" +

@@ -19,18 +19,16 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
         private FunctionInfo _alternativeDescription;
         //private int imageIndex;//TODO: implement image show
 
-        public CompletionData(string text, IFunctionsDetails functionsDetails)
+        public CompletionData(string text)
         {
             Text = text;
-            this._functionsDetails = functionsDetails;
         }
 
-        public CompletionData(string text, string menuText, FunctionInfo functionInfo, int imageIndex, IFunctionsDetails functionsDetails)
+        public CompletionData(string text, string menuText, FunctionInfo functionInfo, int imageIndex)
         {
             Text = text;
             _content = menuText;
             _alternativeDescription = functionInfo;
-            this._functionsDetails = functionsDetails;
             //////////////////////////////////// this._image= imageIndexToImage(imageIndex).ToBitmapSource();//TODO: implement image show
         }
 
@@ -46,14 +44,12 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
         {
             get
             {
-                if (_functionsDetails.ContainsKey(Text))
-                    return _functionsDetails[Text].Title + Environment.NewLine +
-                           StripTagsCharArray(_functionsDetails[Text].Description);
+                if (FunctionsDetails.Details.ContainsKey(Text))
+                    return FunctionsDetails.Details[Text].Title + Environment.NewLine +
+                           StripTagsCharArray(FunctionsDetails.Details[Text].Description);
                 return "Description for " + Text;
             }
         }
-
-        private IFunctionsDetails _functionsDetails;
 
         public double Priority
         {

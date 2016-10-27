@@ -8,14 +8,16 @@ namespace Computator.NET.UI.ErrorHandling
 {
     public class SimpleErrorHandler : IErrorHandler
     {
-        private readonly SimpleLogger.SimpleLogger _logger;
+        private static SimpleErrorHandler _instance;
+        private readonly SimpleLogger.SimpleLogger logger;
 
-        public SimpleErrorHandler()
+        private SimpleErrorHandler()
         {
-            _logger = new SimpleLogger.SimpleLogger((GlobalConfig.AppName));
+            logger = new SimpleLogger.SimpleLogger((GlobalConfig.AppName));
         }
 
-  
+        public static SimpleErrorHandler Instance { get; } = new SimpleErrorHandler();
+
         public void DispalyError(string message, string title)
         {
             MessageBox.Show(message, title);
@@ -23,8 +25,8 @@ namespace Computator.NET.UI.ErrorHandling
 
         public void LogError(string message, ErrorType errorType, Exception ex)
         {
-            _logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            _logger.Log(message, ErrorType.General, ex);
+            logger.MethodName = MethodBase.GetCurrentMethod().Name;
+            logger.Log(message, ErrorType.General, ex);
         }
     }
 }

@@ -2,13 +2,12 @@ using Accord.Collections;
 using Computator.NET.Charting;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    public class PrintPreviewChartCommand : BaseCommandForCharts
+    internal class PrintPreviewChartCommand : BaseCommandForCharts
     {
-        public PrintPreviewChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public PrintPreviewChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
         {
             Icon = Resources.printPreviewToolStripMenuItemImage;
             Text = MenuStrings.printPreviewToolStripMenuItem_Text;

@@ -2,7 +2,7 @@ using System.Windows.Forms;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    public class ExitCommand : CommandBase
+    internal class ExitCommand : CommandBase
     {
         public ExitCommand()
         {

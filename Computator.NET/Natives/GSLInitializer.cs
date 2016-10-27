@@ -38,7 +38,7 @@ namespace Computator.NET.Natives
             try
             {
                 //       EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.msvcrDllName, msvcr);
-                EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslDllName, gsl);
+                EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslDllName, gsl);
                 //    EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName, cblas);
                 //   System.Threading.Thread.Sleep(1000);
                 NativeMethods.gsl_set_error_handler(UnmanagedHandler);
@@ -49,7 +49,7 @@ namespace Computator.NET.Natives
                 try
                 {
                     //  string msvcrTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.msvcrDllName);
-                    var gslTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.GslDllName);
+                    var gslTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslDllName);
                     //  string cblasTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.gslCblasDllName);
 
                     //     File.WriteAllBytes(msvcrTempPath, msvcr);

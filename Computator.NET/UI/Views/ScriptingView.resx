@@ -128,10 +128,6 @@
   <data name="splitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="splitContainer1.Panel1.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="splitContainer2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -144,9 +140,6 @@
   <data name="splitContainer2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
-  <data name="splitContainer2.Panel1.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;splitContainer2.Panel1.Name" xml:space="preserve">
     <value>splitContainer2.Panel1</value>
   </data>
@@ -158,9 +151,6 @@
   </data>
   <data name="&gt;&gt;splitContainer2.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="splitContainer2.Panel2.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="consoleOutputTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -175,13 +165,17 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="consoleOutputTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>417, 102</value>
+    <value>557, 125</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="consoleOutputTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="consoleOutputTextBox.Text" xml:space="preserve">
     <value>Console output:</value>
+  </data>
+  <data name="processButton.Text" xml:space="preserve">
+    <value>Process script</value>
   </data>
   <data name="&gt;&gt;consoleOutputTextBox.Name" xml:space="preserve">
     <value>consoleOutputTextBox</value>
@@ -208,13 +202,13 @@
     <value>1</value>
   </data>
   <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>417, 397</value>
+    <value>557, 489</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>293</value>
+    <value>361</value>
   </data>
   <data name="splitContainer2.SplitterWidth" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -243,12 +237,6 @@
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="splitContainer1.Panel2.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="processButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="processButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
@@ -265,13 +253,10 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="processButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 76</value>
+    <value>182, 93</value>
   </data>
   <data name="processButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
-  </data>
-  <data name="processButton.Text" xml:space="preserve">
-    <value>Process script</value>
   </data>
   <data name="&gt;&gt;processButton.Name" xml:space="preserve">
     <value>processButton</value>
@@ -298,13 +283,13 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>556, 397</value>
+    <value>742, 489</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>417</value>
+    <value>557</value>
   </data>
   <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -324,14 +309,8 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>556, 397</value>
+    <value>742, 489</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ScriptingView</value>

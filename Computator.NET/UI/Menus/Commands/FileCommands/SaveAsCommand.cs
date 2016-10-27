@@ -1,15 +1,14 @@
 using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.FileCommands
 {
-    public class SaveAsCommand : CommandBase
+    internal class SaveAsCommand : CommandBase
     {
         private readonly ICanFileEdit customFunctionsCodeEditor;
         private readonly ICanFileEdit scriptingCodeEditor;
-        private ISharedViewState _sharedViewState;
 
-        public SaveAsCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState)
+
+        public SaveAsCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor)
         {
             //  this.Icon = Resources.save;
             Text = MenuStrings.saveAsToolStripMenuItem_Text;
@@ -17,14 +16,13 @@ namespace Computator.NET.UI.Menus.Commands.FileCommands
 
             this.scriptingCodeEditor = scriptingCodeEditor;
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
-            _sharedViewState = sharedViewState;
             // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            switch ((int) _sharedViewState.CurrentView)
+            switch ((int) SharedViewState.Instance.CurrentView)
             {
                 case 0:
 

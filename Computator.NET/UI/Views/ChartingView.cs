@@ -13,31 +13,34 @@ namespace Computator.NET.UI.Views
 {
     public partial class ChartingView : UserControl, IChartingView
     {
-        public ChartingView(ChartAreaValuesView chartAreaValuesView, ReadOnlyDictionary<CalculationsMode, IChart> charts) : this()
+        public ChartingView()
         {
-            chartAreaValuesView.Dock=DockStyle.Right;
-            ChartAreaValuesView = chartAreaValuesView;
-            Charts = charts;
+            InitializeComponent();
 
-            var el = new ElementHost { Child = (Charts[CalculationsMode.Fxy] as Chart3DControl), Dock = DockStyle.Fill };
-            (Charts[CalculationsMode.Fxy] as Chart3DControl).ParentControl = el;
+            var el = new ElementHost {Child = chart3d, Dock = DockStyle.Fill};
+            chart3d.ParentControl = el;
 
             panel2.Controls.AddRange(new[]
             {
-                Charts[CalculationsMode.Real] as Chart2D,
-                Charts[CalculationsMode.Complex] as ComplexChart,
+                chart2d,
+                complexChart,
                 el,
-                (Control) chartAreaValuesView,
+                ChartAreaValuesView as Control
             });
         }
 
-        private ChartingView()
-        {
-            InitializeComponent();
-        }
+        private Chart2D chart2d => Charts[CalculationsMode.Real] as Chart2D;
+        private Chart3DControl chart3d => Charts[CalculationsMode.Fxy] as Chart3DControl;
+        private ComplexChart complexChart => Charts[CalculationsMode.Complex] as ComplexChart;
 
-        public ReadOnlyDictionary<CalculationsMode, IChart> Charts { get; }
+        public ReadOnlyDictionary<CalculationsMode, IChart> Charts { get; } =
+            new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>
+            {
+                {CalculationsMode.Real, new Chart2D()},
+                {CalculationsMode.Complex, new ComplexChart()},
+                {CalculationsMode.Fxy, new Chart3DControl()}
+            });
 
-        public IChartAreaValuesView ChartAreaValuesView { get; }
+        public IChartAreaValuesView ChartAreaValuesView { get; } = new ChartAreaValuesView {Dock = DockStyle.Right};
     }
 }

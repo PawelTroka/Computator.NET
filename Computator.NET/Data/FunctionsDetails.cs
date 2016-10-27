@@ -11,18 +11,11 @@ using Computator.NET.UI.Controls.AutocompleteMenu;
 
 namespace Computator.NET.Data
 {
-    public interface IFunctionsDetails
-    {
-        FunctionInfo this[string signature] { get; set; }
-        bool ContainsKey(string signature);
-        KeyValuePair<string, FunctionInfo>[] ToArray();
-    }
-
-    public class FunctionsDetails : IFunctionsDetails
+    public class FunctionsDetails
     {
         private readonly Dictionary<string, FunctionInfo> _details;
 
-        public FunctionsDetails()
+        private FunctionsDetails()
         {
             _details = LoadFunctionsDetailsFromXmlFile();
             AddDetailsFromMetadata();
@@ -31,7 +24,7 @@ namespace Computator.NET.Data
 
         private void AddDetailsFromMetadata()
         {
-            var items = AutocompletionData.GetAutocompleteItemsForScripting(this);
+            var items = AutocompletionData.GetAutocompleteItemsForScripting();
             items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
             foreach (var item in items)
             {
@@ -40,6 +33,8 @@ namespace Computator.NET.Data
                      item.Info);
             }
         }
+
+        public static FunctionsDetails Details { get; } = new FunctionsDetails();
 
         public FunctionInfo this[string signature]
         {
@@ -85,7 +80,7 @@ namespace Computator.NET.Data
 
             var detailsWithEmpties = new Dictionary<string, FunctionInfo>();
 
-            var items = AutocompletionData.GetAutocompleteItemsForScripting(this);
+            var items = AutocompletionData.GetAutocompleteItemsForScripting();
             items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
             foreach (var item in items)
             {

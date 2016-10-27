@@ -9,19 +9,20 @@ using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Natives;
 using Computator.NET.Properties;
+using Computator.NET.UI;
 using Computator.NET.UI.Dialogs;
+using Computator.NET.UI.ErrorHandling;
+using Computator.NET.UI.Interfaces;
+using Computator.NET.UI.Presenters;
+using Computator.NET.UI.Views;
 
 namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger.SimpleLogger Logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName)
-        {
-            ClassName = "Program"
-        };
+        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) {ClassName = "Program"};
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool SetProcessDPIAware();
+
 
         /// <summary>
         ///     The main entry point for the application.
@@ -34,21 +35,42 @@ namespace Computator.NET
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+
+
+
+
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
-
-            if (Environment.OSVersion.Version.Major >= 6)
-                SetProcessDPIAware();
 
             GSLInitializer.Initialize();
 
             Application.SetCompatibleTextRenderingDefault(false);
             Application.AddMessageFilter(new MyMessageFilter());
 
-            var mainForm = (new Bootstrapper()).CreateMainForm();
+            var mainForm = new MainForm();
+
+            SetPresenters(mainForm);
 
             LoadingScreen.CloseForm();
             Application.Run(mainForm);
+        }
+
+
+
+
+        private static void SetPresenters(IMainForm mainForm)
+        {
+            var mainFormPresenter = new MainFormPresenter(mainForm);
+            var chartingViewPresenter = new ChartingViewPresenter(mainForm.ChartingView, SimpleErrorHandler.Instance);
+            var calculationsViewPresenter = new CalculationsPresenter(mainForm.CalculationsView,
+                SimpleErrorHandler.Instance);
+            var numericalCalculationsPresenter = new NumericalCalculationsPresenter(mainForm.NumericalCalculationsView,
+                SimpleErrorHandler.Instance);
+            var scriptingViewPresenter = new ScriptingViewPresenter(mainForm.ScriptingView, SimpleErrorHandler.Instance);
+            var customFunctionsViewPresenter = new CustomFunctionsPresenter(mainForm.CustomFunctionsView);
+
+            SharedViewState.Initialize(mainForm.ExpressionView.ExpressionTextBox,
+                mainForm.CustomFunctionsView.CustomFunctionsEditor);
         }
 
 
@@ -56,8 +78,8 @@ namespace Computator.NET
         {
             MessageBox.Show(e.Exception.Message, Strings.Program_Application_ThreadException_Unhandled_Thread_Exception);
 
-            Logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            Logger.Log(Strings.Program_Application_ThreadException_Unhandled_Thread_Exception, ErrorType.General,
+            logger.MethodName = MethodBase.GetCurrentMethod().Name;
+            logger.Log(Strings.Program_Application_ThreadException_Unhandled_Thread_Exception, ErrorType.General,
                 e.Exception);
         }
 
@@ -76,8 +98,8 @@ namespace Computator.NET
             }
 
 
-            Logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            Logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, ex);
+            logger.MethodName = MethodBase.GetCurrentMethod().Name;
+            logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, ex);
         }
 
 
@@ -89,10 +111,11 @@ namespace Computator.NET
             // this project, this project's assembly and the assembly A get copied to the project's bin directory, but not
             // assembly B. So in order to get the required assembly B copied over, we add some dummy code here (that never
             // gets called) that references assembly B; this will flag VS/MSBuild to copy the required assembly B over as well.
-            var dummyType = typeof(System.Runtime.CompilerServices.AsyncTaskMethodBuilder); //System.Threading.Tasks.dll
+            var dummyType = typeof(System.Runtime.CompilerServices.AsyncTaskMethodBuilder);//System.Threading.Tasks.dll
             Console.WriteLine(dummyType.FullName);
 
-            dummyType = typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute); //System.Runtime.dll
+            dummyType = typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute);//System.Runtime.dll
+
             Console.WriteLine(dummyType.FullName);
         }
     }

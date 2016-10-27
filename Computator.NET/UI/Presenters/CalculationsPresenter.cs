@@ -6,46 +6,38 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
-using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Presenters
 {
     public class CalculationsPresenter
     {
         private readonly IErrorHandler _errorHandler;
-        private readonly ISharedViewState _sharedViewState;
-        private readonly IExpressionsEvaluator _expressionsEvaluator;
+
+        private readonly ExpressionsEvaluator _expressionsEvaluator = new ExpressionsEvaluator();
         private readonly ICalculationsView _view;
         private CalculationsMode _calculationsMode;
-        private readonly ITextProvider _expressionTextProvider;
 
-        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider, ICodeEditorView customFunctionsEditor, IExpressionsEvaluator expressionsEvaluator)
+        public CalculationsPresenter(ICalculationsView view, IErrorHandler errorHandler)
         {
             _view = view;
 
             _errorHandler = errorHandler;
-            _sharedViewState = sharedViewState;
-            _exceptionsHandler = exceptionsHandler;
-            _expressionTextProvider = expressionTextProvider;
-            this._customFunctionsEditor = customFunctionsEditor;
-            _expressionsEvaluator = expressionsEvaluator;
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(_ModeChanged);
             _view.CalculateClicked += _view_CalculateClicked;
-            _sharedViewState.DefaultActions[ViewName.Calculations] = _view_CalculateClicked;
+            SharedViewState.Instance.DefaultActions[ViewName.Calculations] = _view_CalculateClicked;
         }
 
         private void _view_CalculateClicked(object sender, EventArgs e)
         {
-            if (_expressionTextProvider.Text != "")
+            if (SharedViewState.Instance.ExpressionText != "")
             {
                 try
                 {
-                    _customFunctionsEditor.ClearHighlightedErrors();
-                    var function = _expressionsEvaluator.Evaluate(_expressionTextProvider.Text,
-                        _customFunctionsEditor.Text, _calculationsMode);
+                    SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
+                    var function = _expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText,
+                        SharedViewState.Instance.CustomFunctionsText, _calculationsMode);
 
                     var x = _view.X;
                     var y = _view.Y;
@@ -55,7 +47,7 @@ namespace Computator.NET.UI.Presenters
 
                     var resultStr = ScriptingExtensions.ToMathString(result);
 
-                    _view.AddResult(_expressionTextProvider.Text,
+                    _view.AddResult(SharedViewState.Instance.ExpressionText,
                         _calculationsMode == CalculationsMode.Complex
                             ? z.ToMathString()
                             : (_calculationsMode == CalculationsMode.Fxy
@@ -64,16 +56,13 @@ namespace Computator.NET.UI.Presenters
                 }
                 catch (Exception ex)
                 {
-                    _exceptionsHandler.HandleException(ex);
+                    ExceptionsHandler.Instance.HandleException(ex, _errorHandler);
                 }
             }
             else
                 _errorHandler.DispalyError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
                     Strings.GUI_numericalOperationButton_Click_Warning_);
         }
-
-        private readonly IExceptionsHandler _exceptionsHandler;
-        private readonly ICodeEditorView _customFunctionsEditor;
 
         private void _ModeChanged(CalculationsModeChangedEvent calculationsModeChangedEvent)
         {

@@ -2,13 +2,12 @@ using System.Windows.Forms;
 using Accord.Collections;
 using Computator.NET.Charting;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    public class EditChartPropertiesCommand : BaseCommandForCharts
+    internal class EditChartPropertiesCommand : BaseCommandForCharts
     {
-        public EditChartPropertiesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public EditChartPropertiesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
         {
             Text = MenuStrings.editProperties_Text;
             ToolTip = MenuStrings.editProperties_Text;

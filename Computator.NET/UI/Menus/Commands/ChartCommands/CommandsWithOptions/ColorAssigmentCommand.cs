@@ -6,20 +6,17 @@ using Computator.NET.Charting;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.DataTypes;
 using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
 {
-    public class ColorAssigmentCommand : DummyCommand
+    internal class ColorAssigmentCommand : DummyCommand
     {
-        private readonly ISharedViewState _sharedViewState;
-        public ColorAssigmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public ColorAssigmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts)
             : base(MenuStrings.colorAssignmentToolStripMenuItem_Text)
         {
-            _sharedViewState = sharedViewState;
-            Visible = _sharedViewState.CalculationsMode == CalculationsMode.Complex;
-            BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CalculationsMode),
-                () => Visible = _sharedViewState.CalculationsMode == CalculationsMode.Complex);
+            Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Complex;
+            BindingUtils.OnPropertyChanged(SharedViewState.Instance, nameof(SharedViewState.Instance.CalculationsMode),
+                () => Visible = SharedViewState.Instance.CalculationsMode == CalculationsMode.Complex);
 
 
             var list = new List<IToolbarCommand>();
@@ -27,7 +24,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             foreach (var colorAssigment in Enum.GetValues(typeof(AssignmentOfColorMethod))
                 .Cast<AssignmentOfColorMethod>())
             {
-                list.Add(new ColorAssigmentOption(charts, colorAssigment,_sharedViewState));
+                list.Add(new ColorAssigmentOption(charts, colorAssigment));
             }
             ChildrenCommands = list;
         }
@@ -37,7 +34,7 @@ namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
             private readonly AssignmentOfColorMethod assignmentOfColorMethod;
 
             public ColorAssigmentOption(ReadOnlyDictionary<CalculationsMode, IChart> charts,
-                AssignmentOfColorMethod assignmentOfColorMethod, ISharedViewState sharedViewState) : base(assignmentOfColorMethod, charts,sharedViewState)
+                AssignmentOfColorMethod assignmentOfColorMethod) : base(assignmentOfColorMethod, charts)
             {
                 this.assignmentOfColorMethod = assignmentOfColorMethod;
                 IsOption = true;

@@ -6,7 +6,6 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
-using Computator.NET.UI.Models;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Rendering;
 using Point = System.Windows.Point;
@@ -17,28 +16,29 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
     {
         private readonly AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
         private readonly AvalonEditCodeEditor _codeEditor;
-        private ISharedViewState _sharedViewState;
-        private readonly IFunctionsDetails _functionsDetails;
 
-        public AvalonEditCodeEditorControl(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        public AvalonEditCodeEditorControl()
         {
-            _sharedViewState = sharedViewState;
-            _functionsDetails = functionsDetails;
-            _codeEditor = new AvalonEditCodeEditor(_sharedViewState, functionsDetails);
+            _codeEditor = new AvalonEditCodeEditor();
 
             BackColor = Color.White;
             Dock = DockStyle.Fill;
             Child = _codeEditor;
             //   codeEditor.TextArea.TextView.GetVisualPosition(new TextViewPosition(5) {Location = }, VisualYPosition.TextMiddle)
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState, _functionsDetails)
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu
             {
                 TargetControlWrapper = new AvalonWrapper(this)
             };
-            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting(functionsDetails));
+            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
             SetFont(Settings.Default.ScriptingFont);
 
             _autocompleteMenu.MaximumSize = new Size(500, 180);
             //this.codeEditor.Document.
+        }
+
+        public AvalonEditCodeEditorControl(ICodeEditorControl codeEditor) : this()
+        {
+            Text = codeEditor.Text;
         }
 
         public string SelectedText

@@ -235,7 +235,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="calculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 592</value>
+    <value>746, 591</value>
   </data>
   <data name="calculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -265,7 +265,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="numericalCalculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 592</value>
+    <value>746, 591</value>
   </data>
   <data name="numericalCalculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -331,7 +331,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="symbolicCalculationsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 592</value>
+    <value>746, 591</value>
   </data>
   <data name="symbolicCalculationsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -361,7 +361,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="scriptingTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 592</value>
+    <value>746, 591</value>
   </data>
   <data name="scriptingTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -391,7 +391,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="customFunctionsTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 592</value>
+    <value>746, 591</value>
   </data>
   <data name="customFunctionsTabPage.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -468,6 +468,9 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>754, 642</value>
   </data>
@@ -4986,7 +4989,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>749, 591</value>
+    <value>749, 592</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Computator.NET © Pawel Troka</value>
@@ -5055,6 +5058,6 @@
     <value>MainForm</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Computator.NET.Localization.LocalizedForm, Computator.NET.DataTypes, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

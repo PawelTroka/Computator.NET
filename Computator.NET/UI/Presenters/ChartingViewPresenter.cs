@@ -4,10 +4,8 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
-using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Presenters
 {
@@ -16,22 +14,18 @@ namespace Computator.NET.UI.Presenters
         private readonly IErrorHandler _errorHandler;
         private readonly ExpressionsEvaluator _expressionsEvaluator = new ExpressionsEvaluator();
         private readonly IChartingView _view;
-        private readonly ISharedViewState _sharedViewState;
+
         private CalculationsMode _calculationsMode;
-        private readonly ITextProvider _expressionTextProvider;
-        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider, ICodeEditorView customFunctionsEditor)
+
+        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler)
         {
             _view = view;
             _errorHandler = errorHandler;
-            _sharedViewState = sharedViewState;
-            _exceptionsHandler = exceptionsHandler;
-            _expressionTextProvider = expressionTextProvider;
-            this.customFunctionsEditor = customFunctionsEditor;
 
-            /////////////var chartAreaValuesViewPresenter = new ChartAreaValuesPresenter(_view.ChartAreaValuesView);
+            var chartAreaValuesViewPresenter = new ChartAreaValuesPresenter(_view.ChartAreaValuesView);
 
 
-            _sharedViewState.DefaultActions[ViewName.Charting] = ChartAreaValuesView1_AddClicked;
+            SharedViewState.Instance.DefaultActions[ViewName.Charting] = ChartAreaValuesView1_AddClicked;
 
 
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(mode => SetMode(mode.CalculationsMode));
@@ -73,21 +67,20 @@ namespace Computator.NET.UI.Presenters
             }
         }
 
-        private ICodeEditorView customFunctionsEditor;
         private void ChartAreaValuesView1_AddClicked(object sender, EventArgs e)
         {
-            if (_expressionTextProvider.Text != "")
+            if (SharedViewState.Instance.ExpressionText != "")
             {
                 try
                 {
-                    customFunctionsEditor.ClearHighlightedErrors();
-                    CurrentChart.AddFunction(_expressionsEvaluator.Evaluate(_expressionTextProvider.Text,
-                        customFunctionsEditor.Text,
+                    SharedViewState.Instance.CustomFunctionsEditor.ClearHighlightedErrors();
+                    CurrentChart.AddFunction(_expressionsEvaluator.Evaluate(SharedViewState.Instance.ExpressionText,
+                        SharedViewState.Instance.CustomFunctionsText,
                         _calculationsMode));
                 }
                 catch (Exception ex)
                 {
-                    _exceptionsHandler.HandleException(ex);
+                    ExceptionsHandler.Instance.HandleException(ex, _errorHandler);
                 }
             }
             else
@@ -95,7 +88,7 @@ namespace Computator.NET.UI.Presenters
                     Strings.GUI_numericalOperationButton_Click_Warning_);
         }
 
-        private IExceptionsHandler _exceptionsHandler;
+
         private void ChartAreaValuesView1_ClearClicked(object sender, EventArgs e)
         {
             foreach (var chart in _view.Charts)

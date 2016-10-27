@@ -2,7 +2,7 @@ using Computator.NET.UI.Dialogs;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    public class ChangelogCommand : CommandBase
+    internal class ChangelogCommand : CommandBase
     {
         public ChangelogCommand()
         {

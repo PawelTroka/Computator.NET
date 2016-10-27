@@ -5,7 +5,7 @@ using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
-    public class ThanksToCommand : CommandBase
+    internal class ThanksToCommand : CommandBase
     {
         public ThanksToCommand()
         {
@@ -19,10 +19,10 @@ namespace Computator.NET.UI.Menus.Commands.HelpCommands
         public override void Execute()
         {
             MessageBox.Show(
-                GlobalConfig.Betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.Translators +
+                GlobalConfig.betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.translators +
                 Environment.NewLine + Environment.NewLine +
-                GlobalConfig.Libraries + Environment.NewLine + Environment.NewLine +
-                GlobalConfig.Others, Strings.SpecialThanksTo);
+                GlobalConfig.libraries + Environment.NewLine + Environment.NewLine +
+                GlobalConfig.others, Strings.SpecialThanksTo);
         }
     }
 }

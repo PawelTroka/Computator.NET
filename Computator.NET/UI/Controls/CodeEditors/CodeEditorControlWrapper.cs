@@ -12,39 +12,37 @@ using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;
 using Computator.NET.UI.Controls.CodeEditors.Scintilla;
-using Size = System.Drawing.Size;
 
 namespace Computator.NET.UI.Controls.CodeEditors
 {
-    public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor
-
+    public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor, ICanFileEdit,
+        INotifyPropertyChanged
     {
-        private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors;
+        private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors = new Dictionary
+            <CodeEditorType, ICodeEditorControl>
+        {
+            {
+                CodeEditorType.Scintilla, new ScintillaCodeEditorControl
+                {
+                    Dock = DockStyle.Fill
+                }
+            },
+            {CodeEditorType.AvalonEdit, new AvalonEditCodeEditor()}
+        };
+
 
         private readonly ElementHost avalonEditorWrapper;
 
         private readonly SaveFileDialog saveFileDialog = new SaveFileDialog
         {
-            Filter = GlobalConfig.TslFilesFIlter
+            Filter = GlobalConfig.tslFilesFIlter
         };
 
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
 
-
-        public CodeEditorControlWrapper(ScintillaCodeEditorControl scintillaCodeEditorControl,
-            AvalonEditCodeEditor avalonEditCodeEditor)
+        public CodeEditorControlWrapper()
         {
-            scintillaCodeEditorControl.Dock=DockStyle.Fill;
-
-            _codeEditors = new Dictionary
-                <CodeEditorType, ICodeEditorControl>
-            {
-                {
-                    CodeEditorType.Scintilla, scintillaCodeEditorControl
-                },
-                {CodeEditorType.AvalonEdit, avalonEditCodeEditor}
-            };
             avalonEditorWrapper = new ElementHost
             {
                 BackColor = Color.White,
@@ -53,8 +51,7 @@ namespace Computator.NET.UI.Controls.CodeEditors
             };
 
 
-            tabControl = new DocumentsTabControl {Dock = DockStyle.Top, AutoSize = true};
-            
+            tabControl = new DocumentsTabControl {Dock = DockStyle.Top};
 
             var panel = new Panel {Dock = DockStyle.Fill};
             panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control});
@@ -63,15 +60,15 @@ namespace Computator.NET.UI.Controls.CodeEditors
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 1,
-                RowCount = 2,
-                AutoSize = true,
+                RowCount = 2
             };
-            AutoSize = true;
+
             tableLayout.Controls.Add(tabControl, 0, 0);
             tableLayout.Controls.Add(panel, 0, 1);
             Controls.Add(tableLayout);
             SetEditorVisibility();
             SetFont(Settings.Default.ScriptingFont);
+
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
             tabControl.ControlRemoved += TabControl_ControlRemoved;
             tabControl.ControlAdded += TabControl_ControlAdded;
@@ -358,6 +355,12 @@ namespace Computator.NET.UI.Controls.CodeEditors
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Show();
                     break;
             }
+        }
+
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

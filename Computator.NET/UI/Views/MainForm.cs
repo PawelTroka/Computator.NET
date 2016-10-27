@@ -9,42 +9,45 @@ namespace Computator.NET.UI.Views
     {
         #region initialization and construction
 
-        private MainForm()
+        public MainForm()
         {
             InitializeComponent();
+
+            Controls.Add(ExpressionView as Control);
+            Controls.Add(ToolbarView as Control);
+            Controls.Add(MenuStripView as Control);
+
+            chartingTabPage.Controls.Add(ChartingView as Control);
+            calculationsTabPage.Controls.Add(CalculationsView as Control);
+            numericalCalculationsTabPage.Controls.Add(NumericalCalculationsView as Control);
+            scriptingTabPage.Controls.Add(ScriptingView as Control);
+            customFunctionsTabPage.Controls.Add(CustomFunctionsView as Control);
+
             symbolicCalculationsTabPage.Enabled = false;
-        }
-
-        public MainForm(MenuStripView menuStripView, ToolBarView toolbarView, CalculationsView calculationsView, NumericalCalculationsView numericalCalculationsView, ScriptingView scriptingView, CustomFunctionsView customFunctionsView, ChartingView chartingView, ExpressionView expressionView) : this()
-        {
-            expressionView.Dock=DockStyle.Top;
-            Controls.Add(expressionView);
-
-            toolbarView.Dock=DockStyle.Top;
-            Controls.Add(toolbarView);
-
-            menuStripView.Dock = DockStyle.Top;
-            Controls.Add(menuStripView);
-
-            chartingView.Dock = DockStyle.Fill;
-            chartingTabPage.Controls.Add(chartingView);
-
-            calculationsView.Dock = DockStyle.Fill;
-            calculationsTabPage.Controls.Add(calculationsView);
-
-            numericalCalculationsView.Dock = DockStyle.Fill;
-            numericalCalculationsTabPage.Controls.Add(numericalCalculationsView);
-
-            scriptingView.Dock = DockStyle.Fill;
-            scriptingTabPage.Controls.Add(scriptingView);
-
-            customFunctionsView.Dock = DockStyle.Fill;
-            customFunctionsTabPage.Controls.Add(customFunctionsView);
         }
 
         #endregion
 
         #region IMainForm
+
+        public IToolbarView MenuStripView { get; } = new MenuStripView {Dock = DockStyle.Top};
+
+        public void Restart()
+        {
+            Application.Restart();
+        }
+
+        public IToolbarView ToolbarView { get; } = new ToolBarView {Dock = DockStyle.Top};
+        public ICalculationsView CalculationsView { get; } = new CalculationsView {Dock = DockStyle.Fill};
+
+        public INumericalCalculationsView NumericalCalculationsView { get; } = new NumericalCalculationsView
+        {
+            Dock = DockStyle.Fill
+        };
+
+        public IScriptingView ScriptingView { get; } = new ScriptingView {Dock = DockStyle.Fill};
+        public ICustomFunctionsView CustomFunctionsView { get; } = new CustomFunctionsView {Dock = DockStyle.Fill};
+        public IChartingView ChartingView { get; } = new ChartingView {Dock = DockStyle.Fill};
 
 
         public string ModeText
@@ -72,6 +75,11 @@ namespace Computator.NET.UI.Views
             remove { mode3DFxyToolStripMenuItem.Click -= value; }
         }
 
+        public void SendStringAsKey(string key)
+        {
+            SendKeys.Send(key);
+        }
+
         public string StatusText
         {
             set { toolStripStatusLabel1.Text = value; }
@@ -83,6 +91,7 @@ namespace Computator.NET.UI.Views
             set { tabControl1.SelectedIndex = value; }
         }
 
+        public IExpressionView ExpressionView { get; } = new ExpressionView {Dock = DockStyle.Top};
 
 
         public event EventHandler SelectedViewChanged

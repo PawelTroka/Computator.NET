@@ -117,29 +117,68 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="maxErrorGroupBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="splitContainer5.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="splitContainer5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="splitContainer5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="splitContainer5.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label9.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 13.8pt</value>
+  </data>
+  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>68, 69</value>
+  </data>
+  <data name="label9.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 24</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Method:</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="epsTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+    <value>Microsoft Sans Serif, 14.25pt</value>
   </data>
   <data name="epsTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>58, 24</value>
+    <value>63, 23</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="epsTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="epsTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 26</value>
+    <value>56, 29</value>
   </data>
   <data name="epsTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -163,19 +202,19 @@
     <value>True</value>
   </data>
   <data name="label10.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+    <value>Cambria, 13.8pt</value>
   </data>
   <data name="label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 27</value>
+    <value>27, 27</value>
   </data>
   <data name="label10.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>28, 19</value>
+    <value>33, 22</value>
   </data>
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -195,14 +234,11 @@
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="maxErrorGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
   <data name="maxErrorGroupBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 11.25pt</value>
+    <value>Microsoft Sans Serif, 12pt</value>
   </data>
   <data name="maxErrorGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>423, 186</value>
+    <value>554, 169</value>
   </data>
   <data name="maxErrorGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -211,7 +247,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="maxErrorGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 76</value>
+    <value>183, 61</value>
   </data>
   <data name="maxErrorGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -226,190 +262,58 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;maxErrorGroupBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+    <value>splitContainer5.Panel1</value>
   </data>
   <data name="&gt;&gt;maxErrorGroupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="intervalGroupBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="bIntervalNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
-  </data>
-  <data name="bIntervalNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>191, 37</value>
-  </data>
-  <data name="bIntervalNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="bIntervalNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 26</value>
-  </data>
-  <data name="bIntervalNumericUpDown.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;bIntervalNumericUpDown.Name" xml:space="preserve">
-    <value>bIntervalNumericUpDown</value>
-  </data>
-  <data name="&gt;&gt;bIntervalNumericUpDown.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;bIntervalNumericUpDown.Parent" xml:space="preserve">
-    <value>intervalGroupBox</value>
-  </data>
-  <data name="&gt;&gt;bIntervalNumericUpDown.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="aIntervalNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
-  </data>
-  <data name="aIntervalNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 37</value>
-  </data>
-  <data name="aIntervalNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="aIntervalNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 26</value>
-  </data>
-  <data name="aIntervalNumericUpDown.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;aIntervalNumericUpDown.Name" xml:space="preserve">
-    <value>aIntervalNumericUpDown</value>
-  </data>
-  <data name="&gt;&gt;aIntervalNumericUpDown.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;aIntervalNumericUpDown.Parent" xml:space="preserve">
-    <value>intervalGroupBox</value>
-  </data>
-  <data name="&gt;&gt;aIntervalNumericUpDown.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label12.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 13.8pt</value>
   </data>
-  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>161, 38</value>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>49, 32</value>
   </data>
-  <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="label6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 19</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 24</value>
   </data>
-  <data name="label12.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>b =</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Operation:</value>
   </data>
-  <data name="&gt;&gt;label12.Name" xml:space="preserve">
-    <value>label12</value>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
   </data>
-  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
-    <value>intervalGroupBox</value>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
   </data>
-  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label13.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
-  </data>
-  <data name="label13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 38</value>
-  </data>
-  <data name="label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 19</value>
-  </data>
-  <data name="label13.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>a =</value>
-  </data>
-  <data name="&gt;&gt;label13.Name" xml:space="preserve">
-    <value>label13</value>
-  </data>
-  <data name="&gt;&gt;label13.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
-    <value>intervalGroupBox</value>
-  </data>
-  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="intervalGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="intervalGroupBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 11.25pt</value>
-  </data>
-  <data name="intervalGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 98</value>
-  </data>
-  <data name="intervalGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="intervalGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="intervalGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>304, 84</value>
-  </data>
-  <data name="intervalGroupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="intervalGroupBox.Text" xml:space="preserve">
-    <value>Interval</value>
-  </data>
-  <data name="&gt;&gt;intervalGroupBox.Name" xml:space="preserve">
-    <value>intervalGroupBox</value>
-  </data>
-  <data name="&gt;&gt;intervalGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;intervalGroupBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;intervalGroupBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="stepsGroupBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="nStepsNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+    <value>Cambria, 13.8pt</value>
   </data>
   <data name="nStepsNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>58, 37</value>
+    <value>63, 24</value>
   </data>
   <data name="nStepsNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="nStepsNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 26</value>
+    <value>100, 29</value>
   </data>
   <data name="nStepsNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -430,19 +334,19 @@
     <value>True</value>
   </data>
   <data name="label19.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+    <value>Cambria, 13.8pt</value>
   </data>
   <data name="label19.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 39</value>
+    <value>21, 26</value>
   </data>
   <data name="label19.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 19</value>
+    <value>38, 22</value>
   </data>
   <data name="label19.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -462,14 +366,11 @@
   <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="stepsGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
   <data name="stepsGroupBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 11.25pt</value>
+    <value>Microsoft Sans Serif, 12pt</value>
   </data>
   <data name="stepsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>423, 98</value>
+    <value>554, 102</value>
   </data>
   <data name="stepsGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -478,7 +379,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="stepsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 84</value>
+    <value>183, 63</value>
   </data>
   <data name="stepsGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -493,25 +394,139 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;stepsGroupBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+    <value>splitContainer5.Panel1</value>
   </data>
   <data name="&gt;&gt;stepsGroupBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="methodNumericalCalculationsComboBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 16.2pt</value>
+  </data>
+  <data name="methodNumericalCalculationsComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 64</value>
+  </data>
+  <data name="methodNumericalCalculationsComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="methodNumericalCalculationsComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>404, 34</value>
+  </data>
+  <data name="methodNumericalCalculationsComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="derivativeAtPointGroupBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;methodNumericalCalculationsComboBox.Name" xml:space="preserve">
+    <value>methodNumericalCalculationsComboBox</value>
+  </data>
+  <data name="&gt;&gt;methodNumericalCalculationsComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;methodNumericalCalculationsComboBox.Parent" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
+  </data>
+  <data name="&gt;&gt;methodNumericalCalculationsComboBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="operationNumericalCalculationsComboBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 16.2pt</value>
+  </data>
+  <data name="operationNumericalCalculationsComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 27</value>
+  </data>
+  <data name="operationNumericalCalculationsComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="operationNumericalCalculationsComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>404, 34</value>
+  </data>
+  <data name="operationNumericalCalculationsComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;operationNumericalCalculationsComboBox.Name" xml:space="preserve">
+    <value>operationNumericalCalculationsComboBox</value>
+  </data>
+  <data name="&gt;&gt;operationNumericalCalculationsComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;operationNumericalCalculationsComboBox.Parent" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
+  </data>
+  <data name="&gt;&gt;operationNumericalCalculationsComboBox.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="resultNumericalCalculationsTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="resultNumericalCalculationsTextBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 17.25pt</value>
+  </data>
+  <data name="resultNumericalCalculationsTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 234</value>
+  </data>
+  <data name="resultNumericalCalculationsTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="resultNumericalCalculationsTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>590, 34</value>
+  </data>
+  <data name="resultNumericalCalculationsTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;resultNumericalCalculationsTextBox.Name" xml:space="preserve">
+    <value>resultNumericalCalculationsTextBox</value>
+  </data>
+  <data name="&gt;&gt;resultNumericalCalculationsTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;resultNumericalCalculationsTextBox.Parent" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
+  </data>
+  <data name="&gt;&gt;resultNumericalCalculationsTextBox.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="numericalOperationButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 15.75pt</value>
+  </data>
+  <data name="numericalOperationButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="numericalOperationButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>555, 27</value>
+  </data>
+  <data name="numericalOperationButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="numericalOperationButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 68</value>
+  </data>
+  <data name="numericalOperationButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="numericalOperationButton.Text" xml:space="preserve">
+    <value>Compute</value>
+  </data>
+  <data name="&gt;&gt;numericalOperationButton.Name" xml:space="preserve">
+    <value>numericalOperationButton</value>
+  </data>
+  <data name="&gt;&gt;numericalOperationButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numericalOperationButton.Parent" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
+  </data>
+  <data name="&gt;&gt;numericalOperationButton.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+    <value>Cambria, 13.8pt</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 29</value>
+    <value>105, 25</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 26</value>
+    <value>32, 29</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -529,16 +544,16 @@
     <value>0</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+    <value>Cambria, 13.8pt</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>207, 28</value>
+    <value>254, 25</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 26</value>
+    <value>124, 29</value>
   </data>
   <data name="xDerivativePointNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -559,19 +574,19 @@
     <value>True</value>
   </data>
   <data name="label14.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+    <value>Cambria, 13.8pt</value>
   </data>
   <data name="label14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 31</value>
+    <value>21, 27</value>
   </data>
   <data name="label14.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 19</value>
+    <value>86, 22</value>
   </data>
   <data name="label14.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -595,19 +610,19 @@
     <value>True</value>
   </data>
   <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 12pt</value>
+    <value>Cambria, 13.8pt</value>
   </data>
   <data name="label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>132, 31</value>
+    <value>174, 27</value>
   </data>
   <data name="label15.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 19</value>
+    <value>81, 22</value>
   </data>
   <data name="label15.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -627,14 +642,11 @@
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="derivativeAtPointGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
   <data name="derivativeAtPointGroupBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 11.25pt</value>
+    <value>Microsoft Sans Serif, 13.8pt</value>
   </data>
   <data name="derivativeAtPointGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 186</value>
+    <value>147, 167</value>
   </data>
   <data name="derivativeAtPointGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -643,7 +655,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="derivativeAtPointGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>304, 76</value>
+    <value>403, 63</value>
   </data>
   <data name="derivativeAtPointGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -658,181 +670,223 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;derivativeAtPointGroupBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+    <value>splitContainer5.Panel1</value>
   </data>
   <data name="&gt;&gt;derivativeAtPointGroupBox.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="bIntervalNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 13.8pt</value>
+  </data>
+  <data name="bIntervalNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>254, 28</value>
+  </data>
+  <data name="bIntervalNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="bIntervalNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 29</value>
+  </data>
+  <data name="bIntervalNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="numericalOperationButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;bIntervalNumericUpDown.Name" xml:space="preserve">
+    <value>bIntervalNumericUpDown</value>
   </data>
-  <data name="numericalOperationButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
+  <data name="&gt;&gt;bIntervalNumericUpDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="numericalOperationButton.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 15.75pt</value>
+  <data name="&gt;&gt;bIntervalNumericUpDown.Parent" xml:space="preserve">
+    <value>intervalGroupBox</value>
   </data>
-  <data name="numericalOperationButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="numericalOperationButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>423, 22</value>
-  </data>
-  <data name="numericalOperationButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="numericalOperationButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 72</value>
-  </data>
-  <data name="numericalOperationButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;bIntervalNumericUpDown.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="numericalOperationButton.Text" xml:space="preserve">
-    <value>Compute</value>
+  <data name="aIntervalNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 13.8pt</value>
   </data>
-  <data name="&gt;&gt;numericalOperationButton.Name" xml:space="preserve">
-    <value>numericalOperationButton</value>
+  <data name="aIntervalNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>63, 28</value>
   </data>
-  <data name="&gt;&gt;numericalOperationButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericalOperationButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;numericalOperationButton.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="methodNumericalCalculationsComboBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 16.2pt</value>
-  </data>
-  <data name="methodNumericalCalculationsComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 60</value>
-  </data>
-  <data name="methodNumericalCalculationsComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="aIntervalNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="methodNumericalCalculationsComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>304, 34</value>
+  <data name="aIntervalNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 29</value>
   </data>
-  <data name="methodNumericalCalculationsComboBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="aIntervalNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;methodNumericalCalculationsComboBox.Name" xml:space="preserve">
-    <value>methodNumericalCalculationsComboBox</value>
+  <data name="&gt;&gt;aIntervalNumericUpDown.Name" xml:space="preserve">
+    <value>aIntervalNumericUpDown</value>
   </data>
-  <data name="&gt;&gt;methodNumericalCalculationsComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;aIntervalNumericUpDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;methodNumericalCalculationsComboBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+  <data name="&gt;&gt;aIntervalNumericUpDown.Parent" xml:space="preserve">
+    <value>intervalGroupBox</value>
   </data>
-  <data name="&gt;&gt;methodNumericalCalculationsComboBox.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label6.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 13.8pt</value>
-  </data>
-  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 20</value>
-  </data>
-  <data name="label6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 38</value>
-  </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Operation:</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="operationNumericalCalculationsComboBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 16.2pt</value>
-  </data>
-  <data name="operationNumericalCalculationsComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 22</value>
-  </data>
-  <data name="operationNumericalCalculationsComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="operationNumericalCalculationsComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>304, 34</value>
-  </data>
-  <data name="operationNumericalCalculationsComboBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;aIntervalNumericUpDown.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;operationNumericalCalculationsComboBox.Name" xml:space="preserve">
-    <value>operationNumericalCalculationsComboBox</value>
-  </data>
-  <data name="&gt;&gt;operationNumericalCalculationsComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;operationNumericalCalculationsComboBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;operationNumericalCalculationsComboBox.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label9.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
+  <data name="label12.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 13.8pt</value>
   </data>
-  <data name="label9.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 13.8pt</value>
-  </data>
-  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 58</value>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>214, 30</value>
   </data>
-  <data name="label9.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 38</value>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 22</value>
   </data>
-  <data name="label9.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Method:</value>
+  <data name="label12.Text" xml:space="preserve">
+    <value>b =</value>
   </data>
-  <data name="&gt;&gt;label9.Name" xml:space="preserve">
-    <value>label9</value>
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
   </data>
-  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+    <value>intervalGroupBox</value>
   </data>
-  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>8</value>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label13.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 13.8pt</value>
+  </data>
+  <data name="label13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 30</value>
+  </data>
+  <data name="label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 22</value>
+  </data>
+  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>a =</value>
+  </data>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
+  </data>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+    <value>intervalGroupBox</value>
+  </data>
+  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="intervalGroupBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 13.8pt</value>
+  </data>
+  <data name="intervalGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 102</value>
+  </data>
+  <data name="intervalGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="intervalGroupBox.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="intervalGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>403, 61</value>
+  </data>
+  <data name="intervalGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="intervalGroupBox.Text" xml:space="preserve">
+    <value>Interval</value>
+  </data>
+  <data name="&gt;&gt;intervalGroupBox.Name" xml:space="preserve">
+    <value>intervalGroupBox</value>
+  </data>
+  <data name="&gt;&gt;intervalGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;intervalGroupBox.Parent" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
+  </data>
+  <data name="&gt;&gt;intervalGroupBox.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label8.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label8.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
+  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 240</value>
+  </data>
+  <data name="label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 24</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Result:</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;splitContainer5.Panel1.Name" xml:space="preserve">
+    <value>splitContainer5.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer5.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer5.Panel1.Parent" xml:space="preserve">
+    <value>splitContainer5</value>
+  </data>
+  <data name="&gt;&gt;splitContainer5.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitContainer5.Panel1MinSize" type="System.Int32, mscorlib">
+    <value>320</value>
   </data>
   <metadata name="function.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -868,13 +922,13 @@
     <value>Fill</value>
   </data>
   <data name="numericalCalculationsDataGridView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 307</value>
+    <value>0, 0</value>
   </data>
   <data name="numericalCalculationsDataGridView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="numericalCalculationsDataGridView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>585, 180</value>
+    <value>742, 166</value>
   </data>
   <data name="numericalCalculationsDataGridView.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -886,124 +940,52 @@
     <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;numericalCalculationsDataGridView.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+    <value>splitContainer5.Panel2</value>
   </data>
   <data name="&gt;&gt;numericalCalculationsDataGridView.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="label8.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label8.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 14.25pt</value>
-  </data>
-  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>44, 272</value>
-  </data>
-  <data name="label8.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 24</value>
-  </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Result:</value>
-  </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
-  </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 8</value>
-  </data>
-  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>589, 489</value>
-  </data>
-  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="maxErrorGroupBox" Row="6" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="intervalGroupBox" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="stepsGroupBox" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="derivativeAtPointGroupBox" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="numericalOperationButton" Row="1" RowSpan="2" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="methodNumericalCalculationsComboBox" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label6" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="operationNumericalCalculationsComboBox" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label9" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="numericalCalculationsDataGridView" Row="8" RowSpan="1" Column="0" ColumnSpan="4" /&gt;&lt;Control Name="label8" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="resultNumericalCalculationsTextBox" Row="7" RowSpan="1" Column="2" ColumnSpan="2" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,11,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Absolute,20,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  <data name="&gt;&gt;splitContainer5.Panel2.Name" xml:space="preserve">
+    <value>splitContainer5.Panel2</value>
   </data>
-  <data name="resultNumericalCalculationsTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="&gt;&gt;splitContainer5.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="resultNumericalCalculationsTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 16.2pt</value>
+  <data name="&gt;&gt;splitContainer5.Panel2.Parent" xml:space="preserve">
+    <value>splitContainer5</value>
   </data>
-  <data name="resultNumericalCalculationsTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>117, 268</value>
+  <data name="&gt;&gt;splitContainer5.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="resultNumericalCalculationsTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 8, 4</value>
+  <data name="splitContainer5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>742, 489</value>
   </data>
-  <data name="resultNumericalCalculationsTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>464, 33</value>
+  <data name="splitContainer5.SplitterDistance" type="System.Int32, mscorlib">
+    <value>320</value>
   </data>
-  <data name="resultNumericalCalculationsTextBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="splitContainer5.SplitterWidth" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;resultNumericalCalculationsTextBox.Name" xml:space="preserve">
-    <value>resultNumericalCalculationsTextBox</value>
+  <data name="splitContainer5.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
-  <data name="&gt;&gt;resultNumericalCalculationsTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;splitContainer5.Name" xml:space="preserve">
+    <value>splitContainer5</value>
   </data>
-  <data name="&gt;&gt;resultNumericalCalculationsTextBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+  <data name="&gt;&gt;splitContainer5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;resultNumericalCalculationsTextBox.ZOrder" xml:space="preserve">
-    <value>11</value>
+  <data name="&gt;&gt;splitContainer5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;splitContainer5.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>589, 489</value>
+    <value>742, 489</value>
   </data>
   <data name="&gt;&gt;function.Name" xml:space="preserve">
     <value>function</value>

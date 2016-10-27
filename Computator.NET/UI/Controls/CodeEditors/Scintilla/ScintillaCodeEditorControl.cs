@@ -16,7 +16,6 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
-using Computator.NET.UI.Models;
 using ScintillaNET;
 
 namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
@@ -32,9 +31,8 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
         }
     }
 
-    public class ScintillaCodeEditorControl : ScintillaNET.Scintilla, INotifyPropertyChanged, ICodeEditorControl
+    internal class ScintillaCodeEditorControl : ScintillaNET.Scintilla, INotifyPropertyChanged, ICodeEditorControl
     {
-        private ISharedViewState _sharedViewState;
         // Indicators 0-7 could be in use by a lexer
         // so we'll use indicator 8 to highlight words.
         private const int NUM = 8;
@@ -46,19 +44,20 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
         private string _autoCompleteList;
         private int lastCaretPos;
         private int maxLineNumberCharLength;
-        private IFunctionsDetails _functionsDetails;
 
-
-        public ScintillaCodeEditorControl(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        public ScintillaCodeEditorControl(string code) : this()
         {
-            _sharedViewState = sharedViewState;
-            _functionsDetails = functionsDetails;
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(sharedViewState,_functionsDetails)
+            Text = code;
+        }
+
+        public ScintillaCodeEditorControl()
+        {
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu
             {
                 TargetControlWrapper = new ScintillaWrapper(this),
                 MaximumSize = new Size(500, 180)
             };
-            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting(_functionsDetails));
+            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting());
             //_autocompleteMenu.CaptureFocus = true;
             InitializeComponent();
             // this.BorderStyle=BorderStyle.None;
@@ -477,7 +476,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
 
         private void SetupAutocomplete()
         {
-            var array = AutocompletionData.GetAutocompleteItemsForScripting(_functionsDetails);
+            var array = AutocompletionData.GetAutocompleteItemsForScripting();
 
 
             //if (Sort)
@@ -534,7 +533,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
                 return;
             }
 
-            if (_sharedViewState.IsExponent)
+            if (SharedViewState.Instance.IsExponent)
             {
                 if (SpecialSymbols.AsciiForSuperscripts.Contains(e.KeyChar))
                 {
@@ -546,7 +545,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.Scintilla
             {
                 if (e.KeyChar == SpecialSymbols.ExponentModeSymbol)
                 {
-                    _sharedViewState.IsExponent = !_sharedViewState.IsExponent;
+                    SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
                     //_showCaret();
                     e.Handled = true;
                     //return;

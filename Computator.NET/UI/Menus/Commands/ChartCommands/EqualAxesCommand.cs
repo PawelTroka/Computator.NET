@@ -1,13 +1,12 @@
 using Accord.Collections;
 using Computator.NET.Charting;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Models;
 
 namespace Computator.NET.UI.Menus.Commands.ChartCommands
 {
-    public class EqualAxesCommand : BaseCommandForCharts
+    internal class EqualAxesCommand : BaseCommandForCharts
     {
-        public EqualAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public EqualAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
         {
             Text = MenuStrings.equalAxes_Text;
             ToolTip = MenuStrings.equalAxes_Text;

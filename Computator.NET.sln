@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET", "Computator.NET\Computator.NET.csproj", "{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -30,7 +30,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C3C81D6D-AB05-4A8A-BA72-7866DF0988CE}"
 	ProjectSection(SolutionItems) = preProject
 		BUGS = BUGS
-		CHANGELOG = CHANGELOG
+		Computator.NET\CHANGELOG = Computator.NET\CHANGELOG
 		docs\EngineeringThesis-pl.docx = docs\EngineeringThesis-pl.docx
 		docs\EngineeringThesisPresentation-pl.pptx = docs\EngineeringThesisPresentation-pl.pptx
 		docs\eula.rtf = docs\eula.rtf
@@ -266,16 +266,5 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1B05602E-FAF6-4ABC-84C0-9749F14EBDFE} = {C3C81D6D-AB05-4A8A-BA72-7866DF0988CE}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
-	EndGlobalSection
-	GlobalSection(AutomaticVersions) = postSolution
-		AssemblyInfoFilePath = ..\SharedAssemblyInfo.cs
-		PrimaryVersionType = AssemblyVersionAttribute
-		UpdateAssemblyVersion = True
-		UpdateAssemblyFileVersion = False
-		UpdateAssemblyInfoVersion = False
-		AssemblyVersionSettings = None.None.None.Increment
 	EndGlobalSection
 EndGlobal

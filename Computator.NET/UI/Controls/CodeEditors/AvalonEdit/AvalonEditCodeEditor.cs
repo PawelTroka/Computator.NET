@@ -18,7 +18,6 @@ using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Natives;
 using Computator.NET.UI.Controls.CodeEditors.Scintilla;
-using Computator.NET.UI.Models;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
@@ -32,9 +31,8 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
 {
-    public class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
+    internal class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
     {
-        private ISharedViewState _sharedViewState;
         private readonly Dictionary<string, TextDocument>
             _documents;
 
@@ -53,12 +51,11 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
         private SearchPanel searchPanel;
         private readonly OffsetColorizer _offsetColorizer = new OffsetColorizer();
 
-        public AvalonEditCodeEditor(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        public AvalonEditCodeEditor()
         {
-            _sharedViewState = sharedViewState;
             completionDatas =
                 AutocompletionData.ConvertAutocompleteItemsToCompletionDatas(
-                    AutocompletionData.GetAutocompleteItemsForScripting(functionsDetails));
+                    AutocompletionData.GetAutocompleteItemsForScripting());
             InitializeComponent();
             _documents =
                 new Dictionary<string, TextDocument>();
@@ -338,13 +335,13 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
                 (Keyboard.Modifiers & ModifierKeys.Shift) ==
                 ModifierKeys.Shift)
             {
-                _sharedViewState.IsExponent = !_sharedViewState.IsExponent;
+                SharedViewState.Instance.IsExponent = !SharedViewState.Instance.IsExponent;
 
                 e.Handled = true;
                 return;
             }
 
-            if (_sharedViewState.IsExponent)
+            if (SharedViewState.Instance.IsExponent)
             {
                 var ch = GetCharFromKey(e.Key);
                 if (SpecialSymbols.IsAscii(ch))

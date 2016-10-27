@@ -14,13 +14,7 @@ namespace Computator.NET.Compilation
         Advanced
     }*/
 
-    public interface ITslCompiler
-    {
-        decimal Version { get; }
-        string TransformToCSharp(string tslCode);
-    }
-
-    public class TslCompiler : ITslCompiler
+    public class TslCompiler
     {
         public const string TypesAliases = @"
         using real = System.Double;

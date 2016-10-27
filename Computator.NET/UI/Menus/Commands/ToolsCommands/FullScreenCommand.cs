@@ -1,20 +1,19 @@
-using System;
 using System.Windows.Forms;
 using Computator.NET.UI.Interfaces;
 
 namespace Computator.NET.UI.Menus.Commands.ToolsCommands
 {
-    public class FullScreenCommand : CommandBase
+    internal class FullScreenCommand : CommandBase
     {
-        private readonly Lazy<IMainForm> _mainFormView;
+        private readonly IMainForm mainFormView;
 
-        public FullScreenCommand(Lazy<IMainForm> mainFormView)
+        public FullScreenCommand(IMainForm mainFormView)
         {
             //this.Icon = Resources;
             Text = MenuStrings.fullscreenToolStripMenuItem_Text;
             ToolTip = MenuStrings.fullscreenToolStripMenuItem_Text;
             //   this.CheckOnClick = true;
-            this._mainFormView = mainFormView;
+            this.mainFormView = mainFormView;
         }
 
 
@@ -24,14 +23,14 @@ namespace Computator.NET.UI.Menus.Commands.ToolsCommands
             if (Checked)
             {
                 // this.TopMost = true;
-                _mainFormView.Value.FormBorderStyle = FormBorderStyle.None;
-                _mainFormView.Value.WindowState = FormWindowState.Maximized;
+                mainFormView.FormBorderStyle = FormBorderStyle.None;
+                mainFormView.WindowState = FormWindowState.Maximized;
             }
             else
             {
                 // this.TopMost = false;
-                _mainFormView.Value.FormBorderStyle = FormBorderStyle.Sizable;
-                _mainFormView.Value.WindowState = FormWindowState.Normal;
+                mainFormView.FormBorderStyle = FormBorderStyle.Sizable;
+                mainFormView.WindowState = FormWindowState.Normal;
             }
         }
     }

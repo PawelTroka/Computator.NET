@@ -36,17 +36,15 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
         private readonly string _textForComparison;
         public object Tag;
-        private IFunctionsDetails sharedViewState;
 
-        protected AutocompleteItem(IFunctionsDetails sharedViewState)
+        protected AutocompleteItem()
         {
-            this.sharedViewState = sharedViewState;
 #if USE_TEXT_WIDTH
             TextWidth = 400;
 #endif
         }
 
-        public AutocompleteItem(string text, IFunctionsDetails sharedViewState) : this(sharedViewState)
+        public AutocompleteItem(string text) : this()
         {
             Text = text;
             _textForComparison = text.ToLowerInvariant();
@@ -54,7 +52,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
 
         public AutocompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
-            int imageIndex, IFunctionsDetails sharedViewState) : this(sharedViewState)
+            int imageIndex) : this()
         {
             Text = name + addition;
             _textForComparison = name.ToLowerInvariant();
@@ -140,7 +138,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
 
         public CompletionData ToCompletionData()
         {
-            return new CompletionData(Text, MenuText, Info, ImageIndex,sharedViewState);
+            return new CompletionData(Text, MenuText, Info, ImageIndex);
         }
 
         /// <summary>

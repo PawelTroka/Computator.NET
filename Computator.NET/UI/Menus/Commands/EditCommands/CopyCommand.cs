@@ -1,50 +1,48 @@
 using Computator.NET.Properties;
 using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
-using Computator.NET.UI.Views;
 
 namespace Computator.NET.UI.Menus.Commands.EditCommands
 {
-    public class CopyCommand : CommandBase
+    internal class CopyCommand : CommandBase
     {
-        private readonly ICanFileEdit _customFunctionsCodeEditor;
-        private readonly ICanFileEdit _scriptingCodeEditor;
-        private readonly ISharedViewState _sharedViewState;
-        private readonly IApplicationManager _applicationManager;
+        private readonly ICanFileEdit customFunctionsCodeEditor;
+        private readonly IMainForm mainFormView;
+        private readonly ICanFileEdit scriptingCodeEditor;
+
         public CopyCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor,
-             ISharedViewState sharedViewState, IApplicationManager applicationManager)
+            IMainForm mainFormView)
         {
             Icon = Resources.copyToolStripButtonImage;
             Text = MenuStrings.copyToolStripButton_Text;
             ToolTip = MenuStrings.copyToolStripButton_Text;
             ShortcutKeyString = "Ctrl+C";
-            this._scriptingCodeEditor = scriptingCodeEditor;
-            this._customFunctionsCodeEditor = customFunctionsCodeEditor;
-            _sharedViewState = sharedViewState;
-            _applicationManager = applicationManager;
+            this.scriptingCodeEditor = scriptingCodeEditor;
+            this.customFunctionsCodeEditor = customFunctionsCodeEditor;
+            this.mainFormView = mainFormView;
+            // this.mainFormView = mainFormView;
         }
 
 
         public override void Execute()
         {
-            if ((int) _sharedViewState.CurrentView < 4)
+            if ((int) SharedViewState.Instance.CurrentView < 4)
             {
-                _applicationManager.SendStringAsKey("^C"); //expressionTextBox.Copy();
+                mainFormView.SendStringAsKey("^C"); //expressionTextBox.Copy();
             }
-            else if ((int) _sharedViewState.CurrentView == 4)
+            else if ((int) SharedViewState.Instance.CurrentView == 4)
             {
-                if (_scriptingCodeEditor.Focused)
-                    _scriptingCodeEditor.Copy();
+                if (scriptingCodeEditor.Focused)
+                    scriptingCodeEditor.Copy();
                 else
-                    _applicationManager.SendStringAsKey("^C");
+                    mainFormView.SendStringAsKey("^C");
             }
             else
             {
-                if (_customFunctionsCodeEditor.Focused)
-                    _customFunctionsCodeEditor.Copy();
+                if (customFunctionsCodeEditor.Focused)
+                    customFunctionsCodeEditor.Copy();
                 else
-                    _applicationManager.SendStringAsKey("^C");
+                    mainFormView.SendStringAsKey("^C");
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
 
@@ -8,26 +7,26 @@ namespace Computator.NET.DataTypes
     public static class GlobalConfig
     {
         public const string AppName = "Computator.NET";
-        public static readonly string Version = $"v{Assembly.GetExecutingAssembly().GetName().Version}ß";
-        public const string AuthorWithEmail = Author + " (pawel.troka@outlook.com)";
-        public const string Author = "Paweł Troka";
+        public const string version = "v2.1.0ß";
+        public const string authorWithEmail = author + " (pawel.troka@outlook.com)";
+        public const string author = "Paweł Troka";
         //
-        public const string TslFilesFIlter =
+        public const string tslFilesFIlter =
             @"Troka Scripting Language(*.tsl)|*.tsl|Troka Scripting Language Functions(*.tslf)|*.tslf";
 
-        public const string GslDllName = "gsl.dll"; //"libgsl-0.dll";
-        public const string GslCblasDllName = "cblas.dll"; //"libgslcblas-0.dll";
+        public const string gslDllName = "gsl.dll"; //"libgsl-0.dll";
+        public const string gslCblasDllName = "cblas.dll"; //"libgslcblas-0.dll";
 
-        public static readonly string Betatesters = Strings.betaTesters +
+        public static readonly string betatesters = Strings.betaTesters +
                                                     ":\n - Kordian Czyżewski (kordiancz25@wp.pl)\n - Vojtech Mańkowski (vojtaman@gmail.com)\n - Marcin Piwowarski (marcpiwowarski@gmail.com)";
 
-        public static readonly string Translators = Strings.translators +
+        public static readonly string translators = Strings.translators +
                                                     ":\n - Paweł Troka (pawel.troka@outlook.com) - English&Polish versions\n - Vojtech Mańkowski (vojtaman@gmail.com) - Czech version\n - Athena Hristanas (athena@fizyka.dk) - Deutsch version";
 
-        public static readonly string Libraries = Strings.librariesUsed +
+        public static readonly string libraries = Strings.librariesUsed +
                                                   ":\n - Meta.Numerics v3.0.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v2.1 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.11.1 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.35 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.5.6 | © Garrett Serack | The MIT License (MIT)\n - Accord.Math v3.0.0 | © César Roberto de Souza | GNU LGPL v2.1\n - AvalonEdit v5.0.3 | © Daniel Grunwald | The MIT License (MIT)";
 
-        public static readonly string Others = Strings.otherContributors +
+        public static readonly string others = Strings.otherContributors +
                                                ":\n - Jianzhong Zhang (" +
                                                Strings
                                                    .GlobalConfig_others_Chart3D_classes_are_based_on_code_from_High_performance_WPF_3D_Chart_rev_6_application_on +
@@ -37,7 +36,7 @@ namespace Computator.NET.DataTypes
                                                ")";
 
 
-        public static readonly string IssuesUrl = "https://github.com/PawelTroka/Computator.NET/issues";
+        public static readonly string issuesUrl = "https://github.com/PawelTroka/Computator.NET/issues";
 
         // public static readonly string features = Strings.featuresInclude;
 

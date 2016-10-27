@@ -4,7 +4,7 @@
 		<!-- Select a Product Configuration -->
 		<InstallShieldProductConfiguration>Express</InstallShieldProductConfiguration>
 		<!-- Select a Visual Studio Configuration / InstallShield Release -->
-		<Configuration>Release</Configuration>
+		<Configuration>Debug</Configuration>
 		<InstallShieldRelease>$(Configuration)</InstallShieldRelease>
 	</PropertyGroup>
 	<ItemGroup>

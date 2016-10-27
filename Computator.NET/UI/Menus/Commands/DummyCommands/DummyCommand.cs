@@ -1,6 +1,6 @@
 namespace Computator.NET.UI.Menus.Commands.DummyCommands
 {
-    public class DummyCommand : CommandBase
+    internal class DummyCommand : CommandBase
     {
         public DummyCommand(string text, string toolTip = null)
         {

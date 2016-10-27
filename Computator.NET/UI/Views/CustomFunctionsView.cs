@@ -6,24 +6,18 @@ namespace Computator.NET.UI.Views
 {
     public partial class CustomFunctionsView : UserControl, ICustomFunctionsView
     {
-        private CustomFunctionsView()
+        public CustomFunctionsView()
         {
             InitializeComponent();
+            splitContainer3.Panel1.Controls.Add(CustomFunctionsEditor as Control);
+            splitContainer3.Panel2.Controls.Add(SolutionExplorerView as Control);
         }
 
-        public CustomFunctionsView(CodeEditorControlWrapper customFunctionsCodeEditor, SolutionExplorerView solutionExplorerView): this()
+        public ISolutionExplorerView SolutionExplorerView { get; } = new SolutionExplorerView {Dock = DockStyle.Fill};
+
+        public ICodeDocumentsEditor CustomFunctionsEditor { get; } = new CodeEditorControlWrapper
         {
-            customFunctionsCodeEditor.Dock=DockStyle.Fill;
-            solutionExplorerView.Dock=DockStyle.Fill;
-            splitContainer3.Panel1.Controls.Add(customFunctionsCodeEditor);
-            splitContainer3.Panel2.Controls.Add(solutionExplorerView);
-
-            CustomFunctionsEditor = customFunctionsCodeEditor;
-            SolutionExplorerView = solutionExplorerView;
-        }
-
-        public ISolutionExplorerView SolutionExplorerView { get; }
-
-        public ICodeDocumentsEditor CustomFunctionsEditor { get; }
+            Dock = DockStyle.Fill
+        };
     }
 }
