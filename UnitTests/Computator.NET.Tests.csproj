@@ -85,13 +85,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Data\AutocompletionDataTest.cs" />
     <Compile Include="EvaluationTests\EvaluationUnitTest.cs" />
-    <Compile Include="Data\FunctionDetailsUnitTests.cs" />
-    <Compile Include="Functions\MathematicalFunctionsTest.cs" />
     <Compile Include="Functions\MatrixFunctionsUnitTest.cs" />
     <Compile Include="EvaluationTests\ModeDeterminerUnitTest.cs" />
-    <Compile Include="CompilersTests\NativeCompilerUnitTest.cs" />
     <Compile Include="CompilersTests\TslCompilerUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UITests\PresentersTests\NumericalCalculationsPresenterTests.cs" />
@@ -109,11 +105,6 @@
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Data\functions.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
