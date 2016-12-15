@@ -23,9 +23,9 @@ Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Computator.NET.Installer", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.DataTypes", "Computator.NET.DataTypes\Computator.NET.DataTypes.csproj", "{715165A2-D015-42AE-9381-5563204F8508}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Tests", "UnitTests\Computator.NET.Tests.csproj", "{6EFD61BD-677E-4945-9605-3DBADB695CC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Tests", "Computator.NET.Tests\Computator.NET.Tests.csproj", "{6EFD61BD-677E-4945-9605-3DBADB695CC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.CodedUITests", "CodedUITests\Computator.NET.CodedUITests.csproj", "{36F8A68E-0713-42A3-B9C3-C723B5D92922}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.CodedUITests", "Computator.NET.CodedUITests\Computator.NET.CodedUITests.csproj", "{36F8A68E-0713-42A3-B9C3-C723B5D92922}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C3C81D6D-AB05-4A8A-BA72-7866DF0988CE}"
 	ProjectSection(SolutionItems) = preProject
