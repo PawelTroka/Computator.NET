@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="a23884b8-8805-4c10-8ae7-58cb4f28202e"
-    Publisher="CN=patr"
+    Name="f736c883-f105-4d30-a719-4bf328872f5e"
+    Publisher="CN=joaqu"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="a23884b8-8805-4c10-8ae7-58cb4f28202e" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="f736c883-f105-4d30-a719-4bf328872f5e" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Computator.NET.Mobile.UWP</DisplayName>
-    <PublisherDisplayName>patr</PublisherDisplayName>
+    <DisplayName>FPCL.WIndows</DisplayName>
+    <PublisherDisplayName>joaqu</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -30,12 +30,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="Computator.NET.Mobile.UWP.App">
+      EntryPoint="FPCL.WIndows.App">
       <uap:VisualElements
-        DisplayName="Computator.NET.Mobile.UWP"
+        DisplayName="FPCL.WIndows"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Computator.NET.Mobile.UWP"
+        Description="FPCL.WIndows"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
