@@ -2,10 +2,10 @@
 using Computator.NET.DataTypes;
 using NUnit.Framework;
 
-namespace UnitTests.CompilersTests
+namespace Computator.NET.Tests.CompilersTests
 {
     [TestFixture]
-    public class TslCompilerUnitTest
+    public class TslCompilerTests
     {
         [SetUp]
         public void Init()

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace UnitTests.EvaluationTests
+namespace Computator.NET.Tests.EvaluationTests
 {
     [TestFixture]
     public class EvaluationUnitTest

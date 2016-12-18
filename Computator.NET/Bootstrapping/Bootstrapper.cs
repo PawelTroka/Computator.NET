@@ -21,47 +21,56 @@ using Microsoft.Practices.Unity;
 
 namespace Computator.NET
 {
-    class Bootstrapper
+    public class Bootstrapper
     {
-        private readonly UnityContainer _container = new UnityContainer();
+        private readonly bool _registerUserInterfaceElements;
+        public UnityContainer Container { get; } = new UnityContainer();
 
         private FuzzyMatchingParameterOverrideWithFallback<CodeEditorControlWrapper> _resolver;
-        public Bootstrapper()
+        public Bootstrapper(bool registerUserInterfaceElements=true)
         {
-            RegisterViews();
+            _registerUserInterfaceElements = registerUserInterfaceElements;
+            if(_registerUserInterfaceElements)
+                RegisterViews();
             RegisterSharedObjects();
             RegisterHandlers();
-            RegisterControls();
+            if(_registerUserInterfaceElements)
+                RegisterControls();
             RegisterModel();
-            CreatePresenters();
+            if(_registerUserInterfaceElements)
+                CreatePresenters();
         }
         public MainForm CreateMainForm()
         {
-            return _container.Resolve<MainForm>(_resolver);
+            return Container.Resolve<MainForm>(_resolver);
         }
 
         private void CreatePresenters()
         {
             //presenters
-            var mainFormPresenter = _container.Resolve<MainFormPresenter>(_resolver);
-            var expressionViewPresenter = _container.Resolve<ExpressionViewPresenter>(_resolver);
-            var chartingViewPresenter = _container.Resolve<ChartingViewPresenter>(_resolver);
-            var chartAreaValuesViewPresenter = _container.Resolve<ChartAreaValuesPresenter>(_resolver);
-            var calculationsViewPresenter = _container.Resolve<CalculationsPresenter>(_resolver);
-            var numericalCalculationsPresenter = _container.Resolve<NumericalCalculationsPresenter>(_resolver);
-            var scriptingViewPresenter = _container.Resolve<ScriptingViewPresenter>(_resolver);
-            var customFunctionsViewPresenter = _container.Resolve<CustomFunctionsPresenter>(_resolver);
+            var mainFormPresenter = Container.Resolve<MainFormPresenter>(_resolver);
+            var expressionViewPresenter = Container.Resolve<ExpressionViewPresenter>(_resolver);
+            var chartingViewPresenter = Container.Resolve<ChartingViewPresenter>(_resolver);
+            var chartAreaValuesViewPresenter = Container.Resolve<ChartAreaValuesPresenter>(_resolver);
+            var calculationsViewPresenter = Container.Resolve<CalculationsPresenter>(_resolver);
+            var numericalCalculationsPresenter = Container.Resolve<NumericalCalculationsPresenter>(_resolver);
+            var scriptingViewPresenter = Container.Resolve<ScriptingViewPresenter>(_resolver);
+            var customFunctionsViewPresenter = Container.Resolve<CustomFunctionsPresenter>(_resolver);
         }
 
         private void RegisterModel()
         {
             //models and business objects
-            _container.RegisterType<IModeDeterminer, ModeDeterminer>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ITslCompiler, TslCompiler>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
-            _container.RegisterInstance(
+            Container.RegisterType<IModeDeterminer, ModeDeterminer>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ITslCompiler, TslCompiler>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
+
+
+            Container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
+
+            if (!_registerUserInterfaceElements) return;
+            Container.RegisterInstance(
                 new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>()
                 {
                     {CalculationsMode.Real, new Chart2D()},
@@ -74,75 +83,75 @@ namespace Computator.NET
         {
             //components and controls
             //ExpressionTextBox
-            _container.RegisterType<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ITextProvider>(new InjectionFactory(c => _container.Resolve<ExpressionTextBox>()));
-            _container.RegisterType<IOpenFileDialog,OpenFileDialogWrapper>();
-            _container.RegisterType<IClickedMouseButtonsProvider, MouseButtonsProvider>();
+            Container.RegisterType<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ITextProvider>(new InjectionFactory(c => Container.Resolve<ExpressionTextBox>()));
+            Container.RegisterType<IOpenFileDialog,OpenFileDialogWrapper>();
+            Container.RegisterType<IClickedMouseButtonsProvider, MouseButtonsProvider>();
 
             //Scripting and CustomFunctions
-            _container.RegisterType<CodeEditorControlWrapper>("scripting");
-            _container.RegisterType<CodeEditorControlWrapper>("customFunctions");
+            Container.RegisterType<CodeEditorControlWrapper>("scripting");
+            Container.RegisterType<CodeEditorControlWrapper>("customFunctions");
 
             _resolver = new FuzzyMatchingParameterOverrideWithFallback<CodeEditorControlWrapper>(new Dictionary<string, CodeEditorControlWrapper>()
             {
-                {"script", _container.Resolve<CodeEditorControlWrapper>("scripting")},
-                {"customFunction", _container.Resolve<CodeEditorControlWrapper>("customFunctions")},
+                {"script", Container.Resolve<CodeEditorControlWrapper>("scripting")},
+                {"customFunction", Container.Resolve<CodeEditorControlWrapper>("customFunctions")},
             });
 
             //container.RegisterType<ICodeEditorView, CodeEditorControlWrapper>();//check
-            _container.RegisterType<ICodeEditorView>(
-                new InjectionFactory(c => _container.Resolve<CodeEditorControlWrapper>(_resolver)));
-            _container.RegisterType<ICodeDocumentsEditor>(
-                new InjectionFactory(c => _container.Resolve<CodeEditorControlWrapper>(_resolver)));
-            _container.RegisterType<IDocumentsEditor>(
-                new InjectionFactory(c => _container.Resolve<CodeEditorControlWrapper>(_resolver)));
-            _container.RegisterType<ICanFileEdit>(
-                new InjectionFactory(c => _container.Resolve<CodeEditorControlWrapper>(_resolver)));
-            _container.RegisterType<ICanOpenFiles>(
-                new InjectionFactory(c => _container.Resolve<CodeEditorControlWrapper>(_resolver)));
-            _container.RegisterType<IScriptProvider>(
-                new InjectionFactory(c => _container.Resolve<CodeEditorControlWrapper>(_resolver)));
-            _container.RegisterType<ISupportsExceptionHighliting>(
-                new InjectionFactory(c => _container.Resolve<CodeEditorControlWrapper>(_resolver)));
+            Container.RegisterType<ICodeEditorView>(
+                new InjectionFactory(c => Container.Resolve<CodeEditorControlWrapper>(_resolver)));
+            Container.RegisterType<ICodeDocumentsEditor>(
+                new InjectionFactory(c => Container.Resolve<CodeEditorControlWrapper>(_resolver)));
+            Container.RegisterType<IDocumentsEditor>(
+                new InjectionFactory(c => Container.Resolve<CodeEditorControlWrapper>(_resolver)));
+            Container.RegisterType<ICanFileEdit>(
+                new InjectionFactory(c => Container.Resolve<CodeEditorControlWrapper>(_resolver)));
+            Container.RegisterType<ICanOpenFiles>(
+                new InjectionFactory(c => Container.Resolve<CodeEditorControlWrapper>(_resolver)));
+            Container.RegisterType<IScriptProvider>(
+                new InjectionFactory(c => Container.Resolve<CodeEditorControlWrapper>(_resolver)));
+            Container.RegisterType<ISupportsExceptionHighliting>(
+                new InjectionFactory(c => Container.Resolve<CodeEditorControlWrapper>(_resolver)));
         }
 
         private void RegisterHandlers()
         {
             //singleton handlers
-            _container.RegisterType<IErrorHandler, SimpleErrorHandler>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IExceptionsHandler, ExceptionsHandler>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IErrorHandler, SimpleErrorHandler>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IExceptionsHandler, ExceptionsHandler>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterSharedObjects()
         {
             //shared singletons
-            _container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IApplicationManager, ApplicationManager>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ICommandLineHandler, CommandLineHandler>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IApplicationManager, ApplicationManager>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICommandLineHandler, CommandLineHandler>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterViews()
         {
             //views
-            _container.RegisterType<IMainForm, MainForm>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IMainForm, MainForm>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
 
             // container.RegisterType<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());
             //  container.RegisterType<IToolbarView, ToolBarView>(new ContainerControlledLifetimeManager());
 
-            _container.RegisterType<IChartingView, ChartingView>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IChartAreaValuesView, ChartAreaValuesView>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IChartingView, ChartingView>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IChartAreaValuesView, ChartAreaValuesView>(new ContainerControlledLifetimeManager());
 
-            _container.RegisterType<ICalculationsView, CalculationsView>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICalculationsView, CalculationsView>(new ContainerControlledLifetimeManager());
 
-            _container.RegisterType<INumericalCalculationsView, NumericalCalculationsView>(
+            Container.RegisterType<INumericalCalculationsView, NumericalCalculationsView>(
                 new ContainerControlledLifetimeManager());
 
-            _container.RegisterType<IScriptingView, ScriptingView>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ISolutionExplorerView, SolutionExplorerView>();
+            Container.RegisterType<IScriptingView, ScriptingView>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ISolutionExplorerView, SolutionExplorerView>();
 
-            _container.RegisterType<ICustomFunctionsView, CustomFunctionsView>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICustomFunctionsView, CustomFunctionsView>(new ContainerControlledLifetimeManager());
         }
     }
 }

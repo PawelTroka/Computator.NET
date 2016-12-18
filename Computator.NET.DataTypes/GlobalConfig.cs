@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.DataTypes
@@ -58,9 +57,11 @@ namespace Computator.NET.DataTypes
 
         //public static readonly FunctionsDetails functionsDetails = new FunctionsDetails();
 
+        private static readonly string AssemblyPath = new System.Uri(Assembly.GetExecutingAssembly().CodeBase).
+        AbsolutePath;
         public static string FullPath(params string[] foldersAndFile)
         {
-            return Path.GetDirectoryName(Application.ExecutablePath) +
+            return Path.GetDirectoryName(AssemblyPath) +
                    Path.DirectorySeparatorChar +
                    Path.Combine(foldersAndFile);
         }

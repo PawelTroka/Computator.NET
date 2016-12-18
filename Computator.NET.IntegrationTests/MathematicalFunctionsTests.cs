@@ -11,10 +11,10 @@ using NUnit.Framework;
 
 // ReSharper disable LocalizableElement
 
-namespace UnitTests.Functions
+namespace Computator.NET.IntegrationTests
 {
     [TestFixture]
-    public class MathematicalFunctionsTest
+    public class MathematicalFunctionsTests
     {
         [SetUp]
         public void Init()

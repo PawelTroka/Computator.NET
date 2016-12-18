@@ -1,10 +1,10 @@
 using Computator.NET.Data;
 using NUnit.Framework;
 
-namespace UnitTests.Data
+namespace Computator.NET.IntegrationTests.Data
 {
     [TestFixture]
-    public class FunctionDetailsUnitTests
+    public class FunctionDetailsTests
     {
         [Test]
         public void TestLoading()

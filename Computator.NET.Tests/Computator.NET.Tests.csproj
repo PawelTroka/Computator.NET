@@ -6,18 +6,10 @@
     <ProjectGuid>{6EFD61BD-677E-4945-9605-3DBADB695CC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
-    <AssemblyName>UnitTests</AssemblyName>
+    <RootNamespace>Computator.NET.Tests</RootNamespace>
+    <AssemblyName>Computator.NET.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -75,28 +67,14 @@
     <Reference Include="System" />
     <Reference Include="System.Net" />
     <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <Choose>
-    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-      </ItemGroup>
-    </When>
-    <Otherwise />
-  </Choose>
-  <ItemGroup>
     <Compile Include="EvaluationTests\EvaluationUnitTest.cs" />
-    <Compile Include="Functions\MatrixFunctionsUnitTest.cs" />
-    <Compile Include="EvaluationTests\ModeDeterminerUnitTest.cs" />
-    <Compile Include="CompilersTests\TslCompilerUnitTest.cs" />
+    <Compile Include="FunctionsTests\MatrixFunctionsTests.cs" />
+    <Compile Include="EvaluationTests\ModeDeterminerTests.cs" />
+    <Compile Include="CompilersTests\TslCompilerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UITests\PresentersTests\NumericalCalculationsPresenterTests.cs" />
+    <Compile Include="PresentersTests\NumericalCalculationsPresenterTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">
-      <Project>{31264a50-a9b4-410c-85bb-ec81d5076747}</Project>
-      <Name>Computator.NET.Charting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Computator.NET\Computator.NET.csproj">
       <Project>{5731ed79-dfc9-41d5-8a2e-82c578ad1d96}</Project>
       <Name>Computator.NET</Name>
