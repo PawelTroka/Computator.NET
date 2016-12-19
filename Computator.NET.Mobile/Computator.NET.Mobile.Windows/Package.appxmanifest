@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
 
-  <Identity Name="85930d70-750c-41a6-9b95-03faaed4159c"
-            Publisher="CN=joaqu"
+  <Identity Name="66ab7faf-b4d8-4c15-9f24-5896189cc112"
+            Publisher="CN=patr"
             Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>FPCL.Windows8.Windows</DisplayName>
-    <PublisherDisplayName>joaqu</PublisherDisplayName>
+    <DisplayName>Computator.NET.Mobile.Windows</DisplayName>
+    <PublisherDisplayName>patr</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -23,16 +23,16 @@
   <Applications>
     <Application Id="App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="FPCL.Windows8.Windows.App">
-        <m2:VisualElements
-            DisplayName="FPCL.Windows8.Windows"
-            Square150x150Logo="Assets\Logo.png"
-            Square30x30Logo="Assets\SmallLogo.png"
-            Description="FPCL.Windows8.Windows"
-            ForegroundText="light"
-            BackgroundColor="#464646">
-            <m2:SplashScreen Image="Assets\SplashScreen.png" />
-        </m2:VisualElements>
+        EntryPoint="Computator.NET.Mobile.Windows.App">
+      <m2:VisualElements
+          DisplayName="Computator.NET.Mobile.Windows"
+          Square150x150Logo="Assets\Logo.png"
+          Square30x30Logo="Assets\SmallLogo.png"
+          Description="Computator.NET.Mobile.Windows"
+          ForegroundText="light"
+          BackgroundColor="#464646">
+        <m2:SplashScreen Image="Assets\SplashScreen.png" />
+      </m2:VisualElements>
     </Application>
   </Applications>
   <Capabilities>

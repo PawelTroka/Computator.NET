@@ -9,16 +9,19 @@ using Android.OS;
 
 namespace Computator.NET.Mobile.Droid
 {
-	[Activity (Label = "Computator.NET.Mobile", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
-	{
-		protected override void OnCreate (Bundle bundle)
-		{
-			base.OnCreate (bundle);
+    [Activity(Label = "Computator.NET.Mobile", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    {
+        protected override void OnCreate(Bundle bundle)
+        {
+            TabLayoutResource = Resource.Layout.Tabbar;
+            ToolbarResource = Resource.Layout.Toolbar;
 
-			global::Xamarin.Forms.Forms.Init (this, bundle);
-			LoadApplication (new Computator.NET.Mobile.App ());
-		}
-	}
+            base.OnCreate(bundle);
+
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+            LoadApplication(new Computator.NET.Mobile.App());
+        }
+    }
 }
 

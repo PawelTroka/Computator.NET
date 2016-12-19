@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7CD0C0E3-8E49-49DE-93E2-3E7F260C85F6}</ProjectGuid>
+    <ProjectGuid>{DE9979EE-B3D8-435A-940B-7611BC624C0E}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>Computator.NET.Mobile.iOS</RootNamespace>
@@ -137,7 +137,12 @@
     </Reference>
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
-  <Import Project="..\Computator.NET.Mobile\Computator.NET.Mobile.projitems" Label="Shared" Condition="Exists('..\Computator.NET.Mobile\Computator.NET.Mobile.projitems')" />
+  <ItemGroup>
+    <ProjectReference Include="..\Computator.NET.Mobile\Computator.NET.Mobile.csproj">
+      <Project>{86eabb63-9d64-425c-aeb9-0b67372ed5f8}</Project>
+      <Name>Computator.NET.Mobile</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.175\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
