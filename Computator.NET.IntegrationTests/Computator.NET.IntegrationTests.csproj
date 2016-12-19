@@ -109,6 +109,10 @@
       <Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
       <Name>Computator.NET.Charting</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj">
+      <Project>{b74cd9d5-d77e-418d-b50a-7ee5f040f819}</Project>
+      <Name>Computator.NET.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
       <Project>{715165A2-D015-42AE-9381-5563204F8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
