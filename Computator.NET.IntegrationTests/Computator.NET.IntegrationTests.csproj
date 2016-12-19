@@ -85,6 +85,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Data\AutocompletionDataTest.cs" />
     <Compile Include="Data\FunctionDetailsTests.cs" />
     <Compile Include="MathematicalFunctionsTests.cs" />

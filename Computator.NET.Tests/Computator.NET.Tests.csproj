@@ -67,6 +67,9 @@
     <Reference Include="System" />
     <Reference Include="System.Net" />
     <Reference Include="System.Numerics" />
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="EvaluationTests\EvaluationUnitTest.cs" />
     <Compile Include="FunctionsTests\MatrixFunctionsTests.cs" />
     <Compile Include="EvaluationTests\ModeDeterminerTests.cs" />

@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 #else
 [assembly: AssemblyConfiguration("Retail")]
 #endif
-[assembly: AssemblyCompany("Pawel Troka")]
+[assembly: AssemblyCompany("TROKA Software")]
 [assembly: AssemblyProduct("Computator.NET")]
 [assembly: AssemblyCopyright("Copyright ©  2016 Pawel Troka")]
 [assembly: AssemblyTrademark("TROKA Software")]
