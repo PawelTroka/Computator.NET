@@ -3,6 +3,8 @@
 // ReSharper disable UseStringInterpolation
 
 
+using System;
+
 namespace Computator.NET.Evaluation
 {
     //TODO: refactor this shit
@@ -118,8 +120,6 @@ namespace Computator.NET.Evaluation
         }
     }
 
-
-
     public static class ScriptingExtensions
     {
         public static int size<T>(this MathNet.Numerics.LinearAlgebra.Vector<T> vector)
@@ -186,31 +186,6 @@ namespace Computator.NET.Evaluation
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
                     return x.ToString(System.Globalization.CultureInfo.InvariantCulture);
-            }
-        }
-
-
-
-        public static bool IsNumericType(this object o)
-        {
-            if (o == null)
-                return false;
-            switch (System.Type.GetTypeCode(o.GetType()))
-            {
-                case System.TypeCode.Byte:
-                case System.TypeCode.SByte:
-                case System.TypeCode.UInt16:
-                case System.TypeCode.UInt32:
-                case System.TypeCode.UInt64:
-                case System.TypeCode.Int16:
-                case System.TypeCode.Int32:
-                case System.TypeCode.Int64:
-                case System.TypeCode.Decimal:
-                case System.TypeCode.Double:
-                case System.TypeCode.Single:
-                    return true;
-                default:
-                    return false;
             }
         }
 

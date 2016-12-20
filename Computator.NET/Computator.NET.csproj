@@ -66,7 +66,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Graphics\computator.net-logo.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -223,7 +224,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Benchmarking\Benchmark.cs" />
     <Compile Include="Benchmarking\BenchmarkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -231,15 +231,6 @@
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Bootstrapping\Bootstrapper.cs" />
-    <Compile Include="Compilation\CompilationErrorPlace.cs" />
-    <Compile Include="Compilation\CompilationException.cs" />
-    <Compile Include="Compilation\ExceptionExtensions.cs" />
-    <Compile Include="Compilation\NativeCompiler.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Compilation\NativeCompilerError.cs" />
-    <Compile Include="Compilation\TSLCompiler.cs" />
-    <Compile Include="Config\EmbeddedDllClass.cs" />
     <Compile Include="Config\MyMessageFilter.cs" />
     <Compile Include="Config\SettingsForm.cs">
       <SubType>Form</SubType>
@@ -248,34 +239,13 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\FunctionsDetails.cs" />
-    <Compile Include="Data\MethodInfoExtensions.cs" />
-    <Compile Include="Evaluation\EvaluationException.cs" />
     <Compile Include="Evaluation\ExpressionsEvaluator.cs" />
-    <Compile Include="Evaluation\ModeDeterminer.cs" />
     <Compile Include="Evaluation\ScriptEvaluator.cs" />
     <Compile Include="Evaluation\ScriptingExtensionObjects.cs" />
-    <Compile Include="Functions\ElementaryFunctions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\FunctionInfo.cs" />
-    <Compile Include="Functions\MatrixFunctions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Functions\ScriptingFunctions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Functions\SpecialFunctions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Functions\StatisticsFunctions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Bootstrapping\FuzzyMatchingParameterOverrideWithFallback.cs" />
     <Compile Include="Natives\GSLInitializer.cs" />
     <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Transformations\TrigonometricTransformations.cs" />
+    <Compile Include="Functions\ScriptingFunctions.cs" />
     <Compile Include="Data\AutocompletionData.cs" />
-    <Compile Include="Natives\NativeMethods.cs" />
     <Compile Include="UI\Controls\AutocompleteMenu\Colors.cs" />
     <Compile Include="UI\Controls\AutocompleteMenu\WebBrowserForm.cs">
       <SubType>Form</SubType>
@@ -408,8 +378,6 @@
     <Compile Include="UI\Dialogs\AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Constants\MathematicalConstants.cs" />
-    <Compile Include="Constants\PhysicalConstants.cs" />
     <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteItem.cs" />
     <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteItems.cs" />
     <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteListView.cs">
@@ -475,17 +443,8 @@
     <Compile Include="UI\Views\ToolBarView.Designer.cs">
       <DependentUpon>ToolBarView.cs</DependentUpon>
     </Compile>
-    <Compile Include="NameAttribute.cs" />
-    <Compile Include="NumericalCalculations\FunctionRoot.cs" />
-    <Compile Include="NumericalCalculations\Derivative.cs" />
-    <Compile Include="NumericalCalculations\Integral.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\Views\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -519,7 +478,6 @@
     <Compile Include="UI\Views\NumericalCalculationsView.Designer.cs">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="NumericalCalculations\NumericalMethodsInfo.cs" />
     <Compile Include="UI\Views\ScriptingView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -621,11 +579,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\CustomFunctionsView.resx">
       <DependentUpon>CustomFunctionsView.cs</DependentUpon>
     </EmbeddedResource>
@@ -679,7 +632,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Computator.NET.pfx" />
-    <None Include="Config\app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -692,44 +644,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Graphics\run_icon.png" />
-    <Content Include="Graphics\exponentation.png" />
-    <Content Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_CustomFunctions\Example03_PassingByReference.tslf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_CustomFunctions\friendsFunctions.tslf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example01_InputAndOutput.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example02_BasicFunctionsUsage.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example03_PassingByReference.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example04_MatrixOperations.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example05_FilesInputAndOutput.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example06_VectorsAndMatrices.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example07_FunctionsAndPlotting.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example09_MatrixDecompositions.tsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="UI\fonts\CAMBRIA.TTC">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -739,26 +653,8 @@
     <Content Include="UI\fonts\consola.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TSL Examples\_Scripts\Example08_SolvingEquations.tsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SymbolicCalculations\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Data\functions.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Graphics\Matrix.png" />
-    <None Include="Graphics\computator.net-logo.ico" />
-    <None Include="Graphics\computator.net-logo.png" />
-    <None Include="Special\x64\gsl.dll" />
-    <None Include="Special\x86\gsl.dll" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Computator.NET.Compilation
 {
-    internal class CompilationException : Exception
+    public class CompilationException : Exception
     {
         public CompilationException(string message, Exception innerException)
             : base(message, innerException)

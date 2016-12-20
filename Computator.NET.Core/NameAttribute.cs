@@ -3,7 +3,7 @@
 namespace Computator.NET.UI
 {
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-    internal class NameAttribute : Attribute
+    public class NameAttribute : Attribute
     {
         public NameAttribute(string str)
         {

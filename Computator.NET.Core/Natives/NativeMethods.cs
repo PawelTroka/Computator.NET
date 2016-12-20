@@ -8,7 +8,7 @@ using Computator.NET.DataTypes;
 namespace Computator.NET.Natives
 {
     [SuppressUnmanagedCodeSecurity]
-    internal class NativeMethods
+    public class NativeMethods
     {
         // ReSharper disable InconsistentNaming
         public enum MapType : uint
@@ -31,7 +31,7 @@ namespace Computator.NET.Natives
 
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool DeleteObject(IntPtr hObject);
+        public static extern bool DeleteObject(IntPtr hObject);
 
         [DllImport("gdi32.dll")]
         public static extern bool BitBlt(

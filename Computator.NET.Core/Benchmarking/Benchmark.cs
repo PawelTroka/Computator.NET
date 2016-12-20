@@ -10,7 +10,7 @@ using Computator.NET.Functions;
 
 namespace Computator.NET.Benchmarking
 {
-    internal class Benchmark
+    public class Benchmark
     {
         //private double[] zi=new double { }
 

@@ -63,7 +63,7 @@ namespace Computator.NET.Evaluation
 
             NativeCompiler.IsScripting = true;
 
-            _additionalObjectsCodeCopy = AdditionalObjectsCode = ScriptingExtensionObjects.ToCode;
+            _additionalObjectsCodeCopy = AdditionalObjectsCode = NumericalExtensions.ToCode + ScriptingExtensionObjects.ToCode;
             Logger.ClassName = GetType().FullName;
         }
 

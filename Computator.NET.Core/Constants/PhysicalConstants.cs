@@ -4,7 +4,7 @@
 namespace Computator.NET.Constants
 {
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-    internal static class PhysicalConstants
+    public static class PhysicalConstants
     {
         #region Universal
         [System.ComponentModel.Category("Universal")]

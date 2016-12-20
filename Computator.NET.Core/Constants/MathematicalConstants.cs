@@ -4,7 +4,7 @@
 namespace Computator.NET.Constants
 {
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-    internal static class MathematicalConstants
+    public static class MathematicalConstants
     {
         #region Complex math constant
 
