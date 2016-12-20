@@ -243,6 +243,11 @@
     <Compile Include="Evaluation\ScriptEvaluator.cs" />
     <Compile Include="Evaluation\ScriptingExtensionObjects.cs" />
     <Compile Include="Natives\GSLInitializer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Functions\ScriptingFunctions.cs" />
     <Compile Include="Data\AutocompletionData.cs" />
@@ -507,6 +512,11 @@
     <EmbeddedResource Include="Config\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\BugReportingForm.resx">
       <DependentUpon>BugReportingForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -644,6 +654,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Graphics\computator.net-logo.ico" />
+    <None Include="Graphics\computator.net-logo.png" />
+    <Content Include="Graphics\exponentation.png" />
+    <None Include="Graphics\Matrix.png" />
+    <None Include="Graphics\run_icon.png" />
+    <None Include="Special\x64\gsl.dll" />
+    <None Include="Special\x86\gsl.dll" />
     <Content Include="UI\fonts\CAMBRIA.TTC">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
