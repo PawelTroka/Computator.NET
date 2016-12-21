@@ -83,6 +83,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <PropertyGroup>
+    <IncludePattern>**\*.cs</IncludePattern>
+    <ExcludePattern>obj\**\*.cs</ExcludePattern>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
@@ -121,49 +125,13 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Data\functions.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_CustomFunctions\Example02_BasicFunctionsUsage.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TSL Examples\_CustomFunctions\Example03_PassingByReference.tslf">
+    <Content Include="TSL Examples\**\*.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TSL Examples\_CustomFunctions\friendsFunctions.tslf">
+    <Content Include="TSL Examples\**\*.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example00_TypesAndSyntax.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example01_InputAndOutput.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example02_BasicFunctionsUsage.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example03_PassingByReference.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example04_MatrixOperations.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example05_FilesInputAndOutput.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example06_VectorsAndMatrices.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example07_FunctionsAndPlotting.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example08_SolvingEquations.tsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example09_MatrixDecompositions.tsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
