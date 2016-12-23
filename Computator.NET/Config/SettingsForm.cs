@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Computator.NET.Core.Properties;
 using Computator.NET.Properties;
 
 namespace Computator.NET.Config

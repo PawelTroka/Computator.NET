@@ -676,7 +676,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
                     //build popup menu
                     foreach (var item in sourceItems)
                     {
-                        item.Parent = this;
+                       // item.Parent = this;
                         var res = item.Compare(text);
                         if (res != CompareResult.Hidden)
                             visibleItems.Add(item);

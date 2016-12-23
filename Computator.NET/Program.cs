@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Config;
+using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Logging;
 using Computator.NET.Natives;
 using Computator.NET.Properties;
+using Computator.NET.Services;
 using Computator.NET.UI.Dialogs;
+using Computator.NET.UI.Views;
 
 namespace Computator.NET
 {
@@ -29,8 +33,8 @@ namespace Computator.NET
         [STAThread]
         private static void Main()
         {
-            Thread.CurrentThread.CurrentCulture = Settings.Default.Language;
-            Thread.CurrentThread.CurrentUICulture = Settings.Default.Language;
+            Thread.CurrentThread.CurrentCulture = Settings.Default.Language ?? new CultureInfo("en");
+            Thread.CurrentThread.CurrentUICulture = Settings.Default.Language ?? new CultureInfo("en");
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -40,12 +44,12 @@ namespace Computator.NET
             if (Environment.OSVersion.Version.Major >= 6)
                 SetProcessDPIAware();
 
-            GSLInitializer.Initialize();
+            GSLInitializer.Initialize(new MessagingService());
 
             Application.SetCompatibleTextRenderingDefault(false);
             Application.AddMessageFilter(new MyMessageFilter());
 
-            var mainForm = (new Bootstrapper()).CreateMainForm();
+            var mainForm = (new WinFormsBootstrapper()).Create<MainForm>();
 
             LoadingScreen.CloseForm();
             Application.Run(mainForm);

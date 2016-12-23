@@ -230,7 +230,7 @@
     <Compile Include="Benchmarking\BenchmarkForm.Designer.cs">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Bootstrapping\Bootstrapper.cs" />
+    <Compile Include="Bootstrapping\WinFormsBootstrapper.cs" />
     <Compile Include="Config\MyMessageFilter.cs" />
     <Compile Include="Config\SettingsForm.cs">
       <SubType>Form</SubType>
@@ -238,20 +238,9 @@
     <Compile Include="Config\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\FunctionsDetails.cs" />
-    <Compile Include="Evaluation\ExpressionsEvaluator.cs" />
-    <Compile Include="Evaluation\ScriptEvaluator.cs" />
-    <Compile Include="Evaluation\ScriptingExtensionObjects.cs" />
-    <Compile Include="Natives\GSLInitializer.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Functions\ScriptingFunctions.cs" />
-    <Compile Include="Data\AutocompletionData.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\Colors.cs" />
+    <Compile Include="Data\CompletionDataConverter.cs" />
+    <Compile Include="Services\ApplicationManager.cs" />
+    <Compile Include="Services\MessagingService.cs" />
     <Compile Include="UI\Controls\AutocompleteMenu\WebBrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,45 +254,13 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Controls\CodeEditors\AvalonEdit\CompletionData.cs" />
-    <Compile Include="UI\Controls\CodeEditors\ICodeEditorControl.cs" />
-    <Compile Include="UI\Controls\DoubleExtensions.cs" />
-    <Compile Include="UI\Controls\Interfaces\IDirectoryTree.cs" />
     <Compile Include="UI\Controls\Views\ToolStripRadioButtonMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\ErrorHandling\ExceptionsHandler.cs" />
-    <Compile Include="UI\ErrorHandling\IExceptionsHandler.cs" />
-    <Compile Include="UI\Models\ISharedViewState.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ChartOption.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ColorAssigmentCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ColorsCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\ContourLinesCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\EqualAxesCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\FitAxesCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\LegendAligmentCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\LegendPlacementCommand.cs" />
-    <Compile Include="UI\Menus\Commands\DummyCommands\LegendPositionsCommand.cs" />
-    <Compile Include="UI\Menus\Commands\DummyCommands\RescaleCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\SeriesCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\CommandsWithOptions\TypeOfChartCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\TransformCommand.cs" />
-    <Compile Include="UI\Menus\Commands\FunctionOrConstantCommand.cs" />
-    <Compile Include="UI\Menus\Commands\HelpCommands\AboutCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ToolsCommands\BenchmarkCommand.cs" />
-    <Compile Include="UI\Menus\Commands\HelpCommands\BugReportingCommand.cs" />
-    <Compile Include="UI\Menus\Commands\HelpCommands\ChangelogCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\ChartCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\BaseCommandForCharts.cs" />
-    <Compile Include="UI\Models\BindingUtils.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\EditChartCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\EditChartPropertiesCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\PrintChartCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\PrintPreviewChartCommand.cs" />
-    <Compile Include="UI\Menus\Commands\CommandBase.cs" />
+    <Compile Include="UI\Dialogs\WinFormsDialogFactory.cs" />
     <Compile Include="UI\Controls\Views\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\Interfaces\IExpressionTextBox.cs" />
     <Compile Include="UI\Dialogs\BugReportingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -316,58 +273,12 @@
     <Compile Include="UI\Dialogs\ChangelogForm.Designer.cs">
       <DependentUpon>ChangelogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ErrorHandling\IErrorHandler.cs" />
-    <Compile Include="UI\Menus\Commands\ChartCommands\ExportCommand.cs" />
-    <Compile Include="UI\Menus\Commands\EditCommands\CopyCommand.cs" />
-    <Compile Include="UI\Menus\Commands\EditCommands\CutCommand.cs" />
-    <Compile Include="UI\Menus\Commands\DummyCommands\DummyCommand.cs" />
-    <Compile Include="UI\Menus\Commands\FileCommands\ExitCommand.cs" />
-    <Compile Include="UI\Menus\Commands\EditCommands\ExponentCommand.cs" />
-    <Compile Include="UI\Menus\Commands\HelpCommands\FeaturesCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ToolsCommands\FullScreenCommand.cs" />
-    <Compile Include="UI\Menus\Commands\HelpCommands\HelpCommand.cs" />
-    <Compile Include="UI\Menus\Commands\IToolbarCommand.cs" />
-    <Compile Include="UI\Menus\Commands\CommandsWithOptions\LanguageCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ToolsCommands\LogsCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TransformOptionCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\ConstantsCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\EditCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\FileCommand.cs" />
-    <Compile Include="UI\Menus\FunctionDetailsBasedCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\FunctionsCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\HelpCommand.cs" />
-    <Compile Include="UI\Menus\MenuStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MenuStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Menus\Commands\FileCommands\NewCommand.cs" />
-    <Compile Include="UI\Menus\Commands\FileCommands\OpenCommand.cs" />
-    <Compile Include="UI\Menus\Commands\ToolsCommands\OptionsCommand.cs" />
-    <Compile Include="UI\Menus\Commands\EditCommands\PasteCommand.cs" />
-    <Compile Include="UI\Menus\Commands\FileCommands\PrintCommand.cs" />
-    <Compile Include="UI\Menus\Commands\FileCommands\PrintPreviewCommand.cs" />
-    <Compile Include="UI\Menus\Commands\EditCommands\RedoCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\RunCommand.cs" />
-    <Compile Include="UI\Menus\Commands\FileCommands\SaveAsCommand.cs" />
-    <Compile Include="UI\Menus\Commands\FileCommands\SaveCommand.cs" />
-    <Compile Include="UI\Menus\Commands\EditCommands\SelectAllCommand.cs" />
-    <Compile Include="UI\Menus\Commands\HelpCommands\ThanksToCommand.cs" />
-    <Compile Include="UI\Menus\Commands\EditCommands\UndoCommand.cs" />
-    <Compile Include="UI\Menus\Commands\TopMenuCommands\ToolsCommand.cs" />
-    <Compile Include="UI\Models\CommandLineHandler.cs" />
-    <Compile Include="UI\Models\SharedViewState.cs" />
-    <Compile Include="UI\Interfaces\IMainForm.cs" />
-    <Compile Include="UI\ErrorHandling\SimpleErrorHandler.cs" />
-    <Compile Include="UI\Presenters\CalculationsPresenter.cs" />
-    <Compile Include="UI\Models\ApplicationManager.cs" />
     <Compile Include="UI\Views\CalculationsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Views\CalculationsView.Designer.cs">
       <DependentUpon>CalculationsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Presenters\ChartAreaValuesPresenter.cs" />
     <Compile Include="UI\Views\ChartAreaValuesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -383,7 +294,6 @@
     <Compile Include="UI\Dialogs\AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteItem.cs" />
     <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteItems.cs" />
     <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteListView.cs">
       <SubType>usercontrol</SubType>
@@ -415,17 +325,12 @@
     <Compile Include="UI\Views\ChartingView.Designer.cs">
       <DependentUpon>ChartingView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Presenters\ChartingViewPresenter.cs" />
     <Compile Include="UI\Views\ExpressionView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Views\ExpressionView.Designer.cs">
       <DependentUpon>ExpressionView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Presenters\ExpressionViewPresenter.cs" />
-    <Compile Include="UI\Interfaces\IChartingView.cs" />
-    <Compile Include="UI\Interfaces\IExpressionView.cs" />
-    <Compile Include="UI\Models\IApplicationManager.cs" />
     <Compile Include="UI\Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -435,7 +340,6 @@
     <Compile Include="UI\Dialogs\LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Presenters\MainFormPresenter.cs" />
     <Compile Include="UI\Views\MenuStripView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -453,9 +357,6 @@
     <Compile Include="UI\Controls\Views\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\ReadForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="UI\Controls\ScientificNumericUpDown.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -463,20 +364,12 @@
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs" />
-    <Compile Include="UI\Presenters\CustomFunctionsPresenter.cs" />
     <Compile Include="UI\Views\CustomFunctionsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Views\CustomFunctionsView.Designer.cs">
       <DependentUpon>CustomFunctionsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Interfaces\ICalculationsView.cs" />
-    <Compile Include="UI\Interfaces\IChartAreaValuesView.cs" />
-    <Compile Include="UI\Interfaces\ICustomFunctionsView.cs" />
-    <Compile Include="UI\Interfaces\INumericalCalculationsView.cs" />
-    <Compile Include="UI\Interfaces\IScriptingView.cs" />
-    <Compile Include="UI\Interfaces\ISolutionExplorerView.cs" />
-    <Compile Include="UI\Presenters\NumericalCalculationsPresenter.cs" />
     <Compile Include="UI\Views\NumericalCalculationsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -489,8 +382,6 @@
     <Compile Include="UI\Views\ScriptingView.Designer.cs">
       <DependentUpon>ScriptingView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Presenters\ScriptingViewPresenter.cs" />
-    <Compile Include="UI\Presenters\SolutionExplorerPresenter.cs" />
     <Compile Include="UI\Views\SolutionExplorerView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -512,23 +403,11 @@
     <EmbeddedResource Include="Config\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\BugReportingForm.resx">
       <DependentUpon>BugReportingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ChangelogForm.resx">
       <DependentUpon>ChangelogForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Menus\MenuStrings.cs.resx" />
-    <EmbeddedResource Include="UI\Menus\MenuStrings.de.resx" />
-    <EmbeddedResource Include="UI\Menus\MenuStrings.pl.resx" />
-    <EmbeddedResource Include="UI\Menus\MenuStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>MenuStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\CalculationsView.cs.resx">
       <DependentUpon>CalculationsView.cs</DependentUpon>
@@ -645,27 +524,8 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <None Include="Graphics\computator.net-logo.ico" />
-    <None Include="Graphics\computator.net-logo.png" />
-    <Content Include="Graphics\exponentation.png" />
-    <None Include="Graphics\Matrix.png" />
-    <None Include="Graphics\run_icon.png" />
-    <None Include="Special\x64\gsl.dll" />
-    <None Include="Special\x86\gsl.dll" />
     <Content Include="UI\fonts\CAMBRIA.TTC">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UI\Controls\CodeEditors\TSL-Syntax.xshd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\fonts\consola.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -24,6 +24,6 @@ namespace Computator.NET.UI.Views
             get { return scriptingDirectoryTree; }
         }
 
-        public event DirectoryTree.DirectorySelectedDelegate DirectoryChanged;
+        public event DirectorySelectedDelegate DirectoryChanged;
     }
 }

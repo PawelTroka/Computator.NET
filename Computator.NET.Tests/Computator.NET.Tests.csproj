@@ -82,10 +82,6 @@
       <Project>{b74cd9d5-d77e-418d-b50a-7ee5f040f819}</Project>
       <Name>Computator.NET.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Computator.NET\Computator.NET.csproj">
-      <Project>{5731ed79-dfc9-41d5-8a2e-82c578ad1d96}</Project>
-      <Name>Computator.NET</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>

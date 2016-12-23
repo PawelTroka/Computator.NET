@@ -57,7 +57,7 @@ namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
         {
             _sharedViewState = sharedViewState;
             completionDatas =
-                AutocompletionData.ConvertAutocompleteItemsToCompletionDatas(
+                CompletionDataConverter.ConvertAutocompleteItemsToCompletionDatas(
                     AutocompletionData.GetAutocompleteItemsForScripting(functionsDetails));
             InitializeComponent();
             _documents =

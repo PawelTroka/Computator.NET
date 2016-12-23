@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes;
 using Computator.NET.Evaluation;
 

@@ -117,10 +117,6 @@
       <Project>{715165A2-D015-42AE-9381-5563204F8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Computator.NET\Computator.NET.csproj">
-      <Project>{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}</Project>
-      <Name>Computator.NET</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

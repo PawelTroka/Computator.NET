@@ -7,9 +7,8 @@ using Computator.NET.Properties;
 
 namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
-    internal class WebBrowserForm : Form
+    internal class WebBrowserForm : Form, IShowFuncrionDetails
     {
-        private static readonly WebBrowserForm _instance = new WebBrowserForm();
 
 
         private readonly WebBrowser webBrowser;
@@ -37,7 +36,7 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             Controls.Add(webBrowser);
         }
 
-        public string HTMLCode
+        private string HTMLCode
         {
             set
             {
@@ -46,10 +45,10 @@ namespace Computator.NET.UI.Controls.AutocompleteMenu
             }
         }
 
-        public static void Show(FunctionInfo functionInfo)
+        public void Show(FunctionInfo functionInfo)
         {
-            _instance.SetFunctionInfo(functionInfo);
-            _instance.Show();
+            this.SetFunctionInfo(functionInfo);
+            this.Show();
         }
 
         public void SetFunctionInfo(FunctionInfo functionInfo)

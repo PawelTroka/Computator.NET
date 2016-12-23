@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Computator.NET.Compilation;
+using Computator.NET.Core.Properties;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.Properties;

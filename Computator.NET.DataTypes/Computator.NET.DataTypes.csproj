@@ -55,6 +55,9 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="IAreaValues.cs" />
+    <Compile Include="IChart.cs" />
+    <Compile Include="IPrinting.cs" />
     <Compile Include="Localization\Strings.cs.Designer.cs">
       <DependentUpon>Strings.cs.resx</DependentUpon>
       <AutoGen>True</AutoGen>

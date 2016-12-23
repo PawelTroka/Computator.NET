@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
@@ -9,8 +8,6 @@ namespace Computator.NET.UI.Controls
 {
     public sealed class DirectoryTree : TreeView, IDirectoryTree
     {
-        public delegate void DirectorySelectedDelegate(object sender, DirectorySelectedEventArgs e);
-
         private string _path;
         //private ContextMenu ctxMenu;
         //private ButtonClick _buttonClicked;
@@ -274,16 +271,6 @@ namespace Computator.NET.UI.Controls
             // Raise the DirectorySelected event.
             DirectorySelected?.Invoke(this,
                 new DirectorySelectedEventArgs(e.Node.FullPath));
-        }
-    }
-
-    public class DirectorySelectedEventArgs : EventArgs
-    {
-        public string DirectoryName;
-
-        public DirectorySelectedEventArgs(string directoryName)
-        {
-            DirectoryName = directoryName;
         }
     }
 }

@@ -15,16 +15,25 @@ using Microsoft.Practices.Unity;
 using Moq;
 using NUnit.Framework;
 using Computator.NET.Charting;
+using Computator.NET.Core.Evaluation;
 
 namespace Computator.NET.IntegrationTests
 {
+    public class IntegrationTestsBootstrapper : CoreBootstrapper
+    {
+        public IntegrationTestsBootstrapper()
+        {
+            
+        }
+    }
+
     [TestFixture]
     public partial class NumericalCalculationsPresenterTests
     {
         [SetUp]
         public void Init()
         {
-            _container = (new Bootstrapper(false)).Container;
+            _container = (new CoreBootstrapper()).Container;
 
 
             _errorHandlerMock = new Mock<IErrorHandler>();
@@ -83,7 +92,7 @@ namespace Computator.NET.IntegrationTests
             {"x+0.001", x => x + 0.001}
         };
 
-        private UnityContainer _container;
+        private IUnityContainer _container;
 
 
         [OneTimeSetUp]

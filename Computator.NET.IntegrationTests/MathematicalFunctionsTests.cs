@@ -7,6 +7,8 @@ using System.Reflection;
 using Computator.NET.DataTypes;
 using Computator.NET.Functions;
 using Computator.NET.Natives;
+using Computator.NET.UI.ErrorHandling;
+using Moq;
 using NUnit.Framework;
 
 // ReSharper disable LocalizableElement
@@ -20,7 +22,7 @@ namespace Computator.NET.IntegrationTests
         public void Init()
         {
             C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
-            GSLInitializer.Initialize();
+            GSLInitializer.Initialize(new Mock<IMessagingService>().Object);
         }
 
         private const int stepsSmall = 25;
