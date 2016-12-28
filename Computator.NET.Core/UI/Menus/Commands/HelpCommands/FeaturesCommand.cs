@@ -7,9 +7,10 @@ namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
     public class FeaturesCommand : CommandBase
     {
-        private IMessagingService _messagingService;
-        public FeaturesCommand()
+        private readonly IMessagingService _messagingService;
+        public FeaturesCommand(IMessagingService messagingService)
         {
+            _messagingService = messagingService;
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
             Text = MenuStrings.Features_Text;

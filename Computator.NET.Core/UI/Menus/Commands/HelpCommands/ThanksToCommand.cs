@@ -10,8 +10,9 @@ namespace Computator.NET.UI.Menus.Commands.HelpCommands
     public class ThanksToCommand : CommandBase
     {
         private IMessagingService _messagingService;
-        public ThanksToCommand()
+        public ThanksToCommand(IMessagingService messagingService)
         {
+            _messagingService = messagingService;
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
             Text = MenuStrings.ThanksTo_Text;

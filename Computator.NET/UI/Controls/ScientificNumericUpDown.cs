@@ -54,7 +54,7 @@ namespace Computator.NET.UI.Controls
             set { base.Value = ToInsideRange((double) value); }
         }
 
-        protected new bool DesignMode
+        private new bool DesignMode
         {
             get
             {

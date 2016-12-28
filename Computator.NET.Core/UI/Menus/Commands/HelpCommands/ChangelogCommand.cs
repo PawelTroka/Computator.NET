@@ -5,8 +5,9 @@ namespace Computator.NET.UI.Menus.Commands.HelpCommands
 {
     public class ChangelogCommand : CommandBase
     {
-        public ChangelogCommand()
+        public ChangelogCommand(IDialogFactory dialogFactory)
         {
+            _dialogFactory = dialogFactory;
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
             Text = MenuStrings.Changelog_Text;
