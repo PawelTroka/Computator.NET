@@ -49,7 +49,7 @@ namespace Computator.NET
             Application.SetCompatibleTextRenderingDefault(false);
             Application.AddMessageFilter(new MyMessageFilter());
 
-            var mainForm = (new WinFormsBootstrapper()).Create<MainForm>();
+            var mainForm = (new WinFormsBootstrapper()).Create<MainView>();
 
             LoadingScreen.CloseForm();
             Application.Run(mainForm);
@@ -76,7 +76,7 @@ namespace Computator.NET
                 //e.IsTerminating = false;
 
                 MessageBox.Show(Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_);
-                Process.Start(GlobalConfig.FullPath("UI", "fonts", "CAMBRIA.TTC"));
+                Process.Start(GlobalConfig.FullPath("Static", "fonts", "CAMBRIA.TTC"));
             }
 
 

@@ -36,8 +36,8 @@ namespace Computator.NET.DataTypes
             mathFontCollection = new PrivateFontCollection();
             scriptingFontCollection = new PrivateFontCollection();
 
-            var pathToFont = GlobalConfig.FullPath("UI", "fonts", "CAMBRIA.TTC");
-            var pathToFont2 = GlobalConfig.FullPath("UI", "fonts", "consola.ttf");
+            var pathToFont = GlobalConfig.FullPath("Static", "fonts", "CAMBRIA.TTC");
+            var pathToFont2 = GlobalConfig.FullPath("Static", "fonts", "consola.ttf");
             try
             {
                 mathFontCollection.AddFontFile(pathToFont);

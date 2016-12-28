@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using Accord.Math;
-using AForge.Math;
 using MathNet.Numerics.IntegralTransforms;
 
 namespace Computator.NET.Transformations

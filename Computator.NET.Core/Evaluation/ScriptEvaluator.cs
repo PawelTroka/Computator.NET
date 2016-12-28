@@ -1,12 +1,10 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using System.Windows.Data;
 using System.Windows.Forms.Integration;
 using System.Windows.Media.Media3D;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
-using Computator.NET.Properties;
 
 namespace Computator.NET.Evaluation
 {

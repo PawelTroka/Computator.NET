@@ -6,7 +6,7 @@
 
 namespace Computator.NET
 {
-    public class ReadForm : System.Windows.Forms.Form
+    public sealed class ReadForm : System.Windows.Forms.Form
     {
         public const string ToCode =
             @"

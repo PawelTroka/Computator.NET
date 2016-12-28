@@ -7,7 +7,7 @@ using Computator.NET.Properties;
 
 namespace Computator.NET.UI.Controls.AutocompleteMenu
 {
-    internal class WebBrowserForm : Form, IShowFuncrionDetails
+    internal class WebBrowserForm : Form, IShowFunctionDetails
     {
 
 

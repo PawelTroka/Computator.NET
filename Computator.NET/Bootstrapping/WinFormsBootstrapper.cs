@@ -40,7 +40,7 @@ namespace Computator.NET
         private void RegisterWinFormsServices()
         {
             Container.RegisterType<IMessagingService, MessagingService>();
-            Container.RegisterType<IShowFuncrionDetails, WebBrowserForm>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IShowFunctionDetails, WebBrowserForm>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IDialogFactory, WinFormsDialogFactory>(new ContainerControlledLifetimeManager());
         }
 
@@ -67,7 +67,7 @@ namespace Computator.NET
         private void RegisterViews()
         {
             //views
-            Container.RegisterType<IMainForm, MainForm>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IMainView, MainView>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
 
             // container.RegisterType<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());

@@ -2,7 +2,7 @@
 
 namespace Computator.NET.UI.Dialogs
 {
-    partial class ChangelogForm
+    sealed partial class ChangelogForm
     {
         /// <summary>
         /// Required designer variable.

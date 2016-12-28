@@ -18,6 +18,7 @@ namespace Computator.NET.Functions
             }
             catch
             {
+                // ignored
             }
             return ret;
         }

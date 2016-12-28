@@ -5,7 +5,7 @@ using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.UI.Dialogs
 {
-    public partial class ChangelogForm : Form
+    public sealed partial class ChangelogForm : Form
     {
         public ChangelogForm()
         {
