@@ -58,7 +58,7 @@ namespace Computator.NET.DataTypes
         //public static readonly FunctionsDetails functionsDetails = new FunctionsDetails();
 
         private static readonly string AssemblyPath = new System.Uri(Assembly.GetExecutingAssembly().CodeBase).
-        AbsolutePath;
+        LocalPath;
         public static string FullPath(params string[] foldersAndFile)
         {
             return Path.GetDirectoryName(AssemblyPath) +

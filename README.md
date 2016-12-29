@@ -1,6 +1,6 @@
 # Computator.NET
 Computator.NET is a unique open numerical software that is fast and easy to use and stands up to other feature-wise software.
-![Quick presentation of Computator.NET features](../master/Presentation/quick_presentation.gif "Quick presentation of Computator.NET features")
+![Quick presentation of Computator.NET features](../master/Graphics/Presentation/quick_presentation.gif "Quick presentation of Computator.NET features")
 
 ###Its features include:
 * **Real**, **complex** and two-variable (**3D**) function **charts**
@@ -49,27 +49,27 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 
 #Screenshots
-![Computator.NET v1.8 is coming - functions with description](../master/Presentation/Computator.NET%20v1.8%20is%20coming%20-%20functions%20with%20description.jpg "Computator.NET v1.8 is coming - functions with description")
-![Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart](../master/Presentation/Computator.NET%20v1.8%20is%20coming%202%20-%20writing%20in%20exponent,%20f(x,y)%20chart.jpg "Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart")
-![functions and constants details](../master/Presentation/functions%20and%20constants%20details.jpg "functions and constants details")
-![Interesting implicit function](../master/Presentation/interesting%20implicit%20function.jpg "Interesting implicit function")
-![Simple implicit function](../master/Presentation/simple%20implicit%20function.jpg "Simple implicit function")
-![Euler Gamma by Computator.NET](../master/Presentation/gamma%20by%20computator.net.jpg "Euler Gamma by Computator.NET")
+![Computator.NET v1.8 is coming - functions with description](../master/Graphics/Presentation/Computator.NET%20v1.8%20is%20coming%20-%20functions%20with%20description.jpg "Computator.NET v1.8 is coming - functions with description")
+![Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart](../master/Graphics/Presentation/Computator.NET%20v1.8%20is%20coming%202%20-%20writing%20in%20exponent,%20f(x,y)%20chart.jpg "Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart")
+![functions and constants details](../master/Graphics/Presentation/functions%20and%20constants%20details.jpg "functions and constants details")
+![Interesting implicit function](../master/Graphics/Presentation/interesting%20implicit%20function.jpg "Interesting implicit function")
+![Simple implicit function](../master/Graphics/Presentation/simple%20implicit%20function.jpg "Simple implicit function")
+![Euler Gamma by Computator.NET](../master/Graphics/Presentation/gamma%20by%20computator.net.jpg "Euler Gamma by Computator.NET")
 
 # FAQ
 
 ###What shortcut do you use to write in exponent, just like in gif presentation?
 
 LShift+6 (^), just like it is listed in **Edit** menu from where you can also **activate / deactivate** writing in exponent without using this shortcut.
-![Writing in exponent](../master/Presentation/writing-in-exponent.gif "Writing in exponent")
+![Writing in exponent](../master/Graphics/Presentation/writing-in-exponent.gif "Writing in exponent")
 
 
 ###How can I solve equations / do my homework using Computator.NET?
 
 Computator.NET is numerical software that aims to provide functionality similar to Matlab and Mathematica. But it certainly isn't full Computer Algebra System, at least not yet. You can solve some equations by using '**Numerical calculations**' tab and '**Function root**' operation. Depending on the equation, different methods work better or worse.
-![Solving equations using numerical calculations](../master/Presentation/solving%20equations%20using%20numerical%20calculations.gif "Solving equations using numerical calculations")
+![Solving equations using numerical calculations](../master/Graphics/Presentation/solving%20equations%20using%20numerical%20calculations.gif "Solving equations using numerical calculations")
 Alternatively, you can always solve equations graphically, simply by looking at the chart.
-![solving equations graphically](../master/Presentation/solving%20equations%20graphically.gif "solving equations graphically")
+![solving equations graphically](../master/Graphics/Presentation/solving%20equations%20graphically.gif "solving equations graphically")
 
 
 # Minimum system requirements

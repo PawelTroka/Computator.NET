@@ -263,11 +263,6 @@
     </Content>
     <None Include="Special\x64\gsl.dll" />
     <None Include="Special\x86\gsl.dll" />
-    <None Include="Graphics\computator.net-logo.ico" />
-    <None Include="Graphics\computator.net-logo.png" />
-    <Content Include="Graphics\exponentation.png" />
-    <None Include="Graphics\Matrix.png" />
-    <None Include="Graphics\run_icon.png" />
     <Content Include="TSL Examples\**\*.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
