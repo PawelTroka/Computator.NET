@@ -1,4 +1,4 @@
-namespace Computator.NET.UI.Models
+namespace Computator.NET.Core.Abstract.Services
 {
     public interface IApplicationManager
     {

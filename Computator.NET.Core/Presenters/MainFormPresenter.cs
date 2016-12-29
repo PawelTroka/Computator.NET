@@ -3,13 +3,14 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Computator.NET.Core.Abstract.Services;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
-using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
 
-namespace Computator.NET.UI.Presenters
+namespace Computator.NET.Core.Presenters
 {
     public class MainFormPresenter
     {

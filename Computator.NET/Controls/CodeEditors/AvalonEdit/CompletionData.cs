@@ -1,14 +1,13 @@
 using System;
 using System.Drawing;
 using System.Windows.Media;
-using Computator.NET.Data;
-using Computator.NET.Functions;
-using Computator.NET.Properties;
+using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Properties;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 
-namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
+namespace Computator.NET.Controls.CodeEditors.AvalonEdit
 {
     /// <summary>
     ///     Implements AvalonEdit ICompletionData interface to provide the entries in the completion drop down.

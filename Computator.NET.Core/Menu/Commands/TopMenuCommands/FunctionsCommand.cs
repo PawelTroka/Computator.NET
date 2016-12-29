@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using Computator.NET.Core.Menu;
-using Computator.NET.Data;
-using Computator.NET.UI.Controls;
-using Computator.NET.UI.Controls.AutocompleteMenu;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Menus.Commands;
-using Computator.NET.UI.Models;
+using Computator.NET.Core.Abstract;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Model;
 
-namespace Computator.NET.UI.Menus
+namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {
     public class FunctionsCommand : FunctionDetailsBasedCommand
     {

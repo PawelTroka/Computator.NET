@@ -1,5 +1,5 @@
 ﻿
-namespace Computator.NET.UI.Dialogs
+namespace Computator.NET.Core.Abstract
 {
     public interface IDialogFactory
     {

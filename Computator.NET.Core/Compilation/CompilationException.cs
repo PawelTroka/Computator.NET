@@ -3,7 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Computator.NET.Compilation
+namespace Computator.NET.Core.Compilation
 {
     public class CompilationException : Exception
     {

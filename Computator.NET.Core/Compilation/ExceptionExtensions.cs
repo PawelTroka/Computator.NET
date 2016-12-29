@@ -1,8 +1,8 @@
 using System;
+using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes;
-using Computator.NET.Evaluation;
 
-namespace Computator.NET.Compilation
+namespace Computator.NET.Core.Compilation
 {
     public static class ExceptionExtensions
     {

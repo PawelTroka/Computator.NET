@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Computator.NET.UI.Controls.CodeEditors
+namespace Computator.NET.Core.Abstract.Controls
 {
     public interface ISupportsExceptionHighliting
     {

@@ -1,8 +1,7 @@
-using Computator.NET.Core.Menu;
-using Computator.NET.Properties;
-using Computator.NET.UI.Models;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Properties;
 
-namespace Computator.NET.UI.Menus.Commands.EditCommands
+namespace Computator.NET.Core.Menu.Commands.EditCommands
 {
     public class ExponentCommand : CommandBase
     {

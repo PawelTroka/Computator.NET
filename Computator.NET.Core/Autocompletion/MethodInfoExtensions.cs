@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Computator.NET.Data
+namespace Computator.NET.Core.Autocompletion
 {
     public static class MethodInfoExtensions
     {

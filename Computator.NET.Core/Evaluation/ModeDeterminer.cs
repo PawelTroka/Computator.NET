@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using Computator.NET.Compilation;
+using Computator.NET.Core.Compilation;
 using Computator.NET.DataTypes;
 
-namespace Computator.NET.Evaluation
+namespace Computator.NET.Core.Evaluation
 {
     public interface IModeDeterminer
     {

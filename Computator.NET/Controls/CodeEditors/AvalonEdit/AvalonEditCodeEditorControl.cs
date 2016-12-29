@@ -2,17 +2,16 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using Computator.NET.Controls.AutocompleteMenu.Wrappers;
+using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
-using Computator.NET.Data;
 using Computator.NET.DataTypes;
-using Computator.NET.Properties;
-using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
-using Computator.NET.UI.Models;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Rendering;
 using Point = System.Windows.Point;
 
-namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
+namespace Computator.NET.Controls.CodeEditors.AvalonEdit
 {
     internal class AvalonEditCodeEditorControl : ElementHost
     {

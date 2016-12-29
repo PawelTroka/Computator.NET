@@ -14,11 +14,13 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
+using Computator.NET.Controls.CodeEditors.Scintilla;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Natives;
 using Computator.NET.Data;
 using Computator.NET.DataTypes;
-using Computator.NET.Natives;
-using Computator.NET.UI.Controls.CodeEditors.Scintilla;
-using Computator.NET.UI.Models;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
@@ -30,7 +32,7 @@ using FontFamily = System.Windows.Media.FontFamily;
 using FontStyle = System.Drawing.FontStyle;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
-namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
+namespace Computator.NET.Controls.CodeEditors.AvalonEdit
 {
     public class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
     {

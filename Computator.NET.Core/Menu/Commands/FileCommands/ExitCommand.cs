@@ -1,7 +1,6 @@
 using System.Windows.Forms;
-using Computator.NET.Core.Menu;
 
-namespace Computator.NET.UI.Menus.Commands.FileCommands
+namespace Computator.NET.Core.Menu.Commands.FileCommands
 {
     public class ExitCommand : CommandBase
     {

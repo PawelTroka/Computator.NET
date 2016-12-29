@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Controls
 {
     public class DocumentsTabControl : TabControl
     {

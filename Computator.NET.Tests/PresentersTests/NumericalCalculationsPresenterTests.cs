@@ -1,12 +1,11 @@
 ﻿using System;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Presenters;
+using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Controls;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.ErrorHandling;
-using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
-using Computator.NET.UI.Presenters;
 using Moq;
 using NUnit.Framework;
 

@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Logging
+﻿namespace Computator.NET.DataTypes
 {
     public enum ErrorType
     {

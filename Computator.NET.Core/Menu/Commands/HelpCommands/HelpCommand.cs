@@ -1,8 +1,7 @@
-using Computator.NET.Core.Menu;
-using Computator.NET.Properties;
-using Computator.NET.UI.Dialogs;
+using Computator.NET.Core.Abstract;
+using Computator.NET.Core.Properties;
 
-namespace Computator.NET.UI.Menus.Commands.HelpCommands
+namespace Computator.NET.Core.Menu.Commands.HelpCommands
 {
     public class HelpCommand : CommandBase
     {

@@ -3,7 +3,7 @@ using System.Numerics;
 using Accord.Math;
 using MathNet.Numerics.IntegralTransforms;
 
-namespace Computator.NET.Transformations
+namespace Computator.NET.Core.Transformations
 {
     public static class MathematicalTransformations
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Core.Model
 {
     public class DirectorySelectedEventArgs : EventArgs
     {

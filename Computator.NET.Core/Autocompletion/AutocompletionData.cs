@@ -4,16 +4,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Computator.NET.Compilation;
-using Computator.NET.Constants;
-using Computator.NET.Functions;
-using Computator.NET.NumericalCalculations;
-using Computator.NET.Transformations;
-using Computator.NET.UI;
-using Computator.NET.UI.Controls.AutocompleteMenu;
+using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Constants;
+using Computator.NET.Core.Functions;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.NumericalCalculations;
+using Computator.NET.Core.Transformations;
 using MathNet.Numerics.Distributions;
 
-namespace Computator.NET.Data
+namespace Computator.NET.Core.Autocompletion
 {
     public static class AutocompletionData
     {

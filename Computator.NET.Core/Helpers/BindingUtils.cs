@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace Computator.NET.UI.Models
+namespace Computator.NET.Core.Helpers
 {
     public class BindingUtils
     {

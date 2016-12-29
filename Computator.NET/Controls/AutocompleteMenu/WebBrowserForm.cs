@@ -1,11 +1,11 @@
 using System.Drawing;
 using System.Windows.Forms;
-using Computator.NET.Data;
+using Computator.NET.Core.Abstract;
+using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Functions;
-using Computator.NET.Properties;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Controls.AutocompleteMenu
 {
     internal class WebBrowserForm : Form, IShowFunctionDetails
     {

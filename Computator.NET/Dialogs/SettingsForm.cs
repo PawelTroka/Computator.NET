@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Properties;
-using Computator.NET.Properties;
 
-namespace Computator.NET.Config
+namespace Computator.NET.Dialogs
 {
     public partial class SettingsForm : Form
     {

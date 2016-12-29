@@ -1,7 +1,8 @@
 ﻿// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
-namespace Computator.NET.Functions
+// ReSharper disable InconsistentNaming
+namespace Computator.NET.Core.Functions
 {
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public static class StatisticsFunctions

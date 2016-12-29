@@ -1,4 +1,4 @@
-using Computator.NET.Functions;
+using Computator.NET.Core.Functions;
 using MathNet.Numerics.LinearAlgebra.Double;
 using NUnit.Framework;
 

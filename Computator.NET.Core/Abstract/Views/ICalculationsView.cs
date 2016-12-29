@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Computator.NET.UI.Interfaces
+namespace Computator.NET.Core.Abstract.Views
 {
     public interface ICalculationsView
     {

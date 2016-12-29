@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using Computator.NET.Natives;
+using Computator.NET.Core.Natives;
 
-namespace Computator.NET.UI.Controls.CodeEditors.AvalonEdit
+namespace Computator.NET.Controls.CodeEditors.AvalonEdit
 {
     public static class BitmapExtension
     {

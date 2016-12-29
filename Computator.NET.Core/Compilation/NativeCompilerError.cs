@@ -1,6 +1,6 @@
 using System.CodeDom.Compiler;
 
-namespace Computator.NET.Compilation
+namespace Computator.NET.Core.Compilation
 {
     public class NativeCompilerError : CompilerError
     {

@@ -4,16 +4,15 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using Computator.NET.Bootstrapping;
 using Computator.NET.Config;
+using Computator.NET.Core.Natives;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Logging;
-using Computator.NET.Natives;
-using Computator.NET.Properties;
+using Computator.NET.Dialogs;
 using Computator.NET.Services;
-using Computator.NET.UI.Dialogs;
-using Computator.NET.UI.Views;
+using Computator.NET.Views;
 
 namespace Computator.NET
 {

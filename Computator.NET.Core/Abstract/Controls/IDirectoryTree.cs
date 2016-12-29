@@ -1,6 +1,6 @@
-using Computator.NET.UI.Controls.CodeEditors;
+using Computator.NET.Core.Model;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Core.Abstract.Controls
 {
 
     public delegate void DirectorySelectedDelegate(object sender, DirectorySelectedEventArgs e);

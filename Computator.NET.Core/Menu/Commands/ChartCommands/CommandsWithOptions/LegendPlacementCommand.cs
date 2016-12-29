@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 using Accord.Collections;
-using Computator.NET.Charting;
-using Computator.NET.Core.Menu;
+using Computator.NET.Core.Menu.Commands.DummyCommands;
+using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Models;
+using Computator.NET.DataTypes.Charts;
 
-namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
+namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {
     public class LegendPlacementCommand : DummyCommand
     {

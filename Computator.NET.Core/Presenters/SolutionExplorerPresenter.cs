@@ -1,9 +1,9 @@
-using Computator.NET.UI.Controls;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Interfaces;
-
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
-namespace Computator.NET.UI.Presenters
+
+namespace Computator.NET.Core.Presenters
 {
     public class SolutionExplorerPresenter
     {

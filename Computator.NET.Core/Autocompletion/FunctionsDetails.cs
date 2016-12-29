@@ -4,9 +4,8 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Controls.AutocompleteMenu;
 
-namespace Computator.NET.Data
+namespace Computator.NET.Core.Autocompletion
 {
     public interface IFunctionsDetails
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.UI.Models
+namespace Computator.NET.Core.Services
 {
     public interface ICommandLineHandler
     {

@@ -1,11 +1,9 @@
 using System;
 using System.Reflection;
+using Computator.NET.Core.Abstract.Services;
 using Computator.NET.DataTypes;
-using Computator.NET.Logging;
 
-
-
-namespace Computator.NET.UI.ErrorHandling
+namespace Computator.NET.Core.Services.ErrorHandling
 {
     public class SimpleErrorHandler : IErrorHandler
     {

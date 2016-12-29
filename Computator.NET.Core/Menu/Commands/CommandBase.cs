@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Computator.NET.UI.Menus.Commands
+namespace Computator.NET.Core.Menu.Commands
 {
     public abstract class CommandBase : IToolbarCommand
     {

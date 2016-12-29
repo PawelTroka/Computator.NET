@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.Core.Helpers
 {
     public static class TypeExtenstion
     {

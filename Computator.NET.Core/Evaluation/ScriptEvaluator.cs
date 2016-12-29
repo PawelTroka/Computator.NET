@@ -2,11 +2,10 @@
 using System.Windows.Data;
 using System.Windows.Forms.Integration;
 using System.Windows.Media.Media3D;
-using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 
-namespace Computator.NET.Evaluation
+namespace Computator.NET.Core.Evaluation
 {
     public interface IScriptEvaluator
     {

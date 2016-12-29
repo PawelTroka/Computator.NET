@@ -4,15 +4,15 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Natives;
 using Computator.NET.Core.Properties;
-using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
-using Computator.NET.Natives;
-using Computator.NET.Properties;
-using Computator.NET.UI.Models;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Controls
 {
     public class ExpressionTextBox : TextBox, IExpressionTextBox
     {

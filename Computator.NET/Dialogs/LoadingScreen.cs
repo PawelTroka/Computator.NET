@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using Computator.NET.Properties;
+using Computator.NET.Core.Properties;
 
-namespace Computator.NET.UI.Dialogs
+namespace Computator.NET.Dialogs
 {
     internal class LoadingScreen : Form
     {

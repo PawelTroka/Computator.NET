@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Accord.Collections;
-using Computator.NET.Charting;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
+using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Interfaces;
+using Computator.NET.DataTypes.Charts;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.Views
 {
     public partial class ChartingView : UserControl, IChartingView
     {

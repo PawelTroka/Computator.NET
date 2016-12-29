@@ -1,8 +1,7 @@
 using System.Diagnostics;
-using Computator.NET.Core.Menu;
 using Computator.NET.DataTypes;
 
-namespace Computator.NET.UI.Menus.Commands.HelpCommands
+namespace Computator.NET.Core.Menu.Commands.HelpCommands
 {
     public class BugReportingCommand : CommandBase
     {

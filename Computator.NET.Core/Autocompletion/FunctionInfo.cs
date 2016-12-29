@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Computator.NET.Data
+namespace Computator.NET.Core.Autocompletion
 {
     [XmlRoot("FunctionInfo")]
     public class FunctionInfo

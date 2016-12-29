@@ -6,9 +6,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using Computator.NET.Functions;
+using Computator.NET.Core.Functions;
 
-namespace Computator.NET.Benchmarking
+namespace Computator.NET.Core.Benchmarking
 {
     public class Benchmark
     {

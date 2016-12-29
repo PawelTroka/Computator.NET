@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 
-namespace Computator.NET.UI.Dialogs
+namespace Computator.NET.Dialogs
 {
     public partial class BugReportingForm : Form
     {

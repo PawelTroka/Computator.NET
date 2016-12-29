@@ -1,9 +1,8 @@
 ﻿using System.Windows.Forms;
-using Computator.NET.Data;
-using Computator.NET.UI.Controls;
-using Computator.NET.UI.Interfaces;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Views;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.Views
 {
     public partial class ExpressionView : UserControl, IExpressionView
     {

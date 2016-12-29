@@ -1,9 +1,9 @@
-﻿using Computator.NET.DataTypes;
+﻿using Computator.NET.Core.Abstract.Views;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Presenters
+namespace Computator.NET.Core.Presenters
 {
     public class ChartAreaValuesPresenter
     {

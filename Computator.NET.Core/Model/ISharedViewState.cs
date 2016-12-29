@@ -4,7 +4,7 @@ using System.ComponentModel;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 
-namespace Computator.NET.UI.Models
+namespace Computator.NET.Core.Model
 {
     public interface ISharedViewState : INotifyPropertyChanged
     {

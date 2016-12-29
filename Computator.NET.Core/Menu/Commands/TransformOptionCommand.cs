@@ -1,11 +1,11 @@
 using Accord.Collections;
-using Computator.NET.Charting;
+using Computator.NET.Core.Menu.Commands.ChartCommands;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Transformations;
 using Computator.NET.DataTypes;
-using Computator.NET.Transformations;
-using Computator.NET.UI.Menus.Commands.ChartCommands;
-using Computator.NET.UI.Models;
+using Computator.NET.DataTypes.Charts;
 
-namespace Computator.NET.UI.Menus.Commands
+namespace Computator.NET.Core.Menu.Commands
 {
     internal class TransformOptionCommand : BaseCommandForCharts
     {

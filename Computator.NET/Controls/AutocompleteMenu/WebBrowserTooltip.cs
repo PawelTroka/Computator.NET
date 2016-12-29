@@ -1,10 +1,9 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using Computator.NET.Data;
+using Computator.NET.Core.Autocompletion;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Functions;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Controls.AutocompleteMenu
 {
     internal class WebBrowserToolTip : ToolStripDropDown
     {

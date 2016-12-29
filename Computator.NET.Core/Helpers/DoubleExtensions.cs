@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Core.Helpers
 {
     public static class DoubleExtensions
     {

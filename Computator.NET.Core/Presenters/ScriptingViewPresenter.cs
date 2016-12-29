@@ -1,14 +1,15 @@
 using System;
-using Computator.NET.Compilation;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Services;
+using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.ErrorHandling;
-using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
 
-namespace Computator.NET.UI.Presenters
+namespace Computator.NET.Core.Presenters
 {
     public class ScriptingViewPresenter
     {

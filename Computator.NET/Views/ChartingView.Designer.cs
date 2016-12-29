@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.UI.Views
+﻿namespace Computator.NET.Views
 {
     partial class ChartingView
     {

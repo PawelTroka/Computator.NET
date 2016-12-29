@@ -1,4 +1,4 @@
-namespace Computator.NET.UI.Menus.Commands.DummyCommands
+namespace Computator.NET.Core.Menu.Commands.DummyCommands
 {
     public class DummyCommand : CommandBase
     {

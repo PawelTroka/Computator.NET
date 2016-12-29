@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Core.Autocompletion
 {
     public class SelectedEventArgs : EventArgs
     {

@@ -7,12 +7,11 @@ using System.Reflection;
 using System.Text;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Logging;
 using Microsoft.CSharp;
 
 //findRoot(sin,x-1,x+1) is really interesting
 
-namespace Computator.NET.Compilation
+namespace Computator.NET.Core.Compilation
 {
     public class NativeCompiler : CSharpCodeProvider
     {

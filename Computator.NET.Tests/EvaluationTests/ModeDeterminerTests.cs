@@ -1,6 +1,6 @@
-﻿using Computator.NET.Compilation;
+﻿using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes;
-using Computator.NET.Evaluation;
 using NUnit.Framework;
 
 namespace Computator.NET.Tests.EvaluationTests

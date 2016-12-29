@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Computator.NET.Compilation;
+using Computator.NET.Core.Compilation;
 using NUnit.Framework;
 
 namespace Computator.NET.IntegrationTests

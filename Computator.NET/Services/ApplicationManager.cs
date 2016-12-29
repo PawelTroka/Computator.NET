@@ -1,7 +1,7 @@
 using System.Windows.Forms;
-using Computator.NET.UI.Views;
+using Computator.NET.Core.Abstract.Services;
 
-namespace Computator.NET.UI.Models
+namespace Computator.NET.Services
 {
     public class ApplicationManager : IApplicationManager
     {

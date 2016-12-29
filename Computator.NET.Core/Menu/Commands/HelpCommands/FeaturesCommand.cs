@@ -1,8 +1,7 @@
-﻿using Computator.NET.Core.Menu;
+﻿using Computator.NET.Core.Abstract.Services;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.ErrorHandling;
 
-namespace Computator.NET.UI.Menus.Commands.HelpCommands
+namespace Computator.NET.Core.Menu.Commands.HelpCommands
 {
     public class FeaturesCommand : CommandBase
     {

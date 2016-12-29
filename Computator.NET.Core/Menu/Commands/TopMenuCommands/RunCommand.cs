@@ -1,9 +1,8 @@
 using System;
-using Computator.NET.Core.Menu;
-using Computator.NET.Properties;
-using Computator.NET.UI.Models;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Properties;
 
-namespace Computator.NET.UI.Menus.Commands
+namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {
     public class RunCommand : CommandBase
     {

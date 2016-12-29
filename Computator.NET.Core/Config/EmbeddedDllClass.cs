@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Computator.NET.Natives;
+using Computator.NET.Core.Natives;
 
-namespace Computator.NET.Config
+namespace Computator.NET.Core.Config
 {
     /// <summary>
     ///     A class used by managed classes to managed unmanaged DLLs.

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Model;
 using Computator.NET.DataTypes.Events;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
 
-namespace Computator.NET.UI.Presenters
+namespace Computator.NET.Core.Presenters
 {
     public class ExpressionViewPresenter
     {

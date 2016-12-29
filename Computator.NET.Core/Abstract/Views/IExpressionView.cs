@@ -1,6 +1,6 @@
-﻿using Computator.NET.UI.Controls;
+﻿using Computator.NET.Core.Abstract.Controls;
 
-namespace Computator.NET.UI.Interfaces
+namespace Computator.NET.Core.Abstract.Views
 {
     public interface IExpressionView
     {

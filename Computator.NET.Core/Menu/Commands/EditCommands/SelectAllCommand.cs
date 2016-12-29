@@ -1,8 +1,8 @@
-using Computator.NET.Core.Menu;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Models;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Services;
+using Computator.NET.Core.Model;
 
-namespace Computator.NET.UI.Menus.Commands.EditCommands
+namespace Computator.NET.Core.Menu.Commands.EditCommands
 {
     public class SelectAllCommand : CommandBase
     {

@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using Computator.NET.Logging;
 
 namespace Computator.NET.DataTypes
 {

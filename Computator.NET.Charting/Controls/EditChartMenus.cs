@@ -11,6 +11,7 @@ using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Charts;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
 using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;

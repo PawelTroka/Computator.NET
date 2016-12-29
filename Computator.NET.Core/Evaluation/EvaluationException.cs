@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.Evaluation
+namespace Computator.NET.Core.Evaluation
 {
     public class EvaluationException : Exception
     {

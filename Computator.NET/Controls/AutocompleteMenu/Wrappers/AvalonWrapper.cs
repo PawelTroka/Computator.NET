@@ -1,9 +1,9 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;
+using Computator.NET.Controls.CodeEditors.AvalonEdit;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu.Wrappers
+namespace Computator.NET.Controls.AutocompleteMenu.Wrappers
 {
     internal class AvalonWrapper : ITextBoxWrapper
     {

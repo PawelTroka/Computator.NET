@@ -1,4 +1,4 @@
-using Computator.NET.Data;
+using Computator.NET.Core.Autocompletion;
 using NUnit.Framework;
 
 namespace Computator.NET.IntegrationTests.Data

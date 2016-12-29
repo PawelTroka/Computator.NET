@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Config
+﻿namespace Computator.NET.Dialogs
 {
     partial class SettingsForm
     {

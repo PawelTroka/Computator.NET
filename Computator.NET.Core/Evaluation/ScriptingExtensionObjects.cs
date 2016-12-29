@@ -3,6 +3,8 @@
 // ReSharper disable UseStringInterpolation
 
 
+using Computator.NET.Core.Functions;
+
 namespace Computator.NET.Core.Evaluation
 {
     //TODO: refactor this shit

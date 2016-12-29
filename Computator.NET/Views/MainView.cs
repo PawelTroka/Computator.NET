@@ -1,9 +1,9 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Windows.Forms;
-using Computator.NET.UI.Interfaces;
+using Computator.NET.Core.Abstract.Views;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.Views
 {
     public partial class MainView : Form, IMainView
     {

@@ -1,9 +1,9 @@
 using Accord.Collections;
-using Computator.NET.Charting;
+using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Models;
+using Computator.NET.DataTypes.Charts;
 
-namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
+namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {
     internal abstract class ChartOption : BaseCommandForCharts
     {

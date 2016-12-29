@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using ScintillaNET;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu.Wrappers
+namespace Computator.NET.Controls.AutocompleteMenu.Wrappers
 {
     public class ScintillaWrapper : ITextBoxWrapper
     {

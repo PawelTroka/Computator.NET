@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
-using Computator.NET.UI.Controls;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.Menus.Commands;
-using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Menus.Commands.FileCommands;
+using Computator.NET.Controls;
+using Computator.NET.Core.Menu.Commands;
+using Computator.NET.Core.Menu.Commands.DummyCommands;
+using Computator.NET.Core.Menu.Commands.TopMenuCommands;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.Views
 {
     public partial class MenuStripView : UserControl
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.DataTypes.Localization;
 
-namespace Computator.NET.NumericalCalculations
+namespace Computator.NET.Core.NumericalCalculations
 {
     public class NumericalMethodsInfo
     {

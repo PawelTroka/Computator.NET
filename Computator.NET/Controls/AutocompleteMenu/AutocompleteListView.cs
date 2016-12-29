@@ -4,12 +4,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Properties;
-using Computator.NET.Data;
 using Computator.NET.DataTypes.SettingsTypes;
-using Computator.NET.Properties;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Controls.AutocompleteMenu
 {
     public class AutocompleteListView : UserControl, IAutocompleteListView
     {

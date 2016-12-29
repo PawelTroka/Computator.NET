@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.Core.Autocompletion;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Controls.AutocompleteMenu
 {
     /// <summary>
     ///     Control for displaying menu items, hosted in AutocompleteMenu.

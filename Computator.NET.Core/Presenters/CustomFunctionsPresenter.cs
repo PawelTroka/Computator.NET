@@ -1,8 +1,9 @@
-﻿using Computator.NET.DataTypes.Events;
-using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Models;
+﻿using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Services;
+using Computator.NET.DataTypes.Events;
 
-namespace Computator.NET.UI.Presenters
+namespace Computator.NET.Core.Presenters
 {
     public class CustomFunctionsPresenter
     {

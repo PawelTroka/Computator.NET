@@ -4,13 +4,12 @@ using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using Accord.Collections;
-using Computator.NET.Charting;
-using Computator.NET.Core.Menu;
+using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Charts;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.Models;
 
-namespace Computator.NET.UI.Menus.Commands.ChartCommands
+namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
     public class ExportCommand : BaseCommandForCharts
     {

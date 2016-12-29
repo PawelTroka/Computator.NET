@@ -1,9 +1,9 @@
-using Computator.NET.Core.Menu;
+using Computator.NET.Core.Helpers;
+using Computator.NET.Core.Menu.Commands.DummyCommands;
+using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Models;
 
-namespace Computator.NET.UI.Menus.Commands.ChartCommands.CommandsWithOptions
+namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {
     //TODO: make it work somehow with good API from Chart2D
 

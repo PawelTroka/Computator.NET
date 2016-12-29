@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using Computator.NET.UI.Menus;
-using Computator.NET.UI.Menus.Commands;
-using Computator.NET.UI.Menus.Commands.EditCommands;
-using Computator.NET.UI.Menus.Commands.FileCommands;
-using Computator.NET.UI.Menus.Commands.HelpCommands;
+﻿using System.Windows.Forms;
+using Computator.NET.Core.Menu.Commands;
+using Computator.NET.Core.Menu.Commands.EditCommands;
+using Computator.NET.Core.Menu.Commands.FileCommands;
+using Computator.NET.Core.Menu.Commands.TopMenuCommands;
+using HelpCommand = Computator.NET.Core.Menu.Commands.HelpCommands.HelpCommand;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.Views
 {
     public partial class ToolBarView : UserControl
     {
@@ -15,7 +14,7 @@ namespace Computator.NET.UI.Views
             InitializeComponent();
         }
 
-        public ToolBarView(NewCommand newCommand, OpenCommand openCommand, SaveCommand saveCommand, PrintCommand printCommand, CutCommand cutCommand, CopyCommand copyCommand, PasteCommand pasteCommand, Computator.NET.UI.Menus.Commands.HelpCommands.HelpCommand helpCommand, ExponentCommand exponentCommand, RunCommand runCommand) : this()
+        public ToolBarView(NewCommand newCommand, OpenCommand openCommand, SaveCommand saveCommand, PrintCommand printCommand, CutCommand cutCommand, CopyCommand copyCommand, PasteCommand pasteCommand, HelpCommand helpCommand, ExponentCommand exponentCommand, RunCommand runCommand) : this()
         {
             SetCommands(newCommand,openCommand,saveCommand,null,printCommand,cutCommand,copyCommand,pasteCommand,null,helpCommand,null,exponentCommand,null,runCommand);
         }

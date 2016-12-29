@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.Views
 {
     partial class MainView : Form
     {

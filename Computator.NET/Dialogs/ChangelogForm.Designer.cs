@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Computator.NET.UI.Dialogs
+namespace Computator.NET.Dialogs
 {
     sealed partial class ChangelogForm
     {

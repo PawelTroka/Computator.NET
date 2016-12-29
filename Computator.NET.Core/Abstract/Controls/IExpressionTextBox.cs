@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Core.Abstract.Controls
 {
     public interface ITextProvider
     {

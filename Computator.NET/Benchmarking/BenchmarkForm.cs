@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Computator.NET.Core.Benchmarking;
 using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.Benchmarking

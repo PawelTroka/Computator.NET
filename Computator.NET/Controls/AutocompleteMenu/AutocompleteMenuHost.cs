@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Computator.NET.Data;
+using Computator.NET.Core.Autocompletion;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Controls.AutocompleteMenu
 {
     [ToolboxItem(false)]
     internal class AutocompleteMenuHost : ToolStripDropDown

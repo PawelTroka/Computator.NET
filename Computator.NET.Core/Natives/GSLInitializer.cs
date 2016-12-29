@@ -1,14 +1,13 @@
 using System;
 using System.ComponentModel;
 using System.IO;
-using Computator.NET.Config;
+using Computator.NET.Core.Abstract.Services;
+using Computator.NET.Core.Config;
+using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Logging;
-using Computator.NET.Properties;
-using Computator.NET.UI.ErrorHandling;
 
-namespace Computator.NET.Natives
+namespace Computator.NET.Core.Natives
 {
     public class GSLInitializer
     {

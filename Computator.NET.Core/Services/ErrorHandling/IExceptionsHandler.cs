@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.UI.ErrorHandling
+namespace Computator.NET.Core.Services.ErrorHandling
 {
     public interface IExceptionsHandler
     {

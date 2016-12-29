@@ -5,7 +5,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Utility;
 
-namespace Computator.NET
+namespace Computator.NET.Core.Bootstrapping
 {
     /// <summary>
     /// A <see cref="ResolverOverride"/> class that lets you

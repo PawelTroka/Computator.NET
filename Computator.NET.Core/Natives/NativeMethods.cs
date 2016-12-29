@@ -5,7 +5,7 @@ using System.Security;
 using System.Text;
 using Computator.NET.DataTypes;
 
-namespace Computator.NET.Natives
+namespace Computator.NET.Core.Natives
 {
     [SuppressUnmanagedCodeSecurity]
     public class NativeMethods

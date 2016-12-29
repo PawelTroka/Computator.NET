@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Computator.NET.Core.Menu;
-using Computator.NET.UI.Menus.Commands;
-using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Menus.Commands.HelpCommands;
+using Computator.NET.Core.Menu.Commands.DummyCommands;
+using Computator.NET.Core.Menu.Commands.HelpCommands;
 
-namespace Computator.NET.UI.Menus
+namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {
     public class HelpCommand : DummyCommand
     {

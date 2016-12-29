@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Computator.NET.Config;
+using Computator.NET.Core.Abstract;
+using Computator.NET.Core.Functions;
 
-namespace Computator.NET.UI.Dialogs
+namespace Computator.NET.Dialogs
 {
     public class WinFormsDialogFactory : IDialogFactory
     {

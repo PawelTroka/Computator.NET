@@ -1,12 +1,12 @@
 using System;
-using Computator.NET.Compilation;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Model;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Logging;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Models;
 
-namespace Computator.NET.UI.ErrorHandling
+namespace Computator.NET.Core.Services.ErrorHandling
 {
     public class ExceptionsHandler : IExceptionsHandler
     {

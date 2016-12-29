@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Computator.NET.Charting.Printing;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.Charting.ComplexCharting
 {

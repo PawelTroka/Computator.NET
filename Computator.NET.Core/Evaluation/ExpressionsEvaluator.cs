@@ -4,15 +4,14 @@ using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using Computator.NET.Compilation;
-using Computator.NET.Constants;
+using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Constants;
+using Computator.NET.Core.Functions;
+using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Functions;
-using Computator.NET.Logging;
-using Computator.NET.NumericalCalculations;
 
-namespace Computator.NET.Evaluation
+namespace Computator.NET.Core.Evaluation
 {
     public interface IExpressionsEvaluator
     {

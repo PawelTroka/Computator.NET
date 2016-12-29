@@ -4,7 +4,7 @@
 
 
 
-namespace Computator.NET
+namespace Computator.NET.Core.Functions
 {
     public sealed class ReadForm : System.Windows.Forms.Form
     {

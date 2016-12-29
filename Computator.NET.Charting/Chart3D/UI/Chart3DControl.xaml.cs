@@ -16,6 +16,7 @@ using Computator.NET.Charting.Chart3D.Chart3D;
 using Computator.NET.Charting.Chart3D.Spline;
 using Computator.NET.Charting.Printing;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Charts;
 using Color = System.Windows.Media.Color;
 using Model3D = Computator.NET.Charting.Chart3D.Chart3D.Model3D;
 using Point = System.Windows.Point;

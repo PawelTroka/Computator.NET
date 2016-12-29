@@ -4,10 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Computator.NET.Core.Properties;
-using Computator.NET.Data;
 using Computator.NET.DataTypes;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Core.Autocompletion
 {
     public class AutocompleteItemEqualityComparer : IEqualityComparer<AutocompleteItem>
     {

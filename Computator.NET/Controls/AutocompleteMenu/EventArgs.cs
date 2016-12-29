@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using Computator.NET.UI.Controls.AutocompleteMenu.Wrappers;
+using Computator.NET.Controls.AutocompleteMenu.Wrappers;
+using Computator.NET.Core.Autocompletion;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Controls.AutocompleteMenu
 {
     public class SelectingEventArgs : EventArgs
     {

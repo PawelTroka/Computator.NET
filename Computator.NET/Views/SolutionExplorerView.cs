@@ -1,8 +1,9 @@
 ﻿using System.Windows.Forms;
-using Computator.NET.UI.Controls;
-using Computator.NET.UI.Interfaces;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Model;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.Views
 {
     public partial class SolutionExplorerView : UserControl, ISolutionExplorerView
     {

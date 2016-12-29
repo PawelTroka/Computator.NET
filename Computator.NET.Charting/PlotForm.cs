@@ -6,6 +6,7 @@ using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.Controls;
 using Computator.NET.Charting.RealCharting;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.Charting
 {

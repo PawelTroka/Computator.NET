@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
+using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Interfaces;
 
-namespace Computator.NET.UI.Views
+namespace Computator.NET.Views
 {
     public partial class NumericalCalculationsView : UserControl, INumericalCalculationsView
     {

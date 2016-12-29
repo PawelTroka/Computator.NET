@@ -1,12 +1,12 @@
 using Accord.Collections;
-using Computator.NET.Charting;
-using Computator.NET.Core.Menu;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Services;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
-using Computator.NET.Properties;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Models;
+using Computator.NET.DataTypes.Charts;
 
-namespace Computator.NET.UI.Menus.Commands.FileCommands
+namespace Computator.NET.Core.Menu.Commands.FileCommands
 {
     public class PrintPreviewCommand : CommandBase
     {

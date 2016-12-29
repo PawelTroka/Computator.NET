@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Computator.NET.UI
+namespace Computator.NET.Core.Model
 {
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     public class NameAttribute : Attribute

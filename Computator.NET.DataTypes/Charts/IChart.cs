@@ -1,7 +1,6 @@
 ﻿using System.Drawing.Imaging;
-using Computator.NET.DataTypes;
 
-namespace Computator.NET.Charting
+namespace Computator.NET.DataTypes.Charts
 {
     public interface IChart : IPrinting, IAreaValues
     {

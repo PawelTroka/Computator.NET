@@ -7,15 +7,14 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using Computator.NET.Controls.CodeEditors.AvalonEdit;
+using Computator.NET.Controls.CodeEditors.Scintilla;
+using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
-using Computator.NET.Properties;
-using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;
-using Computator.NET.UI.Controls.CodeEditors.Scintilla;
-using Size = System.Drawing.Size;
 
-namespace Computator.NET.UI.Controls.CodeEditors
+namespace Computator.NET.Controls.CodeEditors
 {
     public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Computator.NET.DataTypes;
 
-namespace Computator.NET.Compilation
+namespace Computator.NET.Core.Compilation
 {
     /* public enum TslCompilationMode
     {

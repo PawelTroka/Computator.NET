@@ -1,10 +1,6 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Computator.NET.Config;
-using Computator.NET.DataTypes.Localization;
+﻿using System.Windows.Forms;
 
-namespace Computator.NET.UI.Dialogs
+namespace Computator.NET.Dialogs
 {
     partial class BugReportingForm
     {

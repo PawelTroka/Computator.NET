@@ -3,7 +3,7 @@
 // ReSharper disable UseStringInterpolation
 
 // ReSharper disable LocalizableElement
-namespace Computator.NET.NumericalCalculations
+namespace Computator.NET.Core.NumericalCalculations
 {
     public static class Integral
     {

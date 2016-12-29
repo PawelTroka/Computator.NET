@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Computator.NET.Core.Menu;
-using Computator.NET.UI.Menus.Commands;
-using Computator.NET.UI.Menus.Commands.DummyCommands;
-using Computator.NET.UI.Menus.Commands.EditCommands;
+using Computator.NET.Core.Menu.Commands.DummyCommands;
+using Computator.NET.Core.Menu.Commands.EditCommands;
 
-namespace Computator.NET.UI.Menus
+namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {
     public class EditCommand : DummyCommand
     {

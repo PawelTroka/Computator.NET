@@ -1,7 +1,7 @@
 ﻿// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
-namespace Computator.NET.NumericalCalculations
+namespace Computator.NET.Core.NumericalCalculations
 {
     public static class FunctionRoot
     {

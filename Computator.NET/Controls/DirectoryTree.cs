@@ -1,10 +1,11 @@
 ﻿using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Model;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.Controls.CodeEditors;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Controls
 {
     public sealed class DirectoryTree : TreeView, IDirectoryTree
     {

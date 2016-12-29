@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Controls
 {
     public class ToolStripRadioButtonMenuItem : ToolStripMenuItem
     {

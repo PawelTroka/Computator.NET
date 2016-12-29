@@ -1,25 +1,27 @@
 using System.Collections.Generic;
 using Accord.Collections;
-using Computator.NET.Charting;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
+using Computator.NET.Controls;
+using Computator.NET.Controls.AutocompleteMenu;
+using Computator.NET.Controls.CodeEditors;
+using Computator.NET.Core.Abstract;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Services;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Bootstrapping;
+using Computator.NET.Core.Menu.Commands;
+using Computator.NET.Core.Menu.Commands.FileCommands;
+using Computator.NET.Core.Presenters;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Charts;
+using Computator.NET.Dialogs;
 using Computator.NET.Services;
-using Computator.NET.UI.Controls;
-using Computator.NET.UI.Controls.AutocompleteMenu;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.Dialogs;
-using Computator.NET.UI.ErrorHandling;
-using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Menus.Commands;
-using Computator.NET.UI.Menus.Commands.FileCommands;
-using Computator.NET.UI.Models;
-using Computator.NET.UI.Presenters;
-using Computator.NET.UI.Views;
+using Computator.NET.Views;
 using Microsoft.Practices.Unity;
 
-namespace Computator.NET
+namespace Computator.NET.Bootstrapping
 {
     public class WinFormsBootstrapper : CoreBootstrapper
     {

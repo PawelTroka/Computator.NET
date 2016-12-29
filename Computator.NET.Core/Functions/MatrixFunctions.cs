@@ -3,9 +3,14 @@
 // ReSharper disable UseStringInterpolation
 
 //using Matrix = MathNet.Numerics.LinearAlgebra.Matrix<double>;
-using Computator.NET.Evaluation;//this one is neeeded!!!!!!!!!!!!!!!!!!!!!!! dont remove it!!!!!
 
-namespace Computator.NET.Functions
+using Computator.NET.Core.Evaluation;
+// ReSharper disable InconsistentNaming
+// ReSharper disable InvokeAsExtensionMethod
+
+//this one is neeeded!!!!!!!!!!!!!!!!!!!!!!! dont remove it!!!!!
+
+namespace Computator.NET.Core.Functions
 {
 
 

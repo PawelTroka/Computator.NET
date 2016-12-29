@@ -1,11 +1,12 @@
-﻿using Computator.NET.Compilation;
-using Computator.NET.Data;
-using Computator.NET.Evaluation;
-using Computator.NET.UI.ErrorHandling;
-using Computator.NET.UI.Models;
+﻿using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Model;
+using Computator.NET.Core.Services;
+using Computator.NET.Core.Services.ErrorHandling;
 using Microsoft.Practices.Unity;
 
-namespace Computator.NET
+namespace Computator.NET.Core.Bootstrapping
 {
     public class CoreBootstrapper
     {

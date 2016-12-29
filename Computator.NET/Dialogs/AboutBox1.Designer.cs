@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.UI.Dialogs
+﻿namespace Computator.NET.Dialogs
 {
     partial class AboutBox1
     {
@@ -68,7 +68,7 @@
             // logoPictureBox
             // 
             this.logoPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logoPictureBox.Image = global::Computator.NET.Properties.Resources.computator_net_logo;
+            this.logoPictureBox.Image = global::Computator.NET.Core.Properties.Resources.computator_net_logo;
             this.logoPictureBox.Location = new System.Drawing.Point(3, 3);
             this.logoPictureBox.Name = "logoPictureBox";
             this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 6);

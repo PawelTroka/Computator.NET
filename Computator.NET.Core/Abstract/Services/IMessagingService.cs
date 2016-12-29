@@ -1,4 +1,4 @@
-namespace Computator.NET.UI.ErrorHandling
+namespace Computator.NET.Core.Abstract.Services
 {
     public interface IMessagingService
     {

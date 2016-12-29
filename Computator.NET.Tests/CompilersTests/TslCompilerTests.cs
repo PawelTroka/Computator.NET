@@ -1,4 +1,4 @@
-﻿using Computator.NET.Compilation;
+﻿using Computator.NET.Core.Compilation;
 using Computator.NET.DataTypes;
 using NUnit.Framework;
 

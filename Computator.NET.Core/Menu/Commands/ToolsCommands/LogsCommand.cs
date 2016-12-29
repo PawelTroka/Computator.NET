@@ -1,9 +1,8 @@
-using Computator.NET.Core.Menu;
+using Computator.NET.Core.Abstract.Services;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.UI.ErrorHandling;
 
-namespace Computator.NET.UI.Menus.Commands.ToolsCommands
+namespace Computator.NET.Core.Menu.Commands.ToolsCommands
 {
     public class LogsCommand : CommandBase
     {

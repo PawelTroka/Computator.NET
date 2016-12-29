@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace Computator.NET.UI.Controls
+namespace Computator.NET.Controls
 {
     internal class BindableToolStripMenuItem : ToolStripMenuItem,
         IBindableComponent, INotifyPropertyChanged

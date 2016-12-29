@@ -1,4 +1,4 @@
-namespace Computator.NET.Evaluation
+namespace Computator.NET.Core.Evaluation
 {
     public static class NumericalExtensions
     {

@@ -1,9 +1,8 @@
 using System;
 using System.Windows.Forms;
-using Computator.NET.Core.Menu;
-using Computator.NET.UI.Interfaces;
+using Computator.NET.Core.Abstract.Views;
 
-namespace Computator.NET.UI.Menus.Commands.ToolsCommands
+namespace Computator.NET.Core.Menu.Commands.ToolsCommands
 {
     public class FullScreenCommand : CommandBase
     {

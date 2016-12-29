@@ -1,7 +1,7 @@
 ﻿// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
-namespace Computator.NET.Constants
+namespace Computator.NET.Core.Constants
 {
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public static class MathematicalConstants

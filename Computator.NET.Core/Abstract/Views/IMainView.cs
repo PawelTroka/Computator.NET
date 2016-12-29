@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Computator.NET.UI.Interfaces
+namespace Computator.NET.Core.Abstract.Views
 {
     public interface IMainView
     {

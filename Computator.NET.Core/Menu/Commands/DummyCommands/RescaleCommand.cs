@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Computator.NET.Core.Menu;
+using Computator.NET.Core.Helpers;
+using Computator.NET.Core.Menu.Commands.ChartCommands;
+using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
-using Computator.NET.UI.Menus.Commands.ChartCommands;
-using Computator.NET.UI.Models;
 
-namespace Computator.NET.UI.Menus.Commands.DummyCommands
+namespace Computator.NET.Core.Menu.Commands.DummyCommands
 {
     public class RescaleCommand : DummyCommand
     {

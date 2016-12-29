@@ -1,7 +1,7 @@
 using System;
-using Computator.NET.Logging;
+using Computator.NET.DataTypes;
 
-namespace Computator.NET.UI.ErrorHandling
+namespace Computator.NET.Core.Services.ErrorHandling
 {
     public interface IErrorHandler
     {

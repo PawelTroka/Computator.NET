@@ -1,4 +1,4 @@
-namespace Computator.NET.Compilation
+namespace Computator.NET.Core.Compilation
 {
     public enum CompilationErrorPlace
     {

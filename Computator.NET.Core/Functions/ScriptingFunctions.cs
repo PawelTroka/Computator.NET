@@ -3,13 +3,11 @@
 // ReSharper disable UseStringInterpolation
 
 
-using Computator.NET.Core.Evaluation;
-using Computator.NET.Evaluation;
+using Computator.NET.Core.Evaluation;//we have to use this
 
-//we have to use this
 // ReSharper disable LocalizableElement
 
-namespace Computator.NET.Functions
+namespace Computator.NET.Core.Functions
 {
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public static class ScriptingFunctions
@@ -273,7 +271,7 @@ namespace Computator.NET.Functions
                    double YMax = 5, double quality = 0.5)
         {
 
-            Computator.NET.Charting.IChart chart;
+            Computator.NET.DataTypes.Charts.IChart chart;
 
             switch (f.FunctionType)
             {
@@ -411,7 +409,7 @@ double YMax = 5, double quality = 0.5)
 
         public const string ToCode = @"
 
-        #region input and output
+#region input and output
 
         public static void show(object o, string showcaption = ""Show output: "")
         {
@@ -619,6 +617,7 @@ double YMax = 5, double quality = 0.5)
             return new File(path);
         }
 
+
         public static File File()
         {
             var path = ""file.txt"";
@@ -669,7 +668,7 @@ double YMax = 5, double quality = 0.5)
                    double YMax = 5, double quality = 0.5)
         {
 
-            Computator.NET.Charting.IChart chart;
+            Computator.NET.DataTypes.Charts.IChart chart;
 
             switch (f.FunctionType)
             {
@@ -802,6 +801,7 @@ double YMax = 5, double quality = 0.5)
         #endregion
 
         private static System.Action<string> CONSOLE_OUTPUT;
+
 
         ";
 

@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Accord.Collections;
-using Computator.NET.Data;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
-using Computator.NET.Evaluation;
-using Computator.NET.NumericalCalculations;
-using Computator.NET.UI.Controls.CodeEditors;
-using Computator.NET.UI.ErrorHandling;
-using Computator.NET.UI.Interfaces;
-using Computator.NET.UI.Presenters;
 using Microsoft.Practices.Unity;
 using Moq;
 using NUnit.Framework;
 using Computator.NET.Charting;
+using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Bootstrapping;
 using Computator.NET.Core.Evaluation;
-using Computator.NET.UI.Controls;
+using Computator.NET.Core.Presenters;
+using Computator.NET.Core.Services.ErrorHandling;
+using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.IntegrationTests
 {

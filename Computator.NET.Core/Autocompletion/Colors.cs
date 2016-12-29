@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Core.Autocompletion
 {
     [Serializable]
     public class Colors

@@ -1,7 +1,6 @@
-using Computator.NET.Core.Menu;
-using Computator.NET.UI.Dialogs;
+using Computator.NET.Core.Abstract;
 
-namespace Computator.NET.UI.Menus.Commands.HelpCommands
+namespace Computator.NET.Core.Menu.Commands.HelpCommands
 {
     public class ChangelogCommand : CommandBase
     {

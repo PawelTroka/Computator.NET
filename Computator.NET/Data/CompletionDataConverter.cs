@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Computator.NET.UI.Controls.AutocompleteMenu;
-using Computator.NET.UI.Controls.CodeEditors.AvalonEdit;
 using System.Linq;
+using Computator.NET.Controls.CodeEditors.AvalonEdit;
+using Computator.NET.Core.Autocompletion;
 
 namespace Computator.NET.Data
 {

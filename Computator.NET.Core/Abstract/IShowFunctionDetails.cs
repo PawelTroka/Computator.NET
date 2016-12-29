@@ -1,6 +1,6 @@
-using Computator.NET.Data;
+using Computator.NET.Core.Autocompletion;
 
-namespace Computator.NET.UI.Controls.AutocompleteMenu
+namespace Computator.NET.Core.Abstract
 {
     public interface IShowFunctionDetails
     {
