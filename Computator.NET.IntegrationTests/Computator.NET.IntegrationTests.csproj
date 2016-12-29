@@ -100,11 +100,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\functions.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">
       <Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
       <Name>Computator.NET.Charting</Name>
