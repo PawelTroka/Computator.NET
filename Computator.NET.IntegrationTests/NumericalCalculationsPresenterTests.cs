@@ -7,7 +7,6 @@ using Computator.NET.DataTypes.Localization;
 using Microsoft.Practices.Unity;
 using Moq;
 using NUnit.Framework;
-using Computator.NET.Charting;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Bootstrapping;
