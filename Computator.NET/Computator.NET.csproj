@@ -233,160 +233,160 @@
     </Compile>
     <Compile Include="Bootstrapping\WinFormsBootstrapper.cs" />
     <Compile Include="Config\MyMessageFilter.cs" />
-    <Compile Include="Config\SettingsForm.cs">
+    <Compile Include="Dialogs\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Config\SettingsForm.Designer.cs">
+    <Compile Include="Dialogs\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\CompletionDataConverter.cs" />
     <Compile Include="Services\ApplicationManager.cs" />
     <Compile Include="Services\MessagingService.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\WebBrowserForm.cs">
+    <Compile Include="Controls\AutocompleteMenu\WebBrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Controls\AutocompleteMenu\Wrappers\AvalonWrapper.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
-    <Compile Include="UI\Controls\CodeEditors\AvalonEdit\BitmapExtension.cs" />
-    <Compile Include="UI\Controls\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
-    <Compile Include="UI\Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditorControl.cs" />
-    <Compile Include="UI\Controls\CodeEditors\AvalonEdit\OffsetColorizer.cs" />
-    <Compile Include="UI\Controls\CodeEditors\CodeEditorControlWrapper.cs">
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\AvalonWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\BitmapExtension.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditorControl.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\OffsetColorizer.cs" />
+    <Compile Include="Controls\CodeEditors\CodeEditorControlWrapper.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\CodeEditors\AvalonEdit\CompletionData.cs" />
-    <Compile Include="UI\Controls\Views\ToolStripRadioButtonMenuItem.cs">
+    <Compile Include="Controls\CodeEditors\AvalonEdit\CompletionData.cs" />
+    <Compile Include="Controls\ToolStripRadioButtonMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\WinFormsDialogFactory.cs" />
-    <Compile Include="UI\Controls\Views\BindableToolStripMenuItem .cs">
+    <Compile Include="Dialogs\WinFormsDialogFactory.cs" />
+    <Compile Include="Controls\BindableToolStripMenuItem .cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\BugReportingForm.cs">
+    <Compile Include="Dialogs\BugReportingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\BugReportingForm.Designer.cs">
+    <Compile Include="Dialogs\BugReportingForm.Designer.cs">
       <DependentUpon>BugReportingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\ChangelogForm.cs">
+    <Compile Include="Dialogs\ChangelogForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\ChangelogForm.Designer.cs">
+    <Compile Include="Dialogs\ChangelogForm.Designer.cs">
       <DependentUpon>ChangelogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\CalculationsView.cs">
+    <Compile Include="Views\CalculationsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\CalculationsView.Designer.cs">
+    <Compile Include="Views\CalculationsView.Designer.cs">
       <DependentUpon>CalculationsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\ChartAreaValuesView.cs">
+    <Compile Include="Views\ChartAreaValuesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\ChartAreaValuesView.Designer.cs">
+    <Compile Include="Views\ChartAreaValuesView.Designer.cs">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\Views\DocumentsTabControl.cs">
+    <Compile Include="Controls\DocumentsTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\AboutBox1.cs">
+    <Compile Include="Dialogs\AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\AboutBox1.Designer.cs">
+    <Compile Include="Dialogs\AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteItems.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteListView.cs">
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteItems.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteListView.cs">
       <SubType>usercontrol</SubType>
     </Compile>
-    <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteMenu.cs">
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenu.cs">
       <SubType>component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\AutocompleteMenu\AutocompleteMenuHost.cs">
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenuHost.cs">
       <SubType>component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\AutocompleteMenu\EventArgs.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\IAutocompleteListView.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\Wrappers\ITextBoxWrapper.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\Range.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\Wrappers\TextBoxWrapper.cs" />
-    <Compile Include="UI\Controls\AutocompleteMenu\WebBrowserTooltip.cs">
+    <Compile Include="Controls\AutocompleteMenu\EventArgs.cs" />
+    <Compile Include="Controls\AutocompleteMenu\IAutocompleteListView.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\ITextBoxWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Range.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\TextBoxWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\WebBrowserTooltip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\Views\DirectoryTree.cs">
+    <Compile Include="Controls\DirectoryTree.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditor.cs" />
-    <Compile Include="UI\Controls\Views\ExpressionTextBox.cs">
+    <Compile Include="Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditor.cs" />
+    <Compile Include="Controls\ExpressionTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Views\ChartingView.cs">
+    <Compile Include="Views\ChartingView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\ChartingView.Designer.cs">
+    <Compile Include="Views\ChartingView.Designer.cs">
       <DependentUpon>ChartingView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\ExpressionView.cs">
+    <Compile Include="Views\ExpressionView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\ExpressionView.Designer.cs">
+    <Compile Include="Views\ExpressionView.Designer.cs">
       <DependentUpon>ExpressionView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\MainView.cs">
+    <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Views\MainView.Designer.cs">
+    <Compile Include="Views\MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\LoadingScreen.cs">
+    <Compile Include="Dialogs\LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Views\MenuStripView.cs">
+    <Compile Include="Views\MenuStripView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\MenuStripView.Designer.cs">
+    <Compile Include="Views\MenuStripView.Designer.cs">
       <DependentUpon>MenuStripView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\ToolBarView.cs">
+    <Compile Include="Views\ToolBarView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\ToolBarView.Designer.cs">
+    <Compile Include="Views\ToolBarView.Designer.cs">
       <DependentUpon>ToolBarView.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\Controls\Views\NumericTextBox.cs">
+    <Compile Include="Controls\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\ScientificNumericUpDown.cs">
+    <Compile Include="Controls\ScientificNumericUpDown.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\ScientificNumericUpDown.Designer.cs">
+    <Compile Include="Controls\ScientificNumericUpDown.Designer.cs">
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs" />
-    <Compile Include="UI\Views\CustomFunctionsView.cs">
+    <Compile Include="Controls\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs" />
+    <Compile Include="Views\CustomFunctionsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\CustomFunctionsView.Designer.cs">
+    <Compile Include="Views\CustomFunctionsView.Designer.cs">
       <DependentUpon>CustomFunctionsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\NumericalCalculationsView.cs">
+    <Compile Include="Views\NumericalCalculationsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\NumericalCalculationsView.Designer.cs">
+    <Compile Include="Views\NumericalCalculationsView.Designer.cs">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\ScriptingView.cs">
+    <Compile Include="Views\ScriptingView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\ScriptingView.Designer.cs">
+    <Compile Include="Views\ScriptingView.Designer.cs">
       <DependentUpon>ScriptingView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Views\SolutionExplorerView.cs">
+    <Compile Include="Views\SolutionExplorerView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\SolutionExplorerView.Designer.cs">
+    <Compile Include="Views\SolutionExplorerView.Designer.cs">
       <DependentUpon>SolutionExplorerView.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
@@ -398,120 +398,120 @@
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config\SettingsForm.pl.resx">
+    <EmbeddedResource Include="Dialogs\SettingsForm.pl.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config\SettingsForm.resx">
+    <EmbeddedResource Include="Dialogs\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\BugReportingForm.resx">
+    <EmbeddedResource Include="Dialogs\BugReportingForm.resx">
       <DependentUpon>BugReportingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\ChangelogForm.resx">
+    <EmbeddedResource Include="Dialogs\ChangelogForm.resx">
       <DependentUpon>ChangelogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\CalculationsView.cs.resx">
+    <EmbeddedResource Include="Views\CalculationsView.cs.resx">
       <DependentUpon>CalculationsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\CalculationsView.de.resx">
+    <EmbeddedResource Include="Views\CalculationsView.de.resx">
       <DependentUpon>CalculationsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\CalculationsView.pl.resx">
+    <EmbeddedResource Include="Views\CalculationsView.pl.resx">
       <DependentUpon>CalculationsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\CalculationsView.resx">
+    <EmbeddedResource Include="Views\CalculationsView.resx">
       <DependentUpon>CalculationsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ChartAreaValuesView.cs.resx">
+    <EmbeddedResource Include="Views\ChartAreaValuesView.cs.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ChartAreaValuesView.de.resx">
+    <EmbeddedResource Include="Views\ChartAreaValuesView.de.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ChartAreaValuesView.pl.resx">
+    <EmbeddedResource Include="Views\ChartAreaValuesView.pl.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ChartAreaValuesView.resx">
+    <EmbeddedResource Include="Views\ChartAreaValuesView.resx">
       <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\Views\DocumentsTabControl.resx">
+    <EmbeddedResource Include="Controls\DocumentsTabControl.resx">
       <DependentUpon>DocumentsTabControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\AboutBox1.resx">
+    <EmbeddedResource Include="Dialogs\AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ChartingView.resx">
+    <EmbeddedResource Include="Views\ChartingView.resx">
       <DependentUpon>ChartingView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ExpressionView.cs.resx">
+    <EmbeddedResource Include="Views\ExpressionView.cs.resx">
       <DependentUpon>ExpressionView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ExpressionView.de.resx">
+    <EmbeddedResource Include="Views\ExpressionView.de.resx">
       <DependentUpon>ExpressionView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ExpressionView.pl.resx">
+    <EmbeddedResource Include="Views\ExpressionView.pl.resx">
       <DependentUpon>ExpressionView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ExpressionView.resx">
+    <EmbeddedResource Include="Views\ExpressionView.resx">
       <DependentUpon>ExpressionView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\MainView.cs.resx">
+    <EmbeddedResource Include="Views\MainView.cs.resx">
       <DependentUpon>MainView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\MainView.de.resx">
+    <EmbeddedResource Include="Views\MainView.de.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\MainView.pl.resx">
+    <EmbeddedResource Include="Views\MainView.pl.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\MainView.resx">
+    <EmbeddedResource Include="Views\MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\CustomFunctionsView.resx">
+    <EmbeddedResource Include="Views\CustomFunctionsView.resx">
       <DependentUpon>CustomFunctionsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\MenuStripView.resx">
+    <EmbeddedResource Include="Views\MenuStripView.resx">
       <DependentUpon>MenuStripView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\NumericalCalculationsView.cs.resx">
+    <EmbeddedResource Include="Views\NumericalCalculationsView.cs.resx">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\NumericalCalculationsView.de.resx">
+    <EmbeddedResource Include="Views\NumericalCalculationsView.de.resx">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\NumericalCalculationsView.pl.resx">
+    <EmbeddedResource Include="Views\NumericalCalculationsView.pl.resx">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\NumericalCalculationsView.resx">
+    <EmbeddedResource Include="Views\NumericalCalculationsView.resx">
       <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ScriptingView.cs.resx">
+    <EmbeddedResource Include="Views\ScriptingView.cs.resx">
       <DependentUpon>ScriptingView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ScriptingView.de.resx">
+    <EmbeddedResource Include="Views\ScriptingView.de.resx">
       <DependentUpon>ScriptingView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ScriptingView.pl.resx">
+    <EmbeddedResource Include="Views\ScriptingView.pl.resx">
       <DependentUpon>ScriptingView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ScriptingView.resx">
+    <EmbeddedResource Include="Views\ScriptingView.resx">
       <DependentUpon>ScriptingView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\SolutionExplorerView.cs.resx">
+    <EmbeddedResource Include="Views\SolutionExplorerView.cs.resx">
       <DependentUpon>SolutionExplorerView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\SolutionExplorerView.de.resx">
+    <EmbeddedResource Include="Views\SolutionExplorerView.de.resx">
       <DependentUpon>SolutionExplorerView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\SolutionExplorerView.pl.resx">
+    <EmbeddedResource Include="Views\SolutionExplorerView.pl.resx">
       <DependentUpon>SolutionExplorerView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\SolutionExplorerView.resx">
+    <EmbeddedResource Include="Views\SolutionExplorerView.resx">
       <DependentUpon>SolutionExplorerView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\ToolBarView.resx">
+    <EmbeddedResource Include="Views\ToolBarView.resx">
       <DependentUpon>ToolBarView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">

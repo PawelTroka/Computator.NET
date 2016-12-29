@@ -16,6 +16,7 @@ using Moq;
 using NUnit.Framework;
 using Computator.NET.Charting;
 using Computator.NET.Core.Evaluation;
+using Computator.NET.UI.Controls;
 
 namespace Computator.NET.IntegrationTests
 {

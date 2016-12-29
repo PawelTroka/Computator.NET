@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Computator.NET.Config;
 
 namespace Computator.NET.UI.Dialogs
 {
     public class WinFormsDialogFactory : IDialogFactory
     {
-        private readonly Dictionary<string, Type> _dialogsTypes=new Dictionary<string, Type>()
+        private readonly Dictionary<string, Type> _dialogsTypes=new Dictionary<string, Type>
         {
             {"about",  typeof(AboutBox1)},
             {"bugs",  typeof(BugReportingForm)},
             {"changelog",  typeof(ChangelogForm)},
             {"loading",  typeof(LoadingScreen)},
             {"read",  typeof(ReadForm)},
+            {"settings",  typeof(SettingsForm)},
         };
 
         public bool ShowDialog(string name)

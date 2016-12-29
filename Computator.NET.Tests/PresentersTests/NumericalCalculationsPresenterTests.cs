@@ -1,6 +1,7 @@
 ﻿using System;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Evaluation;
+using Computator.NET.UI.Controls;
 using Computator.NET.UI.Controls.CodeEditors;
 using Computator.NET.UI.ErrorHandling;
 using Computator.NET.UI.Interfaces;
