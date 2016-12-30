@@ -10,6 +10,8 @@
     <AssemblyName>Computator.NET.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -85,9 +87,6 @@
     <Compile Include="NumericalCalculationsPresenterTests.TestCasesGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj">
       <Project>{b74cd9d5-d77e-418d-b50a-7ee5f040f819}</Project>
       <Name>Computator.NET.Core</Name>
@@ -96,6 +95,9 @@
       <Project>{715165A2-D015-42AE-9381-5563204F8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
