@@ -1,11 +1,20 @@
 ﻿##TSL
 * functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
 * Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3)) //it would make possible to have string representation of user function in scripting -> plot() functions could produce better looking charts with labels corresponding to functions by string representation
-* we should add something like cos(x) or cos(x)² instead of having to write (cos(x))²
+* we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
 * make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
 * maybe handle cases like 2²x for multiplying
-* Handle abs - |x+2|=|cos(y)| should give us abs(x+2)=abs(cos(y)), then add it to superscript
 * include in tutorials and test experimental features
+
+
+#Code quality
+* modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
+* Use mark_heath tips
+* migrate all controls, even the advanced ones to use MVP
+* Command pattern for buttons, including EditChartMenus / or something better
+* use mode.error more often - use it for empty text and errors etc
+* MVP is still done poorly, IViews shouldn't have nested IViews
+* MVP is nice but maybe we should switch to MVVM using ReactiveUI http://www.codeproject.com/Articles/801986/Using-ReactiveUI-for-WinForms-MVVM-Design
 
 
 ##UI
@@ -16,27 +25,17 @@
 * shift+r_mouse_click on item_key activates new window
 * Special function search list arrangement ( or arrangement by user).
 * Cancel doesn't work to second option in benchmark if first option was already canceled and second started later
-* Command pattern for buttons, including EditChartMenus / or something better
 * Windows Ribbon control?
 * Metro Modern UI - Metro Framework (https://www.nuget.org/packages/MetroModernUI/ https://github.com/dennismagno/metroframework-modern-ui) or Material Design? ( or https://github.com/IgnaceMaes/MaterialSkin)
-* use mode.error more often - use it for empty text and errors etc
 * use some good controls like Navigator from Krypton Toolkit  https://github.com/ComponentFactory/Krypton (Navigator can be used for TabControl, CheckedListBox for choosing what Functions to load (eg SpecialFunctions etc), DOcking for Console output / solution explorer etc, Workspace for CodeEditors, KryptonColorButton for ChartEdit picking colors)
-* MVP is nice but maybe we should switch to MVVM using ReactiveUI http://www.codeproject.com/Articles/801986/Using-ReactiveUI-for-WinForms-MVVM-Design
 * useful controls: https://github.com/AdamsLair/winforms https://www.nuget.org/packages/OpenTK.GLControl https://github.com/nathanchere/FerretLib.WinForms http://ascendnet.codeplex.com https://github.com/AdamsLair/winforms
-* MVP is still done poorly, IViews shouldn't have nested IViews
-* Use mark_heath tips
-* migrate all controls, even the advanced ones to use MVP
 
 
-##Functions and constants
-* recreate function logGamma with fixed all errors
-* Associated Legendre functions Plm, Qlm for real l and m (not only for integers l,m)
+##Math
 * make it possible to create distribution like normal from array of elements and from mean stdev and make functions from elements like CDF(elements,x)
 * Matrix division
 * rest of special functions
 * matrix more operations
-* Weiestrass functions
-* theta functions
 * numerical calculations for f(z) and f(x,y) functions too
 * add functions from gsl_diff.h, gsl_deriv.h, rk methods etc
 * add stefanson method for function root roots/steffenson.c and qk61 method from integration
@@ -47,7 +46,6 @@
 
 
 ##General design
-* modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
 * in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
 * Unify exceptions and logging model in whole application, refactor it
 * refactor settings.save() usage and make it optimal
@@ -102,6 +100,5 @@ enable data saving
 
 
 ##Tests
-* fix evaluation and native compiler unit tests
 * add unit tests for testing culture invariant output
 * add tests for presenters from MVP
