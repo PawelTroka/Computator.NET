@@ -492,7 +492,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Computator.NET.pfx" />
-    <None Include="packages.config" />
+    <None Include="packages.Computator.NET.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
