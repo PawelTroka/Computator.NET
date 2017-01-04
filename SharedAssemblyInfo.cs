@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyCompany("TROKA Software")]
 [assembly: AssemblyProduct("Computator.NET")]
-[assembly: AssemblyCopyright("Copyright ©  2016 Pawel Troka")]
+[assembly: AssemblyCopyright("Copyright ©  2017 Pawel Troka")]
 [assembly: AssemblyTrademark("TROKA Software")]
 [assembly: AssemblyCulture("")]
 

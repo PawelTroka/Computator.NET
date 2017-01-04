@@ -1,4 +1,4 @@
-﻿// Computator.NET Copyright © 2016 - 2016 Pawel Troka
+﻿// Computator.NET Copyright © 2016 - 2017 Pawel Troka
 
 using System;
 using System.Numerics;

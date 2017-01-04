@@ -1,4 +1,4 @@
- * Computator.NET, 2014-2016, Pawel Troka, pawel.troka@outlook.com
+ * Computator.NET, 2014-2017, Pawel Troka, pawel.troka@outlook.com
 
  ### --------- Unreleased -----------  10.10.2016 23:00
  * = GSL is now statically linked so Visual C++ Redistributable is not longer needed
