@@ -133,13 +133,13 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 308</value>
+    <value>0, 331</value>
   </data>
   <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 9, 2, 9</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 17</value>
+    <value>108, 20</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -166,13 +166,13 @@
     <value>NoControl</value>
   </data>
   <data name="trackBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 325</value>
+    <value>0, 351</value>
   </data>
   <data name="trackBar1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 5, 2, 2</value>
   </data>
   <data name="trackBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 45</value>
+    <value>144, 56</value>
   </data>
   <data name="trackBar1.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -192,293 +192,53 @@
   <data name="groupBox2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="yNNumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="yNNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 9.75pt</value>
-  </data>
-  <data name="yNNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 142</value>
-  </data>
-  <data name="yNNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="yNNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 23</value>
-  </data>
-  <data name="yNNumericUpDown.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="yNNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="&gt;&gt;yNNumericUpDown.Name" xml:space="preserve">
-    <value>yNNumericUpDown</value>
-  </data>
-  <data name="&gt;&gt;yNNumericUpDown.Type" xml:space="preserve">
-    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;yNNumericUpDown.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;yNNumericUpDown.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="y0NumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="y0NumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 9.75pt</value>
-  </data>
-  <data name="y0NumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 111</value>
-  </data>
-  <data name="y0NumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="y0NumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 23</value>
-  </data>
-  <data name="y0NumericUpDown.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="y0NumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="&gt;&gt;y0NumericUpDown.Name" xml:space="preserve">
-    <value>y0NumericUpDown</value>
-  </data>
-  <data name="&gt;&gt;y0NumericUpDown.Type" xml:space="preserve">
-    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;y0NumericUpDown.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;y0NumericUpDown.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="yNlabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="yNlabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="yNlabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 10.2pt</value>
-  </data>
-  <data name="yNlabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="yNlabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 143</value>
-  </data>
-  <data name="yNlabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="yNlabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 16</value>
-  </data>
-  <data name="yNlabel.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="yNlabel.Text" xml:space="preserve">
-    <value>yN =</value>
-  </data>
   <data name="&gt;&gt;yNlabel.Name" xml:space="preserve">
     <value>yNlabel</value>
   </data>
   <data name="&gt;&gt;yNlabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;yNlabel.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;yNlabel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="y0label.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="y0label.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="y0label.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 10.2pt</value>
-  </data>
-  <data name="y0label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="y0label.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 112</value>
-  </data>
-  <data name="y0label.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="y0label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 16</value>
-  </data>
-  <data name="y0label.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="y0label.Text" xml:space="preserve">
-    <value>y0 =</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;y0label.Name" xml:space="preserve">
     <value>y0label</value>
   </data>
   <data name="&gt;&gt;y0label.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;y0label.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;y0label.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="xnNumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="xnNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 9.75pt</value>
-  </data>
-  <data name="xnNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 73</value>
-  </data>
-  <data name="xnNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="xnNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 23</value>
-  </data>
-  <data name="xnNumericUpDown.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="xnNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="&gt;&gt;xnNumericUpDown.Name" xml:space="preserve">
-    <value>xnNumericUpDown</value>
-  </data>
-  <data name="&gt;&gt;xnNumericUpDown.Type" xml:space="preserve">
-    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;xnNumericUpDown.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;xnNumericUpDown.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="x0NumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="x0NumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 9.75pt</value>
-  </data>
-  <data name="x0NumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 42</value>
-  </data>
-  <data name="x0NumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="x0NumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 23</value>
-  </data>
-  <data name="x0NumericUpDown.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="x0NumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="&gt;&gt;x0NumericUpDown.Name" xml:space="preserve">
-    <value>x0NumericUpDown</value>
-  </data>
-  <data name="&gt;&gt;x0NumericUpDown.Type" xml:space="preserve">
-    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;x0NumericUpDown.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;x0NumericUpDown.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 10.2pt</value>
-  </data>
-  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 74</value>
-  </data>
-  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 16</value>
-  </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>xN =</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Cambria, 10.2pt</value>
-  </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 43</value>
-  </data>
-  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 0, 2, 0</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 16</value>
-  </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>x0 =</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>3</value>
   </data>
   <data name="groupBox2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -496,7 +256,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 186</value>
+    <value>144, 209</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -594,6 +354,342 @@
   <data name="&gt;&gt;addToChartButton.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="yNlabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="yNlabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;yNNumericUpDown.Name" xml:space="preserve">
+    <value>yNNumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;yNNumericUpDown.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;yNNumericUpDown.Parent" xml:space="preserve">
+    <value>yNlabel</value>
+  </data>
+  <data name="&gt;&gt;yNNumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="yNlabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 10.2pt</value>
+  </data>
+  <data name="yNlabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="yNlabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 155</value>
+  </data>
+  <data name="yNlabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="yNlabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 31</value>
+  </data>
+  <data name="yNlabel.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="yNlabel.Text" xml:space="preserve">
+    <value>yN =</value>
+  </data>
+  <data name="&gt;&gt;yNlabel.Name" xml:space="preserve">
+    <value>yNlabel</value>
+  </data>
+  <data name="&gt;&gt;yNlabel.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;yNlabel.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;yNlabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="yNNumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="yNNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 9.75pt</value>
+  </data>
+  <data name="yNNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>51, 2</value>
+  </data>
+  <data name="yNNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="yNNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 27</value>
+  </data>
+  <data name="yNNumericUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="yNNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;yNNumericUpDown.Name" xml:space="preserve">
+    <value>yNNumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;yNNumericUpDown.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;yNNumericUpDown.Parent" xml:space="preserve">
+    <value>yNlabel</value>
+  </data>
+  <data name="&gt;&gt;yNNumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="y0label.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="y0label.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;y0NumericUpDown.Name" xml:space="preserve">
+    <value>y0NumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;y0NumericUpDown.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;y0NumericUpDown.Parent" xml:space="preserve">
+    <value>y0label</value>
+  </data>
+  <data name="&gt;&gt;y0NumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="y0label.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 10.2pt</value>
+  </data>
+  <data name="y0label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="y0label.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 124</value>
+  </data>
+  <data name="y0label.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="y0label.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 31</value>
+  </data>
+  <data name="y0label.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="y0label.Text" xml:space="preserve">
+    <value>y0 =</value>
+  </data>
+  <data name="&gt;&gt;y0label.Name" xml:space="preserve">
+    <value>y0label</value>
+  </data>
+  <data name="&gt;&gt;y0label.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;y0label.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;y0label.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="y0NumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="y0NumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 9.75pt</value>
+  </data>
+  <data name="y0NumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>48, 2</value>
+  </data>
+  <data name="y0NumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="y0NumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 27</value>
+  </data>
+  <data name="y0NumericUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="y0NumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;y0NumericUpDown.Name" xml:space="preserve">
+    <value>y0NumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;y0NumericUpDown.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;y0NumericUpDown.Parent" xml:space="preserve">
+    <value>y0label</value>
+  </data>
+  <data name="&gt;&gt;y0NumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;xnNumericUpDown.Name" xml:space="preserve">
+    <value>xnNumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;xnNumericUpDown.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;xnNumericUpDown.Parent" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;xnNumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 10.2pt</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 86</value>
+  </data>
+  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 31</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>xN =</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="xnNumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="xnNumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 9.75pt</value>
+  </data>
+  <data name="xnNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 2</value>
+  </data>
+  <data name="xnNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="xnNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 27</value>
+  </data>
+  <data name="xnNumericUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="xnNumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;xnNumericUpDown.Name" xml:space="preserve">
+    <value>xnNumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;xnNumericUpDown.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;xnNumericUpDown.Parent" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;xnNumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;x0NumericUpDown.Name" xml:space="preserve">
+    <value>x0NumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;x0NumericUpDown.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;x0NumericUpDown.Parent" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;x0NumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 10.2pt</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 55</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 31</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>x0 =</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="x0NumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="x0NumericUpDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Cambria, 9.75pt</value>
+  </data>
+  <data name="x0NumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>47, 2</value>
+  </data>
+  <data name="x0NumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="x0NumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 27</value>
+  </data>
+  <data name="x0NumericUpDown.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="x0NumericUpDown.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;x0NumericUpDown.Name" xml:space="preserve">
+    <value>x0NumericUpDown</value>
+  </data>
+  <data name="&gt;&gt;x0NumericUpDown.Type" xml:space="preserve">
+    <value>Computator.NET.Controls.ScientificNumericUpDown, Computator.NET, Version=2.1.0.13, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;x0NumericUpDown.Parent" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;x0NumericUpDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -601,7 +697,7 @@
     <value>Microsoft Sans Serif, 7.20000029pt</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 379</value>
+    <value>144, 406</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ChartAreaValuesView</value>

@@ -34,21 +34,25 @@ namespace Computator.NET.Views
             this.label2 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.yNNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
-            this.y0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
-            this.yNlabel = new System.Windows.Forms.Label();
-            this.y0label = new System.Windows.Forms.Label();
-            this.xnNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
-            this.x0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
+            this.yNlabel = new Computator.NET.Controls.Field();
+            this.yNNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.y0label = new Computator.NET.Controls.Field();
+            this.y0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.label4 = new Computator.NET.Controls.Field();
+            this.xnNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.label3 = new Computator.NET.Controls.Field();
+            this.x0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.yNlabel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).BeginInit();
+            this.y0label.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.y0NumericUpDown)).BeginInit();
+            this.label4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xnNumericUpDown)).BeginInit();
+            this.label3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.x0NumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,16 +76,30 @@ namespace Computator.NET.Views
             // groupBox2
             // 
             resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Controls.Add(this.yNNumericUpDown);
-            this.groupBox2.Controls.Add(this.y0NumericUpDown);
             this.groupBox2.Controls.Add(this.yNlabel);
             this.groupBox2.Controls.Add(this.y0label);
-            this.groupBox2.Controls.Add(this.xnNumericUpDown);
-            this.groupBox2.Controls.Add(this.x0NumericUpDown);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // clearChartButton
+            // 
+            resources.ApplyResources(this.clearChartButton, "clearChartButton");
+            this.clearChartButton.Name = "clearChartButton";
+            this.clearChartButton.UseVisualStyleBackColor = true;
+            // 
+            // addToChartButton
+            // 
+            resources.ApplyResources(this.addToChartButton, "addToChartButton");
+            this.addToChartButton.Name = "addToChartButton";
+            this.addToChartButton.UseVisualStyleBackColor = true;
+            // 
+            // yNlabel
+            // 
+            resources.ApplyResources(this.yNlabel, "yNlabel");
+            this.yNlabel.Controls.Add(this.yNNumericUpDown);
+            this.yNlabel.Name = "yNlabel";
             // 
             // yNNumericUpDown
             // 
@@ -113,6 +131,12 @@ namespace Computator.NET.Views
             0,
             0});
             // 
+            // y0label
+            // 
+            resources.ApplyResources(this.y0label, "y0label");
+            this.y0label.Controls.Add(this.y0NumericUpDown);
+            this.y0label.Name = "y0label";
+            // 
             // y0NumericUpDown
             // 
             resources.ApplyResources(this.y0NumericUpDown, "y0NumericUpDown");
@@ -143,15 +167,11 @@ namespace Computator.NET.Views
             0,
             -2147483648});
             // 
-            // yNlabel
+            // label4
             // 
-            resources.ApplyResources(this.yNlabel, "yNlabel");
-            this.yNlabel.Name = "yNlabel";
-            // 
-            // y0label
-            // 
-            resources.ApplyResources(this.y0label, "y0label");
-            this.y0label.Name = "y0label";
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Controls.Add(this.xnNumericUpDown);
+            this.label4.Name = "label4";
             // 
             // xnNumericUpDown
             // 
@@ -183,6 +203,12 @@ namespace Computator.NET.Views
             0,
             0});
             // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Controls.Add(this.x0NumericUpDown);
+            this.label3.Name = "label3";
+            // 
             // x0NumericUpDown
             // 
             resources.ApplyResources(this.x0NumericUpDown, "x0NumericUpDown");
@@ -213,28 +239,6 @@ namespace Computator.NET.Views
             0,
             -2147483648});
             // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // clearChartButton
-            // 
-            resources.ApplyResources(this.clearChartButton, "clearChartButton");
-            this.clearChartButton.Name = "clearChartButton";
-            this.clearChartButton.UseVisualStyleBackColor = true;
-            // 
-            // addToChartButton
-            // 
-            resources.ApplyResources(this.addToChartButton, "addToChartButton");
-            this.addToChartButton.Name = "addToChartButton";
-            this.addToChartButton.UseVisualStyleBackColor = true;
-            // 
             // ChartAreaValuesView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -248,9 +252,17 @@ namespace Computator.NET.Views
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.yNlabel.ResumeLayout(false);
+            this.yNlabel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).EndInit();
+            this.y0label.ResumeLayout(false);
+            this.y0label.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.y0NumericUpDown)).EndInit();
+            this.label4.ResumeLayout(false);
+            this.label4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xnNumericUpDown)).EndInit();
+            this.label3.ResumeLayout(false);
+            this.label3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.x0NumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -263,12 +275,12 @@ namespace Computator.NET.Views
         private System.Windows.Forms.GroupBox groupBox2;
         private ScientificNumericUpDown yNNumericUpDown;
         private ScientificNumericUpDown y0NumericUpDown;
-        private System.Windows.Forms.Label yNlabel;
-        private System.Windows.Forms.Label y0label;
+        private Field yNlabel;
+        private Field y0label;
         private ScientificNumericUpDown xnNumericUpDown;
         private ScientificNumericUpDown x0NumericUpDown;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private Field label4;
+        private Field label3;
         private System.Windows.Forms.Button clearChartButton;
         private System.Windows.Forms.Button addToChartButton;
     }
