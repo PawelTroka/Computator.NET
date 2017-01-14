@@ -133,13 +133,13 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 340</value>
+    <value>0, 308</value>
   </data>
   <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 9, 2, 9</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 20</value>
+    <value>91, 17</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -166,13 +166,13 @@
     <value>NoControl</value>
   </data>
   <data name="trackBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 360</value>
+    <value>0, 325</value>
   </data>
   <data name="trackBar1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 5, 2, 2</value>
   </data>
   <data name="trackBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 56</value>
+    <value>144, 45</value>
   </data>
   <data name="trackBar1.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -199,13 +199,13 @@
     <value>Cambria, 9.75pt</value>
   </data>
   <data name="yNNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 166</value>
+    <value>43, 142</value>
   </data>
   <data name="yNNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="yNNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 27</value>
+    <value>97, 23</value>
   </data>
   <data name="yNNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -232,13 +232,13 @@
     <value>Cambria, 9.75pt</value>
   </data>
   <data name="y0NumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 135</value>
+    <value>43, 111</value>
   </data>
   <data name="y0NumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="y0NumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 27</value>
+    <value>97, 23</value>
   </data>
   <data name="y0NumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -271,13 +271,13 @@
     <value>NoControl</value>
   </data>
   <data name="yNlabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 167</value>
+    <value>4, 143</value>
   </data>
   <data name="yNlabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="yNlabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 20</value>
+    <value>36, 16</value>
   </data>
   <data name="yNlabel.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -310,13 +310,13 @@
     <value>NoControl</value>
   </data>
   <data name="y0label.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 137</value>
+    <value>8, 112</value>
   </data>
   <data name="y0label.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="y0label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
+    <value>34, 16</value>
   </data>
   <data name="y0label.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -343,13 +343,13 @@
     <value>Cambria, 9.75pt</value>
   </data>
   <data name="xnNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>45, 97</value>
+    <value>43, 73</value>
   </data>
   <data name="xnNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="xnNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 27</value>
+    <value>99, 23</value>
   </data>
   <data name="xnNumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -376,13 +376,13 @@
     <value>Cambria, 9.75pt</value>
   </data>
   <data name="x0NumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>45, 66</value>
+    <value>43, 42</value>
   </data>
   <data name="x0NumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="x0NumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 27</value>
+    <value>99, 23</value>
   </data>
   <data name="x0NumericUpDown.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -415,13 +415,13 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 98</value>
+    <value>6, 74</value>
   </data>
   <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 20</value>
+    <value>36, 16</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -454,13 +454,13 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 68</value>
+    <value>5, 43</value>
   </data>
   <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 20</value>
+    <value>34, 16</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -496,7 +496,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 218</value>
+    <value>144, 186</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -601,7 +601,7 @@
     <value>Microsoft Sans Serif, 7.20000029pt</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 409</value>
+    <value>144, 379</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ChartAreaValuesView</value>

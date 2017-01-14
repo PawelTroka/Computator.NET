@@ -44,6 +44,7 @@
             this.Controls.Add(this.panel2);
             this.Name = "ChartingView";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
