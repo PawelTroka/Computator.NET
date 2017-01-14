@@ -181,6 +181,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Net" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -207,6 +208,9 @@
     </Compile>
     <Compile Include="Bootstrapping\WinFormsBootstrapper.cs" />
     <Compile Include="Config\MyMessageFilter.cs" />
+    <Compile Include="Controls\Field.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Dialogs\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>

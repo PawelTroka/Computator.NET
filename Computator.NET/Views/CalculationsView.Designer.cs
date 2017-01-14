@@ -1,4 +1,6 @@
-﻿namespace Computator.NET.Views
+﻿using Computator.NET.Controls;
+
+namespace Computator.NET.Views
 {
     partial class CalculationsView
     {
@@ -34,9 +36,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.calculationsImZnumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.calculationsRealLabel = new System.Windows.Forms.Label();
+            this.calculationsRealLabel = new Computator.NET.Controls.Field();
             this.valueForCalculationNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.calculationsComplexLabel = new System.Windows.Forms.Label();
+            this.calculationsComplexLabel = new Computator.NET.Controls.Field();
             this.label5 = new System.Windows.Forms.Label();
             this.calculationValueTextBox = new System.Windows.Forms.TextBox();
             this.calculateButton = new System.Windows.Forms.Button();
@@ -48,7 +50,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.calculationsImZnumericUpDown)).BeginInit();
+            this.calculationsRealLabel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valueForCalculationNumericUpDown)).BeginInit();
+            this.calculationsComplexLabel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.calculationsHistoryDataGridView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -56,9 +60,7 @@
             // groupBox3
             // 
             resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Controls.Add(this.calculationsImZnumericUpDown);
             this.groupBox3.Controls.Add(this.calculationsRealLabel);
-            this.groupBox3.Controls.Add(this.valueForCalculationNumericUpDown);
             this.groupBox3.Controls.Add(this.calculationsComplexLabel);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
@@ -82,6 +84,7 @@
             // calculationsRealLabel
             // 
             resources.ApplyResources(this.calculationsRealLabel, "calculationsRealLabel");
+            this.calculationsRealLabel.Controls.Add(this.valueForCalculationNumericUpDown);
             this.calculationsRealLabel.Name = "calculationsRealLabel";
             // 
             // valueForCalculationNumericUpDown
@@ -103,6 +106,7 @@
             // calculationsComplexLabel
             // 
             resources.ApplyResources(this.calculationsComplexLabel, "calculationsComplexLabel");
+            this.calculationsComplexLabel.Controls.Add(this.calculationsImZnumericUpDown);
             this.calculationsComplexLabel.Name = "calculationsComplexLabel";
             // 
             // label5
@@ -192,7 +196,11 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.calculationsImZnumericUpDown)).EndInit();
+            this.calculationsRealLabel.ResumeLayout(false);
+            this.calculationsRealLabel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valueForCalculationNumericUpDown)).EndInit();
+            this.calculationsComplexLabel.ResumeLayout(false);
+            this.calculationsComplexLabel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.calculationsHistoryDataGridView)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -203,9 +211,9 @@
         #endregion
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.NumericUpDown calculationsImZnumericUpDown;
-        private System.Windows.Forms.Label calculationsRealLabel;
+        private Field calculationsRealLabel;
         private System.Windows.Forms.NumericUpDown valueForCalculationNumericUpDown;
-        private System.Windows.Forms.Label calculationsComplexLabel;
+        private Field calculationsComplexLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox calculationValueTextBox;
         private System.Windows.Forms.Button calculateButton;
