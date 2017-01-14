@@ -129,14 +129,8 @@
   <data name="operation.HeaderText" xml:space="preserve">
     <value>Operace</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>řada n =</value>
-  </data>
   <data name="parameters.HeaderText" xml:space="preserve">
     <value>Parametry</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>bod x =</value>
   </data>
   <data name="result.HeaderText" xml:space="preserve">
     <value>Výsledek</value>
