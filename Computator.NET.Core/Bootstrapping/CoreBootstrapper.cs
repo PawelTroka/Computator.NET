@@ -19,7 +19,9 @@ namespace Computator.NET.Core.Bootstrapping
         public CoreBootstrapper(IUnityContainer container)
         {
             Container = container;
-
+#if NET40
+            Container.AddNewExtension<Unity.Extensions.LazySupportExtension>();
+#endif
             RegisterSharedObjects();
             RegisterHandlers();
             RegisterModel();

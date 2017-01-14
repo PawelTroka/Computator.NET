@@ -109,6 +109,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unity.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=148384d575fbf776, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Extensions.Lazy.1.1.1\lib\Unity.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -281,7 +285,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <None Include="packages.Computator.NET.Core.NET40.config" />
+    <None Include="packages.Computator.NET.Core.NET40.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Special\x64\gsl.dll" />
     <None Include="Special\x86\gsl.dll" />
     <Content Include="TSL Examples\**\*.tsl">

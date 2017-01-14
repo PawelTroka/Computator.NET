@@ -227,6 +227,9 @@
     </Compile>
     <Compile Include="Bootstrapping\WinFormsBootstrapper.cs" />
     <Compile Include="Config\MyMessageFilter.cs" />
+    <Compile Include="Controls\Field.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Dialogs\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,11 +242,9 @@
     <Compile Include="Controls\AutocompleteMenu\WebBrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\AutocompleteMenu\Wrappers\AvalonWrapper.cs" />
     <Compile Include="Controls\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
     <Compile Include="Controls\CodeEditors\AvalonEdit\BitmapExtension.cs" />
     <Compile Include="Controls\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
-    <Compile Include="Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditorControl.cs" />
     <Compile Include="Controls\CodeEditors\AvalonEdit\OffsetColorizer.cs" />
     <Compile Include="Controls\CodeEditors\CodeEditorControlWrapper.cs">
       <SubType>UserControl</SubType>
@@ -253,9 +254,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Dialogs\WinFormsDialogFactory.cs" />
-    <Compile Include="Controls\BindableToolStripMenuItem .cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Dialogs\BugReportingForm.cs">
       <SubType>Form</SubType>
     </Compile>
