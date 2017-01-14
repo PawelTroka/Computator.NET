@@ -40,10 +40,10 @@ namespace Computator.NET.Views
             this.label3 = new System.Windows.Forms.Label();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
-            this.yNNumericUpDown = new ScientificNumericUpDown();
-            this.y0NumericUpDown = new ScientificNumericUpDown();
-            this.xnNumericUpDown = new ScientificNumericUpDown();
-            this.x0NumericUpDown = new ScientificNumericUpDown();
+            this.yNNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.y0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.xnNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.x0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yNNumericUpDown)).BeginInit();
