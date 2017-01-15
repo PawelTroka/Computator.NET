@@ -265,7 +265,7 @@
 		<row><td>NewBinary18</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\InstallStateMenu.ico</td></row>
 		<row><td>NewBinary19</td><td/><td>&lt;ISProductFolder&gt;\redist\Language independent\i386\SerialNumCAHelper.dll</td></row>
 		<row><td>NewBinary2</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\New.ibd</td></row>
-		<row><td>NewBinary20</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Graphics\computator.gif</td></row>
+		<row><td>NewBinary20</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Graphics\Installer\computator.gif</td></row>
 		<row><td>NewBinary21</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Graphics\Installer\InstallShield Computator.NET Theme\welcome.jpg</td></row>
 		<row><td>NewBinary22</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Graphics\Installer\InstallShield Computator.NET Theme\banner.jpg</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
@@ -4021,14 +4021,14 @@
 		<col def="V0">Data</col>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
-		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Graphics\computator.net-logo.ico</td><td>0</td></row>
+		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Graphics\computator.net-icon.ico</td><td>0</td></row>
 		<row><td>NewShortcut1_A525FDCF0AAE4B4580240CAFF85F22D1.exe</td><td/><td>C:\Program Files (x86)\InstallShield\2015LE\Redist\Language Independent\OS Independent\uninstall.ico</td><td>0</td></row>
 		<row><td>_572423EC_23D9_433A_8683_A9607C0FFF6A</td><td/><td>&lt;VSSolutionFolder&gt;\Graphics\tsl.ico</td><td>0</td></row>
 		<row><td>_60A0F3472BCF47B0A24735CBA3DA768F.exe</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\bin\Release\Computator.NET.exe</td><td>0</td></row>
 		<row><td>_61242130417C41C6894BE2A2F16D6161.exe</td><td/><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET\bin\Release\Computator.NET.exe</td><td>0</td></row>
 		<row><td>_8C2A6A4B_7ED0_4770_A282_DBE2BD474D86</td><td/><td>&lt;VSSolutionFolder&gt;\Graphics\tsl.ico</td><td>0</td></row>
-		<row><td>_Built1_5D84239BDCB84C40A3DC7AEB381989D8.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Graphics\computator.net-logo.ico</td><td>0</td></row>
-		<row><td>_Built_48823D3A4CE1401585D159BF775DB85E.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Graphics\computator.net-logo.ico</td><td>0</td></row>
+		<row><td>_Built1_5D84239BDCB84C40A3DC7AEB381989D8.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Graphics\computator.net-icon.ico</td><td>0</td></row>
+		<row><td>_Built_48823D3A4CE1401585D159BF775DB85E.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Graphics\computator.net-icon.ico</td><td>0</td></row>
 	</table>
 
 	<table name="IniFile">
@@ -4551,7 +4551,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Computator.NET.Primary output</td><td/></row>
-		<row><td>ProductCode</td><td>{FA089B43-0451-420A-968B-DCC3C55644C7}</td><td/></row>
+		<row><td>ProductCode</td><td>{58D3C442-F58D-4841-9965-D71C74512CB0}</td><td/></row>
 		<row><td>ProductName</td><td>Computator.NET</td><td/></row>
 		<row><td>ProductVersion</td><td>2.2.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>

@@ -1,7 +1,8 @@
  * Computator.NET, 2014-2017, Pawel Troka, pawel.troka@outlook.com
 
- ### --------- Unreleased -----------  10.10.2016 23:00
- * = GSL is now statically linked so Visual C++ Redistributable is not longer needed
+ ### --------- Version 2.2.0ß - beta -----------  16.01.2017 00:52
+ * = All icons and logos should now be lighter as they do not use transparency anymore
+ * = GSL is now statically linked so Visual C++ Redistributable is no longer needed
  * = Updated GSL to version 2.3
    * improved precision in Bessel K0/K1 near x = 2 (#47401)
    * bug fix in convergence check of hypergeometric 2F1 function (#45926)

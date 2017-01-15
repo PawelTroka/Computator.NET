@@ -1,11 +1,4 @@
-﻿3. setup.gif for default installation theme doesnt seem to show in installation
-6. When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
+﻿6. When switching to and from exponent mode in expressiontextbox and scripting a character sometimes turn to â
 7. Caret sometimes not showing when switching to exponent mode
-9. Functions 2F1 and 1F1 still has errors
-17. Lack of implicit conversion from MathNet.Numerics.LinearAlgebra.Double.DenseMatrix to MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix coupled with dynamic sqrt(x) causes a lot of bugs https://github.com/mathnet/mathnet-numerics/issues/304
-	eg this is bug:
-	var m0s = sqrt(-1)·matrix({{1,0}});//Operator '*' cannot be applied to operands of type 'System.Numerics.Complex' and 'MathNet.Numerics.LinearAlgebra.Double.DenseMatrix'
-18. TSL 'FIle' class parameterless contructor creates OpenFileDialog, we need Open/Save File Dialog
-20. starting image does not appear in installation on win xp and win vista
-21. decimal dot in superscript missing in windows xp
+18. TSL 'File' class parameterless contructor creates OpenFileDialog, we need Open/Save File Dialog
 22. stack overflow exception in ScientificNumericUpDown in languages with other decimal dot than . (polish, deutsch has , )

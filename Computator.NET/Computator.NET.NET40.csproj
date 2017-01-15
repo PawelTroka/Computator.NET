@@ -38,7 +38,7 @@
       <SkipValidatePackageReferences>true</SkipValidatePackageReferences>
     </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>..\Graphics\computator.net-logo.ico</ApplicationIcon>
+    <ApplicationIcon>..\Graphics\computator.net-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
