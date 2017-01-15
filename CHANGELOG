@@ -2,6 +2,9 @@
 
  ### --------- Unreleased -----------  10.10.2016 23:00
  * = GSL is now statically linked so Visual C++ Redistributable is not longer needed
+ * = Updated GSL to version 2.3
+   * improved precision in Bessel K0/K1 near x = 2 (#47401)
+   * bug fix in convergence check of hypergeometric 2F1 function (#45926)
  * = Build process is optimized - Release is faster and Debug is safer
  * = Some assembly informations are now shared for all projects
  * = Version is now unified Major.Minor.Bugfix.BuildNumber across all projects and with automatic BuildNumber increment after each build
