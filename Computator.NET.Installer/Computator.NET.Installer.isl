@@ -225,7 +225,6 @@
 	<table name="AppSearch">
 		<col key="yes" def="s72">Property</col>
 		<col key="yes" def="s72">Signature_</col>
-		<row><td>DOTNETVERSION40FULL</td><td>DotNet40Full</td></row>
 	</table>
 
 	<table name="BBControl">
@@ -353,7 +352,6 @@
 		<row><td>Computator.NET.DataTypes.Primary_output</td><td>{AB600449-E8A5-45C3-9D00-4EEC98D76664}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.datatypes.pri</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Localized_resources</td><td>{1BC58DEE-A243-40D1-834B-7AD0944D76B0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.localized_res</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Primary_output</td><td>{62C6C3A0-32A0-4EEB-8984-72C4B29D07D0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.primary_outpu</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISO19770_LocalTag</td><td>{17645320-C673-487A-9B87-15DD3D26087C}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISO19770_SystemTag</td><td>{CB06B0D3-BE8A-4F38-A295-53C561B35DD8}</td><td>CommonAppDataFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{BCC23CD1-CE39-49EE-ABEA-71524BC48D24}</td><td>ALLUSERSPROFILE</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{18E04530-225D-42E2-A8B8-68830F53B95A}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -364,9 +362,6 @@
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td>{C1E7907C-AEF7-44D5-B528-CF3B5D5AA20D}</td><td>_SCRIPTS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td>{FFA1F361-6693-4FF3-B0DC-5D24E26F3787}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{10969478-5974-4DEC-B989-CED85A6FBE30}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.IO.dll</td><td>{288F2654-C2CF-4304-B9D5-3348E72A4C90}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.io.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Runtime.dll</td><td>{92875FA4-84BD-4718-B9F7-FF707D3769C6}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.runtime.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Threading.Tasks.dll</td><td>{2B24581D-B29A-44E6-83A9-7B6BD32E8866}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.threading.tasks.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1087,7 +1082,6 @@
 		<row><td>INSTALLDIR</td><td>Computator.NET.Core.Localized_resources</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Core.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.DataTypes.Primary_output</td></row>
-		<row><td>INSTALLDIR</td><td>ISO19770_LocalTag</td></row>
 		<row><td>INSTALLDIR</td><td>ISO19770_SystemTag</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT1</td></row>
@@ -1098,9 +1092,6 @@
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>INSTALLDIR</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent1</td></row>
-		<row><td>INSTALLDIR</td><td>System.IO.dll</td></row>
-		<row><td>INSTALLDIR</td><td>System.Runtime.dll</td></row>
-		<row><td>INSTALLDIR</td><td>System.Threading.Tasks.dll</td></row>
 		<row><td>PersonalFolder</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>TSL_EXAMPLES</td><td>ISX_DEFAULTCOMPONENT4</td></row>
 		<row><td>_CUSTOMFUNCTIONS</td><td>ISX_DEFAULTCOMPONENT5</td></row>
@@ -1930,7 +1921,6 @@
 		<row><td>AlwaysInstall</td><td>Computator.NET.DataTypes.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Primary_output</td></row>
-		<row><td>AlwaysInstall</td><td>ISO19770_LocalTag</td></row>
 		<row><td>AlwaysInstall</td><td>ISO19770_SystemTag</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
@@ -1941,9 +1931,6 @@
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>AlwaysInstall</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
-		<row><td>AlwaysInstall</td><td>System.IO.dll</td></row>
-		<row><td>AlwaysInstall</td><td>System.Runtime.dll</td></row>
-		<row><td>AlwaysInstall</td><td>System.Threading.Tasks.dll</td></row>
 	</table>
 
 	<table name="File">
@@ -1984,10 +1971,6 @@
 		<row><td>example10_simpleplotofpoints</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example10_SimplePlotOfPoints.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl</td><td>1</td><td/></row>
 		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
 		<row><td>regid.2014_01.dk.fizyka_soft</td><td>ISO19770_SystemTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
-		<row><td>regid.2014_01.dk.fizyka_soft1</td><td>ISO19770_LocalTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
-		<row><td>system.io.dll</td><td>System.IO.dll</td><td>SYSTEM~1.DLL|System.IO.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</td><td>1</td><td/></row>
-		<row><td>system.runtime.dll</td><td>System.Runtime.dll</td><td>SYSTEM~1.DLL|System.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</td><td>1</td><td/></row>
-		<row><td>system.threading.tasks.dll</td><td>System.Threading.Tasks.dll</td><td>SYSTEM~1.DLL|System.Threading.Tasks.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2142,7 +2125,6 @@
 		<row><td>Computator.NET.DataTypes.Primary_output</td><td/><td/><td>_21ED120C_C994_4967_85A4_BE0EBBE2B8B5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Localized_resources</td><td/><td/><td>_BAE0EB1C_3DBD_4D3E_98F5_AACA8C6FA4A7_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Primary_output</td><td/><td/><td>_23B95E1A_2E63_4B35_B302_E3E339C87F9F_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISO19770_LocalTag</td><td/><td/><td>_402983FC_C35B_4557_9F0D_C1956698FAFF_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISO19770_SystemTag</td><td/><td/><td>_66803D3A_37DB_440B_96D2_0F004C040C4D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_A14B2949_52E3_4BF7_A4E1_D41EB9AF0441_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_E4B868A9_9E5F_48A2_81A2_CB11628A8822_FILTER</td><td/><td/><td/><td/></row>
@@ -2153,9 +2135,6 @@
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td/><td/><td>_A0C5B437_07E5_4C80_8208_EE7123C3CAA8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td/><td/><td>_80E3F1A6_D009_4D8A_A096_E35724FAAF8F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_38D42019_79C8_404E_B558_89FFB7078B5D_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.IO.dll</td><td/><td/><td>_63E3E8AF_B440_492B_BF26_0876ED61C9A8_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Runtime.dll</td><td/><td/><td>_92A76A0F_7B9D_4008_A49F_654211607AA1_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Threading.Tasks.dll</td><td/><td/><td>_EEDAA082_FD1B_408A_8847_8C0F4F8BEB11_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2505,7 +2484,7 @@
 		<col key="yes" def="s72">ISProductConfiguration_</col>
 		<col key="yes" def="s72">Property</col>
 		<col def="L255">Value</col>
-		<row><td>Express</td><td>SetupFileName</td><td>Computator.NET.Installer v2.1.0</td></row>
+		<row><td>Express</td><td>SetupFileName</td><td>Computator.NET.Installer v2.2.0</td></row>
 	</table>
 
 	<table name="ISRelease">
@@ -2545,7 +2524,7 @@
 		<row><td>DVD-18</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>Default</td><td>3</td><td>1033</td><td>0</td><td>2</td><td>Intel</td><td/><td>1033</td><td>0</td><td>15.83</td><td>1</td><td>2048</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>75805</td><td/><td/><td/><td>3</td></row>
 		<row><td>DVD-5</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>Default</td><td>3</td><td>1033</td><td>0</td><td>2</td><td>Intel</td><td/><td>1033</td><td>0</td><td>4.38</td><td>1</td><td>2048</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>75805</td><td/><td/><td/><td>3</td></row>
 		<row><td>DVD-9</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>Default</td><td>3</td><td>1033</td><td>0</td><td>2</td><td>Intel</td><td/><td>1033</td><td>0</td><td>7.95</td><td>1</td><td>2048</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>75805</td><td/><td/><td/><td>3</td></row>
-		<row><td>SingleImage</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>0</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>0</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>108573</td><td/><td/><td/><td>3</td></row>
+		<row><td>SingleImage</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>0</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>0</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td>Copyright (c) TROKA Software</td><td>109597</td><td/><td/><td/><td>3</td></row>
 		<row><td>WebDeployment</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>4</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>0</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>124941</td><td/><td/><td/><td>3</td></row>
 	</table>
 
@@ -2602,6 +2581,7 @@
 		<col key="yes" def="s72">ISProductConfiguration_</col>
 		<col key="yes" def="s72">Name</col>
 		<col def="s0">Value</col>
+		<row><td>SingleImage</td><td>Express</td><td>SetupExeDescr</td><td>Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise</td></row>
 	</table>
 
 	<table name="ISReleasePublishInfo">
@@ -2755,9 +2735,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_0C7BED3F_04F0_4340_9B56_046205ED384A_</td><td>Microsoft .NET Framework 4.0 KB2468871 (x86).prq</td><td>2</td><td>1</td><td/></row>
-		<row><td>_95701D2C_145F_4E10_9CEC_3EDED2B42F56_</td><td>Microsoft .NET Framework 4.0 Full (Web Download).prq</td><td>0</td><td>1</td><td/></row>
-		<row><td>_DAA9CBB6_2CFA_45F2_8145_B17347D2FF67_</td><td>Microsoft .NET Framework 4.0 KB2468871 (x64).prq</td><td>1</td><td>1</td><td/></row>
+		<row><td>_62FF4330_CD50_45EA_B107_0F072DC1A346_</td><td>Microsoft .NET Framework 4.6 Web.prq</td><td/><td>1</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -2791,11 +2769,10 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>Pawel Troka</td><td>0</td><td/><td>-1524411915</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>TROKA Software</td><td>0</td><td/><td>2024136896</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION40CLIENT</td><td>1033</td><td>Microsoft .NET Framework 4.0 Client Package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>-1708947951</td></row>
-		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION40FULL</td><td>1033</td><td>Microsoft .NET Framework 4.0 Full package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>-1524383627</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1033</td><td>The operating system is not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
@@ -3895,13 +3872,13 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>ID_STRING1</td><td>1033</td><td/><td>0</td><td/><td>-1708946320</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>https://github.com/PawelTroka/Computator.NET</td><td>0</td><td/><td>1906624896</td></row>
-		<row><td>ID_STRING3</td><td>1033</td><td>Pawel Troka</td><td>0</td><td/><td>-1524411915</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>http://troka.software</td><td>0</td><td/><td>2024100064</td></row>
+		<row><td>ID_STRING3</td><td>1033</td><td>TROKA Software</td><td>0</td><td/><td>2024081600</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1708943631</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>+48-725-656-424</td><td>0</td><td/><td>-1708957134</td></row>
 		<row><td>ID_STRING6</td><td>1033</td><td>https://github.com/PawelTroka/Computator.NET</td><td>0</td><td/><td>1906618752</td></row>
 		<row><td>ID_STRING7</td><td>1033</td><td>https://github.com/PawelTroka/Computator.NET</td><td>0</td><td/><td>1906620800</td></row>
-		<row><td>ID_STRING8</td><td>1033</td><td>pawel.troka@outlook.com</td><td>0</td><td/><td>-1708934574</td></row>
+		<row><td>ID_STRING8</td><td>1033</td><td>pawel@troka.software</td><td>0</td><td/><td>2024083712</td></row>
 		<row><td>ID_STRING9</td><td>1033</td><td>UNINST~1.NET|Uninstall Computator.NET</td><td>0</td><td/><td>-1524431019</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>NEW_STRING1</td><td>1033</td><td>tslf</td><td>0</td><td/><td>-1708948718</td></row>
@@ -3912,7 +3889,7 @@
 	<table name="ISSwidtagProperty">
 		<col key="yes" def="s72">Name</col>
 		<col def="s0">Value</col>
-		<row><td>TagCreatorRegid</td><td>regid.2014-01.dk.fizyka,software</td></row>
+		<row><td>TagCreatorRegid</td><td>regid.2016-07.software.troka,software</td></row>
 		<row><td>UniqueId</td><td>83E14665-EC98-47C0-9B37-DB31338CFB73</td></row>
 	</table>
 
@@ -4175,7 +4152,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>SccEnabled</td><td>0</td></row>
 		<row><td>SccPath</td><td/></row>
 		<row><td>SchemaVersion</td><td>776</td></row>
-		<row><td>SwidtagLocalComponent</td><td>ISO19770_LocalTag</td></row>
+		<row><td>SwidtagLocalComponent</td><td/></row>
 		<row><td>SwidtagSystemComponent</td><td>ISO19770_SystemTag</td></row>
 		<row><td>Type</td><td>MSIE</td></row>
 	</table>
@@ -4224,7 +4201,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 	<table name="LaunchCondition">
 		<col key="yes" def="s255">Condition</col>
 		<col def="l255">Description</col>
-		<row><td>DOTNETVERSION40FULL&gt;="#1"</td><td>##IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION40FULL##</td></row>
 	</table>
 
 	<table name="ListBox">
@@ -4552,7 +4528,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Computator.NET.Primary output</td><td/></row>
 		<row><td>ProductCode</td><td>{FA089B43-0451-420A-968B-DCC3C55644C7}</td><td/></row>
 		<row><td>ProductName</td><td>Computator.NET</td><td/></row>
-		<row><td>ProductVersion</td><td>2.1.0</td><td/></row>
+		<row><td>ProductVersion</td><td>2.2.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4567,7 +4543,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
 		<row><td>SHOWLAUNCHPROGRAM</td><td>-1</td><td/></row>
 		<row><td>SHOWLAUNCHREADME</td><td>0</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION40FULL;ISACTIONPROP1</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;ISACTIONPROP1</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
 		<row><td>UpgradeCode</td><td>{86D89770-B31B-4467-BC5E-B54B0FF263A1}</td><td/></row>
@@ -4612,7 +4588,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="s255">Key</col>
 		<col def="S255">Name</col>
 		<col def="I2">Type</col>
-		<row><td>DotNet40Full</td><td>2</td><td>SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full</td><td>Install</td><td>2</td></row>
 	</table>
 
 	<table name="Registry">
@@ -4845,7 +4820,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
 		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
-		<row><td>{86D89770-B31B-4467-BC5E-B54B0FF263A1}</td><td>1.0.0</td><td>2.1.0</td><td></td><td>772</td><td/><td>ISACTIONPROP1</td><td>NewUpgradeEntry1</td></row>
+		<row><td>{86D89770-B31B-4467-BC5E-B54B0FF263A1}</td><td>1.0.0</td><td>2.2.0</td><td></td><td>772</td><td/><td>ISACTIONPROP1</td><td>NewUpgradeEntry1</td></row>
 	</table>
 
 	<table name="Verb">

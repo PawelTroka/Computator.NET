@@ -2473,10 +2473,10 @@
 		<col def="i4">Type</col>
 		<row><td>Charting</td><td>Charting\Charting.csproj</td><td/><td>2</td></row>
 		<row><td>CommonFilesFolder</td><td/><td/><td>1</td></row>
-		<row><td>Computator.NET</td><td>Computator.NET\Computator.NET.csproj</td><td/><td>2</td></row>
-		<row><td>Computator.NET.Charting</td><td>Computator.NET.Charting\Computator.NET.Charting.csproj</td><td/><td>2</td></row>
-		<row><td>Computator.NET.Core</td><td>Computator.NET.Core\Computator.NET.Core.csproj</td><td/><td>2</td></row>
-		<row><td>Computator.NET.DataTypes</td><td>Computator.NET.DataTypes\Computator.NET.DataTypes.csproj</td><td/><td>2</td></row>
+		<row><td>Computator.NET</td><td>Computator.NET\Computator.NET.NET40.csproj</td><td/><td>2</td></row>
+		<row><td>Computator.NET.Charting</td><td>Computator.NET.Charting\Computator.NET.Charting.NET40.csproj</td><td/><td>2</td></row>
+		<row><td>Computator.NET.Core</td><td>Computator.NET.Core\Computator.NET.Core.NET40.csproj</td><td/><td>2</td></row>
+		<row><td>Computator.NET.DataTypes</td><td>Computator.NET.DataTypes\Computator.NET.DataTypes.NET40.csproj</td><td/><td>2</td></row>
 		<row><td>ISPROJECTDIR</td><td/><td/><td>1</td></row>
 		<row><td>ISProductFolder</td><td/><td/><td>1</td></row>
 		<row><td>ISProjectDataFolder</td><td/><td/><td>1</td></row>
@@ -2505,7 +2505,7 @@
 		<col key="yes" def="s72">ISProductConfiguration_</col>
 		<col key="yes" def="s72">Property</col>
 		<col def="L255">Value</col>
-		<row><td>Express</td><td>SetupFileName</td><td>Computator.NET.Installer v2.1.0</td></row>
+		<row><td>Express</td><td>SetupFileName</td><td>Computator.NET.Installer v2.2.0</td></row>
 	</table>
 
 	<table name="ISRelease">
@@ -2545,7 +2545,7 @@
 		<row><td>DVD-18</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>Default</td><td>3</td><td>1033</td><td>0</td><td>2</td><td>Intel</td><td/><td>1033</td><td>0</td><td>15.83</td><td>1</td><td>2048</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>75805</td><td/><td/><td/><td>3</td></row>
 		<row><td>DVD-5</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>Default</td><td>3</td><td>1033</td><td>0</td><td>2</td><td>Intel</td><td/><td>1033</td><td>0</td><td>4.38</td><td>1</td><td>2048</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>75805</td><td/><td/><td/><td>3</td></row>
 		<row><td>DVD-9</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>Default</td><td>3</td><td>1033</td><td>0</td><td>2</td><td>Intel</td><td/><td>1033</td><td>0</td><td>7.95</td><td>1</td><td>2048</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>75805</td><td/><td/><td/><td>3</td></row>
-		<row><td>SingleImage</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>0</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>0</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>108573</td><td/><td/><td/><td>3</td></row>
+		<row><td>SingleImage</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>0</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>0</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td>Copyright (c) TROKA Software</td><td>109597</td><td/><td/><td/><td>3</td></row>
 		<row><td>WebDeployment</td><td>Express</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>4</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>0</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://</td><td/><td/><td/><td/><td>124941</td><td/><td/><td/><td>3</td></row>
 	</table>
 
@@ -2602,6 +2602,7 @@
 		<col key="yes" def="s72">ISProductConfiguration_</col>
 		<col key="yes" def="s72">Name</col>
 		<col def="s0">Value</col>
+		<row><td>SingleImage</td><td>Express</td><td>SetupExeDescr</td><td>Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise</td></row>
 	</table>
 
 	<table name="ISReleasePublishInfo">
@@ -2791,7 +2792,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>Pawel Troka</td><td>0</td><td/><td>-1524411915</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>TROKA Software</td><td>0</td><td/><td>2024132800</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION40CLIENT</td><td>1033</td><td>Microsoft .NET Framework 4.0 Client Package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>-1708947951</td></row>
@@ -3895,13 +3896,13 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>ID_STRING1</td><td>1033</td><td/><td>0</td><td/><td>-1708946320</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>https://github.com/PawelTroka/Computator.NET</td><td>0</td><td/><td>1906624896</td></row>
-		<row><td>ID_STRING3</td><td>1033</td><td>Pawel Troka</td><td>0</td><td/><td>-1524411915</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>http://troka.software</td><td>0</td><td/><td>2024108256</td></row>
+		<row><td>ID_STRING3</td><td>1033</td><td>TROKA Software</td><td>0</td><td/><td>2024085696</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1708943631</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>+48-725-656-424</td><td>0</td><td/><td>-1708957134</td></row>
 		<row><td>ID_STRING6</td><td>1033</td><td>https://github.com/PawelTroka/Computator.NET</td><td>0</td><td/><td>1906618752</td></row>
 		<row><td>ID_STRING7</td><td>1033</td><td>https://github.com/PawelTroka/Computator.NET</td><td>0</td><td/><td>1906620800</td></row>
-		<row><td>ID_STRING8</td><td>1033</td><td>pawel.troka@outlook.com</td><td>0</td><td/><td>-1708934574</td></row>
+		<row><td>ID_STRING8</td><td>1033</td><td>pawel@troka.software</td><td>0</td><td/><td>2024081664</td></row>
 		<row><td>ID_STRING9</td><td>1033</td><td>UNINST~1.NET|Uninstall Computator.NET</td><td>0</td><td/><td>-1524431019</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-1708948368</td></row>
 		<row><td>NEW_STRING1</td><td>1033</td><td>tslf</td><td>0</td><td/><td>-1708948718</td></row>
@@ -3912,7 +3913,7 @@
 	<table name="ISSwidtagProperty">
 		<col key="yes" def="s72">Name</col>
 		<col def="s0">Value</col>
-		<row><td>TagCreatorRegid</td><td>regid.2014-01.dk.fizyka,software</td></row>
+		<row><td>TagCreatorRegid</td><td>regid.2016-07.software.troka,software</td></row>
 		<row><td>UniqueId</td><td>83E14665-EC98-47C0-9B37-DB31338CFB73</td></row>
 	</table>
 
@@ -4552,7 +4553,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Computator.NET.Primary output</td><td/></row>
 		<row><td>ProductCode</td><td>{FA089B43-0451-420A-968B-DCC3C55644C7}</td><td/></row>
 		<row><td>ProductName</td><td>Computator.NET</td><td/></row>
-		<row><td>ProductVersion</td><td>2.1.0</td><td/></row>
+		<row><td>ProductVersion</td><td>2.2.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
