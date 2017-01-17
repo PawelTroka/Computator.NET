@@ -3,7 +3,8 @@ namespace Computator.NET.DataTypes.SettingsTypes
     public enum CodeEditorType
     {
         Scintilla,
-        AvalonEdit
+        AvalonEdit,
+        TextEditor,
     }
 
     public enum FunctionsOrder

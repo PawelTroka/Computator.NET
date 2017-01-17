@@ -33,7 +33,7 @@ namespace Computator.NET.Controls.CodeEditors
 
 
         public CodeEditorControlWrapper(ScintillaCodeEditorControl scintillaCodeEditorControl,
-            AvalonEditCodeEditor avalonEditCodeEditor)
+            AvalonEditCodeEditor avalonEditCodeEditor, TextEditorCodeEditor textEditorCodeEditor)
         {
             scintillaCodeEditorControl.Dock=DockStyle.Fill;
 
@@ -43,7 +43,8 @@ namespace Computator.NET.Controls.CodeEditors
                 {
                     CodeEditorType.Scintilla, scintillaCodeEditorControl
                 },
-                {CodeEditorType.AvalonEdit, avalonEditCodeEditor}
+                {CodeEditorType.AvalonEdit, avalonEditCodeEditor},
+                {CodeEditorType.TextEditor, textEditorCodeEditor }
             };
             avalonEditorWrapper = new ElementHost
             {
@@ -57,7 +58,7 @@ namespace Computator.NET.Controls.CodeEditors
             
 
             var panel = new Panel {Dock = DockStyle.Fill};
-            panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control});
+            panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control, _codeEditors[CodeEditorType.TextEditor] as Control});
 
             var tableLayout = new TableLayoutPanel
             {
@@ -351,11 +352,17 @@ namespace Computator.NET.Controls.CodeEditors
                     //  avalonEditor.Text = (_codeEditors[CodeEditorType.Scintilla] as Control).Text;
                     avalonEditorWrapper.Show();
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Hide();
+                    (_codeEditors[CodeEditorType.TextEditor] as Control).Hide();
                     break;
                 case CodeEditorType.Scintilla:
-                    // (_codeEditors[CodeEditorType.Scintilla] as Control).Text = avalonEditor.Text;
                     avalonEditorWrapper.Hide();
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Show();
+                    (_codeEditors[CodeEditorType.TextEditor] as Control).Hide();
+                    break;
+                case CodeEditorType.TextEditor:
+                    avalonEditorWrapper.Hide();
+                    (_codeEditors[CodeEditorType.Scintilla] as Control).Hide();
+                    (_codeEditors[CodeEditorType.TextEditor] as Control).Show();
                     break;
             }
         }
