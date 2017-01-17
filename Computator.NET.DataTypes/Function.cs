@@ -29,11 +29,11 @@ namespace Computator.NET.DataTypes
         {
             get
             {
-                if (!string.IsNullOrEmpty(name) && !string.IsNullOrWhiteSpace(name))
+                if (!string.IsNullOrWhiteSpace(name))
                     return name;
-                if (!string.IsNullOrEmpty(TslCode) && !string.IsNullOrWhiteSpace(TslCode))
+                if (!string.IsNullOrWhiteSpace(TslCode))
                     return TslCode;
-                if (!string.IsNullOrEmpty(CsCode) && !string.IsNullOrWhiteSpace(CsCode))
+                if (!string.IsNullOrWhiteSpace(CsCode))
                     return CsCode;
                 return "Function" + GetHashCode();
             }

@@ -149,8 +149,7 @@ namespace Computator.NET.Controls.AutocompleteMenu
                 return;
             var functionInfo = _functionDetails[signature];
 
-            if (string.IsNullOrEmpty(functionInfo.Description) || string.IsNullOrWhiteSpace(functionInfo.Description) ||
-                string.IsNullOrEmpty(functionInfo.Title) || string.IsNullOrWhiteSpace(functionInfo.Title)
+            if (string.IsNullOrWhiteSpace(functionInfo.Description) || string.IsNullOrWhiteSpace(functionInfo.Title)
                 || functionInfo.Description.Contains("here goes description (not done yet)")
                 || functionInfo.Title.Contains("_title_")
                 )

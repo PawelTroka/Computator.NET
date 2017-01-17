@@ -353,7 +353,7 @@ namespace Computator.NET.Controls.CodeEditors.AvalonEdit
                 if (SpecialSymbols.IsAscii(ch))
                 {
                     var str = SpecialSymbols.AsciiToSuperscript(ch.ToString());
-                    if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
+                    if (string.IsNullOrWhiteSpace(str))
                     {
                     }
                     else

@@ -70,7 +70,7 @@ namespace Computator.NET.Core.Evaluation
         {
             MainTslCode = input;
             CustomFunctionsTslCode =
-                !string.IsNullOrEmpty(customFunctionsCode) && !string.IsNullOrWhiteSpace(customFunctionsCode)
+                !string.IsNullOrWhiteSpace(customFunctionsCode)
                     ? customFunctionsCode
                     : "";
             ;

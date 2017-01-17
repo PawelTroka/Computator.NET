@@ -118,7 +118,7 @@ namespace Computator.NET.Core.Autocompletion
                               ? _additionWithTypes
                               : _addition);
                 }
-                if (string.IsNullOrEmpty(ret) || string.IsNullOrWhiteSpace(ret))
+                if (string.IsNullOrWhiteSpace(ret))
                     return Text;
                 return ret;
             }

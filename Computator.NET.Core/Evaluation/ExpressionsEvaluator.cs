@@ -97,12 +97,12 @@ namespace Computator.NET.Core.Evaluation
             FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, _implicitFunctionRegex.IsMatch(input));
 
 
-            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+            if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentException(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_);
 
             MainTslCode = input;
             CustomFunctionsTslCode =
-                !string.IsNullOrEmpty(customFunctionsCode) && !string.IsNullOrWhiteSpace(customFunctionsCode)
+                !string.IsNullOrWhiteSpace(customFunctionsCode)
                     ? customFunctionsCode
                     : "";
 
