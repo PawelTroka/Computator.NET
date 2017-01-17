@@ -17,6 +17,7 @@ using System.Xml;
 using Computator.NET.Controls.CodeEditors.Scintilla;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Natives;
 using Computator.NET.Data;

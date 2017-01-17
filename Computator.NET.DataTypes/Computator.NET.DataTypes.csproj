@@ -41,6 +41,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Charts\AssignmentOfColorMethod.cs" />
+    <Compile Include="Charts\CountourLinesMode.cs" />
     <Compile Include="Charts\IAreaValues.cs" />
     <Compile Include="Charts\IChart.cs" />
     <Compile Include="Charts\IPrinting.cs" />

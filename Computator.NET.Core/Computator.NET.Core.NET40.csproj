@@ -15,9 +15,9 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
-      <PropertyGroup>
-      <SkipValidatePackageReferences>true</SkipValidatePackageReferences>
-    </PropertyGroup>
+  <PropertyGroup>
+    <SkipValidatePackageReferences>true</SkipValidatePackageReferences>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -145,6 +145,7 @@
     <Compile Include="Autocompletion\FunctionInfo.cs" />
     <Compile Include="Autocompletion\FunctionsDetails.cs" />
     <Compile Include="Autocompletion\MethodInfoExtensions.cs" />
+    <Compile Include="Helpers\DocumentExtension.cs" />
     <Compile Include="Model\DirectorySelectedEventArgs.cs" />
     <Compile Include="Evaluation\EvaluationException.cs" />
     <Compile Include="Evaluation\ExpressionsEvaluator.cs" />

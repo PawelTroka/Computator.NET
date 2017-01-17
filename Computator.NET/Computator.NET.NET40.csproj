@@ -308,7 +308,10 @@
     <Compile Include="Controls\ScientificNumericUpDown.Designer.cs">
       <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CodeEditors\Scintilla\ScintillaCodeEditorControl.cs">
+    <Compile Include="Controls\CodeEditors\ScintillaCodeEditorControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CodeEditors\TextEditorCodeEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\CustomFunctionsView.cs">

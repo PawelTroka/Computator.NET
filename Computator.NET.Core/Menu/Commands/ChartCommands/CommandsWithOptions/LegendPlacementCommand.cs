@@ -32,14 +32,14 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
             public LegendPlacementOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, Docking placement, ISharedViewState sharedViewState)
                 : base(placement, charts,sharedViewState)
             {
-                Checked = chart2d.Legends[0].Docking == placement;
+                Checked = chart2d.LegendDocking == placement;
                 this.placement = placement;
                 IsOption = true;
             }
 
             public override void Execute()
             {
-                chart2d.Legends[0].Docking = placement;
+                chart2d.LegendDocking = placement;
             }
         }
     }

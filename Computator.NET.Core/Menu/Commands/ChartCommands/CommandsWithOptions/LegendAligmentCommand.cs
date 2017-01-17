@@ -34,12 +34,12 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
             {
                 this.aligment = aligment;
                 IsOption = true;
-                Checked = chart2d.Legends[0].Alignment == aligment;
+                Checked = chart2d.LegendAlignment == aligment;
             }
 
             public override void Execute()
             {
-                chart2d.Legends[0].Alignment = aligment;
+                chart2d.LegendAlignment = aligment;
             }
         }
     }

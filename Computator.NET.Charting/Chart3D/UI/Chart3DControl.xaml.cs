@@ -27,7 +27,7 @@ namespace Computator.NET.Charting.Chart3D.UI
     /// <summary>
     ///     Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class Chart3DControl : UserControl, IChart, INotifyPropertyChanged
+    public partial class Chart3DControl : UserControl, IChart3D
     {
         private readonly DiffuseMaterial _backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
         private readonly List<Function> _functions = new List<Function>();
@@ -719,6 +719,12 @@ namespace Computator.NET.Charting.Chart3D.UI
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void ShowEditDialog()
+        {
+            var editChartWindow = new Charting.Chart3D.UI.EditChartWindow(this, this.ParentControl);
+            editChartWindow.ShowDialog();
         }
     }
 }

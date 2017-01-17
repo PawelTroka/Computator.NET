@@ -1,3 +1,7 @@
+using System;
+using System.Numerics;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.Integration;
 using Accord.Collections;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
@@ -21,8 +25,8 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 
         protected IChart currentChart => _charts[_sharedViewState.CalculationsMode];
 
-        protected Chart2D chart2d => _charts[CalculationsMode.Real] as Chart2D;//TODO: get rid of this filthy dependencies on Charting!!!!!!!!!!!!!!!!!!!
-        protected Chart3DControl chart3d => _charts[CalculationsMode.Fxy] as Chart3DControl;
-        protected ComplexChart complexChart => _charts[CalculationsMode.Complex] as ComplexChart;
+        protected IChart2D chart2d => _charts[CalculationsMode.Real] as IChart2D;
+        protected IChart3D chart3d => _charts[CalculationsMode.Fxy] as IChart3D;
+        protected IComplexChart complexChart => _charts[CalculationsMode.Complex] as IComplexChart;
     }
 }

@@ -12,7 +12,7 @@ using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.Charting.ComplexCharting
 {
-    public sealed class ComplexChart : Control, IChart, INotifyPropertyChanged
+    public sealed class ComplexChart : Control, IComplexChart
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -612,6 +612,12 @@ namespace Computator.NET.Charting.ComplexCharting
             var ig = (int) Math.Truncate(255.0*g);
             var ib = (int) Math.Truncate(255.0*b);
             return Color.FromArgb(ir, ig, ib);
+        }
+
+        public void ShowEditDialog()
+        {
+            var editChartWindow = new EditComplexChartWindow(this);
+            editChartWindow.ShowDialog();
         }
 
         #endregion

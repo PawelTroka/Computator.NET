@@ -16,9 +16,9 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
-      <PropertyGroup>
-      <SkipValidatePackageReferences>true</SkipValidatePackageReferences>
-    </PropertyGroup>
+  <PropertyGroup>
+    <SkipValidatePackageReferences>true</SkipValidatePackageReferences>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -130,13 +130,11 @@
     </Compile>
     <Compile Include="Chart3D\Chart3D\Vertex3D.cs" />
     <Compile Include="Chart3D\Chart3D\ViewportRect.cs" />
-    <Compile Include="ComplexCharting\AssignmentOfColorMethod.cs" />
     <Compile Include="ComplexCharting\ComplexChart.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ComplexCharting\ComplexChartPresenter.cs" />
     <Compile Include="ComplexCharting\ComplexPoint.cs" />
-    <Compile Include="ComplexCharting\CountourLinesMode.cs" />
     <Compile Include="ComplexCharting\EditComplexChartWindow.cs">
       <SubType>Form</SubType>
     </Compile>

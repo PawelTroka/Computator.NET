@@ -1,9 +1,36 @@
-﻿using System.Drawing.Imaging;
+﻿using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Numerics;
+using System.Windows.Forms.DataVisualization.Charting;
+using Computator.NET.Charting.ComplexCharting;
 
 namespace Computator.NET.DataTypes.Charts
 {
-    public interface IChart : IPrinting, IAreaValues
+    public interface IChart2D : IChart
     {
+        StringAlignment LegendAlignment { get; set; }
+        ChartColorPalette Palette { get; set; }
+        SeriesChartType ChartType { get; set; }
+        Docking LegendDocking { get; set; }
+        void Transform(Func<double[], double[]> func, string text);
+    }
+
+    public interface IComplexChart : IChart
+    {
+        AssignmentOfColorMethod ColorAssignmentMethod { get; set; }
+        CountourLinesMode CountourMode { get; set; }
+    }
+
+    public interface IChart3D : IChart
+    {
+        bool EqualAxes { get; set; }
+    }
+
+    public interface IChart : IPrinting, IAreaValues, INotifyPropertyChanged
+    {
+        void ShowEditDialog();
         double Quality { get; set; }
 
         bool Visible { get; set; }

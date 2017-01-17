@@ -10,7 +10,7 @@ using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.Charting.RealCharting
 {
-    public class Chart2D : Chart, IChart /*, IChart<double>*/, INotifyPropertyChanged
+    public class Chart2D : Chart, IChart2D
     {
         private const double OVERFLOW_VALUE = (double) decimal.MaxValue/10; //1073741951.0/500; //1111117;
         private const double UNDERFLOW_VALUE = (double) decimal.MinValue/10; //-1073741760.0/500; // 1111117;
@@ -940,6 +940,21 @@ namespace Computator.NET.Charting.RealCharting
                     seriesComboBox.Items.Add(serie.Name);
                 seriesComboBox.SelectedIndex = 0;
             }
+        }
+
+        public void ShowEditDialog()
+        {
+            var editChartWindow = new EditChartWindow(this);
+            editChartWindow.ShowDialog();
+        }
+
+        public StringAlignment LegendAlignment {
+            get { return Legends[0].Alignment; }
+            set { Legends[0].Alignment = value; } }
+        public Docking LegendDocking
+        {
+            get { return Legends[0].Docking; }
+            set { Legends[0].Docking = value; }
         }
 
         #endregion
