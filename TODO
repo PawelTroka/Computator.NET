@@ -6,11 +6,12 @@
 * include in tutorials and test experimental features
 
 
-#Code quality
+##Code quality
+* Computator.NET.Core project should target .NET Core / PCL so it can be used as logic for all platforms (Desktop, Mobile, ...)
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
 * Use mark_heath tips
 * migrate all controls, even the advanced ones to use MVP
-* Command pattern for buttons, including EditChartMenus / or something better
+* Command pattern for buttons, including EditChartMenus / or something better -> EditChartWindow is left
 * use mode.error more often - use it for empty text and errors etc
 * MVP is still done poorly, IViews shouldn't have nested IViews
 * MVP is nice but maybe we should switch to MVVM using ReactiveUI http://www.codeproject.com/Articles/801986/Using-ReactiveUI-for-WinForms-MVVM-Design
@@ -51,7 +52,7 @@
 * refactor exception in whole project, unify them
 * differ exception in expressions from those in scripting
 * make descriptions and names, categories, etc for settingstypes
-* add symbolic calculations
+* add symbolic calculations (Math.NET Symbolics or maybe calling SymPy? http://stackoverflow.com/questions/6721736/c-sharp-library-for-algebra-simplification-and-solving)
 
 
 ##Code editors
@@ -95,9 +96,11 @@
 
 
 ##Translations
-* Update Deutsch and Czech translations to 2.0.0 version
+* Update Deutsch and Czech translations to 2.2.0 version
 
 
 ##Tests
 * add unit tests for testing culture invariant output
 * add tests for presenters from MVP
+* add tests for commands
+* add evaluation integration tests
