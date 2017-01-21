@@ -26,20 +26,20 @@ namespace Computator.NET.DataTypes
         private const char blankCharacter = 'ⱽ';
         public const char ExponentModeSymbol = '^';
 
-        public static readonly string DecimalSeparatorSuperscript = @"ᱸ";
+        public const string DecimalSeparatorSuperscript = @"ᱸ";
         //(Environment.OSVersion.Version.Major > 5) ? @"ᱸ" : @"ॱ";
 
-        public static readonly string CommaSuperscript = @"ʹ";
+        public const string CommaSuperscript = @"ʹ";
         //"\u0315";//(Environment.OSVersion.Version.Major>5) ? @"՚" : @"՛";
 
         //2ᴹᵃᵗʸᵃˢ⁽ˣʹʸ⁾
 
 
-        public static readonly string SuperscriptsWithoutSpace =
+        public const string SuperscriptsWithoutSpace =
             "⁽⁾⁺⁻˙˸⁼" + DecimalSeparatorSuperscript + SuperscriptAlphabet + CommaSuperscript;
 
 
-        public static readonly string Superscripts = " " + SuperscriptsWithoutSpace;
+        public const string Superscripts = " " + SuperscriptsWithoutSpace;
 
         public static string SuperscriptsToAscii(string s)
         {

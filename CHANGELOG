@@ -16,6 +16,7 @@
  * = Resolved countless DPI scaling issues
  * + Functions&Constants menu has now option to show function details on right mouse click just like it was before version 2.0
  * = Fixed bug with tabs in scripting not showing up correctly on small windows size
+ * + Cases like 2²x, 2(x+1) and (x+1)x are now handled correctly for multiplying
 
 
  ### --------- Version 2.1.0ß - beta -----------  02.06.2016 18:20

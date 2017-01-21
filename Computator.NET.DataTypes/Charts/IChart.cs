@@ -8,6 +8,15 @@ using Computator.NET.Charting.ComplexCharting;
 
 namespace Computator.NET.DataTypes.Charts
 {
+    public interface IChartFactory
+    {
+        IChart2D CreateChart2D();
+        IComplexChart CreateComplexChart();
+        IChart3D CreateChart3D();
+        IChart Create(CalculationsMode calculationsMode);
+        IChart Create(FunctionType functionType);
+    }
+
     public interface IChart2D : IChart
     {
         StringAlignment LegendAlignment { get; set; }

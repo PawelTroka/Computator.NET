@@ -110,6 +110,16 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Compilation\NativeCompilerError.cs" />
+    <Compile Include="Compilation\TslHandlers\AbsHandler.cs" />
+    <Compile Include="Compilation\TslHandlers\DivisionHandler.cs" />
+    <Compile Include="Compilation\TslHandlers\FunctionsHandler.cs" />
+    <Compile Include="Compilation\TslHandlers\Groups.cs" />
+    <Compile Include="Compilation\TslHandlers\ITslHandler.cs" />
+    <Compile Include="Compilation\TslHandlers\MatrixHandler.cs" />
+    <Compile Include="Compilation\TslHandlers\MultiplyingHandler.cs" />
+    <Compile Include="Compilation\TslHandlers\PowHandler.cs" />
+    <Compile Include="Compilation\TslHandlers\RefOutHandler.cs" />
+    <Compile Include="Compilation\TslHandlers\SpecialSymbolsHandler.cs" />
     <Compile Include="Compilation\TSLCompiler.cs" />
     <Compile Include="Config\EmbeddedDllClass.cs" />
     <Compile Include="Constants\MathematicalConstants.cs" />
