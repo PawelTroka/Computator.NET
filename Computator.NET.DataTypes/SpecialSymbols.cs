@@ -21,7 +21,7 @@ namespace Computator.NET.DataTypes
         public const string SuperscriptAlphabet = "⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ";
 
         public const string AsciiForSuperscripts =
-            " ()+-*/=.0123456789ABDEGHIJKLMNOPRTUWabcdefghijklmnoprstuvwxyzαβγδεθιφψχ,"; //ⱽ
+            " ()+-*/=.0123456789ABDEGHIJKLMNOPRTUWabcdefghijklmnoprstuvwxyzαβγδεθιφψχ,|"; //ⱽ
 
         private const char blankCharacter = 'ⱽ';
         public const char ExponentModeSymbol = '^';
@@ -34,9 +34,11 @@ namespace Computator.NET.DataTypes
 
         //2ᴹᵃᵗʸᵃˢ⁽ˣʹʸ⁾
 
-
+        public const string ModulusSuperscript = @"Ꞌ";
+        public const string ParenthesisSuperscript = "⁽⁾";
+        public const string OperatorsSuperscript = "⁺⁻˙˸⁼";
         public const string SuperscriptsWithoutSpace =
-            "⁽⁾⁺⁻˙˸⁼" + DecimalSeparatorSuperscript + SuperscriptAlphabet + CommaSuperscript;
+            ParenthesisSuperscript+OperatorsSuperscript + DecimalSeparatorSuperscript + SuperscriptAlphabet + CommaSuperscript+ModulusSuperscript;
 
 
         public const string Superscripts = " " + SuperscriptsWithoutSpace;

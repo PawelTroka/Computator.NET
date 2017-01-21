@@ -39,7 +39,7 @@ namespace Computator.NET.Core.Compilation
         private static readonly ITslHandler[] TslHandlers = {
             new MatrixHandler(),
             new RefOutHandler(),
-            //new AbsHandler(), 
+            new AbsHandler(), 
             new FunctionsHandler(),
             new PowHandler(),
             new DivisionHandler(),

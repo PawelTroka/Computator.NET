@@ -1,4 +1,4 @@
-﻿#define DO_NOT_USE_ABS_YET
+﻿//#define DO_NOT_USE_ABS_YET
 using System;
 using Computator.NET.Core.Compilation;
 using Computator.NET.DataTypes;
@@ -482,6 +482,123 @@ namespace Computator.NET.Tests.CompilersTests
 		public void AbsTest()
 		{
 			Assert.AreEqual(@"abs(cos(x))=abs(y)", _tslCompiler.TransformToCSharp(@"|cos(x)|=|y|"));
+		}
+
+		[Test]
+		public void AbsTest1()
+		{
+			Assert.AreEqual(@"abs(x)*abs(y)", _tslCompiler.TransformToCSharp(@"|x||y|"));
+		}
+		[Test]
+		public void AbsTest2()
+		{
+			Assert.AreEqual(@"abs(x)*abs(y)", _tslCompiler.TransformToCSharp($@"|x|{Environment.NewLine}|y|"));
+		}
+
+		[Test]
+		public void AbsTest3()
+		{
+			Assert.AreEqual(@"abs(1-2*abs( 2+x)+1)", _tslCompiler.TransformToCSharp(@"|1-2| 2+x|+1|"));
+		}
+
+		[Test]
+		public void AbsTest4()
+		{
+			Assert.AreEqual(@"abs(x)*abs(x)", _tslCompiler.TransformToCSharp($@"|x|{Environment.NewLine}{Environment.NewLine}|x|"));
+		}
+
+		[Test]
+		public void AbsTest5()
+		{
+			Assert.AreEqual(@"abs(cos(x))   =abs(y)", _tslCompiler.TransformToCSharp(@"|cos(x)|   =|y|"));
+		}
+
+		[Test]
+		public void AbsTest6()
+		{
+			Assert.AreEqual(@"abs(     -    2  )", _tslCompiler.TransformToCSharp(@"|     -    2  |"));
+		}
+
+		[Test]
+		public void AbsTest7()
+		{
+			Assert.AreEqual(@"abs(-2)", _tslCompiler.TransformToCSharp(@"|-2|"));
+		}
+
+		[Test]
+		public void AbsTest8()
+		{
+			Assert.AreEqual(@"abs(1-abs(2+x)+1)", _tslCompiler.TransformToCSharp(@"|1-|2+x|+1|"));
+		}
+
+		[Test]
+		public void AbsTest9()
+		{
+			Assert.AreEqual(@"abs(1-2*abs(2+x)+1)", _tslCompiler.TransformToCSharp(@"|1-2|2+x|+1|"));
+		}
+
+		[Test]
+		public void AbsTest10()
+		{
+			Assert.AreEqual(@"abs(abs(1-2*abs(2+x)+1))", _tslCompiler.TransformToCSharp(@"||1-2|2+x|+1||"));
+		}
+		[Test]
+		public void AbsTest11()
+		{
+			Assert.AreEqual(@"abs(-abs(1-2*abs(2+x)+1))", _tslCompiler.TransformToCSharp(@"|-|1-2|2+x|+1||"));
+		}
+
+		[Test]
+		public void AbsTest12()
+		{
+			Assert.AreEqual(@"abs(1-abs(2+x))", _tslCompiler.TransformToCSharp(@"|1-|2+x||"));
+		}
+
+		[Test]
+		public void AbsTest13()
+		{
+			Assert.AreEqual(@"abs(x)", _tslCompiler.TransformToCSharp(@"|x|"));
+		}
+
+		[Test]
+		public void AbsTest14()
+		{
+			Assert.AreEqual(@"2*abs(x)", _tslCompiler.TransformToCSharp(@"2|x|"));
+		}
+
+		[Test]
+		public void AbsTest15()
+		{
+			Assert.AreEqual(@"2*abs(   x      )", _tslCompiler.TransformToCSharp(@"2|   x      |"));
+		}
+
+		[Test]
+		public void AbsTest16()
+		{
+			Assert.AreEqual(@"abs(2*abs(x)+abs(-2+x))", _tslCompiler.TransformToCSharp(@"|2|x|+|-2+x||"));
+		}
+
+		[Test]
+		public void AbsTest17()
+		{
+			Assert.AreEqual(@"2*abs(x)+abs(-2+x)", _tslCompiler.TransformToCSharp(@"2|x|+|-2+x|"));
+		}
+
+		[Test]
+		public void AbsTest18()
+		{
+			IsTheSameAfterCompilation(@"if(true || false)");
+		}
+		[Test]
+		public void AbsTest19()
+		{
+			IsTheSameAfterCompilation(@"a|b");
+		}
+
+		[Test]
+		public void AbsSuperscriptTest1()
+		{
+			Assert.AreEqual(@"pow(2,abs(cos(x))-2*x)", _tslCompiler.TransformToCSharp($@"2{SpecialSymbols.ModulusSuperscript}ᶜᵒˢ⁽ˣ⁾{SpecialSymbols.ModulusSuperscript}⁻²ˣ"));
 		}
 #endif
 
