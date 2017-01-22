@@ -7,6 +7,7 @@
 
 
 ##Code quality
+* Whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring
 * Computator.NET.Core project should target .NET Core / PCL so it can be used as logic for all platforms (Desktop, Mobile, ...)
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
 * Use mark_heath tips

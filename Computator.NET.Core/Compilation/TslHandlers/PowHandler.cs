@@ -9,7 +9,8 @@ namespace Computator.NET.Core.Compilation
             new Regex(@"(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))" + Groups.PowerCatchingGroup,
                 RegexOptions.Compiled);
 
-        private static readonly Regex NumberRaisedToAnyPowerRegex = new Regex($@"(\d+\.?\d*){Groups.PowerCatchingGroup}",
+        private static readonly Regex NumberRaisedToAnyPowerRegex = new Regex(
+            $@"(\d+\.?\d*){Groups.PowerCatchingGroup}",
             RegexOptions.Compiled);
 
         private static readonly Regex VariableRaisedToAnyPowerRegex =
@@ -17,24 +18,30 @@ namespace Computator.NET.Core.Compilation
                 $@"({Groups.Identifier}){Groups.PowerCatchingGroup}", RegexOptions.Compiled);
 
 
+        private const string NativeCompilerCompatiblePowerNotation = @"pow($1,$2)$3";
+
         public string Replace(string input) //OK
         {
-            var nativeCompilerCompatiblePowerNotation = @"pow($1,$2)$3";
-
             var result = input;
 
             while (ExpressionInParenthesesRaisedToAnyPowerRegex.IsMatch(result))
                 result = ExpressionInParenthesesRaisedToAnyPowerRegex.Replace(result,
                     //http://stackoverflow.com/questions/7898310/using-regex-to-balance-match-parenthesis
-                    nativeCompilerCompatiblePowerNotation);
+                    ReplaceMatchWithPow);
 
-            result = NumberRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
+            result = NumberRaisedToAnyPowerRegex.Replace(result, ReplaceMatchWithPow);
 
-            result = VariableRaisedToAnyPowerRegex.Replace(result, nativeCompilerCompatiblePowerNotation);
+            result = VariableRaisedToAnyPowerRegex.Replace(result, ReplaceMatchWithPow);
 
-            result = SpecialSymbols.SuperscriptsToAscii(result);
+            //result = SpecialSymbols.SuperscriptsToAscii(result);
 
             return result;
+        }
+
+        private static string ReplaceMatchWithPow(Match match)
+        {
+            return match.Result(NativeCompilerCompatiblePowerNotation.Replace("$2",
+                SpecialSymbols.SuperscriptsToAscii(match.Groups[2].Value)));
         }
     }
 }

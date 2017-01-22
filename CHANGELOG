@@ -18,6 +18,7 @@
  * = Fixed bug with tabs in scripting not showing up correctly on small windows size
  * + Cases like 2²x, 2(x+1) and (x+1)x are now handled correctly for multiplying
  * + Added handling of modulus notation (absolute value) - example |x+2|=|cos(y)|, including superscript (#11)
+ * = TSL compiler now handles correctly functions with superscript characters in function name (this finally makes all unit tests green)
 
 
  ### --------- Version 2.1.0ß - beta -----------  02.06.2016 18:20
