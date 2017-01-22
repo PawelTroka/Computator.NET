@@ -1,12 +1,13 @@
 ﻿##TSL
 * functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
 * Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3)) //it would make possible to have string representation of user function in scripting -> plot() functions could produce better looking charts with labels corresponding to functions by string representation
-* we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
+* maybe we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
 * make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
 * include in tutorials and test experimental features
 
 
 ##Code quality
+* Use Paket instead of Nuget? This might allow simpler builds targeting NET40 without additional projects and solutions
 * Whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring
 * Computator.NET.Core project should target .NET Core / PCL so it can be used as logic for all platforms (Desktop, Mobile, ...)
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same

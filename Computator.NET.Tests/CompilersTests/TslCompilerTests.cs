@@ -19,6 +19,58 @@ namespace Computator.NET.Tests.CompilersTests
 
 
 		[Test]
+		public void SimpleFunction_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"Hypergeometric0F1(y,x)");
+		}
+
+		[Test]
+		public void WhileExpressionInParenthesis_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"while(sample!=""igo"")
+	(akka+=""beta"");");
+		}
+
+		[Test]
+		public void WhileExpression_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"while(sample!=""igo"")
+	akka+=""beta"";");
+		}
+
+		[Test]
+		public void EmptyWhileExpression_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"while(b!=42);");
+		}
+
+		[Test]
+		public void IfExpressionInParenthesis_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"if(a==b)
+	(a+=b);");
+		}
+
+		[Test]
+		public void IfExpression_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"if(a==b)
+	a+=b;");
+		}
+
+		[Test]
+		public void EmptyIfExpressionWithString_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"if(phrase!=""empty"")");
+		}
+
+		[Test]
+		public void EmptyIfExpression_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"if(values==123.12)");
+		}
+
+		[Test]
 		public void ForExpressionInParenthesis_ShouldNotChange()
 		{
 			IsTheSameAfterCompilation(@"for(var j=0;j<10;j++)
@@ -30,6 +82,12 @@ namespace Computator.NET.Tests.CompilersTests
 		{
 			IsTheSameAfterCompilation(@"for(var j=0;j<10;j++)
 	r+=PI+e+function(j,r);");
+		}
+
+		[Test]
+		public void EmptyForExpression_ShouldNotChange()
+		{
+			IsTheSameAfterCompilation(@"for(var j=0;j<10;j++);");
 		}
 
 		[Test]

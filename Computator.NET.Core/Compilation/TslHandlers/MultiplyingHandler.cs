@@ -30,9 +30,9 @@ namespace Computator.NET.Core.Compilation
 
         private static readonly Regex[] MultiplyingRegexes =
         {
-            //example: 2x
+            //example: 2x or 2(cos(x)+1)
             new Regex(
-                $@"((?:[^α-ωΑ-Ωa-zA-Z_\d\.][^α-ωΑ-Ωa-z0-9A-Z_]*)|^)(\d+\.?\d*)({Groups.Identifier})",
+                $@"((?:[^α-ωΑ-Ωa-zA-Z_\d\.][^α-ωΑ-Ωa-z0-9A-Z_]*)|^)(\d+\.?\d*)(\(|(?:{Groups.Identifier}))",
                 RegexOptions.Compiled),
 
             //example: 2²x
@@ -40,11 +40,8 @@ namespace Computator.NET.Core.Compilation
                 $@"{Groups.PowerCatchingGroup}()\s*({Groups.Identifier})",
                 RegexOptions.Compiled),
 
-            //example: 2(cos(x)+1)
-            new Regex(@"(\d+\.?\d*)()(\()",RegexOptions.Compiled),
-
             //example: (2+cos(x))x
-            new Regex($@"((?:(?!for\b|while\b|using\b)\b{Groups.Identifier})|^)(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))\s*(\(|{Groups.IdentifierOrNumber})", RegexOptions.Compiled|RegexOptions.Multiline)
+            new Regex($@"((?:(?!for\b|foreach\b|while\b|using\b|if\b)\b{Groups.Identifier})|^)(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))\s*(\(|{Groups.IdentifierOrNumber})", RegexOptions.Compiled|RegexOptions.Multiline)
         };
         
 
