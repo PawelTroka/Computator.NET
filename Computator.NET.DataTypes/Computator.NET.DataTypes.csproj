@@ -98,7 +98,11 @@
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptFunction.cs" />
+    <Compile Include="SettingsTypes\CalculationsErrors.cs" />
     <Compile Include="SettingsTypes\CodeEditorType.cs" />
+    <Compile Include="SettingsTypes\FunctionsOrder.cs" />
+    <Compile Include="SettingsTypes\NumericalOutputNotationType.cs" />
+    <Compile Include="SettingsTypes\TooltipType.cs" />
     <Compile Include="SpecialSymbols.cs" />
   </ItemGroup>
   <ItemGroup>

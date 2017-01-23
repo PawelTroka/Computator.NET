@@ -6,6 +6,7 @@ using Computator.NET.Core.Config;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
+using Computator.NET.DataTypes.SettingsTypes;
 
 namespace Computator.NET.Core.Natives
 {
@@ -40,9 +41,15 @@ namespace Computator.NET.Core.Natives
                 EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslDllName, gsl);
                 //    EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.gslCblasDllName, cblas);
                 //   System.Threading.Thread.Sleep(1000);
-
-                //NativeMethods.gsl_set_error_handler_off();
-                NativeMethods.gsl_set_error_handler(UnmanagedHandler);
+                switch (Settings.Default.CalculationsErrors)
+                {
+                    case CalculationsErrors.ReturnNAN:
+                        NativeMethods.gsl_set_error_handler_off();
+                        break;
+                    case CalculationsErrors.ShowError:
+                        NativeMethods.gsl_set_error_handler(UnmanagedHandler);
+                        break;
+                }
             }
             catch (Exception exception)
             {

@@ -62,13 +62,14 @@ namespace Computator.NET.Core.Properties
 
         private void MakeScriptingDirectoriesInMyDocumentsIfNeeded()
         {
-            if (ScriptingDirectory == SCRIPTING_RAW_DIR && CustomFunctionsDirectory == CUSTOM_FUNCTIONS_RAW_DIR)
-            {
+            if (ScriptingDirectory == SCRIPTING_RAW_DIR)
                 ScriptingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
                     SCRIPTING_RAW_DIR);
+
+                if (CustomFunctionsDirectory == CUSTOM_FUNCTIONS_RAW_DIR)
                 CustomFunctionsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
                     CUSTOM_FUNCTIONS_RAW_DIR);
-            }
+            
         }
 
         private void SettingChangingEventHandler(object sender, SettingChangingEventArgs e)

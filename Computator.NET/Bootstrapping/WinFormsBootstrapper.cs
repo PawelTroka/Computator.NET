@@ -48,7 +48,8 @@ namespace Computator.NET.Bootstrapping
 
         public override T Create<T>()
         {
-            CreatePresenters();
+            if(typeof(T) == typeof(MainView))
+                CreatePresenters();
             return base.Create<T>();
         }
 

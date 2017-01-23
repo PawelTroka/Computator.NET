@@ -1,30 +1,12 @@
+using System.ComponentModel;
+
 namespace Computator.NET.DataTypes.SettingsTypes
 {
+    [Category("Scripting")]
     public enum CodeEditorType
     {
         Scintilla,
         AvalonEdit,
         TextEditor,
-    }
-
-    public enum FunctionsOrder
-    {
-        Default,
-        Alphabetical
-    }
-
-    public enum TooltipType
-    {
-        Default,
-        Form,
-        None
-    }
-
-    // [Description("chuju chuj ")]
-    // [Category("Chujowe")]
-    public enum NumericalOutputNotationType
-    {
-        MathematicalNotation,
-        EngineeringNotation
     }
 }

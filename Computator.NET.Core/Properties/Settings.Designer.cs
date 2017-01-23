@@ -177,5 +177,17 @@ namespace Computator.NET.Core.Properties {
                 this["CustomFunctionsDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ReturnNAN")]
+        public global::Computator.NET.DataTypes.SettingsTypes.CalculationsErrors CalculationsErrors {
+            get {
+                return ((global::Computator.NET.DataTypes.SettingsTypes.CalculationsErrors)(this["CalculationsErrors"]));
+            }
+            set {
+                this["CalculationsErrors"] = value;
+            }
+        }
     }
 }

@@ -19,6 +19,8 @@
  * + Cases like 2²x, 2(x+1) and (x+1)x are now handled correctly for multiplying
  * + Added handling of modulus notation (absolute value) - example |x+2|=|cos(y)|, including superscript (#11)
  * = TSL compiler now handles correctly functions with superscript characters in function name (this finally makes all unit tests green)
+ * + Added an option in settings to declare behavior in case of calculations error - ReturnNAN means return not a number in case of error in calculations and ShowError means app will show error dialog
+ * = Fixed Hypergeometric functions (will return NaN instead of showing error unless ShowError is defined in setting CalculationsErrors) (resolved issue #17)
 
 
  ### --------- Version 2.1.0ß - beta -----------  02.06.2016 18:20

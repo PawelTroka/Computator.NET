@@ -271,6 +271,9 @@
     <Content Include="Static\functions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.Computator.NET.Core.config" />
     <None Include="Special\x64\gsl.dll" />
     <None Include="Special\x86\gsl.dll" />
