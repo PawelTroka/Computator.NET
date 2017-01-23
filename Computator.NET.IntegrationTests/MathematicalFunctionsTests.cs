@@ -51,10 +51,6 @@ namespace Computator.NET.IntegrationTests
 
             foreach (var specialMethod in methodsToTest)
             {
-                if (specialMethod.Name.Contains("Hypergeometric"))
-                    //TODO: repair Hypergeometric functions and get rid of that filthy hack
-                    continue;
-
                 Debug.WriteLine("Testing: " + specialMethod);
                 Trace.WriteLine("Testing: " + specialMethod);
                 Console.WriteLine("Testing: " + specialMethod);
