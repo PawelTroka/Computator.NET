@@ -1,2 +1,4 @@
+before_build:
+  - nuget restore Computator.NET.sln
 build:
   project: Computator.NET.sln
