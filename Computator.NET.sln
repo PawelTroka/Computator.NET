@@ -67,6 +67,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E2C6CC91-A22F-4FFE-B3DD-36080763A822}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{342D511E-A811-4A7B-9369-4119DA2CDB52}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{78D9A020-3FAD-4ABF-B002-EAEC4C4E04D3}"
 EndProject

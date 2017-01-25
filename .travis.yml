@@ -1,1 +1,9 @@
 language: csharp
+solution: Computator.NET.sln
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
+  - nuget restore Computator.NET.sln
+after_script:
+  - nunit-console Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
+  - nunit-console Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
