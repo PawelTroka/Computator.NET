@@ -7,14 +7,10 @@ branches:
 image:
 - Visual Studio 2015
 - Previous Visual Studio 2015
-- Visual Studio 2013
-- Previous Visual Studio 2013
 
 configuration:
   - Debug
   - Release
-
-platform: Any CPU
 
 assembly_info:
   patch: true
