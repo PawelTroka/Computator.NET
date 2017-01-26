@@ -36,19 +36,26 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 # Contributing
 
-#####Programmers
+#### Build and tools
+* Windows (.NET Framework): [![Build status](https://ci.appveyor.com/api/projects/status/yy65wjyjagdh0lt6?svg=true)](https://ci.appveyor.com/project/PawelTroka/computator-net)
+* Linux (Mono and .NET Core): [![Build Status](https://travis-ci.org/PawelTroka/Computator.NET.svg?branch=master)](https://travis-ci.org/PawelTroka/Computator.NET)
+* IDE: Visual Studio 2015
+* InstallShield 2015 LE needed to build Installer project
+* Visual Studio 2015 Enterprise needed to build and run CodedUI tests
+
+##### Programmers
 * This repo supports **Fork & Pull Model**, you can do any useful changes and when you are done make a pull request. If your work is of good quality, it will be included in main branch.
 * List of **things to do** is **updated constantly**, you can view it here: [TODO file](../master/TODO). Choose wisely because some of those things are way harder than it looks.
 * List of known bugs (often with little or no reasonable solutions) is here: [BUGS file](../master/BUGS).
 
-#####Testers
+##### Testers
 * Our **unit tests coverage is small**, partly because of the fact that there is good chunk of UI code here. Still I am afraid that there are lots and lots of not found bugs. If you want to help us fix those bugs, first try to catch them by **writing good unit tests**.
 
-#####Users
+##### Users
 * If **you have found ANY bugs** or you think something might be bug please report it in [**issues**](https://github.com/PawelTroka/Computator.NET/issues) as fast as you can. Any help with testing / finding bugs is greatly appreciated.
 
 
-#Screenshots
+# Screenshots
 ![Computator.NET v1.8 is coming - functions with description](../master/Graphics/Presentation/Computator.NET%20v1.8%20is%20coming%20-%20functions%20with%20description.jpg "Computator.NET v1.8 is coming - functions with description")
 ![Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart](../master/Graphics/Presentation/Computator.NET%20v1.8%20is%20coming%202%20-%20writing%20in%20exponent,%20f(x,y)%20chart.jpg "Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart")
 ![functions and constants details](../master/Graphics/Presentation/functions%20and%20constants%20details.jpg "functions and constants details")
@@ -58,13 +65,13 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 # FAQ
 
-###What shortcut do you use to write in exponent, just like in gif presentation?
+### What shortcut do you use to write in exponent, just like in gif presentation?
 
 LShift+6 (^), just like it is listed in **Edit** menu from where you can also **activate / deactivate** writing in exponent without using this shortcut.
 ![Writing in exponent](../master/Graphics/Presentation/writing-in-exponent.gif "Writing in exponent")
 
 
-###How can I solve equations / do my homework using Computator.NET?
+### How can I solve equations / do my homework using Computator.NET?
 
 Computator.NET is numerical software that aims to provide functionality similar to Matlab and Mathematica. But it certainly isn't full Computer Algebra System, at least not yet. You can solve some equations by using '**Numerical calculations**' tab and '**Function root**' operation. Depending on the equation, different methods work better or worse.
 ![Solving equations using numerical calculations](../master/Graphics/Presentation/solving%20equations%20using%20numerical%20calculations.gif "Solving equations using numerical calculations")
