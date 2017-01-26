@@ -14,6 +14,8 @@ configuration:
   - Debug
   - Release
 
+platform: Any CPU
+
 assembly_info:
   patch: true
   file: '**\*SharedAssemblyInfo.*'
