@@ -16,18 +16,18 @@ before_script:
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 
 script:
-  - xbuild /p:Configuration=Release Computator.NET.DataTypes\Computator.NET.DataTypes.csproj
-  - xbuild /p:Configuration=Release Computator.NET.Core\Computator.NET.Core.csproj
-  - xbuild /p:Configuration=Release Computator.NET.Charting\Computator.NET.Charting.csproj
-  - xbuild /p:Configuration=Release Computator.NET\Computator.NET.csproj
-  - xbuild /p:Configuration=Release Computator.NET.Tests\Computator.NET.Tests.csproj
-  - xbuild /p:Configuration=Release Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
-  - xbuild /p:Configuration=Debug Computator.NET.DataTypes\Computator.NET.DataTypes.csproj
-  - xbuild /p:Configuration=Debug Computator.NET.Core\Computator.NET.Core.csproj
-  - xbuild /p:Configuration=Debug Computator.NET.Charting\Computator.NET.Charting.csproj
-  - xbuild /p:Configuration=Debug Computator.NET\Computator.NET.csproj
-  - xbuild /p:Configuration=Debug Computator.NET.Tests\Computator.NET.Tests.csproj
-  - xbuild /p:Configuration=Debug Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
+  - xbuild /p:Configuration=Release Computator.NET.DataTypes/Computator.NET.DataTypes.csproj
+  - xbuild /p:Configuration=Release Computator.NET.Core/Computator.NET.Core.csproj
+  - xbuild /p:Configuration=Release Computator.NET.Charting/Computator.NET.Charting.csproj
+  - xbuild /p:Configuration=Release Computator.NET/Computator.NET.csproj
+  - xbuild /p:Configuration=Release Computator.NET.Tests/Computator.NET.Tests.csproj
+  - xbuild /p:Configuration=Release Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.DataTypes/Computator.NET.DataTypes.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.Core/Computator.NET.Core.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.Charting/Computator.NET.Charting.csproj
+  - xbuild /p:Configuration=Debug Computator.NET/Computator.NET.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.Tests/Computator.NET.Tests.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj
 
 
 after_script:
