@@ -18,10 +18,10 @@ namespace Computator.NET.IntegrationTests.Data
                 Assert.IsNotNull(keyValuePair.Value.Category);
                 Assert.IsNotNull(keyValuePair.Value.Description);
                 Assert.IsNotNull(keyValuePair.Value.Title);
-
                 Assert.IsNotNull(keyValuePair.Value.Url);
 
-                Assert.AreEqual(keyValuePair.Key, keyValuePair.Value.Signature);
+                if(!string.IsNullOrWhiteSpace(keyValuePair.Value.Signature))
+                    Assert.AreEqual(keyValuePair.Key, keyValuePair.Value.Signature);
             }
         }
 
