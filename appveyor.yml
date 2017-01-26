@@ -1,14 +1,33 @@
-before_build:
-  - nuget restore Computator.NET.sln
+﻿version: 2.2.0.{build}
+
+branches:
+  only:
+  - master
+
+image:
+- Visual Studio 2015
+- Previous Visual Studio 2015
+- Visual Studio 2013
+- Previous Visual Studio 2013
 
 configuration:
   - Debug
   - Release
 
+assembly_info:
+  patch: true
+  file: '**\*SharedAssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: "{version}β"
+
+before_build:
+  - nuget restore Computator.NET.sln
+
 build_script:
-  - msbuild Computator.NET.DataTypes.csproj
-  - msbuild Computator.NET.Core.csproj
-  - msbuild Computator.NET.Charting.csproj
-  - msbuild Computator.NET.csproj
-  - msbuild Computator.NET.Tests.csproj
-  - msbuild Computator.NET.IntegrationTests.csproj
+  - msbuild Computator.NET.DataTypes\Computator.NET.DataTypes.csproj
+  - msbuild Computator.NET.Core\Computator.NET.Core.csproj
+  - msbuild Computator.NET.Charting\Computator.NET.Charting.csproj
+  - msbuild Computator.NET\Computator.NET.csproj
+  - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj
+  - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj

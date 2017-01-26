@@ -1,9 +1,41 @@
 language: csharp
 solution: Computator.NET.sln
+
+matrix:
+  include:
+    - dotnet: 1.0.0-preview2-003121
+      mono: none
+      env: DOTNETCORE=1
+    - mono: latest
+
 before_install:
   - sudo apt-get install nunit-console
+
 before_script:
   - nuget restore Computator.NET.sln
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+
+script:
+  - xbuild /p:Configuration=Release Computator.NET.DataTypes\Computator.NET.DataTypes.csproj
+  - xbuild /p:Configuration=Release Computator.NET.Core\Computator.NET.Core.csproj
+  - xbuild /p:Configuration=Release Computator.NET.Charting\Computator.NET.Charting.csproj
+  - xbuild /p:Configuration=Release Computator.NET\Computator.NET.csproj
+  - xbuild /p:Configuration=Release Computator.NET.Tests\Computator.NET.Tests.csproj
+  - xbuild /p:Configuration=Release Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.DataTypes\Computator.NET.DataTypes.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.Core\Computator.NET.Core.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.Charting\Computator.NET.Charting.csproj
+  - xbuild /p:Configuration=Debug Computator.NET\Computator.NET.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.Tests\Computator.NET.Tests.csproj
+  - xbuild /p:Configuration=Debug Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
+
+
 after_script:
   - nunit-console Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
   - nunit-console Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
+  - nunit-console Computator.NET.Tests/bin/Debug/Computator.NET.Tests.dll
+  - nunit-console Computator.NET.IntegrationTests/bin/Debug/Computator.NET.IntegrationTests.dll
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe Computator.NET.Tests/bin/Debug/Computator.NET.Tests.dll
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe Computator.NET.IntegrationTests/bin/Debug/Computator.NET.IntegrationTests.dll
