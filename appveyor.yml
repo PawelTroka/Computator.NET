@@ -6,11 +6,10 @@ platform:
 configuration:
   - Debug
   - Release
-
-build:
-  project: Computator.NET.DataTypes.csproj
-  project: Computator.NET.Core.csproj
-  project: Computator.NET.Charting.csproj
-  project: Computator.NET.csproj
-  project: Computator.NET.Tests.csproj
-  project: Computator.NET.IntegrationTests.csproj
+build_script:
+  - msbuild Computator.NET.DataTypes.csproj
+  - msbuild Computator.NET.Core.csproj
+  - msbuild Computator.NET.Charting.csproj
+  - msbuild Computator.NET.csproj
+  - msbuild Computator.NET.Tests.csproj
+  - msbuild Computator.NET.IntegrationTests.csproj
