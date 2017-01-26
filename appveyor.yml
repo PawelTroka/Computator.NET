@@ -1,11 +1,10 @@
 before_build:
   - nuget restore Computator.NET.sln
-platform:
-  - Any CPU
 
 configuration:
   - Debug
   - Release
+
 build_script:
   - msbuild Computator.NET.DataTypes.csproj
   - msbuild Computator.NET.Core.csproj
