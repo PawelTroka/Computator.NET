@@ -1,11 +1,18 @@
 before_build:
-  - nuget restore Computator.NET.sln
+  - nuget restore Computator.NET.DataTypes.csproj
+  - nuget restore Computator.NET.Core.csproj
+  - nuget restore Computator.NET.Charting.csproj
+  - nuget restore Computator.NET.csproj
+  - nuget restore Computator.NET.Tests.csproj
+  - nuget restore Computator.NET.IntegrationTests.csproj
+
 platform:
   - Any CPU
 
 configuration:
   - Debug
   - Release
+
 build_script:
   - msbuild Computator.NET.DataTypes.csproj
   - msbuild Computator.NET.Core.csproj
