@@ -3,7 +3,7 @@ solution: Computator.NET.sln
 
 matrix:
   include:
-    - dotnet: 1.0.0-preview2-003121
+    - dotnet: 1.0.0-preview2-003131
       mono: none
       env: DOTNETCORE=1
     - mono: latest
