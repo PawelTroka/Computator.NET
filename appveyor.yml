@@ -29,3 +29,15 @@ build_script:
   - msbuild Computator.NET\Computator.NET.csproj
   - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj
   - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
+
+notifications:
+- provider: GitHubPullRequest
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
+- provider: Email
+  to:
+  - pawel.troka@outlook.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
