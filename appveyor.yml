@@ -1,8 +1,9 @@
 ﻿version: 2.2.0.{build}
 
-branches:
-  only:
-  - master
+environment:
+  matrix:
+  - netmoniker: 
+  - netmoniker: .NET40
 
 image:
 - Visual Studio 2015
@@ -23,10 +24,10 @@ before_build:
   - nuget restore Computator.NET.sln
 
 build_script:
-  - msbuild Computator.NET.DataTypes\Computator.NET.DataTypes.csproj
-  - msbuild Computator.NET.Core\Computator.NET.Core.csproj
-  - msbuild Computator.NET.Charting\Computator.NET.Charting.csproj
-  - msbuild Computator.NET\Computator.NET.csproj
+  - msbuild Computator.NET.DataTypes\Computator.NET.DataTypes%netmoniker%.csproj
+  - msbuild Computator.NET.Core\Computator.NET.Core%netmoniker%.csproj
+  - msbuild Computator.NET.Charting\Computator.NET.Charting%netmoniker%.csproj
+  - msbuild Computator.NET\Computator.NET%netmoniker%.csproj
   - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj
   - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
 
