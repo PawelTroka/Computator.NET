@@ -48,8 +48,8 @@
       <HintPath>..\packages\Accord.Math.3.3.0\lib\net40\Accord.Math.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.16.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.3.16.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=3.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.17.0\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Meta.Numerics, Version=3.1.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
@@ -119,200 +119,28 @@
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
-  <PropertyGroup>
-    <IncludePattern>**\*.cs</IncludePattern>
-    <ExcludePattern>obj\**\*.cs</ExcludePattern>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Benchmarking\Benchmark.cs" />
-    <Compile Include="Bootstrapping\CoreBootstrapper.cs" />
-    <Compile Include="Bootstrapping\FuzzyMatchingParameterOverrideWithFallback.cs" />
-    <Compile Include="Compilation\CompilationErrorPlace.cs" />
-    <Compile Include="Compilation\CompilationException.cs" />
-    <Compile Include="Compilation\ExceptionExtensions.cs" />
-    <Compile Include="Compilation\NativeCompiler.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Compilation\NativeCompilerError.cs" />
-    <Compile Include="Compilation\TSLCompiler.cs" />
-    <Compile Include="Config\EmbeddedDllClass.cs" />
-    <Compile Include="Constants\MathematicalConstants.cs" />
-    <Compile Include="Constants\PhysicalConstants.cs" />
-    <Compile Include="Autocompletion\AutocompletionData.cs" />
-    <Compile Include="Autocompletion\FunctionInfo.cs" />
-    <Compile Include="Autocompletion\FunctionsDetails.cs" />
-    <Compile Include="Autocompletion\MethodInfoExtensions.cs" />
-    <Compile Include="Helpers\DocumentExtension.cs" />
-    <Compile Include="Model\DirectorySelectedEventArgs.cs" />
-    <Compile Include="Evaluation\EvaluationException.cs" />
-    <Compile Include="Evaluation\ExpressionsEvaluator.cs" />
-    <Compile Include="Evaluation\ModeDeterminer.cs" />
-    <Compile Include="Evaluation\NumericalExtensions.cs" />
-    <Compile Include="Evaluation\ScriptEvaluator.cs" />
-    <Compile Include="Evaluation\ScriptingExtensionObjects.cs" />
-    <Compile Include="Helpers\TypeExtenstion.cs" />
-    <Compile Include="Functions\ElementaryFunctions.cs" />
-    <Compile Include="Functions\MatrixFunctions.cs" />
-    <Compile Include="Functions\ScriptingFunctions.cs" />
-    <Compile Include="Functions\SpecialFunctions.cs" />
-    <Compile Include="Functions\StatisticsFunctions.cs" />
-    <Compile Include="Model\NameAttribute.cs" />
-    <Compile Include="Natives\GSLInitializer.cs" />
-    <Compile Include="Natives\NativeMethods.cs" />
-    <Compile Include="NumericalCalculations\Derivative.cs" />
-    <Compile Include="NumericalCalculations\FunctionRoot.cs" />
-    <Compile Include="NumericalCalculations\Integral.cs" />
-    <Compile Include="NumericalCalculations\NumericalMethodsInfo.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <DependentUpon>Settings.settings</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Transformations\TrigonometricTransformations.cs" />
-    <Compile Include="Autocompletion\AutocompleteItem.cs" />
-    <Compile Include="Autocompletion\Colors.cs" />
-    <Compile Include="Abstract\Controls\ICodeEditorControl.cs" />
-    <Compile Include="Helpers\DoubleExtensions.cs" />
-    <Compile Include="Abstract\Controls\IDirectoryTree.cs" />
-    <Compile Include="Abstract\Controls\IExpressionTextBox.cs" />
-    <Compile Include="Services\ErrorHandling\ExceptionsHandler.cs" />
-    <Compile Include="Services\ErrorHandling\IErrorHandler.cs" />
-    <Compile Include="Services\ErrorHandling\IExceptionsHandler.cs" />
-    <Compile Include="Abstract\Services\IMessagingService.cs" />
-    <Compile Include="Services\ErrorHandling\SimpleErrorHandler.cs" />
-    <Compile Include="Abstract\IDialogFactory.cs" />
-    <Compile Include="Abstract\Views\ICalculationsView.cs" />
-    <Compile Include="Abstract\Views\IChartAreaValuesView.cs" />
-    <Compile Include="Abstract\Views\IChartingView.cs" />
-    <Compile Include="Abstract\Views\ICustomFunctionsView.cs" />
-    <Compile Include="Abstract\Views\IExpressionView.cs" />
-    <Compile Include="Abstract\Views\IMainView.cs" />
-    <Compile Include="Abstract\Views\INumericalCalculationsView.cs" />
-    <Compile Include="Abstract\Views\IScriptingView.cs" />
-    <Compile Include="Abstract\Views\ISolutionExplorerView.cs" />
-    <Compile Include="Abstract\IShowFunctionDetails.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\BaseCommandForCharts.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\CommandsWithOptions\ChartOption.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\CommandsWithOptions\ColorAssigmentCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\CommandsWithOptions\ColorsCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\CommandsWithOptions\ContourLinesCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\CommandsWithOptions\LegendAligmentCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\CommandsWithOptions\LegendPlacementCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\CommandsWithOptions\SeriesCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\CommandsWithOptions\TypeOfChartCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\EditChartCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\EditChartPropertiesCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\EqualAxesCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\ExportCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\FitAxesCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\PrintChartCommand.cs" />
-    <Compile Include="Menu\Commands\ChartCommands\PrintPreviewChartCommand.cs" />
-    <Compile Include="Menu\Commands\CommandBase.cs" />
-    <Compile Include="Menu\Commands\CommandsWithOptions\LanguageCommand.cs" />
-    <Compile Include="Menu\Commands\DummyCommands\DummyCommand.cs" />
-    <Compile Include="Menu\Commands\DummyCommands\LegendPositionsCommand.cs" />
-    <Compile Include="Menu\Commands\DummyCommands\RescaleCommand.cs" />
-    <Compile Include="Menu\Commands\EditCommands\CopyCommand.cs" />
-    <Compile Include="Menu\Commands\EditCommands\CutCommand.cs" />
-    <Compile Include="Menu\Commands\EditCommands\ExponentCommand.cs" />
-    <Compile Include="Menu\Commands\EditCommands\PasteCommand.cs" />
-    <Compile Include="Menu\Commands\EditCommands\RedoCommand.cs" />
-    <Compile Include="Menu\Commands\EditCommands\SelectAllCommand.cs" />
-    <Compile Include="Menu\Commands\EditCommands\UndoCommand.cs" />
-    <Compile Include="Menu\Commands\FileCommands\ExitCommand.cs" />
-    <Compile Include="Menu\Commands\FileCommands\NewCommand.cs" />
-    <Compile Include="Menu\Commands\FileCommands\OpenCommand.cs" />
-    <Compile Include="Menu\Commands\FileCommands\PrintCommand.cs" />
-    <Compile Include="Menu\Commands\FileCommands\PrintPreviewCommand.cs" />
-    <Compile Include="Menu\Commands\FileCommands\SaveAsCommand.cs" />
-    <Compile Include="Menu\Commands\FileCommands\SaveCommand.cs" />
-    <Compile Include="Menu\Commands\FunctionOrConstantCommand.cs" />
-    <Compile Include="Menu\Commands\HelpCommands\AboutCommand.cs" />
-    <Compile Include="Menu\Commands\HelpCommands\BugReportingCommand.cs" />
-    <Compile Include="Menu\Commands\HelpCommands\ChangelogCommand.cs" />
-    <Compile Include="Menu\Commands\HelpCommands\FeaturesCommand.cs" />
-    <Compile Include="Menu\Commands\HelpCommands\HelpCommand.cs" />
-    <Compile Include="Menu\Commands\HelpCommands\ThanksToCommand.cs" />
-    <Compile Include="Menu\Commands\IToolbarCommand.cs" />
-    <Compile Include="Menu\Commands\ToolsCommands\BenchmarkCommand.cs" />
-    <Compile Include="Menu\Commands\ToolsCommands\FullScreenCommand.cs" />
-    <Compile Include="Menu\Commands\ToolsCommands\LogsCommand.cs" />
-    <Compile Include="Menu\Commands\ToolsCommands\OptionsCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\ChartCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\ConstantsCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\EditCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\FileCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\FunctionsCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\HelpCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\RunCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\ToolsCommand.cs" />
-    <Compile Include="Menu\Commands\TopMenuCommands\TransformCommand.cs" />
-    <Compile Include="Menu\Commands\TransformOptionCommand.cs" />
-    <Compile Include="Menu\Commands\FunctionDetailsBasedCommand.cs" />
-    <Compile Include="Menu\MenuStrings.Designer.cs">
-      <DependentUpon>MenuStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Helpers\BindingUtils.cs" />
-    <Compile Include="Services\CommandLineHandler.cs" />
-    <Compile Include="Abstract\Services\IApplicationManager.cs" />
-    <Compile Include="Model\ISharedViewState.cs" />
-    <Compile Include="Model\SharedViewState.cs" />
-    <Compile Include="Autocompletion\PaintItemEventArgs.cs" />
-    <Compile Include="Presenters\CalculationsPresenter.cs" />
-    <Compile Include="Presenters\ChartAreaValuesPresenter.cs" />
-    <Compile Include="Presenters\ChartingViewPresenter.cs" />
-    <Compile Include="Presenters\CustomFunctionsPresenter.cs" />
-    <Compile Include="Presenters\ExpressionViewPresenter.cs" />
-    <Compile Include="Presenters\MainFormPresenter.cs" />
-    <Compile Include="Presenters\NumericalCalculationsPresenter.cs" />
-    <Compile Include="Presenters\ScriptingViewPresenter.cs" />
-    <Compile Include="Presenters\SolutionExplorerPresenter.cs" />
-    <Compile Include="Functions\ReadForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Autocompletion\SelectedEventArgs.cs" />
+    <Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" />
+    <None Include="app.config" />
+    <None Include="packages.Computator.NET.Core.NET40.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Static\functions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="app.config" />
-    <None Include="packages.Computator.NET.Core.NET40.config">
-      <SubType>Designer</SubType>
-    </None>
+    <Content Include="**\*.tsl">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+    <Content Include="**\*.tslf">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+    <Content Include="Static\**\*.*">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
     <None Include="Special\x64\gsl.dll" />
     <None Include="Special\x86\gsl.dll" />
-    <Content Include="TSL Examples\**\*.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TSL Examples\**\*.tslf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\fonts\CAMBRIA.TTC">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\fonts\consola.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\TSL-Syntax.xshd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <None Include="**\*.settings" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.NET40.csproj">
@@ -323,23 +151,6 @@
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SymbolicCalculations\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Menu\MenuStrings.cs.resx" />
-    <EmbeddedResource Include="Menu\MenuStrings.de.resx" />
-    <EmbeddedResource Include="Menu\MenuStrings.pl.resx" />
-    <EmbeddedResource Include="Menu\MenuStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>MenuStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.3.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.3.0\build\Accord.targets')" />

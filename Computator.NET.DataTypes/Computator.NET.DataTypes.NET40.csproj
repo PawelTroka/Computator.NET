@@ -51,82 +51,13 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <PropertyGroup>
-    <IncludePattern>**\*.cs</IncludePattern>
-    <ExcludePattern>obj\**\*.cs</ExcludePattern>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Charts\AssignmentOfColorMethod.cs" />
-    <Compile Include="Charts\CountourLinesMode.cs" />
-    <Compile Include="Charts\IAreaValues.cs" />
-    <Compile Include="Charts\IChart.cs" />
-    <Compile Include="Charts\IPrinting.cs" />
-    <Compile Include="Localization\Strings.cs.Designer.cs">
-      <DependentUpon>Strings.cs.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Strings.de.Designer.cs">
-      <DependentUpon>Strings.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Strings.Designer.cs">
-      <DependentUpon>Strings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Strings.pl.Designer.cs">
-      <DependentUpon>Strings.pl.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="BaseFunction.cs" />
-    <Compile Include="CalculationException.cs" />
-    <Compile Include="CalculationsMode.cs" />
-    <Compile Include="CustomFonts.cs" />
-    <Compile Include="ErrorType.cs" />
-    <Compile Include="Events\CalculationsModeChangedEvent.cs" />
-    <Compile Include="Events\ChangeViewEvent.cs" />
-    <Compile Include="Events\EventAggregator.cs" />
-    <Compile Include="Events\ExponentModeChangedEvent.cs" />
-    <Compile Include="Events\IApplicationEvent.cs" />
-    <Compile Include="Events\IEventAggregator.cs" />
-    <Compile Include="Events\ViewName.cs" />
-    <Compile Include="Function.cs" />
-    <Compile Include="FunctionType.cs" />
-    <Compile Include="GlobalConfig.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptFunction.cs" />
-    <Compile Include="SettingsTypes\CodeEditorType.cs" />
-    <Compile Include="SpecialSymbols.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Localization\Strings.cs.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.cs.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.pl.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.pl.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.Computator.NET.DataTypes.NET40.config" />
+	<Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
+	<EmbeddedResource Include="**\*.resx" />
+	<None Include="packages.Computator.NET.DataTypes.NET40.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
