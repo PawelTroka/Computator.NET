@@ -9,14 +9,12 @@
 ##Code quality
 * Use Paket instead of Nuget? This might allow simpler builds targeting NET40 without additional projects and solutions
 * Whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring
-* Computator.NET.Core project should target .NET Core / PCL so it can be used as logic for all platforms (Desktop, Mobile, ...)
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
 * Use mark_heath tips
 * migrate all controls, even the advanced ones to use MVP
 * Command pattern for buttons, including EditChartMenus / or something better -> EditChartWindow is left
 * use mode.error more often - use it for empty text and errors etc
 * MVP is still done poorly, IViews shouldn't have nested IViews
-* MVP is nice but maybe we should switch to MVVM using ReactiveUI http://www.codeproject.com/Articles/801986/Using-ReactiveUI-for-WinForms-MVVM-Design
 
 
 ##UI
