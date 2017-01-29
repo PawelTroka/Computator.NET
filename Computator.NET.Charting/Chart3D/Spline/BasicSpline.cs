@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Media.Media3D;
+using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.Chart3D.Spline
 {
     public abstract class BasicSpline
     {
-        public static object[] EMPTYOBJLIST = {};
-
-        public void calcNaturalCubic(List<Point3D> valueCollection, Func<Point3D, double> getVal,
+        public void CalcNaturalCubic(List<Point3D> valueCollection, Func<Point3D, double> getVal,
             List<Cubic> cubicCollection)
         {
             var num = valueCollection.Count - 1;
 
             var gamma = new double[num + 1];
             var delta = new double[num + 1];
-            var D = new double[num + 1];
+            var d = new double[num + 1];
 
             int i;
             /*
@@ -52,10 +50,10 @@ namespace Computator.NET.Charting.Chart3D.Spline
 
             delta[num] = (3.0f*(p1 - p0) - delta[num - 1])*gamma[num];
 
-            D[num] = delta[num];
+            d[num] = delta[num];
             for (i = num - 1; i >= 0; i--)
             {
-                D[i] = delta[i] - gamma[i]*D[i + 1];
+                d[i] = delta[i] - gamma[i]*d[i + 1];
             }
 
             /*
@@ -70,9 +68,9 @@ namespace Computator.NET.Charting.Chart3D.Spline
 
                 cubicCollection.Add(new Cubic(
                     p0,
-                    D[i],
-                    3*(p1 - p0) - 2*D[i] - D[i + 1],
-                    2*(p0 - p1) + D[i] + D[i + 1]
+                    d[i],
+                    3*(p1 - p0) - 2*d[i] - d[i + 1],
+                    2*(p0 - p1) + d[i] + d[i + 1]
                     )
                     );
             }

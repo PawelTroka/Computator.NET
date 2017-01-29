@@ -175,32 +175,32 @@ namespace Computator.NET.Core.Functions
         private static string objectToString(object o)
         {
             //complex matrix
-             
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToTypeString(),
+
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.Matrix))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.Matrix).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.Matrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
                         maxWidth, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
             //complex vector
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseVector))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToTypeString(),
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.Vector))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.Vector).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.Vector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
                         System.Environment.NewLine,
                         z => (z).ToMathString()));
 
             //real matrix
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseMatrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToTypeString(),
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.Matrix))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.Matrix).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                    (o as MathNet.Numerics.LinearAlgebra.Double.Matrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
                         maxWidth, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
 
             //real vector
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseVector))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToTypeString(),
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.Vector))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.Vector).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
+                    (o as MathNet.Numerics.LinearAlgebra.Double.Vector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
                         System.Environment.NewLine,
                         z => z.ToMathString()));
 
@@ -339,10 +339,10 @@ namespace Computator.NET.Core.Functions
 
             var chart3d = new Computator.NET.Charting.Chart3D.UI.Chart3DControl();
 
-            var points = new System.Collections.Generic.List<System.Windows.Media.Media3D.Point3D>();
+            var points = new System.Collections.Generic.List<Computator.NET.DataTypes.Point3D>();
             var n = System.Math.Min(System.Math.Min(xa.Length, ya.Length), za.Length);
             for (var j = 0; j < n; j++)
-                points.Add(new System.Windows.Media.Media3D.Point3D(xa[j], ya[j], za[j]));
+                points.Add(new Computator.NET.DataTypes.Point3D(xa[j], ya[j], za[j]));
 
             
             chart3d.AddPoints(points);
@@ -409,7 +409,7 @@ double YMax = 5, double quality = 0.5)
 
         public const string ToCode = @"
 
-#region input and output
+        #region input and output
 
         public static void show(object o, string showcaption = ""Show output: "")
         {
@@ -572,32 +572,32 @@ double YMax = 5, double quality = 0.5)
         private static string objectToString(object o)
         {
             //complex matrix
-             
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToTypeString(),
+
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.Matrix))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.Matrix).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseMatrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.Matrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
                         maxWidth, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
             //complex vector
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Complex.DenseVector))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToTypeString(),
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.Vector))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.Vector).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.DenseVector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
+                    (o as MathNet.Numerics.LinearAlgebra.Complex.Vector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
                         System.Environment.NewLine,
                         z => (z).ToMathString()));
 
             //real matrix
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseMatrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToTypeString(),
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.Matrix))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.Matrix).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                    (o as MathNet.Numerics.LinearAlgebra.Double.Matrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
                         maxWidth, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
 
             //real vector
-            if (o.GetType() == typeof (MathNet.Numerics.LinearAlgebra.Double.DenseVector))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToTypeString(),
+            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.Vector))
+                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.Vector).ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.DenseVector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
+                    (o as MathNet.Numerics.LinearAlgebra.Double.Vector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
                         System.Environment.NewLine,
                         z => z.ToMathString()));
 
@@ -736,10 +736,10 @@ double YMax = 5, double quality = 0.5)
 
             var chart3d = new Computator.NET.Charting.Chart3D.UI.Chart3DControl();
 
-            var points = new System.Collections.Generic.List<System.Windows.Media.Media3D.Point3D>();
+            var points = new System.Collections.Generic.List<Computator.NET.DataTypes.Point3D>();
             var n = System.Math.Min(System.Math.Min(xa.Length, ya.Length), za.Length);
             for (var j = 0; j < n; j++)
-                points.Add(new System.Windows.Media.Media3D.Point3D(xa[j], ya[j], za[j]));
+                points.Add(new Computator.NET.DataTypes.Point3D(xa[j], ya[j], za[j]));
 
             
             chart3d.AddPoints(points);

@@ -1,4 +1,5 @@
-﻿// A dot in 3D space
+﻿#if !__MonoCS__
+// A dot in 3D space
 // version 0.1
 
 using System.Windows.Media;
@@ -14,3 +15,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         public float x, y, z; // location of the dot
     }
 }
+#endif

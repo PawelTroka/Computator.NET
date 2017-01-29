@@ -1,3 +1,4 @@
+#if !__MonoCS__
 using System;
 using System.Drawing;
 using System.Windows.Media;
@@ -111,3 +112,4 @@ namespace Computator.NET.Controls.CodeEditors.AvalonEdit
         }
     }
 }
+#endif

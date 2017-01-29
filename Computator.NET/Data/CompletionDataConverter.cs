@@ -1,3 +1,4 @@
+#if !__MonoCS__
 using System.Collections.Generic;
 using System.Linq;
 using Computator.NET.Controls.CodeEditors.AvalonEdit;
@@ -21,3 +22,4 @@ namespace Computator.NET.Data
         }
     }
 }
+#endif

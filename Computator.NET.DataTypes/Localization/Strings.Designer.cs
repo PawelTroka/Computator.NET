@@ -169,6 +169,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chart3D is not supported on Mono.
+        /// </summary>
+        public static string Chart3D_is_not_supported_on_Mono {
+            get {
+                return ResourceManager.GetString("Chart3D_is_not_supported_on_Mono", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Console output:.
         /// </summary>
         public static string ConsoleOutput {

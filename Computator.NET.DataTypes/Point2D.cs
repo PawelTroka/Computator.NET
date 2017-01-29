@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Charting.RealCharting
+﻿namespace Computator.NET.DataTypes
 {
     public class Point2D
     {

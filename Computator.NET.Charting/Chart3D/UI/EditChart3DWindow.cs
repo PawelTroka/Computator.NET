@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !__MonoCS__
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows;
@@ -235,3 +236,4 @@ namespace Computator.NET.Charting.Chart3D.UI
         }
     }
 }
+#endif

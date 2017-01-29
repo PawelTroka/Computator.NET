@@ -1,4 +1,5 @@
-﻿// class set 3d model color using image brush
+﻿#if !__MonoCS__
+// class set 3d model color using image brush
 // version 0.1
 
 // image size is 64x64
@@ -212,3 +213,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

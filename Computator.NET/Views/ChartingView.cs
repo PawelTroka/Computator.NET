@@ -17,15 +17,18 @@ namespace Computator.NET.Views
             chartAreaValuesView.Dock=DockStyle.Right;
             ChartAreaValuesView = chartAreaValuesView;
             Charts = charts;
-
+#if !__MonoCS__
             var el = new ElementHost { Child = (Charts[CalculationsMode.Fxy] as Chart3DControl), Dock = DockStyle.Fill };
             (Charts[CalculationsMode.Fxy] as Chart3DControl).ParentControl = el;
+#endif
 
             panel2.Controls.AddRange(new[]
             {
                 Charts[CalculationsMode.Real] as Chart2D,
                 Charts[CalculationsMode.Complex] as ComplexChart,
+#if !__MonoCS__
                 el,
+#endif
                 (Control) chartAreaValuesView,
             });
         }

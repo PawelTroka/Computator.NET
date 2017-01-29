@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Forms;
 using Computator.NET.Controls;
 using Computator.NET.Core.Menu.Commands;
@@ -74,9 +73,17 @@ namespace Computator.NET.Views
                 button.Click += (sender, args) => c.Execute();
                 button.MouseDown += (sender, args) =>
                 {
-                    if(args.Button!=MouseButtons.Left && !(SystemInformation.MouseButtonsSwapped || SystemParameters.SwapButtons))
+                    if(args.Button!=MouseButtons.Left && !(SystemInformation.MouseButtonsSwapped
+#if !__MonoCS__
+                    || System.Windows.SystemParameters.SwapButtons
+#endif
+                    ))
                     c.Execute();
-                    else if (args.Button != MouseButtons.Right && (SystemInformation.MouseButtonsSwapped || SystemParameters.SwapButtons))
+                    else if (args.Button != MouseButtons.Right && (SystemInformation.MouseButtonsSwapped
+#if !__MonoCS__
+                    || System.Windows.SystemParameters.SwapButtons
+#endif
+                    ))
                         c.Execute();
                 };
             }

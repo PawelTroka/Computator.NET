@@ -1,4 +1,5 @@
-﻿// class translate mesh3d object to ModelVisual3D object.
+﻿#if !__MonoCS__
+// class translate mesh3d object to ModelVisual3D object.
 // version 0.1
 
 using System;
@@ -147,3 +148,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

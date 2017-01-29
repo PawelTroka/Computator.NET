@@ -1,4 +1,5 @@
-﻿// base class for 3D chart
+﻿#if !__MonoCS__
+// base class for 3D chart
 // version 0.1
 
 using System.Collections;
@@ -288,3 +289,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

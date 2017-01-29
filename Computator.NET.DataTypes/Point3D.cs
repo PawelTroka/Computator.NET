@@ -1,6 +1,6 @@
-﻿namespace Computator.NET.Charting.RealCharting
+﻿namespace Computator.NET.DataTypes
 {
-    /*public class Point3D : Point2D
+    public class Point3D
     {
         public Point3D()
         {
@@ -12,7 +12,8 @@
             this.y = y;
             this.z = z;
         }
-
+        public double x { get; set; }
+        public double y { get; set; }
         public double z { get; set; }
-    }*/
+    }
 }

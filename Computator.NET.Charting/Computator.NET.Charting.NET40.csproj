@@ -56,8 +56,8 @@
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
       <HintPath>.\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
+    <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -80,7 +80,7 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WindowsFormsIntegration" Condition=" '$(OS)' != 'Unix' " />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
@@ -88,7 +88,7 @@
     </Compile>
     <Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
     <EmbeddedResource Include="**\*.resx" />
-    <Page Include="**\*.xaml">
+    <Page Include="**\*.xaml" Condition=" '$(OS)' != 'Unix' ">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

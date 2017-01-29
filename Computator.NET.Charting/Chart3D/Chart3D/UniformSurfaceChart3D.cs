@@ -1,4 +1,5 @@
-﻿// class of a special surface chart, (uniform grid in x-y direction)
+﻿#if !__MonoCS__
+// class of a special surface chart, (uniform grid in x-y direction)
 // version 0.1
 
 
@@ -96,3 +97,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

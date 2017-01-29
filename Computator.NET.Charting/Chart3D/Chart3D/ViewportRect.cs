@@ -1,4 +1,5 @@
-﻿// class for draw 2D rectangular in Viewport3D.
+﻿#if !__MonoCS__
+// class for draw 2D rectangular in Viewport3D.
 // version 0.1
 
 //      vertex index
@@ -144,3 +145,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

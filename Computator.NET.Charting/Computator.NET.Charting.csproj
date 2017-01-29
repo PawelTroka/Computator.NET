@@ -41,8 +41,8 @@
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
       <HintPath>.\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
+    <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -53,11 +53,14 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WindowsFormsIntegration" Condition=" '$(OS)' != 'Unix' " />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Chart3D\UI\Chart3DControlMono.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Chart3D\Chart3DMode.cs" />
     <Compile Include="Chart3D\Chart3D\AxisLabels.cs" />
@@ -130,8 +133,6 @@
     <Compile Include="RealCharting\EditChartWindow.Designer.cs">
       <DependentUpon>EditChartWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="RealCharting\Point2D.cs" />
-    <Compile Include="RealCharting\Point3D.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Chart3D\UI\EditChart3DWindow.cs.resx">
@@ -189,7 +190,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Chart3D\UI\Chart3DControl.xaml">
+    <Page Include="Chart3D\UI\Chart3DControl.xaml" Condition=" '$(OS)' != 'Unix' ">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

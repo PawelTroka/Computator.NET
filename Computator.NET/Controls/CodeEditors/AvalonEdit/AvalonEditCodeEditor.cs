@@ -1,6 +1,6 @@
-﻿//#define NEW_AUTOCOMPLETE
+﻿#if !__MonoCS__
+//#define NEW_AUTOCOMPLETE
 //#define USE_FOLDING
-
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -14,7 +14,6 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
-using Computator.NET.Controls.CodeEditors.Scintilla;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Helpers;
@@ -32,6 +31,7 @@ using ICSharpCode.AvalonEdit.Search;
 using FontFamily = System.Windows.Media.FontFamily;
 using FontStyle = System.Drawing.FontStyle;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+
 
 namespace Computator.NET.Controls.CodeEditors.AvalonEdit
 {
@@ -517,10 +517,10 @@ namespace Computator.NET.Controls.CodeEditors.AvalonEdit
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿// class for a color 3d mesh model. (each vertex can have different color)
+﻿#if !__MonoCS__
+// class for a color 3d mesh model. (each vertex can have different color)
 // version 0.1
 
 using System.Windows.Media;
@@ -34,3 +35,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

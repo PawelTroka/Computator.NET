@@ -1,4 +1,5 @@
-﻿// class of 3d scatter plot .
+﻿#if !__MonoCS__
+// class of 3d scatter plot .
 // version 0.1
 
 using System.Collections;
@@ -130,3 +131,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

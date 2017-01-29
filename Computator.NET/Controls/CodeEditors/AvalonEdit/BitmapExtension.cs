@@ -1,3 +1,4 @@
+#if !__MonoCS__
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -63,3 +64,4 @@ namespace Computator.NET.Controls.CodeEditors.AvalonEdit
         }
     }
 }
+#endif

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
@@ -27,9 +27,9 @@ namespace Computator.NET.Charting.Controls
     {
         private readonly Dictionary<CalculationsMode, IChart> charts;
 
-
-        private readonly ElementHost elementHostChart3d;
-
+#if !__MonoCS__
+        private readonly System.Windows.Forms.Integration.ElementHost elementHostChart3d;
+#endif
         private readonly ComponentResourceManager resources = new ComponentResourceManager(typeof(EditChartMenus));
 
 
@@ -71,8 +71,11 @@ namespace Computator.NET.Charting.Controls
         private ToolStripMenuItem typeOfChartToolStripMenuItem;
 
 
-        public EditChartMenus(Chart2D chart2d, ComplexChart complexChart, Chart3DControl chart3DControl,
-            ElementHost chart3DElementHost)
+        public EditChartMenus(Chart2D chart2d, ComplexChart complexChart, Chart3DControl chart3DControl
+#if !__MonoCS__
+            , System.Windows.Forms.Integration.ElementHost chart3DElementHost
+#endif
+            )
         {
             InitializeComponent();
 
@@ -82,8 +85,9 @@ namespace Computator.NET.Charting.Controls
                 {CalculationsMode.Complex, complexChart},
                 {CalculationsMode.Fxy, chart3DControl}
             };
+#if !__MonoCS__
             elementHostChart3d = chart3DElementHost;
-
+#endif
 
             chart2d?.setupComboBoxes(typeOfChartComboBox, seriesOfChartComboBox, colorsOfChartComboBox,
                 positionLegendComboBox, aligmentLegendComboBox);
@@ -406,28 +410,29 @@ namespace Computator.NET.Charting.Controls
         private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var editChartWindow = new Form();
-
             if (currentChart is Chart2D)
                 editChartWindow = new EditChartWindow(chart2d);
             else if (currentChart is ComplexChart)
                 editChartWindow = new EditComplexChartWindow(complexChart);
+
             else if (currentChart is Chart3DControl)
+#if __MonoCS__
+                editChartWindow.Controls.Add(new Label() {Dock = DockStyle.Fill,Text = Strings.Chart3D_is_not_supported_on_Mono,Font = new Font(FontFamily.GenericSansSerif, 20)});
+#else
                 editChartWindow = new Chart3D.UI.EditChartWindow(chart3d, elementHostChart3d);
+#endif
 
-
-            editChartWindow.ShowDialog();
+                editChartWindow.ShowDialog();
         }
 
         private void ExportChartExportToolStripMenuItemClick(object sender, EventArgs e)
         {
             saveChartImageFileDialog.FileName =
                 $"{Strings.Chart} {DateTime.Now.ToString("u", CultureInfo.InvariantCulture).Replace(':', '-').Replace("Z", "")}";
-            if (saveChartImageFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                Thread.Sleep(20);
-                currentChart.SaveImage(saveChartImageFileDialog.FileName,
-                    FilterIndexToImageFormat(saveChartImageFileDialog.FilterIndex));
-            }
+            if (saveChartImageFileDialog.ShowDialog() != DialogResult.OK) return;
+            Thread.Sleep(20);
+            currentChart.SaveImage(saveChartImageFileDialog.FileName,
+                FilterIndexToImageFormat(saveChartImageFileDialog.FilterIndex));
         }
 
 

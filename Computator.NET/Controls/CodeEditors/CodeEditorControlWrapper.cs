@@ -20,9 +20,9 @@ namespace Computator.NET.Controls.CodeEditors
 
     {
         private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors;
-
+        #if !__MonoCS__
         private readonly ElementHost avalonEditorWrapper;
-
+        #endif
         private readonly SaveFileDialog saveFileDialog = new SaveFileDialog
         {
             Filter = GlobalConfig.TslFilesFIlter
@@ -33,7 +33,10 @@ namespace Computator.NET.Controls.CodeEditors
 
 
         public CodeEditorControlWrapper(ScintillaCodeEditorControl scintillaCodeEditorControl,
-            AvalonEditCodeEditor avalonEditCodeEditor, TextEditorCodeEditor textEditorCodeEditor)
+#if !__MonoCS__
+            AvalonEditCodeEditor avalonEditCodeEditor,
+#endif
+            TextEditorCodeEditor textEditorCodeEditor)
         {
             scintillaCodeEditorControl.Dock=DockStyle.Fill;
 
@@ -43,16 +46,19 @@ namespace Computator.NET.Controls.CodeEditors
                 {
                     CodeEditorType.Scintilla, scintillaCodeEditorControl
                 },
+#if !__MonoCS__
                 {CodeEditorType.AvalonEdit, avalonEditCodeEditor},
+#endif
                 {CodeEditorType.TextEditor, textEditorCodeEditor }
             };
+#if !__MonoCS__
             avalonEditorWrapper = new ElementHost
             {
                 BackColor = Color.White,
                 Dock = DockStyle.Fill,
                 Child = _codeEditors[CodeEditorType.AvalonEdit] as UIElement
             };
-
+#endif
 
             tabControl = new DocumentsTabControl {Dock = DockStyle.Top, AutoSize = true};
             
@@ -109,9 +115,12 @@ namespace Computator.NET.Controls.CodeEditors
 
         public override bool Focused
             =>
+#if !__MonoCS__
                 _codeEditorType == CodeEditorType.AvalonEdit
                     ? avalonEditorWrapper.Focused
-                    : ((Control) CurrentCodeEditor).Focused;
+                    :
+#endif
+            ((Control) CurrentCodeEditor).Focused;
 
         public string CurrentFileName
         {
@@ -348,12 +357,14 @@ namespace Computator.NET.Controls.CodeEditors
 
             switch (_codeEditorType)
             {
+#if !__MonoCS__
                 case CodeEditorType.AvalonEdit:
                     //  avalonEditor.Text = (_codeEditors[CodeEditorType.Scintilla] as Control).Text;
                     avalonEditorWrapper.Show();
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Hide();
                     (_codeEditors[CodeEditorType.TextEditor] as Control).Hide();
                     break;
+#endif
                 case CodeEditorType.Scintilla:
                     avalonEditorWrapper.Hide();
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Show();

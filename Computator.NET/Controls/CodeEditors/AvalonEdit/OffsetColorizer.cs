@@ -1,3 +1,4 @@
+#if !__MonoCS__
 using System.Collections.Generic;
 using System.Windows.Media;
 using ICSharpCode.AvalonEdit.Document;
@@ -37,3 +38,4 @@ namespace Computator.NET.Controls.CodeEditors.AvalonEdit
         }
     }
 }
+#endif

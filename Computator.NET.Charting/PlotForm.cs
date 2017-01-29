@@ -18,7 +18,7 @@ namespace Computator.NET.Charting
         {
             InitializeComponent();
 
-
+#if !__MonoCS__
             if (chart is Chart3DControl)
             {
                 var el = new ElementHost {Child = chart as Chart3DControl};
@@ -26,6 +26,7 @@ namespace Computator.NET.Charting
                 InitializeChart(el);
             }
             else
+#endif
                 InitializeChart(chart as Control);
         }
 
@@ -36,7 +37,13 @@ namespace Computator.NET.Charting
             control.BringToFront();
             //TODO: use menu builder and command pattern for menu instead of dirty EditChartMenus
             editChartMenus = new EditChartMenus(control as Chart2D, control as ComplexChart,
-                (control as ElementHost)?.Child as Chart3DControl, control as ElementHost);
+
+#if __MonoCS__
+                (control as Chart3DControl)
+#else          
+                 (control as ElementHost)?.Child as Chart3DControl, control as ElementHost
+#endif
+                );
 
 
             menuStrip1.Items.AddRange(new ToolStripItem[]
@@ -56,7 +63,14 @@ namespace Computator.NET.Charting
             {
                 editChartMenus.SetMode(CalculationsMode.Complex);
             }
-            else if (chartType == typeof(ElementHost))
+            else if (chartType ==
+#if !__MonoCS__
+                typeof(ElementHost)
+#else
+                typeof(Chart3DControl)
+#endif
+
+                )
             {
                 editChartMenus.SetMode(CalculationsMode.Fxy);
             }

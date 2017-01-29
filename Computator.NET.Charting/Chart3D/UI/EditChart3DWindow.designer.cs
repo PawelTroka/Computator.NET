@@ -1,5 +1,6 @@
 ﻿namespace Computator.NET.Charting.Chart3D.UI
 {
+#if !__MonoCS__
     partial class EditChartWindow
     {
         /// <summary>
@@ -773,4 +774,5 @@
         private System.Windows.Forms.TextBox yMaxChartTextBox;
         private System.Windows.Forms.Label label23;
     }
+#endif
 }

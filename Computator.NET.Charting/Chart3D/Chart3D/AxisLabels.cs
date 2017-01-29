@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿#if !__MonoCS__
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -246,3 +247,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

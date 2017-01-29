@@ -1,4 +1,5 @@
-﻿// class for a 3d rotation, drag and zoom.
+﻿#if !__MonoCS__
+// class for a 3d rotation, drag and zoom.
 // version 0.1
 
 using System;
@@ -239,3 +240,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

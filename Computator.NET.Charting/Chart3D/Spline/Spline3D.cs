@@ -1,58 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Media.Media3D;
+using Computator.NET.DataTypes;
 
 namespace Computator.NET.Charting.Chart3D.Spline
 {
     public class Spline3D : BasicSpline
     {
-        private static object[] EMPTYOBJ = {};
-        private readonly Func<Point3D, double> point3DgetXMethod;
-        private readonly Func<Point3D, double> point3DgetYMethod;
-        private readonly Func<Point3D, double> point3DgetZMethod;
-        private readonly List<Point3D> points;
-        private readonly List<Cubic> xCubics;
-        private readonly List<Cubic> yCubics;
-        private readonly List<Cubic> zCubics;
+        private readonly Func<Point3D, double> _point3DgetXMethod;
+        private readonly Func<Point3D, double> _point3DgetYMethod;
+        private readonly Func<Point3D, double> _point3DgetZMethod;
+        private readonly List<Point3D> _points;
+        private readonly List<Cubic> _xCubics;
+        private readonly List<Cubic> _yCubics;
+        private readonly List<Cubic> _zCubics;
 
         public Spline3D()
         {
-            points = new List<Point3D>();
+            _points = new List<Point3D>();
 
-            xCubics = new List<Cubic>();
-            yCubics = new List<Cubic>();
-            zCubics = new List<Cubic>();
-            point3DgetXMethod = delegate(Point3D point3d) { return point3d.X; };
-            point3DgetYMethod = delegate(Point3D point3d) { return point3d.Y; };
-            point3DgetZMethod = delegate(Point3D point3d) { return point3d.Z; };
+            _xCubics = new List<Cubic>();
+            _yCubics = new List<Cubic>();
+            _zCubics = new List<Cubic>();
+            _point3DgetXMethod = point3D => point3D.x;
+            _point3DgetYMethod = point3D => point3D.y;
+            _point3DgetZMethod = point3D => point3D.z;
         }
 
-        public void addPoint(Point3D point)
+        public void AddPoint(Point3D point)
         {
-            points.Add(point);
+            _points.Add(point);
         }
 
-        public List<Point3D> getPoints()
+        public List<Point3D> GetPoints()
         {
-            return points;
+            return _points;
         }
 
-        public void calcSpline()
+        public void CalcSpline()
         {
-            calcNaturalCubic(points, point3DgetXMethod, xCubics);
-            calcNaturalCubic(points, point3DgetYMethod, yCubics);
-            calcNaturalCubic(points, point3DgetZMethod, zCubics);
+            CalcNaturalCubic(_points, _point3DgetXMethod, _xCubics);
+            CalcNaturalCubic(_points, _point3DgetYMethod, _yCubics);
+            CalcNaturalCubic(_points, _point3DgetZMethod, _zCubics);
         }
 
-        public Point3D getPoint(double position)
+        public Point3D GetPoint(double position)
         {
-            position = position*(xCubics.Count - 1);
+            position = position*(_xCubics.Count - 1);
             var cubicNum = (int) position;
             var cubicPos = position - cubicNum;
 
-            return new Point3D(xCubics[cubicNum].eval(cubicPos),
-                yCubics[cubicNum].eval(cubicPos),
-                zCubics[cubicNum].eval(cubicPos));
+            return new Point3D(_xCubics[cubicNum].eval(cubicPos),
+                _yCubics[cubicNum].eval(cubicPos),
+                _zCubics[cubicNum].eval(cubicPos));
         }
     }
 }

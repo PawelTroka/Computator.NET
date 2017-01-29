@@ -1,4 +1,5 @@
-﻿// class of general surface chart, not ready yet
+﻿#if !__MonoCS__
+// class of general surface chart, not ready yet
 // a few function will be used in child class
 // version 0.1
 
@@ -62,3 +63,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

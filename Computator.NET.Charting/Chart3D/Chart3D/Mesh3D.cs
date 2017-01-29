@@ -1,4 +1,5 @@
-﻿// class for a single color 3d mesh model.
+﻿#if !__MonoCS__
+// class for a single color 3d mesh model.
 // version 0.1
 
 
@@ -163,3 +164,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

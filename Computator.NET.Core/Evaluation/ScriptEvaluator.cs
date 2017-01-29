@@ -50,15 +50,16 @@ namespace Computator.NET.Core.Evaluation
             NativeCompiler.AddDll("System.Xaml.dll");
             //NativeCompiler.AddDll("Microsoft.CSharp.dll");
 
-
+#if !__MonoCS__
             NativeCompiler.AddDll(typeof(AmbientLight).Assembly.Location);
             //"PresentationCore.dll");
             NativeCompiler.AddDll(typeof(XmlDataProvider).Assembly.Location);
             //"PresentationFramework.dll");
-            NativeCompiler.AddDll(typeof(PresentationTraceSources).Assembly.Location);
-            //"WindowsBase.dll");
             NativeCompiler.AddDll(typeof(ElementHost).Assembly.Location);
             //"WindowsFormsIntegration.dll");
+#endif
+            NativeCompiler.AddDll(typeof(PresentationTraceSources).Assembly.Location);
+            //"WindowsBase.dll");
 
             NativeCompiler.IsScripting = true;
 
