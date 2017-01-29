@@ -1,12 +1,33 @@
 language: csharp
 solution: Computator.NET.sln
 
+os:
+  - linux
+  - osx
+
 matrix:
   include:
+    - dotnet: 1.0.0-preview2-003121
+      mono: none
+      env: DOTNETCORE=1
     - dotnet: 1.0.0-preview2-003131
       mono: none
       env: DOTNETCORE=1
+    - mono: nightly
+    - mono: weekly
+    - mono: alpha
+    - mono: beta
     - mono: latest
+    - mono: stable
+    - mono: 5.0.0
+    - mono: 4.8.0
+    - mono: 4.6.2
+    - mono: 4.6.1
+    - mono: 4.6.0
+    - mono: 4.4.2
+    - sudo: false
+    - sudo: required
+    - dist: trusty
 
 before_install:
   - sudo apt-get install nunit-console
