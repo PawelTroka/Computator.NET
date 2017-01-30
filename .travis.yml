@@ -1,22 +1,6 @@
 language: csharp
 solution: Computator.NET.sln
 
-matrix:
-  include:
-    - dotnet: 1.0.0-preview2-003121
-      mono: none
-      env: DOTNETCORE=1
-    - dotnet: 1.0.0-preview2-003131
-      mono: none
-      env: DOTNETCORE=1
-    - mono: nightly
-    - mono: weekly
-    - mono: alpha
-    - mono: beta
-    - mono: latest
-    - mono: 4.6.2
-    - mono: 4.6.1
-    - mono: 4.6.0
     #- mono: 4.4.2
     #- mono: 4.4.1
     #- mono: 4.4.0
@@ -37,6 +21,25 @@ matrix:
     #- mono: 3.8.0
     #- mono: 3.2.8
     #- mono: 2.10.8
+
+dotnet:
+  - 1.0.0-preview2-003121
+  - 1.0.0-preview2-003131
+
+env:
+  - 
+  - DOTNETCORE=1
+
+mono:
+  - none
+  - nightly
+  - weekly
+  - alpha
+  - beta
+  - latest
+  - 4.6.2
+  - 4.6.1
+  - 4.6.0
 
 sudo:
   - required
