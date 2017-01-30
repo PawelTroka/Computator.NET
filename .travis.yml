@@ -1,12 +1,32 @@
 language: csharp
 solution: Computator.NET.sln
 
-os:
-  - linux
-  - osx
-
 matrix:
   include:
+    - os: linux
+      dist: trusty
+      sudo: required
+    - os: linux
+      dist: trusty
+      sudo: false
+    - os: linux
+      dist: precise
+      sudo: required
+    - os: linux
+      dist: precise
+      sudo: false
+    - os: osx
+      osx_image: xcode8.2
+    - os: osx
+      osx_image: xcode8.1
+    - os: osx
+      osx_image: xcode8
+    - os: osx
+      osx_image: xcode7.3
+    - os: osx
+      osx_image: xcode7.2
+    - os: osx
+      osx_image: xcode6.4
     - dotnet: 1.0.0-preview2-003121
       mono: none
       env: DOTNETCORE=1
@@ -18,19 +38,32 @@ matrix:
     - mono: alpha
     - mono: beta
     - mono: latest
-    - mono: stable
-    - mono: 5.0.0
-    - mono: 4.8.0
     - mono: 4.6.2
     - mono: 4.6.1
     - mono: 4.6.0
     - mono: 4.4.2
-    - sudo: false
-    - sudo: required
-    - dist: trusty
+    - mono: 4.4.1
+    - mono: 4.4.0
+    - mono: 4.2.3
+    - mono: 4.2.2
+    - mono: 4.2.1
+    - mono: 4.2.0
+    - mono: 4.0.5
+    - mono: 4.0.4.4
+    - mono: 4.0.4
+    - mono: 4.0.3
+    - mono: 4.0.2
+    - mono: 4.0.1
+    - mono: 4.0.0
+    - mono: 3.12.1
+    - mono: 3.12.0
+    - mono: 3.10.0
+    - mono: 3.8.0
+    - mono: 3.2.8
+    - mono: 2.10.8
 
-before_install:
-  - sudo apt-get install nunit-console
+#before_install:
+#  - sudo apt-get install nunit-console
 
 before_script:
   - "export DISPLAY=:99.0"
@@ -55,11 +88,11 @@ script:
 
 
 after_script:
-  - nunit-console Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
-  - nunit-console Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
+#  - nunit-console Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
+#  - nunit-console Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
-  - nunit-console Computator.NET.Tests/bin/Debug/Computator.NET.Tests.dll
-  - nunit-console Computator.NET.IntegrationTests/bin/Debug/Computator.NET.IntegrationTests.dll
+#  - nunit-console Computator.NET.Tests/bin/Debug/Computator.NET.Tests.dll
+#  - nunit-console Computator.NET.IntegrationTests/bin/Debug/Computator.NET.IntegrationTests.dll
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe Computator.NET.Tests/bin/Debug/Computator.NET.Tests.dll
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe Computator.NET.IntegrationTests/bin/Debug/Computator.NET.IntegrationTests.dll
