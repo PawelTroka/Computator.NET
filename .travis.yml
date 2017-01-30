@@ -3,30 +3,6 @@ solution: Computator.NET.sln
 
 matrix:
   include:
-    - os: linux
-      dist: trusty
-      sudo: required
-    - os: linux
-      dist: trusty
-      sudo: false
-    - os: linux
-      dist: precise
-      sudo: required
-    - os: linux
-      dist: precise
-      sudo: false
-    - os: osx
-      osx_image: xcode8.2
-    - os: osx
-      osx_image: xcode8.1
-    - os: osx
-      osx_image: xcode8
-    - os: osx
-      osx_image: xcode7.3
-    - os: osx
-      osx_image: xcode7.2
-    - os: osx
-      osx_image: xcode6.4
     - dotnet: 1.0.0-preview2-003121
       mono: none
       env: DOTNETCORE=1
@@ -41,33 +17,53 @@ matrix:
     - mono: 4.6.2
     - mono: 4.6.1
     - mono: 4.6.0
-    - mono: 4.4.2
-    - mono: 4.4.1
-    - mono: 4.4.0
-    - mono: 4.2.3
-    - mono: 4.2.2
-    - mono: 4.2.1
-    - mono: 4.2.0
-    - mono: 4.0.5
-    - mono: 4.0.4.4
-    - mono: 4.0.4
-    - mono: 4.0.3
-    - mono: 4.0.2
-    - mono: 4.0.1
-    - mono: 4.0.0
-    - mono: 3.12.1
-    - mono: 3.12.0
-    - mono: 3.10.0
-    - mono: 3.8.0
-    - mono: 3.2.8
-    - mono: 2.10.8
+    #- mono: 4.4.2
+    #- mono: 4.4.1
+    #- mono: 4.4.0
+    #- mono: 4.2.3
+    #- mono: 4.2.2
+    #- mono: 4.2.1
+    #- mono: 4.2.0
+    #- mono: 4.0.5
+    #- mono: 4.0.4.4
+    #- mono: 4.0.4
+    #- mono: 4.0.3
+    #- mono: 4.0.2
+    #- mono: 4.0.1
+    #- mono: 4.0.0
+    #- mono: 3.12.1
+    #- mono: 3.12.0
+    #- mono: 3.10.0
+    #- mono: 3.8.0
+    #- mono: 3.2.8
+    #- mono: 2.10.8
+
+sudo:
+  - required
+  - false
+
+dist:
+  - trusty
+  - precise
+
+os:
+  - linux
+  - osx
+
+osx_image:
+  - xcode8.2
+  - xcode8.1
+  - xcode8
+  - xcode7.3
+  - xcode7.2
+  - xcode6.4
 
 #before_install:
 #  - sudo apt-get install nunit-console
 
 before_script:
   - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then "sh -e /etc/init.d/xvfb start"; fi
   - sleep 3 # give xvfb some time to start
   - nuget restore Computator.NET.sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
