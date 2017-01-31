@@ -9,7 +9,7 @@ using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.Charting.Chart3D.UI
 {
-    class
+    public class
 #if __MonoCS__
         Chart3DControl
 #else

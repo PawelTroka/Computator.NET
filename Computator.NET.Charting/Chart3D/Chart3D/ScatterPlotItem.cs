@@ -1,4 +1,5 @@
-﻿// a dot in scatter plot.
+﻿#if !__MonoCS__
+// a dot in scatter plot.
 // version 0.1
 
 
@@ -12,3 +13,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         public float w; // size of the dot, (xy direction and z direction)
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿// class for a 3d cylinder model.
+﻿#if !__MonoCS__
+// class for a 3d cylinder model.
 // version 0.1
 
 using System;
@@ -65,3 +66,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

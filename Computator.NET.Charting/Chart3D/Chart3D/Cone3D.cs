@@ -1,4 +1,5 @@
-﻿// class for a 3d cone model.
+﻿#if !__MonoCS__
+// class for a 3d cone model.
 // version 0.1
 
 using System;
@@ -57,3 +58,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

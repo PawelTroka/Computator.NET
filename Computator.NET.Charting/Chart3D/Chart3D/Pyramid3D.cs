@@ -1,4 +1,5 @@
-﻿// class for a 3d pyramid.
+﻿#if !__MonoCS__
+// class for a 3d pyramid.
 // version 0.1
 
 //				   0  
@@ -54,3 +55,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

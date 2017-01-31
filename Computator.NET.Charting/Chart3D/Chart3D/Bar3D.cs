@@ -1,4 +1,5 @@
-﻿// class for a 3d bar model.
+﻿#if !__MonoCS__
+// class for a 3d bar model.
 // version 0.1
 
 //			0______________1
@@ -61,3 +62,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

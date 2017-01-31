@@ -1,4 +1,5 @@
-﻿// A triangle in 3D space
+﻿#if !__MonoCS__
+// A triangle in 3D space
 // version 0.1
 
 namespace Computator.NET.Charting.Chart3D.Chart3D
@@ -15,3 +16,4 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
     }
 }
+#endif

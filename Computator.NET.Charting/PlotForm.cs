@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.Controls;
@@ -21,7 +20,7 @@ namespace Computator.NET.Charting
 #if !__MonoCS__
             if (chart is Chart3DControl)
             {
-                var el = new ElementHost {Child = chart as Chart3DControl};
+                var el = new System.Windows.Forms.Integration.ElementHost { Child = chart as Chart3DControl};
                 (chart as Chart3DControl).ParentControl = el;
                 InitializeChart(el);
             }
@@ -41,7 +40,7 @@ namespace Computator.NET.Charting
 #if __MonoCS__
                 (control as Chart3DControl)
 #else          
-                 (control as ElementHost)?.Child as Chart3DControl, control as ElementHost
+                 (control as System.Windows.Forms.Integration.ElementHost)?.Child as Chart3DControl, control as System.Windows.Forms.Integration.ElementHost
 #endif
                 );
 
@@ -65,7 +64,7 @@ namespace Computator.NET.Charting
             }
             else if (chartType ==
 #if !__MonoCS__
-                typeof(ElementHost)
+                typeof(System.Windows.Forms.Integration.ElementHost)
 #else
                 typeof(Chart3DControl)
 #endif
