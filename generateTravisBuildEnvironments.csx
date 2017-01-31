@@ -28,7 +28,7 @@ var sudos = new[] {
 
 var dists = new[] { "trusty", "precise" };
 
-var dotnets = new[] { "1.0.0-preview2-003121", "1.0.0-preview2-003131" };
+var dotnets = new[] {"1.0.0-preview2-003121", "1.0.0-preview2-003131" };
 
 var osx_images = new[] {
     "xcode8.2",//OS X 10.12
