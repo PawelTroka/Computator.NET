@@ -1,5 +1,4 @@
 language: csharp
-solution: Computator.NET.sln
 
 matrix:
   include:
@@ -219,8 +218,8 @@ before_script:
   - "export DISPLAY=:99.0"
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sh -e /etc/init.d/xvfb start; fi
   - sleep 3 # give xvfb some time to start
-  - if [ "$DOTNETCORE" != "1" ]; then nuget restore Computator.NET"$netmoniker".sln; fi
-  - if [ "$DOTNETCORE" == "1" ]; then dotnet restore Computator.NET"$netmoniker".sln; fi
+  - if [ "$DOTNETCORE" == "1" ]; then dotnet restore; fi
+  - nuget restore Computator.NET"$netmoniker".sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 
 script:
