@@ -35,16 +35,6 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      mono: 3.2.8
-      env: netmoniker=.NET40
-    - os: linux
-      dist: trusty
-      sudo: required
-      mono: 2.10.8
-      env: netmoniker=.NET40
-    - os: linux
-      dist: trusty
-      sudo: required
       dotnet: 1.0.0-preview2-003121
       mono: none
       env: DOTNETCORE=1
@@ -83,16 +73,6 @@ matrix:
       sudo: required
       mono: 3.8.0
       env: netmoniker=.NET40
-    - os: linux
-      dist: precise
-      sudo: required
-      mono: 3.2.8
-      env: netmoniker=.NET40
-    - os: linux
-      dist: precise
-      sudo: required
-      mono: 2.10.8
-      env: netmoniker=.NET40
     - os: osx
       osx_image: xcode8.2
       sudo: required
@@ -246,14 +226,13 @@ matrix:
       dotnet: 1.0.0-preview2-003131
       mono: none
       env: DOTNETCORE=1
-
 
 #before_install:
 #  - sudo apt-get install nunit-console
 
 before_script:
   - "export DISPLAY=:99.0"
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then "sh -e /etc/init.d/xvfb start"; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sh -e /etc/init.d/xvfb start; fi
   - sleep 3 # give xvfb some time to start
   - nuget restore Computator.NET"$netmoniker".sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner

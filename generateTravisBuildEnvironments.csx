@@ -17,7 +17,9 @@ var monos = new[]{
                 "2.10.8"
                 };
 
-var oses = new[] { "linux", "osx" };
+var oses = new[] { "linux",
+                    "osx"
+                 };
 
 var sudos = new[] {
                     "required",
@@ -53,6 +55,9 @@ foreach (var os in oses)
         {
             foreach (var mono in monos)
             {
+                if (os == "linux" && (mono.StartsWith("2") || (mono.StartsWith("3") && mono[2] == '2')))
+                    continue;//versions older than 3.8.0 do not support nuget on linux and we need it bad
+
                 sb = new StringBuilder($"    - os: {os}{Environment.NewLine}");
                 if (os == "linux")
                     sb.AppendLine($"      dist: {osConfig}");
@@ -65,7 +70,7 @@ foreach (var os in oses)
                 if (mono.StartsWith("2.") || mono.StartsWith("3.") || (mono.StartsWith("4.") && mono[2] < '6'))
                     sb.AppendLine($"      env: netmoniker=.NET40");
                 //else
-                    //sb.AppendLine($"      env: netmoniker=");
+                //sb.AppendLine($"      env: netmoniker=");
 
                 Console.Write(sb.ToString());
             }
