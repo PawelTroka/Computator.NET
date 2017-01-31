@@ -10,7 +10,6 @@ var monos = new[]{
                 "4.4.2",
                 //"4.4.1","4.4.0","4.2.3","4.2.2","4.2.1","4.2.0","4.0.5","4.0.4.4","4.0.4","4.0.3","4.0.2","4.0.1",
                 "4.0.0",
-                "3.12.1",
                 "3.12.0",
                 "3.10.0",
                 "3.8.0",
@@ -20,7 +19,10 @@ var monos = new[]{
 
 var oses = new[] { "linux", "osx" };
 
-var sudos = new[] { "required", "false" };
+var sudos = new[] {
+                    "required",
+                    //"false"
+                };
 
 var dists = new[] { "trusty", "precise" };
 
