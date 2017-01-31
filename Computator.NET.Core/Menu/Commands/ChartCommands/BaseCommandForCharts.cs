@@ -1,11 +1,7 @@
 using System;
 using System.Numerics;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Forms.Integration;
 using Accord.Collections;
-using Computator.NET.Charting.Chart3D.UI;
-using Computator.NET.Charting.ComplexCharting;
-using Computator.NET.Charting.RealCharting;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;

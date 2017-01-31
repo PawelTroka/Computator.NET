@@ -1,7 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Windows.Data;
-using System.Windows.Forms.Integration;
-using System.Windows.Media.Media3D;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 
@@ -51,11 +48,11 @@ namespace Computator.NET.Core.Evaluation
             //NativeCompiler.AddDll("Microsoft.CSharp.dll");
 
 #if !__MonoCS__
-            NativeCompiler.AddDll(typeof(AmbientLight).Assembly.Location);
+            NativeCompiler.AddDll(typeof(System.Windows.Media.Media3D.AmbientLight).Assembly.Location);
             //"PresentationCore.dll");
-            NativeCompiler.AddDll(typeof(XmlDataProvider).Assembly.Location);
+            NativeCompiler.AddDll(typeof(System.Windows.Data.XmlDataProvider).Assembly.Location);
             //"PresentationFramework.dll");
-            NativeCompiler.AddDll(typeof(ElementHost).Assembly.Location);
+            NativeCompiler.AddDll(typeof(System.Windows.Forms.Integration.ElementHost).Assembly.Location);
             //"WindowsFormsIntegration.dll");
 #endif
             NativeCompiler.AddDll(typeof(PresentationTraceSources).Assembly.Location);
