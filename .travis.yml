@@ -110,11 +110,6 @@ matrix:
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 2.10.8
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
       dotnet: 1.0.0-preview2-003121
       mono: none
       env: DOTNETCORE=1
@@ -161,11 +156,6 @@ matrix:
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: 2.10.8
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
       dotnet: 1.0.0-preview2-003121
       mono: none
       env: DOTNETCORE=1
@@ -208,11 +198,6 @@ matrix:
       osx_image: xcode6.4
       sudo: required
       mono: 3.2.8
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: 2.10.8
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode6.4
@@ -234,7 +219,8 @@ before_script:
   - "export DISPLAY=:99.0"
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sh -e /etc/init.d/xvfb start; fi
   - sleep 3 # give xvfb some time to start
-  - nuget restore Computator.NET"$netmoniker".sln
+  - if [ "$DOTNETCORE" != "1" ]; then nuget restore Computator.NET"$netmoniker".sln; fi
+  - if [ "$DOTNETCORE" == "1" ]; then dotnet restore Computator.NET"$netmoniker".sln; fi
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 
 script:

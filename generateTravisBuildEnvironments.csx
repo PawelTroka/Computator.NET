@@ -58,6 +58,9 @@ foreach (var os in oses)
                 if (os == "linux" && (mono.StartsWith("2") || (mono.StartsWith("3") && mono[2] == '2')))
                     continue;//versions older than 3.8.0 do not support nuget on linux and we need it bad
 
+                if(mono== "2.10.8" && os == "osx")
+                    continue;//Mono 2.10.8 is unavailable on Mac OS X
+
                 sb = new StringBuilder($"    - os: {os}{Environment.NewLine}");
                 if (os == "linux")
                     sb.AppendLine($"      dist: {osConfig}");
