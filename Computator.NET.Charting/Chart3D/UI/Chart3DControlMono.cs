@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -67,5 +68,11 @@ namespace Computator.NET.Charting.Chart3D.UI
         }
 
         public bool EqualAxes { get; set; }
+        public Chart3DMode Mode { get; set; }
+
+        public void AddPoints(List<Point3D> points)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

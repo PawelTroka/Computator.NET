@@ -313,7 +313,7 @@ namespace Computator.NET.Core.Functions
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
-
+#if !__MonoCS__
 
         public static void plot(params System.Func<double, double, double>[] fxys)
         {
@@ -350,7 +350,7 @@ namespace Computator.NET.Core.Functions
             var plotForm = new Computator.NET.Charting.PlotForm(chart3d);
             plotForm.Show();
         }
-
+#endif
 
 
         public static void plot(System.Func<double, double> fx, double XMin = -5, double XMax = 5, double YMin = -5,
@@ -711,7 +711,7 @@ double YMax = 5, double quality = 0.5)
         }
 
 
-
+#if !__MonoCS__
         public static void plot(params System.Func<double, double, double>[] fxys)
         {
             var chart3d = new Computator.NET.Charting.Chart3D.UI.Chart3DControl
@@ -747,7 +747,7 @@ double YMax = 5, double quality = 0.5)
             var plotForm = new Computator.NET.Charting.PlotForm(chart3d);
             plotForm.Show();
         }
-
+#endif
 
 
         public static void plot(System.Func<double, double> fx, double XMin = -5, double XMax = 5, double YMin = -5,

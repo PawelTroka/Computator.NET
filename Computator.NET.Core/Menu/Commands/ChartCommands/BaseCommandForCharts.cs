@@ -1,6 +1,3 @@
-using System;
-using System.Numerics;
-using System.Windows.Forms.DataVisualization.Charting;
 using Accord.Collections;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
