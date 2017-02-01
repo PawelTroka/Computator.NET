@@ -63,7 +63,13 @@ namespace Computator.NET.Controls.CodeEditors
             
 
             var panel = new Panel {Dock = DockStyle.Fill};
-            panel.Controls.AddRange(new[] {avalonEditorWrapper, _codeEditors[CodeEditorType.Scintilla] as Control, _codeEditors[CodeEditorType.TextEditor] as Control});
+            panel.Controls.AddRange(new[]
+            {
+                        #if !__MonoCS__
+                avalonEditorWrapper,
+#endif
+                _codeEditors[CodeEditorType.Scintilla] as Control, _codeEditors[CodeEditorType.TextEditor] as Control
+            });
 
             var tableLayout = new TableLayoutPanel
             {
@@ -365,12 +371,16 @@ namespace Computator.NET.Controls.CodeEditors
                     break;
 #endif
                 case CodeEditorType.Scintilla:
+                            #if !__MonoCS__
                     avalonEditorWrapper.Hide();
+#endif
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Show();
                     (_codeEditors[CodeEditorType.TextEditor] as Control).Hide();
                     break;
                 case CodeEditorType.TextEditor:
+#if !__MonoCS__
                     avalonEditorWrapper.Hide();
+#endif
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Hide();
                     (_codeEditors[CodeEditorType.TextEditor] as Control).Show();
                     break;
