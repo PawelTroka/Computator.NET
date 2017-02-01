@@ -243,9 +243,9 @@ script:
 after_script:
 #  - nunit-console Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
 #  - nunit-console Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
-  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
-  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --labels=All Computator.NET.Tests/bin/Release/Computator.NET.Tests.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --labels=All Computator.NET.IntegrationTests/bin/Release/Computator.NET.IntegrationTests.dll
 #  - nunit-console Computator.NET.Tests/bin/Debug/Computator.NET.Tests.dll
 #  - nunit-console Computator.NET.IntegrationTests/bin/Debug/Computator.NET.IntegrationTests.dll
-  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe Computator.NET.Tests/bin/Debug/Computator.NET.Tests.dll
-  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe Computator.NET.IntegrationTests/bin/Debug/Computator.NET.IntegrationTests.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --labels=All Computator.NET.Tests/bin/Debug/Computator.NET.Tests.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --labels=All Computator.NET.IntegrationTests/bin/Debug/Computator.NET.IntegrationTests.dll
