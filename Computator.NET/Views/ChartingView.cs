@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 using Accord.Collections;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
@@ -18,7 +17,7 @@ namespace Computator.NET.Views
             ChartAreaValuesView = chartAreaValuesView;
             Charts = charts;
 #if !__MonoCS__
-            var el = new ElementHost { Child = (Charts[CalculationsMode.Fxy] as Chart3DControl), Dock = DockStyle.Fill };
+            var el = new System.Windows.Forms.Integration.ElementHost { Child = (Charts[CalculationsMode.Fxy] as Chart3DControl), Dock = DockStyle.Fill };
             (Charts[CalculationsMode.Fxy] as Chart3DControl).ParentControl = el;
 #endif
 

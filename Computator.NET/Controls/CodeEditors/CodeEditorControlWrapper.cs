@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 using Computator.NET.Controls.CodeEditors.AvalonEdit;
 using Computator.NET.Controls.CodeEditors.Scintilla;
 using Computator.NET.Core.Abstract.Controls;
@@ -21,7 +20,7 @@ namespace Computator.NET.Controls.CodeEditors
     {
         private readonly Dictionary<CodeEditorType, ICodeEditorControl> _codeEditors;
         #if !__MonoCS__
-        private readonly ElementHost avalonEditorWrapper;
+        private readonly System.Windows.Forms.Integration.ElementHost avalonEditorWrapper;
         #endif
         private readonly SaveFileDialog saveFileDialog = new SaveFileDialog
         {
@@ -52,7 +51,7 @@ namespace Computator.NET.Controls.CodeEditors
                 {CodeEditorType.TextEditor, textEditorCodeEditor }
             };
 #if !__MonoCS__
-            avalonEditorWrapper = new ElementHost
+            avalonEditorWrapper = new System.Windows.Forms.Integration.ElementHost
             {
                 BackColor = Color.White,
                 Dock = DockStyle.Fill,
