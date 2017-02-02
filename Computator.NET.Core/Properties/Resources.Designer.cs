@@ -161,6 +161,26 @@ namespace Computator.NET.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] libgsl_so_19_3 {
+            get {
+                object obj = ResourceManager.GetObject("libgsl_so_19_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] libgslcblas_so_0_0 {
+            get {
+                object obj = ResourceManager.GetObject("libgslcblas_so_0_0", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap Matrix {

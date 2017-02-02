@@ -7,6 +7,9 @@
 
 
 ##Code quality
+* Core should not reference Charting
+* Use IChart2D, IComplexChart and so on instead of ReadOnlyDictionary
+* Set up artifacts in Travis to have assemblies for manual testing
 * Use Paket instead of Nuget? This might allow simpler builds targeting NET40 without additional projects and solutions
 * Whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same

@@ -274,6 +274,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Special\x64\gsl.dll" />
+    <None Include="Special\x64\libgsl.so.19.3.0" />
+    <None Include="Special\x64\libgslcblas.so.0.0.0" />
     <None Include="Special\x86\gsl.dll" />
     <Content Include="TSL Examples\**\*.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

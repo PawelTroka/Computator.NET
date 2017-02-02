@@ -212,9 +212,9 @@ matrix:
       env: DOTNETCORE=1
 
 
-before_install:
+#before_install:
 #  - sudo apt-get install nunit-console
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; brew install openssl; ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/; ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/; fiopenssl; fi
+#  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; brew install openssl; ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/; ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/; fiopenssl; fi
 
 before_script:
   - "export DISPLAY=:99.0"
@@ -227,14 +227,14 @@ before_script:
 
 script:
   - xbuild /p:Configuration=Release Computator.NET.DataTypes/Computator.NET.DataTypes"$netmoniker".csproj
-  - xbuild /p:Configuration=Release Computator.NET.Core/Computator.NET.Core"$netmoniker".csproj
   - xbuild /p:Configuration=Release Computator.NET.Charting/Computator.NET.Charting"$netmoniker".csproj
+  - xbuild /p:Configuration=Release Computator.NET.Core/Computator.NET.Core"$netmoniker".csproj
   - xbuild /p:Configuration=Release Computator.NET/Computator.NET"$netmoniker".csproj
   - xbuild /p:Configuration=Release Computator.NET.Tests/Computator.NET.Tests.csproj
   - xbuild /p:Configuration=Release Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj
   - xbuild /p:Configuration=Debug Computator.NET.DataTypes/Computator.NET.DataTypes"$netmoniker".csproj
-  - xbuild /p:Configuration=Debug Computator.NET.Core/Computator.NET.Core"$netmoniker".csproj
   - xbuild /p:Configuration=Debug Computator.NET.Charting/Computator.NET.Charting"$netmoniker".csproj
+  - xbuild /p:Configuration=Debug Computator.NET.Core/Computator.NET.Core"$netmoniker".csproj
   - xbuild /p:Configuration=Debug Computator.NET/Computator.NET"$netmoniker".csproj
   - xbuild /p:Configuration=Debug Computator.NET.Tests/Computator.NET.Tests.csproj
   - xbuild /p:Configuration=Debug Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj
