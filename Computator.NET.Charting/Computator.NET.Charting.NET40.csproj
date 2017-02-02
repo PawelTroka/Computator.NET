@@ -87,7 +87,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
-    <EmbeddedResource Include="**\*.resx" />
+    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx" />
     <Page Include="**\*.xaml" Condition=" '$(OS)' != 'Unix' ">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

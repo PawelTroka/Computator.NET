@@ -57,23 +57,8 @@
     <Compile Include="Charts\IAreaValues.cs" />
     <Compile Include="Charts\IChart.cs" />
     <Compile Include="Charts\IPrinting.cs" />
-    <Compile Include="Localization\Strings.cs.Designer.cs">
-      <DependentUpon>Strings.cs.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Strings.de.Designer.cs">
-      <DependentUpon>Strings.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Localization\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Strings.pl.Designer.cs">
-      <DependentUpon>Strings.pl.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>

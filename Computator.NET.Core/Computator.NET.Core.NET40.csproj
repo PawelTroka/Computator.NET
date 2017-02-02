@@ -121,7 +121,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
-    <EmbeddedResource Include="**\*.resx" />
+    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx" />
     <None Include="app.config" />
     <None Include="packages.Computator.NET.Core.NET40.config" />
   </ItemGroup>
