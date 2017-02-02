@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
@@ -7,7 +8,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
     public class EditChartCommand : BaseCommandForCharts
     {
-        public EditChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public EditChartCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Text = MenuStrings.edit_Text;
             ToolTip = MenuStrings.edit_Text;

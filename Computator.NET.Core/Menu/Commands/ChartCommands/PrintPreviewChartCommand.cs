@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
@@ -8,7 +9,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
     public class PrintPreviewChartCommand : BaseCommandForCharts
     {
-        public PrintPreviewChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public PrintPreviewChartCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Icon = Resources.printPreviewToolStripMenuItemImage;
             Text = MenuStrings.printPreviewToolStripMenuItem_Text;

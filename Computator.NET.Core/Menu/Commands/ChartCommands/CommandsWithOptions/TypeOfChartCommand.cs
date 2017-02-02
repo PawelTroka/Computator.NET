@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
     public class TypeOfChartCommand : DummyCommand
     {
         private ISharedViewState _sharedViewState;
-        public TypeOfChartCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.type_Text)
+        public TypeOfChartCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.type_Text)
         {
             _sharedViewState = sharedViewState;
             Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real;
@@ -36,7 +36,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly SeriesChartType chartType;
 
-            public TypeOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, SeriesChartType chartType, ISharedViewState sharedViewState)
+            public TypeOption(IDictionary<CalculationsMode, IChart> charts, SeriesChartType chartType, ISharedViewState sharedViewState)
                 : base(chartType, charts,sharedViewState)
             {
                 this.chartType = chartType;

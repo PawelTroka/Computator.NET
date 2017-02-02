@@ -18,7 +18,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
          throw new System.NotImplementedException();
      }
 
-     public SeriesOption(ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(charts)
+     public SeriesOption(IDictionary<CalculationsMode, IChart> charts) : base(charts)
      {
          this.IsOption = true;
      }

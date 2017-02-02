@@ -12,7 +12,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {
     public class LegendAligmentCommand : DummyCommand
     {
-        public LegendAligmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public LegendAligmentCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.aligment_Text)
         {
             var list = new List<IToolbarCommand>();
@@ -29,7 +29,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly StringAlignment aligment;
 
-            public LegendAligmentOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, StringAlignment aligment, ISharedViewState sharedViewState)
+            public LegendAligmentOption(IDictionary<CalculationsMode, IChart> charts, StringAlignment aligment, ISharedViewState sharedViewState)
                 : base(aligment, charts,sharedViewState)
             {
                 this.aligment = aligment;

@@ -12,7 +12,7 @@ namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
     public class TransformCommand : DummyCommand
     {
         private readonly ISharedViewState _sharedViewState;
-        public TransformCommand(ISharedViewState sharedViewState, ReadOnlyDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.transformToolStripMenuItem_Text)
+        public TransformCommand(ISharedViewState sharedViewState, IDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.transformToolStripMenuItem_Text)
         {
             _sharedViewState = sharedViewState;
             BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CurrentView),

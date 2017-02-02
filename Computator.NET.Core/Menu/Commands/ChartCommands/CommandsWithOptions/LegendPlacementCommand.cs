@@ -12,7 +12,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {
     public class LegendPlacementCommand : DummyCommand
     {
-        public LegendPlacementCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public LegendPlacementCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.placement_Text)
         {
             var list = new List<IToolbarCommand>();
@@ -29,7 +29,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly Docking placement;
 
-            public LegendPlacementOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, Docking placement, ISharedViewState sharedViewState)
+            public LegendPlacementOption(IDictionary<CalculationsMode, IChart> charts, Docking placement, ISharedViewState sharedViewState)
                 : base(placement, charts,sharedViewState)
             {
                 Checked = chart2d.LegendDocking == placement;

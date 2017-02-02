@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Model;
@@ -8,7 +9,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
     public class EqualAxesCommand : BaseCommandForCharts
     {
-        public EqualAxesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public EqualAxesCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Text = MenuStrings.equalAxes_Text;
             ToolTip = MenuStrings.equalAxes_Text;

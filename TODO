@@ -10,7 +10,7 @@
 * Setup codecov.io code coverage analysis
 * Setup quantifiedcode.com issues analysis
 * Core should not reference Charting
-* Use IChart2D, IComplexChart and so on instead of ReadOnlyDictionary
+* Use IChart2D, IComplexChart and so on instead of IDictionary
 * Set up artifacts in Travis to have assemblies for manual testing
 * Use Paket instead of Nuget? This might allow simpler builds targeting NET40 without additional projects and solutions
 * Whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring

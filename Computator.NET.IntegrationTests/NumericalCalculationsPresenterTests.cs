@@ -21,7 +21,7 @@ namespace Computator.NET.IntegrationTests
     {
         public IntegrationTestsBootstrapper()
         {
-            
+
         }
     }
 
@@ -55,13 +55,16 @@ namespace Computator.NET.IntegrationTests
                     {CalculationsMode.Real, new Mock<IChart>().Object},
                     {CalculationsMode.Complex, new Mock<IChart>().Object},
                     {CalculationsMode.Fxy, new Mock<IChart>().Object},
-                }),new ContainerControlledLifetimeManager());
+                }), new ContainerControlledLifetimeManager());
+
+            _container.RegisterType<IDictionary<CalculationsMode, IChart>, ReadOnlyDictionary<CalculationsMode, IChart>>(
+                new InjectionFactory(c => c.Resolve<ReadOnlyDictionary<CalculationsMode, IChart>>()));
 
             _expressionViewMock = new Mock<ITextProvider>();
             //            _expressionViewMock.SetupAllProperties();
             _container.RegisterInstance(_expressionViewMock.Object, new ContainerControlledLifetimeManager());
 
-         
+
             _numericalCalculationsViewMock.Setup(
                 m =>
                     m.AddResult(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
@@ -156,7 +159,7 @@ namespace Computator.NET.IntegrationTests
             _numericalCalculationsViewMock.Verify(
                 m =>
                     m.AddResult(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                        It.IsAny<string>()),Times.Once);
+                        It.IsAny<string>()), Times.Once);
 
             _numericalCalculationsViewMock.Verify(
                 m => m.AddResult(

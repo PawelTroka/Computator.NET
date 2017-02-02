@@ -89,25 +89,10 @@
     <Compile Include="SpecialSymbols.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Strings.cs.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.cs.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.pl.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.pl.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Strings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Strings.cs.resx" />
+    <EmbeddedResource Include="Localization\Strings.de.resx" />
+    <EmbeddedResource Include="Localization\Strings.pl.resx" />
+    <EmbeddedResource Include="Localization\Strings.resx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.Computator.NET.DataTypes.config" />

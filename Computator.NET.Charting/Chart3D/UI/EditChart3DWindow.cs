@@ -1,19 +1,21 @@
-﻿#if !__MonoCS__
-using System;
+﻿using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Forms;
+#if !__MonoCS__
 using System.Windows.Forms.Integration;
 using Color = System.Windows.Media.Color;
 using FontFamily = System.Windows.Media.FontFamily;
 using FontStyle = System.Windows.FontStyle;
 using Point = System.Windows.Point;
+#endif
 
 namespace Computator.NET.Charting.Chart3D.UI
 {
     public partial class EditChartWindow : Form
     {
+#if !__MonoCS__
         private readonly Chart3DControl chart3d;
         private readonly ElementHost elementHost;
         private Color colorAxes;
@@ -234,6 +236,47 @@ namespace Computator.NET.Charting.Chart3D.UI
                 fontChanged = true;
             }
         }
+#else
+
+        private void backgroundColorRectangleShape_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void axesColorRectangleShape_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void anulujButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void labelsColorRectangleShape_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void visibleAxesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void equalAxesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+#endif
     }
 }
-#endif

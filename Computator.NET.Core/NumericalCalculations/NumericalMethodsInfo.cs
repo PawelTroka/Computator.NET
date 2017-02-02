@@ -7,12 +7,12 @@ namespace Computator.NET.Core.NumericalCalculations
 {
     public class NumericalMethodsInfo
     {
-        public readonly ReadOnlyDictionary<string, ReadOnlyDictionary<string, Delegate>> _methods;
+        public readonly IDictionary<string, IDictionary<string, Delegate>> _methods;
 
         private NumericalMethodsInfo()
         {
-            _methods = new ReadOnlyDictionary<string, ReadOnlyDictionary<string, Delegate>>(
-                new Dictionary<string, ReadOnlyDictionary<string, Delegate>>
+            _methods = new ReadOnlyDictionary<string, IDictionary<string, Delegate>>(
+                new Dictionary<string, IDictionary<string, Delegate>>
                 {
                     {
                         Strings.Integral, new ReadOnlyDictionary<string, Delegate>(
@@ -125,7 +125,7 @@ namespace Computator.NET.Core.NumericalCalculations
                 });
         }
 
-        public ReadOnlyDictionary<string, Func<Func<double, double>, double, double, double, uint, double>>
+        public IDictionary<string, Func<Func<double, double>, double, double, double, uint, double>>
             FunctionRootMethods
         {
             get
@@ -143,7 +143,7 @@ namespace Computator.NET.Core.NumericalCalculations
             }
         }
 
-        public ReadOnlyDictionary<string, Func<Func<double, double>, double, double, double, double>> IntegrationMethods
+        public IDictionary<string, Func<Func<double, double>, double, double, double, double>> IntegrationMethods
         {
             get
             {
@@ -159,7 +159,7 @@ namespace Computator.NET.Core.NumericalCalculations
             }
         }
 
-        public ReadOnlyDictionary<string, Func<Func<double, double>, double, uint, double, double>> DerrivationMethods
+        public IDictionary<string, Func<Func<double, double>, double, uint, double, double>> DerrivationMethods
         {
             get
             {

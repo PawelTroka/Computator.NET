@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
     public class ContourLinesCommand : DummyCommand
     {
         private ISharedViewState _sharedViewState;
-        public ContourLinesCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public ContourLinesCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.contourLinesMode_Text)
         {
             _sharedViewState = sharedViewState;
@@ -37,7 +37,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly CountourLinesMode contourLinesMode;
 
-            public ContourLinesOption(ReadOnlyDictionary<CalculationsMode, IChart> charts,
+            public ContourLinesOption(IDictionary<CalculationsMode, IChart> charts,
                 CountourLinesMode contourLinesMode, ISharedViewState sharedViewState) : base(contourLinesMode, charts,sharedViewState)
             {
                 this.contourLinesMode = contourLinesMode;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
@@ -8,9 +9,9 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
     public abstract class BaseCommandForCharts : CommandBase
     {
         private readonly ISharedViewState _sharedViewState;
-        protected readonly ReadOnlyDictionary<CalculationsMode, IChart> _charts;
+        protected readonly IDictionary<CalculationsMode, IChart> _charts;
 
-        protected BaseCommandForCharts(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        protected BaseCommandForCharts(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
         {
             _charts = charts;
             _sharedViewState = sharedViewState;

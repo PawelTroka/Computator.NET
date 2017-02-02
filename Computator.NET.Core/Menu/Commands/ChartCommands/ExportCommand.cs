@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Threading;
@@ -21,7 +22,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
             AddExtension = true
         };
 
-        public ExportCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public ExportCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             Text = MenuStrings.export_Text;
             ToolTip = MenuStrings.export_Text;

@@ -48,7 +48,7 @@ namespace Computator.NET.Bootstrapping
 
         public override T Create<T>()
         {
-            if(typeof(T) == typeof(MainView))
+            if (typeof(T) == typeof(MainView))
                 CreatePresenters();
             return base.Create<T>();
         }
@@ -94,12 +94,17 @@ namespace Computator.NET.Bootstrapping
         {
             //components and controls
             Container.RegisterInstance(
-                new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>()
-                {
-                    { CalculationsMode.Real, new Chart2D()},
-                    { CalculationsMode.Complex, new ComplexChart()},
-                    { CalculationsMode.Fxy, new Chart3DControl()},
-                }));
+            new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>()
+            {
+                            { CalculationsMode.Real, new Chart2D()},
+                            { CalculationsMode.Complex, new ComplexChart()},
+                            { CalculationsMode.Fxy, new Chart3DControl()},
+            }));
+
+            Container.RegisterType<IDictionary<CalculationsMode, IChart>, ReadOnlyDictionary<CalculationsMode, IChart>>(
+                new InjectionFactory(c => c.Resolve<ReadOnlyDictionary<CalculationsMode, IChart>>()));
+
+
 
 
             //ExpressionTextBox

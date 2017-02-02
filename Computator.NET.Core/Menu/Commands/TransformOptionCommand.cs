@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.Core.Menu.Commands.ChartCommands;
 using Computator.NET.Core.Model;
@@ -10,7 +11,7 @@ namespace Computator.NET.Core.Menu.Commands
     internal class TransformOptionCommand : BaseCommandForCharts
     {
         private readonly ISharedViewState _sharedViewState;
-        public TransformOptionCommand(string text, string toolTip, ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public TransformOptionCommand(string text, string toolTip, IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(charts,sharedViewState)
         {
             _sharedViewState = sharedViewState;

@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using Accord.Collections;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
@@ -11,7 +12,7 @@ namespace Computator.NET.Views
 {
     public partial class ChartingView : UserControl, IChartingView
     {
-        public ChartingView(ChartAreaValuesView chartAreaValuesView, ReadOnlyDictionary<CalculationsMode, IChart> charts) : this()
+        public ChartingView(ChartAreaValuesView chartAreaValuesView, IDictionary<CalculationsMode, IChart> charts) : this()
         {
             chartAreaValuesView.Dock=DockStyle.Right;
             ChartAreaValuesView = chartAreaValuesView;
@@ -37,7 +38,7 @@ namespace Computator.NET.Views
             InitializeComponent();
         }
 
-        public ReadOnlyDictionary<CalculationsMode, IChart> Charts { get; }
+        public IDictionary<CalculationsMode, IChart> Charts { get; }
 
         public IChartAreaValuesView ChartAreaValuesView { get; }
     }

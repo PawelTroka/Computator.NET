@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
     public class ColorAssigmentCommand : DummyCommand
     {
         private readonly ISharedViewState _sharedViewState;
-        public ColorAssigmentCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public ColorAssigmentCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
             : base(MenuStrings.colorAssignmentToolStripMenuItem_Text)
         {
             _sharedViewState = sharedViewState;
@@ -37,7 +37,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly AssignmentOfColorMethod assignmentOfColorMethod;
 
-            public ColorAssigmentOption(ReadOnlyDictionary<CalculationsMode, IChart> charts,
+            public ColorAssigmentOption(IDictionary<CalculationsMode, IChart> charts,
                 AssignmentOfColorMethod assignmentOfColorMethod, ISharedViewState sharedViewState) : base(assignmentOfColorMethod, charts,sharedViewState)
             {
                 this.assignmentOfColorMethod = assignmentOfColorMethod;

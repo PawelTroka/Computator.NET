@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
     public class ColorsCommand : DummyCommand
     {
         private ISharedViewState _sharedViewState;
-        public ColorsCommand(ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.color_Text)
+        public ColorsCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.color_Text)
         {
             _sharedViewState = sharedViewState;
             Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real;
@@ -35,7 +35,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
         {
             private readonly ChartColorPalette color;
 
-            public ColorOption(ReadOnlyDictionary<CalculationsMode, IChart> charts, ChartColorPalette color, ISharedViewState sharedViewState)
+            public ColorOption(IDictionary<CalculationsMode, IChart> charts, ChartColorPalette color, ISharedViewState sharedViewState)
                 : base(color, charts,sharedViewState)
             {
                 this.color = color;

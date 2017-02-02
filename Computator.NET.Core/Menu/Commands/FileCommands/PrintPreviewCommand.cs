@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Services;
@@ -14,9 +15,9 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
         private ISharedViewState _sharedViewState;
         private ICanFileEdit scriptingCodeEditor;
         private IApplicationManager _applicationManager;
-        private ReadOnlyDictionary<CalculationsMode, IChart> _charts;
+        private IDictionary<CalculationsMode, IChart> _charts;
 
-        public PrintPreviewCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager, ReadOnlyDictionary<CalculationsMode, IChart> charts)
+        public PrintPreviewCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager, IDictionary<CalculationsMode, IChart> charts)
         {
             Icon = Resources.printPreviewToolStripMenuItemImage;
             Text = MenuStrings.printPreviewToolStripMenuItem_Text;

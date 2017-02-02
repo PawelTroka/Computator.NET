@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
@@ -7,7 +8,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {
     internal abstract class ChartOption : BaseCommandForCharts
     {
-        protected ChartOption(object value, ReadOnlyDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        protected ChartOption(object value, IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
         {
             IsOption = true;
             CheckOnClick = true;
