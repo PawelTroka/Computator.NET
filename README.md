@@ -37,6 +37,7 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 # Contributing
 
 #### Build and tools
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/91196abe64a0403ba62390cd899fafa1)](https://www.codacy.com/app/PawelTroka/Computator-NET?utm_source=github.com&utm_medium=referral&utm_content=PawelTroka/Computator.NET&utm_campaign=badger)
 * Windows (.NET Framework): [![Build status](https://ci.appveyor.com/api/projects/status/yy65wjyjagdh0lt6?svg=true)](https://ci.appveyor.com/project/PawelTroka/computator-net) [![Build status](http://flauschig.ch/batch.php?type=tests&account=PawelTroka&slug=computator-net)](https://ci.appveyor.com/project/PawelTroka/computator-net) 
 * Linux (Mono and .NET Core): [![Build Status](https://travis-ci.org/PawelTroka/Computator.NET.svg?branch=master)](https://travis-ci.org/PawelTroka/Computator.NET)
 * IDE: Visual Studio 2015
