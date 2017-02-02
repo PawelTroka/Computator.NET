@@ -7,6 +7,8 @@
 
 
 ##Code quality
+* Setup codecov.io code coverage analysis
+* Setup quantifiedcode.com issues analysis
 * Core should not reference Charting
 * Use IChart2D, IComplexChart and so on instead of ReadOnlyDictionary
 * Set up artifacts in Travis to have assemblies for manual testing

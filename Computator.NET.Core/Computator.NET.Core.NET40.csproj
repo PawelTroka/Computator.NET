@@ -135,8 +135,8 @@
     <Content Include="Static\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Special\x64\gsl.dll" />
-    <None Include="Special\x86\gsl.dll" />
+    <None Include="Special\windows-x64\gsl.dll" />
+    <None Include="Special\windows-x86\gsl.dll" />
     <None Include="**\*.settings" />
   </ItemGroup>
   <ItemGroup>
