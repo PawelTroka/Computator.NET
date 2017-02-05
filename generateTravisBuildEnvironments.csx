@@ -5,16 +5,16 @@ var monos = new[]{
                 //"beta",
                 //"latest",
                 "4.6.2",
-                //"4.6.1",
-                //"4.6.0" ,
-                "4.4.2",
+                "4.6.1",
+                "4.6.0" ,
+                ////"4.4.2",
                 //"4.4.1","4.4.0","4.2.3","4.2.2","4.2.1","4.2.0","4.0.5","4.0.4.4","4.0.4","4.0.3","4.0.2","4.0.1",
-                "4.0.0",
-                "3.12.0",
-                "3.10.0",
-                "3.8.0",
-                "3.2.8",
-                "2.10.8"
+                ////"4.0.0",
+                ////"3.12.0",
+                ////"3.10.0",
+                ////"3.8.0",
+                ////"3.2.8",
+                ////"2.10.8"
                 };
 
 var oses = new[] { "linux",
@@ -71,11 +71,16 @@ foreach (var os in oses)
                 sb.AppendLine($"      mono: {mono}");
 
                 if (mono.StartsWith("2.") || mono.StartsWith("3.") || (mono.StartsWith("4.") && mono[2] < '6'))
+                {
                     sb.AppendLine($"      env: netmoniker=.NET40");
-                //else
-                //sb.AppendLine($"      env: netmoniker=");
-
-                Console.Write(sb.ToString());
+                    Console.Write(sb.ToString());
+                }
+                else
+                {
+                    Console.Write(sb.ToString());
+                    sb.AppendLine($"      env: netmoniker=.NET40");
+                    Console.Write(sb.ToString());
+                }
             }
 
             if (osConfig != "precise")//.NET Core does not work currently on precise dist
