@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using Computator.NET.DataTypes.Localization;
 
@@ -14,8 +15,11 @@ namespace Computator.NET.DataTypes
         public const string TslFilesFIlter =
             @"Troka Scripting Language(*.tsl)|*.tsl|Troka Scripting Language Functions(*.tslf)|*.tslf";
 
-        public const string GslDllName = "gsl.dll"; //"libgsl-0.dll";
-        public const string GslCblasDllName = "cblas.dll"; //"libgslcblas-0.dll";
+        public const string GslDllName ="gsl.dll";
+
+        public static readonly string GslCblasDllName = IsUnix
+                ? "libgslcblas.so.0.0.0"
+                : "cblas.dll";
 
         public static readonly string Betatesters = Strings.betaTesters +
                                                     ":\n - Kordian Czyżewski (kordiancz25@wp.pl)\n - Vojtech Mańkowski (vojtaman@gmail.com)\n - Marcin Piwowarski (marcpiwowarski@gmail.com)";
@@ -65,5 +69,24 @@ namespace Computator.NET.DataTypes
                    Path.DirectorySeparatorChar +
                    Path.Combine(foldersAndFile);
         }
+
+        public static bool IsUnix
+        {
+            get
+            {
+                var platform = Environment.OSVersion.Platform;             
+                var p = (int)platform;
+
+                if (p == 4 || p == 6 || p == 128)
+                    return true;
+                return platform == PlatformID.MacOSX || platform == PlatformID.Unix;
+            }
+        }
+
+        public static bool IsMacOS => Environment.OSVersion.Platform == PlatformID.MacOSX;
+
+        public static bool IsLinux => IsUnix && !IsMacOS;
+
+        public static bool IsWindows => !IsUnix;
     }
 }

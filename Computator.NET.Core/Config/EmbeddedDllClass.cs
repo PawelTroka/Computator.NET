@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Computator.NET.Core.Natives;
+using Computator.NET.DataTypes;
 
 namespace Computator.NET.Core.Config
 {
@@ -43,6 +44,7 @@ namespace Computator.NET.Core.Config
     {
         private static string tempFolder = "";
 
+
         /// <summary>
         ///     Extract DLLs from resources to temporary folder
         /// </summary>
@@ -50,13 +52,26 @@ namespace Computator.NET.Core.Config
         /// <param name="resourceBytes">The resource name (fully qualified)</param>
         public static void ExtractEmbeddedDlls(string dllName, byte[] resourceBytes)
         {
+            string environmentPathForLibraries;
+
+            if (GlobalConfig.IsMacOS)
+                environmentPathForLibraries = "DYLD_LIBRARY_PATH";
+            else if (GlobalConfig.IsLinux)
+                environmentPathForLibraries = "LD_LIBRARY_PATH";
+            else if (GlobalConfig.IsWindows)
+                environmentPathForLibraries = "PATH";
+            else
+                throw new PlatformNotSupportedException("This platform does not support sharing native libraries across assemblies");
+
+            var environmentValuesSeparator = GlobalConfig.IsUnix ? ':' : ';';
+
             var assem = Assembly.GetExecutingAssembly();
             var names = assem.GetManifestResourceNames();
             var an = assem.GetName();
 
             // The temporary folder holds one or more of the temporary DLLs
             // It is made "unique" to avoid different versions of the DLL or architectures.
-            tempFolder = string.Format("{0}.{1}.{2}", an.Name, an.ProcessorArchitecture, an.Version);
+            tempFolder = $"{an.Name}.{an.ProcessorArchitecture}.{an.Version}";
 
             var dirName = Path.Combine(Path.GetTempPath(), tempFolder);
             if (!Directory.Exists(dirName))
@@ -65,10 +80,10 @@ namespace Computator.NET.Core.Config
             }
 
             // Add the temporary dirName to the PATH environment variable (at the head!)
-            var path = Environment.GetEnvironmentVariable("PATH") ?? "";
+            var path = Environment.GetEnvironmentVariable(environmentPathForLibraries) ?? "";
             //Environment variable names are not case-sensitive.
 
-            var pathPieces = path.Split(';');
+            var pathPieces = path.Split(environmentValuesSeparator);
             var found = false;
             foreach (var pathPiece in pathPieces)
             {
@@ -80,10 +95,10 @@ namespace Computator.NET.Core.Config
             }
             if (!found)
             {
-                Environment.SetEnvironmentVariable("PATH", dirName + ";" + path);
+                Environment.SetEnvironmentVariable(environmentPathForLibraries, dirName + environmentValuesSeparator + path);
             }
 
-            path = Environment.GetEnvironmentVariable("PATH") ?? "";
+            path = Environment.GetEnvironmentVariable(environmentPathForLibraries) ?? "";
 
             if (!path.Contains(dirName))
                 throw new Exception("Couldn't add gsl to PATH Environmet Variable\npath = \n" + path);
