@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
     public class ColorsCommand : DummyCommand
     {
         private ISharedViewState _sharedViewState;
-        public ColorsCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.color_Text)
+        public ColorsCommand(IChart2D chart2d, ISharedViewState sharedViewState) : base(MenuStrings.color_Text)
         {
             _sharedViewState = sharedViewState;
             Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real;
@@ -26,18 +26,20 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
             foreach (var chartType in Enum.GetValues(typeof(ChartColorPalette))
                 .Cast<ChartColorPalette>())
             {
-                list.Add(new ColorOption(charts, chartType,sharedViewState));
+                list.Add(new ColorOption(chart2d, chartType));
             }
             ChildrenCommands = list;
         }
 
         private class ColorOption : ChartOption
         {
+            private readonly IChart2D _chart2D;
             private readonly ChartColorPalette color;
 
-            public ColorOption(IDictionary<CalculationsMode, IChart> charts, ChartColorPalette color, ISharedViewState sharedViewState)
-                : base(color, charts,sharedViewState)
+            public ColorOption(IChart2D chart2d, ChartColorPalette color)
+                : base(color)
             {
+                _chart2D = chart2d;
                 this.color = color;
                 Checked = chart2d.Palette == color;
             }
@@ -45,7 +47,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 
             public override void Execute()
             {
-                chart2d.Palette = color;
+                _chart2D.Palette = color;
             }
         }
     }

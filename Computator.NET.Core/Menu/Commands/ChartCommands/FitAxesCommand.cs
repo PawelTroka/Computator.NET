@@ -7,21 +7,24 @@ using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
-    public class FitAxesCommand : BaseCommandForCharts
+    public class FitAxesCommand : CommandBase
     {
-        public FitAxesCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        private readonly IChart3D _chart3D;
+
+        public FitAxesCommand(IChart3D chart3D)
         {
+            _chart3D = chart3D;
             Text = MenuStrings.fitAxes_Text;
             ToolTip = MenuStrings.fitAxes_Text;
             CheckOnClick = true;
-            Checked = !chart3d.EqualAxes;
-            BindingUtils.OnPropertyChanged(chart3d, nameof(chart3d.EqualAxes), () => Checked = !chart3d.EqualAxes);
+            Checked = !chart3D.EqualAxes;
+            BindingUtils.OnPropertyChanged(chart3D, nameof(chart3D.EqualAxes), () => Checked = !chart3D.EqualAxes);
         }
 
         public override void Execute()
         {
             Checked = !Checked;
-            chart3d.EqualAxes = !Checked;
+            _chart3D.EqualAxes = !Checked;
         }
     }
 }

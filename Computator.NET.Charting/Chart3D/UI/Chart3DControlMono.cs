@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if __MonoCS__
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -10,14 +11,7 @@ using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.Charting.Chart3D.UI
 {
-    public class
-#if __MonoCS__
-        Chart3DControl
-#else
-        Chart3DControlMono
-#endif
-
-        : Control, IChart3D
+    public class Chart3DControl : Control, IChart3D
     {
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -76,3 +70,4 @@ namespace Computator.NET.Charting.Chart3D.UI
         }
     }
 }
+#endif

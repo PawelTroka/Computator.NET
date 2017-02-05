@@ -8,7 +8,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
     public class EditChartCommand : BaseCommandForCharts
     {
-        public EditChartCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public EditChartCommand(IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d, ISharedViewState sharedViewState) : base(chart2d,complexChart, chart3d, sharedViewState)
         {
             Text = MenuStrings.edit_Text;
             ToolTip = MenuStrings.edit_Text;

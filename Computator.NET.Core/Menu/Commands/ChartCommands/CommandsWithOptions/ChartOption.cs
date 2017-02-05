@@ -6,9 +6,9 @@ using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {
-    internal abstract class ChartOption : BaseCommandForCharts
+    internal abstract class ChartOption : CommandBase
     {
-        protected ChartOption(object value, IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        protected ChartOption(object value)
         {
             IsOption = true;
             CheckOnClick = true;

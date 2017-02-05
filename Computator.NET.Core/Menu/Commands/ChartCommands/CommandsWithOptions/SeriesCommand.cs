@@ -18,7 +18,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
          throw new System.NotImplementedException();
      }
 
-     public SeriesOption(IDictionary<CalculationsMode, IChart> charts) : base(charts)
+     public SeriesOption(IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d) : base(charts)
      {
          this.IsOption = true;
      }

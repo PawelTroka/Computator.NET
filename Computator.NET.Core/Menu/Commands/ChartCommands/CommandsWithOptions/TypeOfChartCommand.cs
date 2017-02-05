@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
     public class TypeOfChartCommand : DummyCommand
     {
         private ISharedViewState _sharedViewState;
-        public TypeOfChartCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(MenuStrings.type_Text)
+        public TypeOfChartCommand(IChart2D chart2d,ISharedViewState sharedViewState) : base(MenuStrings.type_Text)
         {
             _sharedViewState = sharedViewState;
             Visible = _sharedViewState.CalculationsMode == CalculationsMode.Real;
@@ -27,18 +27,20 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
             foreach (var chartType in Enum.GetValues(typeof(SeriesChartType))
                 .Cast<SeriesChartType>())
             {
-                list.Add(new TypeOption(charts, chartType,sharedViewState));
+                list.Add(new TypeOption(chart2d, chartType));
             }
             ChildrenCommands = list;
         }
 
         private class TypeOption : ChartOption
         {
+            private readonly IChart2D _chart2D;
             private readonly SeriesChartType chartType;
 
-            public TypeOption(IDictionary<CalculationsMode, IChart> charts, SeriesChartType chartType, ISharedViewState sharedViewState)
-                : base(chartType, charts,sharedViewState)
+            public TypeOption(IChart2D chart2d, SeriesChartType chartType)
+                : base(chartType)
             {
+                _chart2D = chart2d;
                 this.chartType = chartType;
                 IsOption = true;
                 Checked = chart2d.ChartType == chartType;
@@ -46,7 +48,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 
             public override void Execute()
             {
-                chart2d.ChartType = chartType;
+                _chart2D.ChartType = chartType;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
             AddExtension = true
         };
 
-        public ExportCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public ExportCommand(IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d, ISharedViewState sharedViewState) : base(chart2d,complexChart, chart3d, sharedViewState)
         {
             Text = MenuStrings.export_Text;
             ToolTip = MenuStrings.export_Text;

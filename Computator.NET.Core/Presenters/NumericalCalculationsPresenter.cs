@@ -25,7 +25,6 @@ namespace Computator.NET.Core.Presenters
 
 
         private readonly Type _integrationType = typeof(Func<Func<double, double>, double, double, double, double>);
-        private readonly NumericalMethodsInfo _numericalMethodsInfo;
         private readonly INumericalCalculationsView _view;
 
 

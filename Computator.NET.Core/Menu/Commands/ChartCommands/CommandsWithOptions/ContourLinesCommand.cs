@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
     public class ContourLinesCommand : DummyCommand
     {
         private ISharedViewState _sharedViewState;
-        public ContourLinesCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public ContourLinesCommand(IComplexChart complexChart, ISharedViewState sharedViewState)
             : base(MenuStrings.contourLinesMode_Text)
         {
             _sharedViewState = sharedViewState;
@@ -28,18 +28,20 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
             foreach (var val in Enum.GetValues(typeof(CountourLinesMode))
                 .Cast<CountourLinesMode>())
             {
-                list.Add(new ContourLinesOption(charts, val,sharedViewState));
+                list.Add(new ContourLinesOption(complexChart, val));
             }
             ChildrenCommands = list;
         }
 
         private class ContourLinesOption : ChartOption
         {
+            private readonly IComplexChart _complexChart;
             private readonly CountourLinesMode contourLinesMode;
 
-            public ContourLinesOption(IDictionary<CalculationsMode, IChart> charts,
-                CountourLinesMode contourLinesMode, ISharedViewState sharedViewState) : base(contourLinesMode, charts,sharedViewState)
+            public ContourLinesOption(IComplexChart complexChart,
+                CountourLinesMode contourLinesMode) : base(contourLinesMode)
             {
+                _complexChart = complexChart;
                 this.contourLinesMode = contourLinesMode;
                 IsOption = true;
                 Checked = complexChart.CountourMode == contourLinesMode;
@@ -50,8 +52,8 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 
             public override void Execute()
             {
-                complexChart.CountourMode = contourLinesMode;
-                complexChart.Redraw();
+                _complexChart.CountourMode = contourLinesMode;
+                _complexChart.Redraw();
             }
         }
     }

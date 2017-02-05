@@ -144,9 +144,9 @@ namespace Computator.NET.Core.Menu {
         /// <summary>
         ///   Looks up a localized string similar to Chart.
         /// </summary>
-        public static string comlexChartToolStripMenuItem_Text {
+        public static string complexChartToolStripMenuItem_Text {
             get {
-                return ResourceManager.GetString("comlexChartToolStripMenuItem.Text", resourceCulture);
+                return ResourceManager.GetString("complexChartToolStripMenuItem.Text", resourceCulture);
             }
         }
         

@@ -9,7 +9,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
     public class PrintChartCommand : BaseCommandForCharts
     {
-        public PrintChartCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public PrintChartCommand(IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d, ISharedViewState sharedViewState) : base(chart2d,complexChart, chart3d, sharedViewState)
         {
             Icon = Resources.printToolStripButtonImage;
             Text = MenuStrings.printToolStripButton_Text;

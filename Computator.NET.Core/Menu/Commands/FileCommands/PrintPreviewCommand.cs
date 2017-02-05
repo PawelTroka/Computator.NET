@@ -17,7 +17,7 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
         private IApplicationManager _applicationManager;
         private IDictionary<CalculationsMode, IChart> _charts;
 
-        public PrintPreviewCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager, IDictionary<CalculationsMode, IChart> charts)
+        public PrintPreviewCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager, IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d)
         {
             Icon = Resources.printPreviewToolStripMenuItemImage;
             Text = MenuStrings.printPreviewToolStripMenuItem_Text;
@@ -27,7 +27,12 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             _sharedViewState = sharedViewState;
             _applicationManager = applicationManager;
-            _charts = charts;
+            _charts = new Dictionary<CalculationsMode, IChart>()
+            {
+                {CalculationsMode.Real, chart2d},
+                {CalculationsMode.Complex, complexChart },
+                {CalculationsMode.Fxy, chart3d }
+            };
         }
 
 

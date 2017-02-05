@@ -176,7 +176,7 @@
   <data name="chartToolStripMenuItem.Text" xml:space="preserve">
     <value>Wykres</value>
   </data>
-  <data name="comlexChartToolStripMenuItem.Text" xml:space="preserve">
+  <data name="complexChartToolStripMenuItem.Text" xml:space="preserve">
     <value>Wykres</value>
   </data>
   <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
@@ -723,7 +723,7 @@
   <data name="transformToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 20</value>
   </data>
-  <data name="comlexChartToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="complexChartToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 20</value>
   </data>
   <data name="toolStripMenuItem18.Size" type="System.Drawing.Size, System.Drawing">

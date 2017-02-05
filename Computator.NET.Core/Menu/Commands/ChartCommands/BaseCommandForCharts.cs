@@ -8,19 +8,28 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
     public abstract class BaseCommandForCharts : CommandBase
     {
+        protected readonly IChart2D chart2D;
+        protected readonly IComplexChart complexChart;
+        protected readonly IChart3D chart3D;
         private readonly ISharedViewState _sharedViewState;
         protected readonly IDictionary<CalculationsMode, IChart> _charts;
 
-        protected BaseCommandForCharts(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        protected BaseCommandForCharts(IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d, ISharedViewState sharedViewState)
         {
-            _charts = charts;
+            this.chart2D = chart2d;
+            this.complexChart = complexChart;
+            this.chart3D = chart3d;
+            _charts = new Dictionary<CalculationsMode, IChart>()
+            {
+                {CalculationsMode.Real, chart2d },
+                {CalculationsMode.Complex, complexChart},
+                {CalculationsMode.Fxy, chart3D},
+            };
             _sharedViewState = sharedViewState;
         }
 
         protected IChart currentChart => _charts[_sharedViewState.CalculationsMode];
 
-        protected IChart2D chart2d => _charts[CalculationsMode.Real] as IChart2D;
-        protected IChart3D chart3d => _charts[CalculationsMode.Fxy] as IChart3D;
-        protected IComplexChart complexChart => _charts[CalculationsMode.Complex] as IComplexChart;
+
     }
 }

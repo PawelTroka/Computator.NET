@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using ScintillaNET;
@@ -85,6 +86,33 @@ namespace Computator.NET.Controls.AutocompleteMenu.Wrappers
             remove { target.MouseDown -= value; }
         }
 
-        public virtual event ScrollEventHandler Scroll;
+
+        private readonly Dictionary<ScrollEventHandler, MouseEventHandler> _scrollHandlersMapped = new Dictionary<ScrollEventHandler, MouseEventHandler>();
+
+        public virtual event ScrollEventHandler Scroll
+        {
+            add
+            {
+                if (value != null && !_scrollHandlersMapped.ContainsKey(value))
+                {
+                    MouseEventHandler ms = (o, s) => { value(o, ConvertMouseEventArgsToScrollEventArgs(s)); };
+                    _scrollHandlersMapped.Add(value, ms);
+                    target.MouseWheel += ms;
+                }
+            }
+            remove
+            {
+                if (value != null && _scrollHandlersMapped.ContainsKey(value))
+                {
+                    var ms = _scrollHandlersMapped[value];
+                    target.MouseWheel -= ms;
+                }
+            }
+        }
+
+        private static ScrollEventArgs ConvertMouseEventArgsToScrollEventArgs(MouseEventArgs s)
+        {
+            return new ScrollEventArgs(ScrollEventType.EndScroll, s.Delta);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
     public class TransformCommand : DummyCommand
     {
         private readonly ISharedViewState _sharedViewState;
-        public TransformCommand(ISharedViewState sharedViewState, IDictionary<CalculationsMode, IChart> charts) : base(MenuStrings.transformToolStripMenuItem_Text)
+        public TransformCommand(ISharedViewState sharedViewState, IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d) : base(MenuStrings.transformToolStripMenuItem_Text)
         {
             _sharedViewState = sharedViewState;
             BindingUtils.OnPropertyChanged(_sharedViewState, nameof(_sharedViewState.CurrentView),
@@ -21,23 +21,23 @@ namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
             ChildrenCommands = new List<IToolbarCommand>
             {
                 new TransformOptionCommand(MenuStrings.FFT_Text, MenuStrings.FFT_ToolTip_Text,
-                    charts, sharedViewState),
+                    chart2d,complexChart,chart3d, sharedViewState),
                 new TransformOptionCommand(MenuStrings.IFFT_Text, MenuStrings.IFFT_ToolTipText,
-                    charts, sharedViewState),
+                    chart2d,complexChart,chart3d, sharedViewState),
                 new TransformOptionCommand(MenuStrings.DST_Text, MenuStrings.DST_ToolTipText,
-                    charts, sharedViewState),
+                    chart2d,complexChart,chart3d, sharedViewState),
                 new TransformOptionCommand(MenuStrings.IDST_Text, MenuStrings.IDST_ToolTipText,
-                    charts, sharedViewState),
+                    chart2d,complexChart,chart3d, sharedViewState),
                 new TransformOptionCommand(MenuStrings.DCT_Text, MenuStrings.DCT_ToolTipText,
-                    charts, sharedViewState),
+                    chart2d,complexChart,chart3d, sharedViewState),
                 new TransformOptionCommand(MenuStrings.IDCT_Text, MenuStrings.IDCT_ToolTipText,
-                    charts, sharedViewState),
+                    chart2d,complexChart,chart3d, sharedViewState),
                 new TransformOptionCommand(MenuStrings.FHT_Text, MenuStrings.FHT_ToolTipText,
-                    charts, sharedViewState),
+                    chart2d,complexChart,chart3d, sharedViewState),
                 new TransformOptionCommand(MenuStrings.IFHT_Text, MenuStrings.IFHT_ToolTipText,
-                    charts, sharedViewState),
+                    chart2d,complexChart,chart3d, sharedViewState),
                 new TransformOptionCommand(MenuStrings.DHT_Text, MenuStrings.DHT_ToolTipText,
-                    charts, sharedViewState)
+                    chart2d,complexChart,chart3d, sharedViewState)
                 //      new TransformOptionCommand(MenuStrings.,MenuStrings.IFHT_ToolTipText,charts),
             };
         }

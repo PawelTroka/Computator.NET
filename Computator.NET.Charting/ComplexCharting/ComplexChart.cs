@@ -29,8 +29,7 @@ namespace Computator.NET.Charting.ComplexCharting
         private  Color[,] _pointsColors;
 
         private  ComplexPoint[,] _pointsValues;
-
-        private bool drawn;
+        
         private Function function;
         private Bitmap image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
@@ -40,9 +39,7 @@ namespace Computator.NET.Charting.ComplexCharting
             InitialDelay = 1000,
             ReshowDelay = 500
         };
-
-        private readonly BackgroundWorker worker;
-        //private bool doNotRecalculate;
+        
 
         #endregion
 

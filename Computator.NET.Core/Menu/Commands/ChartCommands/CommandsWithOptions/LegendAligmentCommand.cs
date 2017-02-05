@@ -12,7 +12,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {
     public class LegendAligmentCommand : DummyCommand
     {
-        public LegendAligmentCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public LegendAligmentCommand(IChart2D chart2d)
             : base(MenuStrings.aligment_Text)
         {
             var list = new List<IToolbarCommand>();
@@ -20,18 +20,20 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
             foreach (var aligment in Enum.GetValues(typeof(StringAlignment))
                 .Cast<StringAlignment>())
             {
-                list.Add(new LegendAligmentOption(charts, aligment,sharedViewState));
+                list.Add(new LegendAligmentOption(chart2d, aligment));
             }
             ChildrenCommands = list;
         }
 
         private class LegendAligmentOption : ChartOption
         {
+            private readonly IChart2D _chart2D;
             private readonly StringAlignment aligment;
 
-            public LegendAligmentOption(IDictionary<CalculationsMode, IChart> charts, StringAlignment aligment, ISharedViewState sharedViewState)
-                : base(aligment, charts,sharedViewState)
+            public LegendAligmentOption(IChart2D chart2d, StringAlignment aligment)
+                : base(aligment)
             {
+                _chart2D = chart2d;
                 this.aligment = aligment;
                 IsOption = true;
                 Checked = chart2d.LegendAlignment == aligment;
@@ -39,7 +41,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 
             public override void Execute()
             {
-                chart2d.LegendAlignment = aligment;
+                _chart2D.LegendAlignment = aligment;
             }
         }
     }

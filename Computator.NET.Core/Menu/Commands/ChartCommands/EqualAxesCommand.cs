@@ -9,13 +9,13 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {
     public class EqualAxesCommand : BaseCommandForCharts
     {
-        public EqualAxesCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState) : base(charts,sharedViewState)
+        public EqualAxesCommand(IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d, ISharedViewState sharedViewState) : base(chart2d,complexChart, chart3d, sharedViewState)
         {
             Text = MenuStrings.equalAxes_Text;
             ToolTip = MenuStrings.equalAxes_Text;
             CheckOnClick = true;
-            Checked = chart3d.EqualAxes;
-            BindingUtils.TwoWayBinding(this, nameof(Checked), chart3d, nameof(chart3d.EqualAxes));
+            Checked = chart3D.EqualAxes;
+            BindingUtils.TwoWayBinding(this, nameof(Checked), chart3D, nameof(chart3D.EqualAxes));
         }
 
         public override void Execute()

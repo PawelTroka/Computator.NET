@@ -262,8 +262,6 @@ namespace Computator.NET.Controls.CodeEditors
             tabControl.SelectedTab.ImageIndex = 0;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public void AppendText(string text)
         {
             CurrentCodeEditor.AppendText(text);

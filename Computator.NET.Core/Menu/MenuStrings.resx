@@ -322,7 +322,7 @@
   <data name="series.Text" xml:space="preserve">
     <value>Series</value>
   </data>
-  <data name="comlexChartToolStripMenuItem.Text" xml:space="preserve">
+  <data name="complexChartToolStripMenuItem.Text" xml:space="preserve">
     <value>Chart</value>
   </data>
   <data name="colorAssignmentToolStripMenuItem.Text" xml:space="preserve">

@@ -11,11 +11,11 @@ namespace Computator.NET.Core.NumericalCalculations
 
         private NumericalMethodsInfo()
         {
-            _methods = new ReadOnlyDictionary<string, IDictionary<string, Delegate>>(
+            _methods = new Dictionary<string, IDictionary<string, Delegate>>(
                 new Dictionary<string, IDictionary<string, Delegate>>
                 {
                     {
-                        Strings.Integral, new ReadOnlyDictionary<string, Delegate>(
+                        Strings.Integral, new Dictionary<string, Delegate>(
                             new Dictionary<string, Delegate>
                             {
                                 {
@@ -60,7 +60,7 @@ namespace Computator.NET.Core.NumericalCalculations
                     },
 
                     {
-                        Strings.Derivative, new ReadOnlyDictionary<string, Delegate>(
+                        Strings.Derivative, new Dictionary<string, Delegate>(
                             new Dictionary<string, Delegate>
                             {
                                 {
@@ -92,7 +92,7 @@ namespace Computator.NET.Core.NumericalCalculations
                     },
 
                     {
-                        Strings.Function_root, new ReadOnlyDictionary<string, Delegate>(
+                        Strings.Function_root, new Dictionary<string, Delegate>(
                             new Dictionary<string, Delegate>
                             {
                                 {
@@ -138,7 +138,7 @@ namespace Computator.NET.Core.NumericalCalculations
                     newDict.Add(aaaa.Key, aaaa.Value as Func<Func<double, double>, double, double, double, uint, double>);
                 }
                 return
-                    new ReadOnlyDictionary<string, Func<Func<double, double>, double, double, double, uint, double>>(
+                    new Dictionary<string, Func<Func<double, double>, double, double, double, uint, double>>(
                         newDict);
             }
         }
@@ -155,7 +155,7 @@ namespace Computator.NET.Core.NumericalCalculations
                     newDict.Add(aaaa.Key, aaaa.Value as Func<Func<double, double>, double, double, double, double>);
                 }
                 return
-                    new ReadOnlyDictionary<string, Func<Func<double, double>, double, double, double, double>>(newDict);
+                    new Dictionary<string, Func<Func<double, double>, double, double, double, double>>(newDict);
             }
         }
 
@@ -170,7 +170,7 @@ namespace Computator.NET.Core.NumericalCalculations
                 {
                     newDict.Add(aaaa.Key, aaaa.Value as Func<Func<double, double>, double, uint, double, double>);
                 }
-                return new ReadOnlyDictionary<string, Func<Func<double, double>, double, uint, double, double>>(newDict);
+                return new Dictionary<string, Func<Func<double, double>, double, uint, double, double>>(newDict);
             }
         }
 

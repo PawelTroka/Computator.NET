@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Accord.Collections;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
@@ -49,16 +48,11 @@ namespace Computator.NET.IntegrationTests
             _container.RegisterInstance(_customFunctionsViewMock.Object, new ContainerControlledLifetimeManager());
             _container.RegisterInstance<ISupportsExceptionHighliting>(_customFunctionsViewMock.Object, new ContainerControlledLifetimeManager());
 
-            _container.RegisterInstance(
-                new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>()
-                {
-                    {CalculationsMode.Real, new Mock<IChart>().Object},
-                    {CalculationsMode.Complex, new Mock<IChart>().Object},
-                    {CalculationsMode.Fxy, new Mock<IChart>().Object},
-                }), new ContainerControlledLifetimeManager());
 
-            _container.RegisterType<IDictionary<CalculationsMode, IChart>, ReadOnlyDictionary<CalculationsMode, IChart>>(
-                new InjectionFactory(c => c.Resolve<ReadOnlyDictionary<CalculationsMode, IChart>>()));
+            _container.RegisterInstance(new Mock<IChart2D>().Object);
+            _container.RegisterInstance(new Mock<IComplexChart>().Object);
+            _container.RegisterInstance(new Mock<IChart3D>().Object);
+
 
             _expressionViewMock = new Mock<ITextProvider>();
             //            _expressionViewMock.SetupAllProperties();

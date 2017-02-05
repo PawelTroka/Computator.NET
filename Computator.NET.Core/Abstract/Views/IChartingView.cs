@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Accord.Collections;
 using Computator.NET.DataTypes;
@@ -8,6 +9,9 @@ namespace Computator.NET.Core.Abstract.Views
     public interface IChartingView
     {
         IChartAreaValuesView ChartAreaValuesView { get; }
-        IDictionary<CalculationsMode, IChart> Charts { get; }
+        IChart2D Chart2D { get; }
+        IComplexChart ComplexChart { get; }
+        IChart3D Chart3D { get; }
+        IDictionary<CalculationsMode,IChart> Charts { get; }
     }
 }

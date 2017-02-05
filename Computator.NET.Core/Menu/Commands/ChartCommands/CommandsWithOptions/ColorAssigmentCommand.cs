@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
     public class ColorAssigmentCommand : DummyCommand
     {
         private readonly ISharedViewState _sharedViewState;
-        public ColorAssigmentCommand(IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
+        public ColorAssigmentCommand(IComplexChart complexChart, ISharedViewState sharedViewState)
             : base(MenuStrings.colorAssignmentToolStripMenuItem_Text)
         {
             _sharedViewState = sharedViewState;
@@ -28,18 +28,20 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
             foreach (var colorAssigment in Enum.GetValues(typeof(AssignmentOfColorMethod))
                 .Cast<AssignmentOfColorMethod>())
             {
-                list.Add(new ColorAssigmentOption(charts, colorAssigment,_sharedViewState));
+                list.Add(new ColorAssigmentOption(complexChart, colorAssigment));
             }
             ChildrenCommands = list;
         }
 
         private class ColorAssigmentOption : ChartOption
         {
+            private readonly IComplexChart _complexChart;
             private readonly AssignmentOfColorMethod assignmentOfColorMethod;
 
-            public ColorAssigmentOption(IDictionary<CalculationsMode, IChart> charts,
-                AssignmentOfColorMethod assignmentOfColorMethod, ISharedViewState sharedViewState) : base(assignmentOfColorMethod, charts,sharedViewState)
+            public ColorAssigmentOption(IComplexChart complexChart,
+                AssignmentOfColorMethod assignmentOfColorMethod) : base(assignmentOfColorMethod)
             {
+                _complexChart = complexChart;
                 this.assignmentOfColorMethod = assignmentOfColorMethod;
                 IsOption = true;
                 Checked = complexChart.ColorAssignmentMethod == assignmentOfColorMethod;
@@ -50,8 +52,8 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 
             public override void Execute()
             {
-                complexChart.ColorAssignmentMethod = assignmentOfColorMethod;
-                complexChart.Redraw();
+                _complexChart.ColorAssignmentMethod = assignmentOfColorMethod;
+                _complexChart.Redraw();
             }
         }
     }

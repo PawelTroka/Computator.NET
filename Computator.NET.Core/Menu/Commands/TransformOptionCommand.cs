@@ -11,8 +11,8 @@ namespace Computator.NET.Core.Menu.Commands
     internal class TransformOptionCommand : BaseCommandForCharts
     {
         private readonly ISharedViewState _sharedViewState;
-        public TransformOptionCommand(string text, string toolTip, IDictionary<CalculationsMode, IChart> charts, ISharedViewState sharedViewState)
-            : base(charts,sharedViewState)
+        public TransformOptionCommand(string text, string toolTip, IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d, ISharedViewState sharedViewState)
+            : base(chart2d,complexChart, chart3d, sharedViewState)
         {
             _sharedViewState = sharedViewState;
             Text = text;
@@ -23,7 +23,7 @@ namespace Computator.NET.Core.Menu.Commands
         {
             if (_sharedViewState.CalculationsMode == CalculationsMode.Real)
 
-                chart2d.Transform(
+                chart2D.Transform(
                     points => MathematicalTransformations.Transform(points, Text),
                     Text);
             //  else if (complexNumbersModeRadioBox.Checked)

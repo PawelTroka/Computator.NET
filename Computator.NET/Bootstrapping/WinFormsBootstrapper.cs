@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Accord.Collections;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
@@ -93,18 +92,10 @@ namespace Computator.NET.Bootstrapping
         private void RegisterControls()
         {
             //components and controls
-            Container.RegisterInstance(
-            new ReadOnlyDictionary<CalculationsMode, IChart>(new Dictionary<CalculationsMode, IChart>()
-            {
-                            { CalculationsMode.Real, new Chart2D()},
-                            { CalculationsMode.Complex, new ComplexChart()},
-                            { CalculationsMode.Fxy, new Chart3DControl()},
-            }));
-
-            Container.RegisterType<IDictionary<CalculationsMode, IChart>, ReadOnlyDictionary<CalculationsMode, IChart>>(
-                new InjectionFactory(c => c.Resolve<ReadOnlyDictionary<CalculationsMode, IChart>>()));
-
-
+            //charts
+            Container.RegisterType<IChart2D, Chart2D>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IComplexChart, ComplexChart>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IChart3D, Chart3DControl>(new ContainerControlledLifetimeManager());
 
 
             //ExpressionTextBox

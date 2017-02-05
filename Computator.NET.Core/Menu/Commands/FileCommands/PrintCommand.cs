@@ -16,7 +16,7 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
         private ICanFileEdit _scriptingCodeEditor;
         private readonly IApplicationManager _applicationManager;
         private readonly IDictionary<CalculationsMode, IChart> _charts; 
-        public PrintCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager, IDictionary<CalculationsMode, IChart> charts)
+        public PrintCommand(ICanFileEdit scriptingCodeEditor, ICanFileEdit customFunctionsCodeEditor, ISharedViewState sharedViewState, IApplicationManager applicationManager, IChart2D chart2d, IComplexChart complexChart, IChart3D chart3d)
         {
             Icon = Resources.printToolStripButtonImage;
             Text = MenuStrings.printToolStripButton_Text;
@@ -26,7 +26,12 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
             this._customFunctionsCodeEditor = customFunctionsCodeEditor;
             _sharedViewState = sharedViewState;
             _applicationManager = applicationManager;
-            _charts = charts;
+            _charts = new Dictionary<CalculationsMode, IChart>()
+            {
+                {CalculationsMode.Real, chart2d},
+                {CalculationsMode.Complex, complexChart },
+                {CalculationsMode.Fxy, chart3d }
+            };
         }
 
 
