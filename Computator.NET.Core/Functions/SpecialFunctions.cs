@@ -1156,7 +1156,7 @@ namespace Computator.NET.Core.Functions
         {
             if (x < 0)
             {
-                gsl_sf_expint_En(n, x);
+                return gsl_sf_expint_En(n, x);//status;
             }
             return Meta.Numerics.Functions.AdvancedMath.IntegralE(n, x);
         }
