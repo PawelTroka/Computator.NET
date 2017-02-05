@@ -51,13 +51,19 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
-    <EmbeddedResource Include="Localization\Strings.cs.resx" />
+    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs;Localization\Strings.Designer.cs" />
+    <Compile Include="Localization\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.Computator.NET.DataTypes.NET40.config" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Localization\Strings.cs.resx" />
     <EmbeddedResource Include="Localization\Strings.de.resx" />
     <EmbeddedResource Include="Localization\Strings.pl.resx" />
     <EmbeddedResource Include="Localization\Strings.resx" />
-    <None Include="packages.Computator.NET.DataTypes.NET40.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
