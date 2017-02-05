@@ -19,7 +19,7 @@ namespace Computator.NET.DataTypes
 #if !__MonoCS__
             "gsl.dll"
 #else
-            "libgsl.so.19.3.0
+            "libgsl.so.19.3.0"
 #endif
             ;
 
