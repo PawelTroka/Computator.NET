@@ -2132,7 +2132,13 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #region utils
 
-        private const string gslSfLibDir = "gsl.dll"; //"libgsl-0.dll";
+        private const string gslSfLibDir =
+#if !__MonoCS__
+                "gsl.dll"
+#else
+            "libgsl.so.19.3.0"
+#endif
+            ;
         private static gsl_sf_result sfResult;
 
         private static System.Exception gslExceptions(int error_code)
@@ -4405,7 +4411,13 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #region utils
 
-        private const string gslSfLibDir = ""gsl.dll""; //""libgsl-0.dll"";
+        private const string gslSfLibDir = 
+#if !__MonoCS__
+                ""gsl.dll""
+#else
+            ""libgsl.so.19.3.0""
+#endif
+            ;
         private static gsl_sf_result sfResult;
 
         private static System.Exception gslExceptions(int error_code)
