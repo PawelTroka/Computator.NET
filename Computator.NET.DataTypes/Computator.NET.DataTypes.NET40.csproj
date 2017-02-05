@@ -51,8 +51,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
-    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx" />
+    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <None Include="packages.Computator.NET.DataTypes.NET40.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

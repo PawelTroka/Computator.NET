@@ -88,10 +88,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" Condition=" '$(OS)' != 'Unix' " />
   </ItemGroup>
-  <PropertyGroup>
-    <IncludePattern>**\*.cs</IncludePattern>
-    <ExcludePattern>obj\**\*.cs</ExcludePattern>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>

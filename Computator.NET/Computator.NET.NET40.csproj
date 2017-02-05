@@ -167,8 +167,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
-    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx" />
+    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <None Include="app.config" />
     <None Include="Computator.NET.pfx" />
     <None Include="packages.Computator.NET.NET40.config" />

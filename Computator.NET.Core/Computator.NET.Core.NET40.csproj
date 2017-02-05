@@ -120,16 +120,16 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs" />
-    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx" />
+    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <None Include="app.config" />
     <None Include="packages.Computator.NET.Core.NET40.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="**\*.tsl">
+    <Content Include="**\*.tsl" Exclude="obj\**\*.tsl;bin\**\*.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="**\*.tslf">
+    <Content Include="**\*.tslf" Exclude="obj\**\*.tslf;bin\**\*.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Static\**\*.*">
@@ -137,7 +137,7 @@
     </Content>
     <None Include="Special\windows-x64\gsl.dll" />
     <None Include="Special\windows-x86\gsl.dll" />
-    <None Include="**\*.settings" />
+    <None Include="**\*.settings" Exclude="obj\**\*.settings;bin\**\*.settings" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.NET40.csproj">

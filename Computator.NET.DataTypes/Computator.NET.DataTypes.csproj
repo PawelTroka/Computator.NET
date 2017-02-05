@@ -44,10 +44,6 @@
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <PropertyGroup>
-    <IncludePattern>**\*.cs</IncludePattern>
-    <ExcludePattern>obj\**\*.cs</ExcludePattern>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
