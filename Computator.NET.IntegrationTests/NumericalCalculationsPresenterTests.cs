@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
-using Microsoft.Practices.Unity;
 using Moq;
 using NUnit.Framework;
 using Computator.NET.Core.Abstract.Controls;
@@ -30,33 +29,28 @@ namespace Computator.NET.IntegrationTests
         [SetUp]
         public void Init()
         {
-            _container = (new CoreBootstrapper()).Container;
-
+            _bootstrapper = new CoreBootstrapper();
 
             _errorHandlerMock = new Mock<IErrorHandler>();
-            //      _errorHandlerMock.SetupAllProperties();
-            _container.RegisterInstance(_errorHandlerMock.Object, new ContainerControlledLifetimeManager());
+            _bootstrapper.RegisterInstance(_errorHandlerMock.Object);
 
             _numericalCalculationsViewMock = new Mock<INumericalCalculationsView>();
-            //        _numericalCalculationsViewMock.SetupAllProperties();
 
-            _container.RegisterInstance(_numericalCalculationsViewMock.Object, new ContainerControlledLifetimeManager());
+            _bootstrapper.RegisterInstance(_numericalCalculationsViewMock.Object);
 
 
             _customFunctionsViewMock = new Mock<ICodeEditorView>();
-            //          _customFunctionsViewMock.SetupAllProperties();
-            _container.RegisterInstance(_customFunctionsViewMock.Object, new ContainerControlledLifetimeManager());
-            _container.RegisterInstance<ISupportsExceptionHighliting>(_customFunctionsViewMock.Object, new ContainerControlledLifetimeManager());
+            _bootstrapper.RegisterInstance(_customFunctionsViewMock.Object);
+            _bootstrapper.RegisterInstance<ISupportsExceptionHighliting>(_customFunctionsViewMock.Object);
 
 
-            _container.RegisterInstance(new Mock<IChart2D>().Object);
-            _container.RegisterInstance(new Mock<IComplexChart>().Object);
-            _container.RegisterInstance(new Mock<IChart3D>().Object);
+            _bootstrapper.RegisterInstance(new Mock<IChart2D>().Object);
+            _bootstrapper.RegisterInstance(new Mock<IComplexChart>().Object);
+            _bootstrapper.RegisterInstance(new Mock<IChart3D>().Object);
 
 
             _expressionViewMock = new Mock<ITextProvider>();
-            //            _expressionViewMock.SetupAllProperties();
-            _container.RegisterInstance(_expressionViewMock.Object, new ContainerControlledLifetimeManager());
+            _bootstrapper.RegisterInstance(_expressionViewMock.Object);
 
 
             _numericalCalculationsViewMock.Setup(
@@ -64,8 +58,6 @@ namespace Computator.NET.IntegrationTests
                     m.AddResult(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
                         It.IsAny<string>()))
                 .Verifiable();
-
-
         }
 
 
@@ -73,6 +65,7 @@ namespace Computator.NET.IntegrationTests
         private Mock<ICodeEditorView> _customFunctionsViewMock;
         private Mock<IErrorHandler> _errorHandlerMock;
         private Mock<ITextProvider> _expressionViewMock;
+
         private NumericalCalculationsPresenter _numericalCalculationsPresenter;
         private Mock<INumericalCalculationsView> _numericalCalculationsViewMock;
 
@@ -83,11 +76,11 @@ namespace Computator.NET.IntegrationTests
             {"cos(x)", Math.Cos},
             {"sin(x)", Math.Sin},
             {"tan(x)", Math.Tan},
-            //   {"AiryAi(x)", x => SpecialFunctions.AiryAi(x)},
+            //{"AiryAi(x)", x => SpecialFunctions.AiryAi(x)},
             {"x+0.001", x => x + 0.001}
         };
 
-        private IUnityContainer _container;
+        private CoreBootstrapper _bootstrapper;
 
 
         [OneTimeSetUp]
@@ -103,9 +96,7 @@ namespace Computator.NET.IntegrationTests
             _numericalCalculationsViewMock.SetupGet(m => m.SelectedOperation).Returns(opeartion);
             _numericalCalculationsViewMock.SetupGet(m => m.SelectedMethod).Returns(method);
 
-            // _numericalCalculationsPresenter = new NumericalCalculationsPresenter(_numericalCalculationsViewMock.Object,
-            //    _errorHandlerMock.Object);
-            _numericalCalculationsPresenter = _container.Resolve<NumericalCalculationsPresenter>();
+            _numericalCalculationsPresenter = _bootstrapper.Create<NumericalCalculationsPresenter>();
 
             EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(CalculationsMode.Real));
         }

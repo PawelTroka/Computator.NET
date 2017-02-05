@@ -26,12 +26,16 @@ namespace Computator.NET.Core.Bootstrapping
             RegisterHandlers();
             RegisterModel();
         }
-        
+
         public virtual T Create<T>()
         {
             return Container.Resolve<T>();
         }
-        
+
+        public void RegisterInstance<TInterface>(TInterface instance)
+        {
+            Container.RegisterInstance(typeof(TInterface), (string)null, (object)instance, (LifetimeManager)new ContainerControlledLifetimeManager());
+        }
 
         private void RegisterModel()
         {
