@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
+using Computator.NET.Core.Helpers;
 using Computator.NET.DataTypes;
-using Microsoft.VisualBasic.FileIO;
 
 namespace Computator.NET.Core.Properties
 {
@@ -36,7 +36,7 @@ namespace Computator.NET.Core.Properties
             {
                 if (Directory.Exists(GlobalConfig.FullPath(_scriptingRawDir)))
                 {
-                    FileSystem.CopyDirectory(GlobalConfig.FullPath(_scriptingRawDir), ScriptingDirectory);
+                    CopyDirectory.Copy(GlobalConfig.FullPath(_scriptingRawDir), ScriptingDirectory);
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace Computator.NET.Core.Properties
             {
                 if (Directory.Exists(GlobalConfig.FullPath(_customFunctionsRawDir)))
                 {
-                    FileSystem.CopyDirectory(GlobalConfig.FullPath(_customFunctionsRawDir), CustomFunctionsDirectory);
+                    CopyDirectory.Copy(GlobalConfig.FullPath(_customFunctionsRawDir), CustomFunctionsDirectory);
                 }
                 else
                 {

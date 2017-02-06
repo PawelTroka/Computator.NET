@@ -69,7 +69,6 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="SimpleLogger.NET, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -120,6 +119,7 @@
     <Compile Include="Autocompletion\FunctionInfo.cs" />
     <Compile Include="Autocompletion\FunctionsDetails.cs" />
     <Compile Include="Autocompletion\MethodInfoExtensions.cs" />
+    <Compile Include="Helpers\CopyDirectory.cs" />
     <Compile Include="Helpers\DocumentExtension.cs" />
     <Compile Include="Model\DirectorySelectedEventArgs.cs" />
     <Compile Include="Evaluation\EvaluationException.cs" />
