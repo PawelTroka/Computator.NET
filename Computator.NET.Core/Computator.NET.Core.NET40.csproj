@@ -120,33 +120,15 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs;Menu\MenuStrings.Designer.cs;Properties\Resources.Designer.cs" />
-    <Compile Include="Menu\MenuStrings.Designer.cs">
-      <DependentUpon>MenuStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="app.config" />
-    <None Include="packages.Computator.NET.Core.NET40.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
+    <EmbeddedResource Include="Menu\MenuStrings.cs.resx" />
     <EmbeddedResource Include="Menu\MenuStrings.cs.resx" />
     <EmbeddedResource Include="Menu\MenuStrings.de.resx" />
     <EmbeddedResource Include="Menu\MenuStrings.pl.resx" />
-    <EmbeddedResource Include="Menu\MenuStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>MenuStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Menu\MenuStrings.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx" />
+    <None Include="app.config" />
+    <None Include="packages.Computator.NET.Core.NET40.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="**\*.tsl" Exclude="obj\**\*.tsl;bin\**\*.tsl">
