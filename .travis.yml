@@ -5,29 +5,38 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      mono: 4.6.2
+      mono: nightly
     - os: linux
       dist: trusty
       sudo: required
-      mono: 4.6.2
+      mono: nightly
       env: netmoniker=.NET40
     - os: linux
       dist: trusty
       sudo: required
-      mono: 4.6.1
+      mono: weekly
     - os: linux
       dist: trusty
       sudo: required
-      mono: 4.6.1
+      mono: weekly
       env: netmoniker=.NET40
     - os: linux
       dist: trusty
       sudo: required
-      mono: 4.6.0
+      mono: alpha
     - os: linux
       dist: trusty
       sudo: required
-      mono: 4.6.0
+      mono: alpha
+      env: netmoniker=.NET40
+    - os: linux
+      dist: trusty
+      sudo: required
+      mono: beta
+    - os: linux
+      dist: trusty
+      sudo: required
+      mono: beta
       env: netmoniker=.NET40
     - os: linux
       dist: trusty
@@ -44,56 +53,74 @@ matrix:
     - os: linux
       dist: precise
       sudo: required
-      mono: 4.6.2
+      mono: nightly
     - os: linux
       dist: precise
       sudo: required
-      mono: 4.6.2
+      mono: nightly
       env: netmoniker=.NET40
     - os: linux
       dist: precise
       sudo: required
-      mono: 4.6.1
+      mono: weekly
     - os: linux
       dist: precise
       sudo: required
-      mono: 4.6.1
+      mono: weekly
       env: netmoniker=.NET40
     - os: linux
       dist: precise
       sudo: required
-      mono: 4.6.0
+      mono: alpha
     - os: linux
       dist: precise
       sudo: required
-      mono: 4.6.0
+      mono: alpha
+      env: netmoniker=.NET40
+    - os: linux
+      dist: precise
+      sudo: required
+      mono: beta
+    - os: linux
+      dist: precise
+      sudo: required
+      mono: beta
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 4.6.2
+      mono: nightly
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 4.6.2
+      mono: nightly
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 4.6.1
+      mono: weekly
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 4.6.1
+      mono: weekly
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 4.6.0
+      mono: alpha
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 4.6.0
+      mono: alpha
+      env: netmoniker=.NET40
+    - os: osx
+      osx_image: xcode8.2
+      sudo: required
+      mono: beta
+    - os: osx
+      osx_image: xcode8.2
+      sudo: required
+      mono: beta
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode8.2
@@ -110,29 +137,38 @@ matrix:
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: 4.6.2
+      mono: nightly
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: 4.6.2
+      mono: nightly
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: 4.6.1
+      mono: weekly
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: 4.6.1
+      mono: weekly
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: 4.6.0
+      mono: alpha
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: 4.6.0
+      mono: alpha
+      env: netmoniker=.NET40
+    - os: osx
+      osx_image: xcode7.3
+      sudo: required
+      mono: beta
+    - os: osx
+      osx_image: xcode7.3
+      sudo: required
+      mono: beta
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode7.3
@@ -149,29 +185,38 @@ matrix:
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: 4.6.2
+      mono: nightly
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: 4.6.2
+      mono: nightly
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: 4.6.1
+      mono: weekly
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: 4.6.1
+      mono: weekly
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: 4.6.0
+      mono: alpha
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: 4.6.0
+      mono: alpha
+      env: netmoniker=.NET40
+    - os: osx
+      osx_image: xcode6.4
+      sudo: required
+      mono: beta
+    - os: osx
+      osx_image: xcode6.4
+      sudo: required
+      mono: beta
       env: netmoniker=.NET40
     - os: osx
       osx_image: xcode6.4
