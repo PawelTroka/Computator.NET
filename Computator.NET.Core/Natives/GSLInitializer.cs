@@ -21,11 +21,15 @@ namespace Computator.NET.Core.Natives
             UnmanagedHandler = HandleUnmanagedException;
 
 
-            var gsl = GlobalConfig.IsUnix
-                ? Resources.libgsl_so_19_3
-                : (Environment.Is64BitProcess && IntPtr.Size == 8
-                    ? Resources.gsl_x64
-                    : Resources.gsl_x86);
+            byte[] gsl;
+
+            if (Environment.Is64BitProcess && IntPtr.Size == 8)
+                gsl = GlobalConfig.IsUnix ? Resources.libgsl_amd64 : Resources.gsl_x64;
+            else if (!Environment.Is64BitProcess && IntPtr.Size == 4)
+                gsl = GlobalConfig.IsUnix ? Resources.libgsl_i386 : Resources.gsl_x86;
+            else
+                throw new PlatformNotSupportedException("Inconsistent operating system. Handles only 32 and 64 bit OS.");
+
 
             try
             {
@@ -34,7 +38,7 @@ namespace Computator.NET.Core.Natives
 
                 if (GlobalConfig.IsUnix)
                 {
-                    EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslCblasDllName, Resources.libgslcblas_so_0_0);
+                    EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslCblasDllName, Environment.Is64BitProcess ? Resources.libgslcblas_amd64 : Resources.libgslcblas_i386);
                 }
 
                 switch (Settings.Default.CalculationsErrors)

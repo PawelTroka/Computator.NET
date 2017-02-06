@@ -163,9 +163,9 @@ namespace Computator.NET.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] libgsl_so_19_3 {
+        public static byte[] libgsl_amd64 {
             get {
-                object obj = ResourceManager.GetObject("libgsl_so_19_3", resourceCulture);
+                object obj = ResourceManager.GetObject("libgsl_amd64", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -173,9 +173,29 @@ namespace Computator.NET.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] libgslcblas_so_0_0 {
+        public static byte[] libgsl_i386 {
             get {
-                object obj = ResourceManager.GetObject("libgslcblas_so_0_0", resourceCulture);
+                object obj = ResourceManager.GetObject("libgsl_i386", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] libgslcblas_amd64 {
+            get {
+                object obj = ResourceManager.GetObject("libgslcblas_amd64", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] libgslcblas_i386 {
+            get {
+                object obj = ResourceManager.GetObject("libgslcblas_i386", resourceCulture);
                 return ((byte[])(obj));
             }
         }
