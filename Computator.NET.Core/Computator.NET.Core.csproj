@@ -269,11 +269,11 @@
     <None Include="packages.Computator.NET.Core.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Special\linux-i386\libgsl.so.19.3.0" />
-    <None Include="Special\linux-i386\libgslcblas.so.0.0.0" />
+    <None Include="Special\linux-i386\libgsl.so" />
+    <None Include="Special\linux-i386\libgslcblas.so" />
     <None Include="Special\windows-x64\gsl.dll" />
-    <None Include="Special\linux-amd64\libgsl.so.19.3.0" />
-    <None Include="Special\linux-amd64\libgslcblas.so.0.0.0" />
+    <None Include="Special\linux-amd64\libgsl.so" />
+    <None Include="Special\linux-amd64\libgslcblas.so" />
     <None Include="Special\windows-x86\gsl.dll" />
     <Content Include="TSL Examples\**\*.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
