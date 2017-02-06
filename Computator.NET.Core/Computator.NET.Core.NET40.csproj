@@ -121,12 +121,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
-    <EmbeddedResource Include="Menu\MenuStrings.cs.resx" />
-    <EmbeddedResource Include="Menu\MenuStrings.cs.resx" />
-    <EmbeddedResource Include="Menu\MenuStrings.de.resx" />
-    <EmbeddedResource Include="Menu\MenuStrings.pl.resx" />
-    <EmbeddedResource Include="Menu\MenuStrings.resx" />
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <None Include="app.config" />
     <None Include="packages.Computator.NET.Core.NET40.config" />
   </ItemGroup>

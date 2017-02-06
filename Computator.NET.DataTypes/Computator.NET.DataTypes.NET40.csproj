@@ -52,11 +52,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
-    <EmbeddedResource Include="Localization\Strings.cs.resx" />
-    <EmbeddedResource Include="Localization\Strings.cs.resx" />
-    <EmbeddedResource Include="Localization\Strings.de.resx" />
-    <EmbeddedResource Include="Localization\Strings.pl.resx" />
-    <EmbeddedResource Include="Localization\Strings.resx" />
+    <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <None Include="packages.Computator.NET.DataTypes.NET40.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
