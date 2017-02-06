@@ -14,8 +14,8 @@ namespace Computator.NET.Core.Properties
     //  The SettingsSaving event is raised before the setting values are saved.
     public sealed partial class Settings
     {
-        private const string SCRIPTING_RAW_DIR = @"TSL Examples\_Scripts";
-        private const string CUSTOM_FUNCTIONS_RAW_DIR = @"TSL Examples\_CustomFunctions";
+        private readonly string _scriptingRawDir = Path.Combine("TSL Examples", "_Scripts");
+        private readonly string _customFunctionsRawDir = Path.Combine("TSL Examples", "_CustomFunctions");
 
         public Settings()
         {
@@ -32,43 +32,43 @@ namespace Computator.NET.Core.Properties
 
         private void RestoreScriptingExamplesIfNeeded()
         {
-            if (ScriptingDirectory.Contains(SCRIPTING_RAW_DIR) && !Directory.Exists(ScriptingDirectory))
+            if (ScriptingDirectory.Contains(_scriptingRawDir) && !Directory.Exists(ScriptingDirectory))
             {
-                if (Directory.Exists(GlobalConfig.FullPath(SCRIPTING_RAW_DIR)))
+                if (Directory.Exists(GlobalConfig.FullPath(_scriptingRawDir)))
                 {
-                    FileSystem.CopyDirectory(GlobalConfig.FullPath(SCRIPTING_RAW_DIR), ScriptingDirectory);
+                    FileSystem.CopyDirectory(GlobalConfig.FullPath(_scriptingRawDir), ScriptingDirectory);
                 }
                 else
                 {
                     throw new FileNotFoundException(
-                        $"Scripting examples not found in {GlobalConfig.FullPath(SCRIPTING_RAW_DIR)}");
+                        $"Scripting examples not found in {GlobalConfig.FullPath(_scriptingRawDir)}");
                 }
             }
 
-            if (CustomFunctionsDirectory.Contains(CUSTOM_FUNCTIONS_RAW_DIR) &&
+            if (CustomFunctionsDirectory.Contains(_customFunctionsRawDir) &&
                 !Directory.Exists(CustomFunctionsDirectory))
             {
-                if (Directory.Exists(GlobalConfig.FullPath(CUSTOM_FUNCTIONS_RAW_DIR)))
+                if (Directory.Exists(GlobalConfig.FullPath(_customFunctionsRawDir)))
                 {
-                    FileSystem.CopyDirectory(GlobalConfig.FullPath(CUSTOM_FUNCTIONS_RAW_DIR), CustomFunctionsDirectory);
+                    FileSystem.CopyDirectory(GlobalConfig.FullPath(_customFunctionsRawDir), CustomFunctionsDirectory);
                 }
                 else
                 {
                     throw new FileNotFoundException(
-                        $"Custom functions examples not found in {GlobalConfig.FullPath(CUSTOM_FUNCTIONS_RAW_DIR)}");
+                        $"Custom functions examples not found in {GlobalConfig.FullPath(_customFunctionsRawDir)}");
                 }
             }
         }
 
         private void MakeScriptingDirectoriesInMyDocumentsIfNeeded()
         {
-            if (ScriptingDirectory == SCRIPTING_RAW_DIR)
+            if (ScriptingDirectory == _scriptingRawDir)
                 ScriptingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-                    SCRIPTING_RAW_DIR);
+                    _scriptingRawDir);
 
-                if (CustomFunctionsDirectory == CUSTOM_FUNCTIONS_RAW_DIR)
+                if (CustomFunctionsDirectory == _customFunctionsRawDir)
                 CustomFunctionsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-                    CUSTOM_FUNCTIONS_RAW_DIR);
+                    _customFunctionsRawDir);
             
         }
 
