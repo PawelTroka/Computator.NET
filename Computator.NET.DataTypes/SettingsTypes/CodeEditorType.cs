@@ -5,8 +5,8 @@ namespace Computator.NET.DataTypes.SettingsTypes
     [Category("Scripting")]
     public enum CodeEditorType
     {
-        Scintilla,
 #if !__MonoCS__
+        Scintilla,
         AvalonEdit,
 #endif
         TextEditor,

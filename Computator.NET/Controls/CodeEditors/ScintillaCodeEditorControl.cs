@@ -1,4 +1,5 @@
-﻿//#define SCINTILLA_23
+﻿#if !__MonoCS__
+//#define SCINTILLA_23
 
 #define SCINTILLA_30
 
@@ -609,3 +610,4 @@ namespace Computator.NET.Controls.CodeEditors.Scintilla
         }
     }
 }
+#endif

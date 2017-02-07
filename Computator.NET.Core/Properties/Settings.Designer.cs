@@ -36,7 +36,12 @@ namespace Computator.NET.Core.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+#if __MonoCS__
+        [global::System.Configuration.DefaultSettingValueAttribute("TextEditor")]
+#else
         [global::System.Configuration.DefaultSettingValueAttribute("Scintilla")]
+#endif
+
         public global::Computator.NET.DataTypes.SettingsTypes.CodeEditorType CodeEditor {
             get {
                 return ((global::Computator.NET.DataTypes.SettingsTypes.CodeEditorType)(this["CodeEditor"]));

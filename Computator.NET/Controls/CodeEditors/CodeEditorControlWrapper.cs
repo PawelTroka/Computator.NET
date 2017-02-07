@@ -1,7 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -31,8 +30,9 @@ namespace Computator.NET.Controls.CodeEditors
         private CodeEditorType _codeEditorType;
 
 
-        public CodeEditorControlWrapper(ScintillaCodeEditorControl scintillaCodeEditorControl,
+        public CodeEditorControlWrapper(
 #if !__MonoCS__
+            ScintillaCodeEditorControl scintillaCodeEditorControl,
             AvalonEditCodeEditor avalonEditCodeEditor,
 #endif
             TextEditorCodeEditor textEditorCodeEditor)
@@ -42,10 +42,8 @@ namespace Computator.NET.Controls.CodeEditors
             _codeEditors = new Dictionary
                 <CodeEditorType, ICodeEditorControl>
             {
-                {
-                    CodeEditorType.Scintilla, scintillaCodeEditorControl
-                },
 #if !__MonoCS__
+                {CodeEditorType.Scintilla, scintillaCodeEditorControl},
                 {CodeEditorType.AvalonEdit, avalonEditCodeEditor},
 #endif
                 {CodeEditorType.TextEditor, textEditorCodeEditor }
@@ -67,8 +65,9 @@ namespace Computator.NET.Controls.CodeEditors
             {
                         #if !__MonoCS__
                 avalonEditorWrapper,
+                _codeEditors[CodeEditorType.Scintilla] as Control,
 #endif
-                _codeEditors[CodeEditorType.Scintilla] as Control, _codeEditors[CodeEditorType.TextEditor] as Control
+                 _codeEditors[CodeEditorType.TextEditor] as Control
             });
 
             var tableLayout = new TableLayoutPanel
@@ -362,24 +361,22 @@ namespace Computator.NET.Controls.CodeEditors
             {
 #if !__MonoCS__
                 case CodeEditorType.AvalonEdit:
-                    //  avalonEditor.Text = (_codeEditors[CodeEditorType.Scintilla] as Control).Text;
                     avalonEditorWrapper.Show();
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Hide();
                     (_codeEditors[CodeEditorType.TextEditor] as Control).Hide();
                     break;
-#endif
+
                 case CodeEditorType.Scintilla:
-                            #if !__MonoCS__
                     avalonEditorWrapper.Hide();
-#endif
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Show();
                     (_codeEditors[CodeEditorType.TextEditor] as Control).Hide();
                     break;
+#endif
                 case CodeEditorType.TextEditor:
 #if !__MonoCS__
                     avalonEditorWrapper.Hide();
-#endif
                     (_codeEditors[CodeEditorType.Scintilla] as Control).Hide();
+#endif
                     (_codeEditors[CodeEditorType.TextEditor] as Control).Show();
                     break;
             }
