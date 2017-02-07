@@ -37,8 +37,6 @@ namespace Computator.NET.Controls.CodeEditors
 #endif
             TextEditorCodeEditor textEditorCodeEditor)
         {
-            scintillaCodeEditorControl.Dock=DockStyle.Fill;
-
             _codeEditors = new Dictionary
                 <CodeEditorType, ICodeEditorControl>
             {
