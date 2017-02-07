@@ -28,6 +28,16 @@ namespace Computator.NET.Core.Natives
         [DllImport("kernel32.dll", EntryPoint = "LoadLibraryW", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr LoadLibrary(string lpFileName);
 
+        [DllImport("libdl.so")]
+        public static extern IntPtr dlopen(string filename, int flags);
+
+        public static class RTLD
+        {
+            public const int RTLD_NOW = 2; // for dlopen's flags
+            public const int RTLD_GLOBAL = 8;
+        }
+
+
 
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]

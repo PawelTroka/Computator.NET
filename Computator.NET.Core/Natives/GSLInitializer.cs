@@ -30,15 +30,17 @@ namespace Computator.NET.Core.Natives
             else
                 throw new PlatformNotSupportedException("Inconsistent operating system. Handles only 32 and 64 bit OS.");
 
+            var cblas = Environment.Is64BitProcess ? Resources.libgslcblas_amd64 : Resources.libgslcblas_i386;
 
             try
             {
 
                 EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslDllName, gsl);
 
+                
                 if (GlobalConfig.IsUnix)
                 {
-                    EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslCblasDllName, Environment.Is64BitProcess ? Resources.libgslcblas_amd64 : Resources.libgslcblas_i386);
+                    EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslCblasDllName, cblas);
                 }
 
                 switch (Settings.Default.CalculationsErrors)
@@ -60,8 +62,22 @@ namespace Computator.NET.Core.Natives
                     var gslTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.GslDllName);
 
                     File.WriteAllBytes(gslTempPath, gsl);
+
+                    if (GlobalConfig.IsUnix)
+                    {
+                        var cblasTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.GslCblasDllName);
+                        File.WriteAllBytes(cblasTempPath, cblas);
+
+                        var h1 = NativeMethods.dlopen(cblasTempPath, NativeMethods.RTLD.RTLD_GLOBAL);
+                        if (h1 == IntPtr.Zero)
+                        {
+                            throw new Win32Exception(
+                                $"{Strings.GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths} '{cblasTempPath}'{Environment.NewLine}.",
+                                new Win32Exception()); // Calls GetLastError   
+                        }
+                    }
                     
-                    var h2 = NativeMethods.LoadLibrary(gslTempPath);
+                    var h2 = GlobalConfig.IsUnix ? NativeMethods.dlopen(gslTempPath, NativeMethods.RTLD.RTLD_GLOBAL) : NativeMethods.LoadLibrary(gslTempPath);
 
                     if (h2 == IntPtr.Zero)
                     {
@@ -74,9 +90,10 @@ namespace Computator.NET.Core.Natives
                 }
                 catch (Exception exception2)
                 {
-                    logger.Log("LoadLibrary failed", ErrorType.General, exception2);
+                    var funcName = GlobalConfig.IsUnix ? "dlopen" : "LoadLibrary";
+                    logger.Log($"{funcName} failed", ErrorType.General, exception2);
                     messagingService.Show(
-                        $"{Strings.Program_Main_Exception_during_startup}.{Environment.NewLine}ExtractEmbeddedDlls {Strings.Exception}:{Environment.NewLine}{exception}{Environment.NewLine}LoadLibrary {Strings.Exception}:{Environment.NewLine}{exception2}",
+                        $"{Strings.Program_Main_Exception_during_startup}.{Environment.NewLine}ExtractEmbeddedDlls {Strings.Exception}:{Environment.NewLine}{exception}{Environment.NewLine}{funcName} {Strings.Exception}:{Environment.NewLine}{exception2}",
                         Strings.Error);
                 }
             }
