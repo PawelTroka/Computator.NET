@@ -416,50 +416,84 @@ namespace Computator.NET.Charting.RealCharting
             var chartArea1 = new ChartArea();
             var legend1 = new Legend();
             var title1 = new Title();
-            chartArea1.AxisX.ArrowStyle = AxisArrowStyle.Lines;
-            chartArea1.AxisX.Crossing = 0D;
-            chartArea1.AxisX.InterlacedColor = Color.White;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelAutoFitMaxFontSize = 13;
-            chartArea1.AxisX.LabelStyle.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular,
-                GraphicsUnit.Point, 238);
-            chartArea1.AxisX.LineWidth = 2;
-            chartArea1.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            chartArea1.AxisX.MajorTickMark.Size = 2F;
-            chartArea1.AxisX.MajorTickMark.TickMarkStyle = TickMarkStyle.AcrossAxis;
-            chartArea1.AxisX.MinorGrid.Enabled = true;
-            chartArea1.AxisX.MinorGrid.LineColor = Color.DarkGray;
-            chartArea1.AxisX.MinorGrid.LineDashStyle = ChartDashStyle.Dot;
-            chartArea1.AxisX.MinorTickMark.Enabled = true;
-            chartArea1.AxisX.MinorTickMark.TickMarkStyle = TickMarkStyle.AcrossAxis;
-            chartArea1.AxisX.Title = "X";
-            chartArea1.AxisX.TitleAlignment = StringAlignment.Far;
-            chartArea1.AxisX.TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            chartArea1.AxisY.ArrowStyle = AxisArrowStyle.Lines;
-            chartArea1.AxisY.Crossing = 0D;
-            chartArea1.AxisY.InterlacedColor = Color.White;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelAutoFitMaxFontSize = 13;
-            chartArea1.AxisY.LabelStyle.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular,
-                GraphicsUnit.Point, 238);
-            chartArea1.AxisY.LineWidth = 2;
-            chartArea1.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
-            chartArea1.AxisY.MajorTickMark.Size = 2F;
-            chartArea1.AxisY.MajorTickMark.TickMarkStyle = TickMarkStyle.AcrossAxis;
-            chartArea1.AxisY.MinorGrid.Enabled = true;
-            chartArea1.AxisY.MinorGrid.LineColor = Color.DarkGray;
-            chartArea1.AxisY.MinorGrid.LineDashStyle = ChartDashStyle.Dot;
-            chartArea1.AxisY.MinorTickMark.Enabled = true;
-            chartArea1.AxisY.MinorTickMark.TickMarkStyle = TickMarkStyle.AcrossAxis;
-            chartArea1.AxisY.TextOrientation = TextOrientation.Horizontal;
-            chartArea1.AxisY.Title = "Y";
-            chartArea1.AxisY.TitleAlignment = StringAlignment.Far;
-            chartArea1.AxisY.TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            chartArea1.AxisX = new Axis(chartArea1, AxisName.X)
+            {
+                ArrowStyle = AxisArrowStyle.Lines,
+                Crossing = 0D,
+                InterlacedColor = Color.White,
+                IsLabelAutoFit = false,
+                LabelAutoFitMaxFontSize = 13,
+                LabelStyle = new LabelStyle()
+                {
+                    Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular,
+                        GraphicsUnit.Point, 238)
+                },
+                LineWidth = 2,
+                MajorGrid = new Grid() {LineDashStyle = ChartDashStyle.Dash},
+                MajorTickMark = new TickMark()
+                {
+                    Size = 2F,
+                    TickMarkStyle = TickMarkStyle.AcrossAxis
+                },
+                MinorGrid = new Grid()
+                {
+                    Enabled = true,
+                    LineColor = Color.DarkGray,
+                    LineDashStyle = ChartDashStyle.Dot
+                },
+                MinorTickMark = new TickMark()
+                {
+                    Enabled = true,
+                    TickMarkStyle = TickMarkStyle.AcrossAxis
+                },
+                Title = "X",
+                TitleAlignment = StringAlignment.Far,
+                TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 238)
+            };
+
+            chartArea1.AxisY = new Axis(chartArea1, AxisName.Y)
+            {
+                ArrowStyle = AxisArrowStyle.Lines,
+                Crossing = 0D,
+                InterlacedColor = Color.White,
+                IsLabelAutoFit = false,
+                LabelAutoFitMaxFontSize = 13,
+                LabelStyle = new LabelStyle()
+                {
+                    Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular,
+                        GraphicsUnit.Point, 238)
+                },
+                LineWidth = 2,
+                MajorGrid = new Grid() {LineDashStyle = ChartDashStyle.Dash},
+                MajorTickMark = new TickMark()
+                {
+                    Size = 2F,
+                    TickMarkStyle = TickMarkStyle.AcrossAxis
+                },
+                MinorGrid = new Grid()
+                {
+                    Enabled = true,
+                    LineColor = Color.DarkGray,
+                    LineDashStyle = ChartDashStyle.Dot
+                },
+                MinorTickMark = new TickMark()
+                {
+                    Enabled = true,
+                    TickMarkStyle = TickMarkStyle.AcrossAxis
+                },
+                TextOrientation = TextOrientation.Horizontal,
+                Title = "Y",
+                TitleAlignment = StringAlignment.Far,
+                TitleFont = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 238)
+            };
 
             //By default, if I select a rectangular area using the mouse, the chart will zoom to the selected area.
             //But this is quite annoying because it is prone to false operation
-            chartArea1.CursorX.IsUserEnabled = false;
-            chartArea1.CursorX.IsUserSelectionEnabled = false;
+            chartArea1.CursorX = new System.Windows.Forms.DataVisualization.Charting.Cursor
+            {
+                IsUserEnabled = false,
+                IsUserSelectionEnabled = false
+            };
 
 
             chartArea1.Name = "ChartArea1";
