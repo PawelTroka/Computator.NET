@@ -413,7 +413,7 @@ namespace Computator.NET.Charting.RealCharting
 
         private void InitializeComponent()
         {
-            var chartArea1 = new ChartArea();
+            var chartArea1  = this.ChartAreas.Add("ChartArea1");
             var legend1 = new Legend();
             var title1 = new Title();
             chartArea1.AxisX = new Axis(chartArea1, AxisName.X)
@@ -495,10 +495,8 @@ namespace Computator.NET.Charting.RealCharting
                 IsUserSelectionEnabled = false
             };
 
-
-            chartArea1.Name = "ChartArea1";
-
-            ChartAreas.Add(chartArea1);
+            
+            
             legend1.Font = CustomFonts.GetMathFont(13.8F); //new Font("Cambria", 13.8F);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
