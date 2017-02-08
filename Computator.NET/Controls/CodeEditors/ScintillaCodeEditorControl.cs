@@ -22,7 +22,7 @@ using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using ScintillaNET;
 
-namespace Computator.NET.Controls.CodeEditors.Scintilla
+namespace Computator.NET.Controls.CodeEditors
 {
     public class ScintillaCodeEditorControl : ScintillaNET.Scintilla, INotifyPropertyChanged, ICodeEditorControl
     {

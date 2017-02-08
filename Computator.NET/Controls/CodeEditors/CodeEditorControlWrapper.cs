@@ -6,7 +6,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using Computator.NET.Controls.CodeEditors.AvalonEdit;
-using Computator.NET.Controls.CodeEditors.Scintilla;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
