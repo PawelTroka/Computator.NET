@@ -32,6 +32,13 @@ namespace Computator.NET
         [STAThread]
         private static void Main()
         {
+
+#if __MonoCS__
+            Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled", EnvironmentVariableTarget.Process);
+            //this is because of Bug 436000 - XIM: winforms program crash randomly while starting XIM on Mono
+            //see https://bugzilla.novell.com/show_bug.cgi?id=436000
+            //https://bugzilla.xamarin.com/show_bug.cgi?id=28047
+#endif
             Thread.CurrentThread.CurrentCulture = Settings.Default.Language ?? new CultureInfo("en");
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language ?? new CultureInfo("en");
             Application.ThreadException += Application_ThreadException;

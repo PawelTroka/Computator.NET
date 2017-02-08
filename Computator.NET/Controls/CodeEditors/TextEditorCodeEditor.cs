@@ -11,7 +11,7 @@ using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
 using ICSharpCode.TextEditor.Document;
 
-namespace Computator.NET.Controls.CodeEditors.Scintilla
+namespace Computator.NET.Controls.CodeEditors
 {
     public class TextEditorCodeEditor : ICSharpCode.TextEditor.TextEditorControl, INotifyPropertyChanged, ICodeEditorControl
     {
