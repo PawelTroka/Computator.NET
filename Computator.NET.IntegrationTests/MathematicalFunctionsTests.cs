@@ -21,18 +21,12 @@ namespace Computator.NET.IntegrationTests
     [TestFixture]
     public class MathematicalFunctionsTests
     {
-        [OneTimeSetUp]
-        public void InitFixture()
+        [SetUp]
+        public void Init()
         {
             C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
             Settings.Default.CalculationsErrors = CalculationsErrors.ReturnNAN;
             GSLInitializer.Initialize(new Mock<IMessagingService>().Object);
-        }
-        
-        [SetUp]
-        public void Init()
-        {
-            NativeMethods.gsl_set_error_handler_off();
         }
 
         private const int stepsSmall = 25;
