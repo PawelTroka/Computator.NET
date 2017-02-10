@@ -8,7 +8,9 @@ using Computator.NET.Core.Abstract.Services;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Natives;
+using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.SettingsTypes;
 using Moq;
 using NUnit.Framework;
 
@@ -23,6 +25,7 @@ namespace Computator.NET.IntegrationTests
         public void Init()
         {
             C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
+            Settings.Default.CalculationsErrors = CalculationsErrors.ReturnNAN;
             GSLInitializer.Initialize(new Mock<IMessagingService>().Object);
         }
 
