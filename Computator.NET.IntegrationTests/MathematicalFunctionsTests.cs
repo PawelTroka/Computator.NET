@@ -25,13 +25,13 @@ namespace Computator.NET.IntegrationTests
         public void InitFixture()
         {
             C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
-            Settings.Default.CalculationsErrors = CalculationsErrors.ReturnNAN;
-            GSLInitializer.Initialize(new Mock<IMessagingService>().Object);
         }
         
         [SetUp]
         public void Init()
         {
+            Settings.Default.CalculationsErrors = CalculationsErrors.ReturnNAN;
+            GSLInitializer.Initialize(new Mock<IMessagingService>().Object);
             NativeMethods.gsl_set_error_handler_off();
         }
 
