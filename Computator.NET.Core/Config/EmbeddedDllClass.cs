@@ -73,7 +73,9 @@ namespace Computator.NET.Core.Config
             // It is made "unique" to avoid different versions of the DLL or architectures.
             tempFolder = $"{an.Name}.{an.ProcessorArchitecture}.{an.Version}";
 
-            var dirName = Path.Combine(Path.GetTempPath(), tempFolder);
+            var dirName = GlobalConfig.IsUnix
+                ? GlobalConfig.FullPath()//hack - for Unix we just copy .so files into app directory because otherwise it doesn't seem to work. On Windows we must use temp directory because we don't have admin rights.
+                : Path.Combine(Path.GetTempPath(), tempFolder);
             if (!Directory.Exists(dirName))
             {
                 Directory.CreateDirectory(dirName);

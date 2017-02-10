@@ -2136,7 +2136,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 #if !__MonoCS__
                 "gsl.dll"
 #else
-            "libgsl.so"
+            "libgsl.so.19.3.0"
 #endif
             ;
         private static gsl_sf_result sfResult;
@@ -4415,7 +4415,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 #if !__MonoCS__
                 ""gsl.dll""
 #else
-            ""libgsl.so""
+            ""libgsl.so.19.3.0""
 #endif
             ;
         private static gsl_sf_result sfResult;

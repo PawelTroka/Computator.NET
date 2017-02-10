@@ -1143,7 +1143,7 @@ namespace Computator.NET.Core.Functions
 #if !__MonoCS__
                 "gsl.dll"
 #else
-            "libgsl.so"
+            "libgsl.so.19.3.0"
 #endif
             ;
 
@@ -2288,7 +2288,7 @@ namespace Computator.NET.Core.Functions
 #if !__MonoCS__
                 ""gsl.dll""
 #else
-            ""libgsl.so""
+            ""libgsl.so.19.3.0""
 #endif
             ;
 

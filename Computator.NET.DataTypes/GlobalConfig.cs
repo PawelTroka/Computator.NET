@@ -19,12 +19,12 @@ namespace Computator.NET.DataTypes
 #if !__MonoCS__
             "gsl.dll"
 #else
-            "libgsl.so"
+            "libgsl.so.19.3.0"
 #endif
             ;
 
         public static readonly string GslCblasDllName = IsUnix
-                ? "libgslcblas.so"
+                ? "libgslcblas.so.0.0.0"
                 : "cblas.dll";
 
         public static readonly string Betatesters = Strings.betaTesters +
