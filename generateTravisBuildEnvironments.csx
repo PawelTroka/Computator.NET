@@ -1,12 +1,12 @@
 var monos = new[]{
-                "nightly",
-                "weekly",
+                //"nightly",
+                //"weekly",
                 "alpha",
                 "beta",
                 //"latest",
-                ////"4.6.2",
-                ////"4.6.1",
-                ////"4.6.0" ,
+                "4.6.2",
+                "4.6.1",
+                "4.6.0" ,
                 ////"4.4.2",
                 //"4.4.1","4.4.0","4.2.3","4.2.2","4.2.1","4.2.0","4.0.5","4.0.4.4","4.0.4","4.0.3","4.0.2","4.0.1",
                 ////"4.0.0",
@@ -28,7 +28,10 @@ var sudos = new[] {
 
 var dists = new[] { "trusty", "precise" };
 
-var dotnets = new[] {"1.0.0-preview2-003121", "1.0.0-preview2-003131" };
+var dotnets = new string[] {
+                        ////"1.0.0-preview2-003121",
+                        ////"1.0.0-preview2-003131"
+                    };
 
 var osx_images = new[] {
     "xcode8.2",//OS X 10.12
@@ -78,8 +81,8 @@ foreach (var os in oses)
                 else
                 {
                     Console.Write(sb.ToString());
-                    sb.AppendLine($"      env: netmoniker=.NET40");
-                    Console.Write(sb.ToString());
+                    ////sb.AppendLine($"      env: netmoniker=.NET40");
+                    ////Console.Write(sb.ToString());
                 }
             }
 

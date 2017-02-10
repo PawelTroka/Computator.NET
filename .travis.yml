@@ -5,30 +5,7 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      mono: nightly
-    - os: linux
-      dist: trusty
-      sudo: required
-      mono: nightly
-      env: netmoniker=.NET40
-    - os: linux
-      dist: trusty
-      sudo: required
-      mono: weekly
-    - os: linux
-      dist: trusty
-      sudo: required
-      mono: weekly
-      env: netmoniker=.NET40
-    - os: linux
-      dist: trusty
-      sudo: required
       mono: alpha
-    - os: linux
-      dist: trusty
-      sudo: required
-      mono: alpha
-      env: netmoniker=.NET40
     - os: linux
       dist: trusty
       sudo: required
@@ -36,38 +13,15 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      mono: beta
-      env: netmoniker=.NET40
+      mono: 4.6.2
     - os: linux
       dist: trusty
       sudo: required
-      dotnet: 1.0.0-preview2-003121
-      mono: none
-      env: DOTNETCORE=1
+      mono: 4.6.1
     - os: linux
       dist: trusty
       sudo: required
-      dotnet: 1.0.0-preview2-003131
-      mono: none
-      env: DOTNETCORE=1
-    - os: linux
-      dist: precise
-      sudo: required
-      mono: nightly
-    - os: linux
-      dist: precise
-      sudo: required
-      mono: nightly
-      env: netmoniker=.NET40
-    - os: linux
-      dist: precise
-      sudo: required
-      mono: weekly
-    - os: linux
-      dist: precise
-      sudo: required
-      mono: weekly
-      env: netmoniker=.NET40
+      mono: 4.6.0
     - os: linux
       dist: precise
       sudo: required
@@ -75,35 +29,19 @@ matrix:
     - os: linux
       dist: precise
       sudo: required
-      mono: alpha
-      env: netmoniker=.NET40
-    - os: linux
-      dist: precise
-      sudo: required
       mono: beta
     - os: linux
       dist: precise
       sudo: required
-      mono: beta
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode8.2
+      mono: 4.6.2
+    - os: linux
+      dist: precise
       sudo: required
-      mono: nightly
-    - os: osx
-      osx_image: xcode8.2
+      mono: 4.6.1
+    - os: linux
+      dist: precise
       sudo: required
-      mono: nightly
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
-      mono: weekly
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
-      mono: weekly
-      env: netmoniker=.NET40
+      mono: 4.6.0
     - os: osx
       osx_image: xcode8.2
       sudo: required
@@ -111,47 +49,19 @@ matrix:
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: alpha
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
       mono: beta
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: beta
-      env: netmoniker=.NET40
+      mono: 4.6.2
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      dotnet: 1.0.0-preview2-003121
-      mono: none
-      env: DOTNETCORE=1
+      mono: 4.6.1
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      dotnet: 1.0.0-preview2-003131
-      mono: none
-      env: DOTNETCORE=1
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: nightly
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: nightly
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: weekly
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: weekly
-      env: netmoniker=.NET40
+      mono: 4.6.0
     - os: osx
       osx_image: xcode7.3
       sudo: required
@@ -159,47 +69,19 @@ matrix:
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: alpha
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
       mono: beta
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      mono: beta
-      env: netmoniker=.NET40
+      mono: 4.6.2
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      dotnet: 1.0.0-preview2-003121
-      mono: none
-      env: DOTNETCORE=1
+      mono: 4.6.1
     - os: osx
       osx_image: xcode7.3
       sudo: required
-      dotnet: 1.0.0-preview2-003131
-      mono: none
-      env: DOTNETCORE=1
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: nightly
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: nightly
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: weekly
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: weekly
-      env: netmoniker=.NET40
+      mono: 4.6.0
     - os: osx
       osx_image: xcode6.4
       sudo: required
@@ -207,29 +89,19 @@ matrix:
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: alpha
-      env: netmoniker=.NET40
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
       mono: beta
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: beta
-      env: netmoniker=.NET40
+      mono: 4.6.2
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      dotnet: 1.0.0-preview2-003121
-      mono: none
-      env: DOTNETCORE=1
+      mono: 4.6.1
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      dotnet: 1.0.0-preview2-003131
-      mono: none
-      env: DOTNETCORE=1
+      mono: 4.6.0
 
 
 #before_install:
