@@ -44,7 +44,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Windows.Forms.DataVisualization" />
+        <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
+<Reference Include="DataVisualization" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
+  <HintPath>..\libraries\net40\DataVisualization.dll</HintPath>
+  <Private>True</Private>
+</Reference>
+<Reference Include="DataVisualization" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
+  <HintPath>..\libraries\net46\DataVisualization.dll</HintPath>
+  <Private>True</Private>
+</Reference>
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>

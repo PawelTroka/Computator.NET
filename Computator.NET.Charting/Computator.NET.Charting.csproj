@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
-      <HintPath>.\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
+      <HintPath>..\libraries\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' " />
@@ -49,7 +49,15 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
+    <Reference Include="DataVisualization" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
+	  <HintPath>..\libraries\net40\DataVisualization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DataVisualization" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
+	  <HintPath>..\libraries\net46\DataVisualization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
@@ -59,9 +67,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Chart3D\UI\Chart3DControlMono.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Chart3D\UI\Chart3DControlMono.cs" />
     <Compile Include="Chart3D\Chart3DMode.cs" />
     <Compile Include="Chart3D\Chart3D\AxisLabels.cs" />
     <Compile Include="Chart3D\Chart3D\Bar3D.cs" />
