@@ -45,7 +45,7 @@ namespace Computator.NET.Core.Evaluation
 #if !__MonoCS__
             NativeCompiler.AddDll("System.Windows.Forms.DataVisualization.dll");
 #else
-            NativeCompiler.AddDll(GlobalConfig.FullPath("DataVisualization.dll"));
+            NativeCompiler.AddDll(GlobalConfig.FullPath("DataVisualizationX.dll"));
 #endif
             NativeCompiler.AddDll("System.Windows.Forms.dll");
             NativeCompiler.AddDll("System.Xaml.dll");
