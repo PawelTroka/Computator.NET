@@ -108,6 +108,8 @@ namespace Computator.NET.Controls
         /// </summary>
         private void _showCaret()
         {
+            if (GlobalConfig.IsUnix)
+                return;//TODO: find a way to draw caret in Unix
             var blob = TextRenderer.MeasureText("x", Font);
             if (_sharedViewState.IsExponent)
                 NativeMethods.CreateCaret(Handle, IntPtr.Zero, 2, blob.Height/2);

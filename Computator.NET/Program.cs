@@ -47,13 +47,16 @@ namespace Computator.NET
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
 
-            if (Environment.OSVersion.Version.Major >= 6)
+
+            if (!GlobalConfig.IsUnix && Environment.OSVersion.Version.Major >= 6)
                 SetProcessDPIAware();
 
             GSLInitializer.Initialize(new MessagingService());
 
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.AddMessageFilter(new MyMessageFilter());
+
+            if (!GlobalConfig.IsUnix)
+                Application.AddMessageFilter(new MyMessageFilter());//TODO: find a way to redirect messages to underlying controls in Unix
 
             var mainForm = (new WinFormsBootstrapper()).Create<MainView>();
 

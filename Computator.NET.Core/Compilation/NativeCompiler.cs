@@ -88,7 +88,7 @@ namespace Computator.NET.Core.Compilation
         {
             var results = CompileAssemblyFromSource(parameters, input);
 
-            if (results.Errors.Count > 0)
+            if (results.Errors.HasErrors)
             {
                 var message =
                     new StringBuilder(
