@@ -161,7 +161,11 @@ namespace Computator.NET.Core.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+#if __MonoCS__
+        [global::System.Configuration.DefaultSettingValueAttribute("TSL Examples/_Scripts")]
+#else
         [global::System.Configuration.DefaultSettingValueAttribute("TSL Examples\\_Scripts")]
+#endif
         public string ScriptingDirectory {
             get {
                 return ((string)(this["ScriptingDirectory"]));
@@ -173,7 +177,12 @@ namespace Computator.NET.Core.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+#if __MonoCS__
+        [global::System.Configuration.DefaultSettingValueAttribute("TSL Examples/_CustomFunctions")]
+#else
         [global::System.Configuration.DefaultSettingValueAttribute("TSL Examples\\_CustomFunctions")]
+#endif
+
         public string CustomFunctionsDirectory {
             get {
                 return ((string)(this["CustomFunctionsDirectory"]));
