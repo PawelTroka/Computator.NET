@@ -18,7 +18,7 @@ var monos = new[]{
                 };
 
 var oses = new[] { "linux",
-                    "osx"
+                    ////"osx"//for now we lack GSL native libraries on Mac OS
                  };
 
 var sudos = new[] {

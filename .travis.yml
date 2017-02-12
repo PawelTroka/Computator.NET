@@ -42,66 +42,6 @@ matrix:
       dist: precise
       sudo: required
       mono: 4.6.0
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
-      mono: alpha
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
-      mono: beta
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
-      mono: 4.6.2
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
-      mono: 4.6.1
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
-      mono: 4.6.0
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: alpha
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: beta
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: 4.6.2
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: 4.6.1
-    - os: osx
-      osx_image: xcode7.3
-      sudo: required
-      mono: 4.6.0
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: alpha
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: beta
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: 4.6.2
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: 4.6.1
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: 4.6.0
 
 
 #before_install:
