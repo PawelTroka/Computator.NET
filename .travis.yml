@@ -6,42 +6,103 @@ matrix:
       dist: trusty
       sudo: required
       mono: alpha
+      env: build_config=Release
     - os: linux
       dist: trusty
       sudo: required
       mono: beta
+      env: build_config=Release
     - os: linux
       dist: trusty
       sudo: required
       mono: 4.6.2
+      env: build_config=Release
     - os: linux
       dist: trusty
       sudo: required
       mono: 4.6.1
+      env: build_config=Release
     - os: linux
       dist: trusty
       sudo: required
       mono: 4.6.0
+      env: build_config=Release
     - os: linux
       dist: precise
       sudo: required
       mono: alpha
+      env: build_config=Release
     - os: linux
       dist: precise
       sudo: required
       mono: beta
+      env: build_config=Release
     - os: linux
       dist: precise
       sudo: required
       mono: 4.6.2
+      env: build_config=Release
     - os: linux
       dist: precise
       sudo: required
       mono: 4.6.1
+      env: build_config=Release
     - os: linux
       dist: precise
       sudo: required
       mono: 4.6.0
+      env: build_config=Release
+    - os: linux
+      dist: trusty
+      sudo: required
+      mono: alpha
+      env: build_config=Debug
+    - os: linux
+      dist: trusty
+      sudo: required
+      mono: beta
+      env: build_config=Debug
+    - os: linux
+      dist: trusty
+      sudo: required
+      mono: 4.6.2
+      env: build_config=Debug
+    - os: linux
+      dist: trusty
+      sudo: required
+      mono: 4.6.1
+      env: build_config=Debug
+    - os: linux
+      dist: trusty
+      sudo: required
+      mono: 4.6.0
+      env: build_config=Debug
+    - os: linux
+      dist: precise
+      sudo: required
+      mono: alpha
+      env: build_config=Debug
+    - os: linux
+      dist: precise
+      sudo: required
+      mono: beta
+      env: build_config=Debug
+    - os: linux
+      dist: precise
+      sudo: required
+      mono: 4.6.2
+      env: build_config=Debug
+    - os: linux
+      dist: precise
+      sudo: required
+      mono: 4.6.1
+      env: build_config=Debug
+    - os: linux
+      dist: precise
+      sudo: required
+      mono: 4.6.0
+      env: build_config=Debug
+
 
 
 #before_install:
