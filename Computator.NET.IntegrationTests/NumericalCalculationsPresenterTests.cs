@@ -6,9 +6,12 @@ using Computator.NET.DataTypes.Localization;
 using Moq;
 using NUnit.Framework;
 using Computator.NET.Core.Abstract.Controls;
+using Computator.NET.Core.Abstract.Services;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Bootstrapping;
 using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Functions;
+using Computator.NET.Core.Natives;
 using Computator.NET.Core.Presenters;
 using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes.Charts;
@@ -26,6 +29,14 @@ namespace Computator.NET.IntegrationTests
     [TestFixture]
     public partial class NumericalCalculationsPresenterTests
     {
+        private Mock<IMessagingService> _messegingServiceMock = new Mock<IMessagingService>();
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            _messegingServiceMock.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            GSLInitializer.Initialize(null);
+        }
+
         [SetUp]
         public void Init()
         {
@@ -61,7 +72,6 @@ namespace Computator.NET.IntegrationTests
         }
 
 
-
         private Mock<ICodeEditorView> _customFunctionsViewMock;
         private Mock<IErrorHandler> _errorHandlerMock;
         private Mock<ITextProvider> _expressionViewMock;
@@ -73,21 +83,13 @@ namespace Computator.NET.IntegrationTests
         private static readonly Dictionary<string, Func<double, double>> functions = new Dictionary
             <string, Func<double, double>>
         {
-            {"cos(x)", Math.Cos},
             {"sin(x)", Math.Sin},
             {"tan(x)", Math.Tan},
-            //{"AiryAi(x)", x => SpecialFunctions.AiryAi(x)},
+            {"Gegenbauer1(1,x)", x => SpecialFunctions.Gegenbauer1(1,x)},
             {"x+0.001", x => x + 0.001}
         };
 
         private CoreBootstrapper _bootstrapper;
-
-
-        [OneTimeSetUp]
-        public void SetupTestCases()
-        {
-        }
-
 
         private void SetupBase(string opeartion, string method, string expression)
         {

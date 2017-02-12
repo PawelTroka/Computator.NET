@@ -55,7 +55,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="EvaluationTests\EvaluationUnitTest.cs" />
+    <Compile Include="EvaluationTests\ExpressionsEvaluatorTests.cs" />
     <Compile Include="FunctionsTests\MatrixFunctionsTests.cs" />
     <Compile Include="EvaluationTests\ModeDeterminerTests.cs" />
     <Compile Include="CompilersTests\TslCompilerTests.cs" />
