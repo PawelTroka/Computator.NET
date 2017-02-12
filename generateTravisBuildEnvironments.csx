@@ -42,6 +42,8 @@ var osx_images = new[] {
     "xcode6.4"//OS X 10.10
     };
 
+var buildConfigs = new[] { "Release", "Debug" };
+
 var osConfigs = new Dictionary<string, string[]>()
             {
                 { "linux",dists},
@@ -53,42 +55,17 @@ sb.AppendLine("  include:");
 Console.Write(sb.ToString());
 
 foreach (var os in oses)
-    foreach (var osConfig in osConfigs[os])
-        foreach (var sudo in sudos)
-        {
-            foreach (var mono in monos)
+    foreach (var buildConfig in buildConfigs)
+        foreach (var osConfig in osConfigs[os])
+            foreach (var sudo in sudos)
             {
-                if (os == "linux" && (mono.StartsWith("2") || (mono.StartsWith("3") && mono[2] == '2')))
-                    continue;//versions older than 3.8.0 do not support nuget on linux and we need it bad
-
-                if(mono== "2.10.8" && os == "osx")
-                    continue;//Mono 2.10.8 is unavailable on Mac OS X
-
-                sb = new StringBuilder($"    - os: {os}{Environment.NewLine}");
-                if (os == "linux")
-                    sb.AppendLine($"      dist: {osConfig}");
-                if (os == "osx")
-                    sb.AppendLine($"      osx_image: {osConfig}");
-                sb.AppendLine($"      sudo: {sudo}");
-
-                sb.AppendLine($"      mono: {mono}");
-
-                if (mono.StartsWith("2.") || mono.StartsWith("3.") || (mono.StartsWith("4.") && mono[2] < '6'))
+                foreach (var mono in monos)
                 {
-                    sb.AppendLine($"      env: netmoniker=.NET40");
-                    Console.Write(sb.ToString());
-                }
-                else
-                {
-                    Console.Write(sb.ToString());
-                    ////sb.AppendLine($"      env: netmoniker=.NET40");
-                    ////Console.Write(sb.ToString());
-                }
-            }
+                    if (os == "linux" && (mono.StartsWith("2") || (mono.StartsWith("3") && mono[2] == '2')))
+                        continue;//versions older than 3.8.0 do not support nuget on linux and we need it bad
 
-            if (osConfig != "precise")//.NET Core does not work currently on precise dist
-                foreach (var dotnet in dotnets)
-                {
+                    if (mono == "2.10.8" && os == "osx")
+                        continue;//Mono 2.10.8 is unavailable on Mac OS X
 
                     sb = new StringBuilder($"    - os: {os}{Environment.NewLine}");
                     if (os == "linux")
@@ -97,9 +74,37 @@ foreach (var os in oses)
                         sb.AppendLine($"      osx_image: {osConfig}");
                     sb.AppendLine($"      sudo: {sudo}");
 
-                    sb.AppendLine($"      dotnet: {dotnet}");
-                    sb.AppendLine($"      mono: none");
-                    sb.AppendLine($"      env: DOTNETCORE=1");
-                    Console.Write(sb.ToString());
+                    sb.AppendLine($"      mono: {mono}");
+                    sb.AppendLine($"      env: build_config={buildConfig}");
+
+                    if (mono.StartsWith("2.") || mono.StartsWith("3.") || (mono.StartsWith("4.") && mono[2] < '6'))
+                    {
+                        sb.AppendLine($"      env: netmoniker=.NET40");
+                        Console.Write(sb.ToString());
+                    }
+                    else
+                    {
+                        Console.Write(sb.ToString());
+                        ////sb.AppendLine($"      env: netmoniker=.NET40");
+                        ////Console.Write(sb.ToString());
+                    }
                 }
-        }
+
+                if (osConfig != "precise")//.NET Core does not work currently on precise dist
+                    foreach (var dotnet in dotnets)
+                    {
+
+                        sb = new StringBuilder($"    - os: {os}{Environment.NewLine}");
+                        if (os == "linux")
+                            sb.AppendLine($"      dist: {osConfig}");
+                        if (os == "osx")
+                            sb.AppendLine($"      osx_image: {osConfig}");
+                        sb.AppendLine($"      sudo: {sudo}");
+
+                        sb.AppendLine($"      dotnet: {dotnet}");
+                        sb.AppendLine($"      mono: none");
+                        sb.AppendLine($"      env: DOTNETCORE=1");
+                        sb.AppendLine($"      env: build_config={buildConfig}");
+                        Console.Write(sb.ToString());
+                    }
+            }
