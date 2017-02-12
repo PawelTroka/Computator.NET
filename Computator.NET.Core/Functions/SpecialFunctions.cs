@@ -1156,6 +1156,48 @@ namespace Computator.NET.Core.Functions
         {
             if (x < 0)
             {
+                if (n < 0)
+                {
+                    return double.NaN; //DOMAIN_ERROR(result);
+                }
+                if (n == 0)
+                {
+                    if (x == 0)
+                    {
+                        return double.NaN; //DOMAIN_ERROR(result);
+                    }
+                    //   result->val = (scale ? 1.0 : exp(-x)) / x;
+                    // result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
+                    //CHECK_UNDERFLOW(result);
+                    return gsl_sf_expint_En(n, x);//GSL_SUCCESS;
+                }
+                if (n == 1)
+                {
+                    return gsl_sf_expint_En(n, x);//expint_E1_impl(x, result, scale);
+                }
+                if (n == 2)
+                {
+                    return gsl_sf_expint_En(n, x);//expint_E2_impl(x, result, scale);
+                }
+                if (x < 0)
+                {
+                    return double.NaN;//DOMAIN_ERROR(result);
+                }
+                if (x == 0)
+                {
+                    // result->val = (scale ? exp(x) : 1) * (1 / (n - 1.0));
+                    // result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
+                    //CHECK_UNDERFLOW(result);
+                    return gsl_sf_expint_En(n, x);//GSL_SUCCESS;
+                }
+                //gsl_sf_result result_g;
+                //double prefactor = pow(x, n - 1);
+                //int status = gsl_sf_gamma_inc_e(1 - n, x, &result_g);
+                //double scale_factor = (scale ? exp(x) : 1.0);
+                //result->val = scale_factor * prefactor * result_g.val;
+                //result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
+                //result->err += 2 * fabs(scale_factor * prefactor * result_g.err);
+                //if (status == GSL_SUCCESS) CHECK_UNDERFLOW(result);
                 return gsl_sf_expint_En(n, x);//status;
             }
             return Meta.Numerics.Functions.AdvancedMath.IntegralE(n, x);
@@ -3376,62 +3418,51 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         //Generalized Exponential Integral
         public static double En(int n, double x)
         {
-
-
             if (x < 0)
             {
                 if (n < 0)
                 {
                     return double.NaN; //DOMAIN_ERROR(result);
                 }
-                else if (n == 0)
+                if (n == 0)
                 {
                     if (x == 0)
                     {
                         return double.NaN; //DOMAIN_ERROR(result);
                     }
-                    else {
-                     //   result->val = (scale ? 1.0 : exp(-x)) / x;
-                       // result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
-                        //CHECK_UNDERFLOW(result);
-                        return gsl_sf_expint_En(n, x);//GSL_SUCCESS;
-                    }
+                    //   result->val = (scale ? 1.0 : exp(-x)) / x;
+                    // result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
+                    //CHECK_UNDERFLOW(result);
+                    return gsl_sf_expint_En(n, x);//GSL_SUCCESS;
                 }
-                else if (n == 1)
+                if (n == 1)
                 {
                     return gsl_sf_expint_En(n, x);//expint_E1_impl(x, result, scale);
                 }
-                else if (n == 2)
+                if (n == 2)
                 {
                     return gsl_sf_expint_En(n, x);//expint_E2_impl(x, result, scale);
                 }
-                else {
-                    if (x < 0)
-                    {
-                        return double.NaN;//DOMAIN_ERROR(result);
-                    }
-                    if (x == 0)
-                    {
-                       // result->val = (scale ? exp(x) : 1) * (1 / (n - 1.0));
-                       // result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
-                        //CHECK_UNDERFLOW(result);
-                        return gsl_sf_expint_En(n, x);//GSL_SUCCESS;
-                    }
-                    else {
-                        //gsl_sf_result result_g;
-                        //double prefactor = pow(x, n - 1);
-                        //int status = gsl_sf_gamma_inc_e(1 - n, x, &result_g);
-                        //double scale_factor = (scale ? exp(x) : 1.0);
-                        //result->val = scale_factor * prefactor * result_g.val;
-                        //result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
-                        //result->err += 2 * fabs(scale_factor * prefactor * result_g.err);
-                        //if (status == GSL_SUCCESS) CHECK_UNDERFLOW(result);
-                        return gsl_sf_expint_En(n, x);//status;
-                    }
+                if (x < 0)
+                {
+                    return double.NaN;//DOMAIN_ERROR(result);
                 }
-
-
-                gsl_sf_expint_En(n, x);
+                if (x == 0)
+                {
+                    // result->val = (scale ? exp(x) : 1) * (1 / (n - 1.0));
+                    // result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
+                    //CHECK_UNDERFLOW(result);
+                    return gsl_sf_expint_En(n, x);//GSL_SUCCESS;
+                }
+                //gsl_sf_result result_g;
+                //double prefactor = pow(x, n - 1);
+                //int status = gsl_sf_gamma_inc_e(1 - n, x, &result_g);
+                //double scale_factor = (scale ? exp(x) : 1.0);
+                //result->val = scale_factor * prefactor * result_g.val;
+                //result->err = 2 * GSL_DBL_EPSILON * fabs(result->val);
+                //result->err += 2 * fabs(scale_factor * prefactor * result_g.err);
+                //if (status == GSL_SUCCESS) CHECK_UNDERFLOW(result);
+                return gsl_sf_expint_En(n, x);//status;
             }
             return Meta.Numerics.Functions.AdvancedMath.IntegralE(n, x);
         }
