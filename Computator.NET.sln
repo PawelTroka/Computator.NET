@@ -90,11 +90,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{09B7735B
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
-		Build\build.sh = Build\build.sh
+		build-mono\build.sh = build-mono\build.sh
 		generateTravisBuildEnvironments.csx = generateTravisBuildEnvironments.csx
-		Build\install.sh = Build\install.sh
-		Build\restore.sh = Build\restore.sh
-		Build\test.sh = Build\test.sh
+		build-mono\install.sh = build-mono\install.sh
+		build-mono\restore.sh = build-mono\restore.sh
+		build-mono\test.sh = build-mono\test.sh
 	EndProjectSection
 EndProject
 Global
