@@ -106,7 +106,7 @@ matrix:
 #before_install:
 
 before_script:
-  - ./build-mono/restore.sh
+  - source ./build-mono/restore.sh
 
 script:
   - ./build-mono/build.sh
