@@ -103,32 +103,13 @@ matrix:
       mono: 4.6.0
       env: build_config=Debug
 
-
-
 #before_install:
-#  - sudo apt-get install nunit-console
-#  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; brew install openssl; ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/; ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/; fiopenssl; fi
 
 before_script:
-  - "export DISPLAY=:99.0"
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sh -e /etc/init.d/xvfb start; fi
-  - sleep 3 # give xvfb some time to start
-  - if [ "$DOTNETCORE" == "1" ]; then dotnet restore; fi
-  - if [ "$DOTNETCORE" != "1" ]; then nuget restore Computator.NET"$netmoniker".sln; fi
-  - nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
-  - if [ -z "$build_config" ]; then export build_config="Release"; fi #default is Release
+  - ./build-mono/restore.sh
 
 script:
-  - xbuild /p:Configuration="$build_config" Computator.NET.DataTypes/Computator.NET.DataTypes"$netmoniker".csproj
-  - xbuild /p:Configuration="$build_config" Computator.NET.Charting/Computator.NET.Charting"$netmoniker".csproj
-  - xbuild /p:Configuration="$build_config" Computator.NET.Core/Computator.NET.Core"$netmoniker".csproj
-  - xbuild /p:Configuration="$build_config" Computator.NET/Computator.NET"$netmoniker".csproj
-  - xbuild /p:Configuration="$build_config" Computator.NET.Tests/Computator.NET.Tests.csproj
-  - xbuild /p:Configuration="$build_config" Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj
-
+  - ./build-mono/build.sh
 
 after_script:
-#  - nunit-console Computator.NET.Tests/bin/"$build_config"/Computator.NET.Tests.dll
-#  - nunit-console Computator.NET.IntegrationTests/bin/"$build_config"/Computator.NET.IntegrationTests.dll
-  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --labels=All Computator.NET.Tests/bin/"$build_config"/Computator.NET.Tests.dll
-  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --labels=All Computator.NET.IntegrationTests/bin/"$build_config"/Computator.NET.IntegrationTests.dll
+  - ./build-mono/test.sh
