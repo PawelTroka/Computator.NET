@@ -2,7 +2,7 @@
 
 #if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; brew install openssl; ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/; ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/; fiopenssl; fi
 
-if [ "$TRAVIS_OS_NAME" == "linux" ] || [ "$TRAVIS_OS_NAME" == "osx" ]; then export DISPLAY=99.0; fi
+export DISPLAY=99.0
 
 if [ "$TRAVIS_OS_NAME" == "linux" ]; then sh -e /etc/init.d/xvfb start; fi
 if [ "$TRAVIS_OS_NAME" == "linux" ]; then sleep 3; fi # give xvfb some time to start
