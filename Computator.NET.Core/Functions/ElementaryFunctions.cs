@@ -1139,13 +1139,7 @@ namespace Computator.NET.Core.Functions
 
         #region utils
 
-        private const string gslSfLibDir2 =
-#if !__MonoCS__
-                "gsl.dll"
-#else
-            "libgsl.so.19.3.0"
-#endif
-            ;
+        private const string gslSfLibDir2 = "gsl.dll";
 
         #endregion
 
@@ -2284,13 +2278,7 @@ namespace Computator.NET.Core.Functions
 
         #region utils
 
-        private const string gslSfLibDir2 = 
-#if !__MonoCS__
-                ""gsl.dll""
-#else
-            ""libgsl.so.19.3.0""
-#endif
-            ;
+        private const string gslSfLibDir2 = ""gsl.dll"";
 
         #endregion
 
