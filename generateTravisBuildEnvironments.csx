@@ -1,8 +1,8 @@
 var monos = new[]{
                 //"nightly",
                 //"weekly",
-                "alpha",
-                "beta",
+                ////"alpha",
+                ////"beta",
                 //"latest",
                 "4.6.2",
                 "4.6.1",
@@ -18,7 +18,7 @@ var monos = new[]{
                 };
 
 var oses = new[] { "linux",
-                    ////"osx"//for now we lack GSL native libraries on Mac OS
+                    "osx"//for now we lack GSL native libraries on Mac OS
                  };
 
 var sudos = new[] {
@@ -37,7 +37,7 @@ var osx_images = new[] {
     "xcode8.2",//OS X 10.12
     //"xcode8.1",//OS X 10.12
     //"xcode8",//OS X 10.11
-    "xcode7.3",//OS X 10.11
+    ////"xcode7.3",//OS X 10.11
     //"xcode7.2",//OS X 10.11
     "xcode6.4"//OS X 10.10
     };
