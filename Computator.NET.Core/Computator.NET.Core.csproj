@@ -80,15 +80,15 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
-        <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
-<Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
-  <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
-  <Private>True</Private>
-</Reference>
-<Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
-  <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
-  <Private>True</Private>
-</Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
+    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
+      <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
+      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
@@ -279,6 +279,10 @@
     </None>
     <None Include="Special\linux-i386\libgsl.so" />
     <None Include="Special\linux-i386\libgslcblas.so" />
+    <None Include="Special\osx-amd64\libgsl.19.dylib" />
+    <None Include="Special\osx-amd64\libgslcblas.0.dylib" />
+    <None Include="Special\osx-i686\libgsl.19.dylib" />
+    <None Include="Special\osx-i686\libgslcblas.0.dylib" />
     <None Include="Special\windows-x64\gsl.dll" />
     <None Include="Special\linux-amd64\libgsl.so" />
     <None Include="Special\linux-amd64\libgslcblas.so" />

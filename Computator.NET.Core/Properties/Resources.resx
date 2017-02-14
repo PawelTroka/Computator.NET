@@ -312,4 +312,16 @@
   <data name="libgsl_i686" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Special\linux-i686\libgsl.so.19.3.0;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="libgslcblas_osx_amd64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Special\osx-amd64\libgslcblas.0.dylib;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="libgslcblas_osx_i686" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Special\osx-i686\libgslcblas.0.dylib;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="libgsl_osx_amd64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Special\osx-amd64\libgsl.19.dylib;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="libgsl_osx_i686" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Special\osx-i686\libgsl.19.dylib;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

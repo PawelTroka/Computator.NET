@@ -10,6 +10,7 @@ namespace Computator.NET.Core.Natives
     [SuppressUnmanagedCodeSecurity]
     public class NativeMethods
     {
+        private const string GslDllName="gsl.dll";
         // ReSharper disable InconsistentNaming
         public enum MapType : uint
         {
@@ -93,11 +94,11 @@ namespace Computator.NET.Core.Natives
         [DllImport("user32.dll")]
         public static extern bool ShowCaret(IntPtr hWnd);
 
-        [DllImport(GlobalConfig.GslDllName,
+        [DllImport(GslDllName,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr gsl_set_error_handler_off();
 
-        [DllImport(GlobalConfig.GslDllName,
+        [DllImport(GslDllName,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern gsl_error_handler_t gsl_set_error_handler(gsl_error_handler_t new_handler);
     }

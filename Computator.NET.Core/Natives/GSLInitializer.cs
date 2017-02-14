@@ -24,13 +24,19 @@ namespace Computator.NET.Core.Natives
             byte[] gsl;
 
             if (Environment.Is64BitProcess && IntPtr.Size == 8)
-                gsl = GlobalConfig.IsUnix ? Resources.libgsl_amd64 : Resources.gsl_x64;
+                gsl = GlobalConfig.IsUnix
+                    ? (GlobalConfig.IsMacOS ? Resources.libgsl_osx_amd64 : Resources.libgsl_amd64)
+                    : Resources.gsl_x64;
             else if (!Environment.Is64BitProcess && IntPtr.Size == 4)
-                gsl = GlobalConfig.IsUnix ? Resources.libgsl_i686 : Resources.gsl_x86;
+                gsl = GlobalConfig.IsUnix
+                    ? (GlobalConfig.IsMacOS ? Resources.libgsl_osx_i686 : Resources.libgsl_i686)
+                    : Resources.gsl_x86;
             else
                 throw new PlatformNotSupportedException("Inconsistent operating system. Handles only 32 and 64 bit OS.");
 
-            var cblas = Environment.Is64BitProcess ? Resources.libgslcblas_amd64 : Resources.libgslcblas_i686;
+            var cblas = Environment.Is64BitProcess
+                ? (GlobalConfig.IsMacOS ? Resources.libgslcblas_osx_amd64 : Resources.libgslcblas_amd64)
+                : (GlobalConfig.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686);
 
             try
             {

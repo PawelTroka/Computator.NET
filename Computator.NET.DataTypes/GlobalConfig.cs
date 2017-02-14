@@ -15,16 +15,12 @@ namespace Computator.NET.DataTypes
         public const string TslFilesFIlter =
             @"Troka Scripting Language(*.tsl)|*.tsl|Troka Scripting Language Functions(*.tslf)|*.tslf";
 
-        public const string GslDllName =
-#if !__MonoCS__
-            "gsl.dll"
-#else
-            "libgsl.so.19.3.0"
-#endif
-            ;
+        public static readonly string GslDllName = IsUnix
+                ? (IsMacOS ? "libgsl.dylib" : "libgsl.so")
+                : "gsl.dll";
 
         public static readonly string GslCblasDllName = IsUnix
-                ? "libgslcblas.so.0.0.0"
+                ? (IsMacOS ? "libgslcblas.dylib" : "libgslcblas.so")
                 : "cblas.dll";
 
         public static readonly string Betatesters = Strings.betaTesters +
