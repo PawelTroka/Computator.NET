@@ -37,6 +37,8 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 # Contributing
 
 #### Build and tools
+[![codecov](https://codecov.io/gh/PawelTroka/Computator.NET/branch/master/graph/badge.svg)](https://codecov.io/gh/PawelTroka/Computator.NET)
+[![Coverage Status](https://coveralls.io/repos/github/PawelTroka/Computator.NET/badge.svg?branch=master)](https://coveralls.io/github/PawelTroka/Computator.NET?branch=master)
 [![Issue Stats](http://issuestats.com/github/PawelTroka/Computator.NET/badge/issue)](http://issuestats.com/github/PawelTroka/Computator.NET)
 [![Issue Stats](http://issuestats.com/github/PawelTroka/Computator.NET/badge/pr)](http://issuestats.com/github/PawelTroka/Computator.NET)
 
