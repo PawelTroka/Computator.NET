@@ -31,6 +31,14 @@ build_script:
   - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj
   - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
 
+after_test:
+  - nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
+  - nuget install OpenCover -Version 4.6.519 -OutputDirectory codecoveragetools
+  - .\codecoveragetools\OpenCover.4.6.519\OpenCover.Console.exe -register:user -target:"./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe" -targetargs:"/noresults /noisolation /testcontainer:"".\**\*Test*.dll" -filter:"+[Computator.NET]*  -[Computator.NET]Computator.NET.Properties.*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:.\Computator.NET_coverage.xml
+  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
+  - pip install codecov
+  - codecov -f "Computator.NET_coverage.xml"
+
 notifications:
 - provider: GitHubPullRequest
   on_build_success: true
