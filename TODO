@@ -7,8 +7,7 @@
 
 
 ##Code quality
-* Setup codecov.io code coverage analysis
-* Setup quantifiedcode.com issues analysis
+* Setup sonarqube github integration with GitHub Authentication Plugin
 * Core should not reference Charting
 * Set up artifacts in Travis to have assemblies for manual testing
 * Use Paket instead of Nuget? This might allow simpler builds targeting NET40 without additional projects and solutions
