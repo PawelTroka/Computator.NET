@@ -188,3 +188,6 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /nuget.exe
+/codecoveragetools/OpenCover.4.6.519
+/testrunner
+/Computator.NET_coverage.xml
