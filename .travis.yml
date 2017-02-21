@@ -133,3 +133,4 @@ script:
 
 after_script:
   - ./build-mono/test.sh
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ./build-mono/coverage.sh; fi

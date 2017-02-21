@@ -9,3 +9,5 @@ sudo apt-get install mono-complete
 sudo apt-get install monodevelop --fix-missing
 sudo apt-get install libmono-webbrowser4.0-cil
 sudo apt-get install libgluezilla
+sudo apt-get install curl
+sudo apt-get install libgtk2.0-dev
