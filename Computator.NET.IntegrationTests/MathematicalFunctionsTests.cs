@@ -19,6 +19,7 @@ using NUnit.Framework;
 namespace Computator.NET.IntegrationTests
 {
     [TestFixture]
+    [Category("LongRunningTests")]
     public class MathematicalFunctionsTests
     {
         [SetUp]
