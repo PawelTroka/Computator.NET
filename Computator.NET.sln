@@ -91,6 +91,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{09B7735B
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
 		build-mono\build.sh = build-mono\build.sh
+		build-mono\coverage.sh = build-mono\coverage.sh
 		generateTravisBuildEnvironments.csx = generateTravisBuildEnvironments.csx
 		build-mono\install.sh = build-mono\install.sh
 		build-mono\restore.sh = build-mono\restore.sh

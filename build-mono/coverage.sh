@@ -1,0 +1,19 @@
+if [ -z "$build_config" ]; then export build_config="Release"; fi #default is Release
+
+nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
+nuget install coveralls.net -Version 0.7.0 -OutputDirectory codecoveragetools
+
+mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[Computator.NET*]*,-[Computator.NET.Core]Computator.NET.Core.Properties.*,-[Computator.NET.Tests]*,-[Computator.NET.IntegrationTests]* ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --noresult --inprocess --domain=Single --where:cat!=LongRunningTests ""Computator.NET.Tests/bin/"$build_config"/Computator.NET.Tests.dll"" ""Computator.NET.IntegrationTests/bin/"$build_config"/Computator.NET.IntegrationTests.dll""
+monocov --export-xml=monocovCoverage monocovCoverage.cov
+
+REPO_COMMIT_AUTHOR=$(git show -s --pretty=format:"%cn")
+REPO_COMMIT_AUTHOR_EMAIL=$(git show -s --pretty=format:"%ce")
+REPO_COMMIT_MESSAGE=$(git show -s --pretty=format:"%s")
+echo $TRAVIS_COMMIT
+echo $TRAVIS_BRANCH
+echo $REPO_COMMIT_AUTHOR
+echo $REPO_COMMIT_AUTHOR_EMAIL
+echo $REPO_COMMIT_MESSAGE
+echo $TRAVIS_JOB_ID
+
+mono ./codecoveragetools/coveralls.net.0.7.0/tools/csmacnz.Coveralls.exe --monocov -i ./monocovCoverage --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID  --serviceName "travis-ci"  --useRelativePaths
