@@ -1,5 +1,12 @@
 if [ -z "$build_config" ]; then export build_config="Release"; fi #default is Release
 
+curl -sS https://api.nuget.org/packages/mono.cecil.0.9.5.4.nupkg > /tmp/mono.cecil.0.9.5.4.nupkg.zip
+unzip /tmp/mono.cecil.0.9.5.4.nupkg.zip -d /tmp/cecil
+cp /tmp/cecil/lib/net40/Mono.Cecil.dll .
+cp /tmp/cecil/lib/net40/Mono.Cecil.dll /tmp/cecil/
+git clone --depth=50 git://github.com/csMACnz/monocov.git ../../csMACnz/monocov
+cd ../../csMACnz/monocov && cp /tmp/cecil/Mono.Cecil.dll . && ./configure && make && sudo make install
+
 nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
 nuget install coveralls.net -Version 0.7.0 -OutputDirectory codecoveragetools
 
