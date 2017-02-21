@@ -34,7 +34,7 @@ build_script:
 after_test:
   - nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
   - nuget install OpenCover -Version 4.6.519 -OutputDirectory codecoveragetools
-  - codecoveragetools\OpenCover.4.6.519\tools\OpenCover.Console.exe "-register:user" "-target:"testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe"" -targetargs:"--noresult --inprocess --where:cat!=LongRunningTests ""Computator.NET.Tests\bin\%CONFIGURATION%\Computator.NET.Tests.dll"" ""Computator.NET.IntegrationTests\bin\%CONFIGURATION%\Computator.NET.IntegrationTests.dll""" "-filter:+[Computator.NET*]*  -[Computator.NET.Core]Computator.NET.Core.Properties.* -[Computator.NET.Tests]* [Computator.NET.IntegrationTests]*"  "-excludebyattribute:*.ExcludeFromCodeCoverage*" "-hideskipped:All" "-servicestarttimeout:1000m" "-output:Computator.NET_coverage.xml"
+  - codecoveragetools\OpenCover.4.6.519\tools\OpenCover.Console.exe "-register:user" "-target:"testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe"" -targetargs:"--noresult --inprocess --domain=Single --where:cat!=LongRunningTests ""Computator.NET.Tests\bin\%CONFIGURATION%\Computator.NET.Tests.dll"" ""Computator.NET.IntegrationTests\bin\%CONFIGURATION%\Computator.NET.IntegrationTests.dll""" "-filter:+[Computator.NET*]*  -[Computator.NET.Core]Computator.NET.Core.Properties.* -[Computator.NET.Tests]* [Computator.NET.IntegrationTests]*"  "-excludebyattribute:*.ExcludeFromCodeCoverage*" "-hideskipped:All" "-servicestarttimeout:1000m" "-output:Computator.NET_coverage.xml"
   - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
   - pip install codecov
   - codecov -f "Computator.NET_coverage.xml"
