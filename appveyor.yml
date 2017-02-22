@@ -41,9 +41,8 @@ after_test:
   - codecov -f "Computator.NET_coverage.xml"
   - ps: >-
     $coveralls = (Resolve-Path "codecoveragetools/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
-    $env:APPVEYOR_BUILD_NUMBER   
-    & $coveralls --opencover -i Computator.NET_coverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --useRelativePaths --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
-
+    %APPVEYOR_BUILD_NUMBER%
+    & $coveralls --opencover -i Computator.NET_coverage.xml --repoToken %COVERALLS_REPO_TOKEN% --useRelativePaths --commitId %APPVEYOR_REPO_COMMIT% --commitBranch %APPVEYOR_REPO_BRANCH% --commitAuthor %APPVEYOR_REPO_COMMIT_AUTHOR% --commitEmail %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL% --commitMessage %APPVEYOR_REPO_COMMIT_MESSAGE% --jobId %APPVEYOR_BUILD_NUMBER% --serviceName appveyor
 
 notifications:
 - provider: GitHubPullRequest
