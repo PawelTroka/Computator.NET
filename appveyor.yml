@@ -39,7 +39,7 @@ after_test:
   - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
   - pip install codecov
   - codecov -f "Computator.NET_coverage.xml"
-  - codecoveragetools\coveralls.net.0.7.0\tools\csmacnz.coveralls.exe --opencover -i Computator.NET_coverage.xml --repoToken %COVERALLS_REPO_TOKEN% --useRelativePaths --commitId %APPVEYOR_REPO_COMMIT% --commitBranch %APPVEYOR_REPO_BRANCH% --commitAuthor %APPVEYOR_REPO_COMMIT_AUTHOR% --commitEmail %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL% --commitMessage %APPVEYOR_REPO_COMMIT_MESSAGE% --jobId %APPVEYOR_BUILD_NUMBER% --serviceName appveyor
+  - codecoveragetools\coveralls.net.0.7.0\tools\csmacnz.coveralls.exe --opencover -i ./Computator.NET_coverage.xml --repoToken %COVERALLS_REPO_TOKEN% --useRelativePaths --commitId %APPVEYOR_REPO_COMMIT% --commitBranch %APPVEYOR_REPO_BRANCH% --commitAuthor %APPVEYOR_REPO_COMMIT_AUTHOR% --commitEmail %APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL% --commitMessage %APPVEYOR_REPO_COMMIT_MESSAGE% --jobId %APPVEYOR_BUILD_NUMBER% --serviceName appveyor
 
 notifications:
 - provider: GitHubPullRequest
