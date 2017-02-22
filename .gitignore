@@ -192,3 +192,5 @@ ModelManifest.xml
 /testrunner
 /Computator.NET_coverage.xml
 /functions_empty_saved.xml
+/.paket/nuget.exe
+/codecoveragetools/coveralls.net.0.7.0
