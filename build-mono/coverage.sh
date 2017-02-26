@@ -30,4 +30,4 @@ echo $REPO_COMMIT_AUTHOR_EMAIL
 echo $REPO_COMMIT_MESSAGE
 echo $TRAVIS_JOB_ID
 
-mono ./codecoveragetools/coveralls.net.0.7.0/tools/csmacnz.Coveralls.exe --monocov -i ./monocovCoverage --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID  --serviceName "travis-ci"  --useRelativePaths
+mono ./codecoveragetools/coveralls.net.0.7.0/tools/csmacnz.Coveralls.exe --monocov -i ./monocovCoverage.cov --repoTokenVariable COVERALLS_REPO_TOKEN --commitId "$TRAVIS_COMMIT" --commitBranch "$TRAVIS_BRANCH" --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId "$TRAVIS_JOB_ID"  --serviceName "travis-ci"  --useRelativePaths
