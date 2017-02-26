@@ -1,6 +1,8 @@
 ﻿version: 2.2.0.{build}
 
 environment:
+  COVERALLS_REPO_TOKEN:
+    secure: KEH5rJaqCoWoCV2MhkrMlClj3SVIlB2Eu0YK4mqmhRM+ANEfGiFyROo2RWHkJXQz
   matrix:
   - netmoniker: 
   - netmoniker: .NET40
