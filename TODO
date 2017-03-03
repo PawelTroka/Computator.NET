@@ -10,7 +10,6 @@
 * Setup sonarqube github integration with GitHub Authentication Plugin
 * Core should not reference Charting
 * Set up artifacts in Travis to have assemblies for manual testing
-* Use Paket instead of Nuget? This might allow simpler builds targeting NET40 without additional projects and solutions
 * Whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
 * Use mark_heath tips
@@ -21,8 +20,6 @@
 
 
 ##UI
-* NumericUpDown is shit for our needs, we need invariant culture ScientificNumericUpDown with support for TSL numbers notation, engineering notation, variable increment based on current value etc
-* Scientificnumericupdown is working bad with increment near small values, do we even need small values?
 * Used functions history log
 * Scripting: tracking user variables
 * shift+r_mouse_click on item_key activates new window

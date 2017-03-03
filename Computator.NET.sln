@@ -30,7 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.CodedUITests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C3C81D6D-AB05-4A8A-BA72-7866DF0988CE}"
 	ProjectSection(SolutionItems) = preProject
-		BUGS = BUGS
 		CHANGELOG = CHANGELOG
 		docs\EngineeringThesis-pl.docx = docs\EngineeringThesis-pl.docx
 		docs\EngineeringThesisPresentation-pl.pptx = docs\EngineeringThesisPresentation-pl.pptx
