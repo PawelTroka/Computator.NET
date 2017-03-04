@@ -9,6 +9,7 @@ using Computator.NET.Core.Annotations;
 using Computator.NET.Core.Helpers;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
+using System.Linq;
 
 namespace Computator.NET.Core.Properties
 {
@@ -76,9 +77,7 @@ namespace Computator.NET.Core.Properties
         {
             Language = new CultureInfo("en");
 
-            CodeEditor = RuntimeInformation.IsUnix
-                ? CodeEditorType.TextEditor
-                : CodeEditorType.Scintilla;
+            CodeEditor = (CodeEditorType)Enum.GetValues(typeof(CodeEditorType)).GetValue(0);
 
             FunctionsOrder = FunctionsOrder.Default;
             TooltipType = TooltipType.Default;
