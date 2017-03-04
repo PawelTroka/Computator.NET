@@ -42,11 +42,11 @@ namespace Computator.NET.Core.Evaluation
             NativeCompiler.AddDll(PathUtility.GetFullPath("Computator.NET.DataTypes.dll"));
             /////////////////////////
             NativeCompiler.AddDll("System.Drawing.dll");
-#if !__MonoCS__
-            NativeCompiler.AddDll("System.Windows.Forms.DataVisualization.dll");
-#else
-            NativeCompiler.AddDll(GlobalConfig.FullPath("DataVisualizationX.dll"));
-#endif
+
+            NativeCompiler.AddDll(RuntimeInformation.IsUnix
+                ? PathUtility.GetFullPath("DataVisualizationX.dll")
+                : "System.Windows.Forms.DataVisualization.dll");
+
             NativeCompiler.AddDll("System.Windows.Forms.dll");
             NativeCompiler.AddDll("System.Xaml.dll");
             //NativeCompiler.AddDll("Microsoft.CSharp.dll");

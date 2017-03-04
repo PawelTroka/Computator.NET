@@ -23,9 +23,6 @@ namespace Computator.NET
             ClassName = "Program"
         };
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool SetProcessDPIAware();
-
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
@@ -46,10 +43,6 @@ namespace Computator.NET
 
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
-
-
-            if (!RuntimeInformation.IsUnix && Environment.OSVersion.Version.Major >= 6)
-                SetProcessDPIAware();
 
             GSLInitializer.Initialize(new MessagingService());
 

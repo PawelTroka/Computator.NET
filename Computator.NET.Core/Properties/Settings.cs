@@ -75,19 +75,28 @@ namespace Computator.NET.Core.Properties
         public void Reset()
         {
             Language = new CultureInfo("en");
+
             CodeEditor = RuntimeInformation.IsUnix
                 ? CodeEditorType.TextEditor
                 : CodeEditorType.Scintilla;
+
             FunctionsOrder = FunctionsOrder.Default;
             TooltipType = TooltipType.Default;
+
             ExpressionFont = new Font("Cambria", 15.75F, GraphicsUnit.Point);
             ScriptingFont = new Font("Consolas", 12, GraphicsUnit.Point);
+
+            ShowReturnTypeInExpression = false;
             ShowParametersTypeInExpression = true;
+            
             ShowReturnTypeInScripting = true;
             ShowParametersTypeInScripting = true;
+
             NumericalOutputNotation = NumericalOutputNotationType.MathematicalNotation;
+
             ScriptingDirectory = ScriptingRawDir;
             CustomFunctionsDirectory = CustomFunctionsRawDir;
+
             CalculationsErrors = CalculationsErrors.ReturnNAN;
         }
 
