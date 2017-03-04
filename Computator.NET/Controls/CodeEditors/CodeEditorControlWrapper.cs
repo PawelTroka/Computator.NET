@@ -22,7 +22,7 @@ namespace Computator.NET.Controls.CodeEditors
         #endif
         private readonly SaveFileDialog saveFileDialog = new SaveFileDialog
         {
-            Filter = GlobalConfig.TslFilesFIlter
+            Filter = HandledFilesInformation.TslFilesFIlter
         };
 
         private readonly DocumentsTabControl tabControl;

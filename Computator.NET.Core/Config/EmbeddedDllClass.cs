@@ -54,16 +54,16 @@ namespace Computator.NET.Core.Config
         {
             string environmentPathForLibraries;
 
-            if (GlobalConfig.IsMacOS)
+            if (RuntimeInformation.IsMacOS)
                 environmentPathForLibraries = "DYLD_LIBRARY_PATH";
-            else if (GlobalConfig.IsLinux)
+            else if (RuntimeInformation.IsLinux)
                 environmentPathForLibraries = "LD_LIBRARY_PATH";
-            else if (GlobalConfig.IsWindows)
+            else if (RuntimeInformation.IsWindows)
                 environmentPathForLibraries = "PATH";
             else
                 throw new PlatformNotSupportedException("This platform does not support sharing native libraries across assemblies");
 
-            var environmentValuesSeparator = GlobalConfig.IsUnix ? ':' : ';';
+            var environmentValuesSeparator = RuntimeInformation.IsUnix ? ':' : ';';
 
             var assem = Assembly.GetExecutingAssembly();
             var names = assem.GetManifestResourceNames();
@@ -73,8 +73,8 @@ namespace Computator.NET.Core.Config
             // It is made "unique" to avoid different versions of the DLL or architectures.
             tempFolder = $"{an.Name}.{an.ProcessorArchitecture}.{an.Version}";
 
-            var dirName = GlobalConfig.IsUnix
-                ? GlobalConfig.FullPath()//hack - for Unix we just copy .so files into app directory because otherwise it doesn't seem to work. On Windows we must use temp directory because we don't have admin rights.
+            var dirName = RuntimeInformation.IsUnix
+                ? PathUtility.GetFullPath()//hack - for Unix we just copy .so files into app directory because otherwise it doesn't seem to work. On Windows we must use temp directory because we don't have admin rights.
                 : Path.Combine(Path.GetTempPath(), tempFolder);
             if (!Directory.Exists(dirName))
             {

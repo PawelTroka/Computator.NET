@@ -18,7 +18,7 @@ namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger.SimpleLogger Logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName)
+        private static readonly SimpleLogger.SimpleLogger Logger = new SimpleLogger.SimpleLogger(AppInformation.Name)
         {
             ClassName = "Program"
         };
@@ -48,14 +48,14 @@ namespace Computator.NET
             LoadingScreen.ShowSplashScreen();
 
 
-            if (!GlobalConfig.IsUnix && Environment.OSVersion.Version.Major >= 6)
+            if (!RuntimeInformation.IsUnix && Environment.OSVersion.Version.Major >= 6)
                 SetProcessDPIAware();
 
             GSLInitializer.Initialize(new MessagingService());
 
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (!GlobalConfig.IsUnix)
+            if (!RuntimeInformation.IsUnix)
                 Application.AddMessageFilter(new MyMessageFilter());//TODO: find a way to redirect messages to underlying controls in Unix
 
             var mainForm = (new WinFormsBootstrapper()).Create<MainView>();
@@ -85,7 +85,7 @@ namespace Computator.NET
                 //e.IsTerminating = false;
 
                 MessageBox.Show(Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_);
-                Process.Start(GlobalConfig.FullPath("Static", "fonts", "CAMBRIA.TTC"));
+                Process.Start(PathUtility.GetFullPath("Static", "fonts", "CAMBRIA.TTC"));
             }
 
 

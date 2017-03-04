@@ -193,7 +193,7 @@ namespace Computator.NET.Controls.CodeEditors.AvalonEdit
 
             using (
                 XmlReader reader =
-                    new XmlTextReader(GlobalConfig.FullPath("Static", "TSL-Syntax.xshd")))
+                    new XmlTextReader(PathUtility.GetFullPath("Static", "TSL-Syntax.xshd")))
             {
                 customHighlighting = HighlightingLoader.Load(reader,
                     HighlightingManager.Instance);

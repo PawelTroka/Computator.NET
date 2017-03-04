@@ -149,6 +149,7 @@
     <Compile Include="NumericalCalculations\FunctionRoot.cs" />
     <Compile Include="NumericalCalculations\Integral.cs" />
     <Compile Include="NumericalCalculations\NumericalMethodsInfo.cs" />
+    <Compile Include="Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -156,11 +157,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <DependentUpon>Settings.settings</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="Transformations\TrigonometricTransformations.cs" />
     <Compile Include="Autocompletion\AutocompleteItem.cs" />
     <Compile Include="Autocompletion\Colors.cs" />
@@ -302,10 +298,6 @@
     <Content Include="Static\TSL-Syntax.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <Content Include="Static\TSL-Syntax_old.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

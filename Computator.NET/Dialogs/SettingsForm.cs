@@ -16,13 +16,13 @@ namespace Computator.NET.Dialogs
 
         private void Settings_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Settings.Default.Reload();
+            ///////////Settings.Default.Reload();
             // propertyGrid1.Refresh();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Settings.Default.Reload();
+            ///////////Settings.Default.Reload();
             //propertyGrid1.Refresh();
             Close();
         }

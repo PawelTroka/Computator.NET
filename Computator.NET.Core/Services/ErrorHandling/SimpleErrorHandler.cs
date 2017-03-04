@@ -13,7 +13,7 @@ namespace Computator.NET.Core.Services.ErrorHandling
         public SimpleErrorHandler(IMessagingService messagingService)
         {
             _messagingService = messagingService;
-            _logger = new SimpleLogger.SimpleLogger((GlobalConfig.AppName));
+            _logger = new SimpleLogger.SimpleLogger((AppInformation.Name));
         }
 
   

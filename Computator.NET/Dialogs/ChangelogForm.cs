@@ -11,7 +11,7 @@ namespace Computator.NET.Dialogs
         {
             InitializeComponent();
             Text = Strings.GUI_changelogToolStripMenuItem_Click_Changelog;
-            using (var sr = new StreamReader(GlobalConfig.FullPath("CHANGELOG")))
+            using (var sr = new StreamReader(PathUtility.GetFullPath("CHANGELOG")))
             {
                 _richTextBox.Text = sr.ReadToEnd();
             }

@@ -10,7 +10,7 @@ namespace Computator.NET.DataTypes
         {
             FunctionType = FunctionType.Scripting;
 
-            logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) { ClassName = GetType().FullName};
+            logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
         }
 
         public void Evaluate(Action<string> consoleCallback)

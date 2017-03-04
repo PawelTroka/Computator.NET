@@ -7,9 +7,9 @@ namespace Computator.NET.DataTypes
 {
     public static class CustomFonts
     {
-        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName)
+        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(AppInformation.Name)
         {
-            ClassName = typeof(GlobalConfig).FullName
+            ClassName = typeof(PathUtility).FullName
         };
 
         private static PrivateFontCollection mathFontCollection;
@@ -35,8 +35,8 @@ namespace Computator.NET.DataTypes
             mathFontCollection = new PrivateFontCollection();
             scriptingFontCollection = new PrivateFontCollection();
 
-            var pathToFont = GlobalConfig.FullPath("Static", "fonts", "CAMBRIA.TTC");
-            var pathToFont2 = GlobalConfig.FullPath("Static", "fonts", "consola.ttf");
+            var pathToFont = PathUtility.GetFullPath("Static", "fonts", "CAMBRIA.TTC");
+            var pathToFont2 = PathUtility.GetFullPath("Static", "fonts", "consola.ttf");
             try
             {
                 mathFontCollection.AddFontFile(pathToFont);

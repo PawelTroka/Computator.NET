@@ -20,7 +20,7 @@ namespace Computator.NET.Core.Compilation
 
         public NativeCompiler()
         {
-            logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) { ClassName = GetType().FullName};
+            logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
             parameters = new CompilerParameters
             {
                 GenerateInMemory = true,
@@ -46,11 +46,11 @@ namespace Computator.NET.Core.Compilation
 
         private string GetDllPath(string dllName)
         {
-            var dllDirectory = GlobalConfig.FullPath(dllName);
+            var dllDirectory = PathUtility.GetFullPath(dllName);
             if (File.Exists(dllDirectory))
                 return dllDirectory;
 
-            var path = GlobalConfig.FullPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase), dllName);
+            var path = PathUtility.GetFullPath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase), dllName);
             if (path.Contains(@"\file:\")) //hack for tests
                 return path.Split(new[] {@"\file:\"}, StringSplitOptions.RemoveEmptyEntries).Last();
             return path;

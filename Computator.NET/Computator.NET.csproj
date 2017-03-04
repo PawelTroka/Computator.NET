@@ -124,15 +124,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Numerics" />
-        <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
-<Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
-  <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
-  <Private>True</Private>
-</Reference>
-<Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
-  <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
-  <Private>True</Private>
-</Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
+    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
+      <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
+      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -468,9 +468,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

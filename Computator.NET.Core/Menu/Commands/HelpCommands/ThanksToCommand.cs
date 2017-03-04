@@ -21,10 +21,10 @@ namespace Computator.NET.Core.Menu.Commands.HelpCommands
         public override void Execute()
         {
             _messagingService.Show(
-                GlobalConfig.Betatesters + Environment.NewLine + Environment.NewLine + GlobalConfig.Translators +
+                ContributionsInformation.Betatesters + Environment.NewLine + Environment.NewLine + ContributionsInformation.Translators +
                 Environment.NewLine + Environment.NewLine +
-                GlobalConfig.Libraries + Environment.NewLine + Environment.NewLine +
-                GlobalConfig.Others, Strings.SpecialThanksTo);
+                ContributionsInformation.Libraries + Environment.NewLine + Environment.NewLine +
+                ContributionsInformation.Others, Strings.SpecialThanksTo);
         }
     }
 }

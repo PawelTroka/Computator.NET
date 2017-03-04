@@ -15,7 +15,7 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
 
     public class OpenFileDialogWrapper : IOpenFileDialog
     {
-        private readonly OpenFileDialog ofd = new OpenFileDialog {Filter = GlobalConfig.TslFilesFIlter};
+        private readonly OpenFileDialog ofd = new OpenFileDialog {Filter = HandledFilesInformation.TslFilesFIlter};
     public bool Show()
     {
         return ofd.ShowDialog() == DialogResult.OK;
@@ -43,7 +43,7 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
             this.customFunctionsCodeEditor = customFunctionsCodeEditor;
             _sharedViewState = sharedViewState;
             _openFileDialog = openFileDialog;
-            _openFileDialog.Filter = GlobalConfig.TslFilesFIlter;
+            _openFileDialog.Filter = HandledFilesInformation.TslFilesFIlter;
         }
 
 

@@ -11,7 +11,7 @@ namespace Computator.NET.DataTypes
 
         private Function(Delegate function) : base(function)
         {
-            logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) { ClassName = GetType().FullName};
+            logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
         }
 
         public Function(Delegate function, bool isImplicit) : this(function)

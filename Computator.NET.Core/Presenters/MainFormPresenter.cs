@@ -58,7 +58,7 @@ namespace Computator.NET.Core.Presenters
                 }
             };
 
-            Settings.Default.SettingsSaving += (o, e) =>
+            Settings.Default.SettingsSaved += (o, e) =>
             {
                 if (_applicationNeedRestart)
                 {
@@ -81,7 +81,7 @@ namespace Computator.NET.Core.Presenters
 
             _view.SelectedViewChanged += _view_SelectedViewChanged;
 
-            _view.StatusText = GlobalConfig.Version;
+            _view.StatusText = AppInformation.Version;
         }
 
         private void _view_SelectedViewChanged(object sender, EventArgs e)

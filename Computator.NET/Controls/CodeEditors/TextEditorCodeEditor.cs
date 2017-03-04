@@ -36,7 +36,7 @@ namespace Computator.NET.Controls.CodeEditors
                 new Dictionary<string, IDocument>();
 
             
-            string dir = GlobalConfig.FullPath("Static"); // Insert the path to your xshd-files.
+            string dir = PathUtility.GetFullPath("Static"); // Insert the path to your xshd-files.
             FileSyntaxModeProvider fsmProvider; // Provider
             if (Directory.Exists(dir))
             {

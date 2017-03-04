@@ -14,7 +14,7 @@ namespace Computator.NET.Core.Natives
     {
         private static gsl_error_handler_t UnmanagedHandler;
 
-        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) { ClassName = nameof(GSLInitializer)};
+        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = nameof(GSLInitializer)};
 
         public static void Initialize(IMessagingService messagingService)
         {
@@ -24,29 +24,29 @@ namespace Computator.NET.Core.Natives
             byte[] gsl;
 
             if (Environment.Is64BitProcess && IntPtr.Size == 8)
-                gsl = GlobalConfig.IsUnix
-                    ? (GlobalConfig.IsMacOS ? Resources.libgsl_osx_amd64 : Resources.libgsl_amd64)
+                gsl = RuntimeInformation.IsUnix
+                    ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_amd64 : Resources.libgsl_amd64)
                     : Resources.gsl_x64;
             else if (!Environment.Is64BitProcess && IntPtr.Size == 4)
-                gsl = GlobalConfig.IsUnix
-                    ? (GlobalConfig.IsMacOS ? Resources.libgsl_osx_i686 : Resources.libgsl_i686)
+                gsl = RuntimeInformation.IsUnix
+                    ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_i686 : Resources.libgsl_i686)
                     : Resources.gsl_x86;
             else
                 throw new PlatformNotSupportedException("Inconsistent operating system. Handles only 32 and 64 bit OS.");
 
             var cblas = Environment.Is64BitProcess
-                ? (GlobalConfig.IsMacOS ? Resources.libgslcblas_osx_amd64 : Resources.libgslcblas_amd64)
-                : (GlobalConfig.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686);
+                ? (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_amd64 : Resources.libgslcblas_amd64)
+                : (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686);
 
             try
             {
 
-                EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslDllName, gsl);
+                EmbeddedDllClass.ExtractEmbeddedDlls(GslConfig.GslDllName, gsl);
 
                 
-                if (GlobalConfig.IsUnix)
+                if (RuntimeInformation.IsUnix)
                 {
-                    EmbeddedDllClass.ExtractEmbeddedDlls(GlobalConfig.GslCblasDllName, cblas);
+                    EmbeddedDllClass.ExtractEmbeddedDlls(GslConfig.GslCblasDllName, cblas);
                 }
 
                 switch (Settings.Default.CalculationsErrors)
@@ -65,13 +65,13 @@ namespace Computator.NET.Core.Natives
                 try
                 {
 
-                    var gslTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.GslDllName);
+                    var gslTempPath = Path.Combine(Path.GetTempPath(), GslConfig.GslDllName);
 
                     File.WriteAllBytes(gslTempPath, gsl);
 
-                    if (GlobalConfig.IsUnix)
+                    if (RuntimeInformation.IsUnix)
                     {
-                        var cblasTempPath = Path.Combine(Path.GetTempPath(), GlobalConfig.GslCblasDllName);
+                        var cblasTempPath = Path.Combine(Path.GetTempPath(), GslConfig.GslCblasDllName);
                         File.WriteAllBytes(cblasTempPath, cblas);
 
                         var h1 = NativeMethods.dlopen(cblasTempPath, NativeMethods.RTLD.RTLD_GLOBAL);
@@ -83,7 +83,7 @@ namespace Computator.NET.Core.Natives
                         }
                     }
                     
-                    var h2 = GlobalConfig.IsUnix ? NativeMethods.dlopen(gslTempPath, NativeMethods.RTLD.RTLD_GLOBAL) : NativeMethods.LoadLibrary(gslTempPath);
+                    var h2 = RuntimeInformation.IsUnix ? NativeMethods.dlopen(gslTempPath, NativeMethods.RTLD.RTLD_GLOBAL) : NativeMethods.LoadLibrary(gslTempPath);
 
                     if (h2 == IntPtr.Zero)
                     {
@@ -96,7 +96,7 @@ namespace Computator.NET.Core.Natives
                 }
                 catch (Exception exception2)
                 {
-                    var funcName = GlobalConfig.IsUnix ? "dlopen" : "LoadLibrary";
+                    var funcName = RuntimeInformation.IsUnix ? "dlopen" : "LoadLibrary";
                     logger.Log($"{funcName} failed", ErrorType.General, exception2);
                     messagingService.Show(
                         $"{Strings.Program_Main_Exception_during_startup}.{Environment.NewLine}ExtractEmbeddedDlls {Strings.Exception}:{Environment.NewLine}{exception}{Environment.NewLine}{funcName} {Strings.Exception}:{Environment.NewLine}{exception2}",

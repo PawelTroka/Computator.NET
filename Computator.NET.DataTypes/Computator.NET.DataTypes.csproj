@@ -41,35 +41,40 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
-        <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
-<Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
-  <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
-  <Private>True</Private>
-</Reference>
-<Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
-  <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
-  <Private>True</Private>
-</Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
+    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
+      <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
+      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Configuration\AppInformation.cs" />
     <Compile Include="Charts\AssignmentOfColorMethod.cs" />
     <Compile Include="Charts\CountourLinesMode.cs" />
     <Compile Include="Charts\IAreaValues.cs" />
     <Compile Include="Charts\IChart.cs" />
     <Compile Include="Charts\IPrinting.cs" />
+    <Compile Include="Information\AppRelatedUrls.cs" />
+    <Compile Include="Information\ContributionsInformation.cs" />
+    <Compile Include="Configuration\HandledFilesInformation.cs" />
+    <Compile Include="Configuration\GslConfig.cs" />
     <Compile Include="Localization\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="BaseFunction.cs" />
+    <Compile Include="Functions\BaseFunction.cs" />
     <Compile Include="CalculationException.cs" />
     <Compile Include="CalculationsMode.cs" />
-    <Compile Include="CustomFonts.cs" />
+    <Compile Include="Text\CustomFonts.cs" />
     <Compile Include="ErrorType.cs" />
     <Compile Include="Events\CalculationsModeChangedEvent.cs" />
     <Compile Include="Events\ChangeViewEvent.cs" />
@@ -78,19 +83,20 @@
     <Compile Include="Events\IApplicationEvent.cs" />
     <Compile Include="Events\IEventAggregator.cs" />
     <Compile Include="Events\ViewName.cs" />
-    <Compile Include="Function.cs" />
-    <Compile Include="FunctionType.cs" />
-    <Compile Include="GlobalConfig.cs" />
-    <Compile Include="Point2D.cs" />
-    <Compile Include="Point3D.cs" />
+    <Compile Include="Functions\Function.cs" />
+    <Compile Include="Functions\FunctionType.cs" />
+    <Compile Include="Utility\PathUtility.cs" />
+    <Compile Include="Charts\Point2D.cs" />
+    <Compile Include="Charts\Point3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptFunction.cs" />
+    <Compile Include="Configuration\RuntimeInformation.cs" />
+    <Compile Include="Functions\ScriptFunction.cs" />
     <Compile Include="SettingsTypes\CalculationsErrors.cs" />
     <Compile Include="SettingsTypes\CodeEditorType.cs" />
     <Compile Include="SettingsTypes\FunctionsOrder.cs" />
     <Compile Include="SettingsTypes\NumericalOutputNotationType.cs" />
     <Compile Include="SettingsTypes\TooltipType.cs" />
-    <Compile Include="SpecialSymbols.cs" />
+    <Compile Include="Text\SpecialSymbols.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\Strings.cs.resx" />

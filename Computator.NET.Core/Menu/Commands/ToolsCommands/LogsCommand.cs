@@ -22,7 +22,7 @@ namespace Computator.NET.Core.Menu.Commands.ToolsCommands
 
             try
             {
-                (new SimpleLogger.SimpleLogger(GlobalConfig.AppName)).OpenLogsDirectory();
+                (new SimpleLogger.SimpleLogger(AppInformation.Name)).OpenLogsDirectory();
             }
             catch
             {

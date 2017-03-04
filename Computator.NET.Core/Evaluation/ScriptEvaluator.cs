@@ -38,8 +38,8 @@ namespace Computator.NET.Core.Evaluation
             //using Meta.Numerics.Matrices;
             ";
 
-            NativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.Charting.dll"));
-            NativeCompiler.AddDll(GlobalConfig.FullPath("Computator.NET.DataTypes.dll"));
+            NativeCompiler.AddDll(PathUtility.GetFullPath("Computator.NET.Charting.dll"));
+            NativeCompiler.AddDll(PathUtility.GetFullPath("Computator.NET.DataTypes.dll"));
             /////////////////////////
             NativeCompiler.AddDll("System.Drawing.dll");
 #if !__MonoCS__

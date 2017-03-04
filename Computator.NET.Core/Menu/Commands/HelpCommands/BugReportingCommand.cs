@@ -16,7 +16,7 @@ namespace Computator.NET.Core.Menu.Commands.HelpCommands
 
         public override void Execute()
         {
-            Process.Start(GlobalConfig.IssuesUrl);
+            Process.Start(AppRelatedUrls.IssuesUrl);
             //new BugReportingForm().ShowDialog( /*this*/);
         }
     }

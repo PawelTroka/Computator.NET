@@ -133,7 +133,7 @@ namespace Computator.NET.Core.Autocompletion
 
             var serializer = new XmlSerializer(typeof(FunctionInfo[]),
                 new XmlRootAttribute("FunctionsDetails"));
-            var stream = new StreamReader(GlobalConfig.FullPath("Static", "functions.xml"));
+            var stream = new StreamReader(PathUtility.GetFullPath("Static", "functions.xml"));
 
             var functionsInfos = ((FunctionInfo[]) serializer.Deserialize(stream)).ToDictionary(kv => kv.Signature,
                 kv =>

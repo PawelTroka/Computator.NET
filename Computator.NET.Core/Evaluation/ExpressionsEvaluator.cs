@@ -81,7 +81,7 @@ namespace Computator.NET.Core.Evaluation
         {
             NativeCompiler = new NativeCompiler();
             _tslCompiler = new TslCompiler();
-            Logger = new SimpleLogger.SimpleLogger(GlobalConfig.AppName) { ClassName = GetType().FullName};
+            Logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
             AdditionalObjectsCode = "";
             AdditionalUsings = "";
         }
