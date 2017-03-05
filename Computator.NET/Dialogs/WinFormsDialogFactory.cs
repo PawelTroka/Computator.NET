@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Computator.NET.Benchmarking;
 using Computator.NET.Core.Abstract;
 using Computator.NET.Core.Functions;
 
@@ -12,6 +13,7 @@ namespace Computator.NET.Dialogs
         {
             {"about",  typeof(AboutBox1)},
             {"bugs",  typeof(BugReportingForm)},
+            {"benchmark",  typeof(BenchmarkForm)},
             {"changelog",  typeof(ChangelogForm)},
             {"loading",  typeof(LoadingScreen)},
             {"read",  typeof(ReadForm)},
