@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -27,8 +28,8 @@ namespace Computator.NET.Controls
 
             if (!DesignMode)
             {
-                Minimum = decimal.MinValue/10;
-                Maximum = decimal.MaxValue/10;
+                Minimum = decimal.MinValue / 10;
+                Maximum = decimal.MaxValue / 10;
 
 
                 TextAlign = HorizontalAlignment.Center;
@@ -38,7 +39,7 @@ namespace Computator.NET.Controls
                 {
                     if (!ExponentialMode)
                         Increment = Math.Max(Epsilon,
-                            Math.Abs((0.3m*Value).RoundToSignificantDigits(1)));
+                            Math.Abs((0.3m * Value).RoundToSignificantDigits(1)));
                     //if (Increment == 0)
                     //Increment = 1;
                 };
@@ -51,7 +52,7 @@ namespace Computator.NET.Controls
         public new decimal Value
         {
             get { return base.Value; }
-            set { base.Value = ToInsideRange((double) value); }
+            set { base.Value = ToInsideRange((double)value); }
         }
 
         private new bool DesignMode
@@ -71,8 +72,8 @@ namespace Computator.NET.Controls
             set { base.Font = !DesignMode ? CustomFonts.GetMathFont(value.Size) : value; }
         }
 
-        public bool ExponentialMode => ((double) Value).ToString(CultureInfo.InvariantCulture).Contains('E') ||
-                                       ((double) Value).ToString(CultureInfo.InvariantCulture).Contains('e');
+        public bool ExponentialMode => ((double)Value).ToString(CultureInfo.InvariantCulture).Contains('E') ||
+                                       ((double)Value).ToString(CultureInfo.InvariantCulture).Contains('e');
 
         /*  private void Control_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -106,11 +107,11 @@ namespace Computator.NET.Controls
 
         private decimal ToInsideRange(double value)
         {
-            if (value > (double) Maximum)
+            if (value > (double)Maximum)
                 return Maximum;
-            if (value < (double) Minimum)
+            if (value < (double)Minimum)
                 return Minimum;
-            return (decimal) value;
+            return (decimal)value;
         }
 
         private bool IsCaretInExponent()
@@ -194,10 +195,10 @@ namespace Computator.NET.Controls
                     if (parts1.Length == 2)
                     {
                         if (parts1[1].Any(c => exponents.Contains(c)))
-                            Value = decimal.Parse(parts1[0], CultureInfo.InvariantCulture)*
+                            Value = decimal.Parse(parts1[0], CultureInfo.InvariantCulture) *
                                     CovertFromScientificToValue(parts1[1]);
                         else
-                            Value = decimal.Parse(parts1[0], CultureInfo.InvariantCulture)*
+                            Value = decimal.Parse(parts1[0], CultureInfo.InvariantCulture) *
                                     decimal.Parse(parts1[1], CultureInfo.InvariantCulture);
                     }
                     else if (parts1.Length == 1 && parts1[0].Any(c => exponents.Contains(c)))
@@ -214,7 +215,13 @@ namespace Computator.NET.Controls
             {
                 //       base.ValidateEditText();
             }
-            base.ValidateEditText();
+
+            // See if the edit text parses to a valid decimal
+            
+
+
+            UserEdit = false;
+            UpdateEditText();
         }
 
         public override void UpButton()
@@ -228,9 +235,9 @@ namespace Computator.NET.Controls
             else
             {
                 if (Value > 0)
-                    Value = ToInsideRange((double) Value*_multiplyFactor);
+                    Value = ToInsideRange((double)Value * _multiplyFactor);
                 else if (Value < 0)
-                    Value = ToInsideRange((double) Value/_multiplyFactor);
+                    Value = ToInsideRange((double)Value / _multiplyFactor);
 
                 //UpdateEditText();
             }
@@ -247,9 +254,9 @@ namespace Computator.NET.Controls
             else
             {
                 if (Value > 0)
-                    Value = ToInsideRange((double) Value/_multiplyFactor);
+                    Value = ToInsideRange((double)Value / _multiplyFactor);
                 else if (Value < 0)
-                    Value = ToInsideRange((double) Value*_multiplyFactor);
+                    Value = ToInsideRange((double)Value * _multiplyFactor);
                 //UpdateEditText();
             }
         }
@@ -257,22 +264,7 @@ namespace Computator.NET.Controls
 
         protected override void UpdateEditText() //basically it sets Text after Value was established
         {
-            Text = ((double) Value).ToMathString();
-            //var str = ((double) Value).ToString(CultureInfo.InvariantCulture);
-            /*if (!ExponentialMode)
-                Text = Value.ToString(CultureInfo.InvariantCulture);
-            else
-            {
-                var parts = Value.ToString("E",CultureInfo.InvariantCulture).Split('E');
-
-                var significand = decimal.Parse(parts[0], CultureInfo.InvariantCulture);
-                var exponent = decimal.Parse(parts[1], CultureInfo.InvariantCulture);
-
-                if (significand != 1.0m)
-                    Text = significand.ToString(CultureInfo.InvariantCulture) + dotSymbol + "10" + CovertToExponent(exponent.ToString(CultureInfo.InvariantCulture));
-                else
-                    Text = "10" + CovertToExponent(exponent.ToString(CultureInfo.InvariantCulture));
-            }*/
+            Text = ((double)Value).ToMathString();
         }
 
         private string CovertToExponent(string v)
@@ -311,7 +303,7 @@ namespace Computator.NET.Controls
                     if (sb[i] == exponents[j])
                         sb[i] = toReplace[j];
 
-            return (decimal) double.Parse(sb.ToString(), CultureInfo.InvariantCulture);
+            return (decimal)double.Parse(sb.ToString(), CultureInfo.InvariantCulture);
             //maybe decimal should parse this
         }
 

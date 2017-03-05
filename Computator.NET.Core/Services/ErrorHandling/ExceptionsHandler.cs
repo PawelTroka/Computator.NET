@@ -24,7 +24,7 @@ namespace Computator.NET.Core.Services.ErrorHandling
 
             var message = ex.Message + Environment.NewLine + (ex.InnerException?.Message ?? "");
 
-            _errorHandler.DispalyError(message, Strings.Error);
+            _errorHandler.DisplayError(message, Strings.Error);
 
             if (!ex.IsInternal())
             {

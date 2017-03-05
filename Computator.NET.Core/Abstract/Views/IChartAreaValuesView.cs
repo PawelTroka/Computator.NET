@@ -12,5 +12,7 @@ namespace Computator.NET.Core.Abstract.Views
         event EventHandler AddClicked;
         event EventHandler ClearClicked;
         event EventHandler QualityChanged;
+
+        void SetError(string property, string error);
     }
 }

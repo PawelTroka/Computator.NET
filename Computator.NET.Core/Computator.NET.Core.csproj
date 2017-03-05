@@ -262,6 +262,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Autocompletion\SelectedEventArgs.cs" />
+    <Compile Include="Validation\ChartAreaValuesValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Static\functions.xml">

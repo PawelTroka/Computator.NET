@@ -80,12 +80,12 @@ namespace Computator.NET.Core.Presenters
                     {
                         if (double.IsNaN(eps))
                         {
-                            _errorHandler.DispalyError(Strings.GivenΕIsNotValid, Strings.Error);
+                            _errorHandler.DisplayError(Strings.GivenΕIsNotValid, Strings.Error);
                             return;
                         }
                         if (!(eps > 0.0) || !(eps < 1))
                         {
-                            _errorHandler.DispalyError(
+                            _errorHandler.DisplayError(
                                 Strings.GivenΕIsNotValidΕShouldBeSmallPositiveNumber, Strings.Error);
                             return;
                         }
@@ -142,7 +142,7 @@ namespace Computator.NET.Core.Presenters
             }
             else
             {
-                _errorHandler.DispalyError(
+                _errorHandler.DisplayError(
                     Strings
                         .GUI_numericalOperationButton_Click_Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_ +
                     Environment.NewLine +

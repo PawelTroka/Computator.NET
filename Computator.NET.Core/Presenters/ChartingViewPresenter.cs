@@ -4,6 +4,7 @@ using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Services.ErrorHandling;
+using Computator.NET.Core.Validation;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
 using Computator.NET.DataTypes.Events;
@@ -76,8 +77,22 @@ namespace Computator.NET.Core.Presenters
         private ICodeEditorView customFunctionsEditor;
         private void ChartAreaValuesView1_AddClicked(object sender, EventArgs e)
         {
-            if (_expressionTextProvider.Text != "")
+            if (string.IsNullOrWhiteSpace(_expressionTextProvider.Text))
             {
+                _errorHandler.DisplayError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
+    Strings.GUI_numericalOperationButton_Click_Warning_);
+                return;
+            }
+
+            if (!ChartAreaValuesValidator.IsValid(_view.ChartAreaValuesView.XMin, _view.ChartAreaValuesView.XMax,
+                _view.ChartAreaValuesView.YMin, _view.ChartAreaValuesView.YMax))
+            {
+                _errorHandler.DisplayError("Min value needs to be less than Max value." + $"{Environment.NewLine}"+$"Check chart area values: x0, xN, y0, yN.",
+Strings.GUI_numericalOperationButton_Click_Warning_);
+                return;
+            }
+
+
                 try
                 {
                     customFunctionsEditor.ClearHighlightedErrors();
@@ -89,10 +104,7 @@ namespace Computator.NET.Core.Presenters
                 {
                     _exceptionsHandler.HandleException(ex);
                 }
-            }
-            else
-                _errorHandler.DispalyError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
-                    Strings.GUI_numericalOperationButton_Click_Warning_);
+
         }
 
         private IExceptionsHandler _exceptionsHandler;

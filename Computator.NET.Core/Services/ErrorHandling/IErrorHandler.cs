@@ -5,7 +5,7 @@ namespace Computator.NET.Core.Services.ErrorHandling
 {
     public interface IErrorHandler
     {
-        void DispalyError(string message, string title);
+        void DisplayError(string message, string title);
         void LogError(string message, ErrorType errorType, Exception ex);
     }
 }

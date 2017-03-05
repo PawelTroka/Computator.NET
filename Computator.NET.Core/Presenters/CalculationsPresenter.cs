@@ -68,7 +68,7 @@ namespace Computator.NET.Core.Presenters
                 }
             }
             else
-                _errorHandler.DispalyError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
+                _errorHandler.DisplayError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
                     Strings.GUI_numericalOperationButton_Click_Warning_);
         }
 

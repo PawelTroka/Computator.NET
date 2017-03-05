@@ -17,7 +17,7 @@ namespace Computator.NET.Core.Services.ErrorHandling
         }
 
   
-        public void DispalyError(string message, string title)
+        public void DisplayError(string message, string title)
         {
             _messagingService.Show(message, title);
         }
