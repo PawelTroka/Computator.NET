@@ -61,6 +61,7 @@ namespace Computator.NET.Core.Properties
                 try
                 {
                     var settings = (Settings)new BinaryFormatter().Deserialize(fs);
+                    settings.InitScripting();
                     return settings;
                 }
                 catch (Exception exception)
@@ -104,10 +105,14 @@ namespace Computator.NET.Core.Properties
             if (!File.Exists(AppInformation.SettingsPath))
                 Reset();
 
+            InitScripting();
+        }
+
+        private void InitScripting()
+        {
             MakeScriptingDirectoriesInMyDocumentsIfNeeded();
             RestoreScriptingExamplesIfNeeded();
         }
-
 
 
         private void RestoreScriptingExamplesIfNeeded()
