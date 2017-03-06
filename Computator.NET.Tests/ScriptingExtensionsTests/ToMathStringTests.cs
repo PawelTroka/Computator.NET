@@ -10,6 +10,7 @@ using NUnit.Framework;
 
 namespace Computator.NET.Tests.ScriptingExtensionsTests
 {
+    [TestFixture]
     class ToMathStringTests
     {
         [TestCase(double.NaN, "NaN")]

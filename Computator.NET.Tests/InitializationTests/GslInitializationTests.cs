@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Computator.NET.Tests.InitializationTests
 {
+    [TestFixture]
     public class GslInitializationTests
     {
         [Test]
