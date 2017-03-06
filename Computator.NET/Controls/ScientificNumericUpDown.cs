@@ -18,9 +18,9 @@ namespace Computator.NET.Controls
     public sealed partial class ScientificNumericUpDown : NumericUpDown
     {
         private readonly int _multiplyFactor = 10;
-        //   private readonly char dotSymbol = '·'; //'⋅'
-        private readonly string exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
-        private readonly string toReplace = "0123456789-";
+
+        private const string Exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
+        private const string ToReplace = "0123456789-";
 
         public ScientificNumericUpDown()
         {
@@ -52,7 +52,7 @@ namespace Computator.NET.Controls
         public new decimal Value
         {
             get { return base.Value; }
-            set { base.Value = ToInsideRange((double)value); }
+            set { base.Value = Constrain(value); }
         }
 
         private new bool DesignMode
@@ -75,25 +75,6 @@ namespace Computator.NET.Controls
         public bool ExponentialMode => ((double)Value).ToString(CultureInfo.InvariantCulture).Contains('E') ||
                                        ((double)Value).ToString(CultureInfo.InvariantCulture).Contains('e');
 
-        /*  private void Control_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '*')
-            {
-                e.KeyChar = dotSymbol;
-
-
-                NumericUpDown numericUpDownsender = (sender as NumericUpDown);
-
-                TextBoxBase txtBase = numericUpDownsender.Controls[1] as TextBoxBase;
-                int currentCaretPosition = txtBase.SelectionStart;
-              //  numericUpDownsender.DataBindings[0].WriteValue();
-
-                //numericUpDownsender.Text.Insert(currentCaretPosition, new string(dotSymbol,1));
-                txtBase.Text.Insert(currentCaretPosition, new string(dotSymbol, 1));
-                txtBase.
-                txtBase.SelectionStart = currentCaretPosition+1;
-            }
-        }*/
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new int DecimalPlaces
@@ -105,20 +86,11 @@ namespace Computator.NET.Controls
 
         private int CaretPosition => (Controls[1] as TextBoxBase).SelectionStart;
 
-        private decimal ToInsideRange(double value)
-        {
-            if (value > (double)Maximum)
-                return Maximum;
-            if (value < (double)Minimum)
-                return Minimum;
-            return (decimal)value;
-        }
-
         private bool IsCaretInExponent()
         {
             for (var i = CaretPosition - 1; i >= 3; i--)
             {
-                if (exponents.Contains(Text[i]))
+                if (Exponents.Contains(Text[i]))
                     continue;
                 return Text[i] == '0' &&
                        Text[i - 1] == '1' &&
@@ -128,14 +100,11 @@ namespace Computator.NET.Controls
             return false;
         }
 
-
-        //     private Regex properExpressionRegex = new Regex(@"\-?(\d+\.?\d*)[eE]\d+");
-
         protected override void OnTextBoxKeyPress(object source, KeyPressEventArgs e)
         {
             if (IsCaretInExponent())
             {
-                var expKeyChar = CovertToExponent(e.KeyChar);
+                var expKeyChar = ConvertToExponent(e.KeyChar);
                 if (expKeyChar != ' ' && !(Text.Contains('⁻') && expKeyChar == '⁻'))
                     e.KeyChar = expKeyChar;
                 else if (!char.IsControl(e.KeyChar))
@@ -148,18 +117,27 @@ namespace Computator.NET.Controls
 
             else if (e.KeyChar == '*' && !Text.Contains(SpecialSymbols.DotSymbol))
                 e.KeyChar = SpecialSymbols.DotSymbol;
-            else if (e.KeyChar == 'E' || e.KeyChar == 'e')
+            else if (!Text.Contains("e") && !Text.Contains("E") && (e.KeyChar == 'E' || e.KeyChar == 'e'))
             {
                 // Text += dotSymbol + "10";
                 // e.Handled = true;
             }
-            else if (e.KeyChar == ',' || e.KeyChar == '.' ||
+            else if (!Text.Contains(".") && (e.KeyChar == ',' || e.KeyChar == '.' ||
                      e.KeyChar == Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0] ||
-                     e.KeyChar == Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0])
+                     e.KeyChar == Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0]))
             {
                 e.KeyChar = '.';
                 // //Text += '.';
                 // //e.Handled = true;
+            }
+            else if (Text.Contains(".") && (e.KeyChar == ',' || e.KeyChar == '.' ||
+                                             e.KeyChar ==
+                                             Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0] ||
+                                             e.KeyChar ==
+                                             Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0
+                                             ]))
+            {
+                e.Handled = true;
             }
             else
                 base.OnTextBoxKeyPress(source, e);
@@ -181,48 +159,70 @@ namespace Computator.NET.Controls
             return Text[CaretPosition - 1] == c;
         }
 
-        protected override void ValidateEditText() //basically it sets Value after Text was edited
+        protected override void ValidateEditText() //basically it sets Value after Text was edited by User
         {
-            // try
+            try
             {
-                if (Text.Contains('E') || Text.Contains('e'))
+                // VSWhidbey 173332: Verify that the user is not starting the string with a "-"
+                // before attempting to set the Value property since a "-" is a valid character with
+                // which to start a string representing a negative number.
+                if (!string.IsNullOrEmpty(Text) &&
+                    !(Text.Length == 1 && Text == "-"))
                 {
-                    Value = CovertFromEngineeringToValue(Text);
-                }
-                else if (Text.Contains(SpecialSymbols.DotSymbol))
-                {
-                    var parts1 = Text.Split(SpecialSymbols.DotSymbol);
-                    if (parts1.Length == 2)
-                    {
-                        if (parts1[1].Any(c => exponents.Contains(c)))
-                            Value = decimal.Parse(parts1[0], CultureInfo.InvariantCulture) *
-                                    CovertFromScientificToValue(parts1[1]);
-                        else
-                            Value = decimal.Parse(parts1[0], CultureInfo.InvariantCulture) *
-                                    decimal.Parse(parts1[1], CultureInfo.InvariantCulture);
-                    }
-                    else if (parts1.Length == 1 && parts1[0].Any(c => exponents.Contains(c)))
-                    {
-                        Value = CovertFromScientificToValue(parts1[0]);
-                    }
-                }
-                else
-                {
-                    Value = decimal.Parse(Text, CultureInfo.InvariantCulture);
+                    Value = Constrain(Text.FromMathString());
                 }
             }
-            //  catch (Exception ex)
+            catch
             {
-                //       base.ValidateEditText();
+                // Leave value as it is
+            }
+            finally
+            {
+                UserEdit = false;
             }
 
-            // See if the edit text parses to a valid decimal
-            
-
-
-            UserEdit = false;
             UpdateEditText();
         }
+
+
+
+        private decimal Constrain(double value)
+        {
+            Debug.Assert(Minimum <= Maximum,
+                         "minimum > maximum");
+
+            if (value < (double)Minimum)
+            {
+                return Minimum;
+            }
+
+            if (value > (double)Maximum)
+            {
+                return Maximum;
+            }
+
+            return (decimal)value;
+        }
+
+        private decimal Constrain(decimal value)
+        {
+
+            Debug.Assert(Minimum <= Maximum,
+                         "minimum > maximum");
+
+            if (value < Minimum)
+            {
+                value = Minimum;
+            }
+
+            if (value > Maximum)
+            {
+                value = Maximum;
+            }
+
+            return value;
+        }
+
 
         public override void UpButton()
         {
@@ -235,9 +235,9 @@ namespace Computator.NET.Controls
             else
             {
                 if (Value > 0)
-                    Value = ToInsideRange((double)Value * _multiplyFactor);
+                    Value = Constrain(Value * _multiplyFactor);
                 else if (Value < 0)
-                    Value = ToInsideRange((double)Value / _multiplyFactor);
+                    Value = Constrain(Value / _multiplyFactor);
 
                 //UpdateEditText();
             }
@@ -254,9 +254,9 @@ namespace Computator.NET.Controls
             else
             {
                 if (Value > 0)
-                    Value = ToInsideRange((double)Value / _multiplyFactor);
+                    Value = Constrain(Value / _multiplyFactor);
                 else if (Value < 0)
-                    Value = ToInsideRange((double)Value * _multiplyFactor);
+                    Value = Constrain(Value * _multiplyFactor);
                 //UpdateEditText();
             }
         }
@@ -264,56 +264,19 @@ namespace Computator.NET.Controls
 
         protected override void UpdateEditText() //basically it sets Text after Value was established
         {
-            Text = ((double)Value).ToMathString();
+            Text = Value.ToMathString();
         }
 
-        private string CovertToExponent(string v)
-        {
-            var sb = new StringBuilder(v);
 
-            for (var i = 0; i < sb.Length; i++)
-                for (var j = 0; j < exponents.Length; j++)
-                    if (sb[i] == toReplace[j])
-                        sb[i] = exponents[j];
-            return sb.ToString();
-        }
-
-        private char CovertToExponent(char v)
+        private char ConvertToExponent(char v)
         {
             // var sb = new StringBuilder(v);
 
             //for (var i = 0; i < sb.Length; i++)
-            for (var j = 0; j < exponents.Length; j++)
-                if (v == toReplace[j])
-                    return exponents[j];
+            for (var j = 0; j < Exponents.Length; j++)
+                if (v == ToReplace[j])
+                    return Exponents[j];
             return ' ';
-        }
-
-        private decimal CovertFromScientificToValue(string v)
-        {
-            var sb = new StringBuilder(v);
-
-            if (sb[0] == '1' && sb[1] == '0')
-            {
-                sb[1] = 'E';
-            }
-
-            for (var i = 0; i < sb.Length; i++)
-                for (var j = 0; j < exponents.Length; j++)
-                    if (sb[i] == exponents[j])
-                        sb[i] = toReplace[j];
-
-            return (decimal)double.Parse(sb.ToString(), CultureInfo.InvariantCulture);
-            //maybe decimal should parse this
-        }
-
-
-        private decimal CovertFromEngineeringToValue(string v)
-        {
-            var val = double.Parse(v, CultureInfo.InvariantCulture);
-
-
-            return ToInsideRange(val); //maybe decimal should parse this
         }
     }
 }

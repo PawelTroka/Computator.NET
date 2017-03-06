@@ -23,6 +23,7 @@ namespace Computator.NET.Core.Presenters
 
         private void OnValueChanged(object sender, System.EventArgs e)
         {
+            //TODO: move strings to resources and translate
             if (_view.XMax <= _view.XMin)
             {
                 _view.SetError(nameof(_view.XMax),"xN needs to be greater than x0");

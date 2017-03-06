@@ -6,6 +6,7 @@ namespace Computator.NET.DataTypes
     public static class SpecialSymbols
     {
         public const char DotSymbol = '·'; //U+00B7 · middle dot (HTML &#183; · &middot;).
+        public const string DotSymbolString = "·"; //U+00B7 · middle dot (HTML &#183; · &middot;).
         //alternatives:
         //public const char dotSymbol = '⋅';//U+22C5 ⋅ dot operator (HTML &#8901; · &sdot;
         //public const char dotSymbol = '∙';//U+2219 ∙ bullet operator (HTML &#8729;)
@@ -38,7 +39,7 @@ namespace Computator.NET.DataTypes
         public const string ParenthesisSuperscript = "⁽⁾";
         public const string OperatorsSuperscript = "⁺⁻˙˸⁼";
         public const string SuperscriptsWithoutSpace =
-            ParenthesisSuperscript+OperatorsSuperscript + DecimalSeparatorSuperscript + SuperscriptAlphabet + CommaSuperscript+ModulusSuperscript;
+            ParenthesisSuperscript + OperatorsSuperscript + DecimalSeparatorSuperscript + SuperscriptAlphabet + CommaSuperscript + ModulusSuperscript;
 
 
         public const string Superscripts = " " + SuperscriptsWithoutSpace;

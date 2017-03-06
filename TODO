@@ -81,7 +81,7 @@
 * enable data loading for charts
 * enable better usage of transformation and charts scaling for loaded points
 * enable transformations for chart2d, complexchart and chart3d
-* Chart2D setting XMax<XMin error handling
+* Chart2D setting XMax<XMin error handling refactoring
 
 
 ##I/O
@@ -104,3 +104,4 @@
 * add tests for presenters from MVP
 * add tests for commands
 * add evaluation integration tests
+* add tests for FromMathString() method

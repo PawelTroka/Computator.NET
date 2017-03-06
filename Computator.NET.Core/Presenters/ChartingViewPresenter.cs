@@ -20,7 +20,10 @@ namespace Computator.NET.Core.Presenters
         private readonly ISharedViewState _sharedViewState;
         private CalculationsMode _calculationsMode;
         private readonly ITextProvider _expressionTextProvider;
-        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState, IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider, ICodeEditorView customFunctionsEditor)
+
+        public ChartingViewPresenter(IChartingView view, IErrorHandler errorHandler, ISharedViewState sharedViewState,
+            IExceptionsHandler exceptionsHandler, ITextProvider expressionTextProvider,
+            ICodeEditorView customFunctionsEditor)
         {
             _view = view;
             _errorHandler = errorHandler;
@@ -56,10 +59,8 @@ namespace Computator.NET.Core.Presenters
             _view.ChartAreaValuesView.ClearClicked += ChartAreaValuesView1_ClearClicked;
 
             foreach (var chart in _view.Charts)
-            {
                 chart.Value.SetChartAreaValues(_view.ChartAreaValuesView.XMin, _view.ChartAreaValuesView.XMax,
                     _view.ChartAreaValuesView.YMin, _view.ChartAreaValuesView.YMax);
-            }
         }
 
         private IChart CurrentChart => _view.Charts[_calculationsMode];
@@ -74,86 +75,89 @@ namespace Computator.NET.Core.Presenters
             }
         }
 
-        private ICodeEditorView customFunctionsEditor;
+        private readonly ICodeEditorView customFunctionsEditor;
+
         private void ChartAreaValuesView1_AddClicked(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(_expressionTextProvider.Text))
             {
                 _errorHandler.DisplayError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
-    Strings.GUI_numericalOperationButton_Click_Warning_);
+                    Strings.GUI_numericalOperationButton_Click_Warning_);
                 return;
             }
 
-            if (!ChartAreaValuesValidator.IsValid(_view.ChartAreaValuesView.XMin, _view.ChartAreaValuesView.XMax,
-                _view.ChartAreaValuesView.YMin, _view.ChartAreaValuesView.YMax))
+            if (!AreChartValuesValid)
             {
-                _errorHandler.DisplayError("Min value needs to be less than Max value." + $"{Environment.NewLine}"+$"Check chart area values: x0, xN, y0, yN.",
-Strings.GUI_numericalOperationButton_Click_Warning_);
+                //TODO: move strings to resources and translate
+                _errorHandler.DisplayError(
+                    "Min value needs to be less than Max value." + $"{Environment.NewLine}" +
+                    $"Check chart area values: x0, xN, y0, yN.",
+                    Strings.GUI_numericalOperationButton_Click_Warning_);
                 return;
             }
-
-
-                try
-                {
-                    customFunctionsEditor.ClearHighlightedErrors();
-                    CurrentChart.AddFunction(_expressionsEvaluator.Evaluate(_expressionTextProvider.Text,
-                        customFunctionsEditor.Text,
-                        _calculationsMode));
-                }
-                catch (Exception ex)
-                {
-                    _exceptionsHandler.HandleException(ex);
-                }
-
+            try
+            {
+                customFunctionsEditor.ClearHighlightedErrors();
+                CurrentChart.AddFunction(_expressionsEvaluator.Evaluate(_expressionTextProvider.Text,
+                    customFunctionsEditor.Text,
+                    _calculationsMode));
+            }
+            catch (Exception ex)
+            {
+                _exceptionsHandler.HandleException(ex);
+            }
         }
 
-        private IExceptionsHandler _exceptionsHandler;
+        private bool AreChartValuesValid
+            => ChartAreaValuesValidator.IsValid(_view.ChartAreaValuesView.XMin, _view.ChartAreaValuesView.XMax,
+                _view.ChartAreaValuesView.YMin, _view.ChartAreaValuesView.YMax);
+
+        private readonly IExceptionsHandler _exceptionsHandler;
+
         private void ChartAreaValuesView1_ClearClicked(object sender, EventArgs e)
         {
             foreach (var chart in _view.Charts)
-            {
                 chart.Value.ClearAll();
-            }
         }
 
         private void ChartAreaValuesView_YMaxChanged(object sender, EventArgs e)
         {
+            if (!AreChartValuesValid)
+                return;
             foreach (var chart in _view.Charts)
-            {
                 chart.Value.YMax = _view.ChartAreaValuesView.YMax;
-            }
         }
 
         private void ChartAreaValuesView_YMinChanged(object sender, EventArgs e)
         {
+            if (!AreChartValuesValid)
+                return;
             foreach (var chart in _view.Charts)
-            {
                 chart.Value.YMin = _view.ChartAreaValuesView.YMin;
-            }
         }
 
         private void ChartAreaValuesView_XMaxChanged(object sender, EventArgs e)
         {
+            if (!AreChartValuesValid)
+                return;
             foreach (var chart in _view.Charts)
-            {
                 chart.Value.XMax = _view.ChartAreaValuesView.XMax;
-            }
         }
 
         private void ChartAreaValuesView_XMinChanged(object sender, EventArgs e)
         {
+            if (!AreChartValuesValid)
+                return;
             foreach (var chart in _view.Charts)
-            {
                 chart.Value.XMin = _view.ChartAreaValuesView.XMin;
-            }
         }
 
         private void ChartAreaValuesView_QualityChanged(object sender, EventArgs e)
         {
+            if (!AreChartValuesValid)
+                return;
             foreach (var chart in _view.Charts)
-            {
                 chart.Value.Quality = _view.ChartAreaValuesView.Quality;
-            }
         }
     }
 }

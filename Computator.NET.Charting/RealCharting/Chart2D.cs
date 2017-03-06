@@ -723,8 +723,15 @@ namespace Computator.NET.Charting.RealCharting
         {
             Series.Clear();
 
-            double dx = Math.Abs(XMin - XMax)/N, dy = Math.Abs(YMin - YMax)/N;
-            ;
+            double dx = (XMax - XMin) / N;
+            double dy = (YMax - YMin) / N;
+
+            if (dx <= 0 || dy <= 0)
+            {
+                //TODO: Log
+                return;
+            }
+
             TOLERANCE = dx + dy;
 
             foreach (var fx in functions)
@@ -782,8 +789,14 @@ namespace Computator.NET.Charting.RealCharting
 
         private void _addNewFunction()
         {
-            double dx = Math.Abs(XMin - XMax)/N, dy = Math.Abs(YMin - YMax)/N;
-            ;
+            double dx =  (XMax- XMin )/ N, dy = (YMax - YMin) /N;
+
+            if (dx <= 0 || dy <= 0)
+            {
+                //todo: log
+                return;
+            }
+
             TOLERANCE = dx + dy;
 
             var series = new Series
