@@ -34,7 +34,7 @@ namespace Computator.NET.IntegrationTests
         public void Setup()
         {
             _messegingServiceMock.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
-            GSLInitializer.Initialize(null);
+            GSLInitializer.Initialize();
         }
 
         [SetUp]

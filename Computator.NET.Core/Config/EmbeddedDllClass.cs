@@ -123,23 +123,5 @@ namespace Computator.NET.Core.Config
             if (!File.Exists(dllPath))
                 throw new FileNotFoundException($"Couldn't write to file {dllPath}.", dllPath);
         }
-
-        /// <summary>
-        ///     managed wrapper around LoadLibrary
-        /// </summary>
-        /// <param name="dllName"></param>
-        public static void LoadDll(string dllName)
-        {
-            if (tempFolder == "")
-            {
-                throw new Exception("Please call ExtractEmbeddedDlls before LoadDll");
-            }
-            var h = NativeMethods.LoadLibrary(dllName);
-            if (h == IntPtr.Zero)
-            {
-                Exception e = new Win32Exception();
-                throw new DllNotFoundException("Unable to load library: " + dllName + " from " + tempFolder, e);
-            }
-        }
     }
 }

@@ -44,7 +44,7 @@ namespace Computator.NET
             Application.EnableVisualStyles();
             LoadingScreen.ShowSplashScreen();
 
-            GSLInitializer.Initialize(new MessagingService());
+            GSLInitializer.Initialize();
 
             Application.SetCompatibleTextRenderingDefault(false);
 

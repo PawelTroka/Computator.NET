@@ -11,8 +11,7 @@ namespace Computator.NET.Tests.InitializationTests
         [Test]
         public void InitializationShouldNotThrow()
         {
-            var messengingServiceMock = new Mock<IMessagingService>();
-            Assert.DoesNotThrow(() => GSLInitializer.Initialize(messengingServiceMock.Object));
+            Assert.DoesNotThrow(GSLInitializer.Initialize);
         }
 
         [Test]
@@ -21,7 +20,7 @@ namespace Computator.NET.Tests.InitializationTests
             var messengingServiceMock = new Mock<IMessagingService>();
             messengingServiceMock.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
 
-            GSLInitializer.Initialize(messengingServiceMock.Object);
+            GSLInitializer.Initialize();
 
             messengingServiceMock.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>()),Times.Never);
         }
@@ -29,9 +28,7 @@ namespace Computator.NET.Tests.InitializationTests
         [Test]
         public void AfterInitializationCallToGslMethodShouldNotThrow()
         {
-            var messengingServiceMock = new Mock<IMessagingService>();
-
-            GSLInitializer.Initialize(messengingServiceMock.Object);
+            GSLInitializer.Initialize();
 
             Assert.DoesNotThrow(() => NativeMethods.gsl_set_error_handler_off());
         }
@@ -39,9 +36,7 @@ namespace Computator.NET.Tests.InitializationTests
         [Test]
         public void AfterInitializationCallToGslSpecialFunctionShouldNotThrow()
         {
-            var messengingServiceMock = new Mock<IMessagingService>();
-
-            GSLInitializer.Initialize(messengingServiceMock.Object);
+            GSLInitializer.Initialize();
 
             var x = double.MinValue;
 

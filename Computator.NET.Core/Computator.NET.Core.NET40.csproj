@@ -148,6 +148,15 @@
     </Content>
     <None Include="Special\windows-x64\gsl.dll" />
     <None Include="Special\windows-x86\gsl.dll" />
+    <Content Include="*.so*" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="*.dylib*" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="*.dll*" Condition=" '$(OS)' != 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.NET40.csproj">

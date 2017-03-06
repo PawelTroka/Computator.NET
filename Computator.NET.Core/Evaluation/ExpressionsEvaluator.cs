@@ -80,6 +80,8 @@ namespace Computator.NET.Core.Evaluation
         public ExpressionsEvaluator()
         {
             NativeCompiler = new NativeCompiler();
+            NativeCompiler.AddDll(PathUtility.GetFullPath("Computator.NET.DataTypes.dll"));
+
             _tslCompiler = new TslCompiler();
             Logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
             AdditionalObjectsCode = "";

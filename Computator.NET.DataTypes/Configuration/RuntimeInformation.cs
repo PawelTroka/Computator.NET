@@ -20,5 +20,9 @@ namespace Computator.NET.DataTypes
         public static bool IsMacOS => Environment.OSVersion.Platform == PlatformID.MacOSX;
         public static bool IsLinux => IsUnix && !IsMacOS;
         public static bool IsWindows => !IsUnix;
+
+        public static bool Is64Bit => Environment.Is64BitProcess && IntPtr.Size == 8;
+        public static bool Is32Bit => !Environment.Is64BitProcess && IntPtr.Size == 4;
+
     }
 }

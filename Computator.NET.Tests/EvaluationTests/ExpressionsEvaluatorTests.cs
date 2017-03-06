@@ -27,7 +27,7 @@ namespace Computator.NET.Tests.EvaluationTests
         public void Init()
         {
             _expressionsEvaluator = new ExpressionsEvaluator();
-            GSLInitializer.Initialize(new Mock<IMessagingService>().Object);
+            GSLInitializer.Initialize();
         }
 
         [TestCase("cos(x)", 321e1 - 123.21321)]

@@ -10,7 +10,6 @@ namespace Computator.NET.Core.Natives
     [SuppressUnmanagedCodeSecurity]
     public class NativeMethods
     {
-        private const string GslDllName="gsl.dll";
         // ReSharper disable InconsistentNaming
         public enum MapType : uint
         {
@@ -19,26 +18,7 @@ namespace Computator.NET.Core.Natives
             MAPVK_VK_TO_CHAR = 0x2,
             MAPVK_VSC_TO_VK_EX = 0x3
         }
-
-        // ReSharper restore InconsistentNaming
-        //    [DllImport("kernel32", SetLastError = true,
-        //      CharSet = CharSet.Unicode)]
-        //public static extern IntPtr LoadLibrary(string lpFileName);
-
-
-        [DllImport("kernel32.dll", EntryPoint = "LoadLibraryW", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern IntPtr LoadLibrary(string lpFileName);
-
-        [DllImport("libdl.so")]
-        public static extern IntPtr dlopen(string filename, int flags);
-
-        public static class RTLD
-        {
-            public const int RTLD_NOW = 2; // for dlopen's flags
-            public const int RTLD_GLOBAL = 8;
-        }
-
-
+        
 
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -94,11 +74,11 @@ namespace Computator.NET.Core.Natives
         [DllImport("user32.dll")]
         public static extern bool ShowCaret(IntPtr hWnd);
 
-        [DllImport(GslDllName,
+        [DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr gsl_set_error_handler_off();
 
-        [DllImport(GslDllName,
+        [DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern gsl_error_handler_t gsl_set_error_handler(gsl_error_handler_t new_handler);
     }

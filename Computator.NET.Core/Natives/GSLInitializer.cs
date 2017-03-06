@@ -16,40 +16,46 @@ namespace Computator.NET.Core.Natives
 
         private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = nameof(GSLInitializer)};
 
-        public static void Initialize(IMessagingService messagingService)
+        public static void Initialize()
         {
             UnmanagedHandler = HandleUnmanagedException;
 
-
-            byte[] gsl;
-
-            if (Environment.Is64BitProcess && IntPtr.Size == 8)
-                gsl = RuntimeInformation.IsUnix
-                    ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_amd64 : Resources.libgsl_amd64)
-                    : Resources.gsl_x64;
-            else if (!Environment.Is64BitProcess && IntPtr.Size == 4)
-                gsl = RuntimeInformation.IsUnix
-                    ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_i686 : Resources.libgsl_i686)
-                    : Resources.gsl_x86;
-            else
-                throw new PlatformNotSupportedException("Inconsistent operating system. Handles only 32 and 64 bit OS.");
-
-            var cblas = Environment.Is64BitProcess
-                ? (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_amd64 : Resources.libgslcblas_amd64)
-                : (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686);
-
-            try
+            if (!RuntimeInformation.IsUnix)
             {
+                //for now we have decided to only copy gsl libs from resources to PATH/LD_LIBRARY_PATH/DYLD_LIBRARY_PATH in case of Windows
+                //this is because on Mono/Unix we can use DllMap functionality which allows us to specify different names for each system and architecture
+                //so on Mono/Unix we are just copying each gsl lib for platform dependent name to output dir so it can be easily called thanks to dllmap being platform specific
+                //see issues #30 and #25 for more information
 
-                EmbeddedDllClass.ExtractEmbeddedDlls(GslConfig.GslDllName, gsl);
+                byte[] gsl;
 
-                
+                if (RuntimeInformation.Is64Bit)
+                    gsl = RuntimeInformation.IsUnix
+                        ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_amd64 : Resources.libgsl_amd64)
+                        : Resources.gsl_x64;
+                else if (RuntimeInformation.Is32Bit)
+                    gsl = RuntimeInformation.IsUnix
+                        ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_i686 : Resources.libgsl_i686)
+                        : Resources.gsl_x86;
+                else
+                    throw new PlatformNotSupportedException(
+                        "Inconsistent operating system. Handles only 32 and 64 bit OS.");
+
+
+                EmbeddedDllClass.ExtractEmbeddedDlls(GslConfig.GslLibraryName, gsl);
+
+
                 if (RuntimeInformation.IsUnix)
                 {
-                    EmbeddedDllClass.ExtractEmbeddedDlls(GslConfig.GslCblasDllName, cblas);
+                    EmbeddedDllClass.ExtractEmbeddedDlls(GslConfig.CblasLibraryName,
+                        RuntimeInformation.Is64Bit
+                            ? (RuntimeInformation.IsMacOS
+                                ? Resources.libgslcblas_osx_amd64
+                                : Resources.libgslcblas_amd64)
+                            : (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686));
                 }
-
-                switch (Settings.Default.CalculationsErrors)
+            }
+            switch (Settings.Default.CalculationsErrors)
                 {
                     case CalculationsErrors.ReturnNAN:
                         NativeMethods.gsl_set_error_handler_off();
@@ -58,51 +64,8 @@ namespace Computator.NET.Core.Natives
                         NativeMethods.gsl_set_error_handler(UnmanagedHandler);
                         break;
                 }
-            }
-            catch (Exception exception)
-            {
-                logger.Log("ExtractEmbeddedDlls failed", ErrorType.General, exception);
-                try
-                {
-
-                    var gslTempPath = Path.Combine(Path.GetTempPath(), GslConfig.GslDllName);
-
-                    File.WriteAllBytes(gslTempPath, gsl);
-
-                    if (RuntimeInformation.IsUnix)
-                    {
-                        var cblasTempPath = Path.Combine(Path.GetTempPath(), GslConfig.GslCblasDllName);
-                        File.WriteAllBytes(cblasTempPath, cblas);
-
-                        var h1 = NativeMethods.dlopen(cblasTempPath, NativeMethods.RTLD.RTLD_GLOBAL);
-                        if (h1 == IntPtr.Zero)
-                        {
-                            throw new Win32Exception(
-                                $"{Strings.GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths} '{cblasTempPath}'{Environment.NewLine}.",
-                                new Win32Exception()); // Calls GetLastError   
-                        }
-                    }
-                    
-                    var h2 = RuntimeInformation.IsUnix ? NativeMethods.dlopen(gslTempPath, NativeMethods.RTLD.RTLD_GLOBAL) : NativeMethods.LoadLibrary(gslTempPath);
-
-                    if (h2 == IntPtr.Zero)
-                    {
-                        throw new Win32Exception(
-                            $"{Strings.GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths} '{gslTempPath}'{Environment.NewLine}.",
-                            new Win32Exception()); // Calls GetLastError                       
-                    }
-
-                    NativeMethods.gsl_set_error_handler(UnmanagedHandler);
-                }
-                catch (Exception exception2)
-                {
-                    var funcName = RuntimeInformation.IsUnix ? "dlopen" : "LoadLibrary";
-                    logger.Log($"{funcName} failed", ErrorType.General, exception2);
-                    messagingService.Show(
-                        $"{Strings.Program_Main_Exception_during_startup}.{Environment.NewLine}ExtractEmbeddedDlls {Strings.Exception}:{Environment.NewLine}{exception}{Environment.NewLine}{funcName} {Strings.Exception}:{Environment.NewLine}{exception2}",
-                        Strings.Error);
-                }
-            }
+            
+            
         }
 
         private static void HandleUnmanagedException(string reason,

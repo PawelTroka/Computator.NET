@@ -214,7 +214,7 @@ namespace Computator.NET.Core.Functions
         }
         */
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
             out gsl_sf_result arg);
@@ -252,11 +252,11 @@ namespace Computator.NET.Core.Functions
             return Meta.Numerics.Functions.AdvancedMath.Gamma(a, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gamma_inc_Q(double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gamma_inc_P(double a, double x);
 
@@ -289,7 +289,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_beta_inc(x, a, b);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_beta_inc(double a, double b, double x);
 
@@ -314,7 +314,7 @@ namespace Computator.NET.Core.Functions
             return Meta.Numerics.Functions.AdvancedMath.Beta(a, b);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lnbeta(double a, double b);
 
@@ -335,11 +335,11 @@ namespace Computator.NET.Core.Functions
 
         #region coefficients and special values
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_poch(double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_pochrel(double a, double x);
 
@@ -422,7 +422,7 @@ namespace Computator.NET.Core.Functions
             return Meta.Numerics.Functions.AdvancedMath.CoulombF(L, η, ρ);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_coulomb_CL_e(double L, double eta, out gsl_sf_result result);
 
@@ -434,7 +434,7 @@ namespace Computator.NET.Core.Functions
             return sfResult.val;
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hydrogenicR(int n, int l, double Z, double r);
 
@@ -464,7 +464,7 @@ namespace Computator.NET.Core.Functions
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_coulomb_wave_FG_e(double eta, double x,
             double lam_F,
@@ -503,27 +503,27 @@ namespace Computator.NET.Core.Functions
 
         #region Fermi–Dirac complete&incomplete integral
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_int(int j, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_inc_0(double x, double b);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_0(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_mhalf(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_half(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_3half(double x);
 
@@ -575,11 +575,11 @@ namespace Computator.NET.Core.Functions
             return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lambert_W0(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lambert_Wm1(double x);
 
@@ -604,19 +604,19 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_gegenpoly_3(α, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_n(int n, double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_1(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_2(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_3(double lambda, double x);
 
@@ -627,19 +627,19 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_gegenpoly_n(n, α, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_n(int n, double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_1(double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_2(double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_3(double a, double x);
 
@@ -676,7 +676,7 @@ namespace Computator.NET.Core.Functions
         //add legendre Q
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_Ql(int l, double x);
 
@@ -688,7 +688,7 @@ namespace Computator.NET.Core.Functions
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_sphPlm(int l, int m, double x);
 
@@ -703,19 +703,19 @@ namespace Computator.NET.Core.Functions
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_half(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_mhalf(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_0(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_1(double lambda, double x);
 
@@ -750,11 +750,11 @@ namespace Computator.NET.Core.Functions
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_sph_reg(int l, double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_cyl_reg(int m, double lambda, double x);
 
@@ -770,7 +770,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_conicalP_cyl_reg(m, λ, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_H3d(int l, double lambda, double eta);
 
@@ -822,19 +822,19 @@ namespace Computator.NET.Core.Functions
 
         #region transport functions
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_2(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_3(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_4(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_5(double x);
 
@@ -869,11 +869,11 @@ namespace Computator.NET.Core.Functions
             return (x < 0) ? double.NaN : gsl_sf_synchrotron_2(x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_synchrotron_1(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_synchrotron_2(double x);
 
@@ -881,23 +881,23 @@ namespace Computator.NET.Core.Functions
 
         #region coupling 3,6,9-j symbols
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_3j(int two_ja, int two_jb, int two_jc,
             int two_ma, int two_mb, int two_mc);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_6j(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_RacahW(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_9j(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf,
@@ -1015,7 +1015,7 @@ namespace Computator.NET.Core.Functions
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedMath.SphericalHarmonic(l, m, θ, φ));
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_0F1(double c, double x);
 
@@ -1026,7 +1026,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_hyperg_0F1(c, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_1F1_int(int m, int n, double x);
 
@@ -1037,7 +1037,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_hyperg_1F1_int(m, n, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_1F1(double a, double b, double x);
 
@@ -1048,7 +1048,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_hyperg_1F1(a, b, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_U_int(int m, int n, double x);
 
@@ -1065,12 +1065,12 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_hyperg_U(a, b, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_U(double a, double b, double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1(double a, double b, double c, double x);
 
@@ -1081,7 +1081,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_hyperg_2F1(a, b, c, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_conj(double aR, double aI, double c, double x);
 
@@ -1092,7 +1092,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_hyperg_2F1_conj(a.Real, a.Imaginary, c, x);
         } //TODO: better name for a parameter
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_renorm(double a, double b, double c, double x);
 
@@ -1103,7 +1103,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_hyperg_2F1_renorm(a, b, c, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_conj_renorm(double aR, double aI, double c, double x);
 
@@ -1114,7 +1114,7 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_hyperg_2F1_conj_renorm(a.Real, a.Imaginary, c, x);
         } //TODO: better name for a parameter
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F0(double a, double b, double x);
 
@@ -1246,27 +1246,27 @@ namespace Computator.NET.Core.Functions
            return Meta.Numerics.Functions.AdvancedMath.FresnelC(x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_1(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_2(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_3(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_4(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_5(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_6(double x);
 
@@ -1310,7 +1310,7 @@ namespace Computator.NET.Core.Functions
          *   Cl_2(theta) = Im[ Li_2(e^(i theta)) ]
          */
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_clausen(double x);
 
@@ -1321,26 +1321,26 @@ namespace Computator.NET.Core.Functions
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_expint_En(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_expint_Ei(double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_Shi(double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_Chi(double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_atanint(double x);
 
@@ -1448,52 +1448,52 @@ namespace Computator.NET.Core.Functions
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Ecomp(double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Kcomp(double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Pcomp(double k, double n, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Dcomp(double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_F(double phi, double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_E(double phi, double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_P(double phi, double k, double n, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         //private static extern double gsl_sf_ellint_D(double phi, double k, double n, uint mode);
         private static extern double gsl_sf_ellint_D(double phi, double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RC(double x, double y, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RD(double x, double y, double z, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RF(double x, double y, double z, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RJ(double x, double y, double z, double p, uint mode);
 
@@ -1501,7 +1501,7 @@ namespace Computator.NET.Core.Functions
 
         #region  Jacobian elliptic functions
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_elljac_e(double u, double m, out double sn, out double cn, out double dn);
 
@@ -1627,19 +1627,19 @@ namespace Computator.NET.Core.Functions
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Faddeeva(cmplxToMeta(z)));
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_log_erfc(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_erf_Z(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_erf_Q(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hazard(double x);
 
@@ -1836,36 +1836,36 @@ namespace Computator.NET.Core.Functions
             return (x <= 0.0 || ν < 0) ? double.NaN : gsl_sf_bessel_lnKnu(ν, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Jnu(double nu, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Ynu(double nu, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_In(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Kn(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_il_scaled(int l, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_kl_scaled(int l, double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_lnKnu(double nu, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_zero_Jnu(double nu, uint s);
 
@@ -1962,27 +1962,27 @@ namespace Computator.NET.Core.Functions
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_Ai_deriv(double x, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_Bi_deriv(double x, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Ai(uint s);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Bi(uint s);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Ai_deriv(uint s);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Bi_deriv(uint s);
 
@@ -2046,7 +2046,7 @@ namespace Computator.NET.Core.Functions
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hzeta(double s, double q);
 
@@ -2066,34 +2066,34 @@ namespace Computator.NET.Core.Functions
 
         #region mathieu functions
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_a(int order, double qq);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
     CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_b(int order, double qq);
 
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
 CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_ce(int order, double qq, double zz);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
 CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_se(int order, double qq, double zz);
 
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
 CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_Mc(int kind, int order, double qq, double zz);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
 CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_Ms(int kind, int order, double qq, double zz);
 
@@ -2173,8 +2173,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         #endregion
 
         #region utils
-
-        private const string gslSfLibDir = "gsl.dll";
+        
 
         private static gsl_sf_result sfResult;
 
@@ -2471,7 +2470,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
         */
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
             out gsl_sf_result arg);
@@ -2509,11 +2508,11 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return Meta.Numerics.Functions.AdvancedMath.Gamma(a, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gamma_inc_Q(double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gamma_inc_P(double a, double x);
 
@@ -2546,7 +2545,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_beta_inc(x, a, b);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_beta_inc(double a, double b, double x);
 
@@ -2571,7 +2570,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return Meta.Numerics.Functions.AdvancedMath.Beta(a, b);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lnbeta(double a, double b);
 
@@ -2592,11 +2591,11 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #region coefficients and special values
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_poch(double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_pochrel(double a, double x);
 
@@ -2679,7 +2678,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return Meta.Numerics.Functions.AdvancedMath.CoulombF(L, η, ρ);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_coulomb_CL_e(double L, double eta, out gsl_sf_result result);
 
@@ -2691,7 +2690,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return sfResult.val;
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hydrogenicR(int n, int l, double Z, double r);
 
@@ -2721,7 +2720,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_coulomb_wave_FG_e(double eta, double x,
             double lam_F,
@@ -2760,27 +2759,27 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #region Fermi–Dirac complete&incomplete integral
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_int(int j, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_inc_0(double x, double b);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_0(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_mhalf(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_half(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_fermi_dirac_3half(double x);
 
@@ -2832,11 +2831,11 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return (x <= -1/System.Math.E) ? double.NaN : gsl_sf_lambert_Wm1(x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lambert_W0(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_lambert_Wm1(double x);
 
@@ -2861,19 +2860,19 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_gegenpoly_3(α, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_n(int n, double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_1(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_2(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_gegenpoly_3(double lambda, double x);
 
@@ -2884,19 +2883,19 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_gegenpoly_n(n, α, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_n(int n, double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_1(double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_2(double a, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_laguerre_3(double a, double x);
 
@@ -2933,7 +2932,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         //add legendre Q
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_Ql(int l, double x);
 
@@ -2945,7 +2944,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_sphPlm(int l, int m, double x);
 
@@ -2960,19 +2959,19 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_half(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_mhalf(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_0(double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_1(double lambda, double x);
 
@@ -3007,11 +3006,11 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_sph_reg(int l, double lambda, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_conicalP_cyl_reg(int m, double lambda, double x);
 
@@ -3027,7 +3026,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_conicalP_cyl_reg(m, λ, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_legendre_H3d(int l, double lambda, double eta);
 
@@ -3079,19 +3078,19 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #region transport functions
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_2(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_3(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_4(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_transport_5(double x);
 
@@ -3126,11 +3125,11 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return (x < 0) ? double.NaN : gsl_sf_synchrotron_2(x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_synchrotron_1(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_synchrotron_2(double x);
 
@@ -3138,23 +3137,23 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #region coupling 3,6,9-j symbols
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_3j(int two_ja, int two_jb, int two_jc,
             int two_ma, int two_mb, int two_mc);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_6j(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_RacahW(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_coupling_9j(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf,
@@ -3273,7 +3272,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedMath.SphericalHarmonic(l, m, θ, φ));
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_0F1(double c, double x);
 
@@ -3284,7 +3283,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_hyperg_0F1(c, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_1F1_int(int m, int n, double x);
 
@@ -3295,7 +3294,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_hyperg_1F1_int(m, n, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_1F1(double a, double b, double x);
 
@@ -3306,7 +3305,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_hyperg_1F1(a, b, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_U_int(int m, int n, double x);
 
@@ -3323,12 +3322,12 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_hyperg_U(a, b, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_U(double a, double b, double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1(double a, double b, double c, double x);
 
@@ -3339,7 +3338,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_hyperg_2F1(a, b, c, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_conj(double aR, double aI, double c, double x);
 
@@ -3350,7 +3349,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_hyperg_2F1_conj(a.Real, a.Imaginary, c, x);
         } //TODO: better name for a parameter
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_renorm(double a, double b, double c, double x);
 
@@ -3361,7 +3360,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_hyperg_2F1_renorm(a, b, c, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F1_conj_renorm(double aR, double aI, double c, double x);
 
@@ -3372,7 +3371,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return gsl_sf_hyperg_2F1_conj_renorm(a.Real, a.Imaginary, c, x);
         } //TODO: better name for a parameter
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hyperg_2F0(double a, double b, double x);
 
@@ -3507,27 +3506,27 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
            return Meta.Numerics.Functions.AdvancedMath.FresnelC(x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_1(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_2(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_3(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_4(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_5(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_debye_6(double x);
 
@@ -3571,7 +3570,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
          *   Cl_2(theta) = Im[ Li_2(e^(i theta)) ]
          */
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_clausen(double x);
 
@@ -3582,26 +3581,26 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_expint_En(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_expint_Ei(double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_Shi(double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_Chi(double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_atanint(double x);
 
@@ -3710,52 +3709,52 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Ecomp(double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Kcomp(double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Pcomp(double k, double n, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_D(double phi, double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_F(double phi, double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_E(double phi, double k, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_P(double phi, double k, double n, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_Dcomp(double k, uint mode);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RC(double x, double y, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RD(double x, double y, double z, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RF(double x, double y, double z, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_ellint_RJ(double x, double y, double z, double p, uint mode);
 
@@ -3763,7 +3762,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #region  Jacobian elliptic functions
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_elljac_e(double u, double m, out double sn, out double cn, out double dn);
 
@@ -3889,19 +3888,19 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Faddeeva(cmplxToMeta(z)));
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_log_erfc(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_erf_Z(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_erf_Q(double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hazard(double x);
 
@@ -4098,36 +4097,36 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return (x <= 0.0 || ν < 0) ? double.NaN : gsl_sf_bessel_lnKnu(ν, x);
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Jnu(double nu, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Ynu(double nu, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_In(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_Kn(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_il_scaled(int l, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_kl_scaled(int l, double x);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_lnKnu(double nu, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_bessel_zero_Jnu(double nu, uint s);
 
@@ -4224,27 +4223,27 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_Ai_deriv(double x, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_Bi_deriv(double x, uint mode);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Ai(uint s);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Bi(uint s);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Ai_deriv(uint s);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_airy_zero_Bi_deriv(uint s);
 
@@ -4308,7 +4307,7 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.RiemannZeta(cmplxToMeta(z)));
         }
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_hzeta(double s, double q);
 
@@ -4328,34 +4327,34 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
              #region mathieu functions
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_a(int order, double qq);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
     CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_b(int order, double qq);
 
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
 CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_ce(int order, double qq, double zz);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
 CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_se(int order, double qq, double zz);
 
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
 CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_Mc(int kind, int order, double qq, double zz);
 
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
 CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_mathieu_Ms(int kind, int order, double qq, double zz);
 
@@ -4437,7 +4436,6 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
         #region utils
 
-        private const string gslSfLibDir = ""gsl.dll"";
         private static gsl_sf_result sfResult;
 
         private static System.Exception gslExceptions(int error_code)

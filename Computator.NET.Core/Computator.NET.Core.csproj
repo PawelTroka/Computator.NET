@@ -275,6 +275,30 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="libgsl.dylib" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libgsl.so" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libgsl64.dylib" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libgsl64.so" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libgslcblas.dylib" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libgslcblas.so" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libgslcblas64.dylib" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libgslcblas64.so" Condition=" '$(OS)' == 'Unix' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.Computator.NET.Core.config">
       <SubType>Designer</SubType>
     </None>

@@ -1075,15 +1075,15 @@ namespace Computator.NET.Core.Functions
 
         #region coefficients and special values
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_taylorcoeff(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_doublefact(uint n);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_choose(uint n, uint m);
 
@@ -1136,12 +1136,7 @@ namespace Computator.NET.Core.Functions
         }
 
         #endregion
-
-        #region utils
-
-        private const string gslSfLibDir2 = "gsl.dll";
-
-        #endregion
+        
 
         public const string ToCode =
             @"
@@ -2202,15 +2197,15 @@ namespace Computator.NET.Core.Functions
 
         #region coefficients and special values
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_taylorcoeff(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_doublefact(uint n);
 
-        [System.Runtime.InteropServices.DllImport(gslSfLibDir2,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_choose(uint n, uint m);
 
@@ -2275,13 +2270,6 @@ namespace Computator.NET.Core.Functions
         }
 
         #endregion
-
-        #region utils
-
-        private const string gslSfLibDir2 = ""gsl.dll"";
-
-        #endregion
-
 ";
     }
 }

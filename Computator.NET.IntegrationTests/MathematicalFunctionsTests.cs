@@ -27,7 +27,7 @@ namespace Computator.NET.IntegrationTests
         {
             C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
             Settings.Default.CalculationsErrors = CalculationsErrors.ReturnNAN;
-            GSLInitializer.Initialize(new Mock<IMessagingService>().Object);
+            GSLInitializer.Initialize();
         }
 
         private const int stepsSmall = 25;

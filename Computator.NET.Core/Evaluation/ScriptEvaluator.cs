@@ -38,7 +38,6 @@ namespace Computator.NET.Core.Evaluation
             ";
 
             NativeCompiler.AddDll(PathUtility.GetFullPath("Computator.NET.Charting.dll"));
-            NativeCompiler.AddDll(PathUtility.GetFullPath("Computator.NET.DataTypes.dll"));
             /////////////////////////
             NativeCompiler.AddDll("System.Drawing.dll");
 
