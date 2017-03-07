@@ -86,6 +86,11 @@ namespace Computator.NET.Core.Compilation
 
         public Assembly Compile(string input)
         {
+            if (RuntimeInformation.IsUnix)
+            {
+                //fix for #39 - otherwise in Mono CSharpCodeProvider will always return the same assembly
+                parameters.OutputAssembly = Guid.NewGuid().ToString();
+            }
             var results = CompileAssemblyFromSource(parameters, input);
 
             if (results.Errors.HasErrors)
