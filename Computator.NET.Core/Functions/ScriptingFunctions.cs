@@ -2,8 +2,9 @@
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 
+using Computator.NET.Core.Evaluation;
 
-using Computator.NET.Core.Evaluation;//we have to use this
+//we have to use this
 
 // ReSharper disable LocalizableElement
 
@@ -174,35 +175,38 @@ namespace Computator.NET.Core.Functions
 
         private static string objectToString(object o)
         {
-            //complex matrix
-
-            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.Matrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.Matrix).ToTypeString(),
-                    System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.Matrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
-                        maxWidth, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
-            //complex vector
-            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.Vector))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.Vector).ToTypeString(),
-                    System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.Vector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
-                        System.Environment.NewLine,
-                        z => (z).ToMathString()));
-
             //real matrix
-            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.Matrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.Matrix).ToTypeString(),
+            var realMatrix = o as MathNet.Numerics.LinearAlgebra.Matrix<double>;
+            if (realMatrix != null)
+                return string.Concat(realMatrix.ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.Matrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                    realMatrix.ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
                         maxWidth, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
 
             //real vector
-            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.Vector))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.Vector).ToTypeString(),
+            var realVector = o as MathNet.Numerics.LinearAlgebra.Vector<double>;
+            if (realVector != null)
+                return string.Concat(realVector.ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.Vector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
+                    realVector.ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
                         System.Environment.NewLine,
                         z => z.ToMathString()));
+
+            //complex matrix
+            var complexMatrix = o as MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
+            if (complexMatrix != null)
+                return string.Concat(complexMatrix.ToTypeString(),
+                    System.Environment.NewLine,
+                    complexMatrix.ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                        maxWidth, "..", "..", "..", "  ", System.Environment.NewLine, z => z.ToMathString()));
+            //complex vector
+            var complexVector = o as MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
+            if (complexVector != null)
+                return string.Concat(complexVector.ToTypeString(),
+                    System.Environment.NewLine,
+                    complexVector.ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "..", "  ",
+                        System.Environment.NewLine,
+                        z => (z).ToMathString()));
 
 
             if (o is System.Numerics.Complex)
@@ -571,35 +575,38 @@ double YMax = 5, double quality = 0.5)
 
         private static string objectToString(object o)
         {
-            //complex matrix
-
-            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.Matrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.Matrix).ToTypeString(),
-                    System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.Matrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
-                        maxWidth, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
-            //complex vector
-            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Complex.Vector))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Complex.Vector).ToTypeString(),
-                    System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Complex.Vector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
-                        System.Environment.NewLine,
-                        z => (z).ToMathString()));
-
             //real matrix
-            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.Matrix))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.Matrix).ToTypeString(),
+            var realMatrix = o as MathNet.Numerics.LinearAlgebra.Matrix<double>;
+            if (realMatrix != null)
+                return string.Concat(realMatrix.ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.Matrix).ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                    realMatrix.ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
                         maxWidth, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
 
             //real vector
-            if (o.GetType() == typeof(MathNet.Numerics.LinearAlgebra.Double.Vector))
-                return string.Concat((o as MathNet.Numerics.LinearAlgebra.Double.Vector).ToTypeString(),
+            var realVector = o as MathNet.Numerics.LinearAlgebra.Vector<double>;
+            if (realVector != null)
+                return string.Concat(realVector.ToTypeString(),
                     System.Environment.NewLine,
-                    (o as MathNet.Numerics.LinearAlgebra.Double.Vector).ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
+                    realVector.ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
                         System.Environment.NewLine,
                         z => z.ToMathString()));
+
+            //complex matrix
+            var complexMatrix = o as MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>;
+            if (complexMatrix != null)
+                return string.Concat(complexMatrix.ToTypeString(),
+                    System.Environment.NewLine,
+                    complexMatrix.ToMatrixString(maxPerColumnOrRow - maxWidth, maxWidth, maxPerColumnOrRow - maxWidth,
+                        maxWidth, "".."", "".."", "".."", ""  "", System.Environment.NewLine, z => z.ToMathString()));
+            //complex vector
+            var complexVector = o as MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex>;
+            if (complexVector != null)
+                return string.Concat(complexVector.ToTypeString(),
+                    System.Environment.NewLine,
+                    complexVector.ToVectorString(maxPerColumnOrRow - maxWidth, maxWidth, "".."", ""  "",
+                        System.Environment.NewLine,
+                        z => (z).ToMathString()));
 
 
             if (o is System.Numerics.Complex)
