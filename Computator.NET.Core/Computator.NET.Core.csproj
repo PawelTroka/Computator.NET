@@ -120,7 +120,6 @@
     <Compile Include="Compilation\TslHandlers\RefOutHandler.cs" />
     <Compile Include="Compilation\TslHandlers\SpecialSymbolsHandler.cs" />
     <Compile Include="Compilation\TSLCompiler.cs" />
-    <Compile Include="Config\EmbeddedDllClass.cs" />
     <Compile Include="Constants\MathematicalConstants.cs" />
     <Compile Include="Constants\PhysicalConstants.cs" />
     <Compile Include="Autocompletion\AutocompletionData.cs" />

@@ -1,8 +1,6 @@
 using System;
-using System.ComponentModel;
 using System.IO;
-using Computator.NET.Core.Abstract.Services;
-using Computator.NET.Core.Config;
+using System.Linq;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
@@ -14,11 +12,16 @@ namespace Computator.NET.Core.Natives
     {
         private static gsl_error_handler_t UnmanagedHandler;
 
-        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = nameof(GSLInitializer)};
+        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(AppInformation.Name)
+        {
+            ClassName = nameof(GSLInitializer)
+        };
 
         public static void Initialize()
         {
             UnmanagedHandler = HandleUnmanagedException;
+
+            AddGslLocationToEnvironmentalVariableForLibraries();
 
             if (!RuntimeInformation.IsUnix)
             {
@@ -42,30 +45,85 @@ namespace Computator.NET.Core.Natives
                         "Inconsistent operating system. Handles only 32 and 64 bit OS.");
 
 
-                EmbeddedDllClass.ExtractEmbeddedDlls(GslConfig.GslLibraryName, gsl);
+                ExtractEmbeddedDlls(GslConfig.GslLibraryName, gsl);
 
 
                 if (RuntimeInformation.IsUnix)
-                {
-                    EmbeddedDllClass.ExtractEmbeddedDlls(GslConfig.CblasLibraryName,
+                    ExtractEmbeddedDlls(GslConfig.CblasLibraryName,
                         RuntimeInformation.Is64Bit
                             ? (RuntimeInformation.IsMacOS
                                 ? Resources.libgslcblas_osx_amd64
                                 : Resources.libgslcblas_amd64)
                             : (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686));
-                }
             }
+
             switch (Settings.Default.CalculationsErrors)
+            {
+                case CalculationsErrors.ReturnNAN:
+                    NativeMethods.gsl_set_error_handler_off();
+                    break;
+                case CalculationsErrors.ShowError:
+                    NativeMethods.gsl_set_error_handler(UnmanagedHandler);
+                    break;
+            }
+        }
+
+        private static void ExtractEmbeddedDlls(string dllName, byte[] resourceBytes)
+        {
+            if (!Directory.Exists(GslConfig.Location))
+                Directory.CreateDirectory(GslConfig.Location);
+
+            // See if the file exists, avoid rewriting it if not necessary
+            var dllPath = Path.Combine(GslConfig.Location, dllName);
+            var rewrite = true;
+            if (File.Exists(dllPath))
+            {
+                var existing = File.ReadAllBytes(dllPath);
+                if (resourceBytes.SequenceEqual(existing))
+                    rewrite = false;
+            }
+            if (rewrite)
+                File.WriteAllBytes(dllPath, resourceBytes);
+            if (!File.Exists(dllPath))
+                throw new FileNotFoundException($"Couldn't write to file {dllPath}.", dllPath);
+        }
+
+        private static void AddGslLocationToEnvironmentalVariableForLibraries()
+        {
+            string environmentPathForLibraries;
+
+            if (RuntimeInformation.IsMacOS)
+                environmentPathForLibraries = "DYLD_LIBRARY_PATH";
+            else if (RuntimeInformation.IsLinux)
+                environmentPathForLibraries = "LD_LIBRARY_PATH";
+            else if (RuntimeInformation.IsWindows)
+                environmentPathForLibraries = "PATH";
+            else
+                throw new PlatformNotSupportedException(
+                    "This platform does not support sharing native libraries across assemblies");
+
+            var environmentValuesSeparator = RuntimeInformation.IsUnix ? ':' : ';';
+
+            // Add the temporary dirName to the PATH environment variable (at the head!)
+            var path = Environment.GetEnvironmentVariable(environmentPathForLibraries) ?? "";
+            //Environment variable names are not case-sensitive.
+
+            var pathPieces = path.Split(environmentValuesSeparator);
+            var found = false;
+            foreach (var pathPiece in pathPieces)
+                if (pathPiece == GslConfig.Location)
                 {
-                    case CalculationsErrors.ReturnNAN:
-                        NativeMethods.gsl_set_error_handler_off();
-                        break;
-                    case CalculationsErrors.ShowError:
-                        NativeMethods.gsl_set_error_handler(UnmanagedHandler);
-                        break;
+                    found = true;
+                    break;
                 }
-            
-            
+            if (!found)
+                Environment.SetEnvironmentVariable(environmentPathForLibraries,
+                    GslConfig.Location + environmentValuesSeparator + path);
+
+            path = Environment.GetEnvironmentVariable(environmentPathForLibraries) ?? "";
+
+            if (!path.Contains(GslConfig.Location))
+                throw new Exception("Couldn't add gsl to PATH Environmet Variable\npath = \n" + path);
         }
 
         private static void HandleUnmanagedException(string reason,
