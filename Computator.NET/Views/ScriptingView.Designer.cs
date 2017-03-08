@@ -75,7 +75,6 @@
             // 
             this.consoleOutputTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.consoleOutputTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.consoleOutputTextBox.Cursor = System.Windows.Forms.Cursors.Default;
             this.consoleOutputTextBox.DetectUrls = false;
             resources.ApplyResources(this.consoleOutputTextBox, "consoleOutputTextBox");
             this.consoleOutputTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
