@@ -15,7 +15,7 @@ namespace Computator.NET.Tests.EvaluationTests
     {
         private ExpressionsEvaluator _expressionsEvaluator;
 
-        private static readonly Dictionary<string,Func<double,double>> _functions = new Dictionary<string, Func<double, double>>()
+        private static readonly Dictionary<string,Func<double,double>> Functions = new Dictionary<string, Func<double, double>>()
         {
             {"cos(x)", Math.Cos},
             {"1/x+x-pow(1/x,x)/PI", (x) => 1/x+x-Math.Pow(1/x,x)/Math.PI},
@@ -41,7 +41,7 @@ namespace Computator.NET.Tests.EvaluationTests
 
             //act
             var valueOfEvaluatedFunctionAtPointX = evaluatedFunction.Evaluate(x);
-            var valueOfRealFunctionAtPointX = _functions[tsl].Invoke(x);
+            var valueOfRealFunctionAtPointX = Functions[tsl].Invoke(x);
 
             //assert
             Assert.AreEqual(valueOfRealFunctionAtPointX, valueOfEvaluatedFunctionAtPointX);

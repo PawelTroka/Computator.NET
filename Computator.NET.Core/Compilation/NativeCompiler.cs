@@ -89,7 +89,7 @@ namespace Computator.NET.Core.Compilation
             if (RuntimeInformation.IsUnix)
             {
                 //fix for #39 - otherwise in Mono CSharpCodeProvider will always return the same assembly
-                parameters.OutputAssembly = Guid.NewGuid().ToString();
+                parameters.OutputAssembly = Path.Combine(GslConfig.Location,Guid.NewGuid().ToString());
             }
             var results = CompileAssemblyFromSource(parameters, input);
 
