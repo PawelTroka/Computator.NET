@@ -11,6 +11,10 @@ namespace Computator.NET
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
+        private const string FileTargetLayout = @"${date:format=yyyy-MM-dd HH\:mm\:ss.mmm.fff} [${threadid}]${level:uppercase=true} ${callsite} - ${message} ${exception:format=toString,Data:maxInnerExceptionLevel=9}";
+        private const string FileNameTemplate = "${shortdate}.${machinename}.log";
+        private static readonly string FileTargetPath = Path.Combine(AppInformation.LogsDirectory, FileNameTemplate);
+
         public static void Configure()
         {
             // Step 1. Create configuration object 
@@ -22,8 +26,8 @@ namespace Computator.NET
             config.AddTarget("file", fileTarget);
 
             // Step 3. Set target properties 
-            fileTarget.FileName = Path.Combine(AppInformation.LogsDirectory, "${shortdate}.${machinename}.log");
-            fileTarget.Layout = @"${date:format=yyyy-MM-dd HH\:mm\:ss.mmm.fff} [${threadid}]${level:uppercase=true} ${callsite} - ${message}";
+            fileTarget.FileName = FileTargetPath;
+            fileTarget.Layout = FileTargetLayout;
 
             // Step 4. Define rules
             var rule1 = new LoggingRule("*",
@@ -32,7 +36,7 @@ namespace Computator.NET
 #else
                 LogLevel.Info
 #endif       
-                ,fileTarget);
+                , fileTarget);
             config.LoggingRules.Add(rule1);
 
             // Step 5. Activate the configuration
