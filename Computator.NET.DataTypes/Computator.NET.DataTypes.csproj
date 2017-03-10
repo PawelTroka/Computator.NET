@@ -77,7 +77,6 @@
     <Compile Include="Text\CustomFonts.cs" />
     <Compile Include="ErrorType.cs" />
     <Compile Include="Events\CalculationsModeChangedEvent.cs" />
-    <Compile Include="Events\ChangeViewEvent.cs" />
     <Compile Include="Events\EventAggregator.cs" />
     <Compile Include="Events\ExponentModeChangedEvent.cs" />
     <Compile Include="Events\IApplicationEvent.cs" />
