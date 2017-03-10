@@ -10,16 +10,15 @@ using Computator.NET.Core.Helpers;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using System.Linq;
+using NLog;
 
 namespace Computator.NET.Core.Properties
 {
     [Serializable]
     public class Settings : INotifyPropertyChanged
     {
-        private static readonly SimpleLogger.SimpleLogger Logger = new SimpleLogger.SimpleLogger(AppInformation.Name)
-        {
-            ClassName = "Settings"
-        };
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
         private static readonly string ScriptingRawDir = Path.Combine("TSL Examples", "_Scripts");
         private static readonly string CustomFunctionsRawDir = Path.Combine("TSL Examples", "_CustomFunctions");
 
@@ -66,7 +65,7 @@ namespace Computator.NET.Core.Properties
                 }
                 catch (Exception exception)
                 {
-                    Logger.Log("Loading settings failed. Will remove corrupted settings file.", ErrorType.General, exception);
+                    Logger.Error(exception, "Loading settings failed. Will remove corrupted settings file.");
                     File.Delete(AppInformation.SettingsPath);
                 }
             }

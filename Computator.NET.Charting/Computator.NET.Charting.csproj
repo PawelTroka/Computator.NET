@@ -41,6 +41,10 @@
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
       <HintPath>..\libraries\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.3\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="System" />
@@ -51,11 +55,11 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
-	  <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
+      <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
-	  <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
@@ -206,6 +210,9 @@
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.Computator.NET.Charting.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

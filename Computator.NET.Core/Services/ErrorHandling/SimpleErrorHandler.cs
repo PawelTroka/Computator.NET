@@ -2,18 +2,18 @@ using System;
 using System.Reflection;
 using Computator.NET.Core.Abstract.Services;
 using Computator.NET.DataTypes;
+using NLog;
 
 namespace Computator.NET.Core.Services.ErrorHandling
 {
     public class SimpleErrorHandler : IErrorHandler
     {
-        private readonly SimpleLogger.SimpleLogger _logger;
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
         private readonly IMessagingService _messagingService;
 
         public SimpleErrorHandler(IMessagingService messagingService)
         {
             _messagingService = messagingService;
-            _logger = new SimpleLogger.SimpleLogger((AppInformation.Name));
         }
 
   
@@ -24,8 +24,10 @@ namespace Computator.NET.Core.Services.ErrorHandling
 
         public void LogError(string message, ErrorType errorType, Exception ex)
         {
-            _logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            _logger.Log(message, ErrorType.General, ex);
+            var logEvent = new LogEventInfo(LogLevel.Error, Logger.Name,
+                message + $" {nameof(errorType)} = '{errorType}'") {Exception = ex};
+
+            Logger.Log(typeof(SimpleErrorHandler),logEvent);
         }
     }
 }

@@ -5,6 +5,7 @@ using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.DataTypes.SettingsTypes;
+using NLog;
 
 namespace Computator.NET.Core.Natives
 {
@@ -12,10 +13,7 @@ namespace Computator.NET.Core.Natives
     {
         private static gsl_error_handler_t UnmanagedHandler;
 
-        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(AppInformation.Name)
-        {
-            ClassName = nameof(GSLInitializer)
-        };
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
         public static void Initialize()
         {

@@ -1,15 +1,17 @@
 ﻿using System;
+using NLog;
 
 namespace Computator.NET.DataTypes
 {
     public abstract class BaseFunction
     {
         protected readonly Delegate _function;
-        protected SimpleLogger.SimpleLogger logger;
+        protected readonly ILogger Logger;
 
         protected BaseFunction(Delegate function)
         {
             _function = function;
+            Logger = LogManager.GetLogger(GetType().FullName);
         }
 
         public string CsCode { get; set; }

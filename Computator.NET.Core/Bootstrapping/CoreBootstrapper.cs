@@ -45,6 +45,7 @@ namespace Computator.NET.Core.Bootstrapping
             Container.RegisterType<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IProcessRunnerService, ProcessRunnerService>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterHandlers()

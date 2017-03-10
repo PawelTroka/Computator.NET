@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Reflection;
+using System.Text;
 using Microsoft.CSharp.RuntimeBinder;
 
 namespace Computator.NET.DataTypes
@@ -11,7 +12,6 @@ namespace Computator.NET.DataTypes
 
         private Function(Delegate function) : base(function)
         {
-            logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
         }
 
         public Function(Delegate function, bool isImplicit) : this(function)
@@ -141,22 +141,26 @@ namespace Computator.NET.DataTypes
                 if (exception is RuntimeBinderException)
                     //hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
                     return double.NaN;
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Parameters["TSLCode"] = TslCode;
-                logger.Parameters["CSCode"] = CsCode;
-                logger.Parameters["FunctionType"] = FunctionType;
-                logger.Parameters["Name"] = Name;
-                logger.Parameters["arg0"] = arguments[0];
-                if (arguments.Length >= 2)
-                    logger.Parameters["arg1"] = arguments[1];
-                if (arguments.Length >= 3)
-                    logger.Parameters["arg2"] = arguments[2];
-                if (arguments.Length >= 4)
-                    logger.Parameters["arg3"] = arguments[3];
 
-                logger.Log(exception.Message, ErrorType.Calculation, exception);
+                var sb = new StringBuilder();
+                sb.AppendLine($"{nameof(TslCode)} = '{TslCode}'");
+                sb.AppendLine($"{nameof(CsCode)} = '{CsCode}'");
+                sb.AppendLine($"{nameof(FunctionType)} = '{FunctionType}'");
+                sb.AppendLine($"{nameof(Name)} = '{Name}'");
+
+                sb.AppendLine($"arg0 = '{arguments[0]}'");
+                if (arguments.Length >= 2)
+                    sb.AppendLine($"arg1 = '{arguments[1]}'");
+                if (arguments.Length >= 3)
+                    sb.AppendLine($"arg2 = '{arguments[2]}'");
+                if (arguments.Length >= 4)
+                    sb.AppendLine($"arg3 = '{arguments[3]}'");
+
+
 
                 var message = "Calculation Error, details:" + Environment.NewLine + exception.Message;
+
+                Logger.Error(exception, message + $" {sb}");
 
                 throw new CalculationException(message, exception);
             }
@@ -192,19 +196,24 @@ namespace Computator.NET.DataTypes
                 if (exception is RuntimeBinderException)
                     //hack for sqrt(x) for x<0 in chart, calculations etc (not in scripting where it returns complex number)
                     return (T) (object) double.NaN;
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Parameters["TSLCode"] = TslCode;
-                logger.Parameters["CSCode"] = CsCode;
-                logger.Parameters["FunctionType"] = FunctionType;
-                logger.Parameters["Name"] = Name;
-                logger.Parameters["arg0"] = arguments[0];
+
+                var sb = new StringBuilder();
+                sb.AppendLine($"{nameof(TslCode)} = '{TslCode}'");
+                sb.AppendLine($"{nameof(CsCode)} = '{CsCode}'");
+                sb.AppendLine($"{nameof(FunctionType)} = '{FunctionType}'");
+                sb.AppendLine($"{nameof(Name)} = '{Name}'");
+
+                sb.AppendLine($"arg0 = '{arguments[0]}'");
                 if (arguments.Length >= 2)
-                    logger.Parameters["arg1"] = arguments[1];
+                    sb.AppendLine($"arg1 = '{arguments[1]}'");
                 if (arguments.Length >= 3)
-                    logger.Parameters["arg2"] = arguments[2];
-                logger.Log(exception.Message, ErrorType.Calculation, exception);
+                    sb.AppendLine($"arg2 = '{arguments[2]}'");
+
+               
 
                 var message = "Calculation Error, details:" + Environment.NewLine + exception.Message;
+
+                Logger.Error(exception, message+$" {sb.ToString()}");
 
                 throw new CalculationException(message, exception);
             }

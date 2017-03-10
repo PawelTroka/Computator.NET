@@ -8,6 +8,7 @@ using System.Text;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Microsoft.CSharp;
+using NLog;
 
 //findRoot(sin,x-1,x+1) is really interesting
 
@@ -15,12 +16,11 @@ namespace Computator.NET.Core.Compilation
 {
     public class NativeCompiler : CSharpCodeProvider
     {
-        private readonly SimpleLogger.SimpleLogger logger;
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
         private readonly CompilerParameters parameters;
 
         public NativeCompiler()
         {
-            logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
             parameters = new CompilerParameters
             {
                 GenerateInMemory = true,
@@ -127,13 +127,13 @@ namespace Computator.NET.Core.Compilation
                 };
                 // compilationException.Message = message;
                 // var ex = new CompilationException(message) {Errors = compilerErrors};
-
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                // Logger.Parameters["NativeCompilerInput"] = input;
-                logger.Parameters["NativeCompilerOutput"] = "";
+                
+                var nativeCompilerOutput = "";
                 foreach (var str in results.Output)
-                    logger.Parameters["NativeCompilerOutput"] += str + Environment.NewLine;
-                logger.Log(compilationException.Message, ErrorType.Compilation, compilationException);
+                    nativeCompilerOutput += str + Environment.NewLine;
+
+                Logger.Error(compilationException,
+                    $"{compilationException.Message}{Environment.NewLine}{nameof(nativeCompilerOutput)} = \'{nativeCompilerOutput}\'");
 
                 throw compilationException;
             }

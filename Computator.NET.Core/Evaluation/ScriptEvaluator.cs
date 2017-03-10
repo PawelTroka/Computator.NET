@@ -59,7 +59,6 @@ namespace Computator.NET.Core.Evaluation
             NativeCompiler.IsScripting = true;
 
             _additionalObjectsCodeCopy = AdditionalObjectsCode = NumericalExtensions.ToCode + ScriptingExtensionObjects.ToCode;
-            Logger.ClassName = GetType().FullName;
         }
 
         public ScriptFunction Evaluate(string input, string customFunctionsCode)

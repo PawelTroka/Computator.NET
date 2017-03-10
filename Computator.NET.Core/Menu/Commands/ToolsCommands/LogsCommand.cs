@@ -7,9 +7,11 @@ namespace Computator.NET.Core.Menu.Commands.ToolsCommands
     public class LogsCommand : CommandBase
     {
         private readonly IMessagingService _messagingService;
-        public LogsCommand(IMessagingService messagingService)
+        private readonly IProcessRunnerService _processRunnerService;
+        public LogsCommand(IMessagingService messagingService, IProcessRunnerService processRunnerService)
         {
             _messagingService = messagingService;
+            _processRunnerService = processRunnerService;
             //this.ShortcutKeyString = "Shift+6";
             //this.Icon = Resources.exponentation;
             Text = MenuStrings.Logs_Text;
@@ -22,7 +24,7 @@ namespace Computator.NET.Core.Menu.Commands.ToolsCommands
 
             try
             {
-                (new SimpleLogger.SimpleLogger(AppInformation.Name)).OpenLogsDirectory();
+                _processRunnerService.Run(AppInformation.LogsDirectory);
             }
             catch
             {

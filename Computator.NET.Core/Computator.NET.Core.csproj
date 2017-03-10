@@ -69,12 +69,12 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
-    <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' " />
-    <Reference Include="SimpleLogger.NET, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleLogger.NET.2.0.0.0\lib\net40\SimpleLogger.NET.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.3\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
+    <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -126,8 +126,11 @@
     <Compile Include="Autocompletion\FunctionInfo.cs" />
     <Compile Include="Autocompletion\FunctionsDetails.cs" />
     <Compile Include="Autocompletion\MethodInfoExtensions.cs" />
+    <Compile Include="EnvironmentLogger.cs" />
     <Compile Include="Helpers\CopyDirectory.cs" />
     <Compile Include="Helpers\DocumentExtension.cs" />
+    <Compile Include="Services\IProcessRunnerService.cs" />
+    <Compile Include="LogsConfigurator.cs" />
     <Compile Include="Model\DirectorySelectedEventArgs.cs" />
     <Compile Include="Evaluation\EvaluationException.cs" />
     <Compile Include="Evaluation\ExpressionsEvaluator.cs" />

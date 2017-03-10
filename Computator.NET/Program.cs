@@ -13,15 +13,14 @@ using Computator.NET.DataTypes.Localization;
 using Computator.NET.Dialogs;
 using Computator.NET.Services;
 using Computator.NET.Views;
+using NLog;
+using NLog.Fluent;
 
 namespace Computator.NET
 {
     internal static class Program
     {
-        private static readonly SimpleLogger.SimpleLogger Logger = new SimpleLogger.SimpleLogger(AppInformation.Name)
-        {
-            ClassName = "Program"
-        };
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         ///     The main entry point for the application.
@@ -29,13 +28,17 @@ namespace Computator.NET
         [STAThread]
         private static void Main()
         {
+            LogsConfigurator.Configure();
+            EnvironmentLogger.LogEnvironmentInformation();
 
-#if __MonoCS__
-            Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled", EnvironmentVariableTarget.Process);
-            //this is because of Bug 436000 - XIM: winforms program crash randomly while starting XIM on Mono
-            //see https://bugzilla.novell.com/show_bug.cgi?id=436000
-            //https://bugzilla.xamarin.com/show_bug.cgi?id=28047
-#endif
+            if (RuntimeInformation.IsUnix)
+            {
+                Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled", EnvironmentVariableTarget.Process);
+                //this is because of Bug 436000 - XIM: winforms program crash randomly while starting XIM on Mono
+                //see https://bugzilla.novell.com/show_bug.cgi?id=436000
+                //https://bugzilla.xamarin.com/show_bug.cgi?id=28047
+            }
+
             Thread.CurrentThread.CurrentCulture = Settings.Default.Language ?? new CultureInfo("en");
             Thread.CurrentThread.CurrentUICulture = Settings.Default.Language ?? new CultureInfo("en");
             Application.ThreadException += Application_ThreadException;
@@ -61,10 +64,8 @@ namespace Computator.NET
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             MessageBox.Show(e.Exception.Message, Strings.Program_Application_ThreadException_Unhandled_Thread_Exception);
-
-            Logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            Logger.Log(Strings.Program_Application_ThreadException_Unhandled_Thread_Exception, ErrorType.General,
-                e.Exception);
+            
+            Logger.Error(e.Exception, Strings.Program_Application_ThreadException_Unhandled_Thread_Exception+$" {e.Exception}");
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -81,9 +82,7 @@ namespace Computator.NET
                 Process.Start(PathUtility.GetFullPath("Static", "fonts", "CAMBRIA.TTC"));
             }
 
-
-            Logger.MethodName = MethodBase.GetCurrentMethod().Name;
-            Logger.Log(Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception, ErrorType.General, ex);
+            Logger.Error(ex, Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception+ $"is terminting: {e.IsTerminating}, {e?.ExceptionObject}");
         }
 
 

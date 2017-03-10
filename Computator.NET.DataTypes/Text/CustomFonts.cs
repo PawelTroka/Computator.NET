@@ -2,15 +2,14 @@ using System;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Reflection;
+using NLog;
 
 namespace Computator.NET.DataTypes
 {
     public static class CustomFonts
     {
-        private static readonly SimpleLogger.SimpleLogger logger = new SimpleLogger.SimpleLogger(AppInformation.Name)
-        {
-            ClassName = typeof(PathUtility).FullName
-        };
+
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
         private static PrivateFontCollection mathFontCollection;
 
@@ -47,8 +46,8 @@ namespace Computator.NET.DataTypes
                 var nex =
                     new Exception(
                         "Probably missing " + pathToFont + " or " + pathToFont2 + " file\nDetails:" + ex.Message, ex);
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Log("Probably missing " + pathToFont + " file\nDetails:" + ex.Message, ErrorType.General, nex);
+
+                Logger.Error(ex, "Probably missing " + pathToFont + " file\nDetails:" + ex.Message);
                 throw nex;
             }
         }

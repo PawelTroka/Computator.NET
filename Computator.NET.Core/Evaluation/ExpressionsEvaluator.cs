@@ -10,6 +10,7 @@ using Computator.NET.Core.Functions;
 using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
+using NLog;
 
 namespace Computator.NET.Core.Evaluation
 {
@@ -72,7 +73,8 @@ namespace Computator.NET.Core.Evaluation
         protected string AdditionalUsings;
         protected string CustomFunctionsTslCode;
         protected FunctionType FunctionType;
-        protected SimpleLogger.SimpleLogger Logger;
+
+        protected readonly ILogger Logger;
         protected string MainCSharpCode;
         protected string MainTslCode;
         protected NativeCompiler NativeCompiler;
@@ -83,7 +85,7 @@ namespace Computator.NET.Core.Evaluation
             NativeCompiler.AddDll(PathUtility.GetFullPath("Computator.NET.DataTypes.dll"));
 
             _tslCompiler = new TslCompiler();
-            Logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
+            Logger = LogManager.GetLogger(GetType().FullName);
             AdditionalObjectsCode = "";
             AdditionalUsings = "";
         }
@@ -206,11 +208,7 @@ namespace Computator.NET.Core.Evaluation
                 message += Environment.NewLine + Strings.Details;
                 message += Environment.NewLine + ex.Message;
 
-                Logger.Parameters["MainTslCode"] = MainTslCode;
-                Logger.Parameters["MainCSharpCode"] = MainCSharpCode;
-                Logger.Parameters["customFunctionsCode"] = _customFunctionsCSharpCode;
-                Logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                Logger.Log(message, ErrorType.Evaluation, ex);
+                Logger.Error(ex,$"{message}{Environment.NewLine}{nameof(MainTslCode)} = '{MainTslCode}'{Environment.NewLine}{nameof(MainCSharpCode)} = '{MainCSharpCode}'{Environment.NewLine}{nameof(_customFunctionsCSharpCode)} = '{_customFunctionsCSharpCode}'");
 
                 throw new EvaluationException(message, ex);
             }

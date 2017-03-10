@@ -9,8 +9,6 @@ namespace Computator.NET.DataTypes
 
         {
             FunctionType = FunctionType.Scripting;
-
-            logger = new SimpleLogger.SimpleLogger(AppInformation.Name) { ClassName = GetType().FullName};
         }
 
         public void Evaluate(Action<string> consoleCallback)
@@ -21,14 +19,8 @@ namespace Computator.NET.DataTypes
             }
             catch (Exception exception)
             {
-                logger.MethodName = MethodBase.GetCurrentMethod().Name;
-                logger.Parameters["TSLCode"] = TslCode;
-                logger.Parameters["CSCode"] = CsCode;
-                logger.Parameters["FunctionType"] = FunctionType;
-                logger.Log(exception.Message, ErrorType.Calculation, exception);
-
                 var message = "Calculation Error, details:" + Environment.NewLine + exception.Message;
-
+                Logger.Error(exception, $"{message}.{Environment.NewLine}{nameof(TslCode)} = '{TslCode}'{Environment.NewLine}{nameof(CsCode)} = '{CsCode}'{Environment.NewLine}{nameof(FunctionType)} = '{FunctionType}'");
                 throw new CalculationException(message, exception);
             }
         }
