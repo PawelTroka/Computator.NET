@@ -9,7 +9,7 @@ namespace Computator.NET.DataTypes
     
         public static readonly string Location = RuntimeInformation.IsUnix
             ? PathUtility.GetFullPath()//hack - for Unix we just copy .so files into app directory because otherwise it doesn't seem to work. On Windows we must use temp directory because we don't have admin rights.
-            : Path.Combine(Path.GetTempPath(), $"{An.Name}.{An.ProcessorArchitecture}.{An.Version}");
+            : AppInformation.TempDirectory;
 
 
 

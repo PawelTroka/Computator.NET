@@ -7,7 +7,8 @@ namespace Computator.NET.DataTypes
 {
     public static class AppInformation
     {
-        public static readonly string Version = $"v{Assembly.GetExecutingAssembly().GetName().Version}ß";
+        private static readonly AssemblyName An = Assembly.GetExecutingAssembly().GetName();
+        public static readonly string Version = $"v{An.Version}ß";
 
         public const string Name = "Computator.NET";
 
@@ -15,5 +16,8 @@ namespace Computator.NET.DataTypes
         public static readonly string DataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppInformation.Name);
         public static readonly string LogsDirectory = Path.Combine(DataDirectory, "Logs");
         public static readonly string SettingsPath = Path.Combine(DataDirectory, "settings.dat");
+
+        public static readonly string TempDirectory = Path.Combine(Path.GetTempPath(),
+            $"{An.Name}.{An.ProcessorArchitecture}.{An.Version}");
     }
 }
