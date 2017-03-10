@@ -17,9 +17,6 @@ namespace Computator.NET.DataTypes
 
         public const string GslDllName = "gsl.dll";
 
-
-        private static readonly string OSBitSuffix = (RuntimeInformation.Is64Bit && RuntimeInformation.IsUnix) ? "64" : string.Empty;
-
         private static readonly string OSPrefix = RuntimeInformation.IsUnix ? "lib" : string.Empty;
 
         private static readonly string OSExtension = RuntimeInformation.IsUnix
@@ -28,7 +25,7 @@ namespace Computator.NET.DataTypes
 
         private static string GetOSSpecificLibraryName(string baseName)
         {
-            return $"{OSPrefix}{baseName}{OSBitSuffix}{OSExtension}";
+            return $"{OSPrefix}{baseName}{OSExtension}";
         }
 
 

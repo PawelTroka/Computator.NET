@@ -17,43 +17,38 @@ namespace Computator.NET.Core.Natives
 
         public static void Initialize()
         {
+            Environment.CurrentDirectory = AppInformation.Directory;
+
             UnmanagedHandler = HandleUnmanagedException;
 
             AddGslLocationToEnvironmentalVariableForLibraries();
 
-            if (!RuntimeInformation.IsUnix)
-            {
-                //for now we have decided to only copy gsl libs from resources to PATH/LD_LIBRARY_PATH/DYLD_LIBRARY_PATH in case of Windows
-                //this is because on Mono/Unix we can use DllMap functionality which allows us to specify different names for each system and architecture
-                //so on Mono/Unix we are just copying each gsl lib for platform dependent name to output dir so it can be easily called thanks to dllmap being platform specific
-                //see issues #30 and #25 for more information
+            byte[] gsl;
 
-                byte[] gsl;
-
-                if (RuntimeInformation.Is64Bit)
-                    gsl = RuntimeInformation.IsUnix
-                        ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_amd64 : Resources.libgsl_amd64)
-                        : Resources.gsl_x64;
-                else if (RuntimeInformation.Is32Bit)
-                    gsl = RuntimeInformation.IsUnix
-                        ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_i686 : Resources.libgsl_i686)
-                        : Resources.gsl_x86;
-                else
-                    throw new PlatformNotSupportedException(
-                        "Inconsistent operating system. Handles only 32 and 64 bit OS.");
+            if (RuntimeInformation.Is64Bit)
+                gsl = RuntimeInformation.IsUnix
+                    ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_amd64 : Resources.libgsl_amd64)
+                    : Resources.gsl_x64;
+            else if (RuntimeInformation.Is32Bit)
+                gsl = RuntimeInformation.IsUnix
+                    ? (RuntimeInformation.IsMacOS ? Resources.libgsl_osx_i686 : Resources.libgsl_i686)
+                    : Resources.gsl_x86;
+            else
+                throw new PlatformNotSupportedException(
+                    "Inconsistent operating system. Handles only 32 and 64 bit OS.");
 
 
-                ExtractEmbeddedDlls(GslConfig.GslLibraryName, gsl);
+            ExtractEmbeddedDlls(GslConfig.GslLibraryName, gsl);
 
 
-                if (RuntimeInformation.IsUnix)
-                    ExtractEmbeddedDlls(GslConfig.CblasLibraryName,
-                        RuntimeInformation.Is64Bit
-                            ? (RuntimeInformation.IsMacOS
-                                ? Resources.libgslcblas_osx_amd64
-                                : Resources.libgslcblas_amd64)
-                            : (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686));
-            }
+            if (RuntimeInformation.IsUnix)
+                ExtractEmbeddedDlls(GslConfig.CblasLibraryName,
+                    RuntimeInformation.Is64Bit
+                        ? (RuntimeInformation.IsMacOS
+                            ? Resources.libgslcblas_osx_amd64
+                            : Resources.libgslcblas_amd64)
+                        : (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686));
+
 
             switch (Settings.Default.CalculationsErrors)
             {
