@@ -88,10 +88,8 @@ namespace Computator.NET.Core.Presenters
 
             if (!AreChartValuesValid)
             {
-                //TODO: move strings to resources and translate
                 _errorHandler.DisplayError(
-                    "Min value needs to be less than Max value." + $"{Environment.NewLine}" +
-                    $"Check chart area values: x0, xN, y0, yN.",
+                    $"{Strings.Min_value_needs_to_be_less_than_Max_value}{Environment.NewLine}{Strings.CheckChartAreaValues}: x0, xN, y0, yN.",
                     Strings.GUI_numericalOperationButton_Click_Warning_);
                 return;
             }

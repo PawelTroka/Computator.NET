@@ -436,4 +436,16 @@
   <data name="Chart3D_is_not_supported_on_Mono" xml:space="preserve">
     <value>Chart3D is not supported on Mono</value>
   </data>
+  <data name="NeedsToBeGreaterThan" xml:space="preserve">
+    <value>needs to be greater than</value>
+  </data>
+  <data name="NeedsToBeLessThan" xml:space="preserve">
+    <value>needs to be less than</value>
+  </data>
+  <data name="Min_value_needs_to_be_less_than_Max_value" xml:space="preserve">
+    <value>Min value needs to be less than Max value.</value>
+  </data>
+  <data name="CheckChartAreaValues" xml:space="preserve">
+    <value>Check chart area values</value>
+  </data>
 </root>

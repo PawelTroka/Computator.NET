@@ -23,11 +23,10 @@ namespace Computator.NET.Core.Presenters
 
         private void OnValueChanged(object sender, System.EventArgs e)
         {
-            //TODO: move strings to resources and translate
             if (_view.XMax <= _view.XMin)
             {
-                _view.SetError(nameof(_view.XMax),"xN needs to be greater than x0");
-                _view.SetError(nameof(_view.XMin), "x0 needs to be less than xN");
+                _view.SetError(nameof(_view.XMax),$"xN {Strings.NeedsToBeGreaterThan} x0");
+                _view.SetError(nameof(_view.XMin), $"x0 {Strings.NeedsToBeLessThan} xN");
             }
             else
             {
@@ -36,8 +35,8 @@ namespace Computator.NET.Core.Presenters
             }
             if (_view.YMin >= _view.YMax)
             {
-                _view.SetError(nameof(_view.YMax), "yN needs to be greater than y0");
-                _view.SetError(nameof(_view.YMin), "y0 needs to be less than yN");
+                _view.SetError(nameof(_view.YMax), $"yN {Strings.NeedsToBeGreaterThan} y0");
+                _view.SetError(nameof(_view.YMin), $"y0 {Strings.NeedsToBeLessThan} yN");
             }
             else
             {

@@ -66,14 +66,14 @@
     <Compile Include="Information\ContributionsInformation.cs" />
     <Compile Include="Configuration\HandledFilesInformation.cs" />
     <Compile Include="Configuration\GslConfig.cs" />
-    <Compile Include="Localization\Strings.Designer.cs">
-      <DependentUpon>Strings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Functions\BaseFunction.cs" />
     <Compile Include="CalculationException.cs" />
     <Compile Include="CalculationsMode.cs" />
+    <Compile Include="Localization\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Text\CustomFonts.cs" />
     <Compile Include="ErrorType.cs" />
     <Compile Include="Events\CalculationsModeChangedEvent.cs" />
@@ -101,7 +101,11 @@
     <EmbeddedResource Include="Localization\Strings.cs.resx" />
     <EmbeddedResource Include="Localization\Strings.de.resx" />
     <EmbeddedResource Include="Localization\Strings.pl.resx" />
-    <EmbeddedResource Include="Localization\Strings.resx" />
+    <EmbeddedResource Include="Localization\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.Computator.NET.DataTypes.config">
