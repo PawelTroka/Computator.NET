@@ -19,9 +19,6 @@ namespace Computator.NET.Core.Properties
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
-        private static readonly string ScriptingRawDir = Path.Combine("TSL Examples", "_Scripts");
-        private static readonly string CustomFunctionsRawDir = Path.Combine("TSL Examples", "_CustomFunctions");
-
         private CalculationsErrors _calculationsErrors;
         private string _customFunctionsDirectory;
         private string _scriptingDirectory;
@@ -60,7 +57,7 @@ namespace Computator.NET.Core.Properties
                 try
                 {
                     var settings = (Settings)new BinaryFormatter().Deserialize(fs);
-                    settings.InitScripting();
+                    settings.RestoreScriptingExamplesIfNeeded();
                     return settings;
                 }
                 catch (Exception exception)
@@ -93,8 +90,8 @@ namespace Computator.NET.Core.Properties
 
             NumericalOutputNotation = NumericalOutputNotationType.MathematicalNotation;
 
-            ScriptingDirectory = ScriptingRawDir;
-            CustomFunctionsDirectory = CustomFunctionsRawDir;
+            ScriptingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),"TSL Examples", "_Scripts");
+            CustomFunctionsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "TSL Examples", "_CustomFunctions");
 
             CalculationsErrors = CalculationsErrors.ReturnNAN;
         }
@@ -104,44 +101,30 @@ namespace Computator.NET.Core.Properties
             if (!File.Exists(AppInformation.SettingsPath))
                 Reset();
 
-            InitScripting();
-        }
-
-        private void InitScripting()
-        {
-            MakeScriptingDirectoriesInMyDocumentsIfNeeded();
             RestoreScriptingExamplesIfNeeded();
         }
 
 
         private void RestoreScriptingExamplesIfNeeded()
         {
-            if (ScriptingDirectory.Contains(ScriptingRawDir) && !Directory.Exists(ScriptingDirectory))
-                if (Directory.Exists(PathUtility.GetFullPath(ScriptingRawDir)))
-                    CopyDirectory.Copy(PathUtility.GetFullPath(ScriptingRawDir), ScriptingDirectory);
+            var scriptingRawDir = Path.Combine("TSL Examples", "_Scripts");
+            if (ScriptingDirectory.Contains(scriptingRawDir) && !Directory.Exists(ScriptingDirectory))
+                if (Directory.Exists(PathUtility.GetFullPath(scriptingRawDir)))
+                    CopyDirectory.Copy(PathUtility.GetFullPath(scriptingRawDir), ScriptingDirectory);
                 else
                     throw new FileNotFoundException(
-                        $"Scripting examples not found in {PathUtility.GetFullPath(ScriptingRawDir)}");
+                        $"Scripting examples not found in {PathUtility.GetFullPath(scriptingRawDir)}");
 
-            if (CustomFunctionsDirectory.Contains(CustomFunctionsRawDir) &&
+            var customFunctionsRawDir = Path.Combine("TSL Examples", "_CustomFunctions");
+            if (CustomFunctionsDirectory.Contains(customFunctionsRawDir) &&
                 !Directory.Exists(CustomFunctionsDirectory))
-                if (Directory.Exists(PathUtility.GetFullPath(CustomFunctionsRawDir)))
-                    CopyDirectory.Copy(PathUtility.GetFullPath(CustomFunctionsRawDir), CustomFunctionsDirectory);
+                if (Directory.Exists(PathUtility.GetFullPath(customFunctionsRawDir)))
+                    CopyDirectory.Copy(PathUtility.GetFullPath(customFunctionsRawDir), CustomFunctionsDirectory);
                 else
                     throw new FileNotFoundException(
-                        $"Custom functions examples not found in {PathUtility.GetFullPath(CustomFunctionsRawDir)}");
+                        $"Custom functions examples not found in {PathUtility.GetFullPath(customFunctionsRawDir)}");
         }
 
-        private void MakeScriptingDirectoriesInMyDocumentsIfNeeded()
-        {
-            if (ScriptingDirectory == ScriptingRawDir)
-                ScriptingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-                    ScriptingRawDir);
-
-            if (CustomFunctionsDirectory == CustomFunctionsRawDir)
-                CustomFunctionsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-                    CustomFunctionsRawDir);
-        }
 
         public static Settings Default { get; } = Load();
 
