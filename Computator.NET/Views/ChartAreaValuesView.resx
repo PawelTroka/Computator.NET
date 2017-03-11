@@ -392,7 +392,7 @@
   </data>
   <data name="yNlabel.Text" xml:space="preserve">
     <value>yN =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="yNNumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
@@ -452,7 +452,7 @@
   </data>
   <data name="y0label.Text" xml:space="preserve">
     <value>y0 =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="y0NumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
@@ -512,7 +512,7 @@
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>xN =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="xnNumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
@@ -572,7 +572,7 @@
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>x0 =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="x0NumericUpDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>

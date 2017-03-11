@@ -956,4 +956,22 @@
         nUqedkEQfwBuNlEB6QO84AAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="constantsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Stałe</value>
+  </data>
+  <data name="specialFunctionsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Funkcje specjalne</value>
+  </data>
+  <data name="elementaryFunctionsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Funkcje elementarne</value>
+  </data>
+  <data name="functionsToolStripMenuItem_Text" xml:space="preserve">
+    <value>Funkcje</value>
+  </data>
+  <data name="transformToolStripMenuItem_Text" xml:space="preserve">
+    <value>Transformaty</value>
+  </data>
+  <data name="optionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Opcje</value>
+  </data>
 </root>

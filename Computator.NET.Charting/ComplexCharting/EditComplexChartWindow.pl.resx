@@ -521,4 +521,10 @@
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>y minimum</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>x minimum</value>
+  </data>
 </root>

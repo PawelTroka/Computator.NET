@@ -294,4 +294,34 @@
   <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
     <value>Wykres</value>
   </data>
+  <data name="DHT.ToolTipText" xml:space="preserve">
+    <value>Dyskretna transformata Hartleya</value>
+  </data>
+  <data name="FHT.ToolTipText" xml:space="preserve">
+    <value>Szybka transformata Hilberta</value>
+  </data>
+  <data name="IDCT.ToolTipText" xml:space="preserve">
+    <value>Odwrócona dyskretna transformata kosinusowa</value>
+  </data>
+  <data name="DCT.ToolTipText" xml:space="preserve">
+    <value>Dyskretna transformata kosinusowa</value>
+  </data>
+  <data name="DST.ToolTipText" xml:space="preserve">
+    <value>Dyskretna transformata sinusowa</value>
+  </data>
+  <data name="IDST.ToolTipText" xml:space="preserve">
+    <value>Odwrócona dyskretna transformata sinusowa</value>
+  </data>
+  <data name="FFT.ToolTip.Text" xml:space="preserve">
+    <value>Szybka transformata Fouriera</value>
+  </data>
+  <data name="IFFT.ToolTipText" xml:space="preserve">
+    <value>Odwrócona szybka transformata Fouriera</value>
+  </data>
+  <data name="IFHT.ToolTipText" xml:space="preserve">
+    <value>Odwrócona szybka transformata Hilberta</value>
+  </data>
+  <data name="Changelog.Text" xml:space="preserve">
+    <value>Lista zmian</value>
+  </data>
 </root>

@@ -217,33 +217,6 @@
   <data name="label5.Text" xml:space="preserve">
     <value>W jednostkach:</value>
   </data>
-  <data name="unitsComboBox.Items143" xml:space="preserve">
-    <value>yd</value>
-  </data>
-  <data name="unitsComboBox.Items142" xml:space="preserve">
-    <value>pm</value>
-  </data>
-  <data name="unitsComboBox.Items141" xml:space="preserve">
-    <value>nm</value>
-  </data>
-  <data name="unitsComboBox.Items140" xml:space="preserve">
-    <value>μm</value>
-  </data>
-  <data name="unitsComboBox.Items139" xml:space="preserve">
-    <value>mm</value>
-  </data>
-  <data name="unitsComboBox.Items138" xml:space="preserve">
-    <value>cm</value>
-  </data>
-  <data name="unitsComboBox.Items137" xml:space="preserve">
-    <value>dm</value>
-  </data>
-  <data name="unitsComboBox.Items136" xml:space="preserve">
-    <value>m</value>
-  </data>
-  <data name="unitsComboBox.Items135" xml:space="preserve">
-    <value>km</value>
-  </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Kolor tła:</value>
   </data>
@@ -300,5 +273,11 @@
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>Anuluj</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>y minimum</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>x minimum</value>
   </data>
 </root>

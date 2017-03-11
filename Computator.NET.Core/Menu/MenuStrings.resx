@@ -129,7 +129,7 @@
   </data>
   <data name="DHT.Text" xml:space="preserve">
     <value>DHT</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="IFHT.ToolTipText" xml:space="preserve">
     <value>Inverse Fast Hilbert Transform</value>
   </data>
@@ -186,7 +186,7 @@
   </data>
   <data name="Benchmark.Text" xml:space="preserve">
     <value>&amp;Benchmark</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="Language.Text" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -204,49 +204,49 @@
   </data>
   <data name="IFHT.Text" xml:space="preserve">
     <value>IFHT</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="FHT.ToolTipText" xml:space="preserve">
     <value>Fast Hilbert Transform</value>
   </data>
   <data name="FHT.Text" xml:space="preserve">
     <value>FHT</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="IDCT.ToolTipText" xml:space="preserve">
     <value>Inverse Discrete Cosine Transform</value>
   </data>
   <data name="IDCT.Text" xml:space="preserve">
     <value>IDCT</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="DCT.ToolTipText" xml:space="preserve">
     <value>Discrete Cosine Transform</value>
   </data>
   <data name="DCT.Text" xml:space="preserve">
     <value>DCT</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="IDST.ToolTipText" xml:space="preserve">
     <value>Inverse Discrete Sine Transform</value>
   </data>
   <data name="IDST.Text" xml:space="preserve">
     <value>IDST</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="DST.ToolTipText" xml:space="preserve">
     <value>Discrete Sine Transform</value>
   </data>
   <data name="DST.Text" xml:space="preserve">
     <value>DST</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="IFFT.ToolTipText" xml:space="preserve">
     <value>Inverse Fast Fourier Transform</value>
   </data>
   <data name="IFFT.Text" xml:space="preserve">
     <value>IFFT</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="FFT.ToolTip.Text" xml:space="preserve">
     <value>Fast Fourier Transform</value>
   </data>
   <data name="FFT.Text" xml:space="preserve">
     <value>FFT</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="constantsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Constants</value>
   </data>

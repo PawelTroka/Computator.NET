@@ -149,7 +149,7 @@
   </data>
   <data name="epsTextBox.Text" xml:space="preserve">
     <value>1e-8</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;epsTextBox.Name" xml:space="preserve">
     <value>epsTextBox</value>
   </data>
@@ -182,7 +182,7 @@
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>ε =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;label10.Name" xml:space="preserve">
     <value>label10</value>
   </data>
@@ -284,7 +284,7 @@
   </data>
   <data name="label12.Text" xml:space="preserve">
     <value>b =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;label12.Name" xml:space="preserve">
     <value>label12</value>
   </data>
@@ -347,7 +347,7 @@
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>a =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;label13.Name" xml:space="preserve">
     <value>label13</value>
   </data>
@@ -449,7 +449,7 @@
   </data>
   <data name="label19.Text" xml:space="preserve">
     <value>N =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;label19.Name" xml:space="preserve">
     <value>label19</value>
   </data>
@@ -551,7 +551,7 @@
   </data>
   <data name="label14.Text" xml:space="preserve">
     <value>n =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;label14.Name" xml:space="preserve">
     <value>label14</value>
   </data>
@@ -614,7 +614,7 @@
   </data>
   <data name="label15.Text" xml:space="preserve">
     <value>x =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;label15.Name" xml:space="preserve">
     <value>label15</value>
   </data>

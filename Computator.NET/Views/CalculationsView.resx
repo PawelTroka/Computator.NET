@@ -176,7 +176,7 @@
   </data>
   <data name="calculationsRealLabel.Text" xml:space="preserve">
     <value>       x =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;calculationsRealLabel.Name" xml:space="preserve">
     <value>calculationsRealLabel</value>
   </data>
@@ -245,7 +245,7 @@
   </data>
   <data name="calculationsComplexLabel.Text" xml:space="preserve">
     <value>Im(z) =</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="calculationsComplexLabel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>

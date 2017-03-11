@@ -357,490 +357,490 @@
   </data>
   <data name="unitsComboBox.Items" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items1" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items2" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items3" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items4" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items5" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items6" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items7" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items8" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items9" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items10" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items11" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items12" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items13" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items14" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items15" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items16" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items17" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items18" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items19" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items20" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items21" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items22" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items23" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items24" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items25" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items26" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items27" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items28" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items29" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items30" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items31" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items32" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items33" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items34" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items35" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items36" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items37" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items38" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items39" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items40" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items41" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items42" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items43" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items44" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items45" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items46" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items47" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items48" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items49" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items50" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items51" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items52" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items53" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items54" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items55" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items56" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items57" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items58" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items59" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items60" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items61" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items62" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items63" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items64" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items65" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items66" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items67" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items68" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items69" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items70" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items71" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items72" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items73" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items74" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items75" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items76" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items77" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items78" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items79" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items80" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items81" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items82" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items83" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items84" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items85" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items86" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items87" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items88" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items89" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items90" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items91" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items92" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items93" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items94" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items95" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items96" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items97" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items98" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items99" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items100" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items101" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items102" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items103" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items104" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items105" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items106" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items107" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items108" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items109" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items110" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items111" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items112" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items113" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items114" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items115" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items116" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items117" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items118" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items119" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items120" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items121" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items122" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items123" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items124" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items125" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items126" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items127" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items128" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items129" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items130" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items131" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items132" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items133" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items134" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items135" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items136" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items137" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items138" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items139" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items140" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items141" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items142" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items143" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items144" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items145" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items146" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items147" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items148" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items149" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items150" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items151" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items152" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items153" xml:space="preserve">
     <value>km</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items154" xml:space="preserve">
     <value>m</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items155" xml:space="preserve">
     <value>dm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items156" xml:space="preserve">
     <value>cm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items157" xml:space="preserve">
     <value>mm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items158" xml:space="preserve">
     <value>μm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items159" xml:space="preserve">
     <value>nm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items160" xml:space="preserve">
     <value>pm</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Items161" xml:space="preserve">
     <value>yd</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="unitsComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>155, 114</value>
   </data>
@@ -1054,7 +1054,7 @@
   </data>
   <data name="okButton.Text" xml:space="preserve">
     <value>OK</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;okButton.Name" xml:space="preserve">
     <value>okButton</value>
   </data>
@@ -1414,7 +1414,7 @@
   </data>
   <data name="zLabelTextBox.Text" xml:space="preserve">
     <value>z</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="zLabelTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
@@ -1537,7 +1537,7 @@
   </data>
   <data name="yLabelTextBox.Text" xml:space="preserve">
     <value>y</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="yLabelTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
@@ -1660,7 +1660,7 @@
   </data>
   <data name="xLabelTextBox.Text" xml:space="preserve">
     <value>x</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="xLabelTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>

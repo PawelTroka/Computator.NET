@@ -365,4 +365,82 @@
   <data name="Program_CurrentDomain_UnhandledException_Try_installing_font_" xml:space="preserve">
     <value>Spróbuj zainstalować czcionkę!</value>
   </data>
+  <data name="CheckChartAreaValues" xml:space="preserve">
+    <value>Sprawdź wartości obszaru wykresu</value>
+  </data>
+  <data name="Min_value_needs_to_be_less_than_Max_value" xml:space="preserve">
+    <value>Wartość Min musi być mniejsza od wartości Max</value>
+  </data>
+  <data name="NeedsToBeLessThan" xml:space="preserve">
+    <value>musi być mniejsze niż</value>
+  </data>
+  <data name="NeedsToBeGreaterThan" xml:space="preserve">
+    <value>musi być większe niż</value>
+  </data>
+  <data name="Chart3D_is_not_supported_on_Mono" xml:space="preserve">
+    <value>Chart3D nie jest wspierany na Mono</value>
+  </data>
+  <data name="secant_Newton_Raphson_method" xml:space="preserve">
+    <value>metoda siecznych Newton-Raphson</value>
+  </data>
+  <data name="secant_method" xml:space="preserve">
+    <value>metoda siecznych</value>
+  </data>
+  <data name="bisection_method" xml:space="preserve">
+    <value>metoda bisekcji</value>
+  </data>
+  <data name="Brent_s_method" xml:space="preserve">
+    <value>metoda Brenta</value>
+  </data>
+  <data name="Broyden_s_method" xml:space="preserve">
+    <value>metoda Broydena</value>
+  </data>
+  <data name="infinity_adaptive_Gauss_Kronrod_method" xml:space="preserve">
+    <value>nieskończenie-adaptacyjna metoda Gauss-Kronrod</value>
+  </data>
+  <data name="non_adaptive_Gauss_Kronrod_method" xml:space="preserve">
+    <value>nie-adaptacyjna metoda Gauss-Kronrod</value>
+  </data>
+  <data name="centered_five_point_method" xml:space="preserve">
+    <value>wyśrodkowana metoda 5-punktów</value>
+  </data>
+  <data name="stable_finite_difference_formula" xml:space="preserve">
+    <value>stabilna skończona różnica</value>
+  </data>
+  <data name="two_point_finite_difference_formula" xml:space="preserve">
+    <value>2-punktowa skończona różnica</value>
+  </data>
+  <data name="finite_difference_formula" xml:space="preserve">
+    <value>skończona różnica</value>
+  </data>
+  <data name="centered_order_point_method" xml:space="preserve">
+    <value>wyśrodkowana metoda n-punktów</value>
+  </data>
+  <data name="Function_root" xml:space="preserve">
+    <value>Miejsca zerowe funkcji</value>
+  </data>
+  <data name="Derivative" xml:space="preserve">
+    <value>Pochodna</value>
+  </data>
+  <data name="Integral" xml:space="preserve">
+    <value>Całka</value>
+  </data>
+  <data name="Romberg_s_method" xml:space="preserve">
+    <value>metoda Romberga</value>
+  </data>
+  <data name="Monte_Carlo_method" xml:space="preserve">
+    <value>metoda Monte Carlo</value>
+  </data>
+  <data name="double_exponential_transformation" xml:space="preserve">
+    <value>podwójna eksponencjalna transformacja</value>
+  </data>
+  <data name="Simpson_s_method" xml:space="preserve">
+    <value>metoda Simpsona</value>
+  </data>
+  <data name="rectangle_method" xml:space="preserve">
+    <value>metoda prostokątów</value>
+  </data>
+  <data name="trapezoidal_method" xml:space="preserve">
+    <value>metoda trapezów</value>
+  </data>
 </root>

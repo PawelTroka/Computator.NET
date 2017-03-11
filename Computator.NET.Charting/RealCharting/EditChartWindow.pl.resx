@@ -232,4 +232,16 @@
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
   </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>y minimum</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>x minimum</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>pikseli</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>pikseli</value>
+  </data>
 </root>

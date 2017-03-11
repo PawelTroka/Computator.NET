@@ -75,7 +75,7 @@
   </data>
   <data name="button1.Text" xml:space="preserve">
     <value>OK</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;button1.Name" xml:space="preserve">
     <value>button1</value>
   </data>

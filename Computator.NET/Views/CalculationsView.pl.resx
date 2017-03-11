@@ -132,4 +132,7 @@
   <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
     <value>Wyrażenie</value>
   </data>
+  <data name="dataGridViewTextBoxColumn4.HeaderText" xml:space="preserve">
+    <value>Argument</value>
+  </data>
 </root>

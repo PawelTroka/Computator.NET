@@ -239,7 +239,7 @@
   </data>
   <data name="memoryTestRichTextBox.Text" xml:space="preserve">
     <value />
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;memoryTestRichTextBox.Name" xml:space="preserve">
     <value>memoryTestRichTextBox</value>
   </data>
@@ -482,7 +482,7 @@
   </data>
   <data name="functionsTestRichTextBox.Text" xml:space="preserve">
     <value />
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;functionsTestRichTextBox.Name" xml:space="preserve">
     <value>functionsTestRichTextBox</value>
   </data>
@@ -6300,7 +6300,7 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Benchmark</value>
-  </data>
+  <comment>@Invariant</comment></data>
   <data name="&gt;&gt;memoryTestBackgroundWorker.Name" xml:space="preserve">
     <value>memoryTestBackgroundWorker</value>
   </data>
