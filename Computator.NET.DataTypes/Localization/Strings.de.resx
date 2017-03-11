@@ -136,7 +136,7 @@
     <value>Angesichts ε ist nicht gültig.</value>
   </data>
   <data name="ConsoleOutput" xml:space="preserve">
-    <value>Konsolenausgabe :</value>
+    <value>Konsolenausgabe:</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>Eigenschaften:</value>
@@ -145,7 +145,7 @@
     <value>Bitte melden Sie alle Bugs zu Paweł Troka - ptroka@fizyka.dk</value>
   </data>
   <data name="BugReporting" xml:space="preserve">
-    <value>Bug-Reporting</value>
+    <value>Melden von Fehlern</value>
   </data>
   <data name="Chart" xml:space="preserve">
     <value>Tabelle</value>
@@ -218,7 +218,7 @@
     <value>Übersetzer</value>
   </data>
   <data name="SpecialThanksTo" xml:space="preserve">
-    <value>Besonderen Dank an :</value>
+    <value>Besonderen Dank an:</value>
   </data>
   <data name="XYRatio0" xml:space="preserve">
     <value>| X / Y - Verhältnis = {0} |</value>

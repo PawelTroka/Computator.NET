@@ -148,7 +148,7 @@
     <value>öffnen Sie das Skript</value>
   </data>
   <data name="consoleOutputTextBox.Text" xml:space="preserve">
-    <value>Konsolenausgabe :</value>
+    <value>Konsolenausgabe:</value>
   </data>
   <data name="saveScriptButton.Text" xml:space="preserve">
     <value>speichern Sie das Skript</value>
@@ -271,7 +271,7 @@
     <value>Aktuell: f (x)</value>
   </data>
   <data name="complexNumbersModeRadioBox.Text" xml:space="preserve">
-    <value>Verbund : f ( z)</value>
+    <value>Verbund : f(z)</value>
   </data>
   <data name="modeGroupBox.Text" xml:space="preserve">
     <value>Modus</value>

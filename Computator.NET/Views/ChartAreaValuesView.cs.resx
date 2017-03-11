@@ -124,7 +124,7 @@
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Kvalita grafu :</value>
+    <value>Kvalita grafu:</value>
   </data>
   <data name="clearChartButton.Text" xml:space="preserve">
     <value>Vyčistit</value>

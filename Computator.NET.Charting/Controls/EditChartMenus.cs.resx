@@ -126,4 +126,7 @@
   <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
     <value>Graf</value>
   </data>
+  <data name="colorAssignmentToolStripMenuItem.Text" xml:space="preserve">
+    <value>Režim přiřazení barev</value>
+  </data>
 </root>

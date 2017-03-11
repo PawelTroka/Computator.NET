@@ -129,4 +129,76 @@
   <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
     <value>Graf</value>
   </data>
+  <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
+    <value>O programu</value>
+  </data>
+  <data name="BugReporting.Text" xml:space="preserve">
+    <value>Hlášení chyb</value>
+  </data>
+  <data name="colorAssignmentToolStripMenuItem.Text" xml:space="preserve">
+    <value>Režim přiřazení barev</value>
+  </data>
+  <data name="constantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Konstanty</value>
+  </data>
+  <data name="contourLinesMode.Text" xml:space="preserve">
+    <value>Režim vrstevnic</value>
+  </data>
+  <data name="edit.Text" xml:space="preserve">
+    <value>Editovat ...</value>
+  </data>
+  <data name="editProperties.Text" xml:space="preserve">
+    <value>Upravit vlastnosti ...</value>
+  </data>
+  <data name="editToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Editovat ...</value>
+  </data>
+  <data name="elementaryFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Elementární funkce</value>
+  </data>
+  <data name="equalAxes.Text" xml:space="preserve">
+    <value>Rovné osy</value>
+  </data>
+  <data name="Features.Text" xml:space="preserve">
+    <value>Vlastnosti:</value>
+  </data>
+  <data name="export.Text" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="functionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Funkce</value>
+  </data>
+  <data name="helpToolStripButton.Text" xml:space="preserve">
+    <value>Nápověda</value>
+  </data>
+  <data name="Language.Text" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
+  <data name="legendPositions.Text" xml:space="preserve">
+    <value>Poloha legendy</value>
+  </data>
+  <data name="optionsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Možnosti</value>
+  </data>
+  <data name="physicalConstantsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fyzikální konstanty</value>
+  </data>
+  <data name="rescale.Text" xml:space="preserve">
+    <value>Přeškálovat</value>
+  </data>
+  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="specialFunctionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Speciální funkce</value>
+  </data>
+  <data name="ThanksTo.Text" xml:space="preserve">
+    <value>Poděkování</value>
+  </data>
+  <data name="transformToolStripMenuItem.Text" xml:space="preserve">
+    <value>Transformace</value>
+  </data>
+  <data name="type.Text" xml:space="preserve">
+    <value>Typ</value>
+  </data>
 </root>

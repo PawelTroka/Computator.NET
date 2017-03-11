@@ -323,6 +323,9 @@
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Benchmarking\BenchmarkForm.de.resx">
+      <DependentUpon>BenchmarkForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Benchmarking\BenchmarkForm.pl.resx">
       <DependentUpon>BenchmarkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -392,6 +395,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainView.de.resx">
       <DependentUpon>MainView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainView.pl.resx">
       <DependentUpon>MainView.cs</DependentUpon>

@@ -69,7 +69,7 @@
     <Compile Include="Functions\BaseFunction.cs" />
     <Compile Include="CalculationException.cs" />
     <Compile Include="CalculationsMode.cs" />
-    <Compile Include="Localization\Strings.Designer.cs">
+    <Compile Include="Localization\Strings1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>

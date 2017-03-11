@@ -160,7 +160,7 @@
     <value>Syntaktická chyba ve výrazu . Jedna z používaných funkcí neexistuje / není v souladu s uvedenými argumenty , nebo prostě jste jen udělali chybu v zápisu.</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Podrobné informace :</value>
+    <value>Podrobné informace:</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
     <value>Více informací :</value>
@@ -218,7 +218,7 @@
     <value>překladatelé</value>
   </data>
   <data name="SpecialThanksTo" xml:space="preserve">
-    <value>Zvláštní poděkování patří :</value>
+    <value>Zvláštní poděkování patří:</value>
   </data>
   <data name="XYRatio0" xml:space="preserve">
     <value>| X / Y poměr = {0} |</value>

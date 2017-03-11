@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,67 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="complexChartToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
-  </data>
-  <data name="chartToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
-  </data>
-  <data name="chart3dToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tabelle</value>
-  </data>
-  <data name="aboutToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Über das Programm</value>
-  </data>
-  <data name="BugReporting.Text" xml:space="preserve">
-    <value>Melden von Fehlern</value>
-  </data>
-  <data name="colorAssignmentToolStripMenuItem.Text" xml:space="preserve">
-    <value>Farbzuordnungsmodus</value>
-  </data>
-  <data name="contourLinesMode.Text" xml:space="preserve">
-    <value>Konturlinien -Modus</value>
-  </data>
-  <data name="edit.Text" xml:space="preserve">
-    <value>Edit ...</value>
-  </data>
-  <data name="editProperties.Text" xml:space="preserve">
-    <value>Bearbeiten Eigenschaften ...</value>
-  </data>
-  <data name="editToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Edit ...</value>
-  </data>
-  <data name="Features.Text" xml:space="preserve">
-    <value>Eigenschaften:</value>
-  </data>
-  <data name="export.Text" xml:space="preserve">
-    <value>Export</value>
-  </data>
-  <data name="functionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Funktion</value>
-  </data>
-  <data name="helpToolStripButton.Text" xml:space="preserve">
-    <value>Hilfe</value>
-  </data>
-  <data name="Language.Text" xml:space="preserve">
-    <value>Sprache</value>
-  </data>
-  <data name="legendPositions.Text" xml:space="preserve">
-    <value>Position der Legende</value>
-  </data>
-  <data name="optionsToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Optionen</value>
-  </data>
-  <data name="rescale.Text" xml:space="preserve">
-    <value>Maßstab</value>
-  </data>
-  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Speichern</value>
-  </data>
-  <data name="ThanksTo.Text" xml:space="preserve">
-    <value>dank</value>
-  </data>
-  <data name="type.Text" xml:space="preserve">
-    <value>Art</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Werte:</value>
   </data>
 </root>
