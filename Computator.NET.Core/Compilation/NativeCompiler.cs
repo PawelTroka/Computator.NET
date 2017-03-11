@@ -17,23 +17,23 @@ namespace Computator.NET.Core.Compilation
     public class NativeCompiler : CSharpCodeProvider
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
-        private readonly CompilerParameters parameters;
+        private readonly CompilerParameters _parameters;
 
         public NativeCompiler()
         {
-            parameters = new CompilerParameters
+            _parameters = new CompilerParameters
             {
                 GenerateInMemory = true,
                 TempFiles = {KeepFiles = false}
             };
-            parameters.ReferencedAssemblies.Add("System.dll");
-            parameters.ReferencedAssemblies.Add("System.Core.dll");
-            parameters.ReferencedAssemblies.Add("System.Numerics.dll");
-            parameters.ReferencedAssemblies.Add(GetDllPath("Meta.Numerics.dll"));
-            parameters.ReferencedAssemblies.Add(GetDllPath("MathNet.Numerics.dll"));
-            parameters.ReferencedAssemblies.Add(GetDllPath("Accord.Math.dll"));
-            parameters.ReferencedAssemblies.Add(GetDllPath("Accord.dll"));
-            parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll"); //dynamic
+            _parameters.ReferencedAssemblies.Add("System.dll");
+            _parameters.ReferencedAssemblies.Add("System.Core.dll");
+            _parameters.ReferencedAssemblies.Add("System.Numerics.dll");
+            _parameters.ReferencedAssemblies.Add(GetDllPath("Meta.Numerics.dll"));
+            _parameters.ReferencedAssemblies.Add(GetDllPath("MathNet.Numerics.dll"));
+            _parameters.ReferencedAssemblies.Add(GetDllPath("Accord.Math.dll"));
+            _parameters.ReferencedAssemblies.Add(GetDllPath("Accord.dll"));
+            _parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll"); //dynamic
         }
 
         public int MainCodeStarOffsetLine { get; set; }
@@ -88,10 +88,14 @@ namespace Computator.NET.Core.Compilation
         {
             if (RuntimeInformation.IsUnix)
             {
+                if (!Directory.Exists(AppInformation.TempDirectory))
+                {
+                    Directory.CreateDirectory(AppInformation.TempDirectory);
+                }
                 //fix for #39 - otherwise in Mono CSharpCodeProvider will always return the same assembly
-                parameters.OutputAssembly = Path.Combine(AppInformation.TempDirectory, Guid.NewGuid().ToString());
+                _parameters.OutputAssembly = Path.Combine(AppInformation.TempDirectory, Guid.NewGuid().ToString());
             }
-            var results = CompileAssemblyFromSource(parameters, input);
+            var results = CompileAssemblyFromSource(_parameters, input);
 
             if (results.Errors.HasErrors)
             {
@@ -104,21 +108,21 @@ namespace Computator.NET.Core.Compilation
                 {
                     message.Append(
                         $"{Environment.NewLine} {(IsScripting ? Strings.NativeCompiler_Compile_Script_errors : Strings.NativeCompiler_Compile_Expression_errors)}:");
-                    message.Append(errorCollectionToString(compilationException.Errors[CompilationErrorPlace.MainCode]));
+                    message.Append(ErrorCollectionToString(compilationException.Errors[CompilationErrorPlace.MainCode]));
                 }
 
                 if (compilationException.HasCustomFunctionsErrors)
                 {
                     message.Append($"{Environment.NewLine} {Strings.NativeCompiler_Compile_Custom_functions_errors}:");
                     message.Append(
-                        errorCollectionToString(compilationException.Errors[CompilationErrorPlace.CustomFunctions]));
+                        ErrorCollectionToString(compilationException.Errors[CompilationErrorPlace.CustomFunctions]));
                 }
 
                 if (compilationException.HasInternalErrors)
                     //if there is any warning in our internal code that means we are aware of it and we dont wanna show it to user :)
                 {
                     message.Append($"{Environment.NewLine} {Strings.NativeCompiler_Compile_Internal_errors}:");
-                    message.Append(errorCollectionToString(compilationException.Errors[CompilationErrorPlace.Internal]));
+                    message.Append(ErrorCollectionToString(compilationException.Errors[CompilationErrorPlace.Internal]));
                 }
 
                 compilationException = new CompilationException(message.ToString())
@@ -138,8 +142,8 @@ namespace Computator.NET.Core.Compilation
                 throw compilationException;
             }
 
-            parameters.TempFiles.KeepFiles = false;
-            parameters.TempFiles.Delete();
+            _parameters.TempFiles.KeepFiles = false;
+            _parameters.TempFiles.Delete();
             results.TempFiles.KeepFiles = false;
             results.TempFiles.Delete();
 
@@ -160,7 +164,7 @@ namespace Computator.NET.Core.Compilation
             return compilationException;
         }
 
-        private static string errorCollectionToString(IEnumerable<CompilerError> errorCollection)
+        private static string ErrorCollectionToString(IEnumerable<CompilerError> errorCollection)
         {
             var message = new StringBuilder();
             foreach (var error in errorCollection)
@@ -181,7 +185,7 @@ namespace Computator.NET.Core.Compilation
 
         public void AddDll(string dllPath)
         {
-            parameters.ReferencedAssemblies.Add(dllPath);
+            _parameters.ReferencedAssemblies.Add(dllPath);
         }
     }
 }
