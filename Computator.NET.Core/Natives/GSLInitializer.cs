@@ -39,17 +39,7 @@ namespace Computator.NET.Core.Natives
 
 
             ExtractEmbeddedDlls(GslConfig.GslLibraryName, gsl);
-
-
-            if (RuntimeInformation.IsUnix)
-                ExtractEmbeddedDlls(GslConfig.CblasLibraryName,
-                    RuntimeInformation.Is64Bit
-                        ? (RuntimeInformation.IsMacOS
-                            ? Resources.libgslcblas_osx_amd64
-                            : Resources.libgslcblas_amd64)
-                        : (RuntimeInformation.IsMacOS ? Resources.libgslcblas_osx_i686 : Resources.libgslcblas_i686));
-
-
+            
             switch (Settings.Default.CalculationsErrors)
             {
                 case CalculationsErrors.ReturnNAN:

@@ -23,10 +23,5 @@ namespace Computator.NET.DataTypes
         }
 
         public static readonly string GslLibraryName = GetOSSpecificLibraryName("gsl");
-
-        public static readonly string CblasLibraryName = RuntimeInformation.IsUnix
-            ? GetOSSpecificLibraryName("gslcblas")
-            : GetOSSpecificLibraryName("cblas");
-
     }
 }

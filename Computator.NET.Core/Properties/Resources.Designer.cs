@@ -201,46 +201,6 @@ namespace Computator.NET.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] libgslcblas_amd64 {
-            get {
-                object obj = ResourceManager.GetObject("libgslcblas_amd64", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] libgslcblas_i686 {
-            get {
-                object obj = ResourceManager.GetObject("libgslcblas_i686", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] libgslcblas_osx_amd64 {
-            get {
-                object obj = ResourceManager.GetObject("libgslcblas_osx_amd64", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] libgslcblas_osx_i686 {
-            get {
-                object obj = ResourceManager.GetObject("libgslcblas_osx_i686", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap Matrix {
