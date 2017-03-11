@@ -9,7 +9,6 @@ using Computator.NET.Core.Annotations;
 using Computator.NET.Core.Helpers;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
-using System.Linq;
 using NLog;
 
 namespace Computator.NET.Core.Properties

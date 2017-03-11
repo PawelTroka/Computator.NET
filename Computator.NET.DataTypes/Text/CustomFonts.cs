@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Text;
-using System.Reflection;
 using NLog;
 
 namespace Computator.NET.DataTypes

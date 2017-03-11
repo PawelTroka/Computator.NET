@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Numerics;
 using System.Windows.Forms.DataVisualization.Charting;
 using Computator.NET.Charting.ComplexCharting;
 

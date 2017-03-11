@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Bootstrapping;
@@ -11,10 +10,8 @@ using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 using Computator.NET.Dialogs;
-using Computator.NET.Services;
 using Computator.NET.Views;
 using NLog;
-using NLog.Fluent;
 
 namespace Computator.NET
 {

@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
-using Computator.NET.DataTypes;
 
 namespace Computator.NET.Core.Natives
 {

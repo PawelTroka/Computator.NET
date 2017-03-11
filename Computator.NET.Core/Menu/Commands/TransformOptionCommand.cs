@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Accord.Collections;
 using Computator.NET.Core.Menu.Commands.ChartCommands;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Transformations;

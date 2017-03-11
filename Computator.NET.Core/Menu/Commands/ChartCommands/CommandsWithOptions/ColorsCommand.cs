@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
-using Accord.Collections;
 using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Menu.Commands.DummyCommands;
 using Computator.NET.Core.Model;
