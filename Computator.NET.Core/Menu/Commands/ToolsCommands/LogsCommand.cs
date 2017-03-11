@@ -29,7 +29,7 @@ namespace Computator.NET.Core.Menu.Commands.ToolsCommands
             catch
             {
                 _messagingService.Show(
-                    Strings.GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_,string.Empty);
+                    Strings.You_dont_have_any_logs_yet_,string.Empty);
             }
         }
     }

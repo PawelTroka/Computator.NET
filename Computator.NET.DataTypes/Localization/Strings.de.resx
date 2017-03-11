@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GUI_addToChartButton_Click_Expression_should_not_be_empty_" xml:space="preserve">
+  <data name="Expression_should_not_be_empty_" xml:space="preserve">
     <value>Ausdruck sollte nicht leer sein!</value>
   </data>
   <data name="AddToChart" xml:space="preserve">
@@ -153,7 +153,7 @@
   <data name="ItSFeaturesInclude" xml:space="preserve">
     <value>Es ist Features sind:</value>
   </data>
-  <data name="BrBrISourceBrAHref" xml:space="preserve">
+  <data name="Source_" xml:space="preserve">
     <value>Quelle :</value>
   </data>
   <data name="ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression" xml:space="preserve">
@@ -168,9 +168,6 @@
   <data name="NoFunctionToInvoke" xml:space="preserve">
     <value>Keine Funktion , die aufgerufen werden</value>
   </data>
-  <data name="ForChosenValuesOneOrMoreOfTheFunctionsInYourExpressionCannotConvergence" xml:space="preserve">
-    <value>Für gewählten Werte ein (oder mehrere ) der Funktionen in Ihrem Ausdruck kann nicht Konvergenz</value>
-  </data>
   <data name="featuresInclude" xml:space="preserve">
     <value>- Reelle und komplexe Funktionen Charts
  - Reelle und komplexe Rechner
@@ -181,7 +178,7 @@
  - Skriptsprache mit der Macht, einfach Berechnungen einschließlich Matrizen
  - Sie können Ihre eigenen benutzerdefinierten Funktionen mit Skriptsprache erklären</value>
   </data>
-  <data name="memoryTestBackgroundWorker_RunWorkerCompleted" xml:space="preserve">
+  <data name="MemoryAllocationSpeedTestCancelledByUser" xml:space="preserve">
     <value>Speicherzuweisung Speed-Test wurde vom Benutzer abgebrochen</value>
   </data>
   <data name="MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult" xml:space="preserve">
@@ -223,13 +220,10 @@
   <data name="XYRatio0" xml:space="preserve">
     <value>| X / Y - Verhältnis = {0} |</value>
   </data>
-  <data name="BadSyntax" xml:space="preserve">
-    <value>Bad Syntax</value>
-  </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right" xml:space="preserve">
+  <data name="Close_tabs_to_the_right" xml:space="preserve">
     <value>Tabs schließen nach rechts</value>
   </data>
-  <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
+  <data name="Syntax_error" xml:space="preserve">
     <value>Syntax Fehler</value>
   </data>
 </root>

@@ -94,7 +94,7 @@ namespace Computator.NET.Controls.AutocompleteMenu
         public void setFunctionInfo(FunctionInfo functionInfo)
         {
             HTMLCode = @"<b>" + functionInfo.Title + @"</b>" + @"<hr>" + functionInfo.Description + @" <br /><br /><i>" +
-                       Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
+                       Strings.Source_ + @"<br /><a href=""" +
                        functionInfo.Url.Replace("http://en.wikipedia", "http://en.m.wikipedia") + @""">" +
                        functionInfo.Url + @"</a></i>";
         }

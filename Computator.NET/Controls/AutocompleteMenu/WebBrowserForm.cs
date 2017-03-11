@@ -17,7 +17,7 @@ namespace Computator.NET.Controls.AutocompleteMenu
         public WebBrowserForm()
         {
             FormClosing += Form_FormClosing;
-            Text = Strings.WebBrowserForm_WebBrowserForm_Functions___Constants_Details;
+            Text = Strings.Functions_and_Constants_Details;
             webBrowser = new WebBrowser
             {
                 MinimumSize = new Size(300, 195),
@@ -54,7 +54,7 @@ namespace Computator.NET.Controls.AutocompleteMenu
         public void SetFunctionInfo(FunctionInfo functionInfo)
         {
             HTMLCode = @"<b>" + functionInfo.Title + @"</b>" + @"<hr>" + functionInfo.Description + @" <br /><br /><i>" +
-                       Strings.BrBrISourceBrAHref + @"<br /><a href=""" +
+                       Strings.Source_ + @"<br /><a href=""" +
                        functionInfo.Url.Replace("http://en.wikipedia", "http://en.m.wikipedia") + @""">" +
                        functionInfo.Url + @"</a></i>";
         }

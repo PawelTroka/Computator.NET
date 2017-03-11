@@ -69,7 +69,7 @@ namespace Computator.NET
         {
             var ex = e.ExceptionObject as Exception;
             MessageBox.Show(ex.Message,
-                Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception);
+                Strings.Unhandled_UI_Exception);
 
             if (ex.Message.Contains("Font") || ex.Message.Contains("font"))
             {
@@ -79,7 +79,7 @@ namespace Computator.NET
                 Process.Start(PathUtility.GetFullPath("Static", "fonts", "CAMBRIA.TTC"));
             }
 
-            Logger.Error(ex, Strings.Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception+ $"is terminting: {e.IsTerminating}, {e?.ExceptionObject}");
+            Logger.Error(ex, Strings.Unhandled_UI_Exception+ $"is terminting: {e.IsTerminating}, {e?.ExceptionObject}");
         }
 
 

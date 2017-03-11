@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GUI_addToChartButton_Click_Expression_should_not_be_empty_" xml:space="preserve">
+  <data name="Expression_should_not_be_empty_" xml:space="preserve">
     <value>Wyrażenie nie może być puste!</value>
   </data>
   <data name="AddToChart" xml:space="preserve">
@@ -153,7 +153,7 @@
   <data name="ItSFeaturesInclude" xml:space="preserve">
     <value>Jego cechy to:</value>
   </data>
-  <data name="BrBrISourceBrAHref" xml:space="preserve">
+  <data name="Source_" xml:space="preserve">
     <value>źródło:</value>
   </data>
   <data name="ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression" xml:space="preserve">
@@ -167,9 +167,6 @@
   </data>
   <data name="NoFunctionToInvoke" xml:space="preserve">
     <value>Brak funkcji do wywołania</value>
-  </data>
-  <data name="ForChosenValuesOneOrMoreOfTheFunctionsInYourExpressionCannotConvergence" xml:space="preserve">
-    <value>Dla wybranych wartości, jedna (lub więcej) z funkcji w wyrażeniu, nie jest zbieżna.</value>
   </data>
   <data name="featuresInclude" xml:space="preserve">
     <value>- Wykresy funkcji rzeczywistych i zespolonych
@@ -188,7 +185,7 @@
 
 - Możesz zadeklarować własne niestandardowe funkcje z języka skryptowego</value>
   </data>
-  <data name="memoryTestBackgroundWorker_RunWorkerCompleted" xml:space="preserve">
+  <data name="MemoryAllocationSpeedTestCancelledByUser" xml:space="preserve">
     <value>Test wydajności alokacji pamięci anulowany przez użytkownika</value>
   </data>
   <data name="MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult" xml:space="preserve">
@@ -230,10 +227,7 @@
   <data name="XYRatio0" xml:space="preserve">
     <value>  |  X/Y stosunek = {0}  |</value>
   </data>
-  <data name="BadSyntax" xml:space="preserve">
-    <value>Niepoprawna składnia</value>
-  </data>
-  <data name="GUI_numericalOperationButton_Click_Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_" xml:space="preserve">
+  <data name="Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_" xml:space="preserve">
     <value>Tylko tryb rzeczywisty jest wspierany w obliczeniach numerycznych na daną chwilę, więcej trybów w kolejnych wersjach!</value>
   </data>
   <data name="GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_" xml:space="preserve">
@@ -245,122 +239,119 @@
   <data name="GlobalConfig_others_standard_algorithm_for_complex_domain_coloring" xml:space="preserve">
     <value>standardowy algorytm dla zespolonego kolorowania domeny</value>
   </data>
-  <data name="DocumentsTabControl_AddTab_NewFile" xml:space="preserve">
+  <data name="AddTab_NewFile" xml:space="preserve">
     <value>NowyPlik</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left" xml:space="preserve">
+  <data name="Close_tabs_to_the_left" xml:space="preserve">
     <value>Zamknij karty na lewo</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right" xml:space="preserve">
+  <data name="Close_tabs_to_the_right" xml:space="preserve">
     <value>Zamknij karty na prawo</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_other_tabs" xml:space="preserve">
+  <data name="Close_other_tabs" xml:space="preserve">
     <value>Zamknij inne karty</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_tab" xml:space="preserve">
+  <data name="Close_tab" xml:space="preserve">
     <value>Zamknij kartę</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Clone_tab" xml:space="preserve">
+  <data name="Clone_tab" xml:space="preserve">
     <value>Sklonuj kartę</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_New_tab" xml:space="preserve">
+  <data name="New_tab" xml:space="preserve">
     <value>Nowa karta</value>
   </data>
-  <data name="WebBrowserForm_WebBrowserForm_Functions___Constants_Details" xml:space="preserve">
+  <data name="Functions_and_Constants_Details" xml:space="preserve">
     <value>Funkcje i Stałe - Szczegóły</value>
   </data>
-  <data name="Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6" xml:space="preserve">
+  <data name="Number_of_steps_should_be_small__default_is_6" xml:space="preserve">
     <value>Liczba kroków powinna być mała, domyślne jest 6</value>
   </data>
-  <data name="Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception" xml:space="preserve">
+  <data name="Unhandled_UI_Exception" xml:space="preserve">
     <value>Nieobsłużony wyjątek interfejsu użytkownika</value>
   </data>
   <data name="Program_Application_ThreadException_Unhandled_Thread_Exception" xml:space="preserve">
     <value>Nieobsłużony wyjątek wątku</value>
   </data>
-  <data name="DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters" xml:space="preserve">
+  <data name="The_invalid_characters_are" xml:space="preserve">
     <value>Niepoprawne znaki to: '@','.', ',', '!'</value>
   </data>
-  <data name="DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank" xml:space="preserve">
+  <data name="The_label_cannot_be_blank" xml:space="preserve">
     <value>Nazwa nie może być pusta</value>
   </data>
-  <data name="DirectoryTree_treeView1_AfterLabelEdit_" xml:space="preserve">
+  <data name="InvalidLabel" xml:space="preserve">
     <value>Niepoprawna nazwa.</value>
   </data>
-  <data name="DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit" xml:space="preserve">
+  <data name="Label_Edit_error" xml:space="preserve">
     <value>Błąd edycji nazwy</value>
   </data>
-  <data name="DirectoryTree_DirectoryTree_Delete_file" xml:space="preserve">
+  <data name="Delete_file" xml:space="preserve">
     <value>Usuń plik</value>
   </data>
-  <data name="DirectoryTree_DirectoryTree_Rename_file" xml:space="preserve">
+  <data name="Rename_file" xml:space="preserve">
     <value>Zmień nazwę pliku</value>
   </data>
-  <data name="DirectoryTree_DirectoryTree_New_file" xml:space="preserve">
+  <data name="Directory_tree_New_file" xml:space="preserve">
     <value>Nowy plik</value>
   </data>
-  <data name="GUI_changelogToolStripMenuItem_Click_Changelog" xml:space="preserve">
+  <data name="Changelog" xml:space="preserve">
     <value>Lista zmian</value>
   </data>
-  <data name="GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_" xml:space="preserve">
+  <data name="You_dont_have_any_logs_yet_" xml:space="preserve">
     <value>Nie masz jeszcze żadnych logów.</value>
   </data>
-  <data name="GUI_numericalOperationButton_Click_Warning_" xml:space="preserve">
+  <data name="Warning_" xml:space="preserve">
     <value>Ostrzeżenie!</value>
   </data>
-  <data name="GUI_numericalOperationButton_Click__Check__Real___f_x___mode" xml:space="preserve">
+  <data name="Check__Real___f_x___mode" xml:space="preserve">
     <value>-Wybierz tryb "Rzeczywisty : f(x)"</value>
   </data>
-  <data name="GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
+  <data name="Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
     <value>Albo nawet lepiej zgłoś je na stronie projektu, używając poniższego linku</value>
   </data>
-  <data name="NativeCompiler_CompilerErrorToString_error" xml:space="preserve">
+  <data name="NativeCompiler_error" xml:space="preserve">
     <value>błąd</value>
   </data>
-  <data name="NativeCompiler_CompilerErrorToString_warning" xml:space="preserve">
+  <data name="NativeCompiler_warning" xml:space="preserve">
     <value>ostrzeżenie</value>
   </data>
-  <data name="NativeCompiler_CompilerErrorToString_Column" xml:space="preserve">
+  <data name="NativeCompiler_Column" xml:space="preserve">
     <value>Kolumna</value>
   </data>
-  <data name="NativeCompiler_CompilerErrorToString_Line" xml:space="preserve">
+  <data name="NativeCompiler_Line" xml:space="preserve">
     <value>Linia</value>
   </data>
-  <data name="NativeCompiler_Compile_Script_errors" xml:space="preserve">
+  <data name="Script_errors" xml:space="preserve">
     <value>Błędy w skrypcie</value>
   </data>
-  <data name="NativeCompiler_Compile_Expression_errors" xml:space="preserve">
+  <data name="Expression_errors" xml:space="preserve">
     <value>Błędy w wyrażeniu</value>
   </data>
-  <data name="NativeCompiler_Compile_Custom_functions_errors" xml:space="preserve">
+  <data name="Custom_functions_errors" xml:space="preserve">
     <value>Błędy w funkcjach własnych</value>
   </data>
-  <data name="NativeCompiler_Compile_Internal_errors" xml:space="preserve">
+  <data name="Internal_errors" xml:space="preserve">
     <value>Błędy wewnętrzne</value>
   </data>
-  <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
+  <data name="Syntax_error" xml:space="preserve">
     <value>Błąd składni</value>
   </data>
-  <data name="Program_Main_Exception_during_startup" xml:space="preserve">
+  <data name="Exception_during_startup" xml:space="preserve">
     <value>Wyjątek podczas uruchamiania</value>
   </data>
-  <data name="GSLInitializer_HandleUnmanagedException_Error_code" xml:space="preserve">
+  <data name="Error_code" xml:space="preserve">
     <value>Kod błędu</value>
   </data>
-  <data name="GSLInitializer_HandleUnmanagedException_Reason" xml:space="preserve">
+  <data name="Reason" xml:space="preserve">
     <value>Powód</value>
   </data>
-  <data name="GSLInitializer_HandleUnmanagedException_at_line" xml:space="preserve">
+  <data name="at_line" xml:space="preserve">
     <value>w linii</value>
   </data>
-  <data name="GSLInitializer_HandleUnmanagedException_Exception_occcured_in" xml:space="preserve">
+  <data name="Exception_occcured_in" xml:space="preserve">
     <value>Wyjątek zdarzył się w</value>
   </data>
   <data name="Exception" xml:space="preserve">
     <value>wyjątek</value>
-  </data>
-  <data name="GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths" xml:space="preserve">
-    <value>Nie udało się załadować modułów Computator.NET w ścieżkach</value>
   </data>
   <data name="Program_CurrentDomain_UnhandledException_Try_installing_font_" xml:space="preserve">
     <value>Spróbuj zainstalować czcionkę!</value>

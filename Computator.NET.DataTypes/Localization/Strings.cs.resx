@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GUI_addToChartButton_Click_Expression_should_not_be_empty_" xml:space="preserve">
+  <data name="Expression_should_not_be_empty_" xml:space="preserve">
     <value>Výraz nemůže být prázdný !</value>
   </data>
   <data name="AddToChart" xml:space="preserve">
@@ -153,7 +153,7 @@
   <data name="ItSFeaturesInclude" xml:space="preserve">
     <value>Mezi jeho vlastnosti patří :</value>
   </data>
-  <data name="BrBrISourceBrAHref" xml:space="preserve">
+  <data name="Source_" xml:space="preserve">
     <value>Zdroj:</value>
   </data>
   <data name="ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression" xml:space="preserve">
@@ -168,9 +168,6 @@
   <data name="NoFunctionToInvoke" xml:space="preserve">
     <value>Žádná funkce neni k vyvolání</value>
   </data>
-  <data name="ForChosenValuesOneOrMoreOfTheFunctionsInYourExpressionCannotConvergence" xml:space="preserve">
-    <value>Pro vybrané hodnoty, jedna ( nebo více ) z funkcí ve vašem výrazu nemůže konvergovat .</value>
-  </data>
   <data name="featuresInclude" xml:space="preserve">
     <value>- Grafy reálních a komplexních funkcí
 - Reální a komplexní kalkulačka
@@ -181,7 +178,7 @@
 - Výkonný skriptovací jazyk pro jednoduché výpočty , s ohledem na matice
 - Můžete deklarovat své vlastní funkce ve skriptovacím jazyce</value>
   </data>
-  <data name="memoryTestBackgroundWorker_RunWorkerCompleted" xml:space="preserve">
+  <data name="MemoryAllocationSpeedTestCancelledByUser" xml:space="preserve">
     <value>Test výkonnosti alokace paměti byl zrušen uživatelem</value>
   </data>
   <data name="MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult" xml:space="preserve">
@@ -223,16 +220,13 @@
   <data name="XYRatio0" xml:space="preserve">
     <value>| X / Y poměr = {0} |</value>
   </data>
-  <data name="BadSyntax" xml:space="preserve">
-    <value>Nesprávná syntaxe</value>
-  </data>
-  <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
+  <data name="Syntax_error" xml:space="preserve">
     <value>Chyba syntaxe</value>
   </data>
-  <data name="Program_Main_Exception_during_startup" xml:space="preserve">
+  <data name="Exception_during_startup" xml:space="preserve">
     <value>Vyjimka pri nastartovani</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right" xml:space="preserve">
+  <data name="Close_tabs_to_the_right" xml:space="preserve">
     <value>Zavri karty z prave strany</value>
   </data>
 </root>

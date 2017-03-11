@@ -113,7 +113,7 @@ namespace Computator.NET.Core.Natives
             string file, int line, int gsl_errno)
         {
             throw new Exception(
-                $"{Strings.GSLInitializer_HandleUnmanagedException_Exception_occcured_in} {file}\n {Strings.GSLInitializer_HandleUnmanagedException_at_line} {line}\n{Strings.GSLInitializer_HandleUnmanagedException_Reason}: {reason}\n{Strings.GSLInitializer_HandleUnmanagedException_Error_code}: {gsl_errno}");
+                $"{Strings.Exception_occcured_in} {file}\n {Strings.at_line} {line}\n{Strings.Reason}: {reason}\n{Strings.Error_code}: {gsl_errno}");
         }
     }
 }

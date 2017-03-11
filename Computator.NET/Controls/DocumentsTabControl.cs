@@ -95,14 +95,14 @@ namespace Computator.NET.Controls
             newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
             newTabToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.T;
             newTabToolStripMenuItem.Size = new Size(190, 22);
-            newTabToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_New_tab;
+            newTabToolStripMenuItem.Text = Strings.New_tab;
             newTabToolStripMenuItem.Click += newTabToolStripMenuItem_Click;
             // 
             // cloneTabToolStripMenuItem
             // 
             cloneTabToolStripMenuItem.Name = "cloneTabToolStripMenuItem";
             cloneTabToolStripMenuItem.Size = new Size(190, 22);
-            cloneTabToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Clone_tab;
+            cloneTabToolStripMenuItem.Text = Strings.Clone_tab;
             cloneTabToolStripMenuItem.Click += cloneTabToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
@@ -114,14 +114,14 @@ namespace Computator.NET.Controls
             // 
             closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
             closeTabToolStripMenuItem.Size = new Size(190, 22);
-            closeTabToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Close_tab;
+            closeTabToolStripMenuItem.Text = Strings.Close_tab;
             closeTabToolStripMenuItem.Click += closeTabToolStripMenuItem_Click;
             // 
             // closeOtherTabsToolStripMenuItem
             // 
             closeOtherTabsToolStripMenuItem.Name = "closeOtherTabsToolStripMenuItem";
             closeOtherTabsToolStripMenuItem.Size = new Size(190, 22);
-            closeOtherTabsToolStripMenuItem.Text = Strings.DocumentsTabControl_InitializeComponent_Close_other_tabs;
+            closeOtherTabsToolStripMenuItem.Text = Strings.Close_other_tabs;
             closeOtherTabsToolStripMenuItem.Click += closeOtherTabsToolStripMenuItem_Click;
             // 
             // closeTabsToTheRightToolStripMenuItem
@@ -129,7 +129,7 @@ namespace Computator.NET.Controls
             closeTabsToTheRightToolStripMenuItem.Name = "closeTabsToTheRightToolStripMenuItem";
             closeTabsToTheRightToolStripMenuItem.Size = new Size(190, 22);
             closeTabsToTheRightToolStripMenuItem.Text =
-                Strings.DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right;
+                Strings.Close_tabs_to_the_right;
             closeTabsToTheRightToolStripMenuItem.Click += closeTabsToTheRightToolStripMenuItem_Click;
             // 
             // closeTabsToTheLeftToolStripMenuItem
@@ -137,7 +137,7 @@ namespace Computator.NET.Controls
             closeTabsToTheLeftToolStripMenuItem.Name = "closeTabsToTheLeftToolStripMenuItem";
             closeTabsToTheLeftToolStripMenuItem.Size = new Size(190, 22);
             closeTabsToTheLeftToolStripMenuItem.Text =
-                Strings.DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left;
+                Strings.Close_tabs_to_the_left;
             closeTabsToTheLeftToolStripMenuItem.Click += closeTabsToTheLeftToolStripMenuItem_Click;
             // 
             // tabPage1
@@ -193,9 +193,9 @@ namespace Computator.NET.Controls
             var tabPage = new TabPage();
             if (string.IsNullOrEmpty(filename))
             {
-                tabPage.Text = Strings.DocumentsTabControl_AddTab_NewFile + id;
+                tabPage.Text = Strings.AddTab_NewFile + id;
                 tabPage.ImageIndex = 1;
-                tabPage.Name = Strings.DocumentsTabControl_AddTab_NewFile + id;
+                tabPage.Name = Strings.AddTab_NewFile + id;
             }
             else
             {

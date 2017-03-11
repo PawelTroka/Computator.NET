@@ -61,6 +61,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NewFile.
+        /// </summary>
+        public static string AddTab_NewFile {
+            get {
+                return ResourceManager.GetString("AddTab_NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add to chart.
         /// </summary>
         public static string AddToChart {
@@ -70,11 +79,11 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad syntax.
+        ///   Looks up a localized string similar to at line.
         /// </summary>
-        public static string BadSyntax {
+        public static string at_line {
             get {
-                return ResourceManager.GetString("BadSyntax", resourceCulture);
+                return ResourceManager.GetString("at_line", resourceCulture);
             }
         }
         
@@ -93,15 +102,6 @@ namespace Computator.NET.DataTypes.Localization {
         public static string bisection_method {
             get {
                 return ResourceManager.GetString("bisection_method", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to source:.
-        /// </summary>
-        public static string BrBrISourceBrAHref {
-            get {
-                return ResourceManager.GetString("BrBrISourceBrAHref", resourceCulture);
             }
         }
         
@@ -160,6 +160,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changelog.
+        /// </summary>
+        public static string Changelog {
+            get {
+                return ResourceManager.GetString("Changelog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chart.
         /// </summary>
         public static string Chart {
@@ -178,6 +187,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -Check &quot;Real : f(x)&quot; mode.
+        /// </summary>
+        public static string Check__Real___f_x___mode {
+            get {
+                return ResourceManager.GetString("Check__Real___f_x___mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check chart area values.
         /// </summary>
         public static string CheckChartAreaValues {
@@ -187,11 +205,74 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clone tab.
+        /// </summary>
+        public static string Clone_tab {
+            get {
+                return ResourceManager.GetString("Clone_tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close other tabs.
+        /// </summary>
+        public static string Close_other_tabs {
+            get {
+                return ResourceManager.GetString("Close_other_tabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close tab.
+        /// </summary>
+        public static string Close_tab {
+            get {
+                return ResourceManager.GetString("Close_tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close tabs to the left.
+        /// </summary>
+        public static string Close_tabs_to_the_left {
+            get {
+                return ResourceManager.GetString("Close_tabs_to_the_left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close tabs to the right.
+        /// </summary>
+        public static string Close_tabs_to_the_right {
+            get {
+                return ResourceManager.GetString("Close_tabs_to_the_right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Console output:.
         /// </summary>
         public static string ConsoleOutput {
             get {
                 return ResourceManager.GetString("ConsoleOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom functions errors.
+        /// </summary>
+        public static string Custom_functions_errors {
+            get {
+                return ResourceManager.GetString("Custom_functions_errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete file.
+        /// </summary>
+        public static string Delete_file {
+            get {
+                return ResourceManager.GetString("Delete_file", resourceCulture);
             }
         }
         
@@ -214,129 +295,11 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete file.
-        /// </summary>
-        public static string DirectoryTree_DirectoryTree_Delete_file {
-            get {
-                return ResourceManager.GetString("DirectoryTree_DirectoryTree_Delete_file", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to New file.
         /// </summary>
-        public static string DirectoryTree_DirectoryTree_New_file {
+        public static string Directory_tree_New_file {
             get {
-                return ResourceManager.GetString("DirectoryTree_DirectoryTree_New_file", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Rename file.
-        /// </summary>
-        public static string DirectoryTree_DirectoryTree_Rename_file {
-            get {
-                return ResourceManager.GetString("DirectoryTree_DirectoryTree_Rename_file", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid label.
-        ///.
-        /// </summary>
-        public static string DirectoryTree_treeView1_AfterLabelEdit_ {
-            get {
-                return ResourceManager.GetString("DirectoryTree_treeView1_AfterLabelEdit_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Label edit error.
-        /// </summary>
-        public static string DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit {
-            get {
-                return ResourceManager.GetString("DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The invalid characters are: &apos;@&apos;,&apos;.&apos;, &apos;,&apos;, &apos;!&apos;.
-        /// </summary>
-        public static string DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters {
-            get {
-                return ResourceManager.GetString("DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The label cannot be blank.
-        /// </summary>
-        public static string DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank {
-            get {
-                return ResourceManager.GetString("DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to NewFile.
-        /// </summary>
-        public static string DocumentsTabControl_AddTab_NewFile {
-            get {
-                return ResourceManager.GetString("DocumentsTabControl_AddTab_NewFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clone tab.
-        /// </summary>
-        public static string DocumentsTabControl_InitializeComponent_Clone_tab {
-            get {
-                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Clone_tab", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close other tabs.
-        /// </summary>
-        public static string DocumentsTabControl_InitializeComponent_Close_other_tabs {
-            get {
-                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Close_other_tabs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close tab.
-        /// </summary>
-        public static string DocumentsTabControl_InitializeComponent_Close_tab {
-            get {
-                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Close_tab", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close tabs to the left.
-        /// </summary>
-        public static string DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left {
-            get {
-                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close tabs to the right.
-        /// </summary>
-        public static string DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right {
-            get {
-                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New tab.
-        /// </summary>
-        public static string DocumentsTabControl_InitializeComponent_New_tab {
-            get {
-                return ResourceManager.GetString("DocumentsTabControl_InitializeComponent_New_tab", resourceCulture);
+                return ResourceManager.GetString("Directory_tree_New_file", resourceCulture);
             }
         }
         
@@ -377,6 +340,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error code.
+        /// </summary>
+        public static string Error_code {
+            get {
+                return ResourceManager.GetString("Error_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error in expression syntax. One of used functions does not exist / is incompatible with given arguments or you just made a mistake writing expression..
         /// </summary>
         public static string ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression {
@@ -392,6 +364,42 @@ namespace Computator.NET.DataTypes.Localization {
         public static string Exception {
             get {
                 return ResourceManager.GetString("Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception during startup.
+        /// </summary>
+        public static string Exception_during_startup {
+            get {
+                return ResourceManager.GetString("Exception_during_startup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception occcured in.
+        /// </summary>
+        public static string Exception_occcured_in {
+            get {
+                return ResourceManager.GetString("Exception_occcured_in", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression errors.
+        /// </summary>
+        public static string Expression_errors {
+            get {
+                return ResourceManager.GetString("Expression_errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression should not be empty!.
+        /// </summary>
+        public static string Expression_should_not_be_empty_ {
+            get {
+                return ResourceManager.GetString("Expression_should_not_be_empty_", resourceCulture);
             }
         }
         
@@ -437,21 +445,20 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For chosen values one (or more) of the functions in your expression cannot convergence
-        ///.
-        /// </summary>
-        public static string ForChosenValuesOneOrMoreOfTheFunctionsInYourExpressionCannotConvergence {
-            get {
-                return ResourceManager.GetString("ForChosenValuesOneOrMoreOfTheFunctionsInYourExpressionCannotConvergence", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Function root.
         /// </summary>
         public static string Function_root {
             get {
                 return ResourceManager.GetString("Function_root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Functions &amp; Constants Details.
+        /// </summary>
+        public static string Functions_and_Constants_Details {
+            get {
+                return ResourceManager.GetString("Functions_and_Constants_Details", resourceCulture);
             }
         }
         
@@ -503,121 +510,11 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to at line.
-        /// </summary>
-        public static string GSLInitializer_HandleUnmanagedException_at_line {
-            get {
-                return ResourceManager.GetString("GSLInitializer_HandleUnmanagedException_at_line", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error code.
-        /// </summary>
-        public static string GSLInitializer_HandleUnmanagedException_Error_code {
-            get {
-                return ResourceManager.GetString("GSLInitializer_HandleUnmanagedException_Error_code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Exception occcured in.
-        /// </summary>
-        public static string GSLInitializer_HandleUnmanagedException_Exception_occcured_in {
-            get {
-                return ResourceManager.GetString("GSLInitializer_HandleUnmanagedException_Exception_occcured_in", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reason.
-        /// </summary>
-        public static string GSLInitializer_HandleUnmanagedException_Reason {
-            get {
-                return ResourceManager.GetString("GSLInitializer_HandleUnmanagedException_Reason", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Could not load the Computator.NET modules at the paths.
-        /// </summary>
-        public static string GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths {
-            get {
-                return ResourceManager.GetString("GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expression should not be empty!.
-        /// </summary>
-        public static string GUI_addToChartButton_Click_Expression_should_not_be_empty_ {
-            get {
-                return ResourceManager.GetString("GUI_addToChartButton_Click_Expression_should_not_be_empty_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Or even better report them on project site, using link below.
-        /// </summary>
-        public static string GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below {
-            get {
-                return ResourceManager.GetString("GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_sit" +
-                        "e__using_link_below", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Changelog.
-        /// </summary>
-        public static string GUI_changelogToolStripMenuItem_Click_Changelog {
-            get {
-                return ResourceManager.GetString("GUI_changelogToolStripMenuItem_Click_Changelog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf.
         /// </summary>
-        public static string GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter {
+        public static string Image_Filter {
             get {
-                return ResourceManager.GetString("GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You dont have any logs yet..
-        /// </summary>
-        public static string GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_ {
-            get {
-                return ResourceManager.GetString("GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -Check &quot;Real : f(x)&quot; mode.
-        /// </summary>
-        public static string GUI_numericalOperationButton_Click__Check__Real___f_x___mode {
-            get {
-                return ResourceManager.GetString("GUI_numericalOperationButton_Click__Check__Real___f_x___mode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Only Real mode is supported in Numerical calculations right now, more to come in next versions!.
-        /// </summary>
-        public static string GUI_numericalOperationButton_Click_Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_ {
-            get {
-                return ResourceManager.GetString("GUI_numericalOperationButton_Click_Only_Real_mode_is_supported_in_Numerical_calcu" +
-                        "lations_right_now__more_to_come_in_next_versions_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Warning!.
-        /// </summary>
-        public static string GUI_numericalOperationButton_Click_Warning_ {
-            get {
-                return ResourceManager.GetString("GUI_numericalOperationButton_Click_Warning_", resourceCulture);
+                return ResourceManager.GetString("Image_Filter", resourceCulture);
             }
         }
         
@@ -640,11 +537,21 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of steps should be small, default is 6.
+        ///   Looks up a localized string similar to Internal errors.
         /// </summary>
-        public static string Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6 {
+        public static string Internal_errors {
             get {
-                return ResourceManager.GetString("Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6", resourceCulture);
+                return ResourceManager.GetString("Internal_errors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid label.
+        ///.
+        /// </summary>
+        public static string InvalidLabel {
+            get {
+                return ResourceManager.GetString("InvalidLabel", resourceCulture);
             }
         }
         
@@ -654,6 +561,15 @@ namespace Computator.NET.DataTypes.Localization {
         public static string ItSFeaturesInclude {
             get {
                 return ResourceManager.GetString("ItSFeaturesInclude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Label edit error.
+        /// </summary>
+        public static string Label_Edit_error {
+            get {
+                return ResourceManager.GetString("Label_Edit_error", resourceCulture);
             }
         }
         
@@ -685,20 +601,20 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Memory allocation speed test cancelled by user.
+        /// </summary>
+        public static string MemoryAllocationSpeedTestCancelledByUser {
+            get {
+                return ResourceManager.GetString("MemoryAllocationSpeedTestCancelledByUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Memory allocation speed test done succesfully, check out your points result.
         /// </summary>
         public static string MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult {
             get {
                 return ResourceManager.GetString("MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Memory allocation speed test cancelled by user.
-        /// </summary>
-        public static string memoryTestBackgroundWorker_RunWorkerCompleted {
-            get {
-                return ResourceManager.GetString("memoryTestBackgroundWorker_RunWorkerCompleted", resourceCulture);
             }
         }
         
@@ -730,83 +646,38 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Custom functions errors.
-        /// </summary>
-        public static string NativeCompiler_Compile_Custom_functions_errors {
-            get {
-                return ResourceManager.GetString("NativeCompiler_Compile_Custom_functions_errors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expression errors.
-        /// </summary>
-        public static string NativeCompiler_Compile_Expression_errors {
-            get {
-                return ResourceManager.GetString("NativeCompiler_Compile_Expression_errors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Internal errors.
-        /// </summary>
-        public static string NativeCompiler_Compile_Internal_errors {
-            get {
-                return ResourceManager.GetString("NativeCompiler_Compile_Internal_errors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Script errors.
-        /// </summary>
-        public static string NativeCompiler_Compile_Script_errors {
-            get {
-                return ResourceManager.GetString("NativeCompiler_Compile_Script_errors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Syntax error.
-        /// </summary>
-        public static string NativeCompiler_Compile_Syntax_error {
-            get {
-                return ResourceManager.GetString("NativeCompiler_Compile_Syntax_error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Column.
         /// </summary>
-        public static string NativeCompiler_CompilerErrorToString_Column {
+        public static string NativeCompiler_Column {
             get {
-                return ResourceManager.GetString("NativeCompiler_CompilerErrorToString_Column", resourceCulture);
+                return ResourceManager.GetString("NativeCompiler_Column", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to error.
         /// </summary>
-        public static string NativeCompiler_CompilerErrorToString_error {
+        public static string NativeCompiler_error {
             get {
-                return ResourceManager.GetString("NativeCompiler_CompilerErrorToString_error", resourceCulture);
+                return ResourceManager.GetString("NativeCompiler_error", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Line.
         /// </summary>
-        public static string NativeCompiler_CompilerErrorToString_Line {
+        public static string NativeCompiler_Line {
             get {
-                return ResourceManager.GetString("NativeCompiler_CompilerErrorToString_Line", resourceCulture);
+                return ResourceManager.GetString("NativeCompiler_Line", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to warning.
         /// </summary>
-        public static string NativeCompiler_CompilerErrorToString_warning {
+        public static string NativeCompiler_warning {
             get {
-                return ResourceManager.GetString("NativeCompiler_CompilerErrorToString_warning", resourceCulture);
+                return ResourceManager.GetString("NativeCompiler_warning", resourceCulture);
             }
         }
         
@@ -829,6 +700,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New tab.
+        /// </summary>
+        public static string New_tab {
+            get {
+                return ResourceManager.GetString("New_tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No function to invoke.
         /// </summary>
         public static string NoFunctionToInvoke {
@@ -843,6 +723,34 @@ namespace Computator.NET.DataTypes.Localization {
         public static string non_adaptive_Gauss_Kronrod_method {
             get {
                 return ResourceManager.GetString("non_adaptive_Gauss_Kronrod_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of steps should be small, default is 6.
+        /// </summary>
+        public static string Number_of_steps_should_be_small__default_is_6 {
+            get {
+                return ResourceManager.GetString("Number_of_steps_should_be_small__default_is_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only Real mode is supported in Numerical calculations right now, more to come in next versions!.
+        /// </summary>
+        public static string Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_ {
+            get {
+                return ResourceManager.GetString("Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_" +
+                        "next_versions_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Or even better report them on project site, using link below.
+        /// </summary>
+        public static string Or_even_better_report_them_on_project_site__using_link_below {
+            get {
+                return ResourceManager.GetString("Or_even_better_report_them_on_project_site__using_link_below", resourceCulture);
             }
         }
         
@@ -892,20 +800,11 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unhandled UI Exception.
+        ///   Looks up a localized string similar to Reason.
         /// </summary>
-        public static string Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception {
+        public static string Reason {
             get {
-                return ResourceManager.GetString("Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Exception during startup.
-        /// </summary>
-        public static string Program_Main_Exception_during_startup {
-            get {
-                return ResourceManager.GetString("Program_Main_Exception_during_startup", resourceCulture);
+                return ResourceManager.GetString("Reason", resourceCulture);
             }
         }
         
@@ -915,6 +814,15 @@ namespace Computator.NET.DataTypes.Localization {
         public static string rectangle_method {
             get {
                 return ResourceManager.GetString("rectangle_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename file.
+        /// </summary>
+        public static string Rename_file {
+            get {
+                return ResourceManager.GetString("Rename_file", resourceCulture);
             }
         }
         
@@ -933,6 +841,15 @@ namespace Computator.NET.DataTypes.Localization {
         public static string Romberg_s_method {
             get {
                 return ResourceManager.GetString("Romberg_s_method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Script errors.
+        /// </summary>
+        public static string Script_errors {
+            get {
+                return ResourceManager.GetString("Script_errors", resourceCulture);
             }
         }
         
@@ -964,6 +881,15 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to source:.
+        /// </summary>
+        public static string Source_ {
+            get {
+                return ResourceManager.GetString("Source_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Special thanks to:.
         /// </summary>
         public static string SpecialThanksTo {
@@ -978,6 +904,33 @@ namespace Computator.NET.DataTypes.Localization {
         public static string stable_finite_difference_formula {
             get {
                 return ResourceManager.GetString("stable_finite_difference_formula", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syntax error.
+        /// </summary>
+        public static string Syntax_error {
+            get {
+                return ResourceManager.GetString("Syntax_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The invalid characters are: &apos;@&apos;,&apos;.&apos;, &apos;,&apos;, &apos;!&apos;.
+        /// </summary>
+        public static string The_invalid_characters_are {
+            get {
+                return ResourceManager.GetString("The_invalid_characters_are", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The label cannot be blank.
+        /// </summary>
+        public static string The_label_cannot_be_blank {
+            get {
+                return ResourceManager.GetString("The_label_cannot_be_blank", resourceCulture);
             }
         }
         
@@ -1009,11 +962,20 @@ namespace Computator.NET.DataTypes.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Functions &amp; Constants Details.
+        ///   Looks up a localized string similar to Unhandled UI Exception.
         /// </summary>
-        public static string WebBrowserForm_WebBrowserForm_Functions___Constants_Details {
+        public static string Unhandled_UI_Exception {
             get {
-                return ResourceManager.GetString("WebBrowserForm_WebBrowserForm_Functions___Constants_Details", resourceCulture);
+                return ResourceManager.GetString("Unhandled_UI_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning!.
+        /// </summary>
+        public static string Warning_ {
+            get {
+                return ResourceManager.GetString("Warning_", resourceCulture);
             }
         }
         
@@ -1023,6 +985,15 @@ namespace Computator.NET.DataTypes.Localization {
         public static string XYRatio0 {
             get {
                 return ResourceManager.GetString("XYRatio0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You dont have any logs yet..
+        /// </summary>
+        public static string You_dont_have_any_logs_yet_ {
+            get {
+                return ResourceManager.GetString("You_dont_have_any_logs_yet_", resourceCulture);
             }
         }
     }

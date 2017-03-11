@@ -81,8 +81,8 @@ namespace Computator.NET.Core.Presenters
         {
             if (string.IsNullOrWhiteSpace(_expressionTextProvider.Text))
             {
-                _errorHandler.DisplayError(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_,
-                    Strings.GUI_numericalOperationButton_Click_Warning_);
+                _errorHandler.DisplayError(Strings.Expression_should_not_be_empty_,
+                    Strings.Warning_);
                 return;
             }
 
@@ -90,7 +90,7 @@ namespace Computator.NET.Core.Presenters
             {
                 _errorHandler.DisplayError(
                     $"{Strings.Min_value_needs_to_be_less_than_Max_value}{Environment.NewLine}{Strings.CheckChartAreaValues}: x0, xN, y0, yN.",
-                    Strings.GUI_numericalOperationButton_Click_Warning_);
+                    Strings.Warning_);
                 return;
             }
             try

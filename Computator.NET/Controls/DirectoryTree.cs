@@ -23,13 +23,13 @@ namespace Computator.NET.Controls
 
             ContextMenu = new ContextMenu(new[]
             {
-                new MenuItem(Strings.DirectoryTree_DirectoryTree_New_file, (o, e) =>
+                new MenuItem(Strings.Directory_tree_New_file, (o, e) =>
                 {
                     var attr = File.GetAttributes(ctxNode.FullPath);
 
                     var newNode = attr.HasFlag(FileAttributes.Directory)
-                        ? ctxNode.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id)
-                        : ctxNode.Parent.Nodes.Add(Strings.DirectoryTree_DirectoryTree_New_file + " " + id);
+                        ? ctxNode.Nodes.Add(Strings.Directory_tree_New_file + " " + id)
+                        : ctxNode.Parent.Nodes.Add(Strings.Directory_tree_New_file + " " + id);
                     id++;
 
                     LabelEdit = true;
@@ -41,7 +41,7 @@ namespace Computator.NET.Controls
                     //RefreshDisplay();
                     //_buttonClicked = ButtonClick.New;
                 }),
-                new MenuItem(Strings.DirectoryTree_DirectoryTree_Rename_file, (o, e) =>
+                new MenuItem(Strings.Rename_file, (o, e) =>
                 {
                     //oldPath = ctxNode.FullPath;
                     if (ctxNode == TopNode)
@@ -61,7 +61,7 @@ namespace Computator.NET.Controls
                         //_buttonClicked = ButtonClick.Rename;
                     }
                 }),
-                new MenuItem(Strings.DirectoryTree_DirectoryTree_Delete_file, (o, e) =>
+                new MenuItem(Strings.Delete_file, (o, e) =>
                 {
                     if (ctxNode == TopNode)
                         return;
@@ -147,9 +147,9 @@ namespace Computator.NET.Controls
                     // Cancel the label edit action, inform the user, and 
                     //  place the node in edit mode again.
                     e.CancelEdit = true;
-                    MessageBox.Show(Strings.DirectoryTree_treeView1_AfterLabelEdit_ +
-                                    Strings.DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters,
-                        Strings.DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit);
+                    MessageBox.Show(Strings.InvalidLabel +
+                                    Strings.The_invalid_characters_are,
+                        Strings.Label_Edit_error);
                     e.Node.BeginEdit();
                 }
             }
@@ -159,10 +159,10 @@ namespace Computator.NET.Controls
                        place the node in edit mode again. */
                 e.CancelEdit = true;
                 MessageBox.Show(
-                    Strings.DirectoryTree_treeView1_AfterLabelEdit_ +
-                    Strings.DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank
+                    Strings.InvalidLabel +
+                    Strings.The_label_cannot_be_blank
                     ,
-                    Strings.DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit);
+                    Strings.Label_Edit_error);
                 e.Node.BeginEdit();
             }
         }

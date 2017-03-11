@@ -10,7 +10,7 @@ namespace Computator.NET.Dialogs
         public ChangelogForm()
         {
             InitializeComponent();
-            Text = Strings.GUI_changelogToolStripMenuItem_Click_Changelog;
+            Text = Strings.Changelog;
             using (var sr = new StreamReader(PathUtility.GetFullPath("CHANGELOG")))
             {
                 _richTextBox.Text = sr.ReadToEnd();

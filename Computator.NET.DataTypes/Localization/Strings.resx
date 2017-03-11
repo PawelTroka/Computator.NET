@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GUI_addToChartButton_Click_Expression_should_not_be_empty_" xml:space="preserve">
+  <data name="Expression_should_not_be_empty_" xml:space="preserve">
     <value>Expression should not be empty!</value>
   </data>
   <data name="AddToChart" xml:space="preserve">
@@ -153,7 +153,7 @@
   <data name="ItSFeaturesInclude" xml:space="preserve">
     <value>It's features include:</value>
   </data>
-  <data name="BrBrISourceBrAHref" xml:space="preserve">
+  <data name="Source_" xml:space="preserve">
     <value>source:</value>
   </data>
   <data name="ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression" xml:space="preserve">
@@ -167,10 +167,6 @@
   </data>
   <data name="NoFunctionToInvoke" xml:space="preserve">
     <value>No function to invoke</value>
-  </data>
-  <data name="ForChosenValuesOneOrMoreOfTheFunctionsInYourExpressionCannotConvergence" xml:space="preserve">
-    <value>For chosen values one (or more) of the functions in your expression cannot convergence
-</value>
   </data>
   <data name="featuresInclude" xml:space="preserve">
     <value> - Real and complex functions charts
@@ -189,7 +185,7 @@
 
  - You can declare your own custom functions with scripting language</value>
   </data>
-  <data name="memoryTestBackgroundWorker_RunWorkerCompleted" xml:space="preserve">
+  <data name="MemoryAllocationSpeedTestCancelledByUser" xml:space="preserve">
     <value>Memory allocation speed test cancelled by user</value>
   </data>
   <data name="MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult" xml:space="preserve">
@@ -231,80 +227,77 @@
   <data name="XYRatio0" xml:space="preserve">
     <value>  |  X/Y ratio = {0}  |</value>
   </data>
-  <data name="BadSyntax" xml:space="preserve">
-    <value>Bad syntax</value>
-  </data>
-  <data name="GUI_numericalOperationButton_Click_Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_" xml:space="preserve">
+  <data name="Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_" xml:space="preserve">
     <value>Only Real mode is supported in Numerical calculations right now, more to come in next versions!</value>
   </data>
-  <data name="GUI_numericalOperationButton_Click__Check__Real___f_x___mode" xml:space="preserve">
+  <data name="Check__Real___f_x___mode" xml:space="preserve">
     <value>-Check "Real : f(x)" mode</value>
   </data>
-  <data name="GUI_numericalOperationButton_Click_Warning_" xml:space="preserve">
+  <data name="Warning_" xml:space="preserve">
     <value>Warning!</value>
   </data>
-  <data name="GUI_logsToolStripMenuItem_Click_You_dont_have_any_logs_yet_" xml:space="preserve">
+  <data name="You_dont_have_any_logs_yet_" xml:space="preserve">
     <value>You dont have any logs yet.</value>
   </data>
-  <data name="GUI_changelogToolStripMenuItem_Click_Changelog" xml:space="preserve">
+  <data name="Changelog" xml:space="preserve">
     <value>Changelog</value>
   </data>
-  <data name="DirectoryTree_DirectoryTree_New_file" xml:space="preserve">
+  <data name="Directory_tree_New_file" xml:space="preserve">
     <value>New file</value>
   </data>
-  <data name="DirectoryTree_DirectoryTree_Rename_file" xml:space="preserve">
+  <data name="Rename_file" xml:space="preserve">
     <value>Rename file</value>
   </data>
-  <data name="DirectoryTree_DirectoryTree_Delete_file" xml:space="preserve">
+  <data name="Delete_file" xml:space="preserve">
     <value>Delete file</value>
   </data>
-  <data name="DirectoryTree_treeView1_AfterLabelEdit_Node_Label_Edit" xml:space="preserve">
+  <data name="Label_Edit_error" xml:space="preserve">
     <value>Label edit error</value>
   </data>
-  <data name="DirectoryTree_treeView1_AfterLabelEdit_" xml:space="preserve">
+  <data name="InvalidLabel" xml:space="preserve">
     <value>Invalid label.
 </value>
   </data>
-  <data name="DirectoryTree_treeView1_AfterLabelEdit_The_label_cannot_be_blank" xml:space="preserve">
+  <data name="The_label_cannot_be_blank" xml:space="preserve">
     <value>The label cannot be blank</value>
   </data>
-  <data name="DirectoryTree_treeView1_AfterLabelEdit_The_invalid_characters" xml:space="preserve">
+  <data name="The_invalid_characters_are" xml:space="preserve">
     <value>The invalid characters are: '@','.', ',', '!'</value>
   </data>
   <data name="Program_Application_ThreadException_Unhandled_Thread_Exception" xml:space="preserve">
     <value>Unhandled Thread Exception</value>
   </data>
-  <data name="Program_CurrentDomain_UnhandledException_Unhandled_UI_Exception" xml:space="preserve">
+  <data name="Unhandled_UI_Exception" xml:space="preserve">
     <value>Unhandled UI Exception</value>
   </data>
-  <data name="Integral_rombergMethod_Number_of_steps_should_be_small__default_is_6" xml:space="preserve">
+  <data name="Number_of_steps_should_be_small__default_is_6" xml:space="preserve">
     <value>Number of steps should be small, default is 6</value>
   </data>
-  <data name="WebBrowserForm_WebBrowserForm_Functions___Constants_Details" xml:space="preserve">
+  <data name="Functions_and_Constants_Details" xml:space="preserve">
     <value>Functions &amp; Constants Details</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_New_tab" xml:space="preserve">
+  <data name="New_tab" xml:space="preserve">
     <value>New tab</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Clone_tab" xml:space="preserve">
+  <data name="Clone_tab" xml:space="preserve">
     <value>Clone tab</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_tab" xml:space="preserve">
+  <data name="Close_tab" xml:space="preserve">
     <value>Close tab</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_other_tabs" xml:space="preserve">
+  <data name="Close_other_tabs" xml:space="preserve">
     <value>Close other tabs</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_right" xml:space="preserve">
+  <data name="Close_tabs_to_the_right" xml:space="preserve">
     <value>Close tabs to the right</value>
   </data>
-  <data name="DocumentsTabControl_InitializeComponent_Close_tabs_to_the_left" xml:space="preserve">
+  <data name="Close_tabs_to_the_left" xml:space="preserve">
     <value>Close tabs to the left</value>
   </data>
-  <data name="GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter" xml:space="preserve">
+  <data name="Image_Filter" xml:space="preserve">
     <value>Png Image (.png)|*.png|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Bitmap Image (.bmp)|*.bmp|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf</value>
   </data>
-  <data name="DocumentsTabControl_AddTab_NewFile" xml:space="preserve">
+  <data name="AddTab_NewFile" xml:space="preserve">
     <value>NewFile</value>
   </data>
   <data name="GlobalConfig_others_standard_algorithm_for_complex_domain_coloring" xml:space="preserve">
@@ -316,58 +309,55 @@
   <data name="GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_" xml:space="preserve">
     <value>Computator.NET is a special kind of numerical software that is fast and easy to use but not worse than others feature-wise.</value>
   </data>
-  <data name="GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
+  <data name="Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
     <value>Or even better report them on project site, using link below</value>
   </data>
-  <data name="NativeCompiler_Compile_Syntax_error" xml:space="preserve">
+  <data name="Syntax_error" xml:space="preserve">
     <value>Syntax error</value>
   </data>
-  <data name="NativeCompiler_Compile_Internal_errors" xml:space="preserve">
+  <data name="Internal_errors" xml:space="preserve">
     <value>Internal errors</value>
   </data>
-  <data name="NativeCompiler_Compile_Custom_functions_errors" xml:space="preserve">
+  <data name="Custom_functions_errors" xml:space="preserve">
     <value>Custom functions errors</value>
   </data>
-  <data name="NativeCompiler_Compile_Expression_errors" xml:space="preserve">
+  <data name="Expression_errors" xml:space="preserve">
     <value>Expression errors</value>
   </data>
-  <data name="NativeCompiler_Compile_Script_errors" xml:space="preserve">
+  <data name="Script_errors" xml:space="preserve">
     <value>Script errors</value>
   </data>
-  <data name="NativeCompiler_CompilerErrorToString_Line" xml:space="preserve">
+  <data name="NativeCompiler_Line" xml:space="preserve">
     <value>Line</value>
   </data>
-  <data name="NativeCompiler_CompilerErrorToString_Column" xml:space="preserve">
+  <data name="NativeCompiler_Column" xml:space="preserve">
     <value>Column</value>
   </data>
-  <data name="NativeCompiler_CompilerErrorToString_warning" xml:space="preserve">
+  <data name="NativeCompiler_warning" xml:space="preserve">
     <value>warning</value>
   </data>
-  <data name="NativeCompiler_CompilerErrorToString_error" xml:space="preserve">
+  <data name="NativeCompiler_error" xml:space="preserve">
     <value>error</value>
   </data>
-  <data name="Program_Main_Exception_during_startup" xml:space="preserve">
+  <data name="Exception_during_startup" xml:space="preserve">
     <value>Exception during startup</value>
   </data>
   <data name="Program_CurrentDomain_UnhandledException_Try_installing_font_" xml:space="preserve">
     <value>Try installing font!</value>
   </data>
-  <data name="GSLInitializer_Initialize_Could_not_load_the_Computator_NET_modules_at_the_paths" xml:space="preserve">
-    <value>Could not load the Computator.NET modules at the paths</value>
-  </data>
   <data name="Exception" xml:space="preserve">
     <value>exception</value>
   </data>
-  <data name="GSLInitializer_HandleUnmanagedException_Exception_occcured_in" xml:space="preserve">
+  <data name="Exception_occcured_in" xml:space="preserve">
     <value>Exception occcured in</value>
   </data>
-  <data name="GSLInitializer_HandleUnmanagedException_at_line" xml:space="preserve">
+  <data name="at_line" xml:space="preserve">
     <value>at line</value>
   </data>
-  <data name="GSLInitializer_HandleUnmanagedException_Reason" xml:space="preserve">
+  <data name="Reason" xml:space="preserve">
     <value>Reason</value>
   </data>
-  <data name="GSLInitializer_HandleUnmanagedException_Error_code" xml:space="preserve">
+  <data name="Error_code" xml:space="preserve">
     <value>Error code</value>
   </data>
   <data name="trapezoidal_method" xml:space="preserve">

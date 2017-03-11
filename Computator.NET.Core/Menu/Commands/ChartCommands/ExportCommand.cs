@@ -13,7 +13,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
     {
         private readonly SaveFileDialog saveChartImageFileDialog = new SaveFileDialog
         {
-            Filter = Strings.GUI_exportChart3dToolStripMenuItem_Click_Image_FIlter,
+            Filter = Strings.Image_Filter,
             RestoreDirectory = true,
             DefaultExt = "png",
             AddExtension = true

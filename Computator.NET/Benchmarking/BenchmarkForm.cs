@@ -68,7 +68,7 @@ namespace Computator.NET.Benchmarking
             if (e.Cancelled)
             {
                 MessageBox.Show(
-                    Strings.memoryTestBackgroundWorker_RunWorkerCompleted, Strings.Canceled);
+                    Strings.MemoryAllocationSpeedTestCancelledByUser, Strings.Canceled);
             }
 
             else if (!(e.Error == null))

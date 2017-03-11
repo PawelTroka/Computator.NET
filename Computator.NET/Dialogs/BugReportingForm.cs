@@ -15,7 +15,7 @@ namespace Computator.NET.Dialogs
                 $@"{Environment.NewLine}{Strings.PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk}{Environment.NewLine
                     }{Environment.NewLine}{
                     Strings
-                        .GUI_bugReportingToolStripMenuItem_Click_Or_even_better_report_them_on_project_site__using_link_below
+                        .Or_even_better_report_them_on_project_site__using_link_below
                     }{Environment.NewLine}{AppRelatedUrls.IssuesUrl}";
             _richtextbox.LinkClicked += (ooo, eee) => Process.Start(AppRelatedUrls.IssuesUrl);
 

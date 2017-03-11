@@ -102,7 +102,7 @@ namespace Computator.NET.Core.Evaluation
 
 
             if (string.IsNullOrWhiteSpace(input))
-                throw new ArgumentException(Strings.GUI_addToChartButton_Click_Expression_should_not_be_empty_);
+                throw new ArgumentException(Strings.Expression_should_not_be_empty_);
 
             MainTslCode = input;
             CustomFunctionsTslCode =

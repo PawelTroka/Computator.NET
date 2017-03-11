@@ -144,10 +144,10 @@ namespace Computator.NET.Core.Presenters
             {
                 _errorHandler.DisplayError(
                     Strings
-                        .GUI_numericalOperationButton_Click_Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_ +
+                        .Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_ +
                     Environment.NewLine +
-                    Strings.GUI_numericalOperationButton_Click__Check__Real___f_x___mode,
-                    Strings.GUI_numericalOperationButton_Click_Warning_);
+                    Strings.Check__Real___f_x___mode,
+                    Strings.Warning_);
             }
         }
         private IExceptionsHandler _exceptionsHandler;
