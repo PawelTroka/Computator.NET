@@ -5,6 +5,11 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
+      mono: 4.8.0
+      env: build_config=Release
+    - os: linux
+      dist: trusty
+      sudo: required
       mono: 4.6.2
       env: build_config=Release
     - os: linux
@@ -20,6 +25,11 @@ matrix:
     - os: linux
       dist: precise
       sudo: required
+      mono: 4.8.0
+      env: build_config=Release
+    - os: linux
+      dist: precise
+      sudo: required
       mono: 4.6.2
       env: build_config=Release
     - os: linux
@@ -32,6 +42,11 @@ matrix:
       sudo: required
       mono: 4.6.0
       env: build_config=Release
+    - os: linux
+      dist: trusty
+      sudo: required
+      mono: 4.8.0
+      env: build_config=Debug
     - os: linux
       dist: trusty
       sudo: required
@@ -50,6 +65,11 @@ matrix:
     - os: linux
       dist: precise
       sudo: required
+      mono: 4.8.0
+      env: build_config=Debug
+    - os: linux
+      dist: precise
+      sudo: required
       mono: 4.6.2
       env: build_config=Debug
     - os: linux
@@ -65,6 +85,11 @@ matrix:
     - os: osx
       osx_image: xcode8.2
       sudo: required
+      mono: 4.8.0
+      env: build_config=Release
+    - os: osx
+      osx_image: xcode8.2
+      sudo: required
       mono: 4.6.2
       env: build_config=Release
     - os: osx
@@ -80,6 +105,11 @@ matrix:
     - os: osx
       osx_image: xcode6.4
       sudo: required
+      mono: 4.8.0
+      env: build_config=Release
+    - os: osx
+      osx_image: xcode6.4
+      sudo: required
       mono: 4.6.2
       env: build_config=Release
     - os: osx
@@ -92,6 +122,11 @@ matrix:
       sudo: required
       mono: 4.6.0
       env: build_config=Release
+    - os: osx
+      osx_image: xcode8.2
+      sudo: required
+      mono: 4.8.0
+      env: build_config=Debug
     - os: osx
       osx_image: xcode8.2
       sudo: required
@@ -110,6 +145,11 @@ matrix:
     - os: osx
       osx_image: xcode6.4
       sudo: required
+      mono: 4.8.0
+      env: build_config=Debug
+    - os: osx
+      osx_image: xcode6.4
+      sudo: required
       mono: 4.6.2
       env: build_config=Debug
     - os: osx
@@ -122,6 +162,7 @@ matrix:
       sudo: required
       mono: 4.6.0
       env: build_config=Debug
+
 
 #before_install:
 
