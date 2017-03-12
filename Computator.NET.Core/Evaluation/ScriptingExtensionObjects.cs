@@ -3,6 +3,7 @@
 // ReSharper disable UseStringInterpolation
 
 
+using System;
 using Computator.NET.Core.Functions;
 
 namespace Computator.NET.Core.Evaluation

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Computator.NET.DataTypes.Localization;
 
 namespace Computator.NET.DataTypes
 {

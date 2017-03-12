@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Core.Compilation

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Computator.NET.Core.Abstract.Services;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.Natives;
 using Computator.NET.DataTypes;
+using Moq;
 using NUnit.Framework;
 
 namespace Computator.NET.Tests.EvaluationTests

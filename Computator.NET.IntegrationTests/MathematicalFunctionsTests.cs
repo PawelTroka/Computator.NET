@@ -4,11 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using Computator.NET.Core.Abstract.Services;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Natives;
 using Computator.NET.Core.Properties;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
+using Moq;
 using NUnit.Framework;
 
 // ReSharper disable LocalizableElement

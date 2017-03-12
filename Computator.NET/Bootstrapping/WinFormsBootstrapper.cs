@@ -13,6 +13,7 @@ using Computator.NET.Core.Bootstrapping;
 using Computator.NET.Core.Menu.Commands;
 using Computator.NET.Core.Menu.Commands.FileCommands;
 using Computator.NET.Core.Presenters;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
 using Computator.NET.Dialogs;
 using Computator.NET.Services;

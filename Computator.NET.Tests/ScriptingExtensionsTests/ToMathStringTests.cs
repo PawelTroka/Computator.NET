@@ -1,4 +1,9 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes;
 using NUnit.Framework;
