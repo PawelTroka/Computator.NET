@@ -2,13 +2,11 @@
 * functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
 * Instead of making var $1 = TypeDeducer.Func(($2) => $3) from function f(x)=x; make new Function.Function(TypeDeducer.Func(($2) => $3)) //it would make possible to have string representation of user function in scripting -> plot() functions could produce better looking charts with labels corresponding to functions by string representation
 * maybe we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
-* make File class official files I/O API with tutorials instead of FileWriter and FileReader, remove FileReader and FileWriter classes from API
 * include in tutorials and test experimental features
 
 
 ##Code quality
 * Setup sonarqube github integration with GitHub Authentication Plugin
-* Core should not reference Charting
 * Set up artifacts in Travis to have assemblies for manual testing
 * Whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
@@ -20,8 +18,6 @@
 
 
 ##UI
-* Used functions history log
-* Scripting: tracking user variables
 * shift+r_mouse_click on item_key activates new window
 * Special function search list arrangement ( or arrangement by user).
 * Cancel doesn't work to second option in benchmark if first option was already canceled and second started later
@@ -33,7 +29,6 @@
 
 ##Math
 * make it possible to create distribution like normal from array of elements and from mean stdev and make functions from elements like CDF(elements,x)
-* Matrix division
 * rest of special functions
 * matrix more operations
 * add functions from gsl_diff.h, gsl_deriv.h, rk methods etc
@@ -46,9 +41,7 @@
 * in the long future maybe we should think about unifying Evaluation so that it returns dynamic and we perform operations in application based on real type of this, unify lambdas, total removal of mode, mode determiner etc
 * Unify exceptions and logging model in whole application, refactor it
 * refactor settings.save() usage and make it optimal
-* refactor exception in whole project, unify them
-* differ exception in expressions from those in scripting
-* make descriptions and names, categories, etc for settingstypes
+* refactor exceptions in whole project, unify them
 
 
 ##Code editors
@@ -62,24 +55,10 @@
 * test installer and upgrade options
 
 
-##Autocomplete
-* search in the internet/base of knowledge about the function if we have nothing in function info
-* better autocomplete, also for variables after (.) dot symbol
-
-
-##Functions&constants info
-* Functions descriptions in functions.xml
-
-
 ##Charts
-* enable data loading for charts
 * enable better usage of transformation and charts scaling for loaded points
 * enable transformations for chart2d, complexchart and chart3d
 * Chart2D setting XMax<XMin error handling refactoring
-
-
-##I/O
-* enable data saving and loading
 
 
 ##Help

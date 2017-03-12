@@ -31,12 +31,8 @@ namespace Computator.NET.Core.Properties
         private Font _expressionFont;
         private TooltipType _tooltipType;
         private FunctionsOrder _functionsOrder;
-
         private CodeEditorType _codeEditor;
-
         private CultureInfo _language;
-
-
 
 
         public void Save()
@@ -128,7 +124,12 @@ namespace Computator.NET.Core.Properties
 
         public static Settings Default { get; } = Load();
 
+
+        #region General
+
+        [DisplayName("Language")]
         [Category("General")]
+        [Description("Language of the application used in whole app. Requires restart.")]
         public CultureInfo Language
         {
             get { return _language; }
@@ -140,110 +141,9 @@ namespace Computator.NET.Core.Properties
             }
         }
 
-        [Category("Scripting")]
-        public CodeEditorType CodeEditor
-        {
-            get { return _codeEditor; }
-            set
-            {
-                if (value == _codeEditor) return;
-                _codeEditor = value;
-                OnPropertyChanged();
-            }
-        }
-
-        [Category("Autocomplete")]
-        public FunctionsOrder FunctionsOrder
-        {
-            get { return _functionsOrder; }
-            set
-            {
-                if (value == _functionsOrder) return;
-                _functionsOrder = value;
-                OnPropertyChanged();
-            }
-        }
-
-        [Category("Autocomplete")]
-        public TooltipType TooltipType
-        {
-            get { return _tooltipType; }
-            set
-            {
-                if (value == _tooltipType) return;
-                _tooltipType = value;
-                OnPropertyChanged();
-            }
-        }
-        [Category("Expression")]
-        public Font ExpressionFont
-        {
-            get { return _expressionFont; }
-            set
-            {
-                if (Equals(value, _expressionFont)) return;
-                _expressionFont = value;
-                OnPropertyChanged();
-            }
-        }
-        [Category("Scripting")]
-        public Font ScriptingFont
-        {
-            get { return _scriptingFont; }
-            set
-            {
-                if (Equals(value, _scriptingFont)) return;
-                _scriptingFont = value;
-                OnPropertyChanged();
-            }
-        }
-
-        [Category("Expression")]
-        public bool ShowReturnTypeInExpression
-        {
-            get { return _showReturnTypeInExpression; }
-            set
-            {
-                if (value == _showReturnTypeInExpression) return;
-                _showReturnTypeInExpression = value;
-                OnPropertyChanged();
-            }
-        }
-        [Category("Expression")]
-        public bool ShowParametersTypeInExpression
-        {
-            get { return _showParametersTypeInExpression; }
-            set
-            {
-                if (value == _showParametersTypeInExpression) return;
-                _showParametersTypeInExpression = value;
-                OnPropertyChanged();
-            }
-        }
-        [Category("Scripting")]
-        public bool ShowReturnTypeInScripting
-        {
-            get { return _showReturnTypeInScripting; }
-            set
-            {
-                if (value == _showReturnTypeInScripting) return;
-                _showReturnTypeInScripting = value;
-                OnPropertyChanged();
-            }
-        }
-        [Category("Scripting")]
-        public bool ShowParametersTypeInScripting
-        {
-            get { return _showParametersTypeInScripting; }
-            set
-            {
-                if (value == _showParametersTypeInScripting) return;
-                _showParametersTypeInScripting = value;
-                OnPropertyChanged();
-            }
-        }
-
+        [DisplayName("Numerical output notation")]
         [Category("General")]
+        [Description("What notation should be used when formatting numbers as strings (in output)?")]
         public NumericalOutputNotationType NumericalOutputNotation
         {
             get { return _numericalOutputNotation; }
@@ -255,7 +155,161 @@ namespace Computator.NET.Core.Properties
             }
         }
 
+        [DisplayName("Calculations errors")]
+        [Category("General")]
+        [Description("How to treat calculations errors? Should it be soft error (return NaN) and continue calculations or hard error (throw exception and end calculations)?")]
+        public CalculationsErrors CalculationsErrors
+        {
+            get { return _calculationsErrors; }
+            set
+            {
+                if (value == _calculationsErrors) return;
+                _calculationsErrors = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Autocomplete
+
+        [DisplayName("Functions order")]
+        [Category("Autocomplete")]
+        [Description("Order of functions in autocomplete.")]
+        public FunctionsOrder FunctionsOrder
+        {
+            get { return _functionsOrder; }
+            set
+            {
+                if (value == _functionsOrder) return;
+                _functionsOrder = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DisplayName("Tooltip type")]
+        [Category("Autocomplete")]
+        [Description("Type of tooltips with information about the function, shown in autocomplete. Different types have different looks and feel.")]
+        public TooltipType TooltipType
+        {
+            get { return _tooltipType; }
+            set
+            {
+                if (value == _tooltipType) return;
+                _tooltipType = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DisplayName("Show return type in expression?")]
+        [Category("Autocomplete")]
+        [Description("Should expressions autocomplete show also what type function returns (eg. real or complex) ?")]
+        public bool ShowReturnTypeInExpression
+        {
+            get { return _showReturnTypeInExpression; }
+            set
+            {
+                if (value == _showReturnTypeInExpression) return;
+                _showReturnTypeInExpression = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DisplayName("Show parameters type in expression?")]
+        [Category("Autocomplete")]
+        [Description("Should expressions autocomplete show also what types are functions arguments (eg. real or complex) ?")]
+        public bool ShowParametersTypeInExpression
+        {
+            get { return _showParametersTypeInExpression; }
+            set
+            {
+                if (value == _showParametersTypeInExpression) return;
+                _showParametersTypeInExpression = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DisplayName("Show return type in scripting?")]
+        [Category("Autocomplete")]
+        [Description("Should scripting autocomplete show also what type function returns (eg. real or complex) ?")]
+        public bool ShowReturnTypeInScripting
+        {
+            get { return _showReturnTypeInScripting; }
+            set
+            {
+                if (value == _showReturnTypeInScripting) return;
+                _showReturnTypeInScripting = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DisplayName("Show parameters type in scripting?")]
+        [Category("Autocomplete")]
+        [Description("Should scripting autocomplete show also what types are functions arguments (eg. real or complex) ?")]
+        public bool ShowParametersTypeInScripting
+        {
+            get { return _showParametersTypeInScripting; }
+            set
+            {
+                if (value == _showParametersTypeInScripting) return;
+                _showParametersTypeInScripting = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region Expression
+
+        [DisplayName("Expression font")]
+        [Category("Expression")]
+        [Description("Font used in expressions.")]
+        public Font ExpressionFont
+        {
+            get { return _expressionFont; }
+            set
+            {
+                if (Equals(value, _expressionFont)) return;
+                _expressionFont = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Scripting
+
+        [DisplayName("Code editor")]
         [Category("Scripting")]
+        [Description("Code editor used in scripting and when editing custom functions. Different editors have different functionality, look and feel.")]
+        public CodeEditorType CodeEditor
+        {
+            get { return _codeEditor; }
+            set
+            {
+                if (value == _codeEditor) return;
+                _codeEditor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DisplayName("Scripting font")]
+        [Category("Scripting")]
+        [Description("Font used in scripting and when editing custom functions.")]
+        public Font ScriptingFont
+        {
+            get { return _scriptingFont; }
+            set
+            {
+                if (Equals(value, _scriptingFont)) return;
+                _scriptingFont = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        [DisplayName("Scripting directory")]
+        [Category("Scripting")]
+        [Description("Path to location where TSL scripts are stored and edited. Requires restart to take effect.")]
         public string ScriptingDirectory
         {
             get { return _scriptingDirectory; }
@@ -267,7 +321,9 @@ namespace Computator.NET.Core.Properties
             }
         }
 
+        [DisplayName("Custom functions directory")]
         [Category("Scripting")]
+        [Description("Path to location where TSL custom functions are stored and edited. Requires restart to take effect.")]
         public string CustomFunctionsDirectory
         {
             get { return _customFunctionsDirectory; }
@@ -279,17 +335,9 @@ namespace Computator.NET.Core.Properties
             }
         }
 
-        [Category("General")]
-        public CalculationsErrors CalculationsErrors
-        {
-            get { return _calculationsErrors; }
-            set
-            {
-                if (value == _calculationsErrors) return;
-                _calculationsErrors = value;
-                OnPropertyChanged();
-            }
-        }
+        #endregion
+
+
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
