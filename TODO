@@ -36,12 +36,9 @@
 * Matrix division
 * rest of special functions
 * matrix more operations
-* numerical calculations for f(z) and f(x,y) functions too
 * add functions from gsl_diff.h, gsl_deriv.h, rk methods etc
 * add stefanson method for function root roots/steffenson.c and qk61 method from integration
-* add numerical methods for solving ordinary differential equations (ODEs) (ode-initval/gsl_odeiv.h, Meta Numerics too), maybe other types of DE too 
 * add polynomials: operations, solving (solving general case is in GSL), evaluating
-* add extreme and minima of functions
 * take a look on MathNet.Numerics.Euclid
 
 
@@ -52,7 +49,6 @@
 * refactor exception in whole project, unify them
 * differ exception in expressions from those in scripting
 * make descriptions and names, categories, etc for settingstypes
-* add symbolic calculations (Math.NET Symbolics or maybe calling SymPy? http://stackoverflow.com/questions/6721736/c-sharp-library-for-algebra-simplification-and-solving)
 
 
 ##Code editors
@@ -68,13 +64,11 @@
 
 ##Autocomplete
 * search in the internet/base of knowledge about the function if we have nothing in function info
-* make autocomplete resize on items
-* make wrapper for autocomplete to work natively in avalonedit (if this is even possible)
 * better autocomplete, also for variables after (.) dot symbol
 
 
 ##Functions&constants info
-* Functions descriptions in  functions.xml
+* Functions descriptions in functions.xml
 
 
 ##Charts
@@ -85,7 +79,7 @@
 
 
 ##I/O
-* enable data saving
+* enable data saving and loading
 
 
 ##Help
@@ -95,13 +89,8 @@
 * tutorials and help https://github.com/PawelTroka/Computator.NET/wiki
 
 
-##Translations
-* Update Deutsch and Czech translations to 2.2.0 version
-
-
 ##Tests
-* add unit tests for testing culture invariant output
+* add unit tests for testing culture invariant output for matrices
 * add tests for presenters from MVP
 * add tests for commands
-* add evaluation integration tests
 * add tests for FromMathString() method
