@@ -35,10 +35,8 @@ namespace Computator.NET.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.calculationsImZnumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.calculationsRealLabel = new Computator.NET.Controls.Field();
             this.valueForCalculationNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.calculationsComplexLabel = new Computator.NET.Controls.Field();
+            this.calculationsImZnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.calculationValueTextBox = new System.Windows.Forms.TextBox();
             this.calculateButton = new System.Windows.Forms.Button();
@@ -48,44 +46,23 @@ namespace Computator.NET.Views
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.calculationsRealLabel = new System.Windows.Forms.Label();
+            this.calculationsComplexLabel = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.calculationsImZnumericUpDown)).BeginInit();
-            this.calculationsRealLabel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valueForCalculationNumericUpDown)).BeginInit();
-            this.calculationsComplexLabel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.calculationsImZnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.calculationsHistoryDataGridView)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
             resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Controls.Add(this.calculationsRealLabel);
-            this.groupBox3.Controls.Add(this.calculationsComplexLabel);
+            this.groupBox3.Controls.Add(this.tableLayoutPanel2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
-            // 
-            // calculationsImZnumericUpDown
-            // 
-            resources.ApplyResources(this.calculationsImZnumericUpDown, "calculationsImZnumericUpDown");
-            this.calculationsImZnumericUpDown.DecimalPlaces = 5;
-            this.calculationsImZnumericUpDown.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.calculationsImZnumericUpDown.Minimum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            -2147483648});
-            this.calculationsImZnumericUpDown.Name = "calculationsImZnumericUpDown";
-            // 
-            // calculationsRealLabel
-            // 
-            resources.ApplyResources(this.calculationsRealLabel, "calculationsRealLabel");
-            this.calculationsRealLabel.Controls.Add(this.valueForCalculationNumericUpDown);
-            this.calculationsRealLabel.Name = "calculationsRealLabel";
             // 
             // valueForCalculationNumericUpDown
             // 
@@ -103,11 +80,21 @@ namespace Computator.NET.Views
             -2147483648});
             this.valueForCalculationNumericUpDown.Name = "valueForCalculationNumericUpDown";
             // 
-            // calculationsComplexLabel
+            // calculationsImZnumericUpDown
             // 
-            resources.ApplyResources(this.calculationsComplexLabel, "calculationsComplexLabel");
-            this.calculationsComplexLabel.Controls.Add(this.calculationsImZnumericUpDown);
-            this.calculationsComplexLabel.Name = "calculationsComplexLabel";
+            resources.ApplyResources(this.calculationsImZnumericUpDown, "calculationsImZnumericUpDown");
+            this.calculationsImZnumericUpDown.DecimalPlaces = 5;
+            this.calculationsImZnumericUpDown.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.calculationsImZnumericUpDown.Minimum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            -2147483648});
+            this.calculationsImZnumericUpDown.Name = "calculationsImZnumericUpDown";
             // 
             // label5
             // 
@@ -187,6 +174,25 @@ namespace Computator.NET.Views
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.calculationsRealLabel, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.valueForCalculationNumericUpDown, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.calculationsImZnumericUpDown, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.calculationsComplexLabel, 0, 1);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // calculationsRealLabel
+            // 
+            resources.ApplyResources(this.calculationsRealLabel, "calculationsRealLabel");
+            this.calculationsRealLabel.Name = "calculationsRealLabel";
+            // 
+            // calculationsComplexLabel
+            // 
+            resources.ApplyResources(this.calculationsComplexLabel, "calculationsComplexLabel");
+            this.calculationsComplexLabel.Name = "calculationsComplexLabel";
+            // 
             // CalculationsView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -195,15 +201,13 @@ namespace Computator.NET.Views
             this.Name = "CalculationsView";
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.calculationsImZnumericUpDown)).EndInit();
-            this.calculationsRealLabel.ResumeLayout(false);
-            this.calculationsRealLabel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valueForCalculationNumericUpDown)).EndInit();
-            this.calculationsComplexLabel.ResumeLayout(false);
-            this.calculationsComplexLabel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.calculationsImZnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.calculationsHistoryDataGridView)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -211,9 +215,9 @@ namespace Computator.NET.Views
         #endregion
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.NumericUpDown calculationsImZnumericUpDown;
-        private Field calculationsRealLabel;
+        private System.Windows.Forms.Label calculationsRealLabel;
         private System.Windows.Forms.NumericUpDown valueForCalculationNumericUpDown;
-        private Field calculationsComplexLabel;
+        private System.Windows.Forms.Label calculationsComplexLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox calculationValueTextBox;
         private System.Windows.Forms.Button calculateButton;
@@ -223,5 +227,6 @@ namespace Computator.NET.Views
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }
