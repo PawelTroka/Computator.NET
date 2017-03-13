@@ -1,4 +1,5 @@
 ﻿using Computator.NET.Controls;
+using System.Windows.Forms;
 
 namespace Computator.NET.Views
 {
@@ -113,6 +114,10 @@ namespace Computator.NET.Views
             this.numericalCalculationsDataGridView.ReadOnly = true;
             this.numericalCalculationsDataGridView.RowTemplate.Height = 24;
             this.numericalCalculationsDataGridView.RowTemplate.ReadOnly = true;
+            this.numericalCalculationsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.numericalCalculationsDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            this.numericalCalculationsDataGridView.AutoSize = true;
+
             // 
             // function
             // 

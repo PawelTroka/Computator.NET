@@ -1,4 +1,5 @@
-﻿using Computator.NET.Controls;
+﻿using System.Windows.Forms;
+using Computator.NET.Controls;
 
 namespace Computator.NET.Views
 {
@@ -118,6 +119,7 @@ namespace Computator.NET.Views
             // calculationsHistoryDataGridView
             // 
             this.calculationsHistoryDataGridView.AllowUserToAddRows = false;
+            
             this.calculationsHistoryDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.calculationsHistoryDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.calculationsHistoryDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -130,6 +132,10 @@ namespace Computator.NET.Views
             this.calculationsHistoryDataGridView.ReadOnly = true;
             this.calculationsHistoryDataGridView.RowTemplate.Height = 24;
             this.calculationsHistoryDataGridView.RowTemplate.ReadOnly = true;
+            this.calculationsHistoryDataGridView.AutoSizeColumnsMode=DataGridViewAutoSizeColumnsMode.Fill;
+            this.calculationsHistoryDataGridView.AutoSizeRowsMode=DataGridViewAutoSizeRowsMode.AllCells;
+            this.calculationsHistoryDataGridView.AutoSize = true;
+            
             // 
             // dataGridViewTextBoxColumn1
             // 
