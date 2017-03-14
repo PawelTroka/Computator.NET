@@ -29,5 +29,20 @@ namespace Computator.NET.Services
                 Math.Min(scaledWidth, resolutionWidth),
                 Math.Min(scaledHeight, resolutionHeight));
         }
+
+        public static void MakeSureItsNotBiggerThanScreen(this Form form)
+        {
+            var resolutionWidth = Screen.PrimaryScreen.Bounds.Width;
+            var resolutionHeight = Screen.PrimaryScreen.Bounds.Height;
+
+
+            form.MinimumSize = new Size(
+                Math.Min(form.MinimumSize.Width, resolutionWidth),
+                Math.Min(form.MinimumSize.Height, resolutionHeight));
+
+            form.Size = new Size(
+                Math.Min(form.Size.Width, resolutionWidth),
+                Math.Min(form.Size.Height, resolutionHeight));
+        }
     }
 }

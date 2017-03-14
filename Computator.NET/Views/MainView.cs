@@ -15,7 +15,7 @@ namespace Computator.NET.Views
         {
             InitializeComponent();
             symbolicCalculationsTabPage.Enabled = false;
-            this.DpiScale();
+            this.MakeSureItsNotBiggerThanScreen();
         }
 
         public MainView(MenuStripView menuStripView, ToolBarView toolbarView, CalculationsView calculationsView, NumericalCalculationsView numericalCalculationsView, ScriptingView scriptingView, CustomFunctionsView customFunctionsView, ChartingView chartingView, ExpressionView expressionView) : this()
