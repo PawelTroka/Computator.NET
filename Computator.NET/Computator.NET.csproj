@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="Data\CompletionDataConverter.cs" />
     <Compile Include="Services\ApplicationManager.cs" />
+    <Compile Include="Services\FormScaling.cs" />
     <Compile Include="Services\MessagingService.cs" />
     <Compile Include="Controls\AutocompleteMenu\WebBrowserForm.cs">
       <SubType>Form</SubType>

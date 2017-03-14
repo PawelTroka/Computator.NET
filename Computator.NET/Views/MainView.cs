@@ -1,11 +1,13 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Services;
 
 namespace Computator.NET.Views
 {
-    public partial class MainView : Form, IMainView
+    public sealed partial class MainView : Form, IMainView
     {
         #region initialization and construction
 
@@ -13,6 +15,7 @@ namespace Computator.NET.Views
         {
             InitializeComponent();
             symbolicCalculationsTabPage.Enabled = false;
+            this.DpiScale();
         }
 
         public MainView(MenuStripView menuStripView, ToolBarView toolbarView, CalculationsView calculationsView, NumericalCalculationsView numericalCalculationsView, ScriptingView scriptingView, CustomFunctionsView customFunctionsView, ChartingView chartingView, ExpressionView expressionView) : this()
