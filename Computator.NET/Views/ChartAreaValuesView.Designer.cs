@@ -34,8 +34,6 @@ namespace Computator.NET.Views
             this.label2 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.clearChartButton = new System.Windows.Forms.Button();
-            this.addToChartButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.yNNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
@@ -45,6 +43,8 @@ namespace Computator.NET.Views
             this.y0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
             this.yNlabel = new System.Windows.Forms.Label();
             this.xnNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.clearChartButton = new System.Windows.Forms.Button();
+            this.addToChartButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -78,29 +78,17 @@ namespace Computator.NET.Views
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
-            // clearChartButton
-            // 
-            resources.ApplyResources(this.clearChartButton, "clearChartButton");
-            this.clearChartButton.Name = "clearChartButton";
-            this.clearChartButton.UseVisualStyleBackColor = true;
-            // 
-            // addToChartButton
-            // 
-            resources.ApplyResources(this.addToChartButton, "addToChartButton");
-            this.addToChartButton.Name = "addToChartButton";
-            this.addToChartButton.UseVisualStyleBackColor = true;
-            // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.yNNumericUpDown, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.x0NumericUpDown, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.y0label, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.y0NumericUpDown, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.yNlabel, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.xnNumericUpDown, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.yNNumericUpDown, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.x0NumericUpDown, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.y0label, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.y0NumericUpDown, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.yNlabel, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.xnNumericUpDown, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // label4
@@ -242,6 +230,18 @@ namespace Computator.NET.Views
             0,
             0,
             0});
+            // 
+            // clearChartButton
+            // 
+            resources.ApplyResources(this.clearChartButton, "clearChartButton");
+            this.clearChartButton.Name = "clearChartButton";
+            this.clearChartButton.UseVisualStyleBackColor = true;
+            // 
+            // addToChartButton
+            // 
+            resources.ApplyResources(this.addToChartButton, "addToChartButton");
+            this.addToChartButton.Name = "addToChartButton";
+            this.addToChartButton.UseVisualStyleBackColor = true;
             // 
             // ChartAreaValuesView
             // 

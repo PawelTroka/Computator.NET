@@ -133,7 +133,7 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 281</value>
+    <value>0, 266</value>
   </data>
   <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 9, 2, 9</value>
@@ -166,7 +166,7 @@
     <value>NoControl</value>
   </data>
   <data name="trackBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 298</value>
+    <value>0, 283</value>
   </data>
   <data name="trackBar1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 5, 2, 2</value>
@@ -196,7 +196,7 @@
     <value>True</value>
   </data>
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Right</value>
@@ -211,13 +211,13 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 42</value>
+    <value>7, 37</value>
   </data>
   <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 16</value>
+    <value>36, 16</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -229,7 +229,7 @@
     <value>label4</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
@@ -244,7 +244,7 @@
     <value>Cambria, 9.75pt</value>
   </data>
   <data name="yNNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 103</value>
+    <value>47, 93</value>
   </data>
   <data name="yNNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -283,13 +283,13 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 15</value>
+    <value>9, 10</value>
   </data>
   <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 16</value>
+    <value>34, 16</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -301,7 +301,7 @@
     <value>label3</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
@@ -316,7 +316,7 @@
     <value>Cambria, 9.75pt</value>
   </data>
   <data name="x0NumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 12</value>
+    <value>47, 7</value>
   </data>
   <data name="x0NumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -355,13 +355,13 @@
     <value>NoControl</value>
   </data>
   <data name="y0label.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 79</value>
+    <value>9, 69</value>
   </data>
   <data name="y0label.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="y0label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 16</value>
+    <value>34, 16</value>
   </data>
   <data name="y0label.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -373,7 +373,7 @@
     <value>y0label</value>
   </data>
   <data name="&gt;&gt;y0label.Type" xml:space="preserve">
-    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;y0label.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
@@ -388,7 +388,7 @@
     <value>Cambria, 9.75pt</value>
   </data>
   <data name="y0NumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 76</value>
+    <value>47, 66</value>
   </data>
   <data name="y0NumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -427,13 +427,13 @@
     <value>NoControl</value>
   </data>
   <data name="yNlabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 106</value>
+    <value>7, 96</value>
   </data>
   <data name="yNlabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
   <data name="yNlabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 16</value>
+    <value>36, 16</value>
   </data>
   <data name="yNlabel.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -445,7 +445,7 @@
     <value>yNlabel</value>
   </data>
   <data name="&gt;&gt;yNlabel.Type" xml:space="preserve">
-    <value>Computator.NET.Controls.Field, Computator.NET, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;yNlabel.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
@@ -460,7 +460,7 @@
     <value>Cambria, 9.75pt</value>
   </data>
   <data name="xnNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 39</value>
+    <value>47, 34</value>
   </data>
   <data name="xnNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -496,7 +496,7 @@
     <value>7</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 138</value>
+    <value>169, 123</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -514,7 +514,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label4" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="yNNumericUpDown" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="x0NumericUpDown" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="y0label" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="y0NumericUpDown" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="yNlabel" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="xnNumericUpDown" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,Absolute,30" /&gt;&lt;Rows Styles="Absolute,10,Percent,25,Percent,25,Absolute,10,Percent,25,Percent,25,Absolute,10" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label4" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="yNNumericUpDown" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="x0NumericUpDown" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="y0label" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="y0NumericUpDown" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="yNlabel" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="xnNumericUpDown" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,5,AutoSize,0,AutoSize,0,Absolute,10" /&gt;&lt;Rows Styles="Absolute,5,Percent,25,Percent,25,Absolute,5,Percent,25,Percent,25,Absolute,5" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="groupBox2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -532,7 +532,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 159</value>
+    <value>173, 144</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
