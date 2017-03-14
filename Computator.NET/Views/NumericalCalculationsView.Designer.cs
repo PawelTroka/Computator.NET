@@ -149,8 +149,6 @@ namespace Computator.NET.Views
             // numericalCalculationsDataGridView
             // 
             this.numericalCalculationsDataGridView.AllowUserToAddRows = false;
-            this.numericalCalculationsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.numericalCalculationsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.numericalCalculationsDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.numericalCalculationsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.function,
@@ -164,6 +162,10 @@ namespace Computator.NET.Views
             this.numericalCalculationsDataGridView.ReadOnly = true;
             this.numericalCalculationsDataGridView.RowTemplate.Height = 24;
             this.numericalCalculationsDataGridView.RowTemplate.ReadOnly = true;
+            this.numericalCalculationsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.numericalCalculationsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.numericalCalculationsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.numericalCalculationsDataGridView.AutoSize = true;
             // 
             // function
             // 
