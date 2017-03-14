@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Properties;
+using Computator.NET.Services;
 
 namespace Computator.NET.Dialogs
 {
@@ -12,6 +13,7 @@ namespace Computator.NET.Dialogs
             //propertyGrid1.LargeButtons = true;
             //propertyGrid1.Font = new Font(propertyGrid1.Font.FontFamily, 14);
             propertyGrid1.SelectedObject = Settings.Default;
+            //this.MakeSureItsNotBiggerThanScreen();
         }
 
         private void Settings_FormClosed(object sender, FormClosedEventArgs e)

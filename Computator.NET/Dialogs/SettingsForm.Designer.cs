@@ -41,7 +41,7 @@
             // 
             this.propertyGrid1.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             resources.ApplyResources(this.propertyGrid1, "propertyGrid1");
-            this.propertyGrid1.LargeButtons = true;
+            //this.propertyGrid1.LargeButtons = true;
             this.propertyGrid1.Name = "propertyGrid1";
             // 
             // button1
