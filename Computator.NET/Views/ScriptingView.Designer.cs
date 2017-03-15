@@ -89,7 +89,7 @@
             // 
             // ScriptingView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.splitContainer1);
             this.Name = "ScriptingView";

@@ -53,7 +53,7 @@ namespace Computator.NET.Views
             // 
             // SolutionExplorerView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.scriptingDirectoryTree);
             this.Controls.Add(this.openScriptingDirectoryButton);
             this.Name = "SolutionExplorerView";
