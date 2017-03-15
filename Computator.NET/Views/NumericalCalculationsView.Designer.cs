@@ -212,9 +212,9 @@ namespace Computator.NET.Views
             resources.ApplyResources(this.flowLayoutPanel3, "flowLayoutPanel3");
             this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel3, 3);
             this.flowLayoutPanel3.Controls.Add(this.intervalGroupBox);
-            this.flowLayoutPanel3.Controls.Add(this.stepsGroupBox);
-            this.flowLayoutPanel3.Controls.Add(this.maxErrorGroupBox);
             this.flowLayoutPanel3.Controls.Add(this.derivativeAtPointGroupBox);
+            this.flowLayoutPanel3.Controls.Add(this.maxErrorGroupBox);
+            this.flowLayoutPanel3.Controls.Add(this.stepsGroupBox);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             // 
             // intervalGroupBox
