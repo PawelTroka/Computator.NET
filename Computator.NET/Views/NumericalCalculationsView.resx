@@ -405,6 +405,9 @@
   <data name="intervalGroupBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="intervalGroupBox.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
   <data name="tableLayoutPanel2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -418,10 +421,10 @@
     <value>Cambria, 12pt</value>
   </data>
   <data name="aIntervalNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 2</value>
+    <value>35, 0</value>
   </data>
   <data name="aIntervalNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="aIntervalNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 26</value>
@@ -454,7 +457,7 @@
     <value>NoControl</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 35</value>
+    <value>2, 29</value>
   </data>
   <data name="label12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -487,10 +490,10 @@
     <value>Cambria, 12pt</value>
   </data>
   <data name="bIntervalNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 32</value>
+    <value>35, 26</value>
   </data>
   <data name="bIntervalNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="bIntervalNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 26</value>
@@ -523,7 +526,7 @@
     <value>NoControl</value>
   </data>
   <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 5</value>
+    <value>3, 3</value>
   </data>
   <data name="label13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -559,7 +562,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 60</value>
+    <value>191, 52</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -589,7 +592,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="intervalGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 77</value>
+    <value>195, 69</value>
   </data>
   <data name="intervalGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -612,6 +615,9 @@
   <data name="derivativeAtPointGroupBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="derivativeAtPointGroupBox.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
   <data name="tableLayoutPanel3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -625,10 +631,10 @@
     <value>Cambria, 12pt</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 2</value>
+    <value>35, 0</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="nOrderDerivativeNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>184, 26</value>
@@ -661,7 +667,7 @@
     <value>NoControl</value>
   </data>
   <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 35</value>
+    <value>3, 29</value>
   </data>
   <data name="label15.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -694,10 +700,10 @@
     <value>Cambria, 12pt</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 32</value>
+    <value>35, 26</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="xDerivativePointNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>184, 26</value>
@@ -730,7 +736,7 @@
     <value>NoControl</value>
   </data>
   <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 5</value>
+    <value>2, 3</value>
   </data>
   <data name="label14.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -766,7 +772,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 60</value>
+    <value>219, 52</value>
   </data>
   <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -787,7 +793,7 @@
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="nOrderDerivativeNumericUpDown" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label15" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="xDerivativePointNumericUpDown" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label14" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,50,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="derivativeAtPointGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 2</value>
+    <value>201, 2</value>
   </data>
   <data name="derivativeAtPointGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -796,7 +802,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="derivativeAtPointGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 77</value>
+    <value>223, 69</value>
   </data>
   <data name="derivativeAtPointGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -816,8 +822,14 @@
   <data name="&gt;&gt;derivativeAtPointGroupBox.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="maxErrorGroupBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
   <data name="maxErrorGroupBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="maxErrorGroupBox.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="tableLayoutPanel5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -928,7 +940,7 @@
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="epsTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="maxErrorGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 83</value>
+    <value>2, 75</value>
   </data>
   <data name="maxErrorGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -960,6 +972,9 @@
   <data name="stepsGroupBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="stepsGroupBox.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
   <data name="tableLayoutPanel4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -973,10 +988,10 @@
     <value>Cambria, 12pt</value>
   </data>
   <data name="nStepsNumericUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>39, 2</value>
+    <value>37, 0</value>
   </data>
   <data name="nStepsNumericUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="nStepsNumericUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 26</value>
@@ -1009,7 +1024,7 @@
     <value>NoControl</value>
   </data>
   <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 5</value>
+    <value>2, 3</value>
   </data>
   <data name="label19.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
@@ -1045,7 +1060,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 30</value>
+    <value>145, 26</value>
   </data>
   <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1066,7 +1081,7 @@
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="nStepsNumericUpDown" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label19" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="stepsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>156, 83</value>
+    <value>156, 75</value>
   </data>
   <data name="stepsGroupBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -1075,7 +1090,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="stepsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 47</value>
+    <value>149, 43</value>
   </data>
   <data name="stepsGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
