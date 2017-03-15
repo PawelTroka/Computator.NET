@@ -20,7 +20,6 @@
 ##UI
 * shift+r_mouse_click on item_key activates new window
 * Special function search list arrangement ( or arrangement by user).
-* Cancel doesn't work to second option in benchmark if first option was already canceled and second started later
 * Windows Ribbon control?
 * Metro Modern UI - Metro Framework (https://www.nuget.org/packages/MetroModernUI/ https://github.com/dennismagno/metroframework-modern-ui) or Material Design? ( or https://github.com/IgnaceMaes/MaterialSkin)
 * use some good controls like Navigator from Krypton Toolkit  https://github.com/ComponentFactory/Krypton (Navigator can be used for TabControl, CheckedListBox for choosing what Functions to load (eg SpecialFunctions etc), DOcking for Console output / solution explorer etc, Workspace for CodeEditors, KryptonColorButton for ChartEdit picking colors)
@@ -45,8 +44,6 @@
 
 
 ##Code editors
-* remember last open documents with editors, maybe with content
-* if we changed a document note this with red disk and ask for save
 * add search and replace windows to scripting
 * add printing option to codeeditors
 
