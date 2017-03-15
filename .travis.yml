@@ -173,5 +173,5 @@ script:
   - ./build-mono/build.sh
 
 after_script:
-  - ./build-mono/test.sh
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ./build-mono/coverage.sh; fi
+  - travis_wait 60 ./build-mono/test.sh
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 60 ./build-mono/coverage.sh; fi
