@@ -201,7 +201,7 @@ namespace Computator.NET.Views
             // 
             // CalculationsView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel1);
             resources.ApplyResources(this, "$this");
             this.Name = "CalculationsView";

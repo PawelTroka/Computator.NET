@@ -43,7 +43,7 @@
             // 
             // MenuStripView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.Controls.Add(this.menuStrip2);
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
