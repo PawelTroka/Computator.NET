@@ -582,6 +582,9 @@
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="aIntervalNumericUpDown" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label12" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="bIntervalNumericUpDown" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label13" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,50,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
+  <data name="intervalGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="intervalGroupBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 11.25pt</value>
   </data>
@@ -722,6 +725,9 @@
   </data>
   <data name="tableLayoutPanel4.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="nStepsNumericUpDown" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label19" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="stepsGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="stepsGroupBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 11.25pt</value>
@@ -866,6 +872,9 @@
   </data>
   <data name="tableLayoutPanel5.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="epsTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="maxErrorGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="maxErrorGroupBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 11.25pt</value>
@@ -1076,6 +1085,9 @@
   </data>
   <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="nOrderDerivativeNumericUpDown" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label15" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="xDerivativePointNumericUpDown" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label14" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="Percent,50,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="derivativeAtPointGroupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="derivativeAtPointGroupBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 11.25pt</value>

@@ -166,7 +166,6 @@ namespace Computator.NET.Views
             this.numericalCalculationsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.numericalCalculationsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.numericalCalculationsDataGridView.AutoSize = true;
-
             // 
             // function
             // 
