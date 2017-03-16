@@ -198,22 +198,19 @@ namespace Computator.NET.Core.Functions
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Gamma(cmplxToMeta(z)));
         }
 
-        /*
-        public static Complex logGamma(Complex z)
+        
+        public static System.Numerics.Complex logGamma(System.Numerics.Complex z)
         {
-            gsl_sf_result lnr = new gsl_sf_result(), arg = new gsl_sf_result();
-            gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
-            return (lnr.val + arg.val*Complex.ImaginaryOne);
+            if (z.Real < 0) return double.NaN;
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.LogGamma(cmplxToMeta(z)));
         }
 
-        public static Complex logΓ(Complex z)
+        public static System.Numerics.Complex logΓ(System.Numerics.Complex z)
         {
-            gsl_sf_result lnr = new gsl_sf_result(), arg = new gsl_sf_result();
-            gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
-            return (lnr.val + arg.val*Complex.ImaginaryOne);
+            if (z.Real < 0) return double.NaN;
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.LogGamma(cmplxToMeta(z)));
         }
-        */
-
+        
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
@@ -2454,21 +2451,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
             return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.Gamma(cmplxToMeta(z)));
         }
 
-        /*
-        public static Complex logGamma(Complex z)
+        public static System.Numerics.Complex logGamma(System.Numerics.Complex z)
         {
-            gsl_sf_result lnr = new gsl_sf_result(), arg = new gsl_sf_result();
-            gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
-            return (lnr.val + arg.val*Complex.ImaginaryOne);
+            if (z.Real < 0) return double.NaN;
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.LogGamma(cmplxToMeta(z)));
         }
 
-        public static Complex logΓ(Complex z)
+        public static System.Numerics.Complex logΓ(System.Numerics.Complex z)
         {
-            gsl_sf_result lnr = new gsl_sf_result(), arg = new gsl_sf_result();
-            gsl_sf_lngamma_complex_e(z.Real, z.Imaginary, out lnr, out arg);
-            return (lnr.val + arg.val*Complex.ImaginaryOne);
+            if (z.Real < 0) return double.NaN;
+            return cmplxFromMeta(Meta.Numerics.Functions.AdvancedComplexMath.LogGamma(cmplxToMeta(z)));
         }
-        */
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
