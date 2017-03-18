@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Core.Evaluation;
@@ -17,7 +16,25 @@ namespace Computator.NET.Controls
 {
     public sealed partial class ScientificNumericUpDown : NumericUpDown
     {
-        private readonly int _multiplyFactor = 10;
+        public enum UpDownBehavior
+        {
+            /// <summary>
+            /// Depending on <see cref="Value"/> essentially uses scaling <see cref="Increment"/> property for small values and <see cref="Multiplication"/> mode for larger ones.
+            /// </summary>
+            Adaptive,
+            /// <summary>
+            /// Simplest mode known from basic NumericUpDown. Uses <see cref="Increment"/> property to increase or decrease by adding or subtracting it from <see cref="Value"/>.
+            /// </summary>
+            Addition,
+            /// <summary>
+            /// Common mode for values in exponential notation. Uses <see cref="MultiplyFactor"/> property to multiply or divide <see cref="Value"/>.
+            /// </summary>
+            Multiplication,
+        }
+
+        public UpDownBehavior UpDownMode { get; set; }
+
+        public decimal MultiplyFactor { get; set; } = 10;
 
         private const string Exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
         private const string ToReplace = "0123456789-";
@@ -28,8 +45,8 @@ namespace Computator.NET.Controls
 
             if (!DesignMode)
             {
-                Minimum = decimal.MinValue / 10;
-                Maximum = decimal.MaxValue / 10;
+                Minimum = -(decimal)(1e28);
+                Maximum = (decimal)(1e28);
 
 
                 TextAlign = HorizontalAlignment.Center;
@@ -37,16 +54,17 @@ namespace Computator.NET.Controls
 
                 ValueChanged += (o, e) =>
                 {
-                    if (!ExponentialMode)
+                    if (UpDownMode==UpDownBehavior.Adaptive && !IsExponent)
                         Increment = Math.Max(Epsilon,
                             Math.Abs((0.3m * Value).RoundToSignificantDigits(1)));
-                    //if (Increment == 0)
-                    //Increment = 1;
                 };
             }
         }
+        
 
-
+        /// <summary>
+        /// Closest to 0 value allowed. Anything closer to 0 than this value will become 0. 
+        /// </summary>
         public decimal Epsilon { get; set; } = 0.001m;
 
         public new decimal Value
@@ -72,8 +90,8 @@ namespace Computator.NET.Controls
             set { base.Font = !DesignMode ? CustomFonts.GetMathFont(value.Size) : value; }
         }
 
-        public bool ExponentialMode => ((double)Value).ToString(CultureInfo.InvariantCulture).Contains('E') ||
-                                       ((double)Value).ToString(CultureInfo.InvariantCulture).Contains('e');
+        private bool IsExponent => ((double) Value).ToString(CultureInfo.InvariantCulture).Contains('E') ||
+                                       ((double) Value).ToString(CultureInfo.InvariantCulture).Contains('e');
 
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -113,34 +131,43 @@ namespace Computator.NET.Controls
             else if (e.KeyChar == '-' &&
                      !((IsCharOnLeftOfCaret('E') || IsCharOnLeftOfCaret('e')) && !IsCharOnRightOfCaret('-')) &&
                      !(CaretPosition == 0 && !Text.StartsWith("-")))
+            {
                 e.Handled = true;
+            }
 
             else if (e.KeyChar == '*' && !Text.Contains(SpecialSymbols.DotSymbol))
+            {
                 e.KeyChar = SpecialSymbols.DotSymbol;
+            }
             else if (!Text.Contains("e") && !Text.Contains("E") && (e.KeyChar == 'E' || e.KeyChar == 'e'))
             {
                 // Text += dotSymbol + "10";
                 // e.Handled = true;
             }
             else if (!Text.Contains(".") && (e.KeyChar == ',' || e.KeyChar == '.' ||
-                     e.KeyChar == Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0] ||
-                     e.KeyChar == Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0]))
-            {
-                e.KeyChar = '.';
-                // //Text += '.';
-                // //e.Handled = true;
-            }
-            else if (Text.Contains(".") && (e.KeyChar == ',' || e.KeyChar == '.' ||
                                              e.KeyChar ==
                                              Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0] ||
                                              e.KeyChar ==
                                              Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0
                                              ]))
             {
+                e.KeyChar = '.';
+                // //Text += '.';
+                // //e.Handled = true;
+            }
+            else if (Text.Contains(".") && (e.KeyChar == ',' || e.KeyChar == '.' ||
+                                            e.KeyChar ==
+                                            Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0] ||
+                                            e.KeyChar ==
+                                            Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator[0
+                                            ]))
+            {
                 e.Handled = true;
             }
             else
+            {
                 base.OnTextBoxKeyPress(source, e);
+            }
         }
 
         private bool IsCharOnRightOfCaret(char v)
@@ -168,9 +195,7 @@ namespace Computator.NET.Controls
                 // which to start a string representing a negative number.
                 if (!string.IsNullOrEmpty(Text) &&
                     !(Text.Length == 1 && Text == "-"))
-                {
                     Value = Constrain(Text.FromMathString());
-                }
             }
             catch
             {
@@ -185,40 +210,30 @@ namespace Computator.NET.Controls
         }
 
 
-
         private decimal Constrain(double value)
         {
             Debug.Assert(Minimum <= Maximum,
-                         "minimum > maximum");
+                "minimum > maximum");
 
-            if (value < (double)Minimum)
-            {
+            if (value < (double) Minimum)
                 return Minimum;
-            }
 
-            if (value > (double)Maximum)
-            {
+            if (value > (double) Maximum)
                 return Maximum;
-            }
 
-            return (decimal)value;
+            return (decimal) value;
         }
 
         private decimal Constrain(decimal value)
         {
-
             Debug.Assert(Minimum <= Maximum,
-                         "minimum > maximum");
+                "minimum > maximum");
 
             if (value < Minimum)
-            {
                 value = Minimum;
-            }
 
             if (value > Maximum)
-            {
                 value = Maximum;
-            }
 
             return value;
         }
@@ -226,40 +241,73 @@ namespace Computator.NET.Controls
 
         public override void UpButton()
         {
-            if (!ExponentialMode)
+            switch (UpDownMode)
             {
-                base.UpButton();
-                Value = Value.RoundToSignificantDigits(2);
-                //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
+                case UpDownBehavior.Addition:
+                    base.UpButton();
+                    break;
+                case UpDownBehavior.Multiplication:
+                    MultiplyUp();
+                    break;
+                default:
+                    if (!IsExponent)
+                    {
+                        base.UpButton();
+                        Value = Value.RoundToSignificantDigits(2);
+                    }
+                    else
+                        MultiplyUp();
+                    break;
             }
-            else
-            {
-                if (Value > 0)
-                    Value = Constrain(Value * _multiplyFactor);
-                else if (Value < 0)
-                    Value = Constrain(Value / _multiplyFactor);
+        }
 
-                //UpdateEditText();
+        private void MultiplyUp()
+        {
+            if (Value > 0)
+            {
+                if (decimal.MaxValue / MultiplyFactor >= Value)
+                    Value = Constrain(Value * MultiplyFactor);
+            }
+            else if (Value < 0)
+            {
+                Value = Constrain(Value / MultiplyFactor);
             }
         }
 
         public override void DownButton()
         {
-            if (!ExponentialMode)
+            switch (UpDownMode)
             {
-                base.DownButton();
-                Value = Value.RoundToSignificantDigits(2);
-                //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progres in some cases like 0.001
-            }
-            else
-            {
-                if (Value > 0)
-                    Value = Constrain(Value / _multiplyFactor);
-                else if (Value < 0)
-                    Value = Constrain(Value * _multiplyFactor);
-                //UpdateEditText();
+                case UpDownBehavior.Addition:
+                    base.DownButton();
+                    break;
+                case UpDownBehavior.Multiplication:
+                    MultiplyDown();
+                    break;
+                default:
+                    if (!IsExponent)
+                    {
+                        base.DownButton();
+                        Value = Value.RoundToSignificantDigits(2);
+                        //beware it's kind of experimental, 1 instead of two would give generally better results but wight have stopped progress in some cases like 0.001
+                    }
+                    else
+                        MultiplyDown();
+                    break;
             }
         }
+
+        private void MultiplyDown()
+        {
+            if (Value > 0)
+                Value = Constrain(Value / MultiplyFactor);
+            else if (Value < 0)
+            {
+                if(decimal.MinValue/MultiplyFactor <= Value)
+                    Value = Constrain(Value * MultiplyFactor);
+            }
+        }
+        
 
 
         protected override void UpdateEditText() //basically it sets Text after Value was established

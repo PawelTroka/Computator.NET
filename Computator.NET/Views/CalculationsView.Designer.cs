@@ -36,8 +36,8 @@ namespace Computator.NET.Views
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.valueForCalculationNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.calculationsImZnumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.valueForCalculationNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.calculationsImZnumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.calculationValueTextBox = new System.Windows.Forms.TextBox();
             this.calculateButton = new System.Windows.Forms.Button();
@@ -68,33 +68,13 @@ namespace Computator.NET.Views
             // valueForCalculationNumericUpDown
             // 
             resources.ApplyResources(this.valueForCalculationNumericUpDown, "valueForCalculationNumericUpDown");
-            this.valueForCalculationNumericUpDown.DecimalPlaces = 5;
-            this.valueForCalculationNumericUpDown.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.valueForCalculationNumericUpDown.Minimum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            -2147483648});
+            //this.valueForCalculationNumericUpDown.DecimalPlaces = 5;
             this.valueForCalculationNumericUpDown.Name = "valueForCalculationNumericUpDown";
             // 
             // calculationsImZnumericUpDown
             // 
             resources.ApplyResources(this.calculationsImZnumericUpDown, "calculationsImZnumericUpDown");
-            this.calculationsImZnumericUpDown.DecimalPlaces = 5;
-            this.calculationsImZnumericUpDown.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.calculationsImZnumericUpDown.Minimum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            -2147483648});
+            //this.calculationsImZnumericUpDown.DecimalPlaces = 5;
             this.calculationsImZnumericUpDown.Name = "calculationsImZnumericUpDown";
             // 
             // label5
@@ -220,9 +200,9 @@ namespace Computator.NET.Views
 
         #endregion
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.NumericUpDown calculationsImZnumericUpDown;
+        private Computator.NET.Controls.ScientificNumericUpDown calculationsImZnumericUpDown;
         private System.Windows.Forms.Label calculationsRealLabel;
-        private System.Windows.Forms.NumericUpDown valueForCalculationNumericUpDown;
+        private Computator.NET.Controls.ScientificNumericUpDown valueForCalculationNumericUpDown;
         private System.Windows.Forms.Label calculationsComplexLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox calculationValueTextBox;

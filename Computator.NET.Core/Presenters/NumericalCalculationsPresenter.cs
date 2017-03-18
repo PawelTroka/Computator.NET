@@ -83,7 +83,7 @@ namespace Computator.NET.Core.Presenters
                             _errorHandler.DisplayError(Strings.GivenΕIsNotValid, Strings.Error);
                             return;
                         }
-                        if (!(eps > 0.0) || !(eps < 1))
+                        if (!(eps > 0.0) || !(eps <= 1))
                         {
                             _errorHandler.DisplayError(
                                 Strings.GivenΕIsNotValidΕShouldBeSmallPositiveNumber, Strings.Error);

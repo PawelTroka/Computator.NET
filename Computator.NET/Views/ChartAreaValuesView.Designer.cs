@@ -109,16 +109,7 @@ namespace Computator.NET.Views
             0,
             0,
             65536});
-            this.yNNumericUpDown.Maximum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            65536});
-            this.yNNumericUpDown.Minimum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            -2147418112});
+
             this.yNNumericUpDown.Name = "yNNumericUpDown";
             this.yNNumericUpDown.Value = new decimal(new int[] {
             3,
@@ -144,16 +135,6 @@ namespace Computator.NET.Views
             0,
             0,
             65536});
-            this.x0NumericUpDown.Maximum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            65536});
-            this.x0NumericUpDown.Minimum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            -2147418112});
             this.x0NumericUpDown.Name = "x0NumericUpDown";
             this.x0NumericUpDown.Value = new decimal(new int[] {
             5,
@@ -179,16 +160,7 @@ namespace Computator.NET.Views
             0,
             0,
             65536});
-            this.y0NumericUpDown.Maximum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            65536});
-            this.y0NumericUpDown.Minimum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            -2147418112});
+
             this.y0NumericUpDown.Name = "y0NumericUpDown";
             this.y0NumericUpDown.Value = new decimal(new int[] {
             3,
@@ -214,16 +186,7 @@ namespace Computator.NET.Views
             0,
             0,
             65536});
-            this.xnNumericUpDown.Maximum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            65536});
-            this.xnNumericUpDown.Minimum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            -2147418112});
+
             this.xnNumericUpDown.Name = "xnNumericUpDown";
             this.xnNumericUpDown.Value = new decimal(new int[] {
             5,
