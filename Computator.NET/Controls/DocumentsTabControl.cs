@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Localization;
+using Computator.NET.Services;
 
 namespace Computator.NET.Controls
 {
@@ -23,6 +24,7 @@ namespace Computator.NET.Controls
         public DocumentsTabControl()
         {
             InitializeComponent();
+            this.DpiScale();
             var h = Handle;
         }
 
@@ -71,7 +73,7 @@ namespace Computator.NET.Controls
             Margin = new Padding(5, 4, 5, 4);
             Name = "this";
             SelectedIndex = 0;
-            Size = new Size(250, 27);
+            Size = new Size(100, 23);
             TabIndex = 0;
             SelectedIndexChanged += this_SelectedIndexChanged;
             // 

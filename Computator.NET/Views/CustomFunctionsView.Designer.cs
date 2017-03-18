@@ -42,6 +42,7 @@
             // CustomFunctionsView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoSize = true;
             this.Controls.Add(this.splitContainer3);
             resources.ApplyResources(this, "$this");
             this.Name = "CustomFunctionsView";

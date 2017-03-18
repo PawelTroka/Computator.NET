@@ -338,6 +338,8 @@ namespace Computator.NET.Views
             this.epsTextBox.Minimum = this.epsTextBox.Epsilon = (decimal) (1e-28);
             this.epsTextBox.Name = "epsTextBox";
             this.epsTextBox.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Multiplication;
+            this.epsTextBox.Margin = new Padding(0);
+            this.epsTextBox.Padding = new Padding(1);
             // 
             // label10
             // 
