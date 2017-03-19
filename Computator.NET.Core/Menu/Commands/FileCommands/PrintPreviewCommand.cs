@@ -42,7 +42,8 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
             {
                 case 0:
                     //if (_calculationsMode == CalculationsMode.Real)
-                    _charts[_sharedViewState.CalculationsMode].PrintPreview();
+                    if (_charts.ContainsKey(_sharedViewState.CalculationsMode))
+                        _charts[_sharedViewState.CalculationsMode].PrintPreview();
                     // else
                     //  SendStringAsKey("^P");
                     break;
