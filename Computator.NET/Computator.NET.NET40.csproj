@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}</ProjectGuid>
+    <ProjectGuid>{34709674-BD3D-4495-A978-7455AE2864A0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Computator.NET</RootNamespace>
@@ -45,14 +45,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\NET40\Debug\</OutputPath>
+	<IntermediateOutputPath>obj\NET40\Debug\</IntermediateOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\NET40\Release\</OutputPath>
+	<IntermediateOutputPath>obj\NET40\Release\</IntermediateOutputPath>
     <Optimize>true</Optimize>
     <DefineConstants>
     </DefineConstants>
@@ -180,7 +182,140 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
+    <Compile Include="Benchmarking\BenchmarkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Benchmarking\BenchmarkForm.Designer.cs" />
+    <Compile Include="Bootstrapping\WinFormsBootstrapper.cs" />
+    <Compile Include="Config\MyMessageFilter.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteItems.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenuHost.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\EventArgs.cs" />
+    <Compile Include="Controls\AutocompleteMenu\IAutocompleteListView.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Range.cs" />
+    <Compile Include="Controls\AutocompleteMenu\WebBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\WebBrowserTooltip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\ITextBoxWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\TextBoxWrapper.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditor.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\BitmapExtension.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\CompletionData.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\OffsetColorizer.cs" />
+    <Compile Include="Controls\CodeEditors\CodeEditorControlWrapper.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CodeEditors\ScintillaCodeEditorControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CodeEditors\TextEditorCodeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DirectoryTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DocumentsTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ExpressionTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Field.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScientificNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScientificNumericUpDown.Designer.cs" />
+    <Compile Include="Controls\ToolStripRadioButtonMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Data\CompletionDataConverter.cs" />
+    <Compile Include="Dialogs\AboutBox1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AboutBox1.Designer.cs" />
+    <Compile Include="Dialogs\BugReportingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\BugReportingForm.Designer.cs" />
+    <Compile Include="Dialogs\ChangelogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ChangelogForm.Designer.cs" />
+    <Compile Include="Dialogs\LoadingScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SettingsForm.Designer.cs" />
+    <Compile Include="Dialogs\WinFormsDialogFactory.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ApplicationManager.cs" />
+    <Compile Include="Services\FormScaling.cs" />
+    <Compile Include="Services\MessagingService.cs" />
+    <Compile Include="Views\CalculationsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\CalculationsView.Designer.cs" />
+    <Compile Include="Views\ChartAreaValuesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ChartAreaValuesView.Designer.cs" />
+    <Compile Include="Views\ChartingView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ChartingView.Designer.cs" />
+    <Compile Include="Views\CustomFunctionsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\CustomFunctionsView.Designer.cs" />
+    <Compile Include="Views\ExpressionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ExpressionView.Designer.cs" />
+    <Compile Include="Views\MainView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MainView.Designer.cs" />
+    <Compile Include="Views\MenuStripView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MenuStripView.Designer.cs" />
+    <Compile Include="Views\NumericalCalculationsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\NumericalCalculationsView.Designer.cs" />
+    <Compile Include="Views\ScriptingView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ScriptingView.Designer.cs" />
+    <Compile Include="Views\SolutionExplorerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SolutionExplorerView.Designer.cs" />
+    <Compile Include="Views\ToolBarView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ToolBarView.Designer.cs" />
     <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <None Include="app.config" />
     <None Include="Computator.NET.pfx" />
@@ -188,15 +323,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.NET40.csproj">
-      <Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
+      <Project>{7BE60BA8-5000-4935-A890-92A36D666AFE}</Project>
       <Name>Computator.NET.Charting</Name>
     </ProjectReference>
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.NET40.csproj">
-      <Project>{b74cd9d5-d77e-418d-b50a-7ee5f040f819}</Project>
+      <Project>{DBB5EE4A-CD3D-4175-A5FF-CC7E73ACC493}</Project>
       <Name>Computator.NET.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.NET40.csproj">
-      <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
+      <Project>{02594437-7569-4E00-BCA4-FB05713B51CD}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>
   </ItemGroup>

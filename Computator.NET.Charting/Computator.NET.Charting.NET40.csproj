@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{31264A50-A9B4-410C-85BB-EC81D5076747}</ProjectGuid>
+    <ProjectGuid>{7BE60BA8-5000-4935-A890-92A36D666AFE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Computator.NET.Charting</RootNamespace>
@@ -23,7 +23,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\NET40\Debug\</OutputPath>
+	<IntermediateOutputPath>obj\NET40\Debug\</IntermediateOutputPath>	
     <DefineConstants>DEBUG;TRACE;NET40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,7 +34,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\NET40\Release\</OutputPath>
+	<IntermediateOutputPath>obj\NET40\Release\</IntermediateOutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -98,7 +100,70 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
+    <Compile Include="BaseFunction.cs" />
+    <Compile Include="Chart3D\Chart3DMode.cs" />
+    <Compile Include="Chart3D\Chart3D\AxisLabels.cs" />
+    <Compile Include="Chart3D\Chart3D\Bar3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Chart3D.cs" />
+    <Compile Include="Chart3D\Chart3D\ColorMesh3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Cone3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Cylinder3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Ellipse3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Mesh3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Model3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Pyramid3D.cs" />
+    <Compile Include="Chart3D\Chart3D\ScatterChart3D.cs" />
+    <Compile Include="Chart3D\Chart3D\ScatterPlotItem.cs" />
+    <Compile Include="Chart3D\Chart3D\SurfaceChart3D.cs" />
+    <Compile Include="Chart3D\Chart3D\TextureMapping.cs" />
+    <Compile Include="Chart3D\Chart3D\TransformMatrix.cs" />
+    <Compile Include="Chart3D\Chart3D\Triangle3D.cs" />
+    <Compile Include="Chart3D\Chart3D\UniformSurfaceChart3D.cs" />
+    <Compile Include="Chart3D\Chart3D\Vertex3D.cs" />
+    <Compile Include="Chart3D\Chart3D\ViewportRect.cs" />
+    <Compile Include="Chart3D\Spline\BasicSpline.cs" />
+    <Compile Include="Chart3D\Spline\Cubic.cs" />
+    <Compile Include="Chart3D\Spline\Spline3D.cs" />
+    <Compile Include="Chart3D\UI\Chart3DControl.xaml.cs" />
+    <Compile Include="Chart3D\UI\Chart3DControlMono.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Chart3D\UI\EditChart3DWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Chart3D\UI\EditChart3DWindow.designer.cs" />
+    <Compile Include="Chart3D\UI\UnitsComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComplexCharting\ComplexChart.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ComplexCharting\ComplexChartPresenter.cs" />
+    <Compile Include="ComplexCharting\ComplexPoint.cs" />
+    <Compile Include="ComplexCharting\EditComplexChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComplexCharting\EditComplexChartWindow.Designer.cs" />
+    <Compile Include="ComplexCharting\HLSColor.cs" />
+    <Compile Include="ComplexCharting\IComplexChartView.cs" />
+    <Compile Include="Controls\EditChartMenus.cs" />
+    <Compile Include="EditChartProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditChartProperties.designer.cs" />
+    <Compile Include="PlotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlotForm.Designer.cs" />
+    <Compile Include="Printing\ImagePrinter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RealCharting\Chart2D.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RealCharting\EditChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RealCharting\EditChartWindow.Designer.cs" />
     <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <Page Include="**\*.xaml" Exclude="obj\**\*.xaml;bin\**\*.xaml" Condition=" '$(OS)' != 'Unix' ">
       <Generator>MSBuild:Compile</Generator>
@@ -109,7 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.NET40.csproj">
-      <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
+      <Project>{02594437-7569-4E00-BCA4-FB05713B51CD}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>
   </ItemGroup>
