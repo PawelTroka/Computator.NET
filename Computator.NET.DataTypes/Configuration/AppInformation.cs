@@ -8,7 +8,7 @@ namespace Computator.NET.DataTypes
     public static class AppInformation
     {
         private static readonly AssemblyName An = Assembly.GetExecutingAssembly().GetName();
-        public static readonly string Version = $"v{An.Version}ß";
+        public static readonly string Version = $"v{An.Version}";
 
         public const string Name = "Computator.NET";
 

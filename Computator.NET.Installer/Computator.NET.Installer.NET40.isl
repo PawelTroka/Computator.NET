@@ -346,12 +346,12 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>Computator.NET.Charting.Localized_resources</td><td>{F9D55246-C541-4A88-B748-C7660CE90616}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.charting.loca</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Charting.Primary_output</td><td>{3380F027-AF56-4399-B366-44C5E28C41F1}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.charting.prim</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Computator.NET.Content_Files</td><td>{22F900B2-F6ED-49B9-9F25-0245378E544D}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.content_files</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Core.Content_Files</td><td>{58712FBA-6570-491E-AE5F-6856FBA8F571}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.core.content_</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Core.Localized_resources</td><td>{8842CFE8-F397-4B31-88CE-0FC72A1F61D3}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.core.localize</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Core.Primary_output</td><td>{16A613FD-ECB3-46C0-B68E-EF0ACB4BA307}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.core.primary_</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Computator.NET.DataTypes.NET40.Localized_resources</td><td>{D9847203-E3F2-4A6C-81DE-8CFE0634052D}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.datatypes.net</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.DataTypes.Primary_output</td><td>{AB600449-E8A5-45C3-9D00-4EEC98D76664}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.datatypes.pri</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Computator.NET.Localized_resources</td><td>{1BC58DEE-A243-40D1-834B-7AD0944D76B0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.localized_res</td><td>1</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Computator.NET.Localized_resources</td><td>{1BC58DEE-A243-40D1-834B-7AD0944D76B0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.localized_res</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Primary_output</td><td>{62C6C3A0-32A0-4EEB-8984-72C4B29D07D0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.primary_outpu</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISO19770_LocalTag</td><td>{17645320-C673-487A-9B87-15DD3D26087C}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISO19770_SystemTag</td><td>{CB06B0D3-BE8A-4F38-A295-53C561B35DD8}</td><td>CommonAppDataFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1086,6 +1086,7 @@
 		<row><td>INSTALLDIR</td><td>Computator.NET.Core.Content_Files</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Core.Localized_resources</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Core.Primary_output</td></row>
+		<row><td>INSTALLDIR</td><td>Computator.NET.DataTypes.NET40.Localized_resources</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.DataTypes.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>ISO19770_LocalTag</td></row>
 		<row><td>INSTALLDIR</td><td>ISO19770_SystemTag</td></row>
@@ -1923,10 +1924,10 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Charting.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Charting.Primary_output</td></row>
-		<row><td>AlwaysInstall</td><td>Computator.NET.Content_Files</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Core.Content_Files</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Core.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Core.Primary_output</td></row>
+		<row><td>AlwaysInstall</td><td>Computator.NET.DataTypes.NET40.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.DataTypes.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Primary_output</td></row>
@@ -1961,10 +1962,10 @@
 		<row><td>cambria.ttc</td><td>ISX_DEFAULTCOMPONENT3</td><td>CAMBRIA.TTC</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\Static\fonts\CAMBRIA.TTC</td><td>1</td><td/></row>
 		<row><td>computator.net.charting.loca</td><td>Computator.NET.Charting.Localized_resources</td><td>Computator.NET.Charting.Localized resources</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.charting.prim</td><td>Computator.NET.Charting.Primary_output</td><td>Computator.NET.Charting.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|Built</td><td>3</td><td/></row>
-		<row><td>computator.net.content_files</td><td>Computator.NET.Content_Files</td><td>Computator.NET.Content Files</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>computator.net.core.content_</td><td>Computator.NET.Core.Content_Files</td><td>Computator.NET.Core.Content Files</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Core&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>computator.net.core.localize</td><td>Computator.NET.Core.Localized_resources</td><td>Computator.NET.Core.Localized resources</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Core&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.core.primary_</td><td>Computator.NET.Core.Primary_output</td><td>Computator.NET.Core.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Core&gt;|Built</td><td>3</td><td/></row>
+		<row><td>computator.net.datatypes.net</td><td>Computator.NET.DataTypes.NET40.Localized_resources</td><td>Computator.NET.DataTypes.NET40.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.datatypes.pri</td><td>Computator.NET.DataTypes.Primary_output</td><td>Computator.NET.DataTypes.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.localized_res</td><td>Computator.NET.Localized_resources</td><td>Computator.NET.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.primary_outpu</td><td>Computator.NET.Primary_output</td><td>Computator.NET.Primary output</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|Built</td><td>3</td><td/></row>
@@ -1983,8 +1984,6 @@
 		<row><td>example09_matrixdecompositio</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example09_MatrixDecompositions.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example09_MatrixDecompositions.tsl</td><td>1</td><td/></row>
 		<row><td>example10_simpleplotofpoints</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example10_SimplePlotOfPoints.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl</td><td>1</td><td/></row>
 		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
-		<row><td>regid.2014_01.dk.fizyka_soft</td><td>ISO19770_SystemTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
-		<row><td>regid.2014_01.dk.fizyka_soft1</td><td>ISO19770_LocalTag</td><td>REGID2~1.SWI|regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Installer\Computator.NET.Installer\Express\Interm\regid.2014-01.dk.fizyka,software_83E14665-EC98-47C0-9B37-DB31338CFB73.swidtag</td><td>1</td><td/></row>
 		<row><td>system.io.dll</td><td>System.IO.dll</td><td>SYSTEM~1.DLL|System.IO.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</td><td>1</td><td/></row>
 		<row><td>system.runtime.dll</td><td>System.Runtime.dll</td><td>SYSTEM~1.DLL|System.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</td><td>1</td><td/></row>
 		<row><td>system.threading.tasks.dll</td><td>System.Threading.Tasks.dll</td><td>SYSTEM~1.DLL|System.Threading.Tasks.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</td><td>1</td><td/></row>
@@ -2135,10 +2134,10 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>Computator.NET.Charting.Localized_resources</td><td/><td/><td>_CDC7F82C_5A5A_4A9B_900C_98F5428233A8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Charting.Primary_output</td><td/><td/><td>_5B2B8478_B44B_47B1_A5A0_3871818ADADE_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Computator.NET.Content_Files</td><td/><td/><td>_69A0B3BF_4644_42E7_9D44_6486D068272B_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Core.Content_Files</td><td/><td/><td>_7C7212A0_9990_4812_915F_AF5B2F86C0C6_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Core.Localized_resources</td><td/><td/><td>_3821D3E3_9ECB_418F_9B8C_AC211779C689_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Core.Primary_output</td><td/><td/><td>_B60158F0_408B_4A66_8410_114059B0A64B_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Computator.NET.DataTypes.NET40.Localized_resources</td><td/><td/><td>_E2B33F2A_2D0F_45ED_8654_EABF9527A060_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.DataTypes.Primary_output</td><td/><td/><td>_21ED120C_C994_4967_85A4_BE0EBBE2B8B5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Localized_resources</td><td/><td/><td>_BAE0EB1C_3DBD_4D3E_98F5_AACA8C6FA4A7_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Primary_output</td><td/><td/><td>_23B95E1A_2E63_4B35_B302_E3E339C87F9F_FILTER</td><td/><td/><td/><td/></row>
@@ -4846,7 +4845,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
 		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
-		<row><td>{86D89770-B31B-4467-BC5E-B54B0FF263A1}</td><td>1.0.0</td><td>2.1.0</td><td></td><td>772</td><td/><td>ISACTIONPROP1</td><td>NewUpgradeEntry1</td></row>
+		<row><td>{86D89770-B31B-4467-BC5E-B54B0FF263A1}</td><td>1.0.0</td><td>2.2.0</td><td></td><td>772</td><td/><td>ISACTIONPROP1</td><td>NewUpgradeEntry1</td></row>
 	</table>
 
 	<table name="Verb">
