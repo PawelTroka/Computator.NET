@@ -2,7 +2,7 @@
 Computator.NET is a unique open numerical software that is fast and easy to use and stands up to other feature-wise software.
 ![Quick presentation of Computator.NET features](../master/Graphics/Presentation/quick_presentation.gif "Quick presentation of Computator.NET features")
 
-###Its features include:
+### Its features include:
 * **Real**, **complex** and two-variable (**3D**) function **charts**
 * **Real**, **complex** and two-variable (**3D**) function **calculator**
 * **Numerical calculations** on real functions including many different methods
@@ -15,17 +15,18 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 
 
-# Release 2.1 beta
-*This release is focused on making Computator.NET more stable. There are over 50 serious bugs and inconsistencies fixed since 2.0 release.*
-* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.1.0-beta)
-* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.1.0-beta/Computator.NET.Installer.v2.1.0.beta.exe)
-* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.1.0-beta/Computator.NET.v2.1.0-beta.zip)
-* Alternatively [download installer here](http://fizyka.dk/Computator.NET.Installer%20v2.1.0%20beta.exe)
-* Alternatively [download portable version (*.zip) here](http://fizyka.dk/Computator.NET v2.1.0-beta.zip)
+# Release 2.2.0 stable - *More usable than ever!*
+*This is the first release marked as **stable** in Computator.NET history. With focus on user-experience we delivered better look and feel in high DPI scenarios and the most requested features. Bugs and inconsistencies were fixed and "quirks" removed.*
+
+* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.2.0)
+* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.0/Computator.NET.Installer.v2.2.0.exe)
+* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.0/Computator.NET.v2.2.0.zip)
+* For Windows XP [download installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.0/Computator.NET.Installer.v2.2.0-WindowsXP.exe)
+* For Windows XP [download portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.0/Computator.NET.v2.2.0-WindowsXP.zip)
 
 
 # Installation & Setup
-1. This project requires **.NET Framework** at least in version **4.0 Full**, you can download it here (https://www.microsoft.com/en-US/download/details.aspx?id=17718).
+1. This project requires **.NET Framework** version [**4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718) on Windows XP and version [**4.6**](https://www.microsoft.com/en-us/download/details.aspx?id=48137) on newer systems.
 2. Go to [latest release page](https://github.com/PawelTroka/Computator.NET/releases/latest)
 3. Now you can download either portable version (the one with .zip extension) or installer (the one with .exe extension). In general, installer is recommended, because it sets up tsl and tslf files extensions for Computator.NET in registry.
 4. If you downloaded portable version, just unzip it into location you want to store and you are ready to go.
@@ -48,12 +49,10 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 * InstallShield 2015 LE needed to build Installer project
 * Visual Studio 2015 Enterprise needed to build and run CodedUI tests
 
-##### Programmers
+##### Development
 * This repo supports **Fork & Pull Model**, you can do any useful changes and when you are done make a pull request. If your work is of good quality, it will be included in main branch.
 * List of **things to do** is **updated constantly**, you can view it here: [TODO file](../master/TODO). Choose wisely because some of those things are way harder than it looks.
 * List of known bugs and issues is here: [**issues**](https://github.com/PawelTroka/Computator.NET/issues).
-
-##### Testers
 * Our **unit tests coverage is small**, partly because of the fact that there is good chunk of UI code here. Still I am afraid that there are lots and lots of not found bugs. If you want to help us fix those bugs, first try to catch them by **writing good unit tests**.
 
 ##### Users
@@ -86,9 +85,13 @@ Alternatively, you can always solve equations graphically, simply by looking at 
 
 # Minimum system requirements
 
-* **.NET Framework** **4.0 Full** or later (https://www.microsoft.com/en-US/download/details.aspx?id=17718) (included by installer)
-* .NET 4.0 **KB2468871** update (included by installer)
-* **Microsoft Visual C++ 2015 Update 2 Redistributable Package** (vc_redist 14.0.23918) (included by installer)
+* Windows Vista or later (officially supported)
+    * [**.NET Framework** **4.6**](https://www.microsoft.com/en-us/download/details.aspx?id=48137) or newer
+* Windows XP (legacy support)
+    * [**.NET Framework** **4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718)
+    * [.NET 4.0 **KB2468871**](https://www.microsoft.com/en-us/download/details.aspx?id=3556) update
+* Linux / Mac OS X (non-official support)
+    * [**Mono** **4.6.0**](http://www.mono-project.com/docs/about-mono/releases/) or newer 
 * Operating system **Windows XP SP3** or later (**Windows Vista** or later is recommended, **Windows 10** is the best option because of continous testing on it)
 * Processor **1 GHz** or faster
 * Memory **512 MB**	or more
