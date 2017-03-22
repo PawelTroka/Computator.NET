@@ -52,23 +52,23 @@ namespace Computator.NET.Views
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.intervalGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.aIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.aIntervalNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
-            this.bIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.bIntervalNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.stepsGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.nStepsNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.nStepsNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
             this.label19 = new System.Windows.Forms.Label();
             this.maxErrorGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.epsTextBox = new System.Windows.Forms.TextBox();
+            this.epsTextBox = new Computator.NET.Controls.ScientificNumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.derivativeAtPointGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.nOrderDerivativeNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
-            this.xDerivativePointNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.xDerivativePointNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericalCalculationsDataGridView)).BeginInit();
@@ -242,22 +242,13 @@ namespace Computator.NET.Views
             0,
             0,
             65536});
-            this.aIntervalNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.aIntervalNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
             this.aIntervalNumericUpDown.Name = "aIntervalNumericUpDown";
             this.aIntervalNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             -2147483648});
+            this.aIntervalNumericUpDown.UpDownMode=ScientificNumericUpDown.UpDownBehavior.Addition;
             // 
             // label12
             // 
@@ -273,22 +264,13 @@ namespace Computator.NET.Views
             0,
             0,
             65536});
-            this.bIntervalNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.bIntervalNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
             this.bIntervalNumericUpDown.Name = "bIntervalNumericUpDown";
             this.bIntervalNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.bIntervalNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Addition;
             // 
             // label13
             // 
@@ -328,6 +310,7 @@ namespace Computator.NET.Views
             0,
             0,
             0});
+            this.nStepsNumericUpDown.UpDownMode=ScientificNumericUpDown.UpDownBehavior.Multiplication;
             // 
             // label19
             // 
@@ -351,7 +334,12 @@ namespace Computator.NET.Views
             // epsTextBox
             // 
             resources.ApplyResources(this.epsTextBox, "epsTextBox");
+            this.epsTextBox.Maximum = 1;
+            this.epsTextBox.Minimum = this.epsTextBox.Epsilon = (decimal) (1e-28);
             this.epsTextBox.Name = "epsTextBox";
+            this.epsTextBox.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Multiplication;
+            this.epsTextBox.Margin = new Padding(0);
+            this.epsTextBox.Padding = new Padding(1);
             // 
             // label10
             // 
@@ -377,17 +365,14 @@ namespace Computator.NET.Views
             // nOrderDerivativeNumericUpDown
             // 
             resources.ApplyResources(this.nOrderDerivativeNumericUpDown, "nOrderDerivativeNumericUpDown");
-            this.nOrderDerivativeNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
+            this.nOrderDerivativeNumericUpDown.Maximum = 10;
             this.nOrderDerivativeNumericUpDown.Name = "nOrderDerivativeNumericUpDown";
             this.nOrderDerivativeNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.nOrderDerivativeNumericUpDown.TextAlign=HorizontalAlignment.Center;
             // 
             // label15
             // 
@@ -403,16 +388,7 @@ namespace Computator.NET.Views
             0,
             0,
             65536});
-            this.xDerivativePointNumericUpDown.Maximum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            0});
-            this.xDerivativePointNumericUpDown.Minimum = new decimal(new int[] {
-            -469762048,
-            -590869294,
-            5421010,
-            -2147483648});
+
             this.xDerivativePointNumericUpDown.Name = "xDerivativePointNumericUpDown";
             // 
             // label14
@@ -476,23 +452,23 @@ namespace Computator.NET.Views
         private FlowLayoutPanel flowLayoutPanel3;
         private GroupBox intervalGroupBox;
         private TableLayoutPanel tableLayoutPanel2;
-        private NumericUpDown aIntervalNumericUpDown;
+        private Computator.NET.Controls.ScientificNumericUpDown aIntervalNumericUpDown;
         private Label label12;
-        private NumericUpDown bIntervalNumericUpDown;
+        private Computator.NET.Controls.ScientificNumericUpDown bIntervalNumericUpDown;
         private Label label13;
         private GroupBox derivativeAtPointGroupBox;
         private TableLayoutPanel tableLayoutPanel3;
         private NumericUpDown nOrderDerivativeNumericUpDown;
         private Label label15;
-        private NumericUpDown xDerivativePointNumericUpDown;
+        private Computator.NET.Controls.ScientificNumericUpDown xDerivativePointNumericUpDown;
         private Label label14;
         private GroupBox stepsGroupBox;
         private TableLayoutPanel tableLayoutPanel4;
-        private NumericUpDown nStepsNumericUpDown;
+        private Computator.NET.Controls.ScientificNumericUpDown nStepsNumericUpDown;
         private Label label19;
         private GroupBox maxErrorGroupBox;
         private TableLayoutPanel tableLayoutPanel5;
-        private TextBox epsTextBox;
+        private Computator.NET.Controls.ScientificNumericUpDown epsTextBox;
         private Label label10;
     }
 }

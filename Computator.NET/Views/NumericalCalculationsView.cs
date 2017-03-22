@@ -110,10 +110,7 @@ namespace Computator.NET.Views
         {
             get
             {
-                double eps;
-                return double.TryParse(epsTextBox.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out eps)
-                    ? eps
-                    : double.NaN;
+                return (double) epsTextBox.Value;
             }
         }
 

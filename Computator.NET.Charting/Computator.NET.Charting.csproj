@@ -42,7 +42,7 @@
       <HintPath>..\libraries\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.3\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.4.4\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
@@ -71,7 +71,9 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Chart3D\UI\Chart3DControlMono.cs" />
+    <Compile Include="Chart3D\UI\Chart3DControlMono.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Chart3D\Chart3DMode.cs" />
     <Compile Include="Chart3D\Chart3D\AxisLabels.cs" />
     <Compile Include="Chart3D\Chart3D\Bar3D.cs" />
