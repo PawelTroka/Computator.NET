@@ -9,7 +9,8 @@ namespace Computator.NET.Core.Compilation
     {
 
         private static readonly Regex absSuperscriptRegex =
-    new Regex($@"{SpecialSymbols.ModulusSuperscript}([^{SpecialSymbols.ModulusSuperscript}]*[^\|{SpecialSymbols.OperatorsSuperscript}\s]+\s*){SpecialSymbols.ModulusSuperscript}(\s*)($|(?:[^{SpecialSymbols.SuperscriptAlphabet}\s]+?))",
+    new Regex(
+$@"{SpecialSymbols.ModulusSuperscript}([^{SpecialSymbols.ModulusSuperscript}]*[^\|{SpecialSymbols.OperatorsSuperscript}\s]+\s*){SpecialSymbols.ModulusSuperscript}(\s*)($|(?:[^{SpecialSymbols.SuperscriptAlphabet}\s]+?))",
         RegexOptions.Compiled);
 
         private static readonly Regex absRegex =

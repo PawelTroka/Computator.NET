@@ -199,6 +199,8 @@ namespace Computator.NET.Core.Evaluation
             }
             catch (Exception ex)
             {
+                Logger.Error(ex, $"{ex.Message}{Environment.NewLine}{nameof(MainTslCode)} = '{MainTslCode}'{Environment.NewLine}{nameof(MainCSharpCode)} = '{MainCSharpCode}'{Environment.NewLine}{nameof(_customFunctionsCSharpCode)} = '{_customFunctionsCSharpCode}'");
+
                 if (ex is CompilationException)
                     throw;
 
