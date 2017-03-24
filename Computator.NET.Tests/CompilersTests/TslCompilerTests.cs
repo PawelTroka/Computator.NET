@@ -536,7 +536,24 @@ namespace Computator.NET.Tests.CompilersTests
 		}
 
 #if !DO_NOT_USE_ABS_YET
-		[Test]
+        [Test]
+        public void AbsWithCosAndSin()
+	    {
+	        Assert.AreEqual(@"y*abs(cos(z))+x*abs(sin(z))", _tslCompiler.TransformToCSharp(@"y|cos(z)|+x|sin(z)|"));
+	    }
+        [Test]
+        public void AbsInSuperscriptTest()
+	    {
+	        Assert.AreEqual(@"(pow(z,1000*abs(z)))/(1.0*((pow(z,1000*abs(z)))))", _tslCompiler.TransformToCSharp(@"(z¹⁰⁰⁰ꞋᶻꞋ)/(z¹⁰⁰⁰ꞋᶻꞋ)"));
+	    }
+
+        [Test]
+        public void AbsWithoutParenthesisInSuperscriptTest()
+        {
+            Assert.AreEqual(@"pow(z,1000*abs(z))/(1.0*(pow(z,1000*abs(z))))", _tslCompiler.TransformToCSharp(@"z¹⁰⁰⁰ꞋᶻꞋ/z¹⁰⁰⁰ꞋᶻꞋ"));
+        }
+
+        [Test]
 		public void AbsTest()
 		{
 			Assert.AreEqual(@"abs(cos(x))=abs(y)", _tslCompiler.TransformToCSharp(@"|cos(x)|=|y|"));
