@@ -750,5 +750,76 @@ namespace Computator.NET.IntegrationTests
             // methodsToTest.AddRange(typeof(StatisticFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static));
             TestFunctions(sstatisticsFunctions);
         }
+
+        [TestCase(1)]
+        [TestCase(1e5)]
+        [TestCase(1e10)]
+        [TestCase(1e30)]
+        [TestCase(1e100)]
+        [TestCase(1e-5)]
+        [TestCase(1e-10)]
+        [TestCase(1e-30)]
+        [TestCase(1e-100)]
+        [TestCase(-1e5)]
+        [TestCase(-1e10)]
+        [TestCase(-1e30)]
+        [TestCase(-1e100)]
+        [TestCase(-1e-5)]
+        [TestCase(-1e-10)]
+        [TestCase(-1e-30)]
+        [TestCase(-1e-100)]
+        public void ComplexLogGammaTests(double multiplier)
+        {
+            object ret = null;
+            foreach (var c in C)
+            {
+                try
+                {
+                    ret = SpecialFunctions.logGamma(c);
+                    ret = SpecialFunctions.logGamma(new Complex(multiplier * c.Real, c.Imaginary));
+                    ret = SpecialFunctions.logGamma(new Complex(c.Real, multiplier * c.Imaginary));
+                    ret = SpecialFunctions.logGamma(new Complex(multiplier * c.Real, multiplier * c.Imaginary));
+                }
+                catch (Exception ex)
+                {
+                    Assert.Fail("Exception occured: " + ex);
+                }
+                Assert.IsNotNull(ret);
+            }
+        }
+
+        [TestCase(1)]
+        [TestCase(1e5)]
+        [TestCase(1e10)]
+        [TestCase(1e30)]
+        [TestCase(1e100)]
+        [TestCase(1e-5)]
+        [TestCase(1e-10)]
+        [TestCase(1e-30)]
+        [TestCase(1e-100)]
+        [TestCase(-1e5)]
+        [TestCase(-1e10)]
+        [TestCase(-1e30)]
+        [TestCase(-1e100)]
+        [TestCase(-1e-5)]
+        [TestCase(-1e-10)]
+        [TestCase(-1e-30)]
+        [TestCase(-1e-100)]
+        public void LogGammaTests(double multiplier)
+        {
+            object ret = null;
+            foreach (var x in X)
+            {
+                try
+                {
+                    ret = SpecialFunctions.logGamma(multiplier* x);
+                }
+                catch (Exception ex)
+                {
+                    Assert.Fail("Exception occured: " + ex);
+                }
+                Assert.IsNotNull(ret);
+            }
+        }
     }
 }
