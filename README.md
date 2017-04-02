@@ -26,6 +26,7 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 
 # Installation & Setup
+<a href="https://www.microsoft.com/store/apps/9NBLGGH43GHS?ocid=badge"><img width="25%" src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" alt="Get it on Windows 10" /></a>
 1. This project requires **.NET Framework** version [**4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718) on Windows XP and version [**4.6**](https://www.microsoft.com/en-us/download/details.aspx?id=48137) on newer systems.
 2. Go to [latest release page](https://github.com/PawelTroka/Computator.NET/releases/latest)
 3. Now you can download either portable version (the one with .zip extension) or installer (the one with .exe extension). In general, installer is recommended, because it sets up tsl and tslf files extensions for Computator.NET in registry.
