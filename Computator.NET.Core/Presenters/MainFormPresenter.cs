@@ -9,11 +9,14 @@ using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
+using NLog;
 
 namespace Computator.NET.Core.Presenters
 {
     public class MainFormPresenter
     {
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly IMainView _view;
         private readonly ISharedViewState _sharedViewState;
 
@@ -69,11 +72,14 @@ namespace Computator.NET.Core.Presenters
 
             ///////EventAggregator.Instance.Subscribe<ChangeViewEvent>(cv => { _view.SelectedViewIndex = (int) cv.View; });
 
+            _view.SelectedViewIndex = (int)_sharedViewState.CurrentView;
+
             _sharedViewState.PropertyChanged += (o, e) =>
             {
                 switch (e.PropertyName)
                 {
                     case nameof(_sharedViewState.CurrentView):
+                        Logger.Info($"Changing {nameof(_view.SelectedViewIndex)} {(ViewName)_view.SelectedViewIndex} to {_sharedViewState.CurrentView}");
                         _view.SelectedViewIndex = (int)_sharedViewState.CurrentView;
                         break;
                 }
@@ -86,6 +92,7 @@ namespace Computator.NET.Core.Presenters
 
         private void _view_SelectedViewChanged(object sender, EventArgs e)
         {
+            Logger.Info($"Changing {nameof(_sharedViewState.CurrentView)} {_sharedViewState.CurrentView} to {(ViewName)_view.SelectedViewIndex}");
             _sharedViewState.CurrentView = (ViewName)_view.SelectedViewIndex;
         }
 

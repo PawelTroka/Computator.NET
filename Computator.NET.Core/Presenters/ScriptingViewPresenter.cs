@@ -8,11 +8,14 @@ using Computator.NET.Core.Services;
 using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.DataTypes.Localization;
+using NLog;
 
 namespace Computator.NET.Core.Presenters
 {
     public class ScriptingViewPresenter
     {
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
         private ISharedViewState _sharedViewState;
 
         private readonly IScriptEvaluator _eval;
@@ -32,16 +35,22 @@ namespace Computator.NET.Core.Presenters
             var solutionExplorerPresenter = new SolutionExplorerPresenter(_view.SolutionExplorerView,
                 _view.CodeEditorView, true);
 
-            _view.Load += (o, e) =>
-            {
-                string filepath;
-                if (_commandLineHandler.TryGetCustomFunctionsDocument(out filepath))
-                {
-                    _view.CodeEditorView.NewDocument(filepath);
-                    _sharedViewState.CurrentView=ViewName.Scripting;
-                }
-            };
+            //_view.Load += LoadFileFromCommandLine;
+            LoadFileFromCommandLine();
         }
+
+        private void LoadFileFromCommandLine()
+        {
+            Logger.Info($"{nameof(IScriptingView)} loaded");
+            string filepath;
+            if (_commandLineHandler.TryGetScriptingDocument(out filepath))
+            {
+                Logger.Info($"Got script document from command line '{filepath}'");
+                _view.CodeEditorView.NewDocument(filepath);
+                _sharedViewState.CurrentView = ViewName.Scripting;
+            }
+        }
+
         private readonly IExceptionsHandler _exceptionsHandler;
         private readonly ICodeEditorView _customFunctionsEditor;
 
