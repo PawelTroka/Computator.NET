@@ -54,20 +54,21 @@ namespace Computator.NET.Core.Properties
 
         private static Settings Load()
         {
-            if (File.Exists(AppInformation.SettingsPath))
+            if (!File.Exists(AppInformation.SettingsPath))
+                return new Settings();
+            try
             {
-                var fs = new FileStream(AppInformation.SettingsPath, FileMode.Open);
-                try
+                using (var fs = new FileStream(AppInformation.SettingsPath, FileMode.Open))
                 {
                     var settings = (Settings)new BinaryFormatter().Deserialize(fs);
                     settings.RestoreDirectories();
                     return settings;
                 }
-                catch (Exception exception)
-                {
-                    Logger.Error(exception, "Loading settings failed. Will remove corrupted settings file.");
-                    File.Delete(AppInformation.SettingsPath);
-                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception, "Loading settings failed. Will remove corrupted settings file.");
+                File.Delete(AppInformation.SettingsPath);
             }
 
             return new Settings();
