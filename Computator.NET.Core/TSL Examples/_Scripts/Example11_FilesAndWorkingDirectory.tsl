@@ -1,0 +1,70 @@
+//This tutorial shows how to access files for reading and writing in the most simple way
+//File API in comparison to FileWriter and FileReader API demonstrated in Example05 differs 
+//because here we can have simultaneous read and write operations on single file from single API
+
+//first we will start with creating new file
+var file = File("file.txt");
+//as you may notice it is very simple just to open new file
+//however you may also notice that this path to file is relative
+//so we don't point where this file should be checked
+//but because TSL scripts set during runtime default working directory according to 
+//settings we will get it under "Working directory" path from settings
+//by default it is C:\Users\USER_NAME\Documents\Computator.NET\Workspace
+//it can be changed however any time you want in Tools -> Options -> Working directory
+
+//we have two basic ways to write to file
+//one is more object oriented
+file.writeln("First line");
+//and second is more functional oriented
+writeln(file,"Second line");
+
+//it is similar in case of reading a file
+var firstLine = file.readln();
+var secondLine = readln(file);
+writeln("We have read: "+firstLine+" "+secondLine);
+
+//always remember to close file when you are done with all your reading and writing
+//otherwise you wont be able to reopen it again or anythign like that
+file.close();
+
+//it is also possible to specify different working directory or to even pass absolute path when creating a file 
+setWorkingDirectory("C:\\");
+file = File("NewFile.txt");
+//now NewFile.txt will be created under C:\ directory 
+//we could also just write: file = File("C:\\NewFile.txt");
+//note that we escape characters in string by writing double \\ instead of single \
+
+write(file,"Many different things can go here "+MathieuAn(2,2));
+var manyDifferentThings = file.readAll();//we could also use read(file) to ready whole file as a string
+writeln(manyDifferentThings);
+file.close();
+
+//remember that many times you will like to just read a file and that's fine - you can do it by reading whole file
+//reading by line as demonstrated before, it always returned string
+//but you can also read something from a file as a specific type (eg real number)
+
+
+file = File("NewFile.txt");
+//as we open here file we already wrote to
+//it is not empty and has the content we wrote into it
+writeln(read(file));
+
+//if we now want to write to it from start
+//we can clear it's content 
+file.clear();
+
+//we can write anything we want, here output from special function
+write(file,gamma(3.3));
+//because we have written real number from special function 
+//we can read it as real number
+var result = read<real>(file);
+writeln(result);
+file.close();
+
+//one last option is to not provide path to file during File() invocation
+//this causes environment to show save/load file prompt so that user will point a path
+//using standard dialog
+file = File();
+file.write("content");
+writeln(read(file));
+file.close();

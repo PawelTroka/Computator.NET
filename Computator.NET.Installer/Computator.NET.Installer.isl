@@ -1975,6 +1975,7 @@
 		<row><td>example08_solvingequations.t</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example08_SolvingEquations.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example08_SolvingEquations.tsl</td><td>1</td><td/></row>
 		<row><td>example09_matrixdecompositio</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example09_MatrixDecompositions.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example09_MatrixDecompositions.tsl</td><td>1</td><td/></row>
 		<row><td>example10_simpleplotofpoints</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example10_SimplePlotOfPoints.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl</td><td>1</td><td/></row>
+		<row><td>example11_filesandworkingdir</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example11_FilesAndWorkingDirectory.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example11_FilesAndWorkingDirectory.tsl</td><td>1</td><td/></row>
 		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
 	</table>
 

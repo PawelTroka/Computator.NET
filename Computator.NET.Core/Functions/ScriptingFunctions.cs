@@ -22,113 +22,91 @@ namespace Computator.NET.Core.Functions
             System.IO.Directory.SetCurrentDirectory(path);
         }
 
-        public static void show(object o, string showcaption = "Show output: ")
+        public static void show(object o)
         {
-            System.Windows.Forms.MessageBox.Show(objectToString(o), showcaption);
+            show(o, "Show output: ");
+        }
+
+        public static void show(object o, string caption)
+        {
+            System.Windows.Forms.MessageBox.Show(objectToString(o), caption);
         }
 
 
-        public static T read<T>(string s = "read: ")
+        public static T convert<T>(string result)
         {
+            if (string.IsNullOrEmpty(result))
+                return (T)(object)(string.Empty);
+
             var x = default(T);
             if (x == null)
-                x = (T) (object) (" ");
+                x = (T)(object)(string.Empty);//TODO: find better way to provide something which is not null for reference types
 
-            var rf = new ReadForm(s);
-            rf.ShowDialog();
-            if (rf.DialogResult == System.Windows.Forms.DialogResult.OK)
-            {
-                var result = rf.Result;
+            if (x.IsNumericType())
+                x = (T)((object)double.Parse(result, System.Globalization.CultureInfo.InvariantCulture));
 
-                if (x.IsNumericType())
-                    x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
+            if (x is string)
+                x = (T)((object)(result));
 
-                if (x is string)
-                    x = (T) ((object) (result));
-
-                if (x is System.Numerics.Complex)
-                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
-            }
-            CONSOLE_OUTPUT (System.Environment.NewLine + s + " " + objectToString(x));
+            if (x is System.Numerics.Complex)
+                x = (T)((object)MathNet.Numerics.ComplexExtensions.ToComplex(result, System.Globalization.CultureInfo.InvariantCulture));
             return x;
         }
 
-
-        public static void read<T>(out T x, string s = "read: ")
+        public static T read<T>(string caption)
         {
-            x = default(T);
-            if (x == null)
-                x = (T) (object) (" ");
-
-            var rf = new ReadForm(s);
+            var rf = new ReadForm(caption);
             rf.ShowDialog();
-            if (rf.DialogResult == System.Windows.Forms.DialogResult.OK)
-            {
-                var result = rf.Result;
-
-                if (x.IsNumericType())
-                    x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
-
-                if (x is string)
-                    x = (T) ((object) (result));
-
-                if (x is System.Numerics.Complex)
-                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
-            }
-            CONSOLE_OUTPUT (System.Environment.NewLine + s + " " + objectToString(x));
+            var x = convert<T>(rf.DialogResult == System.Windows.Forms.DialogResult.OK ? rf.Result : null);
+            
+            return x;
         }
 
-
-        public static void readln<T>(File file, out T x)
+        public static T read<T>()
         {
-            x = default(T);
-            if (x == null)
-                x = (T) (object) (" ");
-
-
-            var result = file.readln();
-
-            if (x.IsNumericType())
-                x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
-
-            if (x is string)
-                x = (T) ((object) (result));
-
-            if (x is System.Numerics.Complex)
-                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
-
-            CONSOLE_OUTPUT (System.Environment.NewLine + "read: " + " " + objectToString(x));
+            return read<T>("read: ");
         }
 
-
-        public static void read<T>(File file, out T x)
+        public static void read<T>(out T output, string caption)
         {
-            x = default(T);
-            if (x == null)
-                x = (T) (object) (" ");
-
-
-            var result = file.readAll();
-
-            if (x.IsNumericType())
-                x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
-
-            if (x is string)
-                x = (T) ((object) (result));
-
-            if (x is System.Numerics.Complex)
-                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
-
-            CONSOLE_OUTPUT (System.Environment.NewLine + "read: " + " " + objectToString(x));
+            output = read<T>(caption);
         }
 
+        public static void read<T>(out T output)
+        {
+            read<T>(out output, "read: ");
+        }
+
+
+        public static T read<T>(File file)
+        {
+            return convert<T>(file.readAll());
+        }
+
+        public static T readln<T>(File file)
+        {
+            return convert<T>(file.readln());
+        }
+
+        public static void read<T>(File file, out T output)
+        {
+            output = convert<T>(file.readAll());
+        }
+
+        public static void readln<T>(File file, out T output)
+        {
+            output = convert<T>(file.readln());
+        }
 
         public static string read(File file)
         {
-            var result = file.readAll();
+            return file.readAll();
+        }
 
-            CONSOLE_OUTPUT (System.Environment.NewLine + "read: " + " " + result);
-            return result;
+        public static string readln(File file)
+        {
+            var line = file.readln();
+            return line;
         }
 
         public static void write(object o)
@@ -182,6 +160,9 @@ namespace Computator.NET.Core.Functions
 
         private static string objectToString(object o)
         {
+            if (o == null)
+                return string.Empty;
+
             //real matrix
             var realMatrix = o as MathNet.Numerics.LinearAlgebra.Matrix<double>;
             if (realMatrix != null)
@@ -236,8 +217,8 @@ namespace Computator.NET.Core.Functions
         {
             var path = "file.txt";
 
-            var of = new System.Windows.Forms.OpenFileDialog();
-            var sf = new System.Windows.Forms.SaveFileDialog() {CheckFileExists = false,CheckPathExists = false,RestoreDirectory = true};
+            var of = new System.Windows.Forms.OpenFileDialog() { CheckFileExists = false, CheckPathExists = false, RestoreDirectory = true };
+            var sf = new System.Windows.Forms.SaveFileDialog() {CheckFileExists = false,CheckPathExists = false,RestoreDirectory = true,CreatePrompt = false,OverwritePrompt = false};
 
           //  if (of.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             //    path = of.FileName;
@@ -429,116 +410,94 @@ double YMax = 5, double quality = 0.5)
             System.IO.Directory.SetCurrentDirectory(path);
         }
 
-        public static void show(object o, string showcaption = ""Show output: "")
+        public static void show(object o)
         {
-            System.Windows.Forms.MessageBox.Show(objectToString(o), showcaption);
+            show(o, ""Show output: "");
+        }
+
+        public static void show(object o, string caption)
+        {
+            System.Windows.Forms.MessageBox.Show(objectToString(o), caption);
         }
 
 
-        public static T read<T>(string s = ""read: "")
+        public static T convert<T>(string result)
         {
+            if (string.IsNullOrEmpty(result))
+                return (T)(object)(string.Empty);
+
             var x = default(T);
             if (x == null)
-                x = (T) (object) ("" "");
+                x = (T)(object)(string.Empty);//TODO: find better way to provide something which is not null for reference types
 
-            var rf = new ReadForm(s);
-            rf.ShowDialog();
-            if (rf.DialogResult == System.Windows.Forms.DialogResult.OK)
-            {
-                var result = rf.Result;
+            if (x.IsNumericType())
+                x = (T)((object)double.Parse(result, System.Globalization.CultureInfo.InvariantCulture));
 
-                if (x.IsNumericType())
-                    x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
+            if (x is string)
+                x = (T)((object)(result));
 
-                if (x is string)
-                    x = (T) ((object) (result));
-
-                if (x is System.Numerics.Complex)
-                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
-            }
-            CONSOLE_OUTPUT (System.Environment.NewLine + s + "" "" + objectToString(x));
+            if (x is System.Numerics.Complex)
+                x = (T)((object)MathNet.Numerics.ComplexExtensions.ToComplex(result, System.Globalization.CultureInfo.InvariantCulture));
             return x;
         }
 
-
-        public static void read<T>(out T x, string s = ""read: "")
+        public static T read<T>(string caption)
         {
-            x = default(T);
-            if (x == null)
-                x = (T) (object) ("" "");
-
-            var rf = new ReadForm(s);
+            var rf = new ReadForm(caption);
             rf.ShowDialog();
-            if (rf.DialogResult == System.Windows.Forms.DialogResult.OK)
-            {
-                var result = rf.Result;
-
-                if (x.IsNumericType())
-                    x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
-
-                if (x is string)
-                    x = (T) ((object) (result));
-
-                if (x is System.Numerics.Complex)
-                    x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
-            }
-            CONSOLE_OUTPUT (System.Environment.NewLine + s + "" "" + objectToString(x));
+            var x = convert<T>(rf.DialogResult == System.Windows.Forms.DialogResult.OK ? rf.Result : null);
+            
+            return x;
         }
 
-
-        public static void readln<T>(File file, out T x)
+        public static T read<T>()
         {
-            x = default(T);
-            if (x == null)
-                x = (T) (object) ("" "");
-
-
-            var result = file.readln();
-
-            if (x.IsNumericType())
-                x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
-
-            if (x is string)
-                x = (T) ((object) (result));
-
-            if (x is System.Numerics.Complex)
-                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
-
-            CONSOLE_OUTPUT (System.Environment.NewLine + ""read: "" + "" "" + objectToString(x));
+            return read<T>(""read: "");
         }
 
-
-        public static void read<T>(File file, out T x)
+        public static void read<T>(out T output, string caption)
         {
-            x = default(T);
-            if (x == null)
-                x = (T) (object) ("" "");
-
-
-            var result = file.readAll();
-
-            if (x.IsNumericType())
-                x = (T) ((object) double.Parse(result,System.Globalization.CultureInfo.InvariantCulture));
-
-            if (x is string)
-                x = (T) ((object) (result));
-
-            if (x is System.Numerics.Complex)
-                x = (T) ((object) MathNet.Numerics.ComplexExtensions.ToComplex(result,System.Globalization.CultureInfo.InvariantCulture));
-
-            CONSOLE_OUTPUT (System.Environment.NewLine + ""read: "" + "" "" + objectToString(x));
+            output = read<T>(caption);
         }
 
+        public static void read<T>(out T output)
+        {
+            read<T>(out output, ""read: "");
+        }
+
+
+        public static T read<T>(File file)
+        {
+            return convert<T>(file.readAll());
+        }
+
+        public static T readln<T>(File file)
+        {
+            return convert<T>(file.readln());
+        }
+
+        public static void read<T>(File file, out T output)
+        {
+            output = convert<T>(file.readAll());
+        }
+
+        public static void readln<T>(File file, out T output)
+        {
+            output = convert<T>(file.readln());
+        }
 
         public static string read(File file)
         {
-            var result = file.readAll();
-
-            CONSOLE_OUTPUT (System.Environment.NewLine + ""read: "" + "" "" + result);
-            return result;
+            return file.readAll();
         }
 
-        public static void write(object o)
+        public static string readln(File file)
+        {
+            var line = file.readln();
+            return line;
+        }
+
+    public static void write(object o)
         {
             CONSOLE_OUTPUT(objectToString(o));
         }
@@ -589,6 +548,8 @@ double YMax = 5, double quality = 0.5)
 
         private static string objectToString(object o)
         {
+            if (o == null)
+                return string.Empty;
             //real matrix
             var realMatrix = o as MathNet.Numerics.LinearAlgebra.Matrix<double>;
             if (realMatrix != null)
@@ -643,8 +604,8 @@ double YMax = 5, double quality = 0.5)
         {
             var path = ""file.txt"";
 
-            var of = new System.Windows.Forms.OpenFileDialog();
-            var sf = new System.Windows.Forms.SaveFileDialog() {CheckFileExists = false,CheckPathExists = false,RestoreDirectory = true};
+            var of = new System.Windows.Forms.OpenFileDialog() { CheckFileExists = false, CheckPathExists = false, RestoreDirectory = true };
+            var sf = new System.Windows.Forms.SaveFileDialog() {CheckFileExists = false,CheckPathExists = false,RestoreDirectory = true,CreatePrompt = false,OverwritePrompt = false};
 
           //  if (of.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             //    path = of.FileName;

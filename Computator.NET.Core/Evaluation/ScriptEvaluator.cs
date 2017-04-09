@@ -68,8 +68,6 @@ namespace Computator.NET.Core.Evaluation
                 !string.IsNullOrWhiteSpace(customFunctionsCode)
                     ? customFunctionsCode
                     : "";
-            ;
-
 
             AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation",
