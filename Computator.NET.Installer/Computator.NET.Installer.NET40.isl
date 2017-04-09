@@ -362,6 +362,7 @@
 		<row><td>ISX_DEFAULTCOMPONENT4</td><td>{359819B7-067F-4821-A97C-B48C7CE96052}</td><td>TSL_EXAMPLES</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT5</td><td>{221F2D2C-6894-4069-8EC4-463129E935BD}</td><td>_CUSTOMFUNCTIONS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td>{C1E7907C-AEF7-44D5-B528-CF3B5D5AA20D}</td><td>_SCRIPTS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT7</td><td>{689FAE03-EE45-4F68-A46F-C98336288ACC}</td><td>COMPUTATOR.NET1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td>{FFA1F361-6693-4FF3-B0DC-5D24E26F3787}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{10969478-5974-4DEC-B989-CED85A6FBE30}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>System.IO.dll</td><td>{288F2654-C2CF-4304-B9D5-3348E72A4C90}</td><td>INSTALLDIR</td><td>2</td><td/><td>system.io.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1079,6 +1080,7 @@
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>ALLUSERSPROFILE</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>COMPUTATOR.NET1</td><td>ISX_DEFAULTCOMPONENT7</td></row>
 		<row><td>CommonAppDataFolder</td><td>ISO19770_SystemTag</td></row>
 		<row><td>FontsFolder</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Charting.Localized_resources</td></row>
@@ -1097,6 +1099,7 @@
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT4</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT5</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT6</td></row>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT7</td></row>
 		<row><td>INSTALLDIR</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent1</td></row>
 		<row><td>INSTALLDIR</td><td>System.IO.dll</td></row>
@@ -1192,6 +1195,7 @@
 		<row><td>AdminToolsFolder</td><td>TARGETDIR</td><td>.:Admint~1|AdminTools</td><td/><td>0</td><td/></row>
 		<row><td>AppDataFolder</td><td>TARGETDIR</td><td>.:APPLIC~1|Application Data</td><td/><td>0</td><td/></row>
 		<row><td>COMPUTATOR.NET</td><td>ProgramFilesFolder</td><td>COMPUT~1|Computator.NET</td><td/><td>0</td><td/></row>
+		<row><td>COMPUTATOR.NET1</td><td>PersonalFolder</td><td>COMPUT~1|Computator.NET</td><td/><td>0</td><td/></row>
 		<row><td>CommonAppDataFolder</td><td>TARGETDIR</td><td>.:Common~1|CommonAppData</td><td/><td>0</td><td/></row>
 		<row><td>CommonFiles64Folder</td><td>TARGETDIR</td><td>.:Common64</td><td/><td>0</td><td/></row>
 		<row><td>CommonFilesFolder</td><td>TARGETDIR</td><td>.:Common</td><td/><td>0</td><td/></row>
@@ -1220,7 +1224,7 @@
 		<row><td>System64Folder</td><td>TARGETDIR</td><td>.:System64</td><td/><td>0</td><td/></row>
 		<row><td>SystemFolder</td><td>TARGETDIR</td><td>.:System32</td><td/><td>0</td><td/></row>
 		<row><td>TARGETDIR</td><td/><td>SourceDir</td><td/><td>0</td><td/></row>
-		<row><td>TSL_EXAMPLES</td><td>PersonalFolder</td><td>TSLEXA~1|TSL Examples</td><td/><td>0</td><td/></row>
+		<row><td>TSL_EXAMPLES</td><td>COMPUTATOR.NET1</td><td>TSLEXA~1|TSL Examples</td><td/><td>0</td><td/></row>
 		<row><td>TempFolder</td><td>TARGETDIR</td><td>.:Temp</td><td/><td>0</td><td/></row>
 		<row><td>TemplateFolder</td><td>TARGETDIR</td><td>.:ShellNew</td><td/><td>0</td><td/></row>
 		<row><td>USERPROFILE</td><td>TARGETDIR</td><td>.:USERPR~1|UserProfile</td><td/><td>0</td><td/></row>
@@ -1940,6 +1944,7 @@
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT4</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT5</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT6</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT7</td></row>
 		<row><td>AlwaysInstall</td><td>IS_ININSTALL_SHORTCUT</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
 		<row><td>AlwaysInstall</td><td>System.IO.dll</td></row>
@@ -2150,6 +2155,7 @@
 		<row><td>ISX_DEFAULTCOMPONENT4</td><td/><td/><td>_A8A20F43_21BB_43E7_A303_44AB276BAA1D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT5</td><td/><td/><td>_4CBF46E3_93AF_40FA_AD29_054A924FC569_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td/><td/><td>_A0C5B437_07E5_4C80_8208_EE7123C3CAA8_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT7</td><td/><td/><td>_57C92ADD_2268_4923_832F_333FF5FDC8B5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>IS_ININSTALL_SHORTCUT</td><td/><td/><td>_80E3F1A6_D009_4D8A_A096_E35724FAAF8F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_38D42019_79C8_404E_B558_89FFB7078B5D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>System.IO.dll</td><td/><td/><td>_63E3E8AF_B440_492B_BF26_0876ED61C9A8_FILTER</td><td/><td/><td/><td/></row>

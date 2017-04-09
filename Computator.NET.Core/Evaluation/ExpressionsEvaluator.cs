@@ -24,7 +24,7 @@ namespace Computator.NET.Core.Evaluation
         private const string LambdaScript = MatrixFunctions.ToCode + ScriptingFunctions.ToCode + @"
             public static void CustomFunction(System.Action<string> CONSOLE_OUTPUT_CALLBACK)
             {
-            CONSOLE_OUTPUT = CONSOLE_OUTPUT_CALLBACK;
+                CONSOLE_OUTPUT = CONSOLE_OUTPUT_CALLBACK;
             ";
         private const string LambdaX = @"           
             public static double CustomFunction(double x)
@@ -68,6 +68,7 @@ namespace Computator.NET.Core.Evaluation
         private string _customFunctionsCSharpCode;
         private Type _delegateType;
         private string _functionSignature;
+        protected string InitCodeAfterFunctionSignature = string.Empty;
 
         protected string AdditionalObjectsCode;
         protected string AdditionalUsings;
@@ -167,6 +168,7 @@ namespace Computator.NET.Core.Evaluation
                     _functionSignature = LambdaScript;
                     break;
             }
+            _functionSignature += InitCodeAfterFunctionSignature;
         }
 
         private void TransformImplicitToExplicit()

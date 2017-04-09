@@ -74,8 +74,11 @@ namespace Computator.NET.Core.Evaluation
             AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation",
                 "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." +
-                Settings.Default.NumericalOutputNotation);
-            //DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
+                Settings.Default.NumericalOutputNotation);//DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
+
+            InitCodeAfterFunctionSignature =
+                $@"setWorkingDirectory(@""{Settings.Default.WorkingDirectory}"");";
+            
 
             var function = Compile();
             return new ScriptFunction(function) {TslCode = MainTslCode, CsCode = MainCSharpCode};

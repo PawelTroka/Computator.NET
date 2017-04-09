@@ -33,6 +33,13 @@ namespace Computator.NET.Core.Properties
         private FunctionsOrder _functionsOrder;
         private CodeEditorType _codeEditor;
         private CultureInfo _language;
+        private string _workingDirectory;
+
+        private static readonly string ScriptingRawDir = Path.Combine("TSL Examples", "_Scripts");
+        private static readonly string DefaultScriptingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments,Environment.SpecialFolderOption.Create), AppInformation.Name, ScriptingRawDir);
+
+        private static readonly string CustomFunctionsRawDir = Path.Combine("TSL Examples", "_CustomFunctions");
+        private static readonly string DefaultCustomFunctionsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments,Environment.SpecialFolderOption.Create), AppInformation.Name, CustomFunctionsRawDir);
 
 
         public void Save()
@@ -53,7 +60,7 @@ namespace Computator.NET.Core.Properties
                 try
                 {
                     var settings = (Settings)new BinaryFormatter().Deserialize(fs);
-                    settings.RestoreScriptingExamplesIfNeeded();
+                    settings.RestoreDirectories();
                     return settings;
                 }
                 catch (Exception exception)
@@ -80,16 +87,18 @@ namespace Computator.NET.Core.Properties
 
             ShowReturnTypeInExpression = false;
             ShowParametersTypeInExpression = true;
-            
+
             ShowReturnTypeInScripting = true;
             ShowParametersTypeInScripting = true;
 
             NumericalOutputNotation = NumericalOutputNotationType.MathematicalNotation;
 
-            ScriptingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),"TSL Examples", "_Scripts");
-            CustomFunctionsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "TSL Examples", "_CustomFunctions");
+            ScriptingDirectory = DefaultScriptingDirectory;
+            CustomFunctionsDirectory = DefaultCustomFunctionsDirectory;
 
             CalculationsErrors = CalculationsErrors.ReturnNAN;
+
+            WorkingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments, Environment.SpecialFolderOption.Create), AppInformation.Name, "Workspace");
         }
 
         private Settings()
@@ -97,28 +106,39 @@ namespace Computator.NET.Core.Properties
             if (!File.Exists(AppInformation.SettingsPath))
                 Reset();
 
-            RestoreScriptingExamplesIfNeeded();
+            RestoreDirectories();
         }
 
 
-        private void RestoreScriptingExamplesIfNeeded()
+        private void RestoreDirectories()
         {
-            var scriptingRawDir = Path.Combine("TSL Examples", "_Scripts");
-            if (ScriptingDirectory.Contains(scriptingRawDir) && !Directory.Exists(ScriptingDirectory))
-                if (Directory.Exists(PathUtility.GetFullPath(scriptingRawDir)))
-                    CopyDirectory.Copy(PathUtility.GetFullPath(scriptingRawDir), ScriptingDirectory);
-                else
-                    throw new FileNotFoundException(
-                        $"Scripting examples not found in {PathUtility.GetFullPath(scriptingRawDir)}");
 
-            var customFunctionsRawDir = Path.Combine("TSL Examples", "_CustomFunctions");
-            if (CustomFunctionsDirectory.Contains(customFunctionsRawDir) &&
-                !Directory.Exists(CustomFunctionsDirectory))
-                if (Directory.Exists(PathUtility.GetFullPath(customFunctionsRawDir)))
-                    CopyDirectory.Copy(PathUtility.GetFullPath(customFunctionsRawDir), CustomFunctionsDirectory);
+            if (!Directory.Exists(DefaultScriptingDirectory))
+            {
+                if (Directory.Exists(PathUtility.GetFullPath(ScriptingRawDir)))
+                    CopyDirectory.Copy(PathUtility.GetFullPath(ScriptingRawDir), DefaultScriptingDirectory);
                 else
                     throw new FileNotFoundException(
-                        $"Custom functions examples not found in {PathUtility.GetFullPath(customFunctionsRawDir)}");
+                        $"Scripting examples not found in {PathUtility.GetFullPath(ScriptingRawDir)}");
+            }
+
+
+            if (!Directory.Exists(DefaultCustomFunctionsDirectory))
+            {
+                if (Directory.Exists(PathUtility.GetFullPath(CustomFunctionsRawDir)))
+                    CopyDirectory.Copy(PathUtility.GetFullPath(CustomFunctionsRawDir), DefaultCustomFunctionsDirectory);
+                else
+                    throw new FileNotFoundException(
+                        $"Custom functions examples not found in {PathUtility.GetFullPath(CustomFunctionsRawDir)}");
+            }
+
+            var dirsToRestore = new string[] { WorkingDirectory, ScriptingDirectory, CustomFunctionsDirectory };
+
+            foreach (var dir in dirsToRestore)
+            {
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+            }
         }
 
 
@@ -331,6 +351,20 @@ namespace Computator.NET.Core.Properties
             {
                 if (value == _customFunctionsDirectory) return;
                 _customFunctionsDirectory = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [DisplayName("Working directory")]
+        [Category("Scripting")]
+        [Description("Path to directory where all relative paths during TSL script execution will point.")]
+        public string WorkingDirectory
+        {
+            get { return _workingDirectory; }
+            set
+            {
+                if (value == _workingDirectory) return;
+                _workingDirectory = value;
                 OnPropertyChanged();
             }
         }

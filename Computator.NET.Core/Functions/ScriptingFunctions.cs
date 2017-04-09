@@ -15,6 +15,13 @@ namespace Computator.NET.Core.Functions
     {
         #region input and output
 
+        public static void setWorkingDirectory(string path)
+        {
+            if (!System.IO.Directory.Exists(path))
+                System.IO.Directory.CreateDirectory(path);
+            System.IO.Directory.SetCurrentDirectory(path);
+        }
+
         public static void show(object o, string showcaption = "Show output: ")
         {
             System.Windows.Forms.MessageBox.Show(objectToString(o), showcaption);
@@ -414,6 +421,13 @@ double YMax = 5, double quality = 0.5)
         public const string ToCode = @"
 
         #region input and output
+
+        public static void setWorkingDirectory(string path)
+        {
+            if (!System.IO.Directory.Exists(path))
+                System.IO.Directory.CreateDirectory(path);
+            System.IO.Directory.SetCurrentDirectory(path);
+        }
 
         public static void show(object o, string showcaption = ""Show output: "")
         {
