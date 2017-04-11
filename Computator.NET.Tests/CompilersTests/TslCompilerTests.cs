@@ -536,24 +536,30 @@ namespace Computator.NET.Tests.CompilersTests
 		}
 
 #if !DO_NOT_USE_ABS_YET
-        [Test]
-        public void AbsWithCosAndSin()
-	    {
-	        Assert.AreEqual(@"y*abs(cos(z))+x*abs(sin(z))", _tslCompiler.TransformToCSharp(@"y|cos(z)|+x|sin(z)|"));
-	    }
-        [Test]
-        public void AbsInSuperscriptTest()
-	    {
-	        Assert.AreEqual(@"(pow(z,1000*abs(z)))/(1.0*((pow(z,1000*abs(z)))))", _tslCompiler.TransformToCSharp(@"(z¹⁰⁰⁰ꞋᶻꞋ)/(z¹⁰⁰⁰ꞋᶻꞋ)"));
-	    }
+		[Test]
+		public void AbsWithCosAndSin()
+		{
+			Assert.AreEqual(@"y*abs(cos(z))+x*abs(sin(z))", _tslCompiler.TransformToCSharp(@"y|cos(z)|+x|sin(z)|"));
+		}
+		[Test]
+		public void AbsInSuperscriptTest()
+		{
+			Assert.AreEqual(@"(pow(z,1000*abs(z)))/(1.0*((pow(z,1000*abs(z)))))", _tslCompiler.TransformToCSharp(@"(z¹⁰⁰⁰ꞋᶻꞋ)/(z¹⁰⁰⁰ꞋᶻꞋ)"));
+		}
 
-        [Test]
-        public void AbsWithoutParenthesisInSuperscriptTest()
-        {
-            Assert.AreEqual(@"pow(z,1000*abs(z))/(1.0*(pow(z,1000*abs(z))))", _tslCompiler.TransformToCSharp(@"z¹⁰⁰⁰ꞋᶻꞋ/z¹⁰⁰⁰ꞋᶻꞋ"));
-        }
+		[Test]
+		public void AbsWithoutParenthesisInSuperscriptTest()
+		{
+			Assert.AreEqual(@"pow(z,1000*abs(z))/pow(z,1000*abs(z))", _tslCompiler.TransformToCSharp(@"z¹⁰⁰⁰ꞋᶻꞋ/z¹⁰⁰⁰ꞋᶻꞋ"));
+		}
 
-        [Test]
+		[Test]
+		public void AbsInSuperscriptWithMultiplyingByConstantTest()
+		{
+			Assert.AreEqual(@"pow(z,z*abs(z)+2)/pow(z,PI*abs(z+2))", _tslCompiler.TransformToCSharp(@"zᶻꞋᶻꞋ⁺²/zᴾᴵꞋᶻ⁺²Ꞌ"));
+		}
+
+		[Test]
 		public void AbsTest()
 		{
 			Assert.AreEqual(@"abs(cos(x))=abs(y)", _tslCompiler.TransformToCSharp(@"|cos(x)|=|y|"));
@@ -604,6 +610,12 @@ namespace Computator.NET.Tests.CompilersTests
 		public void AbsTest8()
 		{
 			Assert.AreEqual(@"abs(1-abs(2+x)+1)", _tslCompiler.TransformToCSharp(@"|1-|2+x|+1|"));
+		}
+
+		[Test]
+		public void AbsTest81()
+		{
+			Assert.AreEqual(@"x*abs(1-abs(2+x)+1)", _tslCompiler.TransformToCSharp(@"x|1-|2+x|+1|"));
 		}
 
 		[Test]

@@ -37,7 +37,8 @@ namespace Computator.NET.DataTypes
 
         public const string ModulusSuperscript = @"Ꞌ";
         public const string ParenthesisSuperscript = "⁽⁾";
-        public const string OperatorsSuperscript = "⁺⁻˙˸⁼";
+        public const string DotSymbolSuperscript = "˙";
+        public const string OperatorsSuperscript = "⁺⁻"+DotSymbolSuperscript+"˸⁼";
         public const string SuperscriptsWithoutSpace =
             ParenthesisSuperscript + OperatorsSuperscript + DecimalSeparatorSuperscript + SuperscriptAlphabet + CommaSuperscript + ModulusSuperscript;
 
