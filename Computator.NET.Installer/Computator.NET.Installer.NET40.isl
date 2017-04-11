@@ -2511,7 +2511,7 @@
 		<col key="yes" def="s72">ISProductConfiguration_</col>
 		<col key="yes" def="s72">Property</col>
 		<col def="L255">Value</col>
-		<row><td>Express</td><td>SetupFileName</td><td>Computator.NET.Installer v2.2.0</td></row>
+		<row><td>Express</td><td>SetupFileName</td><td>Computator.NET.Installer v2.2.1</td></row>
 	</table>
 
 	<table name="ISRelease">
@@ -4557,9 +4557,9 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]Computator.NET.Primary output</td><td/></row>
-		<row><td>ProductCode</td><td>{58D3C442-F58D-4841-9965-D71C74512CB0}</td><td/></row>
+		<row><td>ProductCode</td><td>{E33E476F-BFEF-47B4-9B60-F6D8258F0406}</td><td/></row>
 		<row><td>ProductName</td><td>Computator.NET</td><td/></row>
-		<row><td>ProductVersion</td><td>2.2.0</td><td/></row>
+		<row><td>ProductVersion</td><td>2.2.1</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>

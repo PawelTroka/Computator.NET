@@ -1,3 +1,16 @@
+ ### Version 2.2.1 - 11.04.2017 20:08 UTC
+ * Fixed abs modulus notation not working correctly with implicit multiplying (#68)
+ * File class made official files I/O API in TSL, added tutorial (#48)
+   * File class parameterless constructor creates SaveFileDialog without override prompt (#32)
+ * Improvements and cleanup in read functions in TSL I/O API
+ * Fixed critical issue with corrupted settings file causing application to hang indefinitely and make it unable to even start (#66)
+ * Fixed issues with access denied in TSL files API in Windows Store version by introducing working directory in settings (and TSL API) with default being under my documents (#64)
+ * Fixed opening associated files (TSL/TSLF) having no effect on app whatsoever (#65)
+ * Better logging for expressions
+ * Workaround for ultra-rare, critical bug in Complex Chart related to value -> color mappings
+
+
+
  # Version 2.2.0 - 20.03.2017 02:09
 
 *More usable than ever!*
