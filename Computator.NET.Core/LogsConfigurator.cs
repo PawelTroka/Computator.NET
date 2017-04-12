@@ -42,6 +42,9 @@ namespace Computator.NET
             // Step 5. Activate the configuration
             LogManager.Configuration = config;
 
+            if (!Directory.Exists(AppInformation.LogsDirectory))
+                Directory.CreateDirectory(AppInformation.LogsDirectory);
+
             Logger.Info("Logging started...");
         }
     }
