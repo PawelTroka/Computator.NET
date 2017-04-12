@@ -1,4 +1,4 @@
- ### Version 2.2.1 - 11.04.2017 20:08 UTC
+ ### Version 2.2.1 - 12.04.2017 21:08 UTC
  * Fixed abs modulus notation not working correctly with implicit multiplying (#68)
  * File class made official files I/O API in TSL, added tutorial (#48)
    * File class parameterless constructor creates SaveFileDialog without override prompt (#32)
@@ -8,6 +8,8 @@
  * Fixed opening associated files (TSL/TSLF) having no effect on app whatsoever (#65)
  * Better logging for expressions
  * Workaround for ultra-rare, critical bug in Complex Chart related to value -> color mappings
+ * Fixed logs files not being accessible on Windows Store version (#69)
+ * Fixed logs directory does not exist error (#70)
 
 
 

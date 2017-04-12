@@ -320,9 +320,6 @@
     <Content Include="Static\TSL-Syntax_old.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TSL Examples\_Scripts\Example11_FilesAndWorkingDirectory.tsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">

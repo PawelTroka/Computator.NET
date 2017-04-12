@@ -28,10 +28,10 @@ writeln("We have read: "+firstLine+" "+secondLine);
 file.close();
 
 //it is also possible to specify different working directory or to even pass absolute path when creating a file 
-setWorkingDirectory("C:\\");
+setWorkingDirectory("C:\\Temp");
 file = File("NewFile.txt");
-//now NewFile.txt will be created under C:\ directory 
-//we could also just write: file = File("C:\\NewFile.txt");
+//now NewFile.txt will be created under C:\Temp directory 
+//we could also just write: file = File("C:\Temp\NewFile.txt");
 //note that we escape characters in string by writing double \\ instead of single \
 
 write(file,"Many different things can go here "+MathieuAn(2,2));
