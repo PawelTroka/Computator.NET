@@ -13,7 +13,7 @@ namespace Computator.NET.DataTypes
         public const string Name = "Computator.NET";
 
         public static readonly string Directory = Path.GetDirectoryName(new System.Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
-        public static readonly string DataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppInformation.Name);
+        public static readonly string DataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments,Environment.SpecialFolderOption.Create), AppInformation.Name);
         public static readonly string LogsDirectory = Path.Combine(DataDirectory, "Logs");
         public static readonly string SettingsPath = Path.Combine(DataDirectory, "settings.dat");
 

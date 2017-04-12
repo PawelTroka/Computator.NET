@@ -36,11 +36,12 @@ namespace Computator.NET.Core.Properties
         private string _workingDirectory;
 
         private static readonly string ScriptingRawDir = Path.Combine("TSL Examples", "_Scripts");
-        private static readonly string DefaultScriptingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments,Environment.SpecialFolderOption.Create), AppInformation.Name, ScriptingRawDir);
+        private static readonly string DefaultScriptingDirectory = Path.Combine(AppInformation.DataDirectory, ScriptingRawDir);
 
         private static readonly string CustomFunctionsRawDir = Path.Combine("TSL Examples", "_CustomFunctions");
-        private static readonly string DefaultCustomFunctionsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments,Environment.SpecialFolderOption.Create), AppInformation.Name, CustomFunctionsRawDir);
+        private static readonly string DefaultCustomFunctionsDirectory = Path.Combine(AppInformation.DataDirectory, CustomFunctionsRawDir);
 
+        private static readonly string DefaultWorkingDirectory = Path.Combine(AppInformation.DataDirectory, "Workspace");
 
         public void Save()
         {
@@ -99,7 +100,7 @@ namespace Computator.NET.Core.Properties
 
             CalculationsErrors = CalculationsErrors.ReturnNAN;
 
-            WorkingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments, Environment.SpecialFolderOption.Create), AppInformation.Name, "Workspace");
+            WorkingDirectory = DefaultWorkingDirectory;
         }
 
         private Settings()
