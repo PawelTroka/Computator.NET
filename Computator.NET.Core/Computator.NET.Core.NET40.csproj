@@ -133,10 +133,10 @@
     </Compile>
     <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
     <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
-    <None Include="..\CHANGELOG">
+    <Content Include="..\CHANGELOG">
       <Link>CHANGELOG</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.Computator.NET.Core.NET40.config" />
   </ItemGroup>
