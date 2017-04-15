@@ -1951,7 +1951,7 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>cambria.ttc</td><td>ISX_DEFAULTCOMPONENT3</td><td>CAMBRIA.TTC</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\Static\fonts\CAMBRIA.TTC</td><td>1</td><td/></row>
+		<row><td>cambria.ttc</td><td>ISX_DEFAULTCOMPONENT3</td><td>cambria.ttc</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\Static\fonts\cambria.ttc</td><td>1</td><td/></row>
 		<row><td>computator.net.charting.loca</td><td>Computator.NET.Charting.Localized_resources</td><td>Computator.NET.Charting.Localized resources</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.charting.prim</td><td>Computator.NET.Charting.Primary_output</td><td>Computator.NET.Charting.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Charting&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.core.content_</td><td>Computator.NET.Core.Content_Files</td><td>Computator.NET.Core.Content Files</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Core&gt;|ContentFiles</td><td>3</td><td/></row>

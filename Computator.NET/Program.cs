@@ -79,7 +79,7 @@ namespace Computator.NET
                 //e.IsTerminating = false;
 
                 MessageBox.Show(Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_);
-                Process.Start(PathUtility.GetFullPath("Static", "fonts", "CAMBRIA.TTC"));
+                Process.Start(PathUtility.GetFullPath("Static", "fonts", "cambria.ttc"));
             }
 
             Logger.Error(ex, Strings.Unhandled_UI_Exception+ $"is terminting: {e.IsTerminating}, {e?.ExceptionObject}");

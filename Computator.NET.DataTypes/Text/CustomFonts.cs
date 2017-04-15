@@ -34,7 +34,7 @@ namespace Computator.NET.DataTypes
             mathFontCollection = new PrivateFontCollection();
             scriptingFontCollection = new PrivateFontCollection();
 
-            var pathToFont = PathUtility.GetFullPath("Static", "fonts", "CAMBRIA.TTC");
+            var pathToFont = PathUtility.GetFullPath("Static", "fonts", "cambria.ttc");
             var pathToFont2 = PathUtility.GetFullPath("Static", "fonts", "consola.ttf");
             try
             {
