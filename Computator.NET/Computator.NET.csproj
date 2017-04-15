@@ -64,6 +64,7 @@
       .allowedextension
     </AllowedReferenceRelatedFileExtensions>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>B25B9859553E7C0D8F0D81834635F1D07D1F4C9D</ManifestCertificateThumbprint>
