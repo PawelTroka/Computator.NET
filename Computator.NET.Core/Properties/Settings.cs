@@ -115,7 +115,7 @@ namespace Computator.NET.Core.Properties
         private void RestoreDirectories()
         {
 
-            if (!Directory.Exists(DefaultScriptingDirectory))
+            if (!Directory.Exists(DefaultScriptingDirectory) || !Directory.EnumerateFiles(DefaultScriptingDirectory).Any())
             {
                 if (Directory.Exists(PathUtility.GetFullPath(ScriptingRawDir)))
                     CopyDirectory.Copy(PathUtility.GetFullPath(ScriptingRawDir), DefaultScriptingDirectory);
@@ -125,7 +125,7 @@ namespace Computator.NET.Core.Properties
             }
 
 
-            if (!Directory.Exists(DefaultCustomFunctionsDirectory))
+            if (!Directory.Exists(DefaultCustomFunctionsDirectory) || !Directory.EnumerateFiles(DefaultCustomFunctionsDirectory).Any())
             {
                 if (Directory.Exists(PathUtility.GetFullPath(CustomFunctionsRawDir)))
                     CopyDirectory.Copy(PathUtility.GetFullPath(CustomFunctionsRawDir), DefaultCustomFunctionsDirectory);
