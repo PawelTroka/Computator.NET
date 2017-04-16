@@ -10,5 +10,8 @@ xcopy /s Computator.NET.Core\Special\windows-x64 AppPackages\PackageFiles\*
 xcopy /s Graphics\Assets AppPackages\PackageFiles\Assets\*
 xcopy /s "Computator.NET.Core\TSL Examples" "AppPackages\PackageFiles\VFS\Users\ContainerAdministrator\Documents\Computator.NET\TSL Examples\*"
 xcopy /s Computator.NET.Core\Static\fonts AppPackages\PackageFiles\VFS\Windows\Fonts\*
+makepri createconfig /cf AppPackages\PackageFiles\priconfig.xml /dq en-US
+makepri new /pr AppPackages\PackageFiles /cf AppPackages\PackageFiles\priconfig.xml
+move /y .\*.pri AppPackages\PackageFiles
 makeappx pack -d AppPackages\PackageFiles -p AppPackages\Computator.NET.appx
 signtool.exe sign -f build-uwp\Computator.NET_TemporaryKey.pfx -fd SHA256 -v AppPackages\Computator.NET.appx
