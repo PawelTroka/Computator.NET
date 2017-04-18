@@ -39,7 +39,7 @@
             this.cancelFunctionsTestButton = new System.Windows.Forms.Button();
             this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.startFunctionsTestButton = new System.Windows.Forms.Button();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.functionsTestProgressBar = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
             this.functionsTestRichTextBox = new System.Windows.Forms.RichTextBox();
             this.memoryTestBackgroundWorker = new System.ComponentModel.BackgroundWorker();
@@ -69,7 +69,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.cancelFunctionsTestButton);
             this.splitContainer1.Panel2.Controls.Add(this.richTextBox4);
             this.splitContainer1.Panel2.Controls.Add(this.startFunctionsTestButton);
-            this.splitContainer1.Panel2.Controls.Add(this.progressBar2);
+            this.splitContainer1.Panel2.Controls.Add(this.functionsTestProgressBar);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.functionsTestRichTextBox);
             // 
@@ -140,9 +140,9 @@
             // 
             // progressBar2
             // 
-            resources.ApplyResources(this.progressBar2, "progressBar2");
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Step = 1;
+            resources.ApplyResources(this.functionsTestProgressBar, "functionsTestProgressBar");
+            this.functionsTestProgressBar.Name = "functionsTestProgressBar";
+            this.functionsTestProgressBar.Step = 1;
             // 
             // label2
             // 
@@ -198,7 +198,7 @@
         private System.Windows.Forms.Button cancelFunctionsTestButton;
         private System.Windows.Forms.RichTextBox richTextBox4;
         private System.Windows.Forms.Button startFunctionsTestButton;
-        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.ProgressBar functionsTestProgressBar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox functionsTestRichTextBox;
         private System.ComponentModel.BackgroundWorker memoryTestBackgroundWorker;

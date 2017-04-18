@@ -408,28 +408,28 @@
   <data name="&gt;&gt;startFunctionsTestButton.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="progressBar2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="functionsTestProgressBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 170</value>
   </data>
-  <data name="progressBar2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="functionsTestProgressBar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="progressBar2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="functionsTestProgressBar.Size" type="System.Drawing.Size, System.Drawing">
     <value>196, 72</value>
   </data>
-  <data name="progressBar2.TabIndex" type="System.Int32, mscorlib">
+  <data name="functionsTestProgressBar.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;progressBar2.Name" xml:space="preserve">
-    <value>progressBar2</value>
+  <data name="&gt;&gt;functionsTestProgressBar.Name" xml:space="preserve">
+    <value>functionsTestProgressBar</value>
   </data>
-  <data name="&gt;&gt;progressBar2.Type" xml:space="preserve">
+  <data name="&gt;&gt;functionsTestProgressBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;progressBar2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;functionsTestProgressBar.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;progressBar2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;functionsTestProgressBar.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">

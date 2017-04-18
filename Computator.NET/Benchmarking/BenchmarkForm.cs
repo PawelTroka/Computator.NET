@@ -33,14 +33,16 @@ namespace Computator.NET.Benchmarking
             {
                 MessageBox.Show(
                     Strings.MathFunctionsCalculationSpeedTestCancelledByUser, Strings.Canceled);
+                functionsTestProgressBar.Value = 0;
             }
 
-            else if (!(e.Error == null))
+            else if (e.Error != null)
             {
                 // ReSharper disable LocalizableElement
                 MessageBox.Show(Strings.Error + ": " + e.Error.Message,
                     Strings.Error + "!");
                 // ReSharper restore LocalizableElement
+                functionsTestProgressBar.Value = 0;
             }
 
             else
@@ -59,7 +61,7 @@ namespace Computator.NET.Benchmarking
         private void FunctionsTestBackgroundWorker_ProgressChanged(object sender,
             ProgressChangedEventArgs e)
         {
-            progressBar2.Value = e.ProgressPercentage;
+            functionsTestProgressBar.Value = e.ProgressPercentage;
         }
 
         private void memoryTestBackgroundWorker_RunWorkerCompleted(object sender,
@@ -69,13 +71,15 @@ namespace Computator.NET.Benchmarking
             {
                 MessageBox.Show(
                     Strings.MemoryAllocationSpeedTestCancelledByUser, Strings.Canceled);
+                memoryTestProgressBar.Value = 0;
             }
 
-            else if (!(e.Error == null))
+            else if (e.Error != null)
             {
                 // ReSharper disable LocalizableElement
                 MessageBox.Show(Strings.Error + ": " + e.Error.Message, Strings.Error + "!");
                 // ReSharper restore LocalizableElement
+                memoryTestProgressBar.Value = 0;
             }
 
             else
@@ -120,7 +124,7 @@ namespace Computator.NET.Benchmarking
 
         private void cancelFunctionsTestButton_Click(object sender, EventArgs e)
         {
-            if (!functionsTestBackgroundWorker.IsBusy)
+            if (functionsTestBackgroundWorker.IsBusy)
                 functionsTestBackgroundWorker.CancelAsync();
         }
     }
