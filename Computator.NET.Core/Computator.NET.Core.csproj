@@ -308,7 +308,7 @@
     <Content Include="TSL Examples\**\*.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Static\fonts\CAMBRIA.TTC">
+    <Content Include="Static\fonts\cambria.ttc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Static\fonts\consola.ttf">
