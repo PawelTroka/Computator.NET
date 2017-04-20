@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Bundle Name="Computator.NET.Setup" Version="1.0.0.0" Manufacturer="" UpgradeCode="fe184e84-e1c3-4261-aa05-2addb809564c">
+		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
+
+		<Chain>
+			<!-- TODO: Define the list of chained packages. -->
+		  <File Source="$(var.MyApplication.TargetPath)" />
+		</Chain>
+	</Bundle>
+</Wix>
