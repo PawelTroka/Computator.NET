@@ -6,7 +6,7 @@
 
 ##Code quality
 * Setup sonarqube github integration with GitHub Authentication Plugin
-* Set up artifacts in Travis to have assemblies for manual testing
+* Set up artifacts in AppVeyor/Travis to have assemblies for manual testing
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
 * Use mark_heath tips
 * migrate all controls, even the advanced ones to use MVP
@@ -39,15 +39,6 @@
 * Unify exceptions and logging model in whole application, refactor it
 * refactor settings.save() usage and make it optimal
 * refactor exceptions in whole project, unify them
-
-
-##Code editors
-* add search and replace windows to scripting
-* add printing option to codeeditors
-
-
-##Installer
-* test installer and upgrade options
 
 
 ##Charts
