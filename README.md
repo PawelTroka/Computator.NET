@@ -1,4 +1,4 @@
-# Computator.NET
+# ![Computator.NET](../master/Graphics/Assets/Wide310x150Logo.png)
 Computator.NET is a unique open numerical software that is fast and easy to use and stands up to other feature-wise software.
 ![Quick presentation of Computator.NET features](../master/Graphics/Presentation/quick_presentation.gif "Quick presentation of Computator.NET features")
 
