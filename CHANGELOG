@@ -1,3 +1,12 @@
+ ### Version 2.2.2 - 24.04.2017 23:17 UTC
+ * Optimized Windows Store build (app size is now 16.5MB instead of 37MB) (#75)
+ * Fixed missing TSL examples after reinstall in some cases (#76)
+ * Fixed cancel not working in functions test benchmark (#58)
+ * Icon in taskbar is now fully transparent in Windows Store version (#74)
+ * Updated libraries
+
+
+
  ### Version 2.2.1 - 12.04.2017 21:08 UTC
  * Fixed abs modulus notation not working correctly with implicit multiplying (#68)
  * File class made official files I/O API in TSL, added tutorial (#48)
