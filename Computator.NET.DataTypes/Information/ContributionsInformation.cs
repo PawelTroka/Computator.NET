@@ -11,7 +11,7 @@ namespace Computator.NET.DataTypes
                                                     ":\n - Paweł Troka (pawel.troka@outlook.com) - English&Polish versions\n - Vojtech Mańkowski (vojtaman@gmail.com) - Czech version\n - Athena Hristanas (athena@fizyka.dk) - Deutsch version";
 
         public static readonly string Libraries = Strings.librariesUsed +
-                                                  ":\n - Meta.Numerics v3.1.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v2.3 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.17.0 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.35 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.6.3 | © Jacob Slusser | The MIT License (MIT)\n - Accord.Math v3.3.0 | © César Roberto de Souza | GNU LGPL v2.1\n - AvalonEdit v5.0.3 | © Daniel Grunwald | The MIT License (MIT)";
+                                                  ":\n - Meta.Numerics v3.1.0 | © David Wright | Microsoft Public License (Ms-PL)\n - GNU Scientific Library v2.3 | GNU General Public License (GNU GPL)\n - Math.NET Numerics v3.18.0 | © Math.NET Team | The MIT License (MIT)\n - Autocomplete Menu rev.35 | © Pavel Torgashov | LGPLv3\n - ScintillaNET v3.6.3 | © Jacob Slusser | The MIT License (MIT)\n - Accord.Math v3.3.0 | © César Roberto de Souza | GNU LGPL v2.1\n - AvalonEdit v5.0.3 | © Daniel Grunwald | The MIT License (MIT)";
 
         public static readonly string Others = Strings.otherContributors +
                                                ":\n - Jianzhong Zhang (" +
