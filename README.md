@@ -15,14 +15,14 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 
 
-# Release 2.2.1 stable - *More stable than ever!*
-*Quick hotfix to the most **stable** Computator.NET release yet!*
+# Release 2.2.2 stable - *Stable & optimized!*
+*Most **stable** and most **optimized** Computator.NET release yet!*
 
-* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.2.1)
-* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.1/Computator.NET.Installer.v2.2.1.exe)
-* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.1/Computator.NET.v2.2.1.zip)
-* For Windows XP [download installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.1/Computator.NET.Installer.v2.2.1-WindowsXP.exe)
-* For Windows XP [download portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.1/Computator.NET.v2.2.1-WindowsXP.zip)
+* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.2.2)
+* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.Installer.v2.2.2.exe)
+* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.v2.2.2.zip)
+* For Windows XP [download installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.Installer.v2.2.2-WindowsXP.exe)
+* For Windows XP [download portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.v2.2.2-WindowsXP.zip)
 
 
 # Installation & Setup
