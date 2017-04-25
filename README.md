@@ -16,7 +16,7 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 
 # Release 2.2.2 stable - *Stable & optimized!*
-*Most **stable** and most **optimized** Computator.NET release yet!*
+*The most **stable** and the most **optimized** Computator.NET release yet!*
 
 * View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.2.2)
 * Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.Installer.v2.2.2.exe)
