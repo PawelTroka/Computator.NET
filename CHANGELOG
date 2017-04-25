@@ -1,8 +1,12 @@
- ### Version 2.2.2 - 24.04.2017 23:17 UTC
+ ### Version 2.2.2 - 24.04.2017 23:46 UTC
  * Optimized Windows Store build (app size is now 16.5MB instead of 37MB) (#75)
  * Fixed missing TSL examples after reinstall in some cases (#76)
  * Fixed cancel not working in functions test benchmark (#58)
+ * Fixed changelog not being present in installer version of app
  * Icon in taskbar is now fully transparent in Windows Store version (#74)
+ * Updated fonts:
+   * Cambria from v6.82 to v6.96
+   * Consolas from v6.91 to v6.96
  * Updated libraries
 
 
