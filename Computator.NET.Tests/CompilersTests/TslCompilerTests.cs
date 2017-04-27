@@ -541,6 +541,13 @@ namespace Computator.NET.Tests.CompilersTests
 		{
 			Assert.AreEqual(@"y*abs(cos(z))+x*abs(sin(z))", _tslCompiler.TransformToCSharp(@"y|cos(z)|+x|sin(z)|"));
 		}
+
+		[Test]
+		public void AbsInNormalModeAndAbsInSuperscriptTest()
+		{
+			Assert.AreEqual(@"pow(abs(z),abs(z))", _tslCompiler.TransformToCSharp(@"|z|ꞋᶻꞋ"));
+		}
+
 		[Test]
 		public void AbsInSuperscriptTest()
 		{

@@ -1,0 +1,2 @@
+MakeCert.exe -r -h 0 -n "CN=47F8041C-5345-45C6-B9F5-F8A04443C41F" -eku 1.3.6.1.5.5.7.3.3 -pe -sv Computator.NET_TemporaryKey.pvk Computator.NET_TemporaryKey.cer
+pvk2pfx.exe -pvk Computator.NET_TemporaryKey.pvk -spc Computator.NET_TemporaryKey.cer -pfx Computator.NET_TemporaryKey.pfx
