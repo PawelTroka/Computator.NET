@@ -1990,9 +1990,9 @@
 		<row><td>example10_simpleplotofpoints</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example10_SimplePlotOfPoints.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example10_SimplePlotOfPoints.tsl</td><td>1</td><td/></row>
 		<row><td>example11_filesandworkingdir</td><td>ISX_DEFAULTCOMPONENT6</td><td>EXAMPL~1.TSL|Example11_FilesAndWorkingDirectory.tsl</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_Scripts\Example11_FilesAndWorkingDirectory.tsl</td><td>1</td><td/></row>
 		<row><td>friendsfunctions.tslf</td><td>ISX_DEFAULTCOMPONENT5</td><td>FRIEND~1.TSL|friendsFunctions.tslf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\Computator.NET.Core\TSL Examples\_CustomFunctions\friendsFunctions.tslf</td><td>1</td><td/></row>
-		<row><td>system.io.dll</td><td>System.IO.dll</td><td>SYSTEM~1.DLL|System.IO.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</td><td>1</td><td/></row>
-		<row><td>system.runtime.dll</td><td>System.Runtime.dll</td><td>SYSTEM~1.DLL|System.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</td><td>1</td><td/></row>
-		<row><td>system.threading.tasks.dll</td><td>System.Threading.Tasks.dll</td><td>SYSTEM~1.DLL|System.Threading.Tasks.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</td><td>1</td><td/></row>
+		<row><td>system.io.dll</td><td>System.IO.dll</td><td>SYSTEM~1.DLL|System.IO.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</td><td>1</td><td/></row>
+		<row><td>system.runtime.dll</td><td>System.Runtime.dll</td><td>SYSTEM~1.DLL|System.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</td><td>1</td><td/></row>
+		<row><td>system.threading.tasks.dll</td><td>System.Threading.Tasks.dll</td><td>SYSTEM~1.DLL|System.Threading.Tasks.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISPROJECTFOLDER&gt;..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
