@@ -1,13 +1,17 @@
 using System;
 using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using NLog;
 
 namespace Computator.NET.DataTypes
 {
     public static class CustomFonts
     {
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
 
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
@@ -34,22 +38,52 @@ namespace Computator.NET.DataTypes
             mathFontCollection = new PrivateFontCollection();
             scriptingFontCollection = new PrivateFontCollection();
 
-            var pathToFont = PathUtility.GetFullPath("Static", "fonts", "cambria.ttc");
-            var pathToFont2 = PathUtility.GetFullPath("Static", "fonts", "consola.ttf");
+            var pathToMathFont = PathUtility.GetFullPath("Static", "fonts", "cambria.ttc");
+            var pathToScriptFont = PathUtility.GetFullPath("Static", "fonts", "consola.ttf");
             try
             {
-                mathFontCollection.AddFontFile(pathToFont);
-                scriptingFontCollection.AddFontFile(pathToFont2);
+                if (RuntimeInformation.IsUnix)
+                {
+                    mathFontCollection.AddFontFile(pathToMathFont);
+                    scriptingFontCollection.AddFontFile(pathToScriptFont);
+                }
+                else
+                {
+                    RegisterFont(mathFontCollection,pathToMathFont);
+                    RegisterFont(scriptingFontCollection, pathToScriptFont);
+                }
             }
             catch (Exception ex)
             {
                 var nex =
                     new Exception(
-                        "Probably missing " + pathToFont + " or " + pathToFont2 + " file\nDetails:" + ex.Message, ex);
+                        "Probably missing " + pathToMathFont + " or " + pathToScriptFont + " file\nDetails:" + ex.Message, ex);
 
-                Logger.Error(ex, "Probably missing " + pathToFont + " file\nDetails:" + ex.Message);
+                Logger.Error(ex, "Probably missing " + pathToMathFont + " file\nDetails:" + ex.Message);
                 throw nex;
             }
+        }
+
+        private static void RegisterFont(PrivateFontCollection pfc, string path)
+        {
+            var fontData = File.ReadAllBytes(path);
+
+            //create an unsafe memory block for the data
+            System.IntPtr data = Marshal.AllocCoTaskMem((int)fontData.Length);
+
+
+            //copy the bytes to the unsafe memory block
+            Marshal.Copy(fontData, 0, data, (int)fontData.Length);
+
+            // We HAVE to do this to register the font to the system (Weird .NET bug !)
+            uint pcFonts = 0;
+            AddFontMemResourceEx(data, (uint)fontData.Length, IntPtr.Zero, ref pcFonts);
+
+            //pass the font to the font collection
+            pfc.AddMemoryFont(data, (int)fontData.Length);
+
+            //free the unsafe memory
+            Marshal.FreeCoTaskMem(data);
         }
     }
 }

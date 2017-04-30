@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10">
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap4" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10">
   <Identity Name="TROKASoftware.Computator.NET" ProcessorArchitecture="x64" Publisher="CN=47F8041C-5345-45C6-B9F5-F8A04443C41F" Version="2.2.2.0" />
   <Properties>
     <DisplayName>Computator.NET</DisplayName>
@@ -26,6 +26,12 @@
         </uap:DefaultTile>
       </uap:VisualElements>
       <Extensions>
+		<uap4:Extension Category="windows.sharedFonts">
+          <uap4:SharedFonts>
+            <uap4:Font File="Static\fonts\cambria.ttc" />
+            <uap4:Font File="Static\fonts\consola.ttf" />
+          </uap4:SharedFonts>
+        </uap4:Extension>
         <uap3:Extension Category="windows.fileTypeAssociation">
           <uap3:FileTypeAssociation Name=".tsl">
             <uap:DisplayName>Troka Scripting Language</uap:DisplayName>
