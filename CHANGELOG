@@ -1,3 +1,11 @@
+ ### Version 2.2.3 - 03.05.2017 21:03 UTC
+ * Fixed application crash at startup due to missing fonts (#82, #84)
+ * Fixed abs modulus notation not working correctly with raising to power notation (#85)
+ * Migrated to .NET Framework v4.6.1 (except Windows XP version)
+ * Updated and optimized libraries
+
+
+
  ### Version 2.2.2 - 24.04.2017 23:46 UTC
  * Optimized Windows Store build (app size is now 16.5MB instead of 37MB) (#75)
  * Fixed missing TSL examples after reinstall in some cases (#76)
