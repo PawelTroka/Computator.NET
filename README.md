@@ -15,19 +15,17 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 
 
-# Release 2.2.2 stable - *Stable & optimized!*
-*The most **stable** and the most **optimized** Computator.NET release yet!*
-
-* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.2.2)
-* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.Installer.v2.2.2.exe)
-* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.v2.2.2.zip)
-* For Windows XP [download installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.Installer.v2.2.2-WindowsXP.exe)
-* For Windows XP [download portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.2/Computator.NET.v2.2.2-WindowsXP.zip)
+# Release 2.2.3 stable - *hotfix*
+* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.2.3)
+* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.3/Computator.NET.Installer.v2.2.3.exe)
+* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.3/Computator.NET.v2.2.3.zip)
+* For Windows XP [download installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.3/Computator.NET.Installer.v2.2.3-WindowsXP.exe)
+* For Windows XP [download portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.2.3/Computator.NET.v2.2.3-WindowsXP.zip)
 
 
 # Installation & Setup
 <a href="https://www.microsoft.com/store/apps/9NBLGGH43GHS?ocid=badge"><img width="25%" src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" alt="Get it on Windows 10" /></a>
-1. This project requires **.NET Framework** version [**4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718) on Windows XP and version [**4.6**](https://www.microsoft.com/en-us/download/details.aspx?id=48137) on newer systems.
+1. This project requires **.NET Framework** version [**4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718) on Windows XP and version [**4.6.1**](https://www.microsoft.com/en-us/download/details.aspx?id=49982) on newer systems.
 2. Go to [latest release page](https://github.com/PawelTroka/Computator.NET/releases/latest)
 3. Now you can download either portable version (the one with .zip extension) or installer (the one with .exe extension). In general, installer is recommended, because it sets up tsl and tslf files extensions for Computator.NET in registry.
 4. If you downloaded portable version, just unzip it into location you want to store and you are ready to go.
@@ -87,7 +85,7 @@ Alternatively, you can always solve equations graphically, simply by looking at 
 # Minimum system requirements
 
 * Windows Vista or later (officially supported)
-    * [**.NET Framework** **4.6**](https://www.microsoft.com/en-us/download/details.aspx?id=48137) or newer
+    * [**.NET Framework** **4.6.1**](https://www.microsoft.com/en-us/download/details.aspx?id=49982) or newer
 * Windows XP (legacy support)
     * [**.NET Framework** **4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718)
     * [.NET 4.0 **KB2468871**](https://www.microsoft.com/en-us/download/details.aspx?id=3556) update
