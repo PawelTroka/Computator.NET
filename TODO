@@ -1,12 +1,11 @@
 ﻿##TSL
 * functions, constants, TSL - names and aliases simplification, unification - make TSL API rock hard stable and solid
 * maybe we should add something like cos²(x) or cos(x)² instead of having to write (cos(x))²
-* include in tutorials and test experimental features
+* include in tutorials and test experimental features (eg files from quantum computing)
 
 
 ##Code quality
 * Setup sonarqube github integration with GitHub Authentication Plugin
-* Set up artifacts in AppVeyor/Travis to have assemblies for manual testing
 * modedeterminer and tslcompiler should reuse each other logic instead of reimplementing the same
 * Use mark_heath tips
 * migrate all controls, even the advanced ones to use MVP
@@ -43,15 +42,7 @@
 
 ##Charts
 * enable better usage of transformation and charts scaling for loaded points
-* enable transformations for chart2d, complexchart and chart3d
 * Chart2D setting XMax<XMin error handling refactoring
-
-
-##Help
-* Multi-language help files.
-* tutorials on youtube
-* more tsl examples
-* tutorials and help https://github.com/PawelTroka/Computator.NET/wiki
 
 
 ##Tests
