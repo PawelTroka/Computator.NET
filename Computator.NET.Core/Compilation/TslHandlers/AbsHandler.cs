@@ -35,8 +35,8 @@ namespace Computator.NET.Core.Compilation
                     if (match2.Success &&
                         match2.Index < match.Index &&
                         match2.Index + match2.Length - 1 == match.Index + match.Length - 1)
-                        return match.Result($@"{SpecialSymbols.DotSymbolSuperscript}ᵃᵇˢ⁽$1⁾$2$3");
-                    return match.Result(@"ᵃᵇˢ⁽$1⁾$2$3");
+                        return match.Result($@"{SpecialSymbols.DotSymbolSuperscript}⁽ᵃᵇˢ⁽$1⁾⁾$2$3");
+                    return match.Result(@"⁽ᵃᵇˢ⁽$1⁾⁾$2$3");
                 });
             }
 
@@ -48,8 +48,8 @@ namespace Computator.NET.Core.Compilation
                     if (match2.Success &&
                         match2.Index < match.Index &&
                         match2.Index + match2.Length - 1 == match.Index + match.Length - 1)
-                        return match.Result("*abs($1)$2$3");
-                    return match.Result("abs($1)$2$3");
+                        return match.Result("*(abs($1))$2$3");
+                    return match.Result("(abs($1))$2$3");
                 });
             }
 
