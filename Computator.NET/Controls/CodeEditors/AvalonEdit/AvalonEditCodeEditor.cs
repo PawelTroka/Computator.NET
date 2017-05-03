@@ -247,15 +247,12 @@ namespace Computator.NET.Controls.CodeEditors.AvalonEdit
 
         public void SetFont(Font font)
         {
-            if (font.FontFamily.Name == "Cambria")
-                FontFamily = new FontFamily(CustomFonts.GetMathFont(font.Size).FontFamily.Name);
-            else if (font.FontFamily.Name == "Consolas")
-                FontFamily = new FontFamily(CustomFonts.GetScriptingFont(font.Size).FontFamily.Name);
-            else
-                FontFamily = new FontFamily(font.FontFamily.Name);
-            FontSize = font.Size;
+            var newFont = CustomFonts.GetFontFromFont(font);
+
+            FontFamily = new FontFamily(newFont.FontFamily.Name);
+            FontSize = newFont.Size;
             //this.FontWeight =  FontWeights.
-            FontStyle = ConvertFontStyle(CreateFontStyle(font));
+            FontStyle = ConvertFontStyle(CreateFontStyle(newFont));
         }
 
         private static FontStyle CreateFontStyle(Font font)

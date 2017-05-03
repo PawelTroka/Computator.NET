@@ -120,16 +120,7 @@ namespace Computator.NET.Controls
 
         public void SetFont(Font font)
         {
-            if (font.FontFamily.Name == "Cambria" && !IsInDesignMode)
-            {
-                Font = CustomFonts.GetMathFont(font.Size);
-                _autocompleteMenu.Font = CustomFonts.GetMathFont(font.Size);
-            }
-            else
-            {
-                Font = font;
-                _autocompleteMenu.Font = font;
-            }
+            Font = _autocompleteMenu.Font = CustomFonts.GetFontFromFont(font);
         }
 
         private void RefreshAutoComplete()

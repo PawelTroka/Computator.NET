@@ -19,6 +19,18 @@ namespace Computator.NET.DataTypes
 
         private static PrivateFontCollection scriptingFontCollection;
 
+        public static Font GetFontFromFont(Font value)
+        {
+            if (value.FontFamily.Name.ToLowerInvariant().Contains("cambria"))
+            {
+                return GetMathFont(value.Size);
+            }
+            if (value.FontFamily.Name.ToLowerInvariant().Contains("consola"))
+            {
+                return GetScriptingFont(value.Size);
+            }
+            return value;
+        }
 
         public static Font GetMathFont(float fontSize)
         {

@@ -163,27 +163,11 @@ namespace Computator.NET.Controls.CodeEditors
             // Configuring the default style with properties
             // we have common to every lexer style saves time.
             StyleResetDefault();
-            if (font.FontFamily.Name == "Cambria")
-            {
-                Font = CustomFonts.GetMathFont(font.Size);
-                Styles[Style.Default].Font = CustomFonts.GetMathFont(font.Size).Name;
 
-                _autocompleteMenu.Font = CustomFonts.GetMathFont(font.Size);
-            }
-            else if (font.FontFamily.Name == "Consolas")
-            {
-                Font = CustomFonts.GetScriptingFont(font.Size);
-                Styles[Style.Default].Font = CustomFonts.GetScriptingFont(font.Size).Name;
-
-                _autocompleteMenu.Font = CustomFonts.GetScriptingFont(font.Size);
-            }
-            else
-            {
-                Styles[Style.Default].Font = font.Name;
-                Font = font;
-                _autocompleteMenu.Font = font;
-            }
-            Styles[Style.Default].Size = (int) font.Size;
+            Font = CustomFonts.GetFontFromFont(font);
+            _autocompleteMenu.Font = CustomFonts.GetFontFromFont(font);
+            Styles[Style.Default].Font = CustomFonts.GetFontFromFont(font).Name;
+            Styles[Style.Default].Size = (int)CustomFonts.GetFontFromFont(font).SizeInPoints;
 
             StyleClearAll();
 

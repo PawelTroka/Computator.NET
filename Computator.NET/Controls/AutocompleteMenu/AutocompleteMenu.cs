@@ -137,7 +137,10 @@ namespace Computator.NET.Controls.AutocompleteMenu
         public Font Font
         {
             get { return (Host.ListView as Control).Font; }
-            set { (Host.ListView as Control).Font = value; }
+            set
+            {
+                (Host.ListView as Control).Font = CustomFonts.GetFontFromFont(value);
+            }
         }
 
         /// <summary>

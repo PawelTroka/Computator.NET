@@ -6,6 +6,7 @@ nuget restore Computator.NET.sln
 msbuild Computator.NET\Computator.NET.csproj /p:Configuration=Release /t:Clean;Build
 xcopy /s Computator.NET\bin\Release AppPackages\PackageFiles\*
 xcopy build-uwp\AppxManifest.xml AppPackages\PackageFiles\*
+xcopy build-uwp\Registry.dat AppPackages\PackageFiles\*
 xcopy /s Computator.NET.Core\Special\windows-x64 AppPackages\PackageFiles\*
 xcopy /s Graphics\Assets AppPackages\PackageFiles\Assets\*
 xcopy /s "Computator.NET.Core\TSL Examples" "AppPackages\PackageFiles\VFS\Users\ContainerAdministrator\Documents\Computator.NET\TSL Examples\*"
