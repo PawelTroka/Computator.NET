@@ -79,15 +79,16 @@ namespace Computator.NET
             if (ex.Message.ToLowerInvariant().Contains("font"))
             {
                 //e.IsTerminating = false;
-
-                MessageBox.Show(Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_);
-                var fonts = Directory.EnumerateFiles(AppInformation.FontsDirectory, "*.*", SearchOption.AllDirectories)
-                    .Where(s => s.EndsWith(".ttc", StringComparison.OrdinalIgnoreCase) ||
-                                s.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) ||
-                                s.EndsWith(".otf", StringComparison.OrdinalIgnoreCase));
-                foreach (var font in fonts)
+                if (MessageBox.Show(Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_,Strings.Warning_,MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    Process.Start(font);//ttc/ttf/otf
+                    var fonts = Directory.EnumerateFiles(AppInformation.FontsDirectory, "*.*", SearchOption.AllDirectories)
+                        .Where(s => s.EndsWith(".ttc", StringComparison.OrdinalIgnoreCase) ||
+                                    s.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) ||
+                                    s.EndsWith(".otf", StringComparison.OrdinalIgnoreCase));
+                    foreach (var font in fonts)
+                    {
+                        Process.Start(font);//ttc/ttf/otf
+                    }
                 }
             }
 
