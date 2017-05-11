@@ -16,6 +16,7 @@ namespace Computator.NET.DataTypes
         public static readonly string DataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments,Environment.SpecialFolderOption.Create), AppInformation.Name);
         public static readonly string LogsDirectory = Path.Combine(DataDirectory, "Logs");
         public static readonly string SettingsPath = Path.Combine(DataDirectory, "settings.dat");
+        public static readonly string FontsDirectory = Path.Combine(Directory, "Static","fonts");
 
         public static readonly string TempDirectory = Path.Combine(Path.GetTempPath(),
             $"{An.Name}.{An.ProcessorArchitecture}.{An.Version}");
