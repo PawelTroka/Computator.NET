@@ -1,46 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{715165A2-D015-42AE-9381-5563204F8508}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Computator.NET.DataTypes</RootNamespace>
-    <AssemblyName>Computator.NET.DataTypes</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFrameworks>net461;net40</TargetFrameworks>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.8\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
     <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
       <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
@@ -50,72 +19,16 @@
       <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Configuration\AppInformation.cs" />
-    <Compile Include="Charts\AssignmentOfColorMethod.cs" />
-    <Compile Include="Charts\CountourLinesMode.cs" />
-    <Compile Include="Charts\IAreaValues.cs" />
-    <Compile Include="Charts\IChart.cs" />
-    <Compile Include="Charts\IPrinting.cs" />
-    <Compile Include="Information\AppRelatedUrls.cs" />
-    <Compile Include="Information\ContributionsInformation.cs" />
-    <Compile Include="Configuration\HandledFilesInformation.cs" />
-    <Compile Include="Configuration\GslConfig.cs" />
-    <Compile Include="Functions\BaseFunction.cs" />
-    <Compile Include="CalculationException.cs" />
-    <Compile Include="CalculationsMode.cs" />
-    <Compile Include="Localization\Strings1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Text\CustomFonts.cs" />
-    <Compile Include="ErrorType.cs" />
-    <Compile Include="Events\CalculationsModeChangedEvent.cs" />
-    <Compile Include="Events\EventAggregator.cs" />
-    <Compile Include="Events\ExponentModeChangedEvent.cs" />
-    <Compile Include="Events\IApplicationEvent.cs" />
-    <Compile Include="Events\IEventAggregator.cs" />
-    <Compile Include="Events\ViewName.cs" />
-    <Compile Include="Functions\Function.cs" />
-    <Compile Include="Functions\FunctionType.cs" />
-    <Compile Include="Utility\PathUtility.cs" />
-    <Compile Include="Charts\Point2D.cs" />
-    <Compile Include="Charts\Point3D.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Configuration\RuntimeInformation.cs" />
-    <Compile Include="Functions\ScriptFunction.cs" />
-    <Compile Include="SettingsTypes\CalculationsErrors.cs" />
-    <Compile Include="SettingsTypes\CodeEditorType.cs" />
-    <Compile Include="SettingsTypes\FunctionsOrder.cs" />
-    <Compile Include="SettingsTypes\NumericalOutputNotationType.cs" />
-    <Compile Include="SettingsTypes\TooltipType.cs" />
-    <Compile Include="Text\SpecialSymbols.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Localization\Strings.cs.resx" />
-    <EmbeddedResource Include="Localization\Strings.de.resx" />
-    <EmbeddedResource Include="Localization\Strings.pl.resx" />
-    <EmbeddedResource Include="Localization\Strings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.Computator.NET.DataTypes.config" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.3.11" />
+  </ItemGroup>
 </Project>
