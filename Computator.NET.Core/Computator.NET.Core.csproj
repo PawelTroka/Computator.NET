@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net461;net40</TargetFrameworks>
+    <AppConfig Condition="'$(TargetFramework)' == 'net40'">app.config</AppConfig>
+    <AutoUnifyAssemblyReferences  Condition="'$(TargetFramework)' == 'net40'">false</AutoUnifyAssemblyReferences>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -103,7 +105,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <None Include="app.config"></None>
     <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
     <PackageReference Include="Unity">
       <Version>2.1.505.2</Version>
@@ -112,5 +113,4 @@
       <Version>1.1.1</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="..\Microsoft.Bcl.Build.targets" Condition="Exists('..\Microsoft.Bcl.Build.targets') AND '$(TargetFramework)' == 'net40'" />
 </Project>
