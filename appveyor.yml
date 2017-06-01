@@ -22,8 +22,7 @@ assembly_info:
   assembly_informational_version: "{version}β"
 
 before_build:
-  - if %netmoniker%==net40 (nuget restore Computator.NET.%netmoniker%.sln)
-  - if %netmoniker%!=net40 (nuget restore Computator.NET.sln)
+  - nuget restore
 
 build_script:
   - if [%netmoniker%]==["net40"] (msbuild Computator.NET\Computator.NET.%netmoniker%.csproj /p:Configuration=%CONFIGURATION%)
