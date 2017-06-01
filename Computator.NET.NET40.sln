@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.NET40", "Computator.NET\Computator.NET.NET40.csproj", "{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.net40", "Computator.NET\Computator.NET.net40.csproj", "{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}"
 	ProjectSection(ProjectDependencies) = postProject
 		{31264A50-A9B4-410C-85BB-EC81D5076747} = {31264A50-A9B4-410C-85BB-EC81D5076747}
 		{715165A2-D015-42AE-9381-5563204F8508} = {715165A2-D015-42AE-9381-5563204F8508}
@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Charting", "
 		{715165A2-D015-42AE-9381-5563204F8508} = {715165A2-D015-42AE-9381-5563204F8508}
 	EndProjectSection
 EndProject
-Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Computator.NET.Installer.NET40", "Computator.NET.Installer\Computator.NET.Installer.NET40.isproj", "{07E1BBEB-90AF-4C97-BD82-18B8B3D57FFD}"
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Computator.NET.Installer.net40", "Computator.NET.Installer\Computator.NET.Installer.net40.isproj", "{07E1BBEB-90AF-4C97-BD82-18B8B3D57FFD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{31264A50-A9B4-410C-85BB-EC81D5076747} = {31264A50-A9B4-410C-85BB-EC81D5076747}
 		{715165A2-D015-42AE-9381-5563204F8508} = {715165A2-D015-42AE-9381-5563204F8508}

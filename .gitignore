@@ -194,3 +194,5 @@ ModelManifest.xml
 /functions_empty_saved.xml
 /.paket/nuget.exe
 /codecoveragetools/coveralls.net.0.7.0
+/.vs/Computator.NET.sqlite
+/.vs/Computator.NET.sqlite

@@ -349,7 +349,7 @@
 		<row><td>Computator.NET.Core.Content_Files</td><td>{58712FBA-6570-491E-AE5F-6856FBA8F571}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.core.content_</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Core.Localized_resources</td><td>{8842CFE8-F397-4B31-88CE-0FC72A1F61D3}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.core.localize</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Core.Primary_output</td><td>{16A613FD-ECB3-46C0-B68E-EF0ACB4BA307}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.core.primary_</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Computator.NET.DataTypes.NET40.Localized_resources</td><td>{D9847203-E3F2-4A6C-81DE-8CFE0634052D}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.datatypes.net</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Computator.NET.DataTypes.Localized_resources</td><td>{D9847203-E3F2-4A6C-81DE-8CFE0634052D}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.datatypes.net</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.DataTypes.Primary_output</td><td>{AB600449-E8A5-45C3-9D00-4EEC98D76664}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.datatypes.pri</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Localized_resources</td><td>{1BC58DEE-A243-40D1-834B-7AD0944D76B0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.localized_res</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Computator.NET.Primary_output</td><td>{62C6C3A0-32A0-4EEB-8984-72C4B29D07D0}</td><td>INSTALLDIR</td><td>2</td><td/><td>computator.net.primary_outpu</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1088,7 +1088,7 @@
 		<row><td>INSTALLDIR</td><td>Computator.NET.Core.Content_Files</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Core.Localized_resources</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.Core.Primary_output</td></row>
-		<row><td>INSTALLDIR</td><td>Computator.NET.DataTypes.NET40.Localized_resources</td></row>
+		<row><td>INSTALLDIR</td><td>Computator.NET.DataTypes.Localized_resources</td></row>
 		<row><td>INSTALLDIR</td><td>Computator.NET.DataTypes.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>ISO19770_LocalTag</td></row>
 		<row><td>INSTALLDIR</td><td>ISO19770_SystemTag</td></row>
@@ -1931,7 +1931,7 @@
 		<row><td>AlwaysInstall</td><td>Computator.NET.Core.Content_Files</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Core.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Core.Primary_output</td></row>
-		<row><td>AlwaysInstall</td><td>Computator.NET.DataTypes.NET40.Localized_resources</td></row>
+		<row><td>AlwaysInstall</td><td>Computator.NET.DataTypes.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.DataTypes.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Localized_resources</td></row>
 		<row><td>AlwaysInstall</td><td>Computator.NET.Primary_output</td></row>
@@ -1970,7 +1970,7 @@
 		<row><td>computator.net.core.content_</td><td>Computator.NET.Core.Content_Files</td><td>Computator.NET.Core.Content Files</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Core&gt;|ContentFiles</td><td>3</td><td/></row>
 		<row><td>computator.net.core.localize</td><td>Computator.NET.Core.Localized_resources</td><td>Computator.NET.Core.Localized resources</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Core&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.core.primary_</td><td>Computator.NET.Core.Primary_output</td><td>Computator.NET.Core.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.Core&gt;|Built</td><td>3</td><td/></row>
-		<row><td>computator.net.datatypes.net</td><td>Computator.NET.DataTypes.NET40.Localized_resources</td><td>Computator.NET.DataTypes.NET40.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
+		<row><td>computator.net.datatypes.net</td><td>Computator.NET.DataTypes.Localized_resources</td><td>Computator.NET.DataTypes.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.datatypes.pri</td><td>Computator.NET.DataTypes.Primary_output</td><td>Computator.NET.DataTypes.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Computator.NET.DataTypes&gt;|Built</td><td>3</td><td/></row>
 		<row><td>computator.net.localized_res</td><td>Computator.NET.Localized_resources</td><td>Computator.NET.Localized resources</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|LocalizedResourceDlls</td><td>3</td><td/></row>
 		<row><td>computator.net.primary_outpu</td><td>Computator.NET.Primary_output</td><td>Computator.NET.Primary output</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;Computator.NET&gt;|Built</td><td>3</td><td/></row>
@@ -2143,7 +2143,7 @@
 		<row><td>Computator.NET.Core.Content_Files</td><td/><td/><td>_7C7212A0_9990_4812_915F_AF5B2F86C0C6_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Core.Localized_resources</td><td/><td/><td>_3821D3E3_9ECB_418F_9B8C_AC211779C689_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Core.Primary_output</td><td/><td/><td>_B60158F0_408B_4A66_8410_114059B0A64B_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Computator.NET.DataTypes.NET40.Localized_resources</td><td/><td/><td>_E2B33F2A_2D0F_45ED_8654_EABF9527A060_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Computator.NET.DataTypes.Localized_resources</td><td/><td/><td>_E2B33F2A_2D0F_45ED_8654_EABF9527A060_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.DataTypes.Primary_output</td><td/><td/><td>_21ED120C_C994_4967_85A4_BE0EBBE2B8B5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Localized_resources</td><td/><td/><td>_BAE0EB1C_3DBD_4D3E_98F5_AACA8C6FA4A7_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Computator.NET.Primary_output</td><td/><td/><td>_23B95E1A_2E63_4B35_B302_E3E339C87F9F_FILTER</td><td/><td/><td/><td/></row>
@@ -2479,10 +2479,10 @@
 		<col def="i4">Type</col>
 		<row><td>Charting</td><td>Charting\Charting.csproj</td><td/><td>2</td></row>
 		<row><td>CommonFilesFolder</td><td/><td/><td>1</td></row>
-		<row><td>Computator.NET</td><td>Computator.NET\Computator.NET.NET40.csproj</td><td/><td>2</td></row>
-		<row><td>Computator.NET.Charting</td><td>Computator.NET.Charting\Computator.NET.Charting.NET40.csproj</td><td/><td>2</td></row>
-		<row><td>Computator.NET.Core</td><td>Computator.NET.Core\Computator.NET.Core.NET40.csproj</td><td/><td>2</td></row>
-		<row><td>Computator.NET.DataTypes</td><td>Computator.NET.DataTypes\Computator.NET.DataTypes.NET40.csproj</td><td/><td>2</td></row>
+		<row><td>Computator.NET</td><td>Computator.NET\Computator.NET.net40.csproj</td><td/><td>2</td></row>
+		<row><td>Computator.NET.Charting</td><td>Computator.NET.Charting\Computator.NET.Charting.csproj</td><td/><td>2</td></row>
+		<row><td>Computator.NET.Core</td><td>Computator.NET.Core\Computator.NET.Core.csproj</td><td/><td>2</td></row>
+		<row><td>Computator.NET.DataTypes</td><td>Computator.NET.DataTypes\Computator.NET.DataTypes.csproj</td><td/><td>2</td></row>
 		<row><td>ISPROJECTDIR</td><td/><td/><td>1</td></row>
 		<row><td>ISProductFolder</td><td/><td/><td>1</td></row>
 		<row><td>ISProjectDataFolder</td><td/><td/><td>1</td></row>

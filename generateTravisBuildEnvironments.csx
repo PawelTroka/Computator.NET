@@ -83,11 +83,12 @@ foreach (var os in oses)
 
                     if (mono.StartsWith("2.") || mono.StartsWith("3.") || (mono.StartsWith("4.") && mono[2] < '6'))
                     {
-                        sb.AppendLine($"      env: netmoniker=.NET40");
+                        sb.AppendLine($"      env: netmoniker=net40");
                         Console.Write(sb.ToString());
                     }
                     else
                     {
+                        sb.AppendLine($"      env: netmoniker=net461");
                         Console.Write(sb.ToString());
                         ////sb.AppendLine($"      env: netmoniker=.NET40");
                         ////Console.Write(sb.ToString());

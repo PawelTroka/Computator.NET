@@ -13,11 +13,11 @@ make
 sudo make install
 cd ../../Computator.NET
 
-nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
+nuget install NUnit.Console -Version 3.6.1 -OutputDirectory testrunner
 nuget install coveralls.net -Version 0.7.0 -OutputDirectory codecoveragetools
 
 export LD_LIBRARY_PATH=/usr/local/lib
-mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[Computator.NET*]*,-[Computator.NET.Core]Computator.NET.Core.Properties.*,-[Computator.NET.Tests]*,-[Computator.NET.IntegrationTests]* ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --noresult --inprocess --domain=Single --where:cat!=LongRunningTests ""Computator.NET.Tests/bin/"$build_config"/Computator.NET.Tests.dll"" ""Computator.NET.IntegrationTests/bin/"$build_config"/Computator.NET.IntegrationTests.dll""
+mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[Computator.NET*]*,-[Computator.NET.Core]Computator.NET.Core.Properties.*,-[Computator.NET.Tests]*,-[Computator.NET.IntegrationTests]* ./testrunner/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe --noresult --inprocess --domain=Single --where:cat!=LongRunningTests ""Computator.NET.Tests/bin/"$build_config"/"$netmoniker"/Computator.NET.Tests.dll"" ""Computator.NET.IntegrationTests/bin/"$build_config"/"$netmoniker"/Computator.NET.IntegrationTests.dll""
 monocov --export-xml=monocovCoverage monocovCoverage.cov
 
 REPO_COMMIT_AUTHOR=$(git show -s --pretty=format:"%cn")
