@@ -1,4 +1,4 @@
-﻿version: 2.3.0.{build}
+﻿version: 2.3.3.{build}
 
 environment:
   COVERALLS_REPO_TOKEN:
@@ -22,12 +22,12 @@ assembly_info:
   assembly_informational_version: "{version}β"
 
 before_build:
-  - if [%netmoniker%]==[net40] (nuget restore Computator.NET.%netmoniker%.sln)
-  - if [%netmoniker%]!=[net40] (nuget restore Computator.NET.sln)
+  - if [%netmoniker%]==["net40"] (nuget restore Computator.NET.%netmoniker%.sln)
+  - if [%netmoniker%]!=["net40"] (nuget restore Computator.NET.sln)
 
 build_script:
-  - if [%netmoniker%]==[net40] (msbuild Computator.NET\Computator.NET.%netmoniker%.csproj /p:Configuration=%CONFIGURATION%)
-  - if [%netmoniker%]!=[net40] (msbuild Computator.NET\Computator.NET.csproj /p:Configuration=%CONFIGURATION%)
+  - if [%netmoniker%]==["net40"] (msbuild Computator.NET\Computator.NET.%netmoniker%.csproj /p:Configuration=%CONFIGURATION%)
+  - if [%netmoniker%]!=["net40"] (msbuild Computator.NET\Computator.NET.csproj /p:Configuration=%CONFIGURATION%)
   - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj
   - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
 
