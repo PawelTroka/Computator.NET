@@ -22,13 +22,22 @@ assembly_info:
   assembly_informational_version: "{version}β"
 
 before_build:
-  - nuget restore
+  - IF "%netmoniker%"=="net40" (
+      nuget restore Computator.NET.%netmoniker%.sln
+    )
+  - IF NOT "%netmoniker%"=="net40" (
+      nuget restore Computator.NET.sln
+    )
 
 build_script:
-  - if [%netmoniker%]==["net40"] (msbuild Computator.NET\Computator.NET.%netmoniker%.csproj /p:Configuration=%CONFIGURATION%)
-  - if [%netmoniker%]!=["net40"] (msbuild Computator.NET\Computator.NET.csproj /p:Configuration=%CONFIGURATION%)
-  - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj
-  - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
+  - IF "%netmoniker%"=="net40" (
+      msbuild Computator.NET\Computator.NET.%netmoniker%.csproj /p:Configuration=%CONFIGURATION%
+    )
+  - IF NOT "%netmoniker%"=="net40" (
+      msbuild Computator.NET\Computator.NET.csproj /p:Configuration=%CONFIGURATION%
+    )
+  - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj /p:Configuration=%CONFIGURATION%
+  - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj /p:Configuration=%CONFIGURATION%
 
 after_test:
   - nuget install NUnit.Console -Version 3.6.1 -OutputDirectory testrunner
