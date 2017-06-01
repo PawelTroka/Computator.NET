@@ -176,22 +176,91 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
+    <Compile Include="Benchmarking\BenchmarkForm.cs" />
+    <Compile Include="Benchmarking\BenchmarkForm.Designer.cs" />
+    <Compile Include="Bootstrapping\WinFormsBootstrapper.cs" />
+    <Compile Include="Config\MyMessageFilter.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteItems.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteListView.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenu.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenuHost.cs" />
+    <Compile Include="Controls\AutocompleteMenu\EventArgs.cs" />
+    <Compile Include="Controls\AutocompleteMenu\IAutocompleteListView.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Range.cs" />
+    <Compile Include="Controls\AutocompleteMenu\WebBrowserForm.cs" />
+    <Compile Include="Controls\AutocompleteMenu\WebBrowserTooltip.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\ITextBoxWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\TextBoxWrapper.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditor.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\BitmapExtension.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\CompletionData.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\OffsetColorizer.cs" />
+    <Compile Include="Controls\CodeEditors\CodeEditorControlWrapper.cs" />
+    <Compile Include="Controls\CodeEditors\ScintillaCodeEditorControl.cs" />
+    <Compile Include="Controls\CodeEditors\TextEditorCodeEditor.cs" />
+    <Compile Include="Controls\DirectoryTree.cs" />
+    <Compile Include="Controls\DocumentsTabControl.cs" />
+    <Compile Include="Controls\ExpressionTextBox.cs" />
+    <Compile Include="Controls\Field.cs" />
+    <Compile Include="Controls\NumericTextBox.cs" />
+    <Compile Include="Controls\ScientificNumericUpDown.cs" />
+    <Compile Include="Controls\ScientificNumericUpDown.Designer.cs" />
+    <Compile Include="Controls\ToolStripRadioButtonMenuItem.cs" />
+    <Compile Include="Data\CompletionDataConverter.cs" />
+    <Compile Include="Dialogs\AboutBox1.cs" />
+    <Compile Include="Dialogs\AboutBox1.Designer.cs" />
+    <Compile Include="Dialogs\BugReportingForm.cs" />
+    <Compile Include="Dialogs\BugReportingForm.Designer.cs" />
+    <Compile Include="Dialogs\ChangelogForm.cs" />
+    <Compile Include="Dialogs\ChangelogForm.Designer.cs" />
+    <Compile Include="Dialogs\LoadingScreen.cs" />
+    <Compile Include="Dialogs\SettingsForm.cs" />
+    <Compile Include="Dialogs\SettingsForm.Designer.cs" />
+    <Compile Include="Dialogs\WinFormsDialogFactory.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ApplicationManager.cs" />
+    <Compile Include="Services\FormScaling.cs" />
+    <Compile Include="Services\MessagingService.cs" />
+    <Compile Include="Views\CalculationsView.cs" />
+    <Compile Include="Views\CalculationsView.Designer.cs" />
+    <Compile Include="Views\ChartAreaValuesView.cs" />
+    <Compile Include="Views\ChartAreaValuesView.Designer.cs" />
+    <Compile Include="Views\ChartingView.cs" />
+    <Compile Include="Views\ChartingView.Designer.cs" />
+    <Compile Include="Views\CustomFunctionsView.cs" />
+    <Compile Include="Views\CustomFunctionsView.Designer.cs" />
+    <Compile Include="Views\ExpressionView.cs" />
+    <Compile Include="Views\ExpressionView.Designer.cs" />
+    <Compile Include="Views\MainView.cs" />
+    <Compile Include="Views\MainView.Designer.cs" />
+    <Compile Include="Views\MenuStripView.cs" />
+    <Compile Include="Views\MenuStripView.Designer.cs" />
+    <Compile Include="Views\NumericalCalculationsView.cs" />
+    <Compile Include="Views\NumericalCalculationsView.Designer.cs" />
+    <Compile Include="Views\ScriptingView.cs" />
+    <Compile Include="Views\ScriptingView.Designer.cs" />
+    <Compile Include="Views\SolutionExplorerView.cs" />
+    <Compile Include="Views\SolutionExplorerView.Designer.cs" />
+    <Compile Include="Views\ToolBarView.cs" />
+    <Compile Include="Views\ToolBarView.Designer.cs" />
     <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <None Include="app.config" />
     <None Include="Computator.NET.pfx" />
     <None Include="packages.Computator.NET.NET40.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.NET40.csproj">
+    <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">
       <Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
       <Name>Computator.NET.Charting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.NET40.csproj">
+    <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj">
       <Project>{b74cd9d5-d77e-418d-b50a-7ee5f040f819}</Project>
       <Name>Computator.NET.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.NET40.csproj">
+    <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>

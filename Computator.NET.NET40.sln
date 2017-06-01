@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.NET40", "Com
 		{715165A2-D015-42AE-9381-5563204F8508} = {715165A2-D015-42AE-9381-5563204F8508}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Charting.NET40", "Computator.NET.Charting\Computator.NET.Charting.NET40.csproj", "{31264A50-A9B4-410C-85BB-EC81D5076747}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Charting", "Computator.NET.Charting\Computator.NET.Charting.csproj", "{31264A50-A9B4-410C-85BB-EC81D5076747}"
 	ProjectSection(ProjectDependencies) = postProject
 		{715165A2-D015-42AE-9381-5563204F8508} = {715165A2-D015-42AE-9381-5563204F8508}
 	EndProjectSection
@@ -21,7 +21,7 @@ Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Computator.NET.Installer.NE
 		{B74CD9D5-D77E-418D-B50A-7EE5F040F819} = {B74CD9D5-D77E-418D-B50A-7EE5F040F819}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.DataTypes.NET40", "Computator.NET.DataTypes\Computator.NET.DataTypes.NET40.csproj", "{715165A2-D015-42AE-9381-5563204F8508}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.DataTypes", "Computator.NET.DataTypes\Computator.NET.DataTypes.csproj", "{715165A2-D015-42AE-9381-5563204F8508}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Tests", "Computator.NET.Tests\Computator.NET.Tests.csproj", "{6EFD61BD-677E-4945-9605-3DBADB695CC1}"
 EndProject
@@ -69,7 +69,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{342D511E-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{78D9A020-3FAD-4ABF-B002-EAEC4C4E04D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Core.NET40", "Computator.NET.Core\Computator.NET.Core.NET40.csproj", "{B74CD9D5-D77E-418D-B50A-7EE5F040F819}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET.Core", "Computator.NET.Core\Computator.NET.Core.csproj", "{B74CD9D5-D77E-418D-B50A-7EE5F040F819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
