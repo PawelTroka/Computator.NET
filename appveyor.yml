@@ -1,4 +1,4 @@
-﻿version: 2.2.0.{build}
+﻿version: 2.3.0.{build}
 
 environment:
   COVERALLS_REPO_TOKEN:
@@ -8,8 +8,7 @@ environment:
   - netmoniker: .NET40
 
 image:
-- Visual Studio 2015
-- Previous Visual Studio 2015
+- Visual Studio 2017
 
 configuration:
   - Debug
@@ -26,9 +25,6 @@ before_build:
   - nuget restore Computator.NET%netmoniker%.sln
 
 build_script:
-  - msbuild Computator.NET.DataTypes\Computator.NET.DataTypes%netmoniker%.csproj
-  - msbuild Computator.NET.Core\Computator.NET.Core%netmoniker%.csproj
-  - msbuild Computator.NET.Charting\Computator.NET.Charting%netmoniker%.csproj
   - msbuild Computator.NET\Computator.NET%netmoniker%.csproj
   - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj
   - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj
