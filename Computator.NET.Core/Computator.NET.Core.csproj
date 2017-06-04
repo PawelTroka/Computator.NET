@@ -64,16 +64,6 @@
     <Content Include="libgslcblas.so" Condition=" '$(OS)' == 'Unix' ">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Special\linux-amd64\libgsl.so.19.3.0" />
-    <None Include="Special\linux-amd64\libgslcblas.so.0.0.0" />
-    <None Include="Special\linux-i686\libgsl.so.19.3.0" />
-    <None Include="Special\linux-i686\libgslcblas.so.0.0.0" />
-    <None Include="Special\osx-amd64\libgsl.19.dylib" />
-    <None Include="Special\osx-amd64\libgslcblas.0.dylib" />
-    <None Include="Special\osx-i686\libgsl.19.dylib" />
-    <None Include="Special\osx-i686\libgslcblas.0.dylib" />
-    <None Include="Special\windows-x64\gsl.dll" />
-    <None Include="Special\windows-x86\gsl.dll" />
     <Content Include="TSL Examples\**\*.tsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -97,18 +87,8 @@
     <PackageReference Include="Accord.Math" Version="3.5.0" />
     <PackageReference Include="MathNet.Numerics" Version="3.19.0" />
     <PackageReference Include="Meta.Numerics" Version="3.1.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Compilation\NativeCompiler.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Functions\ReadForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
     <PackageReference Include="Unity">
