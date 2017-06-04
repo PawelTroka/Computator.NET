@@ -92,9 +92,9 @@ else
 if (travisOsName == "linux")
 {
 	StartProcess("sudo", "apt-get install libgsl2");
-	System.Environment.SetEnvironmentVariable("DISPLAY", "99.0", System.Environment.EnvironmentVariableTarget.Process);//StartProcess("export", "DISPLAY=:99.0");
+	System.Environment.SetEnvironmentVariable("DISPLAY", "99.0", System.EnvironmentVariableTarget.Process);//StartProcess("export", "DISPLAY=:99.0");
 	StartProcess("sh", "-e /etc/init.d/xvfb start");
-	System.Environment.SetEnvironmentVariable("DISPLAY", "99.0", System.Environment.EnvironmentVariableTarget.Process);//StartProcess("export", "DISPLAY=:99.0");
+	System.Environment.SetEnvironmentVariable("DISPLAY", "99.0", System.EnvironmentVariableTarget.Process);//StartProcess("export", "DISPLAY=:99.0");
 	StartProcess("sleep", "3");//give xvfb some time to start
 }
 else if(travisOsName == "osx")
@@ -103,7 +103,7 @@ else if(travisOsName == "osx")
 }
 
 if(travisOsName=="linux" || travisOsName=="osx")
-	System.Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled", System.Environment.EnvironmentVariableTarget.Process);//StartProcess("export", "MONO_WINFORMS_XIM_STYLE=disabled");
+	System.Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled", System.EnvironmentVariableTarget.Process);//StartProcess("export", "MONO_WINFORMS_XIM_STYLE=disabled");
 });
 
 Task("Build")
