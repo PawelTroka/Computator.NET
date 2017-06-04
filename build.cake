@@ -47,6 +47,17 @@ var integrationTestsProject = "Computator.NET.IntegrationTests/Computator.NET.In
 var allTestsBinaries = "**/bin/" + configuration+ "/" + netmoniker + "/*Test*.dll";
 var integrationTestsBinaries = "Computator.NET.IntegrationTests/"+"bin/" + configuration+ "/" + netmoniker + "/*Test*.dll";
 var unitTestsBinaries = "Computator.NET.Tests/"+"bin/" + configuration+ "/" + netmoniker + "/*Test*.dll";
+var netVersion =  System.Text.RegularExpressions.Regex.Replace(netmoniker.ToLowerInvariant().Replace("net",""), ".{1}", "$0.").TrimEnd('.');
+
+var msBuildSettings = new MSBuildSettings {
+	ArgumentCustomization = args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
+    Verbosity = Verbosity.Minimal,
+    ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
+    Configuration = configuration,
+    PlatformTarget = PlatformTarget.MSIL,
+	MSBuildPlatform = MSBuildPlatform.Automatic,
+	DetailedSummary = true,
+    };
 
 
 
@@ -113,14 +124,9 @@ Task("Build")
 	if(IsRunningOnWindows() || (monoVersion!=null && (monoVersion.Contains("5.0.0")||monoVersion.Contains("5.0.1")||monoVersion.Contains("5.2.0"))))
 	{
 	  // Use MSBuild
-	  MSBuild(mainProject, settings =>
-		settings.SetConfiguration(configuration));
-
-	  MSBuild(integrationTestsProject, settings =>
-		settings.SetConfiguration(configuration));
-
-	  MSBuild(unitTestsProject, settings =>
-		settings.SetConfiguration(configuration));
+	  MSBuild(mainProject, msBuildSettings);
+	  MSBuild(integrationTestsProject, msBuildSettings);
+	  MSBuild(unitTestsProject, msBuildSettings);
 	}
 	else
 	{
