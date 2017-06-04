@@ -50,7 +50,7 @@ var unitTestsBinaries = "Computator.NET.Tests/"+"bin/" + configuration+ "/" + ne
 var netVersion =  System.Text.RegularExpressions.Regex.Replace(netmoniker.ToLowerInvariant().Replace("net",""), ".{1}", "$0.").TrimEnd('.');
 
 var msBuildSettings = new MSBuildSettings {
-	ArgumentCustomization = args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
+	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
     Verbosity = Verbosity.Minimal,
     ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
     Configuration = configuration,
@@ -66,7 +66,7 @@ var msBuildSettings = new MSBuildSettings {
 
 
 var xBuildSettings = new XBuildSettings {
-	ArgumentCustomization = args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
+	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
     Verbosity = Verbosity.Minimal,
     ToolVersion = XBuildToolVersion.Default,//The highest available XBuild tool version//NET40
     Configuration = configuration,
@@ -137,15 +137,16 @@ Task("Build")
 	{
 	  // Use MSBuild
 	  MSBuild(mainProject, msBuildSettings);
-	  MSBuild(integrationTestsProject, msBuildSettings);
 	  MSBuild(unitTestsProject, msBuildSettings);
+	  MSBuild(integrationTestsProject, msBuildSettings);
+	  
 	}
 	else
 	{
 	  // Use XBuild
 	  XBuild(mainProject, xBuildSettings);
-	  XBuild(integrationTestsProject, xBuildSettings);
 	  XBuild(unitTestsProject, xBuildSettings);
+	  XBuild(integrationTestsProject, xBuildSettings);
 	}
 });
 
