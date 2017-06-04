@@ -196,3 +196,6 @@ ModelManifest.xml
 /codecoveragetools/coveralls.net.0.7.0
 /.vs/Computator.NET.sqlite
 /.vs/Computator.NET.sqlite
+tools/*
+!tools/packages.config
+/coverage.xml

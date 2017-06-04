@@ -22,32 +22,16 @@ assembly_info:
   assembly_informational_version: "{version}β"
 
 before_build:
-  - IF "%netmoniker%"=="net40" (
-      nuget restore Computator.NET.%netmoniker%.sln
-    )
-  - IF NOT "%netmoniker%"=="net40" (
-      nuget restore Computator.NET.sln
-    )
+  - build.cmd -Target Restore
 
 build_script:
-  - IF "%netmoniker%"=="net40" (
-      msbuild Computator.NET\Computator.NET.%netmoniker%.csproj /p:Configuration=%CONFIGURATION%
-    )
-  - IF NOT "%netmoniker%"=="net40" (
-      msbuild Computator.NET\Computator.NET.csproj /p:Configuration=%CONFIGURATION%
-    )
-  - msbuild Computator.NET.Tests\Computator.NET.Tests.csproj /p:Configuration=%CONFIGURATION%
-  - msbuild Computator.NET.IntegrationTests\Computator.NET.IntegrationTests.csproj /p:Configuration=%CONFIGURATION%
+  - build.cmd -Target Build
+
+test_script:
+  - build.cmd -Target AllTests
 
 after_test:
-  - nuget install NUnit.Console -Version 3.6.1 -OutputDirectory testrunner
-  - nuget install OpenCover -Version 4.6.519 -OutputDirectory codecoveragetools
-  - nuget install coveralls.net -Version 0.7.0 -OutputDirectory codecoveragetools
-  - codecoveragetools\OpenCover.4.6.519\tools\OpenCover.Console.exe "-register:user" "-target:"testrunner/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe"" -targetargs:"--noresult --inprocess --domain=Single --where:cat!=LongRunningTests ""Computator.NET.Tests\bin\%CONFIGURATION%\%netmoniker%\Computator.NET.Tests.dll"" ""Computator.NET.IntegrationTests\bin\%CONFIGURATION%\%netmoniker%\Computator.NET.IntegrationTests.dll""" "-filter:+[Computator.NET*]*  -[Computator.NET.Core]Computator.NET.Core.Properties.* -[Computator.NET.Tests]* -[Computator.NET.IntegrationTests]*"  "-excludebyattribute:*.ExcludeFromCodeCoverage*" "-hideskipped:All" "-servicestarttimeout:1000m" "-output:Computator.NET_coverage.xml"
-  - codecoveragetools\coveralls.net.0.7.0\tools\csmacnz.Coveralls.exe --opencover -i ./Computator.NET_coverage.xml --repoTokenVariable COVERALLS_REPO_TOKEN --useRelativePaths --commitId "%APPVEYOR_REPO_COMMIT%" --commitBranch "%APPVEYOR_REPO_BRANCH%" --commitAuthor "%APPVEYOR_REPO_COMMIT_AUTHOR%" --commitEmail "%APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL%" --commitMessage "%APPVEYOR_REPO_COMMIT_MESSAGE%" --jobId "%APPVEYOR_BUILD_NUMBER%" --serviceName appveyor
-  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
-  - pip install codecov
-  - codecov -f "Computator.NET_coverage.xml"
+  - build.cmd -Target Upload-Coverage
 
 notifications:
 - provider: GitHubPullRequest

@@ -5,12 +5,6 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      mono: 5.2.0
-      env: build_config=Release
-      env: netmoniker=net461
-    - os: linux
-      dist: trusty
-      sudo: required
       mono: 5.0.1
       env: build_config=Release
       env: netmoniker=net461
@@ -18,12 +12,6 @@ matrix:
       dist: trusty
       sudo: required
       mono: 5.0.0
-      env: build_config=Release
-      env: netmoniker=net461
-    - os: linux
-      dist: precise
-      sudo: required
-      mono: 5.2.0
       env: build_config=Release
       env: netmoniker=net461
     - os: linux
@@ -41,12 +29,6 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      mono: 5.2.0
-      env: build_config=Debug
-      env: netmoniker=net461
-    - os: linux
-      dist: trusty
-      sudo: required
       mono: 5.0.1
       env: build_config=Debug
       env: netmoniker=net461
@@ -54,12 +36,6 @@ matrix:
       dist: trusty
       sudo: required
       mono: 5.0.0
-      env: build_config=Debug
-      env: netmoniker=net461
-    - os: linux
-      dist: precise
-      sudo: required
-      mono: 5.2.0
       env: build_config=Debug
       env: netmoniker=net461
     - os: linux
@@ -77,12 +53,6 @@ matrix:
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 5.2.0
-      env: build_config=Release
-      env: netmoniker=net461
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
       mono: 5.0.1
       env: build_config=Release
       env: netmoniker=net461
@@ -90,12 +60,6 @@ matrix:
       osx_image: xcode8.2
       sudo: required
       mono: 5.0.0
-      env: build_config=Release
-      env: netmoniker=net461
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: 5.2.0
       env: build_config=Release
       env: netmoniker=net461
     - os: osx
@@ -113,12 +77,6 @@ matrix:
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 5.2.0
-      env: build_config=Debug
-      env: netmoniker=net461
-    - os: osx
-      osx_image: xcode8.2
-      sudo: required
       mono: 5.0.1
       env: build_config=Debug
       env: netmoniker=net461
@@ -126,12 +84,6 @@ matrix:
       osx_image: xcode8.2
       sudo: required
       mono: 5.0.0
-      env: build_config=Debug
-      env: netmoniker=net461
-    - os: osx
-      osx_image: xcode6.4
-      sudo: required
-      mono: 5.2.0
       env: build_config=Debug
       env: netmoniker=net461
     - os: osx
@@ -151,11 +103,11 @@ matrix:
 #before_install:
 
 before_script:
-  - source ./build-mono/restore.sh
+  - ./build.sh -Target Restore
 
 script:
-  - ./build-mono/build.sh
+  - ./build.sh -Target Build
 
 after_script:
-  - travis_wait 60 ./build-mono/test.sh
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 60 ./build-mono/coverage.sh; fi
+  - travis_wait 60 ./build.sh -Target AllTests
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 60 ./build.sh -Target Upload-Coverage; fi

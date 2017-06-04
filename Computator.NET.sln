@@ -88,12 +88,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{09B7735B
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
+		build.cake = build.cake
+		build.cmd = build.cmd
+		build.ps1 = build.ps1
+		build.sh = build.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build-Mono", "Build-Mono", "{1B1E513A-5933-4EA2-8C08-7B6946715B26}"
+	ProjectSection(SolutionItems) = preProject
 		build-mono\build.sh = build-mono\build.sh
 		build-mono\coverage.sh = build-mono\coverage.sh
-		generateTravisBuildEnvironments.csx = generateTravisBuildEnvironments.csx
+		build-mono\generateTravisBuildEnvironments.csx = build-mono\generateTravisBuildEnvironments.csx
 		build-mono\install.sh = build-mono\install.sh
 		build-mono\restore.sh = build-mono\restore.sh
 		build-mono\test.sh = build-mono\test.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build-uwp", "Build-uwp", "{1C29E65F-1A75-4EBF-A86D-6B71A3DE5C25}"
+	ProjectSection(SolutionItems) = preProject
+		build-uwp\AppxManifest.xml = build-uwp\AppxManifest.xml
+		build-uwp\build.bat = build-uwp\build.bat
+		build-uwp\createCert.bat = build-uwp\createCert.bat
 	EndProjectSection
 EndProject
 Global
@@ -1027,6 +1042,8 @@ Global
 		{E8847B34-DBB6-4E0C-8B3E-841333D0D113} = {15B62501-7F97-41E8-A681-0BBB6798ACB8}
 		{86EABB63-9D64-425C-AEB9-0B67372ED5F8} = {15B62501-7F97-41E8-A681-0BBB6798ACB8}
 		{B74CD9D5-D77E-418D-B50A-7EE5F040F819} = {342D511E-A811-4A7B-9369-4119DA2CDB52}
+		{1B1E513A-5933-4EA2-8C08-7B6946715B26} = {09B7735B-70EC-48F8-8E35-5DC0E3FD776F}
+		{1C29E65F-1A75-4EBF-A86D-6B71A3DE5C25} = {09B7735B-70EC-48F8-8E35-5DC0E3FD776F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.2.1.505.0\lib\NET35
