@@ -59,7 +59,19 @@ var msBuildSettings = new MSBuildSettings {
 	DetailedSummary = true,
     };
 
+	if(!IsRunningOnWindows())
+	{
+		msBuildSettings.ToolPath = new FilePath(@"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll");
+	}
 
+
+var xBuildSettings = new XBuildSettings {
+	ArgumentCustomization = args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
+    Verbosity = Verbosity.Minimal,
+    ToolVersion = XBuildToolVersion.Default,//The highest available XBuild tool version//NET40
+    Configuration = configuration,
+    //PlatformTarget = PlatformTarget.MSIL,
+    };
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -131,14 +143,9 @@ Task("Build")
 	else
 	{
 	  // Use XBuild
-	  XBuild(mainProject, settings =>
-		settings.SetConfiguration(configuration));
-
-	  XBuild(integrationTestsProject, settings =>
-		settings.SetConfiguration(configuration));
-
-	  XBuild(unitTestsProject, settings =>
-		settings.SetConfiguration(configuration));
+	  XBuild(mainProject, xBuildSettings);
+	  XBuild(integrationTestsProject, xBuildSettings);
+	  XBuild(unitTestsProject, xBuildSettings);
 	}
 });
 
