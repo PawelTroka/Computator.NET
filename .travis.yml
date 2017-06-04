@@ -104,11 +104,11 @@ matrix:
 
 before_script:
   - chmod +x build.sh
-  - ./build.sh -Target Restore
+  - ./build.sh --target Restore
 
 script:
-  - ./build.sh -Target Build
+  - ./build.sh --target Build
 
 after_script:
-  - travis_wait 60 ./build.sh -Target AllTests
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 60 ./build.sh -Target Upload-Coverage; fi
+  - travis_wait 60 ./build.sh --target AllTests
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 60 ./build.sh --target Upload-Coverage; fi
