@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461;net40</TargetFrameworks>
+    <AppConfig Condition="'$(TargetFramework)' == 'net40'">app.net40.config</AppConfig>
+    <AutoUnifyAssemblyReferences Condition="'$(TargetFramework)' == 'net40'">false</AutoUnifyAssemblyReferences>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -22,11 +24,15 @@
     <DebugSymbols>false</DebugSymbols>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="Castle.Core" Version="4.0.0" />
-    <PackageReference Include="MathNet.Numerics" Version="3.19.0" />
     <PackageReference Include="Moq" Version="4.7.12" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+    <PackageReference Include="Moq" Version="4.2.1510.2205" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MathNet.Numerics" Version="3.19.0" />
     <PackageReference Include="NUnit" Version="3.7.0" />
   </ItemGroup>
   <ItemGroup>
