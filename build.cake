@@ -15,6 +15,7 @@ var netmoniker = EnvironmentVariable("netmoniker") ?? "net461";
 var travisOsName = EnvironmentVariable("TRAVIS_OS_NAME");
 var dotNetCore = EnvironmentVariable("DOTNETCORE");
 string monoVersion = null;
+string monoVersionShort = null;
 
 Type type = Type.GetType("Mono.Runtime");
 if (type != null)
@@ -23,7 +24,9 @@ if (type != null)
 	if (displayName != null)
 		monoVersion = displayName.Invoke(null, null).ToString();
 }
-
+var isMonoButSupportsMsBuild = monoVersion!=null && (monoVersion.Contains("5.0.0")||monoVersion.Contains("5.0.1")||monoVersion.Contains("5.2.0"));
+if(isMonoButSupportsMsBuild)
+	monoVersionShort = monoVersion.Contains("5.2.0") ? "5.2.0" : (monoVersion.Contains("5.0.1") ? "5.0.1" : "5.0.0");
 
 
 
@@ -59,9 +62,13 @@ var msBuildSettings = new MSBuildSettings {
 	DetailedSummary = true,
     };
 
-	if(!IsRunningOnWindows() && System.Environment.OSVersion.Platform != System.PlatformID.MacOSX)
+	if(!IsRunningOnWindows() && isMonoButSupportsMsBuild)
 	{
-		msBuildSettings.ToolPath = new FilePath(@"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll");//hack for Linux bug - missing MSBuild path
+		msBuildSettings.ToolPath = new FilePath(
+		  System.Environment.OSVersion.Platform != System.PlatformID.MacOSX
+		  ? @"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll"
+		  : @"/Library/Frameworks/Mono.framework/Versions/"+monoVersionShort+@"/lib/mono/msbuild/15.0/bin/MSBuild.dll"
+		  );//hack for Linux and Mac OS X bug - missing MSBuild path	
 	}
 
 
@@ -133,7 +140,7 @@ Task("Build")
 	.IsDependentOn("Restore")
 	.Does(() =>
 {
-	if(IsRunningOnWindows() || (monoVersion!=null && (monoVersion.Contains("5.0.0")||monoVersion.Contains("5.0.1")||monoVersion.Contains("5.2.0"))))
+	if(IsRunningOnWindows() || isMonoButSupportsMsBuild)
 	{
 	  // Use MSBuild
 	  MSBuild(mainProject, msBuildSettings);
