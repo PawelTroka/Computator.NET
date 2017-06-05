@@ -111,10 +111,8 @@ namespace Computator.NET.Core.Properties
             RestoreDirectories();
         }
 
-
-        private void RestoreDirectories()
+        public void RestoreScriptingExamples()
         {
-
             if (!Directory.Exists(DefaultScriptingDirectory) || !Directory.EnumerateFiles(DefaultScriptingDirectory).Any())
             {
                 if (Directory.Exists(PathUtility.GetFullPath(ScriptingRawDir)))
@@ -133,7 +131,10 @@ namespace Computator.NET.Core.Properties
                     throw new FileNotFoundException(
                         $"Custom functions examples not found in {PathUtility.GetFullPath(CustomFunctionsRawDir)}");
             }
+        }
 
+        private void RestoreDirectories()
+        {
             var dirsToRestore = new string[] { WorkingDirectory, ScriptingDirectory, CustomFunctionsDirectory };
 
             foreach (var dir in dirsToRestore)

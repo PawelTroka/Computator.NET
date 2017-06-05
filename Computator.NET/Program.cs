@@ -50,7 +50,7 @@ namespace Computator.NET
             LoadingScreen.ShowSplashScreen();
 
             GSLInitializer.Initialize();
-
+            Settings.Default.RestoreScriptingExamples();
             Application.SetCompatibleTextRenderingDefault(false);
 
             if (!RuntimeInformation.IsUnix)
