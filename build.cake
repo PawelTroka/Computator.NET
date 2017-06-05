@@ -59,7 +59,7 @@ var msBuildSettings = new MSBuildSettings {
 	DetailedSummary = true,
     };
 
-	if(!IsRunningOnWindows() && !System.Environment.OSVersion.Platform == System.PlatformID.MacOSX)
+	if(!IsRunningOnWindows() && System.Environment.OSVersion.Platform != System.PlatformID.MacOSX)
 	{
 		msBuildSettings.ToolPath = new FilePath(@"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll");//hack for Linux bug - missing MSBuild path
 	}
