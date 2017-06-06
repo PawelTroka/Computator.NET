@@ -1,8 +1,8 @@
 var monos = new[]{
-                //"nightly",
+                "nightly",
                 //"weekly",
-                ////"alpha",
-                ////"beta",
+                "alpha",
+                "beta",
                 //"latest",
                 "5.0.1",
                 "5.0.0",
