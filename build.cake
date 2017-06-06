@@ -24,9 +24,8 @@ if (type != null)
 	if (displayName != null)
 		monoVersion = displayName.Invoke(null, null).ToString();
 }
-var isMonoButSupportsMsBuild = monoVersion!=null && (monoVersion.Contains("5.0.0")||monoVersion.Contains("5.0.1")||monoVersion.Contains("5.2.0"));
-if(isMonoButSupportsMsBuild)
-	monoVersionShort = monoVersion.Contains("5.2.0") ? "5.2.0" : (monoVersion.Contains("5.0.1") ? "5.0.1" : "5.0.0");
+
+var isMonoButSupportsMsBuild = monoVersion!=null && System.Text.RegularExpressions.Regex.IsMatch(monoVersion,@"([5-9]|\d{2,})\.\d+\.\d+(\.\d+)?");
 
 
 
