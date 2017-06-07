@@ -70,7 +70,6 @@ var msBuildSettings = new MSBuildSettings {
 		  );//hack for Linux and Mac OS X bug - missing MSBuild path	
 	}
 
-
 var xBuildSettings = new XBuildSettings {
 	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
     Verbosity = Verbosity.Minimal,
@@ -78,6 +77,22 @@ var xBuildSettings = new XBuildSettings {
     Configuration = configuration,
     //PlatformTarget = PlatformTarget.MSIL,
     };
+
+var monoEnvVars = new Dictionary<string,string>() { {"DISPLAY", "99.0"},{"MONO_WINFORMS_XIM_STYLE", "disabled"} };
+
+if(!IsRunningOnWindows())
+{
+	if(msBuildSettings.EnvironmentVariables==null)
+		msBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
+	if(xBuildSettings.EnvironmentVariables==null)
+		xBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
+
+	foreach(var monoEnvVar in monoEnvVars)
+	{
+		msBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
+		xBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
+	}
+}
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -117,23 +132,6 @@ if(dotNetCore=="1")
 	StartProcess("dotnet", "restore "+solution);
 else
 	NuGetRestore("./"+solution);
-	
-var monoEnvVars = new Dictionary<string,string>() { {"DISPLAY", "99.0"},{"MONO_WINFORMS_XIM_STYLE", "disabled"} };
-
-if(!IsRunningOnWindows())
-{
-	if(msBuildSettings.EnvironmentVariables==null)
-		msBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
-	if(xBuildSettings.EnvironmentVariables==null)
-		xBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
-
-	foreach(var monoEnvVar in monoEnvVars)
-	{
-		msBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
-		xBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
-	}
-}
-
 if (travisOsName == "linux")
 {
 	StartProcess("sudo", "apt-get install libgsl2");
