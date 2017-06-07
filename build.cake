@@ -51,8 +51,6 @@ var integrationTestsBinaries = "Computator.NET.IntegrationTests/"+"bin/" + confi
 var unitTestsBinaries = "Computator.NET.Tests/"+"bin/" + configuration+ "/" + netmoniker + "/*Test*.dll";
 var netVersion =  System.Text.RegularExpressions.Regex.Replace(netmoniker.ToLowerInvariant().Replace("net",""), ".{1}", "$0.").TrimEnd('.');
 
-var monoEnvVars = new Dictionary<string,string>() { {"DISPLAY", "99.0"},{"MONO_WINFORMS_XIM_STYLE", "disabled"} };
-
 var msBuildSettings = new MSBuildSettings {
 	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
     Verbosity = Verbosity.Verbose,
@@ -80,15 +78,6 @@ var xBuildSettings = new XBuildSettings {
     Configuration = configuration,
     //PlatformTarget = PlatformTarget.MSIL,
     };
-
-	if(!IsRunningOnWindows())
-	{
-		foreach(var monoEnvVar in monoEnvVars)
-		{
-			msBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
-			xBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
-		}
-	}
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -129,6 +118,22 @@ if(dotNetCore=="1")
 else
 	NuGetRestore("./"+solution);
 	
+var monoEnvVars = new Dictionary<string,string>() { {"DISPLAY", "99.0"},{"MONO_WINFORMS_XIM_STYLE", "disabled"} };
+
+if(!IsRunningOnWindows())
+{
+	if(msBuildSettings.EnvironmentVariables==null)
+		msBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
+	if(xBuildSettings.EnvironmentVariables==null)
+		xBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
+
+	foreach(var monoEnvVar in monoEnvVars)
+	{
+		msBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
+		xBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
+	}
+}
+
 if (travisOsName == "linux")
 {
 	StartProcess("sudo", "apt-get install libgsl2");
