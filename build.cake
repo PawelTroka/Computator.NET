@@ -53,7 +53,7 @@ var netVersion =  System.Text.RegularExpressions.Regex.Replace(netmoniker.ToLowe
 
 var msBuildSettings = new MSBuildSettings {
 	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
-    Verbosity = Verbosity.Verbose,
+    Verbosity = Verbosity.Minimal,
     ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
     Configuration = configuration,
     PlatformTarget = PlatformTarget.MSIL,
