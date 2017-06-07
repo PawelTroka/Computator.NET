@@ -6,6 +6,10 @@
 # Feel free to change this file to fit your needs.
 ##########################################################################
 
+if [ "$TRAVIS_OS_NAME" == "linux" ]; then export DISPLAY=:99.0; fi
+
+export MONO_WINFORMS_XIM_STYLE=disabled
+
 # Define directories.
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TOOLS_DIR=$SCRIPT_DIR/tools
