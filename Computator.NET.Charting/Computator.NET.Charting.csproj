@@ -13,12 +13,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <Optimize>false</Optimize>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants Condition=" '$(OS)' != 'Unix' ">TRACE;DEBUG</DefineConstants>
+    <DefineConstants Condition=" '$(OS)' == 'Unix' ">TRACE;DEBUG;__MonoCS__</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <Optimize>true</Optimize>
+    <DefineConstants Condition=" '$(OS)' == 'Unix' ">__MonoCS__</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -58,5 +60,49 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Chart3D\UI\Chart3DControlMono.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Chart3D\UI\EditChart3DWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Chart3D\UI\EditChart3DWindow.designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Chart3D\UI\UnitsComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ComplexCharting\ComplexChart.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ComplexCharting\EditComplexChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ComplexCharting\EditComplexChartWindow.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="EditChartProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="EditChartProperties.designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="PlotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="PlotForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RealCharting\Chart2D.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="RealCharting\EditChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RealCharting\EditChartWindow.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

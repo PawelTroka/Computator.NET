@@ -52,7 +52,7 @@ var unitTestsBinaries = "Computator.NET.Tests/"+"bin/" + configuration+ "/" + ne
 var netVersion =  System.Text.RegularExpressions.Regex.Replace(netmoniker.ToLowerInvariant().Replace("net",""), ".{1}", "$0.").TrimEnd('.');
 
 var msBuildSettings = new MSBuildSettings {
-	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker + (isMonoButSupportsMsBuild ? @"/p:DefineConstants=""__MonoCS__""" : "")),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
+	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
     Verbosity = Verbosity.Minimal,
     ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
     Configuration = configuration,
