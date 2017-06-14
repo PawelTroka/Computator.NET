@@ -43,6 +43,7 @@ var target = Argument("target", "Default");
 // Define directories.
 var solution = "Computator.NET" + (netmoniker != "net461" ? "."+netmoniker : "") + ".sln";
 var mainProject = "Computator.NET/Computator.NET" + (netmoniker != "net461" ? "."+netmoniker : "") + ".csproj";
+var installerProject = "Computator.NET.Setup/Computator.NET.Setup.csproj";
 var unitTestsProject = "Computator.NET.Tests/Computator.NET.Tests.csproj";
 var integrationTestsProject = "Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj";
 
@@ -238,6 +239,26 @@ Task("Upload-Coverage")
 	});
 
 	Codecov("coverage.xml");
+});
+
+
+Task("Create-Installer")
+	.IsDependentOn("Build")
+	.Does(() =>
+{
+	if(IsRunningOnWindows() || isMonoButSupportsMsBuild)
+	{
+	  // Use MSBuild
+	  //msBuildSettings.ArgumentCustomization=null;
+	  MSBuild(installerProject);
+	  
+	}
+	else
+	{
+	  // Use XBuild
+	  //xBuildSettings.ArgumentCustomization=null;
+	  XBuild(installerProject);
+	}
 });
 
 //////////////////////////////////////////////////////////////////////

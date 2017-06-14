@@ -33,6 +33,9 @@ build_script:
 after_test:
   - build.cmd -Target Upload-Coverage
 
+after_build:
+  - build.cmd -Target Create-Installer
+
 notifications:
 - provider: GitHubPullRequest
   on_build_success: true

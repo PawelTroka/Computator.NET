@@ -199,3 +199,4 @@ ModelManifest.xml
 tools/*
 !tools/packages.config
 /coverage.xml
+/Computator.NET.Setup/wix
