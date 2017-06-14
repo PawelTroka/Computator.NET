@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
-using Microsoft.Deployment.WindowsInstaller;
+//using Microsoft.Deployment.WindowsInstaller;
 using WixSharp;
 using WixSharp.Bootstrapper;
 using Assembly = System.Reflection.Assembly;
@@ -30,10 +30,10 @@ namespace Computator.NET.Setup
     {
         public static bool IsPatchAlreadyInstalled(string productCode, string patchCode)
         {
-            var patches =
-                PatchInstallation.GetPatches(null, productCode, null, UserContexts.Machine, PatchStates.Applied);
+            //var patches =
+                //PatchInstallation.GetPatches(null, productCode, null, UserContexts.Machine, PatchStates.Applied);
 
-            return patches.Any(patch => patch.DisplayName == patchCode);
+            return true;//patches.Any(patch => patch.DisplayName == patchCode);
         }
         static void Main()
         {
