@@ -246,18 +246,23 @@ Task("Create-Installer")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	if(IsRunningOnWindows() || isMonoButSupportsMsBuild)
+	if(IsRunningOnWindows())
 	{
 	  // Use MSBuild
 	  //msBuildSettings.ArgumentCustomization=null;
-	  MSBuild(installerProject);
-	  
+	  MSBuild(installerProject, new MSBuildSettings
+	  {
+		Verbosity = Verbosity.Minimal,
+		ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
+		Configuration = configuration,
+		PlatformTarget = PlatformTarget.MSIL,
+		MSBuildPlatform = MSBuildPlatform.Automatic,
+		DetailedSummary = true,
+	  });
 	}
 	else
 	{
-	  // Use XBuild
-	  //xBuildSettings.ArgumentCustomization=null;
-	  XBuild(installerProject);
+		//TODO: create Unix specific installer
 	}
 });
 

@@ -22,7 +22,7 @@ namespace Computator.NET.Setup
 #if DEBUG
         public const string OutDir = @"bin\Debug";
 #else
-        public const string OutDir = @"bin\Release",
+        public const string OutDir = @"bin\Release";
 #endif
     }
 
