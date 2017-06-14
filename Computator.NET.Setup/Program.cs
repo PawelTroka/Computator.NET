@@ -82,7 +82,7 @@ namespace Computator.NET.Setup
         static string BuildMsi()
         {
             var project = new Project("Computator.NET",
-                new Dir(@"%ProgramFiles%\Computator.NET", new Files($@"..\Computator.NET\bin\Release\*.*"))
+                new Dir(@"%ProgramFiles%\Computator.NET", new Files($@"..\Computator.NET\{SharedProperties.OutDir}\*.*"))
             )
             {
                 Version = new Version(SharedProperties.Version),
