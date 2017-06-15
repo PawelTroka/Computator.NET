@@ -409,20 +409,7 @@ namespace Computator.NET.Charting.Controls
 
         private void editChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var editChartWindow = new Form();
-            if (currentChart is Chart2D)
-                editChartWindow = new EditChartWindow(chart2d);
-            else if (currentChart is ComplexChart)
-                editChartWindow = new EditComplexChartWindow(complexChart);
-
-            else if (currentChart is Chart3DControl)
-#if __MonoCS__
-                editChartWindow.Controls.Add(new Label() {Dock = DockStyle.Fill,Text = Strings.Chart3D_is_not_supported_on_Mono,Font = new Font(FontFamily.GenericSansSerif, 20)});
-#else
-                editChartWindow = new Chart3D.UI.EditChartWindow(chart3d, elementHostChart3d);
-#endif
-
-                editChartWindow.ShowDialog();
+            currentChart.ShowEditDialog();
         }
 
         private void ExportChartExportToolStripMenuItemClick(object sender, EventArgs e)

@@ -109,7 +109,7 @@
             0,
             0,
             131072});
-            resources.ApplyResources(this.scaleNumericUpDown, "scaleNumericUpDown");
+            resources.ApplyResources(this.scaleNumericUpDown, "scaleNumericUpDown");//TODO: error - resolve
             this.scaleNumericUpDown.Maximum = new decimal(new int[] {
             2,
             0,
