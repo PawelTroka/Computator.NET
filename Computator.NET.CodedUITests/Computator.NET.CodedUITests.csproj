@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <TargetFramework>net461</TargetFramework>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>

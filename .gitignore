@@ -200,3 +200,4 @@ tools/*
 !tools/packages.config
 /coverage.xml
 /Computator.NET.Setup/wix
+/.vs/config/applicationhost.config
