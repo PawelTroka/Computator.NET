@@ -13,7 +13,7 @@ using Point = System.Windows.Point;
 
 namespace Computator.NET.Charting.Chart3D.UI
 {
-    public partial class EditChartWindow : Form
+    public partial class EditChart3DWindow : Form
     {
 #if !__MonoCS__
         private readonly Chart3DControl chart3d;
@@ -24,7 +24,7 @@ namespace Computator.NET.Charting.Chart3D.UI
         private Font font;
         private bool fontChanged;
 
-        public EditChartWindow(Chart3DControl chart3d, ElementHost elementHost)
+        public EditChart3DWindow(Chart3DControl chart3d, ElementHost elementHost)
         {
             InitializeComponent();
             this.chart3d = chart3d;

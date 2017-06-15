@@ -724,7 +724,7 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         public void ShowEditDialog()
         {
-            var editChartWindow = new Charting.Chart3D.UI.EditChartWindow(this, this.ParentControl);
+            var editChartWindow = new Charting.Chart3D.UI.EditChart3DWindow(this, this.ParentControl);
             editChartWindow.ShowDialog();
         }
     }

@@ -1,7 +1,7 @@
 ﻿namespace Computator.NET.Charting.Chart3D.UI
 {
 #if !__MonoCS__
-    partial class EditChartWindow
+    partial class EditChart3DWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditChartWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditChart3DWindow));
             this.scaleNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -109,7 +109,7 @@
             0,
             0,
             131072});
-            resources.ApplyResources(this.scaleNumericUpDown, "scaleNumericUpDown");//TODO: error - resolve
+            resources.ApplyResources(this.scaleNumericUpDown, "scaleNumericUpDown");
             this.scaleNumericUpDown.Maximum = new decimal(new int[] {
             2,
             0,
@@ -688,7 +688,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "EditChartWindow";
+            this.Name = "EditChart3DWindow";
             this.ShowInTaskbar = false;
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeNumericUpDown)).EndInit();
