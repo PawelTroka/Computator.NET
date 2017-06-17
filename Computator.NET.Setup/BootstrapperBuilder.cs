@@ -4,32 +4,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.Deployment.WindowsInstaller;
+using Microsoft.Win32;
+using WixSharp;
 using WixSharp.Bootstrapper;
 
 namespace Computator.NET.Setup
 {
     public class BootstrapperBuilder
     {
-        public static bool IsPatchAlreadyInstalled(string productCode, string patchCode)
-        {
-            var patches =
-                PatchInstallation.GetPatches(null, productCode, null, UserContexts.Machine, PatchStates.Applied);
 
-            return patches.Any(patch => patch.DisplayName == patchCode);
-        }
         public void Build()
         {
             var projectBuilder = new ProjectBuilder();
             var productMsi = projectBuilder.BuildMsi();
+            
 
-            IsPatchAlreadyInstalled("{F5B09CFD-F0B2-36AF-8DF4-1DF6B63FC7B4}",
-                "KB2468871"); // .NET Framework 4 Client Profile 64-bit
-            IsPatchAlreadyInstalled("{8E34682C-8118-31F1-BC4C-98CD9675E1C2}",
-                "KB2468871"); // .NET Framework 4 Extended 64-bit
-            IsPatchAlreadyInstalled("{3C3901C5-3455-3E0A-A214-0B093A5070A6}",
-                "KB2468871"); // .NET Framework 4 Client Profile 32-bit
-            IsPatchAlreadyInstalled("{0A0CADCF-78DA-33C4-A350-CD51849B9702}",
-                "KB2468871"); // .NET Framework 4 Extended 32-bit
 
             var bootstrapper =
                 new Bundle("Computator.NET",
@@ -50,9 +39,15 @@ namespace Computator.NET.Setup
                         LicensePath = SharedProperties.License
                     }
                 };
-            
+
+            if (projectBuilder.CurrentHighestVersion.RealVersion == new Version(4, 0))
+            {
+                var patchesForNet40 = new PatchKnowledgeBase2468871().Build();
+                bootstrapper.Chain.InsertRange(1,patchesForNet40.Select(v => v.Package));
+            }
+
             //bootstrapper.SplashScreenSource = @"..\Graphics\computator.net-icon.png";//@"..\Graphics\Installer\InstallShield Computator.NET Theme\setup.gif";          
-            // bootstrapper.PreserveTempFiles = true;
+            //bootstrapper.PreserveTempFiles = true;
 
             bootstrapper.Build(Path.Combine(SharedProperties.OutDir, "Computator.NET.Setup.exe"));
         }
