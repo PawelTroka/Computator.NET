@@ -20,10 +20,7 @@ namespace Computator.NET.Setup
             if(netVersion.RealVersion <= new Version(4,0))
                 return new Prerequisite(){ErrorMessage = errorMessage,WixPrerequisite = "NETFRAMEWORK40FULL='#1'" };
             
-            if(netVersion.RealVersion == new Version(4,6,1))
-                return new Prerequisite(){ErrorMessage = errorMessage,WixPrerequisite = "WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED >= '#394254'" };
-
-            return new Prerequisite(){ErrorMessage = errorMessage,WixPrerequisite = $"WIX_IS_NETFRAMEWORK_{netVersion.DisplayVersion.Replace(".",string.Empty)}_OR_LATER_INSTALLED='#1'" };
+            return new Prerequisite(){ErrorMessage = errorMessage,WixPrerequisite = $"WIX_IS_NETFRAMEWORK_{netVersion.DisplayVersion.Replace(".",string.Empty)}_OR_LATER_INSTALLED" };
         }
 
         public static string GetPackegeRef(NetVersion netVersion)
