@@ -10,7 +10,7 @@ namespace Computator.NET.Setup
     {
         public const string UpgradeCode = "86D89770-B31B-4467-BC5E-B54B0FF263A1";
         public const string IconLocation = @"..\Graphics\computator.net-icon.ico";
-        public static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(4);
+        public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
         public const string SetupGif = @"..\Graphics\Installer\InstallShield Computator.NET Theme\setup.gif";
         public const string Logo = @"..\Graphics\computator.net-icon.png";
         public const string TslIcon = @"..\Graphics\tsl.ico";

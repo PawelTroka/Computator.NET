@@ -26,7 +26,7 @@ namespace Computator.NET.Setup
                 {
                     IconFile = SharedProperties.IconLocation,
                     DisableModify = "yes",
-                    Version = new Version(SharedProperties.Version),
+                    Version = SharedProperties.Version,
                     UpgradeCode = new Guid(SharedProperties.UpgradeCode),
                     HelpUrl = SharedProperties.HelpUrl,
                     AboutUrl = SharedProperties.AboutUrl,

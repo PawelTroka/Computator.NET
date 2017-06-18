@@ -35,7 +35,7 @@ namespace Computator.NET.Setup
                                   f.EndsWith(".otf", StringComparison.OrdinalIgnoreCase)
                 }))
             {
-                Version = new Version(SharedProperties.Version),
+                Version = SharedProperties.Version,
                 GUID = new Guid(SharedProperties.UpgradeCode),
                 UpgradeCode = new Guid(SharedProperties.UpgradeCode),
                 ProductId = Guid.NewGuid(),
