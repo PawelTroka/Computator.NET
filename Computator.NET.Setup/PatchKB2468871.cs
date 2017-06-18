@@ -9,11 +9,6 @@ using WixSharp.Bootstrapper;
 
 namespace Computator.NET.Setup
 {
-    class ExePackageWithRegCondition
-    {
-        public RegValueProperty RegCondition { get; set; }
-        public ExePackage Package { get; set; } 
-    }
     /// <summary>
     /// Microsoft .NET Framework 4 KB2468871
     /// Update to .NET Framework 4.
@@ -33,20 +28,40 @@ namespace Computator.NET.Setup
 
             return patches.Any(patch => patch.DisplayName == patchCode);
         }
+        
+        private ExePackage _kb2468871X64Package;
+        private ExePackage _kb2468871X86Package;
 
-        RegValueProperty KB2468871x64Installed;
-        RegValueProperty KB2468871x86Installed;
-        private ExePackage KB2468871x64Package;
-        private ExePackage KB2468871x86Package;
-
-        public ExePackageWithRegCondition[] Build()
+        public ExePackage[] Build(Bundle bootstrapper)
         {
-            KB2468871x64Installed = new RegValueProperty(nameof(KB2468871x64Installed), RegistryHive.LocalMachine, @"SOFTWARE\Microsoft\Updates\Microsoft .NET Framework 4 Extended\KB2468871", "", "0") { Win64 = true };
-            KB2468871x86Installed = new RegValueProperty(nameof(KB2468871x86Installed), RegistryHive.LocalMachine, @"SOFTWARE\Microsoft\Updates\Microsoft .NET Framework 4 Extended\KB2468871", "", "0") { Win64 = false };
+            const string variableNameForX86 = "KB2468871x86Installed";
+            const string variableNameForX64 = "KB2468871x64Installed";
+
+            bootstrapper.IncludeWixExtension(WixExtension.Util);
+
+            var kb468871X86RegistrySearch = new UtilRegistrySearch
+            {
+                Root = RegistryHive.LocalMachine,
+                Key = @"SOFTWARE\Microsoft\Updates\Microsoft .NET Framework 4 Extended\KB2468871",
+                Result = SearchResult.exists,
+                Format = SearchFormat.raw,
+                Win64 = false,
+                Variable = variableNameForX86,
+            };
+            var kb2468871X64RegistrySearch = new UtilRegistrySearch
+            {
+                Root = RegistryHive.LocalMachine,
+                Key = @"SOFTWARE\Microsoft\Updates\Microsoft .NET Framework 4 Extended\KB2468871",//SOFTWARE\wow6432node\Microsoft\Updates\Microsoft .NET Framework 4 Extended\KB2468871
+                Result = SearchResult.exists,
+                Format = SearchFormat.raw,
+                Win64 = true,
+                Variable = variableNameForX64,
+            };
+            bootstrapper.AddWixFragment("Wix/Bundle", kb468871X86RegistrySearch, kb2468871X64RegistrySearch);
 
             //TODO: those packages binaries should not be included in repo
             //DownloadUrl should make it downloadable from web during build time
-            KB2468871x64Package = new ExePackage(@"..\redist\NDP40-KB2468871-v2-x64.exe")
+            _kb2468871X64Package = new ExePackage(@"..\redist\NDP40-KB2468871-v2-x64.exe")
             {
                 Description =
                     "This prerequisite installs the .NET Framework 4.0 full profile update provided in Microsoft KB article 2468871.",
@@ -60,11 +75,11 @@ namespace Computator.NET.Setup
                 Permanent = true,
                 //ExitCodes = new List<ExitCode>() { new ExitCode(){Value = "1641",Behavior = BehaviorValues.scheduleReboot}, new ExitCode() { Value = "3010", Behavior = BehaviorValues.scheduleReboot } },
                 InstallCommand = "/q /norestart",
-                DetectCondition = $"{nameof(KB2468871x64Installed)} OR VersionNT64 >= 600",
-                InstallCondition = $"VersionNT64 < 600 AND (NOT {nameof(KB2468871x64Installed)})",
+                DetectCondition = $"({variableNameForX64}) OR (VersionNT64 >= v6.0)",
+                InstallCondition = $"(VersionNT64 < v6.0) AND (NOT {variableNameForX64})",
             };
 
-            KB2468871x86Package = new ExePackage(@"..\redist\NDP40-KB2468871-v2-x86.exe")
+            _kb2468871X86Package = new ExePackage(@"..\redist\NDP40-KB2468871-v2-x86.exe")
             {
                 Description =
                     "This prerequisite installs the .NET Framework 4.0 full profile update provided in Microsoft KB article 2468871.",
@@ -78,14 +93,14 @@ namespace Computator.NET.Setup
                 Permanent = true,
                 //ExitCodes = new List<ExitCode>() { new ExitCode(){Value = "1641",Behavior = BehaviorValues.scheduleReboot}, new ExitCode() { Value = "3010", Behavior = BehaviorValues.scheduleReboot } },
                 InstallCommand = "/q /norestart",
-                DetectCondition = $"{nameof(KB2468871x86Installed)} OR VersionNT >= 600",
-                InstallCondition = $"VersionNT < 600 AND (NOT {nameof(KB2468871x86Installed)}) AND (NOT VersionNT64)",
+                DetectCondition = $"({variableNameForX86}) OR (VersionNT >= v6.0)",
+                InstallCondition = $"(VersionNT < v6.0) AND (NOT {variableNameForX86}) AND (NOT VersionNT64)",
             };
 
             return new[]
             {
-                new ExePackageWithRegCondition() {RegCondition = KB2468871x64Installed,Package = KB2468871x64Package},
-                new ExePackageWithRegCondition() {RegCondition = KB2468871x86Installed, Package = KB2468871x86Package}, 
+                _kb2468871X64Package,
+                _kb2468871X86Package, 
             };
         }
 

@@ -14,6 +14,7 @@ namespace Computator.NET.Setup
     {
         public static Prerequisite GetPrerequisite(NetVersion netVersion)
         {
+            Console.WriteLine($"Getting .NET prerequisite for .NET version {netVersion.DisplayVersion}");
             var errorMessage = $"requires .NET Framework {netVersion.DisplayVersion} or higher.";
 
             if(netVersion.RealVersion <= new Version(4,0))

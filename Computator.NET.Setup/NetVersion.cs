@@ -19,8 +19,8 @@ namespace Computator.NET.Setup
 
                 if (attribute?.FrameworkName != null)
                 {
-                    Console.WriteLine(attribute.FrameworkName);
                     var displayVersion = Regex.Replace(attribute.FrameworkName, @"(\d+.\d+(?:.\d+)?)", "$1");
+                    Console.WriteLine($"Assembly '{assemblyPath}' is compiled against .NET version '{displayVersion}'");
                     return new NetVersion()
                     {
                         DisplayVersion = displayVersion,
@@ -29,9 +29,9 @@ namespace Computator.NET.Setup
 
                 }
             }
-            catch
+            catch(Exception exception)
             {
-                //ignored
+                Console.WriteLine($"Exception occured while processing assembly '{assemblyPath}' - details: '{exception.Message}'");
             }
             return new NetVersion() { DisplayVersion = "0.0.0", RealVersion = new Version("0.0.0") };
         }

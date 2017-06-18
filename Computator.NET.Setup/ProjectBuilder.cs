@@ -12,18 +12,17 @@ namespace Computator.NET.Setup
         public string BuildMsi()
         {
             var binariesPath = $@"..\Computator.NET\{SharedProperties.OutDir}\*.*";
-
+            Console.WriteLine($"Analyzing binaries from path '{binariesPath}'");
 
             var assemblies = System.IO.Directory.GetFiles(binariesPath.Replace("*.*", string.Empty)).Where(f => f.EndsWith(".exe") || f.EndsWith(".dll"));
-
-
+            
             foreach (var assembly in assemblies)
             {
                 var version = NetVersion.FromAssembly(assembly);
                 if (version.RealVersion > CurrentHighestVersion.RealVersion)
                     CurrentHighestVersion = version;
             }
-
+            Console.WriteLine($"Highest .NET version among included assemblies is '{CurrentHighestVersion.DisplayVersion}'");
 
             var project = new Project("Computator.NET",
                 new Dir(@"%ProgramFiles%\Computator.NET", new Files(binariesPath), new File(new Id(nameof(SharedProperties.TslIcon)), SharedProperties.TslIcon)),
@@ -75,15 +74,21 @@ namespace Computator.NET.Setup
             };
 
             var prerequisite = PrerequisiteHelper.GetPrerequisite(CurrentHighestVersion);
+            Console.WriteLine($"Setting required NetFx {nameof(prerequisite)} '{prerequisite.WixPrerequisite}'");
             project.SetNetFxPrerequisite(prerequisite.WixPrerequisite, prerequisite.ErrorMessage);
 
             var mainExe = project.ResolveWildCards().FindFile((f) => f.Name.EndsWith("Computator.NET.exe")).Single();
+            Console.WriteLine($"Main executable is '{mainExe.ToString()}'");
+
+            Console.WriteLine("Setting shortcuts..");
             mainExe.Shortcuts = new[]
             {
                 //new FileShortcut("Computator.NET", "INSTALLDIR"){IconFile = SharedProperties.IconLocation},
                 new FileShortcut("Computator.NET", "%Desktop%"){IconFile = SharedProperties.IconLocation},
                 new FileShortcut("Computator.NET",@"%ProgramMenu%"){IconFile = SharedProperties.IconLocation},
             };
+
+            Console.WriteLine("Setting files associations..");
             mainExe.Associations = new[]
             {
                 new FileAssociation("tsl") { Icon = nameof(SharedProperties.TslIcon), Description = "TROKA Scripting Language script file", ContentType = @"text/tsl" },
@@ -97,7 +102,7 @@ namespace Computator.NET.Setup
             //Compiler.WixLocation
             //project.SourceBaseDir = "<input dir path>";
             //project.OutDir = "<output dir path>";
-
+            Console.WriteLine("Building main project...");
             return project.BuildMsi();
         }
     }
