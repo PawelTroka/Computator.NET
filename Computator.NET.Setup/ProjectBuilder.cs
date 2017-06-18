@@ -24,16 +24,12 @@ namespace Computator.NET.Setup
             }
             Console.WriteLine($"Highest .NET version among included assemblies is '{CurrentHighestVersion.DisplayVersion}'");
 
+
+
             var project = new Project("Computator.NET",
                 new Dir(@"%ProgramFiles%\Computator.NET", new Files(binariesPath), new File(new Id(nameof(SharedProperties.TslIcon)), SharedProperties.TslIcon)),
                 //new Dir("%Fonts%", new FontFile(@"..\Computator.NET.Core\Static\fonts\*.*")),
-                new Dir("%Fonts%", new Files(@"..\Computator.NET.Core\Static\fonts\*.*")
-                {
-                    AttributesDefinition = "TrueType=yes",
-                    Filter = f => f.EndsWith(".ttc", StringComparison.OrdinalIgnoreCase) ||
-                                  f.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) ||
-                                  f.EndsWith(".otf", StringComparison.OrdinalIgnoreCase)
-                }))
+                new Dir("%Fonts%", Fonts.GetFontFiles()))
             {
                 Version = SharedProperties.Version,
                 GUID = new Guid(SharedProperties.UpgradeCode),
