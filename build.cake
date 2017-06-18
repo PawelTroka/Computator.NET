@@ -137,7 +137,14 @@ if (travisOsName == "linux")
 {
 	StartProcess("sudo", "apt-get install libgsl2");
 	System.Environment.SetEnvironmentVariable("DISPLAY", "99.0", System.EnvironmentVariableTarget.Process);//StartProcess("export", "DISPLAY=:99.0");
-	StartProcess("sh", "-e /etc/init.d/xvfb start");
+	
+	var xvfvProcessSettings = new ProcessSettings() { Arguments="-e /etc/init.d/xvfb start" };
+	if(xvfvProcessSettings.EnvironmentVariables==null)
+		xvfvProcessSettings.EnvironmentVariables=new Dictionary<string,string>();
+	foreach(var envVar in monoEnvVars)
+		xvfvProcessSettings.EnvironmentVariables.Add(envVar.Key, envVar.Value);
+	StartProcess("sh", xvfvProcessSettings);// alternative: "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+	
 	System.Environment.SetEnvironmentVariable("DISPLAY", "99.0", System.EnvironmentVariableTarget.Process);//StartProcess("export", "DISPLAY=:99.0");
 	StartProcess("sleep", "3");//give xvfb some time to start
 }
