@@ -69,7 +69,8 @@ namespace Computator.NET.Setup
                     Disallow = false,
                     DowngradeErrorMessage =
                         "A later version of [ProductName] is already installed. Setup will now exit.",
-                    IgnoreRemoveFailure = true
+                    IgnoreRemoveFailure = true,
+                    Schedule = UpgradeSchedule.afterInstallInitialize,
                 },
             };
 

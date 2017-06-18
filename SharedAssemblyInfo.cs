@@ -35,6 +35,6 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 
 [assembly: AssemblyVersion("2.2.3.0")] 
-//The AssemblyFileVersion is optional. If not given, the AssemblyVersion is used.
-//[assembly: AssemblyFileVersion("2.2.0.0")]
+[assembly: AssemblyFileVersion("2.3.0.0")]
+
 [assembly: NeutralResourcesLanguage("en")]
