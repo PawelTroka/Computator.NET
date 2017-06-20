@@ -346,9 +346,6 @@
     <EmbeddedResource Include="Dialogs\AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\CustomFunctionsView.resx">
-      <DependentUpon>CustomFunctionsView.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
