@@ -45,7 +45,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants Condition=" '$(OS)' != 'Unix' ">TRACE;DEBUG</DefineConstants>
+	<DefineConstants Condition=" '$(OS)' == 'Unix' ">TRACE;DEBUG;__MonoCS__</DefineConstants>
     <DebugType>full</DebugType>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -53,8 +54,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\Release\</OutputPath>
     <Optimize>true</Optimize>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants Condition=" '$(OS)' == 'Unix' ">__MonoCS__</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <FileAlignment>512</FileAlignment>
