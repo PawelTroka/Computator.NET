@@ -28,21 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartingView));
             this.panel2 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // panel2
             // 
-            resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.AutoSize = true;
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(556, 437);
+            this.panel2.TabIndex = 5;
             // 
             // ChartingView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            resources.ApplyResources(this, "$this");
+            this.AutoSize = true;
             this.Controls.Add(this.panel2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ChartingView";
+            this.Size = new System.Drawing.Size(556, 437);
             this.ResumeLayout(false);
             this.PerformLayout();
 

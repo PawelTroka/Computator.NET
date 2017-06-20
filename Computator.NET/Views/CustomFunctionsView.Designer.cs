@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomFunctionsView));
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.SuspendLayout();
@@ -36,16 +35,23 @@
             // 
             // splitContainer3
             // 
-            resources.ApplyResources(this.splitContainer3, "splitContainer3");
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Size = new System.Drawing.Size(556, 397);
+            this.splitContainer3.SplitterDistance = 416;
+            this.splitContainer3.SplitterWidth = 2;
+            this.splitContainer3.TabIndex = 1;
             // 
             // CustomFunctionsView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.Controls.Add(this.splitContainer3);
-            resources.ApplyResources(this, "$this");
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "CustomFunctionsView";
+            this.Size = new System.Drawing.Size(556, 397);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.ResumeLayout(false);

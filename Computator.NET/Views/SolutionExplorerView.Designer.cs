@@ -30,26 +30,40 @@ namespace Computator.NET.Views
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SolutionExplorerView));
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("_Scripts");
             this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.directoryBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.scriptingDirectoryTree = new DirectoryTree();
+            this.scriptingDirectoryTree = new Computator.NET.Controls.DirectoryTree();
             this.SuspendLayout();
             // 
             // openScriptingDirectoryButton
             // 
-            resources.ApplyResources(this.openScriptingDirectoryButton, "openScriptingDirectoryButton");
+            this.openScriptingDirectoryButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.openScriptingDirectoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
+            this.openScriptingDirectoryButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.openScriptingDirectoryButton.Location = new System.Drawing.Point(0, 0);
+            this.openScriptingDirectoryButton.Margin = new System.Windows.Forms.Padding(2);
             this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
+            this.openScriptingDirectoryButton.Size = new System.Drawing.Size(182, 46);
+            this.openScriptingDirectoryButton.TabIndex = 5;
+            this.openScriptingDirectoryButton.Text = DataTypes.Localization.Views.SolutionExplorerView.openScriptingDirectoryButton_Text;
             this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
             // 
             // scriptingDirectoryTree
             // 
             this.scriptingDirectoryTree.CodeEditorWrapper = null;
-            resources.ApplyResources(this.scriptingDirectoryTree, "scriptingDirectoryTree");
+            this.scriptingDirectoryTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scriptingDirectoryTree.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.scriptingDirectoryTree.Location = new System.Drawing.Point(0, 46);
+            this.scriptingDirectoryTree.Margin = new System.Windows.Forms.Padding(2);
             this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
+            treeNode1.Name = "";
+            treeNode1.Text = "_Scripts";
             this.scriptingDirectoryTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("scriptingDirectoryTree.Nodes")))});
+            treeNode1});
             this.scriptingDirectoryTree.Path = null;
+            this.scriptingDirectoryTree.Size = new System.Drawing.Size(182, 350);
+            this.scriptingDirectoryTree.TabIndex = 6;
             // 
             // SolutionExplorerView
             // 
@@ -57,7 +71,7 @@ namespace Computator.NET.Views
             this.Controls.Add(this.scriptingDirectoryTree);
             this.Controls.Add(this.openScriptingDirectoryButton);
             this.Name = "SolutionExplorerView";
-            resources.ApplyResources(this, "$this");
+            this.Size = new System.Drawing.Size(182, 396);
             this.ResumeLayout(false);
 
         }

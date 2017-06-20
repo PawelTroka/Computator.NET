@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Computator.NET.Core.Properties;
 
 namespace Computator.NET.Views
 {
@@ -62,18 +63,21 @@ namespace Computator.NET.Views
             this.toolStripStatusLabel1,
             this.XYRatioToolStripStatusLabel,
             this.modeToolStripDropDownButton});
-            resources.ApplyResources(this.statusStrip1, "statusStrip1");
+            this.statusStrip1.Location = new System.Drawing.Point(0, 764);
             this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1005, 26);
+            this.statusStrip1.TabIndex = 5;
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 21);
             // 
             // XYRatioToolStripStatusLabel
             // 
             this.XYRatioToolStripStatusLabel.Name = "XYRatioToolStripStatusLabel";
-            resources.ApplyResources(this.XYRatioToolStripStatusLabel, "XYRatioToolStripStatusLabel");
+            this.XYRatioToolStripStatusLabel.Size = new System.Drawing.Size(0, 21);
             // 
             // modeToolStripDropDownButton
             // 
@@ -82,23 +86,29 @@ namespace Computator.NET.Views
             this.dd212ToolStripMenuItem,
             this.fdsfdsToolStripMenuItem,
             this.mode3DFxyToolStripMenuItem});
-            resources.ApplyResources(this.modeToolStripDropDownButton, "modeToolStripDropDownButton");
+            this.modeToolStripDropDownButton.Image = DataTypes.Localization.Views.MainView.modeToolStripDropDownButton_Image;
+            this.modeToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.modeToolStripDropDownButton.Name = "modeToolStripDropDownButton";
+            this.modeToolStripDropDownButton.Size = new System.Drawing.Size(134, 24);
+            this.modeToolStripDropDownButton.Text = "Mode[Real : f(x)]";
             // 
             // dd212ToolStripMenuItem
             // 
             this.dd212ToolStripMenuItem.Name = "dd212ToolStripMenuItem";
-            resources.ApplyResources(this.dd212ToolStripMenuItem, "dd212ToolStripMenuItem");
+            this.dd212ToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.dd212ToolStripMenuItem.Text = "Real : f(x)";
             // 
             // fdsfdsToolStripMenuItem
             // 
             this.fdsfdsToolStripMenuItem.Name = "fdsfdsToolStripMenuItem";
-            resources.ApplyResources(this.fdsfdsToolStripMenuItem, "fdsfdsToolStripMenuItem");
+            this.fdsfdsToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.fdsfdsToolStripMenuItem.Text = "Complex : f(z)";
             // 
             // mode3DFxyToolStripMenuItem
             // 
             this.mode3DFxyToolStripMenuItem.Name = "mode3DFxyToolStripMenuItem";
-            resources.ApplyResources(this.mode3DFxyToolStripMenuItem, "mode3DFxyToolStripMenuItem");
+            this.mode3DFxyToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.mode3DFxyToolStripMenuItem.Text = "3D : f(x,y)";
             // 
             // tabControl1
             // 
@@ -108,84 +118,132 @@ namespace Computator.NET.Views
             this.tabControl1.Controls.Add(this.symbolicCalculationsTabPage);
             this.tabControl1.Controls.Add(this.scriptingTabPage);
             this.tabControl1.Controls.Add(this.customFunctionsTabPage);
-            resources.ApplyResources(this.tabControl1, "tabControl1");
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1005, 764);
+            this.tabControl1.TabIndex = 4;
             // 
             // chartingTabPage
             // 
-            resources.ApplyResources(this.chartingTabPage, "chartingTabPage");
+            this.chartingTabPage.Location = new System.Drawing.Point(4, 29);
+            this.chartingTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chartingTabPage.Name = "chartingTabPage";
+            this.chartingTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chartingTabPage.Size = new System.Drawing.Size(997, 731);
+            this.chartingTabPage.TabIndex = 0;
+            this.chartingTabPage.Text = DataTypes.Localization.Views.MainView.chartingTabPage_Text;
             this.chartingTabPage.UseVisualStyleBackColor = true;
             // 
             // calculationsTabPage
             // 
-            resources.ApplyResources(this.calculationsTabPage, "calculationsTabPage");
+            this.calculationsTabPage.Location = new System.Drawing.Point(4, 29);
+            this.calculationsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.calculationsTabPage.Name = "calculationsTabPage";
+            this.calculationsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.calculationsTabPage.Size = new System.Drawing.Size(997, 730);
+            this.calculationsTabPage.TabIndex = 1;
+            this.calculationsTabPage.Text = DataTypes.Localization.Views.MainView.calculationsTabPage_Text;
             this.calculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // numericalCalculationsTabPage
             // 
-            resources.ApplyResources(this.numericalCalculationsTabPage, "numericalCalculationsTabPage");
+            this.numericalCalculationsTabPage.Location = new System.Drawing.Point(4, 29);
+            this.numericalCalculationsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericalCalculationsTabPage.Name = "numericalCalculationsTabPage";
+            this.numericalCalculationsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.numericalCalculationsTabPage.Size = new System.Drawing.Size(997, 730);
+            this.numericalCalculationsTabPage.TabIndex = 2;
+            this.numericalCalculationsTabPage.Text = DataTypes.Localization.Views.MainView.numericalCalculationsTabPage_Text;
             this.numericalCalculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // symbolicCalculationsTabPage
             // 
             this.symbolicCalculationsTabPage.Controls.Add(this.symbolicOperationButton);
-            resources.ApplyResources(this.symbolicCalculationsTabPage, "symbolicCalculationsTabPage");
+            this.symbolicCalculationsTabPage.Location = new System.Drawing.Point(4, 29);
+            this.symbolicCalculationsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.symbolicCalculationsTabPage.Name = "symbolicCalculationsTabPage";
+            this.symbolicCalculationsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.symbolicCalculationsTabPage.Size = new System.Drawing.Size(997, 730);
+            this.symbolicCalculationsTabPage.TabIndex = 3;
+            this.symbolicCalculationsTabPage.Text = DataTypes.Localization.Views.MainView.symbolicCalculationsTabPage_Text;
             this.symbolicCalculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // symbolicOperationButton
             // 
-            resources.ApplyResources(this.symbolicOperationButton, "symbolicOperationButton");
+            this.symbolicOperationButton.Enabled = false;
+            this.symbolicOperationButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F);
+            this.symbolicOperationButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.symbolicOperationButton.Location = new System.Drawing.Point(501, 172);
+            this.symbolicOperationButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.symbolicOperationButton.Name = "symbolicOperationButton";
+            this.symbolicOperationButton.Size = new System.Drawing.Size(168, 73);
+            this.symbolicOperationButton.TabIndex = 0;
+            this.symbolicOperationButton.Text = DataTypes.Localization.Views.MainView.symbolicOperationButton_Text;
             this.symbolicOperationButton.UseVisualStyleBackColor = true;
             // 
             // scriptingTabPage
             // 
-            resources.ApplyResources(this.scriptingTabPage, "scriptingTabPage");
+            this.scriptingTabPage.Location = new System.Drawing.Point(4, 29);
+            this.scriptingTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.scriptingTabPage.Name = "scriptingTabPage";
+            this.scriptingTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.scriptingTabPage.Size = new System.Drawing.Size(997, 730);
+            this.scriptingTabPage.TabIndex = 4;
+            this.scriptingTabPage.Text = DataTypes.Localization.Views.MainView.scriptingTabPage_Text;
             this.scriptingTabPage.UseVisualStyleBackColor = true;
             // 
             // customFunctionsTabPage
             // 
-            resources.ApplyResources(this.customFunctionsTabPage, "customFunctionsTabPage");
+            this.customFunctionsTabPage.Location = new System.Drawing.Point(4, 29);
+            this.customFunctionsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.customFunctionsTabPage.Name = "customFunctionsTabPage";
+            this.customFunctionsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.customFunctionsTabPage.Size = new System.Drawing.Size(997, 730);
+            this.customFunctionsTabPage.TabIndex = 5;
+            this.customFunctionsTabPage.Text = DataTypes.Localization.Views.MainView.customFunctionsTabPage_Text;
             this.customFunctionsTabPage.UseVisualStyleBackColor = true;
             // 
             // openCustomFunctionsFileDialog
             // 
             this.openCustomFunctionsFileDialog.FileName = "custom functions.tslf";
-            resources.ApplyResources(this.openCustomFunctionsFileDialog, "openCustomFunctionsFileDialog");
+            this.openCustomFunctionsFileDialog.Filter = "Troka Scripting Language Functions (*.tslf)|*.tslf";
             this.openCustomFunctionsFileDialog.InitialDirectory = "_CustomFunctions";
             // 
             // saveCustomFunctionsFileDialog
             // 
             this.saveCustomFunctionsFileDialog.FileName = "custom functions.tslf";
-            resources.ApplyResources(this.saveCustomFunctionsFileDialog, "saveCustomFunctionsFileDialog");
+            this.saveCustomFunctionsFileDialog.Filter = "Troka Scripting Language Functions (*.tslf)|*.tslf";
             this.saveCustomFunctionsFileDialog.InitialDirectory = "_CustomFunctions";
             // 
             // openScriptFileDialog
             // 
             this.openScriptFileDialog.FileName = "custom script.tsl";
-            resources.ApplyResources(this.openScriptFileDialog, "openScriptFileDialog");
+            this.openScriptFileDialog.Filter = "Troka Scripting Language (*.tsl)|*.tsl";
             this.openScriptFileDialog.InitialDirectory = "_Scripts";
             // 
             // saveScriptFileDialog
             // 
             this.saveScriptFileDialog.FileName = "custom script.tsl";
-            resources.ApplyResources(this.saveScriptFileDialog, "saveScriptFileDialog");
+            this.saveScriptFileDialog.Filter = "Troka Scripting Language (*.tsl)|*.tsl";
             this.saveScriptFileDialog.InitialDirectory = "_Scripts";
             // 
             // MainView
             // 
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1005, 790);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = Resources.computator_net_icon;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MinimumSize = new System.Drawing.Size(993, 717);
             this.Name = "MainView";
+            this.Text = "Computator.NET © Pawel Troka";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);

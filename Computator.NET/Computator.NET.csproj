@@ -340,111 +340,14 @@
     <EmbeddedResource Include="Dialogs\ChangelogForm.resx">
       <DependentUpon>ChangelogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\CalculationsView.cs.resx">
-      <DependentUpon>CalculationsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\CalculationsView.de.resx">
-      <DependentUpon>CalculationsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\CalculationsView.pl.resx">
-      <DependentUpon>CalculationsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\CalculationsView.resx">
-      <DependentUpon>CalculationsView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ChartAreaValuesView.cs.resx">
-      <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ChartAreaValuesView.de.resx">
-      <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ChartAreaValuesView.pl.resx">
-      <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ChartAreaValuesView.resx">
-      <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DocumentsTabControl.resx">
       <DependentUpon>DocumentsTabControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\ChartingView.resx">
-      <DependentUpon>ChartingView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ExpressionView.cs.resx">
-      <DependentUpon>ExpressionView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ExpressionView.de.resx">
-      <DependentUpon>ExpressionView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ExpressionView.pl.resx">
-      <DependentUpon>ExpressionView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ExpressionView.resx">
-      <DependentUpon>ExpressionView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\MainView.cs.resx">
-      <DependentUpon>MainView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\MainView.de.resx">
-      <DependentUpon>MainView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\MainView.pl.resx">
-      <DependentUpon>MainView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\MainView.resx">
-      <DependentUpon>MainView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\CustomFunctionsView.resx">
       <DependentUpon>CustomFunctionsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\MenuStripView.resx">
-      <DependentUpon>MenuStripView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\NumericalCalculationsView.cs.resx">
-      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\NumericalCalculationsView.de.resx">
-      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\NumericalCalculationsView.pl.resx">
-      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\NumericalCalculationsView.resx">
-      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ScriptingView.cs.resx">
-      <DependentUpon>ScriptingView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ScriptingView.de.resx">
-      <DependentUpon>ScriptingView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ScriptingView.pl.resx">
-      <DependentUpon>ScriptingView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ScriptingView.resx">
-      <DependentUpon>ScriptingView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SolutionExplorerView.cs.resx">
-      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SolutionExplorerView.de.resx">
-      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SolutionExplorerView.pl.resx">
-      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SolutionExplorerView.resx">
-      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ToolBarView.resx">
-      <DependentUpon>ToolBarView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>

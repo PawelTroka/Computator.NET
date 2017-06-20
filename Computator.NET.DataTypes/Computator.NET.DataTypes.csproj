@@ -46,4 +46,71 @@
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.4.10" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Localization\Views\CalculationsView.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CalculationsView.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Views\ChartAreaValuesView.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ChartAreaValuesView.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Views\ExpressionView.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExpressionView.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Views\MainView.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainView.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Views\NumericalCalculationsView.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NumericalCalculationsView.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Views\ScriptingView.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ScriptingView.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Views\SolutionExplorerView.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SolutionExplorerView.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Localization\Views\CalculationsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CalculationsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Views\ChartAreaValuesView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChartAreaValuesView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Views\ExpressionView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExpressionView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Views\MainView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Views\NumericalCalculationsView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NumericalCalculationsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Views\ScriptingView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScriptingView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Views\SolutionExplorerView.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SolutionExplorerView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
