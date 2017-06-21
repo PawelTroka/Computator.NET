@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Core.Properties;
+using Computator.NET.DataTypes.Properties;
 
 namespace Computator.NET.Dialogs
 {
@@ -14,7 +15,7 @@ namespace Computator.NET.Dialogs
         {
             FormBorderStyle = FormBorderStyle.None;
             StartPosition = FormStartPosition.CenterScreen;
-            Icon = Resources.computator_net_icon;
+            this.Icon = GraphicsResources.computator_net_icon;
             //  this.BackColor = Color.White;
             //this.TransparencyKey = Color.White;
             var img = Resources.computator_net_logo;

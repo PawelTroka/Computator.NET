@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Properties;
+using Computator.NET.DataTypes.Properties;
 using Computator.NET.Services;
 
 namespace Computator.NET.Dialogs
@@ -14,7 +15,7 @@ namespace Computator.NET.Dialogs
             //propertyGrid1.Font = new Font(propertyGrid1.Font.FontFamily, 14);
             propertyGrid1.SelectedObject = Settings.Default;
             //this.MakeSureItsNotBiggerThanScreen();
-            this.Icon = Resources.computator_net_icon;
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         private void Settings_FormClosed(object sender, FormClosedEventArgs e)

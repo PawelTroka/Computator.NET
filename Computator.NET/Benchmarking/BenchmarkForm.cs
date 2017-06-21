@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Computator.NET.Core.Benchmarking;
 using Computator.NET.DataTypes.Localization;
+using Computator.NET.DataTypes.Properties;
 
 namespace Computator.NET.Benchmarking
 {
@@ -24,6 +25,7 @@ namespace Computator.NET.Benchmarking
             memoryTestBackgroundWorker.DoWork += benchmark.memoryAllocationSpeedTest;
             memoryTestBackgroundWorker.ProgressChanged += memoryTestBackgroundWorker_ProgressChanged;
             memoryTestBackgroundWorker.RunWorkerCompleted += memoryTestBackgroundWorker_RunWorkerCompleted;
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         private void FunctionsTestBackgroundWorker_RunWorkerCompleted(object sender,

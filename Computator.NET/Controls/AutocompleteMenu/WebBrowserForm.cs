@@ -4,6 +4,7 @@ using Computator.NET.Core.Abstract;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Localization;
+using Computator.NET.DataTypes.Properties;
 
 namespace Computator.NET.Controls.AutocompleteMenu
 {
@@ -27,7 +28,7 @@ namespace Computator.NET.Controls.AutocompleteMenu
 
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
 
-            Icon = Resources.computator_net_icon;
+            this.Icon = GraphicsResources.computator_net_icon;
 
             TopMost = true;
             ShowInTaskbar = false;

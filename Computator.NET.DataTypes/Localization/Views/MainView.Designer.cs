@@ -88,16 +88,6 @@ namespace Computator.NET.DataTypes.Localization.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap modeToolStripDropDownButton_Image {
-            get {
-                object obj = ResourceManager.GetObject("modeToolStripDropDownButton.Image", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Numerical calculations.
         /// </summary>
         public static string numericalCalculationsTabPage_Text {

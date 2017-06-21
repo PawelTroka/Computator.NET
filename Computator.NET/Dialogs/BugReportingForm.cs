@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
+using Computator.NET.DataTypes.Properties;
 
 namespace Computator.NET.Dialogs
 {
@@ -21,7 +22,7 @@ namespace Computator.NET.Dialogs
             _richtextbox.LinkClicked += (ooo, eee) => Process.Start(AppRelatedUrls.IssuesUrl);
 
             Text = Strings.BugReporting;
-            this.Icon = Resources.computator_net_icon;
+            this.Icon = GraphicsResources.computator_net_icon;
         }
     }
 }
