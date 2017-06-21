@@ -64,11 +64,8 @@ var msBuildSettings = new MSBuildSettings {
 
 	if(!IsRunningOnWindows() && isMonoButSupportsMsBuild)
 	{
-		msBuildSettings.ToolPath = new FilePath(
-		  System.Environment.OSVersion.Platform != System.PlatformID.MacOSX
-		  ? @"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll"
-		  : @"/Library/Frameworks/Mono.framework/Versions/Current/lib/mono/msbuild/15.0/bin/"
-		  );//hack for Linux and Mac OS X bug - missing MSBuild path
+		if(System.Environment.OSVersion.Platform != System.PlatformID.MacOSX)
+			msBuildSettings.ToolPath = new FilePath(@"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll");//hack for Linux bug - missing MSBuild path
 	}
 
 var xBuildSettings = new XBuildSettings {
