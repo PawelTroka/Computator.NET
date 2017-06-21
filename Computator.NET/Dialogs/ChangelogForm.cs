@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows.Forms;
+using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Localization;
 
@@ -15,6 +16,7 @@ namespace Computator.NET.Dialogs
             {
                 _richTextBox.Text = sr.ReadToEnd();
             }
+            this.Icon = Resources.computator_net_icon;
         }
     }
 }

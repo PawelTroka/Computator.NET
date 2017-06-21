@@ -47,6 +47,11 @@
     <PackageReference Include="NLog" Version="4.4.10" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Localization\Dialogs\SettingsForm.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SettingsForm.resx</DependentUpon>
+    </Compile>
     <Compile Update="Localization\Views\CalculationsView.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -84,6 +89,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Localization\Dialogs\SettingsForm.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SettingsForm.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Localization\Views\CalculationsView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CalculationsView.Designer.cs</LastGenOutput>

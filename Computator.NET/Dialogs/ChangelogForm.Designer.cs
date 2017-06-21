@@ -52,7 +52,6 @@ namespace Computator.NET.Dialogs
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(754, 642);
             this.Controls.Add(this._richTextBox);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "ChangelogForm";
             this.Text = "ChangelogForm";

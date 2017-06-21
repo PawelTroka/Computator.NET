@@ -14,6 +14,7 @@ namespace Computator.NET.Dialogs
             //propertyGrid1.Font = new Font(propertyGrid1.Font.FontFamily, 14);
             propertyGrid1.SelectedObject = Settings.Default;
             //this.MakeSureItsNotBiggerThanScreen();
+            this.Icon = Resources.computator_net_icon;
         }
 
         private void Settings_FormClosed(object sender, FormClosedEventArgs e)
