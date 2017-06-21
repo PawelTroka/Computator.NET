@@ -239,7 +239,6 @@ namespace Computator.NET.Views
             this.ClientSize = new System.Drawing.Size(1005, 790);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
-            this.Icon = Resources.computator_net_icon;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MinimumSize = new System.Drawing.Size(993, 717);
             this.Name = "MainView";

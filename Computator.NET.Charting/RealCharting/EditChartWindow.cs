@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.DataTypes.Properties;
 
 namespace Computator.NET.Charting.RealCharting
 {
@@ -14,6 +15,7 @@ namespace Computator.NET.Charting.RealCharting
         public EditChartWindow()
         {
             InitializeComponent();
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         public EditChartWindow(Chart2D chart)
@@ -21,6 +23,7 @@ namespace Computator.NET.Charting.RealCharting
             InitializeComponent();
             this.chart = chart;
             loadData();
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         private void loadData()

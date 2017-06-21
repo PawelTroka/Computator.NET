@@ -87,6 +87,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SolutionExplorerView.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\GraphicsResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GraphicsResources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Localization\Dialogs\SettingsForm.resx">
@@ -120,6 +125,10 @@
     <EmbeddedResource Update="Localization\Views\SolutionExplorerView.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SolutionExplorerView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\GraphicsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GraphicsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

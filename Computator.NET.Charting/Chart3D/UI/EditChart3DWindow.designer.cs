@@ -41,6 +41,7 @@
             this.chartTypeComboBox = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.unitsComboBox = new Computator.NET.Charting.Chart3D.UI.UnitsComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.shapeContainer3 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.backgroundColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
@@ -86,7 +87,6 @@
             this.label22 = new System.Windows.Forms.Label();
             this.yMaxChartTextBox = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.unitsComboBox = new Computator.NET.Charting.Chart3D.UI.UnitsComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeNumericUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -109,7 +109,8 @@
             0,
             0,
             131072});
-            resources.ApplyResources(this.scaleNumericUpDown, "scaleNumericUpDown");
+            this.scaleNumericUpDown.Location = new System.Drawing.Point(155, 30);
+            this.scaleNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.scaleNumericUpDown.Maximum = new decimal(new int[] {
             2,
             0,
@@ -121,6 +122,9 @@
             0,
             196608});
             this.scaleNumericUpDown.Name = "scaleNumericUpDown";
+            this.scaleNumericUpDown.Size = new System.Drawing.Size(92, 22);
+            this.scaleNumericUpDown.TabIndex = 0;
+            this.scaleNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.scaleNumericUpDown.Value = new decimal(new int[] {
             5,
             0,
@@ -129,13 +133,23 @@
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
+            this.label1.AutoSize = true;
+            this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label1.Location = new System.Drawing.Point(33, 31);
             this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 17);
+            this.label1.TabIndex = 1;
+            this.label1.Text = Localization.EditChart3DWindow.label1_Text;
             // 
             // label2
             // 
-            resources.ApplyResources(this.label2, "label2");
+            this.label2.AutoSize = true;
+            this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label2.Location = new System.Drawing.Point(33, 75);
             this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(73, 17);
+            this.label2.TabIndex = 3;
+            this.label2.Text = Localization.EditChart3DWindow.label2_Text;
             // 
             // dotSizeNumericUpDown
             // 
@@ -145,13 +159,17 @@
             0,
             0,
             262144});
-            resources.ApplyResources(this.dotSizeNumericUpDown, "dotSizeNumericUpDown");
+            this.dotSizeNumericUpDown.Location = new System.Drawing.Point(155, 73);
+            this.dotSizeNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dotSizeNumericUpDown.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.dotSizeNumericUpDown.Name = "dotSizeNumericUpDown";
+            this.dotSizeNumericUpDown.Size = new System.Drawing.Size(92, 22);
+            this.dotSizeNumericUpDown.TabIndex = 2;
+            this.dotSizeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.dotSizeNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -160,20 +178,37 @@
             // 
             // visibleAxesCheckBox
             // 
-            resources.ApplyResources(this.visibleAxesCheckBox, "visibleAxesCheckBox");
+            this.visibleAxesCheckBox.AutoSize = true;
+            this.visibleAxesCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.visibleAxesCheckBox.Location = new System.Drawing.Point(33, 39);
+            this.visibleAxesCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.visibleAxesCheckBox.Name = "visibleAxesCheckBox";
+            this.visibleAxesCheckBox.Size = new System.Drawing.Size(111, 21);
+            this.visibleAxesCheckBox.TabIndex = 4;
+            this.visibleAxesCheckBox.Text = Localization.EditChart3DWindow.visibleAxesCheckBox_Text;
             this.visibleAxesCheckBox.UseVisualStyleBackColor = true;
             this.visibleAxesCheckBox.CheckedChanged += new System.EventHandler(this.visibleAxesCheckBox_CheckedChanged);
             // 
             // label3
             // 
-            resources.ApplyResources(this.label3, "label3");
+            this.label3.AutoSize = true;
+            this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label3.Location = new System.Drawing.Point(33, 153);
             this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 17);
+            this.label3.TabIndex = 5;
+            this.label3.Text = Localization.EditChart3DWindow.label3_Text;
             // 
             // equalAxesCheckBox
             // 
-            resources.ApplyResources(this.equalAxesCheckBox, "equalAxesCheckBox");
+            this.equalAxesCheckBox.AutoSize = true;
+            this.equalAxesCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.equalAxesCheckBox.Location = new System.Drawing.Point(33, 90);
+            this.equalAxesCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.equalAxesCheckBox.Name = "equalAxesCheckBox";
+            this.equalAxesCheckBox.Size = new System.Drawing.Size(99, 21);
+            this.equalAxesCheckBox.TabIndex = 7;
+            this.equalAxesCheckBox.Text = Localization.EditChart3DWindow.equalAxesCheckBox_Text;
             this.equalAxesCheckBox.UseVisualStyleBackColor = true;
             this.equalAxesCheckBox.CheckedChanged += new System.EventHandler(this.equalAxesCheckBox_CheckedChanged);
             // 
@@ -189,45 +224,257 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.scaleNumericUpDown);
             this.groupBox1.Controls.Add(this.shapeContainer3);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(320, 260);
+            this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
+            this.groupBox1.Text = Localization.EditChart3DWindow.groupBox1_Text;
             // 
             // chartTypeComboBox
             // 
             this.chartTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.chartTypeComboBox.FormattingEnabled = true;
-            resources.ApplyResources(this.chartTypeComboBox, "chartTypeComboBox");
+            this.chartTypeComboBox.Location = new System.Drawing.Point(155, 214);
+            this.chartTypeComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.chartTypeComboBox.Name = "chartTypeComboBox";
+            this.chartTypeComboBox.Size = new System.Drawing.Size(92, 24);
+            this.chartTypeComboBox.TabIndex = 15;
             // 
             // label13
             // 
-            resources.ApplyResources(this.label13, "label13");
+            this.label13.AutoSize = true;
+            this.label13.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label13.Location = new System.Drawing.Point(36, 218);
             this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(100, 17);
+            this.label13.TabIndex = 14;
+            this.label13.Text = Localization.EditChart3DWindow.label13_Text;
             // 
             // label4
             // 
-            resources.ApplyResources(this.label4, "label4");
+            this.label4.AutoSize = true;
+            this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label4.Location = new System.Drawing.Point(36, 156);
             this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(123, 17);
+            this.label4.TabIndex = 11;
+            this.label4.Text = Localization.EditChart3DWindow.label4_Text;
+            // 
+            // unitsComboBox
+            // 
+            this.unitsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.unitsComboBox.FormattingEnabled = true;
+            this.unitsComboBox.Items.AddRange(new object[] {
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd",
+            "km",
+            "m",
+            "dm",
+            "cm",
+            "mm",
+            "μm",
+            "nm",
+            "pm",
+            "yd"});
+            this.unitsComboBox.Location = new System.Drawing.Point(155, 114);
+            this.unitsComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.unitsComboBox.Name = "unitsComboBox";
+            this.unitsComboBox.Size = new System.Drawing.Size(92, 24);
+            this.unitsComboBox.TabIndex = 10;
             // 
             // label5
             // 
-            resources.ApplyResources(this.label5, "label5");
+            this.label5.AutoSize = true;
+            this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label5.Location = new System.Drawing.Point(33, 118);
             this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 17);
+            this.label5.TabIndex = 9;
+            this.label5.Text = Localization.EditChart3DWindow.label5_Text;
             // 
             // shapeContainer3
             // 
-            resources.ApplyResources(this.shapeContainer3, "shapeContainer3");
+            this.shapeContainer3.Location = new System.Drawing.Point(3, 17);
+            this.shapeContainer3.Margin = new System.Windows.Forms.Padding(0);
             this.shapeContainer3.Name = "shapeContainer3";
             this.shapeContainer3.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.backgroundColorRectangleShape});
+            this.shapeContainer3.Size = new System.Drawing.Size(314, 241);
+            this.shapeContainer3.TabIndex = 13;
             this.shapeContainer3.TabStop = false;
             // 
             // backgroundColorRectangleShape
             // 
-            resources.ApplyResources(this.backgroundColorRectangleShape, "backgroundColorRectangleShape");
+            this.backgroundColorRectangleShape.CornerRadius = 2;
             this.backgroundColorRectangleShape.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.backgroundColorRectangleShape.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.backgroundColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.backgroundColorRectangleShape.Location = new System.Drawing.Point(154, 135);
             this.backgroundColorRectangleShape.Name = "backgroundColorRectangleShape";
+            this.backgroundColorRectangleShape.Size = new System.Drawing.Size(92, 24);
             this.backgroundColorRectangleShape.Click += new System.EventHandler(this.backgroundColorRectangleShape_Click);
             // 
             // groupBox2
@@ -236,38 +483,60 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.visibleAxesCheckBox);
             this.groupBox2.Controls.Add(this.shapeContainer2);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Location = new System.Drawing.Point(12, 276);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(320, 203);
+            this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
+            this.groupBox2.Text = Localization.EditChart3DWindow.groupBox2_Text;
             // 
             // shapeContainer2
             // 
-            resources.ApplyResources(this.shapeContainer2, "shapeContainer2");
+            this.shapeContainer2.Location = new System.Drawing.Point(3, 17);
+            this.shapeContainer2.Margin = new System.Windows.Forms.Padding(0);
             this.shapeContainer2.Name = "shapeContainer2";
             this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.axesColorRectangleShape});
+            this.shapeContainer2.Size = new System.Drawing.Size(314, 184);
+            this.shapeContainer2.TabIndex = 8;
             this.shapeContainer2.TabStop = false;
             // 
             // axesColorRectangleShape
             // 
-            resources.ApplyResources(this.axesColorRectangleShape, "axesColorRectangleShape");
+            this.axesColorRectangleShape.CornerRadius = 2;
             this.axesColorRectangleShape.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.axesColorRectangleShape.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.axesColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.axesColorRectangleShape.Location = new System.Drawing.Point(154, 133);
             this.axesColorRectangleShape.Name = "axesColorRectangleShape";
+            this.axesColorRectangleShape.Size = new System.Drawing.Size(92, 24);
             this.axesColorRectangleShape.Click += new System.EventHandler(this.axesColorRectangleShape_Click);
             // 
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            resources.ApplyResources(this.okButton, "okButton");
+            this.okButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.okButton.Location = new System.Drawing.Point(17, 574);
+            this.okButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(320, 49);
+            this.okButton.TabIndex = 10;
+            this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            resources.ApplyResources(this.cancelButton, "cancelButton");
+            this.cancelButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cancelButton.Location = new System.Drawing.Point(344, 574);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(315, 49);
+            this.cancelButton.TabIndex = 11;
+            this.cancelButton.Text = Localization.EditChart3DWindow.cancelButton_Text;
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.anulujButton_Click);
             // 
@@ -282,19 +551,34 @@
             this.groupBox3.Controls.Add(this.groupBox4);
             this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.shapeContainer1);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Location = new System.Drawing.Point(339, 12);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox3.Size = new System.Drawing.Size(320, 466);
+            this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
+            this.groupBox3.Text = Localization.EditChart3DWindow.groupBox3_Text;
             // 
             // label12
             // 
-            resources.ApplyResources(this.label12, "label12");
+            this.label12.AutoSize = true;
+            this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label12.Location = new System.Drawing.Point(9, 126);
             this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(125, 17);
+            this.label12.TabIndex = 23;
+            this.label12.Text = Localization.EditChart3DWindow.label12_Text;
             // 
             // label11
             // 
-            resources.ApplyResources(this.label11, "label11");
+            this.label11.AutoSize = true;
+            this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label11.Location = new System.Drawing.Point(9, 62);
             this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(130, 17);
+            this.label11.TabIndex = 22;
+            this.label11.Text = Localization.EditChart3DWindow.label11_Text;
             // 
             // groupBox7
             // 
@@ -302,19 +586,28 @@
             this.groupBox7.Controls.Add(this.xOffsetNumericUpDown);
             this.groupBox7.Controls.Add(this.label10);
             this.groupBox7.Controls.Add(this.label8);
-            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Location = new System.Drawing.Point(165, 357);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox7.Size = new System.Drawing.Size(148, 103);
+            this.groupBox7.TabIndex = 20;
             this.groupBox7.TabStop = false;
+            this.groupBox7.Text = Localization.EditChart3DWindow.groupBox7_Text;
             // 
             // yOffsetNumericUpDown
             // 
-            resources.ApplyResources(this.yOffsetNumericUpDown, "yOffsetNumericUpDown");
+            this.yOffsetNumericUpDown.Location = new System.Drawing.Point(83, 60);
+            this.yOffsetNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yOffsetNumericUpDown.Minimum = new decimal(new int[] {
             100,
             0,
             0,
             -2147483648});
             this.yOffsetNumericUpDown.Name = "yOffsetNumericUpDown";
+            this.yOffsetNumericUpDown.Size = new System.Drawing.Size(59, 22);
+            this.yOffsetNumericUpDown.TabIndex = 20;
+            this.yOffsetNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.yOffsetNumericUpDown.Value = new decimal(new int[] {
             5,
             0,
@@ -323,13 +616,17 @@
             // 
             // xOffsetNumericUpDown
             // 
-            resources.ApplyResources(this.xOffsetNumericUpDown, "xOffsetNumericUpDown");
+            this.xOffsetNumericUpDown.Location = new System.Drawing.Point(83, 30);
+            this.xOffsetNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xOffsetNumericUpDown.Minimum = new decimal(new int[] {
             100,
             0,
             0,
             -2147483648});
             this.xOffsetNumericUpDown.Name = "xOffsetNumericUpDown";
+            this.xOffsetNumericUpDown.Size = new System.Drawing.Size(59, 22);
+            this.xOffsetNumericUpDown.TabIndex = 19;
+            this.xOffsetNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.xOffsetNumericUpDown.Value = new decimal(new int[] {
             5,
             0,
@@ -338,18 +635,34 @@
             // 
             // label10
             // 
-            resources.ApplyResources(this.label10, "label10");
+            this.label10.AutoSize = true;
+            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label10.Location = new System.Drawing.Point(11, 60);
             this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(68, 17);
+            this.label10.TabIndex = 18;
+            this.label10.Text = Localization.EditChart3DWindow.label10_Text;
             // 
             // label8
             // 
-            resources.ApplyResources(this.label8, "label8");
+            this.label8.AutoSize = true;
+            this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label8.Location = new System.Drawing.Point(11, 30);
             this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(67, 17);
+            this.label8.TabIndex = 17;
+            this.label8.Text = Localization.EditChart3DWindow.label8_Text;
             // 
             // labelsVisibilityCheckBox
             // 
-            resources.ApplyResources(this.labelsVisibilityCheckBox, "labelsVisibilityCheckBox");
+            this.labelsVisibilityCheckBox.AutoSize = true;
+            this.labelsVisibilityCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.labelsVisibilityCheckBox.Location = new System.Drawing.Point(12, 194);
+            this.labelsVisibilityCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.labelsVisibilityCheckBox.Name = "labelsVisibilityCheckBox";
+            this.labelsVisibilityCheckBox.Size = new System.Drawing.Size(147, 21);
+            this.labelsVisibilityCheckBox.TabIndex = 20;
+            this.labelsVisibilityCheckBox.Text = Localization.EditChart3DWindow.labelsVisibilityCheckBox_Text;
             this.labelsVisibilityCheckBox.UseVisualStyleBackColor = true;
             // 
             // groupBox6
@@ -357,96 +670,171 @@
             this.groupBox6.Controls.Add(this.zActiveCheckBox);
             this.groupBox6.Controls.Add(this.label7);
             this.groupBox6.Controls.Add(this.zLabelTextBox);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Location = new System.Drawing.Point(5, 357);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox6.Size = new System.Drawing.Size(148, 103);
+            this.groupBox6.TabIndex = 19;
             this.groupBox6.TabStop = false;
+            this.groupBox6.Text = Localization.EditChart3DWindow.groupBox6_Text;
             // 
             // zActiveCheckBox
             // 
-            resources.ApplyResources(this.zActiveCheckBox, "zActiveCheckBox");
+            this.zActiveCheckBox.AutoSize = true;
+            this.zActiveCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.zActiveCheckBox.Location = new System.Drawing.Point(5, 25);
+            this.zActiveCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.zActiveCheckBox.Name = "zActiveCheckBox";
+            this.zActiveCheckBox.Size = new System.Drawing.Size(76, 21);
+            this.zActiveCheckBox.TabIndex = 16;
+            this.zActiveCheckBox.Text = Localization.EditChart3DWindow.zActiveCheckBox_Text;
             this.zActiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
-            resources.ApplyResources(this.label7, "label7");
+            this.label7.AutoSize = true;
+            this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label7.Location = new System.Drawing.Point(5, 58);
             this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(68, 17);
+            this.label7.TabIndex = 17;
+            this.label7.Text = Localization.EditChart3DWindow.label7_Text;
             // 
             // zLabelTextBox
             // 
-            resources.ApplyResources(this.zLabelTextBox, "zLabelTextBox");
+            this.zLabelTextBox.Location = new System.Drawing.Point(83, 55);
+            this.zLabelTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.zLabelTextBox.Name = "zLabelTextBox";
+            this.zLabelTextBox.Size = new System.Drawing.Size(47, 22);
+            this.zLabelTextBox.TabIndex = 11;
+            this.zLabelTextBox.Text = "z";
+            this.zLabelTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.yActiveCheckBox);
             this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Controls.Add(this.yLabelTextBox);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Location = new System.Drawing.Point(165, 247);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox5.Size = new System.Drawing.Size(148, 103);
+            this.groupBox5.TabIndex = 19;
             this.groupBox5.TabStop = false;
+            this.groupBox5.Text = Localization.EditChart3DWindow.groupBox5_Text;
             // 
             // yActiveCheckBox
             // 
-            resources.ApplyResources(this.yActiveCheckBox, "yActiveCheckBox");
+            this.yActiveCheckBox.AutoSize = true;
+            this.yActiveCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.yActiveCheckBox.Location = new System.Drawing.Point(5, 25);
+            this.yActiveCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yActiveCheckBox.Name = "yActiveCheckBox";
+            this.yActiveCheckBox.Size = new System.Drawing.Size(76, 21);
+            this.yActiveCheckBox.TabIndex = 16;
+            this.yActiveCheckBox.Text = Localization.EditChart3DWindow.yActiveCheckBox_Text;
             this.yActiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
-            resources.ApplyResources(this.label6, "label6");
+            this.label6.AutoSize = true;
+            this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label6.Location = new System.Drawing.Point(5, 58);
             this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(68, 17);
+            this.label6.TabIndex = 17;
+            this.label6.Text = Localization.EditChart3DWindow.label6_Text;
             // 
             // yLabelTextBox
             // 
-            resources.ApplyResources(this.yLabelTextBox, "yLabelTextBox");
+            this.yLabelTextBox.Location = new System.Drawing.Point(83, 55);
+            this.yLabelTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yLabelTextBox.Name = "yLabelTextBox";
+            this.yLabelTextBox.Size = new System.Drawing.Size(47, 22);
+            this.yLabelTextBox.TabIndex = 11;
+            this.yLabelTextBox.Text = "y";
+            this.yLabelTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.xActiveCheckBox);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.xLabelTextBox);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Location = new System.Drawing.Point(5, 247);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox4.Size = new System.Drawing.Size(148, 103);
+            this.groupBox4.TabIndex = 18;
             this.groupBox4.TabStop = false;
+            this.groupBox4.Text = Localization.EditChart3DWindow.groupBox4_Text;
             // 
             // xActiveCheckBox
             // 
-            resources.ApplyResources(this.xActiveCheckBox, "xActiveCheckBox");
+            this.xActiveCheckBox.AutoSize = true;
+            this.xActiveCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.xActiveCheckBox.Location = new System.Drawing.Point(5, 25);
+            this.xActiveCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xActiveCheckBox.Name = "xActiveCheckBox";
+            this.xActiveCheckBox.Size = new System.Drawing.Size(76, 21);
+            this.xActiveCheckBox.TabIndex = 16;
+            this.xActiveCheckBox.Text = Localization.EditChart3DWindow.xActiveCheckBox_Text;
             this.xActiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
-            resources.ApplyResources(this.label9, "label9");
+            this.label9.AutoSize = true;
+            this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label9.Location = new System.Drawing.Point(5, 58);
             this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(68, 17);
+            this.label9.TabIndex = 17;
+            this.label9.Text = Localization.EditChart3DWindow.label9_Text;
             // 
             // xLabelTextBox
             // 
-            resources.ApplyResources(this.xLabelTextBox, "xLabelTextBox");
+            this.xLabelTextBox.Location = new System.Drawing.Point(83, 55);
+            this.xLabelTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xLabelTextBox.Name = "xLabelTextBox";
+            this.xLabelTextBox.Size = new System.Drawing.Size(47, 22);
+            this.xLabelTextBox.TabIndex = 11;
+            this.xLabelTextBox.Text = "x";
+            this.xLabelTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // button2
             // 
-            resources.ApplyResources(this.button2, "button2");
+            this.button2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.button2.Location = new System.Drawing.Point(159, 126);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(135, 30);
+            this.button2.TabIndex = 8;
+            this.button2.Text = Localization.EditChart3DWindow.button2_Text;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // shapeContainer1
             // 
-            resources.ApplyResources(this.shapeContainer1, "shapeContainer1");
+            this.shapeContainer1.Location = new System.Drawing.Point(3, 17);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.shapeContainer1.Name = "shapeContainer1";
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.labelsColorRectangleShape});
+            this.shapeContainer1.Size = new System.Drawing.Size(314, 447);
+            this.shapeContainer1.TabIndex = 21;
             this.shapeContainer1.TabStop = false;
             // 
             // labelsColorRectangleShape
             // 
-            resources.ApplyResources(this.labelsColorRectangleShape, "labelsColorRectangleShape");
+            this.labelsColorRectangleShape.CornerRadius = 2;
             this.labelsColorRectangleShape.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelsColorRectangleShape.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.labelsColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.labelsColorRectangleShape.Location = new System.Drawing.Point(156, 44);
             this.labelsColorRectangleShape.Name = "labelsColorRectangleShape";
+            this.labelsColorRectangleShape.Size = new System.Drawing.Size(135, 29);
             this.labelsColorRectangleShape.Click += new System.EventHandler(this.labelsColorRectangleShape_Click);
             // 
             // groupBox8
@@ -459,226 +847,94 @@
             this.groupBox8.Controls.Add(this.label22);
             this.groupBox8.Controls.Add(this.yMaxChartTextBox);
             this.groupBox8.Controls.Add(this.label23);
-            resources.ApplyResources(this.groupBox8, "groupBox8");
+            this.groupBox8.Location = new System.Drawing.Point(15, 484);
+            this.groupBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox8.Size = new System.Drawing.Size(644, 85);
+            this.groupBox8.TabIndex = 17;
             this.groupBox8.TabStop = false;
+            this.groupBox8.Text = Localization.EditChart3DWindow.groupBox8_Text;
             // 
             // xMaxChartTextBox
             // 
-            resources.ApplyResources(this.xMaxChartTextBox, "xMaxChartTextBox");
+            this.xMaxChartTextBox.Location = new System.Drawing.Point(148, 32);
+            this.xMaxChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xMaxChartTextBox.Name = "xMaxChartTextBox";
+            this.xMaxChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.xMaxChartTextBox.TabIndex = 4;
             // 
             // xMinChartTextBox
             // 
-            resources.ApplyResources(this.xMinChartTextBox, "xMinChartTextBox");
+            this.xMinChartTextBox.Location = new System.Drawing.Point(25, 32);
+            this.xMinChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xMinChartTextBox.Name = "xMinChartTextBox";
+            this.xMinChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.xMinChartTextBox.TabIndex = 2;
             // 
             // label20
             // 
-            resources.ApplyResources(this.label20, "label20");
+            this.label20.AutoSize = true;
+            this.label20.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label20.Location = new System.Drawing.Point(29, 57);
             this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(73, 17);
+            this.label20.TabIndex = 3;
+            this.label20.Text = Localization.EditChart3DWindow.label20_Text;
             // 
             // label21
             // 
-            resources.ApplyResources(this.label21, "label21");
+            this.label21.AutoSize = true;
+            this.label21.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label21.Location = new System.Drawing.Point(153, 57);
             this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(76, 17);
+            this.label21.TabIndex = 5;
+            this.label21.Text = Localization.EditChart3DWindow.label21_Text;
             // 
             // yMinChartTextBox
             // 
-            resources.ApplyResources(this.yMinChartTextBox, "yMinChartTextBox");
+            this.yMinChartTextBox.Location = new System.Drawing.Point(368, 32);
+            this.yMinChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yMinChartTextBox.Name = "yMinChartTextBox";
+            this.yMinChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.yMinChartTextBox.TabIndex = 6;
             // 
             // label22
             // 
-            resources.ApplyResources(this.label22, "label22");
+            this.label22.AutoSize = true;
+            this.label22.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label22.Location = new System.Drawing.Point(372, 57);
             this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(74, 17);
+            this.label22.TabIndex = 7;
+            this.label22.Text = Localization.EditChart3DWindow.label22_Text;
             // 
             // yMaxChartTextBox
             // 
-            resources.ApplyResources(this.yMaxChartTextBox, "yMaxChartTextBox");
+            this.yMaxChartTextBox.Location = new System.Drawing.Point(491, 32);
+            this.yMaxChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yMaxChartTextBox.Name = "yMaxChartTextBox";
+            this.yMaxChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.yMaxChartTextBox.TabIndex = 8;
             // 
             // label23
             // 
-            resources.ApplyResources(this.label23, "label23");
+            this.label23.AutoSize = true;
+            this.label23.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label23.Location = new System.Drawing.Point(496, 57);
             this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(77, 17);
+            this.label23.TabIndex = 9;
+            this.label23.Text = Localization.EditChart3DWindow.label23_Text;
             // 
-            // unitsComboBox
-            // 
-            this.unitsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.unitsComboBox.FormattingEnabled = true;
-            this.unitsComboBox.Items.AddRange(new object[] {
-            resources.GetString("unitsComboBox.Items"),
-            resources.GetString("unitsComboBox.Items1"),
-            resources.GetString("unitsComboBox.Items2"),
-            resources.GetString("unitsComboBox.Items3"),
-            resources.GetString("unitsComboBox.Items4"),
-            resources.GetString("unitsComboBox.Items5"),
-            resources.GetString("unitsComboBox.Items6"),
-            resources.GetString("unitsComboBox.Items7"),
-            resources.GetString("unitsComboBox.Items8"),
-            resources.GetString("unitsComboBox.Items9"),
-            resources.GetString("unitsComboBox.Items10"),
-            resources.GetString("unitsComboBox.Items11"),
-            resources.GetString("unitsComboBox.Items12"),
-            resources.GetString("unitsComboBox.Items13"),
-            resources.GetString("unitsComboBox.Items14"),
-            resources.GetString("unitsComboBox.Items15"),
-            resources.GetString("unitsComboBox.Items16"),
-            resources.GetString("unitsComboBox.Items17"),
-            resources.GetString("unitsComboBox.Items18"),
-            resources.GetString("unitsComboBox.Items19"),
-            resources.GetString("unitsComboBox.Items20"),
-            resources.GetString("unitsComboBox.Items21"),
-            resources.GetString("unitsComboBox.Items22"),
-            resources.GetString("unitsComboBox.Items23"),
-            resources.GetString("unitsComboBox.Items24"),
-            resources.GetString("unitsComboBox.Items25"),
-            resources.GetString("unitsComboBox.Items26"),
-            resources.GetString("unitsComboBox.Items27"),
-            resources.GetString("unitsComboBox.Items28"),
-            resources.GetString("unitsComboBox.Items29"),
-            resources.GetString("unitsComboBox.Items30"),
-            resources.GetString("unitsComboBox.Items31"),
-            resources.GetString("unitsComboBox.Items32"),
-            resources.GetString("unitsComboBox.Items33"),
-            resources.GetString("unitsComboBox.Items34"),
-            resources.GetString("unitsComboBox.Items35"),
-            resources.GetString("unitsComboBox.Items36"),
-            resources.GetString("unitsComboBox.Items37"),
-            resources.GetString("unitsComboBox.Items38"),
-            resources.GetString("unitsComboBox.Items39"),
-            resources.GetString("unitsComboBox.Items40"),
-            resources.GetString("unitsComboBox.Items41"),
-            resources.GetString("unitsComboBox.Items42"),
-            resources.GetString("unitsComboBox.Items43"),
-            resources.GetString("unitsComboBox.Items44"),
-            resources.GetString("unitsComboBox.Items45"),
-            resources.GetString("unitsComboBox.Items46"),
-            resources.GetString("unitsComboBox.Items47"),
-            resources.GetString("unitsComboBox.Items48"),
-            resources.GetString("unitsComboBox.Items49"),
-            resources.GetString("unitsComboBox.Items50"),
-            resources.GetString("unitsComboBox.Items51"),
-            resources.GetString("unitsComboBox.Items52"),
-            resources.GetString("unitsComboBox.Items53"),
-            resources.GetString("unitsComboBox.Items54"),
-            resources.GetString("unitsComboBox.Items55"),
-            resources.GetString("unitsComboBox.Items56"),
-            resources.GetString("unitsComboBox.Items57"),
-            resources.GetString("unitsComboBox.Items58"),
-            resources.GetString("unitsComboBox.Items59"),
-            resources.GetString("unitsComboBox.Items60"),
-            resources.GetString("unitsComboBox.Items61"),
-            resources.GetString("unitsComboBox.Items62"),
-            resources.GetString("unitsComboBox.Items63"),
-            resources.GetString("unitsComboBox.Items64"),
-            resources.GetString("unitsComboBox.Items65"),
-            resources.GetString("unitsComboBox.Items66"),
-            resources.GetString("unitsComboBox.Items67"),
-            resources.GetString("unitsComboBox.Items68"),
-            resources.GetString("unitsComboBox.Items69"),
-            resources.GetString("unitsComboBox.Items70"),
-            resources.GetString("unitsComboBox.Items71"),
-            resources.GetString("unitsComboBox.Items72"),
-            resources.GetString("unitsComboBox.Items73"),
-            resources.GetString("unitsComboBox.Items74"),
-            resources.GetString("unitsComboBox.Items75"),
-            resources.GetString("unitsComboBox.Items76"),
-            resources.GetString("unitsComboBox.Items77"),
-            resources.GetString("unitsComboBox.Items78"),
-            resources.GetString("unitsComboBox.Items79"),
-            resources.GetString("unitsComboBox.Items80"),
-            resources.GetString("unitsComboBox.Items81"),
-            resources.GetString("unitsComboBox.Items82"),
-            resources.GetString("unitsComboBox.Items83"),
-            resources.GetString("unitsComboBox.Items84"),
-            resources.GetString("unitsComboBox.Items85"),
-            resources.GetString("unitsComboBox.Items86"),
-            resources.GetString("unitsComboBox.Items87"),
-            resources.GetString("unitsComboBox.Items88"),
-            resources.GetString("unitsComboBox.Items89"),
-            resources.GetString("unitsComboBox.Items90"),
-            resources.GetString("unitsComboBox.Items91"),
-            resources.GetString("unitsComboBox.Items92"),
-            resources.GetString("unitsComboBox.Items93"),
-            resources.GetString("unitsComboBox.Items94"),
-            resources.GetString("unitsComboBox.Items95"),
-            resources.GetString("unitsComboBox.Items96"),
-            resources.GetString("unitsComboBox.Items97"),
-            resources.GetString("unitsComboBox.Items98"),
-            resources.GetString("unitsComboBox.Items99"),
-            resources.GetString("unitsComboBox.Items100"),
-            resources.GetString("unitsComboBox.Items101"),
-            resources.GetString("unitsComboBox.Items102"),
-            resources.GetString("unitsComboBox.Items103"),
-            resources.GetString("unitsComboBox.Items104"),
-            resources.GetString("unitsComboBox.Items105"),
-            resources.GetString("unitsComboBox.Items106"),
-            resources.GetString("unitsComboBox.Items107"),
-            resources.GetString("unitsComboBox.Items108"),
-            resources.GetString("unitsComboBox.Items109"),
-            resources.GetString("unitsComboBox.Items110"),
-            resources.GetString("unitsComboBox.Items111"),
-            resources.GetString("unitsComboBox.Items112"),
-            resources.GetString("unitsComboBox.Items113"),
-            resources.GetString("unitsComboBox.Items114"),
-            resources.GetString("unitsComboBox.Items115"),
-            resources.GetString("unitsComboBox.Items116"),
-            resources.GetString("unitsComboBox.Items117"),
-            resources.GetString("unitsComboBox.Items118"),
-            resources.GetString("unitsComboBox.Items119"),
-            resources.GetString("unitsComboBox.Items120"),
-            resources.GetString("unitsComboBox.Items121"),
-            resources.GetString("unitsComboBox.Items122"),
-            resources.GetString("unitsComboBox.Items123"),
-            resources.GetString("unitsComboBox.Items124"),
-            resources.GetString("unitsComboBox.Items125"),
-            resources.GetString("unitsComboBox.Items126"),
-            resources.GetString("unitsComboBox.Items127"),
-            resources.GetString("unitsComboBox.Items128"),
-            resources.GetString("unitsComboBox.Items129"),
-            resources.GetString("unitsComboBox.Items130"),
-            resources.GetString("unitsComboBox.Items131"),
-            resources.GetString("unitsComboBox.Items132"),
-            resources.GetString("unitsComboBox.Items133"),
-            resources.GetString("unitsComboBox.Items134"),
-            resources.GetString("unitsComboBox.Items135"),
-            resources.GetString("unitsComboBox.Items136"),
-            resources.GetString("unitsComboBox.Items137"),
-            resources.GetString("unitsComboBox.Items138"),
-            resources.GetString("unitsComboBox.Items139"),
-            resources.GetString("unitsComboBox.Items140"),
-            resources.GetString("unitsComboBox.Items141"),
-            resources.GetString("unitsComboBox.Items142"),
-            resources.GetString("unitsComboBox.Items143"),
-            resources.GetString("unitsComboBox.Items144"),
-            resources.GetString("unitsComboBox.Items145"),
-            resources.GetString("unitsComboBox.Items146"),
-            resources.GetString("unitsComboBox.Items147"),
-            resources.GetString("unitsComboBox.Items148"),
-            resources.GetString("unitsComboBox.Items149"),
-            resources.GetString("unitsComboBox.Items150"),
-            resources.GetString("unitsComboBox.Items151"),
-            resources.GetString("unitsComboBox.Items152"),
-            resources.GetString("unitsComboBox.Items153"),
-            resources.GetString("unitsComboBox.Items154"),
-            resources.GetString("unitsComboBox.Items155"),
-            resources.GetString("unitsComboBox.Items156"),
-            resources.GetString("unitsComboBox.Items157"),
-            resources.GetString("unitsComboBox.Items158"),
-            resources.GetString("unitsComboBox.Items159"),
-            resources.GetString("unitsComboBox.Items160"),
-            resources.GetString("unitsComboBox.Items161")});
-            resources.ApplyResources(this.unitsComboBox, "unitsComboBox");
-            this.unitsComboBox.Name = "unitsComboBox";
-            // 
-            // EditChartWindow
+            // EditChart3DWindow
             // 
             this.AcceptButton = this.okButton;
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
+            this.ClientSize = new System.Drawing.Size(671, 634);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.cancelButton);
@@ -686,10 +942,13 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditChart3DWindow";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = Localization.EditChart3DWindow.this_Text;
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeNumericUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);

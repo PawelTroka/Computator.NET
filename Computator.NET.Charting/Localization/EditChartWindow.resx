@@ -118,9 +118,87 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="button2.Text" xml:space="preserve">
-    <value>Anuluj</value>
+    <value>Cancel</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Edytuj właściwości wykresu</value>
+  <data name="this_Text" xml:space="preserve">
+    <value>Edit chart</value>
+  </data>
+  <data name="fontsGroupBox.Text" xml:space="preserve">
+    <value>Fonts</value>
+  </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>Chart title</value>
+  </data>
+  <data name="button4.Text" xml:space="preserve">
+    <value>x,y axes</value>
+  </data>
+  <data name="button5.Text" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="button6.Text" xml:space="preserve">
+    <value>Numerical values</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>label 3</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>label 2</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>label 4</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>label 1</value>
+  </data>
+  <data name="legendVisible.Text" xml:space="preserve">
+    <value>Show legend?</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Axes values</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>chart title</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>x label</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>y label</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>y minimum</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>y maximum</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>x maximum</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>x minimum</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Labels</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>y step</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>x step</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Line thickness</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>px</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>points size</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>px</value>
   </data>
 </root>

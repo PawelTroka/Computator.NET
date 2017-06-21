@@ -317,7 +317,7 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Wartości na osiach</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
+  <data name="this_Text" xml:space="preserve">
     <value>Edytuj wykres zespolony</value>
   </data>
   <data name="label5.Text" xml:space="preserve">

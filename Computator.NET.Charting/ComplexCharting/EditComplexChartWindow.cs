@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Computator.NET.DataTypes.Properties;
 
 namespace Computator.NET.Charting.ComplexCharting
 {
@@ -15,6 +16,7 @@ namespace Computator.NET.Charting.ComplexCharting
         public EditComplexChartWindow()
         {
             InitializeComponent();
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         public EditComplexChartWindow(ComplexChart chart)
@@ -22,6 +24,7 @@ namespace Computator.NET.Charting.ComplexCharting
             InitializeComponent();
             this.chart = chart;
             loadData();
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         private void loadData()

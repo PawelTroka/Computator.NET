@@ -44,7 +44,6 @@
             // 
             this.ClientSize = new System.Drawing.Size(432, 375);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PlotForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

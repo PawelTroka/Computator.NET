@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Forms;
+using Computator.NET.DataTypes.Properties;
 #if !__MonoCS__
 using System.Windows.Forms.Integration;
 using Color = System.Windows.Media.Color;
@@ -33,6 +34,7 @@ namespace Computator.NET.Charting.Chart3D.UI
             chartTypeComboBox.Items.AddRange(Enum.GetNames(typeof(Chart3DMode)));
 
             loadData();
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         private void loadData()

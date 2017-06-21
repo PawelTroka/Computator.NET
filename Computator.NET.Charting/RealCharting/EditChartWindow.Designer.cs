@@ -87,88 +87,145 @@
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            resources.ApplyResources(this.button1, "button1");
+            this.button1.Location = new System.Drawing.Point(16, 436);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(300, 73);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            resources.ApplyResources(this.button2, "button2");
+            this.button2.Location = new System.Drawing.Point(324, 436);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(299, 73);
+            this.button2.TabIndex = 1;
+            this.button2.Text = Localization.EditChartWindow.button2_Text;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // xMinChartTextBox
             // 
-            resources.ApplyResources(this.xMinChartTextBox, "xMinChartTextBox");
+            this.xMinChartTextBox.Location = new System.Drawing.Point(25, 21);
+            this.xMinChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xMinChartTextBox.Name = "xMinChartTextBox";
+            this.xMinChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.xMinChartTextBox.TabIndex = 2;
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(29, 46);
             this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 17);
+            this.label1.TabIndex = 3;
+            this.label1.Text = Localization.EditChartWindow.label1_Text;
             // 
             // label2
             // 
-            resources.ApplyResources(this.label2, "label2");
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(153, 46);
             this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(76, 17);
+            this.label2.TabIndex = 5;
+            this.label2.Text = Localization.EditChartWindow.label2_Text;
             // 
             // xMaxChartTextBox
             // 
-            resources.ApplyResources(this.xMaxChartTextBox, "xMaxChartTextBox");
+            this.xMaxChartTextBox.Location = new System.Drawing.Point(148, 21);
+            this.xMaxChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xMaxChartTextBox.Name = "xMaxChartTextBox";
+            this.xMaxChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.xMaxChartTextBox.TabIndex = 4;
             // 
             // label3
             // 
-            resources.ApplyResources(this.label3, "label3");
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(153, 116);
             this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 17);
+            this.label3.TabIndex = 9;
+            this.label3.Text = Localization.EditChartWindow.label3_Text;
             // 
             // yMaxChartTextBox
             // 
-            resources.ApplyResources(this.yMaxChartTextBox, "yMaxChartTextBox");
+            this.yMaxChartTextBox.Location = new System.Drawing.Point(148, 91);
+            this.yMaxChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yMaxChartTextBox.Name = "yMaxChartTextBox";
+            this.yMaxChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.yMaxChartTextBox.TabIndex = 8;
             // 
             // label4
             // 
-            resources.ApplyResources(this.label4, "label4");
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(29, 116);
             this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(74, 17);
+            this.label4.TabIndex = 7;
+            this.label4.Text = Localization.EditChartWindow.label4_Text;
             // 
             // yMinChartTextBox
             // 
-            resources.ApplyResources(this.yMinChartTextBox, "yMinChartTextBox");
+            this.yMinChartTextBox.Location = new System.Drawing.Point(25, 91);
+            this.yMinChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yMinChartTextBox.Name = "yMinChartTextBox";
+            this.yMinChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.yMinChartTextBox.TabIndex = 6;
             // 
             // label5
             // 
-            resources.ApplyResources(this.label5, "label5");
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(163, 98);
             this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(49, 17);
+            this.label5.TabIndex = 13;
+            this.label5.Text = Localization.EditChartWindow.label5_Text;
             // 
             // yLabelChartTextBox
             // 
-            resources.ApplyResources(this.yLabelChartTextBox, "yLabelChartTextBox");
+            this.yLabelChartTextBox.Location = new System.Drawing.Point(157, 73);
+            this.yLabelChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yLabelChartTextBox.Name = "yLabelChartTextBox";
+            this.yLabelChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.yLabelChartTextBox.TabIndex = 12;
             // 
             // label6
             // 
-            resources.ApplyResources(this.label6, "label6");
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(39, 98);
             this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(48, 17);
+            this.label6.TabIndex = 11;
+            this.label6.Text = Localization.EditChartWindow.label6_Text;
             // 
             // xLabelChartTextBox
             // 
-            resources.ApplyResources(this.xLabelChartTextBox, "xLabelChartTextBox");
+            this.xLabelChartTextBox.Location = new System.Drawing.Point(35, 73);
+            this.xLabelChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xLabelChartTextBox.Name = "xLabelChartTextBox";
+            this.xLabelChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.xLabelChartTextBox.TabIndex = 10;
             // 
             // tittleOfChartTextBox
             // 
-            resources.ApplyResources(this.tittleOfChartTextBox, "tittleOfChartTextBox");
+            this.tittleOfChartTextBox.Location = new System.Drawing.Point(35, 21);
+            this.tittleOfChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tittleOfChartTextBox.Name = "tittleOfChartTextBox";
+            this.tittleOfChartTextBox.Size = new System.Drawing.Size(232, 22);
+            this.tittleOfChartTextBox.TabIndex = 14;
             // 
             // label7
             // 
-            resources.ApplyResources(this.label7, "label7");
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(96, 46);
             this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(66, 17);
+            this.label7.TabIndex = 15;
+            this.label7.Text = Localization.EditChartWindow.label7_Text;
             // 
             // groupBox1
             // 
@@ -190,23 +247,39 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.yMaxChartTextBox);
             this.groupBox1.Controls.Add(this.label3);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Location = new System.Drawing.Point(16, 154);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(300, 265);
+            this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
+            this.groupBox1.Text = Localization.EditChartWindow.groupBox1_Text;
             // 
             // label16
             // 
-            resources.ApplyResources(this.label16, "label16");
+            this.label16.AutoSize = true;
+            this.label16.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label16.Location = new System.Drawing.Point(228, 212);
             this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(22, 17);
+            this.label16.TabIndex = 19;
+            this.label16.Text = "px";
             // 
             // label17
             // 
-            resources.ApplyResources(this.label17, "label17");
+            this.label17.AutoSize = true;
+            this.label17.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label17.Location = new System.Drawing.Point(145, 235);
             this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(75, 17);
+            this.label17.TabIndex = 18;
+            this.label17.Text = Localization.EditChartWindow.label17_Text;
             // 
             // pointsSizeNumericUpDown
             // 
-            resources.ApplyResources(this.pointsSizeNumericUpDown, "pointsSizeNumericUpDown");
+            this.pointsSizeNumericUpDown.Location = new System.Drawing.Point(148, 210);
+            this.pointsSizeNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pointsSizeNumericUpDown.Maximum = new decimal(new int[] {
             20,
             0,
@@ -218,6 +291,9 @@
             0,
             0});
             this.pointsSizeNumericUpDown.Name = "pointsSizeNumericUpDown";
+            this.pointsSizeNumericUpDown.Size = new System.Drawing.Size(75, 22);
+            this.pointsSizeNumericUpDown.TabIndex = 17;
+            this.pointsSizeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.pointsSizeNumericUpDown.Value = new decimal(new int[] {
             4,
             0,
@@ -226,17 +302,27 @@
             // 
             // label15
             // 
-            resources.ApplyResources(this.label15, "label15");
+            this.label15.AutoSize = true;
+            this.label15.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label15.Location = new System.Drawing.Point(105, 212);
             this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(22, 17);
+            this.label15.TabIndex = 16;
+            this.label15.Text = "px";
             // 
             // label14
             // 
-            resources.ApplyResources(this.label14, "label14");
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(21, 235);
             this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(98, 17);
+            this.label14.TabIndex = 15;
+            this.label14.Text = Localization.EditChartWindow.label14_Text;
             // 
             // lineThicknessNumericUpDown
             // 
-            resources.ApplyResources(this.lineThicknessNumericUpDown, "lineThicknessNumericUpDown");
+            this.lineThicknessNumericUpDown.Location = new System.Drawing.Point(25, 210);
+            this.lineThicknessNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lineThicknessNumericUpDown.Maximum = new decimal(new int[] {
             20,
             0,
@@ -248,6 +334,9 @@
             0,
             0});
             this.lineThicknessNumericUpDown.Name = "lineThicknessNumericUpDown";
+            this.lineThicknessNumericUpDown.Size = new System.Drawing.Size(75, 22);
+            this.lineThicknessNumericUpDown.TabIndex = 14;
+            this.lineThicknessNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.lineThicknessNumericUpDown.Value = new decimal(new int[] {
             4,
             0,
@@ -256,23 +345,37 @@
             // 
             // xDeltaChartTextBox
             // 
-            resources.ApplyResources(this.xDeltaChartTextBox, "xDeltaChartTextBox");
+            this.xDeltaChartTextBox.Location = new System.Drawing.Point(25, 151);
+            this.xDeltaChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xDeltaChartTextBox.Name = "xDeltaChartTextBox";
+            this.xDeltaChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.xDeltaChartTextBox.TabIndex = 10;
             // 
             // label12
             // 
-            resources.ApplyResources(this.label12, "label12");
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(29, 176);
             this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(45, 17);
+            this.label12.TabIndex = 11;
+            this.label12.Text = Localization.EditChartWindow.label12_Text;
             // 
             // yDeltaChartTextBox
             // 
-            resources.ApplyResources(this.yDeltaChartTextBox, "yDeltaChartTextBox");
+            this.yDeltaChartTextBox.Location = new System.Drawing.Point(148, 151);
+            this.yDeltaChartTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.yDeltaChartTextBox.Name = "yDeltaChartTextBox";
+            this.yDeltaChartTextBox.Size = new System.Drawing.Size(117, 22);
+            this.yDeltaChartTextBox.TabIndex = 12;
             // 
             // label13
             // 
-            resources.ApplyResources(this.label13, "label13");
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(153, 176);
             this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(46, 17);
+            this.label13.TabIndex = 13;
+            this.label13.Text = Localization.EditChartWindow.label13_Text;
             // 
             // groupBox2
             // 
@@ -282,9 +385,14 @@
             this.groupBox2.Controls.Add(this.yLabelChartTextBox);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.xLabelChartTextBox);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Location = new System.Drawing.Point(16, 21);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(300, 127);
+            this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
+            this.groupBox2.Text = Localization.EditChartWindow.groupBox2_Text;
             // 
             // groupBox3
             // 
@@ -297,55 +405,93 @@
             this.groupBox3.Controls.Add(this.legendaEtykieta4);
             this.groupBox3.Controls.Add(this.legendaEtykieta3);
             this.groupBox3.Controls.Add(this.label10);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Location = new System.Drawing.Point(324, 210);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox3.Size = new System.Drawing.Size(299, 209);
+            this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
+            this.groupBox3.Text = Localization.EditChartWindow.groupBox3_Text;
             // 
             // legendaEtykieta2
             // 
-            resources.ApplyResources(this.legendaEtykieta2, "legendaEtykieta2");
+            this.legendaEtykieta2.Location = new System.Drawing.Point(141, 73);
+            this.legendaEtykieta2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.legendaEtykieta2.Name = "legendaEtykieta2";
+            this.legendaEtykieta2.Size = new System.Drawing.Size(117, 22);
+            this.legendaEtykieta2.TabIndex = 12;
             // 
             // legendaEtykieta1
             // 
-            resources.ApplyResources(this.legendaEtykieta1, "legendaEtykieta1");
+            this.legendaEtykieta1.Location = new System.Drawing.Point(19, 73);
+            this.legendaEtykieta1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.legendaEtykieta1.Name = "legendaEtykieta1";
+            this.legendaEtykieta1.Size = new System.Drawing.Size(117, 22);
+            this.legendaEtykieta1.TabIndex = 10;
             // 
             // legendVisible
             // 
-            resources.ApplyResources(this.legendVisible, "legendVisible");
+            this.legendVisible.AutoSize = true;
+            this.legendVisible.Location = new System.Drawing.Point(19, 33);
+            this.legendVisible.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.legendVisible.Name = "legendVisible";
+            this.legendVisible.Size = new System.Drawing.Size(119, 21);
+            this.legendVisible.TabIndex = 0;
+            this.legendVisible.Text = Localization.EditChartWindow.legendVisible_Text;
             this.legendVisible.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
-            resources.ApplyResources(this.label8, "label8");
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(23, 98);
             this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(50, 17);
+            this.label8.TabIndex = 11;
+            this.label8.Text = Localization.EditChartWindow.label8_Text;
             // 
             // label11
             // 
-            resources.ApplyResources(this.label11, "label11");
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(147, 167);
             this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(50, 17);
+            this.label11.TabIndex = 17;
+            this.label11.Text = Localization.EditChartWindow.label11_Text;
             // 
             // label9
             // 
-            resources.ApplyResources(this.label9, "label9");
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(147, 98);
             this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(50, 17);
+            this.label9.TabIndex = 13;
+            this.label9.Text = Localization.EditChartWindow.label9_Text;
             // 
             // legendaEtykieta4
             // 
-            resources.ApplyResources(this.legendaEtykieta4, "legendaEtykieta4");
+            this.legendaEtykieta4.Location = new System.Drawing.Point(141, 143);
+            this.legendaEtykieta4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.legendaEtykieta4.Name = "legendaEtykieta4";
+            this.legendaEtykieta4.Size = new System.Drawing.Size(117, 22);
+            this.legendaEtykieta4.TabIndex = 16;
             // 
             // legendaEtykieta3
             // 
-            resources.ApplyResources(this.legendaEtykieta3, "legendaEtykieta3");
+            this.legendaEtykieta3.Location = new System.Drawing.Point(19, 143);
+            this.legendaEtykieta3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.legendaEtykieta3.Name = "legendaEtykieta3";
+            this.legendaEtykieta3.Size = new System.Drawing.Size(117, 22);
+            this.legendaEtykieta3.TabIndex = 14;
             // 
             // label10
             // 
-            resources.ApplyResources(this.label10, "label10");
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(23, 167);
             this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(50, 17);
+            this.label10.TabIndex = 15;
+            this.label10.Text = Localization.EditChartWindow.label10_Text;
             // 
             // fontsGroupBox
             // 
@@ -353,44 +499,66 @@
             this.fontsGroupBox.Controls.Add(this.button5);
             this.fontsGroupBox.Controls.Add(this.button4);
             this.fontsGroupBox.Controls.Add(this.button3);
-            resources.ApplyResources(this.fontsGroupBox, "fontsGroupBox");
+            this.fontsGroupBox.Location = new System.Drawing.Point(324, 21);
+            this.fontsGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.fontsGroupBox.Name = "fontsGroupBox";
+            this.fontsGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.fontsGroupBox.Size = new System.Drawing.Size(299, 183);
+            this.fontsGroupBox.TabIndex = 19;
             this.fontsGroupBox.TabStop = false;
+            this.fontsGroupBox.Text = Localization.EditChartWindow.fontsGroupBox_Text;
             // 
             // button6
             // 
-            resources.ApplyResources(this.button6, "button6");
+            this.button6.Location = new System.Drawing.Point(5, 142);
+            this.button6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(285, 34);
+            this.button6.TabIndex = 3;
+            this.button6.Text = Localization.EditChartWindow.button6_Text;
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
-            resources.ApplyResources(this.button5, "button5");
+            this.button5.Location = new System.Drawing.Point(5, 101);
+            this.button5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(285, 34);
+            this.button5.TabIndex = 2;
+            this.button5.Text = Localization.EditChartWindow.button5_Text;
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
-            resources.ApplyResources(this.button4, "button4");
+            this.button4.Location = new System.Drawing.Point(5, 62);
+            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(285, 34);
+            this.button4.TabIndex = 1;
+            this.button4.Text = Localization.EditChartWindow.button4_Text;
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button3
             // 
-            resources.ApplyResources(this.button3, "button3");
+            this.button3.Location = new System.Drawing.Point(5, 21);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(285, 34);
+            this.button3.TabIndex = 0;
+            this.button3.Text = Localization.EditChartWindow.button3_Text;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // EditChartWindow
             // 
             this.AcceptButton = this.button1;
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button2;
+            this.ClientSize = new System.Drawing.Size(635, 521);
             this.Controls.Add(this.fontsGroupBox);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -398,10 +566,13 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditChartWindow";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = Localization.EditChartWindow.this_Text;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pointsSizeNumericUpDown)).EndInit();

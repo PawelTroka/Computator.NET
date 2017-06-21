@@ -39,22 +39,35 @@
             // propertyGrid1
             // 
             this.propertyGrid1.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            resources.ApplyResources(this.propertyGrid1, "propertyGrid1");
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(581, 421);
+            this.propertyGrid1.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            resources.ApplyResources(this.button1, "button1");
+            this.button1.Location = new System.Drawing.Point(0, 20);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(209, 62);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            resources.ApplyResources(this.button2, "button2");
+            this.button2.Location = new System.Drawing.Point(349, 20);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(209, 62);
+            this.button2.TabIndex = 2;
+            this.button2.Text = Localization.EditChartProperties.button2_Text;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -62,22 +75,30 @@
             // 
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.button2);
-            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 421);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(581, 100);
+            this.panel1.TabIndex = 3;
             // 
             // EditChartProperties
             // 
             this.AcceptButton = this.button1;
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button2;
+            this.ClientSize = new System.Drawing.Size(581, 521);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditChartProperties";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = Localization.EditChartProperties.this_Text;
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

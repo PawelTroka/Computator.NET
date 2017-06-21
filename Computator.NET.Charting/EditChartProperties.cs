@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Computator.NET.DataTypes.Properties;
 
 namespace Computator.NET.Charting
 {
@@ -12,6 +13,7 @@ namespace Computator.NET.Charting
             InitializeComponent();
             chart = cchart;
             propertyGrid1.SelectedObject = cchart;
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         private void button1_Click(object sender, EventArgs e)

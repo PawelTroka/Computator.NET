@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
+using Computator.NET.DataTypes.Properties;
 using Computator.NET.Services;
 
 namespace Computator.NET.Views
@@ -16,6 +17,7 @@ namespace Computator.NET.Views
             InitializeComponent();
             symbolicCalculationsTabPage.Enabled = false;
             this.MakeSureItsNotBiggerThanScreen();
+            this.Icon = GraphicsResources.computator_net_icon;
         }
 
         public MainView(MenuStripView menuStripView, ToolBarView toolbarView, CalculationsView calculationsView, NumericalCalculationsView numericalCalculationsView, ScriptingView scriptingView, CustomFunctionsView customFunctionsView, ChartingView chartingView, ExpressionView expressionView) : this()
