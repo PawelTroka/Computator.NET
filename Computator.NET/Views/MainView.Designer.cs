@@ -86,8 +86,8 @@ namespace Computator.NET.Views
             this.dd212ToolStripMenuItem,
             this.fdsfdsToolStripMenuItem,
             this.mode3DFxyToolStripMenuItem});
-            this.modeToolStripDropDownButton.Image = DataTypes.Localization.Views.MainView.modeToolStripDropDownButton_Image;
-            this.modeToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            //this.modeToolStripDropDownButton.Image = DataTypes.Localization.Views.MainView.modeToolStripDropDownButton_Image;
+            //this.modeToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.modeToolStripDropDownButton.Name = "modeToolStripDropDownButton";
             this.modeToolStripDropDownButton.Size = new System.Drawing.Size(134, 24);
             this.modeToolStripDropDownButton.Text = "Mode[Real : f(x)]";
