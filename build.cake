@@ -22,7 +22,10 @@ if (type != null)
 {
 	var displayName = type.GetMethod("GetDisplayName", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
 	if (displayName != null)
+	{
 		monoVersion = displayName.Invoke(null, null).ToString();
+		monoVersionShort = string.Join(".",System.Text.RegularExpressions.Regex.Match(monoVersion,@"(\d+\.\d+(?:\.\d+(?:\.\d+)?)?)").Value.Split(".".ToCharArray(),StringSplitOptions.RemoveEmptyEntries).Take(3));
+	}
 }
 
 var isMonoButSupportsMsBuild = monoVersion!=null && System.Text.RegularExpressions.Regex.IsMatch(monoVersion,@"([5-9]|\d{2,})\.\d+\.\d+(\.\d+)?");
@@ -66,6 +69,8 @@ var msBuildSettings = new MSBuildSettings {
 	{
 		if(System.Environment.OSVersion.Platform != System.PlatformID.MacOSX)
 			msBuildSettings.ToolPath = new FilePath(@"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll");//hack for Linux bug - missing MSBuild path
+		else
+			msBuildSettings.ToolPath = new FilePath(@"/Library/Frameworks/Mono.framework/Versions/"+monoVersionShort+@"/lib/mono/msbuild/15.0/bin/MSBuild.exe");
 	}
 
 var xBuildSettings = new XBuildSettings {
