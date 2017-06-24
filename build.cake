@@ -1,5 +1,6 @@
 #addin Cake.Coveralls
 #addin nuget:?package=Cake.Codecov
+#addin nuget:?package=Cake.AppPackager
 
 #tool coveralls.net
 #tool nuget:?package=OpenCover
@@ -124,6 +125,7 @@ Task("Clean")
 {
 	DeleteDirectories(GetDirectories("Computator.NET*/**/bin"), recursive:true);
 	DeleteDirectories(GetDirectories("Computator.NET*/**/obj"), recursive:true);
+	DeleteDirectories(GetDirectories("AppPackages"), recursive:true);
 });
 
 Task("Restore")
@@ -251,7 +253,7 @@ Task("Upload-Coverage")
 });
 
 
-Task("Create-Installer")
+Task("Build-Installer")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
@@ -271,7 +273,46 @@ Task("Create-Installer")
 	}
 	else
 	{
-		//TODO: create Unix specific installer
+		Warning("Building installer is currently not supported on Unix");
+	}
+});
+
+Task("Build-Uwp")
+	.IsDependentOn("Build")
+	.Does(() =>
+{
+	if(IsRunningOnWindows())
+	{
+		var packageFiles = @"AppPackages/PackageFiles";
+		
+		CopyDirectory(@"Computator.NET/bin/Release",packageFiles);
+		CopyFileToDirectory(@"build-uwp/AppxManifest.xml",packageFiles);
+		CopyFileToDirectory(@"build-uwp/Registry.dat",packageFiles);
+
+		CopyDirectory(@"Computator.NET.Core/Special/windows-x64",packageFiles);
+		CopyDirectory(@"Graphics/Assets",packageFiles+@"/Assets");
+		
+		CopyDirectory(@"Computator.NET.Core/TSL Examples",packageFiles+@"/VFS/Users/ContainerAdministrator/Documents/Computator.NET/TSL Examples");
+		CopyDirectory(@"Computator.NET.Core/Static/fonts",packageFiles+@"/VFS/Windows/Fonts");
+
+		var programFilesPath = System.Environment.Is64BitOperatingSystem  ? Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) : Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+		var makePriPaths = GetFiles(programFilesPath + @"\Windows Kits\10\bin\x86\makepri.exe");
+		var makePriPath = makePriPaths.First();
+		StartProcess(makePriPath, @"createconfig /cf AppPackages\PackageFiles\priconfig.xml /dq en-US");//makepri createconfig /cf AppPackages\PackageFiles\priconfig.xml /dq en-US
+		StartProcess(makePriPath, @"new /pr AppPackages\PackageFiles /cf AppPackages\PackageFiles\priconfig.xml");//makepri new /pr AppPackages\PackageFiles /cf AppPackages\PackageFiles\priconfig.xml	
+		
+		MoveFiles(@"*.pri", packageFiles);// move /y .\*.pri AppPackages\PackageFiles
+		
+		AppPack("AppPackages/Computator.NET.appx", new DirectoryPath("AppPackages/PackageFiles"));		
+		Sign(GetFiles("AppPackages/*.appx"), new SignToolSignSettings {
+			TimeStampUri = new Uri("http://timestamp.digicert.com"),
+            DigestAlgorithm = SignToolDigestAlgorithm.Sha256,
+            CertPath = @"build-uwp/Computator.NET_TemporaryKey.pfx",
+		});
+	}
+	else
+	{
+		Warning("Building Universal Windows App is currently not supported on Unix");
 	}
 });
 
