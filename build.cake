@@ -285,7 +285,7 @@ Task("Build-Uwp")
 	{
 		var packageFiles = @"AppPackages/PackageFiles";
 		
-		CopyDirectory(@"Computator.NET/bin/Release",packageFiles);
+		CopyDirectory(@"Computator.NET/bin/"+configuration,packageFiles);
 		CopyFileToDirectory(@"build-uwp/AppxManifest.xml",packageFiles);
 		CopyFileToDirectory(@"build-uwp/Registry.dat",packageFiles);
 
