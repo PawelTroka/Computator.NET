@@ -1,6 +1,7 @@
 #addin Cake.Coveralls
 #addin nuget:?package=Cake.Codecov
 #addin nuget:?package=Cake.AppPackager
+#addin nuget:?package=Cake.VersionReader
 
 #tool coveralls.net
 #tool nuget:?package=OpenCover
@@ -126,6 +127,7 @@ Task("Clean")
 	DeleteDirectories(GetDirectories("Computator.NET*/**/bin"), recursive:true);
 	DeleteDirectories(GetDirectories("Computator.NET*/**/obj"), recursive:true);
 	DeleteDirectories(GetDirectories("AppPackages"), recursive:true);
+	//DeleteDirectories(GetDirectories("publish"), recursive:true);
 });
 
 Task("Restore")
@@ -259,17 +261,17 @@ Task("Build-Installer")
 {
 	if(IsRunningOnWindows())
 	{
-	  // Use MSBuild
-	  //msBuildSettings.ArgumentCustomization=null;
-	  MSBuild(installerProject, new MSBuildSettings
-	  {
-		Verbosity = Verbosity.Minimal,
-		ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
-		Configuration = configuration,
-		PlatformTarget = PlatformTarget.MSIL,
-		MSBuildPlatform = MSBuildPlatform.Automatic,
-		DetailedSummary = true,
-	  });
+		  // Use MSBuild
+		  //msBuildSettings.ArgumentCustomization=null;
+		  MSBuild(installerProject, new MSBuildSettings
+		  {
+			Verbosity = Verbosity.Minimal,
+			ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
+			Configuration = configuration,
+			PlatformTarget = PlatformTarget.MSIL,
+			MSBuildPlatform = MSBuildPlatform.Automatic,
+			DetailedSummary = true,
+		  });
 	}
 	else
 	{
@@ -315,6 +317,40 @@ Task("Build-Uwp")
 		Warning("Building Universal Windows App is currently not supported on Unix");
 	}
 });
+
+
+Task("Publish")
+	.IsDependentOn("Build")
+	.Does(() =>
+{
+	DeleteDirectories(GetDirectories("publish"), recursive:true);
+
+	var versionNumber = GetFullVersionNumber(@"Computator.NET/bin/"+configuration+@"/Computator.NET.exe");
+	EnsureDirectoryExists("publish");
+
+	var namesSuffix = ".v"+ versionNumber + (netmoniker=="net40" ? (IsRunningOnWindows() ? "-WindowsXP" : "-net40") : "") + ".";
+
+	Zip(@"Computator.NET/bin/"+configuration, @"publish/Computator.NET"+ namesSuffix + "zip");
+
+	if(AppVeyor.IsRunningOnAppVeyor)
+		AppVeyor.UploadArtifact(@"publish/Computator.NET"+ namesSuffix + "zip");
+	else if(TravisCI.IsRunningOnTravisCI)
+		Warning("Publishing artifacts in TravisCI is not yet supported.");
+
+	if(IsRunningOnWindows())
+	{
+		RunTarget("Build-Uwp");
+		MoveFile(@"AppPackages/Computator.NET.appx","publish/Computator.NET" + namesSuffix + "appx");
+		if(AppVeyor.IsRunningOnAppVeyor)
+			AppVeyor.UploadArtifact("publish/Computator.NET" + namesSuffix + "appx");
+
+		RunTarget("Build-Installer");
+		MoveFile(GetFiles(@"Computator.NET.Setup/bin/" + configuration + @"/Computator.NET.Setup.exe").Single(),@"publish/Computator.NET.Setup" + namesSuffix + "exe");
+		if(AppVeyor.IsRunningOnAppVeyor)
+			AppVeyor.UploadArtifact(@"publish/Computator.NET.Setup" + namesSuffix + "exe");
+	}
+});
+
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS

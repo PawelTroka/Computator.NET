@@ -34,8 +34,7 @@ after_test:
   - build.cmd -Target Upload-Coverage
 
 after_build:
-  - build.cmd -Target Build-Installer
-  - build.cmd -Target Build-Uwp
+  - build.cmd -Target Publish
 
 notifications:
 - provider: GitHubPullRequest
