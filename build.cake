@@ -26,7 +26,9 @@ if (type != null)
 	if (displayName != null)
 	{
 		monoVersion = displayName.Invoke(null, null).ToString();
+		Information("Mono version is "+monoVersion);
 		monoVersionShort = string.Join(".",System.Text.RegularExpressions.Regex.Match(monoVersion,@"(\d+\.\d+(?:\.\d+(?:\.\d+)?)?)").Value.Split(".".ToCharArray(),StringSplitOptions.RemoveEmptyEntries).Take(3));
+		Information("Mono version short is "+monoVersionShort);
 	}
 }
 
@@ -83,10 +85,10 @@ var msBuildSettings = new MSBuildSettings {
 			{
 				foreach(var msBuildExecutableName in msBuildExecutableNames)
 				{
-					foreach(var monoVersion in monoVersions)
+					foreach(var chosenMonoVersion in monoVersions)
 					{
-						msBuildPossiblePaths.Add(@"/Library/Frameworks/Mono.framework/Versions/" + monoVersion + @"/lib/mono/msbuild/" + msBuildVersion +@"/bin/"+msBuildExecutableName);
-						msBuildPossiblePaths.Add(@"/Library/Frameworks/Mono.framework/Versions/" + monoVersion + @"/bin/mono/msbuild/" + msBuildVersion +@"/bin/"+msBuildExecutableName);
+						msBuildPossiblePaths.Add(@"/Library/Frameworks/Mono.framework/Versions/" + chosenMonoVersion + @"/lib/mono/msbuild/" + msBuildVersion +@"/bin/"+msBuildExecutableName);
+						msBuildPossiblePaths.Add(@"/Library/Frameworks/Mono.framework/Versions/" + chosenMonoVersion + @"/bin/mono/msbuild/" + msBuildVersion +@"/bin/"+msBuildExecutableName);
 					}
 					msBuildPossiblePaths.Add(@"/usr/bin/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
 					msBuildPossiblePaths.Add(@"/usr/local/bin/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
