@@ -72,7 +72,39 @@ var msBuildSettings = new MSBuildSettings {
 		if(System.Environment.OSVersion.Platform != System.PlatformID.MacOSX)
 			msBuildSettings.ToolPath = new FilePath(@"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll");//hack for Linux bug - missing MSBuild path
 		else
-			msBuildSettings.ToolPath = new FilePath(@"/Library/Frameworks/Mono.framework/Versions/"+monoVersionShort+@"/lib/mono/msbuild/15.0/bin/MSBuild.exe");
+		{
+			var msBuildVersions = new [] {"15.3","15.2","15.1","15.0","14.1","14.0"};
+			var monoVersions = new [] {"Current", monoVersionShort};
+			var msBuildExecutableNames = new [] {"MSBuild.exe", "MSBuild.dll", "msBuild.exe", "msbuild.exe", "msBuild.dll", "msbuild.dll"};
+
+			var msBuildPossiblePaths = new List<string>();
+
+			foreach(var msBuildVersion in msBuildVersions)
+			{
+				foreach(var msBuildExecutableName in msBuildExecutableNames)
+				{
+					foreach(var monoVersion in monoVersions)
+					{
+						msBuildPossiblePaths.Add(@"/Library/Frameworks/Mono.framework/Versions/" + monoVersion + @"/lib/mono/msbuild/" + msBuildVersion +@"/bin/"+msBuildExecutableName);
+						msBuildPossiblePaths.Add(@"/Library/Frameworks/Mono.framework/Versions/" + monoVersion + @"/bin/mono/msbuild/" + msBuildVersion +@"/bin/"+msBuildExecutableName);
+					}
+					msBuildPossiblePaths.Add(@"/usr/bin/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
+					msBuildPossiblePaths.Add(@"/usr/local/bin/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
+
+					msBuildPossiblePaths.Add(@"/usr/lib/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
+					msBuildPossiblePaths.Add(@"/usr/local/lib/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
+				}
+			}
+
+			var msBuildPath = msBuildPossiblePaths.FirstOrDefault(p => FileExists(p));
+			if(msBuildPath!=null)
+			{
+				Information("MSBuild path is "+msBuildPath);
+				msBuildSettings.ToolPath = new FilePath(msBuildPath);
+			}
+			else
+				Error("MSBuild path not found!");
+		}
 	}
 
 var xBuildSettings = new XBuildSettings {
