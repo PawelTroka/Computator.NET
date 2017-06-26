@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Xml.Linq;
 using WixSharp;
 using WixSharp.CommonTasks;
 
@@ -24,12 +25,10 @@ namespace Computator.NET.Setup
             }
             Console.WriteLine($"Highest .NET version among included assemblies is '{CurrentHighestVersion.DisplayVersion}'");
 
-
-
             var project = new Project("Computator.NET",
-                new Dir(@"%ProgramFiles%\Computator.NET", new Files(binariesPath), new File(new Id(nameof(SharedProperties.TslIcon)), SharedProperties.TslIcon)),
-                //new Dir("%Fonts%", new FontFile(@"..\Computator.NET.Core\Static\fonts\*.*")),
-                new Dir("%Fonts%", Fonts.GetFontFiles()))
+                new Dir(@"%ProgramFiles%\Computator.NET", new Files(binariesPath), new File(new Id(nameof(SharedProperties.TslIcon)), SharedProperties.TslIcon))
+                ,new Dir("%Fonts%", Fonts.GetFontFiles())
+                )
             {
                 Version = SharedProperties.Version,
                 GUID = new Guid(SharedProperties.UpgradeCode),
@@ -69,6 +68,8 @@ namespace Computator.NET.Setup
                     Schedule = UpgradeSchedule.afterInstallInitialize,
                 },
             };
+            //project.LightOptions += @" XPath=""/wixOutput/table[@name='File']/row/field[5]"" InnerText=""65535.0.0.0""";
+            //project.WixSourceGenerated += Fonts.InjectFonts;
 
             var prerequisite = PrerequisiteHelper.GetPrerequisite(CurrentHighestVersion);
             Console.WriteLine($"Setting required NetFx {nameof(prerequisite)} '{prerequisite.WixPrerequisite}'");
