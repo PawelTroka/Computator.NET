@@ -8,8 +8,13 @@ namespace Computator.NET.Setup
 {
     public class SharedProperties
     {
+        private const string BigIcon = @"..\Graphics\computator.net-icon.ico";
+        private const string HighlyCompatibleIcon = @"..\Graphics\computator.net-icon-16x16-to-256x256.ico";
+
         public const string UpgradeCode = "86D89770-B31B-4467-BC5E-B54B0FF263A1";
-        public const string IconLocation = @"..\Graphics\computator.net-icon.ico";
+
+        public const string IconLocation = HighlyCompatibleIcon;//BigIcon;
+        //computator.net-icon-16x16-to-256x256.ico
         public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
         public const string SetupGif = @"..\Graphics\Installer\InstallShield Computator.NET Theme\setup.gif";
         public const string Logo = @"..\Graphics\computator.net-icon.png";
