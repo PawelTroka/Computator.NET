@@ -18,7 +18,11 @@ namespace Computator.NET.Setup
         public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
         public const string SetupGif = @"..\Graphics\Installer\InstallShield Computator.NET Theme\setup.gif";
         public const string Logo = @"..\Graphics\computator.net-icon.png";
-        public const string TslIcon = @"..\Graphics\tsl.ico";
+
+        private const string TslIconBig = @"..\Graphics\tsl.ico";
+        private const string TslIconCompatible = @"..\Graphics\tsl-16x16-to-256x256.ico";
+
+        public const string TslIcon = TslIconCompatible;//TslIconBig;
         public const string License = @"..\docs\eula.rtf";
         public const string Company = "TROKA Software";
         public const string HelpTelephone = "+48-725-656-424";
