@@ -48,6 +48,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>EditComplexChartWindow.resx</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\BenchmarkForm.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BenchmarkForm.resx</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\SettingsForm.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -115,6 +120,10 @@
     <EmbeddedResource Update="Charting\EditComplexChartWindow.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EditComplexChartWindow.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\BenchmarkForm.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>BenchmarkForm.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Dialogs\SettingsForm.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

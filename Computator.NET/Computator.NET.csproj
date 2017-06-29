@@ -316,18 +316,6 @@
     <Compile Include="Views\SolutionExplorerView.Designer.cs">
       <DependentUpon>SolutionExplorerView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Benchmarking\BenchmarkForm.cs.resx">
-      <DependentUpon>BenchmarkForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Benchmarking\BenchmarkForm.de.resx">
-      <DependentUpon>BenchmarkForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Benchmarking\BenchmarkForm.pl.resx">
-      <DependentUpon>BenchmarkForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Benchmarking\BenchmarkForm.resx">
-      <DependentUpon>BenchmarkForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DocumentsTabControl.resx">
       <DependentUpon>DocumentsTabControl.cs</DependentUpon>
     </EmbeddedResource>

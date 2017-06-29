@@ -118,34 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="cancelMemoryTestButton.Text" xml:space="preserve">
-    <value>Zrušit</value>
+    <value>Anuluj</value>
   </data>
   <data name="startMemoryTestButton.Text" xml:space="preserve">
-    <value>Spustit test !</value>
+    <value>Rozpocznij test!</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Výsledky:</value>
+    <value>Wyniki:</value>
   </data>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Otestovat výkonnost alokace paměti</value>
+    <value>Testuj wydajność alokacji pamięci</value>
   </data>
   <data name="cancelFunctionsTestButton.Text" xml:space="preserve">
-    <value>Zrušit</value>
+    <value>Anuluj</value>
   </data>
   <data name="richTextBox4.Text" xml:space="preserve">
-    <value>Otestovat výkonný výpočet</value>
+    <value>Testuj wydajność obliczeniową</value>
   </data>
   <data name="startFunctionsTestButton.Text" xml:space="preserve">
-    <value>Spustit test !</value>
+    <value>Rozpocznij test!</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Výsledky:</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 24</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 24</value>
+    <value>Wyniki:</value>
   </data>
 </root>
