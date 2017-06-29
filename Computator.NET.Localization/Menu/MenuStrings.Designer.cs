@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.Core.Menu {
+namespace Computator.NET.Localization.Menu {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Computator.NET.Core.Menu {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Core.Menu.MenuStrings", typeof(MenuStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Menu.MenuStrings", typeof(MenuStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

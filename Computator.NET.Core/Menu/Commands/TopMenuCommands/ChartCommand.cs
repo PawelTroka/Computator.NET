@@ -5,6 +5,7 @@ using Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions;
 using Computator.NET.Core.Menu.Commands.DummyCommands;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes.Events;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {

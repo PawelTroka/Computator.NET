@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using Computator.NET.DataTypes.Localization;
+﻿using System.IO;
 
 namespace Computator.NET.DataTypes
 {

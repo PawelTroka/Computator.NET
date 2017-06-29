@@ -139,7 +139,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 17);
             this.label1.TabIndex = 1;
-            this.label1.Text = Localization.EditChart3DWindow.label1_Text;
+            this.label1.Text = Localization.Charting.EditChart3DWindow.label1_Text;
             // 
             // label2
             // 
@@ -149,7 +149,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 17);
             this.label2.TabIndex = 3;
-            this.label2.Text = Localization.EditChart3DWindow.label2_Text;
+            this.label2.Text = Localization.Charting.EditChart3DWindow.label2_Text;
             // 
             // dotSizeNumericUpDown
             // 
@@ -185,7 +185,7 @@
             this.visibleAxesCheckBox.Name = "visibleAxesCheckBox";
             this.visibleAxesCheckBox.Size = new System.Drawing.Size(111, 21);
             this.visibleAxesCheckBox.TabIndex = 4;
-            this.visibleAxesCheckBox.Text = Localization.EditChart3DWindow.visibleAxesCheckBox_Text;
+            this.visibleAxesCheckBox.Text = Localization.Charting.EditChart3DWindow.visibleAxesCheckBox_Text;
             this.visibleAxesCheckBox.UseVisualStyleBackColor = true;
             this.visibleAxesCheckBox.CheckedChanged += new System.EventHandler(this.visibleAxesCheckBox_CheckedChanged);
             // 
@@ -197,7 +197,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 17);
             this.label3.TabIndex = 5;
-            this.label3.Text = Localization.EditChart3DWindow.label3_Text;
+            this.label3.Text = Localization.Charting.EditChart3DWindow.label3_Text;
             // 
             // equalAxesCheckBox
             // 
@@ -208,7 +208,7 @@
             this.equalAxesCheckBox.Name = "equalAxesCheckBox";
             this.equalAxesCheckBox.Size = new System.Drawing.Size(99, 21);
             this.equalAxesCheckBox.TabIndex = 7;
-            this.equalAxesCheckBox.Text = Localization.EditChart3DWindow.equalAxesCheckBox_Text;
+            this.equalAxesCheckBox.Text = Localization.Charting.EditChart3DWindow.equalAxesCheckBox_Text;
             this.equalAxesCheckBox.UseVisualStyleBackColor = true;
             this.equalAxesCheckBox.CheckedChanged += new System.EventHandler(this.equalAxesCheckBox_CheckedChanged);
             // 
@@ -231,7 +231,7 @@
             this.groupBox1.Size = new System.Drawing.Size(320, 260);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = Localization.EditChart3DWindow.groupBox1_Text;
+            this.groupBox1.Text = Localization.Charting.EditChart3DWindow.groupBox1_Text;
             // 
             // chartTypeComboBox
             // 
@@ -251,7 +251,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(100, 17);
             this.label13.TabIndex = 14;
-            this.label13.Text = Localization.EditChart3DWindow.label13_Text;
+            this.label13.Text = Localization.Charting.EditChart3DWindow.label13_Text;
             // 
             // label4
             // 
@@ -261,7 +261,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(123, 17);
             this.label4.TabIndex = 11;
-            this.label4.Text = Localization.EditChart3DWindow.label4_Text;
+            this.label4.Text = Localization.Charting.EditChart3DWindow.label4_Text;
             // 
             // unitsComboBox
             // 
@@ -453,7 +453,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 17);
             this.label5.TabIndex = 9;
-            this.label5.Text = Localization.EditChart3DWindow.label5_Text;
+            this.label5.Text = Localization.Charting.EditChart3DWindow.label5_Text;
             // 
             // shapeContainer3
             // 
@@ -490,7 +490,7 @@
             this.groupBox2.Size = new System.Drawing.Size(320, 203);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = Localization.EditChart3DWindow.groupBox2_Text;
+            this.groupBox2.Text = Localization.Charting.EditChart3DWindow.groupBox2_Text;
             // 
             // shapeContainer2
             // 
@@ -536,7 +536,7 @@
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(315, 49);
             this.cancelButton.TabIndex = 11;
-            this.cancelButton.Text = Localization.EditChart3DWindow.cancelButton_Text;
+            this.cancelButton.Text = Localization.Charting.EditChart3DWindow.cancelButton_Text;
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.anulujButton_Click);
             // 
@@ -558,7 +558,7 @@
             this.groupBox3.Size = new System.Drawing.Size(320, 466);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = Localization.EditChart3DWindow.groupBox3_Text;
+            this.groupBox3.Text = Localization.Charting.EditChart3DWindow.groupBox3_Text;
             // 
             // label12
             // 
@@ -568,7 +568,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(125, 17);
             this.label12.TabIndex = 23;
-            this.label12.Text = Localization.EditChart3DWindow.label12_Text;
+            this.label12.Text = Localization.Charting.EditChart3DWindow.label12_Text;
             // 
             // label11
             // 
@@ -578,7 +578,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(130, 17);
             this.label11.TabIndex = 22;
-            this.label11.Text = Localization.EditChart3DWindow.label11_Text;
+            this.label11.Text = Localization.Charting.EditChart3DWindow.label11_Text;
             // 
             // groupBox7
             // 
@@ -593,7 +593,7 @@
             this.groupBox7.Size = new System.Drawing.Size(148, 103);
             this.groupBox7.TabIndex = 20;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = Localization.EditChart3DWindow.groupBox7_Text;
+            this.groupBox7.Text = Localization.Charting.EditChart3DWindow.groupBox7_Text;
             // 
             // yOffsetNumericUpDown
             // 
@@ -641,7 +641,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(68, 17);
             this.label10.TabIndex = 18;
-            this.label10.Text = Localization.EditChart3DWindow.label10_Text;
+            this.label10.Text = Localization.Charting.EditChart3DWindow.label10_Text;
             // 
             // label8
             // 
@@ -651,7 +651,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(67, 17);
             this.label8.TabIndex = 17;
-            this.label8.Text = Localization.EditChart3DWindow.label8_Text;
+            this.label8.Text = Localization.Charting.EditChart3DWindow.label8_Text;
             // 
             // labelsVisibilityCheckBox
             // 
@@ -662,7 +662,7 @@
             this.labelsVisibilityCheckBox.Name = "labelsVisibilityCheckBox";
             this.labelsVisibilityCheckBox.Size = new System.Drawing.Size(147, 21);
             this.labelsVisibilityCheckBox.TabIndex = 20;
-            this.labelsVisibilityCheckBox.Text = Localization.EditChart3DWindow.labelsVisibilityCheckBox_Text;
+            this.labelsVisibilityCheckBox.Text = Localization.Charting.EditChart3DWindow.labelsVisibilityCheckBox_Text;
             this.labelsVisibilityCheckBox.UseVisualStyleBackColor = true;
             // 
             // groupBox6
@@ -677,7 +677,7 @@
             this.groupBox6.Size = new System.Drawing.Size(148, 103);
             this.groupBox6.TabIndex = 19;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = Localization.EditChart3DWindow.groupBox6_Text;
+            this.groupBox6.Text = Localization.Charting.EditChart3DWindow.groupBox6_Text;
             // 
             // zActiveCheckBox
             // 
@@ -688,7 +688,7 @@
             this.zActiveCheckBox.Name = "zActiveCheckBox";
             this.zActiveCheckBox.Size = new System.Drawing.Size(76, 21);
             this.zActiveCheckBox.TabIndex = 16;
-            this.zActiveCheckBox.Text = Localization.EditChart3DWindow.zActiveCheckBox_Text;
+            this.zActiveCheckBox.Text = Localization.Charting.EditChart3DWindow.zActiveCheckBox_Text;
             this.zActiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // label7
@@ -699,7 +699,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(68, 17);
             this.label7.TabIndex = 17;
-            this.label7.Text = Localization.EditChart3DWindow.label7_Text;
+            this.label7.Text = Localization.Charting.EditChart3DWindow.label7_Text;
             // 
             // zLabelTextBox
             // 
@@ -723,7 +723,7 @@
             this.groupBox5.Size = new System.Drawing.Size(148, 103);
             this.groupBox5.TabIndex = 19;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = Localization.EditChart3DWindow.groupBox5_Text;
+            this.groupBox5.Text = Localization.Charting.EditChart3DWindow.groupBox5_Text;
             // 
             // yActiveCheckBox
             // 
@@ -734,7 +734,7 @@
             this.yActiveCheckBox.Name = "yActiveCheckBox";
             this.yActiveCheckBox.Size = new System.Drawing.Size(76, 21);
             this.yActiveCheckBox.TabIndex = 16;
-            this.yActiveCheckBox.Text = Localization.EditChart3DWindow.yActiveCheckBox_Text;
+            this.yActiveCheckBox.Text = Localization.Charting.EditChart3DWindow.yActiveCheckBox_Text;
             this.yActiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // label6
@@ -745,7 +745,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(68, 17);
             this.label6.TabIndex = 17;
-            this.label6.Text = Localization.EditChart3DWindow.label6_Text;
+            this.label6.Text = Localization.Charting.EditChart3DWindow.label6_Text;
             // 
             // yLabelTextBox
             // 
@@ -769,7 +769,7 @@
             this.groupBox4.Size = new System.Drawing.Size(148, 103);
             this.groupBox4.TabIndex = 18;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = Localization.EditChart3DWindow.groupBox4_Text;
+            this.groupBox4.Text = Localization.Charting.EditChart3DWindow.groupBox4_Text;
             // 
             // xActiveCheckBox
             // 
@@ -780,7 +780,7 @@
             this.xActiveCheckBox.Name = "xActiveCheckBox";
             this.xActiveCheckBox.Size = new System.Drawing.Size(76, 21);
             this.xActiveCheckBox.TabIndex = 16;
-            this.xActiveCheckBox.Text = Localization.EditChart3DWindow.xActiveCheckBox_Text;
+            this.xActiveCheckBox.Text = Localization.Charting.EditChart3DWindow.xActiveCheckBox_Text;
             this.xActiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // label9
@@ -791,7 +791,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(68, 17);
             this.label9.TabIndex = 17;
-            this.label9.Text = Localization.EditChart3DWindow.label9_Text;
+            this.label9.Text = Localization.Charting.EditChart3DWindow.label9_Text;
             // 
             // xLabelTextBox
             // 
@@ -811,7 +811,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(135, 30);
             this.button2.TabIndex = 8;
-            this.button2.Text = Localization.EditChart3DWindow.button2_Text;
+            this.button2.Text = Localization.Charting.EditChart3DWindow.button2_Text;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -854,7 +854,7 @@
             this.groupBox8.Size = new System.Drawing.Size(644, 85);
             this.groupBox8.TabIndex = 17;
             this.groupBox8.TabStop = false;
-            this.groupBox8.Text = Localization.EditChart3DWindow.groupBox8_Text;
+            this.groupBox8.Text = Localization.Charting.EditChart3DWindow.groupBox8_Text;
             // 
             // xMaxChartTextBox
             // 
@@ -880,7 +880,7 @@
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(73, 17);
             this.label20.TabIndex = 3;
-            this.label20.Text = Localization.EditChart3DWindow.label20_Text;
+            this.label20.Text = Localization.Charting.EditChart3DWindow.label20_Text;
             // 
             // label21
             // 
@@ -890,7 +890,7 @@
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(76, 17);
             this.label21.TabIndex = 5;
-            this.label21.Text = Localization.EditChart3DWindow.label21_Text;
+            this.label21.Text = Localization.Charting.EditChart3DWindow.label21_Text;
             // 
             // yMinChartTextBox
             // 
@@ -908,7 +908,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(74, 17);
             this.label22.TabIndex = 7;
-            this.label22.Text = Localization.EditChart3DWindow.label22_Text;
+            this.label22.Text = Localization.Charting.EditChart3DWindow.label22_Text;
             // 
             // yMaxChartTextBox
             // 
@@ -926,7 +926,7 @@
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(77, 17);
             this.label23.TabIndex = 9;
-            this.label23.Text = Localization.EditChart3DWindow.label23_Text;
+            this.label23.Text = Localization.Charting.EditChart3DWindow.label23_Text;
             // 
             // EditChart3DWindow
             // 
@@ -948,7 +948,7 @@
             this.Name = "EditChart3DWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = Localization.EditChart3DWindow.this_Text;
+            this.Text = Localization.Charting.EditChart3DWindow.this_Text;
             ((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dotSizeNumericUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);

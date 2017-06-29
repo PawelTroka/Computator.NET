@@ -1,4 +1,4 @@
-﻿using Computator.NET.DataTypes.Localization;
+﻿using Computator.NET.Localization;
 
 namespace Computator.NET.DataTypes
 {

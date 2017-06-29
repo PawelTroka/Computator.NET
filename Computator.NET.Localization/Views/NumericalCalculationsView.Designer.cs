@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.DataTypes.Localization.Views {
+namespace Computator.NET.Localization.Views {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Computator.NET.DataTypes.Localization.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.DataTypes.Localization.Views.NumericalCalculationsView", typeof(NumericalCalculationsView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Views.NumericalCalculationsView", typeof(NumericalCalculationsView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

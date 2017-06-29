@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.Localization;
 using Computator.NET.DataTypes.Properties;
+using Computator.NET.Localization;
 
 namespace Computator.NET.Dialogs
 {

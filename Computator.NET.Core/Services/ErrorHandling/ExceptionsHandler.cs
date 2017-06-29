@@ -4,7 +4,7 @@ using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 
 namespace Computator.NET.Core.Services.ErrorHandling
 {

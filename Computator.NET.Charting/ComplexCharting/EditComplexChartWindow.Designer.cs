@@ -100,7 +100,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(299, 73);
             this.button2.TabIndex = 1;
-            this.button2.Text = Localization.EditComplexChartWindow.button2_Text;
+            this.button2.Text = Computator.NET.Localization.Charting.EditComplexChartWindow.button2_Text;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -119,7 +119,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 17);
             this.label1.TabIndex = 3;
-            this.label1.Text = Localization.EditComplexChartWindow.label1_Text;
+            this.label1.Text = Localization.Charting.EditComplexChartWindow.label1_Text;
             // 
             // label2
             // 
@@ -128,7 +128,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 17);
             this.label2.TabIndex = 5;
-            this.label2.Text = Localization.EditComplexChartWindow.label2_Text;
+            this.label2.Text = Localization.Charting.EditComplexChartWindow.label2_Text;
             // 
             // xMaxChartTextBox
             // 
@@ -145,7 +145,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 17);
             this.label3.TabIndex = 9;
-            this.label3.Text = Localization.EditComplexChartWindow.label13_Text;
+            this.label3.Text = Localization.Charting.EditComplexChartWindow.label13_Text;
             // 
             // yMaxChartTextBox
             // 
@@ -162,7 +162,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 17);
             this.label4.TabIndex = 7;
-            this.label4.Text = Localization.EditComplexChartWindow.label4_Text;
+            this.label4.Text = Localization.Charting.EditComplexChartWindow.label4_Text;
             // 
             // yMinChartTextBox
             // 
@@ -179,7 +179,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 17);
             this.label5.TabIndex = 13;
-            this.label5.Text = Localization.EditComplexChartWindow.label5_Text;
+            this.label5.Text = Localization.Charting.EditComplexChartWindow.label5_Text;
             // 
             // yLabelChartTextBox
             // 
@@ -196,7 +196,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 17);
             this.label6.TabIndex = 11;
-            this.label6.Text = Localization.EditComplexChartWindow.label6_Text;
+            this.label6.Text = Localization.Charting.EditComplexChartWindow.label6_Text;
             // 
             // xLabelChartTextBox
             // 
@@ -221,7 +221,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 17);
             this.label7.TabIndex = 15;
-            this.label7.Text = Localization.EditComplexChartWindow.label7_Text;
+            this.label7.Text = Localization.Charting.EditComplexChartWindow.label7_Text;
             // 
             // groupBox1
             // 
@@ -243,7 +243,7 @@
             this.groupBox1.Size = new System.Drawing.Size(300, 229);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = Localization.EditComplexChartWindow.groupBox1_Text;
+            this.groupBox1.Text = Localization.Charting.EditComplexChartWindow.groupBox1_Text;
             // 
             // colorAssigmentComboBox
             // 
@@ -262,7 +262,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(150, 17);
             this.label13.TabIndex = 11;
-            this.label13.Text = Localization.EditComplexChartWindow.label13_Text;
+            this.label13.Text = Localization.Charting.EditComplexChartWindow.label13_Text;
             // 
             // drawAxes
             // 
@@ -272,7 +272,7 @@
             this.drawAxes.Name = "drawAxes";
             this.drawAxes.Size = new System.Drawing.Size(101, 21);
             this.drawAxes.TabIndex = 10;
-            this.drawAxes.Text = Localization.EditComplexChartWindow.drawAxes_Text;
+            this.drawAxes.Text = Localization.Charting.EditComplexChartWindow.drawAxes_Text;
             this.drawAxes.UseVisualStyleBackColor = true;
             // 
             // groupBox2
@@ -290,7 +290,7 @@
             this.groupBox2.Size = new System.Drawing.Size(300, 145);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = Localization.EditComplexChartWindow.groupBox2_Text;
+            this.groupBox2.Text = Localization.Charting.EditComplexChartWindow.groupBox2_Text;
             // 
             // titleFontDialog
             // 
@@ -308,7 +308,7 @@
             this.fontsGroupBox.Size = new System.Drawing.Size(299, 145);
             this.fontsGroupBox.TabIndex = 19;
             this.fontsGroupBox.TabStop = false;
-            this.fontsGroupBox.Text = Localization.EditComplexChartWindow.fontsGroupBox_Text;
+            this.fontsGroupBox.Text = Localization.Charting.EditComplexChartWindow.fontsGroupBox_Text;
             // 
             // button6
             // 
@@ -317,7 +317,7 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(285, 34);
             this.button6.TabIndex = 3;
-            this.button6.Text = Localization.EditComplexChartWindow.button6_Text;
+            this.button6.Text = Localization.Charting.EditComplexChartWindow.button6_Text;
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -328,7 +328,7 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(285, 34);
             this.button4.TabIndex = 1;
-            this.button4.Text = Localization.EditComplexChartWindow.button4_Text;
+            this.button4.Text = Localization.Charting.EditComplexChartWindow.button4_Text;
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -339,7 +339,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(285, 34);
             this.button3.TabIndex = 0;
-            this.button3.Text = Localization.EditComplexChartWindow.button3_Text;
+            this.button3.Text = Localization.Charting.EditComplexChartWindow.button3_Text;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -368,7 +368,7 @@
             this.groupBox3.Size = new System.Drawing.Size(300, 98);
             this.groupBox3.TabIndex = 20;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = Localization.EditComplexChartWindow.groupBox3_Text;
+            this.groupBox3.Text = Localization.Charting.EditComplexChartWindow.groupBox3_Text;
             // 
             // label9
             // 
@@ -377,7 +377,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(43, 17);
             this.label9.TabIndex = 3;
-            this.label9.Text = Localization.EditComplexChartWindow.label9_Text;
+            this.label9.Text = Localization.Charting.EditComplexChartWindow.label9_Text;
             // 
             // contourLinesComboBox
             // 
@@ -420,7 +420,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 17);
             this.label8.TabIndex = 0;
-            this.label8.Text = Localization.EditComplexChartWindow.label8_Text;
+            this.label8.Text = Localization.Charting.EditComplexChartWindow.label8_Text;
             // 
             // groupBox4
             // 
@@ -435,7 +435,7 @@
             this.groupBox4.Size = new System.Drawing.Size(285, 114);
             this.groupBox4.TabIndex = 21;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = Localization.EditComplexChartWindow.groupBox4_Text;
+            this.groupBox4.Text = Localization.Charting.EditComplexChartWindow.groupBox4_Text;
             // 
             // label12
             // 
@@ -444,7 +444,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(65, 17);
             this.label12.TabIndex = 2;
-            this.label12.Text = Localization.EditComplexChartWindow.label12_Text;
+            this.label12.Text = Localization.Charting.EditComplexChartWindow.label12_Text;
             // 
             // label11
             // 
@@ -453,7 +453,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(80, 17);
             this.label11.TabIndex = 1;
-            this.label11.Text = Localization.EditComplexChartWindow.label11_Text;
+            this.label11.Text = Localization.Charting.EditComplexChartWindow.label11_Text;
             // 
             // label10
             // 
@@ -462,7 +462,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(72, 17);
             this.label10.TabIndex = 0;
-            this.label10.Text = Localization.EditComplexChartWindow.label10_Text;
+            this.label10.Text = Localization.Charting.EditComplexChartWindow.label10_Text;
             // 
             // shapeContainer1
             // 
@@ -522,7 +522,7 @@
             this.Name = "EditComplexChartWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = Localization.EditComplexChartWindow.this_Text;
+            this.Text = Localization.Charting.EditComplexChartWindow.this_Text;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Computator.NET.Core.Menu.Commands.DummyCommands;
 using Computator.NET.Core.Menu.Commands.EditCommands;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {

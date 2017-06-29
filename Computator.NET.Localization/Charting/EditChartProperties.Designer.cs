@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.DataTypes.Localization.Views {
+namespace Computator.NET.Localization.Charting {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Computator.NET.DataTypes.Localization.Views {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ChartAreaValuesView {
+    public class EditChartProperties {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ChartAreaValuesView() {
+        internal EditChartProperties() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Computator.NET.DataTypes.Localization.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.DataTypes.Localization.Views.ChartAreaValuesView", typeof(ChartAreaValuesView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Charting.EditChartProperties", typeof(EditChartProperties).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,20 @@ namespace Computator.NET.DataTypes.Localization.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add to chart.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string addToChartButton_Text {
+        public static string button2_Text {
             get {
-                return ResourceManager.GetString("addToChartButton.Text", resourceCulture);
+                return ResourceManager.GetString("button2_Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clear chart.
+        ///   Looks up a localized string similar to Edit chart properties.
         /// </summary>
-        public static string clearChartButton_Text {
+        public static string this_Text {
             get {
-                return ResourceManager.GetString("clearChartButton.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Chart area values.
-        /// </summary>
-        public static string groupBox2_Text {
-            get {
-                return ResourceManager.GetString("groupBox2.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Chart quality:.
-        /// </summary>
-        public static string label2_Text {
-            get {
-                return ResourceManager.GetString("label2.Text", resourceCulture);
+                return ResourceManager.GetString("this_Text", resourceCulture);
             }
         }
     }

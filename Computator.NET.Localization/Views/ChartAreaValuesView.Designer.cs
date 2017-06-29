@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.DataTypes.Localization.Views {
+namespace Computator.NET.Localization.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Computator.NET.DataTypes.Localization.Views {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class MainView {
+    public class ChartAreaValuesView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal MainView() {
+        internal ChartAreaValuesView() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Computator.NET.DataTypes.Localization.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.DataTypes.Localization.Views.MainView", typeof(MainView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Views.ChartAreaValuesView", typeof(ChartAreaValuesView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,38 @@ namespace Computator.NET.DataTypes.Localization.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Calculator.
+        ///   Looks up a localized string similar to Add to chart.
         /// </summary>
-        public static string calculationsTabPage_Text {
+        public static string addToChartButton_Text {
             get {
-                return ResourceManager.GetString("calculationsTabPage.Text", resourceCulture);
+                return ResourceManager.GetString("addToChartButton.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chart.
+        ///   Looks up a localized string similar to Clear chart.
         /// </summary>
-        public static string chartingTabPage_Text {
+        public static string clearChartButton_Text {
             get {
-                return ResourceManager.GetString("chartingTabPage.Text", resourceCulture);
+                return ResourceManager.GetString("clearChartButton.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Custom functions.
+        ///   Looks up a localized string similar to Chart area values.
         /// </summary>
-        public static string customFunctionsTabPage_Text {
+        public static string groupBox2_Text {
             get {
-                return ResourceManager.GetString("customFunctionsTabPage.Text", resourceCulture);
+                return ResourceManager.GetString("groupBox2.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numerical calculations.
+        ///   Looks up a localized string similar to Chart quality:.
         /// </summary>
-        public static string numericalCalculationsTabPage_Text {
+        public static string label2_Text {
             get {
-                return ResourceManager.GetString("numericalCalculationsTabPage.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Scripting.
-        /// </summary>
-        public static string scriptingTabPage_Text {
-            get {
-                return ResourceManager.GetString("scriptingTabPage.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Symbolic calculations.
-        /// </summary>
-        public static string symbolicCalculationsTabPage_Text {
-            get {
-                return ResourceManager.GetString("symbolicCalculationsTabPage.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Compute.
-        /// </summary>
-        public static string symbolicOperationButton_Text {
-            get {
-                return ResourceManager.GetString("symbolicOperationButton.Text", resourceCulture);
+                return ResourceManager.GetString("label2.Text", resourceCulture);
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using Computator.NET.Core.Abstract.Views;
+﻿using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Services;
 using Computator.NET.DataTypes.Events;

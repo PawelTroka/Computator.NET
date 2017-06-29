@@ -5,7 +5,7 @@ using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Presenters;
 using Computator.NET.Core.Services.ErrorHandling;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 using Moq;
 using NUnit.Framework;
 

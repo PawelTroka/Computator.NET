@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Computator.NET.Core.Menu.Commands.CommandsWithOptions;
 using Computator.NET.Core.Menu.Commands.DummyCommands;
 using Computator.NET.Core.Menu.Commands.ToolsCommands;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {

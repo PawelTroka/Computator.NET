@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Model;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 
 namespace Computator.NET.Controls
 {

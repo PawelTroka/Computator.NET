@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes;

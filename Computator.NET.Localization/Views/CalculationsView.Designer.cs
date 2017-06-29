@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.DataTypes.Localization.Views {
+namespace Computator.NET.Localization.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Computator.NET.DataTypes.Localization.Views {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SolutionExplorerView {
+    public class CalculationsView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SolutionExplorerView() {
+        internal CalculationsView() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Computator.NET.DataTypes.Localization.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.DataTypes.Localization.Views.SolutionExplorerView", typeof(SolutionExplorerView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Views.CalculationsView", typeof(CalculationsView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,56 @@ namespace Computator.NET.DataTypes.Localization.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open directory.
+        ///   Looks up a localized string similar to Calculate!.
         /// </summary>
-        public static string openScriptingDirectoryButton_Text {
+        public static string calculateButton_Text {
             get {
-                return ResourceManager.GetString("openScriptingDirectoryButton.Text", resourceCulture);
+                return ResourceManager.GetString("calculateButton.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression.
+        /// </summary>
+        public static string dataGridViewTextBoxColumn1_HeaderText {
+            get {
+                return ResourceManager.GetString("dataGridViewTextBoxColumn1.HeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Argument.
+        /// </summary>
+        public static string dataGridViewTextBoxColumn4_HeaderText {
+            get {
+                return ResourceManager.GetString("dataGridViewTextBoxColumn4.HeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result.
+        /// </summary>
+        public static string dataGridViewTextBoxColumn5_HeaderText {
+            get {
+                return ResourceManager.GetString("dataGridViewTextBoxColumn5.HeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to for values:.
+        /// </summary>
+        public static string label5_Text {
+            get {
+                return ResourceManager.GetString("label5.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result:.
+        /// </summary>
+        public static string label7_Text {
+            get {
+                return ResourceManager.GetString("label7.Text", resourceCulture);
             }
         }
     }

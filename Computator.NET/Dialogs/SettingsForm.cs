@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Properties;
-using Computator.NET.Services;
 
 namespace Computator.NET.Dialogs
 {

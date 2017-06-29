@@ -46,7 +46,7 @@ namespace Computator.NET.Views
             this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
             this.openScriptingDirectoryButton.Size = new System.Drawing.Size(182, 46);
             this.openScriptingDirectoryButton.TabIndex = 5;
-            this.openScriptingDirectoryButton.Text = DataTypes.Localization.Views.SolutionExplorerView.openScriptingDirectoryButton_Text;
+            this.openScriptingDirectoryButton.Text = Localization.Views.SolutionExplorerView.openScriptingDirectoryButton_Text;
             this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
             // 
             // scriptingDirectoryTree

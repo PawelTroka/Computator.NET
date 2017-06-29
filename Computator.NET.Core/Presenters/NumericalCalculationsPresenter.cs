@@ -8,7 +8,7 @@ using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 
 namespace Computator.NET.Core.Presenters
 {

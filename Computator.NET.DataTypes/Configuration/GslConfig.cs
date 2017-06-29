@@ -1,6 +1,3 @@
-using System.IO;
-using System.Reflection;
-
 namespace Computator.NET.DataTypes
 {
     public static class GslConfig

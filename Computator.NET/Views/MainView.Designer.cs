@@ -86,7 +86,7 @@ namespace Computator.NET.Views
             this.dd212ToolStripMenuItem,
             this.fdsfdsToolStripMenuItem,
             this.mode3DFxyToolStripMenuItem});
-            //this.modeToolStripDropDownButton.Image = DataTypes.Localization.Views.MainView.modeToolStripDropDownButton_Image;
+            //this.modeToolStripDropDownButton.Image = Localization.Views.MainView.modeToolStripDropDownButton_Image;
             //this.modeToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.modeToolStripDropDownButton.Name = "modeToolStripDropDownButton";
             this.modeToolStripDropDownButton.Size = new System.Drawing.Size(134, 24);
@@ -135,7 +135,7 @@ namespace Computator.NET.Views
             this.chartingTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chartingTabPage.Size = new System.Drawing.Size(997, 731);
             this.chartingTabPage.TabIndex = 0;
-            this.chartingTabPage.Text = DataTypes.Localization.Views.MainView.chartingTabPage_Text;
+            this.chartingTabPage.Text = Localization.Views.MainView.chartingTabPage_Text;
             this.chartingTabPage.UseVisualStyleBackColor = true;
             // 
             // calculationsTabPage
@@ -146,7 +146,7 @@ namespace Computator.NET.Views
             this.calculationsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.calculationsTabPage.Size = new System.Drawing.Size(997, 730);
             this.calculationsTabPage.TabIndex = 1;
-            this.calculationsTabPage.Text = DataTypes.Localization.Views.MainView.calculationsTabPage_Text;
+            this.calculationsTabPage.Text = Localization.Views.MainView.calculationsTabPage_Text;
             this.calculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // numericalCalculationsTabPage
@@ -157,7 +157,7 @@ namespace Computator.NET.Views
             this.numericalCalculationsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericalCalculationsTabPage.Size = new System.Drawing.Size(997, 730);
             this.numericalCalculationsTabPage.TabIndex = 2;
-            this.numericalCalculationsTabPage.Text = DataTypes.Localization.Views.MainView.numericalCalculationsTabPage_Text;
+            this.numericalCalculationsTabPage.Text = Localization.Views.MainView.numericalCalculationsTabPage_Text;
             this.numericalCalculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // symbolicCalculationsTabPage
@@ -169,7 +169,7 @@ namespace Computator.NET.Views
             this.symbolicCalculationsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.symbolicCalculationsTabPage.Size = new System.Drawing.Size(997, 730);
             this.symbolicCalculationsTabPage.TabIndex = 3;
-            this.symbolicCalculationsTabPage.Text = DataTypes.Localization.Views.MainView.symbolicCalculationsTabPage_Text;
+            this.symbolicCalculationsTabPage.Text = Localization.Views.MainView.symbolicCalculationsTabPage_Text;
             this.symbolicCalculationsTabPage.UseVisualStyleBackColor = true;
             // 
             // symbolicOperationButton
@@ -182,7 +182,7 @@ namespace Computator.NET.Views
             this.symbolicOperationButton.Name = "symbolicOperationButton";
             this.symbolicOperationButton.Size = new System.Drawing.Size(168, 73);
             this.symbolicOperationButton.TabIndex = 0;
-            this.symbolicOperationButton.Text = DataTypes.Localization.Views.MainView.symbolicOperationButton_Text;
+            this.symbolicOperationButton.Text = Localization.Views.MainView.symbolicOperationButton_Text;
             this.symbolicOperationButton.UseVisualStyleBackColor = true;
             // 
             // scriptingTabPage
@@ -193,7 +193,7 @@ namespace Computator.NET.Views
             this.scriptingTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.scriptingTabPage.Size = new System.Drawing.Size(997, 730);
             this.scriptingTabPage.TabIndex = 4;
-            this.scriptingTabPage.Text = DataTypes.Localization.Views.MainView.scriptingTabPage_Text;
+            this.scriptingTabPage.Text = Localization.Views.MainView.scriptingTabPage_Text;
             this.scriptingTabPage.UseVisualStyleBackColor = true;
             // 
             // customFunctionsTabPage
@@ -204,7 +204,7 @@ namespace Computator.NET.Views
             this.customFunctionsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.customFunctionsTabPage.Size = new System.Drawing.Size(997, 730);
             this.customFunctionsTabPage.TabIndex = 5;
-            this.customFunctionsTabPage.Text = DataTypes.Localization.Views.MainView.customFunctionsTabPage_Text;
+            this.customFunctionsTabPage.Text = Localization.Views.MainView.customFunctionsTabPage_Text;
             this.customFunctionsTabPage.UseVisualStyleBackColor = true;
             // 
             // openCustomFunctionsFileDialog

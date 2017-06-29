@@ -1,4 +1,5 @@
 using Computator.NET.Core.Abstract;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.ToolsCommands
 {

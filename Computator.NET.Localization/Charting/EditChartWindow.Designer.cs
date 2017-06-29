@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.Charting.Localization {
+namespace Computator.NET.Localization.Charting {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Computator.NET.Charting.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EditComplexChartWindow {
+    public class EditChartWindow {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal EditComplexChartWindow() {
+        internal EditChartWindow() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Charting.Localization.EditComplexChartWindow", typeof(EditComplexChartWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Charting.EditChartWindow", typeof(EditChartWindow).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Computator.NET.Charting.Localization {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,16 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string button2_Text {
+        public static string button2_Text {
             get {
                 return ResourceManager.GetString("button2.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chart tittle.
+        ///   Looks up a localized string similar to Chart title.
         /// </summary>
-        internal static string button3_Text {
+        public static string button3_Text {
             get {
                 return ResourceManager.GetString("button3.Text", resourceCulture);
             }
@@ -81,34 +81,34 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to x,y axes.
         /// </summary>
-        internal static string button4_Text {
+        public static string button4_Text {
             get {
                 return ResourceManager.GetString("button4.Text", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Legend.
+        /// </summary>
+        public static string button5_Text {
+            get {
+                return ResourceManager.GetString("button5.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Numerical values.
         /// </summary>
-        internal static string button6_Text {
+        public static string button6_Text {
             get {
                 return ResourceManager.GetString("button6.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to draw axes?.
-        /// </summary>
-        internal static string drawAxes_Text {
-            get {
-                return ResourceManager.GetString("drawAxes.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Fonts.
         /// </summary>
-        internal static string fontsGroupBox_Text {
+        public static string fontsGroupBox_Text {
             get {
                 return ResourceManager.GetString("fontsGroupBox.Text", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Axes values.
         /// </summary>
-        internal static string groupBox1_Text {
+        public static string groupBox1_Text {
             get {
                 return ResourceManager.GetString("groupBox1.Text", resourceCulture);
             }
@@ -126,79 +126,106 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Labels.
         /// </summary>
-        internal static string groupBox2_Text {
+        public static string groupBox2_Text {
             get {
                 return ResourceManager.GetString("groupBox2.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contour lines.
+        ///   Looks up a localized string similar to Legend.
         /// </summary>
-        internal static string groupBox3_Text {
+        public static string groupBox3_Text {
             get {
                 return ResourceManager.GetString("groupBox3.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Colors.
-        /// </summary>
-        internal static string groupBox4_Text {
-            get {
-                return ResourceManager.GetString("groupBox4.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to x minimum.
         /// </summary>
-        internal static string label1_Text {
+        public static string label1_Text {
             get {
                 return ResourceManager.GetString("label1.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to axes color.
+        ///   Looks up a localized string similar to label 3.
         /// </summary>
-        internal static string label10_Text {
+        public static string label10_Text {
             get {
                 return ResourceManager.GetString("label10.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to labels color.
+        ///   Looks up a localized string similar to label 4.
         /// </summary>
-        internal static string label11_Text {
+        public static string label11_Text {
             get {
                 return ResourceManager.GetString("label11.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to title color.
+        ///   Looks up a localized string similar to x step.
         /// </summary>
-        internal static string label12_Text {
+        public static string label12_Text {
             get {
                 return ResourceManager.GetString("label12.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to color assigment mode:.
+        ///   Looks up a localized string similar to y step.
         /// </summary>
-        internal static string label13_Text {
+        public static string label13_Text {
             get {
                 return ResourceManager.GetString("label13.Text", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Line thickness.
+        /// </summary>
+        public static string label14_Text {
+            get {
+                return ResourceManager.GetString("label14.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to px.
+        /// </summary>
+        public static string label15_Text {
+            get {
+                return ResourceManager.GetString("label15.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to px.
+        /// </summary>
+        public static string label16_Text {
+            get {
+                return ResourceManager.GetString("label16.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to points size.
+        /// </summary>
+        public static string label17_Text {
+            get {
+                return ResourceManager.GetString("label17.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to x maximum.
         /// </summary>
-        internal static string label2_Text {
+        public static string label2_Text {
             get {
                 return ResourceManager.GetString("label2.Text", resourceCulture);
             }
@@ -207,7 +234,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to y maximum.
         /// </summary>
-        internal static string label3_Text {
+        public static string label3_Text {
             get {
                 return ResourceManager.GetString("label3.Text", resourceCulture);
             }
@@ -216,7 +243,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to y minimum.
         /// </summary>
-        internal static string label4_Text {
+        public static string label4_Text {
             get {
                 return ResourceManager.GetString("label4.Text", resourceCulture);
             }
@@ -225,7 +252,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to y label.
         /// </summary>
-        internal static string label5_Text {
+        public static string label5_Text {
             get {
                 return ResourceManager.GetString("label5.Text", resourceCulture);
             }
@@ -234,43 +261,52 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to x label.
         /// </summary>
-        internal static string label6_Text {
+        public static string label6_Text {
             get {
                 return ResourceManager.GetString("label6.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to chart tittle.
+        ///   Looks up a localized string similar to chart title.
         /// </summary>
-        internal static string label7_Text {
+        public static string label7_Text {
             get {
                 return ResourceManager.GetString("label7.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to step =.
+        ///   Looks up a localized string similar to label 1.
         /// </summary>
-        internal static string label8_Text {
+        public static string label8_Text {
             get {
                 return ResourceManager.GetString("label8.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to mode.
+        ///   Looks up a localized string similar to label 2.
         /// </summary>
-        internal static string label9_Text {
+        public static string label9_Text {
             get {
                 return ResourceManager.GetString("label9.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Complex Chart.
+        ///   Looks up a localized string similar to Show legend?.
         /// </summary>
-        internal static string this_Text {
+        public static string legendVisible_Text {
+            get {
+                return ResourceManager.GetString("legendVisible.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit chart.
+        /// </summary>
+        public static string this_Text {
             get {
                 return ResourceManager.GetString("this_Text", resourceCulture);
             }

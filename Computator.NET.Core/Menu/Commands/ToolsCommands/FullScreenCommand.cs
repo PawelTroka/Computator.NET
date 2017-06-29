@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.ToolsCommands
 {

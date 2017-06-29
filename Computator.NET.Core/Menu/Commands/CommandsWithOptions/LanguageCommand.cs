@@ -3,6 +3,7 @@ using System.Globalization;
 using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Menu.Commands.DummyCommands;
 using Computator.NET.Core.Properties;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.CommandsWithOptions
 {

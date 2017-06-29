@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.DataTypes.Localization.Dialogs {
+namespace Computator.NET.Localization.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Computator.NET.DataTypes.Localization.Dialogs {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SettingsForm {
+    public class ExpressionView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SettingsForm() {
+        internal ExpressionView() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Computator.NET.DataTypes.Localization.Dialogs {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.DataTypes.Localization.Dialogs.SettingsForm", typeof(SettingsForm).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Views.ExpressionView", typeof(ExpressionView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,11 @@ namespace Computator.NET.DataTypes.Localization.Dialogs {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
+        ///   Looks up a localized string similar to Expression:.
         /// </summary>
-        public static string button1_Text {
+        public static string label1_Text {
             get {
-                return ResourceManager.GetString("button1_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string button2_Text {
-            get {
-                return ResourceManager.GetString("button2_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reset to defaults.
-        /// </summary>
-        public static string button3_Text {
-            get {
-                return ResourceManager.GetString("button3_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Settings.
-        /// </summary>
-        public static string Title {
-            get {
-                return ResourceManager.GetString("Title", resourceCulture);
+                return ResourceManager.GetString("label1.Text", resourceCulture);
             }
         }
     }

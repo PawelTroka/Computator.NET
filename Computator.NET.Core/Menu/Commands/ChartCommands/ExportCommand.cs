@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
-using Accord.Collections;
 using Computator.NET.Core.Model;
-using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.ChartCommands
 {

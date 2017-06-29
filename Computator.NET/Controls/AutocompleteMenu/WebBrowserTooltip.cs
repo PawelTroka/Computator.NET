@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Autocompletion;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 
 namespace Computator.NET.Controls.AutocompleteMenu
 {

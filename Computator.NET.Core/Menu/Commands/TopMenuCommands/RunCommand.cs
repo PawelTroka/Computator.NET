@@ -1,6 +1,7 @@
 using System;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Accord.Collections;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 
 namespace Computator.NET.Core.NumericalCalculations
 {

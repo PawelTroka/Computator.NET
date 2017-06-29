@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.DataTypes.Localization.Views {
+namespace Computator.NET.Localization.Dialogs {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Computator.NET.DataTypes.Localization.Views {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ScriptingView {
+    public class SettingsForm {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ScriptingView() {
+        internal SettingsForm() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Computator.NET.DataTypes.Localization.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.DataTypes.Localization.Views.ScriptingView", typeof(ScriptingView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Dialogs.SettingsForm", typeof(SettingsForm).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,38 @@ namespace Computator.NET.DataTypes.Localization.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Console output:.
+        ///   Looks up a localized string similar to Save.
         /// </summary>
-        public static string consoleOutputTextBox_Text {
+        public static string button1_Text {
             get {
-                return ResourceManager.GetString("consoleOutputTextBox.Text", resourceCulture);
+                return ResourceManager.GetString("button1_Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Process script.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string processButton_Text {
+        public static string button2_Text {
             get {
-                return ResourceManager.GetString("processButton.Text", resourceCulture);
+                return ResourceManager.GetString("button2_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset to defaults.
+        /// </summary>
+        public static string button3_Text {
+            get {
+                return ResourceManager.GetString("button3_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
     }

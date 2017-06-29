@@ -1,6 +1,5 @@
 ﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes.Properties;

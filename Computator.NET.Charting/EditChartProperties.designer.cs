@@ -67,7 +67,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(209, 62);
             this.button2.TabIndex = 2;
-            this.button2.Text = Localization.EditChartProperties.button2_Text;
+            this.button2.Text = Localization.Charting.EditChartProperties.button2_Text;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -98,7 +98,7 @@
             this.Name = "EditChartProperties";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = Localization.EditChartProperties.this_Text;
+            this.Text = Localization.Charting.EditChartProperties.this_Text;
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

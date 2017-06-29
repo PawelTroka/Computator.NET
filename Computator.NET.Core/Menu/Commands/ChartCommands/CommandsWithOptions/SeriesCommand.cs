@@ -2,6 +2,7 @@ using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Menu.Commands.DummyCommands;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.ChartCommands.CommandsWithOptions
 {

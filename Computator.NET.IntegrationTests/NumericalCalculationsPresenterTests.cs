@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
-using Computator.NET.DataTypes.Localization;
 using Moq;
 using NUnit.Framework;
 using Computator.NET.Core.Abstract.Controls;
@@ -15,6 +14,7 @@ using Computator.NET.Core.Natives;
 using Computator.NET.Core.Presenters;
 using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.Localization;
 
 namespace Computator.NET.IntegrationTests
 {

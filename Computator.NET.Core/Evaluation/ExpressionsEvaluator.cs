@@ -9,7 +9,7 @@ using Computator.NET.Core.Constants;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 using NLog;
 
 namespace Computator.NET.Core.Evaluation

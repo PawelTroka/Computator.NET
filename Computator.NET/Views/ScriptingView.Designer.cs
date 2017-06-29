@@ -97,7 +97,7 @@
             this.consoleOutputTextBox.ReadOnly = true;
             this.consoleOutputTextBox.Size = new System.Drawing.Size(417, 102);
             this.consoleOutputTextBox.TabIndex = 0;
-            this.consoleOutputTextBox.Text = DataTypes.Localization.Views.ScriptingView.consoleOutputTextBox_Text;
+            this.consoleOutputTextBox.Text = Localization.Views.ScriptingView.consoleOutputTextBox_Text;
             // 
             // processButton
             // 
@@ -110,7 +110,7 @@
             this.processButton.Name = "processButton";
             this.processButton.Size = new System.Drawing.Size(137, 76);
             this.processButton.TabIndex = 0;
-            this.processButton.Text = DataTypes.Localization.Views.ScriptingView.processButton_Text;
+            this.processButton.Text = Localization.Views.ScriptingView.processButton_Text;
             this.processButton.UseVisualStyleBackColor = true;
             // 
             // ScriptingView

@@ -7,7 +7,7 @@ using Computator.NET.Core.Model;
 using Computator.NET.Core.Services;
 using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes.Events;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 using NLog;
 
 namespace Computator.NET.Core.Presenters

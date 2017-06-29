@@ -104,7 +104,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(299, 73);
             this.button2.TabIndex = 1;
-            this.button2.Text = Localization.EditChartWindow.button2_Text;
+            this.button2.Text = Localization.Charting.EditChartWindow.button2_Text;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -123,7 +123,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 17);
             this.label1.TabIndex = 3;
-            this.label1.Text = Localization.EditChartWindow.label1_Text;
+            this.label1.Text = Localization.Charting.EditChartWindow.label1_Text;
             // 
             // label2
             // 
@@ -132,7 +132,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 17);
             this.label2.TabIndex = 5;
-            this.label2.Text = Localization.EditChartWindow.label2_Text;
+            this.label2.Text = Localization.Charting.EditChartWindow.label2_Text;
             // 
             // xMaxChartTextBox
             // 
@@ -149,7 +149,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 17);
             this.label3.TabIndex = 9;
-            this.label3.Text = Localization.EditChartWindow.label3_Text;
+            this.label3.Text = Localization.Charting.EditChartWindow.label3_Text;
             // 
             // yMaxChartTextBox
             // 
@@ -166,7 +166,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 17);
             this.label4.TabIndex = 7;
-            this.label4.Text = Localization.EditChartWindow.label4_Text;
+            this.label4.Text = Localization.Charting.EditChartWindow.label4_Text;
             // 
             // yMinChartTextBox
             // 
@@ -183,7 +183,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 17);
             this.label5.TabIndex = 13;
-            this.label5.Text = Localization.EditChartWindow.label5_Text;
+            this.label5.Text = Localization.Charting.EditChartWindow.label5_Text;
             // 
             // yLabelChartTextBox
             // 
@@ -200,7 +200,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 17);
             this.label6.TabIndex = 11;
-            this.label6.Text = Localization.EditChartWindow.label6_Text;
+            this.label6.Text = Localization.Charting.EditChartWindow.label6_Text;
             // 
             // xLabelChartTextBox
             // 
@@ -225,7 +225,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(66, 17);
             this.label7.TabIndex = 15;
-            this.label7.Text = Localization.EditChartWindow.label7_Text;
+            this.label7.Text = Localization.Charting.EditChartWindow.label7_Text;
             // 
             // groupBox1
             // 
@@ -254,7 +254,7 @@
             this.groupBox1.Size = new System.Drawing.Size(300, 265);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = Localization.EditChartWindow.groupBox1_Text;
+            this.groupBox1.Text = Localization.Charting.EditChartWindow.groupBox1_Text;
             // 
             // label16
             // 
@@ -274,7 +274,7 @@
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(75, 17);
             this.label17.TabIndex = 18;
-            this.label17.Text = Localization.EditChartWindow.label17_Text;
+            this.label17.Text = Localization.Charting.EditChartWindow.label17_Text;
             // 
             // pointsSizeNumericUpDown
             // 
@@ -317,7 +317,7 @@
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(98, 17);
             this.label14.TabIndex = 15;
-            this.label14.Text = Localization.EditChartWindow.label14_Text;
+            this.label14.Text = Localization.Charting.EditChartWindow.label14_Text;
             // 
             // lineThicknessNumericUpDown
             // 
@@ -358,7 +358,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(45, 17);
             this.label12.TabIndex = 11;
-            this.label12.Text = Localization.EditChartWindow.label12_Text;
+            this.label12.Text = Localization.Charting.EditChartWindow.label12_Text;
             // 
             // yDeltaChartTextBox
             // 
@@ -375,7 +375,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(46, 17);
             this.label13.TabIndex = 13;
-            this.label13.Text = Localization.EditChartWindow.label13_Text;
+            this.label13.Text = Localization.Charting.EditChartWindow.label13_Text;
             // 
             // groupBox2
             // 
@@ -392,7 +392,7 @@
             this.groupBox2.Size = new System.Drawing.Size(300, 127);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = Localization.EditChartWindow.groupBox2_Text;
+            this.groupBox2.Text = Localization.Charting.EditChartWindow.groupBox2_Text;
             // 
             // groupBox3
             // 
@@ -412,7 +412,7 @@
             this.groupBox3.Size = new System.Drawing.Size(299, 209);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = Localization.EditChartWindow.groupBox3_Text;
+            this.groupBox3.Text = Localization.Charting.EditChartWindow.groupBox3_Text;
             // 
             // legendaEtykieta2
             // 
@@ -438,7 +438,7 @@
             this.legendVisible.Name = "legendVisible";
             this.legendVisible.Size = new System.Drawing.Size(119, 21);
             this.legendVisible.TabIndex = 0;
-            this.legendVisible.Text = Localization.EditChartWindow.legendVisible_Text;
+            this.legendVisible.Text = Localization.Charting.EditChartWindow.legendVisible_Text;
             this.legendVisible.UseVisualStyleBackColor = true;
             // 
             // label8
@@ -448,7 +448,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(50, 17);
             this.label8.TabIndex = 11;
-            this.label8.Text = Localization.EditChartWindow.label8_Text;
+            this.label8.Text = Localization.Charting.EditChartWindow.label8_Text;
             // 
             // label11
             // 
@@ -457,7 +457,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(50, 17);
             this.label11.TabIndex = 17;
-            this.label11.Text = Localization.EditChartWindow.label11_Text;
+            this.label11.Text = Localization.Charting.EditChartWindow.label11_Text;
             // 
             // label9
             // 
@@ -466,7 +466,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(50, 17);
             this.label9.TabIndex = 13;
-            this.label9.Text = Localization.EditChartWindow.label9_Text;
+            this.label9.Text = Localization.Charting.EditChartWindow.label9_Text;
             // 
             // legendaEtykieta4
             // 
@@ -491,7 +491,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 17);
             this.label10.TabIndex = 15;
-            this.label10.Text = Localization.EditChartWindow.label10_Text;
+            this.label10.Text = Localization.Charting.EditChartWindow.label10_Text;
             // 
             // fontsGroupBox
             // 
@@ -506,7 +506,7 @@
             this.fontsGroupBox.Size = new System.Drawing.Size(299, 183);
             this.fontsGroupBox.TabIndex = 19;
             this.fontsGroupBox.TabStop = false;
-            this.fontsGroupBox.Text = Localization.EditChartWindow.fontsGroupBox_Text;
+            this.fontsGroupBox.Text = Localization.Charting.EditChartWindow.fontsGroupBox_Text;
             // 
             // button6
             // 
@@ -515,7 +515,7 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(285, 34);
             this.button6.TabIndex = 3;
-            this.button6.Text = Localization.EditChartWindow.button6_Text;
+            this.button6.Text = Localization.Charting.EditChartWindow.button6_Text;
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -526,7 +526,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(285, 34);
             this.button5.TabIndex = 2;
-            this.button5.Text = Localization.EditChartWindow.button5_Text;
+            this.button5.Text = Localization.Charting.EditChartWindow.button5_Text;
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -537,7 +537,7 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(285, 34);
             this.button4.TabIndex = 1;
-            this.button4.Text = Localization.EditChartWindow.button4_Text;
+            this.button4.Text = Localization.Charting.EditChartWindow.button4_Text;
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -548,7 +548,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(285, 34);
             this.button3.TabIndex = 0;
-            this.button3.Text = Localization.EditChartWindow.button3_Text;
+            this.button3.Text = Localization.Charting.EditChartWindow.button3_Text;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -572,7 +572,7 @@
             this.Name = "EditChartWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = Localization.EditChartWindow.this_Text;
+            this.Text = Localization.Charting.EditChartWindow.this_Text;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pointsSizeNumericUpDown)).EndInit();

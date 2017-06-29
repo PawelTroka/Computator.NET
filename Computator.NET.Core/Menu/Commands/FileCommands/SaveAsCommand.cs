@@ -1,5 +1,6 @@
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Model;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.FileCommands
 {

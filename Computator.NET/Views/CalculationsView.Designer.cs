@@ -186,7 +186,7 @@ namespace Computator.NET.Views
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(102, 107);
             this.label5.TabIndex = 10;
-            this.label5.Text = DataTypes.Localization.Views.CalculationsView.label5_Text;
+            this.label5.Text = Localization.Views.CalculationsView.label5_Text;
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // calculationValueTextBox
@@ -213,7 +213,7 @@ namespace Computator.NET.Views
             this.calculateButton.Name = "calculateButton";
             this.calculateButton.Size = new System.Drawing.Size(146, 41);
             this.calculateButton.TabIndex = 2;
-            this.calculateButton.Text = DataTypes.Localization.Views.CalculationsView.calculateButton_Text;
+            this.calculateButton.Text = Localization.Views.CalculationsView.calculateButton_Text;
             this.calculateButton.UseVisualStyleBackColor = true;
             // 
             // calculationsHistoryDataGridView
@@ -243,7 +243,7 @@ namespace Computator.NET.Views
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewTextBoxColumn1.HeaderText = DataTypes.Localization.Views.CalculationsView.dataGridViewTextBoxColumn1_HeaderText;
+            this.dataGridViewTextBoxColumn1.HeaderText = Localization.Views.CalculationsView.dataGridViewTextBoxColumn1_HeaderText;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
@@ -252,7 +252,7 @@ namespace Computator.NET.Views
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridViewTextBoxColumn4.HeaderText = DataTypes.Localization.Views.CalculationsView.dataGridViewTextBoxColumn4_HeaderText;
+            this.dataGridViewTextBoxColumn4.HeaderText = Localization.Views.CalculationsView.dataGridViewTextBoxColumn4_HeaderText;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             // 
@@ -261,7 +261,7 @@ namespace Computator.NET.Views
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridViewTextBoxColumn5.HeaderText = DataTypes.Localization.Views.CalculationsView
+            this.dataGridViewTextBoxColumn5.HeaderText = Localization.Views.CalculationsView
                 .dataGridViewTextBoxColumn5_HeaderText;
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
@@ -304,7 +304,7 @@ namespace Computator.NET.Views
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(104, 43);
             this.label7.TabIndex = 4;
-            this.label7.Text = DataTypes.Localization.Views.CalculationsView.label7_Text;
+            this.label7.Text = Localization.Views.CalculationsView.label7_Text;
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CalculationsView

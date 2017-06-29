@@ -111,7 +111,7 @@ namespace Computator.NET.Views
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(87, 29);
             this.label8.TabIndex = 5;
-            this.label8.Text = DataTypes.Localization.Views.NumericalCalculationsView.label8_Text;//"Result:";
+            this.label8.Text = Localization.Views.NumericalCalculationsView.label8_Text;//"Result:";
             // 
             // label9
             // 
@@ -123,7 +123,7 @@ namespace Computator.NET.Views
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(90, 26);
             this.label9.TabIndex = 7;
-            this.label9.Text = DataTypes.Localization.Views.NumericalCalculationsView.label9_Text;
+            this.label9.Text = Localization.Views.NumericalCalculationsView.label9_Text;
             // 
             // operationNumericalCalculationsComboBox
             // 
@@ -147,7 +147,7 @@ namespace Computator.NET.Views
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(113, 26);
             this.label6.TabIndex = 6;
-            this.label6.Text = DataTypes.Localization.Views.NumericalCalculationsView.label6_Text; ;
+            this.label6.Text = Localization.Views.NumericalCalculationsView.label6_Text; ;
             // 
             // methodNumericalCalculationsComboBox
             // 
@@ -173,7 +173,7 @@ namespace Computator.NET.Views
             this.tableLayoutPanel1.SetRowSpan(this.numericalOperationButton, 2);
             this.numericalOperationButton.Size = new System.Drawing.Size(179, 96);
             this.numericalOperationButton.TabIndex = 0;
-            this.numericalOperationButton.Text = DataTypes.Localization.Views.NumericalCalculationsView.numericalOperationButton_Text; ;
+            this.numericalOperationButton.Text = Localization.Views.NumericalCalculationsView.numericalOperationButton_Text; ;
             this.numericalOperationButton.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
@@ -238,21 +238,21 @@ namespace Computator.NET.Views
             this.function.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.function.DefaultCellStyle = dataGridViewCellStyle1;
-            this.function.HeaderText = DataTypes.Localization.Views.NumericalCalculationsView.function_HeaderText; ;
+            this.function.HeaderText = Localization.Views.NumericalCalculationsView.function_HeaderText; ;
             this.function.Name = "function";
             this.function.ReadOnly = true;
             // 
             // operation
             // 
             this.operation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.operation.HeaderText = DataTypes.Localization.Views.NumericalCalculationsView.operation_HeaderText; ;
+            this.operation.HeaderText = Localization.Views.NumericalCalculationsView.operation_HeaderText; ;
             this.operation.Name = "operation";
             this.operation.ReadOnly = true;
             // 
             // method
             // 
             this.method.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.method.HeaderText = DataTypes.Localization.Views.NumericalCalculationsView.method_HeaderText; ;
+            this.method.HeaderText = Localization.Views.NumericalCalculationsView.method_HeaderText; ;
             this.method.Name = "method";
             this.method.ReadOnly = true;
             // 
@@ -261,7 +261,7 @@ namespace Computator.NET.Views
             this.parameters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.parameters.DefaultCellStyle = dataGridViewCellStyle2;
-            this.parameters.HeaderText = DataTypes.Localization.Views.NumericalCalculationsView.parameters_HeaderText; ;
+            this.parameters.HeaderText = Localization.Views.NumericalCalculationsView.parameters_HeaderText; ;
             this.parameters.Name = "parameters";
             this.parameters.ReadOnly = true;
             // 
@@ -270,7 +270,7 @@ namespace Computator.NET.Views
             this.result.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.result.DefaultCellStyle = dataGridViewCellStyle3;
-            this.result.HeaderText = DataTypes.Localization.Views.NumericalCalculationsView.result_HeaderText; ;
+            this.result.HeaderText = Localization.Views.NumericalCalculationsView.result_HeaderText; ;
             this.result.Name = "result";
             this.result.ReadOnly = true;
             // 
@@ -301,7 +301,7 @@ namespace Computator.NET.Views
             this.intervalGroupBox.Size = new System.Drawing.Size(256, 81);
             this.intervalGroupBox.TabIndex = 9;
             this.intervalGroupBox.TabStop = false;
-            this.intervalGroupBox.Text = DataTypes.Localization.Views.NumericalCalculationsView.intervalGroupBox_Text; ;
+            this.intervalGroupBox.Text = Localization.Views.NumericalCalculationsView.intervalGroupBox_Text; ;
             // 
             // tableLayoutPanel2
             // 
@@ -421,7 +421,7 @@ namespace Computator.NET.Views
             this.derivativeAtPointGroupBox.Size = new System.Drawing.Size(293, 81);
             this.derivativeAtPointGroupBox.TabIndex = 10;
             this.derivativeAtPointGroupBox.TabStop = false;
-            this.derivativeAtPointGroupBox.Text = DataTypes.Localization.Views.NumericalCalculationsView.derivativeAtPointGroupBox_Text; ;
+            this.derivativeAtPointGroupBox.Text = Localization.Views.NumericalCalculationsView.derivativeAtPointGroupBox_Text; ;
             // 
             // tableLayoutPanel3
             // 
@@ -532,7 +532,7 @@ namespace Computator.NET.Views
             this.maxErrorGroupBox.Size = new System.Drawing.Size(191, 50);
             this.maxErrorGroupBox.TabIndex = 11;
             this.maxErrorGroupBox.TabStop = false;
-            this.maxErrorGroupBox.Text = DataTypes.Localization.Views.NumericalCalculationsView.maxErrorGroupBox_Text; ;
+            this.maxErrorGroupBox.Text = Localization.Views.NumericalCalculationsView.maxErrorGroupBox_Text; ;
             // 
             // tableLayoutPanel5
             // 
@@ -611,7 +611,7 @@ namespace Computator.NET.Views
             this.stepsGroupBox.Size = new System.Drawing.Size(195, 50);
             this.stepsGroupBox.TabIndex = 10;
             this.stepsGroupBox.TabStop = false;
-            this.stepsGroupBox.Text = DataTypes.Localization.Views.NumericalCalculationsView.stepsGroupBox_Text; ;
+            this.stepsGroupBox.Text = Localization.Views.NumericalCalculationsView.stepsGroupBox_Text; ;
             // 
             // tableLayoutPanel4
             // 

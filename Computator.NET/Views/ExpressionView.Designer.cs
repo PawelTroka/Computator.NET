@@ -60,7 +60,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(139, 29);
             this.label1.TabIndex = 0;
-            this.label1.Text = DataTypes.Localization.Views.ExpressionView.label1_Text;
+            this.label1.Text = Localization.Views.ExpressionView.label1_Text;
             // 
             // ExpressionView
             // 

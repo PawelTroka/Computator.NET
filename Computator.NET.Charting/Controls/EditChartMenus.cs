@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Linq;
@@ -13,8 +12,7 @@ using Computator.NET.Charting.RealCharting;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
 using Computator.NET.DataTypes.Events;
-using Computator.NET.DataTypes.Localization;
-using EditChartWindow = Computator.NET.Charting.RealCharting.EditChartWindow;
+using Computator.NET.Localization;
 
 namespace Computator.NET.Charting.Controls
 {

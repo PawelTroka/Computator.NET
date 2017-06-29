@@ -58,7 +58,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(323, 121);
             this.button1.TabIndex = 1;
-            this.button1.Text = DataTypes.Localization.Dialogs.SettingsForm.button1_Text;
+            this.button1.Text = Localization.Dialogs.SettingsForm.button1_Text;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -72,7 +72,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(323, 121);
             this.button2.TabIndex = 2;
-            this.button2.Text = DataTypes.Localization.Dialogs.SettingsForm.button2_Text;
+            this.button2.Text = Localization.Dialogs.SettingsForm.button2_Text;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -97,7 +97,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(224, 121);
             this.button3.TabIndex = 3;
-            this.button3.Text = DataTypes.Localization.Dialogs.SettingsForm.button3_Text;
+            this.button3.Text = Localization.Dialogs.SettingsForm.button3_Text;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -114,7 +114,7 @@
             this.MinimizeBox = false;
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = DataTypes.Localization.Dialogs.SettingsForm.Title;
+            this.Text = Localization.Dialogs.SettingsForm.Title;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Settings_FormClosed);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

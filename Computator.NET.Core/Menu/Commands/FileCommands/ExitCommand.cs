@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.FileCommands
 {

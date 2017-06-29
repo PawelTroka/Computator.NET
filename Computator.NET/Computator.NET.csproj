@@ -353,6 +353,10 @@
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj">
+      <Project>{6b5754ff-10e9-4bcc-a1d8-0dd665e56b53}</Project>
+      <Name>Computator.NET.Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

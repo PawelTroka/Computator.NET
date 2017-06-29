@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.Charting.Localization {
+namespace Computator.NET.Localization.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Computator.NET.Charting.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class EditChartProperties {
+    public class ScriptingView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal EditChartProperties() {
+        internal ScriptingView() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Computator.NET.Charting.Localization {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Charting.Localization.EditChartProperties", typeof(EditChartProperties).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Views.ScriptingView", typeof(ScriptingView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,20 @@ namespace Computator.NET.Charting.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
+        ///   Looks up a localized string similar to Console output:.
         /// </summary>
-        public static string button2_Text {
+        public static string consoleOutputTextBox_Text {
             get {
-                return ResourceManager.GetString("button2_Text", resourceCulture);
+                return ResourceManager.GetString("consoleOutputTextBox.Text", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit chart properties.
+        ///   Looks up a localized string similar to Process script.
         /// </summary>
-        public static string this_Text {
+        public static string processButton_Text {
             get {
-                return ResourceManager.GetString("this_Text", resourceCulture);
+                return ResourceManager.GetString("processButton.Text", resourceCulture);
             }
         }
     }

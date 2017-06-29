@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Accord.Collections;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;

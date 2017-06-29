@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.Charting.Localization {
+namespace Computator.NET.Localization.Charting {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace Computator.NET.Charting.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EditChart3DWindow {
+    public class EditChart3DWindow {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace Computator.NET.Charting.Localization {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Charting.Localization.EditChart3DWindow", typeof(EditChart3DWindow).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Charting.EditChart3DWindow", typeof(EditChart3DWindow).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Computator.NET.Charting.Localization {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Edit font.
         /// </summary>
-        internal static string button2_Text {
+        public static string button2_Text {
             get {
                 return ResourceManager.GetString("button2.Text", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string cancelButton_Text {
+        public static string cancelButton_Text {
             get {
                 return ResourceManager.GetString("cancelButton.Text", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Equal axes.
         /// </summary>
-        internal static string equalAxesCheckBox_Text {
+        public static string equalAxesCheckBox_Text {
             get {
                 return ResourceManager.GetString("equalAxesCheckBox.Text", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Chart.
         /// </summary>
-        internal static string groupBox1_Text {
+        public static string groupBox1_Text {
             get {
                 return ResourceManager.GetString("groupBox1.Text", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Axes of coordinate system.
         /// </summary>
-        internal static string groupBox2_Text {
+        public static string groupBox2_Text {
             get {
                 return ResourceManager.GetString("groupBox2.Text", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Axis Labels.
         /// </summary>
-        internal static string groupBox3_Text {
+        public static string groupBox3_Text {
             get {
                 return ResourceManager.GetString("groupBox3.Text", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to X-axis Label.
         /// </summary>
-        internal static string groupBox4_Text {
+        public static string groupBox4_Text {
             get {
                 return ResourceManager.GetString("groupBox4.Text", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Y-axis Label.
         /// </summary>
-        internal static string groupBox5_Text {
+        public static string groupBox5_Text {
             get {
                 return ResourceManager.GetString("groupBox5.Text", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Z-axis Label.
         /// </summary>
-        internal static string groupBox6_Text {
+        public static string groupBox6_Text {
             get {
                 return ResourceManager.GetString("groupBox6.Text", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Labels distance.
         /// </summary>
-        internal static string groupBox7_Text {
+        public static string groupBox7_Text {
             get {
                 return ResourceManager.GetString("groupBox7.Text", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Axes values.
         /// </summary>
-        internal static string groupBox8_Text {
+        public static string groupBox8_Text {
             get {
                 return ResourceManager.GetString("groupBox8.Text", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Scale:.
         /// </summary>
-        internal static string label1_Text {
+        public static string label1_Text {
             get {
                 return ResourceManager.GetString("label1.Text", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to y (pixels):.
         /// </summary>
-        internal static string label10_Text {
+        public static string label10_Text {
             get {
                 return ResourceManager.GetString("label10.Text", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Color of axis labels:.
         /// </summary>
-        internal static string label11_Text {
+        public static string label11_Text {
             get {
                 return ResourceManager.GetString("label11.Text", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Font of axis labels:.
         /// </summary>
-        internal static string label12_Text {
+        public static string label12_Text {
             get {
                 return ResourceManager.GetString("label12.Text", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Chart3D Type:.
         /// </summary>
-        internal static string label13_Text {
+        public static string label13_Text {
             get {
                 return ResourceManager.GetString("label13.Text", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Point size:.
         /// </summary>
-        internal static string label2_Text {
+        public static string label2_Text {
             get {
                 return ResourceManager.GetString("label2.Text", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to x minimum.
         /// </summary>
-        internal static string label20_Text {
+        public static string label20_Text {
             get {
                 return ResourceManager.GetString("label20.Text", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to x maximum.
         /// </summary>
-        internal static string label21_Text {
+        public static string label21_Text {
             get {
                 return ResourceManager.GetString("label21.Text", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to y minimum.
         /// </summary>
-        internal static string label22_Text {
+        public static string label22_Text {
             get {
                 return ResourceManager.GetString("label22.Text", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to y maximum.
         /// </summary>
-        internal static string label23_Text {
+        public static string label23_Text {
             get {
                 return ResourceManager.GetString("label23.Text", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Axes color:.
         /// </summary>
-        internal static string label3_Text {
+        public static string label3_Text {
             get {
                 return ResourceManager.GetString("label3.Text", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Background color:.
         /// </summary>
-        internal static string label4_Text {
+        public static string label4_Text {
             get {
                 return ResourceManager.GetString("label4.Text", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to In units:.
         /// </summary>
-        internal static string label5_Text {
+        public static string label5_Text {
             get {
                 return ResourceManager.GetString("label5.Text", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to label text:.
         /// </summary>
-        internal static string label6_Text {
+        public static string label6_Text {
             get {
                 return ResourceManager.GetString("label6.Text", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to label text:.
         /// </summary>
-        internal static string label7_Text {
+        public static string label7_Text {
             get {
                 return ResourceManager.GetString("label7.Text", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to x (pixels):.
         /// </summary>
-        internal static string label8_Text {
+        public static string label8_Text {
             get {
                 return ResourceManager.GetString("label8.Text", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to label text:.
         /// </summary>
-        internal static string label9_Text {
+        public static string label9_Text {
             get {
                 return ResourceManager.GetString("label9.Text", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Axis labels visible?.
         /// </summary>
-        internal static string labelsVisibilityCheckBox_Text {
+        public static string labelsVisibilityCheckBox_Text {
             get {
                 return ResourceManager.GetString("labelsVisibilityCheckBox.Text", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Edit Chart 3D.
         /// </summary>
-        internal static string this_Text {
+        public static string this_Text {
             get {
                 return ResourceManager.GetString("this_Text", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Axes visible?.
         /// </summary>
-        internal static string visibleAxesCheckBox_Text {
+        public static string visibleAxesCheckBox_Text {
             get {
                 return ResourceManager.GetString("visibleAxesCheckBox.Text", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Active?.
         /// </summary>
-        internal static string xActiveCheckBox_Text {
+        public static string xActiveCheckBox_Text {
             get {
                 return ResourceManager.GetString("xActiveCheckBox.Text", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Active?.
         /// </summary>
-        internal static string yActiveCheckBox_Text {
+        public static string yActiveCheckBox_Text {
             get {
                 return ResourceManager.GetString("yActiveCheckBox.Text", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace Computator.NET.Charting.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Active?.
         /// </summary>
-        internal static string zActiveCheckBox_Text {
+        public static string zActiveCheckBox_Text {
             get {
                 return ResourceManager.GetString("zActiveCheckBox.Text", resourceCulture);
             }

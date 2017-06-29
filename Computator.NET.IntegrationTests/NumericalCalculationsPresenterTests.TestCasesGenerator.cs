@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Computator.NET.Core.NumericalCalculations;
-using Computator.NET.DataTypes.Localization;
+using Computator.NET.Localization;
 
 namespace Computator.NET.IntegrationTests
 {

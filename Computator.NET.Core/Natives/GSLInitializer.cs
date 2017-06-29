@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.Localization;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.Localization;
 using NLog;
 
 namespace Computator.NET.Core.Natives

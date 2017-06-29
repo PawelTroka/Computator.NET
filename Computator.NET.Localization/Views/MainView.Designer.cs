@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Computator.NET.DataTypes.Localization.Views {
+namespace Computator.NET.Localization.Views {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Computator.NET.DataTypes.Localization.Views {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ExpressionView {
+    public class MainView {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ExpressionView() {
+        internal MainView() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Computator.NET.DataTypes.Localization.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.DataTypes.Localization.Views.ExpressionView", typeof(ExpressionView).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Computator.NET.Localization.Views.MainView", typeof(MainView).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,65 @@ namespace Computator.NET.DataTypes.Localization.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expression:.
+        ///   Looks up a localized string similar to Calculator.
         /// </summary>
-        public static string label1_Text {
+        public static string calculationsTabPage_Text {
             get {
-                return ResourceManager.GetString("label1.Text", resourceCulture);
+                return ResourceManager.GetString("calculationsTabPage.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chart.
+        /// </summary>
+        public static string chartingTabPage_Text {
+            get {
+                return ResourceManager.GetString("chartingTabPage.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom functions.
+        /// </summary>
+        public static string customFunctionsTabPage_Text {
+            get {
+                return ResourceManager.GetString("customFunctionsTabPage.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numerical calculations.
+        /// </summary>
+        public static string numericalCalculationsTabPage_Text {
+            get {
+                return ResourceManager.GetString("numericalCalculationsTabPage.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scripting.
+        /// </summary>
+        public static string scriptingTabPage_Text {
+            get {
+                return ResourceManager.GetString("scriptingTabPage.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Symbolic calculations.
+        /// </summary>
+        public static string symbolicCalculationsTabPage_Text {
+            get {
+                return ResourceManager.GetString("symbolicCalculationsTabPage.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compute.
+        /// </summary>
+        public static string symbolicOperationButton_Text {
+            get {
+                return ResourceManager.GetString("symbolicOperationButton.Text", resourceCulture);
             }
         }
     }

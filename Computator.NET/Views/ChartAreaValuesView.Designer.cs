@@ -64,7 +64,7 @@ namespace Computator.NET.Views
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(108, 20);
             this.label2.TabIndex = 18;
-            this.label2.Text = DataTypes.Localization.Views.ChartAreaValuesView.label2_Text;
+            this.label2.Text = Localization.Views.ChartAreaValuesView.label2_Text;
             // 
             // trackBar1
             // 
@@ -96,7 +96,7 @@ namespace Computator.NET.Views
             this.groupBox2.Size = new System.Drawing.Size(202, 167);
             this.groupBox2.TabIndex = 23;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = DataTypes.Localization.Views.ChartAreaValuesView.groupBox2_Text;
+            this.groupBox2.Text = Localization.Views.ChartAreaValuesView.groupBox2_Text;
             // 
             // tableLayoutPanel1
             // 
@@ -319,7 +319,7 @@ namespace Computator.NET.Views
             this.clearChartButton.Name = "clearChartButton";
             this.clearChartButton.Size = new System.Drawing.Size(202, 43);
             this.clearChartButton.TabIndex = 22;
-            this.clearChartButton.Text = DataTypes.Localization.Views.ChartAreaValuesView.clearChartButton_Text;
+            this.clearChartButton.Text = Localization.Views.ChartAreaValuesView.clearChartButton_Text;
             this.clearChartButton.UseVisualStyleBackColor = true;
             // 
             // addToChartButton
@@ -333,7 +333,7 @@ namespace Computator.NET.Views
             this.addToChartButton.Name = "addToChartButton";
             this.addToChartButton.Size = new System.Drawing.Size(202, 98);
             this.addToChartButton.TabIndex = 19;
-            this.addToChartButton.Text = DataTypes.Localization.Views.ChartAreaValuesView.addToChartButton_Text;
+            this.addToChartButton.Text = Localization.Views.ChartAreaValuesView.addToChartButton_Text;
             this.addToChartButton.UseVisualStyleBackColor = true;
             // 
             // ChartAreaValuesView
