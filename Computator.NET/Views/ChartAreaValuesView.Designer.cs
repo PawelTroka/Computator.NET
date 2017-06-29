@@ -88,7 +88,7 @@ namespace Computator.NET.Views
             this.groupBox2.AutoSize = true;
             this.groupBox2.Controls.Add(this.tableLayoutPanel1);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.8F);
             this.groupBox2.Location = new System.Drawing.Point(0, 141);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
