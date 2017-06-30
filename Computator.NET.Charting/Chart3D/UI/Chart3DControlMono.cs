@@ -67,12 +67,26 @@ namespace Computator.NET.Charting.Chart3D.UI
         {
         }
 
+        public void ShowEditPropertiesDialog()
+        {
+            
+        }
+
+        public void ShowPlotDialog()
+        {
+            
+        }
+
         public bool EqualAxes { get; set; }
         public Chart3DMode Mode { get; set; }
+        public void AddPoints(IEnumerable<Point3D> point3D)
+        {
+            
+        }
 
         public void AddPoints(List<Point3D> points)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

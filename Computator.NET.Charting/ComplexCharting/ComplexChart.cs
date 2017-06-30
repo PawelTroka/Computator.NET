@@ -348,6 +348,21 @@ namespace Computator.NET.Charting.ComplexCharting
             Invalidate();
         }
 
+        public void ShowEditPropertiesDialog()
+        {
+            var editChartProperties = new EditChartProperties(this);
+            if (editChartProperties.ShowDialog() == DialogResult.OK)
+            {
+                this.Redraw();
+            }
+        }
+
+        public void ShowPlotDialog()
+        {
+            var plotForm = new PlotForm(this);
+            plotForm.Show();
+        }
+
         public async void Redraw()
         {
             if (function == null || DrawWidth <= 0 || DrawHeight <= 0)

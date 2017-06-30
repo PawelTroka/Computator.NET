@@ -333,6 +333,21 @@ namespace Computator.NET.Charting.RealCharting
             functions.Clear();
         }
 
+        public void ShowEditPropertiesDialog()
+        {
+            var editChartProperties = new EditChartProperties(this);
+            if (editChartProperties.ShowDialog() == DialogResult.OK)
+            {
+                this.Redraw();
+            }
+        }
+
+        public void ShowPlotDialog()
+        {
+            var plotForm = new Computator.NET.Charting.PlotForm(this);
+            plotForm.Show();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private static IEnumerable<double> Iterate(
@@ -929,6 +944,10 @@ namespace Computator.NET.Charting.RealCharting
             //  chartType = SeriesChartType.FastLine;
         }
 
+        public void AddDataPoints(IEnumerable<double> y, IEnumerable<double> x)
+        {
+            AddDataPoints(y.ToList(),x.ToList());
+        }
 
         public void AddDataPoints(List<double> y, List<double> x) //TODO: fix bugs in scripting or revert to old version
         {

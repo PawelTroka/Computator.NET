@@ -64,4 +64,48 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Chart3D\UI\Chart3DControlMono.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Chart3D\UI\EditChart3DWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Chart3D\UI\EditChart3DWindow.designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Chart3D\UI\UnitsComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ComplexCharting\ComplexChart.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ComplexCharting\EditComplexChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ComplexCharting\EditComplexChartWindow.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="EditChartProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="EditChartProperties.designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="PlotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="PlotForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RealCharting\Chart2D.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="RealCharting\EditChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RealCharting\EditChartWindow.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

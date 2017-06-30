@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms.DataVisualization.Charting;
+using Computator.NET.Charting.Chart3D;
 using Computator.NET.Charting.ComplexCharting;
 
 namespace Computator.NET.DataTypes.Charts
@@ -23,6 +25,7 @@ namespace Computator.NET.DataTypes.Charts
         SeriesChartType ChartType { get; set; }
         Docking LegendDocking { get; set; }
         void Transform(Func<double[], double[]> func, string text);
+        void AddDataPoints(IEnumerable<double> y, IEnumerable<double> x);
     }
 
     public interface IComplexChart : IChart
@@ -34,6 +37,8 @@ namespace Computator.NET.DataTypes.Charts
     public interface IChart3D : IChart
     {
         bool EqualAxes { get; set; }
+        Chart3DMode Mode { get; set; }
+        void AddPoints(IEnumerable<Point3D> point3D);
     }
 
     public interface IChart : IPrinting, IAreaValues, INotifyPropertyChanged
@@ -51,6 +56,8 @@ namespace Computator.NET.DataTypes.Charts
         void SaveImage(string path, ImageFormat imageFormat);
 
         void ClearAll();
+        void ShowEditPropertiesDialog();
+        void ShowPlotDialog();
     }
 
     /*  internal interface IChart<T>

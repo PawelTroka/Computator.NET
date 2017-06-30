@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
@@ -21,6 +22,7 @@ using Computator.NET.DataTypes.Charts;
 using Color = System.Windows.Media.Color;
 using Model3D = Computator.NET.Charting.Chart3D.Chart3D.Model3D;
 using Point = System.Windows.Point;
+using Point3D = Computator.NET.DataTypes.Point3D;
 using Size = System.Windows.Size;
 
 namespace Computator.NET.Charting.Chart3D.UI
@@ -28,7 +30,7 @@ namespace Computator.NET.Charting.Chart3D.UI
     /// <summary>
     ///     Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class Chart3DControl : UserControl, IChart3D
+    public partial class Chart3DControl : System.Windows.Controls.UserControl, IChart3D
     {
         private readonly DiffuseMaterial _backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
         private readonly List<Function> _functions = new List<Function>();
@@ -165,6 +167,11 @@ namespace Computator.NET.Charting.Chart3D.UI
             }
         }
 
+        public void AddPoints(IEnumerable<Point3D> point3D)
+        {
+            AddPoints(point3D.ToList());
+        }
+
         public double XMin
         {
             get { return xmin; }
@@ -255,6 +262,21 @@ namespace Computator.NET.Charting.Chart3D.UI
             TransformChart();
         }
 
+        public void ShowEditPropertiesDialog()
+        {
+            var editChartProperties = new EditChartProperties(this);
+            if (editChartProperties.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.Redraw();
+            }
+        }
+
+        public void ShowPlotDialog()
+        {
+            var plotForm = new Computator.NET.Charting.PlotForm(this);
+            plotForm.Show();
+        }
+
         public bool Visible
         {
             get { return ParentControl.Visible; }
@@ -269,7 +291,7 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         public void Print()
         {
-            var prnt = new PrintDialog();
+            var prnt = new System.Windows.Controls.PrintDialog();
 
             if (prnt.ShowDialog() == true)
             {
@@ -347,7 +369,7 @@ namespace Computator.NET.Charting.Chart3D.UI
                 m_3dChart = new UniformSurfaceChart3D(); //TestSurfacePlot(1);
         }
 
-        private void Chart3DControl_MouseEnter(object sender, MouseEventArgs e)
+        private void Chart3DControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             Focus();
         }

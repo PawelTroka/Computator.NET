@@ -17,11 +17,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 
         public override void Execute()
         {
-            var editChartProperties = new EditChartProperties(currentChart);
-            if (editChartProperties.ShowDialog() == DialogResult.OK)
-            {
-                currentChart.Redraw();
-            }
+            currentChart.ShowEditPropertiesDialog();
         }
     }
 }
