@@ -3,9 +3,6 @@
 environment:
   COVERALLS_REPO_TOKEN:
     secure: KEH5rJaqCoWoCV2MhkrMlClj3SVIlB2Eu0YK4mqmhRM+ANEfGiFyROo2RWHkJXQz
-  matrix:
-  - netmoniker: net461
-  - netmoniker: net40
 
 image:
 - Visual Studio 2017

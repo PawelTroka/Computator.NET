@@ -13,7 +13,6 @@
 //////////////////////////////////////////////////////////////////////
 var coverallsRepoToken = EnvironmentVariable("COVERALLS_REPO_TOKEN");//"KEH5rJaqCoWoCV2MhkrMlClj3SVIlB2Eu0YK4mqmhRM+ANEfGiFyROo2RWHkJXQz"
 var configuration = (EnvironmentVariable("configuration") ?? EnvironmentVariable("build_config")) ?? "Release";
-var netmoniker = EnvironmentVariable("netmoniker") ?? "net461";
 var travisOsName = EnvironmentVariable("TRAVIS_OS_NAME");
 var dotNetCore = EnvironmentVariable("DOTNETCORE");
 string monoVersion = null;
@@ -48,19 +47,21 @@ var target = Argument("target", "Default");
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var solution = "Computator.NET" + (netmoniker != "net461" ? "."+netmoniker : "") + ".sln";
-var mainProject = "Computator.NET/Computator.NET" + (netmoniker != "net461" ? "."+netmoniker : "") + ".csproj";
+var solution = "Computator.NET.sln";
+var mainProject = "Computator.NET/Computator.NET.csproj";
+var mainProjectNet40 = "Computator.NET/Computator.NET.net40.csproj";
+var mainProjectBinPath = @"Computator.NET/bin/" + configuration + @"/v4.6.1";
+var mainProjectBinPathNet40 = @"Computator.NET/bin/" + configuration + @"/v4.0";
+
 var installerProject = "Computator.NET.Setup/Computator.NET.Setup.csproj";
 var unitTestsProject = "Computator.NET.Tests/Computator.NET.Tests.csproj";
 var integrationTestsProject = "Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj";
 
-var allTestsBinaries = "**/bin/" + configuration+ "/" + netmoniker + "/*Test*.dll";
-var integrationTestsBinaries = "Computator.NET.IntegrationTests/"+"bin/" + configuration+ "/" + netmoniker + "/*Test*.dll";
-var unitTestsBinaries = "Computator.NET.Tests/"+"bin/" + configuration+ "/" + netmoniker + "/*Test*.dll";
-var netVersion =  System.Text.RegularExpressions.Regex.Replace(netmoniker.ToLowerInvariant().Replace("net",""), ".{1}", "$0.").TrimEnd('.');
+var allTestsBinaries = "**/bin/" + configuration+ "/**/*Test*.dll";
+var integrationTestsBinaries = "Computator.NET.IntegrationTests/"+"bin/" + configuration+ "/**/*Test*.dll";
+var unitTestsBinaries = "Computator.NET.Tests/"+"bin/" + configuration+ "/**/*Test*.dll";
 
 var msBuildSettings = new MSBuildSettings {
-	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
     Verbosity = Verbosity.Minimal,
     ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
     Configuration = configuration,
@@ -110,7 +111,6 @@ var msBuildSettings = new MSBuildSettings {
 	}
 
 var xBuildSettings = new XBuildSettings {
-	ArgumentCustomization = args=>args.Append(@" /p:TargetFramework="+netmoniker),//args=>args.Append(@" /p:TargetFrameworkVersion=v"+netVersion),
     Verbosity = Verbosity.Minimal,
     ToolVersion = XBuildToolVersion.Default,//The highest available XBuild tool version//NET40
     Configuration = configuration,
@@ -205,6 +205,7 @@ Task("Build")
 	{
 	  // Use MSBuild
 	  MSBuild(mainProject, msBuildSettings);
+	  MSBuild(mainProjectNet40, msBuildSettings);
 	  MSBuild(unitTestsProject, msBuildSettings);
 	  MSBuild(integrationTestsProject, msBuildSettings);
 	  
@@ -213,6 +214,7 @@ Task("Build")
 	{
 	  // Use XBuild
 	  XBuild(mainProject, xBuildSettings);
+	  XBuild(mainProjectNet40, xBuildSettings);
 	  XBuild(unitTestsProject, xBuildSettings);
 	  XBuild(integrationTestsProject, xBuildSettings);
 	}
@@ -233,7 +235,7 @@ Task("IntegrationTests")
 	.Does(() =>
 {
 	NUnit3(integrationTestsBinaries, new NUnit3Settings() {
-		Labels = NUnit3Labels.All,
+		//Labels = NUnit3Labels.All,
 		//NoResults = true
 		});
 });
@@ -243,7 +245,7 @@ Task("AllTests")
 	.Does(() =>
 {
 	NUnit3(allTestsBinaries, new NUnit3Settings() {
-		Labels = NUnit3Labels.All,
+		//Labels = NUnit3Labels.All,
 		//NoResults = true
 		});
 });
@@ -267,7 +269,6 @@ Task("Calculate-Coverage")
 	{
 		Register="user",
 		SkipAutoProps = true,
-		
 	})
 	.WithFilter("+[Computator.NET*]*")
 	.WithFilter("-[Computator.NET.Core]Computator.NET.Core.Properties.*")
@@ -321,7 +322,7 @@ Task("Build-Uwp")
 	{
 		var packageFiles = @"AppPackages/PackageFiles";
 		
-		CopyDirectory(@"Computator.NET/bin/"+configuration,packageFiles);
+		CopyDirectory(mainProjectBinPath,packageFiles);
 		CopyFileToDirectory(@"build-uwp/AppxManifest.xml",packageFiles);
 		CopyFileToDirectory(@"build-uwp/Registry.dat",packageFiles);
 
@@ -359,30 +360,56 @@ Task("Publish")
 {
 	DeleteDirectories(GetDirectories("publish"), recursive:true);
 
-	var versionNumber = GetFullVersionNumber(@"Computator.NET/bin/"+configuration+@"/Computator.NET.exe");
+	var versionNumber = GetFullVersionNumber(mainProjectBinPath+@"/Computator.NET.exe");
+	var versionNumberNet40 = GetFullVersionNumber(mainProjectBinPathNet40+@"/Computator.NET.exe");
+	if(versionNumber!=versionNumberNet40)
+		Error("Version numbers for main executable differ for normal and NET40 build!");
+
 	EnsureDirectoryExists("publish");
 
-	var namesSuffix = ".v"+ versionNumber + (netmoniker=="net40" ? (IsRunningOnWindows() ? "-WindowsXP" : "-net40") : "") + ".";
+	var namesSuffix = ".v" + versionNumber + ".";
+	var namesSuffixNet40 = ".v" + versionNumber + (IsRunningOnWindows() ? "-WindowsXP" : "-net40") + ".";
 
-	Zip(@"Computator.NET/bin/"+configuration, @"publish/Computator.NET"+ namesSuffix + "zip");
+	//Publish Portable
+	var zipPublishPath = @"publish/Computator.NET" + namesSuffix + "zip";
+	var zipPublishPathNet40 = @"publish/Computator.NET" + namesSuffixNet40 + "zip";
+
+	Zip(mainProjectBinPath, zipPublishPath);
+	Zip(mainProjectBinPathNet40, zipPublishPathNet40);
 
 	if(AppVeyor.IsRunningOnAppVeyor)
-		AppVeyor.UploadArtifact(@"publish/Computator.NET"+ namesSuffix + "zip");
+	{
+		AppVeyor.UploadArtifact(zipPublishPath);
+		AppVeyor.UploadArtifact(zipPublishPathNet40);
+	}
 	else if(TravisCI.IsRunningOnTravisCI)
 		Warning("Publishing artifacts in TravisCI is not yet supported.");
 
+	//Publish UWP
 	if(IsRunningOnWindows())
 	{
+		var appxPublishPath = "publish/Computator.NET" + namesSuffix + "appx";
 		RunTarget("Build-Uwp");
-		MoveFile(@"AppPackages/Computator.NET.appx","publish/Computator.NET" + namesSuffix + "appx");
+		MoveFile(@"AppPackages/Computator.NET.appx", appxPublishPath);
 		if(AppVeyor.IsRunningOnAppVeyor)
-			AppVeyor.UploadArtifact("publish/Computator.NET" + namesSuffix + "appx");
-
-		RunTarget("Build-Installer");
-		MoveFile(GetFiles(@"Computator.NET.Setup/bin/" + configuration + @"/Computator.NET.Setup.exe").Single(),@"publish/Computator.NET.Setup" + namesSuffix + "exe");
-		if(AppVeyor.IsRunningOnAppVeyor)
-			AppVeyor.UploadArtifact(@"publish/Computator.NET.Setup" + namesSuffix + "exe");
+		{
+			AppVeyor.UploadArtifact(appxPublishPath);
+		}
 	}
+	else
+		Warning("Publishing UWP app is not supported on Unix.");
+	
+	//Publish Installer
+	if(IsRunningOnWindows())
+	{
+		RunTarget("Build-Installer");
+		var installerPublishPath = @"publish/Computator.NET.Setup" + namesSuffix + "exe";
+		MoveFile(GetFiles(@"Computator.NET.Setup/bin/" + configuration + @"/Computator.NET.Setup.exe").Single(),installerPublishPath);
+		if(AppVeyor.IsRunningOnAppVeyor)
+			AppVeyor.UploadArtifact(installerPublishPath);
+	}
+	else
+		Warning("Publishing Installer is not supported on Unix.");
 });
 
 

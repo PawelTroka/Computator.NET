@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Xml.Linq;
 using WixSharp;
 using WixSharp.CommonTasks;
 
@@ -8,14 +7,25 @@ namespace Computator.NET.Setup
 {
     class ProjectBuilder
     {
-        public NetVersion CurrentHighestVersion = new NetVersion(){RealVersion = new Version(4, 0), DisplayVersion = "4.0"};
+        private readonly string _dottedNetVersion;
+
+        public ProjectBuilder(string dottedNetVersion)
+        {
+            _dottedNetVersion = dottedNetVersion;
+        }
+
+        public NetVersion CurrentHighestVersion { get; private set; } = new NetVersion(){RealVersion = new Version(4, 0), DisplayVersion = "4.0"};
 
         public string BuildMsi()
         {
-            var binariesPath = $@"..\Computator.NET\{SharedProperties.OutDir}\*.*";
+            var baseBinPath = $@"..\Computator.NET\{SharedProperties.OutDir}\v{_dottedNetVersion}";
+
+            var binariesPath = System.IO.Path.Combine(baseBinPath,@"*.*");
+
             Console.WriteLine($"Analyzing binaries from path '{binariesPath}'");
 
-            var assemblies = System.IO.Directory.GetFiles(binariesPath.Replace("*.*", string.Empty)).Where(f => f.EndsWith(".exe") || f.EndsWith(".dll"));
+            var assemblies = System.IO.Directory.GetFiles(baseBinPath).Where(f => f.EndsWith(".dll")).ToList();
+            //assemblies.AddRange(System.IO.Directory.GetFiles(binariesPath.Replace("*.*", "*.exe")));
             
             foreach (var assembly in assemblies)
             {
@@ -53,7 +63,7 @@ namespace Computator.NET.Setup
                 },
                 BackgroundImage = @"..\Graphics\Installer\InstallShield Computator.NET Theme\welcome.jpg",
                 BannerImage = @"..\Graphics\Installer\InstallShield Computator.NET Theme\banner.jpg",
-                OutDir = SharedProperties.OutDir,
+                OutDir = System.IO.Path.Combine(SharedProperties.OutDir,$"net{_dottedNetVersion.Replace(".","")}"),
                 OutFileName = "Computator.NET",
                 InstallScope = InstallScope.perMachine,//TODO: investigate if we could somehow go for perUser here
                 //MajorUpgradeStrategy = MajorUpgradeStrategy.Default,//only MajorUpgradeStrategy or MajorUpgrade can be defined
@@ -66,7 +76,7 @@ namespace Computator.NET.Setup
                         "A later version of [ProductName] is already installed. Setup will now exit.",
                     IgnoreRemoveFailure = true,
                     Schedule = UpgradeSchedule.afterInstallInitialize,
-                },
+                }
             };
             //project.LightOptions += @" XPath=""/wixOutput/table[@name='File']/row/field[5]"" InnerText=""65535.0.0.0""";
             //project.WixSourceGenerated += Fonts.InjectFonts;
@@ -74,6 +84,7 @@ namespace Computator.NET.Setup
             var prerequisite = PrerequisiteHelper.GetPrerequisite(CurrentHighestVersion);
             Console.WriteLine($"Setting required NetFx {nameof(prerequisite)} '{prerequisite.WixPrerequisite}'");
             project.SetNetFxPrerequisite(prerequisite.WixPrerequisite, prerequisite.ErrorMessage);
+            
 
             var mainExe = project.ResolveWildCards().FindFile((f) => f.Name.EndsWith("Computator.NET.exe")).Single();
             Console.WriteLine($"Main executable is '{mainExe.ToString()}'");
@@ -93,6 +104,7 @@ namespace Computator.NET.Setup
                 new FileAssociation("tslf") { Icon = nameof(SharedProperties.TslIcon), Description = "TROKA Scripting Language functions file", ContentType = @"text/tslf" },
             };
 
+            //project.LaunchConditions.Add(new LaunchCondition());
 
             //project.ControlPanelInfo.NoRepair = true,
             //project.ControlPanelInfo.NoRemove = true,

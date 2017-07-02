@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Computator.NET.Setup
 {
@@ -17,7 +14,10 @@ namespace Computator.NET.Setup
         //computator.net-icon-16x16-to-256x256.ico
         public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version;
         public const string SetupGif = @"..\Graphics\Installer\InstallShield Computator.NET Theme\setup.gif";
-        public const string Logo = @"..\Graphics\computator.net-icon.png";
+
+        //public const string Logo = @"..\Graphics\computator.net-icon.png";
+
+        public const string LogoBmp = @"..\Graphics\computator.net-logo.bmp";
 
         private const string TslIconBig = @"..\Graphics\tsl.ico";
         private const string TslIconCompatible = @"..\Graphics\tsl-16x16-to-256x256.ico";

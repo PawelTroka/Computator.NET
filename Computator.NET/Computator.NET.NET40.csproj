@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
@@ -7,61 +7,31 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}</ProjectGuid>
+    <ProjectGuid>{CE7E263B-7746-4AF7-A4DB-D84B86E3DBF8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Computator.NET</RootNamespace>
     <AssemblyName>Computator.NET</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <AssemblyVersion>2.1.0.13</AssemblyVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SkipValidatePackageReferences>true</SkipValidatePackageReferences>
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationIcon>..\Graphics\computator.net-icon.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants Condition=" '$(OS)' != 'Unix' ">TRACE;DEBUG</DefineConstants>
-	<DefineConstants Condition=" '$(OS)' == 'Unix' ">TRACE;DEBUG;__MonoCS__</DefineConstants>
+	<IntermediateOutputPath>obj\$(Configuration)\$(TargetFrameworkVersion)\</IntermediateOutputPath>
+    <OutputPath>bin\$(Configuration)\$(TargetFrameworkVersion)\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DefineConstants Condition=" '$(OS)' != 'Unix' ">NET40;TRACE;DEBUG;</DefineConstants>
+    <DefineConstants Condition=" '$(OS)' == 'Unix' ">NET40;TRACE;DEBUG;__MonoCS__</DefineConstants>
     <DebugType>full</DebugType>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>bin\Release\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <Optimize>true</Optimize>
-    <DefineConstants Condition=" '$(OS)' == 'Unix' ">__MonoCS__</DefineConstants>
+    <DefineConstants Condition=" '$(OS)' == 'Unix' ">NET40;__MonoCS__</DefineConstants>
+    <DefineConstants Condition=" '$(OS)' != 'Unix' ">NET40</DefineConstants>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
-    <FileAlignment>512</FileAlignment>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
     <AllowedReferenceRelatedFileExtensions>
       <!-- Prevent default XML and PDB files copied to output in RELEASE. 
 		   Only *.allowedextension files will be included, which doesn't exist in my case.
@@ -69,27 +39,7 @@
 	  .allowedextension
 	</AllowedReferenceRelatedFileExtensions>
     <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>B25B9859553E7C0D8F0D81834635F1D07D1F4C9D</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>Computator.NET_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Computator.NET.pfx</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
@@ -178,11 +128,177 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="**\*.cs" Exclude="obj\**\*.cs;bin\**\*.cs" />
+    <Compile Include="Benchmarking\BenchmarkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Benchmarking\BenchmarkForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bootstrapping\WinFormsBootstrapper.cs" />
+    <Compile Include="Config\MyMessageFilter.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteItems.cs" />
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenuHost.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\EventArgs.cs" />
+    <Compile Include="Controls\AutocompleteMenu\IAutocompleteListView.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Range.cs" />
+    <Compile Include="Controls\AutocompleteMenu\WebBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\WebBrowserTooltip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\ITextBoxWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
+    <Compile Include="Controls\AutocompleteMenu\Wrappers\TextBoxWrapper.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditor.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\BitmapExtension.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\CompletionData.cs" />
+    <Compile Include="Controls\CodeEditors\AvalonEdit\OffsetColorizer.cs" />
+    <Compile Include="Controls\CodeEditors\CodeEditorControlWrapper.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CodeEditors\ScintillaCodeEditorControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CodeEditors\TextEditorCodeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DirectoryTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DocumentsTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ExpressionTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Field.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScientificNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScientificNumericUpDown.Designer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ToolStripRadioButtonMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Data\CompletionDataConverter.cs" />
+    <Compile Include="Dialogs\AboutBox1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AboutBox1.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\BugReportingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\BugReportingForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ChangelogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ChangelogForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\LoadingScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SettingsForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\WinFormsDialogFactory.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ApplicationManager.cs" />
+    <Compile Include="Services\FormScaling.cs" />
+    <Compile Include="Services\MessagingService.cs" />
+    <Compile Include="Views\CalculationsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\CalculationsView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ChartAreaValuesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ChartAreaValuesView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ChartingView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ChartingView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\CustomFunctionsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\CustomFunctionsView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ExpressionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ExpressionView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MainView.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MenuStripView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MenuStripView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\NumericalCalculationsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\NumericalCalculationsView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ScriptingView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ScriptingView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SolutionExplorerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SolutionExplorerView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ToolBarView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ToolBarView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="**\*.resx" Exclude="obj\**\*.resx;bin\**\*.resx" />
     <None Include="app.config" />
-    <None Include="Computator.NET.pfx" />
-    <None Include="packages.Computator.NET.NET40.config" />
+    <None Include="packages.Computator.NET.net40.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">
@@ -196,6 +312,10 @@
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
       <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
       <Name>Computator.NET.DataTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj">
+      <Project>{6b5754ff-10e9-4bcc-a1d8-0dd665e56b53}</Project>
+      <Name>Computator.NET.Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
