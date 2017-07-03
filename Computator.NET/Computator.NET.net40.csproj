@@ -17,7 +17,7 @@
     <ApplicationIcon>..\Graphics\computator.net-icon.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PlatformTarget>AnyCPU</PlatformTarget>
-	<IntermediateOutputPath>obj\$(Configuration)\$(TargetFrameworkVersion)\</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\$(TargetFrameworkVersion)\</IntermediateOutputPath>
     <OutputPath>bin\$(Configuration)\$(TargetFrameworkVersion)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -71,8 +71,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.8\lib\net40\NLog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NLog.4.4.11\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' ">
       <Private>False</Private>

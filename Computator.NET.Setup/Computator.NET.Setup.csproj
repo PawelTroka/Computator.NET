@@ -33,7 +33,7 @@
     <None Include="wix\$(ProjectName).g.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WixSharp" Version="1.4.6.0" />
-    <PackageReference Include="WixSharp.bin" Version="1.4.6.0" />
+    <PackageReference Include="WixSharp" Version="1.4.6.2" />
+    <PackageReference Include="WixSharp.bin" Version="1.4.6.2" />
   </ItemGroup>
 </Project>
