@@ -58,7 +58,7 @@ namespace Computator.NET.Setup
                     }*/
                     Application = new LicenseBootstrapperApplication()
                     {
-                        LogoFile = @"../Graphics/Installer/BootstrapperLogoFile63.png", //SharedProperties.LogoBmp,
+                        LogoFile = @"../Graphics/Installer/BootstrapperLogoFile65.png", //SharedProperties.LogoBmp,
                         LicensePath = SharedProperties.License, //@"https://github.com/PawelTroka/Computator.NET/blob/master/LICENSE"
                     },
                     SplashScreenSource = @"../Graphics/Installer/BootstrapperSplashScreen.bmp",//@"..\Graphics\computator.net-icon.png",//@"..\Graphics\Installer\InstallShield Computator.NET Theme\setup.gif",
