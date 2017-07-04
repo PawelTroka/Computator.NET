@@ -20,11 +20,29 @@ namespace Computator.NET.Setup
             var productMsiPackage = new MsiPackage(productMsi) {DisplayInternalUI = true, InstallCondition = "VersionNT >= v6.0" };
             var productMsiPackageNet40 = new MsiPackage(productMsiNet40) { Id = "Computator.NET__Windows_XP", DisplayInternalUI = true, InstallCondition = "VersionNT < v6.0" };
 
+            var packegeGroupRefNet40 = PrerequisiteHelper.GetPackegeRef(projectBuilderNet40.CurrentHighestVersion);
+            var packegeGroupRefNet = PrerequisiteHelper.GetPackegeRef(projectBuilder.CurrentHighestVersion);
+
+            var packegeGroupRefPathNet40 = Path.Combine(SharedProperties.OutDir, $"{packegeGroupRefNet40}.exe");
+            var packegeGroupRefNetPath = Path.Combine(SharedProperties.OutDir, $"{packegeGroupRefNet}.exe");
+
+            (new Bundle(packegeGroupRefNet40,new PackageGroupRef(packegeGroupRefNet))
+            {
+                Version = projectBuilderNet40.CurrentHighestVersion.RealVersion,
+                //Application = new SilentBootstrapperApplication(),
+            }).Build(packegeGroupRefPathNet40);
+            (new Bundle(packegeGroupRefNet, new PackageGroupRef(packegeGroupRefNet))
+            {
+                Version = projectBuilder.CurrentHighestVersion.RealVersion,
+                //Application = new SilentBootstrapperApplication(),
+            }).Build(packegeGroupRefNetPath);
+
+
 
             var bootstrapper =
                 new Bundle("Computator.NET",
-                    new PackageGroupRef(PrerequisiteHelper.GetPackegeRef(projectBuilderNet40.CurrentHighestVersion)),
-                    ////////////////new PackageGroupRef(PrerequisiteHelper.GetPackegeRef(projectBuilder.CurrentHighestVersion)),////TODO: we need to include this somehow
+                    new ExePackage(packegeGroupRefPathNet40) { InstallCondition = "VersionNT < v6.0", InstallCommand = "-q",Compressed = true},
+                    new ExePackage(packegeGroupRefNetPath) { InstallCondition = "VersionNT >= v6.0", InstallCommand = "-q", Compressed = true},
                     productMsiPackageNet40,
                     productMsiPackage)
                 {
@@ -45,7 +63,7 @@ namespace Computator.NET.Setup
                     Application = new LicenseBootstrapperApplication()
                     {
                         LogoFile = @"../Graphics/computator.net-icon.png",//SharedProperties.LogoBmp,
-                        LicensePath = @"https://github.com/PawelTroka/Computator.NET/blob/master/LICENSE",//SharedProperties.License,
+                        LicensePath = SharedProperties.License,//@"https://github.com/PawelTroka/Computator.NET/blob/master/LICENSE"
                     }
                 };
 
