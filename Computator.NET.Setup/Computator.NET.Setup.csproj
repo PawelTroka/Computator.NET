@@ -34,5 +34,6 @@
   <ItemGroup>
     <PackageReference Include="WixSharp" Version="1.4.6.2" />
     <PackageReference Include="WixSharp.bin" Version="1.4.6.2" />
+    <PackageReference Include="WixSharp.wix.bin" Version="3.11.0" />
   </ItemGroup>
 </Project>
