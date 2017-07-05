@@ -8,7 +8,7 @@ using Computator.NET.Core.Functions;
 namespace Computator.NET.Core.Evaluation
 {
     //TODO: refactor this shit
-    internal class TypeDeducer
+    public class TypeDeducer
     {
         public static System.Func<TR> Func<TR>(System.Func<TR> f)
         {

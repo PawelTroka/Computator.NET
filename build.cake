@@ -62,13 +62,13 @@ var integrationTestsBinaries = "Computator.NET.IntegrationTests/"+"bin/" + confi
 var unitTestsBinaries = "Computator.NET.Tests/"+"bin/" + configuration+ "/**/*Test*.dll";
 
 var msBuildSettings = new MSBuildSettings {
-    Verbosity = Verbosity.Minimal,
-    ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
-    Configuration = configuration,
-    PlatformTarget = PlatformTarget.MSIL,
+	Verbosity = Verbosity.Minimal,
+	ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
+	Configuration = configuration,
+	PlatformTarget = PlatformTarget.MSIL,
 	MSBuildPlatform = MSBuildPlatform.Automatic,
 	DetailedSummary = true,
-    };
+	};
 
 	if(!IsRunningOnWindows() && isMonoButSupportsMsBuild)
 	{
@@ -111,11 +111,11 @@ var msBuildSettings = new MSBuildSettings {
 	}
 
 var xBuildSettings = new XBuildSettings {
-    Verbosity = Verbosity.Minimal,
-    ToolVersion = XBuildToolVersion.Default,//The highest available XBuild tool version//NET40
-    Configuration = configuration,
-    //PlatformTarget = PlatformTarget.MSIL,
-    };
+	Verbosity = Verbosity.Minimal,
+	ToolVersion = XBuildToolVersion.Default,//The highest available XBuild tool version//NET40
+	Configuration = configuration,
+	//PlatformTarget = PlatformTarget.MSIL,
+	};
 
 var monoEnvVars = new Dictionary<string,string>() { {"DISPLAY", "99.0"},{"MONO_WINFORMS_XIM_STYLE", "disabled"} };
 
@@ -272,6 +272,7 @@ Task("Calculate-Coverage")
 	})
 	.WithFilter("+[Computator.NET*]*")
 	.WithFilter("-[Computator.NET.Core]Computator.NET.Core.Properties.*")
+	.WithFilter("-[Computator.NET.Localization]*")
 	.WithFilter("-[Computator.NET.Tests]*")
 	.WithFilter("-[Computator.NET.IntegrationTests]*")
 	.ExcludeByAttribute("*.ExcludeFromCodeCoverage*"));
@@ -343,8 +344,8 @@ Task("Build-Uwp")
 		AppPack("AppPackages/Computator.NET.appx", new DirectoryPath("AppPackages/PackageFiles"));		
 		Sign(GetFiles("AppPackages/*.appx"), new SignToolSignSettings {
 			TimeStampUri = new Uri("http://timestamp.digicert.com"),
-            DigestAlgorithm = SignToolDigestAlgorithm.Sha256,
-            CertPath = @"build-uwp/Computator.NET_TemporaryKey.pfx",
+			DigestAlgorithm = SignToolDigestAlgorithm.Sha256,
+			CertPath = @"build-uwp/Computator.NET_TemporaryKey.pfx",
 		});
 	}
 	else

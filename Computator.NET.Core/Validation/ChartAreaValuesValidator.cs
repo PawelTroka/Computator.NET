@@ -1,6 +1,6 @@
 ﻿namespace Computator.NET.Core.Validation
 {
-    class ChartAreaValuesValidator
+    public class ChartAreaValuesValidator
     {
         public static bool IsValid(double xmin, double xmax, double ymin, double ymax)
         {
