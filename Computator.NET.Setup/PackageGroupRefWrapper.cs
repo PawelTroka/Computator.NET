@@ -24,13 +24,14 @@ namespace Computator.NET.Setup
             
             var wrapperBundle = new Bundle(packegeGroupRef, new PackageGroupRef(packegeGroupRef))
             {
+                UpgradeCode = new Guid("4E11B932-46CF-48AE-BF37-FEAB24F5FB7B"),
                 Version = _netVersion.RealVersion,
                 //Application = new SilentBootstrapperApplication(),
             };
 
             Console.WriteLine($"Building {nameof(PackageGroupRefWrapper)} for {nameof(PackageGroupRef)} '{packegeGroupRef}' for .NET version '{_netVersion}'");
             var wrapperPath = wrapperBundle.Build(packegeGroupRefPath);
-            Console.WriteLine($"Build succesful, path is '{wrapperPath}'");
+            Console.WriteLine($"Build successful, path is '{wrapperPath}'");
 
             return wrapperPath;
         }

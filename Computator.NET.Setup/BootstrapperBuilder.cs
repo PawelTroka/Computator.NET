@@ -9,6 +9,8 @@ namespace Computator.NET.Setup
     {
         public void Build()
         {
+            Compiler.WixLocation = Path.Combine(Environment.ExpandEnvironmentVariables(@"%USERPROFILE%"), ".nuget", "packages", "wixsharp.wix.bin", "3.11.0", "tools", "bin");
+
             var projectBuilder = new ProjectBuilder("4.6.1");
             var projectBuilderNet40 = new ProjectBuilder("4.0");
 
@@ -29,15 +31,25 @@ namespace Computator.NET.Setup
                 new Bundle("Computator.NET",
                     new ExePackage(packegeGroupRefNet40Path)
                     {
+                        Name = "Microsoft .NET Framework 4.0 Full (Web Installer)",
+                        Description = "The Microsoft .NET Framework 4 web installer package downloads and installs the .NET Framework components required to run on the target machine architecture and OS. An Internet connection is required during the installation. .NET Framework 4 is required to run and develop applications to target the .NET Framework 4.",
+                        DetectCondition = "NETFRAMEWORK40 OR VersionNT >= v6.0",
                         InstallCondition = "VersionNT < v6.0",
                         InstallCommand = "-q",
-                        Compressed = true
+                        UninstallCommand = "-uninstall -q -norestart",
+                        Compressed = true,
+                        //AttributesDefinition = "Visible=no",
                     },
                     new ExePackage(packegeGroupRefNetPath)
                     {
+                        Name = "Microsoft .NET Framework 4.6.1 (Web Installer)",
+                        Description = "The Microsoft .NET Framework 4.6.1 is a highly compatible, in-place update to the Microsoft .NET Framework 4, Microsoft .NET Framework 4.5, Microsoft .NET Framework 4.5.1, Microsoft .NET Framework 4.5.2 and Microsoft .NET Framework 4.6. The web installer is a small package that automatically determines and downloads only the components applicable for a particular platform.",
+                        DetectCondition = "NETFRAMEWORK45 >= 394254",
                         InstallCondition = "VersionNT >= v6.0",
                         InstallCommand = "-q",
-                        Compressed = true
+                        UninstallCommand = "-uninstall -q -norestart",
+                        Compressed = true,
+                        //AttributesDefinition = "Visible=no",
                     },
                     productMsiPackageNet40,
                     productMsiPackage)
