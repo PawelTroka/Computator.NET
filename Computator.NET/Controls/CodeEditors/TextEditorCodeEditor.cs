@@ -1,3 +1,4 @@
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,7 +36,7 @@ namespace Computator.NET.Controls.CodeEditors
             _documents =
                 new Dictionary<string, IDocument>();
 
-            
+
             string dir = PathUtility.GetFullPath("Static"); // Insert the path to your xshd-files.
             FileSyntaxModeProvider fsmProvider; // Provider
             if (Directory.Exists(dir))
@@ -95,6 +96,7 @@ namespace Computator.NET.Controls.CodeEditors
             _documents.Add(filename, Document);
 
             ///// InitDocument();
+            UltraSuperRefreshMethod();
         }
 
         public void AppendText(string text)
@@ -110,7 +112,15 @@ namespace Computator.NET.Controls.CodeEditors
             var prevDocument = Document;
 
             Document = _documents[filename];
-            //TODO: some kind of refresh needed
+            UltraSuperRefreshMethod();
+        }
+
+        private void UltraSuperRefreshMethod()
+        {
+            this.Update();
+            this.ResizeRedraw = true;
+            this.UpdateStyles();
+            this.Refresh();
         }
 
         public void CloseDocument(string filename)
@@ -148,22 +158,22 @@ namespace Computator.NET.Controls.CodeEditors
 
         public void Cut()
         {
-            //TODO: implement
+            ActiveTextAreaControl.TextArea.ClipboardHandler.Cut(this, EventArgs.Empty);
         }
 
         public void Paste()
         {
-            //TODO: implement
+            ActiveTextAreaControl.TextArea.ClipboardHandler.Paste(this, EventArgs.Empty);
         }
 
         public void Copy()
         {
-            //TODO: implement
+            ActiveTextAreaControl.TextArea.ClipboardHandler.Copy(this, EventArgs.Empty);
         }
 
         public void SelectAll()
         {
-            //TODO: implement
+            ActiveTextAreaControl.TextArea.ClipboardHandler.SelectAll(this, EventArgs.Empty);
         }
 
         public void ClearHighlightedErrors()
