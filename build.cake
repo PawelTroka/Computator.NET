@@ -75,11 +75,11 @@ var unitTestsProject = "Computator.NET.Core.Tests/Computator.NET.Core.Tests.cspr
 var integrationTestsProject = "Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj";
 var webApiIntegrationTestsProject = "Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj";
 
-var allTestsBinaries = "**/bin/" + configuration+ "/**/*Test*.dll";
-var integrationTestsBinaries = "Computator.NET*.IntegrationTests/"+"bin/" + configuration+ "/**/*Test*.dll";
-var unitTestsBinaries = "Computator.NET*.Tests/"+"bin/" + configuration+ "/**/*Test*.dll";
+var allTestsBinaries = "**/bin/" + configuration+ "/**/Computator.NET*Test*.dll";
+var integrationTestsBinaries = "Computator.NET*.IntegrationTests/"+"bin/" + configuration+ "/**/Computator.NET*Test*.dll";
+var unitTestsBinaries = "Computator.NET*.Tests/"+"bin/" + configuration+ "/**/Computator.NET*Test*.dll";
 
-var allWebTestsBinaries = "Computator.NET.Web*.*Tests*/"+"bin/" + configuration+ "/**/*Test*.dll";
+var allWebTestsBinaries = "Computator.NET.Web*.*Tests*/"+"bin/" + configuration+ "/**/Computator.NET*Test*.dll";
 
 var msBuildSettings = new MSBuildSettings {
 	Verbosity = Verbosity.Minimal,
