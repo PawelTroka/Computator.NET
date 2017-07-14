@@ -41,291 +41,31 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
-      <HintPath>..\packages\AvalonEdit.5.0.3\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.11\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' ">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' ">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
-    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
-      <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
-      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="TROKA.Software.SimpleCodeEditor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
-      <HintPath>..\packages\TROKA.Software.SimpleCodeEditor.2.0.0.0\lib\net40\TROKA.Software.SimpleCodeEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="WindowsBase">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="WindowsFormsIntegration" Condition=" '$(OS)' != 'Unix' ">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Benchmarking\BenchmarkForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Benchmarking\BenchmarkForm.Designer.cs">
-      <DependentUpon>BenchmarkForm.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Bootstrapping\WinFormsBootstrapper.cs" />
-    <Compile Include="Config\MyMessageFilter.cs" />
-    <Compile Include="Controls\CodeEditors\TextEditorCodeEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Field.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Dialogs\SettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\SettingsForm.Designer.cs">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Data\CompletionDataConverter.cs" />
-    <Compile Include="Services\ApplicationManager.cs" />
-    <Compile Include="Services\FormScaling.cs" />
-    <Compile Include="Services\MessagingService.cs" />
-    <Compile Include="Controls\AutocompleteMenu\WebBrowserForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\AutocompleteMenu\Wrappers\ScintillaWrapper.cs" />
-    <Compile Include="Controls\CodeEditors\AvalonEdit\BitmapExtension.cs" />
-    <Compile Include="Controls\CodeEditors\AvalonEdit\BraceFoldingStrategy.cs" />
-    <Compile Include="Controls\CodeEditors\AvalonEdit\OffsetColorizer.cs" />
-    <Compile Include="Controls\CodeEditors\CodeEditorControlWrapper.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\CodeEditors\AvalonEdit\CompletionData.cs" />
-    <Compile Include="Controls\ToolStripRadioButtonMenuItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Dialogs\WinFormsDialogFactory.cs" />
-    <Compile Include="Dialogs\BugReportingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\BugReportingForm.Designer.cs">
-      <DependentUpon>BugReportingForm.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\ChangelogForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\ChangelogForm.Designer.cs">
-      <DependentUpon>ChangelogForm.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\CalculationsView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\CalculationsView.Designer.cs">
-      <DependentUpon>CalculationsView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ChartAreaValuesView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ChartAreaValuesView.Designer.cs">
-      <DependentUpon>ChartAreaValuesView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\DocumentsTabControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Dialogs\AboutBox1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\AboutBox1.Designer.cs">
-      <DependentUpon>AboutBox1.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\AutocompleteMenu\AutocompleteItems.cs" />
-    <Compile Include="Controls\AutocompleteMenu\AutocompleteListView.cs">
-      <SubType>usercontrol</SubType>
-    </Compile>
-    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenu.cs">
-      <SubType>component</SubType>
-    </Compile>
-    <Compile Include="Controls\AutocompleteMenu\AutocompleteMenuHost.cs">
-      <SubType>component</SubType>
-    </Compile>
-    <Compile Include="Controls\AutocompleteMenu\EventArgs.cs" />
-    <Compile Include="Controls\AutocompleteMenu\IAutocompleteListView.cs" />
-    <Compile Include="Controls\AutocompleteMenu\Wrappers\ITextBoxWrapper.cs" />
-    <Compile Include="Controls\AutocompleteMenu\Range.cs" />
-    <Compile Include="Controls\AutocompleteMenu\Wrappers\TextBoxWrapper.cs" />
-    <Compile Include="Controls\AutocompleteMenu\WebBrowserTooltip.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\DirectoryTree.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\CodeEditors\AvalonEdit\AvalonEditCodeEditor.cs" />
-    <Compile Include="Controls\ExpressionTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Views\ChartingView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ChartingView.Designer.cs">
-      <DependentUpon>ChartingView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ExpressionView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ExpressionView.Designer.cs">
-      <DependentUpon>ExpressionView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\MainView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\MainView.Designer.cs">
-      <DependentUpon>MainView.cs</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\LoadingScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\MenuStripView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\MenuStripView.Designer.cs">
-      <DependentUpon>MenuStripView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ToolBarView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ToolBarView.Designer.cs">
-      <DependentUpon>ToolBarView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\NumericTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\ScientificNumericUpDown.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\ScientificNumericUpDown.Designer.cs">
-      <DependentUpon>ScientificNumericUpDown.cs</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\CodeEditors\ScintillaCodeEditorControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Views\CustomFunctionsView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\CustomFunctionsView.Designer.cs">
-      <DependentUpon>CustomFunctionsView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\NumericalCalculationsView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\NumericalCalculationsView.Designer.cs">
-      <DependentUpon>NumericalCalculationsView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ScriptingView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ScriptingView.Designer.cs">
-      <DependentUpon>ScriptingView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\SolutionExplorerView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\SolutionExplorerView.Designer.cs">
-      <DependentUpon>SolutionExplorerView.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <EmbeddedResource Include="Controls\DocumentsTabControl.resx">
-      <DependentUpon>DocumentsTabControl.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Program.cs" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="app.manifest" />
-    <None Include="packages.Computator.NET.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj">
-      <Project>{31264A50-A9B4-410C-85BB-EC81D5076747}</Project>
-      <Name>Computator.NET.Charting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj">
       <Project>{b74cd9d5-d77e-418d-b50a-7ee5f040f819}</Project>
       <Name>Computator.NET.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj">
-      <Project>{715165a2-d015-42ae-9381-5563204f8508}</Project>
-      <Name>Computator.NET.DataTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj">
-      <Project>{6b5754ff-10e9-4bcc-a1d8-0dd665e56b53}</Project>
-      <Name>Computator.NET.Localization</Name>
+    <ProjectReference Include="..\Computator.NET.Desktop\Computator.NET.Desktop.csproj">
+      <Project>{96b14e73-74bd-4c1f-968c-8cf4e2ea6ad6}</Project>
+      <Name>Computator.NET.Desktop</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

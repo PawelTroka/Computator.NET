@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Computator.NET.Services;
 using Computator.NET.Localization;
+using Computator.NET.Services;
 
-namespace Computator.NET.Controls
+namespace Computator.NET.Desktop.Controls
 {
     public class DocumentsTabControl : TabControl
     {

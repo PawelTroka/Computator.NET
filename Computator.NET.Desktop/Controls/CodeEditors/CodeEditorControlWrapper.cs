@@ -10,6 +10,7 @@ using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.Desktop.Controls;
 
 namespace Computator.NET.Controls.CodeEditors
 {

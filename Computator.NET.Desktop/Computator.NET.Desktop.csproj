@@ -1,0 +1,232 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <TargetFrameworks>net40;net461</TargetFrameworks>
+    <AppConfig Condition="'$(TargetFramework)' == 'net40'">app.net40.config</AppConfig>
+    <AutoUnifyAssemblyReferences Condition="'$(TargetFramework)' == 'net40'">false</AutoUnifyAssemblyReferences>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <Optimize>false</Optimize>
+    <DefineConstants Condition=" '$(OS)' != 'Unix' ">TRACE;DEBUG</DefineConstants>
+    <DefineConstants Condition=" '$(OS)' == 'Unix' ">TRACE;DEBUG;__MonoCS__</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Optimize>true</Optimize>
+    <DefineConstants Condition=" '$(OS)' == 'Unix' ">__MonoCS__</DefineConstants>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="5.0.3" />
+    <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
+    <PackageReference Include="NLog" Version="4.4.11" />
+    <PackageReference Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
+    <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
+    <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />
+    <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
+    <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' ">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' ">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
+    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
+      <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
+      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration" Condition=" '$(OS)' != 'Unix' ">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+    <PackageReference Include="Unity">
+      <Version>4.0.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Benchmarking\BenchmarkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Benchmarking\BenchmarkForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\AutocompleteMenu\AutocompleteListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\AutocompleteMenu\AutocompleteMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\AutocompleteMenu\AutocompleteMenuHost.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\AutocompleteMenu\WebBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\AutocompleteMenu\WebBrowserTooltip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\CodeEditors\CodeEditorControlWrapper.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\CodeEditors\ScintillaCodeEditorControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\CodeEditors\TextEditorCodeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\DirectoryTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\DocumentsTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\ExpressionTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Field.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\ScientificNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\ScientificNumericUpDown.Designer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\ToolStripRadioButtonMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Dialogs\AboutBox1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\AboutBox1.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\BugReportingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\BugReportingForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\ChangelogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\ChangelogForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\LoadingScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dialogs\SettingsForm.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\CalculationsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\CalculationsView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ChartAreaValuesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ChartAreaValuesView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ChartingView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ChartingView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\CustomFunctionsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\CustomFunctionsView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ExpressionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ExpressionView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\MainView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\MainView.Designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\MenuStripView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\MenuStripView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\NumericalCalculationsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\NumericalCalculationsView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ScriptingView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ScriptingView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\SolutionExplorerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\SolutionExplorerView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ToolBarView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\ToolBarView.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
