@@ -53,9 +53,9 @@ var mainProjectNet40 = "Computator.NET/Computator.NET.net40.csproj";
 var mainProjectBinPath = @"Computator.NET/bin/" + configuration + @"/v4.6.1";
 var mainProjectBinPathNet40 = @"Computator.NET/bin/" + configuration + @"/v4.0";
 
-var installerProject = "Computator.NET.Setup/Computator.NET.Setup.csproj";
-var unitTestsProject = "Computator.NET.Tests/Computator.NET.Tests.csproj";
-var integrationTestsProject = "Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj";
+var installerProject = "Computator.NET.Installer/Computator.NET.Installer.csproj";
+var unitTestsProject = "Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj";
+var integrationTestsProject = "Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj";
 var webApiIntegrationTestsProject = "Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj";
 
 var allTestsBinaries = "**/bin/" + configuration+ "/**/*Test*.dll";
@@ -276,8 +276,8 @@ Task("Calculate-Coverage")
 	.WithFilter("+[Computator.NET*]*")
 	.WithFilter("-[Computator.NET.Core]Computator.NET.Core.Properties.*")
 	.WithFilter("-[Computator.NET.Localization]*")
-	.WithFilter("-[Computator.NET.Tests]*")
-	.WithFilter("-[Computator.NET.IntegrationTests]*")
+	.WithFilter("-[Computator.NET.Core.Tests]*")
+	.WithFilter("-[Computator.NET.Core.IntegrationTests]*")
 	.ExcludeByAttribute("*.ExcludeFromCodeCoverage*"));
 });
 
@@ -407,8 +407,8 @@ Task("Publish")
 	if(IsRunningOnWindows())
 	{
 		RunTarget("Build-Installer");
-		var installerPublishPath = @"publish/Computator.NET.Setup" + namesSuffix + "exe";
-		MoveFile(GetFiles(@"Computator.NET.Setup/bin/" + configuration + @"/Computator.NET.Setup.exe").Single(),installerPublishPath);
+		var installerPublishPath = @"publish/Computator.NET.Installer" + namesSuffix + "exe";
+		MoveFile(GetFiles(@"Computator.NET.Installer/bin/" + configuration + @"/Computator.NET.Installer.exe").Single(),installerPublishPath);
 		if(AppVeyor.IsRunningOnAppVeyor)
 			AppVeyor.UploadArtifact(installerPublishPath);
 	}

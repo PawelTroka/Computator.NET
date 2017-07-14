@@ -82,7 +82,7 @@ namespace Computator.NET.Setup
             var patchesForNet40 = patchKnowledgeBase2468871.Build(bootstrapper);
             bootstrapper.Chain.InsertRange(1, patchesForNet40);
 
-            var finalPath = Path.Combine(SharedProperties.OutDir, "Computator.NET.Setup.exe");
+            var finalPath = Path.Combine(SharedProperties.OutDir, "Computator.NET.Installer.exe");
             Console.WriteLine($"Building final bundle '{finalPath}'");
             bootstrapper.Build(finalPath);
         }
