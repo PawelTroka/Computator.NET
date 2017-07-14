@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Information;
 using Computator.NET.DataTypes.Properties;
 using Computator.NET.Localization;
 
-namespace Computator.NET.Dialogs
+namespace Computator.NET.Desktop.Dialogs
 {
     public partial class BugReportingForm : Form
     {

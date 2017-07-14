@@ -3,7 +3,7 @@ using System.IO;
 using WixSharp;
 using WixSharp.Bootstrapper;
 
-namespace Computator.NET.Setup
+namespace Computator.NET.Installer
 {
     public class BootstrapperBuilder
     {

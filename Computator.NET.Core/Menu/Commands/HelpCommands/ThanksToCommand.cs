@@ -1,6 +1,7 @@
 using System;
 using Computator.NET.Core.Abstract.Services;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Information;
 using Computator.NET.Localization;
 using Computator.NET.Localization.Menu;
 

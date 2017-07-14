@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Views
+﻿namespace Computator.NET.Desktop.Views
 {
     partial class ScriptingView
     {

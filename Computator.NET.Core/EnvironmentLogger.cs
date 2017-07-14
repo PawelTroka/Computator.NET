@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
 using NLog;
 
-namespace Computator.NET
+namespace Computator.NET.Core
 {
     public class EnvironmentLogger
     {

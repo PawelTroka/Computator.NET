@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
-using Computator.NET.Controls.CodeEditors;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Views;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
+using Computator.NET.Desktop.Controls.CodeEditors;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     public partial class ScriptingView : UserControl, IScriptingView
     {

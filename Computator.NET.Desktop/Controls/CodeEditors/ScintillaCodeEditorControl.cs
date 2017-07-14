@@ -12,17 +12,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Computator.NET.Controls.AutocompleteMenu.Wrappers;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
+using Computator.NET.Desktop.Controls.AutocompleteMenu.Wrappers;
 using ScintillaNET;
 
-namespace Computator.NET.Controls.CodeEditors
+namespace Computator.NET.Desktop.Controls.CodeEditors
 {
     public class ScintillaCodeEditorControl : ScintillaNET.Scintilla, INotifyPropertyChanged, ICodeEditorControl
     {

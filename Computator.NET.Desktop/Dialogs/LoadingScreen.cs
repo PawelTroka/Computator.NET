@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Properties;
 
-namespace Computator.NET.Dialogs
+namespace Computator.NET.Desktop.Dialogs
 {
     internal class LoadingScreen : Form
     {

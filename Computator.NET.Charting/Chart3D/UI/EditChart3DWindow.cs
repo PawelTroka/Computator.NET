@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Forms;
+using Computator.NET.DataTypes.Charts;
 using Computator.NET.DataTypes.Properties;
 #if !__MonoCS__
 using System.Windows.Forms.Integration;

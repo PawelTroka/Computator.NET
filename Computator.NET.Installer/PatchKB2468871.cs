@@ -4,7 +4,7 @@ using Microsoft.Win32;
 using WixSharp;
 using WixSharp.Bootstrapper;
 
-namespace Computator.NET.Setup
+namespace Computator.NET.Installer
 {
     /// <summary>
     /// Microsoft .NET Framework 4 KB2468871

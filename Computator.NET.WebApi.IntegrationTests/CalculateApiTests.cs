@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Numerics;
 using System.Threading.Tasks;
 using Computator.NET.Core.Evaluation;
-using Computator.NET.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;

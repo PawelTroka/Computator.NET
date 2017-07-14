@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Localization;
 using NLog;

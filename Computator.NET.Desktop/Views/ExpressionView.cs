@@ -2,7 +2,7 @@
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Views;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     public partial class ExpressionView : UserControl, IExpressionView
     {

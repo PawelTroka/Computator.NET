@@ -1,5 +1,3 @@
-using System.Windows.Forms;
-using Computator.NET.Charting;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes.Charts;
 using Computator.NET.Localization.Menu;

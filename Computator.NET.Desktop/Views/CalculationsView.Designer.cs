@@ -1,7 +1,6 @@
-﻿using System.Windows.Forms;
-using Computator.NET.Controls;
+﻿using Computator.NET.Desktop.Controls;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     partial class CalculationsView
     {
@@ -37,8 +36,8 @@ namespace Computator.NET.Views
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.calculationsRealLabel = new System.Windows.Forms.Label();
-            this.valueForCalculationNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
-            this.calculationsImZnumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.valueForCalculationNumericUpDown = new ScientificNumericUpDown();
+            this.calculationsImZnumericUpDown = new ScientificNumericUpDown();
             this.calculationsComplexLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.calculationValueTextBox = new System.Windows.Forms.TextBox();
@@ -124,7 +123,7 @@ namespace Computator.NET.Views
             this.valueForCalculationNumericUpDown.Name = "valueForCalculationNumericUpDown";
             this.valueForCalculationNumericUpDown.Size = new System.Drawing.Size(63, 31);
             this.valueForCalculationNumericUpDown.TabIndex = 6;
-            this.valueForCalculationNumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Adaptive;
+            this.valueForCalculationNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
             this.valueForCalculationNumericUpDown.Value = new decimal(new int[] {
             0,
             0,
@@ -151,7 +150,7 @@ namespace Computator.NET.Views
             this.calculationsImZnumericUpDown.Name = "calculationsImZnumericUpDown";
             this.calculationsImZnumericUpDown.Size = new System.Drawing.Size(63, 31);
             this.calculationsImZnumericUpDown.TabIndex = 9;
-            this.calculationsImZnumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Adaptive;
+            this.calculationsImZnumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
             this.calculationsImZnumericUpDown.Value = new decimal(new int[] {
             0,
             0,
@@ -329,9 +328,9 @@ namespace Computator.NET.Views
 
         #endregion
         private System.Windows.Forms.GroupBox groupBox3;
-        private Computator.NET.Controls.ScientificNumericUpDown calculationsImZnumericUpDown;
+        private ScientificNumericUpDown calculationsImZnumericUpDown;
         private System.Windows.Forms.Label calculationsRealLabel;
-        private Computator.NET.Controls.ScientificNumericUpDown valueForCalculationNumericUpDown;
+        private ScientificNumericUpDown valueForCalculationNumericUpDown;
         private System.Windows.Forms.Label calculationsComplexLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox calculationValueTextBox;

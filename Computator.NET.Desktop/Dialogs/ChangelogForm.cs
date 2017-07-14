@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Windows.Forms;
-using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Properties;
+using Computator.NET.DataTypes.Utility;
 using Computator.NET.Localization;
 
-namespace Computator.NET.Dialogs
+namespace Computator.NET.Desktop.Dialogs
 {
     public sealed partial class ChangelogForm : Form
     {

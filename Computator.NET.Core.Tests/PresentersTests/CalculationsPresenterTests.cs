@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Evaluation;
@@ -10,11 +7,13 @@ using Computator.NET.Core.Presenters;
 using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
+using Computator.NET.DataTypes.Functions;
 using Computator.NET.Localization;
 using Moq;
 using NUnit.Framework;
+using CalculationsMode = Computator.NET.DataTypes.CalculationsMode;
 
-namespace Computator.NET.Tests.PresentersTests
+namespace Computator.NET.Core.Tests.PresentersTests
 {
     [TestFixture]
     class CalculationsPresenterTests
@@ -69,7 +68,7 @@ namespace Computator.NET.Tests.PresentersTests
             _numericalCalculationsViewMock.Setup(m => m.X).Returns(argument);
             _expressionViewMock.Setup(m => m.Text).Returns("2x-2");
             var function = TypeDeducer.Func((double x) => 2 * x - 2);
-            _expressionsEvaluatorMock.Setup(m => m.Evaluate(It.IsAny<string>(), It.IsAny<string>(),
+            _expressionsEvaluatorMock.Setup<Function>(m => m.Evaluate(It.IsAny<string>(), It.IsAny<string>(),
             _sharedViewState.CalculationsMode)).Returns(new Function(function,FunctionType.Real2D));
 
 
@@ -107,7 +106,7 @@ namespace Computator.NET.Tests.PresentersTests
             EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(CalculationsMode.Real));
             _numericalCalculationsViewMock.Setup(m => m.X).Returns(0);
             var function = TypeDeducer.Func((double x) => (x>0) ? 0.0 : throw new OverflowException());
-            _expressionsEvaluatorMock.Setup(m => m.Evaluate(It.IsAny<string>(), It.IsAny<string>(),_sharedViewState.CalculationsMode)).Returns(new Function(function, FunctionType.Real2D));
+            _expressionsEvaluatorMock.Setup<Function>(m => m.Evaluate(It.IsAny<string>(), It.IsAny<string>(),_sharedViewState.CalculationsMode)).Returns(new Function(function, FunctionType.Real2D));
 
 
             //act
@@ -124,7 +123,7 @@ namespace Computator.NET.Tests.PresentersTests
             EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(CalculationsMode.Real));
             _numericalCalculationsViewMock.Setup(m => m.X).Returns(0);
             var function = TypeDeducer.Func((double x) => (x > 0) ? 0.0 : throw new OverflowException());
-            _expressionsEvaluatorMock.Setup(m => m.Evaluate(It.IsAny<string>(), It.IsAny<string>(), CalculationsMode.Real)).Returns(new Function(function, FunctionType.Real2D));
+            _expressionsEvaluatorMock.Setup<Function>(m => m.Evaluate(It.IsAny<string>(), It.IsAny<string>(), CalculationsMode.Real)).Returns(new Function(function, FunctionType.Real2D));
 
 
             //act

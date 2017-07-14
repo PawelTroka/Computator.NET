@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Computator.NET.Core.Compilation
+namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public class MultiplyingHandler : ITslHandler
     {

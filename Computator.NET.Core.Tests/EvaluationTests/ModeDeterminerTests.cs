@@ -1,9 +1,9 @@
 ﻿using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Evaluation;
-using Computator.NET.DataTypes;
 using NUnit.Framework;
+using CalculationsMode = Computator.NET.DataTypes.CalculationsMode;
 
-namespace Computator.NET.Tests.EvaluationTests
+namespace Computator.NET.Core.Tests.EvaluationTests
 {
     [TestFixture]
     public class ModeDeterminerTests

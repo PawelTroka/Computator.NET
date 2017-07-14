@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Controls
+﻿namespace Computator.NET.Desktop.Controls
 {
     sealed partial class ScientificNumericUpDown
     {

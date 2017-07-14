@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Text
 {
     public static class SpecialSymbols
     {

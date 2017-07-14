@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Utility;
 
 namespace Computator.NET.Core.Autocompletion
 {

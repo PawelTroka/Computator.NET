@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 
-namespace Computator.NET.Controls.CodeEditors.AvalonEdit
+namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
 {
     /// <summary>
     ///     Allows producing foldings from a document based on braces.

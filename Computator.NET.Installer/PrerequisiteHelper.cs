@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Computator.NET.Setup
+namespace Computator.NET.Installer
 {
     struct Prerequisite
     {

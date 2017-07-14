@@ -1,6 +1,6 @@
-﻿using Computator.NET.Controls;
+﻿using Computator.NET.Desktop.Controls;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     partial class ChartAreaValuesView
     {
@@ -35,13 +35,13 @@ namespace Computator.NET.Views
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
-            this.yNNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.yNNumericUpDown = new ScientificNumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.x0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.x0NumericUpDown = new ScientificNumericUpDown();
             this.y0label = new System.Windows.Forms.Label();
-            this.y0NumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.y0NumericUpDown = new ScientificNumericUpDown();
             this.yNlabel = new System.Windows.Forms.Label();
-            this.xnNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.xnNumericUpDown = new ScientificNumericUpDown();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -166,7 +166,7 @@ namespace Computator.NET.Views
             this.yNNumericUpDown.Size = new System.Drawing.Size(120, 27);
             this.yNNumericUpDown.TabIndex = 17;
             this.yNNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.yNNumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Adaptive;
+            this.yNNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
             this.yNNumericUpDown.Value = new decimal(new int[] {
             3,
             0,
@@ -211,7 +211,7 @@ namespace Computator.NET.Views
             this.x0NumericUpDown.Size = new System.Drawing.Size(120, 27);
             this.x0NumericUpDown.TabIndex = 10;
             this.x0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.x0NumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Adaptive;
+            this.x0NumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
             this.x0NumericUpDown.Value = new decimal(new int[] {
             0,
             0,
@@ -256,7 +256,7 @@ namespace Computator.NET.Views
             this.y0NumericUpDown.Size = new System.Drawing.Size(120, 27);
             this.y0NumericUpDown.TabIndex = 16;
             this.y0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.y0NumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Adaptive;
+            this.y0NumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
             this.y0NumericUpDown.Value = new decimal(new int[] {
             0,
             0,
@@ -301,7 +301,7 @@ namespace Computator.NET.Views
             this.xnNumericUpDown.Size = new System.Drawing.Size(120, 27);
             this.xnNumericUpDown.TabIndex = 11;
             this.xnNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.xnNumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Adaptive;
+            this.xnNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
             this.xnNumericUpDown.Value = new decimal(new int[] {
             5,
             0,

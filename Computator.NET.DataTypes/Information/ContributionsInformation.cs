@@ -1,6 +1,6 @@
 ﻿using Computator.NET.Localization;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Information
 {
     public static class ContributionsInformation
     {

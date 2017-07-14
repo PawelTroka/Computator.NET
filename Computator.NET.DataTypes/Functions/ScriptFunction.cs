@@ -1,6 +1,6 @@
 using System;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Functions
 {
     public class ScriptFunction : BaseFunction
     {

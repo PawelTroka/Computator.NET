@@ -9,10 +9,11 @@ using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Natives;
 using Computator.NET.Core.Properties;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.DataTypes.Text;
 
-namespace Computator.NET.Controls
+namespace Computator.NET.Desktop.Controls
 {
     public class ExpressionTextBox : TextBox, IExpressionTextBox
     {

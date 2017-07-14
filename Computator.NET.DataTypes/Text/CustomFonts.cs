@@ -3,9 +3,11 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Runtime.InteropServices;
+using Computator.NET.DataTypes.Configuration;
+using Computator.NET.DataTypes.Utility;
 using NLog;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Text
 {
     public static class CustomFonts
     {

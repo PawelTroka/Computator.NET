@@ -1,6 +1,6 @@
-﻿using Computator.NET.Controls.AutocompleteMenu.Wrappers;
+﻿using Computator.NET.Desktop.Controls.AutocompleteMenu.Wrappers;
 
-namespace Computator.NET.Controls.AutocompleteMenu
+namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
     public class Range
     {

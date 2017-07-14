@@ -1,10 +1,10 @@
 #if !__MonoCS__
 using System.Collections.Generic;
 using System.Linq;
-using Computator.NET.Controls.CodeEditors.AvalonEdit;
 using Computator.NET.Core.Autocompletion;
+using Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit;
 
-namespace Computator.NET.Data
+namespace Computator.NET.Desktop.Data
 {
     public static class CompletionDataConverter
     {

@@ -1,7 +1,7 @@
 ﻿// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
-
 // ReSharper disable InconsistentNaming
+
 namespace Computator.NET.Core.Functions
 {
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
@@ -1075,15 +1075,15 @@ namespace Computator.NET.Core.Functions
 
         #region coefficients and special values
 
-        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_taylorcoeff(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_doublefact(uint n);
 
-        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_choose(uint n, uint m);
 
@@ -1143,18 +1143,18 @@ namespace Computator.NET.Core.Functions
  
         #region trigonometric functions
 
-
+     //   private double ∞ = 9;
         public static double sinc(double x)
         {
             if (x == 0)
                 return 1;
-            return (System.Math.Sin((x)))/(x);
+            return System.Math.Sin(x)/x;
         }
 
 
         public static double sin(double x)
         {
-            return System.Math.Sin((x));
+            return System.Math.Sin(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1162,7 +1162,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double cos(double x)
         {
-            return System.Math.Cos((x));
+            return System.Math.Cos(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1170,7 +1170,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double tan(double x)
         {
-            return System.Math.Tan((x));
+            return System.Math.Tan(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1178,7 +1178,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double tg(double x)
         {
-            return System.Math.Tan((x));
+            return System.Math.Tan(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1186,7 +1186,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double ctg(double x)
         {
-            return 1.0/System.Math.Tan((x));
+            return 1.0/System.Math.Tan(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1194,7 +1194,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double cot(double x)
         {
-            return 1.0/System.Math.Tan((x));
+            return 1.0/System.Math.Tan(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1202,7 +1202,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double sec(double x)
         {
-            return 1.0/System.Math.Cos((x));
+            return 1.0/System.Math.Cos(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1210,7 +1210,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double csc(double x)
         {
-            return 1.0/System.Math.Sin((x));
+            return 1.0/System.Math.Sin(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1218,7 +1218,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double cosec(double x)
         {
-            return 1.0/System.Math.Sin((x));
+            return 1.0/System.Math.Sin(x);
         }
 
         #endregion
@@ -1228,7 +1228,7 @@ namespace Computator.NET.Core.Functions
 
         public static double sinh(double x)
         {
-            return System.Math.Sinh((x));
+            return System.Math.Sinh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1236,13 +1236,13 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double cosh(double x)
         {
-            return System.Math.Cosh((x));
+            return System.Math.Cosh(x);
         }
 
 
         public static double tanh(double x)
         {
-            return System.Math.Tanh((x));
+            return System.Math.Tanh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1250,7 +1250,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double tgh(double x)
         {
-            return System.Math.Tanh((x));
+            return System.Math.Tanh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1258,7 +1258,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double coth(double x)
         {
-            return (1.0/System.Math.Tanh((x)));
+            return 1.0/System.Math.Tanh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1266,7 +1266,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double ctgh(double x)
         {
-            return (1.0/System.Math.Tanh((x)));
+            return 1.0/System.Math.Tanh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1274,7 +1274,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double sech(double x)
         {
-            return (1.0/System.Math.Cosh((x)));
+            return 1.0/System.Math.Cosh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1282,7 +1282,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double csch(double x)
         {
-            return (1.0/System.Math.Sinh((x)));
+            return 1.0/System.Math.Sinh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1290,7 +1290,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double cosech(double x)
         {
-            return (1.0/System.Math.Sinh((x)));
+            return 1.0/System.Math.Sinh(x);
         }
 
         #endregion
@@ -1302,7 +1302,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcsin(double x)
         {
-            return System.Math.Asin((x));
+            return System.Math.Asin(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1310,7 +1310,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arccos(double x)
         {
-            return System.Math.Acos((x));
+            return System.Math.Acos(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1318,7 +1318,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arctan(double x)
         {
-            return System.Math.Atan((x));
+            return System.Math.Atan(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1326,7 +1326,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arctg(double x)
         {
-            return System.Math.Atan((x));
+            return System.Math.Atan(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1334,7 +1334,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arccot(double x)
         {
-            return (System.Math.PI/2 - System.Math.Atan((x)));
+            return System.Math.PI/2 - System.Math.Atan(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1342,7 +1342,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcctg(double x)
         {
-            return (System.Math.PI/2 - System.Math.Atan((x)));
+            return System.Math.PI/2 - System.Math.Atan(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1350,7 +1350,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcsec(double x)
         {
-            return (System.Math.Acos(1.0/(x)));
+            return System.Math.Acos(1.0/x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1358,7 +1358,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arccsc(double x)
         {
-            return (System.Math.Asin(1.0/(x)));
+            return System.Math.Asin(1.0/x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1366,7 +1366,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arccosec(double x)
         {
-            return (System.Math.Asin(1.0/(x)));
+            return System.Math.Asin(1.0/x);
         }
 
         #endregion
@@ -1378,7 +1378,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arsinh(double x)
         {
-            return System.Math.Log((x)) + System.Math.Sqrt((x)*(x) + 1);
+            return System.Math.Log(x) + System.Math.Sqrt(x*x + 1);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1386,7 +1386,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcosh(double x)
         {
-            return System.Math.Log((x) + System.Math.Sqrt(x + 1)*System.Math.Sqrt(x - 1));
+            return System.Math.Log(x + System.Math.Sqrt(x + 1)*System.Math.Sqrt(x - 1));
         }
 
         /*Angielska nazwa funkcji""),
@@ -1426,7 +1426,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcsch(double x)
         {
-            return System.Math.Log((1.0/x) + System.Math.Sqrt((1.0/(x*x)) + 1));
+            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/(x*x) + 1));
         }
 
         /*Angielska nazwa funkcji""),
@@ -1442,7 +1442,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arsech(double x)
         {
-            return System.Math.Log((1.0/x) + System.Math.Sqrt((1.0/x) + 1)*System.Math.Sqrt((1.0/x) - 1));
+            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/x + 1)*System.Math.Sqrt(1.0/x - 1));
         }
 
         #endregion
@@ -1476,9 +1476,9 @@ namespace Computator.NET.Core.Functions
         /*Angielska nazwa funkcji""),
          System.ComponentModel.Category(""doubleu wpisz nazwę regionu (np. trigonometric functions)""),
          System.ComponentModel.Description(""angielski opis funkcji*/
-        public static double log(double value, double nbase)
+        public static double log(double x, double y)
         {
-            return System.Math.Log(value, nbase);
+            return System.Math.Log(x, y);
         }
 
         #endregion
@@ -1502,10 +1502,10 @@ namespace Computator.NET.Core.Functions
             return System.Math.Sqrt(x);
         }
 
-         public static dynamic root(double value, double n)
+        public static dynamic root(double x, double n)
         {
             //n-based root
-            return dpow(value, 1.0/n);
+            return dpow(x, 1.0/n);
         }
 
         #endregion
@@ -1514,7 +1514,7 @@ namespace Computator.NET.Core.Functions
 
         private static dynamic dpow(double x, double y)
         {
-            bool sign = (x < 0);
+            bool sign = x < 0;
             if (sign && HasEvenDenominator(y))
                 return System.Numerics.Complex.Pow(x, y); //double.NaN;  //sqrt(-1) = i
             else
@@ -1532,7 +1532,6 @@ namespace Computator.NET.Core.Functions
         {
             return System.Math.Pow(x, y); 
         }
-
 
         private static bool HasEvenDenominator(double input)
         {
@@ -1581,7 +1580,7 @@ namespace Computator.NET.Core.Functions
         {
             if (z == 0)
                 return 1;
-            return (System.Numerics.Complex.Sin((z)))/(z);
+            return System.Numerics.Complex.Sin(z)/z;
         }
 
         /*Angielska nazwa funkcji""),
@@ -1589,7 +1588,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex sin(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Sin((z));
+            return System.Numerics.Complex.Sin(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1597,7 +1596,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex cos(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Cos((z));
+            return System.Numerics.Complex.Cos(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1605,7 +1604,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex tan(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Tan((z));
+            return System.Numerics.Complex.Tan(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1613,7 +1612,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex tg(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Tan((z));
+            return System.Numerics.Complex.Tan(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1621,7 +1620,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex ctg(System.Numerics.Complex z)
         {
-            return 1.0/System.Numerics.Complex.Tan((z));
+            return 1.0/System.Numerics.Complex.Tan(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1629,7 +1628,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex cot(System.Numerics.Complex z)
         {
-            return 1.0/System.Numerics.Complex.Tan((z));
+            return 1.0/System.Numerics.Complex.Tan(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1637,7 +1636,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex sec(System.Numerics.Complex z)
         {
-            return 1.0/System.Numerics.Complex.Cos((z));
+            return 1.0/System.Numerics.Complex.Cos(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1645,7 +1644,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex csc(System.Numerics.Complex z)
         {
-            return 1.0/System.Numerics.Complex.Sin((z));
+            return 1.0/System.Numerics.Complex.Sin(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1653,7 +1652,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex cosec(System.Numerics.Complex z)
         {
-            return 1.0/System.Numerics.Complex.Sin((z));
+            return 1.0/System.Numerics.Complex.Sin(z);
         }
 
         #endregion
@@ -1665,7 +1664,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex sinh(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Sinh((z));
+            return System.Numerics.Complex.Sinh(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1673,7 +1672,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex cosh(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Cosh((z));
+            return System.Numerics.Complex.Cosh(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1681,7 +1680,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex tanh(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Tanh((z));
+            return System.Numerics.Complex.Tanh(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1689,7 +1688,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex tgh(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Tanh((z));
+            return System.Numerics.Complex.Tanh(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1697,7 +1696,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex coth(System.Numerics.Complex z)
         {
-            return (1.0/System.Numerics.Complex.Tanh((z)));
+            return 1.0/System.Numerics.Complex.Tanh(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1705,7 +1704,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex ctgh(System.Numerics.Complex z)
         {
-            return (1.0/System.Numerics.Complex.Tanh((z)));
+            return 1.0/System.Numerics.Complex.Tanh(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1713,7 +1712,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex sech(System.Numerics.Complex z)
         {
-            return (1.0/System.Numerics.Complex.Cosh((z)));
+            return 1.0/System.Numerics.Complex.Cosh(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1721,7 +1720,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex csch(System.Numerics.Complex z)
         {
-            return (1.0/System.Numerics.Complex.Sinh((z)));
+            return 1.0/System.Numerics.Complex.Sinh(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1729,7 +1728,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex cosech(System.Numerics.Complex z)
         {
-            return (1.0/System.Numerics.Complex.Sinh((z)));
+            return 1.0/System.Numerics.Complex.Sinh(z);
         }
 
         #endregion
@@ -1741,7 +1740,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arcsin(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Asin((z));
+            return System.Numerics.Complex.Asin(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1749,7 +1748,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arccos(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Acos((z));
+            return System.Numerics.Complex.Acos(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1757,7 +1756,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arctan(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Atan((z));
+            return System.Numerics.Complex.Atan(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1765,7 +1764,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arctg(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Atan((z));
+            return System.Numerics.Complex.Atan(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1773,7 +1772,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arccot(System.Numerics.Complex z)
         {
-            return (System.Math.PI/2 - System.Numerics.Complex.Atan((z)));
+            return System.Math.PI/2 - System.Numerics.Complex.Atan(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1781,7 +1780,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arcctg(System.Numerics.Complex z)
         {
-            return (System.Math.PI/2 - System.Numerics.Complex.Atan((z)));
+            return System.Math.PI/2 - System.Numerics.Complex.Atan(z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1789,7 +1788,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arcsec(System.Numerics.Complex z)
         {
-            return (System.Numerics.Complex.Acos(1.0/(z)));
+            return System.Numerics.Complex.Acos(1.0/z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1797,7 +1796,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arccsc(System.Numerics.Complex z)
         {
-            return (System.Numerics.Complex.Asin(1.0/(z)));
+            return System.Numerics.Complex.Asin(1.0/z);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1805,7 +1804,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arccosec(System.Numerics.Complex z)
         {
-            return (System.Numerics.Complex.Asin(1.0/(z)));
+            return System.Numerics.Complex.Asin(1.0/z);
         }
 
         #endregion
@@ -1817,7 +1816,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Log((z)) + System.Numerics.Complex.Sqrt((z)*(z) + 1);
+            return System.Numerics.Complex.Log(z) + System.Numerics.Complex.Sqrt(z*z + 1);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1826,7 +1825,7 @@ namespace Computator.NET.Core.Functions
         public static System.Numerics.Complex arcosh(System.Numerics.Complex z)
         {
             return
-                System.Numerics.Complex.Log((z) +
+                System.Numerics.Complex.Log(z +
                                             System.Numerics.Complex.Sqrt(z + 1)*System.Numerics.Complex.Sqrt(z - 1));
         }
 
@@ -1867,7 +1866,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arcsch(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Log((1.0/z) + System.Numerics.Complex.Sqrt((1.0/(z*z)) + 1));
+            return System.Numerics.Complex.Log(1.0/z + System.Numerics.Complex.Sqrt(1.0/(z*z) + 1));
         }
 
         /*Angielska nazwa funkcji""),
@@ -1884,9 +1883,9 @@ namespace Computator.NET.Core.Functions
         public static System.Numerics.Complex arsech(System.Numerics.Complex z)
         {
             return
-                System.Numerics.Complex.Log((1.0/z) +
-                                            System.Numerics.Complex.Sqrt((1.0/z) + 1)*
-                                            System.Numerics.Complex.Sqrt((1.0/z) - 1));
+                System.Numerics.Complex.Log(1.0/z +
+                                            System.Numerics.Complex.Sqrt(1.0/z + 1)*
+                                            System.Numerics.Complex.Sqrt(1.0/z - 1));
         }
 
         #endregion
@@ -1974,7 +1973,7 @@ namespace Computator.NET.Core.Functions
 
         public static double sgn(double x)
         {
-            return (double.IsNaN(x)) ? double.NaN : (double) (System.Math.Sign(x));
+            return double.IsNaN(x) ? double.NaN : (double) System.Math.Sign(x);
         }
 
 
@@ -2014,18 +2013,33 @@ namespace Computator.NET.Core.Functions
             return f;
         }
 
+        [System.ComponentModel.Category(""Integer functions"")]
+        public static double DoubleFactorial(double x)
+        {
+            return DoubleFactorial((long)x);
+        }
+        [System.ComponentModel.Category(""Integer functions"")]
+        public static double DoubleFactorial(long n)
+        {
+            if (n < 0)
+                return double.NaN;
+
+            return gsl_sf_doublefact((uint)n);
+        }
+
         /*Angielska nazwa funkcji""),
          System.ComponentModel.Category(""Tu wpisz nazwę regionu (np. trigonometric functions)""),
          System.ComponentModel.Description(""angielski opis funkcji*/
-        public static int prime(double d)
+        public static int prime(double x)
         {
-            if (d < 1)
+            if (x < 1)
                 return -1;
-            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) (d)))
+            if (Meta.Numerics.Functions.AdvancedIntegerMath.IsPrime((int) x))
                 return 1;
             return 0;
         }
 
+        [System.ComponentModel.Category(""Integer functions"")]
         public static bool isPrime(int n)
         {
             if(n <= 0)
@@ -2064,7 +2078,7 @@ namespace Computator.NET.Core.Functions
             return primes;
         }
 
-
+        [System.ComponentModel.Category(""Integer functions"")]
         public static double Eulerφ(long n)
         {
             if (n < 1)
@@ -2083,7 +2097,7 @@ namespace Computator.NET.Core.Functions
                 {
                     currentNum = temp;
                     i--;
-                    if (prevP != p) { prevP = p; totient -= (totient / p); }
+                    if (prevP != p) { prevP = p; totient -= totient / p; }
                 }
             }
             return totient;
@@ -2135,9 +2149,6 @@ namespace Computator.NET.Core.Functions
 
         #region a step like functions (non continuous)
 
-
-
-
         public static double H(double x)
         {
             return Heaviside(x);
@@ -2152,14 +2163,14 @@ namespace Computator.NET.Core.Functions
     {
         return KroneckerDelta(i,j);
     }
-
+        [System.ComponentModel.Category(""Step functions"")]
         public static double abs(double x)
         {
             if (x >= 0.0)
                 return x;
             return -x;
         }
-
+        [System.ComponentModel.Category(""Step functions"")]
         public static System.Numerics.Complex abs(System.Numerics.Complex z)
         {
             return System.Numerics.Complex.Abs(z);
@@ -2197,15 +2208,15 @@ namespace Computator.NET.Core.Functions
 
         #region coefficients and special values
 
-        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_taylorcoeff(int n, double x);
 
-        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_doublefact(uint n);
 
-        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
+        [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern double gsl_sf_choose(uint n, uint m);
 
@@ -2215,18 +2226,6 @@ namespace Computator.NET.Core.Functions
             return gsl_sf_taylorcoeff(n, x);
         }
 
-        public static double DoubleFactorial(double x)
-        {
-            return DoubleFactorial((long) x);
-        }
-
-        public static double DoubleFactorial(long n)
-        {
-            if (n < 0)
-                return double.NaN;
-
-            return gsl_sf_doublefact((uint) n);
-        }
 
         public static double BinomialCoeff(long n, long k)
         {
@@ -2260,7 +2259,7 @@ namespace Computator.NET.Core.Functions
         {
             return MathNet.Numerics.Combinatorics.Combinations(n, k);
         }
-
+        [System.ComponentModel.Category(""Combinatorics"")]
         public static double Permutations(int n)
         {
             if (n < 0)
@@ -2270,6 +2269,7 @@ namespace Computator.NET.Core.Functions
         }
 
         #endregion
+        
 ";
     }
 }

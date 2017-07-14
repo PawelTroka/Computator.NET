@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Computator.NET.Core.Constants;
 using NUnit.Framework;
 
-namespace Computator.NET.Tests
+namespace Computator.NET.Core.Tests
 {
     [TestFixture]
     class ConstantsTests

@@ -1,4 +1,4 @@
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Functions
 {
     public enum FunctionType
     {

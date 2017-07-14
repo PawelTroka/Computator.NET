@@ -3,7 +3,7 @@ using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Model;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     public partial class SolutionExplorerView : UserControl, ISolutionExplorerView
     {

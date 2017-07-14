@@ -1,9 +1,9 @@
 ﻿using System.Windows.Forms;
-using Computator.NET.Controls.CodeEditors;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Desktop.Controls.CodeEditors;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     public partial class CustomFunctionsView : UserControl, ICustomFunctionsView
     {

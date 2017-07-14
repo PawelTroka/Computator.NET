@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Computator.NET.Services
+namespace Computator.NET.Desktop.Services
 {
     public static class ScalingExtensions
     {

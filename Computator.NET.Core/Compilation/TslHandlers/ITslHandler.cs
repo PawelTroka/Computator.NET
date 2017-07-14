@@ -1,4 +1,4 @@
-namespace Computator.NET.Core.Compilation
+namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public interface ITslHandler
     {

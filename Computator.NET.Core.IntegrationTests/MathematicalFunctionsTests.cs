@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 // ReSharper disable LocalizableElement
 
-namespace Computator.NET.IntegrationTests
+namespace Computator.NET.Core.IntegrationTests
 {
     [TestFixture]
     [Category("LongRunningTests")]

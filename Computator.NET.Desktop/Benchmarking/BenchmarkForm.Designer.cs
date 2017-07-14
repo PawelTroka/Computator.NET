@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Benchmarking
+﻿namespace Computator.NET.Desktop.Benchmarking
 {
     partial class BenchmarkForm
     {

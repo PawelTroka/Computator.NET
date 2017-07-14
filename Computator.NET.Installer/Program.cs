@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Setup
+﻿namespace Computator.NET.Installer
 {
     internal class Program
     {

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Computator.NET.Core.Compilation
+namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public class DivisionHandler : ITslHandler
     {

@@ -1,5 +1,8 @@
 ﻿using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
+using Computator.NET.DataTypes.Functions;
+using Computator.NET.DataTypes.Utility;
 
 namespace Computator.NET.Core.Evaluation
 {

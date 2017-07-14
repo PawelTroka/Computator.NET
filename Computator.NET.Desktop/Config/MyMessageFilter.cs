@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Computator.NET.Core.Natives;
 
-namespace Computator.NET.Config
+namespace Computator.NET.Desktop.Config
 {
     public class MyMessageFilter : IMessageFilter
     {

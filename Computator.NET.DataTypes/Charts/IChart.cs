@@ -4,8 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms.DataVisualization.Charting;
-using Computator.NET.Charting.Chart3D;
-using Computator.NET.Charting.ComplexCharting;
+using Computator.NET.DataTypes.Functions;
 
 namespace Computator.NET.DataTypes.Charts
 {

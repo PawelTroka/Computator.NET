@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using WixSharp;
 
-namespace Computator.NET.Setup
+namespace Computator.NET.Installer
 {
     class Fonts
     {

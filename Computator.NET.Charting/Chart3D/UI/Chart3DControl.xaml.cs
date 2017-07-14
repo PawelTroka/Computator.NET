@@ -19,10 +19,11 @@ using Computator.NET.Charting.Chart3D.Spline;
 using Computator.NET.Charting.Printing;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Functions;
 using Color = System.Windows.Media.Color;
 using Model3D = Computator.NET.Charting.Chart3D.Chart3D.Model3D;
 using Point = System.Windows.Point;
-using Point3D = Computator.NET.DataTypes.Point3D;
+using Point3D = Computator.NET.DataTypes.Charts.Point3D;
 using Size = System.Windows.Size;
 
 namespace Computator.NET.Charting.Chart3D.UI
@@ -34,7 +35,7 @@ namespace Computator.NET.Charting.Chart3D.UI
     {
         private readonly DiffuseMaterial _backMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.DimGray));
         private readonly List<Function> _functions = new List<Function>();
-        private readonly List<List<Computator.NET.DataTypes.Point3D>> _points = new List<List<Computator.NET.DataTypes.Point3D>>();
+        private readonly List<List<Point3D>> _points = new List<List<Point3D>>();
 
         private readonly ImagePrinter imagePrinter = new ImagePrinter();
         private readonly Random random = new Random();
@@ -463,7 +464,7 @@ namespace Computator.NET.Charting.Chart3D.UI
                     y = YMin + iy*dy;
                     z = fxy(x, y);
                     if (!double.IsNaN(z) && !double.IsInfinity(z))
-                        spline3D.AddPoint(new Computator.NET.DataTypes.Point3D(x, y, z));
+                        spline3D.AddPoint(new Point3D(x, y, z));
                 }
             return spline3D;
         }
@@ -528,15 +529,15 @@ namespace Computator.NET.Charting.Chart3D.UI
         }
 
 
-        public void AddPoints(IList<Computator.NET.DataTypes.Point3D> points)
+        public void AddPoints(IList<Point3D> points)
         {
             if (Mode == Chart3DMode.Surface)
                 Mode = Chart3DMode.Points;
-            _points.Add(new List<Computator.NET.DataTypes.Point3D>(points));
+            _points.Add(new List<Point3D>(points));
             AddPoints(points, GetRandomColor());
         }
 
-        private void AddPoints(IList<Computator.NET.DataTypes.Point3D> points, Color color)
+        private void AddPoints(IList<Point3D> points, Color color)
         {
             var oldSize = m_3dChart.GetDataNo();
             m_3dChart.IncreaseDataSize(points.Count);

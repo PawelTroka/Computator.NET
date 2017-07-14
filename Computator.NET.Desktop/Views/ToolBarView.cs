@@ -5,7 +5,7 @@ using Computator.NET.Core.Menu.Commands.FileCommands;
 using Computator.NET.Core.Menu.Commands.TopMenuCommands;
 using HelpCommand = Computator.NET.Core.Menu.Commands.HelpCommands.HelpCommand;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     public partial class ToolBarView : UserControl
     {

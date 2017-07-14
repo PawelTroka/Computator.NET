@@ -8,11 +8,11 @@ using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Helpers;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
 
 // ReSharper disable LocalizableElement
 
-namespace Computator.NET.Controls
+namespace Computator.NET.Desktop.Controls
 {
     public sealed partial class ScientificNumericUpDown : NumericUpDown
     {

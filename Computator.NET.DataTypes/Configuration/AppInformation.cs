@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Configuration
 {
     public static class AppInformation
     {

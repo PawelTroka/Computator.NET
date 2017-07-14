@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Dialogs
+﻿namespace Computator.NET.Desktop.Dialogs
 {
     partial class SettingsForm
     {

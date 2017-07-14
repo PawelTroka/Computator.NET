@@ -8,6 +8,7 @@ using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.Events;
 using NLog;
 

@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Text;
 using Microsoft.CSharp.RuntimeBinder;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Functions
 {
     public class Function : BaseFunction
     {

@@ -7,7 +7,7 @@ using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     public partial class ChartingView : UserControl, IChartingView
     {

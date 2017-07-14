@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Computator.NET.Setup
+namespace Computator.NET.Installer
 {
     public class SharedProperties
     {

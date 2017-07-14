@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Computator.NET.DataTypes.Charts;
 using Computator.NET.DataTypes.Properties;
 
 namespace Computator.NET.Charting.ComplexCharting

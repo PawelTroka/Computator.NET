@@ -1,7 +1,7 @@
 ﻿using System;
 using NLog;
 
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Functions
 {
     public abstract class BaseFunction
     {

@@ -1,10 +1,10 @@
 using System.IO;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
 
-namespace Computator.NET
+namespace Computator.NET.Core
 {
     public class LogsConfigurator
     {

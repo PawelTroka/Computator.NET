@@ -1,7 +1,7 @@
-﻿using Computator.NET.Controls;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using Computator.NET.Desktop.Controls;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     partial class NumericalCalculationsView
     {
@@ -51,23 +51,23 @@ namespace Computator.NET.Views
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.intervalGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.aIntervalNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.aIntervalNumericUpDown = new ScientificNumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
-            this.bIntervalNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.bIntervalNumericUpDown = new ScientificNumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.derivativeAtPointGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.nOrderDerivativeNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
-            this.xDerivativePointNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.xDerivativePointNumericUpDown = new ScientificNumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.maxErrorGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.epsTextBox = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.epsTextBox = new ScientificNumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.stepsGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.nStepsNumericUpDown = new Computator.NET.Controls.ScientificNumericUpDown();
+            this.nStepsNumericUpDown = new ScientificNumericUpDown();
             this.label19 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericalCalculationsDataGridView)).BeginInit();
@@ -347,7 +347,7 @@ namespace Computator.NET.Views
             this.aIntervalNumericUpDown.Name = "aIntervalNumericUpDown";
             this.aIntervalNumericUpDown.Size = new System.Drawing.Size(208, 31);
             this.aIntervalNumericUpDown.TabIndex = 2;
-            this.aIntervalNumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Addition;
+            this.aIntervalNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Addition;
             this.aIntervalNumericUpDown.Value = new decimal(new int[] {
             0,
             0,
@@ -390,7 +390,7 @@ namespace Computator.NET.Views
             this.bIntervalNumericUpDown.Name = "bIntervalNumericUpDown";
             this.bIntervalNumericUpDown.Size = new System.Drawing.Size(208, 31);
             this.bIntervalNumericUpDown.TabIndex = 3;
-            this.bIntervalNumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Addition;
+            this.bIntervalNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Addition;
             this.bIntervalNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -500,7 +500,7 @@ namespace Computator.NET.Views
             this.xDerivativePointNumericUpDown.Name = "xDerivativePointNumericUpDown";
             this.xDerivativePointNumericUpDown.Size = new System.Drawing.Size(245, 31);
             this.xDerivativePointNumericUpDown.TabIndex = 2;
-            this.xDerivativePointNumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Adaptive;
+            this.xDerivativePointNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
             this.xDerivativePointNumericUpDown.Value = new decimal(new int[] {
             0,
             0,
@@ -580,7 +580,7 @@ namespace Computator.NET.Views
             this.epsTextBox.Name = "epsTextBox";
             this.epsTextBox.Size = new System.Drawing.Size(145, 31);
             this.epsTextBox.TabIndex = 12;
-            this.epsTextBox.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Multiplication;
+            this.epsTextBox.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Multiplication;
             this.epsTextBox.Value = new decimal(new int[] {
             1,
             0,
@@ -659,7 +659,7 @@ namespace Computator.NET.Views
             this.nStepsNumericUpDown.Name = "nStepsNumericUpDown";
             this.nStepsNumericUpDown.Size = new System.Drawing.Size(144, 31);
             this.nStepsNumericUpDown.TabIndex = 9;
-            this.nStepsNumericUpDown.UpDownMode = Computator.NET.Controls.ScientificNumericUpDown.UpDownBehavior.Multiplication;
+            this.nStepsNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Multiplication;
             this.nStepsNumericUpDown.Value = new decimal(new int[] {
             10000,
             0,
@@ -738,23 +738,23 @@ namespace Computator.NET.Views
         private FlowLayoutPanel flowLayoutPanel3;
         private GroupBox intervalGroupBox;
         private TableLayoutPanel tableLayoutPanel2;
-        private Computator.NET.Controls.ScientificNumericUpDown aIntervalNumericUpDown;
+        private ScientificNumericUpDown aIntervalNumericUpDown;
         private Label label12;
-        private Computator.NET.Controls.ScientificNumericUpDown bIntervalNumericUpDown;
+        private ScientificNumericUpDown bIntervalNumericUpDown;
         private Label label13;
         private GroupBox derivativeAtPointGroupBox;
         private TableLayoutPanel tableLayoutPanel3;
         private NumericUpDown nOrderDerivativeNumericUpDown;
         private Label label15;
-        private Computator.NET.Controls.ScientificNumericUpDown xDerivativePointNumericUpDown;
+        private ScientificNumericUpDown xDerivativePointNumericUpDown;
         private Label label14;
         private GroupBox stepsGroupBox;
         private TableLayoutPanel tableLayoutPanel4;
-        private Computator.NET.Controls.ScientificNumericUpDown nStepsNumericUpDown;
+        private ScientificNumericUpDown nStepsNumericUpDown;
         private Label label19;
         private GroupBox maxErrorGroupBox;
         private TableLayoutPanel tableLayoutPanel5;
-        private Computator.NET.Controls.ScientificNumericUpDown epsTextBox;
+        private ScientificNumericUpDown epsTextBox;
         private Label label10;
     }
 }

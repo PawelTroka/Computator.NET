@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
 
 namespace Computator.NET.Core.Autocompletion
 {

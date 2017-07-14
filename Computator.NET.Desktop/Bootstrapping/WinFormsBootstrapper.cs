@@ -2,9 +2,6 @@ using System.Collections.Generic;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
 using Computator.NET.Charting.RealCharting;
-using Computator.NET.Controls;
-using Computator.NET.Controls.AutocompleteMenu;
-using Computator.NET.Controls.CodeEditors;
 using Computator.NET.Core.Abstract;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Services;
@@ -14,12 +11,15 @@ using Computator.NET.Core.Menu.Commands;
 using Computator.NET.Core.Menu.Commands.FileCommands;
 using Computator.NET.Core.Presenters;
 using Computator.NET.DataTypes.Charts;
-using Computator.NET.Dialogs;
-using Computator.NET.Services;
-using Computator.NET.Views;
+using Computator.NET.Desktop.Controls;
+using Computator.NET.Desktop.Controls.AutocompleteMenu;
+using Computator.NET.Desktop.Controls.CodeEditors;
+using Computator.NET.Desktop.Dialogs;
+using Computator.NET.Desktop.Services;
+using Computator.NET.Desktop.Views;
 using Microsoft.Practices.Unity;
 
-namespace Computator.NET.Bootstrapping
+namespace Computator.NET.Desktop.Bootstrapping
 {
     public class WinFormsBootstrapper : CoreBootstrapper
     {

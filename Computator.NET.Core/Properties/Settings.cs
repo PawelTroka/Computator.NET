@@ -5,11 +5,13 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters.Binary;
-using Computator.NET.Core.Annotations;
 using Computator.NET.Core.Helpers;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
 using System.Linq;
+using Computator.NET.DataTypes.Configuration;
+using Computator.NET.DataTypes.Text;
+using Computator.NET.DataTypes.Utility;
 using NLog;
 
 namespace Computator.NET.Core.Properties

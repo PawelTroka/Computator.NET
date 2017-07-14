@@ -5,7 +5,7 @@ using Computator.NET.Core.Benchmarking;
 using Computator.NET.DataTypes.Properties;
 using Computator.NET.Localization;
 
-namespace Computator.NET.Benchmarking
+namespace Computator.NET.Desktop.Benchmarking
 {
     public partial class BenchmarkForm : Form
     {

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using WixSharp.Bootstrapper;
 
-namespace Computator.NET.Setup
+namespace Computator.NET.Installer
 {
     /// <summary>
     /// Wraps PackageGroupRef in Exe Bundle so it can be used in final bootstrapper along with other PackageGroupRefs

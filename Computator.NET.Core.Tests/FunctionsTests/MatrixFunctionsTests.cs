@@ -2,7 +2,7 @@ using Computator.NET.Core.Functions;
 using MathNet.Numerics.LinearAlgebra.Double;
 using NUnit.Framework;
 
-namespace Computator.NET.Tests.FunctionsTests
+namespace Computator.NET.Core.Tests.FunctionsTests
 {
     [TestFixture]
     public class MatrixFunctionsTests

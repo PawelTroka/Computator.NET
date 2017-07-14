@@ -1,9 +1,9 @@
 ﻿using System.Numerics;
 using Computator.NET.Core.Evaluation;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
 using NUnit.Framework;
 
-namespace Computator.NET.Tests.ScriptingExtensionsTests
+namespace Computator.NET.Core.Tests.ScriptingExtensionsTests
 {
     [TestFixture]
     class ToMathStringTests

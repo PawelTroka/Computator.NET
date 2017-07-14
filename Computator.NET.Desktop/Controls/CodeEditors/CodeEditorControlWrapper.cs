@@ -5,14 +5,13 @@ using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
-using Computator.NET.Controls.CodeEditors.AvalonEdit;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Properties;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.SettingsTypes;
-using Computator.NET.Desktop.Controls;
+using Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit;
 
-namespace Computator.NET.Controls.CodeEditors
+namespace Computator.NET.Desktop.Controls.CodeEditors
 {
     public class CodeEditorControlWrapper : UserControl, ICodeDocumentsEditor
 

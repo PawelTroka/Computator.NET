@@ -5,7 +5,7 @@ using Computator.NET.Core.Autocompletion;
 using Computator.NET.DataTypes.Properties;
 using Computator.NET.Localization;
 
-namespace Computator.NET.Controls.AutocompleteMenu
+namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
     internal class WebBrowserForm : Form, IShowFunctionDetails
     {

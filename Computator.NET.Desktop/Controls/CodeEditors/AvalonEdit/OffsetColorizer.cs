@@ -4,7 +4,7 @@ using System.Windows.Media;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Rendering;
 
-namespace Computator.NET.Controls.CodeEditors.AvalonEdit
+namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
 {
     public class OffsetColorizer : DocumentColorizingTransformer
     {

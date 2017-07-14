@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Charting.Chart3D
+﻿namespace Computator.NET.DataTypes.Charts
 {
     public enum Chart3DMode
     {

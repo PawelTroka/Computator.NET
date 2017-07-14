@@ -9,7 +9,7 @@ using Computator.NET.Localization;
 using Moq;
 using NUnit.Framework;
 
-namespace Computator.NET.Tests.PresentersTests
+namespace Computator.NET.Core.Tests.PresentersTests
 {
     [TestFixture]
     public class NumericalCalculationsPresenterTests

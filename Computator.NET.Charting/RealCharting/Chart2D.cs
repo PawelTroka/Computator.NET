@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Functions;
+using Computator.NET.DataTypes.Text;
 using NLog;
 
 namespace Computator.NET.Charting.RealCharting

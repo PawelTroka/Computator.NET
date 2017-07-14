@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using Computator.NET.DataTypes.Configuration;
 
 namespace Computator.NET.Core.Natives
 {
@@ -73,11 +74,11 @@ namespace Computator.NET.Core.Natives
         [DllImport("user32.dll")]
         public static extern bool ShowCaret(IntPtr hWnd);
 
-        [DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
+        [DllImport(GslConfig.GslDllName,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr gsl_set_error_handler_off();
 
-        [DllImport(Computator.NET.DataTypes.GslConfig.GslDllName,
+        [DllImport(GslConfig.GslDllName,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern gsl_error_handler_t gsl_set_error_handler(gsl_error_handler_t new_handler);
     }

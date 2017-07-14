@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Charts;
 
 namespace Computator.NET.Charting.Chart3D.Spline
 {

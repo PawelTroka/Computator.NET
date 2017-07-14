@@ -1,10 +1,11 @@
 ﻿//#define DO_NOT_USE_ABS_YET
+
 using System;
 using Computator.NET.Core.Compilation;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
 using NUnit.Framework;
 
-namespace Computator.NET.Tests.CompilersTests
+namespace Computator.NET.Core.Tests.CompilersTests
 {
 	[TestFixture]
 	public class TslCompilerTests

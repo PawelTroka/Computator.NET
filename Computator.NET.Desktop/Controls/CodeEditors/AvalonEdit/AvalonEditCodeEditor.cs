@@ -19,8 +19,9 @@ using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Natives;
-using Computator.NET.Data;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
+using Computator.NET.DataTypes.Utility;
+using Computator.NET.Desktop.Data;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
@@ -33,7 +34,7 @@ using FontStyle = System.Drawing.FontStyle;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 
-namespace Computator.NET.Controls.CodeEditors.AvalonEdit
+namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
 {
     public class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
     {

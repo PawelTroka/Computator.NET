@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Computator.NET.Functions
+namespace Computator.NET.Charting
 {
     internal class Function<T>
     {

@@ -1,7 +1,8 @@
 //#define _COMPILE_TO_FUNCTION_CLASS_INSTEAD_OF_FUNC_DELEGATE
+
 using System.Text.RegularExpressions;
 
-namespace Computator.NET.Core.Compilation
+namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public class FunctionsHandler : ITslHandler
     {

@@ -1,7 +1,7 @@
 using Computator.NET.Core.Autocompletion;
 using NUnit.Framework;
 
-namespace Computator.NET.IntegrationTests.Data
+namespace Computator.NET.Core.IntegrationTests.Data
 {
     [TestFixture]
     public class AutocompletionDataTest

@@ -2,7 +2,7 @@
 using Computator.NET.Core.Compilation;
 using NUnit.Framework;
 
-namespace Computator.NET.IntegrationTests
+namespace Computator.NET.Core.IntegrationTests
 {
 	[TestFixture]
 	public class NativeCompilerTests

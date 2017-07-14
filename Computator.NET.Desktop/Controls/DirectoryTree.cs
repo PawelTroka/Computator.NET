@@ -5,7 +5,7 @@ using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Model;
 using Computator.NET.Localization;
 
-namespace Computator.NET.Controls
+namespace Computator.NET.Desktop.Controls
 {
     public sealed class DirectoryTree : TreeView, IDirectoryTree
     {

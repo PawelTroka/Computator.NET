@@ -2,9 +2,6 @@
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 
-
-using Computator.NET.Core.Functions;
-
 namespace Computator.NET.Core.Evaluation
 {
     //TODO: refactor this shit
@@ -143,9 +140,9 @@ namespace Computator.NET.Core.Evaluation
             {
                 value = double.Parse(mathString, System.Globalization.CultureInfo.InvariantCulture);
             }
-            else if (mathString.Contains(Computator.NET.DataTypes.SpecialSymbols.DotSymbol + ""))
+            else if (mathString.Contains(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol + ""))
             {
-                var parts1 = mathString.Split(Computator.NET.DataTypes.SpecialSymbols.DotSymbol);
+                var parts1 = mathString.Split(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol);
                 if (parts1.Length == 2)
                 {
                     if (System.Linq.Enumerable.Any(parts1[1], c => System.Linq.Enumerable.Contains(_Exponents, c)))
@@ -200,7 +197,7 @@ namespace Computator.NET.Core.Evaluation
                             return "-i";
 
                         return z.Imaginary != 0
-                            ? string.Format("{0}{1}i", z.Imaginary.ToMathString(), Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
+                            ? string.Format("{0}{1}i", z.Imaginary.ToMathString(), Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol)
                             : "0";
                     }
 
@@ -208,9 +205,9 @@ namespace Computator.NET.Core.Evaluation
                         return z.Real.ToMathString();
                     return (z.Imaginary > 0 || double.IsNaN(z.Imaginary))
                         ? string.Format("{0}+{1}{2}i", z.Real.ToMathString(), z.Imaginary.ToMathString(),
-                            Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
+                            Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol)
                         : string.Format("{0}{1}{2}i", z.Real.ToMathString(), z.Imaginary.ToMathString(),
-                            Computator.NET.DataTypes.SpecialSymbols.DotSymbol);
+                            Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol);
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
                     return z.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -220,9 +217,9 @@ namespace Computator.NET.Core.Evaluation
         public static string ToMathString(this double x)
         {
             if (x == double.PositiveInfinity)
-                return Computator.NET.DataTypes.SpecialSymbols.Infinity;
+                return Computator.NET.DataTypes.Text.SpecialSymbols.Infinity;
             if (x == double.NegativeInfinity)
-                return string.Format("-{0}", Computator.NET.DataTypes.SpecialSymbols.Infinity);
+                return string.Format("-{0}", Computator.NET.DataTypes.Text.SpecialSymbols.Infinity);
             return x.ToString(System.Globalization.CultureInfo.InvariantCulture).ToMathString();
         }
 
@@ -245,8 +242,8 @@ namespace Computator.NET.Core.Evaluation
                     if (!str.Contains("E") && !str.Contains("e"))
                         return str;
                     var chunks = str.Split('E', 'e');
-                    var ret = string.Format("{0}{1}10{2}", chunks[0], Computator.NET.DataTypes.SpecialSymbols.DotSymbol,
-                        Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(double.Parse(chunks[1]).ToString(System.Globalization.CultureInfo.InvariantCulture)));//we parse first then apply ToString() again to get rid of notations from engineering notation like eg +019 (when original walue was 1E+19) simple hack :)
+                    var ret = string.Format("{0}{1}10{2}", chunks[0], Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol,
+                        Computator.NET.DataTypes.Text.SpecialSymbols.AsciiToSuperscript(double.Parse(chunks[1]).ToString(System.Globalization.CultureInfo.InvariantCulture)));//we parse first then apply ToString() again to get rid of notations from engineering notation like eg +019 (when original walue was 1E+19) simple hack :)
                     return ret;
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.EngineeringNotation:
                     return str;
@@ -275,9 +272,9 @@ namespace Computator.NET.Core.Evaluation
 
     internal static class ScriptingExtensionObjects
     {
-        public const string ToCode = ReadForm.ToCode +
+        public const string ToCode = Computator.NET.Core.Functions.ReadForm.ToCode +
                                      @"
- internal class TypeDeducer
+     public class TypeDeducer
     {
         public static System.Func<TR> Func<TR>(System.Func<TR> f)
         {
@@ -389,9 +386,7 @@ namespace Computator.NET.Core.Evaluation
         }
     }
 
-
-
-    internal static class ScriptingExtensions
+    public static class ScriptingExtensions
     {
         public static int size<T>(this MathNet.Numerics.LinearAlgebra.Vector<T> vector)
             where T : struct, System.IEquatable<T>, System.IFormattable
@@ -405,8 +400,60 @@ namespace Computator.NET.Core.Evaluation
             return new[] { matrix.RowCount, matrix.ColumnCount };
         }
 
-            public static string ToMathString(this System.Numerics.Complex z)
+        private const string _Exponents = ""⁰¹²³⁴⁵⁶⁷⁸⁹⁻"";
+        private const string _ToReplace = ""0123456789-"";
+        public static double FromMathString(this string mathString)
         {
+            double value = 0;
+            if (mathString.Contains(""E"") || mathString.Contains(""e""))
+            {
+                value = double.Parse(mathString, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            else if (mathString.Contains(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol + """"))
+            {
+                var parts1 = mathString.Split(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol);
+                if (parts1.Length == 2)
+                {
+                    if (System.Linq.Enumerable.Any(parts1[1], c => System.Linq.Enumerable.Contains(_Exponents, c)))
+                        value = double.Parse(parts1[0], System.Globalization.CultureInfo.InvariantCulture) *
+                                EngineeringToValue(parts1[1]);
+                    else
+                        value = double.Parse(parts1[0], System.Globalization.CultureInfo.InvariantCulture) *
+                                double.Parse(parts1[1], System.Globalization.CultureInfo.InvariantCulture);
+                }
+                else if (parts1.Length == 1 && System.Linq.Enumerable.Any(parts1[0], c => System.Linq.Enumerable.Contains(_Exponents, c)))
+                {
+                    value = EngineeringToValue(parts1[0]);
+                }
+            }
+            else
+            {
+                value = double.Parse(mathString, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            return value;
+        }
+        private static double EngineeringToValue(string v)
+        {
+            var sb = new System.Text.StringBuilder(v);
+
+            if (sb[0] == '1' && sb[1] == '0')
+            {
+                sb[1] = 'E';
+            }
+
+            for (var i = 0; i < sb.Length; i++)
+                for (var j = 0; j < _Exponents.Length; j++)
+                    if (sb[i] == _Exponents[j])
+                        sb[i] = _ToReplace[j];
+
+            return double.Parse(sb.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        public static string ToMathString(this System.Numerics.Complex z)
+        {
+            //if (double.IsNaN(z.Real) && double.IsNaN(z.Imaginary))
+            //return ""NaN"";
+
             switch (Properties.Settings.Default.NumericalOutputNotation)
             {
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
@@ -419,17 +466,17 @@ namespace Computator.NET.Core.Evaluation
                             return ""-i"";
 
                         return z.Imaginary != 0
-                            ? string.Format(""{0}{1}i"", z.Imaginary.ToMathString(), Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
+                            ? string.Format(""{0}{1}i"", z.Imaginary.ToMathString(), Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol)
                             : ""0"";
                     }
 
                     if (z.Imaginary == 0)
                         return z.Real.ToMathString();
-                    return z.Imaginary > 0
+                    return (z.Imaginary > 0 || double.IsNaN(z.Imaginary))
                         ? string.Format(""{0}+{1}{2}i"", z.Real.ToMathString(), z.Imaginary.ToMathString(),
-                            Computator.NET.DataTypes.SpecialSymbols.DotSymbol)
+                            Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol)
                         : string.Format(""{0}{1}{2}i"", z.Real.ToMathString(), z.Imaginary.ToMathString(),
-                            Computator.NET.DataTypes.SpecialSymbols.DotSymbol);
+                            Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol);
                 default:
                     //case NumericalOutputNotationType.EngineeringNotation:
                     return z.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -438,25 +485,39 @@ namespace Computator.NET.Core.Evaluation
 
         public static string ToMathString(this double x)
         {
+            if (x == double.PositiveInfinity)
+                return Computator.NET.DataTypes.Text.SpecialSymbols.Infinity;
+            if (x == double.NegativeInfinity)
+                return string.Format(""-{0}"", Computator.NET.DataTypes.Text.SpecialSymbols.Infinity);
+            return x.ToString(System.Globalization.CultureInfo.InvariantCulture).ToMathString();
+        }
+
+        /* Note: Do NOT create special overload for decimal, because decimal is crazy:
+            (1e-23).ToString()
+            ""1E-23""
+            ((decimal)(1e-23)).ToString()
+            ""0.00000000000000000000001""
+         */
+        public static string ToMathString(this decimal x)
+        {
+            return ((double)x).ToMathString();
+        }
+
+        public static string ToMathString(this string str)
+        {
             switch (Properties.Settings.Default.NumericalOutputNotation)
             {
                 case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation:
-                    var str = x.ToString(System.Globalization.CultureInfo.InvariantCulture);
                     if (!str.Contains(""E"") && !str.Contains(""e""))
-                    {
-                        if (x == double.PositiveInfinity)
-                            return Computator.NET.DataTypes.SpecialSymbols.Infinity;
-                        else if(x == double.NegativeInfinity)
-                            return string.Format(""-{0}"", Computator.NET.DataTypes.SpecialSymbols.Infinity);
                         return str;
-                    }
                     var chunks = str.Split('E', 'e');
-                    var ret = string.Format(""{0}{1}10{2}"", chunks[0], Computator.NET.DataTypes.SpecialSymbols.DotSymbol,
-                        Computator.NET.DataTypes.SpecialSymbols.AsciiToSuperscript(double.Parse(chunks[1]).ToString(System.Globalization.CultureInfo.InvariantCulture)));//we parse first then apply ToString() again to get rid of notations from engineering notation like eg +019 (when original walue was 1E+19) simple hack :)
+                    var ret = string.Format(""{0}{1}10{2}"", chunks[0], Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol,
+                        Computator.NET.DataTypes.Text.SpecialSymbols.AsciiToSuperscript(double.Parse(chunks[1]).ToString(System.Globalization.CultureInfo.InvariantCulture)));//we parse first then apply ToString() again to get rid of notations from engineering notation like eg +019 (when original walue was 1E+19) simple hack :)
                     return ret;
+                case Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType.EngineeringNotation:
+                    return str;
                 default:
-                    //case NumericalOutputNotationType.EngineeringNotation:
-                    return x.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    return str;
             }
         }
 

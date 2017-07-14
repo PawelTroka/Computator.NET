@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Computator.NET.Dialogs
+namespace Computator.NET.Desktop.Dialogs
 {
     partial class BugReportingForm
     {

@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace Computator.NET.Controls
+namespace Computator.NET.Desktop.Controls
 {
     internal sealed class Field : FlowLayoutPanel
     {

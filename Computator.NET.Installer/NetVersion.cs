@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
 
-namespace Computator.NET.Setup
+namespace Computator.NET.Installer
 {
     public static class IEnumerableExtensions
     {

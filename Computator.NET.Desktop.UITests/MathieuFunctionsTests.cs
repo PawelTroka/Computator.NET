@@ -1,8 +1,6 @@
-﻿using CodedUITests;
-using Microsoft.VisualStudio.TestTools.UITesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Computator.NET.CodedUITests
+namespace Computator.NET.Desktop.UITests
 {
     /// <summary>
     ///     Summary description for CodedUITest1

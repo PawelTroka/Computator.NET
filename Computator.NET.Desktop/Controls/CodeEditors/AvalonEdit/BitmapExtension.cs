@@ -7,7 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using Computator.NET.Core.Natives;
 
-namespace Computator.NET.Controls.CodeEditors.AvalonEdit
+namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
 {
     public static class BitmapExtension
     {

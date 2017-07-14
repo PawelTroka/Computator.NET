@@ -1,4 +1,4 @@
-namespace Computator.NET.DataTypes
+namespace Computator.NET.DataTypes.Configuration
 {
     public static class GslConfig
     {

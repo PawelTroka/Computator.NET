@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
+using Computator.NET.DataTypes.Utility;
 using Computator.NET.Localization;
 using Microsoft.CSharp;
 using NLog;

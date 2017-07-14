@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Computator.NET.Core.Bootstrapping;
+﻿using Computator.NET.Core.Bootstrapping;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Natives;
 using Microsoft.AspNetCore.Builder;
@@ -11,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Computator.NET.Web
+namespace Computator.NET.WebApi
 {
     public class Startup
     {

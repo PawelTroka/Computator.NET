@@ -2,7 +2,7 @@
 using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.Localization;
 
-namespace Computator.NET.IntegrationTests
+namespace Computator.NET.Core.IntegrationTests
 {
     public partial class NumericalCalculationsPresenterTests
     {

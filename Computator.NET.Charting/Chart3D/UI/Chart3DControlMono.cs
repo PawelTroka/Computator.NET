@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Functions;
 using Computator.NET.Localization;
 
 namespace Computator.NET.Charting.Chart3D.UI

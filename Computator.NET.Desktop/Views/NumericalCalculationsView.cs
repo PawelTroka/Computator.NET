@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     public partial class NumericalCalculationsView : UserControl, INumericalCalculationsView
     {

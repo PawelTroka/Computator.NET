@@ -9,10 +9,11 @@ using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Helpers;
 using Computator.NET.Core.Model;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
+using Computator.NET.DataTypes.Utility;
 using ICSharpCode.TextEditor.Document;
 
-namespace Computator.NET.Controls.CodeEditors
+namespace Computator.NET.Desktop.Controls.CodeEditors
 {
     public class TextEditorCodeEditor : ICSharpCode.TextEditor.TextEditorControl, INotifyPropertyChanged, ICodeEditorControl
     {

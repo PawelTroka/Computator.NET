@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using Computator.NET.Charting.Printing;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Functions;
+using Computator.NET.DataTypes.Text;
 using NLog;
 
 namespace Computator.NET.Charting.ComplexCharting

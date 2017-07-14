@@ -3,9 +3,9 @@ using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes.Properties;
-using Computator.NET.Services;
+using Computator.NET.Desktop.Services;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     public sealed partial class MainView : Form, IMainView
     {

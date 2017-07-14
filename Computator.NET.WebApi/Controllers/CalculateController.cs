@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Numerics;
-using System.Threading.Tasks;
 using Computator.NET.Core.Evaluation;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Functions;
 using Microsoft.AspNetCore.Mvc;
+using CalculationsMode = Computator.NET.DataTypes.CalculationsMode;
 
-namespace Computator.NET.Web.Controllers
+namespace Computator.NET.WebApi.Controllers
 {
     [Route("api/[controller]")]
     public class CalculateController : Controller

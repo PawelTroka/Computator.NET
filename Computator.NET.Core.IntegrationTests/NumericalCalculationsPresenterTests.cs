@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.Events;
-using Moq;
-using NUnit.Framework;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Services;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Bootstrapping;
-using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.Natives;
 using Computator.NET.Core.Presenters;
 using Computator.NET.Core.Services.ErrorHandling;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.Localization;
+using Moq;
+using NUnit.Framework;
+using ScriptingExtensions = Computator.NET.Core.Evaluation.ScriptingExtensions;
 
-namespace Computator.NET.IntegrationTests
+namespace Computator.NET.Core.IntegrationTests
 {
     public class IntegrationTestsBootstrapper : CoreBootstrapper
     {
@@ -154,7 +154,7 @@ namespace Computator.NET.IntegrationTests
                     It.Is<string>(s => s == Strings.Derivative),
                     It.Is<string>(s => s == method),
                     It.IsAny<string>(),
-                    It.Is<string>(s => s == func(function, x, order, eps).ToMathString())),
+                    It.Is<string>(s => s == ScriptingExtensions.ToMathString(func(function, x, order, eps)))),
                 Times.Once);
         }
 
@@ -175,7 +175,7 @@ namespace Computator.NET.IntegrationTests
                     It.Is<string>(s => s == Strings.Function_root),
                     It.Is<string>(s => s == method),
                     It.IsAny<string>(),
-                    It.Is<string>(s => s == func(function, a, b, eps, n).ToMathString())),
+                    It.Is<string>(s => s == ScriptingExtensions.ToMathString(func(function, a, b, eps, n)))),
                 Times.Once);
         }
 
@@ -196,7 +196,7 @@ namespace Computator.NET.IntegrationTests
                     It.Is<string>(s => s == Strings.Integral),
                     It.Is<string>(s => s == method),
                     It.IsAny<string>(),
-                    It.Is<string>(s => s == func(function, a, b, n).ToMathString())),
+                    It.Is<string>(s => s == ScriptingExtensions.ToMathString(func(function, a, b, n)))),
                 Times.Once);
         }
     }

@@ -20,13 +20,13 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Computator.NET.Controls.AutocompleteMenu.Wrappers;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
+using Computator.NET.Desktop.Controls.AutocompleteMenu.Wrappers;
 
-namespace Computator.NET.Controls.AutocompleteMenu
+namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
     [ProvideProperty("AutocompleteMenu", typeof(Control))]
     public class AutocompleteMenu : Component, IExtenderProvider

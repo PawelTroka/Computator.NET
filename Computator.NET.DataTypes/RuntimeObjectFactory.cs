@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using Computator.NET.DataTypes.Configuration;
 
 namespace Computator.NET.DataTypes
 {

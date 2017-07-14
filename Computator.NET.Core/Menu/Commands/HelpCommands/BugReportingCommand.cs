@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Information;
 using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.HelpCommands

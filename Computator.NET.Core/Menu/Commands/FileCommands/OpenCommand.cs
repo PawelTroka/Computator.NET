@@ -3,6 +3,7 @@ using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Configuration;
 using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.FileCommands

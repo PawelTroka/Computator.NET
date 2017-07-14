@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Services;
 
-namespace Computator.NET.Services
+namespace Computator.NET.Desktop.Services
 {
     class MessagingService : IMessagingService
     {

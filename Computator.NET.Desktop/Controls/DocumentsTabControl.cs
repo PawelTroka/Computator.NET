@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Computator.NET.Desktop.Services;
 using Computator.NET.Localization;
-using Computator.NET.Services;
 
 namespace Computator.NET.Desktop.Controls
 {

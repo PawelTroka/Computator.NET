@@ -4,7 +4,7 @@ using Computator.NET.Core.Natives;
 using Moq;
 using NUnit.Framework;
 
-namespace Computator.NET.Tests.InitializationTests
+namespace Computator.NET.Core.Tests.InitializationTests
 {
     [TestFixture]
     public class GslInitializationTests

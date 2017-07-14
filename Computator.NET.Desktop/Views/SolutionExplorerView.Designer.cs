@@ -1,6 +1,6 @@
-﻿using Computator.NET.Controls;
+﻿using Computator.NET.Desktop.Controls;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     partial class SolutionExplorerView
     {
@@ -33,7 +33,7 @@ namespace Computator.NET.Views
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("_Scripts");
             this.openScriptingDirectoryButton = new System.Windows.Forms.Button();
             this.directoryBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.scriptingDirectoryTree = new Computator.NET.Controls.DirectoryTree();
+            this.scriptingDirectoryTree = new DirectoryTree();
             this.SuspendLayout();
             // 
             // openScriptingDirectoryButton

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Autocompletion;
 
-namespace Computator.NET.Controls.AutocompleteMenu
+namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
     /// <summary>
     ///     Control for displaying menu items, hosted in AutocompleteMenu.

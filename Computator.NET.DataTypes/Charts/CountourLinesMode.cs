@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Charting.ComplexCharting
+﻿namespace Computator.NET.DataTypes.Charts
 {
     public enum CountourLinesMode
     {

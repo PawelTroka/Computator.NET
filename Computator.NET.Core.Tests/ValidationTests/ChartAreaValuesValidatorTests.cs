@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Computator.NET.Core.Validation;
+﻿using Computator.NET.Core.Validation;
 using NUnit.Framework;
 
-namespace Computator.NET.Tests.ValidationTests
+namespace Computator.NET.Core.Tests.ValidationTests
 {
     [TestFixture]
     class ChartAreaValuesValidatorTests

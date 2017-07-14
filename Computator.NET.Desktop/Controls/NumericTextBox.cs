@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
 
 // ReSharper disable LocalizableElement
 
-namespace Computator.NET.Controls
+namespace Computator.NET.Desktop.Controls
 {
     internal class NumericTextBox : TextBox
     {

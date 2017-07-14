@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Text;
 
-namespace Computator.NET.Core.Compilation
+namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public class AbsHandler : ITslHandler
     {

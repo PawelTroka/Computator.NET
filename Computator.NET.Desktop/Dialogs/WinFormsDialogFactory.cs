@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Computator.NET.Benchmarking;
 using Computator.NET.Core.Abstract;
 using Computator.NET.Core.Functions;
+using Computator.NET.Desktop.Benchmarking;
 
-namespace Computator.NET.Dialogs
+namespace Computator.NET.Desktop.Dialogs
 {
     public class WinFormsDialogFactory : IDialogFactory
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.Natives;
-using Computator.NET.DataTypes;
 using NUnit.Framework;
+using CalculationsMode = Computator.NET.DataTypes.CalculationsMode;
 
-namespace Computator.NET.Tests.EvaluationTests
+namespace Computator.NET.Core.Tests.EvaluationTests
 {
     [TestFixture]
     public class ExpressionsEvaluatorTests

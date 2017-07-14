@@ -1,6 +1,7 @@
 ﻿using System;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Functions;
 
 namespace Computator.NET.Charting
 {
@@ -42,16 +43,16 @@ namespace Computator.NET.Charting
             switch (functionType)
             {
 
-                case Computator.NET.DataTypes.FunctionType.Real2D:
-                case Computator.NET.DataTypes.FunctionType.Real2DImplicit:
+                case FunctionType.Real2D:
+                case FunctionType.Real2DImplicit:
                     return CreateChart2D();
-                case Computator.NET.DataTypes.FunctionType.Real3D:
-                case Computator.NET.DataTypes.FunctionType.Real3DImplicit:
+                case FunctionType.Real3D:
+                case FunctionType.Real3DImplicit:
                     return CreateChart3D();
-                case Computator.NET.DataTypes.FunctionType.Complex:
-                case Computator.NET.DataTypes.FunctionType.ComplexImplicit:
+                case FunctionType.Complex:
+                case FunctionType.ComplexImplicit:
                     return CreateComplexChart();
-                case Computator.NET.DataTypes.FunctionType.Scripting:
+                case FunctionType.Scripting:
                 default:
                     throw new System.ArgumentOutOfRangeException();
             }

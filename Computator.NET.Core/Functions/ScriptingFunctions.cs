@@ -2,9 +2,7 @@
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 
-using Computator.NET.Core.Evaluation;
-
-//we have to use this
+using Computator.NET.Core.Evaluation; //we have to use this
 
 // ReSharper disable LocalizableElement
 
@@ -13,8 +11,6 @@ namespace Computator.NET.Core.Functions
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public static class ScriptingFunctions
     {
-
-
         #region input and output
 
         public static void setWorkingDirectory(string path)
@@ -264,7 +260,7 @@ namespace Computator.NET.Core.Functions
         private static readonly Computator.NET.DataTypes.Charts.IChartFactory _chartFactory =
             Computator.NET.DataTypes.RuntimeObjectFactory.CreateInstance<Computator.NET.DataTypes.Charts.IChartFactory>("Charting");
 
-        public static void plot(Computator.NET.DataTypes.Function f, double XMin = -5, double XMax = 5, double YMin = -5,
+        public static void plot(Computator.NET.DataTypes.Functions.Function f, double XMin = -5, double XMax = 5, double YMin = -5,
                    double YMax = 5, double quality = 0.5)
         {
 
@@ -286,7 +282,7 @@ namespace Computator.NET.Core.Functions
     double YMin = -5,
     double YMax = 5, double quality = 0.5)
         {
-            var function = new Computator.NET.DataTypes.Function(fxy, Computator.NET.DataTypes.FunctionType.Real3D);
+            var function = new Computator.NET.DataTypes.Functions.Function(fxy, Computator.NET.DataTypes.Functions.FunctionType.Real3D);
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
@@ -296,13 +292,13 @@ namespace Computator.NET.Core.Functions
         {
             var chart3d = _chartFactory.CreateChart3D();
             chart3d.Mode = (fxys.Length > 1)
-                ? Computator.NET.Charting.Chart3D.Chart3DMode.Points
-                : Computator.NET.Charting.Chart3D.Chart3DMode.Surface;
+                ? Computator.NET.DataTypes.Charts.Chart3DMode.Points
+                : Computator.NET.DataTypes.Charts.Chart3DMode.Surface;
 
             chart3d.SetChartAreaValues(-5, 5, -5, 5);
 
             foreach (var fxy in fxys)//TODO: function name?
-                chart3d.AddFunction(new Computator.NET.DataTypes.Function(fxy, Computator.NET.DataTypes.FunctionType.Real3D));
+                chart3d.AddFunction(new Computator.NET.DataTypes.Functions.Function(fxy, Computator.NET.DataTypes.Functions.FunctionType.Real3D));
 
             chart3d.ShowPlotDialog();
         }
@@ -316,10 +312,10 @@ namespace Computator.NET.Core.Functions
 
             var chart3d = _chartFactory.CreateChart3D();
 
-            var points = new System.Collections.Generic.List<Computator.NET.DataTypes.Point3D>();
+            var points = new System.Collections.Generic.List<Computator.NET.DataTypes.Charts.Point3D>();
             var n = System.Math.Min(System.Math.Min(xa.Length, ya.Length), za.Length);
             for (var j = 0; j < n; j++)
-                points.Add(new Computator.NET.DataTypes.Point3D(xa[j], ya[j], za[j]));
+                points.Add(new Computator.NET.DataTypes.Charts.Point3D(xa[j], ya[j], za[j]));
 
             
             chart3d.AddPoints(points);
@@ -332,7 +328,7 @@ namespace Computator.NET.Core.Functions
         public static void plot(System.Func<double, double> fx, double XMin = -5, double XMax = 5, double YMin = -5,
 double YMax = 5, double quality = 0.5)
         {
-            var function = new Computator.NET.DataTypes.Function(fx, Computator.NET.DataTypes.FunctionType.Real2D);
+            var function = new Computator.NET.DataTypes.Functions.Function(fx, Computator.NET.DataTypes.Functions.FunctionType.Real2D);
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
@@ -345,14 +341,14 @@ double YMax = 5, double quality = 0.5)
             chart2d.Quality = 0.5 * 100;
 
             foreach (var fx in fxs)//TODO: function name?
-                chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx,Computator.NET.DataTypes.FunctionType.Real2D));
+                chart2d.AddFunction(new Computator.NET.DataTypes.Functions.Function(fx, Computator.NET.DataTypes.Functions.FunctionType.Real2D));
 
             chart2d.ShowPlotDialog();
         }
 
         public static void plot(System.Func<System.Numerics.Complex, System.Numerics.Complex> fz, double XMin = -5, double XMax = 5, double YMin = -5, double YMax = 5, double quality = 0.5)
         {
-            var function = new Computator.NET.DataTypes.Function(fz, Computator.NET.DataTypes.FunctionType.Complex);
+            var function = new Computator.NET.DataTypes.Functions.Function(fz, Computator.NET.DataTypes.Functions.FunctionType.Complex);
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
@@ -367,7 +363,7 @@ double YMax = 5, double quality = 0.5)
         public static void plot(System.Func<double, double> fx, params System.Collections.Generic.IEnumerable<double>[] xys)
         {
             var chart2d = _chartFactory.CreateChart2D();
-            chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx, Computator.NET.DataTypes.FunctionType.Real2D));
+            chart2d.AddFunction(new Computator.NET.DataTypes.Functions.Function(fx, Computator.NET.DataTypes.Functions.FunctionType.Real2D));
             for (int i = 0; i < xys.Length - 1; i++)
                 chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
            chart2d.ShowPlotDialog();
@@ -380,9 +376,6 @@ double YMax = 5, double quality = 0.5)
         #region utils
 
         public const string ToCode = @"
-
-
-
         #region input and output
 
         public static void setWorkingDirectory(string path)
@@ -632,7 +625,7 @@ double YMax = 5, double quality = 0.5)
         private static readonly Computator.NET.DataTypes.Charts.IChartFactory _chartFactory =
             Computator.NET.DataTypes.RuntimeObjectFactory.CreateInstance<Computator.NET.DataTypes.Charts.IChartFactory>(""Charting"");
 
-        public static void plot(Computator.NET.DataTypes.Function f, double XMin = -5, double XMax = 5, double YMin = -5,
+        public static void plot(Computator.NET.DataTypes.Functions.Function f, double XMin = -5, double XMax = 5, double YMin = -5,
                    double YMax = 5, double quality = 0.5)
         {
 
@@ -654,7 +647,7 @@ double YMax = 5, double quality = 0.5)
     double YMin = -5,
     double YMax = 5, double quality = 0.5)
         {
-            var function = new Computator.NET.DataTypes.Function(fxy, Computator.NET.DataTypes.FunctionType.Real3D);
+            var function = new Computator.NET.DataTypes.Functions.Function(fxy, Computator.NET.DataTypes.Functions.FunctionType.Real3D);
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
@@ -664,13 +657,13 @@ double YMax = 5, double quality = 0.5)
         {
             var chart3d = _chartFactory.CreateChart3D();
             chart3d.Mode = (fxys.Length > 1)
-                ? Computator.NET.Charting.Chart3D.Chart3DMode.Points
-                : Computator.NET.Charting.Chart3D.Chart3DMode.Surface;
+                ? Computator.NET.DataTypes.Charts.Chart3DMode.Points
+                : Computator.NET.DataTypes.Charts.Chart3DMode.Surface;
 
             chart3d.SetChartAreaValues(-5, 5, -5, 5);
 
             foreach (var fxy in fxys)//TODO: function name?
-                chart3d.AddFunction(new Computator.NET.DataTypes.Function(fxy, Computator.NET.DataTypes.FunctionType.Real3D));
+                chart3d.AddFunction(new Computator.NET.DataTypes.Functions.Function(fxy, Computator.NET.DataTypes.Functions.FunctionType.Real3D));
 
             chart3d.ShowPlotDialog();
         }
@@ -684,10 +677,10 @@ double YMax = 5, double quality = 0.5)
 
             var chart3d = _chartFactory.CreateChart3D();
 
-            var points = new System.Collections.Generic.List<Computator.NET.DataTypes.Point3D>();
+            var points = new System.Collections.Generic.List<Computator.NET.DataTypes.Charts.Point3D>();
             var n = System.Math.Min(System.Math.Min(xa.Length, ya.Length), za.Length);
             for (var j = 0; j < n; j++)
-                points.Add(new Computator.NET.DataTypes.Point3D(xa[j], ya[j], za[j]));
+                points.Add(new Computator.NET.DataTypes.Charts.Point3D(xa[j], ya[j], za[j]));
 
             
             chart3d.AddPoints(points);
@@ -700,7 +693,7 @@ double YMax = 5, double quality = 0.5)
         public static void plot(System.Func<double, double> fx, double XMin = -5, double XMax = 5, double YMin = -5,
 double YMax = 5, double quality = 0.5)
         {
-            var function = new Computator.NET.DataTypes.Function(fx, Computator.NET.DataTypes.FunctionType.Real2D);
+            var function = new Computator.NET.DataTypes.Functions.Function(fx, Computator.NET.DataTypes.Functions.FunctionType.Real2D);
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
@@ -713,14 +706,14 @@ double YMax = 5, double quality = 0.5)
             chart2d.Quality = 0.5 * 100;
 
             foreach (var fx in fxs)//TODO: function name?
-                chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx,Computator.NET.DataTypes.FunctionType.Real2D));
+                chart2d.AddFunction(new Computator.NET.DataTypes.Functions.Function(fx, Computator.NET.DataTypes.Functions.FunctionType.Real2D));
 
             chart2d.ShowPlotDialog();
         }
 
         public static void plot(System.Func<System.Numerics.Complex, System.Numerics.Complex> fz, double XMin = -5, double XMax = 5, double YMin = -5, double YMax = 5, double quality = 0.5)
         {
-            var function = new Computator.NET.DataTypes.Function(fz, Computator.NET.DataTypes.FunctionType.Complex);
+            var function = new Computator.NET.DataTypes.Functions.Function(fz, Computator.NET.DataTypes.Functions.FunctionType.Complex);
             plot(function, XMin, XMax, YMin, YMax, quality);
         }
 
@@ -735,7 +728,7 @@ double YMax = 5, double quality = 0.5)
         public static void plot(System.Func<double, double> fx, params System.Collections.Generic.IEnumerable<double>[] xys)
         {
             var chart2d = _chartFactory.CreateChart2D();
-            chart2d.AddFunction(new Computator.NET.DataTypes.Function(fx, Computator.NET.DataTypes.FunctionType.Real2D));
+            chart2d.AddFunction(new Computator.NET.DataTypes.Functions.Function(fx, Computator.NET.DataTypes.Functions.FunctionType.Real2D));
             for (int i = 0; i < xys.Length - 1; i++)
                 chart2d.AddDataPoints(System.Linq.Enumerable.ToList(xys[i]), System.Linq.Enumerable.ToList(xys[i + 1]));
            chart2d.ShowPlotDialog();

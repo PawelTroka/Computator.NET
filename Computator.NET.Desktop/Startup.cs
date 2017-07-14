@@ -7,14 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Computator.NET.Bootstrapping;
-using Computator.NET.Config;
+using Computator.NET.Core;
 using Computator.NET.Core.Natives;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
-using Computator.NET.Dialogs;
+using Computator.NET.DataTypes.Configuration;
+using Computator.NET.Desktop.Bootstrapping;
+using Computator.NET.Desktop.Config;
+using Computator.NET.Desktop.Dialogs;
+using Computator.NET.Desktop.Views;
 using Computator.NET.Localization;
-using Computator.NET.Views;
 using NLog;
 
 namespace Computator.NET.Desktop

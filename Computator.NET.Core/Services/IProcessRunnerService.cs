@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Computator.NET
+namespace Computator.NET.Core.Services
 {
     public interface IProcessRunnerService
     {

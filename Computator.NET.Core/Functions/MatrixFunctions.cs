@@ -4,11 +4,9 @@
 
 //using Matrix = MathNet.Numerics.LinearAlgebra.Matrix<double>;
 
-using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Evaluation;//this one is neeeded!!!!!!!!!!!!!!!!!!!!!!! dont remove it!!!!!
 // ReSharper disable InconsistentNaming
 // ReSharper disable InvokeAsExtensionMethod
-
-//this one is neeeded!!!!!!!!!!!!!!!!!!!!!!! dont remove it!!!!!
 
 namespace Computator.NET.Core.Functions
 {
@@ -481,53 +479,12 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 
 		public const string ToCode =
 			@"
-
-		#region decompositions
-
-		public static MathNet.Numerics.LinearAlgebra.Factorization.LU<T> LU<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
-	where T : struct, System.IEquatable<T>, System.IFormattable
-		{
-			return M.LU();
-		}
-
-		public static MathNet.Numerics.LinearAlgebra.Factorization.QR<T> QR<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
-where T : struct, System.IEquatable<T>, System.IFormattable
-		{
-			return M.QR();
-		}
-
-		public static MathNet.Numerics.LinearAlgebra.Factorization.Cholesky<T> Cholesky<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
-where T : struct, System.IEquatable<T>, System.IFormattable
-		{
-			return M.Cholesky();
-		}
-
-		public static MathNet.Numerics.LinearAlgebra.Factorization.Evd<T> Evd<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
-where T : struct, System.IEquatable<T>, System.IFormattable
-		{
-			return M.Evd();
-		}
-
-		public static MathNet.Numerics.LinearAlgebra.Factorization.Svd<T> Svd<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
-where T : struct, System.IEquatable<T>, System.IFormattable
-		{
-			return M.Svd();
-		}
-
-		public static MathNet.Numerics.LinearAlgebra.Factorization.GramSchmidt<T> GramSchmidt<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
-where T : struct, System.IEquatable<T>, System.IFormattable
-		{
-			return M.GramSchmidt();
-		}
-
-		#endregion
-
-
 		#region matrix creation
 
 		public static MathNet.Numerics.LinearAlgebra.Complex.DenseVector vector(
 	params System.Numerics.Complex[] elements)
 		{
+
 			return new MathNet.Numerics.LinearAlgebra.Complex.DenseVector(elements);
 		}
 
@@ -574,7 +531,7 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
 			throw new System.ArgumentException(""Wrong type for matrix creation, consider using real or complex"");
 		}
 
-		/*public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(string str)
+	   /* public static MathNet.Numerics.LinearAlgebra.Double.DenseMatrix matrix(string str)
 		{
 			if(str.Contains(""{"")&& str.Contains(""}""))
 				return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.CSharpMatrixFormatProvider.InvariantCulture));
@@ -584,7 +541,6 @@ public static MathNet.Numerics.LinearAlgebra.Matrix<dynamic> matrix(dynamic[,] a
 				return MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.OfArray(Accord.Math.Matrix.Parse(str, Accord.Math.DefaultMatrixFormatProvider.InvariantCulture));
 		}*/
 
-		
 		public static dynamic matrix(dynamic[,] array)//TODO: test it
 		{
 
@@ -865,7 +821,6 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 
 		#endregion
 
-
 		#region solvers
 
 		public static MathNet.Numerics.LinearAlgebra.Vector<T> solve<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
@@ -876,12 +831,51 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 			return result;
 		}
 
-	#endregion
+		#endregion
 
+		#region decompositions
 
-	#region matrix utils
+		public static MathNet.Numerics.LinearAlgebra.Factorization.LU<T> LU<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+	where T : struct, System.IEquatable<T>, System.IFormattable
+		{
+			return M.LU();
+		}
 
-	private static byte[] ToBits(int value)
+		public static MathNet.Numerics.LinearAlgebra.Factorization.QR<T> QR<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+where T : struct, System.IEquatable<T>, System.IFormattable
+		{
+			return M.QR();
+		}
+
+		public static MathNet.Numerics.LinearAlgebra.Factorization.Cholesky<T> Cholesky<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+where T : struct, System.IEquatable<T>, System.IFormattable
+		{
+			return M.Cholesky();
+		}
+
+		public static MathNet.Numerics.LinearAlgebra.Factorization.Evd<T> Evd<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+where T : struct, System.IEquatable<T>, System.IFormattable
+		{
+			return M.Evd();
+		}
+
+		public static MathNet.Numerics.LinearAlgebra.Factorization.Svd<T> Svd<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+where T : struct, System.IEquatable<T>, System.IFormattable
+		{
+			return M.Svd();
+		}
+
+		public static MathNet.Numerics.LinearAlgebra.Factorization.GramSchmidt<T> GramSchmidt<T>(MathNet.Numerics.LinearAlgebra.Matrix<T> M)
+where T : struct, System.IEquatable<T>, System.IFormattable
+		{
+			return M.GramSchmidt();
+		}
+
+		#endregion
+
+		#region matrix utils
+
+		private static byte[] ToBits(int value)
 		{
 			System.Collections.BitArray b = new System.Collections.BitArray(new int[] { value });
 

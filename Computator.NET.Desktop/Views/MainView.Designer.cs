@@ -1,7 +1,6 @@
 ﻿using System.Windows.Forms;
-using Computator.NET.Core.Properties;
 
-namespace Computator.NET.Views
+namespace Computator.NET.Desktop.Views
 {
     partial class MainView : Form
     {

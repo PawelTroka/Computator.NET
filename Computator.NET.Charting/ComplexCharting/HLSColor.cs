@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace ComplexPlotter.ComplexCharting
+namespace Computator.NET.Charting.ComplexCharting
 {
     public class HSLColor
     {

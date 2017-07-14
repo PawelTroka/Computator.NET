@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Computator.NET.Controls.AutocompleteMenu.Wrappers
+namespace Computator.NET.Desktop.Controls.AutocompleteMenu.Wrappers
 {
     /// <summary>
     ///     Wrapper over the control like TextBox.

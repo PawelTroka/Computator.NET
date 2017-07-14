@@ -3,7 +3,7 @@ using System.Linq;
 using WixSharp;
 using WixSharp.CommonTasks;
 
-namespace Computator.NET.Setup
+namespace Computator.NET.Installer
 {
     class ProjectBuilder
     {

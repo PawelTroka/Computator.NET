@@ -9,6 +9,8 @@ using Computator.NET.Core.Constants;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Functions;
+using Computator.NET.DataTypes.Utility;
 using Computator.NET.Localization;
 using NLog;
 
