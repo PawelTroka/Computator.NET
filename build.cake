@@ -56,10 +56,11 @@ var mainProjectBinPathNet40 = @"Computator.NET/bin/" + configuration + @"/v4.0";
 var installerProject = "Computator.NET.Setup/Computator.NET.Setup.csproj";
 var unitTestsProject = "Computator.NET.Tests/Computator.NET.Tests.csproj";
 var integrationTestsProject = "Computator.NET.IntegrationTests/Computator.NET.IntegrationTests.csproj";
+var webApiIntegrationTestsProject = "Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj";
 
 var allTestsBinaries = "**/bin/" + configuration+ "/**/*Test*.dll";
-var integrationTestsBinaries = "Computator.NET.IntegrationTests/"+"bin/" + configuration+ "/**/*Test*.dll";
-var unitTestsBinaries = "Computator.NET.Tests/"+"bin/" + configuration+ "/**/*Test*.dll";
+var integrationTestsBinaries = "Computator.NET*.IntegrationTests/"+"bin/" + configuration+ "/**/*Test*.dll";
+var unitTestsBinaries = "Computator.NET*.Tests/"+"bin/" + configuration+ "/**/*Test*.dll";
 
 var msBuildSettings = new MSBuildSettings {
 	Verbosity = Verbosity.Minimal,
@@ -208,6 +209,7 @@ Task("Build")
 	  MSBuild(mainProjectNet40, msBuildSettings);
 	  MSBuild(unitTestsProject, msBuildSettings);
 	  MSBuild(integrationTestsProject, msBuildSettings);
+	  MSBuild(webApiIntegrationTestsProject, msBuildSettings);
 	  
 	}
 	else
@@ -217,6 +219,7 @@ Task("Build")
 	  XBuild(mainProjectNet40, xBuildSettings);
 	  XBuild(unitTestsProject, xBuildSettings);
 	  XBuild(integrationTestsProject, xBuildSettings);
+	  XBuild(webApiIntegrationTestsProject, xBuildSettings);
 	}
 });
 
