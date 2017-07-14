@@ -257,7 +257,7 @@ Task("IntegrationTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(integrationTestsBinaries, normalNUnit3Settings);
+	NUnit3(integrationTestsBinaries, normalNUnit3SettingsWithX86);
 	if(AppVeyor.IsRunningOnAppVeyor)
 	{
 		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
@@ -268,7 +268,7 @@ Task("AllTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(allTestsBinaries, normalNUnit3Settings);
+	NUnit3(allTestsBinaries, normalNUnit3SettingsWithX86);
 	if(AppVeyor.IsRunningOnAppVeyor)
 	{
 		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
@@ -279,7 +279,7 @@ Task("WebTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(allWebTestsBinaries, normalNUnit3Settings);
+	NUnit3(allWebTestsBinaries, normalNUnit3SettingsWithX86);
 	if(AppVeyor.IsRunningOnAppVeyor)
 	{
 		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
