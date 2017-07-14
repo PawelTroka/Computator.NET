@@ -24,8 +24,8 @@ before_build:
 build_script:
   - build.cmd -Target Build
 
-#test_script:
-#  - build.cmd -Target AllTests
+test_script:
+  - build.cmd -Target AllTests
 
 after_test:
   - build.cmd -Target Upload-Coverage

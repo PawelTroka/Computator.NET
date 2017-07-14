@@ -34,6 +34,23 @@ if (type != null)
 var isMonoButSupportsMsBuild = monoVersion!=null && System.Text.RegularExpressions.Regex.IsMatch(monoVersion,@"([5-9]|\d{2,})\.\d+\.\d+(\.\d+)?");
 
 
+var normalNUnit3Settings = new NUnit3Settings()
+{
+	DisposeRunners = true,
+	Configuration = configuration,
+	Labels = NUnit3Labels.All,
+	//NoResults = true
+};
+
+var normalNUnit3SettingsWithX86 = new NUnit3Settings()
+{
+	DisposeRunners = true,
+	Configuration = configuration,
+	X86 = true,
+	Labels = NUnit3Labels.All,
+	//NoResults = true
+};
+
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -61,6 +78,8 @@ var webApiIntegrationTestsProject = "Computator.NET.WebApi.IntegrationTests/Comp
 var allTestsBinaries = "**/bin/" + configuration+ "/**/*Test*.dll";
 var integrationTestsBinaries = "Computator.NET*.IntegrationTests/"+"bin/" + configuration+ "/**/*Test*.dll";
 var unitTestsBinaries = "Computator.NET*.Tests/"+"bin/" + configuration+ "/**/*Test*.dll";
+
+var allWebTestsBinaries = "Computator.NET.Web*.*Tests*/"+"bin/" + configuration+ "/**/*Test*.dll";
 
 var msBuildSettings = new MSBuildSettings {
 	Verbosity = Verbosity.Minimal,
@@ -227,30 +246,44 @@ Task("UnitTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(unitTestsBinaries, new NUnit3Settings() {
-		Labels = NUnit3Labels.All,
-		//NoResults = true
-		});
+	NUnit3(unitTestsBinaries, normalNUnit3Settings);
+	if(AppVeyor.IsRunningOnAppVeyor)
+	{
+		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
+	}
 });
 
 Task("IntegrationTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(integrationTestsBinaries, new NUnit3Settings() {
-		//Labels = NUnit3Labels.All,
-		//NoResults = true
-		});
+	NUnit3(integrationTestsBinaries, normalNUnit3Settings);
+	if(AppVeyor.IsRunningOnAppVeyor)
+	{
+		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
+	}
 });
 
 Task("AllTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(allTestsBinaries, new NUnit3Settings() {
-		//Labels = NUnit3Labels.All,
-		//NoResults = true
-		});
+	NUnit3(allTestsBinaries, normalNUnit3Settings);
+	if(AppVeyor.IsRunningOnAppVeyor)
+	{
+		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
+	}
+});
+
+Task("WebTests")
+	.IsDependentOn("Build")
+	.Does(() =>
+{
+	NUnit3(allWebTestsBinaries, normalNUnit3Settings);
+	if(AppVeyor.IsRunningOnAppVeyor)
+	{
+		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
+	}
 });
 
 Task("Calculate-Coverage")
@@ -260,6 +293,7 @@ Task("Calculate-Coverage")
 	OpenCover(tool => {
   tool.NUnit3(allTestsBinaries,
 	new NUnit3Settings {
+	  X86 = true,
 	  NoResults = true,
 	  //InProcess = true,
 	  //Domain = Domain.Single,
