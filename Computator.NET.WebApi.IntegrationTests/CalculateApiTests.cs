@@ -52,8 +52,8 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task ReturnsCorrect3DValue()
         {
             //arrange
-            Func<double, double, double> func = (x, y) => 1 + x /y;
-            var funcCode = "1+x/y";//1+2x/3y //or 1+2x/y
+            Func<double, double, double> func = (x, y) => 1 - x - y;
+            var funcCode = "1-x-y";//1+2x/3y //or 1+2x/y
             var url = $@"/api/calculate/3d/{WebUtility.UrlEncode(funcCode)}/1.1/2.2";
 
 
@@ -71,7 +71,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task ReturnsCorrectComplexValue()
         {
             // Act
-            var response = await _client.GetAsync(@"/api/calculate/complex/2z/1");
+            var response = await _client.GetAsync(@"/api/calculate/complex/2z/1/0");
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -88,7 +88,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             var customFunctionCode = @"
             static real Custom123(real x)
             {
-                return System.Math.Sqrt(x)/System.Math.Cos(1/x);
+                return System.Math.Sqrt(x)-System.Math.Cos(1-x);
             }
             ";
             var url = $@"/api/calculate/real/{WebUtility.UrlEncode("2Custom123(x)")}/{x}/{WebUtility.UrlEncode(customFunctionCode)}";
@@ -102,7 +102,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.AreEqual((2 * (System.Math.Sqrt(x) / System.Math.Cos(1 / x))).ToMathString(), responseString);
+            Assert.AreEqual((2 * (System.Math.Sqrt(x) - System.Math.Cos(1 - x))).ToMathString(), responseString);
         }
     }
 }
