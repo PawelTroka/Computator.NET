@@ -53,6 +53,7 @@ namespace Computator.NET.DataTypes.Charts
         void SetChartAreaValues(double x0, double xn, double y0, double yn);
 
         void SaveImage(string path, ImageFormat imageFormat);
+        Image GetImage(int width, int height);
 
         void ClearAll();
         void ShowEditPropertiesDialog();

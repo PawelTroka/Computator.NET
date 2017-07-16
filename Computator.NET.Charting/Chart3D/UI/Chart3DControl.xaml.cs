@@ -21,6 +21,7 @@ using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
 using Computator.NET.DataTypes.Functions;
 using Color = System.Windows.Media.Color;
+using Image = System.Drawing.Image;
 using Model3D = Computator.NET.Charting.Chart3D.Chart3D.Model3D;
 using Point = System.Windows.Point;
 using Point3D = Computator.NET.DataTypes.Charts.Point3D;
@@ -250,6 +251,17 @@ namespace Computator.NET.Charting.Chart3D.UI
             get { return quality; }
         }
 
+        public Image GetImage(int width, int height)
+        {
+            var encoder = CreateImageEncoder(width, height,ImageFormat.Png);
+
+            using (var stream = new MemoryStream())
+            {
+                encoder.Save(stream);
+                return Image.FromStream(stream);
+            }
+        }
+
         public void ClearAll()
         {
             _functions.Clear();
@@ -317,6 +329,16 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         public void SaveImage(string path, ImageFormat imageFormat)
         {
+            var encoder = CreateImageEncoder((int)ActualWidth, (int)ActualHeight, imageFormat);
+
+            using (var stream = File.Create(path))
+            {
+                encoder.Save(stream);
+            }
+        }
+
+        private BitmapEncoder CreateImageEncoder(int width, int height,ImageFormat imageFormat)
+        {
             BitmapEncoder encoder;
 
             if (Equals(imageFormat, ImageFormat.Png))
@@ -335,15 +357,11 @@ namespace Computator.NET.Charting.Chart3D.UI
                 encoder = new PngBitmapEncoder();
 
 
-            var bitmap = new RenderTargetBitmap((int) ActualWidth, (int) ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            var bitmap = new RenderTargetBitmap(width,height,96, 96, PixelFormats.Pbgra32);
             bitmap.Render(this);
             var frame = BitmapFrame.Create(bitmap);
             encoder.Frames.Add(frame);
-
-            using (var stream = File.Create(path))
-            {
-                encoder.Save(stream);
-            }
+            return encoder;
         }
 
         public void Redraw()

@@ -1,6 +1,8 @@
 ﻿using Computator.NET.Core.Bootstrapping;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Natives;
+using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Charts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +32,8 @@ namespace Computator.NET.WebApi
         {
             var coreBootstrapper = new CoreBootstrapper();
             services.AddTransient<IExpressionsEvaluator, ExpressionsEvaluator>(isp => coreBootstrapper.Create<ExpressionsEvaluator>());
+            services.AddTransient<IModeDeterminer, ModeDeterminer>(isp => coreBootstrapper.Create<ModeDeterminer>());
+            services.AddTransient<IChartFactory>(isp => RuntimeObjectFactory.CreateInstance<IChartFactory>("Charting"));
 
             // Add framework services.
             services.AddMvc();

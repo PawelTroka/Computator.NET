@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -328,6 +330,24 @@ namespace Computator.NET.Charting.RealCharting
         }
 
         //exp(x/20)*(sin(1/2*x)+cos(3*x)+0.2*sin(4*x)*cos(40*x))
+
+        public Image GetImage(int width, int height)
+        {
+            var oldWidth = this.Width;
+            var oldHeight = this.Height;
+            this.Width = width;
+            this.Height = height;
+            this.Redraw();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                this.SaveImage(memoryStream, ChartImageFormat.Png);
+                var imageFromStream = Image.FromStream(memoryStream);
+                this.Width = oldWidth;
+                this.Height = oldHeight;
+                return imageFromStream;
+            }
+        }
 
         public void ClearAll()
         {

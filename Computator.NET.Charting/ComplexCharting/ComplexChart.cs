@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Computator.NET.Charting.Printing;
@@ -34,7 +37,7 @@ namespace Computator.NET.Charting.ComplexCharting
         private  Color[,] _pointsColors;
 
         private  ComplexPoint[,] _pointsValues;
-        
+        private bool _redrawing = false;
         private Function function;
         private Bitmap image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
@@ -185,6 +188,11 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region constructing
 
+        private Task<Bitmap> CalculateValuesAndColorsAsync()
+        {
+            return Task.Factory.StartNew(CalculateValuesAndColors);
+        }
+
         private Bitmap CalculateValuesAndColors()
         {
             _pointsValues = new ComplexPoint[DrawWidth, DrawHeight];
@@ -323,16 +331,41 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void SaveImage(string path, ImageFormat imageFormat)
         {
-            //  var dialog = new SaveFileDialog();
-            //   dialog.Filter = "Portable Network Graphics (*.png)|*.png";
-            //   dialog.RestoreDirectory = true;
-
-            if (image == null) return;
-            //  using (var writer = dialog.OpenFile())
+            if (image == null)
+                return;
+            
+            if (ShouldDrawAxes)
             {
-                //     if (writer == null) return;
-                image.Save(path, imageFormat);
+                using (var graphics = Graphics.FromImage(image))
+                {
+                    DrawAxes(graphics);
+                }
             }
+
+            image.Save(path, imageFormat);
+        }
+
+        public Image GetImage(int width, int height)
+        {
+            var oldWidth = this.Width;
+            var oldHeight = this.Height;
+            this.Width = width;
+            this.Height = height;
+
+            var img = CalculateValuesAndColors();
+
+            var bitmap = new Bitmap(img, width, height);
+            if (ShouldDrawAxes)
+            {
+                using (var graphics = Graphics.FromImage(bitmap))
+                {
+                    DrawAxes(graphics);
+                }
+            }
+
+            this.Width = oldWidth;
+            this.Height = oldHeight;
+            return bitmap;
         }
 
         #endregion
@@ -341,7 +374,7 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private int DrawWidth => (int) (ClientRectangle.Width * quality);
 
-        private int DrawHeight => (int) (ClientRectangle.Height*quality);
+        private int DrawHeight => (int) (ClientRectangle.Height * quality);
 
         public void ClearAll()
         {
@@ -367,30 +400,32 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public async void Redraw()
         {
-            if (function == null || DrawWidth <= 0 || DrawHeight <= 0)
+            if (function == null || DrawWidth <= 0 || DrawHeight <= 0 || _redrawing)
                 return;
-            if (CalculateValuesAndColorsTask == null||CalculateValuesAndColorsTask.IsCompleted)
-            {
-                CalculateValuesAndColorsTask = new Task<Bitmap>(CalculateValuesAndColors);
-                Cursor = Cursors.WaitCursor;
-                CalculateValuesAndColorsTask.Start();
-                image = await CalculateValuesAndColorsTask;
-
-                Cursor = Cursors.Default;
-                Invalidate();
-            }
+            _redrawing = true;
+            Cursor = Cursors.WaitCursor;
+            image = await CalculateValuesAndColorsAsync();
+            Cursor = Cursors.Default;
+            Invalidate();
+            _redrawing = false;
         }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            if (image != null && CalculateValuesAndColorsTask!=null && CalculateValuesAndColorsTask.IsCompleted)
-            {
-                pe.Graphics.DrawImage(image,ClientRectangle);
-            }
+            pe.Graphics.DrawImage(image,ClientRectangle);
+            
             if (ShouldDrawAxes)
                 DrawAxes(pe.Graphics);
         }
 
+
+        private void PaintOn(Graphics g, Rectangle r)
+        {
+            g.DrawImage(image, r);
+
+            if (ShouldDrawAxes)
+                DrawAxes(g);
+        }
 
         private void DrawAxes(Graphics g)
         {
@@ -452,10 +487,6 @@ namespace Computator.NET.Charting.ComplexCharting
         #endregion
 
         #region calculations
-
-        private Task<Bitmap> CalculateValuesAndColorsTask;
-        
-
         private Color ComplexToColor(Complex z)
         {
             double m = z.Magnitude, t = z.Phase;

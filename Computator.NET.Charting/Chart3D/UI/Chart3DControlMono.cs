@@ -64,6 +64,11 @@ namespace Computator.NET.Charting.Chart3D.UI
         {
         }
 
+        public Image GetImage(int width, int height)
+        {
+            return new Bitmap(100,100);
+        }
+
         public void ClearAll()
         {
         }
