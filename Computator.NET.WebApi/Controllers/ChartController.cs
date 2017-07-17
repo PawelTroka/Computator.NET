@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
@@ -20,9 +17,17 @@ namespace Computator.NET.WebApi.Controllers
     [Route("api/[controller]")]
     public class ChartController : Controller
     {
-        private IChartFactory _chartFactory;
-        private IModeDeterminer _modeDeterminer;
-        private IExpressionsEvaluator _expressionsEvaluator;
+        private const double DefaultXMax = 5;
+        private const double DefaultXMin = -DefaultXMax;
+        private const double DefaultYMax = 3;
+        private const double DefaultYMin = -DefaultYMax;
+        private const int DefaultWidth = 1920;
+        private const int DefaultHeight = 1080;
+        private static readonly ImageFormat DefaultImageFormat = ImageFormat.Png;
+
+        private readonly IChartFactory _chartFactory;
+        private readonly IModeDeterminer _modeDeterminer;
+        private readonly IExpressionsEvaluator _expressionsEvaluator;
 
         public ChartController(IChartFactory chartFactory, IModeDeterminer modeDeterminer, IExpressionsEvaluator expressionsEvaluator)
         {
@@ -35,16 +40,15 @@ namespace Computator.NET.WebApi.Controllers
         [HttpGet("{equation}")]
         public IActionResult Get(string equation)
         {
-            return Get(-5, 5, -3, 3, equation);
+            return Get(DefaultXMin, DefaultXMax, DefaultYMin, DefaultYMax, equation);
         }
-
 
 
         // GET api/chart/-5/5/-5/5/2x
         [HttpGet("{x0}/{xn}/{y0}/{yn}/{equation}")]
         public IActionResult Get(double x0, double xn, double y0, double yn, string equation)
         {
-            return Get(1920, 1080, x0, xn, y0, yn, equation);
+            return Get(DefaultWidth, DefaultHeight, x0, xn, y0, yn, equation);
         }
 
 
@@ -52,7 +56,35 @@ namespace Computator.NET.WebApi.Controllers
         [HttpGet("{width}/{height}/{x0}/{xn}/{y0}/{yn}/{equation}")]
         public IActionResult Get(int width, int height, double x0, double xn, double y0, double yn, string equation)
         {
-            return Get(ImageFormat.Png, width, height, x0, xn, y0, yn, equation);
+            return Get(DefaultImageFormat, width, height, x0, xn, y0, yn, equation);
+        }
+
+        // GET api/chart/1920/1080/2x
+        [HttpGet("{width}/{height}/{equation}")]
+        public IActionResult Get(int width, int height, string equation)
+        {
+            return Get(DefaultImageFormat, width, height, DefaultXMin, DefaultXMax, DefaultYMin, DefaultYMax, equation);
+        }
+
+        // GET api/chart/png/1920/1080/2x
+        [HttpGet("{imageFormat}/{width}/{height}/{equation}")]
+        public IActionResult Get(ImageFormat imageFormat, int width, int height, string equation)
+        {
+            return Get(imageFormat, width, height, DefaultXMin, DefaultXMax, DefaultYMin, DefaultYMax, equation);
+        }
+
+        // GET api/chart/png/2x
+        [HttpGet("{imageFormat}/{equation}")]
+        public IActionResult Get(ImageFormat imageFormat, string equation)
+        {
+            return Get(imageFormat, DefaultWidth, DefaultHeight, DefaultXMin, DefaultXMax, DefaultYMin, DefaultYMax, equation);
+        }
+
+        // GET api/chart/png/-5/5/-5/5/2x
+        [HttpGet("{imageFormat}/{x0}/{xn}/{y0}/{yn}/{equation}")]
+        public IActionResult Get(ImageFormat imageFormat, double x0, double xn, double y0, double yn, string equation)
+        {
+            return Get(imageFormat, DefaultWidth, DefaultHeight, x0, xn, y0, yn, equation);
         }
 
         // GET api/chart/Png/1920/1080/-5/5/-5/5/2x

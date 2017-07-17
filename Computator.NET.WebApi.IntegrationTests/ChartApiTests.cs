@@ -70,6 +70,9 @@ namespace Computator.NET.WebApi.IntegrationTests
         [TestCase("-2.5/2.5/-0.5/0.5/x")]
         [TestCase("-2.5/2.5/-0.5/0.5/z")]
         [TestCase("x")]
+        [TestCase("png/300/300/x")]
+        [TestCase("png/x")]
+        [TestCase("png/-2.5/2.5/-0.5/0.5/x")]
         public async Task ReturnsCorrectImageForCorrectQuery(string query)
         {
             // Act
