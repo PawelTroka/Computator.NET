@@ -42,15 +42,6 @@ var normalNUnit3Settings = new NUnit3Settings()
 	//NoResults = true
 };
 
-var normalNUnit3SettingsWithX86 = new NUnit3Settings()
-{
-	DisposeRunners = true,
-	Configuration = configuration,
-	X86 = true,
-	Labels = NUnit3Labels.All,
-	//NoResults = true
-};
-
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -257,7 +248,7 @@ Task("IntegrationTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(integrationTestsBinaries, normalNUnit3SettingsWithX86);
+	NUnit3(integrationTestsBinaries, normalNUnit3Settings);
 	if(AppVeyor.IsRunningOnAppVeyor)
 	{
 		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
@@ -268,7 +259,7 @@ Task("AllTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(allTestsBinaries, normalNUnit3SettingsWithX86);
+	NUnit3(allTestsBinaries, normalNUnit3Settings);
 	if(AppVeyor.IsRunningOnAppVeyor)
 	{
 		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
@@ -279,7 +270,7 @@ Task("WebTests")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-	NUnit3(allWebTestsBinaries, normalNUnit3SettingsWithX86);
+	NUnit3(allWebTestsBinaries, normalNUnit3Settings);
 	if(AppVeyor.IsRunningOnAppVeyor)
 	{
 		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
@@ -293,7 +284,6 @@ Task("Calculate-Coverage")
 	OpenCover(tool => {
   tool.NUnit3(allTestsBinaries,
 	new NUnit3Settings {
-	  X86 = true,
 	  NoResults = true,
 	  //InProcess = true,
 	  //Domain = Domain.Single,
