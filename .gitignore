@@ -201,3 +201,5 @@ tools/*
 /coverage.xml
 /Computator.NET.Setup/wix
 /.vs/config/applicationhost.config
+/Computator.NET.WebClient/wwwroot/dist
+/Computator.NET.WebClient/package-lock.json

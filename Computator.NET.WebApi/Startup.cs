@@ -35,6 +35,7 @@ namespace Computator.NET.WebApi
             services.AddTransient<IExpressionsEvaluator, ExpressionsEvaluator>(isp => coreBootstrapper.Create<ExpressionsEvaluator>());
             services.AddTransient<IModeDeterminer, ModeDeterminer>(isp => coreBootstrapper.Create<ModeDeterminer>());
             services.AddTransient<IChartFactory>(isp => RuntimeObjectFactory.CreateInstance<IChartFactory>("Charting"));
+            services.AddCors();
 
             // Add framework services.
             services.AddMvc();
@@ -51,6 +52,9 @@ namespace Computator.NET.WebApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:63785"));//we only allow WebClient to call our API, at least for now
 
             app.UseMvc();
 

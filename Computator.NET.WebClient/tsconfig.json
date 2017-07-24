@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "moduleResolution": "node",
+    "target": "es5",
+    "jsx": "react",
+    "sourceMap": true,
+    "skipDefaultLibCheck": true,
+    "types": [
+      "webpack-env",
+      "aspnet-webpack-react"
+    ],
+    "paths": {
+      // Fix "Duplicate identifier" errors caused by multiple dependencies fetching their own copies of type definitions.
+      // We tell TypeScript which type definitions module to treat as the canonical one (instead of combining all of them).
+      "history": [
+        "./node_modules/@types/history/index"
+      ],
+      "react": [
+        "./node_modules/@types/react/index"
+      ]
+    }
+  },
+  "exclude": [
+    "bin",
+    "node_modules"
+  ]
+}
