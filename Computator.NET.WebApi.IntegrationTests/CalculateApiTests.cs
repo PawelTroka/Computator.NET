@@ -36,6 +36,36 @@ namespace Computator.NET.WebApi.IntegrationTests
         }
 
         [Test]
+        public async Task PlusSignInExpressionWorks()
+        {
+            // Act
+            var response = await _client.GetAsync($@"/api/calculate/real/{WebUtility.UrlEncode("2x+2")}/1");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Test]
+        public async Task DivideSignInExpressionWorks()
+        {
+            // Act
+            var response = await _client.GetAsync($@"/api/calculate/real/{WebUtility.UrlEncode("2x/2")}/1");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Test]
+        public async Task EmptySpacesInExpressionWorks()
+        {
+            // Act
+            var response = await _client.GetAsync($@"/api/calculate/real/{WebUtility.UrlEncode("    2x   -    2    -   1.1")}/{WebUtility.UrlEncode("   -   1    ")}");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Test]
         public async Task ReturnsCorrectRealValue()
         {
             // Act
@@ -53,7 +83,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         {
             //arrange
             Func<double, double, double> func = (x, y) => 1 - x - y;
-            var funcCode = "1-x-y";//1+2x/3y //or 1+2x/y
+            var funcCode = "1-x-y";//TODO: 1+2x/3y //or 1+2x/y
             var url = $@"/api/calculate/3d/{WebUtility.UrlEncode(funcCode)}/1.1/2.2";
 
 

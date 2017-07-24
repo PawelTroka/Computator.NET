@@ -4,6 +4,7 @@ using System.Numerics;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes.Functions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using CalculationsMode = Computator.NET.DataTypes.CalculationsMode;
 
 namespace Computator.NET.WebApi.Controllers
@@ -13,19 +14,21 @@ namespace Computator.NET.WebApi.Controllers
     {
         private readonly IExpressionsEvaluator _expressionsEvaluator;
         private readonly IModeDeterminer _modeDeterminer;
+        private readonly ILogger<CalculateController> _logger;
 
-        public CalculateController(IExpressionsEvaluator expressionsEvaluator, IModeDeterminer modeDeterminer)
+        public CalculateController(IExpressionsEvaluator expressionsEvaluator, IModeDeterminer modeDeterminer, ILogger<CalculateController> logger)
         {
             _expressionsEvaluator = expressionsEvaluator;
             _modeDeterminer = modeDeterminer;
+            _logger = logger;
         }
-
-        [HttpGet("func/{equation}/{calculationsMode}")]
-        [HttpGet("func/{equation}/{calculationsMode}/{customFunctionsCode}")]
-        public Function GetFunc(string equation, CalculationsMode calculationsMode, string customFunctionsCode="")
+        
+        private Function GetFunc(string equation, CalculationsMode calculationsMode, string customFunctionsCode)
         {
             var decodedEquation = WebUtility.UrlDecode(equation);
+            _logger.LogInformation($"Decoded equation {equation} to {decodedEquation}");
             var decodedCustomFunctionsCode = WebUtility.UrlDecode(customFunctionsCode);
+            _logger.LogInformation($"Decoded custom functions code {customFunctionsCode} to {decodedCustomFunctionsCode}");
             var func = _expressionsEvaluator.Evaluate(decodedEquation, decodedCustomFunctionsCode, calculationsMode);
             return func;
         }
@@ -69,7 +72,7 @@ namespace Computator.NET.WebApi.Controllers
         //[HttpGet("{calculationsMode}/{equation}/{customFunctionsCode}")]
         public string Get(string equation, double x = 0, double y = 0, string customFunctionsCode = "")
         {
-            var calculationsMode = _modeDeterminer.DetermineMode(equation);
+            var calculationsMode = _modeDeterminer.DetermineMode(WebUtility.UrlDecode(equation));
 
             return Get(calculationsMode, equation, x, y, customFunctionsCode);
         }

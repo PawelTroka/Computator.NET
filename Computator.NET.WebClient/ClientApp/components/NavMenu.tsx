@@ -12,14 +12,14 @@ export class NavMenu extends React.Component<{}, {}> {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <Link className='navbar-brand' to={ '/' }>Computator.NET.WebClient</Link>
+                    <Link className='navbar-brand' to={ '/' }>Computator.NET</Link>
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
                     <ul className='nav navbar-nav'>
                         <li>
                             <NavLink to={ '/' } exact activeClassName='active'>
-                                <span className='glyphicon glyphicon-home'></span> Home
+                                <span className='glyphicon glyphicon-asterisk'></span> Chart
                             </NavLink>
                         </li>
                         <li>
@@ -28,8 +28,23 @@ export class NavMenu extends React.Component<{}, {}> {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to={ '/fetchdata' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-th-list'></span> Fetch data
+                            <NavLink to={ '/numerical-calculations' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-superscript'></span> Numerical calculations
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={ '/symbolic-calculations' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-euro'></span> Symbolic calculations
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={ '/scripting' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-qrcode'></span> Scripting
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={ '/custom-functions' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-plus-sign'></span> Custom functions
                             </NavLink>
                         </li>
                     </ul>
