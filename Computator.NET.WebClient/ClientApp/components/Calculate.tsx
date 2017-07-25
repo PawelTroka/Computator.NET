@@ -37,8 +37,8 @@ export class Calculate extends React.Component<{}, ICalculateState>
                </div>;
     }
 
-    private handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-        console.log(event);
+    private handleSubmit(event: React.FormEvent<HTMLFormElement>): void
+    {
         event.preventDefault();
         this.calculate(this.expressionInput.value, Number(this.xInput.value), Number(this.yInput.value));
     }
@@ -50,7 +50,8 @@ export class Calculate extends React.Component<{}, ICalculateState>
 
         fetch(apiUrl)
             .then(response => response.text() as Promise<string>)
-            .then(data => {
+            .then(data =>
+            {
                 console.log(`Got result: ${data}`);
                 this.setState({ x: x, y: y, expression: expression, result: data });
             });
