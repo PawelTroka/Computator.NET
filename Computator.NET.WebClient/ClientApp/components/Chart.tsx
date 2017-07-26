@@ -18,6 +18,7 @@ export class Chart extends React.Component<{}, IChartState>
     {
         super();
         this.state = { xMin: -5, xMax: 5, yMin: -5, yMax: 5, expression: "" };
+        window.addEventListener("resize", () => this.redrawChart());
     }
 
     public render()
@@ -31,7 +32,7 @@ export class Chart extends React.Component<{}, IChartState>
                        <input type="text" defaultValue={this.state.expression} ref={expression => this.expressionInput=expression} className="form-control" placeholder="here write expression, example: 2x-cos(x)" aria-describedby="expression"/>
                    </div>
 
-                   <div className="col-md-10">
+                   <div ref={chartDivContainer => this.chartContainerDiv = chartDivContainer} className="col-md-10">
                         <img ref={chartImage => this.chartImage=chartImage} src=""/>
                    </div>
 
@@ -57,13 +58,26 @@ export class Chart extends React.Component<{}, IChartState>
         this.drawChart(Number(this.xMinInput.value),Number(this.xMaxInput.value),Number(this.yMinInput.value),Number(this.yMaxInput.value),this.expressionInput.value );
     }
 
-    private drawChart(xmin: number, xmax: number, ymin: number, ymax: number, expression: string) : void
-    {
-        const apiUrl = `${Config.WEB_API_BASE_URL}/chart/900/600/${xmin}/${xmax}/${ymin}/${ymax}/${encodeURIComponent(expression)}`;
+    private drawChart(xmin: number, xmax: number, ymin: number, ymax: number, expression: string) : void {
+        
+        const viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+        const chartRect = this.chartContainerDiv.getBoundingClientRect();
+        const height = Math.max(200, Math.round(viewHeight - chartRect.top));
+        const width = Math.max(200, this.chartContainerDiv.clientWidth);
+
+        const apiUrl = `${Config.WEB_API_BASE_URL}/chart/${width}/${height}/${xmin}/${xmax}/${ymin}/${ymax}/${encodeURIComponent(expression)}`;
         console.log(`Calling ${apiUrl}`);
         this.chartImage.src = apiUrl;
 
+        this.setState({xMin: xmin, xMax: xmax, yMin: ymin, yMax: ymax, expression: expression});
+    }
 
+    private redrawChart(): void
+    {
+        if (this.state.expression!=null && this.state.expression !== "")
+            this.drawChart(this.state.xMin,this.state.xMax,this.state.xMin,this.state.yMax,this.state.expression);
     }
 
     private xMinInput : HTMLDataElement;
@@ -72,4 +86,5 @@ export class Chart extends React.Component<{}, IChartState>
     private yMaxInput : HTMLDataElement;
     private expressionInput : HTMLDataElement;
     private chartImage : HTMLImageElement;
+    private chartContainerDiv : HTMLDivElement;
 }
