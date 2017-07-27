@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Net.Http.Headers;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,13 +29,13 @@ namespace Computator.NET.WebApi.Controllers
 
         private readonly IChartFactory _chartFactory;
         private readonly IModeDeterminer _modeDeterminer;
-        private readonly IExpressionsEvaluator _expressionsEvaluator;
+        private readonly IFunctionsProvider _functionsProvider;
 
-        public ChartController(IChartFactory chartFactory, IModeDeterminer modeDeterminer, IExpressionsEvaluator expressionsEvaluator)
+        public ChartController(IChartFactory chartFactory, IModeDeterminer modeDeterminer, IFunctionsProvider functionsProvider)
         {
             _chartFactory = chartFactory;
             _modeDeterminer = modeDeterminer;
-            _expressionsEvaluator = expressionsEvaluator;
+            _functionsProvider = functionsProvider;
         }
 
         // GET api/chart/2x
@@ -92,9 +94,11 @@ namespace Computator.NET.WebApi.Controllers
         public IActionResult Get(ImageFormat imageFormat, int width, int height, double x0, double xn, double y0, double yn, string equation)
         {
             var equations = new[] { equation };
+            var decodedEquations = equations.Select(WebUtility.UrlDecode).ToArray();
+
             var calculationsMode = CalculationsMode.Error;
 
-            foreach (var eq in equations)
+            foreach (var eq in decodedEquations)
             {
                 var mode = _modeDeterminer.DetermineMode(eq);
 
@@ -108,9 +112,10 @@ namespace Computator.NET.WebApi.Controllers
 
             var chart = _chartFactory.Create(calculationsMode);
 
-            foreach (var expression in equations.Select(eq => _expressionsEvaluator.Evaluate(eq, "", calculationsMode)))
+            foreach (var eq in decodedEquations)
             {
-                chart.AddFunction(expression);
+                var func = _functionsProvider.GetFunction(eq, calculationsMode, "");
+                chart.AddFunction(func);
             }
 
             chart.XMax = xn;

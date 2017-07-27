@@ -3,6 +3,7 @@ using System.Net;
 using System.Numerics;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes.Functions;
+using Computator.NET.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CalculationsMode = Computator.NET.DataTypes.CalculationsMode;
@@ -12,27 +13,16 @@ namespace Computator.NET.WebApi.Controllers
     [Route("api/[controller]")]
     public class CalculateController : Controller
     {
-        private readonly IExpressionsEvaluator _expressionsEvaluator;
+        private readonly IFunctionsProvider _functionsProvider;
         private readonly IModeDeterminer _modeDeterminer;
         private readonly ILogger<CalculateController> _logger;
 
-        public CalculateController(IExpressionsEvaluator expressionsEvaluator, IModeDeterminer modeDeterminer, ILogger<CalculateController> logger)
+        public CalculateController(IExpressionsEvaluator expressionsEvaluator, IModeDeterminer modeDeterminer, ILogger<CalculateController> logger, IFunctionsProvider functionsProvider)
         {
-            _expressionsEvaluator = expressionsEvaluator;
             _modeDeterminer = modeDeterminer;
             _logger = logger;
+            _functionsProvider = functionsProvider;
         }
-        
-        private Function GetFunc(string equation, CalculationsMode calculationsMode, string customFunctionsCode)
-        {
-            var decodedEquation = WebUtility.UrlDecode(equation);
-            _logger.LogInformation($"Decoded equation {equation} to {decodedEquation}");
-            var decodedCustomFunctionsCode = WebUtility.UrlDecode(customFunctionsCode);
-            _logger.LogInformation($"Decoded custom functions code {customFunctionsCode} to {decodedCustomFunctionsCode}");
-            var func = _expressionsEvaluator.Evaluate(decodedEquation, decodedCustomFunctionsCode, calculationsMode);
-            return func;
-        }
-
         
         // GET api/calculate/real/2*cos(x)/10.2
         [HttpGet("real/{equation}")]
@@ -79,7 +69,12 @@ namespace Computator.NET.WebApi.Controllers
 
         private string Get(CalculationsMode calculationsMode, string equation, double x, double y, string customFunctionsCode)
         {
-            var func = GetFunc(equation, calculationsMode, customFunctionsCode);
+            var decodedEquation = WebUtility.UrlDecode(equation);
+            _logger.LogInformation($"Decoded equation {equation} to {decodedEquation}");
+            var decodedCustomFunctionsCode = WebUtility.UrlDecode(customFunctionsCode);
+            _logger.LogInformation($"Decoded custom functions code {customFunctionsCode} to {decodedCustomFunctionsCode}");
+
+            var func = _functionsProvider.GetFunction(decodedEquation, calculationsMode, decodedCustomFunctionsCode);
 
             switch (calculationsMode)
             {
