@@ -89,7 +89,7 @@ Alternatively, you can always solve equations graphically, simply by looking at 
     * [**.NET Framework** **4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718)
     * [.NET 4.0 **KB2468871**](https://www.microsoft.com/en-us/download/details.aspx?id=3556) update
 * Linux / Mac OS X (non-official support)
-    * [**Mono** **4.6.0**](http://www.mono-project.com/docs/about-mono/releases/) or newer 
+    * [**Mono** **5.0.0**](http://www.mono-project.com/docs/about-mono/releases/) or newer 
 * Operating system **Windows XP SP3** or later (**Windows Vista** or later is recommended, **Windows 10** is the best option because of continous testing on it)
 * Processor **1 GHz** or faster
 * Memory **512 MB**	or more
