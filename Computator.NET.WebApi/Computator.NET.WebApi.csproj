@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
     <!--Below line is needed for out tests but fails in runtime for now with message DllNotFoundException: Unable to load DLL 'libuv': The specified module could not be found. (Exception from HRESULT: 0x8007007E)-->
-    <!--<PlatformTarget>AnyCPU</PlatformTarget>-->
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <!---->
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -35,7 +35,7 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
