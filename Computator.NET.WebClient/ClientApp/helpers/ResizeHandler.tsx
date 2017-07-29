@@ -1,4 +1,4 @@
-class ResizeHandler
+export class ResizeHandler
 {
     public constructor()
     {

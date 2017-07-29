@@ -1,7 +1,9 @@
 import * as Config from "../config";
+import {ResizeHandler} from "../helpers/ResizeHandler"
 import * as React from "react";
 import { Expression } from "./Expression";
 import "isomorphic-fetch";
+
 interface IChartState
 {
     xMin: number;
@@ -52,7 +54,8 @@ export class Chart extends React.Component<{}, IChartState>
     private drawChartClick(event : any) : void
     {
         event.preventDefault();
-        this.drawChart(Number(this.xMinInput.value), Number(this.xMaxInput.value), Number(this.yMinInput.value), Number(this.yMaxInput.value), this.expressionComponent.state.expression );
+        if (this.expressionComponent.state.expression!=null && this.expressionComponent.state.expression!=="")
+            this.drawChart(Number(this.xMinInput.value), Number(this.xMaxInput.value), Number(this.yMinInput.value), Number(this.yMaxInput.value), this.expressionComponent.state.expression );
     }
 
     private drawChart(xmin: number, xmax: number, ymin: number, ymax: number, expression: string): void

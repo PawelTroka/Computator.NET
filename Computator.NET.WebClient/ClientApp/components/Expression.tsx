@@ -7,22 +7,19 @@ interface IExpressionState
     expression: string;
 }
 
-
 export class Expression extends React.Component<{}, IExpressionState>
 {
     public constructor()
     {
         super();
-        this.setState({expression: ""});
+        this.setState({ expression: "" });
         this.handleChange = this.handleChange.bind(this);
     }
 
-    public render(): JSX.Element
-    {
-
+    public render(): JSX.Element {
         return <div className="input-group input-group-lg">
-                    <span className="input-group-addon" id="expression">Expression:</span>
-                    <input type= "text" value={this.state.expression} onChange={this.handleChange} className="form-control" placeholder="here write expression, example: 2x-cos(x)" aria-describedby="expression" />
+                    <span className="input-group-addon">Expression:</span>
+                    <input type="text" onChange={this.handleChange} className="form-control" placeholder="here write expression, example: 2x-cos(x)" aria-describedby="expression" />
                 </div>;
         
     }
@@ -31,6 +28,4 @@ export class Expression extends React.Component<{}, IExpressionState>
     {
         this.setState({ expression: event.target.value });
     }
-
-    private expressionInput: HTMLDataElement;
 }
