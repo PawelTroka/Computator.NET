@@ -1,14 +1,13 @@
 import * as Config from "../config";
 import * as React from "react";
+import { Expression } from "./Expression";
 import "isomorphic-fetch";
-
 interface IChartState
 {
     xMin: number;
     xMax: number;
     yMin: number;
     yMax: number;
-    expression: string;
 }
 
 export class Chart extends React.Component<{}, IChartState>
@@ -16,22 +15,19 @@ export class Chart extends React.Component<{}, IChartState>
     public constructor()
     {
         super();
-        this.state = { xMin: -5, xMax: 5, yMin: -5, yMax: 5, expression: "" };
+        this.state = { xMin: -5, xMax: 5, yMin: -5, yMax: 5};
 
         this.resizeHandler = new ResizeHandler();
         this.resizeHandler.afterResize = () => this.redrawChart();
     }
 
-    public render()
+    public render() : JSX.Element
     {
         return <div>
                    <h1>Chart</h1>
                    <p>Write expression and draw chart</p>
-                   <br/>
-                   <div className="input-group input-group-lg">
-                       <span className="input-group-addon" id="expression">Expression:</span>
-                       <input type="text" defaultValue={this.state.expression} ref={expression => this.expressionInput=expression} className="form-control" placeholder="here write expression, example: 2x-cos(x)" aria-describedby="expression"/>
-                   </div>
+                   <br />
+                   <Expression ref={expression => this.expressionComponent = expression} />
 
                    <div ref={chartDivContainer => this.chartContainerDiv = chartDivContainer} className="col-md-10">
                        <img ref={chartImage => this.chartImage=chartImage} src="" alt="chart"/>
@@ -56,7 +52,7 @@ export class Chart extends React.Component<{}, IChartState>
     private drawChartClick(event : any) : void
     {
         event.preventDefault();
-        this.drawChart(Number(this.xMinInput.value),Number(this.xMaxInput.value),Number(this.yMinInput.value),Number(this.yMaxInput.value),this.expressionInput.value );
+        this.drawChart(Number(this.xMinInput.value), Number(this.xMaxInput.value), Number(this.yMinInput.value), Number(this.yMaxInput.value), this.expressionComponent.state.expression );
     }
 
     private drawChart(xmin: number, xmax: number, ymin: number, ymax: number, expression: string): void
@@ -75,13 +71,13 @@ export class Chart extends React.Component<{}, IChartState>
         this.chartImage.src = apiUrl;
         this.chartImage.alt = expression;
 
-        this.setState({xMin: xmin, xMax: xmax, yMin: ymin, yMax: ymax, expression: expression});
+        this.setState({xMin: xmin, xMax: xmax, yMin: ymin, yMax: ymax});
     }
 
     private redrawChart(): void
     {
-        if (this.state.expression!=null && this.state.expression !== "")
-            this.drawChart(this.state.xMin,this.state.xMax,this.state.xMin,this.state.yMax,this.state.expression);
+        if (this.expressionComponent.state.expression != null && this.expressionComponent.state.expression !== "")
+            this.drawChart(this.state.xMin, this.state.xMax, this.state.xMin, this.state.yMax, this.expressionComponent.state.expression);
     }
 
     private readonly resizeHandler: ResizeHandler;
@@ -90,7 +86,7 @@ export class Chart extends React.Component<{}, IChartState>
     private xMaxInput : HTMLDataElement;
     private yMinInput : HTMLDataElement;
     private yMaxInput : HTMLDataElement;
-    private expressionInput : HTMLDataElement;
     private chartImage : HTMLImageElement;
     private chartContainerDiv : HTMLDivElement;
+    private expressionComponent : Expression;
 }

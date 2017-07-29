@@ -18,7 +18,7 @@ export class Calculate extends React.Component<{}, ICalculateState>
         this.state = { x: 0, y: 0, result: "", expression: "" };
     }
 
-    public render()
+    public render() : JSX.Element
     {
         return <div>
                    <h1>Calculate</h1>
