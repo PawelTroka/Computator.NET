@@ -2,23 +2,17 @@
 import * as React from "react";
 import "isomorphic-fetch";
 
-interface IExpressionState
-{
-    expression: string;
-}
-
 interface IExpressionProps
 {
     expression : string;
     onExpressionChange: (expr: string) => void;
 }
 
-export class Expression extends React.Component<IExpressionProps, IExpressionState>
+export class Expression extends React.Component<IExpressionProps, {}>
 {
     public constructor(props: IExpressionProps)
     {
         super(props);
-        this.setState({ expression: props.expression });
         //this.handleChange = this.handleChange.bind(this);
     }
 
@@ -31,14 +25,13 @@ export class Expression extends React.Component<IExpressionProps, IExpressionSta
         
     }
 
-    private handleChange(event : React.ChangeEvent<HTMLInputElement>) : void
-    {
-        if (event.target.value!=null && this.state.expression !== event.target.value)
+    private handleChange(event : React.ChangeEvent<HTMLInputElement>) : void {
+        const newValue = event.target.value;
+        if (newValue!=null)
         {
-            //console.log(`Changing expression from ${}`);
-            this.setState({ expression: event.target.value });
+            console.log(`Changing expression to ${newValue}`);
             if (this.props.onExpressionChange != null)
-                this.props.onExpressionChange(event.target.value);
+                this.props.onExpressionChange(newValue);
         }
 
     }
