@@ -2,20 +2,28 @@ import * as Config from "../config";
 import { ResizeHandler } from "../helpers/ResizeHandler"
 import * as React from "react";
 import { Expression } from "./Expression";
+import {NumericInput} from "./NumericInput";
 import "isomorphic-fetch";
 
-interface IChartState {
+interface IChartState
+{
     xMin: number;
     xMax: number;
     yMin: number;
     yMax: number;
+    expression : string;
 }
 
 export class Chart extends React.Component<{}, IChartState>
 {
     public constructor() {
         super();
-        this.state = { xMin: -5, xMax: 5, yMin: -5, yMax: 5 };
+        this.state = { xMin: -5, xMax: 5, yMin: -5, yMax: 5, expression: "" };
+        
+        //this.drawChartClick.bind(this);
+        //this.drawChart.bind(this);
+        //this.redrawChart.bind(this);
+
 
         this.resizeHandler = new ResizeHandler();
         this.resizeHandler.afterResize = () => this.redrawChart();
@@ -26,7 +34,7 @@ export class Chart extends React.Component<{}, IChartState>
             <h1>Chart</h1>
             <p>Write expression and draw chart</p>
             <br />
-            <Expression ref={expression => this.expressionComponent = expression} />
+            <Expression expression={this.state.expression} onExpressionChange={v => this.setState(prevState => prevState.expression = v)} />
 
             <div ref={chartDivContainer => this.chartContainerDiv = chartDivContainer} className="col-md-10">
                 <img ref={chartImage => this.chartImage = chartImage} src="" alt="chart" />
@@ -39,46 +47,32 @@ export class Chart extends React.Component<{}, IChartState>
                 <h5>Chart area values:</h5>
                 <ul className="list-group">
                     <li className="list-group-item">
-                        <div className="input-group">
-                            <span className="input-group-addon">X<sub>MIN</sub> = </span>
-                            <input defaultValue={this.state.xMin.toString()} ref={xmin => this.xMinInput = xmin} className="form-control" type="number" step="1" />
-                        </div>
+                        <NumericInput label="X" subscriptLabel="MIN" value={-5} stepValue={1} onValueChanged={ v => this.setState(prevState => prevState.xMin=v)} />
                     </li>
-
                     <li className="list-group-item">
-                        <div className="input-group">
-                            <span className="input-group-addon">X<sub>MAX</sub> = </span>
-                            <input defaultValue={this.state.xMax.toString()} ref={xmax => this.xMaxInput = xmax} className="form-control" type="number" step="1" />
-                        </div>
+                        <NumericInput label="X" subscriptLabel="MAX" value={5} stepValue={1} onValueChanged={v => this.setState(prevState => prevState.xMax = v)} />
                     </li>
-
                     <li className="list-group-item">
-                        <div className="input-group">
-                            <span className="input-group-addon">Y<sub>MIN</sub> = </span>
-                            <input defaultValue={this.state.yMin.toString()} ref={ymin => this.yMinInput = ymin} className="form-control" type="number" step="1" />
-                        </div>
+                        <NumericInput label="Y" subscriptLabel="MIN" value={-5} stepValue={1} onValueChanged={v => this.setState(prevState => prevState.yMin = v)} />
                     </li>
-
                     <li className="list-group-item">
-                        <div className="input-group">
-                            <span className="input-group-addon">Y<sub>MAX</sub> = </span>
-                            <input defaultValue={this.state.yMax.toString()} ref={ymax => this.yMaxInput = ymax} className="form-control" type="number" step="1" />
-                        </div>
+                        <NumericInput label="Y" subscriptLabel="MAX" value={5} stepValue={1} onValueChanged={v => this.setState(prevState => prevState.yMax = v)} />
                     </li>
-
                 </ul>
             </div>
 
         </div>;
     }
 
-    private drawChartClick(event: any): void {
+    private drawChartClick(event: React.MouseEvent<HTMLButtonElement>) : void
+    {
         event.preventDefault();
-        if (this.expressionComponent.state.expression != null && this.expressionComponent.state.expression !== "")
-            this.drawChart(Number(this.xMinInput.value), Number(this.xMaxInput.value), Number(this.yMinInput.value), Number(this.yMaxInput.value), this.expressionComponent.state.expression);
+        if (this.state.expression != null && this.state.expression !== "")
+            this.drawChart(this.state.xMin, this.state.xMax, this.state.yMin, this.state.yMax, this.state.expression);
     }
 
-    private drawChart(xmin: number, xmax: number, ymin: number, ymax: number, expression: string): void {
+    private drawChart(xmin: number, xmax: number, ymin: number, ymax: number, expression: string): void
+    {
 
         const viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -92,22 +86,15 @@ export class Chart extends React.Component<{}, IChartState>
 
         this.chartImage.src = apiUrl;
         this.chartImage.alt = expression;
-
-        this.setState({ xMin: xmin, xMax: xmax, yMin: ymin, yMax: ymax });
     }
 
     private redrawChart(): void {
-        if (this.expressionComponent.state.expression != null && this.expressionComponent.state.expression !== "")
-            this.drawChart(this.state.xMin, this.state.xMax, this.state.xMin, this.state.yMax, this.expressionComponent.state.expression);
+        if (this.state.expression != null && this.state.expression !== "")
+            this.drawChart(this.state.xMin, this.state.xMax, this.state.xMin, this.state.yMax, this.state.expression);
     }
 
     private readonly resizeHandler: ResizeHandler;
 
-    private xMinInput: HTMLDataElement;
-    private xMaxInput: HTMLDataElement;
-    private yMinInput: HTMLDataElement;
-    private yMaxInput: HTMLDataElement;
     private chartImage: HTMLImageElement;
     private chartContainerDiv: HTMLDivElement;
-    private expressionComponent: Expression;
 }
