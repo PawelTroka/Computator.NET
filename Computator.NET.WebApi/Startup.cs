@@ -34,7 +34,9 @@ namespace Computator.NET.WebApi
         {
             var coreBootstrapper = new CoreBootstrapper();
             services.AddSingleton<IFunctionsProvider, FunctionsProvider>();
+            services.AddSingleton<IScriptsProvider, ScriptsProvider>();
             services.AddSingleton<IExpressionsEvaluator, ExpressionsEvaluator>(isp => coreBootstrapper.Create<ExpressionsEvaluator>());
+            services.AddSingleton<IScriptEvaluator, ScriptEvaluator>(isp => coreBootstrapper.Create<ScriptEvaluator>());
             services.AddSingleton<IModeDeterminer, ModeDeterminer>(isp => coreBootstrapper.Create<ModeDeterminer>());
             services.AddSingleton<IChartFactory>(isp => RuntimeObjectFactory.CreateInstance<IChartFactory>("Charting"));
             
