@@ -18,7 +18,8 @@ export class Calculate extends React.Component<{}, ICalculateState>
         this.state = { x: 0, y: 0, result: "", expression: "" };
     }
 
-    public render(): JSX.Element {
+    public render(): JSX.Element
+    {
         return <div>
             <h1>Calculate</h1>
             <p>Write down formulas you want to calculate (eg: 2x+5-PI)</p>
@@ -62,7 +63,8 @@ export class Calculate extends React.Component<{}, ICalculateState>
         </div>;
     }
 
-    private handleSubmit(event: React.MouseEvent<HTMLButtonElement>): void {
+    private handleSubmit(event: React.MouseEvent<HTMLButtonElement>): void
+    {
         event.preventDefault();
         if (this.state.expression != null && this.state.expression !== "")
             this.calculate(this.state.expression, this.state.x, this.state.y);

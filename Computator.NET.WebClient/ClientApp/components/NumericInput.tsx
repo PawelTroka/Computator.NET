@@ -14,13 +14,13 @@ export interface INumericInputProps
 
 export class NumericInput extends React.Component<INumericInputProps, {}>
 {
-    public constructor(props: INumericInputProps)
+    public constructor(props : INumericInputProps)
     {
         super(props);
         //this.onChange.bind(this);
     }
 
-    public render(): JSX.Element
+    public render() : JSX.Element
     {
         return <div className="input-group">
                    <span className="input-group-addon">{this.props.label}<sub>{this.props.subscriptLabel}</sub> = </span>
@@ -28,7 +28,7 @@ export class NumericInput extends React.Component<INumericInputProps, {}>
                </div>;
     }
 
-    private onChange(event: React.ChangeEvent<HTMLInputElement>)
+    private onChange(event : React.ChangeEvent<HTMLInputElement>)
     {
         const newValue = event.target.value;
         const newNumber = Number(newValue);

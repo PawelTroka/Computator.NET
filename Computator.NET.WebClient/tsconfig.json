@@ -1,8 +1,9 @@
 {
+  "version": "2.2.3",
   "compilerOptions": {
     "baseUrl": ".",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es3",
     "jsx": "react",
     "sourceMap": true,
     "skipDefaultLibCheck": true,
