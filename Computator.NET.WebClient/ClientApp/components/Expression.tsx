@@ -20,7 +20,7 @@ export class Expression extends React.Component<IExpressionProps, {}>
     {
         return <div className="input-group input-group-lg">
                     <span className="input-group-addon">Expression:</span>
-                    <input type="text" defaultValue={this.props.expression} onChange={e => this.handleChange(e)} className="form-control" placeholder="here write expression, example: 2x-cos(x)" aria-describedby="expression" />
+                    <input type="text" defaultValue={this.props.expression} onChange={e => this.handleChange(e)} className="form-control" placeholder="here write expression, example: 2x-cos(x)" aria-describedby="expression" required />
                 </div>;
         
     }
