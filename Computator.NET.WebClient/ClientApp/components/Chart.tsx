@@ -47,16 +47,16 @@ export class Chart extends React.Component<{}, IChartState>
                 <h5>Chart area values:</h5>
                 <ul className="list-group">
                     <li className="list-group-item">
-                        <NumericInput label="X" subscriptLabel="MIN" value={-5} stepValue={1} onValueChanged={ v => this.setState(prevState => prevState.xMin=v)} />
+                        <NumericInput label="X" subscriptLabel="MIN" value={-5} onValueChanged={v => this.setState(prevState => prevState.xMin = v)} />
                     </li>
                     <li className="list-group-item">
-                        <NumericInput label="X" subscriptLabel="MAX" value={5} stepValue={1} onValueChanged={v => this.setState(prevState => prevState.xMax = v)} />
+                        <NumericInput label="X" subscriptLabel="MAX" value={5} onValueChanged={v => this.setState(prevState => prevState.xMax = v)} />
                     </li>
                     <li className="list-group-item">
-                        <NumericInput label="Y" subscriptLabel="MIN" value={-5} stepValue={1} onValueChanged={v => this.setState(prevState => prevState.yMin = v)} />
+                        <NumericInput label="Y" subscriptLabel="MIN" value={-5} onValueChanged={v => this.setState(prevState => prevState.yMin = v)} />
                     </li>
                     <li className="list-group-item">
-                        <NumericInput label="Y" subscriptLabel="MAX" value={5} stepValue={1} onValueChanged={v => this.setState(prevState => prevState.yMax = v)} />
+                        <NumericInput label="Y" subscriptLabel="MAX" value={5} onValueChanged={v => this.setState(prevState => prevState.yMax = v)} />
                     </li>
                 </ul>
             </div>

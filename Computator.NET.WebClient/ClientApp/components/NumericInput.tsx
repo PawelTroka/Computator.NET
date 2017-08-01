@@ -5,15 +5,22 @@ import "isomorphic-fetch";
 
 export interface INumericInputProps
 {
-    label: string;
-    subscriptLabel: string;
-    value: number;
-    onValueChanged : (val : number) => void;
-    stepValue: number;
+    label : string;
+    subscriptLabel? : string;
+    value : number;
+    onValueChanged? : (val : number) => void;
+    stepValue? : number;
 }
 
 export class NumericInput extends React.Component<INumericInputProps, {}>
 {
+    public static defaultProps: Partial<INumericInputProps> =
+    {
+        stepValue: 1,
+        onValueChanged: null,
+        subscriptLabel: ""
+    };
+
     public constructor(props : INumericInputProps)
     {
         super(props);

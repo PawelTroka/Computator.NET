@@ -34,10 +34,10 @@ export class Calculate extends React.Component<{}, ICalculateState>
                 <div className="col-xs-6">
                     <ul className="list-group">
                         <li className="list-group-item">
-                            <NumericInput label="x" subscriptLabel="" value={0} stepValue={1} onValueChanged={v => this.setState(prevState => prevState.x = v)} />
+                            <NumericInput label="x" value={0} onValueChanged={v => this.setState(prevState => prevState.x = v)} />
                         </li>
                         <li className="list-group-item">
-                            <NumericInput label="y" subscriptLabel="" value={0} stepValue={1} onValueChanged={v => this.setState(prevState => prevState.y = v)} />
+                            <NumericInput label="y" value={0} onValueChanged={v => this.setState(prevState => prevState.y = v)} />
                         </li>
                     </ul>
 
