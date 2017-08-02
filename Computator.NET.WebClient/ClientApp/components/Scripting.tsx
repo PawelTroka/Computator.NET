@@ -1,7 +1,6 @@
 import * as Config from '../config';
 import * as React from "react";
 import "isomorphic-fetch";
-import "dompurify";
 
 interface IScriptState {
     expression: string;
@@ -18,7 +17,7 @@ export class Scripting extends React.Component<{}, IScriptState>
 
     public render(): JSX.Element
     {
-        var outputStyle = {
+        const outputStyle = {
             whiteSpace: "pre-wrap"
         };
         return <div>

@@ -56,7 +56,7 @@ namespace Computator.NET.Core.Presenters
 
         private void _view_ProcessClicked(object sender, EventArgs e)
         {
-            _view.ConsoleOutput = Strings.ConsoleOutput;
+            _view.ConsoleOutput = Strings.ConsoleOutput + Environment.NewLine;
 
             _view.CodeEditorView.ClearHighlightedErrors();
             _customFunctionsEditor.ClearHighlightedErrors();

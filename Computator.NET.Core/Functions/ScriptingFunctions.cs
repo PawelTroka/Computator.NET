@@ -114,8 +114,8 @@ namespace Computator.NET.Core.Functions
 
         public static void writeln(object o)
         {
-            write(System.Environment.NewLine);
             write(o);
+            write(System.Environment.NewLine);
         }
 
 
@@ -479,8 +479,8 @@ double YMax = 5, double quality = 0.5)
 
         public static void writeln(object o)
         {
-            write(System.Environment.NewLine);
             write(o);
+            write(System.Environment.NewLine);
         }
 
 
