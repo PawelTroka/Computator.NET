@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Numerics;
 using Computator.NET.Core.Evaluation;
@@ -26,6 +28,24 @@ namespace Computator.NET.WebApi.Controllers
             _modeDeterminer = modeDeterminer;
             _logger = logger;
             _functionsProvider = functionsProvider;
+        }
+
+        [HttpGet("integral/list-methods")]
+        public ICollection<string> GetIntegralMethods()
+        {
+            return NumericalMethodsInfo.Instance.IntegrationMethods.Keys;
+        }
+
+        [HttpGet("derivative/list-methods")]
+        public ICollection<string> GetDerivativeMethods()
+        {
+            return NumericalMethodsInfo.Instance.DerrivationMethods.Keys;
+        }
+
+        [HttpGet("function-root/list-methods")]
+        public ICollection<string> GetFunctionRootMethods()
+        {
+            return NumericalMethodsInfo.Instance.FunctionRootMethods.Keys;
         }
 
         [HttpGet("integral/{method}/{equation}/{a}/{b}")]

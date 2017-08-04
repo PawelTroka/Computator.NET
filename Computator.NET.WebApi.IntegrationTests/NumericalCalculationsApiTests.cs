@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
 using Computator.NET.Localization;
+using Newtonsoft.Json;
 
 namespace Computator.NET.WebApi.IntegrationTests
 {
@@ -25,6 +27,24 @@ namespace Computator.NET.WebApi.IntegrationTests
             // Arrange
             _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
             _client = _server.CreateClient();
+        }
+
+        [TestCase("integral")]
+        [TestCase("derivative")]
+        [TestCase("function-root")]
+        public async Task GetMethodsReturnCorrectMethods(string operation)
+        {
+            // Act
+            var response = await _client.GetAsync($@"/api/numerical-calculations/{operation}/list-methods");
+            var responseString = await response.Content.ReadAsStringAsync();
+            var methods = JsonConvert.DeserializeObject<ICollection<string>>(responseString);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            CollectionAssert.AllItemsAreNotNull(methods);
+            CollectionAssert.IsNotEmpty(methods);
+            Assert.Greater(methods.Count, 1);
+            CollectionAssert.AllItemsAreUnique(methods);
         }
 
         #region integral
