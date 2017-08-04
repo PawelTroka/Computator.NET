@@ -25,7 +25,7 @@ namespace Computator.NET.Core.NumericalCalculations
                                 {
                                     Strings.rectangle_method,
                                     (Func<Func<double, double>, double, double, double, double>)
-                                        Integral.trapezoidalMethod
+                                        Integral.rectangleMethod
                                 },
                                 {
                                     Strings.Simpson_s_method,
