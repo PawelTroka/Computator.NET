@@ -20,12 +20,10 @@ namespace Computator.NET.WebApi.Controllers
         private const double ERROR_MAX_MIN = 1e-8;
 
         private readonly IFunctionsProvider _functionsProvider;
-        private readonly IModeDeterminer _modeDeterminer;
         private readonly ILogger<NumericalCalculationsController> _logger;
 
-        public NumericalCalculationsController(IExpressionsEvaluator expressionsEvaluator, IModeDeterminer modeDeterminer, ILogger<NumericalCalculationsController> logger, IFunctionsProvider functionsProvider)
+        public NumericalCalculationsController(IExpressionsEvaluator expressionsEvaluator, ILogger<NumericalCalculationsController> logger, IFunctionsProvider functionsProvider)
         {
-            _modeDeterminer = modeDeterminer;
             _logger = logger;
             _functionsProvider = functionsProvider;
         }
