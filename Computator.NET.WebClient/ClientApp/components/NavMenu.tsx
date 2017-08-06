@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 export class NavMenu extends React.Component<{}, {}> {
     public render() {
+        const imgStyle = { float: "left", marginTop: "-14px", marginRight:"8px", marginLeft:"-10px"  };
         return <div className='main-nav'>
                 <div className='navbar navbar-inverse'>
                 <div className='navbar-header'>
@@ -12,7 +13,7 @@ export class NavMenu extends React.Component<{}, {}> {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <Link className='navbar-brand' to={ '/' }>Computator.NET</Link>
+                    <Link className='navbar-brand' to={'/'}><img style={imgStyle} src="img/Square50x50Logo.png" alt="Computator.NET" title="Computator.NET" />Computator.NET</Link>
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
