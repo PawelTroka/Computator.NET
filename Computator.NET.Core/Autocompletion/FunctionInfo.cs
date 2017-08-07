@@ -24,4 +24,17 @@ namespace Computator.NET.Core.Autocompletion
             Signature = Type = Category = Url = Description = Title = " ";
         }
     }
+
+    public static class FunctionInfoExtensions
+    {
+        public static bool IsNullOrEmpty(this FunctionInfo functionInfo)
+        {
+            return functionInfo == null || (string.IsNullOrWhiteSpace(functionInfo.Category) &&
+                                            string.IsNullOrWhiteSpace(functionInfo.Description) &&
+                                            string.IsNullOrWhiteSpace(functionInfo.Signature) &&
+                                            string.IsNullOrWhiteSpace(functionInfo.Title) &&
+                                            string.IsNullOrWhiteSpace(functionInfo.Type) &&
+                                            string.IsNullOrWhiteSpace(functionInfo.Url));
+        }
+    }
 }

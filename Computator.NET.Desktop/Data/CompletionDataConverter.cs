@@ -13,12 +13,12 @@ namespace Computator.NET.Desktop.Data
                 AutocompleteItem[] autocompleteItems)
         {
             return
-                autocompleteItems.Select(autocompleteItem => ToCompletionData(autocompleteItem)).ToList();
+                autocompleteItems.Select(ToCompletionData).ToList();
         }
 
         public static CompletionData ToCompletionData(AutocompleteItem autocompleteItem)
         {
-            return new CompletionData(autocompleteItem.Text, autocompleteItem.MenuText, autocompleteItem.Info, autocompleteItem.ImageIndex, autocompleteItem.sharedViewState);
+            return new CompletionData(autocompleteItem.Text, autocompleteItem.MenuText, autocompleteItem.ImageIndex, autocompleteItem.Details);
         }
     }
 }

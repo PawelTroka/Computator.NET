@@ -126,7 +126,7 @@ namespace Computator.NET.Desktop.Controls
 
         private void RefreshAutoComplete()
         {
-            var array = AutocompletionData.GetAutocompleteItemsForExpressions(_functionsDetails,true);
+            var array = AutocompleteProvider.GetAutocompleteItemsForExpressions(true);
             if (Sort)
                 Array.Sort(array, (a, b) => a.Text.CompareTo(b.Text));
             _autocompleteMenu.SetAutocompleteItems(array);

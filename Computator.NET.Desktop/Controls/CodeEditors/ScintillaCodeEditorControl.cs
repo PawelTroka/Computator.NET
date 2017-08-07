@@ -50,7 +50,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                 TargetControlWrapper = new ScintillaWrapper(this),
                 MaximumSize = new Size(500, 180)
             };
-            _autocompleteMenu.SetAutocompleteItems(AutocompletionData.GetAutocompleteItemsForScripting(_functionsDetails));
+            _autocompleteMenu.SetAutocompleteItems(AutocompleteProvider.GetAutocompleteItemsForScripting());
             //_autocompleteMenu.CaptureFocus = true;
             InitializeComponent();
             // this.BorderStyle=BorderStyle.None;
@@ -453,7 +453,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         private void SetupAutocomplete()
         {
-            var array = AutocompletionData.GetAutocompleteItemsForScripting(_functionsDetails);
+            var array = AutocompleteProvider.GetAutocompleteItemsForScripting();
 
 
             //if (Sort)

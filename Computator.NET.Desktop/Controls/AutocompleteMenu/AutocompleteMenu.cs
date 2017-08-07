@@ -758,7 +758,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 return;
             }
             foreach (var item in items)
-                list.Add(new AutocompleteItem(item,_functionsDetails));
+                list.Add(new AutocompleteItem(item));
             SetAutocompleteItems(list);
         }
 
@@ -769,7 +769,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public void AddItem(string item)
         {
-            AddItem(new AutocompleteItem(item, _functionsDetails));
+            AddItem(new AutocompleteItem(item));
         }
 
         public void AddItem(AutocompleteItem item)

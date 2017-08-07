@@ -28,13 +28,13 @@ namespace Computator.NET.Core.Autocompletion
 
         private void AddDetailsFromMetadata()
         {
-            var items = AutocompletionData.GetAutocompleteItemsForScripting(this);
+            var items = AutocompleteProvider.GetAutocompleteItemsForScripting();
             items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
             foreach (var item in items)
             {
                 if(!_details.ContainsKey(item.Text))
                 _details.Add(item.Text,
-                     item.Info);
+                     item.Details);
             }
         }
 
@@ -82,13 +82,13 @@ namespace Computator.NET.Core.Autocompletion
 
             var detailsWithEmpties = new Dictionary<string, FunctionInfo>();
 
-            var items = AutocompletionData.GetAutocompleteItemsForScripting(this);
+            var items = AutocompleteProvider.GetAutocompleteItemsForScripting();
             items = items.Distinct(new AutocompleteItemEqualityComparer()).ToArray();
             foreach (var item in items)
             {
                 //if(!_details.ContainsKey(item.Text))
                 detailsWithEmpties.Add(item.Text,
-                    _details.ContainsKey(item.Text) ? _details[item.Text] : item.Info);
+                    _details.ContainsKey(item.Text) ? _details[item.Text] : item.Details);
             }
 
 

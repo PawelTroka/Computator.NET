@@ -57,12 +57,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
         private SearchPanel searchPanel;
         private readonly OffsetColorizer _offsetColorizer = new OffsetColorizer();
 
-        public AvalonEditCodeEditor(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        public AvalonEditCodeEditor(ISharedViewState sharedViewState)
         {
             _sharedViewState = sharedViewState;
             completionDatas =
                 CompletionDataConverter.ConvertAutocompleteItemsToCompletionDatas(
-                    AutocompletionData.GetAutocompleteItemsForScripting(functionsDetails));
+                    AutocompleteProvider.GetAutocompleteItemsForScripting());
             InitializeComponent();
             _documents =
                 new Dictionary<string, TextDocument>();

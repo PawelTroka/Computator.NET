@@ -16,44 +16,38 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
     public class CompletionData : ICompletionData
     {
         private readonly string _content;
-        private FunctionInfo _alternativeDescription;
         //private int imageIndex;//TODO: implement image show
 
-        public CompletionData(string text, IFunctionsDetails functionsDetails)
+        public CompletionData(string text)
         {
             Text = text;
-            this._functionsDetails = functionsDetails;
         }
 
-        public CompletionData(string text, string menuText, FunctionInfo functionInfo, int imageIndex, IFunctionsDetails functionsDetails)
+        public CompletionData(string text, string menuText, int imageIndex, FunctionInfo details)
         {
             Text = text;
             _content = menuText;
-            _alternativeDescription = functionInfo;
-            this._functionsDetails = functionsDetails;
+            _details = details;
             //////////////////////////////////// this._image= imageIndexToImage(imageIndex).ToBitmapSource();//TODO: implement image show
         }
 
         public ImageSource Image { get; }
         public string Text { get; }
         // Use this property if you want to show a fancy UIElement in the drop down list.
-        public object Content
-        {
-            get { return _content ?? Text; }
-        }
+        public object Content => _content ?? Text;
 
         public object Description
         {
             get
             {
-                if (_functionsDetails.ContainsKey(Text))
-                    return _functionsDetails[Text].Title + Environment.NewLine +
-                           StripTagsCharArray(_functionsDetails[Text].Description);
+                if (!_details.IsNullOrEmpty())
+                    return _details.Title + Environment.NewLine +
+                           StripTagsCharArray(_details.Description);
                 return "Description for " + Text;
             }
         }
 
-        private IFunctionsDetails _functionsDetails;
+        private readonly FunctionInfo _details;
 
         public double Priority
         {
@@ -66,7 +60,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
             textArea.Document.Replace(completionSegment, Text);
         }
 
-        private Image imageIndexToImage(int index)
+        private Image ImageIndexToImage(int index)
         {
             switch (index)
             {

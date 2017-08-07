@@ -34,17 +34,15 @@ namespace Computator.NET.Core.Autocompletion
 
         private readonly string _textForComparison;
         public object Tag;
-        public IFunctionsDetails sharedViewState;
 
-        protected AutocompleteItem(IFunctionsDetails sharedViewState)
+        protected AutocompleteItem()
         {
-            this.sharedViewState = sharedViewState;
 #if USE_TEXT_WIDTH
             TextWidth = 400;
 #endif
         }
 
-        public AutocompleteItem(string text, IFunctionsDetails sharedViewState) : this(sharedViewState)
+        public AutocompleteItem(string text) : this()
         {
             Text = text;
             _textForComparison = text.ToLowerInvariant();
@@ -52,7 +50,7 @@ namespace Computator.NET.Core.Autocompletion
 
 
         public AutocompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
-            int imageIndex, IFunctionsDetails sharedViewState) : this(sharedViewState)
+            int imageIndex, FunctionInfo details) : this()
         {
             Text = name + addition;
             _textForComparison = name.ToLowerInvariant();
@@ -64,12 +62,12 @@ namespace Computator.NET.Core.Autocompletion
             _returnTypeName = returnTypeName;
             _addition = addition;
             _additionWithTypes = additionWithTypes;
+            Details = details;
         }
 
         // private readonly string menuText;
 
-        public FunctionInfo Info { get; } = new FunctionInfo();
-        public string AssemblyName { get; set; }
+        public FunctionInfo Details { get; }
         
         /// <summary>
         ///     Text for inserting into textbox
