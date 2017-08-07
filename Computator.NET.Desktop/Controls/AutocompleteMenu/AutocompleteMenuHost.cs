@@ -46,11 +46,13 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                     listView = value;
                 }
 
-                Host = new ToolStripControlHost(ListView as Control);
-                Host.Margin = new Padding(2, 2, 2, 2);
-                Host.Padding = Padding.Empty;
-                Host.AutoSize = false;
-                Host.AutoToolTip = false;
+                Host = new ToolStripControlHost(ListView as Control)
+                {
+                    Margin = new Padding(2, 2, 2, 2),
+                    Padding = Padding.Empty,
+                    AutoSize = false,
+                    AutoToolTip = false
+                };
 
                 (ListView as Control).MaximumSize = Menu.MaximumSize;
                 (ListView as Control).Size = Menu.MaximumSize;

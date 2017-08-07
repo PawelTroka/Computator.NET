@@ -258,7 +258,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             }
         }
 
-        private void scintilla_TextChanged(object sender, EventArgs e)
+        private void Scintilla_TextChanged(object sender, EventArgs e)
         {
             // Did the number of characters in the line number display change?
             // i.e. nnn VS nn, or nnnn VS nn, etc...
@@ -353,7 +353,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private void InitializeComponent()
         {
             KeyPress += SciriptingRichTextBox_KeyPress;
-            TextChanged += scintilla_TextChanged;
+            TextChanged += Scintilla_TextChanged;
 
             CaretLineVisible = true;
             CaretLineBackColor = Color.AliceBlue;

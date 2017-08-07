@@ -129,7 +129,7 @@ namespace Computator.NET.Core.Autocompletion
             items.AddRange(TslCompiler.Keywords.Select(s => new AutocompleteItem(s)));
 
 
-            items.Sort((i1, i2) => i1.Text.CompareTo(i2.Text));
+            items.Sort((i1, i2) => string.Compare(i1.Text, i2.Text, StringComparison.Ordinal));
             items.ForEach(i => i.IsScripting = true);
             return items.ToArray();
         }
@@ -143,8 +143,7 @@ namespace Computator.NET.Core.Autocompletion
         {
             var isDynamic = memberInfo.GetCustomAttributes(typeof(DynamicAttribute), true).Length > 0;
 
-            var methodInfo = memberInfo as MethodInfo;
-            if (methodInfo != null)
+            if (memberInfo is MethodInfo methodInfo)
             {
                 isDynamic =
                     methodInfo.ReturnTypeCustomAttributes.GetCustomAttributes(typeof(DynamicAttribute), true).Length >

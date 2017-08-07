@@ -369,9 +369,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            var host = Parent as AutocompleteMenuHost;
-            if (host != null)
-                if (host.Menu.ProcessKey((char) keyData, Keys.None))
+            if (Parent is AutocompleteMenuHost host)
+                if (host.Menu.ProcessKey((char)keyData, Keys.None))
                     return true;
 
             return base.ProcessCmdKey(ref msg, keyData);

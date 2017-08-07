@@ -6,7 +6,7 @@ namespace Computator.NET.Desktop.Controls
 {
     public class ToolStripRadioButtonMenuItem : ToolStripMenuItem
     {
-        private bool mouseDownState;
+        public bool MouseDownState { get; private set; }
 
         // Let the item paint itself, and then paint the RadioButton
         // where the check mark is normally displayed.
@@ -69,7 +69,7 @@ namespace Computator.NET.Desktop.Controls
                 e.Graphics, imageLocation, buttonState);
         }*/
 
-        private bool mouseHoverState;
+        public bool MouseHoverState { get; private set; }
 
         public ToolStripRadioButtonMenuItem()
         {
@@ -161,9 +161,7 @@ namespace Computator.NET.Desktop.Controls
             // Clear the checked state for all siblings. 
             foreach (ToolStripItem item in Parent.Items)
             {
-                var radioItem =
-                    item as ToolStripRadioButtonMenuItem;
-                if (radioItem != null && radioItem != this && radioItem.Checked)
+                if (item is ToolStripRadioButtonMenuItem radioItem && radioItem != this && radioItem.Checked)
                 {
                     radioItem.Checked = false;
 
@@ -185,7 +183,7 @@ namespace Computator.NET.Desktop.Controls
 
         protected override void OnMouseEnter(EventArgs e)
         {
-            mouseHoverState = true;
+            MouseHoverState = true;
 
             // Force the item to repaint with the new RadioButton state.
             Invalidate();
@@ -195,13 +193,13 @@ namespace Computator.NET.Desktop.Controls
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            mouseHoverState = false;
+            MouseHoverState = false;
             base.OnMouseLeave(e);
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            mouseDownState = true;
+            MouseDownState = true;
 
             // Force the item to repaint with the new RadioButton state.
             Invalidate();
@@ -211,7 +209,7 @@ namespace Computator.NET.Desktop.Controls
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            mouseDownState = false;
+            MouseDownState = false;
             base.OnMouseUp(e);
         }
 
@@ -220,9 +218,7 @@ namespace Computator.NET.Desktop.Controls
         // CheckedChanged event. 
         protected override void OnOwnerChanged(EventArgs e)
         {
-            var ownerMenuItem =
-                OwnerItem as ToolStripMenuItem;
-            if (ownerMenuItem != null && ownerMenuItem.CheckOnClick)
+            if (OwnerItem is ToolStripMenuItem ownerMenuItem && ownerMenuItem.CheckOnClick)
             {
                 ownerMenuItem.CheckedChanged +=
                     OwnerMenuItem_CheckedChanged;

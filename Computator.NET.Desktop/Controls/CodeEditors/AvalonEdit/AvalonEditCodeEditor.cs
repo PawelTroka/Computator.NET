@@ -427,8 +427,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
             // CodeCompletionResult results = null;
             //   try
             {
-                var offset = 0;
-                var doc = GetCompletionDocument(out offset);
+                var doc = GetCompletionDocument(out int offset);
                 //       results = Completion.GetCompletions(doc, offset, controlSpace);
                 //  }
 

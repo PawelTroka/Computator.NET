@@ -59,14 +59,14 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             VisibleItems = new List<AutocompleteItem>();
             Enabled = true;
             AppearInterval = 500;
-            timer.Tick += timer_Tick;
+            timer.Tick += Timer_Tick;
             MaximumSize = new Size(2000, 200);
             AutoPopup = true;
 
             SearchPattern = @"[\w\.]";
             MinFragmentLength = 2;
 
-            setupAutocomplete();
+            SetupAutocomplete();
         }
 
         [Browsable(false)]
@@ -310,7 +310,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         }
 
 
-        private void setupAutocomplete()
+        private void SetupAutocomplete()
         {
             if (!DesignMode)
                 Font = CustomFonts.GetMathFont(18); //new Font("Cambria", 18.0F, GraphicsUnit.Point);
@@ -354,8 +354,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public void OnHovered(HoveredEventArgs e)
         {
-            if (Hovered != null)
-                Hovered(this, e);
+            Hovered?.Invoke(this, e);
         }
 
         /// <summary>
@@ -369,8 +368,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         protected void OnWrapperNeeded(WrapperNeededEventArgs args)
         {
-            if (WrapperNeeded != null)
-                WrapperNeeded(this, args);
+            WrapperNeeded?.Invoke(this, args);
             if (args.Wrapper == null)
                 args.Wrapper = TextBoxWrapper.Create(args.TargetControl);
         }
@@ -427,7 +425,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         /// </summary>
         public event EventHandler<CancelEventArgs> Opening;
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             timer.Stop();
             if (TargetControlWrapper != null)
@@ -436,8 +434,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         private void SubscribeForm(ITextBoxWrapper wrapper)
         {
-            if (wrapper == null) return;
-            var form = wrapper.TargetControl.FindForm();
+            var form = wrapper?.TargetControl?.FindForm();
             if (form == null) return;
             if (myForm != null)
             {
@@ -448,35 +445,34 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
             myForm = form;
 
-            form.LocationChanged += form_LocationChanged;
-            form.ResizeBegin += form_LocationChanged;
-            form.FormClosing += form_FormClosing;
-            form.LostFocus += form_LocationChanged;
+            form.LocationChanged += Form_LocationChanged;
+            form.ResizeBegin += Form_LocationChanged;
+            form.FormClosing += Form_FormClosing;
+            form.LostFocus += Form_LocationChanged;
         }
 
         private void UnsubscribeForm(ITextBoxWrapper wrapper)
         {
-            if (wrapper == null) return;
-            var form = wrapper.TargetControl.FindForm();
+            var form = wrapper?.TargetControl?.FindForm();
             if (form == null) return;
 
-            form.LocationChanged -= form_LocationChanged;
-            form.ResizeBegin -= form_LocationChanged;
-            form.FormClosing -= form_FormClosing;
-            form.LostFocus -= form_LocationChanged;
+            form.LocationChanged -= Form_LocationChanged;
+            form.ResizeBegin -= Form_LocationChanged;
+            form.FormClosing -= Form_FormClosing;
+            form.LostFocus -= Form_LocationChanged;
         }
 
-        private void form_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form_FormClosing(object sender, FormClosingEventArgs e)
         {
             Close();
         }
 
-        private void form_LocationChanged(object sender, EventArgs e)
+        private void Form_LocationChanged(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void control_MouseDown(object sender, MouseEventArgs e)
+        private void Control_MouseDown(object sender, MouseEventArgs e)
         {
             Close();
         }
@@ -494,7 +490,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             return null;
         }
 
-        private void control_KeyDown(object sender, KeyEventArgs e)
+        private void Control_KeyDown(object sender, KeyEventArgs e)
         {
             TargetControlWrapper = FindWrapper(sender as Control);
 
@@ -562,12 +558,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             timer.Start();
         }
 
-        private void control_Scroll(object sender, ScrollEventArgs e)
+        private void Control_Scroll(object sender, ScrollEventArgs e)
         {
             Close();
         }
 
-        private void control_LostFocus(object sender, EventArgs e)
+        private void Control_LostFocus(object sender, EventArgs e)
         {
             if (!Host.Focused) Close();
         }
@@ -704,8 +700,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         internal void OnOpening(CancelEventArgs args)
         {
-            if (Opening != null)
-                Opening(this, args);
+            Opening?.Invoke(this, args);
         }
 
         private Range GetFragment(string searchPattern)
@@ -859,14 +854,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         internal void OnSelecting(SelectingEventArgs args)
         {
-            if (Selecting != null)
-                Selecting(this, args);
+            Selecting?.Invoke(this, args);
         }
 
         public void OnSelected(SelectedEventArgs args)
         {
-            if (Selected != null)
-                Selected(this, args);
+            Selected?.Invoke(this, args);
         }
 
         public void SelectNext(int shift)
@@ -942,24 +935,23 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 menu.SubscribeForm(wrapper);
                 AutocompleteMenuByControls[control] = this;
                 //
-                wrapper.LostFocus += menu.control_LostFocus;
-                wrapper.Scroll += menu.control_Scroll;
-                wrapper.KeyDown += menu.control_KeyDown;
-                wrapper.MouseDown += menu.control_MouseDown;
+                wrapper.LostFocus += menu.Control_LostFocus;
+                wrapper.Scroll += menu.Control_Scroll;
+                wrapper.KeyDown += menu.Control_KeyDown;
+                wrapper.MouseDown += menu.Control_MouseDown;
             }
             else
             {
                 AutocompleteMenuByControls.TryGetValue(control, out menu);
                 AutocompleteMenuByControls.Remove(control);
-                ITextBoxWrapper wrapper = null;
-                WrapperByControls.TryGetValue(control, out wrapper);
+                WrapperByControls.TryGetValue(control, out ITextBoxWrapper wrapper);
                 WrapperByControls.Remove(control);
                 if (wrapper != null && menu != null)
                 {
-                    wrapper.LostFocus -= menu.control_LostFocus;
-                    wrapper.Scroll -= menu.control_Scroll;
-                    wrapper.KeyDown -= menu.control_KeyDown;
-                    wrapper.MouseDown -= menu.control_MouseDown;
+                    wrapper.LostFocus -= menu.Control_LostFocus;
+                    wrapper.Scroll -= menu.Control_Scroll;
+                    wrapper.KeyDown -= menu.Control_KeyDown;
+                    wrapper.MouseDown -= menu.Control_MouseDown;
                 }
             }
         }

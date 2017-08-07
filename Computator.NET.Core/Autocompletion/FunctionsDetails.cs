@@ -40,8 +40,8 @@ namespace Computator.NET.Core.Autocompletion
 
         public FunctionInfo this[string signature]
         {
-            get { return _details[signature]; }
-            set { _details[signature] = value; }
+            get => _details[signature];
+            set => _details[signature] = value;
         }
 
         private void SaveFunctionDetailsToXmlFile()
