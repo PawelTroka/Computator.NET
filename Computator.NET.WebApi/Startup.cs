@@ -1,4 +1,5 @@
-﻿using Computator.NET.Core.Bootstrapping;
+﻿using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Bootstrapping;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Natives;
 using Computator.NET.DataTypes;
@@ -35,6 +36,7 @@ namespace Computator.NET.WebApi
             var coreBootstrapper = new CoreBootstrapper();
             services.AddSingleton<IFunctionsProvider, FunctionsProvider>();
             services.AddSingleton<IScriptsProvider, ScriptsProvider>();
+            services.AddSingleton<IAutocompleteProvider, AutocompleteProvider>(isp => coreBootstrapper.Create<AutocompleteProvider>());
             services.AddSingleton<IExpressionsEvaluator, ExpressionsEvaluator>(isp => coreBootstrapper.Create<ExpressionsEvaluator>());
             services.AddSingleton<IScriptEvaluator, ScriptEvaluator>(isp => coreBootstrapper.Create<ScriptEvaluator>());
             services.AddSingleton<IModeDeterminer, ModeDeterminer>(isp => coreBootstrapper.Create<ModeDeterminer>());

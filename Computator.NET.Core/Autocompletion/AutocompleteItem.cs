@@ -33,16 +33,8 @@ namespace Computator.NET.Core.Autocompletion
         private readonly string _returnTypeName;
 
         private readonly string _textForComparison;
-        public object Tag;
 
-        protected AutocompleteItem()
-        {
-#if USE_TEXT_WIDTH
-            TextWidth = 400;
-#endif
-        }
-
-        public AutocompleteItem(string text) : this()
+        public AutocompleteItem(string text)
         {
             Text = text;
             _textForComparison = text.ToLowerInvariant();
@@ -50,7 +42,7 @@ namespace Computator.NET.Core.Autocompletion
 
 
         public AutocompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
-            int imageIndex) : this()
+            int imageIndex)
         {
             Text = name + addition;
             _textForComparison = name.ToLowerInvariant();
@@ -126,8 +118,6 @@ namespace Computator.NET.Core.Autocompletion
         public bool IsScripting { get; set; }
 
 
-        public int TextWidth { get; private set; }
-
         /// <summary>
         ///     Returns text for inserting into Textbox
         /// </summary>
@@ -139,14 +129,6 @@ namespace Computator.NET.Core.Autocompletion
         /// <summary>
         ///     Compares fragment text with this item
         /// </summary>
-        /* public virtual CompareResult Compare(string fragmentText)
-        {
-            if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
-                Text != fragmentText)
-                return CompareResult.VisibleAndSelected;
-
-            return CompareResult.Hidden;
-        }*/
         public virtual CompareResult Compare(string fragmentText) //hybrid compare
         {
             var normalizedFragmentText = NormalizeString(fragmentText);
@@ -272,11 +254,6 @@ namespace Computator.NET.Core.Autocompletion
         {
             using (var brush = new SolidBrush(e.IsSelected ? e.Colors.SelectedForeColor : e.Colors.ForeColor))
                 e.Graphics.DrawString(ToString(), e.Font, brush, e.TextRect, e.StringFormat);
-
-#if USE_TEXT_WIDTH
-            TextWidth = TextRenderer.MeasureText(ToString(), e.Font).Width;
-            //TextWidth = (int)(Graphics.MeasureString(ToString(), e.Font, new SizeF(10000F,10000F), e.StringFormat).Width);
-#endif
         }
     }
 
