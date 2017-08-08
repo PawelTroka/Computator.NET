@@ -37,6 +37,11 @@ class CustomCompleter
             });
     }
 
+    private isNullOrWhiteSpace(str: string): boolean
+    {
+        return str == null || str.replace(/\s/g, "").length < 1;
+    }
+
     public getCompletions(editor, session, pos, prefix: string, callback)
     {
         callback(null, (this.autocompleteItems).map(autocompleteItem =>
@@ -47,7 +52,7 @@ class CustomCompleter
                 name: autocompleteItem.text,
                 value: autocompleteItem.text,
                 score: (autocompleteItem.text.indexOf(prefix) >= 0 ? 1 : 0) * (prefix.length / autocompleteItem.text.length),
-                meta: autocompleteItem.details.category
+                meta: this.isNullOrWhiteSpace(autocompleteItem.details.category) ? autocompleteItem.details.type : autocompleteItem.details.category
             })));
     }
 
@@ -71,7 +76,7 @@ export class Scripting extends React.Component<{}, IScriptState>
 
         const langTools = brace.acequire("ace/ext/language_tools");
         const customCompleter = new CustomCompleter();
-        langTools.addCompleter(customCompleter);
+        langTools.setCompleters([customCompleter]);
     }
 
     public render(): JSX.Element {

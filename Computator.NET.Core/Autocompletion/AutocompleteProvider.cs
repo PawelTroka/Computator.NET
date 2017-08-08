@@ -151,7 +151,7 @@ namespace Computator.NET.Core.Autocompletion
             items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(MatrixFunctions)));
             items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(MathematicalTransformations)));
             items.AddRange(_autocompleteReflectionSource.GetFunctionsNamesWithDescription(typeof(ScriptingFunctions)));
-            items.AddRange(TslCompiler.Keywords.Select(s => new AutocompleteItem(s)));
+            items.AddRange(TslCompiler.Keywords.Select(s => new AutocompleteItem(s){Details=new FunctionInfo(){Type = "Keyword"}}));
 
 
             items.Sort((i1, i2) => string.Compare(i1.Text, i2.Text, StringComparison.Ordinal));
