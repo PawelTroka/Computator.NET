@@ -39,6 +39,8 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
     public class AvalonEditCodeEditor : TextEditor, ICodeEditorControl, INotifyPropertyChanged
     {
         private ISharedViewState _sharedViewState;
+        private readonly IAutocompleteProvider _autocompleteProvider;
+
         private readonly Dictionary<string, TextDocument>
             _documents;
 
@@ -57,12 +59,13 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
         private SearchPanel searchPanel;
         private readonly OffsetColorizer _offsetColorizer = new OffsetColorizer();
 
-        public AvalonEditCodeEditor(ISharedViewState sharedViewState)
+        public AvalonEditCodeEditor(ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider)
         {
             _sharedViewState = sharedViewState;
+            _autocompleteProvider = autocompleteProvider;
             completionDatas =
                 CompletionDataConverter.ConvertAutocompleteItemsToCompletionDatas(
-                    AutocompleteProvider.GetAutocompleteItemsForScripting());
+                    _autocompleteProvider.ScriptingAutocompleteItems.ToArray());
             InitializeComponent();
             _documents =
                 new Dictionary<string, TextDocument>();

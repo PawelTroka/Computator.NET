@@ -1,4 +1,5 @@
 using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Autocompletion.DataSource;
 using NUnit.Framework;
 
 namespace Computator.NET.Core.IntegrationTests.Data
@@ -9,14 +10,17 @@ namespace Computator.NET.Core.IntegrationTests.Data
         [Test]
         public void TestExpressions()
         {
-            var content = AutocompleteProvider.GetAutocompleteItemsForExpressions(new FunctionsDetails());
+            var content =
+                (new AutocompleteProvider(new AutocompleteReflectionSource(), new FunctionsDetailsFileSource()))
+                .ExpressionAutocompleteItems;
             Assert.IsNotNull(content);
         }
 
         [Test]
         public void TestScripting()
         {
-            var content = AutocompleteProvider.GetAutocompleteItemsForScripting(new FunctionsDetails());
+            var content = (new AutocompleteProvider(new AutocompleteReflectionSource(), new FunctionsDetailsFileSource()))
+                .ScriptingAutocompleteItems;
             Assert.IsNotNull(content);
         }
     }

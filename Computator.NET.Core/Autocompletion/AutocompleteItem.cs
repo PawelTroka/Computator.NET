@@ -50,7 +50,7 @@ namespace Computator.NET.Core.Autocompletion
 
 
         public AutocompleteItem(string name, string addition, string additionWithTypes, string returnTypeName,
-            int imageIndex, FunctionInfo details) : this()
+            int imageIndex) : this()
         {
             Text = name + addition;
             _textForComparison = name.ToLowerInvariant();
@@ -62,12 +62,11 @@ namespace Computator.NET.Core.Autocompletion
             _returnTypeName = returnTypeName;
             _addition = addition;
             _additionWithTypes = additionWithTypes;
-            Details = details;
         }
 
         // private readonly string menuText;
 
-        public FunctionInfo Details { get; }
+        public FunctionInfo Details { get; set; } = new FunctionInfo();
         
         /// <summary>
         ///     Text for inserting into textbox

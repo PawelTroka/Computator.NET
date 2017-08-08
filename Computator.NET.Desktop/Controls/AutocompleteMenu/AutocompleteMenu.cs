@@ -39,27 +39,26 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             WrapperByControls =
                 new Dictionary<Control, ITextBoxWrapper>();
 
-        private readonly Timer timer = new Timer();
-        private bool forcedOpened;
-        private Size maximumSize;
-        private Form myForm;
+        private readonly Timer _timer = new Timer();
+        private bool _forcedOpened;
+        private Size _maximumSize;
+        private Form _myForm;
 
-        private IEnumerable<AutocompleteItem> sourceItems =
+        private IEnumerable<AutocompleteItem> _sourceItems =
             new List<AutocompleteItem>();
 
-        private ITextBoxWrapper targetControlWrapper;
+        private ITextBoxWrapper _targetControlWrapper;
 
-        public AutocompleteMenu(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        public AutocompleteMenu(ISharedViewState sharedViewState)
         {
             _sharedViewState = sharedViewState;
-            _functionsDetails = functionsDetails;
-            Host = new AutocompleteMenuHost(this, _functionsDetails);
+            Host = new AutocompleteMenuHost(this);
             Host.ListView.ItemSelected += ListView_ItemSelected;
             Host.ListView.ItemHovered += ListView_ItemHovered;
             VisibleItems = new List<AutocompleteItem>();
             Enabled = true;
             AppearInterval = 500;
-            timer.Tick += Timer_Tick;
+            _timer.Tick += Timer_Tick;
             MaximumSize = new Size(2000, 200);
             AutoPopup = true;
 
@@ -72,8 +71,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         [Browsable(false)]
         public IList<AutocompleteItem> VisibleItems
         {
-            get { return Host.ListView.VisibleItems; }
-            private set { Host.ListView.VisibleItems = value; }
+            get => Host.ListView.VisibleItems;
+            private set => Host.ListView.VisibleItems = value;
         }
 
         /// <summary>
@@ -83,15 +82,15 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         [DefaultValue(3000)]
         public int ToolTipDuration
         {
-            get { return Host.ListView.ToolTipDuration; }
-            set { Host.ListView.ToolTipDuration = value; }
+            get => Host.ListView.ToolTipDuration;
+            set => Host.ListView.ToolTipDuration = value;
         }
 
         [Browsable(false)]
         public int SelectedItemIndex
         {
-            get { return Host.ListView.SelectedItemIndex; }
-            internal set { Host.ListView.SelectedItemIndex = value; }
+            get => Host.ListView.SelectedItemIndex;
+            internal set => Host.ListView.SelectedItemIndex = value;
         }
 
         internal AutocompleteMenuHost Host { get; set; }
@@ -102,10 +101,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         [Browsable(false)]
         public ITextBoxWrapper TargetControlWrapper
         {
-            get { return targetControlWrapper; }
+            get => _targetControlWrapper;
             set
             {
-                targetControlWrapper = value;
+                _targetControlWrapper = value;
                 if (value != null && !WrapperByControls.ContainsKey(value.TargetControl))
                 {
                     WrapperByControls[value.TargetControl] = value;
@@ -121,12 +120,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         [Description("Maximum size of popup menu")]
         public Size MaximumSize
         {
-            get { return maximumSize; }
+            get { return _maximumSize; }
             set
             {
-                maximumSize = value;
-                (Host.ListView as Control).MaximumSize = maximumSize;
-                (Host.ListView as Control).Size = maximumSize;
+                _maximumSize = value;
+                (Host.ListView as Control).MaximumSize = _maximumSize;
+                (Host.ListView as Control).Size = _maximumSize;
                 Host.CalcSize();
             }
         }
@@ -136,11 +135,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         /// </summary>
         public Font Font
         {
-            get { return (Host.ListView as Control).Font; }
-            set
-            {
-                (Host.ListView as Control).Font = CustomFonts.GetFontFromFont(value);
-            }
+            get => (Host.ListView as Control).Font;
+            set => (Host.ListView as Control).Font = CustomFonts.GetFontFromFont(value);
         }
 
         /// <summary>
@@ -171,8 +167,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public Colors Colors
         {
-            get { return Host.ListView.Colors; }
-            set { Host.ListView.Colors = value; }
+            get => Host.ListView.Colors;
+            set => Host.ListView.Colors = value;
         }
 
         /// <summary>
@@ -252,14 +248,14 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             get
             {
-                if (sourceItems == null)
+                if (_sourceItems == null)
                     return null;
                 var list = new List<string>();
-                foreach (var item in sourceItems)
+                foreach (var item in _sourceItems)
                     list.Add(item.ToString());
                 return list.ToArray();
             }
-            set { SetAutocompleteItems(value); }
+            set => SetAutocompleteItems(value);
         }
 
         /// <summary>
@@ -269,7 +265,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         [Browsable(false)]
         public IAutocompleteListView ListView
         {
-            get { return Host.ListView; }
+            get => Host.ListView;
             set
             {
                 if (ListView != null)
@@ -336,7 +332,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             if (disposing)
             {
-                timer.Dispose();
+                _timer.Dispose();
                 Host.Dispose();
             }
             base.Dispose(disposing);
@@ -427,7 +423,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            timer.Stop();
+            _timer.Stop();
             if (TargetControlWrapper != null)
                 ShowAutocomplete(false);
         }
@@ -436,14 +432,14 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             var form = wrapper?.TargetControl?.FindForm();
             if (form == null) return;
-            if (myForm != null)
+            if (_myForm != null)
             {
-                if (myForm == form)
+                if (_myForm == form)
                     return;
                 UnsubscribeForm(wrapper);
             }
 
-            myForm = form;
+            _myForm = form;
 
             form.LocationChanged += Form_LocationChanged;
             form.ResizeBegin += Form_LocationChanged;
@@ -525,7 +521,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                     case Keys.Home:
                     case Keys.ControlKey:
                     {
-                        timer.Stop();
+                        _timer.Stop();
                         return;
                     }
                 }
@@ -551,11 +547,11 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         private void ResetTimer(int interval)
         {
             if (interval <= 0)
-                timer.Interval = AppearInterval;
+                _timer.Interval = AppearInterval;
             else
-                timer.Interval = interval;
-            timer.Stop();
-            timer.Start();
+                _timer.Interval = interval;
+            _timer.Stop();
+            _timer.Start();
         }
 
         private void Control_Scroll(object sender, ScrollEventArgs e)
@@ -578,7 +574,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         internal void ShowAutocomplete(bool forced)
         {
             if (forced)
-                forcedOpened = true;
+                _forcedOpened = true;
 
             if (TargetControlWrapper != null && TargetControlWrapper.Readonly)
             {
@@ -592,14 +588,14 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 return;
             }
 
-            if (!forcedOpened && !AutoPopup)
+            if (!_forcedOpened && !AutoPopup)
             {
                 Close();
                 return;
             }
 
             //build list
-            BuildAutocompleteList(forcedOpened);
+            BuildAutocompleteList(_forcedOpened);
 
             //show popup menu
             if (VisibleItems.Count > 0)
@@ -646,7 +642,6 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 (Host.ListView as Control).Invalidate();
         }
         private readonly ISharedViewState _sharedViewState;
-        private readonly IFunctionsDetails _functionsDetails;
 
         private void BuildAutocompleteList(bool forced)
         {
@@ -668,12 +663,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             //    text = text.Substring(index);
 
             //
-            if (sourceItems != null)
+            if (_sourceItems != null)
                 if (forced || (text.Length >= MinFragmentLength /* && tb.Selection.Start == tb.Selection.End*/))
                 {
                     Fragment = fragment;
                     //build popup menu
-                    foreach (var item in sourceItems)
+                    foreach (var item in _sourceItems)
                     {
                        // item.Parent = this;
                         var res = item.Compare(text);
@@ -739,9 +734,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public void Close()
         {
-            (Host.ListView as AutocompleteListView).closeToolTip();
+            (Host.ListView as AutocompleteListView).CloseToolTip();
             Host.Close();
-            forcedOpened = false;
+            _forcedOpened = false;
         }
 
         public void SetAutocompleteItems(IEnumerable<string> items)
@@ -749,7 +744,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             var list = new List<AutocompleteItem>();
             if (items == null)
             {
-                sourceItems = null;
+                _sourceItems = null;
                 return;
             }
             foreach (var item in items)
@@ -759,7 +754,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public void SetAutocompleteItems(IEnumerable<AutocompleteItem> items)
         {
-            sourceItems = items;
+            _sourceItems = items;
         }
 
         public void AddItem(string item)
@@ -769,11 +764,11 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public void AddItem(AutocompleteItem item)
         {
-            if (sourceItems == null)
-                sourceItems = new List<AutocompleteItem>();
+            if (_sourceItems == null)
+                _sourceItems = new List<AutocompleteItem>();
 
-            if (sourceItems is IList)
-                (sourceItems as IList).Add(item);
+            if (_sourceItems is IList)
+                (_sourceItems as IList).Add(item);
             else
                 throw new Exception("Current autocomplete items does not support adding");
         }

@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Computator.NET.Core.Autocompletion;
 
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
@@ -10,10 +9,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
     internal class AutocompleteMenuHost : ToolStripDropDown
     {
         public readonly AutocompleteMenu Menu;
-        private readonly IFunctionsDetails _functionsDetails;
         private IAutocompleteListView listView;
 
-        public AutocompleteMenuHost(AutocompleteMenu menu, IFunctionsDetails functionsDetails)
+        public AutocompleteMenuHost(AutocompleteMenu menu)
         {
             AutoClose = false;
             AutoSize = false;
@@ -22,8 +20,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             Padding = Padding.Empty;
 
             Menu = menu;
-            _functionsDetails = functionsDetails;
-            ListView = new AutocompleteListView(functionsDetails);
+            ListView = new AutocompleteListView();
         }
 
         public ToolStripControlHost Host { get; set; }
@@ -37,7 +34,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                     (listView as Control).LostFocus -= ListView_LostFocus;
 
                 if (value == null)
-                    listView = new AutocompleteListView(_functionsDetails);
+                    listView = new AutocompleteListView();
                 else
                 {
                     if (!(value is Control))

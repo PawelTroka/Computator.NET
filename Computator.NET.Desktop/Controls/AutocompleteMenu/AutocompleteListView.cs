@@ -25,9 +25,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         private int selectedItemIndex = -1;
         private IList<AutocompleteItem> visibleItems;
 
-        internal AutocompleteListView(IFunctionsDetails functionDetails)
+        internal AutocompleteListView()
         {
-            _functionDetails = functionDetails;
             // functionsDetails = new Dictionary<string, FunctionInfo>();
             toolTip = new WebBrowserToolTip();
             SetStyle(
@@ -139,26 +138,24 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             var y = itemIndex*ItemHeight - VerticalScroll.Value;
             return new Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
         }
-
-        private IFunctionsDetails _functionDetails;
+        
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
             toolTip.Close();
             var signature = autocompleteItem.Text;
-            if (!_functionDetails.ContainsKey(signature))
+            if (autocompleteItem.Details.IsNullOrEmpty())
                 return;
-            var functionInfo = _functionDetails[signature];
 
-            if (string.IsNullOrWhiteSpace(functionInfo.Description) || string.IsNullOrWhiteSpace(functionInfo.Title)
-                || functionInfo.Description.Contains("here goes description (not done yet)")
-                || functionInfo.Title.Contains("_title_")
+            if (string.IsNullOrWhiteSpace(autocompleteItem.Details.Description) || string.IsNullOrWhiteSpace(autocompleteItem.Details.Title)
+                || autocompleteItem.Details.Description.Contains("here goes description (not done yet)")
+                || autocompleteItem.Details.Title.Contains("_title_")
                 )
                 return;
 
             if (Settings.Default.TooltipType ==
                 TooltipType.Default)
             {
-                toolTip.setFunctionInfo(functionInfo);
+                toolTip.setFunctionInfo(autocompleteItem.Details);
 
                 if (control == null)
                     control = this;
@@ -168,12 +165,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             else if (Settings.Default.TooltipType ==
                      TooltipType.Form)
             {
-                formTip.SetFunctionInfo(functionInfo);
+                formTip.SetFunctionInfo(autocompleteItem.Details);
                 formTip.Show();
             }
         }
 
-        public void closeToolTip()
+        public void CloseToolTip()
         {
             toolTip.Close();
         }

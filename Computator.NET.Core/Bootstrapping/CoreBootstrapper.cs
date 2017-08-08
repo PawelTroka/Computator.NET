@@ -1,4 +1,5 @@
 ﻿using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Autocompletion.DataSource;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Model;
@@ -44,7 +45,11 @@ namespace Computator.NET.Core.Bootstrapping
             Container.RegisterType<ITslCompiler, TslCompiler>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IFunctionsDetails, FunctionsDetails>(new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<IFunctionsDetailsFileSource, FunctionsDetailsFileSource>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IAutocompleteReflectionSource, AutocompleteReflectionSource>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IAutocompleteProvider, AutocompleteProvider>(new ContainerControlledLifetimeManager());
+
             Container.RegisterType<IProcessRunnerService, ProcessRunnerService>(new ContainerControlledLifetimeManager());
         }
 

@@ -1,4 +1,6 @@
+using System.Linq;
 using Computator.NET.Core.Autocompletion;
+using Computator.NET.Core.Autocompletion.DataSource;
 using NUnit.Framework;
 
 namespace Computator.NET.Core.IntegrationTests.Data
@@ -9,7 +11,7 @@ namespace Computator.NET.Core.IntegrationTests.Data
         [Test]
         public void TestLoading()
         {
-            var array = (new FunctionsDetails()).ToArray();
+            var array = (new FunctionsDetailsFileSource()).Details.ToArray();
             foreach (var keyValuePair in array)
             {
                 Assert.IsNotNull(keyValuePair.Value);
@@ -23,12 +25,6 @@ namespace Computator.NET.Core.IntegrationTests.Data
                 if(!string.IsNullOrWhiteSpace(keyValuePair.Value.Signature))
                     Assert.AreEqual(keyValuePair.Key, keyValuePair.Value.Signature);
             }
-        }
-
-        [Test]
-        public void TestSavingWithEmpties()
-        {
-            (new FunctionsDetails()).SaveEmptyFunctionDetailsToXmlFile();
         }
     }
 }

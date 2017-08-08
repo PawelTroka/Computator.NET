@@ -9,13 +9,13 @@ namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 {
     public class ConstantsCommand : FunctionDetailsBasedCommand
     {
-        public ConstantsCommand(ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails, IClickedMouseButtonsProvider clickedMouseButtonsProvider, IShowFunctionDetails showFunctionDetails) : base(MenuStrings.constantsToolStripMenuItem_Text,
+        public ConstantsCommand(ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider, IClickedMouseButtonsProvider clickedMouseButtonsProvider, IShowFunctionDetails showFunctionDetails) : base(MenuStrings.constantsToolStripMenuItem_Text,
             new Dictionary<string, string>()
             {
                 {"MathematicalConstants",MenuStrings.mathematicalConstantsToolStripMenuItem_Text },
                 {"PhysicalConstants", MenuStrings.physicalConstantsToolStripMenuItem_Text}
             },
-            expressionTextProvider, scriptingTextProvider, customFunctionsTextProvider, sharedViewState, functionsDetails, clickedMouseButtonsProvider, showFunctionDetails)
+            expressionTextProvider, scriptingTextProvider, customFunctionsTextProvider, sharedViewState, autocompleteProvider, clickedMouseButtonsProvider, showFunctionDetails)
         {
         }
     }

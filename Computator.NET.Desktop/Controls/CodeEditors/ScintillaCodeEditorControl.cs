@@ -35,22 +35,20 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private const int BOOKMARK_MARKER = 3; // Arbitrary. Any valid index would work.
         private readonly AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
         private readonly Dictionary<string, Document> _documents;
-        private string _autoCompleteList;
         private int lastCaretPos;
         private int maxLineNumberCharLength;
-        private IFunctionsDetails _functionsDetails;
+        private readonly IAutocompleteProvider _autocompleteProvider;
 
-
-        public ScintillaCodeEditorControl(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        public ScintillaCodeEditorControl(ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider)
         {
             _sharedViewState = sharedViewState;
-            _functionsDetails = functionsDetails;
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(sharedViewState,_functionsDetails)
+            _autocompleteProvider = autocompleteProvider;
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(sharedViewState)
             {
                 TargetControlWrapper = new ScintillaWrapper(this),
                 MaximumSize = new Size(500, 180)
             };
-            _autocompleteMenu.SetAutocompleteItems(AutocompleteProvider.GetAutocompleteItemsForScripting());
+            _autocompleteMenu.SetAutocompleteItems(_autocompleteProvider.ScriptingAutocompleteItems);
             //_autocompleteMenu.CaptureFocus = true;
             InitializeComponent();
             // this.BorderStyle=BorderStyle.None;
@@ -449,56 +447,6 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             }
 
             return false;
-        }
-
-        private void SetupAutocomplete()
-        {
-            var array = AutocompleteProvider.GetAutocompleteItemsForScripting();
-
-
-            //if (Sort)
-            //   Array.Sort(array2, (a, b) => a.Text.CompareTo(b.Text));
-            //_autocompleteMenu.SetAutocompleteItems(array2);
-
-#if SCINTILLA_23
-            AutoComplete.List.Clear(); //2.3
-            foreach (var t in array2)
-            {
-                AutoComplete.List.Add(t.Text);
-            }
-            AutoComplete.List.AddRange(new[]
-            {"real", "complex", "function", "var", "void", "string", "integer", "natural"});
-            AutoComplete.List.Sort();
-
-            AutoComplete.IsCaseSensitive = false;
-            AutoComplete.AutoHide = true;
-            //this.AutoComplete.StopCharacters += '·';
-            // this.AutoComplete.StopCharacters = this.AutoComplete.StopCharacters.Replace(GlobalConfig.dotSymbol+"","");
-            // this.AutoComplete.FillUpCharacters += GlobalConfig.dotSymbol;
-            // MessageBox.Show(this.AutoComplete.FillUpCharacters);
-            // MessageBox.Show(this.AutoComplete.StopCharacters);
-            
-            //this.AutoComplete.StopCharacters = GlobalConfig.dotSymbol+"";
-            AutoComplete.FillUpCharacters = AutoComplete.FillUpCharacters.Trim('[', '(', '.', SpecialSymbols.dotSymbol);
-            AutoComplete.AutomaticLengthEntered = true;
-
-#elif SCINTILLA_30
-            var acList = new List<string>();
-            acList.AddRange(array.Select(t => t.Text));
-
-            var sb = new StringBuilder();
-            foreach (var item in acList)
-            {
-                sb.AppendFormat("{0} ", item);
-            }
-            sb.Remove(sb.Length - 1, 1);
-
-            _autoCompleteList = sb.ToString();
-
-
-            AutoCAutoHide = true;
-            AutoCIgnoreCase = true;
-#endif
         }
 
         private void SciriptingRichTextBox_KeyPress(object s, KeyPressEventArgs e)

@@ -18,15 +18,15 @@ namespace Computator.NET.Desktop.Controls
     public class ExpressionTextBox : TextBox, IExpressionTextBox
     {
         private ISharedViewState _sharedViewState;
-        private IFunctionsDetails _functionsDetails;
         private AutocompleteMenu.AutocompleteMenu _autocompleteMenu;
+        private readonly IAutocompleteProvider _autocompleteProvider;
 
-        public ExpressionTextBox(ISharedViewState sharedViewState, IFunctionsDetails functionsDetails)
+        public ExpressionTextBox(ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider)
         {
             _sharedViewState = sharedViewState;
-            _functionsDetails = functionsDetails;
+            _autocompleteProvider = autocompleteProvider;
             KeyPress += ExpressionTextBox_KeyPress;
-            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState, _functionsDetails);
+            _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(_sharedViewState);
             _autocompleteMenu.SetAutocompleteMenu(this, _autocompleteMenu);
 
             GotFocus += ExpressionTextBox_GotFocus;
@@ -126,9 +126,9 @@ namespace Computator.NET.Desktop.Controls
 
         private void RefreshAutoComplete()
         {
-            var array = AutocompleteProvider.GetAutocompleteItemsForExpressions(true);
+            var array = _autocompleteProvider.ExpressionAutocompleteItems.ToArray();
             if (Sort)
-                Array.Sort(array, (a, b) => a.Text.CompareTo(b.Text));
+                Array.Sort(array, (a, b) => string.Compare(a.Text, b.Text, StringComparison.Ordinal));
             _autocompleteMenu.SetAutocompleteItems(array);
             //RefreshSize();
 

@@ -10,7 +10,7 @@ namespace Computator.NET.Core.Menu.Commands
 {
     public class FunctionDetailsBasedCommand : DummyCommand
     {
-        public FunctionDetailsBasedCommand(string name, Dictionary<string, string> KeyAndNameOfCommandCollection, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails, IClickedMouseButtonsProvider mouseButtonsProvider, IShowFunctionDetails showFunctionDetails) : base(name)
+        public FunctionDetailsBasedCommand(string name, Dictionary<string, string> KeyAndNameOfCommandCollection, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider, IClickedMouseButtonsProvider mouseButtonsProvider, IShowFunctionDetails showFunctionDetails) : base(name)
         {
             var childrenCommands = new List<IToolbarCommand>();
 
@@ -19,7 +19,7 @@ namespace Computator.NET.Core.Menu.Commands
                 childrenCommands.Add(new DummyCommand(keyValue.Value)
                 {
                     ChildrenCommands = BuildFunctionsOrConstantsCommands(keyValue.Key, expressionTextProvider,
-                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, functionsDetails, mouseButtonsProvider, showFunctionDetails)
+                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, autocompleteProvider, mouseButtonsProvider, showFunctionDetails)
                 });
             }
 
@@ -28,31 +28,29 @@ namespace Computator.NET.Core.Menu.Commands
         }
 
 
-        private static List<IToolbarCommand> BuildFunctionsOrConstantsCommands(string key, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IFunctionsDetails functionsDetails, IClickedMouseButtonsProvider mouseButtonsProvider, IShowFunctionDetails showFunctionDetails)
+        private static List<IToolbarCommand> BuildFunctionsOrConstantsCommands(string key, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider, IClickedMouseButtonsProvider mouseButtonsProvider, IShowFunctionDetails showFunctionDetails)
         {
             var dict = new Dictionary<string, IToolbarCommand>();
-
-            var functions = functionsDetails.ToArray();
-
-
-            foreach (var f in functions)
+            
+            foreach (var f in autocompleteProvider.ExpressionAutocompleteItems)
             {
-                if (f.Value.Type != key)
+                if (f.Details.IsNullOrEmpty() || f.Details.Type != key)
                     continue;
 
+                //TODO: remove this code when made sure it does nothing:
+                if (f.Details.Category == "")
+                    f.Details.Category = "_empty_";
 
-                if (f.Value.Category == "")
-                    f.Value.Category = "_empty_";
 
-                if (!dict.ContainsKey(f.Value.Category))
+                if (!dict.ContainsKey(f.Details.Category))
                 {
                     //var cat = new ToolStripMenuItem(f.Value.Category) { Name = f.Value.Category };
-                    var command = new DummyCommand(f.Value.Category) { ChildrenCommands = new List<IToolbarCommand>() };
-                    dict.Add(f.Value.Category, command);
+                    var command = new DummyCommand(f.Details.Category) { ChildrenCommands = new List<IToolbarCommand>() };
+                    dict.Add(f.Details.Category, command);
                 }
-                (dict[f.Value.Category].ChildrenCommands as List<IToolbarCommand>).Add(
-                    new FunctionOrConstantCommand(f.Value.Signature, f.Value.Title, expressionTextProvider,
-                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, functionsDetails, mouseButtonsProvider, showFunctionDetails));
+                (dict[f.Details.Category].ChildrenCommands as List<IToolbarCommand>).Add(
+                    new FunctionOrConstantCommand(f, expressionTextProvider,
+                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, mouseButtonsProvider, showFunctionDetails));
             }
 
             return dict.Values.ToList();
