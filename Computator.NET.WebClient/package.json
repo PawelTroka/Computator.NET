@@ -35,6 +35,8 @@
   "license": "GPL-3.0",
   "description": "Computator.NET is a unique open numerical software that is fast and easy to use and stands up to other feature-wise software.",
   "devDependencies": {
+    "@types/react-autosuggest": "^8.0.2",
+    "react-autosuggest": "^9.3.2",
     "@types/awesomplete": "1.1.5",
     "@types/ace": "0.0.35",
     "@types/history": "4.6.0",
