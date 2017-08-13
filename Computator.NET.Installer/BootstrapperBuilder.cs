@@ -10,15 +10,15 @@ namespace Computator.NET.Installer
         public void Build()
         {
             Compiler.WixLocation = Path.Combine(Environment.ExpandEnvironmentVariables(@"%USERPROFILE%"), ".nuget", "packages", "wixsharp.wix.bin", "3.11.0", "tools", "bin");
-
-            var projectBuilder = new ProjectBuilder("4.6.1");
-            var projectBuilderNet40 = new ProjectBuilder("4.0");
+            var productId = Guid.NewGuid();
+            var projectBuilder = new ProjectBuilder("4.6.1", productId);
+            var projectBuilderNet40 = new ProjectBuilder("4.0", productId);
 
             Console.WriteLine($"Building {nameof(MsiPackage)}s...");
             var productMsi = projectBuilder.BuildMsi();
             var productMsiNet40 = projectBuilderNet40.BuildMsi();
-            var productMsiPackage = new MsiPackage(productMsi) {DisplayInternalUI = true, InstallCondition = "VersionNT >= v6.0" };
-            var productMsiPackageNet40 = new MsiPackage(productMsiNet40) { Id = "Computator.NET__Windows_XP", DisplayInternalUI = true, InstallCondition = "VersionNT < v6.0" };
+            var productMsiPackage = new MsiPackage(productMsi) {DisplayInternalUI = true, InstallCondition = "VersionNT >= v6.0", Visible = false};
+            var productMsiPackageNet40 = new MsiPackage(productMsiNet40) { Id = "Computator.NET_Windows_XP", DisplayInternalUI = true, InstallCondition = "VersionNT < v6.0", Visible = false };
 
 
 

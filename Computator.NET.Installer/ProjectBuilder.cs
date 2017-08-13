@@ -8,10 +8,12 @@ namespace Computator.NET.Installer
     class ProjectBuilder
     {
         private readonly string _dottedNetVersion;
+        private readonly Guid _productId;
 
-        public ProjectBuilder(string dottedNetVersion)
+        public ProjectBuilder(string dottedNetVersion, Guid productId)
         {
             _dottedNetVersion = dottedNetVersion;
+            _productId = productId;
         }
 
         public NetVersion CurrentHighestVersion { get; private set; } = new NetVersion(){RealVersion = new Version(4, 0), DisplayVersion = "4.0"};
@@ -43,7 +45,7 @@ namespace Computator.NET.Installer
                 Version = SharedProperties.Version,
                 GUID = new Guid(SharedProperties.UpgradeCode),
                 UpgradeCode = new Guid(SharedProperties.UpgradeCode),
-                ProductId = Guid.NewGuid(),
+                ProductId = _productId,
                 UI = WUI.WixUI_Minimal,
                 LicenceFile = SharedProperties.License,
                 ControlPanelInfo =
