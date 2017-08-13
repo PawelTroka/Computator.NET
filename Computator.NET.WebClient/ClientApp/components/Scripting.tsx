@@ -10,6 +10,8 @@ import 'brace/snippets/csharp';
 import 'brace/theme/ambiance';
 import 'brace/ext/searchbox';
 import 'brace/ext/language_tools';
+import 'brace/ext/keybinding_menu'
+import 'brace/ext/settings_menu'
 
 interface IScriptState {
     expression: string;
@@ -89,6 +91,7 @@ export class Scripting extends React.Component<{}, IScriptState>
         const editorPanelStyle = {
             backgroundColor: "#3d3d3d"
         }
+
         return <div>
             <h1>Scripting</h1>
             <p>Write down script in TSL</p>
