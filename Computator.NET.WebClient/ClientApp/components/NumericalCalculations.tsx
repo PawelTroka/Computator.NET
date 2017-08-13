@@ -32,15 +32,19 @@ export class NumericalCalculations extends React.Component<{}, INumericalCalcula
     {
         super();
         const methodPlaceHolder = "loading...";
-        const operations = new Array<string>("Integral", "Derivative", "Function root");
-        const methods = { [operations[0]]: new Array<string>(methodPlaceHolder) };
+        const operations = ["Integral", "Derivative", "Function root"];
+        const methods = { [operations[0]] : [methodPlaceHolder] };
 
         this.state = { a: -1, b: 1, x: 0, epsilon: 1e-6, n: 1e5, order: 1, operation: operations[0], operations: operations, result: "", expression: "", method: methodPlaceHolder, methods: methods };
+    }
 
+    public componentDidMount(): void
+    {
+        const methodPlaceHolder = "loading...";
+        const operations = new Array<string>("Integral", "Derivative", "Function root");
         const operationsUrls = new Array<string>("integral", "derivative", "function-root");
 
-        for (var i = 0; i < operationsUrls.length; i++)
-        {
+        for (var i = 0; i < operationsUrls.length; i++) {
             const operation = operations[i];
             const operationUri = operationsUrls[i];
             const apiUrl = `${Config.WEB_API_BASE_URL}/numerical-calculations/${operationUri}/list-methods`;
@@ -48,8 +52,7 @@ export class NumericalCalculations extends React.Component<{}, INumericalCalcula
 
             fetch(apiUrl)
                 .then(response => response.text() as Promise<string>)
-                .then(data =>
-                {
+                .then(data => {
                     console.log(`Got result: ${data}`);
                     const loadedMethods = JSON.parse(data) as string[];
                     console.log(`Parsed result: ${loadedMethods}`);
@@ -57,8 +60,7 @@ export class NumericalCalculations extends React.Component<{}, INumericalCalcula
 
                     this.setState(prevState => prevState.methods[operation] = loadedMethods);
                 })
-                .then(() =>
-                {
+                .then(() => {
                     if (this.state.method == methodPlaceHolder && this.state.methods[operations[0]][0] != methodPlaceHolder)
                         this.setState(prevState => prevState.method = this.state.methods[operations[0]][0]);
                 });
@@ -81,7 +83,7 @@ export class NumericalCalculations extends React.Component<{}, INumericalCalcula
                             <span className="input-group-addon">Operation: </span>
                             <select className="form-control" defaultValue={this.state.operation} onChange={e => this.onOperationChange(e)}>
                                 {this.state.operations.map(operation =>
-                                    <option value={operation}>{operation}</option>
+                                    <option key={operation} value={operation}>{operation}</option>
                                 )}
                             </select>
                         </div>
@@ -91,7 +93,7 @@ export class NumericalCalculations extends React.Component<{}, INumericalCalcula
                             <span className="input-group-addon">Method: </span>
                             <select className="form-control" defaultValue={this.state.method} onChange={e => this.onMethodChange(e)}>
                                 {this.state.methods[this.state.operation].map(method =>
-                                    <option value={method}>{method}</option>
+                                    <option key={this.state.operation+":"+method} value={method}>{method}</option>
                                 )}
                             </select>
                         </div>
