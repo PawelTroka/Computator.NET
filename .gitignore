@@ -237,25 +237,24 @@ _Pvt_Extensions
 
 # Paket dependency manager
 .paket/paket.exe
+/.paket/nuget.exe
 
 # FAKE - F# Make
 .fake/
 
-# Computator.NET specific
-/nuget.exe
-/codecoveragetools/OpenCover.4.6.519
-/testrunner
-/Computator.NET_coverage.xml
-/functions_empty_saved.xml
-/.paket/nuget.exe
-/codecoveragetools/coveralls.net.0.7.0
-/.vs/Computator.NET.sqlite
-/.vs/Computator.NET.sqlite
+# Cake - C# Make
 tools/*
 !tools/packages.config
+
+### Computator.NET specific ####
+# tools:
+/nuget.exe
+/testrunner
+/codecoveragetools/*
+# build and tests outputs:
 /coverage.xml
+/Computator.NET_coverage.xml
+/functions_empty_saved.xml
 /Computator.NET.Setup/wix
-/.vs/config/applicationhost.config
+# web:
 /Computator.NET.WebClient/wwwroot/dist
-/Computator.NET.WebClient/package-lock.json
-/.vs/Computator.NET/v15/sqlite3/storage.ide
