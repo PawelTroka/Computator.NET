@@ -1,5 +1,6 @@
 import * as Config from '../config';
 import * as React from "react";
+import { RouteComponentProps } from 'react-router';
 import "isomorphic-fetch";
 import AceEditor from "react-ace";
 import * as brace from 'brace';
@@ -44,7 +45,7 @@ class CustomCompleter
         return str == null || str.replace(/\s/g, "").length < 1;
     }
 
-    public getCompletions(editor, session, pos, prefix: string, callback)
+    public getCompletions(editor : any, session : any, pos : any, prefix: string, callback : any) : void
     {
         callback(null, (this.autocompleteItems).map(autocompleteItem =>
             ({
@@ -58,7 +59,7 @@ class CustomCompleter
             })));
     }
 
-    public getDocTooltip(item)
+    public getDocTooltip(item : any)
     {
         if (/*item.type == "snippet" &&*/ !item.docHTML) {
             item.docHTML = [
@@ -70,7 +71,7 @@ class CustomCompleter
 }
 
 
-export class Scripting extends React.Component<{}, IScriptState>
+export class Scripting extends React.Component<RouteComponentProps<{}>, IScriptState>
 {
     public constructor() {
         super();

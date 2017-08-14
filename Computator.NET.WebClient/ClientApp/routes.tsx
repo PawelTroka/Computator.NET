@@ -8,9 +8,9 @@ import { Scripting } from './components/Scripting';
 import { NumericalCalculations } from './components/NumericalCalculations';
 
 export const routes = <Layout>
-    <Route exact path='/' component={ Chart } />
-    <Route path='/calculate' component={Calculate} />
-    <Route path='/scripting' component={Scripting} />
-    <Route path='/numerical-calculations' component={NumericalCalculations} />
+                          <Route exact path='/' component={ Chart } />
+                          <Route path='/calculate' component={Calculate} />
+                          <Route path='/scripting' component={Scripting} />
+                          <Route path='/numerical-calculations' component={NumericalCalculations} />
     <Route path='/fetchdata' component={ FetchData } />
 </Layout>;

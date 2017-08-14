@@ -1,5 +1,6 @@
 ﻿import * as Config from '../config';
 import * as React from "react";
+import { RouteComponentProps } from 'react-router';
 import { Expression } from "./Expression";
 import "isomorphic-fetch";
 import { NumericInput } from "./NumericInput";
@@ -26,7 +27,7 @@ interface INumericalCalculationsState {
     result: string;
 }
 
-export class NumericalCalculations extends React.Component<{}, INumericalCalculationsState>
+export class NumericalCalculations extends React.Component<RouteComponentProps<{}>, INumericalCalculationsState>
 {
     public constructor()
     {

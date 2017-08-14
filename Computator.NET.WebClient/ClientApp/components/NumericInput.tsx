@@ -17,7 +17,7 @@ export class NumericInput extends React.Component<INumericInputProps, {}>
     public static defaultProps: Partial<INumericInputProps> =
     {
         stepValue: 1,
-        onValueChanged: null,
+        onValueChanged: val => {},
         subscriptLabel: ""
     };
 

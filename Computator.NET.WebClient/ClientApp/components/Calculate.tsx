@@ -1,5 +1,6 @@
 import * as Config from '../config';
 import * as React from "react";
+import { RouteComponentProps } from 'react-router';
 import { Expression } from "./Expression";
 import "isomorphic-fetch";
 import { NumericInput } from "./NumericInput";
@@ -11,7 +12,7 @@ interface ICalculateState {
     result: string;
 }
 
-export class Calculate extends React.Component<{}, ICalculateState>
+export class Calculate extends React.Component<RouteComponentProps<{}>, ICalculateState>
 {
     public constructor() {
         super();

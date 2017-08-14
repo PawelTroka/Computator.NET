@@ -1,6 +1,7 @@
 import * as Config from "../config";
 import { ResizeHandler } from "../helpers/ResizeHandler"
 import * as React from "react";
+import { RouteComponentProps } from 'react-router';
 import { Expression } from "./Expression";
 import {NumericInput} from "./NumericInput";
 import "isomorphic-fetch";
@@ -14,7 +15,7 @@ interface IChartState
     expression : string;
 }
 
-export class Chart extends React.Component<{}, IChartState>
+export class Chart extends React.Component<RouteComponentProps<{}>, IChartState>
 {
     public constructor() {
         super();
@@ -73,7 +74,11 @@ export class Chart extends React.Component<{}, IChartState>
 
     private drawChart(xmin: number, xmax: number, ymin: number, ymax: number, expression: string): void
     {
-
+        if (this.chartContainerDiv == null)
+        {
+            console.log("Error: chartContainerDiv is null!");
+            return;
+        }
         const viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
@@ -83,6 +88,12 @@ export class Chart extends React.Component<{}, IChartState>
 
         const apiUrl = `${Config.WEB_API_BASE_URL}/chart/${width}/${height}/${xmin}/${xmax}/${ymin}/${ymax}/${encodeURIComponent(expression)}`;
         console.log(`Calling ${apiUrl}`);
+
+        if (this.chartImage == null)
+        {
+            console.log("Error: chartImage is null!");
+            return;
+        }
 
         this.chartImage.src = apiUrl;
         this.chartImage.alt = expression;
@@ -95,6 +106,6 @@ export class Chart extends React.Component<{}, IChartState>
 
     private readonly resizeHandler: ResizeHandler;
 
-    private chartImage: HTMLImageElement;
-    private chartContainerDiv: HTMLDivElement;
+    private chartImage: HTMLImageElement| null;
+    private chartContainerDiv: HTMLDivElement| null;
 }
