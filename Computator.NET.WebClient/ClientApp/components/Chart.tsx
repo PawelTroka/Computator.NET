@@ -3,7 +3,7 @@ import { ResizeHandler } from "../helpers/ResizeHandler"
 import * as React from "react";
 import { RouteComponentProps } from 'react-router';
 import { Expression } from "./Expression";
-import {NumericInput} from "./NumericInput";
+import { NumericInput } from "./NumericInput";
 import "isomorphic-fetch";
 
 interface IChartState
