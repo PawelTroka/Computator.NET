@@ -60,8 +60,9 @@ namespace Computator.NET.WebApi
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:63785"));//we only allow WebClient to call our API, at least for now
+            app.UseCors(builder => builder
+                .WithOrigins("http://localhost:63785")
+                .WithOrigins("http://localhost:63784"));//we only allow WebClient to call our API, at least for now
 
             app.UseMvc();
 
