@@ -20,15 +20,10 @@ interface IExpressionProps {
     onExpressionChange: (expr: string) => void;
 }
 
-interface IExpressionState {
-
-}
-
 export class Expression extends React.Component<IExpressionProps, {}>
 {
     public constructor(props: IExpressionProps) {
         super(props);
-        //this.handleChange = this.handleChange.bind(this);
         const langTools = brace.acequire("ace/ext/language_tools");
         const customCompleter = new CustomCompleter("expression");
         langTools.setCompleters([customCompleter]);
@@ -48,6 +43,9 @@ export class Expression extends React.Component<IExpressionProps, {}>
                     Math.max(pos.column, 0)
                 );
             }
+
+            // disable Enter Shift-Enter keys
+            this.aceEditor.editor.commands.bindKey("Enter|Shift-Enter", "null");
         }
     }
     private aceEditor : any;
@@ -57,7 +55,7 @@ export class Expression extends React.Component<IExpressionProps, {}>
         return <div className="input-group input-group-lg">
             <span className="input-group-addon"><span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Expression:</span>
             <AceEditor
-                ref={ae => this.aceEditor=ae}
+                ref={ae => this.aceEditor = ae}
                 className="form-control" aria-describedby="expression"
                 editorProps={{
                     $blockScrolling: Infinity
@@ -85,15 +83,5 @@ export class Expression extends React.Component<IExpressionProps, {}>
                     autoScrollEditorIntoView: true
                 }} />
         </div>;
-    }
-
-    private handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-        const newValue = event.target.value;
-        if (newValue != null) {
-            console.log(`Changing expression to ${newValue}`);
-            if (this.props.onExpressionChange != null)
-                this.props.onExpressionChange(newValue);
-        }
-
     }
 }
