@@ -21,7 +21,7 @@ interface IExpressionProps {
 }
 
 interface IExpressionState {
-    
+
 }
 
 export class Expression extends React.Component<IExpressionProps, {}>
@@ -36,40 +36,55 @@ export class Expression extends React.Component<IExpressionProps, {}>
 
     public componentDidMount(): void
     {
-        
-    }
+        if (this.aceEditor.editor != null) {
+            //set padding
+            this.aceEditor.editor.renderer.setScrollMargin(10, 10);
 
-    public render(): JSX.Element
-    {
+            // make mouse position clipping nicer
+            this.aceEditor.editor.renderer.screenToTextCoordinates = function(x: any, y: any) {
+                var pos = this.pixelToScreenCoordinates(x, y);
+                return this.session.screenToDocumentPosition(
+                    Math.min(this.session.getScreenLength() - 1, Math.max(pos.row, 0)),
+                    Math.max(pos.column, 0)
+                );
+            }
+        }
+    }
+    private aceEditor : any;
+
+    public render(): JSX.Element {
+        const editorStyle = { padding: "5px" };
         return <div className="input-group input-group-lg">
             <span className="input-group-addon"><span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> Expression:</span>
             <AceEditor
-                className="form-control" aria-describedby="expression" 
+                ref={ae => this.aceEditor=ae}
+                className="form-control" aria-describedby="expression"
                 editorProps={{
                     $blockScrolling: Infinity
                 }}
-                       width="100%"
-                       height="100%"
-                       mode="csharp"
-                       minLines={1}
-                       maxLines={1}
-                       theme="github"
-                       name="expressionTextArea"
-                       onChange={s => this.props.onExpressionChange(s.replace('\n',"").replace('\r',""))}
-                       fontSize={36}
-                       showPrintMargin={false}
-                       showGutter={false}
-                       highlightActiveLine={false}
-                       value={this.props.expression}
-                       enableBasicAutocompletion={true}
-                       enableLiveAutocompletion={false}
-                       tabSize={4}
-                       setOptions={{
+                width="100%"
+                height="100%"
+                mode="csharp"
+                minLines={1}
+                maxLines={1}
+                theme="github"
+                name="expressionTextArea"
+                onChange={text => this.props.onExpressionChange(text.replace(/[\r\n]+/g, " "))}
+                onPaste={text => this.props.onExpressionChange(text.replace(/[\r\n]+/g, " "))}
+                fontSize={20}
+                showPrintMargin={false}
+                showGutter={false}
+                highlightActiveLine={false}
+                value={this.props.expression}
+                enableBasicAutocompletion={true}
+                enableLiveAutocompletion={false}
+                tabSize={1}
+                setOptions={{
                     enableSnippets: false,
                     showLineNumbers: false,
                     autoScrollEditorIntoView: true
                 }} />
-               </div>;
+        </div>;
     }
 
     private handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
