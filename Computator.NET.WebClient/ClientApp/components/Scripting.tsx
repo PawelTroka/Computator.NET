@@ -3,6 +3,7 @@ import * as React from "react";
 import { RouteComponentProps } from 'react-router';
 import "isomorphic-fetch";
 import AceEditor from "react-ace";
+import { SpecialSymbolsHandler } from "../helpers/SpecialSymbolsHandler";
 import { CustomCompleter } from "../helpers/CustomCompleter";
 import * as brace from 'brace';
 
@@ -104,7 +105,7 @@ export class Scripting extends React.Component<RouteComponentProps<{}>, IScriptS
     private onChange(newValue: string): void {
         if (newValue != null) {
             console.log(`Changing script to ${newValue}`);
-            this.setState(prevState => prevState.expression = newValue);
+            this.setState(prevState => prevState.expression = SpecialSymbolsHandler.replace(newValue, false));
         }
 
     }
@@ -113,7 +114,7 @@ export class Scripting extends React.Component<RouteComponentProps<{}>, IScriptS
         const newValue = event.target.value;
         if (newValue != null) {
             console.log(`Changing script to ${newValue}`);
-            this.setState(prevState => prevState.expression = newValue);
+            this.setState(prevState => prevState.expression = SpecialSymbolsHandler.replace(newValue,false));
         }
 
     }

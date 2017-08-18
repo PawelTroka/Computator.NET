@@ -2,6 +2,7 @@
 import * as React from "react";
 import "isomorphic-fetch";
 
+import { SpecialSymbolsHandler } from "../helpers/SpecialSymbolsHandler";
 import AceEditor from "react-ace";
 import { CustomCompleter } from "../helpers/CustomCompleter";
 import * as brace from 'brace';
@@ -67,8 +68,8 @@ export class Expression extends React.Component<IExpressionProps, {}>
                 maxLines={1}
                 theme="github"
                 name="expressionTextArea"
-                onChange={text => this.props.onExpressionChange(text.replace(/[\r\n]+/g, " "))}
-                onPaste={text => this.props.onExpressionChange(text.replace(/[\r\n]+/g, " "))}
+                onChange={text => this.props.onExpressionChange(SpecialSymbolsHandler.replace(text.replace(/[\r\n]+/g, " "),false))}
+                onPaste={text => this.props.onExpressionChange(SpecialSymbolsHandler.replace(text.replace(/[\r\n]+/g, " "),false))}
                 fontSize={20}
                 showPrintMargin={false}
                 showGutter={false}
