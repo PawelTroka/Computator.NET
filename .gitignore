@@ -258,3 +258,4 @@ tools/*
 /Computator.NET.Setup/wix
 # web:
 /Computator.NET.WebClient/wwwroot/dist
+/.dotnet
