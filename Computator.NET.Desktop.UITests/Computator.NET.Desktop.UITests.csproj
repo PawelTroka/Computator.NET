@@ -27,11 +27,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Accord" Version="3.5.0" />
-    <PackageReference Include="Accord.Math" Version="3.5.0" />
-    <PackageReference Include="MathNet.Numerics" Version="3.19.0" />
+    <PackageReference Include="Accord" Version="3.6.0" />
+    <PackageReference Include="Accord.Math" Version="3.6.0" />
+    <PackageReference Include="MathNet.Numerics" Version="3.20.0" />
     <PackageReference Include="Meta.Numerics" Version="3.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
   </ItemGroup>

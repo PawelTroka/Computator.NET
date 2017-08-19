@@ -34,7 +34,7 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="5.0.3" />
     <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
-    <PackageReference Include="NLog" Version="4.4.11" />
+    <PackageReference Include="NLog" Version="4.4.12" />
     <PackageReference Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />
