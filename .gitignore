@@ -259,3 +259,4 @@ tools/*
 # web:
 /Computator.NET.WebClient/wwwroot/dist
 /.dotnet
+/Computator.NET.WebClient/ClientApp/dist
