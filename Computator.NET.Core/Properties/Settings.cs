@@ -70,8 +70,16 @@ namespace Computator.NET.Core.Properties
             }
             catch (Exception exception)
             {
-                Logger.Error(exception, "Loading settings failed. Will remove corrupted settings file.");
+                Logger.Error(exception, "Loading settings failed. Will try to remove corrupted settings file.");
+            }
+
+            try
+            {
                 File.Delete(AppInformation.SettingsPath);
+            }
+            catch (Exception exception)
+            {
+                Logger.Warn(exception, "Removing corrupted settings file failed.");
             }
 
             return new Settings();
