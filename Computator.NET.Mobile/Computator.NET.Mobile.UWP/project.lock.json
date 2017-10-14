@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     "UAP,Version=v10.0": {
       "Microsoft.CSharp/4.0.0": {
@@ -15810,10 +15810,18 @@
       "projectName": "Computator.NET.Mobile.UWP",
       "projectPath": "C:\\Projects\\Computator.NET\\Computator.NET.Mobile\\Computator.NET.Mobile.UWP\\Computator.NET.Mobile.UWP.csproj",
       "projectJsonPath": "C:\\Projects\\Computator.NET\\Computator.NET.Mobile\\Computator.NET.Mobile.UWP\\project.json",
+      "packagesPath": "C:\\Users\\patr\\.nuget\\packages\\",
+      "outputPath": "C:\\Projects\\Computator.NET\\Computator.NET.Mobile\\Computator.NET.Mobile.UWP\\obj\\",
       "projectStyle": "ProjectJson",
       "validateRuntimeAssets": true,
-      "files": {
-        "lib/uap10.0/Computator.NET.Mobile.UWP.dll": "C:\\Projects\\Computator.NET\\Computator.NET.Mobile\\Computator.NET.Mobile.UWP\\bin\\placeholder\\uap10.0\\Computator.NET.Mobile.UWP.dll"
+      "configFilePaths": [
+        "C:\\Users\\patr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\patr\\.dotnet\\NuGetFallbackFolder": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "uap10.0": {
