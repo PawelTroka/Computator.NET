@@ -64,7 +64,7 @@ fi
 # Download NuGet if it does not exist.
 if [ ! -f "$NUGET_EXE" ]; then
     echo "Downloading NuGet..."
-    curl -Lsfo "$NUGET_EXE" https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe
+    curl -Lsfo "$NUGET_EXE" https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     if [ $? -ne 0 ]; then
         echo "An error occured while downloading nuget.exe."
         exit 1
@@ -86,6 +86,9 @@ fi
 $MD5_EXE $PACKAGES_CONFIG | awk '{ print $1 }' >| $PACKAGES_CONFIG_MD5
 
 popd >/dev/null
+
+# Temporarily skip assemblies verification
+export CAKE_SETTINGS_SKIPVERIFICATION=true
 
 # Make sure that Cake has been installed.
 if [ ! -f "$CAKE_EXE" ]; then

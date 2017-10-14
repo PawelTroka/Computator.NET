@@ -89,7 +89,7 @@ if(!$PSScriptRoot){
 $TOOLS_DIR = Join-Path $PSScriptRoot "tools"
 $NUGET_EXE = Join-Path $TOOLS_DIR "nuget.exe"
 $CAKE_EXE = Join-Path $TOOLS_DIR "Cake/Cake.exe"
-$NUGET_URL = "https://dist.nuget.org/win-x86-commandline/v4.3.0/nuget.exe"
+$NUGET_URL = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 $PACKAGES_CONFIG = Join-Path $TOOLS_DIR "packages.config"
 $PACKAGES_CONFIG_MD5 = Join-Path $TOOLS_DIR "packages.config.md5sum"
 
@@ -177,6 +177,9 @@ if(-Not $SkipToolPackageRestore.IsPresent) {
     Write-Verbose -Message ($NuGetOutput | out-string)
     Pop-Location
 }
+
+# Temporarily skip assemblies verification
+$ENV:CAKE_SETTINGS_SKIPVERIFICATION='true'
 
 # Make sure that Cake has been installed.
 if (!(Test-Path $CAKE_EXE)) {
