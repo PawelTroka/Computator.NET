@@ -90,7 +90,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Accord.Math" Version="3.6.0" />
+    <PackageReference Include="Accord.Math" Version="3.7.0" />
     <PackageReference Include="MathNet.Numerics" Version="3.20.0" />
     <PackageReference Include="Meta.Numerics" Version="3.1.0" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
