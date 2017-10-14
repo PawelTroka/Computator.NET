@@ -85,7 +85,7 @@ var msBuildSettings = new MSBuildSettings {
 	{
 		if(travisOsName == "osx" || System.Environment.OSVersion.Platform == System.PlatformID.MacOSX)
 		{
-			var msBuildVersions = new [] {"15.3","15.2","15.1","15.0","14.1","14.0"};
+			var msBuildVersions = new [] {"15.5","15.4","15.3","15.2","15.1","15.0"};
 			var monoVersions = new [] {"Current", monoVersionShort};
 			var msBuildExecutableNames = new [] {"MSBuild.exe", "MSBuild.dll", "msBuild.exe", "msbuild.exe", "msBuild.dll", "msbuild.dll"};
 
@@ -121,26 +121,16 @@ var msBuildSettings = new MSBuildSettings {
 			msBuildSettings.ToolPath = new FilePath(@"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll");//hack for Linux bug - missing MSBuild path
 	}
 
-var xBuildSettings = new XBuildSettings {
-	Verbosity = Verbosity.Minimal,
-	ToolVersion = XBuildToolVersion.Default,//The highest available XBuild tool version//NET40
-	Configuration = configuration,
-	//PlatformTarget = PlatformTarget.MSIL,
-	};
-
 var monoEnvVars = new Dictionary<string,string>() { {"DISPLAY", "99.0"},{"MONO_WINFORMS_XIM_STYLE", "disabled"} };
 
 if(!IsRunningOnWindows())
 {
 	if(msBuildSettings.EnvironmentVariables==null)
 		msBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
-	if(xBuildSettings.EnvironmentVariables==null)
-		xBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
 
 	foreach(var monoEnvVar in monoEnvVars)
 	{
 		msBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
-		xBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
 	}
 }
 
@@ -212,25 +202,12 @@ Task("Build")
 	.IsDependentOn("Restore")
 	.Does(() =>
 {
-	if(IsRunningOnWindows() || isMonoButSupportsMsBuild)
-	{
 	  // Use MSBuild
 	  MSBuild(mainProject, msBuildSettings);
 	  MSBuild(mainProjectNet40, msBuildSettings);
 	  MSBuild(unitTestsProject, msBuildSettings);
 	  MSBuild(integrationTestsProject, msBuildSettings);
 	  MSBuild(webApiIntegrationTestsProject, msBuildSettings);
-	  
-	}
-	else
-	{
-	  // Use XBuild
-	  XBuild(mainProject, xBuildSettings);
-	  XBuild(mainProjectNet40, xBuildSettings);
-	  XBuild(unitTestsProject, xBuildSettings);
-	  XBuild(integrationTestsProject, xBuildSettings);
-	  XBuild(webApiIntegrationTestsProject, xBuildSettings);
-	}
 });
 
 Task("UnitTests")
