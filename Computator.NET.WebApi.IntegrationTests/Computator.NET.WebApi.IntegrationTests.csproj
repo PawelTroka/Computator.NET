@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <TargetFramework>net461</TargetFramework>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Include="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -23,9 +22,7 @@
     <PackageReference Include="NETStandard.Library" Version="2.0.1" />
     <PackageReference Include="NUnit" Version="3.8.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.WebApi\Computator.NET.WebApi.csproj" />
   </ItemGroup>
-
 </Project>
