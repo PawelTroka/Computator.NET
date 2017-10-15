@@ -33,7 +33,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="5.0.3" />
+    <PackageReference Include="AvalonEdit" Version="5.0.4" />
     <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
     <PackageReference Include="NLog" Version="4.4.12" />
     <PackageReference Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
