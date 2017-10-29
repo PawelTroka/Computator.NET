@@ -5,7 +5,6 @@ environment:
     secure: KEH5rJaqCoWoCV2MhkrMlClj3SVIlB2Eu0YK4mqmhRM+ANEfGiFyROo2RWHkJXQz
 
 image:
-- Visual Studio 2017 Preview
 - Visual Studio 2017
 
 configuration:
