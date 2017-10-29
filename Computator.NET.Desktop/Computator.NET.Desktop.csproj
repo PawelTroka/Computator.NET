@@ -36,6 +36,8 @@
     <PackageReference Include="AvalonEdit" Version="5.0.4" />
     <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
     <PackageReference Include="NLog" Version="4.4.12" />
+    <PackageReference Include="Unity" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" Condition="'$(TargetFramework)' == 'net40'" />
     <PackageReference Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />
@@ -72,14 +74,6 @@
     <Reference Include="WindowsFormsIntegration" Condition=" '$(OS)' != 'Unix' ">
       <Private>False</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
-    <PackageReference Include="Unity">
-      <Version>4.0.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Benchmarking\BenchmarkForm.cs">

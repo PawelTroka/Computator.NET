@@ -91,24 +91,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Accord.Math" Version="3.7.0" />
+    <PackageReference Include="Accord.Math" Version="3.8.0" />
+    <PackageReference Include="Guards" Version="1.0.14" />
     <PackageReference Include="MathNet.Numerics" Version="3.20.0" />
     <PackageReference Include="Meta.Numerics" Version="3.1.0" />
+    <PackageReference Include="Unity" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" Condition="'$(TargetFramework)' == 'net40'" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
-    <PackageReference Include="Unity">
-      <Version>4.0.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
-    <PackageReference Include="Unity">
-      <Version>2.1.505.2</Version>
-    </PackageReference>
-    <PackageReference Include="Unity.Extensions.Lazy">
-      <Version>1.1.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Compilation\NativeCompiler.cs">

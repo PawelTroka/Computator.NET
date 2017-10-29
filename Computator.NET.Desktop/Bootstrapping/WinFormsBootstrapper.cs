@@ -17,7 +17,9 @@ using Computator.NET.Desktop.Controls.CodeEditors;
 using Computator.NET.Desktop.Dialogs;
 using Computator.NET.Desktop.Services;
 using Computator.NET.Desktop.Views;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
 
 namespace Computator.NET.Desktop.Bootstrapping
 {

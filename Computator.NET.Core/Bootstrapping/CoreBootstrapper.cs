@@ -5,7 +5,8 @@ using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Services;
 using Computator.NET.Core.Services.ErrorHandling;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Lifetime;
 
 namespace Computator.NET.Core.Bootstrapping
 {
@@ -20,9 +21,6 @@ namespace Computator.NET.Core.Bootstrapping
         public CoreBootstrapper(IUnityContainer container)
         {
             Container = container;
-#if NET40
-            Container.AddNewExtension<Unity.Extensions.LazySupportExtension>();
-#endif
             RegisterSharedObjects();
             RegisterHandlers();
             RegisterModel();

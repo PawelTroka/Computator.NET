@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Utility;
+using Guards;
+using Unity.Builder;
+using Unity.Builder.Operation;
+using Unity.Injection;
+using Unity.Policy;
+using Unity.Resolution;
 
 namespace Computator.NET.Core.Bootstrapping
 {
@@ -32,11 +35,9 @@ namespace Computator.NET.Core.Bootstrapping
 
         public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
-            Guard.ArgumentNotNull(context, "context");
+            Guard.ArgumentNotNull(context, nameof(context));
 
-            var currentOperation = context.CurrentOperation as ConstructorArgumentResolveOperation;
-
-            if (currentOperation != null &&
+            if (context.CurrentOperation is ConstructorArgumentResolveOperation currentOperation &&
                 //(typeof(T)==dependencyType || typeof(T).GetInterfaces().Contains(dependencyType))
                 dependencyType.IsAssignableFrom(typeof(T)))
             {
