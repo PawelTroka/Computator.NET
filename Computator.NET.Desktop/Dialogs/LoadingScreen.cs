@@ -37,13 +37,6 @@ namespace Computator.NET.Desktop.Dialogs
                 Dock = DockStyle.Bottom
             };
 
-            var label = new Label
-            {
-                // ReSharper disable once LocalizableElement
-                Text = "by Pawel Troka",
-                Font = new Font("Consolas", 10)
-            };
-
             Size = new Size(pictureBox.Width, pictureBox.Height + progressBar.Height);
 
             // this.Controls.Add(label);

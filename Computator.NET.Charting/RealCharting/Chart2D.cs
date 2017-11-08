@@ -535,7 +535,7 @@ namespace Computator.NET.Charting.RealCharting
 
             
             
-            legend1.Font = CustomFonts.GetMathFont(13.8F); //new Font("Cambria", 13.8F);
+            legend1.Font = CustomFonts.GetMathFont(13.8F);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Legend1";
 

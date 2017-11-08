@@ -309,7 +309,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         private void SetupAutocomplete()
         {
             if (!DesignMode)
-                Font = CustomFonts.GetMathFont(18); //new Font("Cambria", 18.0F, GraphicsUnit.Point);
+                Font = CustomFonts.GetMathFont(18);
             //GlobalConfig.mathFont;
             ImageList = null;
             TargetControlWrapper = null;

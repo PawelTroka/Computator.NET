@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Computator.NET.Core.Benchmarking;
 using Computator.NET.DataTypes.Properties;
+using Computator.NET.DataTypes.Text;
 using Computator.NET.Localization;
 
 namespace Computator.NET.Desktop.Benchmarking
@@ -26,6 +27,8 @@ namespace Computator.NET.Desktop.Benchmarking
             memoryTestBackgroundWorker.ProgressChanged += memoryTestBackgroundWorker_ProgressChanged;
             memoryTestBackgroundWorker.RunWorkerCompleted += memoryTestBackgroundWorker_RunWorkerCompleted;
             this.Icon = GraphicsResources.computator_net_icon;
+            this.memoryTestRichTextBox.Font = CustomFonts.GetScriptingFont(10.2F);
+            this.functionsTestRichTextBox.Font = CustomFonts.GetScriptingFont(10.2F);
         }
 
         private void FunctionsTestBackgroundWorker_RunWorkerCompleted(object sender,

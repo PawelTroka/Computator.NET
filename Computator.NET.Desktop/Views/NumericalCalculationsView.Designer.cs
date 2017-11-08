@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Computator.NET.DataTypes.Text;
 using Computator.NET.Desktop.Controls;
 
 namespace Computator.NET.Desktop.Views
@@ -93,7 +94,7 @@ namespace Computator.NET.Desktop.Views
             this.resultNumericalCalculationsTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.tableLayoutPanel1.SetColumnSpan(this.resultNumericalCalculationsTextBox, 2);
             this.resultNumericalCalculationsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resultNumericalCalculationsTextBox.Font = new System.Drawing.Font("Cambria", 16.2F);
+            this.resultNumericalCalculationsTextBox.Font = CustomFonts.GetMathFont(16.2F);
             this.resultNumericalCalculationsTextBox.Location = new System.Drawing.Point(137, 258);
             this.resultNumericalCalculationsTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 7, 2);
             this.resultNumericalCalculationsTextBox.Name = "resultNumericalCalculationsTextBox";
@@ -236,7 +237,7 @@ namespace Computator.NET.Desktop.Views
             // function
             // 
             this.function.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle1.Font = CustomFonts.GetMathFont(10.2F);
             this.function.DefaultCellStyle = dataGridViewCellStyle1;
             this.function.HeaderText = Localization.Views.NumericalCalculationsView.function_HeaderText; ;
             this.function.Name = "function";
@@ -259,7 +260,7 @@ namespace Computator.NET.Desktop.Views
             // parameters
             // 
             this.parameters.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle2.Font = CustomFonts.GetMathFont(10.2F);
             this.parameters.DefaultCellStyle = dataGridViewCellStyle2;
             this.parameters.HeaderText = Localization.Views.NumericalCalculationsView.parameters_HeaderText; ;
             this.parameters.Name = "parameters";
@@ -268,7 +269,7 @@ namespace Computator.NET.Desktop.Views
             // result
             // 
             this.result.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle3.Font = CustomFonts.GetMathFont(10.2F);
             this.result.DefaultCellStyle = dataGridViewCellStyle3;
             this.result.HeaderText = Localization.Views.NumericalCalculationsView.result_HeaderText; ;
             this.result.Name = "result";
@@ -331,7 +332,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.aIntervalNumericUpDown.Font = new System.Drawing.Font("Cambria", 12F);
+            this.aIntervalNumericUpDown.Font = CustomFonts.GetMathFont(12);
             this.aIntervalNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
@@ -358,7 +359,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.label12.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Cambria", 12F);
+            this.label12.Font = CustomFonts.GetMathFont(12);
             this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label12.Location = new System.Drawing.Point(3, 35);
             this.label12.Name = "label12";
@@ -374,7 +375,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.bIntervalNumericUpDown.Font = new System.Drawing.Font("Cambria", 12F);
+            this.bIntervalNumericUpDown.Font = CustomFonts.GetMathFont(12);
             this.bIntervalNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
@@ -401,7 +402,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.label13.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Cambria", 12F);
+            this.label13.Font = CustomFonts.GetMathFont(12);
             this.label13.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label13.Location = new System.Drawing.Point(4, 4);
             this.label13.Name = "label13";
@@ -446,7 +447,7 @@ namespace Computator.NET.Desktop.Views
             // nOrderDerivativeNumericUpDown
             // 
             this.nOrderDerivativeNumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nOrderDerivativeNumericUpDown.Font = new System.Drawing.Font("Cambria", 12F);
+            this.nOrderDerivativeNumericUpDown.Font = CustomFonts.GetMathFont(12);
             this.nOrderDerivativeNumericUpDown.Location = new System.Drawing.Point(42, 0);
             this.nOrderDerivativeNumericUpDown.Margin = new System.Windows.Forms.Padding(0);
             this.nOrderDerivativeNumericUpDown.Maximum = new decimal(new int[] {
@@ -468,7 +469,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Cambria", 12F);
+            this.label15.Font = CustomFonts.GetMathFont(12);
             this.label15.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label15.Location = new System.Drawing.Point(4, 35);
             this.label15.Name = "label15";
@@ -484,7 +485,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.xDerivativePointNumericUpDown.Font = new System.Drawing.Font("Cambria", 12F);
+            this.xDerivativePointNumericUpDown.Font = CustomFonts.GetMathFont(12);
             this.xDerivativePointNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
@@ -511,7 +512,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Cambria", 12F);
+            this.label14.Font = CustomFonts.GetMathFont(12);
             this.label14.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label14.Location = new System.Drawing.Point(3, 4);
             this.label14.Name = "label14";
@@ -559,7 +560,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             1835008});
-            this.epsTextBox.Font = new System.Drawing.Font("Cambria", 12F);
+            this.epsTextBox.Font = CustomFonts.GetMathFont(12);
             this.epsTextBox.Location = new System.Drawing.Point(40, 0);
             this.epsTextBox.Margin = new System.Windows.Forms.Padding(0);
             this.epsTextBox.Maximum = new decimal(new int[] {
@@ -591,7 +592,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Cambria", 12F);
+            this.label10.Font = CustomFonts.GetMathFont(12);
             this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label10.Location = new System.Drawing.Point(3, 4);
             this.label10.Name = "label10";
@@ -638,7 +639,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.nStepsNumericUpDown.Font = new System.Drawing.Font("Cambria", 12F);
+            this.nStepsNumericUpDown.Font = CustomFonts.GetMathFont(12);
             this.nStepsNumericUpDown.Location = new System.Drawing.Point(45, 0);
             this.nStepsNumericUpDown.Margin = new System.Windows.Forms.Padding(0);
             this.nStepsNumericUpDown.Maximum = new decimal(new int[] {
@@ -670,7 +671,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Cambria", 12F);
+            this.label19.Font = CustomFonts.GetMathFont(12);
             this.label19.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label19.Location = new System.Drawing.Point(3, 4);
             this.label19.Name = "label19";

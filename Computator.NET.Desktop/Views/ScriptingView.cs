@@ -13,7 +13,7 @@ namespace Computator.NET.Desktop.Views
         {
             InitializeComponent();
             if (!DesignMode)
-                consoleOutputTextBox.Font = CustomFonts.GetMathFont(consoleOutputTextBox.Font.Size);
+                consoleOutputTextBox.Font = CustomFonts.GetMathFont(12F);
         }
         public ScriptingView(CodeEditorControlWrapper scriptingCodeEditor, SolutionExplorerView solutionExplorerView1) : this()
         {

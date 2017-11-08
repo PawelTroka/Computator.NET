@@ -209,7 +209,6 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
 
             //this.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
 
-            // FontFamily = new FontFamily("Consolas");
             // FontSize = 18;
             //completionWindow.ShowActivated = true;
             Options.HighlightCurrentLine = true;

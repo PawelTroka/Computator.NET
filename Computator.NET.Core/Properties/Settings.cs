@@ -94,8 +94,8 @@ namespace Computator.NET.Core.Properties
             FunctionsOrder = FunctionsOrder.Default;
             TooltipType = TooltipType.Default;
             
-            ExpressionFont = CustomFonts.GetMathFont(15.75F);//new Font("Cambria", 15.75F, GraphicsUnit.Point);
-            ScriptingFont = CustomFonts.GetScriptingFont(12);//new Font("Consolas", 12, GraphicsUnit.Point);
+            ExpressionFont = CustomFonts.GetMathFont(15.75F);
+            ScriptingFont = CustomFonts.GetScriptingFont(12);
 
             ShowReturnTypeInExpression = false;
             ShowParametersTypeInExpression = true;

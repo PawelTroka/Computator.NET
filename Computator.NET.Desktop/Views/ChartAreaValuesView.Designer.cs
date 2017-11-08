@@ -1,4 +1,5 @@
 ﻿using Computator.NET.Desktop.Controls;
+using Computator.NET.DataTypes.Text;
 
 namespace Computator.NET.Desktop.Views
 {
@@ -132,7 +133,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Cambria", 10.2F);
+            this.label4.Font = CustomFonts.GetMathFont(10.2F);
             this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label4.Location = new System.Drawing.Point(9, 42);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -149,7 +150,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.yNNumericUpDown.Font = new System.Drawing.Font("Cambria", 9.75F);
+            this.yNNumericUpDown.Font = CustomFonts.GetMathFont(9.75F);
             this.yNNumericUpDown.Increment = new decimal(new int[] {
             9,
             0,
@@ -177,7 +178,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Cambria", 10.2F);
+            this.label3.Font = CustomFonts.GetMathFont(10.2F);
             this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label3.Location = new System.Drawing.Point(12, 11);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -194,7 +195,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.x0NumericUpDown.Font = new System.Drawing.Font("Cambria", 9.75F);
+            this.x0NumericUpDown.Font = CustomFonts.GetMathFont(9.75F);
             this.x0NumericUpDown.Increment = new decimal(new int[] {
             20,
             0,
@@ -222,7 +223,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.y0label.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.y0label.AutoSize = true;
-            this.y0label.Font = new System.Drawing.Font("Cambria", 10.2F);
+            this.y0label.Font = CustomFonts.GetMathFont(10.2F);
             this.y0label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.y0label.Location = new System.Drawing.Point(11, 79);
             this.y0label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -239,7 +240,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.y0NumericUpDown.Font = new System.Drawing.Font("Cambria", 9.75F);
+            this.y0NumericUpDown.Font = CustomFonts.GetMathFont(9.75F);
             this.y0NumericUpDown.Increment = new decimal(new int[] {
             9,
             0,
@@ -267,7 +268,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.yNlabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.yNlabel.AutoSize = true;
-            this.yNlabel.Font = new System.Drawing.Font("Cambria", 10.2F);
+            this.yNlabel.Font = CustomFonts.GetMathFont(10.2F);
             this.yNlabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.yNlabel.Location = new System.Drawing.Point(8, 110);
             this.yNlabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -284,7 +285,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.xnNumericUpDown.Font = new System.Drawing.Font("Cambria", 9.75F);
+            this.xnNumericUpDown.Font = CustomFonts.GetMathFont(9.75F);
             this.xnNumericUpDown.Increment = new decimal(new int[] {
             20,
             0,

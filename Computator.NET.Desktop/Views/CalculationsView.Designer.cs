@@ -1,4 +1,5 @@
-﻿using Computator.NET.Desktop.Controls;
+﻿using Computator.NET.DataTypes.Text;
+using Computator.NET.Desktop.Controls;
 
 namespace Computator.NET.Desktop.Views
 {
@@ -94,7 +95,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.calculationsRealLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.calculationsRealLabel.AutoSize = true;
-            this.calculationsRealLabel.Font = new System.Drawing.Font("Cambria", 12F);
+            this.calculationsRealLabel.Font = CustomFonts.GetMathFont(12);
             this.calculationsRealLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.calculationsRealLabel.Location = new System.Drawing.Point(12, 6);
             this.calculationsRealLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -112,7 +113,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.valueForCalculationNumericUpDown.Font = new System.Drawing.Font("Cambria", 12F);
+            this.valueForCalculationNumericUpDown.Font = CustomFonts.GetMathFont(12);
             this.valueForCalculationNumericUpDown.Location = new System.Drawing.Point(79, 2);
             this.valueForCalculationNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
             this.valueForCalculationNumericUpDown.MultiplyFactor = new decimal(new int[] {
@@ -139,7 +140,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0,
             196608});
-            this.calculationsImZnumericUpDown.Font = new System.Drawing.Font("Cambria", 12F);
+            this.calculationsImZnumericUpDown.Font = CustomFonts.GetMathFont(12);
             this.calculationsImZnumericUpDown.Location = new System.Drawing.Point(79, 37);
             this.calculationsImZnumericUpDown.Margin = new System.Windows.Forms.Padding(2);
             this.calculationsImZnumericUpDown.MultiplyFactor = new decimal(new int[] {
@@ -162,7 +163,7 @@ namespace Computator.NET.Desktop.Views
             // 
             this.calculationsComplexLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.calculationsComplexLabel.AutoSize = true;
-            this.calculationsComplexLabel.Font = new System.Drawing.Font("Cambria", 12F);
+            this.calculationsComplexLabel.Font = CustomFonts.GetMathFont(12);
             this.calculationsComplexLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.calculationsComplexLabel.Location = new System.Drawing.Point(2, 41);
             this.calculationsComplexLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -193,7 +194,7 @@ namespace Computator.NET.Desktop.Views
             this.calculationValueTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.tableLayoutPanel1.SetColumnSpan(this.calculationValueTextBox, 2);
             this.calculationValueTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.calculationValueTextBox.Font = new System.Drawing.Font("Cambria", 16.2F);
+            this.calculationValueTextBox.Font = CustomFonts.GetMathFont(16.2F);
             this.calculationValueTextBox.Location = new System.Drawing.Point(184, 131);
             this.calculationValueTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 8, 4);
             this.calculationValueTextBox.Name = "calculationValueTextBox";
@@ -240,7 +241,7 @@ namespace Computator.NET.Desktop.Views
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle1.Font = CustomFonts.GetMathFont(10.2F);
             this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewTextBoxColumn1.HeaderText = Localization.Views.CalculationsView.dataGridViewTextBoxColumn1_HeaderText;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
@@ -249,7 +250,7 @@ namespace Computator.NET.Desktop.Views
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle2.Font = CustomFonts.GetMathFont(10.2F);
             this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewTextBoxColumn4.HeaderText = Localization.Views.CalculationsView.dataGridViewTextBoxColumn4_HeaderText;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
@@ -258,7 +259,7 @@ namespace Computator.NET.Desktop.Views
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle3.Font = CustomFonts.GetMathFont(10.2F);
             this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewTextBoxColumn5.HeaderText = Localization.Views.CalculationsView
                 .dataGridViewTextBoxColumn5_HeaderText;

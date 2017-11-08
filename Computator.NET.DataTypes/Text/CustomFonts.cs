@@ -51,8 +51,8 @@ namespace Computator.NET.DataTypes.Text
             mathFontCollection = new PrivateFontCollection();
             scriptingFontCollection = new PrivateFontCollection();
 
-            var pathToMathFont = PathUtility.GetFullPath("Static", "fonts", "cambria.ttc");
-            var pathToScriptFont = PathUtility.GetFullPath("Static", "fonts", "consola.ttf");
+            var pathToMathFont = Path.Combine(AppInformation.FontsDirectory, "cambria.ttc");
+            var pathToScriptFont = Path.Combine(AppInformation.FontsDirectory, "consola.ttf");
             try
             {
                 if (RuntimeInformation.IsUnix)

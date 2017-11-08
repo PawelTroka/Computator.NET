@@ -117,7 +117,6 @@
             // 
             this.memoryTestRichTextBox.BackColor = System.Drawing.Color.Lavender;
             this.memoryTestRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.memoryTestRichTextBox.Font = new System.Drawing.Font("Consolas", 10.2F);
             this.memoryTestRichTextBox.Location = new System.Drawing.Point(9, 270);
             this.memoryTestRichTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.memoryTestRichTextBox.Name = "memoryTestRichTextBox";
@@ -211,7 +210,6 @@
             // 
             this.functionsTestRichTextBox.BackColor = System.Drawing.Color.Lavender;
             this.functionsTestRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.functionsTestRichTextBox.Font = new System.Drawing.Font("Consolas", 10.2F);
             this.functionsTestRichTextBox.Location = new System.Drawing.Point(10, 270);
             this.functionsTestRichTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.functionsTestRichTextBox.Name = "functionsTestRichTextBox";

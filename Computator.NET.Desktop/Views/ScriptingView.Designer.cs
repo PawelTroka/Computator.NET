@@ -89,7 +89,6 @@
             this.consoleOutputTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.consoleOutputTextBox.DetectUrls = false;
             this.consoleOutputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.consoleOutputTextBox.Font = new System.Drawing.Font("Consolas", 12F);
             this.consoleOutputTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
             this.consoleOutputTextBox.Location = new System.Drawing.Point(0, 0);
             this.consoleOutputTextBox.Margin = new System.Windows.Forms.Padding(2);
