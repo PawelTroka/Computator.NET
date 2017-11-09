@@ -18,6 +18,7 @@
  * refactoring: whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring (#77)
  * UWP: more graphical assets should provide better UX on high DPI scenarios (0fe5ae0)
  * Fixed potential issue with permissions to remove corrupted settings file (b1f5abb)
+ * Improved greatly startup performance (partly because of less resources to load (new localization architecture) but also new version of Unity container)
  * Updated and optimized libraries
 
 
