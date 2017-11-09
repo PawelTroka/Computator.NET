@@ -1,3 +1,27 @@
+ ### Version Unreleased - 09.11.2017 09:46 UTC
+ * Replaced creating consolas and cambria fonts by getting them from private font collection (hopefully it will finally resolve all missing fonts issues) (#99)
+ * Missing fonts runtime resolution will enable user to install all missing fonts (just in case above solution will not work) (760d950, 8e49437)
+ * Migrated to new csproj format (.NET Core SDKs)
+ * Introduced Cake automated builds
+ * Continous integration and continous delivery wiht publishing artifacts on AppVeyor and Travis CIs (#83)
+ * Optimized the way scripting examples are restored
+ * Cleanup of unnecessary resources (makes views loading faster) 
+ * Moved away from fat resx WinForms designer based localization architecture (makes views loading faster)  (#89)
+ * One installer for both NET40 and NET461 builds (#62)
+ * New installer based on Wix with splash screen working on Windows XP, bootstrapping (#19, #26, #97) (removed dependency on InstallShield)
+ * Fixed exe shortcut icon looking small on Vista Sp2 (#93)
+ * Computator.NET.Core should not reference Computator.NET.Charting (#51)
+ * All desktop specific logic (except Charting) has been moved to Computator.NET.Desktop project (executables are now just tiny wrappers)
+ * On Unix moved to Mono 5.4.x
+ * Fixed issue with newline in scripting (299052f0c294a75cc714f67d6f511845053806c2)
+ * Fixed bug which caused rectangle method to return the same results as trapezoidal method (8b9ec1cb3350fcb1775d25576b74348abe5c8b96)
+ * refactoring: whole autocomplete / functionInfo / functions.xml area needs serious refactoring and restructuring (#77)
+ * UWP: more graphical assets should provide better UX on high DPI scenarios (0fe5ae0)
+ * Fixed potential issue with permissions to remove corrupted settings file (b1f5abb)
+ * Updated and optimized libraries
+
+
+
  ### Version 2.2.3 - 03.05.2017 21:03 UTC
  * Fixed application crash at startup due to missing fonts (#82, #84)
  * Fixed abs modulus notation not working correctly with raising to power notation (#85)
