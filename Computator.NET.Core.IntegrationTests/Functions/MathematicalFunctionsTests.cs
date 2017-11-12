@@ -22,29 +22,27 @@ namespace Computator.NET.Core.IntegrationTests
         [SetUp]
         public void Init()
         {
-            C = (from d1 in X from d2 in X select new Complex(d1, d2)).ToArray();
+            _c = (from d1 in _x from d2 in _x select new Complex(d1, d2)).ToArray();
             Settings.Default.CalculationsErrors = CalculationsErrors.ReturnNAN;
             GSLInitializer.Initialize();
         }
 
-        private const int stepsSmall = 25;
-        private const int steps = 50;
-        private const double min = -10;
-        private const double max = 10;
-        private readonly int[] A = Enumerable.Range(-10, 21).ToArray(); // {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
-        private readonly int[] Asmall = Enumerable.Range(-5, 11).ToArray();
+        private const int StepsSmall = 6;
+        private const int Steps = 11;
+        private const double Min = -10;
+        private const double Max = 10;
+        private readonly int[] _a = Enumerable.Range(-10, 21).ToArray(); // {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
+        private readonly int[] _aSmall = Enumerable.Range(-5, 11).ToArray();
 
-        private readonly int[] Averysmall = Enumerable.Range(-3, 7).ToArray();
+        private readonly int[] _aVerySmall = Enumerable.Range(-3, 7).ToArray();
 
-        private readonly double[] X = Enumerable.Range(0, steps)
-            .Select(i => min + (max - min)*((double) i/(steps - 1))).ToArray();
+        private readonly double[] _x = Enumerable.Range(0, Steps)
+            .Select(i => Min + (Max - Min)*((double) i/(Steps - 1))).ToArray();
 
-        //  new int[] { -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+        private readonly double[] _xSmall = Enumerable.Range(0, StepsSmall)
+            .Select(i => Min + (Max - Min)*((double) i/(Steps - 1))).ToArray();
 
-        private readonly double[] Xsmall = Enumerable.Range(0, stepsSmall)
-            .Select(i => min + (max - min)*((double) i/(steps - 1))).ToArray();
-
-        private Complex[] C;
+        private Complex[] _c;
 
         private void TestFunctions(List<MethodInfo> methodsToTest)
         {
@@ -53,27 +51,25 @@ namespace Computator.NET.Core.IntegrationTests
             foreach (var specialMethod in methodsToTest)
             {
                 Debug.WriteLine("Testing: " + specialMethod);
-                Trace.WriteLine("Testing: " + specialMethod);
-                Console.WriteLine("Testing: " + specialMethod);
                 var parameters = specialMethod.GetParameters();
                 var testIt = true;
 
 
                 for (var index = 0;
-                    index < A.Length && (parameters.Any(p => p.ParameterType.IsInteger()) || index == 0);
+                    index < _a.Length && (parameters.Any(p => p.ParameterType.IsInteger()) || index == 0);
                     index++)
                 {
-                    var i = A[index];
+                    var i = _a[index];
                     for (var index1 = 0;
-                        index1 < X.Length && (parameters.Any(p => p.ParameterType.IsDouble()) || index1 == 0);
+                        index1 < _x.Length && (parameters.Any(p => p.ParameterType.IsDouble()) || index1 == 0);
                         index1++)
                     {
-                        var d = X[index1];
+                        var d = _x[index1];
                         for (var i1 = 0;
-                            i1 < C.Length && parameters.Any(p => p.ParameterType.IsComplex() || i1 == 0);
+                            i1 < _c.Length && parameters.Any(p => p.ParameterType.IsComplex() || i1 == 0);
                             i1++)
                         {
-                            var c = C[i1];
+                            var c = _c[i1];
                             var invokeList = new List<object>();
                             foreach (var parameterInfo in parameters)
                             {
@@ -124,9 +120,9 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
-                    foreach (var d2 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
+                    foreach (var d2 in _x)
 
                     {
                         try
@@ -145,9 +141,9 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
-                    foreach (var d2 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
+                    foreach (var d2 in _x)
 
                     {
                         try
@@ -167,12 +163,12 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var d1 in A)
-                foreach (var d2 in A)
-                    foreach (var d3 in A)
-                        foreach (var d4 in A)
-                            foreach (var d5 in A)
-                                foreach (var d6 in A)
+            foreach (var d1 in _a)
+                foreach (var d2 in _a)
+                    foreach (var d3 in _a)
+                        foreach (var d4 in _a)
+                            foreach (var d5 in _a)
+                                foreach (var d6 in _a)
                                 {
                                     try
                                     {
@@ -191,12 +187,12 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var d1 in A)
-                foreach (var d2 in A)
-                    foreach (var d3 in A)
-                        foreach (var d4 in A)
-                            foreach (var d5 in A)
-                                foreach (var d6 in A)
+            foreach (var d1 in _a)
+                foreach (var d2 in _a)
+                    foreach (var d3 in _a)
+                        foreach (var d4 in _a)
+                            foreach (var d5 in _a)
+                                foreach (var d6 in _a)
                                 {
                                     try
                                     {
@@ -215,12 +211,12 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var d1 in Xsmall)
-                foreach (var d2 in Xsmall)
-                    foreach (var d3 in Xsmall)
-                        foreach (var d4 in Xsmall)
-                            foreach (var d5 in Xsmall)
-                                foreach (var d6 in Xsmall)
+            foreach (var d1 in _xSmall)
+                foreach (var d2 in _xSmall)
+                    foreach (var d3 in _xSmall)
+                        foreach (var d4 in _xSmall)
+                            foreach (var d5 in _xSmall)
+                                foreach (var d6 in _xSmall)
                                 {
                                     try
                                     {
@@ -239,12 +235,12 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var d1 in A)
-                foreach (var d2 in A)
-                    foreach (var d3 in A)
-                        foreach (var d4 in A)
-                            foreach (var d5 in A)
-                                foreach (var d6 in A)
+            foreach (var d1 in _a)
+                foreach (var d2 in _a)
+                    foreach (var d3 in _a)
+                        foreach (var d4 in _a)
+                            foreach (var d5 in _a)
+                                foreach (var d6 in _a)
                                 {
                                     try
                                     {
@@ -263,12 +259,12 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var d1 in Xsmall)
-                foreach (var d2 in Xsmall)
-                    foreach (var d3 in Xsmall)
-                        foreach (var d4 in Xsmall)
-                            foreach (var d5 in Xsmall)
-                                foreach (var d6 in Xsmall)
+            foreach (var d1 in _xSmall)
+                foreach (var d2 in _xSmall)
+                    foreach (var d3 in _xSmall)
+                        foreach (var d4 in _xSmall)
+                            foreach (var d5 in _xSmall)
+                                foreach (var d6 in _xSmall)
                                 {
                                     try
                                     {
@@ -287,15 +283,15 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var d1 in Averysmall)
-                foreach (var d2 in Averysmall)
-                    foreach (var d3 in Averysmall)
-                        foreach (var d4 in Averysmall)
-                            foreach (var d5 in Averysmall)
-                                foreach (var d6 in Averysmall)
-                                    foreach (var d7 in Averysmall)
-                                        foreach (var d8 in Averysmall)
-                                            foreach (var d9 in Averysmall)
+            foreach (var d1 in _aVerySmall)
+                foreach (var d2 in _aVerySmall)
+                    foreach (var d3 in _aVerySmall)
+                        foreach (var d4 in _aVerySmall)
+                            foreach (var d5 in _aVerySmall)
+                                foreach (var d6 in _aVerySmall)
+                                    foreach (var d7 in _aVerySmall)
+                                        foreach (var d8 in _aVerySmall)
+                                            foreach (var d9 in _aVerySmall)
                                             {
                                                 try
                                                 {
@@ -314,12 +310,12 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var d1 in A)
-                foreach (var d2 in A)
-                    foreach (var d3 in A)
-                        foreach (var d4 in A)
-                            foreach (var d5 in A)
-                                foreach (var d6 in A)
+            foreach (var d1 in _a)
+                foreach (var d2 in _a)
+                    foreach (var d3 in _a)
+                        foreach (var d4 in _a)
+                            foreach (var d5 in _a)
+                                foreach (var d6 in _a)
                                 {
                                     try
                                     {
@@ -348,9 +344,9 @@ namespace Computator.NET.Core.IntegrationTests
         public void EllipticΠIncompleteTest()
         {
             object ret = null;
-            foreach (var a in A)
-                foreach (var d1 in X)
-                    foreach (var d2 in X)
+            foreach (var a in _a)
+                foreach (var d1 in _x)
+                    foreach (var d2 in _x)
 
                     {
                         try
@@ -370,8 +366,8 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var d1 in X)
-                foreach (var d2 in X)
+            foreach (var d1 in _x)
+                foreach (var d2 in _x)
 
                 {
                     try
@@ -392,8 +388,8 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
 
                 {
                     Trace.WriteLine($"Testing {nameof(EnTest)}, parameters: {i}; {d1}");
@@ -415,9 +411,9 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var j in A)
-                    foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var j in _a)
+                    foreach (var d1 in _x)
 
                     {
                         Trace.WriteLine($"Testing {nameof(Hypergeometric1F1IntTest)}, parameters: {i}; {j}; {d1}");
@@ -438,9 +434,9 @@ namespace Computator.NET.Core.IntegrationTests
         public void Hypergeometric1F1Test()
         {
             object ret = null;
-            foreach (var d1 in X)
-                foreach (var d2 in X)
-                    foreach (var d3 in X)
+            foreach (var d1 in _x)
+                foreach (var d2 in _x)
+                    foreach (var d3 in _x)
 
                     {
                         Trace.WriteLine($"Testing {nameof(Hypergeometric1F1Test)}, parameters: {d1}; {d2}; {d3}");
@@ -462,9 +458,9 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var j in A)
-                    foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var j in _a)
+                    foreach (var d1 in _x)
 
                     {
                         Trace.WriteLine($"Testing {nameof(Hypergeometric2F1IntTest)}, parameters: {i}; {j}; {d1}");
@@ -485,9 +481,9 @@ namespace Computator.NET.Core.IntegrationTests
         public void Hypergeometric2F1Test()
         {
             object ret = null;
-            foreach (var d1 in X)
-                foreach (var d2 in X)
-                    foreach (var d3 in X)
+            foreach (var d1 in _x)
+                foreach (var d2 in _x)
+                    foreach (var d3 in _x)
 
                     {
                         Trace.WriteLine($"Testing {nameof(Hypergeometric2F1Test)}, parameters: {d1}; {d2}; {d3}");
@@ -509,9 +505,9 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var j in A)
-                    foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var j in _a)
+                    foreach (var d1 in _x)
 
                     {
                         Trace.WriteLine($"Testing {nameof(HypergeometricUIntTest)}, parameters: {i}; {j}; {d1}");
@@ -532,9 +528,9 @@ namespace Computator.NET.Core.IntegrationTests
         public void HypergeometricUTest()
         {
             object ret = null;
-            foreach (var d1 in X)
-                foreach (var d2 in X)
-                    foreach (var d3 in X)
+            foreach (var d1 in _x)
+                foreach (var d2 in _x)
+                    foreach (var d3 in _x)
 
                     {
                         Trace.WriteLine($"Testing {nameof(HypergeometricUTest)}, parameters: {d1}; {d2}; {d3}");
@@ -556,8 +552,8 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
 
                 {
                     try
@@ -577,9 +573,9 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
-                    foreach (var d2 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
+                    foreach (var d2 in _x)
 
                     {
                         try
@@ -601,10 +597,10 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var a1 in A)
-                foreach (var a2 in A)
-                    foreach (var d1 in X)
-                        foreach (var d2 in X)
+            foreach (var a1 in _a)
+                foreach (var a2 in _a)
+                    foreach (var d1 in _x)
+                        foreach (var d2 in _x)
 
                         {
                             try
@@ -625,10 +621,10 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var a1 in A)
-                foreach (var a2 in A)
-                    foreach (var d1 in X)
-                        foreach (var d2 in X)
+            foreach (var a1 in _a)
+                foreach (var a2 in _a)
+                    foreach (var d1 in _x)
+                        foreach (var d2 in _x)
                         {
                             try
                             {
@@ -648,8 +644,8 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
 
                 {
                     try
@@ -669,8 +665,8 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
 
                 {
                     try
@@ -700,8 +696,8 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
 
                 {
                     try
@@ -721,8 +717,8 @@ namespace Computator.NET.Core.IntegrationTests
         {
             object ret = null;
 
-            foreach (var i in A)
-                foreach (var d1 in X)
+            foreach (var i in _a)
+                foreach (var d1 in _x)
 
                 {
                     try
@@ -768,7 +764,7 @@ namespace Computator.NET.Core.IntegrationTests
         public void ComplexLogGammaTests(double multiplier)
         {
             object ret = null;
-            foreach (var c in C)
+            foreach (var c in _c)
             {
                 try
                 {
@@ -805,7 +801,7 @@ namespace Computator.NET.Core.IntegrationTests
         public void LogGammaTests(double multiplier)
         {
             object ret = null;
-            foreach (var x in X)
+            foreach (var x in _x)
             {
                 try
                 {

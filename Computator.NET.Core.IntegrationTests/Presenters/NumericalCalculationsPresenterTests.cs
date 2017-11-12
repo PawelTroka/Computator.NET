@@ -29,7 +29,7 @@ namespace Computator.NET.Core.IntegrationTests
     [TestFixture]
     public partial class NumericalCalculationsPresenterTests
     {
-        private Mock<IMessagingService> _messegingServiceMock = new Mock<IMessagingService>();
+        private readonly Mock<IMessagingService> _messegingServiceMock = new Mock<IMessagingService>();
         [OneTimeSetUp]
         public void Setup()
         {
