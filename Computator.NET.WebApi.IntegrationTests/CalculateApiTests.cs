@@ -36,6 +36,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         }
 
         [Test]
+        [Ignore("Bug in ASP.NET Core causes this test to fail, see https://github.com/aspnet/HttpAbstractions/issues/964")]
         public async Task PlusSignInExpressionWorks()
         {
             // Act
@@ -46,6 +47,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         }
 
         [Test]
+        [Ignore("Bug in ASP.NET Core causes this test to fail, see https://github.com/aspnet/HttpAbstractions/issues/912")]
         public async Task DivideSignInExpressionWorks()
         {
             // Act
