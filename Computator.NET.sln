@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computator.NET", "Computator.NET\Computator.NET.csproj", "{5731ED79-DFC9-41D5-8A2E-82C578AD1D96}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -28,7 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C3C81D6D-A
 		docs\eula.rtf = docs\eula.rtf
 		LICENSE = LICENSE
 		README.md = README.md
-		docs\readme.rtf = docs\readme.rtf
 		TODO = TODO
 	EndProjectSection
 EndProject
@@ -194,8 +193,8 @@ Global
 		{0A0A4151-F13E-41B8-B2F0-88A1A7EC7F85} = {3629D57B-C761-4451-A635-1E3E113E71B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.2.1.505.0\lib\NET35
 		SolutionGuid = {551528AF-1742-4B85-AD72-F39A687D71C2}
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.2.1.505.0\lib\NET35
 	EndGlobalSection
 	GlobalSection(AutomaticVersions) = postSolution
 		AssemblyInfoFilePath = ..\SharedAssemblyInfo.cs
