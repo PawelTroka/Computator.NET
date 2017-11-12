@@ -84,7 +84,6 @@ namespace Computator.NET.Core.IntegrationTests
             <string, Func<double, double>>
         {
             {"sin(x)", Math.Sin},
-            {"tan(x)", Math.Tan},
             {"Gegenbauer1(1,x)", x => SpecialFunctions.Gegenbauer1(1,x)},
             {"x+0.001", x => x + 0.001}
         };
