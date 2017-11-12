@@ -18,6 +18,10 @@ namespace Computator.NET.Core.Presenters
             _view.XMaxChanged += OnValueChanged;
             _view.XMinChanged += OnValueChanged;
             _view.YMinChanged += OnValueChanged;
+            _view.YMax = 3;
+            _view.XMax = 5;
+            _view.YMin = -_view.YMax;
+            _view.XMin = -_view.XMax;
         }
 
         private void OnValueChanged(object sender, System.EventArgs e)
