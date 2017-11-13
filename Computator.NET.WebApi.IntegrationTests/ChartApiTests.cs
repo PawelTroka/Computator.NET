@@ -53,15 +53,16 @@ namespace Computator.NET.WebApi.IntegrationTests
             response.EnsureSuccessStatusCode();
         }
 
-        //[Test]
-        //public async Task ReturnsHttpOkForChart3D()
-        //{
-        //    // Act
-        //    var response = await _client.GetAsync(@"/api/chart/2y");
+        [Test]
+        [Ignore("Chart3D does not support server-side rendering yet")]
+        public async Task ReturnsHttpOkForChart3D()
+        {
+            // Act
+            var response = await _client.GetAsync(@"/api/chart/2y");
 
-        //    // Assert
-        //    response.EnsureSuccessStatusCode();
-        //}
+            // Assert
+            response.EnsureSuccessStatusCode();
+        }
 
         [TestCase("png/300/300/-2.5/2.5/-0.5/0.5/x")]
         [TestCase("bmp/300/300/-2.5/2.5/-0.5/0.5/x")]

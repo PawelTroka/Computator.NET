@@ -52,7 +52,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task IntegralReturnsHttpOk()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/integral/{WebUtility.UrlEncode(Strings.trapezoidal_method)}/x/0/1");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/integral/{Uri.EscapeDataString(Strings.trapezoidal_method)}/x/0/1");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -69,7 +69,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             var n = 100;
 
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/integral/{WebUtility.UrlEncode(Strings.Simpson_s_method)}/{funcStr}/{a}/{b}/{n}");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/integral/{Uri.EscapeDataString(Strings.Simpson_s_method)}/{funcStr}/{a}/{b}/{n}");
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert
@@ -100,7 +100,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             var n = 100;
 
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/integral/{WebUtility.UrlEncode(Strings.non_adaptive_Gauss_Kronrod_method)}/{funcStr}/{a}/{b}/{n}/{WebUtility.UrlEncode(customFuncStr)}");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/integral/{Uri.EscapeDataString(Strings.non_adaptive_Gauss_Kronrod_method)}/{funcStr}/{a}/{b}/{n}/{Uri.EscapeDataString(customFuncStr)}");
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert
@@ -117,7 +117,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task DerivativeReturnsHttpOk()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/derivative/{WebUtility.UrlEncode(Strings.finite_difference_formula)}/2x/0");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/derivative/{Uri.EscapeDataString(Strings.finite_difference_formula)}/2x/0");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -134,7 +134,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             var epsilon = 1e-6;
 
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/derivative/{WebUtility.UrlEncode(Strings.stable_finite_difference_formula)}/{funcStr}/{point}/{order}/{epsilon}");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/derivative/{Uri.EscapeDataString(Strings.stable_finite_difference_formula)}/{funcStr}/{point}/{order}/{epsilon}");
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert
@@ -166,7 +166,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             var epsilon = 1e-6;
 
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/derivative/{WebUtility.UrlEncode(Strings.centered_five_point_method)}/{funcStr}/{point}/{order}/{epsilon}/{WebUtility.UrlEncode(customFuncStr)}");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/derivative/{Uri.EscapeDataString(Strings.centered_five_point_method)}/{funcStr}/{point}/{order}/{epsilon}/{Uri.EscapeDataString(customFuncStr)}");
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert
@@ -182,7 +182,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task FunctionRootReturnsHttpOk()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/function-root/{WebUtility.UrlEncode(Strings.bisection_method)}/2x-1/-2/2");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/function-root/{Uri.EscapeDataString(Strings.bisection_method)}/2x-1/-2/2");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -200,7 +200,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             var epsilon = 1e-6;
 
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/function-root/{WebUtility.UrlEncode(Strings.secant_method)}/{funcStr}/{a}/{b}/{epsilon}/{n}");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/function-root/{Uri.EscapeDataString(Strings.secant_method)}/{funcStr}/{a}/{b}/{epsilon}/{n}");
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert
@@ -232,7 +232,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             var epsilon = 1e-6;
 
             // Act
-            var response = await _client.GetAsync($@"/api/numerical-calculations/function-root/{WebUtility.UrlEncode(Strings.Brent_s_method)}/{funcStr}/{a}/{b}/{epsilon}/{n}/{WebUtility.UrlEncode(customFuncStr)}");
+            var response = await _client.GetAsync($@"/api/numerical-calculations/function-root/{Uri.EscapeDataString(Strings.Brent_s_method)}/{funcStr}/{a}/{b}/{epsilon}/{n}/{Uri.EscapeDataString(customFuncStr)}");
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert

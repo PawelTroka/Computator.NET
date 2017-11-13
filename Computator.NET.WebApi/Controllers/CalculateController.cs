@@ -62,16 +62,16 @@ namespace Computator.NET.WebApi.Controllers
         //[HttpGet("{calculationsMode}/{equation}/{customFunctionsCode}")]
         public string Get(string equation, double x = 0, double y = 0, string customFunctionsCode = "")
         {
-            var calculationsMode = _modeDeterminer.DetermineMode(WebUtility.UrlDecode(equation));
+            var calculationsMode = _modeDeterminer.DetermineMode((equation));
 
             return Get(calculationsMode, equation, x, y, customFunctionsCode);
         }
 
         private string Get(CalculationsMode calculationsMode, string equation, double x, double y, string customFunctionsCode)
         {
-            var decodedEquation = WebUtility.UrlDecode(equation);
+            var decodedEquation = (equation);
             _logger.LogInformation($"Decoded equation {equation} to {decodedEquation}");
-            var decodedCustomFunctionsCode = WebUtility.UrlDecode(customFunctionsCode);
+            var decodedCustomFunctionsCode = (customFunctionsCode);
             _logger.LogInformation($"Decoded custom functions code {customFunctionsCode} to {decodedCustomFunctionsCode}");
 
             var func = _functionsProvider.GetFunction(decodedEquation, calculationsMode, decodedCustomFunctionsCode);

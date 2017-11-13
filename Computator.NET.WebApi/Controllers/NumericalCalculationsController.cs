@@ -92,13 +92,13 @@ namespace Computator.NET.WebApi.Controllers
 
         private void Decode(string equation, string method, string customFunctionsCode, out string decodedEquation, out string decodedMethod, out string decodedCustomFunctionsCode)
         {
-            decodedEquation = WebUtility.UrlDecode(equation);
+            decodedEquation = (equation);
             _logger.LogInformation($"Decoded equation '{equation}' to '{decodedEquation}'");
 
-            decodedMethod = WebUtility.UrlDecode(method);
+            decodedMethod = (method);
             _logger.LogInformation($"Decoded method '{method}' to '{decodedMethod}'");
 
-            decodedCustomFunctionsCode = WebUtility.UrlDecode(customFunctionsCode);
+            decodedCustomFunctionsCode = (customFunctionsCode);
             _logger.LogInformation($"Decoded custom functions code '{customFunctionsCode}' to '{decodedCustomFunctionsCode}'");
         }
     }

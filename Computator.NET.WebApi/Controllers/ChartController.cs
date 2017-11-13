@@ -94,7 +94,7 @@ namespace Computator.NET.WebApi.Controllers
         public IActionResult Get(ImageFormat imageFormat, int width, int height, double x0, double xn, double y0, double yn, string equation)
         {
             var equations = new[] { equation };
-            var decodedEquations = equations.Select(WebUtility.UrlDecode).ToArray();
+            var decodedEquations = equations.ToArray();
 
             var calculationsMode = CalculationsMode.Error;
 

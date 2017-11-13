@@ -29,18 +29,17 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task ReturnsHttpOk()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/script/{WebUtility.UrlEncode("writeln(2);")}");
+            var response = await _client.GetAsync($@"/api/script/{Uri.EscapeDataString("writeln(2);")}");
 
             // Assert
             response.EnsureSuccessStatusCode();
         }
 
         [Test]
-        [Ignore("Bug in ASP.NET Core causes this test to fail, see https://github.com/aspnet/HttpAbstractions/issues/964")]
         public async Task PlusSignInExpressionWorks()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/script/{WebUtility.UrlEncode("writeln(2+2);")}");
+            var response = await _client.GetAsync($@"/api/script/{Uri.EscapeDataString("writeln(2+2);")}");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -51,7 +50,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task DivideSignInExpressionWorks()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/script/{WebUtility.UrlEncode("writeln(2/2);")}");
+            var response = await _client.GetAsync($@"/api/script/{Uri.EscapeDataString("writeln(2/2);")}");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -61,7 +60,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task EmptySpacesInExpressionWorks()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/script/{WebUtility.UrlEncode("writeln(2     -    2             -     1  );")}");
+            var response = await _client.GetAsync($@"/api/script/{Uri.EscapeDataString("writeln(2     -    2             -     1  );")}");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -71,7 +70,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task ReturnsCorrectValue()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/script/{WebUtility.UrlEncode("write(312312421);")}");
+            var response = await _client.GetAsync($@"/api/script/{Uri.EscapeDataString("write(312312421);")}");
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -84,7 +83,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task ReturnsCorrectString()
         {
             // Act
-            var response = await _client.GetAsync($@"/api/script/{WebUtility.UrlEncode(@"write(""This is a correct string."");")}");
+            var response = await _client.GetAsync($@"/api/script/{Uri.EscapeDataString(@"write(""This is a correct string."");")}");
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -110,7 +109,7 @@ namespace Computator.NET.WebApi.IntegrationTests
                 return System.Math.Sqrt(x)-System.Math.Cos(1-x);
             }
             ";
-            var url = $@"/api/script/{WebUtility.UrlEncode(tslCode)}/{WebUtility.UrlEncode(customFunctionCode)}";
+            var url = $@"/api/script/{Uri.EscapeDataString(tslCode)}/{Uri.EscapeDataString(customFunctionCode)}";
 
 
             // Act
@@ -133,7 +132,7 @@ namespace Computator.NET.WebApi.IntegrationTests
             ";
 
             // Act
-            var response = await _client.GetAsync($@"/api/script/{WebUtility.UrlEncode(tslCode)}");
+            var response = await _client.GetAsync($@"/api/script/{Uri.EscapeDataString(tslCode)}");
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();

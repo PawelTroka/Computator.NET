@@ -26,10 +26,10 @@ namespace Computator.NET.WebApi.Controllers
         //[HttpGet("real/{equation}/{customFunctionsCode}")]
         public string Execute(string tslCode, string customFunctionsCode="")
         {
-            var decodedTslCode = WebUtility.UrlDecode(tslCode);
+            var decodedTslCode = (tslCode);
             _logger.LogInformation($"Decoded tsl code '{tslCode}' to '{decodedTslCode}'");
 
-            var decodedCustomFunctions = WebUtility.UrlDecode(customFunctionsCode);
+            var decodedCustomFunctions = (customFunctionsCode);
             _logger.LogInformation($"Decoded custom functions code '{customFunctionsCode}' to '{decodedCustomFunctions}'");
 
             var func = _scriptsProvider.GetScript(decodedTslCode, decodedCustomFunctions);
