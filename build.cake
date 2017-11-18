@@ -2,6 +2,7 @@
 #addin nuget:?package=Cake.Codecov
 #addin nuget:?package=Cake.AppPackager
 #addin nuget:?package=Cake.VersionReader
+#addin "Cake.FileHelpers"
 
 #tool coveralls.net
 #tool nuget:?package=OpenCover
@@ -345,7 +346,14 @@ Task("Build-Uwp")
 		
 		MoveFiles(@"*.pri", packageFiles);// move /y .\*.pri AppPackages\PackageFiles
 		
-		AppPack("AppPackages/Computator.NET.appx", new DirectoryPath("AppPackages/PackageFiles"));		
+		AppPack("AppPackages/Computator.NET.x64.appx", new DirectoryPath("AppPackages/PackageFiles"));
+		
+		//build another for x86
+		CopyDirectory(@"Computator.NET.Core/Special/windows-x86", packageFiles);
+		ReplaceTextInFiles(packageFiles+"/AppxManifest.xml","x64","x86");
+		AppPack("AppPackages/Computator.NET.x86.appx", new DirectoryPath("AppPackages/PackageFiles"));
+
+
 		Sign(GetFiles("AppPackages/*.appx"), new SignToolSignSettings {
 			TimeStampUri = new Uri("http://timestamp.digicert.com"),
 			DigestAlgorithm = SignToolDigestAlgorithm.Sha256,
@@ -393,12 +401,15 @@ Task("Publish")
 	//Publish UWP
 	if(IsRunningOnWindows())
 	{
-		var appxPublishPath = "publish/Computator.NET" + namesSuffix + "appx";
+		var appxX86PublishPath = "publish/Computator.NET" + namesSuffix + "x86.appx";
+		var appxX64PublishPath = "publish/Computator.NET" + namesSuffix + "x64.appx";
 		RunTarget("Build-Uwp");
-		MoveFile(@"AppPackages/Computator.NET.appx", appxPublishPath);
+		MoveFile(@"AppPackages/Computator.NET.x86.appx", appxX86PublishPath);
+		MoveFile(@"AppPackages/Computator.NET.x64.appx", appxX64PublishPath);
 		if(AppVeyor.IsRunningOnAppVeyor)
 		{
-			AppVeyor.UploadArtifact(appxPublishPath);
+			AppVeyor.UploadArtifact(appxX64PublishPath);
+			AppVeyor.UploadArtifact(appxX86PublishPath);
 		}
 	}
 	else
