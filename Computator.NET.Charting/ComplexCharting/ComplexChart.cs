@@ -47,7 +47,7 @@ namespace Computator.NET.Charting.ComplexCharting
             InitialDelay = 1000,
             ReshowDelay = 500
         };
-        
+
 
         #endregion
 

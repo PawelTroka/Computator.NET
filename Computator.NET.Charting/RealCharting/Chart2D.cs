@@ -65,6 +65,22 @@ namespace Computator.NET.Charting.RealCharting
             Quality = 50;
         }
 
+        public new bool Visible
+        {
+            get => base.Visible;
+            set
+            {
+                if (base.Visible == false && value)
+                {
+                    base.Visible = true;
+                    Redraw();
+                    _refreshFunctions();
+                }
+                else
+                    base.Visible = value;
+            }
+        }
+
         public int LineThickness
         {
             get { return _lineThickness; }
@@ -214,7 +230,8 @@ namespace Computator.NET.Charting.RealCharting
                 XMinChanged?.Invoke(this, new EventArgs());
 
                 NotifyPropertyChanged("XyRatio");
-                _refreshFunctions();
+                if (Visible)
+                    _refreshFunctions();
             }
         }
 
@@ -238,7 +255,8 @@ namespace Computator.NET.Charting.RealCharting
 
                 ChartAreas[0].AxisX.Maximum = value;
                 XMaxChanged?.Invoke(this, new EventArgs());
-                _refreshFunctions();
+                if (Visible)
+                    _refreshFunctions();
             }
         }
 
@@ -258,7 +276,8 @@ namespace Computator.NET.Charting.RealCharting
 
                 ChartAreas[0].AxisY.Minimum = value;
                 YMinChanged?.Invoke(this, new EventArgs());
-                _refreshFunctions();
+                if (Visible)
+                    _refreshFunctions();
             }
         }
 
@@ -276,7 +295,8 @@ namespace Computator.NET.Charting.RealCharting
                 if (ChartAreas[0].AxisY.Maximum == value) return;
                 ChartAreas[0].AxisY.Maximum = value;
                 YMaxChanged?.Invoke(this, new EventArgs());
-                _refreshFunctions();
+                if (Visible)
+                    _refreshFunctions();
             }
         }
 
@@ -297,7 +317,8 @@ namespace Computator.NET.Charting.RealCharting
 
                 quality = value;
                 calculateN(value);
-                _refreshFunctions();
+                if (Visible)
+                    _refreshFunctions();
             }
         }
 

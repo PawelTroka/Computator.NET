@@ -164,7 +164,8 @@ namespace Computator.NET.Charting.Chart3D.UI
                 if (value != mode)
                 {
                     mode = value;
-                    Redraw();
+                    if (Visible)
+                        Redraw();
                 }
             }
         }
@@ -182,7 +183,8 @@ namespace Computator.NET.Charting.Chart3D.UI
                 if (value != xmin)
                 {
                     xmin = value;
-                    Redraw();
+                    if (Visible)
+                        Redraw();
                     XMinChanged?.Invoke(this, new EventArgs());
                 }
             }
@@ -197,7 +199,8 @@ namespace Computator.NET.Charting.Chart3D.UI
                 if (value != xmax)
                 {
                     xmax = value;
-                    Redraw();
+                    if (Visible)
+                        Redraw();
                     XMaxChanged?.Invoke(this, new EventArgs());
                 }
             }
@@ -211,7 +214,8 @@ namespace Computator.NET.Charting.Chart3D.UI
                 if (value != ymin)
                 {
                     ymin = value;
-                    Redraw();
+                    if (Visible)
+                        Redraw();
                     YMinChanged?.Invoke(this, new EventArgs());
                 }
             }
@@ -225,7 +229,8 @@ namespace Computator.NET.Charting.Chart3D.UI
                 if (value != ymax)
                 {
                     ymax = value;
-                    Redraw();
+                    if (Visible)
+                        Redraw();
                     YMaxChanged?.Invoke(this, new EventArgs());
                 }
             }
@@ -246,7 +251,8 @@ namespace Computator.NET.Charting.Chart3D.UI
                     value = 0;
                 quality = value;
                 calculateN(value);
-                Redraw();
+                if (Visible)
+                    Redraw();
             }
             get { return quality; }
         }
@@ -292,8 +298,17 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         public bool Visible
         {
-            get { return ParentControl.Visible; }
-            set { ParentControl.Visible = value; }
+            get => ParentControl!=null && ParentControl.Visible;
+            set
+            {
+                if (ParentControl.Visible == false && value)
+                {
+                    ParentControl.Visible = true;
+                    Redraw();
+                }
+                else
+                    ParentControl.Visible = value;
+            }
         }
 
         public void AddFunction(Function fxy)
