@@ -1,9 +1,30 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace Computator.NET.DataTypes.Configuration
 {
     public static class RuntimeInformation
     {
+        private const uint PRODUCT_CLOUD = 0x000000B2; // Windows 10 S
+
+        [DllImport("Kernel32.dll")]
+        public static extern bool GetProductInfo([In] uint dwOSMajorVersion, [In] uint dwOSMinorVersion,
+            [In] uint dwSpMajorVersion, [In] uint dwSpMinorVersion, [Out] out uint pdwReturnedProductType);
+
+        public static bool IsWindows10S
+        {
+            get
+            {
+                if (IsUnix)
+                    return false;
+
+                GetProductInfo((uint) Environment.OSVersion.Version.Major, (uint) Environment.OSVersion.Version.Minor,
+                    (uint) Environment.OSVersion.Version.MajorRevision,
+                    (uint) Environment.OSVersion.Version.MinorRevision, out var productType);
+                return productType == PRODUCT_CLOUD;
+            }
+        }
+
         public static bool IsUnix
         {
             get
