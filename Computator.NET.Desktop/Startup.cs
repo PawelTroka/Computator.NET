@@ -74,9 +74,14 @@ namespace Computator.NET.Desktop
         }
         public static void Start()
         {
-
+            if (RuntimeInformation.IsWindows10S)
+            {
+                MessageBox.Show("Windows 10S is not supported. Computator.NET will exit now.", Strings.Error);
+                return;
+            }
             LogsConfigurator.Configure();
             EnvironmentLogger.LogEnvironmentInformation();
+            
 
             if (RuntimeInformation.IsUnix)
             {
