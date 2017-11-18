@@ -36,7 +36,7 @@
     <PackageReference Include="AvalonEdit" Version="5.0.4" />
     <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
     <PackageReference Include="NLog" Version="4.4.12" />
-    <PackageReference Include="Unity" Version="5.2.1" />
+    <PackageReference Include="Unity" Version="5.2.0" />
     <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" Condition="'$(TargetFramework)' == 'net40'" />
     <PackageReference Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
