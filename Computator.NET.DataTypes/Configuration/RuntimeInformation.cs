@@ -18,6 +18,9 @@ namespace Computator.NET.DataTypes.Configuration
                 if (IsUnix)
                     return false;
 
+                if (Environment.OSVersion.Version.Major < 10)
+                    return false;
+
                 GetProductInfo((uint) Environment.OSVersion.Version.Major, (uint) Environment.OSVersion.Version.Minor,
                     (uint) Environment.OSVersion.Version.MajorRevision,
                     (uint) Environment.OSVersion.Version.MinorRevision, out var productType);
