@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" Condition="'$(TargetFramework)' != 'net40'" />
     <PackageReference Include="Moq" Version="4.7.145" Condition="'$(TargetFramework)' != 'net40'" />
     <PackageReference Include="Moq" Version="4.2.1510.2205" Condition="'$(TargetFramework)' == 'net40'" />
-    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="NUnit" Version="3.7.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
