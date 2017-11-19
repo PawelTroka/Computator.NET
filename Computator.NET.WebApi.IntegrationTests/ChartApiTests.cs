@@ -65,6 +65,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         }
 
         [TestCase("png/300/300/-2.5/2.5/-0.5/0.5/x")]
+        [TestCase("bmp/300/300/-2.5/2.5/-0.5/0.5/x")]
         [TestCase("300/300/-2.5/2.5/-0.5/0.5/x")]
         [TestCase("1300/300/-2.5/2.5/-0.5/0.5/x")]
         [TestCase("-2.5/2.5/-0.5/0.5/x")]
@@ -85,6 +86,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         }
 
         [TestCase("png")]
+        [TestCase("bmp")]
         [TestCase("tiff")]
         [TestCase("jpeg")]
         [TestCase("gif")]
