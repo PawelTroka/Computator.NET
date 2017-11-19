@@ -27,8 +27,8 @@ namespace Computator.NET.Core.IntegrationTests
             GSLInitializer.Initialize();
         }
 
-        private const int StepsSmall = 6;
-        private const int Steps = 11;
+        private const int StepsSmall = 25;
+        private const int Steps = 50;
         private const double Min = -10;
         private const double Max = 10;
         private readonly int[] _a = Enumerable.Range(-10, 21).ToArray(); // {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
