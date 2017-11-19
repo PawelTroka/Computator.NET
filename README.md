@@ -15,11 +15,11 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 
 
-# Release 2.3.0 stable - *New installer, performance and stability*
-* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.3.0)
-* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.0/Computator.NET.Installer.v2.3.0.exe)
-* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.0/Computator.NET.v2.3.0.zip)
-* For Windows XP [download portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.0/Computator.NET.v2.3.0-WindowsXP.zip)
+# Release 2.3.1 stable - _another set of fixes_
+* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.3.1)
+* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.1/Computator.NET.Installer.v2.3.1.exe)
+* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.1/Computator.NET.v2.3.1.zip)
+* For Windows XP [download portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.1/Computator.NET.v2.3.1-WindowsXP.zip)
 
 
 # Installation & Setup
@@ -43,7 +43,7 @@ Computator.NET is a unique open numerical software that is fast and easy to use 
 
 * Windows (.NET Framework): [![Build status](https://ci.appveyor.com/api/projects/status/yy65wjyjagdh0lt6?svg=true)](https://ci.appveyor.com/project/PawelTroka/computator-net) [![Build status](http://flauschig.ch/batch.php?type=tests&account=PawelTroka&slug=computator-net)](https://ci.appveyor.com/project/PawelTroka/computator-net) 
 * Linux (Mono): [![Build Status](https://travis-ci.org/PawelTroka/Computator.NET.svg?branch=master)](https://travis-ci.org/PawelTroka/Computator.NET)
-* IDE: Visual Studio 2017 Update 3 (v15.3)
+* IDE: Visual Studio 2017 Update 4 (v15.4)
 * Visual Studio 2017 Enterprise needed to build and run CodedUI tests
 
 ##### Development
@@ -88,7 +88,7 @@ Alternatively, you can always solve equations graphically, simply by looking at 
     * [**.NET Framework** **4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718)
     * [.NET 4.0 **KB2468871**](https://www.microsoft.com/en-us/download/details.aspx?id=3556) update
 * Linux / Mac OS X (non-official support)
-    * [**Mono** **5.4.0**](http://www.mono-project.com/docs/about-mono/releases/) or newer 
+    * [**Mono** **5.4.1**](http://www.mono-project.com/docs/about-mono/releases/) or newer 
 * Operating system **Windows XP SP3** or later (**Windows Vista** or later is recommended, **Windows 10** is the best option because of continous testing on it)
 * Processor **1 GHz** or faster
 * Memory **512 MB**	or more
