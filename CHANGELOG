@@ -1,3 +1,14 @@
+  ### Version 2.3.1 - 18.11.2017 00:20 UTC
+ * Charts are now redrawn only when visible (fixed performance issue #128)
+ * Added support for Windows 10 32bit in Windows Store
+ * Graceful shutdown on Windows 10S since it's not supported yet
+ * Better DPI scaling with support for per monitor scaling
+ * Accessibility improvements
+ * Better long path support (removed MAX_PATH limitation)
+ * Added migrations from desktop app shortcuts to store app
+
+
+ 
  ### Version 2.3.0 - 12.11.2017 22:38 UTC
 
  *New installer, performance and stability*
