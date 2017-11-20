@@ -5,7 +5,8 @@ namespace Computator.NET.DataTypes.Configuration
 {
     public static class RuntimeInformation
     {
-        private const uint PRODUCT_CLOUD = 0x000000B2; // Windows 10 S
+        private const uint PRODUCT_CLOUD = 0x000000B2; // Windows 10S
+        private const uint PRODUCT_CLOUDN = 0x000000B3; // Windows 10S N edition
 
         [DllImport("Kernel32.dll")]
         public static extern bool GetProductInfo([In] uint dwOSMajorVersion, [In] uint dwOSMinorVersion,
@@ -24,7 +25,7 @@ namespace Computator.NET.DataTypes.Configuration
                 GetProductInfo((uint) Environment.OSVersion.Version.Major, (uint) Environment.OSVersion.Version.Minor,
                     (uint) Environment.OSVersion.Version.MajorRevision,
                     (uint) Environment.OSVersion.Version.MinorRevision, out var productType);
-                return productType == PRODUCT_CLOUD;
+                return productType == PRODUCT_CLOUD || productType == PRODUCT_CLOUDN;
             }
         }
 
