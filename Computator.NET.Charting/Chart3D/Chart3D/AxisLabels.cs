@@ -8,39 +8,39 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 {
     public class AxisLabels
     {
-        private readonly Canvas canvas;
+        private readonly Canvas _canvas;
         private bool _activeLabels;
         private string _labelX;
         private string _labelY;
         private string _labelZ;
-        private bool active_x, active_y, active_z;
-        private Color color;
-        private FontFamily fontFamily;
-        private double fontSize;
-        private FontStyle fontStyle;
-        private FontWeight fontWeight;
-        private int index_x, index_y, index_z;
-        private Point offset;
-        private TextBlock textBlock;
-        private Point x;
-        public Point3D x3D;
-        private Point y;
-        public Point3D y3D;
-        private Point z;
-        public Point3D z3D;
+        private bool _activeX, _activeY, _activeZ;
+        private Color _color;
+        private FontFamily _fontFamily;
+        private double _fontSize;
+        private FontStyle _fontStyle;
+        private FontWeight _fontWeight;
+        private int _indexX, _indexY, _indexZ;
+        private Point _offset;
+        private TextBlock _textBlock;
+        private Point _x;
+        public Point3D X3D;
+        private Point _y;
+        public Point3D Y3D;
+        private Point _z;
+        public Point3D Z3D;
 
         public AxisLabels(Canvas canvas)
         {
-            this.canvas = canvas;
-            index_x = index_y = index_z = -1;
-            active_x = active_z = active_y = _activeLabels = true;
-            offset.X = 5;
-            offset.Y = 5;
-            color = Colors.Goldenrod; //= Colors.Blue;
-            fontSize = 22;
-            fontFamily = new FontFamily("Cambria");
-            fontStyle = FontStyles.Normal;
-            fontWeight = FontWeights.Normal;
+            _canvas = canvas;
+            _indexX = _indexY = _indexZ = -1;
+            _activeX = _activeZ = _activeY = _activeLabels = true;
+            _offset.X = 5;
+            _offset.Y = 5;
+            _color = Colors.Goldenrod; //= Colors.Blue;
+            _fontSize = 22;
+            _fontFamily = new FontFamily("Arial");
+            _fontStyle = FontStyles.Normal;
+            _fontWeight = FontWeights.Normal;
             _labelX = "x";
             _labelY = "y";
             _labelZ = "z";
@@ -48,7 +48,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         public string LabelX
         {
-            get { return _labelX; }
+            get => _labelX;
             set
             {
                 _labelX = value;
@@ -58,7 +58,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         public string LabelY
         {
-            get { return _labelY; }
+            get => _labelY;
             set
             {
                 _labelY = value;
@@ -68,7 +68,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         public string LabelZ
         {
-            get { return _labelZ; }
+            get => _labelZ;
             set
             {
                 _labelZ = value;
@@ -78,7 +78,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         public bool ActiveLabels
         {
-            get { return _activeLabels; }
+            get => _activeLabels;
             set
             {
                 _activeLabels = value;
@@ -88,83 +88,83 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         public bool ActiveXLabel
         {
-            get { return active_x; }
+            get => _activeX;
             set
             {
-                active_x = value;
+                _activeX = value;
                 Reload();
             }
         }
 
         public bool ActiveYLabel
         {
-            get { return active_y; }
+            get => _activeY;
             set
             {
-                active_y = value;
+                _activeY = value;
                 Reload();
             }
         }
 
         public bool ActiveZLabel
         {
-            get { return active_z; }
+            get => _activeZ;
             set
             {
-                active_z = value;
+                _activeZ = value;
                 Reload();
             }
         }
 
         public Color Color
         {
-            get { return color; }
+            get => _color;
             set
             {
-                color = value;
+                _color = value;
                 Reload();
             }
         }
 
         public Point Offset
         {
-            get { return offset; }
+            get => _offset;
             set
             {
-                offset = value;
+                _offset = value;
                 Reload();
             }
         }
 
         public void Reload(Point x, Point y, Point z)
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            _x = x;
+            _y = y;
+            _z = z;
 
             //remove the old labels from canvas if they exist:
             Remove();
 
             if (_activeLabels)
-                draw();
+                Draw();
         }
 
-        public void setProporties(FontFamily fontFamily, double? fontSize, Color? color, FontStyle? fontStyle,
-            FontWeight? fontWight)
+        public void SetProporties(FontFamily fontFamily, double? fontSize, Color? color, FontStyle? fontStyle,
+            FontWeight? fontWeight)
         {
             if (color.HasValue)
-                this.color = color.Value;
+                _color = color.Value;
 
-            this.fontFamily = fontFamily;
+            _fontFamily = fontFamily;
 
             if (fontSize.HasValue)
-                this.fontSize = fontSize.Value;
+                _fontSize = fontSize.Value;
 
             if (fontStyle.HasValue)
-                this.fontStyle = fontStyle.Value;
+                _fontStyle = fontStyle.Value;
 
-            if (fontWight.HasValue)
-                fontWeight = fontWight.Value;
+            if (fontWeight.HasValue)
+                _fontWeight = fontWeight.Value;
 
             Reload();
         }
@@ -175,75 +175,77 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
             Remove();
 
             //if (_activeLabels)
-            draw();
+            Draw();
         }
 
-        private void renewText()
+        private void RenewText()
         {
-            textBlock = new TextBlock();
-            textBlock.Foreground = new SolidColorBrush(color);
-            textBlock.FontSize = fontSize;
-            textBlock.FontFamily = fontFamily;
-            textBlock.FontStyle = fontStyle;
-            textBlock.FontWeight = fontWeight;
+            _textBlock = new TextBlock
+            {
+                Foreground = new SolidColorBrush(_color),
+                FontSize = _fontSize,
+                FontFamily = _fontFamily,
+                FontStyle = _fontStyle,
+                FontWeight = _fontWeight
+            };
         }
 
-        private void draw()
+        private void Draw()
         {
             if (_activeLabels)
             {
-                if (active_x)
-                    drawX();
+                if (_activeX)
+                    DrawX();
 
-                if (active_y)
-                    drawY();
+                if (_activeY)
+                    DrawY();
 
-                if (active_z)
-                    drawZ();
+                if (_activeZ)
+                    DrawZ();
             }
         }
 
-        private void drawX()
+        private void DrawX()
         {
             //x-label:
-            renewText();
-            textBlock.Text = _labelX;
-            Canvas.SetLeft(textBlock, x.X + offset.X);
-            Canvas.SetTop(textBlock, x.Y + offset.Y);
-            index_x = canvas.Children.Add(textBlock);
+            RenewText();
+            _textBlock.Text = _labelX;
+            Canvas.SetLeft(_textBlock, _x.X + _offset.X);
+            Canvas.SetTop(_textBlock, _x.Y + _offset.Y);
+            _indexX = _canvas.Children.Add(_textBlock);
         }
 
-        private void drawY()
+        private void DrawY()
         {
             //y-label:
-            renewText();
-            textBlock.Text = _labelY;
-            Canvas.SetLeft(textBlock, y.X + offset.X);
-            Canvas.SetTop(textBlock, y.Y + offset.Y);
-            index_y = canvas.Children.Add(textBlock);
+            RenewText();
+            _textBlock.Text = _labelY;
+            Canvas.SetLeft(_textBlock, _y.X + _offset.X);
+            Canvas.SetTop(_textBlock, _y.Y + _offset.Y);
+            _indexY = _canvas.Children.Add(_textBlock);
         }
 
-        private void drawZ()
+        private void DrawZ()
         {
             //z-label:
-            renewText();
-            textBlock.Text = _labelZ;
-            Canvas.SetLeft(textBlock, z.X + offset.X);
-            Canvas.SetTop(textBlock, z.Y + offset.Y);
-            index_z = canvas.Children.Add(textBlock);
+            RenewText();
+            _textBlock.Text = _labelZ;
+            Canvas.SetLeft(_textBlock, _z.X + _offset.X);
+            Canvas.SetTop(_textBlock, _z.Y + _offset.Y);
+            _indexZ = _canvas.Children.Add(_textBlock);
         }
 
         public void Remove()
         {
             //remove the old labels from canvas if they exist:
-            if (index_z != -1)
-                canvas.Children.RemoveAt(index_z);
-            if (index_y != -1)
-                canvas.Children.RemoveAt(index_y);
-            if (index_x != -1)
-                canvas.Children.RemoveAt(index_x);
+            if (_indexZ != -1)
+                _canvas.Children.RemoveAt(_indexZ);
+            if (_indexY != -1)
+                _canvas.Children.RemoveAt(_indexY);
+            if (_indexX != -1)
+                _canvas.Children.RemoveAt(_indexX);
 
-            index_x = index_y = index_z = -1;
+            _indexX = _indexY = _indexZ = -1;
         }
     }
 }

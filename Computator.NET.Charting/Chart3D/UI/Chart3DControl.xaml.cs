@@ -736,15 +736,15 @@ namespace Computator.NET.Charting.Chart3D.UI
                     whichTimeCone3dAppear++;
                     if (whichTimeCone3dAppear == 1)
                     {
-                        axisLabels.x3D = ((Cone3D) meshs[i]).GetLastPoint();
+                        axisLabels.X3D = ((Cone3D) meshs[i]).GetLastPoint();
                     }
                     else if (whichTimeCone3dAppear == 2)
                     {
-                        axisLabels.y3D = ((Cone3D) meshs[i]).GetLastPoint();
+                        axisLabels.Y3D = ((Cone3D) meshs[i]).GetLastPoint();
                     }
                     else if (whichTimeCone3dAppear == 3)
                     {
-                        axisLabels.z3D = ((Cone3D) meshs[i]).GetLastPoint();
+                        axisLabels.Z3D = ((Cone3D) meshs[i]).GetLastPoint();
                     }
                 }
             }
@@ -763,9 +763,9 @@ namespace Computator.NET.Charting.Chart3D.UI
 
             if (axisLabels.ActiveLabels && _functions != null && _functions.Count > 0)
             {
-                var x = axisLabels.x3D;
-                var y = axisLabels.y3D;
-                var z = axisLabels.z3D;
+                var x = axisLabels.X3D;
+                var y = axisLabels.Y3D;
+                var z = axisLabels.Z3D;
 
                 axisLabels.Reload(m_transformMatrix.VertexToScreenPt(x, mainViewport),
                     m_transformMatrix.VertexToScreenPt(y, mainViewport),

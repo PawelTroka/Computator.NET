@@ -132,7 +132,7 @@ namespace Computator.NET.Charting.Chart3D.UI
             {
                 var fs = convertFontStyleToWindowsFontStyle(font.Style);
 
-                chart3d.AxisLabels.setProporties(
+                chart3d.AxisLabels.SetProporties(
                     new FontFamily(font.FontFamily.ToString().Replace("[FontFamily: Name=", "").Replace("]", "")),
                     font.Size, colorLabels, fs, null);
             }
