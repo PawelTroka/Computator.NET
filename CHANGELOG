@@ -1,3 +1,10 @@
+  ### Version 2.3.2 - 17.12.2017 09:05 UTC
+ * Fixed Chart3D crashing on some environments due to missing or corrupted Cambria font (#130)
+ * Resolved all known DPI scaling issues up to 300% DPI
+ * Better detection of Windows 10S
+
+
+
   ### Version 2.3.1 - 19.11.2017 18:52 UTC
  * Charts are now redrawn only when visible (fixed performance issue #128)
  * Added support for Windows 10 32bit in Windows Store
