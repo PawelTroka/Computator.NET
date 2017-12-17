@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Computator.NET.Desktop.Services;
 
 namespace Computator.NET.Desktop.Views
 {
@@ -57,7 +58,7 @@ namespace Computator.NET.Desktop.Views
             // 
             // statusStrip1
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(16, 16).DpiScale();
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.XYRatioToolStripStatusLabel,

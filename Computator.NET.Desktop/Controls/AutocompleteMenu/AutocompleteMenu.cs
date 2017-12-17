@@ -25,6 +25,7 @@ using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Text;
 using Computator.NET.Desktop.Controls.AutocompleteMenu.Wrappers;
+using Computator.NET.Desktop.Services;
 
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
@@ -59,7 +60,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             Enabled = true;
             AppearInterval = 500;
             _timer.Tick += Timer_Tick;
-            MaximumSize = new Size(2000, 200);
+            MaximumSize = new Size(2000, 200).DpiScale();
             AutoPopup = true;
 
             SearchPattern = @"[\w\.]";
@@ -317,7 +318,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             //CaptureFocus = true;
             ToolTipDuration = 4000;
             MinFragmentLength = 1;
-            ImageList = new ImageList {TransparentColor = Color.Transparent};
+            ImageList = new ImageList {TransparentColor = Color.Transparent, ImageSize = Resources.Real.Size.DpiScale()};
             ImageList.Images.Add(Resources.Real);
             ImageList.Images.Add(Resources.Complex);
             ImageList.Images.Add(Resources.Natural);

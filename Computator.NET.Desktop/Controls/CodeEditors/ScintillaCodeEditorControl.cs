@@ -20,6 +20,7 @@ using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Text;
 using Computator.NET.Desktop.Controls.AutocompleteMenu.Wrappers;
+using Computator.NET.Desktop.Services;
 using ScintillaNET;
 
 namespace Computator.NET.Desktop.Controls.CodeEditors
@@ -46,7 +47,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             _autocompleteMenu = new AutocompleteMenu.AutocompleteMenu(sharedViewState)
             {
                 TargetControlWrapper = new ScintillaWrapper(this),
-                MaximumSize = new Size(500, 180)
+                MaximumSize = new Size(500, 180).DpiScale()
             };
             _autocompleteMenu.SetAutocompleteItems(_autocompleteProvider.ScriptingAutocompleteItems);
             //_autocompleteMenu.CaptureFocus = true;

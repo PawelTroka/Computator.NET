@@ -1,4 +1,6 @@
-﻿namespace Computator.NET.Desktop.Views
+﻿using Computator.NET.Desktop.Services;
+
+namespace Computator.NET.Desktop.Views
 {
     partial class MenuStripView
     {
@@ -33,7 +35,7 @@
             // 
             // menuStrip2
             // 
-            this.menuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip2.ImageScalingSize = new System.Drawing.Size(16, 16).DpiScale();
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
             this.menuStrip2.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -43,7 +45,7 @@
             // 
             // MenuStripView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.Controls.Add(this.menuStrip2);
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);

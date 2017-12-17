@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Computator.NET.Core.Abstract;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.DataTypes.Properties;
+using Computator.NET.Desktop.Services;
 using Computator.NET.Localization;
 
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
@@ -20,9 +21,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             Text = Strings.Functions_and_Constants_Details;
             webBrowser = new WebBrowser
             {
-                MinimumSize = new Size(300, 195),
+                MinimumSize = new Size(300, 195).DpiScale(),
                 ScrollBarsEnabled = true,
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                AutoSize = true,
             };
 
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
@@ -31,7 +33,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
             TopMost = true;
             ShowInTaskbar = false;
-
+            AutoSize = true;
+            AutoScaleMode = AutoScaleMode.Font;
 
             Controls.Add(webBrowser);
         }

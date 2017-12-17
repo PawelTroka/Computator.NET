@@ -309,7 +309,7 @@ namespace Computator.NET.Desktop.Views
             // 
             // CalculationsView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(8);
             this.Name = "CalculationsView";

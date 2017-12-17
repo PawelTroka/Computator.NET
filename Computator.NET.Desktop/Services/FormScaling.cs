@@ -6,6 +6,16 @@ namespace Computator.NET.Desktop.Services
 {
     public static class ScalingExtensions
     {
+        public static Size DpiScale(this Size size)
+        {
+            var scaleX = Graphics.FromHwnd(IntPtr.Zero).DpiX / 96;
+            var scaleY = Graphics.FromHwnd(IntPtr.Zero).DpiX / 96;
+
+            var scaledWidth = (int)(size.Width * scaleX);
+            var scaledHeight = (int)(size.Height * scaleY);
+            return new Size(scaledWidth, scaledHeight);
+        }
+
         public static void DpiScale(this Control control)
         {
             var scaleX = control.CreateGraphics().DpiX / 96;

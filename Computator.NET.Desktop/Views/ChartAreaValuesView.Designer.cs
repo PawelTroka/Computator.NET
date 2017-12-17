@@ -1,5 +1,8 @@
-﻿using Computator.NET.Desktop.Controls;
+﻿using System.Drawing;
+using System.Windows.Forms;
+using Computator.NET.Desktop.Controls;
 using Computator.NET.DataTypes.Text;
+using Computator.NET.Desktop.Services;
 
 namespace Computator.NET.Desktop.Views
 {
@@ -31,6 +34,7 @@ namespace Computator.NET.Desktop.Views
         /// </summary>
         private void InitializeComponent()
         {
+            var _numericScaledSize = new System.Drawing.Size(96, 22).DpiScale();
             this.label2 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -69,6 +73,7 @@ namespace Computator.NET.Desktop.Views
             // 
             // trackBar1
             // 
+            this.trackBar1.AutoSize = true;
             this.trackBar1.Dock = System.Windows.Forms.DockStyle.Top;
             this.trackBar1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.trackBar1.LargeChange = 20;
@@ -164,7 +169,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             this.yNNumericUpDown.Name = "yNNumericUpDown";
-            this.yNNumericUpDown.Size = new System.Drawing.Size(120, 27);
+            this.yNNumericUpDown.Size = _numericScaledSize;
             this.yNNumericUpDown.TabIndex = 17;
             this.yNNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.yNNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
@@ -188,7 +193,7 @@ namespace Computator.NET.Desktop.Views
             this.label3.Text = "x0 =";
             // 
             // x0NumericUpDown
-            // 
+            //
             this.x0NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
             this.x0NumericUpDown.Epsilon = new decimal(new int[] {
             1,
@@ -209,7 +214,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             this.x0NumericUpDown.Name = "x0NumericUpDown";
-            this.x0NumericUpDown.Size = new System.Drawing.Size(120, 27);
+            this.x0NumericUpDown.Size = _numericScaledSize;
             this.x0NumericUpDown.TabIndex = 10;
             this.x0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.x0NumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
@@ -233,7 +238,7 @@ namespace Computator.NET.Desktop.Views
             this.y0label.Text = "y0 =";
             // 
             // y0NumericUpDown
-            // 
+            //
             this.y0NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
             this.y0NumericUpDown.Epsilon = new decimal(new int[] {
             1,
@@ -254,7 +259,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             this.y0NumericUpDown.Name = "y0NumericUpDown";
-            this.y0NumericUpDown.Size = new System.Drawing.Size(120, 27);
+            this.y0NumericUpDown.Size = _numericScaledSize;
             this.y0NumericUpDown.TabIndex = 16;
             this.y0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.y0NumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
@@ -299,7 +304,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             this.xnNumericUpDown.Name = "xnNumericUpDown";
-            this.xnNumericUpDown.Size = new System.Drawing.Size(120, 27);
+            this.xnNumericUpDown.Size = _numericScaledSize;
             this.xnNumericUpDown.TabIndex = 11;
             this.xnNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.xnNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
@@ -336,10 +341,22 @@ namespace Computator.NET.Desktop.Views
             this.addToChartButton.TabIndex = 19;
             this.addToChartButton.Text = Localization.Views.ChartAreaValuesView.addToChartButton_Text;
             this.addToChartButton.UseVisualStyleBackColor = true;
+
+            //this.yNNumericUpDown.AutoScaleMode = AutoScaleMode.Font;
+            //this.yNNumericUpDown.AutoSize = true;
+            //this.y0NumericUpDown.AutoScaleMode = AutoScaleMode.Font;
+            //this.y0NumericUpDown.AutoSize = true;
+            //this.xnNumericUpDown.AutoScaleMode = AutoScaleMode.Font;
+            //this.xnNumericUpDown.AutoSize = true;
+            //this.x0NumericUpDown.AutoScaleMode = AutoScaleMode.Font;
+            //this.x0NumericUpDown.AutoSize = true;
+
             // 
             // ChartAreaValuesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoSize = true;
+            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.label2);
@@ -348,7 +365,9 @@ namespace Computator.NET.Desktop.Views
             this.Controls.Add(this.addToChartButton);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F);
             this.Name = "ChartAreaValuesView";
-            this.Size = new System.Drawing.Size(202, 412);
+            this.MinimumSize = new Size(143, 325).DpiScale();
+            this.Size = new System.Drawing.Size(180, 350).DpiScale();
+
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();

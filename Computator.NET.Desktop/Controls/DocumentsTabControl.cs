@@ -18,7 +18,6 @@ namespace Computator.NET.Desktop.Controls
         private ContextMenuStrip contextMenuStrip1;
         //public Dictionary<string,string> Documents { get; private set; }
         private int id = 1;
-        private ImageList imageList1;
         private ToolStripMenuItem newTabToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
         public DocumentsTabControl()
@@ -55,7 +54,6 @@ namespace Computator.NET.Desktop.Controls
             closeTabsToTheRightToolStripMenuItem = new ToolStripMenuItem();
             closeTabsToTheLeftToolStripMenuItem = new ToolStripMenuItem();
             addTabPage = new TabPage();
-            imageList1 = new ImageList();
             SuspendLayout();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
@@ -68,7 +66,29 @@ namespace Computator.NET.Desktop.Controls
             Dock = DockStyle.Fill;
             Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular,
                 GraphicsUnit.Point, 0);
-            ImageList = imageList1;
+
+
+            var imageList1 = new ImageList
+            {
+                ImageStream = (ImageListStreamer) resources.GetObject("imageList1.ImageStream"),
+                TransparentColor = Color.Transparent
+            };
+            imageList1.Images.SetKeyName(0, "saved.png");
+            imageList1.Images.SetKeyName(1, "unsaved.png");
+
+            var imageList2 = new ImageList
+            {
+                TransparentColor = Color.Transparent,
+                ImageSize = imageList1.ImageSize.DpiScale()
+            };
+
+            for (int i = 0; i < imageList1.Images.Count; i++)
+            {
+                imageList2.Images.Add(imageList1.Images[i]);
+            }
+
+            ImageList = imageList2;
+
             Location = new Point(0, 0);
             Margin = new Padding(5, 4, 5, 4);
             Name = "this";
@@ -158,14 +178,7 @@ namespace Computator.NET.Desktop.Controls
             addTabPage.Text = "( + )";
 
             addTabPage.UseVisualStyleBackColor = true;
-            // 
-            // imageList1
-            // 
-            imageList1.ImageStream =
-                (ImageListStreamer) resources.GetObject("imageList1.ImageStream");
-            imageList1.TransparentColor = Color.Transparent;
-            imageList1.Images.SetKeyName(0, "saved.png");
-            imageList1.Images.SetKeyName(1, "unsaved.png");
+
             // 
             // DocumentsTabControl
             // 

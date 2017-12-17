@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
+using Computator.NET.DataTypes.Configuration;
+using Computator.NET.Desktop.Controls;
+using Computator.NET.Desktop.Services;
 
 namespace Computator.NET.Desktop.Views
 {
@@ -14,6 +18,13 @@ namespace Computator.NET.Desktop.Views
         {
             InitializeComponent();
             _errorProvider = new ErrorProvider(yNNumericUpDown);
+            if (RuntimeInformation.IsWindows)
+            {
+                using (var icon = new IconEx(IconEx.SystemIcons.Error, _errorProvider.Icon.Size.DpiScale()))
+                {
+                    _errorProvider.Icon = new Icon(icon.Icon, _errorProvider.Icon.Size.DpiScale());
+                }
+            }
             _controlsByProperties = new Dictionary<string, Control>()
         {
             { nameof(XMin), x0NumericUpDown},

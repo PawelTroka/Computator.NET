@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.Desktop.Services;
 
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
@@ -37,7 +38,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             ItemHeight = Font.Height + 2;
             VerticalScroll.SmallChange = ItemHeight;
             BackColor = Color.White;
-            LeftPadding = 18;
+            LeftPadding = new Size(18, 0).DpiScale().Width;
             ToolTipDuration = 3000;
             // this.LostFocus += Control_LostFocus;
             //this.VisibleChanged += Control_VisibleChanged;
@@ -46,8 +47,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             //  toolTip.LostFocus += ToolTip_LostFocus;
             formTip = new WebBrowserForm();
             Colors = new Colors();
-            AutoScaleMode=AutoScaleMode.None;
-            
+            AutoScaleMode=AutoScaleMode.Font;
+            AutoSize = true;
         }
 
 

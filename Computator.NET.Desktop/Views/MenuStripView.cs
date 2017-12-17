@@ -51,7 +51,7 @@ namespace Computator.NET.Desktop.Views
             button.Image = command.Icon;
             button.Enabled = command.IsEnabled;
             button.Visible = command.Visible;
-            button.ImageScaling = ToolStripItemImageScaling.None;
+            button.ImageScaling = ToolStripItemImageScaling.SizeToFit;
             button.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             button.ShowShortcutKeys = true;
             button.ShortcutKeyDisplayString = command.ShortcutKeyString;

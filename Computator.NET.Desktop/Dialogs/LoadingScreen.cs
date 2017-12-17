@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Properties;
+using Computator.NET.Desktop.Services;
 
 namespace Computator.NET.Desktop.Dialogs
 {
@@ -13,6 +14,8 @@ namespace Computator.NET.Desktop.Dialogs
 
         public LoadingScreen()
         {
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             FormBorderStyle = FormBorderStyle.None;
             StartPosition = FormStartPosition.CenterScreen;
             this.Icon = GraphicsResources.computator_net_icon;
@@ -30,12 +33,15 @@ namespace Computator.NET.Desktop.Dialogs
                 SizeMode = PictureBoxSizeMode.StretchImage
             };
 
+            pictureBox.Size = pictureBox.Size.DpiScale();
+
             var progressBar = new ProgressBar
             {
                 Style = ProgressBarStyle.Marquee,
                 MarqueeAnimationSpeed = 10,
                 Dock = DockStyle.Bottom
             };
+            progressBar.Size = progressBar.Size.DpiScale();
 
             Size = new Size(pictureBox.Width, pictureBox.Height + progressBar.Height);
 

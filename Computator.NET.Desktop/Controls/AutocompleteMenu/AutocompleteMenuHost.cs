@@ -14,7 +14,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         public AutocompleteMenuHost(AutocompleteMenu menu)
         {
             AutoClose = false;
-            AutoSize = false;
+            AutoSize = true;
             
             Margin = Padding.Empty;
             Padding = Padding.Empty;

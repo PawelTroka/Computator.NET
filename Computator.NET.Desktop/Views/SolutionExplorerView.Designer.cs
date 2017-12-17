@@ -44,7 +44,7 @@ namespace Computator.NET.Desktop.Views
             this.openScriptingDirectoryButton.Location = new System.Drawing.Point(0, 0);
             this.openScriptingDirectoryButton.Margin = new System.Windows.Forms.Padding(2);
             this.openScriptingDirectoryButton.Name = "openScriptingDirectoryButton";
-            this.openScriptingDirectoryButton.Size = new System.Drawing.Size(182, 46);
+            this.openScriptingDirectoryButton.Size = new System.Drawing.Size(182, 50);
             this.openScriptingDirectoryButton.TabIndex = 5;
             this.openScriptingDirectoryButton.Text = Localization.Views.SolutionExplorerView.openScriptingDirectoryButton_Text;
             this.openScriptingDirectoryButton.UseVisualStyleBackColor = true;
@@ -54,7 +54,7 @@ namespace Computator.NET.Desktop.Views
             this.scriptingDirectoryTree.CodeEditorWrapper = null;
             this.scriptingDirectoryTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scriptingDirectoryTree.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.scriptingDirectoryTree.Location = new System.Drawing.Point(0, 46);
+            this.scriptingDirectoryTree.Location = new System.Drawing.Point(0, 50);
             this.scriptingDirectoryTree.Margin = new System.Windows.Forms.Padding(2);
             this.scriptingDirectoryTree.Name = "scriptingDirectoryTree";
             treeNode1.Name = "";
@@ -67,7 +67,8 @@ namespace Computator.NET.Desktop.Views
             // 
             // SolutionExplorerView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoSize = true;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.scriptingDirectoryTree);
             this.Controls.Add(this.openScriptingDirectoryButton);
             this.Name = "SolutionExplorerView";

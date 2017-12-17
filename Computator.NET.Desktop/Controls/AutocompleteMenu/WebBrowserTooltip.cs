@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Autocompletion;
+using Computator.NET.Desktop.Services;
 using Computator.NET.Localization;
 
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
@@ -15,8 +16,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             webBrowser = new WebBrowser
             {
-                MinimumSize = new Size(300, 195),
-                ScrollBarsEnabled = true
+                MinimumSize = new Size(300, 195).DpiScale(),
+                ScrollBarsEnabled = true,
+                AutoSize = true,
             };
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
 
@@ -24,6 +26,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             Initialize();
             //  form = new WebBrowserForm(webBrowser);
             AutoClose = false;
+            AutoSize = true;
         }
 
         public string HTMLCode

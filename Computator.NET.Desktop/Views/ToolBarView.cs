@@ -38,7 +38,7 @@ namespace Computator.NET.Desktop.Views
                     Image = command.Icon,
                     Enabled = command.IsEnabled,
                     Visible = command.Visible,
-                    ImageScaling = ToolStripItemImageScaling.None,
+                    ImageScaling = ToolStripItemImageScaling.SizeToFit,
                     DisplayStyle = ToolStripItemDisplayStyle.Image
                 };
 
