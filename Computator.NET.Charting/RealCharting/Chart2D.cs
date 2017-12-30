@@ -213,6 +213,13 @@ namespace Computator.NET.Charting.RealCharting
 
         #endregion
 
+
+
+        public void Redraw()
+        {
+            Invalidate();
+        }
+
         public double XMin
         {
             get { return ChartAreas[0].AxisX.Minimum; }
@@ -233,11 +240,6 @@ namespace Computator.NET.Charting.RealCharting
                 if (Visible)
                     _refreshFunctions();
             }
-        }
-
-        public void Redraw()
-        {
-            Invalidate();
         }
 
         public double XMax
