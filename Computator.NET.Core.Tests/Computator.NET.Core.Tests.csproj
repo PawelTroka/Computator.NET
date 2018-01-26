@@ -32,9 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" Condition="'$(TargetFramework)' != 'net40'" />
-    <PackageReference Include="Moq" Version="4.8.0" Condition="'$(TargetFramework)' != 'net40'" />
+    <PackageReference Include="Moq" Version="4.8.1" Condition="'$(TargetFramework)' != 'net40'" />
     <PackageReference Include="Moq" Version="4.2.1510.2205" Condition="'$(TargetFramework)' == 'net40'" />
-    <PackageReference Include="MathNet.Numerics" Version="3.20.0" />
+    <PackageReference Include="MathNet.Numerics" Version="3.20.2" />
     <PackageReference Include="NUnit" Version="3.7.1" />
   </ItemGroup>
   <ItemGroup>
