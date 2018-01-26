@@ -88,15 +88,8 @@ namespace Computator.NET.Core.Compilation
 
         public Assembly Compile(string input)
         {
-            if (RuntimeInformation.IsUnix)
-            {
-                if (!Directory.Exists(AppInformation.TempDirectory))
-                {
-                    Directory.CreateDirectory(AppInformation.TempDirectory);
-                }
-                //fix for #39 - otherwise in Mono CSharpCodeProvider will always return the same assembly
-                _parameters.OutputAssembly = Path.Combine(AppInformation.TempDirectory, Guid.NewGuid().ToString());
-            }
+            FixForMonoAndNetCore();
+
             var results = CompileAssemblyFromSource(_parameters, input);
 
             if (results.Errors.HasErrors)
@@ -150,6 +143,18 @@ namespace Computator.NET.Core.Compilation
             results.TempFiles.Delete();
 
             return results.CompiledAssembly;
+        }
+
+        private void FixForMonoAndNetCore()
+        {
+            //fix for #39 - otherwise in Mono CSharpCodeProvider will always return the same assembly
+            //this also happens on .NET Core
+            if (!Directory.Exists(AppInformation.TempDirectory))
+            {
+                Directory.CreateDirectory(AppInformation.TempDirectory);
+            }
+
+            _parameters.OutputAssembly = Path.Combine(AppInformation.TempDirectory, Guid.NewGuid().ToString());
         }
 
         private CompilationException CreateCompilationExceptionFromCompilerResults(CompilerResults results)
