@@ -21,7 +21,7 @@ var results = solve(eq);
 writeln(results);
 
 //alternatively we could call it on all it's elements
-writeln("x = "); write(results[0]);
-writeln("y = "); write(results[1]);
-writeln("z = "); write(results[2]);
+write("x = "); writeln(results[0]);
+write("y = "); writeln(results[1]);
+write("z = "); writeln(results[2]);
 //of course that would be not very useful for bigger sets of equations
