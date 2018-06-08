@@ -39,7 +39,6 @@ namespace Computator.NET.Installer
 
             var project = new Project("Computator.NET",
                 new Dir(@"%ProgramFiles%\Computator.NET", new Files(binariesPath), new File(new Id(nameof(SharedProperties.TslIcon)), SharedProperties.TslIcon))
-                ,new Dir("%Fonts%", Fonts.GetFontFiles())
                 )
             {
                 Version = SharedProperties.Version,

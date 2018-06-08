@@ -336,7 +336,6 @@ Task("Build-Uwp")
 		CopyDirectory(@"Graphics/Assets",packageFiles+@"/Assets");
 		
 		CopyDirectory(@"Computator.NET.Core/TSL Examples",packageFiles+@"/VFS/Users/ContainerAdministrator/Documents/Computator.NET/TSL Examples");
-		CopyDirectory(@"Computator.NET.Core/Static/fonts",packageFiles+@"/VFS/Windows/Fonts");
 
 		var programFilesPath = System.Environment.Is64BitOperatingSystem  ? Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) : Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 		var makePriPaths = GetFiles(programFilesPath + @"\Windows Kits\10\bin\x86\makepri.exe");

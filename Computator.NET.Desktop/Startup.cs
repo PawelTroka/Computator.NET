@@ -40,18 +40,9 @@ namespace Computator.NET.Desktop
 
             if (ex.Message.ToLowerInvariant().Contains("font"))
             {
-                //e.IsTerminating = false;
-                if (MessageBox.Show(Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_, Strings.Warning_, MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    var fonts = Directory.EnumerateFiles(AppInformation.FontsDirectory, "*.*", SearchOption.AllDirectories)
-                        .Where(s => s.EndsWith(".ttc", StringComparison.OrdinalIgnoreCase) ||
-                                    s.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) ||
-                                    s.EndsWith(".otf", StringComparison.OrdinalIgnoreCase));
-                    foreach (var font in fonts)
-                    {
-                        Process.Start(font);//ttc/ttf/otf
-                    }
-                }
+                MessageBox.Show(
+                    Strings.Program_CurrentDomain_UnhandledException_Try_installing_font_ + " Cambria, Consolas",
+                    Strings.Warning_, MessageBoxButtons.OKCancel);
             }
 
             Logger.Error(ex, Strings.Unhandled_UI_Exception + $"is terminting: {e.IsTerminating}, {e?.ExceptionObject}");
