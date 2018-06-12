@@ -45,7 +45,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NLog" Version="4.5.0" />
+    <PackageReference Include="NLog" Version="4.5.8" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj" />
