@@ -1,10 +1,11 @@
-#addin Cake.Coveralls
+// Pinned Coveralls version to older one because 1.0.0 has Error: One or more errors occurred. Package 'coveralls.net 1.0.0' has a package type 'DotnetTool' that is not supported by project 'C:/Projects/Computator.NET/tools'.
+#addin nuget:?package=Cake.Coveralls&version=0.7.0
 #addin nuget:?package=Cake.Codecov
 #addin nuget:?package=Cake.AppPackager
 #addin nuget:?package=Cake.VersionReader
-#addin "Cake.FileHelpers"
+#addin nuget:?package=Cake.FileHelpers
 
-#tool coveralls.net
+#tool nuget:?package=coveralls.net&version=0.7.0
 #tool nuget:?package=OpenCover
 #tool nuget:?package=NUnit.ConsoleRunner
 #tool nuget:?package=Codecov
