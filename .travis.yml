@@ -5,49 +5,49 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      mono: 5.4.1
+      mono: 5.12.0
       env: build_config=Release
       env: netmoniker=net461
     - os: linux
       dist: precise
       sudo: required
-      mono: 5.4.1
+      mono: 5.12.0
       env: build_config=Release
       env: netmoniker=net461
     - os: linux
       dist: trusty
       sudo: required
-      mono: 5.4.1
+      mono: 5.12.0
       env: build_config=Debug
       env: netmoniker=net461
     - os: linux
       dist: precise
       sudo: required
-      mono: 5.4.1
+      mono: 5.12.0
       env: build_config=Debug
       env: netmoniker=net461
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 5.4.1
+      mono: 5.12.0
       env: build_config=Release
       env: netmoniker=net461
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: 5.4.1
+      mono: 5.12.0
       env: build_config=Release
       env: netmoniker=net461
     - os: osx
       osx_image: xcode8.2
       sudo: required
-      mono: 5.4.1
+      mono: 5.12.0
       env: build_config=Debug
       env: netmoniker=net461
     - os: osx
       osx_image: xcode6.4
       sudo: required
-      mono: 5.4.1
+      mono: 5.12.0
       env: build_config=Debug
       env: netmoniker=net461
 

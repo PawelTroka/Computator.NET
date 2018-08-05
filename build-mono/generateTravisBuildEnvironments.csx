@@ -4,7 +4,7 @@ var monos = new[]{
                 //"alpha",
                 //"beta",
                 //"latest",
-                "5.4.1",
+                "5.12.0",
                 //"5.4.0",
                 //"5.2.0",
                 //"5.0.1",
@@ -40,7 +40,8 @@ var dotnets = new string[] {
                     };
 
 var osx_images = new[] {
-    "xcode8.2",//OS X 10.12
+    "xcode9.4",//OS X 10.13
+    //"xcode8.2",//OS X 10.12
     //"xcode8.1",//OS X 10.12
     //"xcode8",//OS X 10.11
     ////"xcode7.3",//OS X 10.11
