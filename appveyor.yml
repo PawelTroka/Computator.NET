@@ -6,6 +6,7 @@ environment:
 
 image:
 - Visual Studio 2017
+- Ubuntu
 
 configuration:
   - Debug
@@ -19,19 +20,24 @@ assembly_info:
   assembly_informational_version: "{version}β"
 
 before_build:
-  - build.cmd -Target Restore
+  - cmd: build.cmd -Target Restore
+  - sh: ./build.sh --target=Restore
 
 build_script:
-  - build.cmd -Target Build
+  - cmd: build.cmd -Target Build
+  - sh: ./build.sh --target=Build
 
 #test_script:
-#  - build.cmd -Target AllTests
+#  - cmd: build.cmd -Target AllTests
+#  - sh: ./build.sh --target=AllTests
 
 after_test:
-  - build.cmd -Target Upload-Coverage
+  - cmd: build.cmd -Target Upload-Coverage
+  - sh: ./build.sh --target=Upload-Coverage
 
 after_build:
-  - build.cmd -Target Publish
+  - cmd: build.cmd -Target Publish
+  - sh: ./build.sh --target=Publish
 
 notifications:
 - provider: GitHubPullRequest
