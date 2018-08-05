@@ -32,7 +32,10 @@ var sudos = new[] {
                     //"false"
                 };
 
-var dists = new[] { "trusty", "precise" };
+var dists = new[] {
+                    "trusty",
+                    //"precise"
+                  };
 
 var dotnets = new string[] {
                         ////"1.0.0-preview2-003121",
@@ -46,7 +49,7 @@ var osx_images = new[] {
     //"xcode8",//OS X 10.11
     ////"xcode7.3",//OS X 10.11
     //"xcode7.2",//OS X 10.11
-    "xcode6.4"//OS X 10.10
+    //"xcode6.4"//OS X 10.10
     };
 
 var buildConfigs = new[] { "Release", "Debug" };
