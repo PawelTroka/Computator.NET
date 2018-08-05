@@ -5,7 +5,6 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <TargetFramework>net461</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier><!-- TODO: remove it once "Unable to load DLL 'libuv': The specified module could not be found." will be resolved (https://github.com/aspnet/libuv-package/issues/21)-->
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
