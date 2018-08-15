@@ -40,4 +40,4 @@ script:
 
 after_script:
   - travis_wait 60 ./build.sh --target=AllTests
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then travis_wait 60 ./build.sh --target=Upload-Coverage; fi
+  - if [ "$TRAVIS_OS_NAME" != "linux" && "$TRAVIS_OS_NAME" != "osx" ]; then travis_wait 60 ./build.sh --target=Upload-Coverage; fi

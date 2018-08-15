@@ -33,7 +33,6 @@ build_script:
 
 after_test:
   - cmd: build.cmd -Target Upload-Coverage
-  - sh: ./build.sh --target=Upload-Coverage
 
 after_build:
   - cmd: build.cmd -Target Publish
