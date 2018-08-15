@@ -87,7 +87,7 @@ var msBuildSettings = new MSBuildSettings {
 	{
 		if(travisOsName == "osx" || System.Environment.OSVersion.Platform == System.PlatformID.MacOSX)
 		{
-			var msBuildVersions = new [] {"15.5","15.4","15.3","15.2","15.1","15.0"};
+			var msBuildVersions = new [] {"15.9","15.8","15.7","15.6","15.5","15.4","15.3","15.2","15.1","15.0"};
 			var monoVersions = new [] {"Current", monoVersionShort};
 			var msBuildExecutableNames = new [] {"MSBuild.exe", "MSBuild.dll", "msBuild.exe", "msbuild.exe", "msBuild.dll", "msbuild.dll"};
 
