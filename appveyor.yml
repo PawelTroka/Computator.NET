@@ -27,9 +27,9 @@ build_script:
   - cmd: build.cmd -Target Build
   - sh: ./build.sh --target=Build
 
-#test_script:
+test_script:
 #  - cmd: build.cmd -Target AllTests
-#  - sh: ./build.sh --target=AllTests
+  - sh: ./build.sh --target=AllTests
 
 after_test:
   - cmd: build.cmd -Target Upload-Coverage
