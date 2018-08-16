@@ -28,7 +28,7 @@ build_script:
   - sh: ./build.sh --target=Build
 
 test_script:
-#  - cmd: build.cmd -Target AllTests
+  - cmd: build.cmd -Target AllTests
   - sh: ./build.sh --target=AllTests
 
 after_test:
