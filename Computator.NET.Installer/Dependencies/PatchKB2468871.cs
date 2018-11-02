@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Microsoft.Deployment.WindowsInstaller;
-using Microsoft.Win32;
 using WixSharp;
 using WixSharp.Bootstrapper;
 

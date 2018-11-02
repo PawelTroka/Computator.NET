@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using WixSharp;
+﻿using WixSharp;
 using WixSharp.Bootstrapper;
 
 namespace Computator.NET.Installer
