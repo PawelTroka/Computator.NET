@@ -5,25 +5,29 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      mono: 5.14.0
+      mono: 5.16.0
+      dotnet: 2.1
       env: build_config=Release
       env: netmoniker=net461
     - os: linux
       dist: trusty
       sudo: required
-      mono: 5.14.0
+      mono: 5.16.0
+      dotnet: 2.1
       env: build_config=Debug
       env: netmoniker=net461
     - os: osx
       osx_image: xcode9.4
       sudo: required
-      mono: 5.14.0
+      mono: 5.16.0
+      dotnet: 2.1
       env: build_config=Release
       env: netmoniker=net461
     - os: osx
       osx_image: xcode9.4
       sudo: required
-      mono: 5.14.0
+      mono: 5.16.0
+      dotnet: 2.1
       env: build_config=Debug
       env: netmoniker=net461
 
