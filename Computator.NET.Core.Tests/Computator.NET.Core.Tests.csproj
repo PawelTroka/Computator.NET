@@ -31,10 +31,10 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" Condition="'$(TargetFramework)' != 'net40'" />
-    <PackageReference Include="Moq" Version="4.9.0" Condition="'$(TargetFramework)' != 'net40'" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" Condition="'$(TargetFramework)' != 'net40'" />
+    <PackageReference Include="Moq" Version="4.10.0" Condition="'$(TargetFramework)' != 'net40'" />
     <PackageReference Include="Moq" Version="4.2.1510.2205" Condition="'$(TargetFramework)' == 'net40'" />
-    <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
+    <PackageReference Include="MathNet.Numerics" Version="4.6.0" />
     <PackageReference Include="NUnit" Version="3.7.1" />
   </ItemGroup>
   <ItemGroup>
