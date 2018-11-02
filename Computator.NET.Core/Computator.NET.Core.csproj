@@ -89,7 +89,7 @@
     <PackageReference Include="Guards" Version="2.0.18298.2" />
     <PackageReference Include="MathNet.Numerics" Version="4.6.0" />
     <PackageReference Include="Meta.Numerics" Version="3.1.0" />
-    <PackageReference Include="Unity" Version="5.2.0" />
+    <PackageReference Include="Unity" Version="5.8.11" />
     <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" Condition="'$(TargetFramework)' == 'net40'" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
   </ItemGroup>

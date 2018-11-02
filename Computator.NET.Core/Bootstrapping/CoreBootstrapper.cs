@@ -7,9 +7,23 @@ using Computator.NET.Core.Services;
 using Computator.NET.Core.Services.ErrorHandling;
 using Unity;
 using Unity.Lifetime;
+using Unity.Registration;
 
 namespace Computator.NET.Core.Bootstrapping
 {
+    public static class ContainerExtensions
+    {
+        public static void RegisterTypeLegacy<TFrom, TTo>(this IUnityContainer container, params InjectionMember[] injectionMembers) where TTo : TFrom
+        {
+            container.RegisterTypeLegacy<TFrom, TTo>(null, injectionMembers);
+        }
+
+        public static void RegisterTypeLegacy<TFrom, TTo>(this IUnityContainer container, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers) where TTo : TFrom
+        {
+            container.RegisterType<TTo>(lifetimeManager);
+            container.RegisterType<TFrom, TTo>();
+        }
+    }
     public class CoreBootstrapper
     {
         public IUnityContainer Container { get; }
@@ -39,30 +53,30 @@ namespace Computator.NET.Core.Bootstrapping
         private void RegisterModel()
         {
             //models and business objects
-            Container.RegisterType<IModeDeterminer, ModeDeterminer>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<ITslCompiler, TslCompiler>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IModeDeterminer, ModeDeterminer>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<ITslCompiler, TslCompiler>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IScriptEvaluator, ScriptEvaluator>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IExpressionsEvaluator, ExpressionsEvaluator>(new ContainerControlledLifetimeManager());
 
-            Container.RegisterType<IFunctionsDetailsFileSource, FunctionsDetailsFileSource>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IAutocompleteReflectionSource, AutocompleteReflectionSource>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IAutocompleteProvider, AutocompleteProvider>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IFunctionsDetailsFileSource, FunctionsDetailsFileSource>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IAutocompleteReflectionSource, AutocompleteReflectionSource>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IAutocompleteProvider, AutocompleteProvider>(new ContainerControlledLifetimeManager());
 
-            Container.RegisterType<IProcessRunnerService, ProcessRunnerService>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IProcessRunnerService, ProcessRunnerService>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterHandlers()
         {
             //singleton handlers
-            Container.RegisterType<IErrorHandler, SimpleErrorHandler>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IExceptionsHandler, ExceptionsHandler>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IErrorHandler, SimpleErrorHandler>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<IExceptionsHandler, ExceptionsHandler>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterSharedObjects()
         {
             //shared singletons
-            Container.RegisterType<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<ICommandLineHandler, CommandLineHandler>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());
+            Container.RegisterTypeLegacy<ICommandLineHandler, CommandLineHandler>(new ContainerControlledLifetimeManager());
         }
     }
 }

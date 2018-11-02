@@ -33,7 +33,7 @@ namespace Computator.NET.Core.Bootstrapping
             }
         }
 
-        public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
+        public override IResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
             Guard.ArgumentNotNull(context, nameof(context));
 
