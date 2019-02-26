@@ -33,7 +33,7 @@ if (type != null)
 	}
 }
 
-var isMonoButSupportsMsBuild = monoVersion!=null && System.Text.RegularExpressions.Regex.IsMatch(monoVersion,@"([5-9]|\d{2,})\.\d+\.\d+(\.\d+)?");
+var isMonoButSupportsMsBuild = monoVersion!=null && System.Text.RegularExpressions.Regex.IsMatch(monoVersion,@"^\s*([5-9]|\d{2,})\.\d+\.\d+(\.\d+)?");
 
 
 var normalNUnit3Settings = new NUnit3Settings()
