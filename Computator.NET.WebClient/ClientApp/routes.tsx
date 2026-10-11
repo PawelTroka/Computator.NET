@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Route } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { FetchData } from './components/FetchData';
 import { Calculate } from './components/Calculate';
@@ -7,10 +6,17 @@ import { Chart } from './components/Chart';
 import { Scripting } from './components/Scripting';
 import { NumericalCalculations } from './components/NumericalCalculations';
 
-export const routes = <Layout>
-                          <Route exact path='/' component={ Chart } />
-                          <Route path='/calculate' component={Calculate} />
-                          <Route path='/scripting' component={Scripting} />
-                          <Route path='/numerical-calculations' component={NumericalCalculations} />
-    <Route path='/fetchdata' component={ FetchData } />
-</Layout>;
+function DesktopFeature({ name }: { name: string }) {
+  return <><h1>{name}</h1><p>This feature is available in the desktop application, but has not yet been implemented in the web client.</p></>;
+}
+
+export const routes = <Layout><Routes>
+  <Route path="/" element={<Chart />} />
+  <Route path="/calculate" element={<Calculate />} />
+  <Route path="/scripting" element={<Scripting />} />
+  <Route path="/numerical-calculations" element={<NumericalCalculations />} />
+  <Route path="/fetchdata" element={<FetchData />} />
+  <Route path="/symbolic-calculations" element={<DesktopFeature name="Symbolic calculations" />} />
+  <Route path="/custom-functions" element={<DesktopFeature name="Custom functions" />} />
+  <Route path="*" element={<><h1>Page not found</h1><Link to="/">Return to charting</Link></>} />
+</Routes></Layout>;

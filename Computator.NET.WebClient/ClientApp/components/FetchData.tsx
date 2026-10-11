@@ -1,63 +1,23 @@
-import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import 'isomorphic-fetch';
+import { useEffect, useState } from 'react';
 
-interface FetchDataExampleState {
-    forecasts: WeatherForecast[];
-    loading: boolean;
-}
+interface WeatherForecast { dateFormatted: string; temperatureC: number; temperatureF: number; summary: string; }
 
-export class FetchData extends React.Component<RouteComponentProps<{}>, FetchDataExampleState> {
-    constructor() {
-        super();
-        this.state = { forecasts: [], loading: true };
-
-        fetch('api/SampleData/WeatherForecasts')
-            .then(response => response.json() as Promise<WeatherForecast[]>)
-            .then(data => {
-                this.setState({ forecasts: data, loading: false });
-            });
-    }
-
-    public render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : FetchData.renderForecastsTable(this.state.forecasts);
-
-        return <div>
-            <h1>Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            { contents }
-        </div>;
-    }
-
-    private static renderForecastsTable(forecasts: WeatherForecast[]) {
-        return <table className='table'>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-            {forecasts.map(forecast =>
-                <tr key={ forecast.dateFormatted }>
-                    <td>{ forecast.dateFormatted }</td>
-                    <td>{ forecast.temperatureC }</td>
-                    <td>{ forecast.temperatureF }</td>
-                    <td>{ forecast.summary }</td>
-                </tr>
-            )}
-            </tbody>
-        </table>;
-    }
-}
-
-interface WeatherForecast {
-    dateFormatted: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+export function FetchData() {
+  const [forecasts, setForecasts] = useState<WeatherForecast[]>([]);
+  const [loading, setLoading] = useState(true), [error, setError] = useState('');
+  useEffect(() => {
+    const controller = new AbortController();
+    void fetch(`${import.meta.env.BASE_URL}api/SampleData/WeatherForecasts`, { signal: controller.signal })
+      .then(response => { if (!response.ok) throw new Error('Could not load forecasts.'); return response.json(); })
+      .then((data: WeatherForecast[]) => { if (!controller.signal.aborted) setForecasts(data); })
+      .catch(reason => { if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : 'Could not load forecasts.'); })
+      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
+    return () => controller.abort();
+  }, []);
+  return <><h1>Weather forecast</h1><p>This component demonstrates fetching data from the server.</p>
+    {loading && <p>Loading…</p>}{error && <p role="alert">{error}</p>}
+    <table className="table"><thead><tr><th>Date</th><th>Temp. (C)</th><th>Temp. (F)</th><th>Summary</th></tr></thead>
+      <tbody>{forecasts.map(item => <tr key={item.dateFormatted}><td>{item.dateFormatted}</td><td>{item.temperatureC}</td><td>{item.temperatureF}</td><td>{item.summary}</td></tr>)}</tbody>
+    </table>
+  </>;
 }

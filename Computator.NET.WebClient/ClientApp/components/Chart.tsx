@@ -1,111 +1,48 @@
-import * as Config from "../config";
-import { ResizeHandler } from "../helpers/ResizeHandler"
-import * as React from "react";
-import { RouteComponentProps } from 'react-router';
-import { Expression } from "./Expression";
-import { NumericInput } from "./NumericInput";
-import "isomorphic-fetch";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { WEB_API_BASE_URL } from '../config';
+import { Expression } from './Expression';
+import { NumericInput } from './NumericInput';
 
-interface IChartState
-{
-    xMin: number;
-    xMax: number;
-    yMin: number;
-    yMax: number;
-    expression : string;
-}
-
-export class Chart extends React.Component<RouteComponentProps<{}>, IChartState>
-{
-    public constructor() {
-        super();
-        this.state = { xMin: -5, xMax: 5, yMin: -5, yMax: 5, expression: "" };
-        
-        //this.drawChartClick.bind(this);
-        //this.drawChart.bind(this);
-        //this.redrawChart.bind(this);
-
-
-        this.resizeHandler = new ResizeHandler();
-        this.resizeHandler.afterResize = () => this.redrawChart();
-    }
-
-    public render(): JSX.Element {
-        return <div>
-            <h1>Chart</h1>
-            <p>Write expression and draw chart</p>
-            <br />
-            <Expression expression={this.state.expression} onExpressionChange={v => this.setState(prevState => prevState.expression = v)} />
-
-            <div ref={chartDivContainer => this.chartContainerDiv = chartDivContainer} className="col-md-10">
-                <img ref={chartImage => this.chartImage = chartImage} src="" alt="chart" />
-            </div>
-
-            <div className="col-md-2">
-                <br /><br />
-                <button className="btn btn-primary btn-lg" onClick={e => this.drawChartClick(e)}>Draw chart!</button>
-                <br /><br /><br />
-                <h5>Chart area values:</h5>
-                <ul className="list-group">
-                    <li className="list-group-item">
-                        <NumericInput label="X" subscriptLabel="MIN" value={-5} onValueChanged={v => this.setState(prevState => prevState.xMin = v)} />
-                    </li>
-                    <li className="list-group-item">
-                        <NumericInput label="X" subscriptLabel="MAX" value={5} onValueChanged={v => this.setState(prevState => prevState.xMax = v)} />
-                    </li>
-                    <li className="list-group-item">
-                        <NumericInput label="Y" subscriptLabel="MIN" value={-5} onValueChanged={v => this.setState(prevState => prevState.yMin = v)} />
-                    </li>
-                    <li className="list-group-item">
-                        <NumericInput label="Y" subscriptLabel="MAX" value={5} onValueChanged={v => this.setState(prevState => prevState.yMax = v)} />
-                    </li>
-                </ul>
-            </div>
-
-        </div>;
-    }
-
-    private drawChartClick(event: React.MouseEvent<HTMLButtonElement>) : void
-    {
-        event.preventDefault();
-        if (this.state.expression != null && this.state.expression !== "")
-            this.drawChart(this.state.xMin, this.state.xMax, this.state.yMin, this.state.yMax, this.state.expression);
-    }
-
-    private drawChart(xmin: number, xmax: number, ymin: number, ymax: number, expression: string): void
-    {
-        if (this.chartContainerDiv == null)
-        {
-            console.log("Error: chartContainerDiv is null!");
-            return;
-        }
-        const viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-        const chartRect = this.chartContainerDiv.getBoundingClientRect();
-        const height = Math.max(200, Math.round(viewHeight - chartRect.top));
-        const width = Math.max(200, this.chartContainerDiv.clientWidth);
-
-        const apiUrl = `${Config.WEB_API_BASE_URL}/chart/${width}/${height}/${xmin}/${xmax}/${ymin}/${ymax}/${encodeURIComponent(expression)}`;
-        console.log(`Calling ${apiUrl}`);
-
-        if (this.chartImage == null)
-        {
-            console.log("Error: chartImage is null!");
-            return;
-        }
-
-        this.chartImage.src = apiUrl;
-        this.chartImage.alt = expression;
-    }
-
-    private redrawChart(): void {
-        if (this.state.expression != null && this.state.expression !== "")
-            this.drawChart(this.state.xMin, this.state.xMax, this.state.xMin, this.state.yMax, this.state.expression);
-    }
-
-    private readonly resizeHandler: ResizeHandler;
-
-    private chartImage: HTMLImageElement| null;
-    private chartContainerDiv: HTMLDivElement| null;
+export function Chart() {
+  const [expression, setExpression] = useState('');
+  const [xMin, setXMin] = useState(-5), [xMax, setXMax] = useState(5);
+  const [yMin, setYMin] = useState(-5), [yMax, setYMax] = useState(5);
+  const [source, setSource] = useState<string>();
+  const [error, setError] = useState('');
+  const container = useRef<HTMLDivElement>(null);
+  const draw = useCallback(() => {
+    if (!expression.trim() || !container.current) return;
+    if (xMin >= xMax || yMin >= yMax) { setError('Each minimum must be smaller than its maximum.'); return; }
+    const rectangle = container.current.getBoundingClientRect();
+    const width = Math.max(200, Math.round(container.current.clientWidth));
+    const height = Math.max(200, Math.round(window.innerHeight - rectangle.top));
+    setError('');
+    setSource(`${WEB_API_BASE_URL}/chart/${width}/${height}/${xMin}/${xMax}/${yMin}/${yMax}/${encodeURIComponent(expression)}`);
+  }, [expression, xMin, xMax, yMin, yMax]);
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+    const resize = () => { clearTimeout(timeout); timeout = setTimeout(draw, 200); };
+    window.addEventListener('resize', resize);
+    return () => { clearTimeout(timeout); window.removeEventListener('resize', resize); };
+  }, [draw]);
+  return <><h1>Chart</h1><p>Write an expression and draw its chart.</p>
+    <Expression expression={expression} onExpressionChange={setExpression} />
+    {error && <p role="alert" className="text-danger">{error}</p>}
+    <div className="row g-3">
+      <div className="col-md-9" ref={container}>
+        {source ? <img className="chart-image" src={source} alt={expression}
+          onError={() => setError('The chart could not be generated. Check the expression and API connection.')} />
+          : <p>Enter an expression and choose Draw chart.</p>}
+      </div>
+      <div className="col-md-3">
+        <button type="button" className="btn btn-primary btn-lg mb-3" disabled={!expression.trim()} onClick={draw}>Draw chart!</button>
+        <h2 className="h6">Chart area values:</h2><ul className="list-group">
+          <li className="list-group-item"><NumericInput label="X" subscriptLabel="MIN" value={xMin} onValueChanged={setXMin} /></li>
+          <li className="list-group-item"><NumericInput label="X" subscriptLabel="MAX" value={xMax} onValueChanged={setXMax} /></li>
+          <li className="list-group-item"><NumericInput label="Y" subscriptLabel="MIN" value={yMin} onValueChanged={setYMin} /></li>
+          <li className="list-group-item"><NumericInput label="Y" subscriptLabel="MAX" value={yMax} onValueChanged={setYMax} /></li>
+        </ul>
+      </div>
+    </div>
+  </>;
 }

@@ -88,7 +88,10 @@ namespace Computator.NET.Core.Compilation
                 typeof(Uri).Assembly.Location,
                 typeof(Enumerable).Assembly.Location,
                 typeof(System.Numerics.Complex).Assembly.Location,
-                typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.Location
+                typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.Location,
+                // Framework 4.8.1 installs this facade in the GAC; it need not be
+                // present in the runtime directory's Facades subdirectory.
+                Assembly.Load("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51").Location
             };
             var facades = Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "Facades");
             if (Directory.Exists(facades)) paths.AddRange(Directory.EnumerateFiles(facades, "*.dll"));

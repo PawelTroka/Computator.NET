@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "module": "es2015",
-    "moduleResolution": "node",
-    "target": "es5",
-    "jsx": "react",
-    "sourceMap": true,
-    "skipDefaultLibCheck": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
     "strict": true,
-    "types": ["webpack-env"]
+    "skipLibCheck": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "types": ["vite/client"]
   },
-  "exclude": [
-      "bin",
-      "node_modules"
-  ]
+  "include": ["ClientApp/**/*.ts", "ClientApp/**/*.tsx"]
 }

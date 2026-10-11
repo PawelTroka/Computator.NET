@@ -1,231 +1,71 @@
-﻿import * as Config from '../config';
-import * as React from "react";
-import { RouteComponentProps } from 'react-router';
-import { Expression } from "./Expression";
-import "isomorphic-fetch";
-import { NumericInput } from "./NumericInput";
+import { useEffect, useState } from 'react';
+import { WEB_API_BASE_URL } from '../config';
+import { Expression } from './Expression';
+import { NumericInput } from './NumericInput';
+import { ResultPanel } from './ResultPanel';
+import { useTextResult } from '../helpers/useTextResult';
 
-interface IDictionary<T> {
-    [Key: string]: T;
-}
+const operations = { Integral: 'integral', Derivative: 'derivative', 'Function root': 'function-root' } as const;
+type Operation = keyof typeof operations;
 
-interface INumericalCalculationsState {
-    a: number;
-    b: number;
-    x: number;
-    epsilon: number;
-    n: number;
-    order: number;
-
-    operations: string[];
-    methods: IDictionary<string[]>;
-
-    operation: string;
-    method: string;
-
-    expression: string;
-    result: string;
-}
-
-export class NumericalCalculations extends React.Component<RouteComponentProps<{}>, INumericalCalculationsState>
-{
-    public constructor()
-    {
-        super();
-        const methodPlaceHolder = "loading...";
-        const operations = ["Integral", "Derivative", "Function root"];
-        const methods = { [operations[0]] : [methodPlaceHolder] };
-
-        this.state = { a: -1, b: 1, x: 0, epsilon: 1e-6, n: 1e5, order: 1, operation: operations[0], operations: operations, result: "", expression: "", method: methodPlaceHolder, methods: methods };
+export function NumericalCalculations() {
+  const [a, setA] = useState(-1), [b, setB] = useState(1), [x, setX] = useState(0);
+  const [epsilon, setEpsilon] = useState(1e-6), [n, setN] = useState(1e5), [order, setOrder] = useState(1);
+  const [expression, setExpression] = useState('');
+  const [operation, setOperation] = useState<Operation>('Integral');
+  const [selectedMethod, setSelectedMethod] = useState('');
+  const [methods, setMethods] = useState<Record<Operation, string[]>>({ Integral: [], Derivative: [], 'Function root': [] });
+  const [loadError, setLoadError] = useState('');
+  const request = useTextResult();
+  const method = methods[operation].includes(selectedMethod) ? selectedMethod : methods[operation][0] ?? '';
+  useEffect(() => {
+    const controller = new AbortController();
+    for (const name of Object.keys(operations) as Operation[]) {
+      void fetch(`${WEB_API_BASE_URL}/numerical-calculations/${operations[name]}/list-methods`, { signal: controller.signal })
+        .then(response => { if (!response.ok) throw new Error('Could not load numerical methods.'); return response.json(); })
+        .then((values: unknown) => {
+          if (!Array.isArray(values) || !values.every(value => typeof value === 'string')) throw new Error('Invalid numerical-method response.');
+          if (!controller.signal.aborted) setMethods(previous => ({ ...previous, [name]: values }));
+        }).catch(reason => { if (!controller.signal.aborted) setLoadError(reason instanceof Error ? reason.message : 'Could not load numerical methods.'); });
     }
-
-    public componentDidMount(): void
-    {
-        const methodPlaceHolder = "loading...";
-        const operations = new Array<string>("Integral", "Derivative", "Function root");
-        const operationsUrls = new Array<string>("integral", "derivative", "function-root");
-
-        for (var i = 0; i < operationsUrls.length; i++) {
-            const operation = operations[i];
-            const operationUri = operationsUrls[i];
-            const apiUrl = `${Config.WEB_API_BASE_URL}/numerical-calculations/${operationUri}/list-methods`;
-            console.log(`Calling ${apiUrl}`);
-
-            fetch(apiUrl)
-                .then(response => response.text() as Promise<string>)
-                .then(data => {
-                    console.log(`Got result: ${data}`);
-                    const loadedMethods = JSON.parse(data) as string[];
-                    console.log(`Parsed result: ${loadedMethods}`);
-
-
-                    this.setState(prevState => prevState.methods[operation] = loadedMethods);
-                })
-                .then(() => {
-                    if (this.state.method == methodPlaceHolder && this.state.methods[operations[0]][0] != methodPlaceHolder)
-                        this.setState(prevState => prevState.method = this.state.methods[operations[0]][0]);
-                });
-        }
-    }
-
-    public render(): JSX.Element
-    {
-        return <div>
-            <h1>Numerical calculations</h1>
-            <p>Try out many different numerical methods on your expression</p>
-            <br />
-            <Expression expression={this.state.expression} onExpressionChange={v => this.setState(prevState => prevState.expression = v)} />
-            <br />
-
-            <div className="col-md-9">
-                <ul className="list-group">
-                    <li className="list-group-item">
-                        <div className="input-group">
-                            <span className="input-group-addon">Operation: </span>
-                            <select className="form-control" defaultValue={this.state.operation} onChange={e => this.onOperationChange(e)}>
-                                {this.state.operations.map(operation =>
-                                    <option key={operation} value={operation}>{operation}</option>
-                                )}
-                            </select>
-                        </div>
-                    </li>
-                    <li className="list-group-item">
-                        <div className="input-group">
-                            <span className="input-group-addon">Method: </span>
-                            <select className="form-control" defaultValue={this.state.method} onChange={e => this.onMethodChange(e)}>
-                                {this.state.methods[this.state.operation].map(method =>
-                                    <option key={this.state.operation+":"+method} value={method}>{method}</option>
-                                )}
-                            </select>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div className="col-md-3">
-                <button className="btn btn-primary btn-lg" onClick={e => this.computeClicked(e)}><br />Compute!<br /><br /></button>
-            </div>
-            <br />
-
-            {this.state.operation != "Derivative" &&
-            <div className="col-md-4">
-                <div className="panel panel-default">
-                    <div className="panel-heading">Interval:</div>
-                    <ul className="list-group">
-
-                        <li className="list-group-item">
-                            <NumericInput label="a" value={this.state.a} onValueChanged={v => this.setState(prevState => prevState.a = v)} />
-                        </li>
-
-                        <li className="list-group-item">
-                            <NumericInput label="b" value={this.state.b} onValueChanged={v => this.setState(prevState => prevState.b = v)} />
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            }
-
-            {this.state.operation == "Derivative" &&
-            <div className="col-md-4">
-                <div className="panel panel-default">
-                    <div className="panel-heading">Derivative of order n at point x:</div>
-                    <ul className="list-group">
-
-                        <li className="list-group-item">
-                            <NumericInput label="x" value={this.state.x} onValueChanged={v => this.setState(prevState => prevState.x = v)} />
-                        </li>
-                        <li className="list-group-item">
-                            <NumericInput label="order" value={this.state.order} onValueChanged={v => this.setState(prevState => prevState.order = v)} />
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            }
-
-            {this.state.operation != "Integral" &&
-            <div className="col-md-4">
-                <div className="panel panel-default">
-                    <div className="panel-heading">Max error:</div>
-                    <div className="panel-body">
-                        <NumericInput label="ε" value={this.state.epsilon} onValueChanged={v => this.setState(prevState => prevState.epsilon = v)} />
-                    </div>
-                </div>
-            </div>
-            }
-
-            {this.state.operation != "Derivative" &&
-            <div className="col-md-4">
-                <div className="panel panel-default">
-                    <div className="panel-heading">Number of steps:</div>
-                    <div className="panel-body">
-                        <NumericInput label="N" value={this.state.n} onValueChanged={v => this.setState(prevState => prevState.n = v)} />
-                    </div>
-                </div>
-            </div>
-            }
-
-            <div className="col-md-12">
-
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <h3 className="panel-title"><span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> Result:</h3>
-                    </div>
-                    <div className="panel-body">
-                        <strong>{this.state.result}</strong>
-                    </div>
-                </div>
-            </div>
-        </div>;
-    }
-
-    private computeClicked(event: React.MouseEvent<HTMLButtonElement>): void
-    {
-        //event.preventDefault();
-
-        if (this.state.expression != null && this.state.expression !== "")
-        {
-            const op = this.state.operation.toLowerCase().replace(" ", "-");
-
-            let apiUrl = `${Config.WEB_API_BASE_URL}/numerical-calculations/${op}/${encodeURIComponent(this.state.method)}/${encodeURIComponent(this.state.expression)}/`;
-
-            if (op == "integral")
-                apiUrl += `${this.state.a}/${this.state.b}/${this.state.n}`;
-            else if (op == "function-root")
-                apiUrl += `${this.state.a}/${this.state.b}/${this.state.epsilon}/${this.state.n}`;
-            else if (op == "derivative")
-                apiUrl += `${this.state.x}/${this.state.order}/${this.state.epsilon}`;
-            else
-                throw Error(`Unknown operation - '${op}'`);
-            
-            console.log(`Calling ${apiUrl}`);
-
-            fetch(apiUrl)
-                .then(response => response.text() as Promise<string>)
-                .then(data => {
-                    console.log(`Got result: ${data}`);
-                    this.setState(prevState => prevState.result = data);
-                });
-        }
-    }
-
-    private onOperationChange(event: React.ChangeEvent<HTMLSelectElement>)
-    {
-        const newValue = event.target.value;
-        if (newValue != null) {
-            console.log(`Changed operation to ${newValue}`);
-            this.setState(prevState => prevState.operation = newValue);
-
-            var newMethod = this.state.methods[newValue][0];
-            console.log(`Changed method to ${newMethod}`);
-            this.setState(prevState => prevState.method = newMethod);
-        }
-    }
-
-    private onMethodChange(event: React.ChangeEvent<HTMLSelectElement>)
-    {
-        const newValue = event.target.value;
-        if (newValue != null) {
-            console.log(`Changed method to ${newValue}`);
-            this.setState(prevState => prevState.method = newValue);
-        }
-    }
+    return () => controller.abort();
+  }, []);
+  function compute() {
+    const argumentsPath = operation === 'Integral' ? `${a}/${b}/${n}`
+      : operation === 'Derivative' ? `${x}/${order}/${epsilon}` : `${a}/${b}/${epsilon}/${n}`;
+    void request.run(`numerical-calculations/${operations[operation]}/${encodeURIComponent(method)}/${encodeURIComponent(expression)}/${argumentsPath}`);
+  }
+  return <><h1>Numerical calculations</h1><p>Try different numerical methods on your expression.</p>
+    <Expression expression={expression} onExpressionChange={setExpression} />
+    {loadError && <p role="alert" className="text-danger">{loadError}</p>}
+    <div className="row g-3 mb-3">
+      <div className="col-md-9"><div className="input-group mb-2">
+        <label htmlFor="operation" className="input-group-text">Operation:</label>
+        <select id="operation" className="form-select" value={operation} onChange={event => { setOperation(event.target.value as Operation); setSelectedMethod(''); }}>
+          {(Object.keys(operations) as Operation[]).map(name => <option key={name}>{name}</option>)}
+        </select>
+      </div><div className="input-group">
+        <label htmlFor="method" className="input-group-text">Method:</label>
+        <select id="method" className="form-select" value={method} disabled={!methods[operation].length}
+          onChange={event => setSelectedMethod(event.target.value)}>
+          {!method && <option value="">Loading…</option>}
+          {methods[operation].map(name => <option key={name}>{name}</option>)}
+        </select>
+      </div></div>
+      <div className="col-md-3"><button type="button" className="btn btn-primary btn-lg"
+        disabled={!expression.trim() || !method || request.pending} onClick={compute}>Compute!</button></div>
+    </div>
+    <div className="row g-3">
+      <div className="col-md-4"><section className="card"><div className="card-header">{operation === 'Derivative' ? 'Derivative at point x:' : 'Interval:'}</div>
+        <div className="card-body">
+          {operation === 'Derivative' ? <><NumericInput label="x" value={x} onValueChanged={setX} /><NumericInput label="order" value={order} onValueChanged={setOrder} /></>
+            : <><NumericInput label="a" value={a} onValueChanged={setA} /><NumericInput label="b" value={b} onValueChanged={setB} /></>}
+        </div></section></div>
+      {operation !== 'Integral' && <div className="col-md-4"><section className="card"><div className="card-header">Max error:</div>
+        <div className="card-body"><NumericInput label="ε" value={epsilon} onValueChanged={setEpsilon} stepValue={1e-6} /></div></section></div>}
+      {operation !== 'Derivative' && <div className="col-md-4"><section className="card"><div className="card-header">Number of steps:</div>
+        <div className="card-body"><NumericInput label="N" value={n} onValueChanged={setN} /></div></section></div>}
+    </div>
+    <ResultPanel {...request} />
+  </>;
 }

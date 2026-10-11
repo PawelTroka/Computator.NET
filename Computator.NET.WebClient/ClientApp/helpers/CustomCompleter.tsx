@@ -1,52 +1,37 @@
-import * as Config from "../config";
+import { WEB_API_BASE_URL } from '../config';
 
-export class CustomCompleter
-{
-    private autocompleteItems: any[];
-    // private lang : any;
+interface AutocompleteItem {
+  text: string;
+  menuText: string;
+  details: { title?: string; description?: string; category?: string; type?: string };
+}
+interface Completion {
+  caption: string; value: string; score: number; meta: string; docText: string;
+}
 
-    public constructor(mode : string)
-    {
-        // this.lang = brace.acequire("lib/lang");
+export class CustomCompleter {
+  private items: AutocompleteItem[] = [];
+  private readonly controller = new AbortController();
 
-        const apiUrl = `${Config.WEB_API_BASE_URL}/autocomplete/${mode}`;
-        console.log(`Calling ${apiUrl}`);
+  public constructor(mode: 'expression' | 'scripting') {
+    void fetch(`${WEB_API_BASE_URL}/autocomplete/${mode}`, { signal: this.controller.signal })
+      .then(response => { if (!response.ok) throw new Error('Autocomplete is unavailable.'); return response.json(); })
+      .then((items: unknown) => {
+        if (Array.isArray(items)) this.items = items.filter(item => item && typeof item.text === 'string' && item.details);
+      }).catch(() => { this.items = []; });
+  }
 
-        fetch(apiUrl)
-            .then(response => response.text() as Promise<string>)
-            .then(data => {
-                console.log(`Got result: count: ${data.length}`);
-                this.autocompleteItems = (JSON.parse(data) as any[]);
-                console.log(`Transformed result to array: count: ${this.autocompleteItems.length}`);
-            });
-    }
+  public dispose() { this.controller.abort(); }
 
-    private isNullOrWhiteSpace(str: string): boolean
-    {
-        return str == null || str.replace(/\s/g, "").length < 1;
-    }
-
-    public getCompletions(editor : any, session : any, pos : any, prefix: string, callback : any) : void
-    {
-        callback(null, (this.autocompleteItems).map(autocompleteItem =>
-            ({
-                title: autocompleteItem.details.title,
-                description: autocompleteItem.details.description,
-                caption: autocompleteItem.menuText,
-                name: autocompleteItem.text,
-                value: autocompleteItem.text,
-                score: (autocompleteItem.text.indexOf(prefix) >= 0 ? 1 : 0) * (prefix.length / autocompleteItem.text.length),
-                meta: this.isNullOrWhiteSpace(autocompleteItem.details.category) ? autocompleteItem.details.type : autocompleteItem.details.category
-            })));
-    }
-
-    public getDocTooltip(item : any)
-    {
-        if (/*item.type == "snippet" &&*/ !item.docHTML) {
-            item.docHTML = [
-                "<b>", (item.title), "</b>", "<hr></hr>",
-                (item.description)
-            ].join("");
-        }
-    }
+  public getCompletions(_editor: unknown, _session: unknown, _position: unknown, prefix: string,
+    callback: (error: null, items: Completion[]) => void): void {
+    callback(null, this.items.map(item => ({
+      caption: item.menuText || item.text,
+      value: item.text,
+      score: item.text.includes(prefix) ? prefix.length / Math.max(item.text.length, 1) : 0,
+      meta: item.details.category?.trim() || item.details.type || '',
+      // API descriptions are data, never executable HTML in the editor tooltip.
+      docText: `${item.details.title || item.text}\n${item.details.description || ''}`
+    })));
+  }
 }

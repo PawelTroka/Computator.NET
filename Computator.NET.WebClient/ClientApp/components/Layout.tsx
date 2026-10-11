@@ -1,21 +1,9 @@
-import * as React from 'react';
+import type { ReactNode } from 'react';
 import { NavMenu } from './NavMenu';
 
-export interface LayoutProps {
-    children?: React.ReactNode;
-}
-
-export class Layout extends React.Component<LayoutProps, {}> {
-    public render() {
-        return <div className='container-fluid'>
-            <div className='row'>
-                <div className='col-sm-3'>
-                    <NavMenu />
-                </div>
-                <div className='col-sm-9'>
-                    { this.props.children }
-                </div>
-            </div>
-        </div>;
-    }
+export function Layout({ children }: { children?: ReactNode }) {
+  return <div className="container-fluid"><div className="row">
+    <aside className="col-md-3"><NavMenu /></aside>
+    <main className="col-md-9 py-4">{children}</main>
+  </div></div>;
 }

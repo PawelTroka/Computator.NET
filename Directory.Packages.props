@@ -1,6 +1,6 @@
 <Project>
-  <!-- Migrated projects opt in through build/ModernDesktop.props. Legacy hosts
-       retain their explicit dependencies until their own compatibility gates pass. -->
+  <!-- Migrated projects opt in. Compatibility-bound legacy hosts retain their
+       explicit versions until their own build and runtime gates are migrated. -->
   <ItemGroup>
     <PackageVersion Include="Accord.Math" Version="3.8.0" />
     <PackageVersion Include="AvalonEdit" Version="6.3.1.120" />
@@ -8,6 +8,7 @@
     <PackageVersion Include="jacobslusser.ScintillaNET" Version="3.6.3" />
     <PackageVersion Include="MathNet.Numerics" Version="5.0.0" />
     <PackageVersion Include="Meta.Numerics" Version="4.2.0" />
+    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="3.2.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
