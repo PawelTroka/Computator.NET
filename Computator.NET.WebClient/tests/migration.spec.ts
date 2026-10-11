@@ -25,8 +25,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 async function expression(page: Page, value: string) {
-  const input = page.locator('#expressionTextArea textarea');
-  await input.fill(value);
+  await page.locator('#expressionTextArea textarea').fill(value);
 }
 
 test('calculation keeps typed numbers, encoded expressions and direct routes', async ({ page }) => {
@@ -70,9 +69,11 @@ test('script submission and multiline output survive the editor migration', asyn
   await expect(page.getByRole('status')).toHaveText('first line\nsecond line');
 });
 
-test('numerical operations retain method and argument ordering', async ({ page }) => {
+test('numerical operations retain notation, method and argument ordering', async ({ page }) => {
   await page.goto('/numerical-calculations');
   await expression(page, 'x*x');
+  // The existing expression editor turns multiplication into mathematical notation.
+  await expect(page.locator('#expressionTextArea .ace_content')).toContainText('x·x');
   await page.getByLabel('Operation:', { exact: true }).selectOption('Derivative');
   await expect(page.getByLabel('Method:', { exact: true })).toHaveValue('Method A');
   await page.getByLabel('Method:', { exact: true }).selectOption('Method B');
@@ -80,7 +81,7 @@ test('numerical operations retain method and argument ordering', async ({ page }
   await page.getByRole('spinbutton', { name: 'order', exact: true }).fill('2');
   const request = page.waitForRequest(request => request.url().includes('/derivative/') && !request.url().endsWith('/list-methods'));
   await page.getByRole('button', { name: 'Compute!' }).click();
-  expect(decodeURIComponent((await request).url())).toContain('/derivative/Method B/x*x/3/2/0.000001');
+  expect(decodeURIComponent((await request).url())).toContain('/derivative/Method B/x·x/3/2/0.000001');
   await expect(page.getByRole('status')).toHaveText('42');
 });
 
@@ -118,8 +119,6 @@ test('host keeps missing API endpoints separate from SPA fallback', async ({ req
   const page = await request.get('/calculate');
   expect(page.status()).toBe(200);
   expect(await page.text()).toContain('react-app');
-  // Vite preview has a broad fallback. This contract specifically gates the
-  // production ASP.NET host used by CI, not the independent preview command.
   test.skip(!process.env.PLAYWRIGHT_SERVER_COMMAND, 'Requires the published ASP.NET host');
   expect((await request.get('/api/does-not-exist')).status()).toBe(404);
   const weather = await request.get('/api/SampleData/WeatherForecasts');

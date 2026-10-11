@@ -13,9 +13,6 @@ jobs:
   windows:
     runs-on: windows-2025
     timeout-minutes: 30
-    defaults:
-      run:
-        shell: pwsh
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -23,22 +20,16 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
-      - name: Build supported solution
-        run: |
-          dotnet build Computator.NET.Modern.slnx --configuration Release -bl:desktop.binlog -p:RestorePackagesWithLockFile=true
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Core tests
-        run: |
-          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj --configuration Release --no-build --blame-hang-timeout 120s --blame-hang-dump-type none --logger 'console;verbosity=detailed' --logger 'trx;LogFileName=core.trx' --results-directory TestResults
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Core integration tests
-        run: |
-          dotnet test Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj --configuration Release --no-build --blame-hang-timeout 120s --blame-hang-dump-type none --logger 'console;verbosity=detailed' --logger 'trx;LogFileName=integration.trx' --results-directory TestResults
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Web API integration tests
-        run: |
-          dotnet test Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj --configuration Release --no-build --blame-hang-timeout 120s --blame-hang-dump-type none --logger 'console;verbosity=detailed' --logger 'trx;LogFileName=api.trx' --results-directory TestResults
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build, regressions, desktop startup and portable publication
+        shell: pwsh
+        run: ./build/Validate-Migration.ps1 -UpdateLocks
+      - name: Desktop migration candidate
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: desktop-migration-candidate
+          path: artifacts/desktop/**
+          if-no-files-found: error
+          retention-days: 7
       - name: Diagnostics
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -59,23 +50,21 @@ jobs:
             **/*.csproj
             **/*.config
             **/*.json
-            **/*.xaml
             **/*.resx
             **/*.yml
             **/*.props
             **/*.targets
-            **/*.cake
+            **/*.ps1
             **/*.ts
             **/*.tsx
             **/*.html
-            **/*.cshtml
             **/*.css
             **/*.js
             **/*.sln
             **/*.slnx
             **/*.md
-            **/*.manifest
             !**/obj/**
             !**/bin/**
             !**/node_modules/**
+            !artifacts/**
           retention-days: 1

@@ -17,5 +17,6 @@
     <Project Path="Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj" />
     <Project Path="Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj" />
     <Project Path="Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj" />
+    <Project Path="Computator.NET.Desktop.Tests/Computator.NET.Desktop.Tests.csproj" />
   </Folder>
 </Solution>

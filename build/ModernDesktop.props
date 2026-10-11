@@ -1,18 +1,18 @@
 <Project>
   <PropertyGroup>
-    <!-- The supported compatibility bridge is Framework 4.8.1, not .NET 10.
-         Binary settings, native controls and Windows Forms/WPF remain intact. -->
+    <!-- Latest Framework preserves binary settings and Windows Forms/WPF.
+         The SDK and compiler version are NOT the desktop runtime version. -->
     <TargetFramework>net481</TargetFramework>
     <LangVersion>14.0</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>true</Deterministic>
     <DebugType>portable</DebugType>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-    <!-- Preserve resource names used by checked-in designers from older SDKs. -->
     <EmbeddedResourceUseDependentUponConvention>false</EmbeddedResourceUseDependentUponConvention>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <IsPackable>false</IsPackable>

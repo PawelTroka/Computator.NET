@@ -1,102 +1,92 @@
-# ![Computator.NET](../master/Graphics/Assets/Wide310x150Logo.png)
-Computator.NET is a unique open numerical software that is fast and easy to use and stands up to other feature-wise software.
-![Quick presentation of Computator.NET features](../master/Graphics/Presentation/quick_presentation.gif "Quick presentation of Computator.NET features")
+# ![Computator.NET](Graphics/Assets/Wide310x150Logo.png)
 
-### Its features include:
-* **Real**, **complex** and two-variable (**3D**) function **charts**
-* **Real**, **complex** and two-variable (**3D**) function **calculator**
-* **Numerical calculations** on real functions including many different methods
-* Over 107 **Elementary functions**
-* Over 141 **Special functions**
-* Over 21 **Matrix functions and operations**
-* Original **scripting language** designed for scientists, powerful for easy computations including matrices
-* User-created **custom functions** written with scripting language
-* **Mathematical notation**, including raising to power, just like it should be
+Computator.NET is open-source numerical software for exploring mathematics through calculations, charts and scripts.
 
+![Quick presentation](Graphics/Presentation/quick_presentation.gif)
 
+It includes real, complex and two-variable function charts and calculations; numerical integration, derivatives and root finding; elementary, special and matrix functions; and the original TROKA Scripting Language (TSL), custom functions and mathematical notation.
 
-# Release 2.3.2 stable - _hardening_
-* View [changelog here](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.3.2)
-* Download [installer here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.Installer.v2.3.2.exe)
-* Download [portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.v2.3.2.zip)
-* For Windows XP [download portable version (*.zip) here](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.v2.3.2-WindowsXP.zip)
+## Developing the 2026 migration
 
+**This branch is a compatibility migration, not a new certified release.** The desktop and mathematical API target **.NET Framework 4.8.1**, built with the **.NET 10 SDK and C# 14**. The independent web-client host targets **ASP.NET Core 10**, with **React 19, TypeScript 7 and Vite 8**. These are deliberately different runtime boundaries.
 
-# Installation & Setup
-<a href="https://www.microsoft.com/store/apps/9NBLGGH43GHS?ocid=badge"><img width="25%" src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" alt="Get it on Windows 10" /></a>
-1. This project requires **.NET Framework** version [**4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718) on Windows XP and version [**4.6.1**](https://www.microsoft.com/en-us/download/details.aspx?id=49982) on newer systems.
-2. Go to [latest release page](https://github.com/PawelTroka/Computator.NET/releases/latest)
-3. Now you can download either portable version (the one with .zip extension) or installer (the one with .exe extension). In general, installer is recommended, because it sets up tsl and tslf files extensions for Computator.NET in registry.
-4. If you downloaded portable version, just unzip it into location you want to store and you are ready to go.
-5. If you downloaded version with installer, just click on the installer file, it will guide you through the whole process and download all required files and libraries.
-6. After installation or unzip, if you want to run it, simply click on Computator.NET.exe (or Computator.NET shortcut on desktop if you had chosen installer) in whatever location you had chosen for it.
+Read [the migration and verification guide](docs/MIGRATION-2026.md) before upgrading an existing installation. The old Windows XP, Mono, MSI bootstrapper and Visual Studio 2017 Coded UI build paths are **not** supported by the new solution; see [legacy tooling](docs/LEGACY-TOOLING.md).
 
+### Windows development
 
+Install the SDK pinned by `global.json` and .NET Framework 4.8.1. Use a current Visual Studio installation supporting this SDK and the desktop workload, or the command line. Reference assemblies are restored from NuGet; an old manually installed 4.6.1 targeting pack is not required.
 
-# Contributing
+```powershell
+dotnet restore Computator.NET.sln --locked-mode
+dotnet build Computator.NET.sln -c Release --no-restore
+# Build, test all active suites and verify portable output:
+pwsh ./build/Validate-Migration.ps1
+```
 
-#### Build and tools
-[![codecov](https://codecov.io/gh/PawelTroka/Computator.NET/branch/master/graph/badge.svg)](https://codecov.io/gh/PawelTroka/Computator.NET)
-[![Coverage Status](https://coveralls.io/repos/github/PawelTroka/Computator.NET/badge.svg?branch=master)](https://coveralls.io/github/PawelTroka/Computator.NET?branch=master)
-[![Issue Stats](http://issuestats.com/github/PawelTroka/Computator.NET/badge/issue?style=flat)](http://issuestats.com/github/PawelTroka/Computator.NET)
-[![Issue Stats](http://issuestats.com/github/PawelTroka/Computator.NET/badge/pr?style=flat)](http://issuestats.com/github/PawelTroka/Computator.NET)
+`Computator.NET.Modern.slnx` contains the same active projects, organized by area. Use an explicit solution filename because both solution formats are present. Generated dependency graphs are checked in; intentional upgrades update `Directory.Packages.props` and the affected lockfiles together.
 
-* Windows (.NET Framework): [![Build status](https://ci.appveyor.com/api/projects/status/yy65wjyjagdh0lt6?svg=true)](https://ci.appveyor.com/project/PawelTroka/computator-net) [![Build status](http://flauschig.ch/batch.php?type=tests&account=PawelTroka&slug=computator-net)](https://ci.appveyor.com/project/PawelTroka/computator-net) 
-* Linux (Mono): [![Build Status](https://travis-ci.org/PawelTroka/Computator.NET.svg?branch=master)](https://travis-ci.org/PawelTroka/Computator.NET)
-* IDE: Visual Studio 2017 Update 4 (v15.4)
-* Visual Studio 2017 Enterprise needed to build and run CodedUI tests
+### Web-client development
 
-##### Development
-* This repo supports **Fork & Pull Model**, you can do any useful changes and when you are done make a pull request. If your work is of good quality, it will be included in main branch.
-* List of **things to do** is **updated constantly**, you can view it here: [TODO file](../master/TODO). Choose wisely because some of those things are way harder than it looks.
-* List of known bugs and issues is here: [**issues**](https://github.com/PawelTroka/Computator.NET/issues).
-* Our **unit tests coverage is small**, partly because of the fact that there is good chunk of UI code here. Still I am afraid that there are lots and lots of not found bugs. If you want to help us fix those bugs, first try to catch them by **writing good unit tests**.
+Use the Node LTS version in `.nvmrc` and the npm version in `Computator.NET.WebClient/package.json`.
 
-##### Users
-* If **you have found ANY bugs** or you think something might be bug please report it in [**issues**](https://github.com/PawelTroka/Computator.NET/issues) as fast as you can. Any help with testing / finding bugs is greatly appreciated.
+```sh
+cd Computator.NET.WebClient
+npm ci
+npm run dev
+```
 
+The Vite development UI runs at `http://127.0.0.1:5173`. Start the mathematical API separately **on Windows**:
 
-# Screenshots
-![Computator.NET v1.8 is coming - functions with description](../master/Graphics/Presentation/Computator.NET%20v1.8%20is%20coming%20-%20functions%20with%20description.jpg "Computator.NET v1.8 is coming - functions with description")
-![Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart](../master/Graphics/Presentation/Computator.NET%20v1.8%20is%20coming%202%20-%20writing%20in%20exponent,%20f(x,y)%20chart.jpg "Computator.NET v1.8 is coming 2 - writing in exponent, f(x,y) chart")
-![functions and constants details](../master/Graphics/Presentation/functions%20and%20constants%20details.jpg "functions and constants details")
-![Interesting implicit function](../master/Graphics/Presentation/interesting%20implicit%20function.jpg "Interesting implicit function")
-![Simple implicit function](../master/Graphics/Presentation/simple%20implicit%20function.jpg "Simple implicit function")
-![Euler Gamma by Computator.NET](../master/Graphics/Presentation/gamma%20by%20computator.net.jpg "Euler Gamma by Computator.NET")
+```powershell
+dotnet run --project Computator.NET.WebApi -- --urls http://localhost:60996
+```
 
-# FAQ
+The default API address remains `http://localhost:60996/api`. Copy `.env.example` to `.env.local` to override the build-time address. The web client's static assets and ASP.NET Core 10 host can be built on Linux or macOS; the mathematical API still requires the Windows desktop libraries.
 
-### What shortcut do you use to write in exponent, just like in gif presentation?
+```sh
+# From Computator.NET.WebClient:
+npm run build
+npx playwright install chromium firefox
+npm test
+dotnet publish -c Release -o ../artifacts/webclient
+```
 
-LShift+6 (^), just like it is listed in **Edit** menu from where you can also **activate / deactivate** writing in exponent without using this shortcut.
-![Writing in exponent](../master/Graphics/Presentation/writing-in-exponent.gif "Writing in exponent")
+Publishing runs `npm ci` and the production build automatically. CI tests the published ASP.NET host, not just Vite's development server.
 
+**Security:** TSL executes trusted code with the application's permissions. It is not a sandbox. Keep the mathematical API on loopback and do not expose its anonymous scripting endpoints to the Internet. CORS is not authentication and does not make script execution safe.
 
-### How can I solve equations / do my homework using Computator.NET?
+## Verification
 
-Computator.NET is numerical software that aims to provide functionality similar to Matlab and Mathematica. But it certainly isn't full Computer Algebra System, at least not yet. You can solve some equations by using '**Numerical calculations**' tab and '**Function root**' operation. Depending on the equation, different methods work better or worse.
-![Solving equations using numerical calculations](../master/Graphics/Presentation/solving%20equations%20using%20numerical%20calculations.gif "Solving equations using numerical calculations")
-Alternatively, you can always solve equations graphically, simply by looking at the chart.
-![solving equations graphically](../master/Graphics/Presentation/solving%20equations%20graphically.gif "solving equations graphically")
+The GitHub Actions workflows build and test Windows code, run the numerical integration suite, exercise API routes, check desktop startup/resources, and test the production web client in Chromium and Firefox. They retain test results and failure traces. A portable CI artifact is a **migration candidate**, not an installer-certified release.
 
+The release checklist in [MIGRATION-2026.md](docs/MIGRATION-2026.md) also requires real-machine checks for saved settings, scripts, chart rendering, editor switching and deployment. Automated test success does not replace these checks.
 
-# Minimum system requirements
+## Existing release: 2.3.2
 
-* Windows Vista or later (officially supported)
-    * [**.NET Framework** **4.6.1**](https://www.microsoft.com/en-us/download/details.aspx?id=49982) or newer
-* Windows XP (legacy support)
-    * [**.NET Framework** **4.0 Full**](https://www.microsoft.com/en-US/download/details.aspx?id=17718)
-    * [.NET 4.0 **KB2468871**](https://www.microsoft.com/en-us/download/details.aspx?id=3556) update
-* Linux / Mac OS X (non-official support)
-    * [**Mono** **5.14.0**](http://www.mono-project.com/docs/about-mono/releases/) or newer 
-* Operating system **Windows XP SP3** or later (**Windows Vista** or later is recommended, **Windows 10** is the best option because of continous testing on it)
-* Processor **1 GHz** or faster
-* Memory **512 MB**	or more
-* **DirectX 9.0** support
-* Graphics memory **128 MB** or more
-* Free HDD space **200 MB** or more
+The historical 2.3.2 packages are separate from this migration:
 
+- [Release notes and downloads](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.3.2)
+- [Installer](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.Installer.v2.3.2.exe)
+- [Portable ZIP](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.v2.3.2.zip)
+- [Historical Windows XP ZIP](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.v2.3.2-WindowsXP.zip)
 
-# License
+Those packages retain their original framework requirements. Do not use the old installer to deploy newly built 4.8.1 binaries.
 
-Computator.NET along with all content files, TSL/TSLF scripts and any work shared on this github project page is [GNU GPL v3 licensed](../master/LICENSE). Any libraries used by Computator.NET are GNU GPL v3 - compatible.
+## Working with Computator.NET
+
+To write in an exponent, use **Shift+6 (`^`)**, or the corresponding command in the Edit menu.
+
+![Writing in exponent](Graphics/Presentation/writing-in-exponent.gif)
+
+For numerical equation solving, use the **Numerical calculations** tab and **Function root** operation. Different methods suit different equations. Graphical solutions are also possible by inspecting function intersections.
+
+![Numerical root finding](Graphics/Presentation/solving%20equations%20using%20numerical%20calculations.gif)
+![Graphical equation solving](Graphics/Presentation/solving%20equations%20graphically.gif)
+
+## Contributing
+
+Use a fork and pull request. Include regression tests for behavior changes and review dependency lockfile changes. Report reproducible bugs in [Issues](https://github.com/PawelTroka/Computator.NET/issues); the [TODO file](TODO) contains additional project ideas.
+
+## License
+
+Computator.NET is distributed under [GNU GPL v3](LICENSE). Third-party dependencies retain their own licenses; review their notices when distributing a new build.
