@@ -7,6 +7,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Accord.Math" />
     <PackageReference Include="Guards" />
     <PackageReference Include="MathNet.Numerics" />
