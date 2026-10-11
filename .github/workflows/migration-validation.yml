@@ -29,15 +29,15 @@ jobs:
           global-json-file: global.json
       - name: Build supported desktop solution
         run: |
-          dotnet build Computator.NET.Modern.slnx --configuration Release -bl:desktop.binlog
+          dotnet build Computator.NET.Modern.slnx --configuration Release -bl:desktop.binlog -p:RestorePackagesWithLockFile=true
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Core tests
         run: |
-          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj --configuration Release --no-build --logger 'trx;LogFileName=core.trx' --results-directory TestResults
+          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj --configuration Release --no-build --blame-hang-timeout 120s --blame-hang-dump-type none --logger 'console;verbosity=detailed' --logger 'trx;LogFileName=core.trx' --results-directory TestResults
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Core integration tests
         run: |
-          dotnet test Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj --configuration Release --no-build --logger 'trx;LogFileName=integration.trx' --results-directory TestResults
+          dotnet test Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj --configuration Release --no-build --blame-hang-timeout 120s --blame-hang-dump-type none --logger 'console;verbosity=detailed' --logger 'trx;LogFileName=integration.trx' --results-directory TestResults
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Diagnostics
         if: always()
@@ -47,6 +47,7 @@ jobs:
           path: |
             *.binlog
             TestResults/**
+            **/packages.lock.json
           retention-days: 7
       - name: Migration source snapshot
         if: always()

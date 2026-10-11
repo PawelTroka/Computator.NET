@@ -20,10 +20,11 @@ export function Expression({ expression, onExpressionChange }: {
         highlightActiveLine={false} value={expression} tabSize={1}
         onChange={text => onExpressionChange(SpecialSymbolsHandler.replace(text.replace(/[\r\n]+/g, ' '), false))}
         onLoad={editor => {
+          editor.completers = [completer];
           editor.renderer.setScrollMargin(10, 10);
           editor.commands.bindKey('Enter|Shift-Enter', 'null');
         }}
-        enableBasicAutocompletion={[completer]} enableLiveAutocompletion={false}
+        enableBasicAutocompletion enableLiveAutocompletion={false}
         setOptions={{ useWorker: false, enableSnippets: false, showLineNumbers: false }} />
     </div>
   </div>;

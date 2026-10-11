@@ -25,7 +25,8 @@ export function Scripting() {
             width="100%" minLines={15} maxLines={25} fontSize={16} showPrintMargin={false}
             showGutter highlightActiveLine value={expression} tabSize={4}
             onChange={text => setExpression(SpecialSymbolsHandler.replace(text, false))}
-            enableBasicAutocompletion={[completer]} enableLiveAutocompletion={[completer]}
+            onLoad={editor => { editor.completers = [completer]; }}
+            enableBasicAutocompletion enableLiveAutocompletion
             setOptions={{ useWorker: false, enableSnippets: true, showLineNumbers: true }} />
         </div>
       </section></div>
