@@ -9,8 +9,13 @@
     <Project Path="Computator.NET.DataTypes/Computator.NET.DataTypes.csproj" />
     <Project Path="Computator.NET.Localization/Computator.NET.Localization.csproj" />
   </Folder>
+  <Folder Name="/Web/">
+    <Project Path="Computator.NET.WebApi/Computator.NET.WebApi.csproj" />
+    <Project Path="Computator.NET.WebClient/Computator.NET.WebClient.csproj" />
+  </Folder>
   <Folder Name="/Tests/">
     <Project Path="Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj" />
     <Project Path="Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj" />
+    <Project Path="Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj" />
   </Folder>
 </Solution>

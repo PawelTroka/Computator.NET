@@ -15,12 +15,13 @@ export function Expression({ expression, onExpressionChange }: {
   return <div className="input-group input-group-lg mb-3">
     <span className="input-group-text">Expression:</span>
     <div className="expression-editor">
-      <AceEditor name="expressionTextArea" ariaLabel="Expression" mode="csharp" theme="github"
+      <AceEditor name="expressionTextArea" mode="csharp" theme="github"
         width="100%" minLines={1} maxLines={1} fontSize={20} showPrintMargin={false} showGutter={false}
         highlightActiveLine={false} value={expression} tabSize={1}
         onChange={text => onExpressionChange(SpecialSymbolsHandler.replace(text.replace(/[\r\n]+/g, ' '), false))}
         onLoad={editor => {
           editor.completers = [completer];
+          editor.container.querySelector('textarea')?.setAttribute('aria-label', 'Expression');
           editor.renderer.setScrollMargin(10, 10);
           editor.commands.bindKey('Enter|Shift-Enter', 'null');
         }}

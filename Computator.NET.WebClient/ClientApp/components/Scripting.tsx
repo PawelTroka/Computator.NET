@@ -21,11 +21,14 @@ export function Scripting() {
     <div className="row g-3">
       <div className="col-md-9"><section className="card">
         <div className="card-header">Script:</div><div className="card-body script-editor-panel">
-          <AceEditor name="scriptTextArea" ariaLabel="TSL script" mode="csharp" theme="ambiance"
+          <AceEditor name="scriptTextArea" mode="csharp" theme="ambiance"
             width="100%" minLines={15} maxLines={25} fontSize={16} showPrintMargin={false}
             showGutter highlightActiveLine value={expression} tabSize={4}
             onChange={text => setExpression(SpecialSymbolsHandler.replace(text, false))}
-            onLoad={editor => { editor.completers = [completer]; }}
+            onLoad={editor => {
+              editor.completers = [completer];
+              editor.container.querySelector('textarea')?.setAttribute('aria-label', 'TSL script');
+            }}
             enableBasicAutocompletion enableLiveAutocompletion
             setOptions={{ useWorker: false, enableSnippets: true, showLineNumbers: true }} />
         </div>

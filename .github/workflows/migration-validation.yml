@@ -1,18 +1,14 @@
 name: Migration validation
-
 on:
   pull_request:
   push:
     branches: [master]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: migration-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   windows:
     runs-on: windows-2025
@@ -27,7 +23,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
-      - name: Build supported desktop solution
+      - name: Build supported solution
         run: |
           dotnet build Computator.NET.Modern.slnx --configuration Release -bl:desktop.binlog -p:RestorePackagesWithLockFile=true
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -38,6 +34,10 @@ jobs:
       - name: Core integration tests
         run: |
           dotnet test Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj --configuration Release --no-build --blame-hang-timeout 120s --blame-hang-dump-type none --logger 'console;verbosity=detailed' --logger 'trx;LogFileName=integration.trx' --results-directory TestResults
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Web API integration tests
+        run: |
+          dotnet test Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj --configuration Release --no-build --blame-hang-timeout 120s --blame-hang-dump-type none --logger 'console;verbosity=detailed' --logger 'trx;LogFileName=api.trx' --results-directory TestResults
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Diagnostics
         if: always()
