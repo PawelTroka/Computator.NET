@@ -1,54 +1,74 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Guards;
-using Unity.Builder;
-using Unity.Builder.Operation;
-using Unity.Injection;
-using Unity.Policy;
+using System.Reflection;
 using Unity.Resolution;
 
 namespace Computator.NET.Core.Bootstrapping
 {
     /// <summary>
-    /// A <see cref="ResolverOverride"/> class that lets you
-    /// override a named parameter passed to a constructor.
+    /// Constructor-only, case-insensitive substring overrides for editor roles.
+    /// Unity 5.11 matches ParameterInfo instead of exposing the old builder operation.
+    /// Each override owns an immutable value: concurrent resolutions cannot exchange
+    /// the scripting editor and custom-functions editor through shared match state.
     /// </summary>
-    public class FuzzyMatchingParameterOverrideWithFallback<T> : ResolverOverride
-        where T : class
+    public sealed class FuzzyMatchingParameterOverrideWithFallback<T> where T : class
     {
-        private readonly InjectionParameterValue _fallbackValue;
+        private readonly ResolverOverride[] _overrides;
 
-        private readonly Dictionary<string, InjectionParameterValue> _injectionParameters;
-
-        public FuzzyMatchingParameterOverrideWithFallback(Dictionary<string,T> parameters, T fallbackValue=null)
+        public FuzzyMatchingParameterOverrideWithFallback(Dictionary<string, T> parameters, T fallbackValue = null)
         {
-            if(fallbackValue!=null)
-                _fallbackValue = InjectionParameterValue.ToParameter(fallbackValue);
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+            if (parameters.Keys.Any(string.IsNullOrEmpty))
+                throw new ArgumentException("Parameter-name fragments must not be empty.", nameof(parameters));
 
-            _injectionParameters = new Dictionary<string, InjectionParameterValue>();
-            foreach (var parameter in parameters)
-            {
-                _injectionParameters.Add(parameter.Key.ToLowerInvariant(), InjectionParameterValue.ToParameter(parameter.Value));
-            }
+            var entries = parameters.ToArray();
+            var names = entries.Select(entry => entry.Key).ToArray();
+            var overrides = new List<ResolverOverride>();
+            for (var index = 0; index < entries.Length; index++)
+                overrides.Add(new ConstructorOverride(names, index, entries[index].Value));
+            if (fallbackValue != null)
+                overrides.Add(new ConstructorOverride(names, names.Length, fallbackValue));
+            _overrides = overrides.ToArray();
         }
 
-        public override IResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
+        public ResolverOverride[] Overrides => (ResolverOverride[])_overrides.Clone();
+
+        private sealed class ConstructorOverride : ResolverOverride, IEquatable<ParameterInfo>, IResolve
         {
-            Guard.ArgumentNotNull(context, nameof(context));
+            private readonly string[] _names;
+            private readonly int _index;
+            private readonly T _value;
 
-            if (context.CurrentOperation is ConstructorArgumentResolveOperation currentOperation &&
-                //(typeof(T)==dependencyType || typeof(T).GetInterfaces().Contains(dependencyType))
-                dependencyType.IsAssignableFrom(typeof(T)))
+            public ConstructorOverride(string[] names, int index, T value)
+                : base(null, typeof(T), index < names.Length ? names[index] : null)
             {
-                var parameter =
-                    _injectionParameters.FirstOrDefault(
-                        kv => currentOperation.ParameterName.ToLowerInvariant().Contains(kv.Key));//TODO: later introduce real fuzzy matching
-
-                return parameter.Key==null ? this._fallbackValue?.GetResolverPolicy(dependencyType) : parameter.Value.GetResolverPolicy(dependencyType);
+                _names = names;
+                _index = index;
+                _value = value;
             }
 
-            return null;
+            public bool Equals(ParameterInfo parameter)
+            {
+                if (parameter == null || !(parameter.Member is ConstructorInfo) ||
+                    !parameter.ParameterType.IsAssignableFrom(typeof(T)) ||
+                    (Target != null && parameter.Member.DeclaringType != Target))
+                    return false;
+
+                // Preserve the original first-match rule, independently of the order
+                // in which Unity visits the overrides. A fallback never masks a match.
+                var match = Array.FindIndex(_names, name =>
+                    parameter.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0);
+                return (match < 0 ? _names.Length : match) == _index;
+            }
+
+            public override bool Equals(object other) => other is ParameterInfo parameter
+                ? Equals(parameter)
+                : ReferenceEquals(this, other);
+
+            public override int GetHashCode() => System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(this);
+
+            public object Resolve<TContext>(ref TContext context) where TContext : IResolveContext => _value;
         }
     }
 }

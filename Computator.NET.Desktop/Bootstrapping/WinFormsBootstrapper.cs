@@ -18,7 +18,6 @@ using Computator.NET.Desktop.Dialogs;
 using Computator.NET.Desktop.Services;
 using Computator.NET.Desktop.Views;
 using Unity;
-using Unity.Injection;
 using Unity.Lifetime;
 
 namespace Computator.NET.Desktop.Bootstrapping
@@ -27,9 +26,7 @@ namespace Computator.NET.Desktop.Bootstrapping
     {
         private FuzzyMatchingParameterOverrideWithFallback<CodeEditorControlWrapper> _resolver;
 
-        public WinFormsBootstrapper() : this(new UnityContainer())
-        {
-        }
+        public WinFormsBootstrapper() : this(new UnityContainer()) { }
 
         public WinFormsBootstrapper(IUnityContainer coreContainer) : base(coreContainer)
         {
@@ -48,88 +45,59 @@ namespace Computator.NET.Desktop.Bootstrapping
 
         public override T Create<T>()
         {
-            if (typeof(T) == typeof(MainView))
-                CreatePresenters();
+            if (typeof(T) == typeof(MainView)) CreatePresenters();
             return base.Create<T>();
         }
 
         private void CreatePresenters()
         {
-            //presenters
-            var mainFormPresenter = Container.Resolve<MainFormPresenter>(_resolver);
-            var expressionViewPresenter = Container.Resolve<ExpressionViewPresenter>(_resolver);
-            var chartingViewPresenter = Container.Resolve<ChartingViewPresenter>(_resolver);
-            var chartAreaValuesViewPresenter = Container.Resolve<ChartAreaValuesPresenter>(_resolver);
-            var calculationsViewPresenter = Container.Resolve<CalculationsPresenter>(_resolver);
-            var numericalCalculationsPresenter = Container.Resolve<NumericalCalculationsPresenter>(_resolver);
-            var scriptingViewPresenter = Container.Resolve<ScriptingViewPresenter>(_resolver);
-            var customFunctionsViewPresenter = Container.Resolve<CustomFunctionsPresenter>(_resolver);
+            Container.Resolve<MainFormPresenter>(_resolver.Overrides);
+            Container.Resolve<ExpressionViewPresenter>(_resolver.Overrides);
+            Container.Resolve<ChartingViewPresenter>(_resolver.Overrides);
+            Container.Resolve<ChartAreaValuesPresenter>(_resolver.Overrides);
+            Container.Resolve<CalculationsPresenter>(_resolver.Overrides);
+            Container.Resolve<NumericalCalculationsPresenter>(_resolver.Overrides);
+            Container.Resolve<ScriptingViewPresenter>(_resolver.Overrides);
+            Container.Resolve<CustomFunctionsPresenter>(_resolver.Overrides);
         }
-
 
         private void RegisterViews()
         {
-            //views
             Container.RegisterTypeLegacy<IMainView, MainView>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IExpressionView, ExpressionView>(new ContainerControlledLifetimeManager());
-
-            // container.RegisterTypeLegacy<IMenuStripView, MenuStripView>(new ContainerControlledLifetimeManager());
-            // container.RegisterTypeLegacy<IToolbarView, ToolBarView>(new ContainerControlledLifetimeManager());
-
             Container.RegisterTypeLegacy<IChartingView, ChartingView>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IChartAreaValuesView, ChartAreaValuesView>(new ContainerControlledLifetimeManager());
-
             Container.RegisterTypeLegacy<ICalculationsView, CalculationsView>(new ContainerControlledLifetimeManager());
-
-            Container.RegisterTypeLegacy<INumericalCalculationsView, NumericalCalculationsView>(
-                new ContainerControlledLifetimeManager());
-
+            Container.RegisterTypeLegacy<INumericalCalculationsView, NumericalCalculationsView>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IScriptingView, ScriptingView>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<ISolutionExplorerView, SolutionExplorerView>();
-
             Container.RegisterTypeLegacy<ICustomFunctionsView, CustomFunctionsView>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterControls()
         {
-            //components and controls
-            //charts
             Container.RegisterTypeLegacy<IChart2D, Chart2D>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IComplexChart, ComplexChart>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IChart3D, Chart3DControl>(new ContainerControlledLifetimeManager());
-
-
-            //ExpressionTextBox
             Container.RegisterTypeLegacy<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<ITextProvider>(new InjectionFactory(c => Container.Resolve<ExpressionTextBox>()));
+            Container.RegisterFactory<ITextProvider>(c => c.Resolve<ExpressionTextBox>());
             Container.RegisterTypeLegacy<IOpenFileDialog, OpenFileDialogWrapper>();
             Container.RegisterTypeLegacy<IClickedMouseButtonsProvider, MouseButtonsProvider>();
-
-            //Scripting and CustomFunctions
             Container.RegisterType<CodeEditorControlWrapper>("scripting");
             Container.RegisterType<CodeEditorControlWrapper>("customFunctions");
-
-            _resolver = new FuzzyMatchingParameterOverrideWithFallback<CodeEditorControlWrapper>(new Dictionary<string, CodeEditorControlWrapper>()
-            {
-                {"script", Container.Resolve<CodeEditorControlWrapper>("scripting")},
-                {"customFunction", Container.Resolve<CodeEditorControlWrapper>("customFunctions")},
-            });
-
-            //container.RegisterType<ICodeEditorView, CodeEditorControlWrapper>();//check
-            Container.RegisterType<ICodeEditorView>(
-                new InjectionFactory(c => c.Resolve<CodeEditorControlWrapper>(_resolver)));
-            Container.RegisterType<ICodeDocumentsEditor>(
-                new InjectionFactory(c => c.Resolve<CodeEditorControlWrapper>(_resolver)));
-            Container.RegisterType<IDocumentsEditor>(
-                new InjectionFactory(c => c.Resolve<CodeEditorControlWrapper>(_resolver)));
-            Container.RegisterType<ICanFileEdit>(
-                new InjectionFactory(c => c.Resolve<CodeEditorControlWrapper>(_resolver)));
-            Container.RegisterType<ICanOpenFiles>(
-                new InjectionFactory(c => c.Resolve<CodeEditorControlWrapper>(_resolver)));
-            Container.RegisterType<IScriptProvider>(
-                new InjectionFactory(c => c.Resolve<CodeEditorControlWrapper>(_resolver)));
-            Container.RegisterType<ISupportsExceptionHighliting>(
-                new InjectionFactory(c => c.Resolve<CodeEditorControlWrapper>(_resolver)));
+            _resolver = new FuzzyMatchingParameterOverrideWithFallback<CodeEditorControlWrapper>(
+                new Dictionary<string, CodeEditorControlWrapper>
+                {
+                    { "script", Container.Resolve<CodeEditorControlWrapper>("scripting") },
+                    { "customFunction", Container.Resolve<CodeEditorControlWrapper>("customFunctions") }
+                });
+            Container.RegisterFactory<ICodeEditorView>(c => c.Resolve<CodeEditorControlWrapper>(_resolver.Overrides));
+            Container.RegisterFactory<ICodeDocumentsEditor>(c => c.Resolve<CodeEditorControlWrapper>(_resolver.Overrides));
+            Container.RegisterFactory<IDocumentsEditor>(c => c.Resolve<CodeEditorControlWrapper>(_resolver.Overrides));
+            Container.RegisterFactory<ICanFileEdit>(c => c.Resolve<CodeEditorControlWrapper>(_resolver.Overrides));
+            Container.RegisterFactory<ICanOpenFiles>(c => c.Resolve<CodeEditorControlWrapper>(_resolver.Overrides));
+            Container.RegisterFactory<IScriptProvider>(c => c.Resolve<CodeEditorControlWrapper>(_resolver.Overrides));
+            Container.RegisterFactory<ISupportsExceptionHighliting>(c => c.Resolve<CodeEditorControlWrapper>(_resolver.Overrides));
         }
     }
 }
