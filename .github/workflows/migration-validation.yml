@@ -1,0 +1,71 @@
+name: Migration validation
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: migration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: '10.0.401'
+      - name: Toolchain
+        run: dotnet --info
+      - name: Restore and build desktop
+        run: |
+          dotnet build Computator.NET/Computator.NET.csproj --configuration Release -bl:desktop.binlog
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Core tests
+        run: |
+          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj --configuration Release --framework net461 --logger 'trx;LogFileName=core.trx' --results-directory TestResults
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: windows-migration-diagnostics
+          path: |
+            *.binlog
+            TestResults/**
+          retention-days: 7
+      - name: Migration source snapshot
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: migration-source-review
+          path: |
+            **/*.cs
+            **/*.csproj
+            **/*.config
+            **/*.json
+            **/*.xaml
+            **/*.yml
+            **/*.props
+            **/*.targets
+            **/*.cake
+            **/*.ts
+            **/*.html
+            **/*.css
+            **/*.js
+            !**/obj/**
+            !**/bin/**
+            !**/node_modules/**
+          retention-days: 1
