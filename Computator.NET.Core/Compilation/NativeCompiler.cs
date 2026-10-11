@@ -31,7 +31,6 @@ namespace Computator.NET.Core.Compilation
             "Meta.Numerics.dll", "MathNet.Numerics.dll", "Accord.Math.dll", "Accord.dll"
         };
 
-        // These offsets are part of the editor's existing diagnostic contract.
         public int MainCodeStarOffsetLine { get; set; }
         public int MainCodeEndOffsetLine { get; set; }
         public int CustomFunctionsStartOffsetLine { get; set; }
@@ -63,8 +62,7 @@ namespace Computator.NET.Core.Compilation
                     Logger.Error(exception, exception.Message);
                     throw exception;
                 }
-                // Unique identities preserve #39: successive expressions must never
-                // resolve to an earlier generated assembly. No temporary files leak.
+                // Unique identities preserve #39. No compiler temporary files leak.
                 return Assembly.Load(output.ToArray());
             }
         }
@@ -78,15 +76,20 @@ namespace Computator.NET.Core.Compilation
 
         private static string[] FindRuntimeReferences()
         {
-            // Modern .NET supplies its trusted platform assemblies. Framework uses
-            // its runtime/GAC and facades, including netstandard for Meta.Numerics.
             var trusted = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") as string;
             if (!string.IsNullOrEmpty(trusted))
                 return trusted.Split(Path.PathSeparator).Where(File.Exists).ToArray();
 
-            var paths = new List<string> { typeof(object).Assembly.Location };
-            paths.AddRange(new[] { "System", "System.Core", "System.Numerics", "Microsoft.CSharp" }
-                .Select(name => Assembly.Load(new AssemblyName(name)).Location));
+            // Type anchors resolve strong-named Framework assemblies through the
+            // loader. Assembly.Load("System") does NOT reliably search the GAC.
+            var paths = new List<string>
+            {
+                typeof(object).Assembly.Location,
+                typeof(Uri).Assembly.Location,
+                typeof(Enumerable).Assembly.Location,
+                typeof(System.Numerics.Complex).Assembly.Location,
+                typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.Location
+            };
             var facades = Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "Facades");
             if (Directory.Exists(facades)) paths.AddRange(Directory.EnumerateFiles(facades, "*.dll"));
             return paths.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
@@ -103,13 +106,17 @@ namespace Computator.NET.Core.Compilation
             var runtime = RuntimeEnvironment.GetRuntimeDirectory();
             var directories = new[] { AppContext.BaseDirectory,
                 Path.GetDirectoryName(typeof(NativeCompiler).Assembly.Location), runtime,
-                Path.Combine(runtime, "Facades") };
+                Path.Combine(runtime, "Facades"), Path.Combine(runtime, "WPF") };
             foreach (var directory in directories)
             {
                 var path = Path.Combine(directory, reference);
                 if (File.Exists(path)) return Path.GetFullPath(path);
             }
-            return Assembly.Load(new AssemblyName(Path.GetFileNameWithoutExtension(reference))).Location;
+            var name = Path.GetFileNameWithoutExtension(reference);
+            var loaded = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(assembly =>
+                !assembly.IsDynamic && string.Equals(assembly.GetName().Name, name, StringComparison.OrdinalIgnoreCase));
+            if (loaded != null && !string.IsNullOrEmpty(loaded.Location)) return loaded.Location;
+            return Assembly.Load(new AssemblyName(name)).Location;
         }
 
         private CompilationException CreateCompilationException(IEnumerable<Diagnostic> diagnostics)
