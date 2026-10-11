@@ -1,0 +1,32 @@
+name: Migration dependency inventory
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Query stable frontend package metadata
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $names = @('react', 'react-dom', '@types/react', '@types/react-dom', 'react-router-dom', 'typescript', 'vite', '@vitejs/plugin-react', 'react-ace', 'ace-builds', 'bootstrap', '@playwright/test', '@types/node')
+          $report = [ordered]@{}
+          foreach ($name in $names) {
+            $metadata = & npm view $name version peerDependencies engines --json --registry=https://registry.npmjs.org
+            if ($LASTEXITCODE -ne 0) { throw "npm metadata lookup failed: $name" }
+            $report[$name] = ($metadata | ConvertFrom-Json)
+          }
+          $report | ConvertTo-Json -Depth 8 | Tee-Object -FilePath npm-inventory.json
+          $releases = Invoke-RestMethod https://nodejs.org/dist/index.json
+          $releases | Where-Object { $_.lts -and $_.version -like 'v24.*' } | Select-Object -First 1 | ConvertTo-Json | Tee-Object -FilePath node-lts.json
+      - name: Metadata for review
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: migration-dependency-inventory
+          path: '*.json'
+          retention-days: 2
