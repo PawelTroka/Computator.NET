@@ -21,25 +21,27 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-dotnet@v6.0.0
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
-          dotnet-version: '10.0.401'
-      - name: Toolchain
-        run: dotnet --info
-      - name: Restore and build desktop
+          global-json-file: global.json
+      - name: Build supported desktop solution
         run: |
-          dotnet build Computator.NET/Computator.NET.csproj --configuration Release -bl:desktop.binlog
+          dotnet build Computator.NET.Modern.slnx --configuration Release -bl:desktop.binlog
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Core tests
         run: |
-          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj --configuration Release --framework net461 --logger 'trx;LogFileName=core.trx' --results-directory TestResults
+          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj --configuration Release --no-build --logger 'trx;LogFileName=core.trx' --results-directory TestResults
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Core integration tests
+        run: |
+          dotnet test Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj --configuration Release --no-build --logger 'trx;LogFileName=integration.trx' --results-directory TestResults
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Diagnostics
         if: always()
-        uses: actions/upload-artifact@v7.0.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: windows-migration-diagnostics
           path: |
@@ -48,7 +50,7 @@ jobs:
           retention-days: 7
       - name: Migration source snapshot
         if: always()
-        uses: actions/upload-artifact@v7.0.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: migration-source-review
           path: |
@@ -57,14 +59,21 @@ jobs:
             **/*.config
             **/*.json
             **/*.xaml
+            **/*.resx
             **/*.yml
             **/*.props
             **/*.targets
             **/*.cake
             **/*.ts
+            **/*.tsx
             **/*.html
+            **/*.cshtml
             **/*.css
             **/*.js
+            **/*.sln
+            **/*.slnx
+            **/*.md
+            **/*.manifest
             !**/obj/**
             !**/bin/**
             !**/node_modules/**
