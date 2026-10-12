@@ -1,6 +1,9 @@
 [CmdletBinding()]
 param(
     [ValidateSet('Debug', 'Release')][string]$Configuration = 'Release',
+    [ValidateSet('All', 'Computator.NET.Core.Tests', 'Computator.NET.Core.IntegrationTests',
+        'Computator.NET.WebApi.IntegrationTests', 'Computator.NET.Desktop.Tests')]
+    [string]$TestSuite = 'All',
     [switch]$UpdateLocks
 )
 $ErrorActionPreference = 'Stop'
@@ -19,24 +22,27 @@ try {
     $classicProjects = @([regex]::Matches((Get-Content 'Computator.NET.sln' -Raw), '"([^"\r\n]+\.csproj)"') |
         ForEach-Object { $_.Groups[1].Value.Replace('\', '/') } | Sort-Object)
     if (Compare-Object $modernProjects $classicProjects) { throw 'The .sln and .slnx project lists differ.' }
-    $restore = @('restore', 'Computator.NET.sln')
+    $restore = @('restore', 'Computator.NET.sln', '-p:WarningsAsErrors=NU1900%3BNU1901%3BNU1902%3BNU1903%3BNU1904')
     if (!$UpdateLocks) { $restore += '--locked-mode' }
     Invoke-Dotnet $restore
     Invoke-Dotnet @('build', 'Computator.NET.sln', '-c', $Configuration, '--no-restore', '-bl:desktop.binlog')
-    # Run new boundary checks before the longer numerical regression suite.
-    foreach ($project in @('Computator.NET.Core.Tests', 'Computator.NET.WebApi.IntegrationTests',
-        'Computator.NET.Desktop.Tests', 'Computator.NET.Core.IntegrationTests')) {
+    $projects = @('Computator.NET.Core.Tests', 'Computator.NET.WebApi.IntegrationTests',
+        'Computator.NET.Desktop.Tests', 'Computator.NET.Core.IntegrationTests')
+    if ($TestSuite -ne 'All') { $projects = @($TestSuite) }
+    foreach ($project in $projects) {
         Invoke-Dotnet @('test', "$project/$project.csproj", '-c', $Configuration, '--no-build',
             '--blame-hang-timeout', '120s', '--blame-hang-dump-type', 'none',
             '--logger', 'console;verbosity=normal', '--logger', "trx;LogFileName=$project.trx",
             '--results-directory', 'TestResults')
     }
-    Invoke-Dotnet @('publish', 'Computator.NET/Computator.NET.csproj', '-c', $Configuration,
-        '--no-restore', '--output', 'artifacts/desktop')
-    foreach ($file in @('Computator.NET.exe', 'Computator.NET.exe.config', 'Microsoft.CodeAnalysis.CSharp.dll',
-        'MathNet.Numerics.dll', 'Meta.Numerics.dll', 'Static/functions.xml', 'Static/TSL-Syntax.xshd',
-        'pl/Computator.NET.Localization.resources.dll', 'CHANGELOG')) {
-        if (!(Test-Path (Join-Path 'artifacts/desktop' $file))) { throw "Missing published file: $file" }
+    if ($TestSuite -in @('All', 'Computator.NET.Desktop.Tests')) {
+        Invoke-Dotnet @('publish', 'Computator.NET/Computator.NET.csproj', '-c', $Configuration,
+            '--no-restore', '--output', 'artifacts/desktop')
+        foreach ($file in @('Computator.NET.exe', 'Computator.NET.exe.config', 'Microsoft.CodeAnalysis.CSharp.dll',
+            'MathNet.Numerics.dll', 'Meta.Numerics.dll', 'Static/functions.xml', 'Static/TSL-Syntax.xshd',
+            'pl/Computator.NET.Localization.resources.dll', 'CHANGELOG')) {
+            if (!(Test-Path (Join-Path 'artifacts/desktop' $file))) { throw "Missing published file: $file" }
+        }
     }
 }
 finally { Pop-Location }
