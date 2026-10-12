@@ -1,0 +1,68 @@
+# Temporary preparation on the experimental branch only. Removed after review.
+name: Prepare NET 10 API adaptations
+on:
+  push:
+    branches: ['modernize/net10-runtime']
+    paths: ['.github/workflows/net10-compatibility-preparation.yml']
+permissions:
+  contents: read
+jobs:
+  prepare:
+    if: github.repository == 'PawelTroka/Computator.NET' && github.ref == 'refs/heads/modernize/net10-runtime'
+    runs-on: windows-2025
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Adapt the changed APIs
+        run: |
+          python build/Prepare-Net10-Compatibility.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet restore Computator.NET.sln --force-evaluate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Commit only the reviewed patch and dependency graph
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git add -- 'Computator.NET*/**/*.cs' 'Computator.NET*/packages.lock.json' Directory.Packages.props
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { exit 0 }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix: adapt Scintilla, async content APIs and obsolete runtime calls for NET 10'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $authorization = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("x-access-token:$env:GH_TOKEN"))
+          Write-Output "::add-mask::$authorization"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $authorization" push origin HEAD:refs/heads/modernize/net10-runtime
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Validate actual runtime migration
+        run: |
+          ./build/Validate-Net10.ps1 -TestSuite All *> net10-validation.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Reviewable source and results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: net10-api-adaptations-results
+          path: |
+            net10-validation.log
+            TestResults/**
+            **/*.cs
+            **/*.csproj
+            **/*.props
+            **/packages.lock.json
+            !**/bin/**
+            !**/obj/**
+            !artifacts/**
+          retention-days: 3
