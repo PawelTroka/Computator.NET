@@ -1,4 +1,4 @@
-[CmdletBinding()]
+[CmdletBinding(PositionalBinding = $false)]
 param(
     [string]$Target = 'Default',
     [ValidateSet('Debug','Release')][string]$Configuration = $(if ($env:configuration) { $env:configuration } elseif ($env:build_config) { $env:build_config } else { 'Release' }),
