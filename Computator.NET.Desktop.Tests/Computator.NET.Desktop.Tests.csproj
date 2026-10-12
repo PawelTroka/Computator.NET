@@ -4,6 +4,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <Using Include="Computator.NET.DataTypes.Events" />
     <ProjectReference Include="..\Computator.NET.Desktop\Computator.NET.Desktop.csproj" />
   </ItemGroup>
 </Project>
