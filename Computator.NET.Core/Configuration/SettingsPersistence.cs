@@ -97,20 +97,29 @@ namespace Computator.NET.Core.Configuration
             }
         }
 
-        public static void Save(string legacyPath, SettingsDocument document)
+        public static void Save(string legacyPath, SettingsDocument document) => Write(legacyPath, document, true);
+
+        /// <summary>
+        /// Use only after an explicit user reset. The rejected JSON is preserved in
+        /// an atomic replacement backup; the original binary file is never changed.
+        /// </summary>
+        public static void SaveAfterExplicitReset(string legacyPath, SettingsDocument document) => Write(legacyPath, document, false);
+
+        private static void Write(string legacyPath, SettingsDocument document, bool validateExisting)
         {
             ArgumentNullException.ThrowIfNull(document);
             document.Validate();
             var path = Path.GetFullPath(JsonPath(legacyPath));
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            // Do not silently replace data from a newer application version.
-            if (File.Exists(path)) Load(legacyPath);
+            // Normal saves must not overwrite unreadable data or a newer schema.
+            if (validateExisting && File.Exists(path)) Load(legacyPath);
             var temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
             try
             {
                 using (var stream = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 {
                     JsonSerializer.Serialize(stream, document, Options);
+                    if (stream.Length > MaximumBytes) throw new InvalidDataException("Settings output is too large.");
                     stream.Flush(true);
                 }
                 if (File.Exists(path))

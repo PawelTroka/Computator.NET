@@ -9,12 +9,18 @@ namespace Computator.NET.Core.Properties
     public partial class Settings
     {
         private bool _canPersist = true;
+        private bool _loadFailed;
 
         public void Save()
         {
             if (!_canPersist)
                 throw new InvalidOperationException("Settings could not be read safely. The original files were preserved. Back them up and explicitly reset settings before saving.");
-            SettingsPersistence.Save(AppInformation.SettingsPath, Capture());
+            // Reset() is the only path that re-enables persistence after Load failed.
+            // Recover with an atomic backup instead of repeatedly rejecting the same
+            // corrupt/newer file after the user explicitly chose to reset it.
+            if (_loadFailed) SettingsPersistence.SaveAfterExplicitReset(AppInformation.SettingsPath, Capture());
+            else SettingsPersistence.Save(AppInformation.SettingsPath, Capture());
+            _loadFailed = false;
             SettingsSaved?.Invoke(this, EventArgs.Empty);
         }
 
@@ -28,8 +34,6 @@ namespace Computator.NET.Core.Properties
                 {
                     settings.Apply(document);
                     settings.RestoreDirectories();
-                    // A legacy import writes a separate JSON file. settings.dat is
-                    // never overwritten or deleted, including on import failure.
                     if (!File.Exists(SettingsPersistence.JsonPath(AppInformation.SettingsPath)))
                         SettingsPersistence.Save(AppInformation.SettingsPath, document);
                 }
@@ -37,6 +41,7 @@ namespace Computator.NET.Core.Properties
             catch (Exception exception)
             {
                 settings._canPersist = false;
+                settings._loadFailed = true;
                 Logger.Error(exception, "Settings could not be loaded; original files are preserved and automatic overwriting is disabled.");
             }
             return settings;
@@ -64,7 +69,6 @@ namespace Computator.NET.Core.Properties
         private void Apply(SettingsDocument document)
         {
             document.Validate();
-            // Validate/create both font objects before changing any stored field.
             var expressionFont = document.ExpressionFont.ToFont();
             System.Drawing.Font scriptingFont;
             try { scriptingFont = document.ScriptingFont.ToFont(); }
