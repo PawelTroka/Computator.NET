@@ -1,0 +1,49 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    exclude-paths:
+      - 'Computator.NET.Installer/**'
+      - 'Computator.NET.Desktop.UITests/**'
+      - '**/*.net40.csproj'
+      - '**/packages.config'
+    groups:
+      aspnet-framework:
+        patterns: ['Microsoft.AspNetCore*']
+      test-tooling:
+        patterns: ['NUnit', 'NUnit3TestAdapter', 'Microsoft.NET.Test.Sdk', 'Moq']
+      nuget-maintenance:
+        patterns: ['*']
+        update-types: [minor, patch]
+    ignore:
+      # These major boundaries remove net481 compatibility. Review runtime
+      # migrations explicitly instead of auto-bumping their central entries.
+      - dependency-name: 'Swashbuckle.AspNetCore*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: Microsoft.ApplicationInsights.AspNetCore
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: npm
+    directory: /Computator.NET.WebClient
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    groups:
+      react:
+        patterns: [react, react-dom, '@types/react', '@types/react-dom']
+      vite:
+        patterns: [vite, '@vitejs/plugin-react']
+      frontend-maintenance:
+        patterns: ['*']
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    groups:
+      actions:
+        patterns: ['*']
