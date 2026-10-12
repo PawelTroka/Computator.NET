@@ -3,14 +3,14 @@ name: Prepare NET 10 API adaptations
 on:
   push:
     branches: ['modernize/net10-runtime']
-    paths: ['.github/workflows/net10-compatibility-preparation.yml']
+    paths: ['.github/workflows/net10-compatibility-preparation.yml', 'build/Prepare-Net10-Compatibility.py']
 permissions:
   contents: read
 jobs:
   prepare:
     if: github.repository == 'PawelTroka/Computator.NET' && github.ref == 'refs/heads/modernize/net10-runtime'
     runs-on: windows-2025
-    timeout-minutes: 20
+    timeout-minutes: 25
     permissions:
       contents: write
     defaults:
@@ -34,13 +34,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $ErrorActionPreference = 'Stop'
-          git add -- 'Computator.NET*/**/*.cs' 'Computator.NET*/packages.lock.json' Directory.Packages.props
+          git add -- 'Computator.NET*/**/*.cs' 'Computator.NET*/*.csproj' 'Computator.NET*/packages.lock.json' Directory.Packages.props build/ModernDesktop.props
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'fix: adapt Scintilla, async content APIs and obsolete runtime calls for NET 10'
+          git commit -m 'fix: use modern Scintilla APIs and framework-supplied NET 10 assemblies'
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $authorization = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("x-access-token:$env:GH_TOKEN"))
           Write-Output "::add-mask::$authorization"

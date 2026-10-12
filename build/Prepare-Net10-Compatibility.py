@@ -1,17 +1,12 @@
-"""One-time source patch; ordinary build/test workflows never modify source.
-The generated diff is committed only to the experimental branch for review.
-"""
+"""One-time source patch on the experimental branch, removed after review."""
 from pathlib import Path
 import re
 root = Path(__file__).resolve().parent.parent
 for p in root.glob('Computator.NET*/**/*.cs'):
-    if any(part in ('obj', 'bin') for part in p.parts):
-        continue
+    if any(part in ('obj', 'bin') for part in p.parts): continue
     old = p.read_text(encoding='utf-8-sig')
     text = old
     if p.name == 'ScintillaCodeEditorControl.cs':
-        # Scintilla 5 uses independently versioned Scintilla/Lexilla libraries
-        # supplied by its NuGet package, not the old embedded SciLexer binary.
         match = re.search(r'\bstatic\s+ScintillaCodeEditorControl\s*\(\s*\)\s*\{', text)
         if match:
             pos, depth = match.end(), 1
@@ -24,7 +19,6 @@ for p in root.glob('Computator.NET*/**/*.cs'):
         text = re.sub(r'\bLexerLanguage\s*=\s*"cs"\s*;', 'LexerName = "cpp";', text)
         if 'SetModulePath(' in text: raise ValueError('Unconverted Scintilla module loader')
     if 'WebApi.IntegrationTests' in str(p):
-        # These APIs now return Tasks; await the content before inspecting it.
         text = re.sub(r'(=\s*)(?!await\b)(\w+\.Content\.ReadAs(?:String|Stream|ByteArray)Async\([^;]*?\))\s*;', r'\1await \2;', text)
     text = re.sub(r'(?<![\w.])RuntimeInformation\.IsRunningOnMono\b', '(System.Type.GetType("Mono.Runtime") != null)', text)
     text = re.sub(r'(?<![\w.])RuntimeInformation\.Is64BitProcess\b', 'System.Environment.Is64BitProcess', text)
@@ -33,6 +27,12 @@ for p in root.glob('Computator.NET*/**/*.cs'):
     if text != old:
         p.write_text(text, encoding='utf-8')
         print('Changed:', p.relative_to(root))
-p = root / 'Directory.Packages.props'
-text = p.read_text(encoding='utf-8-sig')
-p.write_text(text.replace('Include="System.Formats.Nrbf" Version="10.0.12"', 'Include="System.Formats.Nrbf" Version="10.0.13"'), encoding='utf-8')
+# NU1510 confirms these are supplied by the net10 Windows shared frameworks.
+# Remove redundant references; use the runtime's serviced assemblies instead.
+for p in list(root.glob('Computator.NET*/*.csproj')) + [root/'build/ModernDesktop.props', root/'Directory.Packages.props']:
+    if 'Installer' in str(p) or 'UITests' in str(p) or '.net40.' in str(p): continue
+    old = p.read_text(encoding='utf-8-sig')
+    text = re.sub(r'\s*<Package(?:Reference|Version) Include="(?:System.Formats.Nrbf|System.CodeDom|System.Resources.Extensions)"[^>]*/>', '', old)
+    if old != text:
+        p.write_text(text, encoding='utf-8')
+        print('Framework-supplied package removed:', p.relative_to(root))
