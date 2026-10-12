@@ -1,5 +1,5 @@
-# Temporary preparation on the experimental branch only. Removed after review.
-name: Prepare NET 10 API adaptations
+# Temporary preparation only on the experimental branch; remove after review.
+name: Prepare NET 10 designer metadata
 on:
   push:
     branches: ['modernize/net10-runtime']
@@ -23,42 +23,40 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           global-json-file: global.json
-      - name: Adapt the changed APIs
+      - name: Explicit property serialization metadata
         run: |
+          dotnet restore Computator.NET.sln --locked-mode
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python build/Prepare-Net10-Compatibility.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          dotnet restore Computator.NET.sln --force-evaluate
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Commit only the reviewed patch and dependency graph
+      - name: Commit reviewed metadata on the experimental branch only
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           $ErrorActionPreference = 'Stop'
-          # Only existing tracked source/lockfiles changed by the patch above.
-          # Never stage ignored obj/bin/generated compiler files through a glob.
           git add -u
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'fix: use modern Scintilla APIs and framework-supplied NET 10 assemblies'
+          git commit -m 'fix: explicitly declare designer serialization and Windows runtime metadata'
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $authorization = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("x-access-token:$env:GH_TOKEN"))
           Write-Output "::add-mask::$authorization"
           git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $authorization" push origin HEAD:refs/heads/modernize/net10-runtime
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Validate actual runtime migration
+      - name: Actual NET 10 runtime validation
         run: |
           ./build/Validate-Net10.ps1 -TestSuite All *> net10-validation.log
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Reviewable source and results
+      - name: Source and diagnostics for review
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          name: net10-api-adaptations-results
+          name: net10-designer-results
           path: |
-            net10-validation.log
+            net10*.log
             TestResults/**
             **/*.cs
             **/*.csproj
