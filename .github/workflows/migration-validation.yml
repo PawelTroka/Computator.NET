@@ -36,8 +36,16 @@ jobs:
         if: success() && matrix.suite == 'Computator.NET.Desktop.Tests'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: desktop-net10-candidate
+          name: desktop-net10-migration-candidate
           path: artifacts/desktop/**
+          if-no-files-found: error
+          retention-days: 7
+      - name: Mathematical API NET 10 migration candidate
+        if: success() && matrix.suite == 'Computator.NET.WebApi.IntegrationTests'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: api-net10-migration-candidate
+          path: artifacts/api/**
           if-no-files-found: error
           retention-days: 7
       - name: Diagnostics
@@ -48,4 +56,5 @@ jobs:
           path: |
             *.binlog
             TestResults/**
+            artifacts/api/*.log
           retention-days: 7

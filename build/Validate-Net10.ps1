@@ -15,6 +15,9 @@ try {
     & powershell.exe -NoProfile -File (Join-Path $PSScriptRoot 'Generate-LegacySettingsFixture.ps1') -OutputPath $env:COMPUTATOR_LEGACY_FIXTURE
     if ($LASTEXITCODE -ne 0) { throw 'The legacy fixture writer failed.' }
     & (Join-Path $PSScriptRoot 'Validate-Migration.ps1') -Configuration $Configuration -TestSuite $TestSuite -UpdateLocks:$UpdateLocks
+    if ($TestSuite -in @('All', 'Computator.NET.Desktop.Tests')) {
+        & (Join-Path $PSScriptRoot 'Test-PublishedNet10Desktop.ps1') -PublishDirectory (Join-Path $PSScriptRoot '../artifacts/desktop')
+    }
 }
 finally {
     $env:COMPUTATOR_DATA_DIRECTORY = $oldData

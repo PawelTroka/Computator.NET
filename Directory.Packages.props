@@ -17,11 +17,11 @@
     <PackageVersion Include="NLog" Version="6.2.1" />
     <PackageVersion Include="NUnit" Version="5.0.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.3.1" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.2.3" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="10.2.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.3.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="10.3.0" />
     <PackageVersion Include="System.Text.Json" Version="10.0.12" />
-    <!-- Retained initially for runtime verification of the original third editor.
-         This is not represented as a newly ported dependency. -->
+    <!-- Framework-only vendor binary: exercised by the TextEditor regression,
+         not claimed to have a native modern-.NET target. NU1701 stays visible. -->
     <PackageVersion Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
     <PackageVersion Include="Unity" Version="5.11.10" />
   </ItemGroup>

@@ -28,10 +28,10 @@ try {
     Invoke-Dotnet $restore
     Invoke-Dotnet @('build', 'Computator.NET.sln', '-c', $Configuration, '--no-restore', '-bl:desktop.binlog')
     $minimumTests = @{
-        'Computator.NET.Core.Tests' = 223
+        'Computator.NET.Core.Tests' = 250
         'Computator.NET.Core.IntegrationTests' = 947
-        'Computator.NET.WebApi.IntegrationTests' = 52
-        'Computator.NET.Desktop.Tests' = 5
+        'Computator.NET.WebApi.IntegrationTests' = 53
+        'Computator.NET.Desktop.Tests' = 16
     }
     $knownApiSkips = @(
         'Computator.NET.WebApi.IntegrationTests.CalculateApiTests.DivideSignInExpressionWorks',
@@ -62,6 +62,11 @@ try {
         }
         $runtime = Get-Content artifacts/desktop/Computator.NET.runtimeconfig.json -Raw | ConvertFrom-Json
         if ($runtime.runtimeOptions.tfm -ne 'net10.0') { throw 'Published desktop is not a .NET 10 application.' }
+    }
+    if ($TestSuite -in @('All', 'Computator.NET.WebApi.IntegrationTests')) {
+        Invoke-Dotnet @('publish', 'Computator.NET.WebApi/Computator.NET.WebApi.csproj', '-c', $Configuration,
+            '--no-restore', '--output', 'artifacts/api')
+        & (Join-Path $PSScriptRoot 'Test-PublishedNet10Api.ps1') -PublishDirectory 'artifacts/api'
     }
 }
 finally { Pop-Location }
