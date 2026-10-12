@@ -20,18 +20,6 @@
         "resolved": "7.0.0",
         "contentHash": "BsZ4AdXF801ui54CITrRQ6WOizLl4lzUCTWlH2iQt5wvptulkdT35BhXFDeV6+MxZPKVw0VVfVKoEqP2jPPq/Q=="
       },
-      "System.CodeDom": {
-        "type": "Direct",
-        "requested": "[10.0.12, )",
-        "resolved": "10.0.12",
-        "contentHash": "Kk3yEavoGHXCAFTLLegxztgSdj24JrkAHelwgWnu+YMFxezcU2DbABEOOIMdy04PExUtKQtlazaKqo0qSa1X6A=="
-      },
-      "System.Resources.Extensions": {
-        "type": "Direct",
-        "requested": "[10.0.12, )",
-        "resolved": "10.0.12",
-        "contentHash": "g+md0uklu5Zmm9DxgMOobKRheIZIDfmxhe7RN9PTnr1PiozfV7+4yQSqdL3Xa8Sv8fr6GGr2UJrd4C3gjQs7/w=="
-      },
       "TROKA.Software.SimpleCodeEditor": {
         "type": "Direct",
         "requested": "[2.0.0, )",

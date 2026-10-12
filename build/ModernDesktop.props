@@ -23,8 +23,6 @@
     <PublishSingleFile>false</PublishSingleFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.CodeDom" />
-    <PackageReference Include="System.Resources.Extensions" />
     <Compile Include="$(MSBuildThisFileDirectory)..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
 </Project>

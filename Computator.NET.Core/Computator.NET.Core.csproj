@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="WinForms.DataVisualization" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
-    <PackageReference Include="System.Formats.Nrbf" />
     <PackageReference Include="Accord.Math" />
     <PackageReference Include="Guards" />
     <PackageReference Include="MathNet.Numerics" />
