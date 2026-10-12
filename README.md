@@ -6,87 +6,82 @@ Computator.NET is open-source numerical software for exploring mathematics throu
 
 It includes real, complex and two-variable function charts and calculations; numerical integration, derivatives and root finding; elementary, special and matrix functions; and the original TROKA Scripting Language (TSL), custom functions and mathematical notation.
 
-## Developing the 2026 migration
+## Develop and build with Cake
 
-**This branch is a compatibility migration, not a new certified release.** The desktop and mathematical API target **.NET Framework 4.8.1**, built with the **.NET 10 SDK and C# 14**. The independent web-client host targets **ASP.NET Core 10**, with **React 19, TypeScript 7 and Vite 8**. These are deliberately different runtime boundaries.
-
-Read [the migration and verification guide](docs/MIGRATION-2026.md) before upgrading an existing installation. The old Windows XP, Mono, MSI bootstrapper and Visual Studio 2017 Coded UI build paths are **not** supported by the new solution; see [legacy tooling](docs/LEGACY-TOOLING.md).
-
-### Windows development
-
-Install the SDK pinned by `global.json` and .NET Framework 4.8.1. Use a current Visual Studio installation supporting this SDK and the desktop workload, or the command line. Reference assemblies are restored from NuGet; an old manually installed 4.6.1 targeting pack is not required.
+The original Cake build pattern is retained and modernized. `build.cake` owns restore, build, tests, coverage, frontend, publication and portable packaging. Shell scripts and CI only invoke its tasks. See [BUILD.md](docs/BUILD.md) for prerequisites, target descriptions and dependency policy.
 
 ```powershell
-dotnet restore Computator.NET.sln --locked-mode
-dotnet build Computator.NET.sln -c Release --no-restore
-# Build, test all active suites and verify portable output:
-pwsh ./build/Validate-Migration.ps1
+./build.ps1 -Target Build
+./build.ps1 -Target AllTests
+# All Windows checks and checked desktop/API publication:
+./build.ps1 -Target CI
+# All Windows and browser checks, plus local versioned ZIP packages:
+./build.ps1 -Target Publish -Configuration Release
 ```
 
-`Computator.NET.Modern.slnx` contains the same active projects, organized by area. Use an explicit solution filename because both solution formats are present. Generated dependency graphs are checked in; intentional upgrades update `Directory.Packages.props` and the affected lockfiles together.
+Use the SDK from `global.json`, PowerShell 7, and Node/npm from `.nvmrc` and `Computator.NET.WebClient/package.json`. The wrapper restores the pinned Cake .NET tool; a global Cake install is unnecessary. `build.cmd -Target Build` and `dotnet tool restore` followed by `dotnet cake build.cake --target=Build` select the same graph.
 
-### Web-client development
+### Migration branches
 
-Use the Node LTS version in `.nvmrc` and the npm version in `Computator.NET.WebClient/package.json`.
+| Branch / PR | Desktop and mathematical API runtime |
+| --- | --- |
+| `modernize/2026-compatible-toolchain` / #139 | .NET Framework 4.8.1, built with the .NET 10 SDK and C# 14 |
+| `modernize/net10-runtime` / #140, stacked on #139 | Actual .NET 10, targeting `net10.0-windows` |
+
+The independent web-client host uses ASP.NET Core 10 on both branches. These are migration candidates, not installer-certified releases. Both branches use the same Cake commands; their runtime is declared in `build/ModernDesktop.props`. The [Framework migration guide](docs/MIGRATION-2026.md) describes #139; the .NET 10 branch additionally contains `docs/MIGRATION-NET10.md` for its settings importer and runtime-specific acceptance checks.
+
+NuGet versions are centralized in `Directory.Packages.props`, without per-project NuGet lockfiles. The single npm lockfile is retained for `npm ci`. See [dependency tradeoffs](docs/BUILD.md#dependency-policy-one-frontend-lockfile-not-twelve-nuget-graphs).
+
+### Web development
 
 ```sh
 cd Computator.NET.WebClient
 npm ci
 npm run dev
+# From the repository root, validate production assets/host and both browsers:
+./build.sh --target=Web-Validate
 ```
 
-The Vite development UI runs at `http://127.0.0.1:5173`. Start the mathematical API separately **on Windows**:
+Start the mathematical API separately **on Windows**:
 
 ```powershell
 dotnet run --project Computator.NET.WebApi -- --urls http://localhost:60996
 ```
 
-The default API address remains `http://localhost:60996/api`. Copy `.env.example` to `.env.local` to override the build-time address. The web client's static assets and ASP.NET Core 10 host can be built on Linux or macOS; the mathematical API still requires the Windows desktop libraries.
+The Vite UI runs at `http://127.0.0.1:5173`; its API default is `http://localhost:60996/api`. `.env.example` documents the build-time override. The frontend and its independent host can run on Linux/macOS, but the chart-backed mathematical API remains Windows-only. Direct `dotnet publish` of the frontend host also delegates frontend compilation to Cake.
 
-```sh
-# From Computator.NET.WebClient:
-npm run build
-npx playwright install chromium firefox
-npm test
-dotnet publish -c Release -o ../artifacts/webclient
+### Custom functions and side-by-side testing
+
+Definitions in the visible Custom Functions editor feed the real calculation and scripting presenters. Unsaved edits are used immediately; file commands and error highlighting use that same editor. The desktop regression suite tests the actual window composition with Scintilla, AvalonEdit and the legacy TextEditor option, rather than only evaluating a supplied string.
+
+Back up real profiles and documents before trying a migration. For a disposable profile:
+
+```powershell
+$env:COMPUTATOR_DATA_DIRECTORY = Join-Path $env:TEMP 'Computator-Trial'
+dotnet run --project Computator.NET
 ```
 
-Publishing runs `npm ci` and the production build automatically. CI tests the published ASP.NET host, not just Vite's development server.
+Cake validation creates its own temporary profile. A generated legacy fixture and smoke tests do not replace manual testing of real saved data, chart appearance, high-DPI layouts and complete editor interactions.
 
-**Security:** TSL executes trusted code with the application's permissions. It is not a sandbox. Keep the mathematical API on loopback and do not expose its anonymous scripting endpoints to the Internet. CORS is not authentication and does not make script execution safe.
+**Security:** TSL executes trusted code with the application's permissions. Keep the anonymous mathematical API private and loopback-only. CORS is not authentication or a sandbox.
 
-## Verification
+## Releases and historical targets
 
-The GitHub Actions workflows build and test Windows code, run the numerical integration suite, exercise API routes, check desktop startup/resources, and test the production web client in Chromium and Firefox. They retain test results and failure traces. A portable CI artifact is a **migration candidate**, not an installer-certified release.
-
-The release checklist in [MIGRATION-2026.md](docs/MIGRATION-2026.md) also requires real-machine checks for saved settings, scripts, chart rendering, editor switching and deployment. Automated test success does not replace these checks.
-
-## Existing release: 2.3.2
-
-The historical 2.3.2 packages are separate from this migration:
-
-- [Release notes and downloads](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.3.2)
-- [Installer](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.Installer.v2.3.2.exe)
-- [Portable ZIP](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.v2.3.2.zip)
-- [Historical Windows XP ZIP](https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.v2.3.2-WindowsXP.zip)
-
-Those packages retain their original framework requirements. Do not use the old installer to deploy newly built 4.8.1 binaries.
+The old WiX installer and UWP packaging are not certified for the new targets. Their Cake entry points fail explicitly rather than generating an incorrect package. [Historical tooling boundaries](docs/LEGACY-TOOLING.md) describe the remaining installer/platform work. Existing [2.3.2 release downloads](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.3.2) are unchanged.
 
 ## Working with Computator.NET
 
-To write in an exponent, use **Shift+6 (`^`)**, or the corresponding command in the Edit menu.
+Use **Shift+6 (`^`)** or the Edit menu to write in an exponent.
 
 ![Writing in exponent](Graphics/Presentation/writing-in-exponent.gif)
 
-For numerical equation solving, use the **Numerical calculations** tab and **Function root** operation. Different methods suit different equations. Graphical solutions are also possible by inspecting function intersections.
+To solve equations numerically, use **Numerical calculations → Function root** and choose an appropriate method. Graphical solutions can also be found by inspecting function intersections.
 
 ![Numerical root finding](Graphics/Presentation/solving%20equations%20using%20numerical%20calculations.gif)
 ![Graphical equation solving](Graphics/Presentation/solving%20equations%20graphically.gif)
 
-## Contributing
+## Contributing and license
 
-Use a fork and pull request. Include regression tests for behavior changes and review dependency lockfile changes. Report reproducible bugs in [Issues](https://github.com/PawelTroka/Computator.NET/issues); the [TODO file](TODO) contains additional project ideas.
+Submit focused pull requests with regression tests and reviewed dependency changes. Report reproducible bugs in [Issues](https://github.com/PawelTroka/Computator.NET/issues); [TODO](TODO) contains additional ideas.
 
-## License
-
-Computator.NET is distributed under [GNU GPL v3](LICENSE). Third-party dependencies retain their own licenses; review their notices when distributing a new build.
+Computator.NET is distributed under [GNU GPL v3](LICENSE). Third-party dependencies retain their own licenses and distribution requirements.
