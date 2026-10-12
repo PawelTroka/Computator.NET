@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -52,6 +52,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         }
 
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public int ItemHeight
         {
             get { return itemHeight; }
@@ -74,17 +75,21 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public int LeftPadding { get; set; }
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public int HighlightedItemIndex { get; set; }
 
         /// <summary>
         ///     Colors
         /// </summary>
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Colors Colors { get; set; }
 
         /// <summary>
         ///     Duration (ms) of tooltip showing
         /// </summary>
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public int ToolTipDuration { get; set; }
 
         /// <summary>
@@ -97,8 +102,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         /// </summary>
         public event EventHandler<HoveredEventArgs> ItemHovered;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public ImageList ImageList { get; set; }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public IList<AutocompleteItem> VisibleItems
         {
             get { return visibleItems; }
@@ -111,6 +118,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public int SelectedItemIndex
         {
             get { return selectedItemIndex; }

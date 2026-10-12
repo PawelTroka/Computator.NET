@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -23,8 +23,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             ListView = new AutocompleteListView();
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public ToolStripControlHost Host { get; set; }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public IAutocompleteListView ListView
         {
             get { return listView; }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -53,8 +53,10 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region public properties
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double CountourLinesStep { get; set; } = Math.E;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public CountourLinesMode CountourMode
         {
             get { return _countourMode; }
@@ -68,6 +70,7 @@ namespace Computator.NET.Charting.ComplexCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public AssignmentOfColorMethod ColorAssignmentMethod
         {
             get { return _colorAssignmentMethod; }
@@ -81,8 +84,10 @@ namespace Computator.NET.Charting.ComplexCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double AxisArrowRelativeSize { get; set; } = 0.02;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double Quality
         {
             set
@@ -104,6 +109,7 @@ namespace Computator.NET.Charting.ComplexCharting
             get { return (XMax - XMin)/Width/((YMax - YMin)/Height); }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double XMin
         {
             get { return _xMin; }
@@ -117,6 +123,7 @@ namespace Computator.NET.Charting.ComplexCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double XMax
         {
             get { return _xMax; }
@@ -130,6 +137,7 @@ namespace Computator.NET.Charting.ComplexCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double YMin
         {
             get { return _yMin; }
@@ -143,6 +151,7 @@ namespace Computator.NET.Charting.ComplexCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double YMax
         {
             get { return _yMax; }
@@ -161,16 +170,25 @@ namespace Computator.NET.Charting.ComplexCharting
         public event EventHandler YMinChanged;
         public event EventHandler YMaxChanged;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public string XLabel { get; set; } = "Re(z)";
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public string YLabel { get; set; } = "Im(z)";
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public string Title { get; set; }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Font TitleFont { get; set; } = CustomFonts.GetMathFont(13);
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Font LabelsFont { get; set; } = CustomFonts.GetMathFont(13);
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Color LabelsColor { get; set; } = Color.Black;
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Color TitleColor { get; set; } = Color.Black;
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Color AxesColor { get; set; } = Color.Black;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public bool ShouldDrawAxes { get; set; } = true;
 
         private void CalculateQuality(double value)

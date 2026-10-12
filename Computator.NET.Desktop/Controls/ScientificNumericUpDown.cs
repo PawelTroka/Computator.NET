@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -32,8 +32,10 @@ namespace Computator.NET.Desktop.Controls
             Multiplication,
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public UpDownBehavior UpDownMode { get; set; }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public decimal MultiplyFactor { get; set; } = 10;
 
         private const string Exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
@@ -65,8 +67,10 @@ namespace Computator.NET.Desktop.Controls
         /// <summary>
         /// Closest to 0 value allowed. Anything closer to 0 than this value will become 0. 
         /// </summary>
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public decimal Epsilon { get; set; } = 0.001m;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public new decimal Value
         {
             get { return base.Value; }
@@ -84,6 +88,7 @@ namespace Computator.NET.Desktop.Controls
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public new Font Font
         {
             get { return base.Font; }

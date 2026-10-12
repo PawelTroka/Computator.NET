@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -65,6 +65,7 @@ namespace Computator.NET.Charting.RealCharting
             Quality = 50;
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public new bool Visible
         {
             get => base.Visible;
@@ -81,6 +82,7 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public int LineThickness
         {
             get { return _lineThickness; }
@@ -94,6 +96,7 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public int PointsSize
         {
             get { return _pointsSize; }
@@ -109,48 +112,56 @@ namespace Computator.NET.Charting.RealCharting
 
         private double N { get; set; } = 3571;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public string XLabel
         {
             get { return ChartAreas[0].AxisX.Title; }
             set { ChartAreas[0].AxisX.Title = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public string YLabel
         {
             get { return ChartAreas[0].AxisY.Title; }
             set { ChartAreas[0].AxisY.Title = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public string Title
         {
             get { return Titles[0].Text; }
             set { Titles[0].Text = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Font TitleFont
         {
             get { return Titles[0].Font; }
             set { Titles[0].Font = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Font LabelsFont
         {
             get { return ChartAreas[0].AxisY.TitleFont; }
             set { ChartAreas[0].AxisY.TitleFont = ChartAreas[0].AxisX.TitleFont = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Color LabelsColor
         {
             get { return ChartAreas[0].AxisY.TitleForeColor; }
             set { ChartAreas[0].AxisY.TitleForeColor = ChartAreas[0].AxisX.TitleForeColor = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Color TitleColor
         {
             get { return Titles[0].ForeColor; }
             set { Titles[0].ForeColor = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Color AxesColor
         {
             get { return ChartAreas[0].AxisX.LineColor; }
@@ -159,7 +170,9 @@ namespace Computator.NET.Charting.RealCharting
 
         //public double axisArrowRelativeSize { get; set; }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public bool ShouldDrawAxes { get; set; }
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public bool AxesEqual { get; set; } = true;
 
         public double XyRatio
@@ -179,6 +192,7 @@ namespace Computator.NET.Charting.RealCharting
 
         #region changeMethods
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public SeriesChartType ChartType
         {
             get { return defaultExplicitFunctionsChartType; }
@@ -220,6 +234,7 @@ namespace Computator.NET.Charting.RealCharting
             Invalidate();
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double XMin
         {
             get { return ChartAreas[0].AxisX.Minimum; }
@@ -242,6 +257,7 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double XMax
         {
             get { return ChartAreas[0].AxisX.Maximum; }
@@ -262,6 +278,7 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double YMin
         {
             get { return ChartAreas[0].AxisY.Minimum; }
@@ -283,6 +300,7 @@ namespace Computator.NET.Charting.RealCharting
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double YMax
         {
             get { return ChartAreas[0].AxisY.Maximum; }
@@ -307,6 +325,7 @@ namespace Computator.NET.Charting.RealCharting
         public event EventHandler YMinChanged;
         public event EventHandler YMaxChanged;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public double Quality
         {
             get { return quality; }
@@ -1059,9 +1078,11 @@ namespace Computator.NET.Charting.RealCharting
             editChartWindow.ShowDialog();
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public StringAlignment LegendAlignment {
             get { return Legends[0].Alignment; }
             set { Legends[0].Alignment = value; } }
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Docking LegendDocking
         {
             get { return Legends[0].Docking; }

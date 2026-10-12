@@ -23,6 +23,7 @@
     <PublishSingleFile>false</PublishSingleFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)WindowsAssemblyInfo.cs" Link="Properties\WindowsAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
 </Project>

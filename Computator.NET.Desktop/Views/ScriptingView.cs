@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Abstract.Views;
@@ -42,6 +42,7 @@ namespace Computator.NET.Desktop.Views
         }
 
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string ConsoleOutput
         {
             set { consoleOutputTextBox.Text = value; }

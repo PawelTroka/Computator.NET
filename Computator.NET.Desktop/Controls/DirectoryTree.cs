@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Controls;
@@ -79,8 +79,10 @@ namespace Computator.NET.Desktop.Controls
             AfterLabelEdit += treeView1_AfterLabelEdit;
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public IDocumentsEditor CodeEditorWrapper { get; set; }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string Path
         {
             get { return _path; }
