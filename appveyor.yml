@@ -1,51 +1,34 @@
-﻿version: 2.3.2.{build}
-
-environment:
-  COVERALLS_REPO_TOKEN:
-    secure: KEH5rJaqCoWoCV2MhkrMlClj3SVIlB2Eu0YK4mqmhRM+ANEfGiFyROo2RWHkJXQz
-
-image:
-- Visual Studio 2017
-- Ubuntu
-
+version: 2.3.2.{build}
+image: Visual Studio 2026
 configuration:
   - Debug
   - Release
 
-assembly_info:
-  patch: true
-  file: '**\*SharedAssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: "{version}β"
-
-before_build:
-  - cmd: build.cmd -Target Restore
-  - sh: ./build.sh --target=Restore
+# Infrastructure preparation only. Cake owns builds, tests and local packaging.
+install:
+  - ps: |
+      $ErrorActionPreference = 'Stop'
+      $sdk = (Get-Content global.json -Raw | ConvertFrom-Json).sdk.version
+      $installer = Join-Path $env:TEMP 'computator-dotnet-install.ps1'
+      Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile $installer
+      & powershell.exe -NoProfile -File $installer -Version $sdk -InstallDir "$env:LOCALAPPDATA\Microsoft\dotnet"
+      if ($LASTEXITCODE -ne 0) { throw 'SDK installation failed.' }
+      $env:DOTNET_ROOT = "$env:LOCALAPPDATA\Microsoft\dotnet"
+      $env:PATH = "$env:DOTNET_ROOT;$env:PATH"
+      Install-Product node (Get-Content .nvmrc -Raw).Trim() x64
 
 build_script:
-  - cmd: build.cmd -Target Build
-  - sh: ./build.sh --target=Build
+  - cmd: build.cmd -Target Publish -Configuration %CONFIGURATION%
 
-test_script:
-  - cmd: build.cmd -Target AllTests
-  - sh: ./build.sh --target=AllTests
-
-after_test:
-  - cmd: build.cmd -Target Upload-Coverage
-
-after_build:
-  - cmd: build.cmd -Target Publish
-  - sh: ./build.sh --target=Publish
-
+# Tests are a dependency of Cake Publish and fail the build, not an after_script.
+test: off
+artifacts:
+  - path: publish\*.zip
+  - path: TestResults\**\*.trx
+  - path: artifacts\*.binlog
 notifications:
-- provider: GitHubPullRequest
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: true
-- provider: Email
-  to:
-  - pawel.troka@outlook.com
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: true
+  - provider: GitHubPullRequest
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+# No implicit release upload, certificate use, or external coverage credentials.

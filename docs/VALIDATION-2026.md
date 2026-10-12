@@ -1,42 +1,21 @@
-# Migration validation notes
+# Validation and maintenance
 
-The authoritative results are the checks on the **current head of PR #139**, not an earlier green commit. The longer numerical suite must complete; a cancelled run is not a pass.
+Use [the Cake target graph](BUILD.md), not duplicate PowerShell build commands. `./build.ps1 -Target CI` runs the Windows checks; `./build.sh --target=Web-Validate` runs production frontend checks. `Publish` combines tests and local ZIP packaging. The wrapper scripts under `build/Validate-*.ps1` are compatibility aliases only.
 
-## Coverage boundaries
+## Evidence requirements
 
-The Windows matrix runs the core unit suite, numerical integration suite, real in-process mathematical API tests, and STA desktop startup/resource tests independently. Its desktop job also publishes and checks the portable payload. Each job restores the committed NuGet graph in locked mode and treats audit failures/advisories as restore errors.
+The authoritative status belongs to the current commit. The result guard rejects incomplete runs, missing reports, duplicate identities, reduced test discovery and undocumented skips. A build or startup test alone is not proof that a user workflow works.
 
-The Linux job uses the committed npm lockfile, audits dependencies, type-checks and builds the frontend, publishes the actual ASP.NET Core 10 host, and runs Chromium/Firefox tests against that host. The mathematical API is mocked in those browser tests. This does not certify the full cross-process browser-to-Windows-API deployment.
+Custom-function coverage now follows the actual displayed desktop editors through calculations, unsaved changes, scripting, save/reopen and highlighter bindings. The earlier compiler/API tests passed with manually supplied custom-function strings even when the desktop's DI factories fed presenters a different hidden editor. This regression is explicitly tested in all three editor implementations and both runtime branches.
 
-Three API cases were **already ignored before this migration** and remain explicitly ignored: escaped division in a calculation URL, escaped division in a script URL, and server-side 3D chart rendering. No new ignored cases were added to make migration checks green.
+The Windows suite tests real in-process API endpoints. The browser suite uses the published ASP.NET Core SPA host but mocks the mathematical API. On the .NET 10 branch, separate published-process smoke tests additionally exercise the real desktop executable and Kestrel host. Full browser-to-real-API interaction, visual parity and real historical profiles still need manual acceptance.
 
-`build/Assert-TestResults.ps1` validates the actual TRX entries, not just the command exit code or NUnit's summary counters. The gate rejects missing/stale reports, incomplete runs, failed cases, unexpected skips, duplicate test IDs and discovery below the reviewed baseline: 223 core, 947 numerical integration, 52 API and 5 desktop cases. It allows only the three named legacy API skips; fixing one so it passes is allowed. `Test-ResultGuard.ps1` exercises accepted and rejected reports before every Windows build. Review the baseline when intentionally restructuring a test suite; do not lower it merely to hide a migration regression.
-
-## Autocomplete test migration
-
-The older test compared every pair of dynamic JSON entries through NUnit's general-purpose collection equality. With the upgraded test framework, this exceeded the 120-second inactivity limit. The actual HTTP response completes normally. The migrated test uses Json.NET's value comparer in a hash set while preserving full-entry uniqueness, including nested metadata and typed menu signatures.
-
-Insertion text alone is **not** the identity of a completion: distinct overloads may insert the same text. Dedicated regression cases verify that overloads remain distinct and that identical JSON values are recognized even when property order differs. Production autocomplete entries are not removed merely to make a test pass.
+Three pre-existing API skips remain visible: escaped division in calculation URLs, escaped division in script URLs, and server-side 3D chart rendering. No new skips are permitted by default. Autocomplete uniqueness uses full JSON value equality so overloads remain distinct; it does not discard production entries to make assertions pass.
 
 ## Dependency maintenance
 
-Dependabot is configured to propose weekly NuGet, npm and commit-pinned GitHub Actions updates after merge. Related React, Vite, ASP.NET and test-tooling dependencies are grouped. Historical installer, Coded UI and net40 manifests are excluded. The Framework-bound Swashbuckle and Application Insights major-version boundaries require manual review. There is no auto-merge: proposed updates must pass the same compatibility checks.
+Direct NuGet versions live in `Directory.Packages.props`; per-project NuGet lockfiles are removed. The full resolved graph is audited during Cake restore. Direct version pins do not freeze transitive versions; this is a deliberate simplification, not a claim of byte-for-byte repeatable dependency resolution.
 
-SDK and Node runtime pins remain deliberate edits to `global.json` and `.nvmrc`, with the npm engine/package-manager declarations kept consistent. Check current stable/LTS releases rather than preview channels. NuGet and npm lockfiles must be regenerated by their package managers, reviewed and committed with the version changes.
+Keep the single npm lockfile consistent with `package.json` for `npm ci`. SDK, Node and Cake runner versions are explicit. Dependency bots may propose updates but do not auto-merge them. Review breaking changes and rerun the same Cake targets used by CI.
 
-## Local production smoke check
-
-After publishing the web client, start the two processes separately. The mathematical API must run on Windows, on a trusted private machine:
-
-```powershell
-dotnet run --project Computator.NET.WebApi -- --urls http://localhost:60996
-```
-
-In a separate terminal, start the published web client on its existing local origin:
-
-```powershell
-cd artifacts/webclient
-dotnet Computator.NET.WebClient.dll --urls http://localhost:63785
-```
-
-Browse `http://localhost:63785`. Vite development uses `http://127.0.0.1:5173`. TSL retains full trust; these commands are not a public hosting recommendation. Check a real user profile, chart interactions and the remaining manual release gates in `MIGRATION-2026.md` before distributing a new build.
+AppVeyor and Travis definitions invoke Cake as well. Provider-specific configuration changes are not proof those external accounts ran successfully; GitHub Actions results should not be described as AppVeyor/Travis execution evidence.

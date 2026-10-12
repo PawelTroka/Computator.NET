@@ -1,16 +1,19 @@
-# Historical build paths
+# Historical targets and active build tooling
 
-The active 2026 project set is identical in `Computator.NET.sln` and `Computator.NET.Modern.slnx`. It contains the desktop, core libraries, both web hosts and modern NUnit test projects.
+**Cake is active, not retired.** `build.cake`, `build.ps1`, `build.cmd` and `build.sh` are the current build entry points. GitHub Actions, AppVeyor and Travis select tasks from the same Cake graph. The test/result and published-process helpers under `build/` are leaf checks; there is no second PowerShell build orchestrator. See [BUILD.md](BUILD.md).
 
-The following source is retained for historical reference, **not included in the active build**:
+The active project sets in `.sln` and `.slnx` match. These historical paths remain outside that project set:
 
-| Path | Status and reason |
+| Path | Explicit boundary |
 | --- | --- |
-| `Computator.NET/Computator.NET.net40.csproj` | Windows XP / .NET 4.0 launcher. It cannot consume the upgraded net481 libraries. Build an old release tag to reproduce the old platform, not this project against current libraries. |
-| `Computator.NET.Desktop.UITests` | Visual Studio 2017 Enterprise Coded UI test and generated UI map. The new NUnit startup/resource suite is supplementary coverage, not a claim that the old end-to-end interaction recording has been replaced. |
-| `Computator.NET.Installer` | Historical WiX bootstrapper with 4.0/4.6.1 prerequisites and old output paths. Its packages and deployment logic are not migrated or certified by this PR. Do not use it for a 4.8.1 release. |
-| `build.cake`, root historical build scripts, `build-mono`, `build-uwp`, `appveyor.yml`, `.travis.yml` | Historical release/Mono/UWP/VS2017 automation. The current verified entry point is `build/Validate-Migration.ps1` plus the GitHub Actions workflows. Old external CI jobs should be retired or explicitly rebuilt around the new entry point before enabling them. |
+| `Computator.NET/Computator.NET.net40.csproj` | Historical Windows XP launcher. Build a historical tag to reproduce that platform; it cannot reference current runtime libraries. |
+| `Computator.NET.Desktop.UITests` | VS2017 Coded UI recording. Modern NUnit workflow tests supplement it but do not claim to reproduce the entire old interactive suite. |
+| `Computator.NET.Installer` | Old WiX bootstrapper/payload logic. Requires runtime-specific prerequisite and upgrade/uninstall validation before a new installer release. |
+| `build-uwp` | Historical UWP manifest/registry/test-signing data; not a supported modern runtime package. |
+| `build-mono` | Historical Mono-specific build/deployment source, not an active Windows or web-host pipeline. |
 
-Excluding these paths makes the normal developer solution coherent; it does not imply that the legacy targets, packages or operating systems have been updated. Their retirement and the remaining installer/native-runtime work are explicit migration scope decisions requiring review.
+The Cake target names `Build-Installer`, `Build-Uwp` and `Install-Linux` remain discoverable and fail explicitly before invoking unsupported tooling. They do not sign artifacts, install machine-wide packages or silently produce a package with the wrong prerequisites. `Package`/`Publish` create portable desktop/API/web ZIPs instead. This is not a claim that installer migration is complete.
 
-Existing tagged releases and published historical packages are not changed. The new CI produces a portable migration candidate, never an installer or a release upload.
+The old `tools/packages.config` Cake 0.30 bootstrap is removed. `.config/dotnet-tools.json` selects the modern Cake runner. Per-project NuGet lockfiles are removed; the single frontend npm lockfile remains for `npm ci`.
+
+Existing tagged releases and published historical binaries are untouched. No migration CI task automatically publishes a GitHub release or deploys the full-trust scripting API.

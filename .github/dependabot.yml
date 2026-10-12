@@ -11,20 +11,15 @@ updates:
       - '**/*.net40.csproj'
       - '**/packages.config'
     groups:
-      aspnet-framework:
-        patterns: ['Microsoft.AspNetCore*']
+      aspnet:
+        patterns: ['Microsoft.AspNetCore*', 'Swashbuckle.AspNetCore*']
       test-tooling:
         patterns: ['NUnit', 'NUnit3TestAdapter', 'Microsoft.NET.Test.Sdk', 'Moq']
       nuget-maintenance:
         patterns: ['*']
         update-types: [minor, patch]
-    ignore:
-      # These major boundaries remove net481 compatibility. Review runtime
-      # migrations explicitly instead of auto-bumping their central entries.
-      - dependency-name: 'Swashbuckle.AspNetCore*'
-        update-types: ['version-update:semver-major']
-      - dependency-name: Microsoft.ApplicationInsights.AspNetCore
-        update-types: ['version-update:semver-major']
+    # The parent branch's net481 major-version restrictions do not apply here.
+    # Updates remain reviewable PRs, never automatic merges.
   - package-ecosystem: npm
     directory: /Computator.NET.WebClient
     schedule:

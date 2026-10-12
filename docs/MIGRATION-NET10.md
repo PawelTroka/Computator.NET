@@ -1,84 +1,70 @@
-# Stacked .NET 10 runtime migration
+# Stacked .NET 10 runtime migration (#140)
 
-This experimental PR targets **`modernize/2026-compatible-toolchain` (PR #139)**, not `master`. Its head is `modernize/net10-runtime` (PR #140). The parent Framework 4.8.1 checkpoint is left unchanged. Review the runtime changes independently and merge the parent first if both are accepted.
+This branch targets `modernize/2026-compatible-toolchain` (#139), not `master`. Shared custom-function fixes and Cake build changes are merged from the parent while preserving the runtime-specific implementation. Neither PR is merged or released automatically.
 
-## Actual runtime targets
+**Use [BUILD.md](BUILD.md) for all build/test/package commands and dependency policy.** Cake is the orchestrator on both branches. The old `Validate-Net10.ps1` and `Validate-Migration.ps1` entry points are forwarding shims, not independent pipelines. Twelve per-project NuGet lockfiles and locked-restore requirements have been removed; the one frontend npm lockfile remains for `npm ci`.
 
-| Component | Target |
-| --- | --- |
-| Desktop launcher, desktop controls, core, charting, data types, localization | `net10.0-windows` |
-| Mathematical API | `net10.0-windows`, ASP.NET Core 10 shared framework |
-| Independent SPA host | `net10.0`, ASP.NET Core 10 |
-| All four active Windows test projects | `net10.0-windows` |
+## Runtime targets
 
-The mathematical API remains Windows-only because its chart renderer uses WinForms/WPF. This is a full modern-.NET runtime target for the active application graph, **not** a claim that every dependency was rewritten, every legacy platform retained, or the old installer replaced. The SDK remains pinned in `global.json` and both application and runtime-generated code use C# 14/Roslyn.
+Desktop, controls, core, charting, data types, localization, mathematical API and the four Windows test projects target **net10.0-windows**. The independent SPA host targets **net10.0**. This is the actual modern runtime, not Framework compiled with a new SDK. Windows Forms/WPF and the existing mathematical UI are retained. The mathematical API remains Windows-only because its renderer uses desktop controls.
 
-## Settings migration and rollback
+SDK, C#, Cake, NuGet and frontend versions are declared in `global.json`, shared props, `.config/dotnet-tools.json`, `Directory.Packages.props`, `.nvmrc` and `package.json`. The modern chart/editor dependencies include WinForms.DataVisualization and Scintilla5.NET; the API uses the ASP.NET Core 10 shared framework and current compatible Newtonsoft/Swagger/telemetry packages. Inspect the manifests rather than maintaining another duplicate version table.
 
-Production code no longer uses BinaryFormatter serialization/deserialization or an unsafe re-enablement switch. Settings are an explicit, bounded JSON schema with `SchemaVersion = 1`, enum validation and font descriptors. The importer reads the old NRBF records using `System.Formats.Nrbf.NrbfDecoder`, validates expected types and members, and constructs only the known settings/font objects. It does not activate payload types or callbacks.
+## Settings and rollback
 
-On first successful import, `settings.json` is written separately and **`settings.dat` remains byte-for-byte unchanged**. Existing JSON takes precedence on later starts. Normal writes use a flushed temporary file and atomic replacement, preserving the previous JSON in a uniquely named backup. A malformed, oversized or newer-schema file is not deleted or silently replaced. Persistence is disabled after a failed load; an explicit settings reset can recover while backing up the rejected JSON. Invalid replacement data is still rejected.
+Production code no longer serializes/deserializes settings with BinaryFormatter or re-enables its unsafe implementation. It uses bounded, versioned JSON with explicit enum, culture, directory and font descriptors. The known legacy NRBF field layout is read with `NrbfDecoder` into data records; payload constructors, callbacks and arbitrary object types are not activated.
 
-Back up your complete real profile and representative documents before testing. The automated fixture reproduces the known legacy field layout and is generated using the real .NET Framework serializer, but this is not evidence for every historical user profile. Validate your own language/fonts, directory preferences, custom functions and restart persistence before acceptance. Editing the new JSON does not update the retained binary settings, so rollback to the parent branch will use the old preferences.
+Successful import writes `settings.json` separately and leaves `settings.dat` unchanged. Existing JSON takes precedence. Normal writes use flushed temporary files and atomic replacement with a uniquely named backup. Malformed, oversized and newer-schema data is not silently deleted or overwritten. After a failed load, automatic persistence is disabled; an explicit user reset can recover while preserving the rejected JSON backup. Invalid replacement data remains rejected.
 
-To avoid your normal profile altogether:
+Cake generates the known fixture with the real Framework serializer and tests import under .NET 10. Framework is needed only by that fixture writer, not production import. This fixture is not proof of compatibility with every historical real profile. Test copies of actual settings/documents before accepting the migration. Rollback to the parent uses the retained binary preferences, not later JSON changes.
+
+For a disposable manual profile:
 
 ```powershell
 $env:COMPUTATOR_DATA_DIRECTORY = Join-Path $env:TEMP 'Computator-NET10-Trial'
 dotnet run --project Computator.NET
 ```
 
-The variable selects a data directory for this process and children. Copy a **backup**, not the only original, into that directory when testing legacy import. `.tsl` and `.tslf` document formats are not intentionally changed. Keep separate copies of documents when comparing the two branches.
+Copy a backup rather than the only original into the trial directory. TSL/TSLF document formats are not intentionally changed. Cake's automated tests create and clean separate temporary profiles and restore the caller's environment.
 
-## Compatibility changes
+## Custom functions: full desktop regression
 
-### UI, charting and native libraries
+The initial migration's nested Unity factory aliases dropped constructor-role overrides. The visible Custom Functions editor differed from the hidden editor used by presenters/file commands/error handling. Earlier compiler and API tests could therefore pass despite the real desktop being broken.
 
-PowerPacks shapes are replaced by standard WinForms color controls in the chart dialogs. Framework `ContextMenu`/`MenuItem` calls are replaced with `ContextMenuStrip`/`ToolStripMenuItem`. Root-directory actions are guarded, stale tree nodes are discarded on refresh, and file renaming no longer deletes an existing destination. Icon ownership uses public `Icon.FromHandle`/`Clone` APIs and native handle cleanup, not private Framework constructors. PerMonitorV2 DPI awareness is selected before creating windows, preserving the earlier manifest's intended mode.
+The shared fix preserves composition-root role bindings across factory boundaries, shares exactly the intended scripting/custom-function instances and fails explicitly for missing role bindings rather than silently creating clones. Repeated main-window requests do not duplicate presenter registrations.
 
-The modern chart package is **WinForms.DataVisualization 1.10.2**. Scintilla uses **Scintilla5.NET 7.0.0** with the appropriate modern API changes. AvalonEdit remains available. The original `TROKA.Software.SimpleCodeEditor 2.0.0` binary is retained so the third editor is not silently removed; NuGet's **NU1701 warning remains visible**. Unicode, multiple documents, switching and renaming are exercised for all three editors, but that is not a guarantee of every editing feature or official vendor support for .NET 10.
+The normal Cake desktop suite now loads a real `.tslf` into each visible editor implementation, calculates with it, applies unsaved edits, executes a script, saves/reopens the file and verifies the highlighter uses the same displayed control. These regressions were demonstrated failing before the fix. Compiler-only tests remain useful but are not a substitute for this composition-level coverage.
 
-GSL is loaded through an explicit `NativeLibrary` resolver from the known embedded x64/x86 payload, with a rooted callback and per-architecture cache. Global PATH modification is not required. These native binaries are retained rather than claimed to be new upstream builds. CI validates **x64**; x86 needs its own release evidence. Native ARM64, trimming, NativeAOT and single-file publication are not supported by this candidate.
+## Other runtime compatibility work retained
 
-### Numerical output and HTTP behavior
+PowerPacks color shapes and retired context menus are replaced with supported WinForms controls. File-tree operations guard root/stale nodes and avoid deleting a rename destination. Icon ownership uses public FromHandle/Clone APIs and native cleanup rather than private Framework constructors. PerMonitorV2 DPI mode and text rendering are selected before window creation.
 
-Modern .NET's double formatting can reveal binary-rounding artifacts previously hidden by a decimal-to-double conversion. Decimal output now formats the decimal directly, preserving all its digits and historical compact/scientific display boundaries. Both the host and generated TSL helper use the same formatter. Double precision is not reduced to disguise differences, and the mathematical `·10` superscript notation is retained.
+All three editor choices remain available and have Unicode/document-switch/rename smoke coverage. `TROKA.Software.SimpleCodeEditor 2.0.0` is still a Framework-targeted vendor binary: its NU1701 warning remains visible, and passing tests are not official modern-runtime vendor support. GSL uses a rooted callback and explicit native resolver/cache instead of mutating global PATH. Its bundled binaries are retained, not claimed to be newly rebuilt upstream versions.
 
-The mathematical API uses modern hosting and its original routes/JSON contracts. Explicit `--urls` configuration is honored; the default is still local port 60996. ASP.NET Core MVC Newtonsoft/TestHost packages are **10.0.12**, Swagger/Newtonsoft integration **10.3.0**, Application Insights **3.2.0**, and Newtonsoft.Json **13.0.4** is explicitly referenced rather than accidentally resolving an older transitive version. Exact versions and hashes are in central props and lockfiles.
+Decimal display formats decimal values directly rather than first converting them to double; generated TSL and host share the formatter. Double precision is not reduced. Chart rendering releases per-request resources and restores the calling synchronization context so HTTP response writes do not wait on a nonexistent WinForms message loop. Image tests decode and check PNG/BMP/TIFF/JPEG/GIF formats and dimensions, including large BMP responses. The mathematical API honors explicit `--urls` while retaining its loopback default.
 
-Chart rendering releases per-request image/control resources and restores the caller's synchronization context. Creating WinForms handles on an HTTP thread must not leave a UI context behind: that thread has no WinForms message pump for later asynchronous response writes. Tests exercise large BMP responses as well as PNG/TIFF/JPEG/GIF, decode the images and check their format and dimensions. The nonconstant-payload assertion is linear rather than a general-purpose multiset comparison of hundreds of thousands of bytes.
-
-## Reproducible verification
+## Validation and distribution
 
 ```powershell
-pwsh ./build/Validate-Net10.ps1
+./build.ps1 -Target CI
+# All Windows and browser tests, plus portable desktop/API/web ZIPs:
+./build.ps1 -Target Publish
 ```
 
-The wrapper generates a real legacy fixture using Windows PowerShell/.NET Framework, then runs .NET 10 tests with an isolated temporary profile. **Framework is needed by the test-fixture writer, not by the production importer or applications.** An SDK installation supplies the modern development/runtime requirements; framework-dependent distributed candidates need the .NET 10 Windows Desktop runtime, plus ASP.NET Core 10 for the API.
+Cake owns audited restore, build, all four Windows suites, result guards, frontend npm/audit/TypeScript/Vite/browser tasks and local packaging. Coverage is available through `Calculate-Coverage`; ZIP payloads and names are checked. Current-head CI is the authority, not an earlier green commit or a count copied into documentation.
 
-CI performs locked restores, package audits, a Release solution build and independently runs four suites. Result guards reject missing reports, incomplete/failed runs, duplicate test identities, discovery below the recorded minimum and undocumented skips. The current minimums are 250 core tests, 947 numerical integration tests, 53 API tests (including three historical skips), and 16 desktop tests. These are **validation contracts, not a substitute for the current PR head's actual results**.
+The .NET 10 publication checks launch the actual desktop EXE, require a responsive main window and normal shutdown, and launch the API as a real Kestrel process to calculate, execute a Roslyn script, return PNG/large BMP and generate OpenAPI. Browser tests use the published SPA host but mock the mathematical API; the separate Kestrel and in-process tests do not establish complete browser-to-real-API end-to-end coverage.
 
-Publication is also checked: the desktop's actual executable must create a responsive main window and exit normally; the published API is launched as a real Kestrel process on an ephemeral loopback port and must calculate, execute a Roslyn script, return PNG and a large BMP, and generate its OpenAPI document. Runtime configuration files must identify .NET 10. These checks do not require the test runner to host the application.
+Three historical API skips remain allowlisted: division escaping in calculation/script URLs and server-side 3D rendering. No new skips or relaxed numerical tolerances are used to obtain passing tests. CI exercises Windows x64; x86 remains uncertified, native ARM64 is unsupported, and trimming/NativeAOT/single-file publication are not supported by this candidate.
 
-The inherited Linux web-client job separately performs `npm ci`, an audit, strict TypeScript checking, production bundling, locked .NET 10 host publication and Chromium/Firefox browser tests. Those browser tests **mock the mathematical API**. Real Kestrel smoke checks are complementary, not full browser-to-real-mathematical-API end-to-end coverage.
+Manual acceptance still covers backed-up real profiles, documents, custom functions, all editor/clipboard/IME interactions, chart appearance/zoom/export, high-DPI/multi-monitor behavior and the real browser connected to the real Windows API. Framework-dependent distribution requires the .NET 10 Desktop runtime and ASP.NET Core 10 for the API.
 
-The three pre-existing API skips remain visible: escaped division in calculation/script URL paths, and server-side 3D chart rendering. No additional skips or numerical tolerance reductions are introduced to make the runtime migration pass. Desktop WPF 3D dialog coverage is not equivalent to implementing server-side 3D rendering.
+The historical MSI/WiX/UWP installer path remains incomplete. Its Cake targets fail explicitly instead of packaging wrong prerequisites or signing with an old test key. Runtime-specific prerequisites, payloads, upgrade/repair/uninstall, file associations and signing need implementation/validation before an installer release. Portable ZIPs are not installer certification.
 
-For deliberate dependency changes only, use `-UpdateLocks`, review all changed dependency graphs, then commit them and repeat normal locked validation. Do not make unlocked restores the permanent CI path.
-
-## Before acceptance and distribution
-
-Keep this PR experimental until its current-head checks and the following manual gates are satisfied: a backed-up real profile and document corpus; actual chart appearance, zoom/export and 3D interaction; high-DPI and multi-monitor layouts; all editor functions and clipboard/IME behavior; and the real web UI connected to the real Windows API. A green smoke test does not certify visual or interaction parity.
-
-The historical WiX/MSI/bootstrapper remains outside the active solution. New .NET 10 prerequisites, installation layout, recursive payloads, shortcuts/file associations, upgrade/repair/uninstall and signing need a separate installer implementation and validation before a release. Do not wrap these new binaries in the old installer. Existing tagged release assets are not modified.
-
-TSL remains fully trusted executable code. Keep the anonymous mathematical API private and loopback-only: CORS is not authentication or a sandbox. Replacing settings deserialization does not make untrusted scripts safe. No public deployment or release is performed by this migration's CI.
+TSL executes fully trusted code. Keep the anonymous mathematical API private and loopback-only; CORS and settings-format changes do not sandbox scripts. No build target deploys it publicly or creates a GitHub release.
 
 ## Primary references
 
-- [Microsoft: read NRBF payloads without BinaryFormatter deserialization](https://learn.microsoft.com/dotnet/standard/serialization/binaryformatter-migration-guide/read-nrbf-payloads)
-- [Microsoft: numeric format strings and runtime differences](https://learn.microsoft.com/dotnet/standard/base-types/standard-numeric-format-strings)
-- [Microsoft: process DPI awareness](https://learn.microsoft.com/dotnet/api/system.windows.forms.application.sethighdpimode)
-- [WinForms.DataVisualization package](https://www.nuget.org/packages/WinForms.DataVisualization/1.10.2)
-- [Scintilla5.NET package](https://www.nuget.org/packages/Scintilla5.NET/7.0.0)
-- [Swagger package](https://www.nuget.org/packages/Swashbuckle.AspNetCore/10.3.0)
+- [Read NRBF payloads without BinaryFormatter deserialization](https://learn.microsoft.com/dotnet/standard/serialization/binaryformatter-migration-guide/read-nrbf-payloads)
+- [Cake tasks](https://cakebuild.net/docs/writing-builds/tasks/)
+- [Numeric format strings](https://learn.microsoft.com/dotnet/standard/base-types/standard-numeric-format-strings)
