@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Computator.NET.WebApi
 {
@@ -7,10 +7,11 @@ namespace Computator.NET.WebApi
     {
         public static void Main(string[] args)
         {
-            using (var host = BuildWebHost(args)) host.Run();
+            using (var host = CreateHostBuilder(args).Build()) host.Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(web =>
+                web.UseUrls("http://localhost:60996").UseStartup<Startup>());
     }
 }

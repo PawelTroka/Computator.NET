@@ -1,8 +1,8 @@
 <Project>
   <PropertyGroup>
-    <!-- Latest Framework preserves binary settings and Windows Forms/WPF.
-         The SDK and compiler version are NOT the desktop runtime version. -->
-    <TargetFramework>net481</TargetFramework>
+    <!-- This branch runs on modern .NET, not the Framework compatibility bridge. -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <LangVersion>14.0</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -11,16 +11,19 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>true</Deterministic>
     <DebugType>portable</DebugType>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <EmbeddedResourceUseDependentUponConvention>false</EmbeddedResourceUseDependentUponConvention>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <IsPackable>false</IsPackable>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditMode>all</NuGetAuditMode>
+    <!-- Runtime compilation, reflection and native controls require their full
+         dependency graph. Neither trimming nor AOT is part of this migration. -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishAot>false</PublishAot>
+    <PublishSingleFile>false</PublishSingleFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="all" />
+    <PackageReference Include="System.CodeDom" />
     <PackageReference Include="System.Resources.Extensions" />
     <Compile Include="$(MSBuildThisFileDirectory)..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>

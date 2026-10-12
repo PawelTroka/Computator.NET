@@ -9,7 +9,7 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) {
-    throw 'The desktop and mathematical API require Windows with .NET Framework 4.8.1. The WebClient can be built independently on Linux/macOS.'
+    throw 'The desktop and mathematical API require Windows with .NET 10 Desktop Runtime. The independent WebClient supports Linux/macOS.'
 }
 function Invoke-Dotnet([string[]]$Arguments) {
     & dotnet @Arguments
@@ -33,8 +33,6 @@ try {
         'Computator.NET.WebApi.IntegrationTests' = 52
         'Computator.NET.Desktop.Tests' = 5
     }
-    # These three tests were already ignored on master. A newly ignored test
-    # must fail validation even when the adapter reports an exit code of zero.
     $knownApiSkips = @(
         'Computator.NET.WebApi.IntegrationTests.CalculateApiTests.DivideSignInExpressionWorks',
         'Computator.NET.WebApi.IntegrationTests.ScriptApiTests.DivideSignInExpressionWorks',
@@ -57,11 +55,13 @@ try {
     if ($TestSuite -in @('All', 'Computator.NET.Desktop.Tests')) {
         Invoke-Dotnet @('publish', 'Computator.NET/Computator.NET.csproj', '-c', $Configuration,
             '--no-restore', '--output', 'artifacts/desktop')
-        foreach ($file in @('Computator.NET.exe', 'Computator.NET.exe.config', 'Microsoft.CodeAnalysis.CSharp.dll',
-            'MathNet.Numerics.dll', 'Meta.Numerics.dll', 'Static/functions.xml', 'Static/TSL-Syntax.xshd',
-            'pl/Computator.NET.Localization.resources.dll', 'CHANGELOG')) {
+        foreach ($file in @('Computator.NET.exe', 'Computator.NET.dll', 'Computator.NET.runtimeconfig.json', 'Computator.NET.deps.json',
+            'Microsoft.CodeAnalysis.CSharp.dll', 'MathNet.Numerics.dll', 'Meta.Numerics.dll',
+            'Static/functions.xml', 'Static/TSL-Syntax.xshd', 'pl/Computator.NET.Localization.resources.dll', 'CHANGELOG')) {
             if (!(Test-Path (Join-Path 'artifacts/desktop' $file))) { throw "Missing published file: $file" }
         }
+        $runtime = Get-Content artifacts/desktop/Computator.NET.runtimeconfig.json -Raw | ConvertFrom-Json
+        if ($runtime.runtimeOptions.tfm -ne 'net10.0') { throw 'Published desktop is not a .NET 10 application.' }
     }
 }
 finally { Pop-Location }

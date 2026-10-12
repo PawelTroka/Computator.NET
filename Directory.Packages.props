@@ -1,32 +1,30 @@
 <Project>
-  <!-- Exact stable versions verified during the 2026 migration. Compatibility
-       pins are explained in docs/MIGRATION-2026.md, not silently called latest. -->
   <ItemGroup>
     <PackageVersion Include="Accord.Math" Version="3.8.0" />
     <PackageVersion Include="AvalonEdit" Version="6.3.1.120" />
     <PackageVersion Include="Guards" Version="2.1.19292.12" />
-    <PackageVersion Include="jacobslusser.ScintillaNET" Version="3.6.3" />
+    <PackageVersion Include="Scintilla5.NET" Version="7.0.0" />
+    <PackageVersion Include="WinForms.DataVisualization" Version="1.10.2" />
     <PackageVersion Include="MathNet.Numerics" Version="5.0.0" />
     <PackageVersion Include="Meta.Numerics" Version="4.2.0" />
-    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" Condition="'$(TargetFramework)' == 'net481'" />
-    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="3.2.0" Condition="'$(TargetFramework)' != 'net481'" />
-    <PackageVersion Include="Microsoft.AspNetCore" Version="2.3.13" />
-    <PackageVersion Include="Microsoft.AspNetCore.Cors" Version="2.3.13" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc" Version="2.3.13" />
-    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="2.3.13" />
-    <PackageVersion Include="Microsoft.AspNetCore.WebUtilities" Version="2.3.13" />
+    <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="3.2.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.12" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
-    <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
     <PackageVersion Include="Moq" Version="4.21.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="NLog" Version="6.2.1" />
     <PackageVersion Include="NUnit" Version="5.0.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.3.1" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.0.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="8.0.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="10.2.3" />
+    <PackageVersion Include="System.CodeDom" Version="10.0.12" />
+    <PackageVersion Include="System.Formats.Nrbf" Version="10.0.12" />
     <PackageVersion Include="System.Resources.Extensions" Version="10.0.12" />
     <PackageVersion Include="System.Text.Json" Version="10.0.12" />
+    <!-- Retained initially for runtime verification of the original third editor.
+         This is not represented as a newly ported dependency. -->
     <PackageVersion Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
     <PackageVersion Include="Unity" Version="5.11.10" />
   </ItemGroup>
