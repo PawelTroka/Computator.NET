@@ -1,4 +1,4 @@
-﻿using Computator.NET.Core.Properties;
+using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.Functions;
@@ -46,7 +46,7 @@ namespace Computator.NET.Core.Evaluation
 
             NativeCompiler.AddDll(RuntimeInformation.IsUnix
                 ? PathUtility.GetFullPath("DataVisualizationX.dll")
-                : "System.Windows.Forms.DataVisualization.dll");
+                : typeof(System.Windows.Forms.DataVisualization.Charting.Chart).Assembly.Location);
 
             NativeCompiler.AddDll("System.Windows.Forms.dll");
             NativeCompiler.AddDll("System.Xaml.dll");

@@ -1,35 +1,23 @@
 {
   "version": 2,
   "dependencies": {
-    ".NETFramework,Version=v4.8.1": {
-      "Microsoft.NETFramework.ReferenceAssemblies": {
+    "net10.0-windows7.0": {
+      "System.CodeDom": {
         "type": "Direct",
-        "requested": "[1.0.3, )",
-        "resolved": "1.0.3",
-        "contentHash": "vUc9Npcs14QsyOD01tnv/m8sQUnGTGOw1BCmKcv77LBJY7OxhJ+zJF7UD/sCL3lYNFuqmQEVlkfS4Quif6FyYg==",
-        "dependencies": {
-          "Microsoft.NETFramework.ReferenceAssemblies.net481": "1.0.3"
-        }
+        "requested": "[10.0.12, )",
+        "resolved": "10.0.12",
+        "contentHash": "Kk3yEavoGHXCAFTLLegxztgSdj24JrkAHelwgWnu+YMFxezcU2DbABEOOIMdy04PExUtKQtlazaKqo0qSa1X6A=="
       },
       "System.Resources.Extensions": {
         "type": "Direct",
         "requested": "[10.0.12, )",
         "resolved": "10.0.12",
-        "contentHash": "g+md0uklu5Zmm9DxgMOobKRheIZIDfmxhe7RN9PTnr1PiozfV7+4yQSqdL3Xa8Sv8fr6GGr2UJrd4C3gjQs7/w==",
-        "dependencies": {
-          "System.Formats.Nrbf": "10.0.12",
-          "System.Memory": "4.6.3"
-        }
+        "contentHash": "g+md0uklu5Zmm9DxgMOobKRheIZIDfmxhe7RN9PTnr1PiozfV7+4yQSqdL3Xa8Sv8fr6GGr2UJrd4C3gjQs7/w=="
       },
       "Accord": {
         "type": "Transitive",
         "resolved": "3.8.0",
         "contentHash": "7kJrB570dO5ELim+2KWQNozuvWO9/BuZfZspdFy36fcWPNF2CEccblLuILeUlI8QJYd2DlBy0bfK8BlCx/uayA=="
-      },
-      "Microsoft.Bcl.HashCode": {
-        "type": "Transitive",
-        "resolved": "6.0.0",
-        "contentHash": "GI4jcoi6eC9ZhNOQylIBaWOQjyGaR8T6N3tC1u8p3EXfndLCVNNWa+Zp+ocjvvS3kNBN09Zma2HXL0ezO0dRfw=="
       },
       "Microsoft.CodeAnalysis.Analyzers": {
         "type": "Transitive",
@@ -41,102 +29,15 @@
         "resolved": "5.9.0",
         "contentHash": "IYaIaUWdIx539AReKZOBEqTskFusZfCh/wFSPilDvCn5Say8MegLw2LONcSIcVy+v3Gzv53qYBspgvBGSErfbQ==",
         "dependencies": {
-          "Microsoft.CodeAnalysis.Analyzers": "5.9.0-1.26328.17",
-          "System.Buffers": "4.6.1",
-          "System.Collections.Immutable": "10.0.1",
-          "System.Memory": "4.6.3",
-          "System.Numerics.Vectors": "4.6.1",
-          "System.Reflection.Metadata": "10.0.1",
-          "System.Runtime.CompilerServices.Unsafe": "6.1.2",
-          "System.Text.Encoding.CodePages": "8.0.0",
-          "System.Threading.Tasks.Extensions": "4.6.3"
+          "Microsoft.CodeAnalysis.Analyzers": "5.9.0-1.26328.17"
         }
-      },
-      "Microsoft.NETFramework.ReferenceAssemblies.net481": {
-        "type": "Transitive",
-        "resolved": "1.0.3",
-        "contentHash": "Vv/20vgHS7VglVOVh8J3Iz/MA+VYKVRp9f7r2qiKBMuzviTOmocG70yq0Q8T5OTmCONkEAIJwETD1zhEfLkAXQ=="
-      },
-      "System.Buffers": {
-        "type": "Transitive",
-        "resolved": "4.6.1",
-        "contentHash": "N8GXpmiLMtljq7gwvyS+1QvKT/W2J8sNAvx+HVg4NGmsG/H+2k/y9QI23auLJRterrzCiDH+IWAw4V/GPwsMlw=="
-      },
-      "System.Collections.Immutable": {
-        "type": "Transitive",
-        "resolved": "10.0.12",
-        "contentHash": "tRMzrybcwEEaudfpL9ghzfnSjEVVuhKa5sR86q30mYxXJdcKOLSBkpMFm62CGsbB50diPZta73Pxu8DgjGdDbA==",
-        "dependencies": {
-          "System.Memory": "4.6.3",
-          "System.Runtime.CompilerServices.Unsafe": "6.1.2"
-        }
-      },
-      "System.Formats.Nrbf": {
-        "type": "Transitive",
-        "resolved": "10.0.12",
-        "contentHash": "J7c0zqHgdUIrzXU8ko5ft5McUBK6AI0Dcgav6QvGcFvbB21trihIrxYAXMv3tEdkmVqJwow1RXWtoZ9aO95umw==",
-        "dependencies": {
-          "Microsoft.Bcl.HashCode": "6.0.0",
-          "System.Reflection.Metadata": "10.0.12",
-          "System.ValueTuple": "4.6.2"
-        }
-      },
-      "System.Memory": {
-        "type": "Transitive",
-        "resolved": "4.6.3",
-        "contentHash": "qdcDOgnFZY40+Q9876JUHnlHu7bosOHX8XISRoH94fwk6hgaeQGSgfZd8srWRZNt5bV9ZW2TljcegDNxsf+96A==",
-        "dependencies": {
-          "System.Buffers": "4.6.1",
-          "System.Numerics.Vectors": "4.6.1",
-          "System.Runtime.CompilerServices.Unsafe": "6.1.2"
-        }
-      },
-      "System.Numerics.Vectors": {
-        "type": "Transitive",
-        "resolved": "4.6.1",
-        "contentHash": "sQxefTnhagrhoq2ReR0D/6K0zJcr9Hrd6kikeXsA1I8kOCboTavcUC4r7TSfpKFeE163uMuxZcyfO1mGO3EN8Q=="
-      },
-      "System.Reflection.Metadata": {
-        "type": "Transitive",
-        "resolved": "10.0.12",
-        "contentHash": "GvhJ5dVmJAw89wCWCyHXaU4A9iZjUtAW/ucshV6EpDW3l7VD8zHSWO14SHVD3m3jSuSE+FcNTrQFquJSQqJVVA==",
-        "dependencies": {
-          "System.Collections.Immutable": "10.0.12"
-        }
-      },
-      "System.Runtime.CompilerServices.Unsafe": {
-        "type": "Transitive",
-        "resolved": "6.1.2",
-        "contentHash": "2hBr6zdbIBTDE3EhK7NSVNdX58uTK6iHW/P/Axmm9sl1xoGSLqDvMtpecn226TNwHByFokYwJmt/aQQNlO5CRw=="
-      },
-      "System.Text.Encoding.CodePages": {
-        "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "OZIsVplFGaVY90G2SbpgU7EnCoOO5pw1t4ic21dBF3/1omrJFpAGoNAVpPyMVOC90/hvgkGG3VFqR13YgZMQfg==",
-        "dependencies": {
-          "System.Memory": "4.5.5",
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
-        }
-      },
-      "System.Threading.Tasks.Extensions": {
-        "type": "Transitive",
-        "resolved": "4.6.3",
-        "contentHash": "7sCiwilJLYbTZELaKnc7RecBBXWXA+xMLQWZKWawBxYjp6DBlSE3v9/UcvKBvr1vv2tTOhipiogM8rRmxlhrVA==",
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "6.1.2"
-        }
-      },
-      "System.ValueTuple": {
-        "type": "Transitive",
-        "resolved": "4.6.2",
-        "contentHash": "yQgmjfFximrNm9LIV3mL6T5MzjeC+epeE5rl4hXxAlYmxby7RM1dPSkIKXk9HNkl6G54h2JHOmLD46+Pey+IRg=="
       },
       "computator.net.charting": {
         "type": "Project",
         "dependencies": {
           "Computator.NET.DataTypes": "[1.0.0, )",
           "NLog": "[6.2.1, )",
-          "System.Resources.Extensions": "[10.0.12, )"
+          "WinForms.DataVisualization": "[1.10.2, )"
         }
       },
       "computator.net.core": {
@@ -148,8 +49,8 @@
           "MathNet.Numerics": "[5.0.0, )",
           "Meta.Numerics": "[4.2.0, )",
           "Microsoft.CodeAnalysis.CSharp": "[5.9.0, )",
-          "System.Resources.Extensions": "[10.0.12, )",
-          "Unity": "[5.11.10, )"
+          "Unity": "[5.11.10, )",
+          "WinForms.DataVisualization": "[1.10.2, )"
         }
       },
       "computator.net.datatypes": {
@@ -157,7 +58,7 @@
         "dependencies": {
           "Computator.NET.Localization": "[1.0.0, )",
           "NLog": "[6.2.1, )",
-          "System.Resources.Extensions": "[10.0.12, )"
+          "WinForms.DataVisualization": "[1.10.2, )"
         }
       },
       "computator.net.desktop": {
@@ -169,17 +70,14 @@
           "Computator.NET.DataTypes": "[1.0.0, )",
           "Computator.NET.Localization": "[1.0.0, )",
           "NLog": "[6.2.1, )",
-          "System.Resources.Extensions": "[10.0.12, )",
+          "Scintilla5.NET": "[7.0.0, )",
           "TROKA.Software.SimpleCodeEditor": "[2.0.0, )",
           "Unity": "[5.11.10, )",
-          "jacobslusser.ScintillaNET": "[3.6.3, )"
+          "WinForms.DataVisualization": "[1.10.2, )"
         }
       },
       "computator.net.localization": {
-        "type": "Project",
-        "dependencies": {
-          "System.Resources.Extensions": "[10.0.12, )"
-        }
+        "type": "Project"
       },
       "Accord.Math": {
         "type": "CentralTransitive",
@@ -202,12 +100,6 @@
         "resolved": "2.1.19292.12",
         "contentHash": "IsPnHZ/NiJ8pPVjNcFygDFTlYUq9P+T6q4vp2tjY465pDteSAiL22+WK1NBE9SBLq6VJ7tbCeg/QI3AqqTXlOA=="
       },
-      "jacobslusser.ScintillaNET": {
-        "type": "CentralTransitive",
-        "requested": "[3.6.3, )",
-        "resolved": "3.6.3",
-        "contentHash": "lERpP3K4x1ge5sW5eG+Yhv9sEFF4MDiHd/nuXTu/xSgPGODQo7K8hCEivqulrFypzFPZ+TsLDZoqucmi5blbdg=="
-      },
       "MathNet.Numerics": {
         "type": "CentralTransitive",
         "requested": "[5.0.0, )",
@@ -227,15 +119,7 @@
         "contentHash": "7JGDA0UT1+h7k9ZcA3rF4eFC8+QPq1xyYaXxag4p8r/zzPurEJxvdi7aM+MRL/SfP7XADXpWF/pl/eUYXOq/ww==",
         "dependencies": {
           "Microsoft.CodeAnalysis.Analyzers": "5.9.0-1.26328.17",
-          "Microsoft.CodeAnalysis.Common": "[5.9.0]",
-          "System.Buffers": "4.6.1",
-          "System.Collections.Immutable": "10.0.1",
-          "System.Memory": "4.6.3",
-          "System.Numerics.Vectors": "4.6.1",
-          "System.Reflection.Metadata": "10.0.1",
-          "System.Runtime.CompilerServices.Unsafe": "6.1.2",
-          "System.Text.Encoding.CodePages": "8.0.0",
-          "System.Threading.Tasks.Extensions": "4.6.3"
+          "Microsoft.CodeAnalysis.Common": "[5.9.0]"
         }
       },
       "NLog": {
@@ -243,6 +127,12 @@
         "requested": "[6.2.1, )",
         "resolved": "6.2.1",
         "contentHash": "fTGNuJyzkgDc1TBEGXF+FMT4b6kB7gygkSN3dLei2Ziiwx/rugXA+OyyFWZ60P1G/+SzzSKiWHlQ4OklC8AgRg=="
+      },
+      "Scintilla5.NET": {
+        "type": "CentralTransitive",
+        "requested": "[7.0.0, )",
+        "resolved": "7.0.0",
+        "contentHash": "BsZ4AdXF801ui54CITrRQ6WOizLl4lzUCTWlH2iQt5wvptulkdT35BhXFDeV6+MxZPKVw0VVfVKoEqP2jPPq/Q=="
       },
       "TROKA.Software.SimpleCodeEditor": {
         "type": "CentralTransitive",
@@ -254,10 +144,13 @@
         "type": "CentralTransitive",
         "requested": "[5.11.10, )",
         "resolved": "5.11.10",
-        "contentHash": "B4+Ps3oqI78hJ+dAFsJhPkJT6qycsNExgLbtw7CEHSzKc2ac3YyUR8SHQ+ZyTwld/y5IbDx/aNOHnKE9Em1zWA==",
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "4.5.2"
-        }
+        "contentHash": "B4+Ps3oqI78hJ+dAFsJhPkJT6qycsNExgLbtw7CEHSzKc2ac3YyUR8SHQ+ZyTwld/y5IbDx/aNOHnKE9Em1zWA=="
+      },
+      "WinForms.DataVisualization": {
+        "type": "CentralTransitive",
+        "requested": "[1.10.2, )",
+        "resolved": "1.10.2",
+        "contentHash": "zdnPgnY1nggdYhzldvwCLpSA5FI2pNsoAUtwNzCm6Dbxt6Und4a6FuZUFjoWgTlOYN0iPrlOqwaQuj54Owq9Mg=="
       }
     }
   }

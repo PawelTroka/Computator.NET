@@ -5,9 +5,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <PackageReference Include="WinForms.DataVisualization" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="System.Formats.Nrbf" />
     <PackageReference Include="Accord.Math" />
     <PackageReference Include="Guards" />
     <PackageReference Include="MathNet.Numerics" />

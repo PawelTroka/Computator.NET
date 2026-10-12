@@ -6,11 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AvalonEdit" />
-    <PackageReference Include="jacobslusser.ScintillaNET" />
+    <PackageReference Include="Scintilla5.NET" />
     <PackageReference Include="NLog" />
     <PackageReference Include="Unity" />
     <PackageReference Include="TROKA.Software.SimpleCodeEditor" />
-    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <PackageReference Include="WinForms.DataVisualization" />
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />

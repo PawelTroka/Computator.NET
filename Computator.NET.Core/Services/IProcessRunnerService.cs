@@ -11,7 +11,7 @@ namespace Computator.NET.Core.Services
     {
         public void Run(string path)
         {
-            Process.Start(path);
+            Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
         }
     }
 }

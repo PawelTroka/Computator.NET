@@ -4,8 +4,7 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <PackageReference Include="WinForms.DataVisualization" />
     <PackageReference Include="NLog" />
     <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj" />
   </ItemGroup>

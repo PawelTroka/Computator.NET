@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Charting.Chart3D.UI
+namespace Computator.NET.Charting.Chart3D.UI
 {
 #if !__MonoCS__
     partial class EditChart3DWindow
@@ -43,11 +43,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.unitsComboBox = new Computator.NET.Charting.Chart3D.UI.UnitsComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.shapeContainer3 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.backgroundColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.backgroundColorRectangleShape = new Computator.NET.Charting.Controls.ColorSwatch();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.axesColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.axesColorRectangleShape = new Computator.NET.Charting.Controls.ColorSwatch();
             this.axesColorDialog = new System.Windows.Forms.ColorDialog();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -74,8 +72,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.xLabelTextBox = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.labelsColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.labelsColorRectangleShape = new Computator.NET.Charting.Controls.ColorSwatch();
             this.labelsFontDialog = new System.Windows.Forms.FontDialog();
             this.labelsColorDialog = new System.Windows.Forms.ColorDialog();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -223,7 +220,7 @@
             this.groupBox1.Controls.Add(this.dotSizeNumericUpDown);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.scaleNumericUpDown);
-            this.groupBox1.Controls.Add(this.shapeContainer3);
+            this.groupBox1.Controls.Add(this.backgroundColorRectangleShape);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
@@ -457,22 +454,14 @@
             // 
             // shapeContainer3
             // 
-            this.shapeContainer3.Location = new System.Drawing.Point(3, 17);
-            this.shapeContainer3.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer3.Name = "shapeContainer3";
-            this.shapeContainer3.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.backgroundColorRectangleShape});
-            this.shapeContainer3.Size = new System.Drawing.Size(314, 241);
-            this.shapeContainer3.TabIndex = 13;
-            this.shapeContainer3.TabStop = false;
+            
             // 
             // backgroundColorRectangleShape
             // 
             this.backgroundColorRectangleShape.CornerRadius = 2;
             this.backgroundColorRectangleShape.Cursor = System.Windows.Forms.Cursors.Hand;
             this.backgroundColorRectangleShape.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.backgroundColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.backgroundColorRectangleShape.Location = new System.Drawing.Point(154, 135);
+            this.backgroundColorRectangleShape.Location = new System.Drawing.Point(157, 152);
             this.backgroundColorRectangleShape.Name = "backgroundColorRectangleShape";
             this.backgroundColorRectangleShape.Size = new System.Drawing.Size(92, 24);
             this.backgroundColorRectangleShape.Click += new System.EventHandler(this.backgroundColorRectangleShape_Click);
@@ -482,7 +471,7 @@
             this.groupBox2.Controls.Add(this.equalAxesCheckBox);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.visibleAxesCheckBox);
-            this.groupBox2.Controls.Add(this.shapeContainer2);
+            this.groupBox2.Controls.Add(this.axesColorRectangleShape);
             this.groupBox2.Location = new System.Drawing.Point(12, 276);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
@@ -494,22 +483,14 @@
             // 
             // shapeContainer2
             // 
-            this.shapeContainer2.Location = new System.Drawing.Point(3, 17);
-            this.shapeContainer2.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer2.Name = "shapeContainer2";
-            this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.axesColorRectangleShape});
-            this.shapeContainer2.Size = new System.Drawing.Size(314, 184);
-            this.shapeContainer2.TabIndex = 8;
-            this.shapeContainer2.TabStop = false;
+            
             // 
             // axesColorRectangleShape
             // 
             this.axesColorRectangleShape.CornerRadius = 2;
             this.axesColorRectangleShape.Cursor = System.Windows.Forms.Cursors.Hand;
             this.axesColorRectangleShape.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.axesColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.axesColorRectangleShape.Location = new System.Drawing.Point(154, 133);
+            this.axesColorRectangleShape.Location = new System.Drawing.Point(157, 150);
             this.axesColorRectangleShape.Name = "axesColorRectangleShape";
             this.axesColorRectangleShape.Size = new System.Drawing.Size(92, 24);
             this.axesColorRectangleShape.Click += new System.EventHandler(this.axesColorRectangleShape_Click);
@@ -550,7 +531,7 @@
             this.groupBox3.Controls.Add(this.groupBox5);
             this.groupBox3.Controls.Add(this.groupBox4);
             this.groupBox3.Controls.Add(this.button2);
-            this.groupBox3.Controls.Add(this.shapeContainer1);
+            this.groupBox3.Controls.Add(this.labelsColorRectangleShape);
             this.groupBox3.Location = new System.Drawing.Point(339, 12);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
@@ -817,22 +798,14 @@
             // 
             // shapeContainer1
             // 
-            this.shapeContainer1.Location = new System.Drawing.Point(3, 17);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.labelsColorRectangleShape});
-            this.shapeContainer1.Size = new System.Drawing.Size(314, 447);
-            this.shapeContainer1.TabIndex = 21;
-            this.shapeContainer1.TabStop = false;
+            
             // 
             // labelsColorRectangleShape
             // 
             this.labelsColorRectangleShape.CornerRadius = 2;
             this.labelsColorRectangleShape.Cursor = System.Windows.Forms.Cursors.Hand;
             this.labelsColorRectangleShape.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.labelsColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.labelsColorRectangleShape.Location = new System.Drawing.Point(156, 44);
+            this.labelsColorRectangleShape.Location = new System.Drawing.Point(159, 61);
             this.labelsColorRectangleShape.Name = "labelsColorRectangleShape";
             this.labelsColorRectangleShape.Size = new System.Drawing.Size(135, 29);
             this.labelsColorRectangleShape.Click += new System.EventHandler(this.labelsColorRectangleShape_Click);
@@ -1012,12 +985,9 @@
         private System.Windows.Forms.CheckBox labelsVisibilityCheckBox;
         private System.Windows.Forms.NumericUpDown yOffsetNumericUpDown;
         private System.Windows.Forms.NumericUpDown xOffsetNumericUpDown;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape labelsColorRectangleShape;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer3;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape backgroundColorRectangleShape;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer2;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape axesColorRectangleShape;
+        private Computator.NET.Charting.Controls.ColorSwatch labelsColorRectangleShape;
+        private Computator.NET.Charting.Controls.ColorSwatch backgroundColorRectangleShape;
+        private Computator.NET.Charting.Controls.ColorSwatch axesColorRectangleShape;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ColorDialog labelsColorDialog;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -41,7 +41,7 @@ namespace Computator.NET.Desktop.Dialogs
                 }
                 return
                     Path.GetFileNameWithoutExtension(
-                        Assembly.GetExecutingAssembly().CodeBase);
+                        Assembly.GetExecutingAssembly().Location);
             }
         }
 
