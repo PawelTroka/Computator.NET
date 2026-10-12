@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Computator.NET.Core.Autocompletion;
-using Computator.NET.Core.Autocompletion.DataSource;
-using Computator.NET.Core.Bootstrapping;
-using Computator.NET.Core.Natives;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
@@ -22,20 +19,9 @@ namespace Computator.NET.WebApi.IntegrationTests
         [OneTimeSetUp]
         public void Setup()
         {
-            TestContext.Progress.WriteLine("Autocomplete startup: native runtime");
-            GSLInitializer.Initialize();
-            TestContext.Progress.WriteLine("Autocomplete startup: function XML");
-            var details = new FunctionsDetailsFileSource();
-            TestContext.Progress.WriteLine("Autocomplete startup: direct reflection provider");
-            var direct = new AutocompleteProvider(new AutocompleteReflectionSource(), details);
-            TestContext.Progress.WriteLine("Autocomplete startup: Unity provider");
-            var bootstrapper = new CoreBootstrapper();
-            using (bootstrapper.Container) bootstrapper.Create<AutocompleteProvider>();
-            TestContext.Progress.WriteLine("Autocomplete startup: HTTP host");
             _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
             _client = _server.CreateClient();
             _client.Timeout = TimeSpan.FromSeconds(30);
-            TestContext.Progress.WriteLine("Autocomplete startup: HTTP host ready");
         }
 
         [OneTimeTearDown]
@@ -57,17 +43,31 @@ namespace Computator.NET.WebApi.IntegrationTests
         [TestCase("scripting")]
         public async Task ReturnsCorrectEntries(string service)
         {
-            TestContext.Progress.WriteLine("Autocomplete request: " + service);
+            TestContext.Progress.WriteLine("Requesting autocomplete: " + service);
             using (var response = await _client.GetAsync($"/api/autocomplete/{service}"))
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-                var items = JsonConvert.DeserializeObject<ICollection<dynamic>>(body);
-                CollectionAssert.AllItemsAreNotNull(items);
-                CollectionAssert.IsNotEmpty(items);
-                Assert.Greater(items.Count, 1);
-                CollectionAssert.AllItemsAreUnique(items);
+                TestContext.Progress.WriteLine($"Received autocomplete {service}: {body.Length} characters");
+                var items = JsonConvert.DeserializeObject<List<CompletionResponse>>(body);
+                NUnit.Framework.Assert.That(items, Is.Not.Null);
+                NUnit.Framework.Assert.That(items.Count, Is.GreaterThan(1));
+                NUnit.Framework.Assert.That(items, Is.All.Not.Null);
+                NUnit.Framework.Assert.That(items.Select(item => item.Text), Is.All.Not.Null.And.Not.Empty);
+                NUnit.Framework.Assert.That(items.Select(item => item.MenuText), Is.All.Not.Null.And.Not.Empty);
+                NUnit.Framework.Assert.That(items.Select(item => item.Details), Is.All.Not.Null);
+                // The API deduplicates by insertion text. Check that actual contract
+                // in linear time, not every pair of dynamic JSON object graphs.
+                var unique = new HashSet<string>(items.Select(item => item.Text), StringComparer.Ordinal);
+                NUnit.Framework.Assert.That(unique.Count, Is.EqualTo(items.Count), "Duplicate completion text");
             }
+        }
+
+        public class CompletionResponse
+        {
+            public string Text { get; set; }
+            public string MenuText { get; set; }
+            public Dictionary<string, string> Details { get; set; }
         }
     }
 }
