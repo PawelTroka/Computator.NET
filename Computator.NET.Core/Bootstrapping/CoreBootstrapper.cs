@@ -9,11 +9,36 @@ using Computator.NET.Core.Services.ErrorHandling;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
+using Unity.Resolution;
 
 namespace Computator.NET.Core.Bootstrapping
 {
     public static class ContainerExtensions
     {
+        // Role bindings belong to this composition root, never to static/global
+        // state. Unity factory callbacks start a new resolution and otherwise lose
+        // the caller's overrides: the window and its presenter can get different editors.
+        private sealed class CompositionOverrides
+        {
+            public CompositionOverrides(ResolverOverride[] items) { Items = (ResolverOverride[])items.Clone(); }
+            public ResolverOverride[] Items { get; }
+        }
+
+        public static void UseCompositionOverrides(this IUnityContainer container, params ResolverOverride[] overrides)
+        {
+            if (container == null) throw new ArgumentNullException(nameof(container));
+            if (overrides == null) throw new ArgumentNullException(nameof(overrides));
+            container.RegisterInstance(new CompositionOverrides(overrides));
+        }
+
+        public static T ResolveComposed<T>(this IUnityContainer container)
+        {
+            if (container == null) throw new ArgumentNullException(nameof(container));
+            return container.IsRegistered<CompositionOverrides>()
+                ? container.Resolve<T>(container.Resolve<CompositionOverrides>().Items)
+                : container.Resolve<T>();
+        }
+
         public static void RegisterTypeLegacy<TFrom, TTo>(this IUnityContainer container,
             params InjectionMember[] injectionMembers) where TTo : TFrom
         {
@@ -25,18 +50,16 @@ namespace Computator.NET.Core.Bootstrapping
         {
             if (container == null) throw new ArgumentNullException(nameof(container));
             container.RegisterType<TTo>(lifetimeManager, injectionMembers);
-            // Alias the concrete registration, including its lifetime. Registering a
-            // second type mapping can otherwise create a second view or presenter.
-            container.RegisterFactory<TFrom>(c => c.Resolve<TTo>());
+            // Retain both the concrete lifetime AND the composition-root bindings
+            // when crossing an interface/factory boundary (including nested aliases).
+            container.RegisterFactory<TFrom>(c => c.ResolveComposed<TTo>());
         }
     }
 
     public class CoreBootstrapper
     {
         public IUnityContainer Container { get; }
-
         public CoreBootstrapper() : this(new UnityContainer()) { }
-
         public CoreBootstrapper(IUnityContainer container)
         {
             Container = container ?? throw new ArgumentNullException(nameof(container));
@@ -44,13 +67,8 @@ namespace Computator.NET.Core.Bootstrapping
             RegisterHandlers();
             RegisterModel();
         }
-
-        public virtual T Create<T>() => Container.Resolve<T>();
-
-        public void RegisterInstance<TInterface>(TInterface instance)
-        {
-            Container.RegisterInstance<TInterface>(instance);
-        }
+        public virtual T Create<T>() => Container.ResolveComposed<T>();
+        public void RegisterInstance<TInterface>(TInterface instance) => Container.RegisterInstance<TInterface>(instance);
 
         private void RegisterModel()
         {
@@ -63,13 +81,11 @@ namespace Computator.NET.Core.Bootstrapping
             Container.RegisterTypeLegacy<IAutocompleteProvider, AutocompleteProvider>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IProcessRunnerService, ProcessRunnerService>(new ContainerControlledLifetimeManager());
         }
-
         private void RegisterHandlers()
         {
             Container.RegisterTypeLegacy<IErrorHandler, SimpleErrorHandler>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IExceptionsHandler, ExceptionsHandler>(new ContainerControlledLifetimeManager());
         }
-
         private void RegisterSharedObjects()
         {
             Container.RegisterTypeLegacy<ISharedViewState, SharedViewState>(new ContainerControlledLifetimeManager());

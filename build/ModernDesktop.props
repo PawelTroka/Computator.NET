@@ -1,13 +1,11 @@
 <Project>
   <PropertyGroup>
-    <!-- Latest Framework preserves binary settings and Windows Forms/WPF.
-         The SDK and compiler version are NOT the desktop runtime version. -->
     <TargetFramework>net481</TargetFramework>
     <LangVersion>14.0</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>true</Deterministic>
     <DebugType>portable</DebugType>

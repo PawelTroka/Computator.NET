@@ -1,8 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernTests.props" />
-  <PropertyGroup>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+  <PropertyGroup><UseWPF>true</UseWPF></PropertyGroup>
   <ItemGroup>
     <Using Include="Computator.NET.DataTypes.Events" />
     <ProjectReference Include="..\Computator.NET.Desktop\Computator.NET.Desktop.csproj" />
