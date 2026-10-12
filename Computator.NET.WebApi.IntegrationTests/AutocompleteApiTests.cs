@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace Computator.NET.WebApi.IntegrationTests
@@ -43,25 +43,48 @@ namespace Computator.NET.WebApi.IntegrationTests
         [TestCase("scripting")]
         public async Task ReturnsCorrectEntries(string service)
         {
-            TestContext.Progress.WriteLine("Requesting autocomplete: " + service);
             using (var response = await _client.GetAsync($"/api/autocomplete/{service}"))
             {
                 response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                TestContext.Progress.WriteLine($"Received autocomplete {service}: {body.Length} characters");
-                var items = JsonConvert.DeserializeObject<List<CompletionResponse>>(body);
+                var tokens = JArray.Parse(await response.Content.ReadAsStringAsync());
+                var items = tokens.ToObject<List<CompletionResponse>>();
                 NUnit.Framework.Assert.That(items, Is.Not.Null);
                 NUnit.Framework.Assert.That(items.Count, Is.GreaterThan(1));
                 NUnit.Framework.Assert.That(items, Is.All.Not.Null);
                 NUnit.Framework.Assert.That(items.Select(item => item.Text), Is.All.Not.Null.And.Not.Empty);
                 NUnit.Framework.Assert.That(items.Select(item => item.MenuText), Is.All.Not.Null.And.Not.Empty);
                 NUnit.Framework.Assert.That(items.Select(item => item.Details), Is.All.Not.Null);
-                // The API deduplicates by insertion text. Check that actual contract
-                // in linear time, not every pair of dynamic JSON object graphs.
-                var unique = new HashSet<string>(items.Select(item => item.Text), StringComparer.Ordinal);
-                NUnit.Framework.Assert.That(unique.Count, Is.EqualTo(items.Count), "Duplicate completion text");
+                // Preserve the original full-entry uniqueness contract. Overloads
+                // can share insertion text but have different typed menu signatures.
+                // NUnit's general-purpose comparison of dynamic object graphs is
+                // quadratic here; Json.NET's hash/equality pair compares JSON values.
+                NUnit.Framework.Assert.That(UniqueEntryCount(tokens), Is.EqualTo(tokens.Count),
+                    "Duplicate autocomplete entries (including their signatures and metadata)");
             }
         }
+
+        [Test]
+        public void UniquenessCheckPreservesOverloadsWithTheSameInsertionText()
+        {
+            var items = JArray.Parse(@"[
+                { 'text': 'f(x)', 'menuText': 'real f(real x)', 'details': { 'type': 'Functions' } },
+                { 'text': 'f(x)', 'menuText': 'complex f(complex x)', 'details': { 'type': 'Functions' } }
+            ]");
+            NUnit.Framework.Assert.That(UniqueEntryCount(items), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void UniquenessCheckFindsDuplicateValuesRegardlessOfPropertyOrder()
+        {
+            var items = JArray.Parse(@"[
+                { 'text': 'f(x)', 'menuText': 'f(real x)', 'details': { 'type': 'Functions', 'title': 'F' } },
+                { 'details': { 'title': 'F', 'type': 'Functions' }, 'menuText': 'f(real x)', 'text': 'f(x)' }
+            ]");
+            NUnit.Framework.Assert.That(UniqueEntryCount(items), Is.EqualTo(1));
+        }
+
+        private static int UniqueEntryCount(IEnumerable<JToken> items) =>
+            new HashSet<JToken>(items, new JTokenEqualityComparer()).Count;
 
         public class CompletionResponse
         {
