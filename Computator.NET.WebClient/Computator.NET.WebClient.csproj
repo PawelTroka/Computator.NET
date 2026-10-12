@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
     <IsPackable>false</IsPackable>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <NuGetAudit>true</NuGetAudit>
@@ -15,14 +15,15 @@
   <ItemGroup>
     <Compile Include="../SharedAssemblyInfo.cs" Link="Properties/SharedAssemblyInfo.cs" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
-    <!-- Only Vite's production output belongs in the deployed web root. -->
     <Content Remove="ClientApp/**;wwwroot/**;package*.json;tsconfig.json;tests/**" />
     <None Update="package*.json;tsconfig.json;vite.config.ts;playwright.config.ts;tests/**;ClientApp/**;wwwroot/**" CopyToPublishDirectory="Never" />
   </ItemGroup>
   <Target Name="PublishFrontend" AfterTargets="ComputeFilesToPublish">
-    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="npm ci" Condition="'$(SkipFrontendBuild)' != 'true'" />
-    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="npm run build" Condition="'$(SkipFrontendBuild)' != 'true'" />
-    <Error Condition="!Exists('$(MSBuildProjectDirectory)/dist/index.html')" Text="Frontend output is missing. Run npm ci and npm run build before using SkipFrontendBuild." />
+    <!-- A direct dotnet publish uses the same Cake frontend task as CI. Cake's
+         Web-Publish supplies SkipFrontendBuild after Web-Build, avoiding recursion. -->
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)/.." Command="dotnet tool restore" Condition="'$(SkipFrontendBuild)' != 'true'" />
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)/.." Command="dotnet cake build.cake --target=Web-Build" Condition="'$(SkipFrontendBuild)' != 'true'" />
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)/dist/index.html')" Text="Frontend output is missing. Run the Cake Web-Build target before using SkipFrontendBuild." />
     <ItemGroup>
       <FrontendOutput Include="$(MSBuildProjectDirectory)/dist/**/*" />
       <ResolvedFileToPublish Include="@(FrontendOutput->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">

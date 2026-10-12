@@ -1,4 +1,4 @@
-name: NET 10 runtime validation
+name: Cake Windows validation
 on:
   pull_request:
   push:
@@ -7,13 +7,13 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: net10-${{ github.ref }}
+  group: cake-windows-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   windows:
-    name: NET 10 - ${{ matrix.suite }}
+    name: Cake - ${{ matrix.suite }}
     runs-on: windows-2025
-    timeout-minutes: 25
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -29,22 +29,22 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
-      - name: Locked restore, isolated profile and NET 10 regressions
+      - name: Cake build, audit, regression tests and publication
         shell: pwsh
-        run: ./build/Validate-Net10.ps1 -TestSuite '${{ matrix.suite }}'
-      - name: Desktop NET 10 migration candidate
+        run: ./build.ps1 -Target CI '--suite=${{ matrix.suite }}'
+      - name: Desktop candidate
         if: success() && matrix.suite == 'Computator.NET.Desktop.Tests'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: desktop-net10-migration-candidate
+          name: desktop-migration-candidate
           path: artifacts/desktop/**
           if-no-files-found: error
           retention-days: 7
-      - name: Mathematical API NET 10 migration candidate
+      - name: API candidate
         if: success() && matrix.suite == 'Computator.NET.WebApi.IntegrationTests'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: api-net10-migration-candidate
+          name: api-migration-candidate
           path: artifacts/api/**
           if-no-files-found: error
           retention-days: 7
@@ -52,9 +52,9 @@ jobs:
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: net10-diagnostics-${{ matrix.suite }}
+          name: diagnostics-${{ matrix.suite }}
           path: |
-            *.binlog
+            artifacts/*.binlog
             TestResults/**
             artifacts/api/*.log
           retention-days: 7

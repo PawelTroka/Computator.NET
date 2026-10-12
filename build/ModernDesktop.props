@@ -7,7 +7,7 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>true</Deterministic>
     <DebugType>portable</DebugType>
@@ -16,8 +16,6 @@
     <IsPackable>false</IsPackable>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditMode>all</NuGetAuditMode>
-    <!-- Runtime compilation, reflection and native controls require their full
-         dependency graph. Neither trimming nor AOT is part of this migration. -->
     <PublishTrimmed>false</PublishTrimmed>
     <PublishAot>false</PublishAot>
     <PublishSingleFile>false</PublishSingleFile>

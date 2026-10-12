@@ -1,1 +1,3 @@
-Powershell.exe -executionpolicy remotesigned -File build.ps1 %*
+@echo off
+pwsh -NoProfile -File "%~dp0build.ps1" %*
+exit /b %errorlevel%
