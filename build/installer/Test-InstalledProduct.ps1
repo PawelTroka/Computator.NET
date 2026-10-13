@@ -8,9 +8,12 @@ if (!$DisposableMachine -or $env:COMPUTATOR_DISPOSABLE_INSTALL_TEST -ne '1') {
 if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     throw 'MSI lifecycle validation requires elevation on the disposable machine.'
 }
-# Do not use Win32_Product (it triggers repairs). Refuse to touch an existing user installation.
+# Registry entries without DisplayName are valid. Avoid both StrictMode property
+# errors and Win32_Product, whose enumeration can unexpectedly repair products.
 $installed = @('HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*', 'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*') |
-    ForEach-Object { Get-ItemProperty $_ -ErrorAction SilentlyContinue } | Where-Object { $_.DisplayName -eq 'Computator.NET' }
+    ForEach-Object { Get-ItemProperty $_ -ErrorAction SilentlyContinue } | Where-Object {
+        $_.PSObject.Properties['DisplayName'] -and $_.DisplayName -eq 'Computator.NET'
+    }
 if ($installed) { throw 'An existing Computator.NET installation is present; refusing to run destructive lifecycle tests.' }
 [xml]$inventory = Get-Content -LiteralPath $InventoryPath -Raw
 $productCode = [Guid]::Parse($inventory.Payload.ProductCode).ToString('B')
@@ -34,7 +37,6 @@ try {
         if (!(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -ne $file.SHA256) { throw "Installed payload mismatch: $($file.Path)" }
     }
     & (Join-Path $PSScriptRoot '../Test-PublishedNet10Desktop.ps1') -PublishDirectory $application
-    # Delete an application file, then verify a real repair restores it.
     Remove-Item -LiteralPath (Join-Path $application 'Static/functions.xml')
     Invoke-Msi @('/fa', $productCode, '/qn', '/norestart', '/l*v', ('"' + $root + '\repair.log"'))
     if (!(Test-Path -LiteralPath (Join-Path $application 'Static/functions.xml'))) { throw 'Repair did not restore the application payload.' }

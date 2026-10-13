@@ -1,29 +1,19 @@
-var installerVersion = Argument("package-version", "2.4.0"); // Candidate version only; no release is published.
+var installerVersion = Argument("package-version", "2.4.0");
 var acceptWix7 = Argument("accept-wix7-eula", false);
 var installerProject = "Computator.NET.Installer/Computator.NET.Installer.csproj";
 void RunInstallerGenerator(string mode)
 {
     var args = new ProcessArgumentBuilder().Append("--mode=" + mode)
         .AppendQuoted("--root=" + MakeAbsolute(Directory(".")).FullPath)
-        .AppendQuoted("--payload=" + MakeAbsolute(Directory("artifacts/installer/payload")).FullPath)
+        .AppendQuoted("--payload=" + MakeAbsolute(Directory(distributionDirectory)).FullPath)
         .AppendQuoted("--output=" + MakeAbsolute(Directory("artifacts/installer/output")).FullPath)
         .AppendQuoted("--version=" + installerVersion);
     if (acceptWix7) args.Append("--accept-wix7-eula=true");
     var executable = MakeAbsolute(File("Computator.NET.Installer/bin/" + configuration + "/net481/Computator.NET.Installer.exe"));
     CheckedProcess(executable.FullPath, new ProcessSettings { Arguments = args, WorkingDirectory = MakeAbsolute(Directory("Computator.NET.Installer")) });
 }
-Task("Installer-Stage").Does(() =>
-{
-    if (!IsRunningOnWindows() || !modernRuntime) throw new Exception("The installer migration requires the .NET 10 Windows branch.");
-    CleanDirectory("artifacts/installer/payload");
-    DotNetPublish("Computator.NET/Computator.NET.csproj", new DotNetPublishSettings
-    {
-        Configuration = configuration, Runtime = "win-x64", SelfContained = true, OutputDirectory = "artifacts/installer/payload",
-        ArgumentCustomization = a => a.Append("-p:PublishTrimmed=false -p:PublishSingleFile=false -p:PublishAot=false")
-    });
-    CopyFile("LICENSE", "artifacts/installer/payload/LICENSE");
-    PowerShell("build/Test-PublishedNet10Desktop.ps1", "-PublishDirectory artifacts/installer/payload");
-});
+// The identical staging module is shared with MSIX rather than selecting another payload.
+Task("Installer-Stage").IsDependentOn("Distribution-Stage");
 Task("Installer-Authoring").Does(() =>
 {
     DotNetRestore(installerProject, RestoreSettings());
