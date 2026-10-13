@@ -23,8 +23,9 @@ namespace Computator.NET.Core.Configuration
             if (!Directory.Exists(source)) throw new DirectoryNotFoundException(source);
             if (Directory.Exists(destination) || File.Exists(destination)) throw new IOException("Trial destination must not exist.");
             if (Within(source, destination) || Within(destination, source)) throw new IOException("Source and destination must not overlap.");
-            var document = SettingsPersistence.Load(Path.Combine(source, "settings.dat"))
-                ?? throw new InvalidDataException("The source has no recognized settings document.");
+            bool IsRootSettings(string file) => string.Equals(Path.GetDirectoryName(file), source, StringComparison.OrdinalIgnoreCase) &&
+                (string.Equals(Path.GetFileName(file), "settings.json", StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(Path.GetFileName(file), "settings.dat", StringComparison.OrdinalIgnoreCase));
             // A data-directory override alone is unsafe: old preferences can still
             // point at the original working/scripts directories. Refuse external roots.
             string Rebase(string path)
@@ -35,9 +36,6 @@ namespace Computator.NET.Core.Configuration
                 RejectLinks(full);
                 return Path.GetFullPath(Path.Combine(destination, Path.GetRelativePath(source, full)));
             }
-            document.WorkingDirectory = Rebase(document.WorkingDirectory);
-            document.ScriptingDirectory = Rebase(document.ScriptingDirectory);
-            document.CustomFunctionsDirectory = Rebase(document.CustomFunctionsDirectory);
             var files = new List<string>();
             var pending = new Stack<string>(); pending.Push(source);
             long total = 0;
@@ -48,16 +46,22 @@ namespace Computator.NET.Core.Configuration
                 {
                     if ((File.GetAttributes(entry) & FileAttributes.ReparsePoint) != 0) throw new IOException("Profile links/junctions are not accepted.");
                     if (Directory.Exists(entry)) { pending.Push(entry); continue; }
-                    var name = Path.GetFileName(entry);
                     var extension = Path.GetExtension(entry);
                     if (!extension.Equals(".tsl", StringComparison.OrdinalIgnoreCase) &&
                         !extension.Equals(".tslf", StringComparison.OrdinalIgnoreCase) &&
-                        !(directory == source && (name == "settings.json" || name == "settings.dat"))) continue;
+                        !IsRootSettings(entry)) continue;
                     total = checked(total + new FileInfo(entry).Length);
                     files.Add(entry);
                     if (total > MaximumBytes || files.Count > MaximumFiles) throw new IOException("Acceptance corpus exceeds its size/file limit.");
                 }
             }
+            // Validate file links as well as directory ancestors before reading
+            // settings. Windows also recognizes mixed-case settings filenames.
+            var document = SettingsPersistence.Load(Path.Combine(source, "settings.dat"))
+                ?? throw new InvalidDataException("The source has no recognized settings document.");
+            document.WorkingDirectory = Rebase(document.WorkingDirectory);
+            document.ScriptingDirectory = Rebase(document.ScriptingDirectory);
+            document.CustomFunctionsDirectory = Rebase(document.CustomFunctionsDirectory);
             var originals = files.ToDictionary(file => Path.GetRelativePath(source, file), Hash, StringComparer.OrdinalIgnoreCase);
             Directory.CreateDirectory(destination);
             try
@@ -68,7 +72,7 @@ namespace Computator.NET.Core.Configuration
                     // Keep both original settings formats as evidence, outside the
                     // live settings names. The rebased JSON below is the only active input.
                     var target = Path.Combine(destination, relative);
-                    if (Path.GetDirectoryName(file) == source && Path.GetFileName(file).StartsWith("settings.", StringComparison.Ordinal)) target += ".original";
+                    if (IsRootSettings(file)) target += ".original";
                     Directory.CreateDirectory(Path.GetDirectoryName(target));
                     File.Copy(file, target, false);
                     if (Hash(target) != originals[relative]) throw new IOException("A profile input changed during copying.");
