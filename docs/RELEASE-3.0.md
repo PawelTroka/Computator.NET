@@ -1,6 +1,12 @@
 # Computator.NET 3.0 release preparation
 
-**Review snapshot: 2026-10-13. No 3.0 release, public deployment or Store submission has been published.** The candidate retains the Windows Forms/WPF product on .NET 10 and integrates the reviewed modernization follow-ups. Release acceptance remains tracked below; passing CI certifies only the tested commit and checks.
+**Review snapshot: 2026-10-14. No 3.0 release, public deployment or Store submission has been published.** The candidate retains the Windows Forms/WPF product on .NET 10 and integrates the reviewed modernization follow-ups. Release acceptance remains tracked below; passing CI certifies only the tested commit and checks.
+
+The second review integrates #151–#164: one complete SLNX, source/IDE frontend preparation, the restrained dark interface, a self-contained protected local web package, shared execution policy, collectible generated programs, canonical candidate identity/evidence, clean-machine and signed-package acceptance harnesses, copied-profile trials, GSL error boundaries, portable scientific services and cancellable worker execution. SDK 10.0.402 and .NET/ASP.NET/JSON 10.0.13 align with October security servicing. The reviewed candidate identity is **3.0.0-preview.1** in `Version.props`.
+
+Integration review additionally fixed concurrent script-output limits, stale assets after changing frontend profiles, surviving worker/descendant processes, genuine historical MSI version handling, rollback ordering, mixed-case profile preservation, predeployment MSIX identity checks and release-report preservation/provenance. GSL error/recovery tests exercise both host and generated imports. See the corresponding workflow results and `artifacts/release-evidence/manifest.json` for the exact candidate; the first-wave evidence below is historical.
+
+Generated scalar programs and exceptions are reclaimable, but shared dynamic-binder caches can retain dynamic programs until process exit. Worker-backed web requests have a process cleanup boundary; desktop dynamic lifetime still needs follow-up. See [program lifetime](PROGRAM-LIFETIME.md). The acceptance harnesses are executable tooling; successful contract tests do not substitute for actual clean-machine, signed-package or private-profile trials.
 
 ## Evidence already reviewed
 
@@ -33,13 +39,13 @@ Review reports must identify the tested commit and retain TRX/browser reports, c
 
 - [ ] Record passing final-commit GitHub results for Windows suites, coverage, portable ZIPs, focused and real browser suites, portable OS jobs, native candidate jobs, installer source, MSIX and provider mirrors. Remaining skipped tests must match the exact result-guard allowlist; do not weaken numerical expectations to obtain a pass.
 - [ ] Test backed-up real settings and `.tsl`/`.tslf` documents, JSON import/backup/rollback, all editors, clipboard/IME input, custom functions and chart appearance/zoom/export. Complete high-DPI and multi-monitor acceptance.
-- [ ] Choose the 3.0 release version consistently across assembly metadata, MSI, MSIX and release notes. Current 2.x values are historical or experimental candidate values; the checklist title does not change them. Confirm the MSIX version advances the actual Store package.
+- [ ] Approve the final release version in `Version.props` and refresh the shared attributes. The current 3.0.0-preview.1 identity is a review candidate. Confirm the MSIX version advances the actual Store package.
 - [ ] On clean disposable Windows machines without a development SDK, test MSI installation, launch, repair, uninstall, failed-upgrade rollback and upgrade from the real 2.3.2 MSI. Verify shortcuts, file associations and preservation of user data.
 - [ ] Sign with owner-controlled release credentials; validate MSIX installation and Start-menu/file activation, upgrade from the actual previous Store package, settings/native-cache writes, offline use and uninstall policy. Complete Store certification before submission/release claims.
 - [ ] Decide whether to adopt GSL 2.8 as the packaged default after all intended native/managed ABI and numerical checks, difficult-input review and distribution-source/license obligations are satisfied. Keep the existing default until that decision.
 - [ ] Verify genuine AppVeyor and Travis final-commit runs with native provider URLs/build IDs and completion evidence if those providers are advertised as active gates.
 - [ ] Approve release notes that state the remaining scope: symbolic calculation and server-side 3D rendering are unfinished; the portable CLI is a subset, and the full Windows numerical/graphics engine is not yet a Mac/Linux desktop application.
 
-The supported web deployment is a trusted local service: both hosts bind to loopback, the frontend uses the protected proxy, and the shared token stays server-side. Fresh evaluators isolate request state, not operating-system permissions. Public multi-user execution needs separate authorization and process/resource isolation work; request timeouts do not stop arbitrary scripts.
+The supported web deployment is a trusted local service: both hosts bind to loopback, the frontend uses the protected proxy, and the shared token stays server-side. JSON computation/chart requests execute in owned workers that are retired on cancellation or deadline; legacy routes retain their compatibility behavior. These workers run with the user's permissions and are not a public multi-user sandbox. Public hosting still requires a separately reviewed isolation and authorization design.
 
 No target in this checklist implicitly signs an artifact, publishes a GitHub release or submits an application to the Store. Keep the existing releases and backed-up user data available for rollback.

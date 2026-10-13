@@ -19,7 +19,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(value['msiVersion'], '3.0.0')
         self.assertEqual(value['msixVersion'], value['assemblyVersion'])
     def test_out_of_range_and_noncanonical_versions_fail(self):
-        for base, revision in [('256.0.0','0'), ('3.0.65535','0'), ('03.0.0','0'), ('3.0.0','-1')]:
+        for base, revision in [('256.0.0','0'), ('3.0.65535','0'), ('03.0.0','0'), ('3.0.0','-1'), ('0.1.0','0'), ('3.0.0','1')]:
             with self.subTest(base=base, revision=revision):
                 self.version(base, revision)
                 with self.assertRaises(ValueError): identity(self.root)

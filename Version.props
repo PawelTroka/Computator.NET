@@ -2,6 +2,7 @@
   <PropertyGroup>
     <!-- Authoritative product identity. This is a review candidate, not a release. -->
     <ComputatorBaseVersion>3.0.0</ComputatorBaseVersion>
+    <!-- The fourth component is reserved for the Store and remains zero. -->
     <ComputatorRevision>0</ComputatorRevision>
     <ComputatorPrerelease>preview.1</ComputatorPrerelease>
     <VersionPrefix>$(ComputatorBaseVersion)</VersionPrefix>

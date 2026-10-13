@@ -24,6 +24,8 @@ def identity(root: Path) -> dict[str, str]:
     major, minor, patch = map(int, base.split('.'))
     if major > 255 or minor > 255 or patch > 65534 or int(revision) > 65534:
         raise ValueError('Version exceeds the shared MSI/assembly/MSIX numeric limits.')
+    if major == 0 or int(revision) != 0:
+        raise ValueError('The shared Store identity requires a positive major version and a zero fourth component.')
     if label and not re.fullmatch(r'[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*', label):
         raise ValueError('Invalid prerelease label.')
     full = base + (('-' + label) if label else '')
