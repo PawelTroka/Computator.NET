@@ -1,22 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernDesktop.props" />
-  <PropertyGroup>
-    <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup>
+  <PropertyGroup><UseWindowsForms>true</UseWindowsForms></PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WinForms.DataVisualization" />
-    <PackageReference Include="NLog" />
+    <PackageReference Include="WinForms.DataVisualization" /><PackageReference Include="NLog" />
     <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj" />
+    <ProjectReference Include="..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
+    <Compile Remove="Text\SpecialSymbols.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Properties\GraphicsResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>GraphicsResources.resx</DependentUpon>
-    </Compile>
-    <EmbeddedResource Update="Properties\GraphicsResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GraphicsResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Compile Update="Properties\GraphicsResources.Designer.cs"><DesignTime>True</DesignTime><AutoGen>True</AutoGen><DependentUpon>GraphicsResources.resx</DependentUpon></Compile>
+    <EmbeddedResource Update="Properties\GraphicsResources.resx"><Generator>PublicResXFileCodeGenerator</Generator><LastGenOutput>GraphicsResources.Designer.cs</LastGenOutput></EmbeddedResource>
   </ItemGroup>
 </Project>
