@@ -33,7 +33,7 @@ namespace Computator.NET.Core.Configuration
                 var full = Path.GetFullPath(path);
                 if (!Within(source, full)) throw new InvalidDataException("A settings directory is outside the supplied backup. Include it in a dedicated acceptance corpus first.");
                 RejectLinks(full);
-                return Path.Combine(destination, Path.GetRelativePath(source, full));
+                return Path.GetFullPath(Path.Combine(destination, Path.GetRelativePath(source, full)));
             }
             document.WorkingDirectory = Rebase(document.WorkingDirectory);
             document.ScriptingDirectory = Rebase(document.ScriptingDirectory);
