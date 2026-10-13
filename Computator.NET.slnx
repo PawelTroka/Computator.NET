@@ -30,7 +30,6 @@
     <File Path="README.md" />
     <File Path="LICENSE" />
     <File Path="CHANGELOG" />
-    <File Path="TODO" />
     <File Path="global.json" />
     <File Path="Directory.Packages.props" />
     <File Path="SharedAssemblyInfo.cs" />
@@ -64,6 +63,7 @@
     <File Path="build/followups/installer.cake" />
     <File Path="build/followups/msix.cake" />
     <File Path="build/followups/portable.cake" />
+    <File Path="build/followups/solution.cake" />
     <File Path="build/followups/travis.cake" />
     <File Path="build/followups/web-e2e.cake" />
   </Folder>
