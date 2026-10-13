@@ -1,0 +1,38 @@
+name: Travis scripts mirror (not a Travis run)
+on:
+  pull_request:
+    paths: ['.travis.yml', 'build/ci/**', 'build/followups/travis.cake', '.github/workflows/travis-mirror.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Exercise the same hash-verified SDK bootstrap used by Travis
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk_directory="$RUNNER_TEMP/computator-dotnet"
+          python3 build/ci/verified_sdk.py --destination "$sdk_directory"
+          echo "DOTNET_ROOT=$sdk_directory" >> "$GITHUB_ENV"
+          echo "$sdk_directory" >> "$GITHUB_PATH"
+      - name: Cake bootstrap, browser validation and truthful local evidence
+        shell: bash
+        run: ./build.sh --target=Travis-Mirror
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: travis-script-mirror-evidence
+          path: |
+            artifacts/ci/**
+            Computator.NET.WebClient/test-results/**
+            Computator.NET.WebClient/playwright-report/**
+          retention-days: 7
