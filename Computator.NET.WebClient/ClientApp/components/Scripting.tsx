@@ -18,25 +18,16 @@ export function Scripting() {
   const completer = useMemo(() => new CustomCompleter('scripting'), []);
   useEffect(() => () => completer.dispose(), [completer]);
   return <><h1>Scripting</h1><p>Write a script in TSL. Run only scripts you trust.</p>
-    <div className="row g-3">
-      <div className="col-md-9"><section className="card">
-        <div className="card-header">Script:</div><div className="card-body script-editor-panel">
-          <AceEditor name="scriptTextArea" mode="csharp" theme="ambiance"
-            width="100%" minLines={15} maxLines={25} fontSize={16} showPrintMargin={false}
-            showGutter highlightActiveLine value={expression} tabSize={4}
-            onChange={text => setExpression(SpecialSymbolsHandler.replace(text, false))}
-            onLoad={editor => {
-              editor.completers = [completer];
-              editor.container.querySelector('textarea')?.setAttribute('aria-label', 'TSL script');
-            }}
-            enableBasicAutocompletion enableLiveAutocompletion
-            setOptions={{ useWorker: false, enableSnippets: true, showLineNumbers: true }} />
-        </div>
-      </section></div>
-      <div className="col-md-3"><button type="button" className="btn btn-primary btn-lg"
-        disabled={!expression.trim() || request.pending}
-        onClick={() => void request.run(`script/${encodeURIComponent(expression)}`)}>Process script</button></div>
-    </div>
-    <ResultPanel {...request} heading="Output" />
+    <div className="row g-3"><div className="col-md-9"><section className="card">
+      <div className="card-header">Script:</div><div className="card-body script-editor-panel">
+        <AceEditor name="scriptTextArea" mode="csharp" theme="ambiance" width="100%" minLines={15} maxLines={25}
+          fontSize={16} showPrintMargin={false} showGutter highlightActiveLine value={expression} tabSize={4}
+          onChange={text => setExpression(SpecialSymbolsHandler.replace(text, false))}
+          onLoad={editor => { editor.completers = [completer]; editor.container.querySelector('textarea')?.setAttribute('aria-label', 'TSL script'); }}
+          enableBasicAutocompletion enableLiveAutocompletion setOptions={{ useWorker: false, enableSnippets: true, showLineNumbers: true }} />
+      </div></section></div>
+      <div className="col-md-3"><button type="button" className="btn btn-primary btn-lg" disabled={!expression.trim() || request.pending}
+        onClick={() => void request.execute('script', { expression })}>Process script</button></div>
+    </div><ResultPanel {...request} heading="Output" />
   </>;
 }
