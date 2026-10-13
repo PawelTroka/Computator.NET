@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using WixSharp;
 using WixSharp.Bootstrapper;
 using WixSharp.CommonTasks;
+using WixToolset.Dtf.WindowsInstaller;
 using IO = System.IO;
 
 namespace Computator.NET.Installer
@@ -31,6 +32,10 @@ namespace Computator.NET.Installer
                 if (mode != "source" && mode != "msi" && mode != "bundle") throw new ArgumentException("Unknown installer mode.");
                 if (mode != "source" && (!options.TryGetValue("accept-wix7-eula", out var accepted) || accepted != "true"))
                     throw new InvalidOperationException("WiX 7 requires explicit owner acceptance of its current EULA/maintenance terms. Review docs/followups/INSTALLER.md before passing --accept-wix7-eula=true.");
+                // WixSharp 2.14 detects local tools from a line-oriented manifest.
+                // Check this in source CI too, before a global WiX can hide drift.
+                if (ExternalTool.Locate("wix.exe") != "localtool:wix")
+                    throw new InvalidOperationException("Run from Computator.NET.Installer with its restored, multiline local WiX tool manifest.");
                 IO.Directory.CreateDirectory(output);
                 ValidatePayload(payload);
                 var project = CreateProject(root, payload, output, version);
@@ -50,6 +55,7 @@ namespace Computator.NET.Installer
                 WixExtension.Bal.PreferredVersion = "7.0.0";
                 var msi = project.BuildMsi();
                 if (!IO.File.Exists(msi)) throw new IO.FileNotFoundException("The MSI compiler did not produce its output.", msi);
+                VerifyMsi(msi, payload, version);
                 if (mode == "bundle")
                 {
                     var bundle = new Bundle("Computator.NET", new MsiPackage(msi) { DisplayInternalUI = true, Visible = false })
@@ -59,7 +65,9 @@ namespace Computator.NET.Installer
                         Application = new LicenseBootstrapperApplication { LicensePath = IO.Path.Combine(root, "docs/eula.rtf") },
                         OutDir = output, OutFileName = "Computator.NET.Installer"
                     };
-                    bundle.Build(IO.Path.Combine(output, "Computator.NET.Installer.exe"));
+                    var bundlePath = IO.Path.Combine(output, "Computator.NET.Installer.exe");
+                    bundle.Build(bundlePath);
+                    if (!IO.File.Exists(bundlePath)) throw new IO.FileNotFoundException("The bundle compiler did not produce its output.", bundlePath);
                 }
                 return 0;
             }
@@ -148,6 +156,26 @@ namespace Computator.NET.Installer
             // Windows Installer ignores a fourth version field. Equivalent input
             // spellings must identify the same product for repair/reinstallation.
             using (var hash = SHA256.Create()) return new Guid(hash.ComputeHash(Encoding.UTF8.GetBytes(UpgradeCode + ":x64:" + version.ToString(3))).Take(16).ToArray());
+        }
+        private static void VerifyMsi(string path, string payload, Version version)
+        {
+            using (var database = new Database(path, DatabaseOpenMode.ReadOnly))
+            {
+                string Property(string name) => (string)database.ExecuteScalar("SELECT `Value` FROM `Property` WHERE `Property` = '" + name + "'");
+                if (Guid.Parse(Property("ProductCode")) != ProductId(version) || Guid.Parse(Property("UpgradeCode")) != UpgradeCode ||
+                    Version.Parse(Property("ProductVersion")).ToString(3) != version.ToString(3) || Property("ALLUSERS") != "1" ||
+                    !database.SummaryInfo.Template.StartsWith("x64;", StringComparison.Ordinal))
+                    throw new IO.InvalidDataException("Compiled MSI identity, version, scope or architecture differs from the reviewed project.");
+                var files = database.ExecuteQuery("SELECT `File` FROM `File`");
+                if (files.Count != IO.Directory.GetFiles(payload, "*", IO.SearchOption.AllDirectories).Length)
+                    throw new IO.InvalidDataException("Compiled MSI file count differs from its staged payload.");
+                // Non-advertised associations are compiled into Registry rows.
+                var classes = database.ExecuteQuery("SELECT `Key` FROM `Registry` WHERE `Root` = 0").Cast<string>().ToArray();
+                if (!new[] { ".tsl", ".tslf", @"tsl.file\shell\Open\command", @"tslf.file\shell\Open\command" }.All(classes.Contains) ||
+                    database.ExecuteQuery("SELECT `Shortcut` FROM `Shortcut`").Count != 2)
+                    throw new IO.InvalidDataException("Compiled MSI document associations or shortcuts are incomplete.");
+            }
+            Console.WriteLine("Compiled MSI passed read-only identity, architecture, scope, payload count, association and shortcut checks.");
         }
         private static void VerifyIdentityRules()
         {
