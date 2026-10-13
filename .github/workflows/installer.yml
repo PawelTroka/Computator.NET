@@ -1,0 +1,38 @@
+name: WixSharp installer migration
+on:
+  pull_request:
+    paths: ['Computator.NET.Installer/**', 'build/installer/**', 'build/followups/installer.cake', '.github/workflows/installer.yml']
+  workflow_dispatch:
+    inputs:
+      accept_wix7_eula:
+        description: 'Owner has reviewed and accepts the current WiX 7 terms for this build'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  authoring:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Cake stages and validates the self-contained product and WiX source
+        shell: pwsh
+        run: ./build.ps1 -Target Installer-Source
+      - name: Explicitly approved MSI and bootstrapper build
+        if: github.event_name == 'workflow_dispatch' && inputs.accept_wix7_eula
+        shell: pwsh
+        run: ./build.ps1 -Target Build-Installer -CakeArguments '--accept-wix7-eula=true'
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: installer-authoring-and-diagnostics
+          path: |
+            artifacts/installer/output/**
+            artifacts/installer/logs/**
+          retention-days: 7

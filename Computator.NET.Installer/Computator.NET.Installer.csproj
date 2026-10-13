@@ -1,40 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <!-- WixSharp's authoring host remains Framework-bound; the staged product is self-contained .NET 10. -->
+    <TargetFramework>net481</TargetFramework><OutputType>Exe</OutputType><LangVersion>14.0</LangVersion>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-    <TargetFramework>net461</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <Optimize>false</Optimize>
-    <DefineConstants Condition=" '$(OS)' != 'Unix' ">TRACE;DEBUG</DefineConstants>
-    <DefineConstants Condition=" '$(OS)' == 'Unix' ">TRACE;DEBUG;__MonoCS__</DefineConstants>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <Optimize>true</Optimize>
-    <DefineConstants Condition=" '$(OS)' == 'Unix' ">__MonoCS__</DefineConstants>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <NuGetAudit>true</NuGetAudit><NuGetAuditMode>all</NuGetAuditMode><IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="WixSharp" Version="1.9.2" />
-    <PackageReference Include="WixSharp.bin" Version="1.9.2" />
-    <PackageReference Include="WixSharp.wix.bin" Version="3.11.0" />
+    <PackageReference Include="WixSharp_wix4" Version="2.14.2" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Compile Include="ModernInstaller.cs" />
   </ItemGroup>
 </Project>
