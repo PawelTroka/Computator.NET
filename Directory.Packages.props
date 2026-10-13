@@ -19,7 +19,7 @@
     <PackageVersion Include="NUnit3TestAdapter" Version="6.3.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.3.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="10.3.0" />
-    <PackageVersion Include="System.Text.Json" Version="10.0.12" />
+    <PackageVersion Include="System.Text.Json" Version="10.0.13" />
     <!-- Framework-only vendor binary: exercised by the TextEditor regression,
          not claimed to have a native modern-.NET target. NU1701 stays visible. -->
     <PackageVersion Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
