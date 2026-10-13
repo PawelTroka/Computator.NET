@@ -2,6 +2,8 @@ using System;
 using System.Reflection;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.Natives;
+using Computator.NET.Core.Evaluation;
+using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Configuration;
 using NUnit.Framework;
 
@@ -36,6 +38,29 @@ namespace Computator.NET.Desktop.Tests
                     NUnit.Framework.Assert.That((double)wrapper.Invoke(null, new object[] { -1.0, 1.0 }), Is.NaN);
                 var recovered = (double)wrapper.Invoke(null, new object[] { 1.0, 1.0 });
                 NUnit.Framework.Assert.That(recovered, Is.EqualTo(1.0 - Math.Exp(-1.0)).Within(1e-12));
+            }
+            finally { GslErrorBoundary.ThrowOnError = previous; }
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void GeneratedNativeImportsUseTheSameErrorBoundaryAndRecover(bool throwOnError)
+        {
+            GSLInitializer.Initialize();
+            var previous = GslErrorBoundary.ThrowOnError;
+            try
+            {
+                GslErrorBoundary.ThrowOnError = throwOnError;
+                // Exercise the actual embedded source in the collectible TSL
+                // assembly, including its separate native import resolution.
+                var function = new ExpressionsEvaluator().Evaluate("gsl_sf_gamma_inc_P(x, 1)", "", CalculationsMode.Real);
+                if (throwOnError)
+                {
+                    var exception = NUnit.Framework.Assert.Throws<CalculationException>(() => function.Evaluate(-1.0));
+                    NUnit.Framework.Assert.That(exception.InnerException, Is.TypeOf<ArithmeticException>());
+                }
+                else NUnit.Framework.Assert.That(function.Evaluate(-1.0), Is.NaN);
+                NUnit.Framework.Assert.That(function.Evaluate(1.0), Is.EqualTo(1.0 - Math.Exp(-1.0)).Within(1e-12));
             }
             finally { GslErrorBoundary.ThrowOnError = previous; }
         }
