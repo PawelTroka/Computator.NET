@@ -22,7 +22,10 @@ public class PortableEngineTests
     public void ComplexArithmeticAndCustomDefinitionsWork()
     {
         var engine = new PortableEngine();
-        NUnit.Framework.Assert.That(engine.EvaluateComplex("z²", new Complex(1, 1)), Is.EqualTo(new Complex(0, 2)).Within(1e-12));
+        var complex = engine.EvaluateComplex("z²", new Complex(1, 1));
+        // NUnit does not apply a double tolerance to Complex objects. Compare the
+        // numerical error norm, retaining the original absolute tolerance.
+        NUnit.Framework.Assert.That((complex - new Complex(0, 2)).Magnitude, Is.LessThanOrEqualTo(1e-12));
         NUnit.Framework.Assert.That(engine.EvaluateReal("Probe(2)", customFunctions: "static real Probe(real x) { return x/2; }"), Is.EqualTo(1));
     }
 
@@ -38,9 +41,9 @@ public class PortableEngineTests
     {
         var engine = new PortableEngine();
         var error = NUnit.Framework.Assert.Throws<EngineCompilationException>(() => engine.EvaluateReal("missing(1)"));
-        NUnit.Framework.Assert.That(error!.Diagnostics, Has.Some.Matches<EngineDiagnostic>(diagnostic => diagnostic.File == "expression.tsl" && diagnostic.Line == 1));
+        NUnit.Framework.Assert.That(error!.Diagnostics.Any(diagnostic => diagnostic.File == "expression.tsl" && diagnostic.Line == 1), Is.True);
         error = NUnit.Framework.Assert.Throws<EngineCompilationException>(() => engine.EvaluateReal("Probe(1)", customFunctions: "static real Probe(real x) { return missing; }"));
-        NUnit.Framework.Assert.That(error!.Diagnostics, Has.Some.Matches<EngineDiagnostic>(diagnostic => diagnostic.File == "custom-functions.tslf"));
+        NUnit.Framework.Assert.That(error!.Diagnostics.Any(diagnostic => diagnostic.File == "custom-functions.tslf"), Is.True);
         NUnit.Framework.Assert.That(engine.EvaluateReal("2+2"), Is.EqualTo(4));
     }
 
@@ -59,7 +62,7 @@ public class PortableEngineTests
         NUnit.Framework.Assert.That(typeof(TslCompiler).Assembly, Is.SameAs(typeof(PortableEngine).Assembly));
         NUnit.Framework.Assert.That(typeof(SpecialSymbols).Assembly, Is.SameAs(typeof(PortableEngine).Assembly));
         var references = typeof(PortableEngine).Assembly.GetReferencedAssemblies().Select(assembly => assembly.Name ?? "");
-        NUnit.Framework.Assert.That(references, Has.None.Matches<string>(name => name.Contains("Windows.Forms") || name.Contains("PresentationFramework") || name.Contains("DataVisualization") || name == "Computator.NET.DataTypes"));
+        NUnit.Framework.Assert.That(references.Any(name => name.Contains("Windows.Forms") || name.Contains("PresentationFramework") || name.Contains("DataVisualization") || name == "Computator.NET.DataTypes"), Is.False);
         NUnit.Framework.Assert.That(Environment.Version.Major, Is.EqualTo(10));
     }
 
