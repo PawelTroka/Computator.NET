@@ -1,26 +1,38 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Computator.NET.WebClient
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
-        }
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+            {
+                Args = args,
+                WebRootPath = "dist"
+            });
+            builder.Services.AddControllers();
+            builder.Services.AddProblemDetails();
+            // Preserve optional Application Insights without requiring telemetry
+            // credentials to run a local scientific application.
+            var connection = builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]
+                ?? builder.Configuration["ApplicationInsights:ConnectionString"];
+            var legacyKey = builder.Configuration["ApplicationInsights:InstrumentationKey"];
+            if (string.IsNullOrWhiteSpace(connection) && !string.IsNullOrWhiteSpace(legacyKey))
+                connection = "InstrumentationKey=" + legacyKey;
+            if (!string.IsNullOrWhiteSpace(connection))
+                builder.Services.AddApplicationInsightsTelemetry(options => options.ConnectionString = connection);
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
+            var app = builder.Build();
+            if (!app.Environment.IsDevelopment()) app.UseExceptionHandler();
+            app.UseStaticFiles();
+            app.MapControllers();
+            // An unknown API URL must not masquerade as a successful HTML response.
+            app.MapGet("/api/{**path}", () => Microsoft.AspNetCore.Http.Results.NotFound());
+            app.MapFallbackToFile("index.html");
+            app.Run();
+        }
     }
 }

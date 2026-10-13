@@ -1,110 +1,26 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\build\ModernDesktop.props" />
   <PropertyGroup>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworks>net40;net461</TargetFrameworks>
-    <AppConfig Condition="'$(TargetFramework)' == 'net40'">app.net40.config</AppConfig>
-    <AutoUnifyAssemblyReferences Condition="'$(TargetFramework)' == 'net40'">false</AutoUnifyAssemblyReferences>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <Optimize>false</Optimize>
-    <DefineConstants Condition=" '$(OS)' != 'Unix' ">TRACE;DEBUG</DefineConstants>
-    <DefineConstants Condition=" '$(OS)' == 'Unix' ">TRACE;DEBUG;__MonoCS__</DefineConstants>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <Optimize>true</Optimize>
-    <DefineConstants Condition=" '$(OS)' == 'Unix' ">__MonoCS__</DefineConstants>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
   <ItemGroup>
+    <!-- This binary is not claimed to be compatible with the .NET 10 runtime. -->
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
       <HintPath>..\libraries\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
+      <Private>true</Private>
     </Reference>
-    <Reference Include="PresentationCore" Condition=" '$(OS)' != 'Unix' " />
-    <Reference Include="PresentationFramework" Condition=" '$(OS)' != 'Unix' " />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Forms.DataVisualization" Condition=" '$(OS)' != 'Unix' " />
-    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' == 'v4.0' ">
-      <HintPath>..\libraries\net40\DataVisualizationX.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DataVisualizationX" Condition=" '$(OS)' == 'Unix' AND '$(TargetFrameworkVersion)' != 'v4.0' ">
-      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" Condition=" '$(OS)' != 'Unix' " />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NLog" Version="4.5.10" />
-    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" Condition="'$(TargetFramework)' == 'net40'" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <PackageReference Include="NLog" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SharedAssemblyInfo.cs">
-      <Link>Properties\SharedAssemblyInfo.cs</Link>
-    </Compile>
-    <Page Include="Chart3D\UI\Chart3DControl.xaml" Condition=" '$(OS)' != 'Unix' ">
+    <!-- UseWPF supplies the Page item; Include would compile this twice. -->
+    <Page Update="Chart3D\UI\Chart3DControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Chart3D\UI\Chart3DControlMono.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Chart3D\UI\EditChart3DWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Chart3D\UI\EditChart3DWindow.designer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Chart3D\UI\UnitsComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ComplexCharting\ComplexChart.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ComplexCharting\EditComplexChartWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ComplexCharting\EditComplexChartWindow.Designer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="EditChartProperties.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="EditChartProperties.designer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="PlotForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="PlotForm.Designer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="RealCharting\Chart2D.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="RealCharting\EditChartWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="RealCharting\EditChartWindow.Designer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Remove="Chart3D\UI\Chart3DControlMono.cs" />
   </ItemGroup>
 </Project>

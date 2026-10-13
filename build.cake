@@ -1,443 +1,250 @@
-// Pinned Coveralls version to older one because 1.0.0 has Error: One or more errors occurred. Package 'coveralls.net 1.0.0' has a package type 'DotnetTool' that is not supported by project 'C:/Projects/Computator.NET/tools'.
-#addin nuget:?package=Cake.Coveralls&version=0.7.0
-#addin nuget:?package=Cake.Codecov
-#addin nuget:?package=Cake.AppPackager
-#addin nuget:?package=Cake.VersionReader
-#addin nuget:?package=Cake.FileHelpers
-
-#tool nuget:?package=coveralls.net&version=0.7.0
-#tool nuget:?package=OpenCover
-#tool nuget:?package=NUnit.ConsoleRunner
-#tool nuget:?package=Codecov
-
-//////////////////////////////////////////////////////////////////////
-// ENVIRONMENTAL VARIABLES
-//////////////////////////////////////////////////////////////////////
-var coverallsRepoToken = EnvironmentVariable("COVERALLS_REPO_TOKEN");//"KEH5rJaqCoWoCV2MhkrMlClj3SVIlB2Eu0YK4mqmhRM+ANEfGiFyROo2RWHkJXQz"
-var configuration = (EnvironmentVariable("configuration") ?? EnvironmentVariable("build_config")) ?? "Release";
-var travisOsName = EnvironmentVariable("TRAVIS_OS_NAME");
-var dotNetCore = EnvironmentVariable("DOTNETCORE");
-string monoVersion = null;
-string monoVersionShort = null;
-
-Type type = Type.GetType("Mono.Runtime");
-if (type != null)
-{
-	var displayName = type.GetMethod("GetDisplayName", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-	if (displayName != null)
-	{
-		monoVersion = displayName.Invoke(null, null).ToString();
-		Information("Mono version is "+monoVersion);
-		monoVersionShort = string.Join(".",System.Text.RegularExpressions.Regex.Match(monoVersion,@"(\d+\.\d+(?:\.\d+(?:\.\d+)?)?)").Value.Split(".".ToCharArray(),StringSplitOptions.RemoveEmptyEntries).Take(3));
-		Information("Mono version short is "+monoVersionShort);
-	}
-}
-
-var isMonoButSupportsMsBuild = monoVersion!=null && System.Text.RegularExpressions.Regex.IsMatch(monoVersion,@"^\s*([5-9]|\d{2,})\.\d+\.\d+(\.\d+)?");
-
-
-var normalNUnit3Settings = new NUnit3Settings()
-{
-	DisposeRunners = true,
-	Configuration = configuration,
-	Labels = NUnit3Labels.All,
-	//NoResults = true
-};
-
-
-//////////////////////////////////////////////////////////////////////
-// ARGUMENTS
-//////////////////////////////////////////////////////////////////////
+// Computator.NET: one Cake task graph for local builds and every CI provider.
+// Original target names and Task/IsDependentOn/Does pattern are retained.
+using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 var target = Argument("target", "Default");
-
-
-//////////////////////////////////////////////////////////////////////
-// PREPARATION
-//////////////////////////////////////////////////////////////////////
-
-// Define directories.
+var configuration = Argument("configuration", EnvironmentVariable("configuration") ?? EnvironmentVariable("build_config") ?? "Release");
+var suite = Argument("suite", "All");
+var coverage = Argument("coverage", target == "Calculate-Coverage" || target == "Upload-Coverage");
 var solution = "Computator.NET.sln";
-var mainProject = "Computator.NET/Computator.NET.csproj";
-var mainProjectNet40 = "Computator.NET/Computator.NET.net40.csproj";
-var mainProjectBinPath = @"Computator.NET/bin/" + configuration + @"/v4.6.1";
-var mainProjectBinPathNet40 = @"Computator.NET/bin/" + configuration + @"/v4.0";
-
-var installerProject = "Computator.NET.Installer/Computator.NET.Installer.csproj";
-var unitTestsProject = "Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj";
-var integrationTestsProject = "Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj";
-var webApiIntegrationTestsProject = "Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj";
-
-var allTestsBinaries = "**/bin/" + configuration+ "/**/Computator.NET*Test*.dll";
-var integrationTestsBinaries = "Computator.NET*.IntegrationTests/"+"bin/" + configuration+ "/**/Computator.NET*Test*.dll";
-var unitTestsBinaries = "Computator.NET*.Tests/"+"bin/" + configuration+ "/**/Computator.NET*Test*.dll";
-
-var allWebTestsBinaries = "Computator.NET.Web*.*Tests*/"+"bin/" + configuration+ "/**/Computator.NET*Test*.dll";
-
-var msBuildSettings = new MSBuildSettings {
-	Verbosity = Verbosity.Minimal,
-	ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
-	Configuration = configuration,
-	PlatformTarget = PlatformTarget.MSIL,
-	MSBuildPlatform = MSBuildPlatform.Automatic,
-	DetailedSummary = true,
-	};
-
-	if(!IsRunningOnWindows() && isMonoButSupportsMsBuild)
-	{
-		if(travisOsName == "osx" || System.Environment.OSVersion.Platform == System.PlatformID.MacOSX)
-		{
-			var msBuildVersions = new [] {"15.9","15.8","15.7","15.6","15.5","15.4","15.3","15.2","15.1","15.0"};
-			var monoVersions = new [] {"Current", monoVersionShort};
-			var msBuildExecutableNames = new [] {"MSBuild.exe", "MSBuild.dll", "msBuild.exe", "msbuild.exe", "msBuild.dll", "msbuild.dll"};
-
-			var msBuildPossiblePaths = new List<string>();
-
-			foreach(var msBuildVersion in msBuildVersions)
-			{
-				foreach(var msBuildExecutableName in msBuildExecutableNames)
-				{
-					foreach(var chosenMonoVersion in monoVersions)
-					{
-						msBuildPossiblePaths.Add(@"/Library/Frameworks/Mono.framework/Versions/" + chosenMonoVersion + @"/lib/mono/msbuild/" + msBuildVersion +@"/bin/"+msBuildExecutableName);
-						msBuildPossiblePaths.Add(@"/Library/Frameworks/Mono.framework/Versions/" + chosenMonoVersion + @"/bin/mono/msbuild/" + msBuildVersion +@"/bin/"+msBuildExecutableName);
-					}
-					msBuildPossiblePaths.Add(@"/usr/bin/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
-					msBuildPossiblePaths.Add(@"/usr/local/bin/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
-
-					msBuildPossiblePaths.Add(@"/usr/lib/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
-					msBuildPossiblePaths.Add(@"/usr/local/lib/mono/msbuild/"+msBuildVersion+@"/bin/"+msBuildExecutableName);
-				}
-			}
-
-			var msBuildPath = msBuildPossiblePaths.FirstOrDefault(p => FileExists(p));
-			if(msBuildPath!=null)
-			{
-				Information("MSBuild path is "+msBuildPath);
-				msBuildSettings.ToolPath = new FilePath(msBuildPath);
-			}
-			else
-				Error("MSBuild path not found!");
-		}
-		else
-			msBuildSettings.ToolPath = new FilePath(@"/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll");//hack for Linux bug - missing MSBuild path
-	}
-
-var monoEnvVars = new Dictionary<string,string>() { {"DISPLAY", "99.0"},{"MONO_WINFORMS_XIM_STYLE", "disabled"} };
-
-if(!IsRunningOnWindows())
+var webDirectory = "Computator.NET.WebClient";
+var webProject = webDirectory + "/Computator.NET.WebClient.csproj";
+var framework = XDocument.Load("build/ModernDesktop.props").Descendants("TargetFramework").Single().Value;
+var modernRuntime = framework.StartsWith("net10.", StringComparison.Ordinal);
+var suites = new Dictionary<string, int>
 {
-	if(msBuildSettings.EnvironmentVariables==null)
-		msBuildSettings.EnvironmentVariables = new Dictionary<string,string>();
+    { "Computator.NET.Core.Tests", modernRuntime ? 252 : 225 },
+    { "Computator.NET.Core.IntegrationTests", 947 },
+    { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 53 : 52 },
+    { "Computator.NET.Desktop.Tests", modernRuntime ? 20 : 9 }
+};
+if (configuration != "Debug" && configuration != "Release") throw new Exception("Configuration must be Debug or Release.");
+if (suite != "All" && !suites.ContainsKey(suite)) throw new Exception("Unknown test suite: " + suite);
+string temporaryProfile = null;
+var previousDataDirectory = EnvironmentVariable("COMPUTATOR_DATA_DIRECTORY");
+var previousFixture = EnvironmentVariable("COMPUTATOR_LEGACY_FIXTURE");
 
-	foreach(var monoEnvVar in monoEnvVars)
-	{
-		msBuildSettings.EnvironmentVariables.Add(monoEnvVar.Key,monoEnvVar.Value);
-	}
+void CheckedProcess(string executable, ProcessSettings settings)
+{
+    var exitCode = StartProcess(executable, settings);
+    if (exitCode != 0) throw new Exception(executable + " failed with exit code " + exitCode + ".");
+}
+void PowerShell(string script, string arguments = "", string executable = "pwsh")
+{
+    var args = new ProcessArgumentBuilder().Append("-NoProfile").Append("-File").AppendQuoted(script).Append(arguments);
+    CheckedProcess(executable, new ProcessSettings { Arguments = args });
+}
+void NodeCommand(string executable, string arguments, IDictionary<string, string> environment = null)
+{
+    // Windows npm/npx launchers are command scripts. Arguments are repository-owned.
+    CheckedProcess(IsRunningOnWindows() ? "cmd.exe" : executable, new ProcessSettings
+    {
+        Arguments = IsRunningOnWindows() ? "/d /c " + executable + " " + arguments : arguments,
+        WorkingDirectory = webDirectory, EnvironmentVariables = environment
+    });
+}
+DotNetRestoreSettings RestoreSettings() => new DotNetRestoreSettings
+{
+    ArgumentCustomization = a => a.Append("-p:WarningsAsErrors=NU1900%3BNU1901%3BNU1902%3BNU1903%3BNU1904")
+};
+void RunSuite(string project)
+{
+    var report = "TestResults/" + project + ".trx";
+    if (FileExists(report)) DeleteFile(report);
+    var previousCoverage = GetFiles("TestResults/**/*.cobertura.xml").Select(p => p.FullPath).ToArray();
+    DotNetTest(project + "/" + project + ".csproj", new DotNetTestSettings
+    {
+        Configuration = configuration, NoBuild = true, NoRestore = true,
+        ResultsDirectory = "TestResults",
+        Loggers = new[] { "console;verbosity=normal", "trx;LogFileName=" + project + ".trx" },
+        ArgumentCustomization = a =>
+        {
+            a.Append("--blame-hang-timeout 120s --blame-hang-dump-type none");
+            if (coverage) a.Append("--collect").AppendQuoted("Code Coverage;Format=Cobertura");
+            return a;
+        }
+    });
+    PowerShell("build/Assert-SuiteResults.ps1", "-Suite " + project + " -MinimumTests " + suites[project]);
+    if (coverage && !GetFiles("TestResults/**/*.cobertura.xml").Any(p => !previousCoverage.Contains(p.FullPath)))
+        throw new Exception("The coverage collector did not produce a new Cobertura report for " + project + ".");
+}
+void RequirePayload(string directory, IEnumerable<string> paths)
+{
+    foreach (var path in paths)
+        if (!FileExists(directory + "/" + path)) throw new Exception("Missing published file: " + directory + "/" + path);
+}
+void PublishDesktop()
+{
+    CleanDirectory("artifacts/desktop");
+    DotNetPublish("Computator.NET/Computator.NET.csproj", new DotNetPublishSettings
+    {
+        Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/desktop"
+    });
+    RequirePayload("artifacts/desktop", new[] { "Computator.NET.exe", "Microsoft.CodeAnalysis.CSharp.dll", "MathNet.Numerics.dll",
+        "Meta.Numerics.dll", "Static/functions.xml", "Static/TSL-Syntax.xshd", "pl/Computator.NET.Localization.resources.dll", "CHANGELOG" });
+    if (modernRuntime)
+    {
+        RequirePayload("artifacts/desktop", new[] { "Computator.NET.dll", "Computator.NET.runtimeconfig.json", "Computator.NET.deps.json" });
+        PowerShell("build/Test-PublishedNet10Desktop.ps1", "-PublishDirectory artifacts/desktop");
+    }
+    else RequirePayload("artifacts/desktop", new[] { "Computator.NET.exe.config" });
+}
+void PublishApi()
+{
+    CleanDirectory("artifacts/api");
+    DotNetPublish("Computator.NET.WebApi/Computator.NET.WebApi.csproj", new DotNetPublishSettings
+    {
+        Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/api"
+    });
+    if (modernRuntime) PowerShell("build/Test-PublishedNet10Api.ps1", "-PublishDirectory artifacts/api");
+    else RequirePayload("artifacts/api", new[] { "Computator.NET.WebApi.exe", "Static/functions.xml" });
+}
+void PackagePayload(string directory, string fileName, string requiredEntry)
+{
+    if (FileExists(fileName)) DeleteFile(fileName);
+    Zip(directory, fileName);
+    using (var archive = System.IO.Compression.ZipFile.OpenRead(fileName))
+    {
+        if (!archive.Entries.Any(entry => entry.FullName.Replace('\\', '/') == requiredEntry))
+            throw new Exception("The ZIP is missing its root payload entry: " + requiredEntry);
+    }
 }
 
-//////////////////////////////////////////////////////////////////////
-// TASKS
-//////////////////////////////////////////////////////////////////////
-
-Task("Install-Linux")
-	.Does(() =>
+Setup(context =>
 {
-	StartProcess("sudo", "apt-get install git-all");
-	StartProcess("git", "pull");
-	StartProcess("sudo", @"apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF");
-	StartProcess("echo", @"""deb http://download.mono-project.com/repo/debian wheezy main"" | sudo tee  /etc/apt/sources.list.d/mono-xamarin.list");
-	StartProcess("echo", @"""deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main"" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list");
-	StartProcess("sudo", "apt-get install libgcc1-*");
-	StartProcess("sudo", "apt-get install libc6-*");
-	StartProcess("sudo", "apt-get install mono-complete");
-	StartProcess("sudo", "apt-get install monodevelop --fix-missing");
-	StartProcess("sudo", "apt-get install libmono-webbrowser4.0-cil");
-	StartProcess("sudo", "apt-get install libgluezilla");
-	StartProcess("sudo", "apt-get install curl");
-	StartProcess("sudo", "apt-get install libgtk2.0-dev");
+    EnsureDirectoryExists("artifacts");
+    EnsureDirectoryExists("TestResults");
+    if (IsRunningOnWindows())
+    {
+        temporaryProfile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Computator-Cake-" + Guid.NewGuid().ToString("N"));
+        System.IO.Directory.CreateDirectory(temporaryProfile);
+        System.Environment.SetEnvironmentVariable("COMPUTATOR_DATA_DIRECTORY", System.IO.Path.Combine(temporaryProfile, "profile"));
+        if (modernRuntime)
+        {
+            var fixture = System.IO.Path.Combine(temporaryProfile, "fixture/settings.dat");
+            System.Environment.SetEnvironmentVariable("COMPUTATOR_LEGACY_FIXTURE", fixture);
+            PowerShell("build/Generate-LegacySettingsFixture.ps1", "-OutputPath \"" + fixture + "\"", "powershell.exe");
+        }
+    }
 });
-
-Task("Clean")
-	.Does(() =>
+Teardown(context =>
 {
-	DeleteDirectories(GetDirectories("Computator.NET*/**/bin"), recursive:true);
-	DeleteDirectories(GetDirectories("Computator.NET*/**/obj"), recursive:true);
-	DeleteDirectories(GetDirectories("AppPackages"), recursive:true);
-	//DeleteDirectories(GetDirectories("publish"), recursive:true);
+    System.Environment.SetEnvironmentVariable("COMPUTATOR_DATA_DIRECTORY", previousDataDirectory);
+    System.Environment.SetEnvironmentVariable("COMPUTATOR_LEGACY_FIXTURE", previousFixture);
+    if (temporaryProfile != null && System.IO.Directory.Exists(temporaryProfile))
+    {
+        try { System.IO.Directory.Delete(temporaryProfile, true); }
+        catch (System.IO.IOException ex) { Warning("Temporary test profile could not be removed: " + ex.Message); }
+    }
 });
-
-Task("Restore")
-	.IsDependentOn("Clean")
-	.Does(() =>
-{
-
-if(dotNetCore=="1")
-	StartProcess("dotnet", "restore "+solution);
-else
-	NuGetRestore("./"+solution);
-if (travisOsName == "linux")
-{
-	StartProcess("sudo", "apt-get install libgsl2");
-	System.Environment.SetEnvironmentVariable("DISPLAY", "99.0", System.EnvironmentVariableTarget.Process);//StartProcess("export", "DISPLAY=:99.0");
-	
-	var xvfvProcessSettings = new ProcessSettings() { Arguments="--start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16" };
-	if(xvfvProcessSettings.EnvironmentVariables==null)
-		xvfvProcessSettings.EnvironmentVariables=new Dictionary<string,string>();
-	foreach(var envVar in monoEnvVars)
-		xvfvProcessSettings.EnvironmentVariables.Add(envVar.Key, envVar.Value);
-	StartProcess(@"/sbin/start-stop-daemon", xvfvProcessSettings);
-	
-	System.Environment.SetEnvironmentVariable("DISPLAY", "99.0", System.EnvironmentVariableTarget.Process);//StartProcess("export", "DISPLAY=:99.0");
-	StartProcess("sleep", "3");//give xvfb some time to start
-}
-else if(travisOsName == "osx")
-{
-	StartProcess("brew", "install gsl");
-}
-
-if(travisOsName=="linux" || travisOsName=="osx")
-	System.Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled", System.EnvironmentVariableTarget.Process);//StartProcess("export", "MONO_WINFORMS_XIM_STYLE=disabled");
-});
-
-Task("Build")
-	.IsDependentOn("Restore")
-	.Does(() =>
-{
-	  // Use MSBuild
-	  MSBuild(mainProject, msBuildSettings);
-	  MSBuild(mainProjectNet40, msBuildSettings);
-	  MSBuild(unitTestsProject, msBuildSettings);
-	  MSBuild(integrationTestsProject, msBuildSettings);
-	  MSBuild(webApiIntegrationTestsProject, msBuildSettings);
-});
-
-Task("UnitTests")
-	.IsDependentOn("Build")
-	.Does(() =>
-{
-	NUnit3(unitTestsBinaries, normalNUnit3Settings);
-	if(AppVeyor.IsRunningOnAppVeyor)
-	{
-		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
-	}
-});
-
-Task("IntegrationTests")
-	.IsDependentOn("Build")
-	.Does(() =>
-{
-	NUnit3(integrationTestsBinaries, normalNUnit3Settings);
-	if(AppVeyor.IsRunningOnAppVeyor)
-	{
-		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
-	}
-});
-
-Task("AllTests")
-	.IsDependentOn("Build")
-	.Does(() =>
-{
-	NUnit3(allTestsBinaries, normalNUnit3Settings);
-	if(AppVeyor.IsRunningOnAppVeyor)
-	{
-		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
-	}
-});
-
-Task("WebTests")
-	.IsDependentOn("Build")
-	.Does(() =>
-{
-	NUnit3(allWebTestsBinaries, normalNUnit3Settings);
-	if(AppVeyor.IsRunningOnAppVeyor)
-	{
-		AppVeyor.UploadTestResults("./TestResult.xml", AppVeyorTestResultsType.NUnit3);
-	}
-});
-
-Task("Calculate-Coverage")
-	.IsDependentOn("Build")
-	.Does(() =>
-{
-	OpenCover(tool => {
-  tool.NUnit3(allTestsBinaries,
-	new NUnit3Settings {
-	  NoResults = true,
-	  //InProcess = true,
-	  //Domain = Domain.Single,
-	  Where = "cat!=LongRunningTests",
-	  ShadowCopy = false,
-	});
-  },
-  new FilePath("coverage.xml"),
-  (new OpenCoverSettings()
-	{
-		Register="user",
-		SkipAutoProps = true,
-	})
-	.WithFilter("+[Computator.NET*]*")
-	.WithFilter("-[Computator.NET.Core]Computator.NET.Core.Properties.*")
-	.WithFilter("-[Computator.NET.Localization]*")
-	.WithFilter("-[Computator.NET.Core.Tests]*")
-	.WithFilter("-[Computator.NET.Core.IntegrationTests]*")
-	.ExcludeByAttribute("*.ExcludeFromCodeCoverage*"));
-});
-
-Task("Upload-Coverage")
-	.IsDependentOn("Calculate-Coverage")
-	.Does(() =>
-{
-	CoverallsNet("coverage.xml", CoverallsNetReportType.OpenCover, new CoverallsNetSettings()
-	{
-		RepoToken = coverallsRepoToken
-	});
-
-	Codecov("coverage.xml");
-});
-
-
-Task("Build-Installer")
-	.IsDependentOn("Build")
-	.Does(() =>
-{
-	if(IsRunningOnWindows())
-	{
-		  // Use MSBuild
-		  //msBuildSettings.ArgumentCustomization=null;
-		  MSBuild(installerProject, new MSBuildSettings
-		  {
-			Verbosity = Verbosity.Minimal,
-			ToolVersion = MSBuildToolVersion.Default,//The highest available MSBuild tool version//VS2017
-			Configuration = configuration,
-			PlatformTarget = PlatformTarget.MSIL,
-			MSBuildPlatform = MSBuildPlatform.Automatic,
-			DetailedSummary = true,
-		  });
-	}
-	else
-	{
-		Warning("Building installer is currently not supported on Unix");
-	}
-});
-
-Task("Build-Uwp")
-	.IsDependentOn("Build")
-	.Does(() =>
-{
-	if(IsRunningOnWindows())
-	{
-		var packageFiles = @"AppPackages/PackageFiles";
-		
-		CopyDirectory(mainProjectBinPath,packageFiles);
-		CopyFileToDirectory(@"build-uwp/AppxManifest.xml",packageFiles);
-		CopyFileToDirectory(@"build-uwp/Registry.dat",packageFiles);
-
-		CopyDirectory(@"Computator.NET.Core/Special/windows-x64",packageFiles);
-		CopyDirectory(@"Graphics/Assets",packageFiles+@"/Assets");
-		
-		CopyDirectory(@"Computator.NET.Core/TSL Examples",packageFiles+@"/VFS/Users/ContainerAdministrator/Documents/Computator.NET/TSL Examples");
-
-		var programFilesPath = System.Environment.Is64BitOperatingSystem  ? Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) : Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-		var makePriPaths = GetFiles(programFilesPath + @"\Windows Kits\10\bin\x86\makepri.exe");
-		var makePriPath = makePriPaths.First();
-		StartProcess(makePriPath, @"createconfig /cf AppPackages\PackageFiles\priconfig.xml /dq en-US");//makepri createconfig /cf AppPackages\PackageFiles\priconfig.xml /dq en-US
-		StartProcess(makePriPath, @"new /pr AppPackages\PackageFiles /cf AppPackages\PackageFiles\priconfig.xml");//makepri new /pr AppPackages\PackageFiles /cf AppPackages\PackageFiles\priconfig.xml	
-		
-		MoveFiles(@"*.pri", packageFiles);// move /y .\*.pri AppPackages\PackageFiles
-		
-		AppPack("AppPackages/Computator.NET.x64.appx", new DirectoryPath("AppPackages/PackageFiles"));
-		
-		//build another for x86
-		CopyDirectory(@"Computator.NET.Core/Special/windows-x86", packageFiles);
-		ReplaceTextInFiles(packageFiles+"/AppxManifest.xml","x64","x86");
-		AppPack("AppPackages/Computator.NET.x86.appx", new DirectoryPath("AppPackages/PackageFiles"));
-
-
-		Sign(GetFiles("AppPackages/*.appx"), new SignToolSignSettings {
-			TimeStampUri = new Uri("http://timestamp.digicert.com"),
-			DigestAlgorithm = SignToolDigestAlgorithm.Sha256,
-			CertPath = @"build-uwp/Computator.NET_TemporaryKey.pfx",
-		});
-	}
-	else
-	{
-		Warning("Building Universal Windows App is currently not supported on Unix");
-	}
-});
-
-
-Task("Publish")
-	.IsDependentOn("Build")
-	.Does(() =>
-{
-	DeleteDirectories(GetDirectories("publish"), recursive:true);
-
-	var versionNumber = GetFullVersionNumber(mainProjectBinPath+@"/Computator.NET.exe");
-	var versionNumberNet40 = GetFullVersionNumber(mainProjectBinPathNet40+@"/Computator.NET.exe");
-	if(versionNumber!=versionNumberNet40)
-		Error("Version numbers for main executable differ for normal and NET40 build!");
-
-	EnsureDirectoryExists("publish");
-
-	var namesSuffix = ".v" + versionNumber + ".";
-	var namesSuffixNet40 = ".v" + versionNumber + (IsRunningOnWindows() ? "-WindowsXP" : "-net40") + ".";
-
-	//Publish Portable
-	var zipPublishPath = @"publish/Computator.NET" + namesSuffix + "zip";
-	var zipPublishPathNet40 = @"publish/Computator.NET" + namesSuffixNet40 + "zip";
-
-	Zip(mainProjectBinPath, zipPublishPath);
-	Zip(mainProjectBinPathNet40, zipPublishPathNet40);
-
-	if(AppVeyor.IsRunningOnAppVeyor)
-	{
-		AppVeyor.UploadArtifact(zipPublishPath);
-		AppVeyor.UploadArtifact(zipPublishPathNet40);
-	}
-	else if(TravisCI.IsRunningOnTravisCI)
-		Warning("Publishing artifacts in TravisCI is not yet supported.");
-
-	//Publish UWP
-	if(IsRunningOnWindows())
-	{
-		var appxX86PublishPath = "publish/Computator.NET" + namesSuffix + "x86.appx";
-		var appxX64PublishPath = "publish/Computator.NET" + namesSuffix + "x64.appx";
-		RunTarget("Build-Uwp");
-		MoveFile(@"AppPackages/Computator.NET.x86.appx", appxX86PublishPath);
-		MoveFile(@"AppPackages/Computator.NET.x64.appx", appxX64PublishPath);
-		if(AppVeyor.IsRunningOnAppVeyor)
-		{
-			AppVeyor.UploadArtifact(appxX64PublishPath);
-			AppVeyor.UploadArtifact(appxX86PublishPath);
-		}
-	}
-	else
-		Warning("Publishing UWP app is not supported on Unix.");
-	
-	//Publish Installer
-	if(IsRunningOnWindows())
-	{
-		RunTarget("Build-Installer");
-		var installerPublishPath = @"publish/Computator.NET.Installer" + namesSuffix + "exe";
-		MoveFile(GetFiles(@"Computator.NET.Installer/bin/" + configuration + @"/Computator.NET.Installer.exe").Single(),installerPublishPath);
-		if(AppVeyor.IsRunningOnAppVeyor)
-			AppVeyor.UploadArtifact(installerPublishPath);
-	}
-	else
-		Warning("Publishing Installer is not supported on Unix.");
-});
-
 
 //////////////////////////////////////////////////////////////////////
-// TASK TARGETS
+// DESKTOP / API (original target names)
 //////////////////////////////////////////////////////////////////////
-
-Task("Default")
-	.IsDependentOn("UnitTests");
+Task("Clean").Does(() =>
+{
+    foreach (var directory in GetDirectories("Computator.NET*/bin").Concat(GetDirectories("Computator.NET*/obj")))
+        DeleteDirectory(directory, new DeleteDirectorySettings { Recursive = true });
+    CleanDirectories(new[] { new DirectoryPath("artifacts"), new DirectoryPath("TestResults"), new DirectoryPath("publish") });
+});
+Task("Restore").Does(() =>
+{
+    if (!IsRunningOnWindows()) throw new Exception("Desktop/API require Windows. Use --target=Web-Validate for the independent web client.");
+    var xmlProjects = XDocument.Load("Computator.NET.Modern.slnx").Descendants("Project")
+        .Select(p => p.Attribute("Path").Value.Replace('\\', '/')).OrderBy(p => p).ToArray();
+    var slnProjects = Regex.Matches(System.IO.File.ReadAllText(solution), "\"([^\"\\r\\n]+\\.csproj)\"")
+        .Cast<Match>().Select(m => m.Groups[1].Value.Replace('\\', '/')).OrderBy(p => p).ToArray();
+    if (!xmlProjects.SequenceEqual(slnProjects)) throw new Exception("The .sln and .slnx project lists differ.");
+    PowerShell("build/Test-ResultGuard.ps1");
+    DotNetRestore(solution, RestoreSettings());
+});
+Task("Build").IsDependentOn("Restore").Does(() =>
+    DotNetBuild(solution, new DotNetBuildSettings
+    {
+        Configuration = configuration, NoRestore = true,
+        ArgumentCustomization = a => a.Append("-bl:artifacts/build.binlog")
+    }));
+Task("CoreTests").IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Core.Tests"));
+Task("DesktopTests").IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Desktop.Tests"));
+Task("CoreIntegrationTests").IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Core.IntegrationTests"));
+Task("ApiTests").IsDependentOn("Build").Does(() => RunSuite("Computator.NET.WebApi.IntegrationTests"));
+Task("UnitTests").IsDependentOn("CoreTests").IsDependentOn("DesktopTests");
+Task("IntegrationTests").IsDependentOn("CoreIntegrationTests").IsDependentOn("ApiTests");
+Task("AllTests").IsDependentOn("UnitTests").IsDependentOn("IntegrationTests");
+Task("WebTests").IsDependentOn("ApiTests");
+Task("SelectedTests").IsDependentOn("Build").Does(() =>
+{
+    foreach (var project in suite == "All" ? suites.Keys.ToArray() : new[] { suite }) RunSuite(project);
+});
+Task("Publish-Desktop").IsDependentOn("Build").Does(PublishDesktop);
+Task("Publish-Api").IsDependentOn("Build").Does(PublishApi);
+var ci = Task("CI").IsDependentOn("SelectedTests");
+if (suite == "All" || suite == "Computator.NET.Desktop.Tests") ci.IsDependentOn("Publish-Desktop");
+if (suite == "All" || suite == "Computator.NET.WebApi.IntegrationTests") ci.IsDependentOn("Publish-Api");
 
 //////////////////////////////////////////////////////////////////////
-// EXECUTION
+// FRONTEND: npm is a tool, Cake owns the task graph
 //////////////////////////////////////////////////////////////////////
+Task("Web-Restore").Does(() =>
+{
+    NodeCommand("npm", "ci");
+    NodeCommand("npm", "audit --audit-level=low");
+});
+Task("Web-Build").IsDependentOn("Web-Restore").Does(() => NodeCommand("npm", "run build"));
+Task("Web-Publish").IsDependentOn("Web-Build").Does(() =>
+{
+    CleanDirectory("artifacts/webclient");
+    DotNetRestore(webProject, RestoreSettings());
+    DotNetPublish(webProject, new DotNetPublishSettings
+    {
+        Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/webclient",
+        ArgumentCustomization = a => a.Append("-p:SkipFrontendBuild=true")
+    });
+    RequirePayload("artifacts/webclient", new[] { "Computator.NET.WebClient.dll", "dist/index.html" });
+});
+Task("Web-Browsers").IsDependentOn("Web-Restore").Does(() =>
+    NodeCommand("npx", "playwright install " + (IsRunningOnWindows() ? "" : "--with-deps ") + "chromium firefox"));
+Task("Web-Tests").IsDependentOn("Web-Publish").IsDependentOn("Web-Browsers").Does(() =>
+{
+    var directory = MakeAbsolute(Directory("artifacts/webclient")).FullPath;
+    NodeCommand("npm", "test", new Dictionary<string, string>
+    {
+        { "PLAYWRIGHT_SERVER_COMMAND", "dotnet \"" + directory + "/Computator.NET.WebClient.dll\" --contentRoot \"" + directory + "\" --urls http://127.0.0.1:4173" }
+    });
+});
+Task("Web-Validate").IsDependentOn("Web-Tests");
 
+//////////////////////////////////////////////////////////////////////
+// PORTABLE PACKAGING / COVERAGE
+//////////////////////////////////////////////////////////////////////
+Task("Package").IsDependentOn("Publish-Desktop").IsDependentOn("Publish-Api").IsDependentOn("Web-Publish").Does(() =>
+{
+    EnsureDirectoryExists("publish");
+    // Anchored declaration: never read the commented-out wildcard example above it.
+    var declaration = Regex.Match(System.IO.File.ReadAllText("SharedAssemblyInfo.cs"),
+        @"^\s*\[assembly:\s*AssemblyVersion\(""(?<version>\d+\.\d+\.\d+\.\d+)""\)\]", RegexOptions.Multiline);
+    if (!declaration.Success) throw new Exception("An explicit four-part AssemblyVersion declaration was not found.");
+    var version = declaration.Groups["version"].Value;
+    PackagePayload("artifacts/desktop", "publish/Computator.NET.v" + version + "." + framework + ".zip", "Computator.NET.exe");
+    PackagePayload("artifacts/api", "publish/Computator.NET.WebApi.v" + version + "." + framework + ".zip", "Static/functions.xml");
+    PackagePayload("artifacts/webclient", "publish/Computator.NET.WebClient.v" + version + ".net10.0.zip", "dist/index.html");
+});
+Task("Validate").IsDependentOn("AllTests").IsDependentOn("Web-Tests").IsDependentOn("Package");
+Task("Publish").IsDependentOn("Validate");
+Task("Calculate-Coverage").IsDependentOn("SelectedTests").Does(() =>
+{
+    if (!GetFiles("TestResults/**/*.cobertura.xml").Any()) throw new Exception("No Cobertura coverage reports were produced.");
+});
+Task("Upload-Coverage").IsDependentOn("Calculate-Coverage").Does(() =>
+{
+    if (!AppVeyor.IsRunningOnAppVeyor)
+        throw new Exception("Coverage is in TestResults. GitHub uploads artifacts; external Coveralls/Codecov publication requires configured credentials.");
+    foreach (var report in GetFiles("TestResults/**/*.cobertura.xml")) AppVeyor.UploadArtifact(report);
+});
+// Keep unsupported historical targets explicit: never silently ship old prerequisites.
+Task("Build-Installer").Does(() => { throw new Exception("The old WiX installer needs migrated prerequisites/payload validation. Use --target=Publish for tested portable ZIPs; see docs/BUILD.md."); });
+Task("Build-Uwp").Does(() => { throw new Exception("Historical UWP/Windows S packaging is not compatible with this runtime. Use --target=Publish; see docs/BUILD.md."); });
+Task("Install-Linux").Does(() => { throw new Exception("Machine-wide Mono installation is retired. Install the pinned SDK/Node and use --target=Web-Validate."); });
+Task("Default").IsDependentOn("UnitTests");
 RunTarget(target);
