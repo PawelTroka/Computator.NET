@@ -1,10 +1,14 @@
 name: MSIX desktop packaging
 on:
   pull_request:
-    paths: ['build/msix/**', 'build/followups/msix.cake', 'build/followups/desktop-distribution.cake', 'build-uwp/AppxManifest.xml', '.github/workflows/msix.yml']
+  push:
+    branches: [master]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: msix-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   package:
     runs-on: windows-2025

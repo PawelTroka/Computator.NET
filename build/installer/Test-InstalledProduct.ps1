@@ -18,14 +18,15 @@ if ($installed) { throw 'An existing Computator.NET installation is present; ref
 [xml]$inventory = Get-Content -LiteralPath $InventoryPath -Raw
 $productCode = [Guid]::Parse($inventory.Payload.ProductCode).ToString('B')
 $msi = (Resolve-Path -LiteralPath $MsiPath).Path
-$root = Join-Path $env:TEMP ('Computator-Installer-' + [Guid]::NewGuid().ToString('N'))
+$temporaryDirectory = (Resolve-Path -LiteralPath $env:TEMP).Path
+$root = Join-Path $temporaryDirectory ('Computator-Installer-' + [Guid]::NewGuid().ToString('N'))
 $application = Join-Path $root 'application'
 $profile = Join-Path $root 'profile'
 New-Item -ItemType Directory -Path $profile -Force | Out-Null
 $sentinel = Join-Path $profile 'keep.tslf'
 Set-Content -LiteralPath $sentinel 'static real Probe(real x) { return x; }'
 function Invoke-Msi([string[]]$Arguments) {
-    $process = Start-Process msiexec.exe -ArgumentList $Arguments -Wait -PassThru
+    $process = Start-Process msiexec.exe -ArgumentList $Arguments -WindowStyle Hidden -Wait -PassThru
     if ($process.ExitCode -notin @(0,3010)) { throw "Windows Installer failed with exit code $($process.ExitCode)." }
 }
 $didInstall = $false
@@ -47,9 +48,21 @@ try {
     Write-Host 'MSI installation, payload hashes, launch, repair, uninstall and external user-data preservation passed.'
 }
 finally {
-    if ($didInstall) { Invoke-Msi @('/x', $productCode, '/qn', '/norestart') }
-    $logs = Join-Path $PSScriptRoot '../../artifacts/installer/logs'
-    New-Item -ItemType Directory -Path $logs -Force | Out-Null
-    Get-ChildItem -LiteralPath $root -Filter '*.log' -ErrorAction SilentlyContinue | Copy-Item -Destination $logs
-    if (Test-Path -LiteralPath $root) { Remove-Item -LiteralPath $root -Recurse -Force }
+    try {
+        if ($didInstall) { Invoke-Msi @('/x', $productCode, '/qn', '/norestart') }
+    }
+    finally {
+        $logs = Join-Path $PSScriptRoot '../../artifacts/installer/logs'
+        New-Item -ItemType Directory -Path $logs -Force | Out-Null
+        Get-ChildItem -LiteralPath $root -Filter '*.log' -ErrorAction SilentlyContinue | Copy-Item -Destination $logs
+        if (Test-Path -LiteralPath $root) {
+            $resolvedRoot = (Resolve-Path -LiteralPath $root).Path
+            $temporaryPrefix = $temporaryDirectory.TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+            if (!$resolvedRoot.StartsWith($temporaryPrefix, [StringComparison]::OrdinalIgnoreCase) -or
+                ((Get-Item -LiteralPath $resolvedRoot).Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+                throw "Refusing to remove a redirected test directory or a path outside the temporary directory: $resolvedRoot"
+            }
+            Remove-Item -LiteralPath $resolvedRoot -Recurse -Force
+        }
+    }
 }

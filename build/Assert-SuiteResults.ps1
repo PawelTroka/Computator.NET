@@ -7,8 +7,6 @@ $ErrorActionPreference = 'Stop'
 $skips = @()
 if ($Suite -eq 'Computator.NET.WebApi.IntegrationTests') {
     $skips = @(
-        'Computator.NET.WebApi.IntegrationTests.CalculateApiTests.DivideSignInExpressionWorks',
-        'Computator.NET.WebApi.IntegrationTests.ScriptApiTests.DivideSignInExpressionWorks',
         'Computator.NET.WebApi.IntegrationTests.ChartApiTests.ReturnsHttpOkForChart3D'
     )
 }

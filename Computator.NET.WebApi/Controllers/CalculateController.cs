@@ -4,6 +4,7 @@ using System.Numerics;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.DataTypes.Functions;
 using Computator.NET.WebApi.Services;
+using Computator.NET.WebApi.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CalculationsMode = Computator.NET.DataTypes.CalculationsMode;
@@ -11,6 +12,7 @@ using CalculationsMode = Computator.NET.DataTypes.CalculationsMode;
 namespace Computator.NET.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [LegacyCodeRoute]
     public class CalculateController : Controller
     {
         private readonly IFunctionsProvider _functionsProvider;

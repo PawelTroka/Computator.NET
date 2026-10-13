@@ -1,10 +1,14 @@
 name: AppVeyor scripts mirror (not an AppVeyor run)
 on:
   pull_request:
-    paths: ['appveyor.yml', 'build/ci/**', 'build/followups/appveyor.cake', '.github/workflows/appveyor-mirror.yml']
+  push:
+    branches: [master]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: appveyor-mirror-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   bootstrap:
     runs-on: windows-2025

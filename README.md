@@ -8,27 +8,27 @@ It includes real, complex and two-variable function charts and calculations; num
 
 ## Develop and build with Cake
 
-The original Cake build pattern is retained and modernized. `build.cake` owns restore, build, tests, coverage, frontend, publication and portable packaging. Shell scripts and CI only invoke its tasks. See [BUILD.md](docs/BUILD.md) for prerequisites, target descriptions and dependency policy.
+The original Cake build pattern is retained and modernized. `build.cake` owns restore, build, tests, coverage, frontend and packaging, with separate validation targets for the real web stack, portable engine, native libraries and installers. See [BUILD.md](docs/BUILD.md) for prerequisites, target descriptions and dependency policy.
 
 ```powershell
 ./build.ps1 -Target Build
 ./build.ps1 -Target AllTests
 # All Windows checks and checked desktop/API publication:
 ./build.ps1 -Target CI
-# All Windows and browser checks, plus local versioned ZIP packages:
+# All Windows and focused browser checks, plus local versioned ZIP packages:
 ./build.ps1 -Target Publish -Configuration Release
+# Windows: browsers connected to the actual mathematical API:
+./build.ps1 -Target Web-E2E
+./build.ps1 -Target Web-CustomFunctions
 ```
 
 Use the SDK from `global.json`, PowerShell 7, and Node/npm from `.nvmrc` and `Computator.NET.WebClient/package.json`. The wrapper restores the pinned Cake .NET tool; a global Cake install is unnecessary. `build.cmd -Target Build` and `dotnet tool restore` followed by `dotnet cake build.cake --target=Build` select the same graph.
 
-### Migration branches
+### Current runtime
 
-| Branch / PR | Desktop and mathematical API runtime |
-| --- | --- |
-| `modernize/2026-compatible-toolchain` / #139 | .NET Framework 4.8.1, built with the .NET 10 SDK and C# 14 |
-| `modernize/net10-runtime` / #140, stacked on #139 | Actual .NET 10, targeting `net10.0-windows` |
+The Windows application now runs on **.NET 10** with its WinForms UI and WPF controls retained. Core, charting and the mathematical API target `net10.0-windows`; the independent ASP.NET Core SPA host and extracted portable engine target `net10.0`. The frontend uses the updated React, TypeScript and Vite stack.
 
-The independent web-client host uses ASP.NET Core 10 on both branches. These are migration candidates, not installer-certified releases. Both branches use the same Cake commands; their runtime is declared in `build/ModernDesktop.props`. The [Framework migration guide](docs/MIGRATION-2026.md) describes #139; the .NET 10 branch additionally contains `docs/MIGRATION-NET10.md` for its settings importer and runtime-specific acceptance checks.
+The Framework 4.8.1 checkpoint (#139) and runtime port (#140) are merged. [MIGRATION-NET10.md](docs/MIGRATION-NET10.md) describes the current runtime, settings importer and remaining acceptance work; [MIGRATION-2026.md](docs/MIGRATION-2026.md) records the earlier Framework checkpoint. The [3.0 release checklist](docs/RELEASE-3.0.md) tracks the integrated candidate and distribution gates. No 3.0 release has been published.
 
 NuGet versions are centralized in `Directory.Packages.props`, without per-project NuGet lockfiles. The single npm lockfile is retained for `npm ci`. See [dependency tradeoffs](docs/BUILD.md#dependency-policy-one-frontend-lockfile-not-twelve-nuget-graphs).
 
@@ -48,7 +48,11 @@ Start the mathematical API separately **on Windows**:
 dotnet run --project Computator.NET.WebApi -- --urls http://localhost:60996
 ```
 
-The Vite UI runs at `http://127.0.0.1:5173`; its API default is `http://localhost:60996/api`. `.env.example` documents the build-time override. The frontend and its independent host can run on Linux/macOS, but the chart-backed mathematical API remains Windows-only. Direct `dotnet publish` of the frontend host also delegates frontend compilation to Cake.
+The Vite UI runs at `http://127.0.0.1:5173`; its compatibility API default is `http://localhost:60996/api`. For the protected local deployment, build with `VITE_API_BASE_URL=/api` and configure the server-side token and fixed loopback backend described in [WEB-E2E.md](docs/followups/WEB-E2E.md). Direct `dotnet publish` of the frontend host also delegates frontend compilation to Cake.
+
+Web custom functions now support unsaved edits, explicit tab-session saves and UTF-8 `.tslf` import/export. JSON execution requests carry definitions separately for each request. The real browser suites cover calculation, scripts, numerical integration and chart images against the actual API. Symbolic calculation and server-side 3D rendering remain unfinished.
+
+The frontend host runs on Linux/macOS, while the chart-backed mathematical API remains Windows-only. [The portable engine and CLI](docs/followups/PORTABLE-ENGINE.md) provide a first subset of TSL, arithmetic, constants and managed scripting; they do not yet contain the complete numerical/GSL catalog or a portable desktop UI.
 
 ### Custom functions and side-by-side testing
 
@@ -63,11 +67,13 @@ dotnet run --project Computator.NET
 
 Cake validation creates its own temporary profile. A generated legacy fixture and smoke tests do not replace manual testing of real saved data, chart appearance, high-DPI layouts and complete editor interactions.
 
-**Security:** TSL executes trusted code with the application's permissions. Keep the anonymous mathematical API private and loopback-only. CORS is not authentication or a sandbox.
+**Security:** TSL executes trusted code with the application's permissions. Keep both web hosts loopback-only and use the protected proxy for local deployment. A token, request limits and separate evaluators do not sandbox arbitrary scripts or create a public multi-user execution service.
 
 ## Releases and historical targets
 
-The old WiX installer and UWP packaging are not certified for the new targets. Their Cake entry points fail explicitly rather than generating an incorrect package. [Historical tooling boundaries](docs/LEGACY-TOOLING.md) describe the remaining installer/platform work. Existing [2.3.2 release downloads](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.3.2) are unchanged.
+Cake produces portable ZIPs, an unsigned MSIX preserving the existing Store identity, and MSI/Burn candidates through the migrated WixSharp/WiX authoring tool. MSI compilation has been validated after explicit owner acceptance of the WiX 7 terms. Signing, clean-machine installation/upgrade tests and Store certification remain release gates; building a package does not satisfy them. See [RELEASE-3.0.md](docs/RELEASE-3.0.md) and [historical tooling boundaries](docs/LEGACY-TOOLING.md).
+
+A pinned GNU GSL 2.8 build is available as an opt-in candidate with provenance and ABI checks. The original embedded native payload remains the default until candidate acceptance. Existing [2.3.2 release downloads](https://github.com/PawelTroka/Computator.NET/releases/tag/v2.3.2) are unchanged.
 
 ## Working with Computator.NET
 

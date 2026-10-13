@@ -1,10 +1,14 @@
 name: Travis scripts mirror (not a Travis run)
 on:
   pull_request:
-    paths: ['.travis.yml', 'build/ci/**', 'build/followups/travis.cake', '.github/workflows/travis-mirror.yml']
+  push:
+    branches: [master]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: travis-mirror-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   linux:
     runs-on: ubuntu-24.04

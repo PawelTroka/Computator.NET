@@ -1,20 +1,32 @@
 name: WixSharp installer migration
 on:
   pull_request:
-    paths: ['Computator.NET.Installer/**', 'build/installer/**', 'build/followups/installer.cake', '.github/workflows/installer.yml']
+  push:
+    branches: [master]
   workflow_dispatch:
     inputs:
       accept_wix7_eula:
         description: 'Owner has reviewed and accepts the current WiX 7 terms for this build'
         type: boolean
         default: false
+      validate_installer_lifecycle:
+        description: 'Install, launch, repair and uninstall on the disposable GitHub-hosted runner'
+        type: boolean
+        default: false
 permissions:
   contents: read
+concurrency:
+  group: installer-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   authoring:
     runs-on: windows-2025
     timeout-minutes: 30
     steps:
+      - name: Check explicit lifecycle prerequisites
+        if: github.event_name == 'workflow_dispatch' && inputs.validate_installer_lifecycle && !inputs.accept_wix7_eula
+        shell: pwsh
+        run: throw 'Lifecycle validation also requires explicit WiX 7 acceptance for the installer build.'
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
@@ -28,6 +40,14 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && inputs.accept_wix7_eula
         shell: pwsh
         run: ./build.ps1 -Target Build-Installer -CakeArguments '--accept-wix7-eula=true'
+      - name: Explicitly requested disposable-runner MSI lifecycle
+        if: github.event_name == 'workflow_dispatch' && inputs.accept_wix7_eula && inputs.validate_installer_lifecycle
+        shell: pwsh
+        env:
+          COMPUTATOR_DISPOSABLE_INSTALL_TEST: '1'
+        run: |
+          if ($env:RUNNER_ENVIRONMENT -ne 'github-hosted') { throw 'Lifecycle validation requires a disposable GitHub-hosted runner.' }
+          ./build/installer/Test-InstalledProduct.ps1 -MsiPath artifacts/installer/output/Computator.NET.msi -InventoryPath artifacts/installer/output/payload.xml -DisposableMachine
       - if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:

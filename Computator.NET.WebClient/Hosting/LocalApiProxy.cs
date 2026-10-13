@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Computator.NET.WebClient.Hosting;
 
@@ -45,8 +46,21 @@ internal static class LocalApiProxy
                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
                 return;
             }
-            using var outgoing = new HttpRequestMessage(new HttpMethod(context.Request.Method),
-                new Uri(origin, context.Request.Path.ToUriComponent() + context.Request.QueryString.ToUriComponent()));
+            // Forward the original escaping, not Path's partially decoded value:
+            // turning %2532 into %32 would change the source expression 100%32
+            // (modulo) into 1002 on the API. UriBuilder keeps the fixed authority.
+            var target = context.Features.Get<IHttpRequestFeature>()?.RawTarget;
+            var destination = new Uri(origin, context.Request.Path.ToUriComponent() + context.Request.QueryString.ToUriComponent());
+            if (!string.IsNullOrEmpty(target) && target.StartsWith('/'))
+            {
+                var query = target.IndexOf('?');
+                destination = new UriBuilder(origin)
+                {
+                    Path = query < 0 ? target : target[..query],
+                    Query = query < 0 ? "" : target[(query + 1)..]
+                }.Uri;
+            }
+            using var outgoing = new HttpRequestMessage(new HttpMethod(context.Request.Method), destination);
             outgoing.Headers.Add("X-Computator-Session", token);
             if (HttpMethods.IsPost(context.Request.Method))
             {

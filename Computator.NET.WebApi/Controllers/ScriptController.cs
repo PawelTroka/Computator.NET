@@ -3,12 +3,14 @@ using System.Net;
 using System.Numerics;
 using System.Text;
 using Computator.NET.WebApi.Services;
+using Computator.NET.WebApi.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Computator.NET.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [LegacyCodeRoute]
     public class ScriptController : Controller
     {
         private readonly IScriptsProvider _scriptsProvider;
