@@ -1,10 +1,14 @@
 name: Portable .NET engine and CLI
 on:
   pull_request:
-    paths: ['Computator.NET.Engine*/**', 'Computator.NET.Cli/**', 'Computator.NET.Core/Compilation/**', 'Computator.NET.Core/Constants/**', 'Computator.NET.DataTypes/Text/**', 'build/portable/**', 'build/followups/portable.cake', '.github/workflows/portable.yml']
+  push:
+    branches: [master]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: portable-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   portable:
     strategy:

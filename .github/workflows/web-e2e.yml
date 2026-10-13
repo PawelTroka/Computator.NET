@@ -1,7 +1,8 @@
 name: Real browser to mathematical API
 on:
   pull_request:
-    paths: ['Computator.NET.Web*/**', 'Computator.NET.Core/**', 'Computator.NET.DataTypes/**', 'Computator.NET.Charting/**', 'Computator.NET.Localization/**', 'Directory.Packages.props', 'global.json', '.nvmrc', '.config/dotnet-tools.json', 'build.cake', 'build.ps1', 'build/**', '.github/workflows/web-e2e.yml']
+  push:
+    branches: [master]
   workflow_dispatch:
 permissions:
   contents: read

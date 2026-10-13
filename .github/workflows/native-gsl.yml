@@ -1,10 +1,14 @@
 name: GSL source and ABI validation
 on:
   pull_request:
-    paths: ['build/native/**', 'build/followups/gsl.cake', 'Computator.NET.Core/Natives/**', '.github/workflows/native-gsl.yml']
+  push:
+    branches: [master]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: native-gsl-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   native:
     strategy:

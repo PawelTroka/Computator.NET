@@ -1,10 +1,10 @@
 # Building Computator.NET with Cake
 
-`build.cake` is the single build orchestrator for both migration branches. It uses the original `Task(...).IsDependentOn(...).Does(...)` pattern and retains the familiar target names. The runner is Cake.Tool 6.3.0 in `.config/dotnet-tools.json`; obsolete Cake 0.30 and unpinned addins are no longer downloaded. The small shell/PowerShell entry points only restore that tool and select a Cake target.
+`build.cake` is the single build orchestrator, including the modules in `build/followups/`. It uses the original `Task(...).IsDependentOn(...).Does(...)` pattern and retains the familiar target names. The runner is pinned in `.config/dotnet-tools.json`; the small shell/PowerShell entry points restore that tool and select a Cake target.
 
 ## Commands
 
-Install the .NET SDK selected by `global.json`, PowerShell 7 on Windows, and the Node/npm versions in `.nvmrc` and the web client's `package.json` for frontend tasks. Windows must also have the runtime appropriate to the branch: Framework 4.8.1 in #139, or .NET 10 Desktop and ASP.NET Core runtimes in #140. The SDK includes the modern development runtimes.
+Install the .NET SDK selected by `global.json`, PowerShell 7, and the Node/npm versions in `.nvmrc` and the web client's `package.json` for frontend tasks. The desktop/API graph requires Windows and .NET 10 Desktop/ASP.NET Core runtimes; the SDK supplies the development runtimes. Framework is used only by the legacy test-fixture writer and isolated installer authoring tool. Python, native compiler tools and Windows SDK packaging tools are additional prerequisites for the corresponding follow-up targets linked below.
 
 ```powershell
 # Windows; the original invocation pattern remains supported.
@@ -33,18 +33,26 @@ dotnet cake build.cake --showdescription
 | `UnitTests` / `IntegrationTests` / `AllTests` | Core + real desktop tests / numerical + API tests / all four Windows suites. |
 | `WebTests` | Historical target name for mathematical API tests. `Web-Tests` is the separate browser suite. |
 | `CI` | Selected Windows suites, result guards and desktop/API publication checks. `--suite=All` is the default. |
-| `Web-Build` / `Web-Publish` / `Web-Validate` | npm install/audit, strict TypeScript and Vite; production .NET host; real-host Chromium/Firefox tests. |
+| `Web-Build` / `Web-Publish` / `Web-Validate` | npm install/audit, strict TypeScript and Vite; production .NET host; focused Chromium/Firefox tests with the mathematical API mocked. |
+| `Web-E2E` / `Web-CustomFunctions` | Windows production hosts, protected local proxy and real mathematical API; Chromium/Firefox execution and custom-function workflows. Run sequentially: both use ports 4174 and 60997. |
 | `Package` | Build and publish desktop/API/web; create versioned ZIPs in `publish/`. Does not run every test. |
-| `Validate` / `Publish` | All Windows and browser tests, checked publications and ZIP packaging. Publish means local artifacts, never a public release or deployment. |
+| `Validate` / `Publish` | All four Windows suites, focused browser tests, checked publications and ZIP packaging. Follow-up validation targets below remain separate gates. Publish creates local artifacts. |
 | `Calculate-Coverage` | All Windows tests with the test SDK's coverage collector; require Cobertura output in `TestResults/`. |
+| `Portable-Validate` | Build the separate portable solution, validate the extracted engine and launch the published CLI. See [portable scope](followups/PORTABLE-ENGINE.md). |
+| `Native-GSL-Validate` | Build the pinned native candidate and ABI probes; on Windows, run numerical and desktop suites with the candidate selected. See [GSL](followups/GSL.md). |
+| `Installer-Source` / `Build-Installer` | Stage the self-contained desktop, validate WiX source; compile MSI/Burn with explicit WiX 7 terms acceptance. See [installer details](followups/INSTALLER.md). |
+| `MSIX-Validate` | Stage the same self-contained desktop, validate/package unsigned MSIX and verify unpacked payload hashes. `Build-MSIX` and historical `Build-Uwp` select this packaging path. See [MSIX](followups/MSIX.md). |
+| `AppVeyor-Mirror` / `Travis-Mirror` | Validate provider helpers and their assigned local/GitHub graph. These do not establish native external-provider execution. |
 
 `Default` remains `UnitTests`. Individual suite targets (`CoreTests`, `DesktopTests`, `CoreIntegrationTests`, `ApiTests`) are also available. `--coverage=true` enables collection for a selected CI suite. `Upload-Coverage` preserves the old target name but uses AppVeyor artifact publication; GitHub uploads reports through its artifact step. External Coveralls/Codecov publication is not silently performed with old encrypted credentials.
 
-CI setup and artifact-upload actions remain provider-specific; all compile/test/publish/package work belongs to Cake. GitHub runs the same tasks as local builds. AppVeyor uses the Windows `Publish` graph; Travis uses the supported cross-platform `Web-Validate` graph. Changing those YAML files does not activate an external provider or establish that it has run; check the provider's actual job before requiring its status.
+CI setup and artifact-upload actions remain provider-specific; all compile/test/publish/package work belongs to Cake. GitHub runs the base and follow-up workflows on every pull request and push to `master` to catch interactions between migrations. The installer workflow validates source on ordinary PRs; MSI/Burn compilation remains an explicitly approved dispatch. Check the exact commit's results rather than assuming that configured jobs have passed.
+
+`AppVeyor-Validate` runs the Windows `Publish` graph; `Travis-Validate` runs the cross-platform `Web-Validate` graph. Their preflight/completion records require genuine provider metadata. Actual provider runs, account connections and final-commit evidence remain separate from the GitHub mirrors. See [AppVeyor](followups/APPVEYOR.md) and [Travis](followups/TRAVIS.md).
 
 ## Dependency policy: one frontend lockfile, not twelve NuGet graphs
 
-NuGet direct versions are maintained once in `Directory.Packages.props`. Per-project `packages.lock.json` files and locked-mode restore requirements are removed from both branches. Normal restores do not regenerate those files. Update central versions and run Cake; there is no lock-refresh workflow or write-enabled CI job.
+Application NuGet versions are maintained in `Directory.Packages.props`; isolated build-tool projects declare their own explicit pins. Per-project `packages.lock.json` files and locked-mode restore requirements are removed. Normal restores do not regenerate those files. Update the relevant versions and run Cake; there is no lock-refresh workflow or write-enabled CI job.
 
 A central exact direct version is **not** a frozen transitive dependency graph. This choice deliberately favors less repository churn; transitive dependency resolution can change. NuGet auditing remains enabled for the full restored graph, and CI treats advisory/audit failures as errors rather than pretending lockfiles were a security requirement.
 
@@ -52,15 +60,17 @@ The single `Computator.NET.WebClient/package-lock.json` remains because `npm ci`
 
 ## Safety and behavior checks
 
-Both branches use isolated temporary test profiles selected through `COMPUTATOR_DATA_DIRECTORY`. .NET 10 Cake setup additionally creates a known legacy settings fixture with the Framework serializer; the production importer is still .NET 10's data-only decoder. Setup/teardown restore caller environment variables and only clean directories created for this invocation.
+Cake uses isolated temporary test profiles selected through `COMPUTATOR_DATA_DIRECTORY` and creates a known legacy settings fixture with the Framework serializer. The production importer is .NET 10's data-only decoder. Setup/teardown restore caller environment variables and only clean directories created for this invocation.
 
-The result guard rejects failed/incomplete runs, missing reports, test-discovery loss, duplicate identities and undocumented skips. Three historical API skips are allowed by exact identity. Custom-function regressions compose the real desktop: visible editor content is used for calculation and scripting, unsaved changes take effect, and save/reopen and error-highlighter bindings are checked for all editor choices. Compilation of a manually supplied custom-function string is not enough evidence.
+The result guard rejects failed/incomplete runs, missing reports, test-discovery loss, duplicate identities and undocumented skips. Any remaining historical skips must match the exact allowlist in `build/Assert-SuiteResults.ps1`; they are not a blanket exception. Custom-function regressions compose the real desktop: visible editor content is used for calculation and scripting, unsaved changes take effect, and save/reopen and error-highlighter bindings are checked for all editor choices.
 
 On .NET 10, Cake also launches the published desktop and Kestrel API through focused smoke-test helpers. These helpers and the TRX checker are leaf checks, not competing build orchestrators. Old `Validate-Migration.ps1`/`Validate-Net10.ps1` callers forward to Cake.
 
 ## Installer and historical platforms
 
-The old `Build-Installer`, `Build-Uwp` and `Install-Linux` target names remain discoverable but deliberately fail with an actionable message. They must not generate an installer using old prerequisites, sign UWP with a historical test key, or run machine-wide Mono installation as a side effect. The installer itself still needs runtime/payload/upgrade/uninstall work; adding a Cake task does not certify it. Portable packages are produced by `Package`/`Publish` while that work remains outstanding. See `LEGACY-TOOLING.md` and the appropriate runtime migration guide.
+`Build-Installer` now compiles MSI/Burn candidates after explicit WiX 7 terms acceptance. `Build-Uwp` forwards to full-trust desktop MSIX packaging. Both use the shared self-contained win-x64 distribution payload; neither signs or publishes a release. Default package versions remain experimental candidates until a release version is deliberately selected.
+
+`Installer-Validate` requires an elevated disposable Windows machine. `MSIX-Lifecycle` requires a disposable account/machine and an already trusted signed package. Both require `COMPUTATOR_DISPOSABLE_INSTALL_TEST=1`; do not run them on a normal development machine. Compilation and package/hash validation do not prove installation, historical upgrade, repair or uninstall. `Install-Linux` still fails explicitly because machine-wide Mono installation is retired. See [RELEASE-3.0.md](RELEASE-3.0.md) and [LEGACY-TOOLING.md](LEGACY-TOOLING.md).
 
 ## Primary references
 
