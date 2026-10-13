@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "version": "2.8",
+  "vcpkgCommit": "e456309491fd875487bf02b8a0dca76c1b1b00cc",
+  "archive": "https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz",
+  "sha512": "4427f6ce59dc14eabd6d31ef1fcac1849b4d7357faf48873aef642464ddf21cc9b500d516f08b410f02a2daa9a6ff30220f3995584b0a6ae2f73c522d1abb66b",
+  "license": "GPL-3.0-or-later"
+}
