@@ -1,5 +1,5 @@
 using System;
-using NLog;
+using System.IO;
 
 namespace Computator.NET.Core.Services
 {
@@ -11,36 +11,23 @@ namespace Computator.NET.Core.Services
 
     public class CommandLineHandler : ICommandLineHandler
     {
-        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+        public bool TryGetScriptingDocument(out string filepath) =>
+            TryGetDocument(Environment.GetCommandLineArgs(), ".tsl", out filepath);
 
-        public bool TryGetScriptingDocument(out string filepath)
+        public bool TryGetCustomFunctionsDocument(out string filepath) =>
+            TryGetDocument(Environment.GetCommandLineArgs(), ".tslf", out filepath);
+
+        // Shell activation supplies an already-unquoted argument. Do not split on
+        // spaces, strip characters, or log private document paths/source code.
+        public static bool TryGetDocument(string[] arguments, string extension, out string filepath)
         {
             filepath = null;
-            var args = Environment.GetCommandLineArgs();
-            Logger.Info($"Command line arguments: '{string.Join("'",args)}'");
-            if (args.Length >= 2 && args[1].EndsWith(".tsl"))
-            {
-                filepath = args[1];
-                Logger.Info($"Contains tsl file '{filepath}'");
-                return true;
-            }
-            Logger.Info($"Does not contain tsl file");
-            return false;
-        }
-
-        public bool TryGetCustomFunctionsDocument(out string filepath)
-        {
-            filepath = null;
-            var args = Environment.GetCommandLineArgs();
-            Logger.Info($"Command line arguments: '{string.Join("'", args)}'");
-            if (args.Length >= 2 && args[1].EndsWith(".tslf"))
-            {
-                filepath = args[1];
-                Logger.Info($"Contains tslf file '{filepath}'");
-                return true;
-            }
-            Logger.Info($"Does not contain tslf file");
-            return false;
+            if (arguments == null || arguments.Length < 2 || string.IsNullOrWhiteSpace(arguments[1])) return false;
+            var candidate = arguments[1];
+            if (candidate.IndexOf('\0') >= 0 || candidate.StartsWith("--", StringComparison.Ordinal)) return false;
+            if (!string.Equals(Path.GetExtension(candidate), extension, StringComparison.OrdinalIgnoreCase)) return false;
+            filepath = candidate;
+            return true;
         }
     }
 }
