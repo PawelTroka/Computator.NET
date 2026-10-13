@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
+  outputDir: 'test-results/local-package',
   testDir: './local-package-e2e', forbidOnly: Boolean(process.env.CI), retries: 0, workers: 1,
   timeout: 60_000, expect: { timeout: 15_000 },
   reporter: [['list'], ['junit', { outputFile: 'test-results/local-package.xml' }]],

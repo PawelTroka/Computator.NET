@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './ide-e2e',
+  outputDir: 'test-results/ide',
   forbidOnly: Boolean(process.env.CI), retries: 0, workers: 1,
   reporter: [['list'], ['junit', { outputFile: 'test-results/ide-startup.xml' }]],
   use: { baseURL: 'http://localhost:63785', trace: 'retain-on-failure', screenshot: 'only-on-failure' },

@@ -8,7 +8,7 @@ const token = randomBytes(32).toString('hex');
 const api = 'http://127.0.0.1:60997';
 const ui = 'http://127.0.0.1:4174';
 const apiDirectory = resolve('../artifacts/api');
-const uiDirectory = resolve('../artifacts/webclient');
+const uiDirectory = resolve('../artifacts/webclient-real');
 
 export default defineConfig({
   testDir: './e2e', forbidOnly: true, retries: 0, workers: 1, timeout: 60_000,

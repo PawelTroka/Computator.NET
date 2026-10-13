@@ -24,7 +24,7 @@ internal static class DevelopmentAssets
                 var stamp = Path.Combine(intermediate, "frontend-inputs.sha256");
                 var fingerprint = Fingerprint(source);
                 if (!File.Exists(Path.Combine(root, "index.html")) || !File.Exists(stamp) ||
-                    await File.ReadAllTextAsync(stamp, deadline.Token) != fingerprint)
+                    await File.ReadAllTextAsync(stamp, deadline.Token) != fingerprint + "\n" + OutputFingerprint(root))
                 {
                     Console.WriteLine("Preparing the web interface through Cake Web-Build…");
                     var repository = Path.GetDirectoryName(source)!;
@@ -32,7 +32,7 @@ internal static class DevelopmentAssets
                     await RunAsync(repository, deadline.Token, "cake", "build.cake", "--target=Web-Build");
                     if (!File.Exists(Path.Combine(root, "index.html")))
                         throw new InvalidOperationException("Cake completed without producing dist/index.html.");
-                    await File.WriteAllTextAsync(stamp, fingerprint, deadline.Token);
+                    await File.WriteAllTextAsync(stamp, fingerprint + "\n" + OutputFingerprint(root), deadline.Token);
                 }
             }
         }
@@ -69,6 +69,20 @@ internal static class DevelopmentAssets
         // This is a public build-time endpoint, never the execution token.
         hash.AppendData(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("VITE_API_BASE_URL") ?? "<default>"));
         foreach (var path in paths.OrderBy(path => path, StringComparer.Ordinal))
+        {
+            hash.AppendData(Encoding.UTF8.GetBytes("\0" + Path.GetRelativePath(root, path).Replace('\\', '/') + "\0"));
+            using var stream = File.OpenRead(path);
+            hash.AppendData(SHA256.HashData(stream));
+        }
+        return Convert.ToHexString(hash.GetHashAndReset());
+    }
+
+    private static string OutputFingerprint(string root)
+    {
+        // Cake/package builds can replace dist with another API profile without
+        // changing source inputs or the IDE stamp. Missing/corrupt assets count too.
+        using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        foreach (var path in Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories).OrderBy(path => path, StringComparer.Ordinal))
         {
             hash.AppendData(Encoding.UTF8.GetBytes("\0" + Path.GetRelativePath(root, path).Replace('\\', '/') + "\0"));
             using var stream = File.OpenRead(path);

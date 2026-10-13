@@ -100,6 +100,20 @@ void PublishApi()
     if (modernRuntime) PowerShell("build/Test-PublishedNet10Api.ps1", "-PublishDirectory artifacts/api");
     else RequirePayload("artifacts/api", new[] { "Computator.NET.WebApi.exe", "Static/functions.xml" });
 }
+void PublishWeb(string directory, string apiBase = null)
+{
+    // Build and copy one profile together: an aggregate target can publish both
+    // the direct-development client and the protected relative-API client.
+    NodeCommand("npm", "run build", apiBase == null ? null : new Dictionary<string, string> { { "VITE_API_BASE_URL", apiBase } });
+    CleanDirectory(directory);
+    DotNetRestore(webProject, RestoreSettings());
+    DotNetPublish(webProject, new DotNetPublishSettings
+    {
+        Configuration = configuration, NoRestore = true, OutputDirectory = directory,
+        ArgumentCustomization = a => a.Append("-p:SkipFrontendBuild=true")
+    });
+    RequirePayload(directory, new[] { "Computator.NET.WebClient.dll", "dist/index.html" });
+}
 void PackagePayload(string directory, string fileName, string requiredEntry)
 {
     if (FileExists(fileName)) DeleteFile(fileName);
@@ -188,17 +202,7 @@ Task("Web-Restore").Does(() =>
     NodeCommand("npm", "audit --audit-level=low");
 });
 Task("Web-Build").IsDependentOn("Web-Restore").Does(() => NodeCommand("npm", "run build"));
-Task("Web-Publish").IsDependentOn("Web-Build").Does(() =>
-{
-    CleanDirectory("artifacts/webclient");
-    DotNetRestore(webProject, RestoreSettings());
-    DotNetPublish(webProject, new DotNetPublishSettings
-    {
-        Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/webclient",
-        ArgumentCustomization = a => a.Append("-p:SkipFrontendBuild=true")
-    });
-    RequirePayload("artifacts/webclient", new[] { "Computator.NET.WebClient.dll", "dist/index.html" });
-});
+Task("Web-Publish").IsDependentOn("Web-Restore").Does(() => PublishWeb("artifacts/webclient"));
 Task("Web-Browsers").IsDependentOn("Web-Restore").Does(() =>
     NodeCommand("npx", "playwright install " + (IsRunningOnWindows() ? "" : "--with-deps ") + "chromium firefox"));
 Task("Web-Tests").IsDependentOn("Web-Publish").IsDependentOn("Web-Browsers").Does(() =>
