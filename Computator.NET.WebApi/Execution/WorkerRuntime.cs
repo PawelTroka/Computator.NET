@@ -17,6 +17,10 @@ namespace Computator.NET.WebApi.Execution
     {
         public static int Run()
         {
+            // Redirected Windows consoles otherwise inherit a machine code page.
+            // Match the parent's explicit UTF-8 pipes before opening text readers.
+            Console.InputEncoding = new UTF8Encoding(false, true);
+            Console.OutputEncoding = new UTF8Encoding(false, true);
             // Keep the protocol writer private. Ordinary Console.Write in trusted
             // scripts must not corrupt the response stream or retain server logs.
             var protocol = Console.Out;
