@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Computator.NET.WebApi.Execution
 {
-    public sealed class WorkerExecutionFilter : IAsyncActionFilter
+    public sealed class WorkerExecutionFilter : IAsyncActionFilter, IOrderedFilter
     {
+        // Common validation runs before allocating an expensive child process.
+        public int Order => 1000;
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (!(context.Controller is ExecutionV2Controller) || !context.ActionArguments.TryGetValue("request", out var argument) || !(argument is ExecutionRequest request))

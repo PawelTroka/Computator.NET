@@ -14,6 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../SharedAssemblyInfo.cs" Link="Properties/SharedAssemblyInfo.cs" />
+    <Compile Include="../Shared/OwnedProcessJob.cs" Link="Hosting/OwnedProcessJob.cs" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
     <Content Remove="ClientApp/**;wwwroot/**;package*.json;tsconfig.json;tests/**" />
     <None Update="package*.json;tsconfig.json;vite.config.ts;playwright.config.ts;tests/**;ClientApp/**;wwwroot/**" CopyToPublishDirectory="Never" />

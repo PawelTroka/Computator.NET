@@ -10,6 +10,6 @@ The deployment graph specifies its own relative-API asset build, not a test of t
 
 Validation creates the ZIP, unpacks it, compares all payload hashes, and runs Chromium/Firefox against the unpacked self-contained frontend and its automatically owned API. It checks calculations, definitions, generated images, deep links, unauthorized backend access, cross-origin rejection and listener cleanup. The API transport/smoke tests use real private tokens rather than a test-only production bypass. Source-development and installer acceptance remain separate checks.
 
-An HTTP timeout still cannot terminate arbitrary script execution; the later worker/cancellation PR addresses that reliability boundary. Trusted scripts retain operating-system permissions. Do not expose this product as a multi-user Internet service.
+JSON execute/chart requests use owned execution workers; cancellation and timeouts terminate the worker process. Legacy GET execution retains its earlier in-process behavior. Trusted scripts retain operating-system permissions. Do not expose this product as a multi-user Internet service. See [execution workers](followups/EXECUTION-WORKERS.md) for the lifetime guarantees and limits.
 
 Review the self-contained package on a supported clean Windows machine without shared development runtimes before certification. The current CI runner has an SDK installed, even though the tested payload includes its own runtime. This PR introduces no extra solution, project or NuGet lockfiles.

@@ -1,9 +1,11 @@
+#nullable enable
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
-namespace Computator.NET.WebClient.Hosting;
+namespace Computator.NET.Hosting;
 
 /// <summary>Windows lifetime containment, not an untrusted-code security sandbox.</summary>
 internal sealed class OwnedProcessJob : IDisposable

@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Computator.NET.WebApi.Controllers;
+using Computator.NET.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Computator.NET.WebApi.Execution
@@ -36,6 +37,7 @@ namespace Computator.NET.WebApi.Execution
             var entered = false;
             var processStarted = false;
             Process process = null;
+            OwnedProcessJob job = null;
             try
             {
                 await Slots.WaitAsync(limit.Token);
@@ -65,9 +67,13 @@ namespace Computator.NET.WebApi.Execution
                 info.ArgumentList.Add("--execution-worker");
                 info.Environment.Remove("ExecutionAccess__Token");
                 info.Environment.Remove("MathematicalApi__Token");
+                // The API may be launched directly from an IDE, outside the local
+                // package's job. Closing/crashing that API must still end its work.
+                job = new OwnedProcessJob();
                 process = new Process { StartInfo = info };
                 processStarted = process.Start();
                 if (!processStarted) throw new IOException("Could not start an execution worker.");
+                job.Assign(process);
                 started?.Invoke(process.Id);
                 var output = ReadBounded(process.StandardOutput, 32 * 1024 * 1024, limit);
                 var errors = ReadBounded(process.StandardError, 65536, limit);
@@ -75,7 +81,11 @@ namespace Computator.NET.WebApi.Execution
                 if (Encoding.UTF8.GetByteCount(input) > 262144) throw new ArgumentException("Execution request is too large.");
                 await process.StandardInput.WriteAsync(input.AsMemory(), limit.Token);
                 process.StandardInput.Close();
-                await Task.WhenAll(output, errors, process.WaitForExitAsync(limit.Token));
+                await process.WaitForExitAsync(limit.Token);
+                // Retire descendants even when the worker itself exits normally.
+                // Otherwise inherited pipe handles can keep the protocol open.
+                job.Dispose(); job = null;
+                await Task.WhenAll(output, errors);
                 if (process.ExitCode != 0) throw new IOException("Execution worker failed; the API remains available.");
                 var reply = JsonSerializer.Deserialize<WorkerReply>(await output, JsonOptions);
                 if (reply == null || reply.Status < 200 || reply.Status > 599 || (reply.Json == null && reply.Image == null))
@@ -88,9 +98,11 @@ namespace Computator.NET.WebApi.Execution
             {
                 try
                 {
+                    job?.Dispose(); job = null;
                     if (processStarted && !process.HasExited)
                     {
-                        process.Kill(entireProcessTree: true);
+                        try { process.Kill(entireProcessTree: true); }
+                        catch (InvalidOperationException) when (process.HasExited) { }
                         using var cleanup = new CancellationTokenSource(TimeSpan.FromSeconds(10));
                         await process.WaitForExitAsync(cleanup.Token);
                     }
