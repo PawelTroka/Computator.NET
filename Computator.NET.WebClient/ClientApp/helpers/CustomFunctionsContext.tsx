@@ -15,16 +15,18 @@ function read() {
 }
 export function CustomFunctionsProvider({ children }: { children: ReactNode }) {
   const [initial] = useState(read);
-  const [code, update] = useState(initial.code);
-  const [saved, setSaved] = useState(initial.code);
-  const [error, setError] = useState(initial.error);
-  function setCode(next: string) { if (next.length <= maximum) update(next); else setError('Definitions exceed 64 KiB.'); }
+  const [code, update] = useState(initial.code), [saved, setSaved] = useState(initial.code);
+  const [error, setError] = useState(initial.error), [blocked, setBlocked] = useState(Boolean(initial.error));
+  function setCode(next: string) { if (next.length <= maximum) update(next); else setError('Definitions exceed 65,536 characters.'); }
   function save() {
-    if (initial.error && sessionStorage.getItem(key)) { setError(initial.error); return; }
+    if (blocked) { setError('Stored definitions could not be read. Clear explicitly before replacing them.'); return; }
     try { sessionStorage.setItem(key, JSON.stringify({ schemaVersion: 1, code })); setSaved(code); setError(''); }
     catch { setError('The browser could not save this tab’s definitions. Export a .tslf copy instead.'); }
   }
-  function clear() { try { sessionStorage.removeItem(key); update(''); setSaved(''); setError(''); } catch { setError('The browser could not clear stored definitions.'); } }
+  function clear() {
+    try { sessionStorage.removeItem(key); update(''); setSaved(''); setBlocked(false); setError(''); }
+    catch { setError('The browser could not clear stored definitions.'); }
+  }
   return <Context.Provider value={{ code, setCode, save, clear, dirty: code !== saved, error }}>{children}</Context.Provider>;
 }
 export function useCustomFunctions() {
