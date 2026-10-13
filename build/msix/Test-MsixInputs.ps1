@@ -18,3 +18,21 @@ foreach ($attribute in @('Name', 'Publisher', 'ProcessorArchitecture')) {
     if (!$rejected) { throw "Identity guard accepted changed $attribute" }
 }
 Write-Host 'MSIX input guards passed: historical identity, associations, version limits and rejection cases.'
+$temporarySdk = Join-Path ([IO.Path]::GetTempPath()) ('Computator-SDK-' + [Guid]::NewGuid().ToString('N'))
+try {
+    foreach ($relative in @('first/bin/10.0.19041.0/x64', 'second/bin/10.0.26100.0/x64', 'second/bin/10.0.30000.0/arm64')) {
+        $directory = Join-Path $temporarySdk $relative
+        New-Item -ItemType Directory -Path $directory -Force | Out-Null
+        New-Item -ItemType File -Path (Join-Path $directory 'makeappx.exe') | Out-Null
+    }
+    $selected = Get-MakeAppxPath -SdkRoots @((Join-Path $temporarySdk 'missing'), (Join-Path $temporarySdk 'first'), (Join-Path $temporarySdk 'second'))
+    if ($selected -ne (Join-Path $temporarySdk 'second/bin/10.0.26100.0/x64/makeappx.exe')) {
+        throw 'SDK discovery did not select the newest existing x64 tool across all registered roots.'
+    }
+    $rejected = $false
+    try { Get-MakeAppxPath -SdkRoots @((Join-Path $temporarySdk 'missing')) } catch { $rejected = $true }
+    if (!$rejected) { throw 'SDK discovery accepted a missing SDK installation.' }
+    Write-Host 'MSIX SDK discovery passed: stale roots, multiple versions, architecture and missing-tool rejection.'
+} finally {
+    if (Test-Path -LiteralPath $temporarySdk) { Remove-Item -LiteralPath $temporarySdk -Recurse -Force }
+}
