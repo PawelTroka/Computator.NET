@@ -5,18 +5,16 @@ import { Calculate } from './components/Calculate';
 import { Chart } from './components/Chart';
 import { Scripting } from './components/Scripting';
 import { NumericalCalculations } from './components/NumericalCalculations';
+import { CustomFunctions } from './components/CustomFunctions';
+import { CustomFunctionsProvider } from './helpers/CustomFunctionsContext';
 
-function DesktopFeature({ name }: { name: string }) {
-  return <><h1>{name}</h1><p>This feature is available in the desktop application, but has not yet been implemented in the web client.</p></>;
-}
-
-export const routes = <Layout><Routes>
+export const routes = <CustomFunctionsProvider><Layout><Routes>
   <Route path="/" element={<Chart />} />
   <Route path="/calculate" element={<Calculate />} />
   <Route path="/scripting" element={<Scripting />} />
   <Route path="/numerical-calculations" element={<NumericalCalculations />} />
   <Route path="/fetchdata" element={<FetchData />} />
-  <Route path="/symbolic-calculations" element={<DesktopFeature name="Symbolic calculations" />} />
-  <Route path="/custom-functions" element={<DesktopFeature name="Custom functions" />} />
+  <Route path="/symbolic-calculations" element={<><h1>Symbolic calculations</h1><p>This web feature has not yet been implemented.</p></>} />
+  <Route path="/custom-functions" element={<CustomFunctions />} />
   <Route path="*" element={<><h1>Page not found</h1><Link to="/">Return to charting</Link></>} />
-</Routes></Layout>;
+</Routes></Layout></CustomFunctionsProvider>;
