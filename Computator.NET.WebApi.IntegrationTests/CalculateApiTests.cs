@@ -1,10 +1,7 @@
-﻿using System;
-using System.Net;
+using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Numerics;
 using System.Threading.Tasks;
-using System.Linq;
 using Computator.NET.Core.Evaluation;
 using Microsoft.AspNetCore.Builder;
 using NUnit.Framework;
@@ -16,50 +13,27 @@ namespace Computator.NET.WebApi.IntegrationTests
     {
         private WebApplication _server;
         private HttpClient _client;
-
         [OneTimeSetUp]
-        public async Task Setup()
-        {
-            // Real HTTP preserves RawTarget; TestServer reconstructs a decoded path.
-            _server = Program.BuildApplication(new[] { "--urls", "http://127.0.0.1:0", "--applicationName", typeof(Program).Assembly.GetName().Name });
-            await _server.StartAsync();
-            _client = new HttpClient { BaseAddress = new Uri(_server.Urls.Single()) };
-        }
-
+        public async Task Setup() { (_server, _client) = await ProtectedApiTestHost.Start(); }
         [OneTimeTearDown]
         public async Task Stop() { _client?.Dispose(); if (_server != null) await _server.DisposeAsync(); }
-        
+
         [Test]
         public async Task ReturnsHttpOk()
         {
-            // Act
-            var response = await _client.GetAsync(@"/api/calculate/real/2x/1");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
+            using (var response = await _client.GetAsync("/api/calculate/real/2x/1")) response.EnsureSuccessStatusCode();
         }
-
         [Test]
         public async Task PlusSignInExpressionWorks()
         {
-            // Act
-            var response = await _client.GetAsync($@"/api/calculate/real/{Uri.EscapeDataString("2x+2")}/1");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
+            using (var response = await _client.GetAsync($"/api/calculate/real/{Uri.EscapeDataString("2x+2")}/1")) response.EnsureSuccessStatusCode();
         }
-
         [Test]
         public async Task DivideSignInExpressionWorks()
         {
-            // Act
-            var response = await _client.GetAsync($@"/api/calculate/real/{Uri.EscapeDataString("2x/2")}/1");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            Assert.AreEqual("1", await response.Content.ReadAsStringAsync());
+            using (var response = await _client.GetAsync($"/api/calculate/real/{Uri.EscapeDataString("2x/2")}/1"))
+            { response.EnsureSuccessStatusCode(); Assert.AreEqual("1", await response.Content.ReadAsStringAsync()); }
         }
-
         [TestCase("6%2F3", "2")]
         [TestCase("real/6%2f3", "2")]
         [TestCase("complex/6%2F3", "2")]
@@ -69,100 +43,47 @@ namespace Computator.NET.WebApi.IntegrationTests
         public async Task EscapedSegmentsRetainDivisionAndLiteralPercent(string path, string expected)
         {
             using (var response = await _client.GetAsync("/api/calculate/" + path))
-            {
-                response.EnsureSuccessStatusCode();
-                Assert.AreEqual(expected, await response.Content.ReadAsStringAsync());
-            }
+            { response.EnsureSuccessStatusCode(); Assert.AreEqual(expected, await response.Content.ReadAsStringAsync()); }
         }
-
         [Test]
         public async Task DivisionInCustomDefinitionsIsDecodedOnce()
         {
             var code = "static real Probe(real x) { return x/2; }";
             using (var response = await _client.GetAsync("/api/calculate/real/Probe(x)/6/" + Uri.EscapeDataString(code)))
-            {
-                response.EnsureSuccessStatusCode();
-                Assert.AreEqual("3", await response.Content.ReadAsStringAsync());
-            }
+            { response.EnsureSuccessStatusCode(); Assert.AreEqual("3", await response.Content.ReadAsStringAsync()); }
         }
-
         [Test]
         public async Task EmptySpacesInExpressionWorks()
         {
-            // Act
-            var response = await _client.GetAsync($@"/api/calculate/real/{Uri.EscapeDataString("    2x   -    2    -   1.1")}/{Uri.EscapeDataString("   -   1    ")}");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
+            using (var response = await _client.GetAsync($"/api/calculate/real/{Uri.EscapeDataString("    2x   -    2    -   1.1")}/{Uri.EscapeDataString("   -   1    ")}"))
+                response.EnsureSuccessStatusCode();
         }
-
         [Test]
         public async Task ReturnsCorrectRealValue()
         {
-            // Act
-            var response = await _client.GetAsync(@"/api/calculate/real/2x/1.1");
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            // Assert
-            Assert.AreEqual((2*1.1).ToMathString(),responseString);
+            using (var response = await _client.GetAsync("/api/calculate/real/2x/1.1"))
+            { response.EnsureSuccessStatusCode(); Assert.AreEqual((2 * 1.1).ToMathString(), await response.Content.ReadAsStringAsync()); }
         }
-
         [Test]
         public async Task ReturnsCorrect3DValue()
         {
-            //arrange
             Func<double, double, double> func = (x, y) => 1 - x - y;
-            var funcCode = "1-x-y";//TODO: 1+2x/3y //or 1+2x/y
-            var url = $@"/api/calculate/3d/{Uri.EscapeDataString(funcCode)}/1.1/2.2";
-
-
-            // Act
-            var response = await _client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            // Assert
-            Assert.AreEqual(func(1.1,2.2).ToMathString(), responseString);
+            using (var response = await _client.GetAsync($"/api/calculate/3d/{Uri.EscapeDataString("1-x-y")}/1.1/2.2"))
+            { response.EnsureSuccessStatusCode(); Assert.AreEqual(func(1.1, 2.2).ToMathString(), await response.Content.ReadAsStringAsync()); }
         }
-
         [Test]
         public async Task ReturnsCorrectComplexValue()
         {
-            // Act
-            var response = await _client.GetAsync(@"/api/calculate/complex/2z/1/0");
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            // Assert
-            Assert.AreEqual((2 * new Complex(1,0)).ToMathString(), responseString);
+            using (var response = await _client.GetAsync("/api/calculate/complex/2z/1/0"))
+            { response.EnsureSuccessStatusCode(); Assert.AreEqual((2 * new Complex(1, 0)).ToMathString(), await response.Content.ReadAsStringAsync()); }
         }
-
         [Test]
         public async Task CustomFunctionsWork()
         {
-            //arrange
             var x = 10.0;
-            var customFunctionCode = @"
-            static real Custom123(real x)
-            {
-                return System.Math.Sqrt(x)-System.Math.Cos(1-x);
-            }
-            ";
-            var url = $@"/api/calculate/real/{Uri.EscapeDataString("2Custom123(x)")}/{x}/{Uri.EscapeDataString(customFunctionCode)}";
-            
-            // Act
-            var response = await _client.GetAsync(url);
-
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            // Assert
-            Assert.AreEqual((2 * (System.Math.Sqrt(x) - System.Math.Cos(1 - x))).ToMathString(), responseString);
+            var code = "static real Custom123(real x) { return System.Math.Sqrt(x)-System.Math.Cos(1-x); }";
+            using (var response = await _client.GetAsync($"/api/calculate/real/{Uri.EscapeDataString("2Custom123(x)")}/{x}/{Uri.EscapeDataString(code)}"))
+            { response.EnsureSuccessStatusCode(); Assert.AreEqual((2 * (Math.Sqrt(x) - Math.Cos(1 - x))).ToMathString(), await response.Content.ReadAsStringAsync()); }
         }
     }
 }

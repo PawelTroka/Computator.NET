@@ -4,20 +4,19 @@ using Microsoft.AspNetCore.Http.Features;
 
 namespace Computator.NET.WebClient.Hosting;
 
-/// <summary>A deliberately local, opt-in bridge, not a general-purpose public reverse proxy.</summary>
+/// <summary>A deliberately local bridge, not a general-purpose public reverse proxy.</summary>
 internal static class LocalApiProxy
 {
     private const int MaximumBodyBytes = 256 * 1024;
-
     public static void Register(WebApplicationBuilder builder)
     {
+        LocalWebSession.Configure(builder);
         builder.Services.AddHttpClient("MathematicalApi", client => client.Timeout = TimeSpan.FromSeconds(60))
             .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 AllowAutoRedirect = false, UseCookies = false, UseProxy = false
             });
     }
-
     public static void Map(WebApplication app)
     {
         var address = app.Configuration["MathematicalApi:BaseUrl"];
@@ -29,7 +28,6 @@ internal static class LocalApiProxy
         var token = app.Configuration["MathematicalApi:Token"];
         if (string.IsNullOrWhiteSpace(token) || token.Length < 32)
             throw new InvalidOperationException("The local proxy requires a random MathematicalApi:Token of at least 32 characters, also configured on the API.");
-
         app.MapMethods("/api/{**path}", new[] { "GET", "POST" }, async (HttpContext context, IHttpClientFactory clients) =>
         {
             if (context.Connection.RemoteIpAddress is not { } remote || !IPAddress.IsLoopback(remote) ||
@@ -46,9 +44,6 @@ internal static class LocalApiProxy
                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
                 return;
             }
-            // Forward the original escaping, not Path's partially decoded value:
-            // turning %2532 into %32 would change the source expression 100%32
-            // (modulo) into 1002 on the API. UriBuilder keeps the fixed authority.
             var target = context.Features.Get<IHttpRequestFeature>()?.RawTarget;
             var destination = new Uri(origin, context.Request.Path.ToUriComponent() + context.Request.QueryString.ToUriComponent());
             if (!string.IsNullOrEmpty(target) && target.StartsWith('/'))
@@ -71,8 +66,7 @@ internal static class LocalApiProxy
                     return;
                 }
                 using var body = new MemoryStream();
-                var buffer = new byte[8192];
-                int read;
+                var buffer = new byte[8192]; int read;
                 while ((read = await context.Request.Body.ReadAsync(buffer, context.RequestAborted)) != 0)
                 {
                     if (body.Length + read > MaximumBodyBytes)
@@ -96,16 +90,11 @@ internal static class LocalApiProxy
                 await response.Content.CopyToAsync(context.Response.Body, context.RequestAborted);
             }
             catch (HttpRequestException) when (!context.Response.HasStarted)
-            {
-                await Results.Problem(statusCode: 502, title: "The local mathematical API is unavailable.").ExecuteAsync(context);
-            }
+            { await Results.Problem(statusCode: 502, title: "The local mathematical API is unavailable.").ExecuteAsync(context); }
             catch (OperationCanceledException) when (!context.RequestAborted.IsCancellationRequested && !context.Response.HasStarted)
-            {
-                await Results.Problem(statusCode: 504, title: "The mathematical API request timed out.").ExecuteAsync(context);
-            }
+            { await Results.Problem(statusCode: 504, title: "The mathematical API request timed out.").ExecuteAsync(context); }
         });
     }
-
     private static bool IsLoopbackHost(string host) => string.Equals(host, "localhost", StringComparison.OrdinalIgnoreCase) ||
         (IPAddress.TryParse(host.Trim('[', ']'), out var address) && IPAddress.IsLoopback(address));
 }
