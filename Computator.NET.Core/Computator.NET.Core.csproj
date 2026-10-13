@@ -9,6 +9,7 @@
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
     <ProjectReference Include="..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
     <Compile Remove="Compilation\TSLCompiler.cs;Compilation\TslHandlers\*.cs;Constants\MathematicalConstants.cs" />
+    <Compile Remove="Functions\MatrixFunctions.cs;Evaluation\NumericalExtensions.cs;NumericalCalculations\Integral.cs;NumericalCalculations\Derivative.cs;NumericalCalculations\FunctionRoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Static\functions.xml;Static\TSL-Syntax.xshd;Static\TSL-Syntax_old.xshd;TSL Examples\**\*.tsl;TSL Examples\**\*.tslf">
