@@ -27,16 +27,27 @@ namespace Computator.Acceptance
 
         public static void ValidateIdentity(string applicationId, string expectedPackage)
         {
-            if (string.IsNullOrWhiteSpace(applicationId) || applicationId.Split('!').Length != 2 ||
-                !applicationId.StartsWith("TROKASoftware.Computator.NET_", StringComparison.Ordinal) ||
-                string.IsNullOrWhiteSpace(expectedPackage) || !expectedPackage.StartsWith("TROKASoftware.Computator.NET_", StringComparison.Ordinal))
+            var parts = (expectedPackage ?? "").Split('_');
+            Version version;
+            if (parts.Length != 5 || parts[0] != "TROKASoftware.Computator.NET" ||
+                !Version.TryParse(parts[1], out version) || version.Revision < 0 ||
+                parts[2] != "x64" || parts[3] != "" || parts[4].Length != 13 ||
+                !string.Equals(applicationId, parts[0] + "_" + parts[4] + "!Computator.NET", StringComparison.Ordinal))
                 throw new ArgumentException("Expected the installed Computator.NET package and application identity.");
+        }
+        public static void ValidateDocument(string document)
+        {
+            if (document == null) return;
+            var extension = Path.GetExtension(document);
+            if (!Path.IsPathFullyQualified(document) || !File.Exists(document) ||
+                (!string.Equals(extension, ".tsl", StringComparison.OrdinalIgnoreCase) &&
+                 !string.Equals(extension, ".tslf", StringComparison.OrdinalIgnoreCase)))
+                throw new ArgumentException("The activation document must be an existing absolute TSL or TSLF path.");
         }
         public static uint LaunchAndVerify(string applicationId, string expectedPackage, string document)
         {
             ValidateIdentity(applicationId, expectedPackage);
-            if (document != null && (!Path.IsPathFullyQualified(document) || !File.Exists(document)))
-                throw new ArgumentException("The activation document must be an existing absolute path.");
+            ValidateDocument(document);
             var type = Type.GetTypeFromCLSID(new Guid("45BA127D-10A8-46EA-8AB7-56EA9078943C"), true);
             var manager = (IActivationManager)Activator.CreateInstance(type);
             IntPtr item = IntPtr.Zero, items = IntPtr.Zero;
