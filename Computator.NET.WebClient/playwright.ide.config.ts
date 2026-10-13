@@ -9,7 +9,9 @@ export default defineConfig({
     {
       command: 'dotnet run --no-build --no-launch-profile -c Release --project ../Computator.NET.WebApi -- --urls http://localhost:60996',
       url: 'http://localhost:60996/api/numerical-calculations/integral/list-methods', reuseExistingServer: false, timeout: 120_000,
-      env: { ASPNETCORE_ENVIRONMENT: 'Production', DOTNET_ENVIRONMENT: 'Production' }
+      // Match the deliberately direct local IDE profile. The later protected
+      // package requires authentication in Production, not this explicit dev mode.
+      env: { ASPNETCORE_ENVIRONMENT: 'Development', DOTNET_ENVIRONMENT: 'Development', ExecutionAccess__AllowUnauthenticatedDevelopment: 'true' }
     },
     {
       command: 'dotnet run --no-build --no-launch-profile -c Release --project . -- --urls http://localhost:63785',
