@@ -2,15 +2,14 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Threading;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Computator.NET.WebApi.Controllers
@@ -22,25 +21,19 @@ namespace Computator.NET.WebApi.Controllers
         private readonly IModeDeterminer _mode;
         private readonly IChartFactory _charts;
         public ExecutionV2Controller(IModeDeterminer mode, IChartFactory charts) { _mode = mode; _charts = charts; }
-
         [HttpPost("execute")]
         [Consumes("application/json")]
         [RequestSizeLimit(262144)]
         public IActionResult Execute([FromBody] ExecutionRequest request)
         {
-            if (!request.ValidNumbers()) return BadRequest(new ProblemDetails { Title = "Invalid numeric parameters." });
+            var errors = ExecutionPolicy.Validate(request, false);
+            if (errors.Count != 0) return BadRequest(new ValidationProblemDetails(errors));
             try
             {
-                // Evaluators contain mutable compilation state. Do not share them or
-                // generated function instances across requests/users through a singleton cache.
                 if (request.Operation == "script")
                 {
-                    var output = new StringBuilder();
-                    new ScriptEvaluator().Evaluate(request.Expression, request.CustomFunctions).Evaluate(text =>
-                    {
-                        if (output.Length + text.Length > 65536) throw new ArgumentException("Script output exceeds 64 KiB.");
-                        output.Append(text);
-                    });
+                    var output = new BoundedExecutionOutput();
+                    new ScriptEvaluator().Evaluate(request.Expression, request.CustomFunctions).Evaluate(output.Append);
                     return Ok(new { result = output.ToString() });
                 }
                 var mode = request.Operation == "calculate" ? _mode.DetermineMode(request.Expression) : CalculationsMode.Real;
@@ -54,39 +47,28 @@ namespace Computator.NET.WebApi.Controllers
                             : function.Evaluate(request.X).ToMathString();
                         break;
                     case "integral":
-                        if (!NumericalMethodsInfo.Instance.IntegrationMethods.TryGetValue(request.Method ?? "", out var integral))
-                            return BadRequest(new ProblemDetails { Title = "Unknown integration method." });
-                        result = integral.Invoke(x => function.Evaluate(x), request.A, request.B, request.N).ToMathString();
+                        result = NumericalMethodsInfo.Instance.IntegrationMethods[request.Method].Invoke(x => function.Evaluate(x), request.A, request.B, request.N).ToMathString();
                         break;
                     case "derivative":
-                        if (!NumericalMethodsInfo.Instance.DerrivationMethods.TryGetValue(request.Method ?? "", out var derivative))
-                            return BadRequest(new ProblemDetails { Title = "Unknown derivative method." });
-                        result = derivative.Invoke(x => function.Evaluate(x), request.X, request.Order, request.Epsilon).ToMathString();
+                        result = NumericalMethodsInfo.Instance.DerrivationMethods[request.Method].Invoke(x => function.Evaluate(x), request.X, request.Order, request.Epsilon).ToMathString();
                         break;
                     case "function-root":
-                        if (!NumericalMethodsInfo.Instance.FunctionRootMethods.TryGetValue(request.Method ?? "", out var root))
-                            return BadRequest(new ProblemDetails { Title = "Unknown root method." });
-                        result = root.Invoke(x => function.Evaluate(x), request.A, request.B, request.Epsilon, request.N).ToMathString();
+                        result = NumericalMethodsInfo.Instance.FunctionRootMethods[request.Method].Invoke(x => function.Evaluate(x), request.A, request.B, request.Epsilon, request.N).ToMathString();
                         break;
                     default: return BadRequest(new ProblemDetails { Title = "Unknown operation." });
                 }
                 return Ok(new { result });
             }
             catch (Exception exception) when (exception is CompilationException || exception is EvaluationException || exception is ArgumentException)
-            {
-                return BadRequest(new ProblemDetails { Title = "Execution failed.", Detail = exception.Message, Status = 400 });
-            }
+            { return BadRequest(new ProblemDetails { Title = "Execution failed.", Detail = exception.Message, Status = 400 }); }
         }
-
         [HttpPost("chart")]
         [Consumes("application/json")]
         [RequestSizeLimit(262144)]
         public IActionResult Chart([FromBody] ExecutionRequest request)
         {
-            if (!request.ValidNumbers() || request.Width < 100 || request.Height < 100 ||
-                request.Width > 4096 || request.Height > 4096 || (long)request.Width * request.Height > 4194304 ||
-                request.XMin >= request.XMax || request.YMin >= request.YMax)
-                return BadRequest(new ProblemDetails { Title = "Invalid chart dimensions or bounds." });
+            var errors = ExecutionPolicy.Validate(request, true);
+            if (errors.Count != 0) return BadRequest(new ValidationProblemDetails(errors));
             var previous = SynchronizationContext.Current;
             IChart chart = null;
             try
@@ -94,22 +76,15 @@ namespace Computator.NET.WebApi.Controllers
                 var mode = _mode.DetermineMode(request.Expression);
                 if (mode == CalculationsMode.Fxy) return UnprocessableEntity(new ProblemDetails { Title = "Server-side 3D rendering is not implemented." });
                 var function = new ExpressionsEvaluator().Evaluate(request.Expression, request.CustomFunctions, mode);
-                chart = _charts.Create(mode);
-                chart.AddFunction(function);
+                chart = _charts.Create(mode); chart.AddFunction(function);
                 chart.XMin = request.XMin; chart.XMax = request.XMax;
-                chart.YMin = request.YMin; chart.YMax = request.YMax;
-                chart.Visible = true;
+                chart.YMin = request.YMin; chart.YMax = request.YMax; chart.Visible = true;
                 using (var image = chart.GetImage(request.Width, request.Height))
                 using (var stream = new MemoryStream())
-                {
-                    image.Save(stream, ImageFormat.Png);
-                    return File(stream.ToArray(), "image/png");
-                }
+                { image.Save(stream, ImageFormat.Png); return File(stream.ToArray(), "image/png"); }
             }
             catch (Exception exception) when (exception is CompilationException || exception is EvaluationException || exception is ArgumentException)
-            {
-                return BadRequest(new ProblemDetails { Title = "Chart generation failed.", Detail = exception.Message, Status = 400 });
-            }
+            { return BadRequest(new ProblemDetails { Title = "Chart generation failed.", Detail = exception.Message, Status = 400 }); }
             finally
             {
                 try { (chart as IDisposable)?.Dispose(); }
@@ -117,12 +92,11 @@ namespace Computator.NET.WebApi.Controllers
             }
         }
     }
-
     public sealed class ExecutionRequest
     {
         [Required, StringLength(32)] public string Operation { get; set; } = "calculate";
-        [Required, StringLength(65536)] public string Expression { get; set; }
-        [Required(AllowEmptyStrings = true), StringLength(65536)] public string CustomFunctions { get; set; } = "";
+        [Required, StringLength(ExecutionPolicy.MaximumSourceCharacters)] public string Expression { get; set; }
+        [Required(AllowEmptyStrings = true), StringLength(ExecutionPolicy.MaximumSourceCharacters)] public string CustomFunctions { get; set; } = "";
         [StringLength(256)] public string Method { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
@@ -137,7 +111,6 @@ namespace Computator.NET.WebApi.Controllers
         public double XMax { get; set; } = 5;
         public double YMin { get; set; } = -5;
         public double YMax { get; set; } = 5;
-        public bool ValidNumbers() => new[] { X, Y, A, B, Epsilon, XMin, XMax, YMin, YMax }.All(double.IsFinite)
-            && N >= 1 && N <= 1000000 && Order >= 1 && Order <= 10 && Epsilon > 0 && Epsilon <= 1;
+        public bool ValidNumbers() => ExecutionPolicy.ValidNumbers(this);
     }
 }
