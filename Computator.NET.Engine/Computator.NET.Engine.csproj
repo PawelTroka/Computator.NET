@@ -8,10 +8,18 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
-    <!-- The existing source is compiled exactly once, not copied into a second dialect. -->
+    <PackageReference Include="MathNet.Numerics" />
+    <PackageReference Include="Accord.Math" />
     <Compile Include="../Computator.NET.Core/Compilation/TSLCompiler.cs" Link="Language/TSLCompiler.cs" />
     <Compile Include="../Computator.NET.Core/Compilation/TslHandlers/*.cs" Link="Language/Handlers/%(Filename)%(Extension)" />
     <Compile Include="../Computator.NET.DataTypes/Text/SpecialSymbols.cs" Link="Language/SpecialSymbols.cs" />
     <Compile Include="../Computator.NET.Core/Constants/MathematicalConstants.cs" Link="Mathematics/MathematicalConstants.cs" />
+    <!-- Compile existing scientific implementations exactly once. Windows Core
+         consumes this assembly and forwards the original public type identities. -->
+    <Compile Include="../Computator.NET.Core/Functions/MatrixFunctions.cs" Link="Mathematics/MatrixFunctions.cs" />
+    <Compile Include="../Computator.NET.Core/Evaluation/NumericalExtensions.cs" Link="Mathematics/NumericalExtensions.cs" />
+    <Compile Include="../Computator.NET.Core/NumericalCalculations/Integral.cs" Link="Mathematics/Integral.cs" />
+    <Compile Include="../Computator.NET.Core/NumericalCalculations/Derivative.cs" Link="Mathematics/Derivative.cs" />
+    <Compile Include="../Computator.NET.Core/NumericalCalculations/FunctionRoot.cs" Link="Mathematics/FunctionRoot.cs" />
   </ItemGroup>
 </Project>
