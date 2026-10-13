@@ -22,9 +22,20 @@ function Assert-MsixIdentity([xml]$Manifest, [xml]$Legacy) {
     if (@($types | Sort-Object -Unique).Count -ne 2 -or '.tsl' -notin $types -or '.tslf' -notin $types) { throw 'Document associations are incomplete.' }
     Assert-MsixVersion $identity.GetAttribute('Version')
 }
-function Get-MakeAppxPath {
-    $kits = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows Kits\Installed Roots' -ErrorAction Stop).KitsRoot10
-    $candidate = Get-ChildItem (Join-Path $kits 'bin') -Directory | Where-Object {
+function Get-MakeAppxPath([string[]]$SdkRoots = @()) {
+    if ($SdkRoots.Count -eq 0) {
+        # SDK installers can register either view, and a removed SDK can leave a
+        # stale root in the other one. Select from tools that actually exist.
+        $SdkRoots = @('HKLM:\SOFTWARE\Microsoft\Windows Kits\Installed Roots',
+            'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows Kits\Installed Roots') | ForEach-Object {
+            $entry = Get-ItemProperty -LiteralPath $_ -ErrorAction SilentlyContinue
+            if ($entry -and $entry.PSObject.Properties['KitsRoot10']) { $entry.KitsRoot10 }
+        }
+    }
+    $candidate = @($SdkRoots | Where-Object { $_ } | Sort-Object -Unique | ForEach-Object {
+        $bin = Join-Path $_ 'bin'
+        if (Test-Path -LiteralPath $bin -PathType Container) { Get-ChildItem -LiteralPath $bin -Directory }
+    }) | Where-Object {
         $_.Name -match '^10\.0\.\d+\.\d+$' -and (Test-Path (Join-Path $_.FullName 'x64\makeappx.exe'))
     } | Sort-Object { [Version]$_.Name } -Descending | Select-Object -First 1
     if (!$candidate) { throw 'Install a Windows 10/11 SDK containing x64 MakeAppx; validation is never disabled.' }
