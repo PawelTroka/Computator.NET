@@ -1,0 +1,35 @@
+name: Portable .NET engine and CLI
+on:
+  pull_request:
+    paths: ['Computator.NET.Engine*/**', 'Computator.NET.Cli/**', 'Computator.NET.Core/Compilation/**', 'Computator.NET.Core/Constants/**', 'Computator.NET.DataTypes/Text/**', 'build/portable/**', 'build/followups/portable.cake', '.github/workflows/portable.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portable:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, ubuntu-24.04, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Build and execute on the actual host runtime
+        shell: pwsh
+        run: |
+          dotnet --info
+          ./build.ps1 -Target Portable-Validate
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: portable-${{ matrix.os }}
+          path: |
+            TestResults/portable.trx
+            artifacts/portable/**
+          retention-days: 7

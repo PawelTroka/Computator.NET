@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Computator.NET.Engine/Computator.NET.Engine.csproj" />
+  <Project Path="Computator.NET.Cli/Computator.NET.Cli.csproj" />
+  <Project Path="Computator.NET.Engine.Tests/Computator.NET.Engine.Tests.csproj" />
+</Solution>
