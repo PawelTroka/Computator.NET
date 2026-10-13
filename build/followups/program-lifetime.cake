@@ -8,5 +8,5 @@ Task("Program-Lifetime-Validate").IsDependentOn("Build").Does(() =>
         Filter = "FullyQualifiedName~ProgramLifetimeTests", ResultsDirectory = "TestResults",
         Loggers = new[] { "trx;LogFileName=program-lifetime.trx", "console;verbosity=normal" }
     });
-    PowerShell("build/Assert-TestResults.ps1", "-Path " + report + " -MinimumTests 4");
+    PowerShell("build/Assert-TestResults.ps1", "-Path " + report + " -MinimumTests 7");
 });

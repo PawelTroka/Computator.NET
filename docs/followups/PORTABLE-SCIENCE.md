@@ -2,7 +2,7 @@
 
 Roadmap item 9. Existing MatrixFunctions, NumericalExtensions, Integral, Derivative and FunctionRoot sources are compiled exactly once into the plain net10.0 engine. Windows Core forwards their public identities and continues using those exact implementations and TSL code fragments. No algorithm or tolerance is changed during extraction.
 
-The portable language now imports the real matrix functions and numerical service namespace. The engine adds Integrate, Differentiate and FindRoot methods that validate work budgets, compile each expression/custom-function set once, execute the existing algorithms and unload the owned generated program after completion. CLI expressions/scripts can use the imported matrix functions; desktop and portable clients share the numerical implementation rather than maintaining a second calculator dialect.
+The portable language now imports the real matrix functions and numerical service namespace. The engine adds Integrate, Differentiate and FindRoot methods that validate work budgets, compile each expression/custom-function set once, execute the existing algorithms and request unloading of the owned generated context after completion. Runtime binder caches can retain dynamic programs until process exit; see [the measured lifetime limitation](../PROGRAM-LIFETIME.md). CLI expressions/scripts can use the imported matrix functions; desktop and portable clients share the numerical implementation rather than maintaining a second calculator dialect.
 
 ```sh
 ./build.sh --target=Portable-Science-Validate

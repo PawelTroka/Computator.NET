@@ -99,6 +99,72 @@ namespace Computator.NET.Core.Tests.CompilationTests
             return assembly.GetType("Probe").GetMethod("Run").CreateDelegate<Func<int>>();
         }
 
+        [Test]
+        public void DynamicUseDoesNotPreventUnrelatedScalarProgramsFromCollecting()
+        {
+            var contexts = DynamicDelegateBatch();
+            AssertCollected(RawBatch(12));
+            // The shared runtime binder can retain generated context types. Do
+            // not claim collection of dynamic programs from IsCollectible alone.
+            // Keep scalar reclamation a gate, and record this known limitation.
+            TestContext.Progress.WriteLine($"Dynamic contexts still retained: {contexts.Count(reference => reference.IsAlive)}/{contexts.Length}; see docs/PROGRAM-LIFETIME.md.");
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static WeakReference[] DynamicDelegateBatch()
+        {
+            var contexts = new List<WeakReference>();
+            for (var index = 0; index < 12; index++)
+            {
+                var callback = CreateDynamicDelegate();
+                NUnit.Framework.Assert.That(callback(), Is.EqualTo(42));
+                contexts.Add(new WeakReference(AssemblyLoadContext.GetLoadContext(callback.Method.Module.Assembly), true));
+            }
+            return contexts.ToArray();
+        }
+
+        [Test]
+        public void DynamicBindingErrorsKeepTheSharedExceptionIdentity()
+        {
+            using var compiler = new NativeCompiler();
+            var assembly = compiler.Compile("public static class Probe { public static void Run() { dynamic value = new object(); value.Missing(); } }");
+            var callback = assembly.GetType("Probe").GetMethod("Run").CreateDelegate<Action>();
+            NUnit.Framework.Assert.Throws<Microsoft.CSharp.RuntimeBinder.RuntimeBinderException>(() => callback());
+        }
+
+        [Test]
+        public void ReleasedGeneratedExceptionsDoNotKeepProgramsAlive()
+        {
+            AssertCollected(new[] { ThrowAndReleaseGeneratedException() });
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static WeakReference ThrowAndReleaseGeneratedException()
+        {
+            var captured = CaptureGeneratedException();
+            GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
+            NUnit.Framework.Assert.That(captured.Error.Message, Is.EqualTo("generated failure"));
+            NUnit.Framework.Assert.That(captured.Context.IsAlive, Is.True);
+            GC.KeepAlive(captured.Error);
+            return captured.Context;
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static (Exception Error, WeakReference Context) CaptureGeneratedException()
+        {
+            using var compiler = new NativeCompiler();
+            var assembly = compiler.Compile("public sealed class ProgramFailure : System.Exception { public ProgramFailure() : base(\"generated failure\") { } } public static class Probe { public static void Run() { throw new ProgramFailure(); } }");
+            var context = AssemblyLoadContext.GetLoadContext(assembly);
+            var reference = new WeakReference(context, true);
+            var callback = assembly.GetType("Probe").GetMethod("Run").CreateDelegate<Action>();
+            try { callback(); }
+            catch (Exception exception) when (exception.GetType().Name == "ProgramFailure")
+            {
+                return (exception, reference);
+            }
+            throw new AssertionException("The generated program must throw.");
+        }
+
         private static void AssertCollected(IEnumerable<WeakReference> references)
         {
             var items = references.ToArray();
