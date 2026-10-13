@@ -142,6 +142,9 @@
     <File Path="Computator.NET.Desktop.UITests/Properties/AssemblyInfo.cs" />
   </Folder>
   <Folder Name="/Build/Support/">
+    <File Path="build/acceptance/AcceptanceContracts.psm1" />
+    <File Path="build/msix/ActivationContracts.psm1" />
+    <File Path="build/msix/Msix.psm1" />
     <File Path="build/WindowsAssemblyInfo.cs" />
     <File Path="build/acceptance/Assert-CleanMachineResult.ps1" />
     <File Path="build/acceptance/Guest-Acceptance.ps1" />
@@ -170,5 +173,8 @@
     <File Path="build/release/evidence.py" />
     <File Path="build/release/test_release.py" />
     <File Path="build/release/versioning.py" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <File Path="Shared/OwnedProcessJob.cs" />
   </Folder>
 </Solution>
