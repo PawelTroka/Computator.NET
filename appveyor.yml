@@ -1,34 +1,45 @@
-version: 2.3.2.{build}
+version: 2.4.0.{build}
 image: Visual Studio 2026
 configuration:
   - Debug
   - Release
+clone_depth: 100
+skip_tags: true
 
-# Infrastructure preparation only. Cake owns builds, tests and local packaging.
+# Infrastructure only. The repository's Cake graph defines the build and test policy.
 install:
   - ps: |
       $ErrorActionPreference = 'Stop'
       $sdk = (Get-Content global.json -Raw | ConvertFrom-Json).sdk.version
-      $installer = Join-Path $env:TEMP 'computator-dotnet-install.ps1'
-      Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile $installer
-      & powershell.exe -NoProfile -File $installer -Version $sdk -InstallDir "$env:LOCALAPPDATA\Microsoft\dotnet"
-      if ($LASTEXITCODE -ne 0) { throw 'SDK installation failed.' }
-      $env:DOTNET_ROOT = "$env:LOCALAPPDATA\Microsoft\dotnet"
+      $env:DOTNET_ROOT = Join-Path $env:LOCALAPPDATA "Computator-CI\dotnet-$sdk"
+      python build/ci/verified_sdk.py --destination "$env:DOTNET_ROOT"
+      if ($LASTEXITCODE -ne 0) { throw 'Verified SDK bootstrap failed.' }
       $env:PATH = "$env:DOTNET_ROOT;$env:PATH"
       Install-Product node (Get-Content .nvmrc -Raw).Trim() x64
+      if ($LASTEXITCODE -ne 0) { throw 'Node installation failed.' }
+      if (!(Get-Command pwsh -ErrorAction SilentlyContinue)) { throw 'The selected Windows image must include PowerShell 7.' }
+      dotnet tool restore
+      if ($LASTEXITCODE -ne 0) { throw 'Cake restoration failed.' }
+      python build/ci/preflight.py --provider appveyor
+      if ($LASTEXITCODE -ne 0) { throw 'The AppVeyor image does not match the repository toolchain.' }
 
 build_script:
-  - cmd: build.cmd -Target Publish -Configuration %CONFIGURATION%
+  - cmd: build.cmd -Target AppVeyor-Validate -Configuration %CONFIGURATION%
 
-# Tests are a dependency of Cake Publish and fail the build, not an after_script.
+# Tests are Cake dependencies, never non-gating after_script commands.
 test: off
 artifacts:
   - path: publish\*.zip
   - path: TestResults\**\*.trx
+  - path: Computator.NET.WebClient\test-results\**
   - path: artifacts\*.binlog
+  - path: artifacts\ci\*.json
+cache:
+  - '%USERPROFILE%\.nuget\packages -> Directory.Packages.props'
+  - '%LOCALAPPDATA%\npm-cache -> Computator.NET.WebClient\package-lock.json'
 notifications:
   - provider: GitHubPullRequest
     on_build_success: true
     on_build_failure: true
     on_build_status_changed: true
-# No implicit release upload, certificate use, or external coverage credentials.
+# No deployment, signing keys, EULA acceptance or external coverage-upload credentials.
