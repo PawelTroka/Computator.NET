@@ -11,14 +11,14 @@ import xml.etree.ElementTree as ET
 from versioning import check
 
 REPORTS = {
-    'TestResults/Computator.NET.Core.Tests.trx': 252,
+    'TestResults/Computator.NET.Core.Tests.trx': 270,
     'TestResults/Computator.NET.Core.IntegrationTests.trx': 947,
-    'TestResults/Computator.NET.Desktop.Tests.trx': 20,
-    'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 82,
-    'TestResults/portable.trx': 120,
-    'Computator.NET.WebClient/test-results/results.xml': 16,
+    'TestResults/Computator.NET.Desktop.Tests.trx': 26,
+    'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 109,
+    'TestResults/portable.trx': 127,
+    'Computator.NET.WebClient/test-results/results.xml': 22,
     'Computator.NET.WebClient/test-results/e2e.xml': 10,
-    'Computator.NET.WebClient/test-results/custom-functions.xml': 12,
+    'Computator.NET.WebClient/test-results/custom-functions.xml': 14,
 }
 
 def required_reports(root: Path) -> dict[str, int]:
