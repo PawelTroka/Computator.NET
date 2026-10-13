@@ -1,11 +1,14 @@
-var msixVersion = Argument("msix-version", "2.4.0.0"); // Candidate, never automatically published to the Store.
+var canonicalMsixVersion = XDocument.Load("Version.props").Descendants("ComputatorBaseVersion").Single().Value + "." +
+    XDocument.Load("Version.props").Descendants("ComputatorRevision").Single().Value;
+var msixVersion = Argument("msix-version", canonicalMsixVersion);
 Task("Build-MSIX").IsDependentOn("Distribution-Stage").Does(() =>
 {
+    if (msixVersion != canonicalMsixVersion) throw new Exception("Set the shared release identity in Version.props rather than overriding only the Store package version.");
     PowerShell("build/msix/Test-MsixInputs.ps1");
     PowerShell("build/msix/Build-Msix.ps1", "-PayloadDirectory " + distributionDirectory + " -Version \"" + msixVersion + "\"");
 });
-Task("Build-Uwp").IsDependentOn("Build-MSIX"); // Historical target now produces a full-trust desktop MSIX, not a UWP rewrite.
-Task("MSIX-Validate").IsDependentOn("Build-MSIX"); // Packaging includes SDK validation and unpacked hash verification.
+Task("Build-Uwp").IsDependentOn("Build-MSIX");
+Task("MSIX-Validate").IsDependentOn("Build-MSIX");
 Task("MSIX-Lifecycle").Does(() =>
 {
     var signedPackage = Argument("signed-package", "");

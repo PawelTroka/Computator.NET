@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <!-- Authoritative product identity. This is a review candidate, not a release. -->
+    <ComputatorBaseVersion>3.0.0</ComputatorBaseVersion>
+    <ComputatorRevision>0</ComputatorRevision>
+    <ComputatorPrerelease>preview.1</ComputatorPrerelease>
+    <VersionPrefix>$(ComputatorBaseVersion)</VersionPrefix>
+    <VersionSuffix>$(ComputatorPrerelease)</VersionSuffix>
+    <Version>$(ComputatorBaseVersion)</Version>
+    <Version Condition="'$(ComputatorPrerelease)' != ''">$(ComputatorBaseVersion)-$(ComputatorPrerelease)</Version>
+    <AssemblyVersion>$(ComputatorBaseVersion).$(ComputatorRevision)</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <InformationalVersion>$(Version)</InformationalVersion>
+    <ComputatorMsiVersion>$(ComputatorBaseVersion)</ComputatorMsiVersion>
+    <ComputatorMsixVersion>$(AssemblyVersion)</ComputatorMsixVersion>
+  </PropertyGroup>
+</Project>

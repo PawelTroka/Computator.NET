@@ -1,0 +1,12 @@
+<Project>
+  <!-- Compare the three derived attributes without requiring Python in an IDE.
+       SDK-generated portable assemblies use the same Version.props properties. -->
+  <Target Name="CheckComputatorVersion" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true'">
+    <PropertyGroup>
+      <_SharedVersionText>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)SharedAssemblyInfo.cs'))</_SharedVersionText>
+    </PropertyGroup>
+    <Error Condition="!$(_SharedVersionText.Contains('AssemblyVersion(&quot;$(AssemblyVersion)&quot;)'))" Text="Shared assembly version differs from Version.props. Run python build/release/versioning.py --write and review the change." />
+    <Error Condition="!$(_SharedVersionText.Contains('AssemblyFileVersion(&quot;$(FileVersion)&quot;)'))" Text="Shared file version differs from Version.props." />
+    <Error Condition="!$(_SharedVersionText.Contains('AssemblyInformationalVersion(&quot;$(Version)&quot;)'))" Text="Shared informational version differs from Version.props." />
+  </Target>
+</Project>
