@@ -7,11 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- This binary is not claimed to be compatible with the .NET 10 runtime. -->
-    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs">
-      <HintPath>..\libraries\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <PackageReference Include="WinForms.DataVisualization" />
     <PackageReference Include="NLog" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
   </ItemGroup>

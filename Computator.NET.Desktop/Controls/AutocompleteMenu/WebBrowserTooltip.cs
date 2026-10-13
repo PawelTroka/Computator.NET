@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Desktop.Services;
@@ -29,6 +29,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             AutoSize = true;
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string HTMLCode
         {
             set

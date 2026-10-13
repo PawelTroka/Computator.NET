@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
@@ -123,6 +123,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 #endif
             ((Control) CurrentCodeEditor).Focused;
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string CurrentFileName
         {
             get { return tabControl.SelectedTab.Text; }

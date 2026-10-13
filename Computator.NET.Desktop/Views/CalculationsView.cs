@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes.Text;
@@ -34,16 +34,19 @@ namespace Computator.NET.Desktop.Views
             remove { calculateButton.Click -= value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string XLabel
         {
             set { calculationsRealLabel.Text = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string YLabel
         {
             set { calculationsComplexLabel.Text = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public bool YVisible
         {
             set

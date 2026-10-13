@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Computator.NET.DataTypes.Information;
@@ -18,7 +18,7 @@ namespace Computator.NET.Desktop.Dialogs
                     Strings
                         .Or_even_better_report_them_on_project_site__using_link_below
                     }{Environment.NewLine}{AppRelatedUrls.IssuesUrl}";
-            _richtextbox.LinkClicked += (ooo, eee) => Process.Start(AppRelatedUrls.IssuesUrl);
+            _richtextbox.LinkClicked += (ooo, eee) => Process.Start(new ProcessStartInfo(AppRelatedUrls.IssuesUrl) { UseShellExecute = true });
 
             Text = Strings.BugReporting;
             this.Icon = GraphicsResources.computator_net_icon;

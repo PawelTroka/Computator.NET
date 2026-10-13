@@ -223,15 +223,11 @@ namespace Computator.NET.Core.Evaluation
             return x.ToString(System.Globalization.CultureInfo.InvariantCulture).ToMathString();
         }
 
-        /* Note: Do NOT create special overload for decimal, because decimal is crazy:
-            (1e-23).ToString()
-            "1E-23"
-            ((decimal)(1e-23)).ToString()
-            "0.00000000000000000000001"
-         */
+        // Format decimal directly: converting to double introduces binary rounding
+        // artifacts that modern .NET's round-trip formatting correctly exposes.
         public static string ToMathString(this decimal x)
         {
-            return ((double)x).ToMathString();
+            return DecimalDisplay.Format(x).ToMathString();
         }
 
         public static string ToMathString(this string str)
@@ -492,15 +488,10 @@ namespace Computator.NET.Core.Evaluation
             return x.ToString(System.Globalization.CultureInfo.InvariantCulture).ToMathString();
         }
 
-        /* Note: Do NOT create special overload for decimal, because decimal is crazy:
-            (1e-23).ToString()
-            ""1E-23""
-            ((decimal)(1e-23)).ToString()
-            ""0.00000000000000000000001""
-         */
+        // Share decimal formatting with the host, then apply the script's notation.
         public static string ToMathString(this decimal x)
         {
-            return ((double)x).ToMathString();
+            return Computator.NET.Core.Evaluation.DecimalDisplay.Format(x).ToMathString();
         }
 
         public static string ToMathString(this string str)

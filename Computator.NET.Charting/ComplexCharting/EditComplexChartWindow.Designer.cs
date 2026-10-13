@@ -1,4 +1,4 @@
-﻿namespace Computator.NET.Charting.ComplexCharting
+namespace Computator.NET.Charting.ComplexCharting
 {
     partial class EditComplexChartWindow
     {
@@ -67,10 +67,9 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.titlesColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.labelsColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.axesColorRectangleShape = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.titlesColorRectangleShape = new Computator.NET.Charting.Controls.ColorSwatch();
+            this.labelsColorRectangleShape = new Computator.NET.Charting.Controls.ColorSwatch();
+            this.axesColorRectangleShape = new Computator.NET.Charting.Controls.ColorSwatch();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -427,7 +426,9 @@
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.label10);
-            this.groupBox4.Controls.Add(this.shapeContainer1);
+            this.groupBox4.Controls.Add(this.titlesColorRectangleShape);
+            this.groupBox4.Controls.Add(this.labelsColorRectangleShape);
+            this.groupBox4.Controls.Add(this.axesColorRectangleShape);
             this.groupBox4.Location = new System.Drawing.Point(331, 182);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
@@ -466,37 +467,25 @@
             // 
             // shapeContainer1
             // 
-            this.shapeContainer1.Location = new System.Drawing.Point(3, 17);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.titlesColorRectangleShape,
-            this.labelsColorRectangleShape,
-            this.axesColorRectangleShape});
-            this.shapeContainer1.Size = new System.Drawing.Size(279, 95);
-            this.shapeContainer1.TabIndex = 3;
-            this.shapeContainer1.TabStop = false;
+            
             // 
             // titlesColorRectangleShape
             // 
-            this.titlesColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.titlesColorRectangleShape.Location = new System.Drawing.Point(89, 61);
+            this.titlesColorRectangleShape.Location = new System.Drawing.Point(92, 78);
             this.titlesColorRectangleShape.Name = "titlesColorRectangleShape";
             this.titlesColorRectangleShape.Size = new System.Drawing.Size(185, 23);
             this.titlesColorRectangleShape.Click += new System.EventHandler(this.titlesColorRectangleShape_Click);
             // 
             // labelsColorRectangleShape
             // 
-            this.labelsColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.labelsColorRectangleShape.Location = new System.Drawing.Point(89, 32);
+            this.labelsColorRectangleShape.Location = new System.Drawing.Point(92, 49);
             this.labelsColorRectangleShape.Name = "labelsColorRectangleShape";
             this.labelsColorRectangleShape.Size = new System.Drawing.Size(185, 23);
             this.labelsColorRectangleShape.Click += new System.EventHandler(this.labelsColorRectangleShape_Click);
             // 
             // axesColorRectangleShape
             // 
-            this.axesColorRectangleShape.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
-            this.axesColorRectangleShape.Location = new System.Drawing.Point(89, 3);
+            this.axesColorRectangleShape.Location = new System.Drawing.Point(92, 20);
             this.axesColorRectangleShape.Name = "axesColorRectangleShape";
             this.axesColorRectangleShape.Size = new System.Drawing.Size(185, 23);
             this.axesColorRectangleShape.Click += new System.EventHandler(this.axesColorRectangleShape_Click);
@@ -575,10 +564,9 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label12;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape titlesColorRectangleShape;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape labelsColorRectangleShape;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape axesColorRectangleShape;
+        private Computator.NET.Charting.Controls.ColorSwatch titlesColorRectangleShape;
+        private Computator.NET.Charting.Controls.ColorSwatch labelsColorRectangleShape;
+        private Computator.NET.Charting.Controls.ColorSwatch axesColorRectangleShape;
         private System.Windows.Forms.ComboBox colorAssigmentComboBox;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ColorDialog colorDialog1;

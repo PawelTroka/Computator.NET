@@ -18,7 +18,7 @@ namespace Computator.NET.Core.Menu.Commands.HelpCommands
 
         public override void Execute()
         {
-            Process.Start(AppRelatedUrls.IssuesUrl);
+            Process.Start(new ProcessStartInfo(AppRelatedUrls.IssuesUrl) { UseShellExecute = true });
             //new BugReportingForm().ShowDialog( /*this*/);
         }
     }

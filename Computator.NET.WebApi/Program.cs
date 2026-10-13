@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Computator.NET.WebApi
@@ -7,10 +7,21 @@ namespace Computator.NET.WebApi
     {
         public static void Main(string[] args)
         {
-            using (var host = BuildWebHost(args)) host.Run();
+            using (var app = BuildApplication(args)) app.Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
+        public static WebApplication BuildApplication(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            // Preserve the local default without overriding an explicitly supplied
+            // --urls / ASPNETCORE_URLS value (including isolated test ports).
+            if (string.IsNullOrWhiteSpace(builder.Configuration[WebHostDefaults.ServerUrlsKey]))
+                builder.WebHost.UseUrls("http://localhost:60996");
+            var startup = new Startup(builder.Configuration);
+            startup.ConfigureServices(builder.Services);
+            var app = builder.Build();
+            startup.Configure(app, app.Environment);
+            return app;
+        }
     }
 }

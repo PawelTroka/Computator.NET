@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes.Text;
@@ -18,32 +18,38 @@ namespace Computator.NET.Desktop.Views
                 CustomFonts.GetMathFont(resultNumericalCalculationsTextBox.Font.Size);
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public bool StepsVisible
         {
             set { stepsGroupBox.Visible = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public bool ErrorVisible
         {
             set { maxErrorGroupBox.Visible = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public bool IntervalVisible
         {
             set { intervalGroupBox.Visible = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public bool DerrivativeVisible
         {
             set { derivativeAtPointGroupBox.Visible = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string SelectedMethod
         {
             get { return methodNumericalCalculationsComboBox.SelectedItem.ToString(); }
             set { methodNumericalCalculationsComboBox.SelectedItem = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string SelectedOperation
         {
             get { return operationNumericalCalculationsComboBox.SelectedItem.ToString(); }

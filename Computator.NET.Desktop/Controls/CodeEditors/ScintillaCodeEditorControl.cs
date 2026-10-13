@@ -1,4 +1,4 @@
-﻿#if !__MonoCS__
+#if !__MonoCS__
 //#define SCINTILLA_23
 
 #define SCINTILLA_30
@@ -190,7 +190,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             Styles[Style.BraceBad].ForeColor = Color.Red;
             //this.Styles[Style.Cpp.CommentDoc]
 
-            Lexer = Lexer.Cpp;
+            LexerName = "cpp";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -360,8 +360,8 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
             Margins[0].Width = 40;
             Margins[2].Width = 20;
-            Lexer = Lexer.Cpp;
-            LexerLanguage = "cs";
+            LexerName = "cpp";
+            LexerName = "cpp";
             IndentationGuides = IndentView.LookBoth;
             UseTabs = true;
             IndentWidth = 4;

@@ -2,7 +2,6 @@
   <Import Project="..\build\ModernTests.props" />
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.TestHost" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" />
     <ProjectReference Include="..\Computator.NET.WebApi\Computator.NET.WebApi.csproj" />
     <None Update="appsettings*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
+#define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
@@ -51,6 +51,7 @@ namespace Computator.NET.Desktop.Views
         #region IMainForm
 
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string ModeText
         {
             get { return modeToolStripDropDownButton.Text; }
@@ -76,11 +77,13 @@ namespace Computator.NET.Desktop.Views
             remove { mode3DFxyToolStripMenuItem.Click -= value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string StatusText
         {
             set { toolStripStatusLabel1.Text = value; }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public int SelectedViewIndex
         {
             get { return tabControl1.SelectedIndex; }

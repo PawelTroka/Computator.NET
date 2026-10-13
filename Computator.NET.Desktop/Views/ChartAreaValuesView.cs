@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -42,6 +42,7 @@ namespace Computator.NET.Desktop.Views
             _errorProvider.SetError(_controlsByProperties[property], error);
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public double XMin
         {
             get { return (double)x0NumericUpDown.Value; }
@@ -54,6 +55,7 @@ namespace Computator.NET.Desktop.Views
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public double XMax
         {
             get { return (double)xnNumericUpDown.Value; }
@@ -66,6 +68,7 @@ namespace Computator.NET.Desktop.Views
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public double YMin
         {
             get { return (double)y0NumericUpDown.Value; }
@@ -78,6 +81,7 @@ namespace Computator.NET.Desktop.Views
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public double YMax
         {
             get { return (double)yNNumericUpDown.Value; }
@@ -90,6 +94,7 @@ namespace Computator.NET.Desktop.Views
             }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string AddChartLabel
         {
             set { addToChartButton.Text = value; }

@@ -1,4 +1,4 @@
-﻿//
+//
 //  THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
 //  KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
 //  IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
@@ -88,18 +88,21 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         }
 
         [Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public int SelectedItemIndex
         {
             get => Host.ListView.SelectedItemIndex;
             internal set => Host.ListView.SelectedItemIndex = value;
         }
 
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         internal AutocompleteMenuHost Host { get; set; }
 
         /// <summary>
         ///     Current target control wrapper
         /// </summary>
         [Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public ITextBoxWrapper TargetControlWrapper
         {
             get => _targetControlWrapper;
@@ -134,6 +137,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         /// <summary>
         ///     Font
         /// </summary>
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Font Font
         {
             get => (Host.ListView as Control).Font;
@@ -166,6 +170,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         [Browsable(true)]
         [Description("Colors of foreground and background.")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public Colors Colors
         {
             get => Host.ListView.Colors;
@@ -204,6 +209,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         /// <summary>
         ///     Image list
         /// </summary>
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public ImageList ImageList
         {
             get { return Host.ListView.ImageList; }
@@ -214,6 +220,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         ///     Fragment
         /// </summary>
         [Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public Range Fragment { get; internal set; }
 
         /// <summary>
@@ -264,6 +271,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         ///     Set to null for restore default ListView (AutocompleteListView).
         /// </summary>
         [Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public IAutocompleteListView ListView
         {
             get => Host.ListView;

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization.Formatters.Binary;
+
 using Computator.NET.Core.Helpers;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.SettingsTypes;
@@ -16,8 +16,7 @@ using NLog;
 
 namespace Computator.NET.Core.Properties
 {
-    [Serializable]
-    public class Settings : INotifyPropertyChanged
+    public partial class Settings : INotifyPropertyChanged
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
@@ -45,48 +44,9 @@ namespace Computator.NET.Core.Properties
 
         private static readonly string DefaultWorkingDirectory = Path.Combine(AppInformation.DataDirectory, "Workspace");
 
-        public void Save()
-        {
-            using (var fs = new FileStream(AppInformation.SettingsPath, FileMode.Create))
-            {
-                new BinaryFormatter().Serialize(fs, this);
-            }
-
-            SettingsSaved?.Invoke(this, EventArgs.Empty);
-        }
-
-        private static Settings Load()
-        {
-            if (!File.Exists(AppInformation.SettingsPath))
-                return new Settings();
-            try
-            {
-                using (var fs = new FileStream(AppInformation.SettingsPath, FileMode.Open))
-                {
-                    var settings = (Settings)new BinaryFormatter().Deserialize(fs);
-                    settings.RestoreDirectories();
-                    return settings;
-                }
-            }
-            catch (Exception exception)
-            {
-                Logger.Error(exception, "Loading settings failed. Will try to remove corrupted settings file.");
-            }
-
-            try
-            {
-                File.Delete(AppInformation.SettingsPath);
-            }
-            catch (Exception exception)
-            {
-                Logger.Warn(exception, "Removing corrupted settings file failed.");
-            }
-
-            return new Settings();
-        }
-
         public void Reset()
         {
+            _canPersist = true;
             Language = new CultureInfo("en");
 
             CodeEditor = (CodeEditorType)Enum.GetValues(typeof(CodeEditorType)).GetValue(0);
@@ -115,8 +75,7 @@ namespace Computator.NET.Core.Properties
 
         private Settings()
         {
-            if (!File.Exists(AppInformation.SettingsPath))
-                Reset();
+            Reset();
 
             RestoreDirectories();
         }
