@@ -10,7 +10,7 @@ The GitHub **Travis-Mirror** job installs the SDK through the same code and exec
 
 Acceptance requires the actual connected Travis project to run this final commit, a provider-native build URL/ID and its `travis-completed.json` evidence. A green GitHub mirror does not satisfy that external-provider gate. Before calling the provider supported, confirm its selected image, browser system dependencies and available account compute. No secrets should be made available to fork PRs.
 
-After the portable-engine PR is accepted, add its `Portable-Validate` target as a complementary job on a genuinely supported OS/architecture. Do not invoke the Windows desktop graph under old Mono or call a Mac browser against a Windows server 'native Mac support'. Native library builds and installer signing belong in their separately reviewed tasks. Keep provider roles deliberate rather than running every expensive identical suite three times.
+The portable-engine follow-up is merged and has its own GitHub validation. Adding `Portable-Validate` as a complementary Travis job on a supported OS/architecture remains separate provider work. Do not invoke the Windows desktop graph under old Mono or call a Mac browser against a Windows server 'native Mac support'. Native library builds and installer signing have separate validation and release gates. Keep provider roles deliberate rather than running every expensive identical suite three times.
 
 Primary provider metadata: https://docs.travis-ci.com/user/environment-variables/
 SDK metadata: https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json
