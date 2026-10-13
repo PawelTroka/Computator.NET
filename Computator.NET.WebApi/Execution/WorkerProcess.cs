@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,36 +11,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Computator.NET.WebApi.Execution
 {
-    public sealed class WorkerRequest
-    {
-        public ExecutionRequest Request { get; set; }
-        public bool Chart { get; set; }
-    }
-    public sealed class WorkerReply
-    {
-        public int Status { get; set; }
-        public string Json { get; set; }
-        public string Image { get; set; }
-    }
+    public sealed class WorkerRequest { public ExecutionRequest Request { get; set; } public bool Chart { get; set; } }
+    public sealed class WorkerReply { public int Status { get; set; } public string Json { get; set; } public string Image { get; set; } }
 
     /// <summary>One owned child per execution; process lifetime is not a security sandbox.</summary>
     public static class WorkerProcess
     {
         private static readonly SemaphoreSlim Slots = new SemaphoreSlim(4, 4);
         private static int _waiting;
-        public static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        public static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web) {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }; // private JSON transport, never HTML
 
         public static async Task<WorkerReply> RunAsync(ExecutionRequest request, bool chart, CancellationToken cancellation,
             TimeSpan? maximumTime = null, Action<int> started = null)
         {
+            var duration = maximumTime ?? TimeSpan.FromSeconds(30);
+            if (duration <= TimeSpan.Zero || duration > TimeSpan.FromMinutes(5)) throw new ArgumentOutOfRangeException(nameof(maximumTime));
             if (Interlocked.Increment(ref _waiting) > 32)
             {
-                Interlocked.Decrement(ref _waiting);
-                throw new WorkerBusyException();
+                Interlocked.Decrement(ref _waiting); throw new WorkerBusyException();
             }
             using var limit = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
-            limit.CancelAfter(maximumTime ?? TimeSpan.FromSeconds(30));
+            limit.CancelAfter(duration);
             var entered = false;
+            var processStarted = false;
             Process process = null;
             try
             {
@@ -48,20 +43,22 @@ namespace Computator.NET.WebApi.Execution
                 var assembly = typeof(Program).Assembly.Location;
                 var directory = Path.GetDirectoryName(assembly);
                 var appHost = Path.ChangeExtension(assembly, ".exe");
-                var info = new ProcessStartInfo(File.Exists(appHost) ? appHost : "dotnet") {
+                var ownRuntime = Path.ChangeExtension(assembly, ".runtimeconfig.json");
+                var hasAppHost = File.Exists(appHost) && File.Exists(ownRuntime);
+                var info = new ProcessStartInfo(hasAppHost ? appHost : "dotnet") {
                     UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = directory,
                     RedirectStandardInput = true, RedirectStandardOutput = true, RedirectStandardError = true,
                     StandardInputEncoding = new UTF8Encoding(false), StandardOutputEncoding = Encoding.UTF8,
                     StandardErrorEncoding = Encoding.UTF8 };
-                if (!File.Exists(appHost))
+                if (!hasAppHost)
                 {
-                    // Project-reference test outputs do not always copy the API's
-                    // apphost/runtimeconfig. Reuse the containing test runtime only there.
+                    // Test project references may copy the API DLL without its
+                    // apphost/runtimeconfig. Use the containing test runtime there.
                     var runtime = Path.Combine(directory, "Computator.NET.WebApi.IntegrationTests.runtimeconfig.json");
-                    if (!File.Exists(Path.ChangeExtension(assembly, ".runtimeconfig.json")) && File.Exists(runtime))
+                    if (!File.Exists(ownRuntime) && File.Exists(runtime))
                     {
                         info.ArgumentList.Add("exec"); info.ArgumentList.Add("--runtimeconfig"); info.ArgumentList.Add(runtime);
-                        info.ArgumentList.Add("--depsfile"); info.ArgumentList.Add(Path.ChangeExtension(runtime.Replace(".runtimeconfig.json", ""), ".deps.json"));
+                        info.ArgumentList.Add("--depsfile"); info.ArgumentList.Add(runtime.Replace(".runtimeconfig.json", ".deps.json"));
                     }
                     info.ArgumentList.Add(assembly);
                 }
@@ -69,7 +66,8 @@ namespace Computator.NET.WebApi.Execution
                 info.Environment.Remove("ExecutionAccess__Token");
                 info.Environment.Remove("MathematicalApi__Token");
                 process = new Process { StartInfo = info };
-                if (!process.Start()) throw new IOException("Could not start an execution worker.");
+                processStarted = process.Start();
+                if (!processStarted) throw new IOException("Could not start an execution worker.");
                 started?.Invoke(process.Id);
                 var output = ReadBounded(process.StandardOutput, 32 * 1024 * 1024, limit);
                 var errors = ReadBounded(process.StandardError, 65536, limit);
@@ -85,26 +83,25 @@ namespace Computator.NET.WebApi.Execution
                 return reply;
             }
             catch (OperationCanceledException) when (!cancellation.IsCancellationRequested)
-            {
-                throw new TimeoutException("Execution exceeded its time or output limit and was terminated.");
-            }
+            { throw new TimeoutException("Execution exceeded its time or output limit and was terminated."); }
             finally
             {
-                if (process != null)
+                try
                 {
-                    try
+                    if (processStarted && !process.HasExited)
                     {
-                        if (!process.HasExited)
-                        {
-                            process.Kill(entireProcessTree: true);
-                            using var cleanup = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-                            await process.WaitForExitAsync(cleanup.Token);
-                        }
+                        process.Kill(entireProcessTree: true);
+                        using var cleanup = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                        await process.WaitForExitAsync(cleanup.Token);
                     }
-                    finally { process.Dispose(); }
                 }
-                if (entered) Slots.Release();
-                Interlocked.Decrement(ref _waiting);
+                finally
+                {
+                    limit.Cancel();
+                    process?.Dispose();
+                    if (entered) Slots.Release();
+                    Interlocked.Decrement(ref _waiting);
+                }
             }
         }
         private static async Task<string> ReadBounded(StreamReader reader, int maximum, CancellationTokenSource limit)

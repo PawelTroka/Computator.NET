@@ -12,9 +12,7 @@ namespace Computator.NET.WebApi.Execution
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (!(context.Controller is ExecutionV2Controller) || !context.ActionArguments.TryGetValue("request", out var argument) || !(argument is ExecutionRequest request))
-            {
-                await next(); return;
-            }
+            { await next(); return; }
             try
             {
                 var chart = context.ActionDescriptor.RouteValues["action"] == "Chart";
@@ -24,6 +22,7 @@ namespace Computator.NET.WebApi.Execution
             catch (TimeoutException exception) { context.Result = Problem(504, exception.Message); }
             catch (OperationCanceledException) when (context.HttpContext.RequestAborted.IsCancellationRequested)
             { context.Result = new StatusCodeResult(499); }
+            catch (ArgumentException exception) { context.Result = Problem(400, exception.Message); }
             catch (IOException) { context.Result = Problem(502, "The worker exited unexpectedly. The next request can start a fresh worker."); }
         }
         private static ObjectResult Problem(int status, string title) =>
