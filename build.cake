@@ -7,7 +7,7 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", EnvironmentVariable("configuration") ?? EnvironmentVariable("build_config") ?? "Release");
 var suite = Argument("suite", "All");
 var coverage = Argument("coverage", target == "Calculate-Coverage" || target == "Upload-Coverage");
-var solution = "Computator.NET.sln";
+var solution = "Computator.NET.slnx";
 var webDirectory = "Computator.NET.WebClient";
 var webProject = webDirectory + "/Computator.NET.WebClient.csproj";
 var framework = XDocument.Load("build/ModernDesktop.props").Descendants("TargetFramework").Single().Value;
@@ -150,12 +150,8 @@ Task("Clean").Does(() =>
 });
 Task("Restore").Does(() =>
 {
-    if (!IsRunningOnWindows()) throw new Exception("Desktop/API require Windows. Use --target=Web-Validate for the independent web client.");
-    var xmlProjects = XDocument.Load("Computator.NET.Modern.slnx").Descendants("Project")
-        .Select(p => p.Attribute("Path").Value.Replace('\\', '/')).OrderBy(p => p).ToArray();
-    var slnProjects = Regex.Matches(System.IO.File.ReadAllText(solution), "\"([^\"\\r\\n]+\\.csproj)\"")
-        .Cast<Match>().Select(m => m.Groups[1].Value.Replace('\\', '/')).OrderBy(p => p).ToArray();
-    if (!xmlProjects.SequenceEqual(slnProjects)) throw new Exception("The .sln and .slnx project lists differ.");
+    if (!IsRunningOnWindows()) throw new Exception("Full solution builds require Windows. Use --target=Portable-Validate or --target=Web-Validate on other platforms.");
+    PowerShell("build/Assert-Solution.ps1");
     PowerShell("build/Test-ResultGuard.ps1");
     DotNetRestore(solution, RestoreSettings());
 });
@@ -221,7 +217,6 @@ Task("Web-Validate").IsDependentOn("Web-Tests");
 Task("Package").IsDependentOn("Publish-Desktop").IsDependentOn("Publish-Api").IsDependentOn("Web-Publish").Does(() =>
 {
     EnsureDirectoryExists("publish");
-    // Anchored declaration: never read the commented-out wildcard example above it.
     var declaration = Regex.Match(System.IO.File.ReadAllText("SharedAssemblyInfo.cs"),
         @"^\s*\[assembly:\s*AssemblyVersion\(""(?<version>\d+\.\d+\.\d+\.\d+)""\)\]", RegexOptions.Multiline);
     if (!declaration.Success) throw new Exception("An explicit four-part AssemblyVersion declaration was not found.");
@@ -242,13 +237,11 @@ Task("Upload-Coverage").IsDependentOn("Calculate-Coverage").Does(() =>
         throw new Exception("Coverage is in TestResults. GitHub uploads artifacts; external Coveralls/Codecov publication requires configured credentials.");
     foreach (var report in GetFiles("TestResults/**/*.cobertura.xml")) AppVeyor.UploadArtifact(report);
 });
-// Each independently reviewed packaging module replaces its historical placeholder.
 if (!FileExists("build/followups/installer.cake"))
     Task("Build-Installer").Does(() => { throw new Exception("The MSI migration module is not present. Use --target=Publish for portable ZIPs."); });
 if (!FileExists("build/followups/msix.cake"))
     Task("Build-Uwp").Does(() => { throw new Exception("The MSIX migration module is not present. Use --target=Publish for portable ZIPs."); });
-Task("Install-Linux").Does(() => { throw new Exception("Machine-wide Mono installation is retired. Install the pinned SDK/Node and use --target=Web-Validate."); });
+Task("Install-Linux").Does(() => { throw new Exception("Machine-wide Mono installation is retired. Use the portable or independent web targets."); });
 Task("Default").IsDependentOn("UnitTests");
-// Independently reviewable workstreams add tasks without duplicating the build graph.
 #load "./build/followups/*.cake"
 RunTarget(target);

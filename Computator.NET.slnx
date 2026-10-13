@@ -1,0 +1,110 @@
+<Solution>
+  <Folder Name="/Desktop/">
+    <Project Path="Computator.NET/Computator.NET.csproj" />
+    <Project Path="Computator.NET.Desktop/Computator.NET.Desktop.csproj" />
+    <Project Path="Computator.NET.Charting/Computator.NET.Charting.csproj" />
+  </Folder>
+  <Folder Name="/Engine/">
+    <Project Path="Computator.NET.Engine/Computator.NET.Engine.csproj" />
+    <Project Path="Computator.NET.Core/Computator.NET.Core.csproj" />
+    <Project Path="Computator.NET.DataTypes/Computator.NET.DataTypes.csproj" />
+    <Project Path="Computator.NET.Localization/Computator.NET.Localization.csproj" />
+  </Folder>
+  <Folder Name="/Applications/">
+    <Project Path="Computator.NET.Cli/Computator.NET.Cli.csproj" />
+    <Project Path="Computator.NET.WebApi/Computator.NET.WebApi.csproj" />
+    <Project Path="Computator.NET.WebClient/Computator.NET.WebClient.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Computator.NET.Engine.Tests/Computator.NET.Engine.Tests.csproj" />
+    <Project Path="Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj" />
+    <Project Path="Computator.NET.Core.IntegrationTests/Computator.NET.Core.IntegrationTests.csproj" />
+    <Project Path="Computator.NET.WebApi.IntegrationTests/Computator.NET.WebApi.IntegrationTests.csproj" />
+    <Project Path="Computator.NET.Desktop.Tests/Computator.NET.Desktop.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tools/">
+    <Project Path="Computator.NET.Installer/Computator.NET.Installer.csproj" />
+    <Project Path="build/native/ManagedProbe/ManagedProbe.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+    <File Path="LICENSE" />
+    <File Path="CHANGELOG" />
+    <File Path="TODO" />
+    <File Path="global.json" />
+    <File Path="Directory.Packages.props" />
+    <File Path="SharedAssemblyInfo.cs" />
+    <File Path=".gitignore" />
+    <File Path=".gitattributes" />
+    <File Path=".nvmrc" />
+  </Folder>
+  <Folder Name="/Build/">
+    <File Path="build.cake" />
+    <File Path="build.ps1" />
+    <File Path="build.cmd" />
+    <File Path="build.sh" />
+    <File Path=".config/dotnet-tools.json" />
+    <File Path="build/ModernDesktop.props" />
+    <File Path="build/ModernTests.props" />
+    <File Path="build/Assert-Solution.ps1" />
+    <File Path="build/Assert-TestResults.ps1" />
+    <File Path="build/Assert-SuiteResults.ps1" />
+    <File Path="build/Test-ResultGuard.ps1" />
+    <File Path="build/Validate-Migration.ps1" />
+    <File Path="build/Validate-Net10.ps1" />
+    <File Path="build/Test-PublishedNet10Desktop.ps1" />
+    <File Path="build/Test-PublishedNet10Api.ps1" />
+    <File Path="build/Generate-LegacySettingsFixture.ps1" />
+  </Folder>
+  <Folder Name="/Build/Workstreams/">
+    <File Path="build/followups/appveyor.cake" />
+    <File Path="build/followups/custom-functions.cake" />
+    <File Path="build/followups/desktop-distribution.cake" />
+    <File Path="build/followups/gsl.cake" />
+    <File Path="build/followups/installer.cake" />
+    <File Path="build/followups/msix.cake" />
+    <File Path="build/followups/portable.cake" />
+    <File Path="build/followups/travis.cake" />
+    <File Path="build/followups/web-e2e.cake" />
+  </Folder>
+  <Folder Name="/Build/CI/">
+    <File Path="appveyor.yml" />
+    <File Path=".travis.yml" />
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/workflows/solution.yml" />
+    <File Path=".github/workflows/migration-validation.yml" />
+    <File Path=".github/workflows/webclient-validation.yml" />
+    <File Path=".github/workflows/web-e2e.yml" />
+    <File Path=".github/workflows/web-custom-functions.yml" />
+    <File Path=".github/workflows/cake-packaging.yml" />
+    <File Path=".github/workflows/installer.yml" />
+    <File Path=".github/workflows/msix.yml" />
+    <File Path=".github/workflows/native-gsl.yml" />
+    <File Path=".github/workflows/portable.yml" />
+    <File Path=".github/workflows/appveyor-mirror.yml" />
+    <File Path=".github/workflows/travis-mirror.yml" />
+  </Folder>
+  <Folder Name="/Documentation/">
+    <File Path="docs/DEVELOPING.md" />
+    <File Path="docs/BUILD.md" />
+    <File Path="docs/RELEASE-3.0.md" />
+    <File Path="docs/MIGRATION-NET10.md" />
+    <File Path="docs/LEGACY-TOOLING.md" />
+    <File Path="docs/followups/WEB-E2E.md" />
+    <File Path="docs/followups/WEB-CUSTOM-FUNCTIONS.md" />
+    <File Path="docs/followups/GSL.md" />
+    <File Path="docs/followups/INSTALLER.md" />
+    <File Path="docs/followups/MSIX.md" />
+    <File Path="docs/followups/PORTABLE-ENGINE.md" />
+    <File Path="docs/followups/APPVEYOR.md" />
+    <File Path="docs/followups/TRAVIS.md" />
+  </Folder>
+  <Folder Name="/Historical sources (not build targets)/">
+    <File Path="Computator.NET/Computator.NET.net40.csproj" />
+    <File Path="Computator.NET.Desktop.UITests/Computator.NET.Desktop.UITests.csproj" />
+    <File Path="Computator.NET.Desktop.UITests/MathieuFunctionsTests.cs" />
+    <File Path="Computator.NET.Desktop.UITests/UIMap.cs" />
+    <File Path="Computator.NET.Desktop.UITests/UIMap.Designer.cs" />
+    <File Path="Computator.NET.Desktop.UITests/Properties/AssemblyInfo.cs" />
+  </Folder>
+</Solution>
