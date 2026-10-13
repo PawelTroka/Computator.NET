@@ -35,6 +35,9 @@ def main() -> None:
         raise RuntimeError(f'No validated build recipe for {rid}; refusing architecture substitution.')
     work = ROOT / 'artifacts/native-build' / rid
     work.mkdir(parents=True, exist_ok=True)
+    # The Unix bootstrap checks VCPKG_DOWNLOADS before creating it; Windows had
+    # silently created it. Make the repository-owned directory explicit on all OSs.
+    (work / 'downloads').mkdir(parents=True, exist_ok=True)
     checkout = ROOT / 'artifacts/native-tools/vcpkg'
     if not (checkout / '.git').exists():
         checkout.mkdir(parents=True, exist_ok=True)
@@ -76,7 +79,7 @@ def main() -> None:
     run('ctest', '--test-dir', probe_build, '-C', 'Release', '--output-on-failure', env=probe_environment)
     destination = ROOT / 'artifacts/gsl' / rid / 'native'
     if destination.exists():
-        shutil.rmtree(destination)  # Only the known artifact directory owned by this recipe.
+        shutil.rmtree(destination)
     destination.mkdir(parents=True)
     candidates = list((prefix / 'bin').glob('*.dll')) if os_name == 'win' else [
         path for path in (prefix / 'lib').iterdir() if '.so' in path.name or path.name.endswith('.dylib')]
@@ -95,7 +98,6 @@ def main() -> None:
         'files': {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in destination.iterdir() if path.is_file()}
     }
     (destination / 'gsl-provenance.json').write_text(json.dumps(manifest, indent=2) + '\n')
-    # Managed ABI checks load the staged candidate, never a system or embedded GSL.
     run('dotnet', 'run', '--project', SOURCE / 'ManagedProbe/ManagedProbe.csproj', '--configuration', 'Release', '--', destination)
     print('Validated GSL candidate:', destination, flush=True)
 
