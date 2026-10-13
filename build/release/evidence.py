@@ -48,7 +48,16 @@ def validate_report(path: Path, minimum: int) -> dict:
         if any(node.find('failure') is not None or node.find('error') is not None or node.find('skipped') is not None for node in cases):
             raise ValueError(f'Failed/skipped browser test in {path.name}.')
         skipped = []
-        identifiers = [(node.get('classname'), node.get('name')) for node in cases]
+        parents = {child: parent for parent in tree.iter() for child in parent}
+        # Playwright uses testsuite.hostname for project identity. Chromium and
+        # Firefox intentionally run the same names; duplicates within a project
+        # remain invalid. Small synthetic unit reports need not name a browser.
+        identifiers = [(parents[node].get('hostname'), parents[node].get('name'),
+                        node.get('classname'), node.get('name')) for node in cases]
+        if minimum >= 10:
+            expected = {'chromium', 'firefox'} if path.name == 'results.xml' else {'real-chromium', 'real-firefox'}
+            if {item[0] for item in identifiers} != expected:
+                raise ValueError(f'Missing or unexpected browser projects in {path.name}.')
     if len(cases) < minimum or len(set(identifiers)) != len(cases):
         raise ValueError(f'Missing or duplicated test identities in {path.name}.')
     return {'cases': len(cases), 'passed': len(cases) - len(skipped), 'documentedSkips': len(skipped), 'sha256': digest(path)}
@@ -67,7 +76,7 @@ def begin(root: Path) -> None:
 
 def finish(root: Path) -> None:
     directory = root / 'artifacts/release-evidence'
-    start = json.loads((directory / 'started.json').read_text(encoding='utf-8'))
+    start = json.loads((directory / 'started.json').read_text(encoding='utf-8-sig'))
     if git(root, 'rev-parse', 'HEAD') != start['commit'] or git(root, 'status', '--porcelain', '--untracked-files=no'):
         raise ValueError('The source revision changed during verification.')
     reports = {}
