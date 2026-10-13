@@ -7,9 +7,10 @@ namespace Computator.NET.WebClient
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(new WebApplicationOptions { Args = args, WebRootPath = "dist" });
+            using var frontendFiles = await DevelopmentAssets.PrepareAsync(builder);
             builder.Services.AddControllers();
             builder.Services.AddProblemDetails();
             LocalApiProxy.Register(builder);
@@ -28,7 +29,7 @@ namespace Computator.NET.WebClient
             if (string.IsNullOrWhiteSpace(app.Configuration["MathematicalApi:BaseUrl"]))
                 app.MapGet("/api/{**path}", () => Microsoft.AspNetCore.Http.Results.NotFound());
             app.MapFallbackToFile("index.html");
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
