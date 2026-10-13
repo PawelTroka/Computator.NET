@@ -60,6 +60,32 @@ namespace Computator.NET.WebApi.IntegrationTests
             }
             await Task.WhenAll(tasks);
         }
+        [TestCase("calculate")]
+        [TestCase("script")]
+        public async Task GeneratedStaticStateIsNotReusedByJsonRequests(string operation)
+        {
+            var expression = operation == "calculate" ? "Probe(0)" : "write(Probe(0));";
+            const string definitions = "static real counter = 0; static real Probe(real x) { counter += 1; return counter; }";
+            for (var index = 0; index < 2; index++)
+                NUnit.Framework.Assert.That(await Result(new { operation, expression, customFunctions = definitions }), Is.EqualTo("1"));
+        }
+        [TestCase("calculate")]
+        [TestCase("script")]
+        public async Task LegacyRequestsDoNotReuseAnotherCallersGeneratedStaticState(string operation)
+        {
+            var expression = operation == "calculate" ? "Probe(0)" : "write(Probe(0));";
+            const string definitions = "static real counter = 0; static real Probe(real x) { counter += 1; return counter; }";
+            var path = operation == "calculate" ? "/api/calculate/real/" + Uri.EscapeDataString(expression) + "/0/"
+                : "/api/script/" + Uri.EscapeDataString(expression) + "/";
+            for (var index = 0; index < 2; index++)
+            {
+                using (var response = await _client.GetAsync(path + Uri.EscapeDataString(definitions)))
+                {
+                    response.EnsureSuccessStatusCode();
+                    NUnit.Framework.Assert.That(await response.Content.ReadAsStringAsync(), Is.EqualTo("1"));
+                }
+            }
+        }
         [Test]
         public async Task InvalidRequestsReturnProblemsWithoutBreakingTheNextRequest()
         {

@@ -21,11 +21,13 @@ namespace Computator.NET.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<CoreBootstrapper>();
-            services.AddSingleton<IFunctionsProvider, FunctionsProvider>();
-            services.AddSingleton<IScriptsProvider, ScriptsProvider>();
+            // Generated functions may contain mutable static state, and evaluators
+            // mutate compilation fields. Keep both caches and compilers request-local.
+            services.AddScoped<IFunctionsProvider, FunctionsProvider>();
+            services.AddScoped<IScriptsProvider, ScriptsProvider>();
             services.AddSingleton<IAutocompleteProvider>(s => s.GetRequiredService<CoreBootstrapper>().Create<AutocompleteProvider>());
-            services.AddSingleton<IExpressionsEvaluator>(s => s.GetRequiredService<CoreBootstrapper>().Create<ExpressionsEvaluator>());
-            services.AddSingleton<IScriptEvaluator>(s => s.GetRequiredService<CoreBootstrapper>().Create<ScriptEvaluator>());
+            services.AddScoped<IExpressionsEvaluator>(_ => new ExpressionsEvaluator());
+            services.AddScoped<IScriptEvaluator>(_ => new ScriptEvaluator());
             services.AddSingleton<IModeDeterminer>(s => s.GetRequiredService<CoreBootstrapper>().Create<ModeDeterminer>());
             services.AddSingleton<IChartFactory>(s => RuntimeObjectFactory.CreateInstance<IChartFactory>("Charting"));
             services.AddCors();

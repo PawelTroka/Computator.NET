@@ -10,6 +10,6 @@ This is intentionally not a public execution service. TSL remains arbitrary full
 
 The frontend's existing explicit API default remains backward-compatible for old development commands. A relative URL must be selected when using this production proxy; merely hosting the old default remotely would target the visitor's localhost. Unknown API paths remain API 404 responses rather than SPA HTML.
 
-This PR does not implement web custom-function editing or change the historical encoded-division route limitation. Those belong to the separate request-body/custom-functions PR. After both merge, expand this real-stack suite to cover those workflows; mocked tests are not a substitute.
+The integrated custom-functions follow-up uses JSON execution and chart endpoints, avoiding the historical encoded-division route limitation. `Web-CustomFunctions` reuses the same protected production hosts and ports to exercise tab-local definitions through calculation, scripting, numerical integration and chart rendering. The proxy suite also rejects cross-origin JSON execution, invalid Host headers, unsupported content types and oversized requests.
 
 Reference: https://playwright.dev/docs/test-webserver#multiple-web-servers

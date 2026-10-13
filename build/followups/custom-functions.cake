@@ -1,4 +1,4 @@
-suites["Computator.NET.WebApi.IntegrationTests"] = 63;
+suites["Computator.NET.WebApi.IntegrationTests"] = 67;
 Task("Web-CustomFunctions").IsDependentOn("ApiTests").IsDependentOn("Publish-Api")
     .IsDependentOn("Web-Publish").IsDependentOn("Web-Browsers").Does(() =>
 {

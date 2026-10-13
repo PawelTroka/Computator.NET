@@ -1,7 +1,7 @@
 name: Real web custom functions
 on:
   pull_request:
-    paths: ['Computator.NET.Web*/**', 'build.cake', 'build/followups/custom-functions.cake', '.github/workflows/web-custom-functions.yml']
+    paths: ['Computator.NET.Web*/**', 'Computator.NET.Core/**', 'Computator.NET.DataTypes/**', 'Computator.NET.Charting/**', 'Computator.NET.Localization/**', 'Directory.Packages.props', 'global.json', '.nvmrc', '.config/dotnet-tools.json', 'build.cake', 'build.ps1', 'build/**', '.github/workflows/web-custom-functions.yml']
   workflow_dispatch:
 permissions:
   contents: read

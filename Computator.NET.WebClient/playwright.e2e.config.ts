@@ -3,7 +3,7 @@ import { randomBytes } from 'node:crypto';
 import { resolve } from 'node:path';
 
 if (process.platform !== 'win32') throw new Error('Real API E2E requires Windows, not a mocked Linux substitute.');
-if (!process.env.COMPUTATOR_DATA_DIRECTORY) throw new Error('Run through Cake Web-E2E to isolate the user profile.');
+if (!process.env.COMPUTATOR_DATA_DIRECTORY) throw new Error('Run through Cake Web-E2E or Web-CustomFunctions to isolate the user profile.');
 const token = randomBytes(32).toString('hex');
 const api = 'http://127.0.0.1:60997';
 const ui = 'http://127.0.0.1:4174';
