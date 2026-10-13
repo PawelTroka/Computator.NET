@@ -247,4 +247,6 @@ Task("Build-Installer").Does(() => { throw new Exception("The old WiX installer 
 Task("Build-Uwp").Does(() => { throw new Exception("Historical UWP/Windows S packaging is not compatible with this runtime. Use --target=Publish; see docs/BUILD.md."); });
 Task("Install-Linux").Does(() => { throw new Exception("Machine-wide Mono installation is retired. Install the pinned SDK/Node and use --target=Web-Validate."); });
 Task("Default").IsDependentOn("UnitTests");
+// Independently reviewable workstreams add tasks without duplicating the build graph.
+#load "./build/followups/*.cake"
 RunTarget(target);
