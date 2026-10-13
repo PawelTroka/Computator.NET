@@ -1,11 +1,12 @@
 # Computator.NET 3.0 release preparation
 
-**Review snapshot: 2026-10-13. No 3.0 release, public deployment or Store submission has been published.** The candidate retains the Windows Forms/WPF product on .NET 10 and integrates the reviewed modernization follow-ups. Final combined CI is still pending at this snapshot; results from individual PRs do not certify the final release commit.
+**Review snapshot: 2026-10-13. No 3.0 release, public deployment or Store submission has been published.** The candidate retains the Windows Forms/WPF product on .NET 10 and integrates the reviewed modernization follow-ups. Release acceptance remains tracked below; passing CI certifies only the tested commit and checks.
 
 ## Evidence already reviewed
 
 | Area | Evidence and limit |
 | --- | --- |
+| Combined migration | Integration commit `bebc44b709f23ffb4c91a4dcc4a36aa543c7916e` passed all 11 GitHub workflows and local Cake `Publish`: 252 core, 947 numerical, 20 desktop, 81 API tests, one allowlisted server-side 3D skip, 16 focused browser checks, published desktop/API process checks and three ZIP payload checks. Real browser, portable, native, installer-source, MSIX and provider-mirror workflows also passed. [Integration PR and current checks](https://github.com/PawelTroka/Computator.NET/pull/149). Recheck later release commits. |
 | Framework and .NET 10 checkpoints | #139 (`2b1d16f`) and #140 (`6944238`) passed local Cake Windows validation at their reviewed heads, including numerical, compiler, API and desktop workflow tests. Both checkpoints are merged. Later integrated changes require their own complete run. |
 | Current editor/test packages | Audited build and 252 core / 20 desktop tests passed with the newer Scintilla and Test SDK pins, including published desktop startup and normal shutdown. Exact versions remain in the manifests. |
 | Web workflows | 38 browser checks passed during component review: 16 focused checks with a mocked API, plus 22 checks against the actual protected local API (10 general workflows and 12 custom-function workflows), across Chromium and Firefox. This is bounded workflow coverage, not every numerical method or a public hosting certification. |
