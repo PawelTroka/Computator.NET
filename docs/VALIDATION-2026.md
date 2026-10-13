@@ -10,7 +10,7 @@ Custom-function coverage now follows the actual displayed desktop editors throug
 
 The Windows suite tests real in-process API endpoints. The browser suite uses the published ASP.NET Core SPA host but mocks the mathematical API. On the .NET 10 branch, separate published-process smoke tests additionally exercise the real desktop executable and Kestrel host. Full browser-to-real-API interaction, visual parity and real historical profiles still need manual acceptance.
 
-Three pre-existing API skips remain visible: escaped division in calculation URLs, escaped division in script URLs, and server-side 3D chart rendering. No new skips are permitted by default. Autocomplete uniqueness uses full JSON value equality so overloads remain distinct; it does not discard production entries to make assertions pass.
+The .NET 10 follow-up fixes escaped division in calculation/script URLs and removes those two skip allowances. These fixtures now exercise real Kestrel requests, including encoded slashes, literal percent sequences, and custom definitions. The remaining API skip is server-side 3D chart rendering. No new skips are permitted by default. Autocomplete uniqueness uses full JSON value equality so overloads remain distinct; it does not discard production entries to make assertions pass.
 
 ## Dependency maintenance
 

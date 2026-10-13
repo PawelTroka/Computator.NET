@@ -4,9 +4,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Numerics;
 using System.Threading.Tasks;
+using System.Linq;
 using Computator.NET.Core.Evaluation;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Builder;
 using NUnit.Framework;
 
 namespace Computator.NET.WebApi.IntegrationTests
@@ -14,16 +14,20 @@ namespace Computator.NET.WebApi.IntegrationTests
     [TestFixture]
     public class CalculateApiTests
     {
-        private TestServer _server;
+        private WebApplication _server;
         private HttpClient _client;
 
         [OneTimeSetUp]
-        public void Setup()
+        public async Task Setup()
         {
-            // Arrange
-            _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-            _client = _server.CreateClient();
+            // Real HTTP preserves RawTarget; TestServer reconstructs a decoded path.
+            _server = Program.BuildApplication(new[] { "--urls", "http://127.0.0.1:0", "--applicationName", typeof(Program).Assembly.GetName().Name });
+            await _server.StartAsync();
+            _client = new HttpClient { BaseAddress = new Uri(_server.Urls.Single()) };
         }
+
+        [OneTimeTearDown]
+        public async Task Stop() { _client?.Dispose(); if (_server != null) await _server.DisposeAsync(); }
         
         [Test]
         public async Task ReturnsHttpOk()
@@ -46,7 +50,6 @@ namespace Computator.NET.WebApi.IntegrationTests
         }
 
         [Test]
-        [Ignore("Bug in ASP.NET Core causes this test to fail, see https://github.com/aspnet/HttpAbstractions/issues/912")]
         public async Task DivideSignInExpressionWorks()
         {
             // Act
@@ -54,6 +57,33 @@ namespace Computator.NET.WebApi.IntegrationTests
 
             // Assert
             response.EnsureSuccessStatusCode();
+            Assert.AreEqual("1", await response.Content.ReadAsStringAsync());
+        }
+
+        [TestCase("6%2F3", "2")]
+        [TestCase("real/6%2f3", "2")]
+        [TestCase("complex/6%2F3", "2")]
+        [TestCase("3d/y%2F2/0/6", "3")]
+        [TestCase("y%2F2/0/6", "3")]
+        [TestCase("real/100%2532", "4")]
+        public async Task EscapedSegmentsRetainDivisionAndLiteralPercent(string path, string expected)
+        {
+            using (var response = await _client.GetAsync("/api/calculate/" + path))
+            {
+                response.EnsureSuccessStatusCode();
+                Assert.AreEqual(expected, await response.Content.ReadAsStringAsync());
+            }
+        }
+
+        [Test]
+        public async Task DivisionInCustomDefinitionsIsDecodedOnce()
+        {
+            var code = "static real Probe(real x) { return x/2; }";
+            using (var response = await _client.GetAsync("/api/calculate/real/Probe(x)/6/" + Uri.EscapeDataString(code)))
+            {
+                response.EnsureSuccessStatusCode();
+                Assert.AreEqual("3", await response.Content.ReadAsStringAsync());
+            }
         }
 
         [Test]

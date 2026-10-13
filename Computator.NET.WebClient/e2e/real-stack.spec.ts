@@ -56,6 +56,9 @@ test('same-origin proxy rejects cross-site callers and protects the backend toke
   const response = await request.get('/api/calculate/2x/3');
   expect(response.ok()).toBeTruthy();
   expect(await response.text()).toBe('6');
+  expect(await (await request.get('/api/calculate/real/6%2F3')).text()).toBe('2');
+  expect(await (await request.get('/api/calculate/real/100%2532')).text()).toBe('4');
+  expect(await (await request.get('/api/script/' + encodeURIComponent('real F = 3; write(101%2F);'))).text()).toBe('3');
   expect((await request.get('/api/does-not-exist')).status()).toBe(404);
   const execution = { operation: 'calculate', expression: '6/3' };
   expect((await request.post('http://127.0.0.1:60997/api/v2/execute', { data: execution })).status()).toBe(403);
