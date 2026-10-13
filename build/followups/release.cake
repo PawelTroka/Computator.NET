@@ -16,7 +16,10 @@ Task("Release-Verify").IsDependentOn("Release-Identity-Validate").Does(() =>
     foreach (var selected in targets)
         CheckedProcess("dotnet", new ProcessSettings
         {
-            Arguments = new ProcessArgumentBuilder().Append("cake build.cake").Append("--target=" + selected).Append("--configuration=" + configuration)
+            Arguments = new ProcessArgumentBuilder().Append("cake build.cake").Append("--target=" + selected).Append("--configuration=" + configuration),
+            // Reject focused tests and pre-existing dev servers even on a local
+            // host: every report must exercise this candidate's own processes.
+            EnvironmentVariables = new Dictionary<string, string> { { "CI", "true" } }
         });
     CheckedProcess("python", new ProcessSettings { Arguments = "build/release/evidence.py finish" });
 });

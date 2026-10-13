@@ -97,8 +97,8 @@ def validate_report(path: Path, minimum: int) -> dict:
     return {'cases': len(cases), 'passed': len(cases) - len(skipped), 'documentedSkips': len(skipped), 'sha256': digest(path)}
 
 def begin(root: Path) -> None:
-    if git(root, 'status', '--porcelain', '--untracked-files=no'):
-        raise ValueError('Release evidence requires an unchanged tracked source tree.')
+    if git(root, 'status', '--porcelain', '--untracked-files=normal'):
+        raise ValueError('Release evidence requires a clean source tree, including no untracked source files.')
     directory = root / 'artifacts/release-evidence'
     directory.mkdir(parents=True, exist_ok=True)
     for relative in required_reports(root):
@@ -111,7 +111,7 @@ def begin(root: Path) -> None:
 def finish(root: Path) -> None:
     directory = root / 'artifacts/release-evidence'
     start = json.loads((directory / 'started.json').read_text(encoding='utf-8-sig'))
-    if git(root, 'rev-parse', 'HEAD') != start['commit'] or git(root, 'status', '--porcelain', '--untracked-files=no'):
+    if git(root, 'rev-parse', 'HEAD') != start['commit'] or git(root, 'status', '--porcelain', '--untracked-files=normal'):
         raise ValueError('The source revision changed during verification.')
     reports = {}
     for relative, minimum in required_reports(root).items():
