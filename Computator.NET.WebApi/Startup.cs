@@ -30,7 +30,11 @@ namespace Computator.NET.WebApi
             services.AddSingleton<IModeDeterminer>(s => s.GetRequiredService<CoreBootstrapper>().Create<ModeDeterminer>());
             services.AddSingleton<IChartFactory>(s => RuntimeObjectFactory.CreateInstance<IChartFactory>("Charting"));
             services.AddCors();
-            services.AddControllers(options => options.Filters.Add<ExecutionPolicyFilter>()).AddNewtonsoftJson();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<ExecutionPolicyFilter>();
+                options.Filters.Add<Execution.WorkerExecutionFilter>();
+            }).AddNewtonsoftJson();
             services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo { Title = "Computator.NET.Web API", Version = "v1" }));
             services.AddSwaggerGenNewtonsoftSupport();
             var connection = Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"] ?? Configuration["ApplicationInsights:ConnectionString"];
