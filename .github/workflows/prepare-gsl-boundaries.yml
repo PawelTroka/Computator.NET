@@ -1,0 +1,31 @@
+name: Prepare reviewed GSL source boundaries
+on:
+  push:
+    branches: [roadmap/07-gsl-errors-and-distribution]
+    paths: [build/native/prepare_error_boundaries.py, .github/workflows/prepare-gsl-boundaries.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    if: github.repository == 'PawelTroka/Computator.NET' && github.ref == 'refs/heads/roadmap/07-gsl-errors-and-distribution'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - run: python3 build/native/prepare_error_boundaries.py
+      - name: Commit only the two transformed application source files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          git add Computator.NET.Core/Functions/SpecialFunctions.cs Computator.NET.Core/Functions/ElementaryFunctions.cs
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix: check all native special-function errors after returning to managed code'
+          header=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          echo "::add-mask::$header"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $header" push origin HEAD:refs/heads/roadmap/07-gsl-errors-and-distribution
