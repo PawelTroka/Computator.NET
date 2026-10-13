@@ -67,8 +67,10 @@ namespace Computator.NET.Core.Compilation
                     Logger.Error(exception, exception.Message);
                     throw exception;
                 }
-                // Unique identities preserve #39. No compiler temporary files leak.
-                return Assembly.Load(output.ToArray());
+                // Unique identities still preserve #39. Existing callers keep their
+                // program alive through its Assembly/Type/Delegate references; once
+                // those are released, the runtime can collect the whole context.
+                return CollectibleProgramLoader.LoadProgram(output);
             }
         }
 
@@ -85,8 +87,6 @@ namespace Computator.NET.Core.Compilation
             if (!string.IsNullOrEmpty(trusted))
                 return trusted.Split(Path.PathSeparator).Where(File.Exists).ToArray();
 
-            // Type anchors resolve strong-named Framework assemblies through the
-            // loader. Assembly.Load("System") does NOT reliably search the GAC.
             var paths = new List<string>
             {
                 typeof(object).Assembly.Location,
@@ -94,8 +94,6 @@ namespace Computator.NET.Core.Compilation
                 typeof(Enumerable).Assembly.Location,
                 typeof(System.Numerics.Complex).Assembly.Location,
                 typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.Location,
-                // Framework 4.8.1 installs this facade in the GAC; it need not be
-                // present in the runtime directory's Facades subdirectory.
                 Assembly.Load("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51").Location
             };
             var facades = Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "Facades");
