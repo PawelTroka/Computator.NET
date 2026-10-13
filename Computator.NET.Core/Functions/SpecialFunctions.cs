@@ -1,4 +1,4 @@
-﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 // ReSharper disable InconsistentNaming
@@ -212,9 +212,19 @@ namespace Computator.NET.Core.Functions
         }
         
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
+            EntryPoint = "gsl_sf_lngamma_complex_e", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern int gsl_sf_lngamma_complex_e_Native(double zr, double zi, out gsl_sf_result lnr,
             out gsl_sf_result arg);
+        private static int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
+            out gsl_sf_result arg)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_lngamma_complex_e_Native(zr, zi, out lnr, out arg);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static System.Numerics.Complex psi(System.Numerics.Complex z)
@@ -250,12 +260,30 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gamma_inc_Q(double a, double x);
+            EntryPoint = "gsl_sf_gamma_inc_Q", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gamma_inc_Q_Native(double a, double x);
+        private static double gsl_sf_gamma_inc_Q(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gamma_inc_Q_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gamma_inc_P(double a, double x);
+            EntryPoint = "gsl_sf_gamma_inc_P", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gamma_inc_P_Native(double a, double x);
+        private static double gsl_sf_gamma_inc_P(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gamma_inc_P_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         // public static double gammaQ(double a, double x) { if (x < 0 || a <= 0) return double.NaN; return gsl_sf_gamma_inc_Q(a, x); }
 
@@ -287,8 +315,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_beta_inc(double a, double b, double x);
+            EntryPoint = "gsl_sf_beta_inc", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_beta_inc_Native(double a, double b, double x);
+        private static double gsl_sf_beta_inc(double a, double b, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_beta_inc_Native(a, b, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double Beta(double a, double b)
@@ -312,8 +349,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_lnbeta(double a, double b);
+            EntryPoint = "gsl_sf_lnbeta", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_lnbeta_Native(double a, double b);
+        private static double gsl_sf_lnbeta(double a, double b)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_lnbeta_Native(a, b);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double logβ(double a, double b)
@@ -333,12 +379,30 @@ namespace Computator.NET.Core.Functions
         #region coefficients and special values
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_poch(double a, double x);
+            EntryPoint = "gsl_sf_poch", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_poch_Native(double a, double x);
+        private static double gsl_sf_poch(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_poch_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_pochrel(double a, double x);
+            EntryPoint = "gsl_sf_pochrel", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_pochrel_Native(double a, double x);
+        private static double gsl_sf_pochrel(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_pochrel_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double Pochhammer(double a, double x)
         {
@@ -420,8 +484,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern int gsl_sf_coulomb_CL_e(double L, double eta, out gsl_sf_result result);
+            EntryPoint = "gsl_sf_coulomb_CL_e", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern int gsl_sf_coulomb_CL_e_Native(double L, double eta, out gsl_sf_result result);
+        private static int gsl_sf_coulomb_CL_e(double L, double eta, out gsl_sf_result result)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coulomb_CL_e_Native(L, eta, out result);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double CoulombC(int L, double η)
@@ -432,8 +505,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hydrogenicR(int n, int l, double Z, double r);
+            EntryPoint = "gsl_sf_hydrogenicR", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hydrogenicR_Native(int n, int l, double Z, double r);
+        private static double gsl_sf_hydrogenicR(int n, int l, double Z, double r)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hydrogenicR_Native(n, l, Z, r);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double HydrogenicR(int n, int l, double Z, double r)
         {
@@ -462,13 +544,27 @@ namespace Computator.NET.Core.Functions
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern int gsl_sf_coulomb_wave_FG_e(double eta, double x,
+            EntryPoint = "gsl_sf_coulomb_wave_FG_e", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern int gsl_sf_coulomb_wave_FG_e_Native(double eta, double x,
             double lam_F,
             int k_lam_G,
             out gsl_sf_result F, out gsl_sf_result Fp,
             out gsl_sf_result G, out gsl_sf_result Gp,
             out double exp_F, out double exp_G);
+        private static int gsl_sf_coulomb_wave_FG_e(double eta, double x,
+            double lam_F,
+            int k_lam_G,
+            out gsl_sf_result F, out gsl_sf_result Fp,
+            out gsl_sf_result G, out gsl_sf_result Gp,
+            out double exp_F, out double exp_G)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coulomb_wave_FG_e_Native(eta, x, lam_F, k_lam_G, out F, out Fp, out G, out Gp, out exp_F, out exp_G);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double CoulombGprime(int L, double η, double ρ)
@@ -501,28 +597,82 @@ namespace Computator.NET.Core.Functions
         #region Fermi–Dirac complete&incomplete integral
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_int(int j, double x);
+            EntryPoint = "gsl_sf_fermi_dirac_int", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_int_Native(int j, double x);
+        private static double gsl_sf_fermi_dirac_int(int j, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_int_Native(j, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_inc_0(double x, double b);
+            EntryPoint = "gsl_sf_fermi_dirac_inc_0", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_inc_0_Native(double x, double b);
+        private static double gsl_sf_fermi_dirac_inc_0(double x, double b)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_inc_0_Native(x, b);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_0(double x);
+            EntryPoint = "gsl_sf_fermi_dirac_0", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_0_Native(double x);
+        private static double gsl_sf_fermi_dirac_0(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_0_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_mhalf(double x);
+            EntryPoint = "gsl_sf_fermi_dirac_mhalf", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_mhalf_Native(double x);
+        private static double gsl_sf_fermi_dirac_mhalf(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_mhalf_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_half(double x);
+            EntryPoint = "gsl_sf_fermi_dirac_half", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_half_Native(double x);
+        private static double gsl_sf_fermi_dirac_half(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_half_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_3half(double x);
+            EntryPoint = "gsl_sf_fermi_dirac_3half", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_3half_Native(double x);
+        private static double gsl_sf_fermi_dirac_3half(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_3half_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double FermiDiracFmhalf(double x)
         {
@@ -573,12 +723,30 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_lambert_W0(double x);
+            EntryPoint = "gsl_sf_lambert_W0", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_lambert_W0_Native(double x);
+        private static double gsl_sf_lambert_W0(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_lambert_W0_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_lambert_Wm1(double x);
+            EntryPoint = "gsl_sf_lambert_Wm1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_lambert_Wm1_Native(double x);
+        private static double gsl_sf_lambert_Wm1(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_lambert_Wm1_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
@@ -602,20 +770,56 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gegenpoly_n(int n, double lambda, double x);
+            EntryPoint = "gsl_sf_gegenpoly_n", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gegenpoly_n_Native(int n, double lambda, double x);
+        private static double gsl_sf_gegenpoly_n(int n, double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gegenpoly_n_Native(n, lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gegenpoly_1(double lambda, double x);
+            EntryPoint = "gsl_sf_gegenpoly_1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gegenpoly_1_Native(double lambda, double x);
+        private static double gsl_sf_gegenpoly_1(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gegenpoly_1_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gegenpoly_2(double lambda, double x);
+            EntryPoint = "gsl_sf_gegenpoly_2", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gegenpoly_2_Native(double lambda, double x);
+        private static double gsl_sf_gegenpoly_2(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gegenpoly_2_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gegenpoly_3(double lambda, double x);
+            EntryPoint = "gsl_sf_gegenpoly_3", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gegenpoly_3_Native(double lambda, double x);
+        private static double gsl_sf_gegenpoly_3(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gegenpoly_3_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double Gegenbauer(int n, double α, double x)
@@ -625,20 +829,56 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_laguerre_n(int n, double a, double x);
+            EntryPoint = "gsl_sf_laguerre_n", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_laguerre_n_Native(int n, double a, double x);
+        private static double gsl_sf_laguerre_n(int n, double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_laguerre_n_Native(n, a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_laguerre_1(double a, double x);
+            EntryPoint = "gsl_sf_laguerre_1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_laguerre_1_Native(double a, double x);
+        private static double gsl_sf_laguerre_1(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_laguerre_1_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_laguerre_2(double a, double x);
+            EntryPoint = "gsl_sf_laguerre_2", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_laguerre_2_Native(double a, double x);
+        private static double gsl_sf_laguerre_2(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_laguerre_2_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_laguerre_3(double a, double x);
+            EntryPoint = "gsl_sf_laguerre_3", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_laguerre_3_Native(double a, double x);
+        private static double gsl_sf_laguerre_3(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_laguerre_3_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double Laguerre(int n, double α, double x)
@@ -674,8 +914,17 @@ namespace Computator.NET.Core.Functions
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_legendre_Ql(int l, double x);
+            EntryPoint = "gsl_sf_legendre_Ql", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_legendre_Ql_Native(int l, double x);
+        private static double gsl_sf_legendre_Ql(int l, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_legendre_Ql_Native(l, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         // Q_l(x), x > -1, x != 1, l >= 0
         public static double LegendreQ(int l, double x)
@@ -686,8 +935,17 @@ namespace Computator.NET.Core.Functions
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_legendre_sphPlm(int l, int m, double x);
+            EntryPoint = "gsl_sf_legendre_sphPlm", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_legendre_sphPlm_Native(int l, int m, double x);
+        private static double gsl_sf_legendre_sphPlm(int l, int m, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_legendre_sphPlm_Native(l, m, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double SphericalLegendreP(int l, int m, double x)
         {
@@ -701,20 +959,56 @@ namespace Computator.NET.Core.Functions
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_half(double lambda, double x);
+            EntryPoint = "gsl_sf_conicalP_half", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_half_Native(double lambda, double x);
+        private static double gsl_sf_conicalP_half(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_half_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_mhalf(double lambda, double x);
+            EntryPoint = "gsl_sf_conicalP_mhalf", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_mhalf_Native(double lambda, double x);
+        private static double gsl_sf_conicalP_mhalf(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_mhalf_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_0(double lambda, double x);
+            EntryPoint = "gsl_sf_conicalP_0", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_0_Native(double lambda, double x);
+        private static double gsl_sf_conicalP_0(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_0_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_1(double lambda, double x);
+            EntryPoint = "gsl_sf_conicalP_1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_1_Native(double lambda, double x);
+        private static double gsl_sf_conicalP_1(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_1_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double ConicalP(double μ, double λ, double x)
@@ -748,12 +1042,30 @@ namespace Computator.NET.Core.Functions
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_sph_reg(int l, double lambda, double x);
+            EntryPoint = "gsl_sf_conicalP_sph_reg", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_sph_reg_Native(int l, double lambda, double x);
+        private static double gsl_sf_conicalP_sph_reg(int l, double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_sph_reg_Native(l, lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_cyl_reg(int m, double lambda, double x);
+            EntryPoint = "gsl_sf_conicalP_cyl_reg", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_cyl_reg_Native(int m, double lambda, double x);
+        private static double gsl_sf_conicalP_cyl_reg(int m, double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_cyl_reg_Native(m, lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double SphericalConicalP(int l, double λ, double x)
         {
@@ -768,8 +1080,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_legendre_H3d(int l, double lambda, double eta);
+            EntryPoint = "gsl_sf_legendre_H3d", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_legendre_H3d_Native(int l, double lambda, double eta);
+        private static double gsl_sf_legendre_H3d(int l, double lambda, double eta)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_legendre_H3d_Native(l, lambda, eta);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double LegendreH3D(int l, double λ, double η)
         {
@@ -820,20 +1141,56 @@ namespace Computator.NET.Core.Functions
         #region transport functions
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_transport_2(double x);
+            EntryPoint = "gsl_sf_transport_2", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_transport_2_Native(double x);
+        private static double gsl_sf_transport_2(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_transport_2_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_transport_3(double x);
+            EntryPoint = "gsl_sf_transport_3", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_transport_3_Native(double x);
+        private static double gsl_sf_transport_3(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_transport_3_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_transport_4(double x);
+            EntryPoint = "gsl_sf_transport_4", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_transport_4_Native(double x);
+        private static double gsl_sf_transport_4(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_transport_4_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_transport_5(double x);
+            EntryPoint = "gsl_sf_transport_5", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_transport_5_Native(double x);
+        private static double gsl_sf_transport_5(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_transport_5_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double TransportJ(int n, double x)
         {
@@ -867,38 +1224,97 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_synchrotron_1(double x);
+            EntryPoint = "gsl_sf_synchrotron_1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_synchrotron_1_Native(double x);
+        private static double gsl_sf_synchrotron_1(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_synchrotron_1_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_synchrotron_2(double x);
+            EntryPoint = "gsl_sf_synchrotron_2", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_synchrotron_2_Native(double x);
+        private static double gsl_sf_synchrotron_2(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_synchrotron_2_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
         #region coupling 3,6,9-j symbols
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_coupling_3j(int two_ja, int two_jb, int two_jc,
+            EntryPoint = "gsl_sf_coupling_3j", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_coupling_3j_Native(int two_ja, int two_jb, int two_jc,
             int two_ma, int two_mb, int two_mc);
+        private static double gsl_sf_coupling_3j(int two_ja, int two_jb, int two_jc,
+            int two_ma, int two_mb, int two_mc)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coupling_3j_Native(two_ja, two_jb, two_jc, two_ma, two_mb, two_mc);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_coupling_6j(int two_ja, int two_jb, int two_jc,
+            EntryPoint = "gsl_sf_coupling_6j", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_coupling_6j_Native(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
+        private static double gsl_sf_coupling_6j(int two_ja, int two_jb, int two_jc,
+            int two_jd, int two_je, int two_jf)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coupling_6j_Native(two_ja, two_jb, two_jc, two_jd, two_je, two_jf);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_coupling_RacahW(int two_ja, int two_jb, int two_jc,
+            EntryPoint = "gsl_sf_coupling_RacahW", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_coupling_RacahW_Native(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
+        private static double gsl_sf_coupling_RacahW(int two_ja, int two_jb, int two_jc,
+            int two_jd, int two_je, int two_jf)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coupling_RacahW_Native(two_ja, two_jb, two_jc, two_jd, two_je, two_jf);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_coupling_9j(int two_ja, int two_jb, int two_jc,
+            EntryPoint = "gsl_sf_coupling_9j", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_coupling_9j_Native(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf,
             int two_jg, int two_jh, int two_ji);
+        private static double gsl_sf_coupling_9j(int two_ja, int two_jb, int two_jc,
+            int two_jd, int two_je, int two_jf,
+            int two_jg, int two_jh, int two_ji)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coupling_9j_Native(two_ja, two_jb, two_jc, two_jd, two_je, two_jf, two_jg, two_jh, two_ji);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double Coupling3j(int ja, int jb, int jc, int ma, int mb, int mc)
@@ -1013,8 +1429,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_0F1(double c, double x);
+            EntryPoint = "gsl_sf_hyperg_0F1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_0F1_Native(double c, double x);
+        private static double gsl_sf_hyperg_0F1(double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_0F1_Native(c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Hypergeometric function related to Bessel functions 0F1[c,x]
 
@@ -1024,8 +1449,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_1F1_int(int m, int n, double x);
+            EntryPoint = "gsl_sf_hyperg_1F1_int", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_1F1_int_Native(int m, int n, double x);
+        private static double gsl_sf_hyperg_1F1_int(int m, int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_1F1_int_Native(m, n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Confluent hypergeometric function  for integer parameters. 1F1[m,n,x] = M(m,n,x)
 
@@ -1035,8 +1469,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_1F1(double a, double b, double x);
+            EntryPoint = "gsl_sf_hyperg_1F1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_1F1_Native(double a, double b, double x);
+        private static double gsl_sf_hyperg_1F1(double a, double b, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_1F1_Native(a, b, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Confluent hypergeometric function. 1F1[a,b,x] = M(a,b,x)
 
@@ -1046,8 +1489,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_U_int(int m, int n, double x);
+            EntryPoint = "gsl_sf_hyperg_U_int", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_U_int_Native(int m, int n, double x);
+        private static double gsl_sf_hyperg_U_int(int m, int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_U_int_Native(m, n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Confluent hypergeometric function for integer parameters. U(m,n,x)
 
@@ -1063,13 +1515,31 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_U(double a, double b, double x);
+            EntryPoint = "gsl_sf_hyperg_U", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_U_Native(double a, double b, double x);
+        private static double gsl_sf_hyperg_U(double a, double b, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_U_Native(a, b, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F1(double a, double b, double c, double x);
+            EntryPoint = "gsl_sf_hyperg_2F1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F1_Native(double a, double b, double c, double x);
+        private static double gsl_sf_hyperg_2F1(double a, double b, double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F1_Native(a, b, c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Gauss hypergeometric function 2F1[a,b,c,x]
 
@@ -1079,8 +1549,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F1_conj(double aR, double aI, double c, double x);
+            EntryPoint = "gsl_sf_hyperg_2F1_conj", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F1_conj_Native(double aR, double aI, double c, double x);
+        private static double gsl_sf_hyperg_2F1_conj(double aR, double aI, double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F1_conj_Native(aR, aI, c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Gauss hypergeometric function 2F1[aR + I aI, aR - I aI, c, x]
 
@@ -1090,8 +1569,17 @@ namespace Computator.NET.Core.Functions
         } //TODO: better name for a parameter
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F1_renorm(double a, double b, double c, double x);
+            EntryPoint = "gsl_sf_hyperg_2F1_renorm", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F1_renorm_Native(double a, double b, double c, double x);
+        private static double gsl_sf_hyperg_2F1_renorm(double a, double b, double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F1_renorm_Native(a, b, c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Renormalized Gauss hypergeometric function 2F1[a,b,c,x] / Gamma[c]
 
@@ -1101,8 +1589,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F1_conj_renorm(double aR, double aI, double c, double x);
+            EntryPoint = "gsl_sf_hyperg_2F1_conj_renorm", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F1_conj_renorm_Native(double aR, double aI, double c, double x);
+        private static double gsl_sf_hyperg_2F1_conj_renorm(double aR, double aI, double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F1_conj_renorm_Native(aR, aI, c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Renormalized Gauss hypergeometric function 2F1[aR + I aI, aR - I aI, c, x] / Gamma[c]
 
@@ -1112,8 +1609,17 @@ namespace Computator.NET.Core.Functions
         } //TODO: better name for a parameter
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F0(double a, double b, double x);
+            EntryPoint = "gsl_sf_hyperg_2F0", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F0_Native(double a, double b, double x);
+        private static double gsl_sf_hyperg_2F0(double a, double b, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F0_Native(a, b, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         /* Mysterious hypergeometric function. The series representation
          * is a divergent hypergeometric series. However, for x < 0 we
@@ -1244,28 +1750,82 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_1(double x);
+            EntryPoint = "gsl_sf_debye_1", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_1_Native(double x);
+        private static double gsl_sf_debye_1(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_1_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_2(double x);
+            EntryPoint = "gsl_sf_debye_2", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_2_Native(double x);
+        private static double gsl_sf_debye_2(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_2_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_3(double x);
+            EntryPoint = "gsl_sf_debye_3", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_3_Native(double x);
+        private static double gsl_sf_debye_3(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_3_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_4(double x);
+            EntryPoint = "gsl_sf_debye_4", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_4_Native(double x);
+        private static double gsl_sf_debye_4(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_4_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_5(double x);
+            EntryPoint = "gsl_sf_debye_5", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_5_Native(double x);
+        private static double gsl_sf_debye_5(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_5_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_6(double x);
+            EntryPoint = "gsl_sf_debye_6", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_6_Native(double x);
+        private static double gsl_sf_debye_6(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_6_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         /*
        
@@ -1308,8 +1868,17 @@ namespace Computator.NET.Core.Functions
          */
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_clausen(double x);
+            EntryPoint = "gsl_sf_clausen", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_clausen_Native(double x);
+        private static double gsl_sf_clausen(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_clausen_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static System.Numerics.Complex Ein(System.Numerics.Complex z)
@@ -1319,27 +1888,72 @@ namespace Computator.NET.Core.Functions
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_expint_En(int n, double x);
+            EntryPoint = "gsl_sf_expint_En", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_expint_En_Native(int n, double x);
+        private static double gsl_sf_expint_En(int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_expint_En_Native(n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_expint_Ei(double x);
+            EntryPoint = "gsl_sf_expint_Ei", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_expint_Ei_Native(double x);
+        private static double gsl_sf_expint_Ei(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_expint_Ei_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_Shi(double x);
+            EntryPoint = "gsl_sf_Shi", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_Shi_Native(double x);
+        private static double gsl_sf_Shi(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_Shi_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_Chi(double x);
+            EntryPoint = "gsl_sf_Chi", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_Chi_Native(double x);
+        private static double gsl_sf_Chi(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_Chi_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_atanint(double x);
+            EntryPoint = "gsl_sf_atanint", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_atanint_Native(double x);
+        private static double gsl_sf_atanint(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_atanint_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
@@ -1446,61 +2060,177 @@ namespace Computator.NET.Core.Functions
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Ecomp(double k, uint mode);
+            EntryPoint = "gsl_sf_ellint_Ecomp", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_Ecomp_Native(double k, uint mode);
+        private static double gsl_sf_ellint_Ecomp(double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_Ecomp_Native(k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Kcomp(double k, uint mode);
+            EntryPoint = "gsl_sf_ellint_Kcomp", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_Kcomp_Native(double k, uint mode);
+        private static double gsl_sf_ellint_Kcomp(double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_Kcomp_Native(k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Pcomp(double k, double n, uint mode);
+            EntryPoint = "gsl_sf_ellint_Pcomp", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_Pcomp_Native(double k, double n, uint mode);
+        private static double gsl_sf_ellint_Pcomp(double k, double n, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_Pcomp_Native(k, n, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Dcomp(double k, uint mode);
+            EntryPoint = "gsl_sf_ellint_Dcomp", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_Dcomp_Native(double k, uint mode);
+        private static double gsl_sf_ellint_Dcomp(double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_Dcomp_Native(k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_F(double phi, double k, uint mode);
+            EntryPoint = "gsl_sf_ellint_F", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_F_Native(double phi, double k, uint mode);
+        private static double gsl_sf_ellint_F(double phi, double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_F_Native(phi, k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_E(double phi, double k, uint mode);
+            EntryPoint = "gsl_sf_ellint_E", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_E_Native(double phi, double k, uint mode);
+        private static double gsl_sf_ellint_E(double phi, double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_E_Native(phi, k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_P(double phi, double k, double n, uint mode);
+            EntryPoint = "gsl_sf_ellint_P", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_P_Native(double phi, double k, double n, uint mode);
+        private static double gsl_sf_ellint_P(double phi, double k, double n, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_P_Native(phi, k, n, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        //private static extern double gsl_sf_ellint_D(double phi, double k, double n, uint mode);
-        private static extern double gsl_sf_ellint_D(double phi, double k, uint mode);
+            EntryPoint = "gsl_sf_ellint_D", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_D_Native(double phi, double k, uint mode);
+        private static double gsl_sf_ellint_D(double phi, double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_D_Native(phi, k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_RC(double x, double y, uint mode);
+            EntryPoint = "gsl_sf_ellint_RC", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_RC_Native(double x, double y, uint mode);
+        private static double gsl_sf_ellint_RC(double x, double y, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_RC_Native(x, y, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_RD(double x, double y, double z, uint mode);
+            EntryPoint = "gsl_sf_ellint_RD", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_RD_Native(double x, double y, double z, uint mode);
+        private static double gsl_sf_ellint_RD(double x, double y, double z, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_RD_Native(x, y, z, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_RF(double x, double y, double z, uint mode);
+            EntryPoint = "gsl_sf_ellint_RF", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_RF_Native(double x, double y, double z, uint mode);
+        private static double gsl_sf_ellint_RF(double x, double y, double z, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_RF_Native(x, y, z, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_RJ(double x, double y, double z, double p, uint mode);
+            EntryPoint = "gsl_sf_ellint_RJ", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_RJ_Native(double x, double y, double z, double p, uint mode);
+        private static double gsl_sf_ellint_RJ(double x, double y, double z, double p, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_RJ_Native(x, y, z, p, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
         #region  Jacobian elliptic functions
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern int gsl_sf_elljac_e(double u, double m, out double sn, out double cn, out double dn);
+            EntryPoint = "gsl_sf_elljac_e", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern int gsl_sf_elljac_e_Native(double u, double m, out double sn, out double cn, out double dn);
+        private static int gsl_sf_elljac_e(double u, double m, out double sn, out double cn, out double dn)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_elljac_e_Native(u, m, out sn, out cn, out dn);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double JacobiEllipticSn(double u, double m)
         {
@@ -1625,20 +2355,56 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_log_erfc(double x);
+            EntryPoint = "gsl_sf_log_erfc", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_log_erfc_Native(double x);
+        private static double gsl_sf_log_erfc(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_log_erfc_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_erf_Z(double x);
+            EntryPoint = "gsl_sf_erf_Z", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_erf_Z_Native(double x);
+        private static double gsl_sf_erf_Z(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_erf_Z_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_erf_Q(double x);
+            EntryPoint = "gsl_sf_erf_Q", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_erf_Q_Native(double x);
+        private static double gsl_sf_erf_Q(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_erf_Q_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hazard(double x);
+            EntryPoint = "gsl_sf_hazard", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hazard_Native(double x);
+        private static double gsl_sf_hazard(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hazard_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
@@ -1834,37 +2600,109 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_Jnu(double nu, double x);
+            EntryPoint = "gsl_sf_bessel_Jnu", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_Jnu_Native(double nu, double x);
+        private static double gsl_sf_bessel_Jnu(double nu, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_Jnu_Native(nu, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_Ynu(double nu, double x);
+            EntryPoint = "gsl_sf_bessel_Ynu", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_Ynu_Native(double nu, double x);
+        private static double gsl_sf_bessel_Ynu(double nu, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_Ynu_Native(nu, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_In(int n, double x);
+            EntryPoint = "gsl_sf_bessel_In", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_In_Native(int n, double x);
+        private static double gsl_sf_bessel_In(int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_In_Native(n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_Kn(int n, double x);
+            EntryPoint = "gsl_sf_bessel_Kn", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_Kn_Native(int n, double x);
+        private static double gsl_sf_bessel_Kn(int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_Kn_Native(n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_il_scaled(int l, double x);
+            EntryPoint = "gsl_sf_bessel_il_scaled", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_il_scaled_Native(int l, double x);
+        private static double gsl_sf_bessel_il_scaled(int l, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_il_scaled_Native(l, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_kl_scaled(int l, double x);
+            EntryPoint = "gsl_sf_bessel_kl_scaled", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_kl_scaled_Native(int l, double x);
+        private static double gsl_sf_bessel_kl_scaled(int l, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_kl_scaled_Native(l, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_lnKnu(double nu, double x);
+            EntryPoint = "gsl_sf_bessel_lnKnu", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_lnKnu_Native(double nu, double x);
+        private static double gsl_sf_bessel_lnKnu(double nu, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_lnKnu_Native(nu, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_zero_Jnu(double nu, uint s);
+            EntryPoint = "gsl_sf_bessel_zero_Jnu", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_zero_Jnu_Native(double nu, uint s);
+        private static double gsl_sf_bessel_zero_Jnu(double nu, uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_zero_Jnu_Native(nu, s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double BesselJνZeros(double ν, double s)
         {
@@ -1960,28 +2798,82 @@ namespace Computator.NET.Core.Functions
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_Ai_deriv(double x, uint mode);
+            EntryPoint = "gsl_sf_airy_Ai_deriv", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_Ai_deriv_Native(double x, uint mode);
+        private static double gsl_sf_airy_Ai_deriv(double x, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_Ai_deriv_Native(x, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_Bi_deriv(double x, uint mode);
+            EntryPoint = "gsl_sf_airy_Bi_deriv", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_Bi_deriv_Native(double x, uint mode);
+        private static double gsl_sf_airy_Bi_deriv(double x, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_Bi_deriv_Native(x, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_zero_Ai(uint s);
+            EntryPoint = "gsl_sf_airy_zero_Ai", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_zero_Ai_Native(uint s);
+        private static double gsl_sf_airy_zero_Ai(uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_zero_Ai_Native(s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_zero_Bi(uint s);
+            EntryPoint = "gsl_sf_airy_zero_Bi", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_zero_Bi_Native(uint s);
+        private static double gsl_sf_airy_zero_Bi(uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_zero_Bi_Native(s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_zero_Ai_deriv(uint s);
+            EntryPoint = "gsl_sf_airy_zero_Ai_deriv", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_zero_Ai_deriv_Native(uint s);
+        private static double gsl_sf_airy_zero_Ai_deriv(uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_zero_Ai_deriv_Native(s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_zero_Bi_deriv(uint s);
+            EntryPoint = "gsl_sf_airy_zero_Bi_deriv", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_zero_Bi_deriv_Native(uint s);
+        private static double gsl_sf_airy_zero_Bi_deriv(uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_zero_Bi_deriv_Native(s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //AiryZetaAi //ZerosOfAi// ZerosOfBi
         public static double AiZeros(double x)
@@ -2044,8 +2936,17 @@ namespace Computator.NET.Core.Functions
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hzeta(double s, double q);
+            EntryPoint = "gsl_sf_hzeta", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hzeta_Native(double s, double q);
+        private static double gsl_sf_hzeta(double s, double q)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hzeta_Native(s, q);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double HurwitzZeta(double x, double q)
         {
@@ -2064,35 +2965,89 @@ namespace Computator.NET.Core.Functions
         #region mathieu functions
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_a(int order, double qq);
+            EntryPoint = "gsl_sf_mathieu_a", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_a_Native(int order, double qq);
+        private static double gsl_sf_mathieu_a(int order, double qq)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_a_Native(order, qq);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-    CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_b(int order, double qq);
+    EntryPoint = "gsl_sf_mathieu_b", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_b_Native(int order, double qq);
+        private static double gsl_sf_mathieu_b(int order, double qq)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_b_Native(order, qq);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_ce(int order, double qq, double zz);
+EntryPoint = "gsl_sf_mathieu_ce", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_ce_Native(int order, double qq, double zz);
+        private static double gsl_sf_mathieu_ce(int order, double qq, double zz)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_ce_Native(order, qq, zz);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_se(int order, double qq, double zz);
+EntryPoint = "gsl_sf_mathieu_se", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_se_Native(int order, double qq, double zz);
+        private static double gsl_sf_mathieu_se(int order, double qq, double zz)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_se_Native(order, qq, zz);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_Mc(int kind, int order, double qq, double zz);
+EntryPoint = "gsl_sf_mathieu_Mc", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_Mc_Native(int kind, int order, double qq, double zz);
+        private static double gsl_sf_mathieu_Mc(int kind, int order, double qq, double zz)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_Mc_Native(kind, order, qq, zz);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_Ms(int kind, int order, double qq, double zz);
+EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_Ms_Native(int kind, int order, double qq, double zz);
+        private static double gsl_sf_mathieu_Ms(int kind, int order, double qq, double zz)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_Ms_Native(kind, order, qq, zz);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double MathieuSE(int n, double q, double x)
@@ -2467,9 +3422,19 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
         
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
+            EntryPoint = ""gsl_sf_lngamma_complex_e"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern int gsl_sf_lngamma_complex_e_Native(double zr, double zi, out gsl_sf_result lnr,
             out gsl_sf_result arg);
+        private static int gsl_sf_lngamma_complex_e(double zr, double zi, out gsl_sf_result lnr,
+            out gsl_sf_result arg)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_lngamma_complex_e_Native(zr, zi, out lnr, out arg);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static System.Numerics.Complex psi(System.Numerics.Complex z)
@@ -2505,12 +3470,30 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gamma_inc_Q(double a, double x);
+            EntryPoint = ""gsl_sf_gamma_inc_Q"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gamma_inc_Q_Native(double a, double x);
+        private static double gsl_sf_gamma_inc_Q(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gamma_inc_Q_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gamma_inc_P(double a, double x);
+            EntryPoint = ""gsl_sf_gamma_inc_P"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gamma_inc_P_Native(double a, double x);
+        private static double gsl_sf_gamma_inc_P(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gamma_inc_P_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         // public static double gammaQ(double a, double x) { if (x < 0 || a <= 0) return double.NaN; return gsl_sf_gamma_inc_Q(a, x); }
 
@@ -2542,8 +3525,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_beta_inc(double a, double b, double x);
+            EntryPoint = ""gsl_sf_beta_inc"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_beta_inc_Native(double a, double b, double x);
+        private static double gsl_sf_beta_inc(double a, double b, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_beta_inc_Native(a, b, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double Beta(double a, double b)
@@ -2567,8 +3559,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_lnbeta(double a, double b);
+            EntryPoint = ""gsl_sf_lnbeta"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_lnbeta_Native(double a, double b);
+        private static double gsl_sf_lnbeta(double a, double b)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_lnbeta_Native(a, b);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double logβ(double a, double b)
@@ -2588,12 +3589,30 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         #region coefficients and special values
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_poch(double a, double x);
+            EntryPoint = ""gsl_sf_poch"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_poch_Native(double a, double x);
+        private static double gsl_sf_poch(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_poch_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_pochrel(double a, double x);
+            EntryPoint = ""gsl_sf_pochrel"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_pochrel_Native(double a, double x);
+        private static double gsl_sf_pochrel(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_pochrel_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double Pochhammer(double a, double x)
         {
@@ -2675,8 +3694,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern int gsl_sf_coulomb_CL_e(double L, double eta, out gsl_sf_result result);
+            EntryPoint = ""gsl_sf_coulomb_CL_e"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern int gsl_sf_coulomb_CL_e_Native(double L, double eta, out gsl_sf_result result);
+        private static int gsl_sf_coulomb_CL_e(double L, double eta, out gsl_sf_result result)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coulomb_CL_e_Native(L, eta, out result);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double CoulombC(int L, double η)
@@ -2687,8 +3715,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hydrogenicR(int n, int l, double Z, double r);
+            EntryPoint = ""gsl_sf_hydrogenicR"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hydrogenicR_Native(int n, int l, double Z, double r);
+        private static double gsl_sf_hydrogenicR(int n, int l, double Z, double r)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hydrogenicR_Native(n, l, Z, r);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double HydrogenicR(int n, int l, double Z, double r)
         {
@@ -2717,13 +3754,27 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern int gsl_sf_coulomb_wave_FG_e(double eta, double x,
+            EntryPoint = ""gsl_sf_coulomb_wave_FG_e"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern int gsl_sf_coulomb_wave_FG_e_Native(double eta, double x,
             double lam_F,
             int k_lam_G,
             out gsl_sf_result F, out gsl_sf_result Fp,
             out gsl_sf_result G, out gsl_sf_result Gp,
             out double exp_F, out double exp_G);
+        private static int gsl_sf_coulomb_wave_FG_e(double eta, double x,
+            double lam_F,
+            int k_lam_G,
+            out gsl_sf_result F, out gsl_sf_result Fp,
+            out gsl_sf_result G, out gsl_sf_result Gp,
+            out double exp_F, out double exp_G)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coulomb_wave_FG_e_Native(eta, x, lam_F, k_lam_G, out F, out Fp, out G, out Gp, out exp_F, out exp_G);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double CoulombGprime(int L, double η, double ρ)
@@ -2756,28 +3807,82 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         #region Fermi–Dirac complete&incomplete integral
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_int(int j, double x);
+            EntryPoint = ""gsl_sf_fermi_dirac_int"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_int_Native(int j, double x);
+        private static double gsl_sf_fermi_dirac_int(int j, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_int_Native(j, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_inc_0(double x, double b);
+            EntryPoint = ""gsl_sf_fermi_dirac_inc_0"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_inc_0_Native(double x, double b);
+        private static double gsl_sf_fermi_dirac_inc_0(double x, double b)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_inc_0_Native(x, b);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_0(double x);
+            EntryPoint = ""gsl_sf_fermi_dirac_0"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_0_Native(double x);
+        private static double gsl_sf_fermi_dirac_0(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_0_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_mhalf(double x);
+            EntryPoint = ""gsl_sf_fermi_dirac_mhalf"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_mhalf_Native(double x);
+        private static double gsl_sf_fermi_dirac_mhalf(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_mhalf_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_half(double x);
+            EntryPoint = ""gsl_sf_fermi_dirac_half"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_half_Native(double x);
+        private static double gsl_sf_fermi_dirac_half(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_half_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_fermi_dirac_3half(double x);
+            EntryPoint = ""gsl_sf_fermi_dirac_3half"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_fermi_dirac_3half_Native(double x);
+        private static double gsl_sf_fermi_dirac_3half(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_fermi_dirac_3half_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double FermiDiracFmhalf(double x)
         {
@@ -2828,12 +3933,30 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_lambert_W0(double x);
+            EntryPoint = ""gsl_sf_lambert_W0"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_lambert_W0_Native(double x);
+        private static double gsl_sf_lambert_W0(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_lambert_W0_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_lambert_Wm1(double x);
+            EntryPoint = ""gsl_sf_lambert_Wm1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_lambert_Wm1_Native(double x);
+        private static double gsl_sf_lambert_Wm1(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_lambert_Wm1_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
@@ -2857,20 +3980,56 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gegenpoly_n(int n, double lambda, double x);
+            EntryPoint = ""gsl_sf_gegenpoly_n"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gegenpoly_n_Native(int n, double lambda, double x);
+        private static double gsl_sf_gegenpoly_n(int n, double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gegenpoly_n_Native(n, lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gegenpoly_1(double lambda, double x);
+            EntryPoint = ""gsl_sf_gegenpoly_1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gegenpoly_1_Native(double lambda, double x);
+        private static double gsl_sf_gegenpoly_1(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gegenpoly_1_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gegenpoly_2(double lambda, double x);
+            EntryPoint = ""gsl_sf_gegenpoly_2"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gegenpoly_2_Native(double lambda, double x);
+        private static double gsl_sf_gegenpoly_2(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gegenpoly_2_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_gegenpoly_3(double lambda, double x);
+            EntryPoint = ""gsl_sf_gegenpoly_3"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_gegenpoly_3_Native(double lambda, double x);
+        private static double gsl_sf_gegenpoly_3(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_gegenpoly_3_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double Gegenbauer(int n, double α, double x)
@@ -2880,20 +4039,56 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_laguerre_n(int n, double a, double x);
+            EntryPoint = ""gsl_sf_laguerre_n"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_laguerre_n_Native(int n, double a, double x);
+        private static double gsl_sf_laguerre_n(int n, double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_laguerre_n_Native(n, a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_laguerre_1(double a, double x);
+            EntryPoint = ""gsl_sf_laguerre_1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_laguerre_1_Native(double a, double x);
+        private static double gsl_sf_laguerre_1(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_laguerre_1_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_laguerre_2(double a, double x);
+            EntryPoint = ""gsl_sf_laguerre_2"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_laguerre_2_Native(double a, double x);
+        private static double gsl_sf_laguerre_2(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_laguerre_2_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_laguerre_3(double a, double x);
+            EntryPoint = ""gsl_sf_laguerre_3"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_laguerre_3_Native(double a, double x);
+        private static double gsl_sf_laguerre_3(double a, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_laguerre_3_Native(a, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double Laguerre(int n, double α, double x)
@@ -2929,8 +4124,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_legendre_Ql(int l, double x);
+            EntryPoint = ""gsl_sf_legendre_Ql"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_legendre_Ql_Native(int l, double x);
+        private static double gsl_sf_legendre_Ql(int l, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_legendre_Ql_Native(l, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         // Q_l(x), x > -1, x != 1, l >= 0
         public static double LegendreQ(int l, double x)
@@ -2941,8 +4145,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_legendre_sphPlm(int l, int m, double x);
+            EntryPoint = ""gsl_sf_legendre_sphPlm"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_legendre_sphPlm_Native(int l, int m, double x);
+        private static double gsl_sf_legendre_sphPlm(int l, int m, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_legendre_sphPlm_Native(l, m, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double SphericalLegendreP(int l, int m, double x)
         {
@@ -2956,20 +4169,56 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_half(double lambda, double x);
+            EntryPoint = ""gsl_sf_conicalP_half"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_half_Native(double lambda, double x);
+        private static double gsl_sf_conicalP_half(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_half_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_mhalf(double lambda, double x);
+            EntryPoint = ""gsl_sf_conicalP_mhalf"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_mhalf_Native(double lambda, double x);
+        private static double gsl_sf_conicalP_mhalf(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_mhalf_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_0(double lambda, double x);
+            EntryPoint = ""gsl_sf_conicalP_0"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_0_Native(double lambda, double x);
+        private static double gsl_sf_conicalP_0(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_0_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_1(double lambda, double x);
+            EntryPoint = ""gsl_sf_conicalP_1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_1_Native(double lambda, double x);
+        private static double gsl_sf_conicalP_1(double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_1_Native(lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double ConicalP(double μ, double λ, double x)
@@ -3003,12 +4252,30 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_sph_reg(int l, double lambda, double x);
+            EntryPoint = ""gsl_sf_conicalP_sph_reg"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_sph_reg_Native(int l, double lambda, double x);
+        private static double gsl_sf_conicalP_sph_reg(int l, double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_sph_reg_Native(l, lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_conicalP_cyl_reg(int m, double lambda, double x);
+            EntryPoint = ""gsl_sf_conicalP_cyl_reg"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_conicalP_cyl_reg_Native(int m, double lambda, double x);
+        private static double gsl_sf_conicalP_cyl_reg(int m, double lambda, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_conicalP_cyl_reg_Native(m, lambda, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double SphericalConicalP(int l, double λ, double x)
         {
@@ -3023,8 +4290,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_legendre_H3d(int l, double lambda, double eta);
+            EntryPoint = ""gsl_sf_legendre_H3d"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_legendre_H3d_Native(int l, double lambda, double eta);
+        private static double gsl_sf_legendre_H3d(int l, double lambda, double eta)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_legendre_H3d_Native(l, lambda, eta);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double LegendreH3D(int l, double λ, double η)
         {
@@ -3075,20 +4351,56 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         #region transport functions
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_transport_2(double x);
+            EntryPoint = ""gsl_sf_transport_2"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_transport_2_Native(double x);
+        private static double gsl_sf_transport_2(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_transport_2_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_transport_3(double x);
+            EntryPoint = ""gsl_sf_transport_3"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_transport_3_Native(double x);
+        private static double gsl_sf_transport_3(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_transport_3_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_transport_4(double x);
+            EntryPoint = ""gsl_sf_transport_4"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_transport_4_Native(double x);
+        private static double gsl_sf_transport_4(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_transport_4_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_transport_5(double x);
+            EntryPoint = ""gsl_sf_transport_5"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_transport_5_Native(double x);
+        private static double gsl_sf_transport_5(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_transport_5_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double TransportJ(int n, double x)
         {
@@ -3122,38 +4434,97 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_synchrotron_1(double x);
+            EntryPoint = ""gsl_sf_synchrotron_1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_synchrotron_1_Native(double x);
+        private static double gsl_sf_synchrotron_1(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_synchrotron_1_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_synchrotron_2(double x);
+            EntryPoint = ""gsl_sf_synchrotron_2"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_synchrotron_2_Native(double x);
+        private static double gsl_sf_synchrotron_2(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_synchrotron_2_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
         #region coupling 3,6,9-j symbols
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_coupling_3j(int two_ja, int two_jb, int two_jc,
+            EntryPoint = ""gsl_sf_coupling_3j"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_coupling_3j_Native(int two_ja, int two_jb, int two_jc,
             int two_ma, int two_mb, int two_mc);
+        private static double gsl_sf_coupling_3j(int two_ja, int two_jb, int two_jc,
+            int two_ma, int two_mb, int two_mc)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coupling_3j_Native(two_ja, two_jb, two_jc, two_ma, two_mb, two_mc);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_coupling_6j(int two_ja, int two_jb, int two_jc,
+            EntryPoint = ""gsl_sf_coupling_6j"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_coupling_6j_Native(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
+        private static double gsl_sf_coupling_6j(int two_ja, int two_jb, int two_jc,
+            int two_jd, int two_je, int two_jf)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coupling_6j_Native(two_ja, two_jb, two_jc, two_jd, two_je, two_jf);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_coupling_RacahW(int two_ja, int two_jb, int two_jc,
+            EntryPoint = ""gsl_sf_coupling_RacahW"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_coupling_RacahW_Native(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf);
+        private static double gsl_sf_coupling_RacahW(int two_ja, int two_jb, int two_jc,
+            int two_jd, int two_je, int two_jf)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coupling_RacahW_Native(two_ja, two_jb, two_jc, two_jd, two_je, two_jf);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_coupling_9j(int two_ja, int two_jb, int two_jc,
+            EntryPoint = ""gsl_sf_coupling_9j"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_coupling_9j_Native(int two_ja, int two_jb, int two_jc,
             int two_jd, int two_je, int two_jf,
             int two_jg, int two_jh, int two_ji);
+        private static double gsl_sf_coupling_9j(int two_ja, int two_jb, int two_jc,
+            int two_jd, int two_je, int two_jf,
+            int two_jg, int two_jh, int two_ji)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_coupling_9j_Native(two_ja, two_jb, two_jc, two_jd, two_je, two_jf, two_jg, two_jh, two_ji);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double Coupling3j(int ja, int jb, int jc, int ma, int mb, int mc)
@@ -3268,8 +4639,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_0F1(double c, double x);
+            EntryPoint = ""gsl_sf_hyperg_0F1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_0F1_Native(double c, double x);
+        private static double gsl_sf_hyperg_0F1(double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_0F1_Native(c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Hypergeometric function related to Bessel functions 0F1[c,x]
 
@@ -3279,8 +4659,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_1F1_int(int m, int n, double x);
+            EntryPoint = ""gsl_sf_hyperg_1F1_int"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_1F1_int_Native(int m, int n, double x);
+        private static double gsl_sf_hyperg_1F1_int(int m, int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_1F1_int_Native(m, n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Confluent hypergeometric function  for integer parameters. 1F1[m,n,x] = M(m,n,x)
 
@@ -3290,8 +4679,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_1F1(double a, double b, double x);
+            EntryPoint = ""gsl_sf_hyperg_1F1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_1F1_Native(double a, double b, double x);
+        private static double gsl_sf_hyperg_1F1(double a, double b, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_1F1_Native(a, b, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Confluent hypergeometric function. 1F1[a,b,x] = M(a,b,x)
 
@@ -3301,8 +4699,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_U_int(int m, int n, double x);
+            EntryPoint = ""gsl_sf_hyperg_U_int"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_U_int_Native(int m, int n, double x);
+        private static double gsl_sf_hyperg_U_int(int m, int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_U_int_Native(m, n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Confluent hypergeometric function for integer parameters. U(m,n,x)
 
@@ -3318,13 +4725,31 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_U(double a, double b, double x);
+            EntryPoint = ""gsl_sf_hyperg_U"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_U_Native(double a, double b, double x);
+        private static double gsl_sf_hyperg_U(double a, double b, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_U_Native(a, b, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F1(double a, double b, double c, double x);
+            EntryPoint = ""gsl_sf_hyperg_2F1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F1_Native(double a, double b, double c, double x);
+        private static double gsl_sf_hyperg_2F1(double a, double b, double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F1_Native(a, b, c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Gauss hypergeometric function 2F1[a,b,c,x]
 
@@ -3334,8 +4759,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F1_conj(double aR, double aI, double c, double x);
+            EntryPoint = ""gsl_sf_hyperg_2F1_conj"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F1_conj_Native(double aR, double aI, double c, double x);
+        private static double gsl_sf_hyperg_2F1_conj(double aR, double aI, double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F1_conj_Native(aR, aI, c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Gauss hypergeometric function 2F1[aR + I aI, aR - I aI, c, x]
 
@@ -3345,8 +4779,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         } //TODO: better name for a parameter
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F1_renorm(double a, double b, double c, double x);
+            EntryPoint = ""gsl_sf_hyperg_2F1_renorm"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F1_renorm_Native(double a, double b, double c, double x);
+        private static double gsl_sf_hyperg_2F1_renorm(double a, double b, double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F1_renorm_Native(a, b, c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Renormalized Gauss hypergeometric function 2F1[a,b,c,x] / Gamma[c]
 
@@ -3356,8 +4799,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F1_conj_renorm(double aR, double aI, double c, double x);
+            EntryPoint = ""gsl_sf_hyperg_2F1_conj_renorm"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F1_conj_renorm_Native(double aR, double aI, double c, double x);
+        private static double gsl_sf_hyperg_2F1_conj_renorm(double aR, double aI, double c, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F1_conj_renorm_Native(aR, aI, c, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //Renormalized Gauss hypergeometric function 2F1[aR + I aI, aR - I aI, c, x] / Gamma[c]
 
@@ -3367,8 +4819,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         } //TODO: better name for a parameter
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hyperg_2F0(double a, double b, double x);
+            EntryPoint = ""gsl_sf_hyperg_2F0"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hyperg_2F0_Native(double a, double b, double x);
+        private static double gsl_sf_hyperg_2F0(double a, double b, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hyperg_2F0_Native(a, b, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         /* Mysterious hypergeometric function. The series representation
          * is a divergent hypergeometric series. However, for x < 0 we
@@ -3499,28 +4960,82 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_1(double x);
+            EntryPoint = ""gsl_sf_debye_1"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_1_Native(double x);
+        private static double gsl_sf_debye_1(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_1_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_2(double x);
+            EntryPoint = ""gsl_sf_debye_2"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_2_Native(double x);
+        private static double gsl_sf_debye_2(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_2_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_3(double x);
+            EntryPoint = ""gsl_sf_debye_3"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_3_Native(double x);
+        private static double gsl_sf_debye_3(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_3_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_4(double x);
+            EntryPoint = ""gsl_sf_debye_4"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_4_Native(double x);
+        private static double gsl_sf_debye_4(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_4_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_5(double x);
+            EntryPoint = ""gsl_sf_debye_5"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_5_Native(double x);
+        private static double gsl_sf_debye_5(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_5_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_debye_6(double x);
+            EntryPoint = ""gsl_sf_debye_6"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_debye_6_Native(double x);
+        private static double gsl_sf_debye_6(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_debye_6_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         /*
        
@@ -3563,8 +5078,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
          */
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_clausen(double x);
+            EntryPoint = ""gsl_sf_clausen"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_clausen_Native(double x);
+        private static double gsl_sf_clausen(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_clausen_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static System.Numerics.Complex Ein(System.Numerics.Complex z)
@@ -3574,27 +5098,72 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_expint_En(int n, double x);
+            EntryPoint = ""gsl_sf_expint_En"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_expint_En_Native(int n, double x);
+        private static double gsl_sf_expint_En(int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_expint_En_Native(n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_expint_Ei(double x);
+            EntryPoint = ""gsl_sf_expint_Ei"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_expint_Ei_Native(double x);
+        private static double gsl_sf_expint_Ei(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_expint_Ei_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_Shi(double x);
+            EntryPoint = ""gsl_sf_Shi"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_Shi_Native(double x);
+        private static double gsl_sf_Shi(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_Shi_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_Chi(double x);
+            EntryPoint = ""gsl_sf_Chi"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_Chi_Native(double x);
+        private static double gsl_sf_Chi(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_Chi_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_atanint(double x);
+            EntryPoint = ""gsl_sf_atanint"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_atanint_Native(double x);
+        private static double gsl_sf_atanint(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_atanint_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
@@ -3701,61 +5270,177 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Ecomp(double k, uint mode);
+            EntryPoint = ""gsl_sf_ellint_Ecomp"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_Ecomp_Native(double k, uint mode);
+        private static double gsl_sf_ellint_Ecomp(double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_Ecomp_Native(k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Kcomp(double k, uint mode);
+            EntryPoint = ""gsl_sf_ellint_Kcomp"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_Kcomp_Native(double k, uint mode);
+        private static double gsl_sf_ellint_Kcomp(double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_Kcomp_Native(k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Pcomp(double k, double n, uint mode);
+            EntryPoint = ""gsl_sf_ellint_Pcomp"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_Pcomp_Native(double k, double n, uint mode);
+        private static double gsl_sf_ellint_Pcomp(double k, double n, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_Pcomp_Native(k, n, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_Dcomp(double k, uint mode);
+            EntryPoint = ""gsl_sf_ellint_Dcomp"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_Dcomp_Native(double k, uint mode);
+        private static double gsl_sf_ellint_Dcomp(double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_Dcomp_Native(k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_F(double phi, double k, uint mode);
+            EntryPoint = ""gsl_sf_ellint_F"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_F_Native(double phi, double k, uint mode);
+        private static double gsl_sf_ellint_F(double phi, double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_F_Native(phi, k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_E(double phi, double k, uint mode);
+            EntryPoint = ""gsl_sf_ellint_E"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_E_Native(double phi, double k, uint mode);
+        private static double gsl_sf_ellint_E(double phi, double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_E_Native(phi, k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_P(double phi, double k, double n, uint mode);
+            EntryPoint = ""gsl_sf_ellint_P"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_P_Native(double phi, double k, double n, uint mode);
+        private static double gsl_sf_ellint_P(double phi, double k, double n, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_P_Native(phi, k, n, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        //private static extern double gsl_sf_ellint_D(double phi, double k, double n, uint mode);
-        private static extern double gsl_sf_ellint_D(double phi, double k, uint mode);
+            EntryPoint = ""gsl_sf_ellint_D"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_D_Native(double phi, double k, uint mode);
+        private static double gsl_sf_ellint_D(double phi, double k, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_D_Native(phi, k, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_RC(double x, double y, uint mode);
+            EntryPoint = ""gsl_sf_ellint_RC"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_RC_Native(double x, double y, uint mode);
+        private static double gsl_sf_ellint_RC(double x, double y, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_RC_Native(x, y, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_RD(double x, double y, double z, uint mode);
+            EntryPoint = ""gsl_sf_ellint_RD"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_RD_Native(double x, double y, double z, uint mode);
+        private static double gsl_sf_ellint_RD(double x, double y, double z, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_RD_Native(x, y, z, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_RF(double x, double y, double z, uint mode);
+            EntryPoint = ""gsl_sf_ellint_RF"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_RF_Native(double x, double y, double z, uint mode);
+        private static double gsl_sf_ellint_RF(double x, double y, double z, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_RF_Native(x, y, z, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_ellint_RJ(double x, double y, double z, double p, uint mode);
+            EntryPoint = ""gsl_sf_ellint_RJ"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_ellint_RJ_Native(double x, double y, double z, double p, uint mode);
+        private static double gsl_sf_ellint_RJ(double x, double y, double z, double p, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_ellint_RJ_Native(x, y, z, p, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
         #region  Jacobian elliptic functions
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern int gsl_sf_elljac_e(double u, double m, out double sn, out double cn, out double dn);
+            EntryPoint = ""gsl_sf_elljac_e"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern int gsl_sf_elljac_e_Native(double u, double m, out double sn, out double cn, out double dn);
+        private static int gsl_sf_elljac_e(double u, double m, out double sn, out double cn, out double dn)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_elljac_e_Native(u, m, out sn, out cn, out dn);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double JacobiEllipticSn(double u, double m)
         {
@@ -3880,20 +5565,56 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_log_erfc(double x);
+            EntryPoint = ""gsl_sf_log_erfc"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_log_erfc_Native(double x);
+        private static double gsl_sf_log_erfc(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_log_erfc_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_erf_Z(double x);
+            EntryPoint = ""gsl_sf_erf_Z"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_erf_Z_Native(double x);
+        private static double gsl_sf_erf_Z(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_erf_Z_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_erf_Q(double x);
+            EntryPoint = ""gsl_sf_erf_Q"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_erf_Q_Native(double x);
+        private static double gsl_sf_erf_Q(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_erf_Q_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hazard(double x);
+            EntryPoint = ""gsl_sf_hazard"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hazard_Native(double x);
+        private static double gsl_sf_hazard(double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hazard_Native(x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         #endregion
 
@@ -4089,37 +5810,109 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_Jnu(double nu, double x);
+            EntryPoint = ""gsl_sf_bessel_Jnu"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_Jnu_Native(double nu, double x);
+        private static double gsl_sf_bessel_Jnu(double nu, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_Jnu_Native(nu, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_Ynu(double nu, double x);
+            EntryPoint = ""gsl_sf_bessel_Ynu"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_Ynu_Native(double nu, double x);
+        private static double gsl_sf_bessel_Ynu(double nu, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_Ynu_Native(nu, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_In(int n, double x);
+            EntryPoint = ""gsl_sf_bessel_In"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_In_Native(int n, double x);
+        private static double gsl_sf_bessel_In(int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_In_Native(n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_Kn(int n, double x);
+            EntryPoint = ""gsl_sf_bessel_Kn"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_Kn_Native(int n, double x);
+        private static double gsl_sf_bessel_Kn(int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_Kn_Native(n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_il_scaled(int l, double x);
+            EntryPoint = ""gsl_sf_bessel_il_scaled"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_il_scaled_Native(int l, double x);
+        private static double gsl_sf_bessel_il_scaled(int l, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_il_scaled_Native(l, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_kl_scaled(int l, double x);
+            EntryPoint = ""gsl_sf_bessel_kl_scaled"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_kl_scaled_Native(int l, double x);
+        private static double gsl_sf_bessel_kl_scaled(int l, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_kl_scaled_Native(l, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_lnKnu(double nu, double x);
+            EntryPoint = ""gsl_sf_bessel_lnKnu"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_lnKnu_Native(double nu, double x);
+        private static double gsl_sf_bessel_lnKnu(double nu, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_lnKnu_Native(nu, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_bessel_zero_Jnu(double nu, uint s);
+            EntryPoint = ""gsl_sf_bessel_zero_Jnu"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_bessel_zero_Jnu_Native(double nu, uint s);
+        private static double gsl_sf_bessel_zero_Jnu(double nu, uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_bessel_zero_Jnu_Native(nu, s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double BesselJνZeros(double ν, double s)
         {
@@ -4215,28 +6008,82 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_Ai_deriv(double x, uint mode);
+            EntryPoint = ""gsl_sf_airy_Ai_deriv"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_Ai_deriv_Native(double x, uint mode);
+        private static double gsl_sf_airy_Ai_deriv(double x, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_Ai_deriv_Native(x, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_Bi_deriv(double x, uint mode);
+            EntryPoint = ""gsl_sf_airy_Bi_deriv"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_Bi_deriv_Native(double x, uint mode);
+        private static double gsl_sf_airy_Bi_deriv(double x, uint mode)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_Bi_deriv_Native(x, mode);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_zero_Ai(uint s);
+            EntryPoint = ""gsl_sf_airy_zero_Ai"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_zero_Ai_Native(uint s);
+        private static double gsl_sf_airy_zero_Ai(uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_zero_Ai_Native(s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_zero_Bi(uint s);
+            EntryPoint = ""gsl_sf_airy_zero_Bi"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_zero_Bi_Native(uint s);
+        private static double gsl_sf_airy_zero_Bi(uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_zero_Bi_Native(s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_zero_Ai_deriv(uint s);
+            EntryPoint = ""gsl_sf_airy_zero_Ai_deriv"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_zero_Ai_deriv_Native(uint s);
+        private static double gsl_sf_airy_zero_Ai_deriv(uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_zero_Ai_deriv_Native(s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_airy_zero_Bi_deriv(uint s);
+            EntryPoint = ""gsl_sf_airy_zero_Bi_deriv"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_airy_zero_Bi_deriv_Native(uint s);
+        private static double gsl_sf_airy_zero_Bi_deriv(uint s)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_airy_zero_Bi_deriv_Native(s);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         //AiryZetaAi //ZerosOfAi// ZerosOfBi
         public static double AiZeros(double x)
@@ -4299,8 +6146,17 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_hzeta(double s, double q);
+            EntryPoint = ""gsl_sf_hzeta"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_hzeta_Native(double s, double q);
+        private static double gsl_sf_hzeta(double s, double q)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_hzeta_Native(s, q);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double HurwitzZeta(double x, double q)
         {
@@ -4319,35 +6175,89 @@ CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
         #region mathieu functions
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_a(int order, double qq);
+            EntryPoint = ""gsl_sf_mathieu_a"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_a_Native(int order, double qq);
+        private static double gsl_sf_mathieu_a(int order, double qq)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_a_Native(order, qq);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-    CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_b(int order, double qq);
+    EntryPoint = ""gsl_sf_mathieu_b"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_b_Native(int order, double qq);
+        private static double gsl_sf_mathieu_b(int order, double qq)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_b_Native(order, qq);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_ce(int order, double qq, double zz);
+EntryPoint = ""gsl_sf_mathieu_ce"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_ce_Native(int order, double qq, double zz);
+        private static double gsl_sf_mathieu_ce(int order, double qq, double zz)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_ce_Native(order, qq, zz);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_se(int order, double qq, double zz);
+EntryPoint = ""gsl_sf_mathieu_se"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_se_Native(int order, double qq, double zz);
+        private static double gsl_sf_mathieu_se(int order, double qq, double zz)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_se_Native(order, qq, zz);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_Mc(int kind, int order, double qq, double zz);
+EntryPoint = ""gsl_sf_mathieu_Mc"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_Mc_Native(int kind, int order, double qq, double zz);
+        private static double gsl_sf_mathieu_Mc(int kind, int order, double qq, double zz)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_Mc_Native(kind, order, qq, zz);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_mathieu_Ms(int kind, int order, double qq, double zz);
+EntryPoint = ""gsl_sf_mathieu_Ms"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_mathieu_Ms_Native(int kind, int order, double qq, double zz);
+        private static double gsl_sf_mathieu_Ms(int kind, int order, double qq, double zz)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_mathieu_Ms_Native(kind, order, qq, zz);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
 
         public static double MathieuSE(int n, double q, double x)

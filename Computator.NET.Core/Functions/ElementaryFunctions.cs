@@ -1,4 +1,4 @@
-﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable InconsistentNaming
 
@@ -1076,16 +1076,43 @@ namespace Computator.NET.Core.Functions
         #region coefficients and special values
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_taylorcoeff(int n, double x);
+            EntryPoint = "gsl_sf_taylorcoeff", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_taylorcoeff_Native(int n, double x);
+        private static double gsl_sf_taylorcoeff(int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_taylorcoeff_Native(n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_doublefact(uint n);
+            EntryPoint = "gsl_sf_doublefact", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_doublefact_Native(uint n);
+        private static double gsl_sf_doublefact(uint n)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_doublefact_Native(n);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_choose(uint n, uint m);
+            EntryPoint = "gsl_sf_choose", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_choose_Native(uint n, uint m);
+        private static double gsl_sf_choose(uint n, uint m)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_choose_Native(n, m);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double TaylorCoeff(int n, double x)
         {
@@ -2209,16 +2236,43 @@ namespace Computator.NET.Core.Functions
         #region coefficients and special values
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_taylorcoeff(int n, double x);
+            EntryPoint = ""gsl_sf_taylorcoeff"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_taylorcoeff_Native(int n, double x);
+        private static double gsl_sf_taylorcoeff(int n, double x)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_taylorcoeff_Native(n, x);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_doublefact(uint n);
+            EntryPoint = ""gsl_sf_doublefact"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_doublefact_Native(uint n);
+        private static double gsl_sf_doublefact(uint n)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_doublefact_Native(n);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
-            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
-        private static extern double gsl_sf_choose(uint n, uint m);
+            EntryPoint = ""gsl_sf_choose"", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl)]
+        private static extern double gsl_sf_choose_Native(uint n, uint m);
+        private static double gsl_sf_choose(uint n, uint m)
+        {
+            using (var boundary = Computator.NET.DataTypes.Configuration.GslErrorBoundary.Enter())
+            {
+                var value = gsl_sf_choose_Native(n, m);
+                boundary.ThrowIfError();
+                return value;
+            }
+        }
 
         public static double TaylorCoeff(int n, double x)
         {
