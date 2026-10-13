@@ -7,6 +7,10 @@ export function useTextResult() {
   const active = useRef<AbortController | null>(null);
   const functions = useCustomFunctions();
   useEffect(() => () => active.current?.abort(), []);
+  function cancel() {
+    active.current?.abort(); active.current = null;
+    setPending(false); setError('Execution cancelled.');
+  }
   async function execute(operation: string, parameters: Record<string, unknown>) {
     active.current?.abort();
     const controller = new AbortController(); active.current = controller;
@@ -27,5 +31,5 @@ export function useTextResult() {
       if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : 'The request failed.');
     } finally { if (!controller.signal.aborted) setPending(false); }
   }
-  return { result, error, pending, execute };
+  return { result, error, pending, execute, cancel };
 }
