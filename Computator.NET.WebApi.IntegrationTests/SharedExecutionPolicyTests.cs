@@ -83,8 +83,8 @@ namespace Computator.NET.WebApi.IntegrationTests
             next.EnsureSuccessStatusCode();
             NUnit.Framework.Assert.That((string)JObject.Parse(await next.Content.ReadAsStringAsync())["result"], Is.EqualTo("42"));
         }
-        [TestCase(0)]
-        [TestCase(1000001)]
+        [TestCase(0u)]
+        [TestCase(1000001u)]
         public void BothParameterModelsRejectInvalidIterationCounts(uint iterations)
         {
             NUnit.Framework.Assert.That(ExecutionPolicy.Validate(new ExecutionRequest { Expression = "x", N = iterations }, false), Is.Not.Empty);

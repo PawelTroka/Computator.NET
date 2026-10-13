@@ -1,9 +1,9 @@
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Evaluation;
+using Computator.NET.DataTypes;
 using Computator.NET.WebApi.Controllers;
 using Computator.NET.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +18,6 @@ namespace Computator.NET.WebApi.Hosting
         public void OnResourceExecuting(ResourceExecutingContext context)
         {
             if (!(context.ActionDescriptor is ControllerActionDescriptor action) || action.ControllerName == "ExecutionV2") return;
-            // Preserve legacy signed numeric input such as '-   1', but never turn
-            // '1 2' into 12 or apply numeric normalization to source-code strings.
             foreach (var parameter in action.Parameters.OfType<ControllerParameterDescriptor>())
             {
                 if (parameter.ParameterInfo.ParameterType != typeof(double) ||
@@ -48,7 +46,11 @@ namespace Computator.NET.WebApi.Hosting
         public void OnActionExecuted(ActionExecutedContext context) { }
         public void OnException(ExceptionContext context)
         {
-            if (context.Exception is CompilationException || context.Exception is EvaluationException || context.Exception is ArgumentException)
+            // ScriptFunction/Function wrap execution failures (including a bounded
+            // output callback) in CalculationException. Preserve that established
+            // domain exception instead of leaking an HTTP 500 for a user error.
+            if (context.Exception is CompilationException || context.Exception is EvaluationException ||
+                context.Exception is CalculationException || context.Exception is ArgumentException)
             {
                 context.Result = new BadRequestObjectResult(new ProblemDetails { Title = "Execution failed.", Detail = context.Exception.Message, Status = 400 });
                 context.ExceptionHandled = true;
