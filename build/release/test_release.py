@@ -2,7 +2,9 @@ import tempfile
 from pathlib import Path
 import unittest
 from versioning import identity, check, expected_block
-from evidence import validate_report
+from evidence import validate_report, fresh_file, required_artifacts
+import os
+import time
 
 class ReleaseTests(unittest.TestCase):
     def setUp(self):
@@ -62,5 +64,41 @@ class ReleaseTests(unittest.TestCase):
             with self.subTest(projects=projects, duplicate=duplicate):
                 file.write_text(self.browser_report(projects, duplicate))
                 with self.assertRaises(ValueError): validate_report(file, 10)
+
+    def test_duplicate_test_with_new_execution_id_does_not_inflate_trx_count(self):
+        file = self.root / 'core.trx'
+        results = ''.join(f'<UnitTestResult executionId="{i}" testId="same-test" outcome="Passed"/>' for i in range(2))
+        file.write_text(f'<TestRun><Results>{results}</Results><TestDefinitions><UnitTest id="same-test"/></TestDefinitions>'
+            '<ResultSummary outcome="Completed"><Counters total="2" passed="2"/></ResultSummary></TestRun>')
+        with self.assertRaises(ValueError): validate_report(file, 2)
+
+    def test_aborted_trx_run_with_passing_cases_is_rejected(self):
+        file = self.root / 'core.trx'
+        file.write_text('<TestRun><Results><UnitTestResult testId="case" outcome="Passed"/></Results>'
+            '<TestDefinitions><UnitTest id="case"/></TestDefinitions>'
+            '<ResultSummary outcome="Aborted"><Counters total="1" passed="1"/></ResultSummary></TestRun>')
+        with self.assertRaises(ValueError): validate_report(file, 1)
+
+    def test_old_candidate_cannot_supply_missing_current_artifact(self):
+        file = self.root / 'candidate.zip'; file.write_bytes(b'old payload')
+        os.utime(file, (1, 1))
+        with self.assertRaises(ValueError): fresh_file(self.root, file.name, time.time())
+        with self.assertRaises(ValueError): fresh_file(self.root, 'missing.zip', time.time())
+
+    def test_inventory_requires_exact_version_and_local_package(self):
+        self.version()
+        (self.root / 'build/followups').mkdir(parents=True)
+        (self.root / 'build/ModernDesktop.props').write_text('<Project><TargetFramework>net10.0-windows</TargetFramework></Project>')
+        (self.root / 'build/followups/local-web.cake').touch()
+        artifacts = required_artifacts(self.root, identity(self.root))
+        self.assertIn('publish/Computator.NET.v3.0.0.0.net10.0-windows.zip', artifacts)
+        self.assertIn('publish/Computator.NET.LocalWeb.win-x64.zip', artifacts)
+
+    def test_local_package_requires_both_browser_projects(self):
+        file = self.root / 'local-package.xml'
+        file.write_text(self.browser_report(['chromium', 'firefox']))
+        validate_report(file, 2)
+        file.write_text(self.browser_report(['chromium']))
+        with self.assertRaises(ValueError): validate_report(file, 2)
 
 if __name__ == '__main__': unittest.main()

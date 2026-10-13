@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 from pathlib import Path
 import platform
 import subprocess
@@ -22,6 +21,36 @@ REPORTS = {
     'Computator.NET.WebClient/test-results/custom-functions.xml': 12,
 }
 
+def required_reports(root: Path) -> dict[str, int]:
+    reports = dict(REPORTS)
+    if (root / 'build/followups/local-web.cake').is_file():
+        reports['Computator.NET.WebClient/test-results/local-package.xml'] = 2
+    return reports
+
+
+def required_artifacts(root: Path, version: dict) -> list[str]:
+    framework = ET.parse(root / 'build/ModernDesktop.props').find('.//TargetFramework').text
+    assembly = version['assemblyVersion']
+    artifacts = [f'publish/Computator.NET.v{assembly}.{framework}.zip',
+        f'publish/Computator.NET.WebApi.v{assembly}.{framework}.zip',
+        f'publish/Computator.NET.WebClient.v{assembly}.net10.0.zip',
+        f'artifacts/msix/Computator.NET.{version["msixVersion"]}.win-x64.msix',
+        'artifacts/msix/package-validation.json',
+        'artifacts/installer/output/Computator.NET.reviewed.wxs',
+        'artifacts/installer/output/payload.xml']
+    if (root / 'build/followups/local-web.cake').is_file():
+        artifacts.append('publish/Computator.NET.LocalWeb.win-x64.zip')
+    return artifacts
+
+
+def fresh_file(root: Path, relative: str, started: float) -> Path:
+    path = root / relative
+    if not path.resolve().is_relative_to(root.resolve()):
+        raise ValueError('Candidate inventory must not follow paths outside the checkout.')
+    if not path.is_file() or path.stat().st_mtime < started - 2:
+        raise ValueError(f'Missing/stale release output: {relative}')
+    return path
+
 def git(root: Path, *arguments: str) -> str:
     return subprocess.check_output(['git', '-C', str(root), *arguments], text=True).strip()
 
@@ -39,9 +68,14 @@ def validate_report(path: Path, minimum: int) -> dict:
         permitted = path.name == 'Computator.NET.WebApi.IntegrationTests.trx'
         if failures or any(not permitted or node.get('testName') != 'ReturnsHttpOkForChart3D' for node in skipped):
             raise ValueError(f'Failed/undocumented skipped test in {path.name}.')
-        identifiers = [node.get('executionId') for node in cases]
+        identifiers = [node.get('testId') for node in cases]
+        definitions = {node.get('id') for node in tree.iter() if local(node) == 'UnitTest'}
+        summary = next((node for node in tree.iter() if local(node) == 'ResultSummary'), None)
         counters = next((node for node in tree.iter() if local(node) == 'Counters'), None)
-        if counters is None or int(counters.get('total', '-1')) != len(cases):
+        if (summary is None or summary.get('outcome') not in ('Passed', 'Completed') or
+                counters is None or int(counters.get('total', '-1')) != len(cases) or
+                int(counters.get('passed', '-1')) != len(cases) - len(skipped) or
+                any(not identity or identity not in definitions for identity in identifiers)):
             raise ValueError(f'Incomplete TRX counters in {path.name}.')
     else:
         cases = list(tree.iter('testcase'))
@@ -54,8 +88,8 @@ def validate_report(path: Path, minimum: int) -> dict:
         # remain invalid. Small synthetic unit reports need not name a browser.
         identifiers = [(parents[node].get('hostname'), parents[node].get('name'),
                         node.get('classname'), node.get('name')) for node in cases]
-        if minimum >= 10:
-            expected = {'chromium', 'firefox'} if path.name == 'results.xml' else {'real-chromium', 'real-firefox'}
+        if minimum >= 10 or path.name == 'local-package.xml':
+            expected = {'chromium', 'firefox'} if path.name in ('results.xml', 'local-package.xml') else {'real-chromium', 'real-firefox'}
             if {item[0] for item in identifiers} != expected:
                 raise ValueError(f'Missing or unexpected browser projects in {path.name}.')
     if len(cases) < minimum or len(set(identifiers)) != len(cases):
@@ -67,7 +101,7 @@ def begin(root: Path) -> None:
         raise ValueError('Release evidence requires an unchanged tracked source tree.')
     directory = root / 'artifacts/release-evidence'
     directory.mkdir(parents=True, exist_ok=True)
-    for relative in REPORTS:
+    for relative in required_reports(root):
         (root / relative).unlink(missing_ok=True)
     (directory / 'manifest.json').unlink(missing_ok=True)
     start = {'commit': git(root, 'rev-parse', 'HEAD'), 'startedUnix': time.time(),
@@ -80,25 +114,20 @@ def finish(root: Path) -> None:
     if git(root, 'rev-parse', 'HEAD') != start['commit'] or git(root, 'status', '--porcelain', '--untracked-files=no'):
         raise ValueError('The source revision changed during verification.')
     reports = {}
-    for relative, minimum in REPORTS.items():
-        path = root / relative
-        if not path.is_file() or path.stat().st_mtime < start['startedUnix'] - 2:
-            raise ValueError(f'Missing/stale release report: {relative}')
+    for relative, minimum in required_reports(root).items():
+        path = fresh_file(root, relative, start['startedUnix'])
         reports[relative] = validate_report(path, minimum)
     artifacts = {}
-    for folder in ('publish', 'artifacts/msix', 'artifacts/installer/output'):
-        directory_path = root / folder
-        if not directory_path.is_dir():
-            raise ValueError(f'Missing candidate output: {folder}')
-        for path in sorted(directory_path.rglob('*')):
-            if path.is_file() and path.suffix.lower() in ('.zip', '.msix', '.wxs', '.xml', '.json'):
-                if not path.resolve().is_relative_to(root):
-                    raise ValueError('Candidate inventory must not follow paths outside the checkout.')
-                artifacts[str(path.relative_to(root)).replace(os.sep, '/')] = {'sha256': digest(path), 'bytes': path.stat().st_size}
-    if not any(name.endswith('.msix') for name in artifacts) or sum(name.endswith('.zip') for name in artifacts) < 3:
-        raise ValueError('Required ZIP/MSIX candidate outputs are missing.')
+    for relative in required_artifacts(root, start['version']):
+        path = fresh_file(root, relative, start['startedUnix'])
+        artifacts[relative] = {'sha256': digest(path), 'bytes': path.stat().st_size}
     packages = {}
-    for path in root.glob('**/obj/project.assets.json'):
+    # Inventory only the supported project graph restored by this run. Old obj
+    # trees from historical projects must not contaminate candidate provenance.
+    solution = ET.parse(root / 'Computator.NET.slnx')
+    for project in solution.iter('Project'):
+        relative = str(Path(project.get('Path')).parent / 'obj/project.assets.json').replace('\\', '/')
+        path = fresh_file(root, relative, start['startedUnix'])
         data = json.loads(path.read_text(encoding='utf-8-sig'))
         for name, item in data.get('libraries', {}).items():
             if item.get('type') == 'package':
