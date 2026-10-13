@@ -14,6 +14,8 @@ The PowerShell 5.1 guest checks that no modern shared runtime/SDK or Computator.
 
 The negative MSI is not a distribution artifact and is never copied back as a release output. Installer logs and a structured acceptance result remain in the newly mapped results directory. Cleanup only targets product codes established from the checked input packages in this disposable guest. Failure/cleanup failure is not reported as acceptance success.
 
+The authentic v2.3.2 bundle's MSI ProductVersion is `2.3.2.0`. The rollback probe requires removal after InstallInitialize and before InstallFiles; removal before the transaction or after the deliberate failure cannot establish this rollback claim and is rejected. This tests rollback of the historical removal, not failure after every deferred candidate action has executed.
+
 Without a historical MSI the harness can test fresh installation, but explicitly reports historical acceptance as not requested. `Clean-Machine-Verify` requires the real historical rollback/upgrade stages and the exact candidate hash. A successful fresh-install-only report cannot satisfy it.
 
 Normal PR CI tests PowerShell syntax, read-only/writable mapping boundaries, legacy-hash requirements and rejection of wrong-hash, failed or incomplete evidence. **It does not launch Sandbox or execute the MSI lifecycle.** Actual guest execution, bootstrapper UX, standard-user launch, broader supported Windows editions, visual/profile acceptance and signed release review still require recorded runs. The report is evidence, not a cryptographic attestation against a malicious operator.

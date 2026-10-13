@@ -32,7 +32,7 @@ $inputs = Join-Path $root 'inputs'; $results = Join-Path $root 'results'
 New-Item -ItemType Directory -Path $inputs, $results -Force | Out-Null
 Copy-Item -LiteralPath $msi -Destination (Join-Path $inputs 'candidate.msi')
 Copy-Item -LiteralPath $inventory -Destination (Join-Path $inputs 'payload.xml')
-foreach ($script in @('Guest-Acceptance.ps1', 'New-FailingUpgrade.ps1')) { Copy-Item -LiteralPath (Join-Path $PSScriptRoot $script) -Destination $inputs }
+foreach ($script in @('Guest-Acceptance.ps1', 'New-FailingUpgrade.ps1', 'AcceptanceContracts.psm1')) { Copy-Item -LiteralPath (Join-Path $PSScriptRoot $script) -Destination $inputs }
 if ($legacy) { Copy-Item -LiteralPath $legacy -Destination (Join-Path $inputs 'legacy.msi') }
 $plan = [ordered]@{
     schemaVersion = 1; candidateProductCode = $product
@@ -40,7 +40,8 @@ $plan = [ordered]@{
     inventorySha256 = (Get-FileHash -LiteralPath $inventory).Hash
     historicalUpgradeRequested = [bool]$legacy; legacySha256 = $LegacySha256
     expectedUpgradeCode = '{86D89770-B31B-4467-BC5E-B54B0FF263A1}'
-    expectedLegacyVersion = '2.3.2'; requireNoModernRuntime = $true
+    # Both authentic MSI payloads in the v2.3.2 bundle use four components.
+    expectedLegacyVersion = '2.3.2.0'; requireNoModernRuntime = $true
 }
 $plan | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $inputs 'plan.json') -Encoding UTF8
 $settings = [xml]'<Configuration><VGpu>Disable</VGpu><Networking>Disable</Networking><ClipboardRedirection>Disable</ClipboardRedirection><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><PrinterRedirection>Disable</PrinterRedirection><MappedFolders><MappedFolder><HostFolder/><SandboxFolder>C:\Inputs</SandboxFolder><ReadOnly>true</ReadOnly></MappedFolder><MappedFolder><HostFolder/><SandboxFolder>C:\Results</SandboxFolder><ReadOnly>false</ReadOnly></MappedFolder></MappedFolders><LogonCommand><Command>powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Inputs\Guest-Acceptance.ps1 -InputDirectory C:\Inputs -ResultDirectory C:\Results -DisposableMachine</Command></LogonCommand></Configuration>'

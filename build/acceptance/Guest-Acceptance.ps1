@@ -25,7 +25,7 @@ function Property([string]$Path, [string]$Name) {
 }
 function Installed([string]$Code) { return [int]$installer.ProductState($Code) -eq 5 }
 function Msi([string[]]$Arguments, [string]$Log, [int[]]$Expected = @(0, 3010)) {
-    $process = Start-Process msiexec.exe -ArgumentList ($Arguments + @('/qn', '/norestart', '/l*v', ('"' + (Join-Path $ResultDirectory $Log) + '"'))) -Wait -PassThru
+    $process = Start-Process msiexec.exe -ArgumentList ($Arguments + @('/qn', '/norestart', '/l*v', ('"' + (Join-Path $ResultDirectory $Log) + '"'))) -WindowStyle Hidden -Wait -PassThru
     if ($process.ExitCode -notin $Expected) { throw "Windows Installer returned $($process.ExitCode); see $Log." }
 }
 function Launch([string]$Directory) {

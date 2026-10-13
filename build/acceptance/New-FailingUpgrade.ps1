@@ -2,6 +2,7 @@
 param([Parameter(Mandatory)][string]$Source, [Parameter(Mandatory)][string]$Destination)
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+Import-Module (Join-Path $PSScriptRoot 'AcceptanceContracts.psm1') -Force
 if ($env:COMPUTATOR_DISPOSABLE_INSTALL_TEST -ne '1') { throw 'Negative MSI generation is permitted only inside the explicit disposable acceptance guest.' }
 if (Test-Path -LiteralPath $Destination) { throw 'Refusing to overwrite a negative-test MSI.' }
 Copy-Item -LiteralPath $Source -Destination $Destination
@@ -14,6 +15,11 @@ $view = Query 'SELECT `Sequence` FROM `InstallExecuteSequence` WHERE `Action` = 
 $record = $view.Fetch(); $after = [int]$record.IntegerData(1); $view.Close()
 $view = Query 'SELECT `Sequence` FROM `InstallExecuteSequence` WHERE `Action` = ''InstallFinalize'''
 $record = $view.Fetch(); $finalize = [int]$record.IntegerData(1); $view.Close()
+$view = Query 'SELECT `Sequence` FROM `InstallExecuteSequence` WHERE `Action` = ''InstallInitialize'''
+$record = $view.Fetch(); $initialize = [int]$record.IntegerData(1); $view.Close()
+$view = Query 'SELECT `Sequence` FROM `InstallExecuteSequence` WHERE `Action` = ''RemoveExistingProducts'''
+$record = $view.Fetch(); $removeExisting = if ($record) { [int]$record.IntegerData(1) } else { 0 }; $view.Close()
+Assert-TransactionalUpgradeSequence $initialize $removeExisting $after $finalize
 $sequence = $after + 1
 while ($sequence -lt $finalize) {
     $view = Query ('SELECT `Action` FROM `InstallExecuteSequence` WHERE `Sequence` = {0}' -f $sequence)
