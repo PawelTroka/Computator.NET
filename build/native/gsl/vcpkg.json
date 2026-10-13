@@ -1,0 +1,7 @@
+{
+  "name": "computator-gsl",
+  "version-string": "1.0.0",
+  "builtin-baseline": "e456309491fd875487bf02b8a0dca76c1b1b00cc",
+  "dependencies": ["gsl"],
+  "overrides": [{ "name": "gsl", "version": "2.8", "port-version": 2 }]
+}
