@@ -1,4 +1,6 @@
+using System;
 using Computator.NET.WebApi.Hosting;
+using Computator.NET.WebApi.Execution;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
@@ -6,11 +8,15 @@ namespace Computator.NET.WebApi
 {
     public static class Program
     {
+        [STAThread]
         public static void Main(string[] args)
         {
+            if (args.Length == 1 && args[0] == "--execution-worker")
+            {
+                Environment.ExitCode = WorkerRuntime.Run(); return;
+            }
             using (var app = BuildApplication(args)) app.Run();
         }
-
         public static WebApplication BuildApplication(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);

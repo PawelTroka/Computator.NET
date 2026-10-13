@@ -3,8 +3,12 @@
     "Computator.NET.WebClient": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "",
       "applicationUrl": "http://localhost:63785",
-      "environmentVariables": { "ASPNETCORE_ENVIRONMENT": "Development" }
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ENVIRONMENT": "Development"
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-version: 2.4.0.{build}
+version: '{build}'
 image: Visual Studio 2026
 configuration:
   - Debug
@@ -10,6 +10,11 @@ skip_tags: true
 install:
   - ps: |
       $ErrorActionPreference = 'Stop'
+      [xml]$identity = Get-Content Version.props -Raw
+      $productVersion = $identity.Project.PropertyGroup.ComputatorBaseVersion
+      $prerelease = $identity.Project.PropertyGroup.ComputatorPrerelease
+      if ($prerelease) { $productVersion += "-$prerelease" }
+      Update-AppveyorBuild -Version "$productVersion.build.$env:APPVEYOR_BUILD_NUMBER"
       $sdk = (Get-Content global.json -Raw | ConvertFrom-Json).sdk.version
       $env:DOTNET_ROOT = Join-Path $env:LOCALAPPDATA "Computator-CI\dotnet-$sdk"
       python build/ci/verified_sdk.py --destination "$env:DOTNET_ROOT"

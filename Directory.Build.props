@@ -1,0 +1,4 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)Version.props" />
+  <!-- Direct package pins stay in Directory.Packages.props. No lock generation. -->
+</Project>

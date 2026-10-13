@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -6,14 +7,13 @@ using System.Runtime.InteropServices;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.SettingsTypes;
-using Computator.NET.Localization;
 
 namespace Computator.NET.Core.Natives
 {
     public class GSLInitializer
     {
         private static readonly object Gate = new object();
-        private static readonly gsl_error_handler_t UnmanagedHandler = HandleUnmanagedException;
+        private static readonly gsl_error_handler_t UnmanagedHandler = HandleUnmanagedError;
         private static IntPtr _library;
         public static void Initialize()
         {
@@ -22,7 +22,9 @@ namespace Computator.NET.Core.Natives
                 if (_library == IntPtr.Zero)
                 {
                     var candidate = Environment.GetEnvironmentVariable("COMPUTATOR_GSL_DIRECTORY");
+                    var packaged = Path.Combine(AppContext.BaseDirectory, "native", "gsl");
                     if (!string.IsNullOrWhiteSpace(candidate)) _library = GslCandidate.Load(candidate);
+                    else if (Directory.Exists(packaged)) _library = GslCandidate.Load(packaged);
                     else
                     {
                         var architecture = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture;
@@ -39,16 +41,26 @@ namespace Computator.NET.Core.Natives
                         _library = NativeLibrary.Load(path);
                     }
                     NativeLibrary.SetDllImportResolver(typeof(GSLInitializer).Assembly, Resolve);
+                    // Install exactly once; do not race process-wide native handler
+                    // changes when requests initialize their own evaluators.
+                    NativeMethods.gsl_set_error_handler(UnmanagedHandler);
+                    // The settings editor updates the singleton in place. Keep
+                    // its mode live without replacing the native callback.
+                    Settings.Default.PropertyChanged += OnSettingsChanged;
                 }
-                if (Settings.Default.CalculationsErrors == CalculationsErrors.ReturnNAN) NativeMethods.gsl_set_error_handler_off();
-                else NativeMethods.gsl_set_error_handler(UnmanagedHandler);
+                UpdateErrorMode();
             }
         }
+        private static void OnSettingsChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (string.IsNullOrEmpty(args.PropertyName) || args.PropertyName == nameof(Settings.CalculationsErrors))
+                UpdateErrorMode();
+        }
+        private static void UpdateErrorMode() =>
+            GslErrorBoundary.ThrowOnError = Settings.Default.CalculationsErrors != CalculationsErrors.ReturnNAN;
         private static IntPtr Resolve(string name, Assembly assembly, DllImportSearchPath? searchPath) =>
             string.Equals(name, GslConfig.GslDllName, StringComparison.OrdinalIgnoreCase) ? _library : IntPtr.Zero;
-        private static void HandleUnmanagedException(string reason, string file, int line, int gsl_errno)
-        {
-            throw new Exception($"{Strings.Exception_occcured_in} {file}\n {Strings.at_line} {line}\n{Strings.Reason}: {reason}\n{Strings.Error_code}: {gsl_errno}");
-        }
+        private static void HandleUnmanagedError(string reason, string file, int line, int status) =>
+            GslErrorBoundary.Record(reason, status);
     }
 }

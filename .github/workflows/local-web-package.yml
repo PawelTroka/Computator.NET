@@ -1,0 +1,32 @@
+name: Protected local application package
+on:
+  pull_request:
+  push:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Build, unpack and exercise the real local product through Cake
+        shell: pwsh
+        run: ./build.ps1 -Target Local-Web-Package
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: local-web-package-review
+          path: |
+            publish/Computator.NET.LocalWeb.win-x64.zip
+            Computator.NET.WebClient/test-results/**
+          retention-days: 7

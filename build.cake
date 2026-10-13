@@ -7,17 +7,17 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", EnvironmentVariable("configuration") ?? EnvironmentVariable("build_config") ?? "Release");
 var suite = Argument("suite", "All");
 var coverage = Argument("coverage", target == "Calculate-Coverage" || target == "Upload-Coverage");
-var solution = "Computator.NET.sln";
+var solution = "Computator.NET.slnx";
 var webDirectory = "Computator.NET.WebClient";
 var webProject = webDirectory + "/Computator.NET.WebClient.csproj";
 var framework = XDocument.Load("build/ModernDesktop.props").Descendants("TargetFramework").Single().Value;
 var modernRuntime = framework.StartsWith("net10.", StringComparison.Ordinal);
 var suites = new Dictionary<string, int>
 {
-    { "Computator.NET.Core.Tests", modernRuntime ? 252 : 225 },
+    { "Computator.NET.Core.Tests", modernRuntime ? 270 : 225 },
     { "Computator.NET.Core.IntegrationTests", 947 },
-    { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 53 : 52 },
-    { "Computator.NET.Desktop.Tests", modernRuntime ? 20 : 9 }
+    { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 109 : 52 },
+    { "Computator.NET.Desktop.Tests", modernRuntime ? 26 : 9 }
 };
 if (configuration != "Debug" && configuration != "Release") throw new Exception("Configuration must be Debug or Release.");
 if (suite != "All" && !suites.ContainsKey(suite)) throw new Exception("Unknown test suite: " + suite);
@@ -100,6 +100,20 @@ void PublishApi()
     if (modernRuntime) PowerShell("build/Test-PublishedNet10Api.ps1", "-PublishDirectory artifacts/api");
     else RequirePayload("artifacts/api", new[] { "Computator.NET.WebApi.exe", "Static/functions.xml" });
 }
+void PublishWeb(string directory, string apiBase = null)
+{
+    // Build and copy one profile together: an aggregate target can publish both
+    // the direct-development client and the protected relative-API client.
+    NodeCommand("npm", "run build", apiBase == null ? null : new Dictionary<string, string> { { "VITE_API_BASE_URL", apiBase } });
+    CleanDirectory(directory);
+    DotNetRestore(webProject, RestoreSettings());
+    DotNetPublish(webProject, new DotNetPublishSettings
+    {
+        Configuration = configuration, NoRestore = true, OutputDirectory = directory,
+        ArgumentCustomization = a => a.Append("-p:SkipFrontendBuild=true")
+    });
+    RequirePayload(directory, new[] { "Computator.NET.WebClient.dll", "dist/index.html" });
+}
 void PackagePayload(string directory, string fileName, string requiredEntry)
 {
     if (FileExists(fileName)) DeleteFile(fileName);
@@ -150,12 +164,8 @@ Task("Clean").Does(() =>
 });
 Task("Restore").Does(() =>
 {
-    if (!IsRunningOnWindows()) throw new Exception("Desktop/API require Windows. Use --target=Web-Validate for the independent web client.");
-    var xmlProjects = XDocument.Load("Computator.NET.Modern.slnx").Descendants("Project")
-        .Select(p => p.Attribute("Path").Value.Replace('\\', '/')).OrderBy(p => p).ToArray();
-    var slnProjects = Regex.Matches(System.IO.File.ReadAllText(solution), "\"([^\"\\r\\n]+\\.csproj)\"")
-        .Cast<Match>().Select(m => m.Groups[1].Value.Replace('\\', '/')).OrderBy(p => p).ToArray();
-    if (!xmlProjects.SequenceEqual(slnProjects)) throw new Exception("The .sln and .slnx project lists differ.");
+    if (!IsRunningOnWindows()) throw new Exception("Full solution builds require Windows. Use --target=Portable-Validate or --target=Web-Validate on other platforms.");
+    PowerShell("build/Assert-Solution.ps1");
     PowerShell("build/Test-ResultGuard.ps1");
     DotNetRestore(solution, RestoreSettings());
 });
@@ -192,17 +202,7 @@ Task("Web-Restore").Does(() =>
     NodeCommand("npm", "audit --audit-level=low");
 });
 Task("Web-Build").IsDependentOn("Web-Restore").Does(() => NodeCommand("npm", "run build"));
-Task("Web-Publish").IsDependentOn("Web-Build").Does(() =>
-{
-    CleanDirectory("artifacts/webclient");
-    DotNetRestore(webProject, RestoreSettings());
-    DotNetPublish(webProject, new DotNetPublishSettings
-    {
-        Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/webclient",
-        ArgumentCustomization = a => a.Append("-p:SkipFrontendBuild=true")
-    });
-    RequirePayload("artifacts/webclient", new[] { "Computator.NET.WebClient.dll", "dist/index.html" });
-});
+Task("Web-Publish").IsDependentOn("Web-Restore").Does(() => PublishWeb("artifacts/webclient"));
 Task("Web-Browsers").IsDependentOn("Web-Restore").Does(() =>
     NodeCommand("npx", "playwright install " + (IsRunningOnWindows() ? "" : "--with-deps ") + "chromium firefox"));
 Task("Web-Tests").IsDependentOn("Web-Publish").IsDependentOn("Web-Browsers").Does(() =>
@@ -221,7 +221,6 @@ Task("Web-Validate").IsDependentOn("Web-Tests");
 Task("Package").IsDependentOn("Publish-Desktop").IsDependentOn("Publish-Api").IsDependentOn("Web-Publish").Does(() =>
 {
     EnsureDirectoryExists("publish");
-    // Anchored declaration: never read the commented-out wildcard example above it.
     var declaration = Regex.Match(System.IO.File.ReadAllText("SharedAssemblyInfo.cs"),
         @"^\s*\[assembly:\s*AssemblyVersion\(""(?<version>\d+\.\d+\.\d+\.\d+)""\)\]", RegexOptions.Multiline);
     if (!declaration.Success) throw new Exception("An explicit four-part AssemblyVersion declaration was not found.");
@@ -242,13 +241,11 @@ Task("Upload-Coverage").IsDependentOn("Calculate-Coverage").Does(() =>
         throw new Exception("Coverage is in TestResults. GitHub uploads artifacts; external Coveralls/Codecov publication requires configured credentials.");
     foreach (var report in GetFiles("TestResults/**/*.cobertura.xml")) AppVeyor.UploadArtifact(report);
 });
-// Each independently reviewed packaging module replaces its historical placeholder.
 if (!FileExists("build/followups/installer.cake"))
     Task("Build-Installer").Does(() => { throw new Exception("The MSI migration module is not present. Use --target=Publish for portable ZIPs."); });
 if (!FileExists("build/followups/msix.cake"))
     Task("Build-Uwp").Does(() => { throw new Exception("The MSIX migration module is not present. Use --target=Publish for portable ZIPs."); });
-Task("Install-Linux").Does(() => { throw new Exception("Machine-wide Mono installation is retired. Install the pinned SDK/Node and use --target=Web-Validate."); });
+Task("Install-Linux").Does(() => { throw new Exception("Machine-wide Mono installation is retired. Use the portable or independent web targets."); });
 Task("Default").IsDependentOn("UnitTests");
-// Independently reviewable workstreams add tasks without duplicating the build graph.
 #load "./build/followups/*.cake"
 RunTarget(target);
