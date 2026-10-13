@@ -10,7 +10,7 @@ test('the exact unpacked application computes without exposing a backend token',
   await page.getByRole('button', { name: 'Calculate!' }).click();
   const submitted = await request;
   expect(submitted.headers()['x-computator-session']).toBeUndefined();
-  expect(submitted.url()).toBe('http://127.0.0.1:4190/api/v2/execute');
+  expect(submitted.url()).toBe('http://127.0.0.1:4188/api/v2/execute');
   await expect(page.getByRole('status')).toHaveText('42');
   expect(outgoing.some(url => url.includes(':60999'))).toBe(false);
 });

@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
-foreach ($port in @(4190, 60999)) {
+foreach ($port in @(4188, 60999)) {
     $stopped = $false
     for ($attempt = 0; $attempt -lt 30; $attempt++) {
         $socket = [Net.Sockets.TcpClient]::new()
