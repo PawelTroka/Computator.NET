@@ -1,0 +1,43 @@
+using System;
+using System.Reflection;
+using Computator.NET.Core.Functions;
+using Computator.NET.Core.Natives;
+using Computator.NET.DataTypes.Configuration;
+using NUnit.Framework;
+
+namespace Computator.NET.Desktop.Tests
+{
+    // The native candidate Cake target runs this suite as well as the full
+    // numerical suite, so the error boundary is checked against both binaries.
+    [TestFixture, NonParallelizable]
+    public class GslNativeErrorTests
+    {
+        [TestCase(false)]
+        [TestCase(true)]
+        public void NativeDomainErrorReturnsThroughTheBoundaryAndTheNextCallRecovers(bool throwOnError)
+        {
+            GSLInitializer.Initialize();
+            var previous = GslErrorBoundary.ThrowOnError;
+            var wrapper = typeof(SpecialFunctions).GetMethod("gsl_sf_gamma_inc_P", BindingFlags.Static | BindingFlags.NonPublic);
+            NUnit.Framework.Assert.That(wrapper, Is.Not.Null);
+            try
+            {
+                GslErrorBoundary.ThrowOnError = throwOnError;
+                // Call the reviewed wrapper, bypassing the public convenience
+                // method's early argument check so the native callback really runs.
+                if (throwOnError)
+                {
+                    var exception = NUnit.Framework.Assert.Throws<TargetInvocationException>(() =>
+                        wrapper.Invoke(null, new object[] { -1.0, 1.0 }));
+                    NUnit.Framework.Assert.That(exception.InnerException, Is.TypeOf<ArithmeticException>());
+                    NUnit.Framework.Assert.That(exception.InnerException.Message, Does.Contain("GSL error"));
+                }
+                else
+                    NUnit.Framework.Assert.That((double)wrapper.Invoke(null, new object[] { -1.0, 1.0 }), Is.NaN);
+                var recovered = (double)wrapper.Invoke(null, new object[] { 1.0, 1.0 });
+                NUnit.Framework.Assert.That(recovered, Is.EqualTo(1.0 - Math.Exp(-1.0)).Within(1e-12));
+            }
+            finally { GslErrorBoundary.ThrowOnError = previous; }
+        }
+    }
+}
