@@ -1,0 +1,53 @@
+name: Repair review evidence
+on:
+  push:
+    branches: [review/2026-repair-evidence]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Capture the public repository and requested PR evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/computator-review
+          git archive --format=tar.gz -o /tmp/computator-review/master.tar.gz origin/master
+          python3 - <<'PY'
+          import json, pathlib, subprocess
+          root=pathlib.Path('/tmp/computator-review')
+          repo='PawelTroka/Computator.NET'
+          def api(path):
+              return json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/{path}'],text=True))
+          index={'master':subprocess.check_output(['git','rev-parse','origin/master'],text=True).strip(),'pulls':[]}
+          for number in [151,152,153,154,156,157,158,159]:
+              pr=api(f'pulls/{number}')
+              head=pr['head']['sha']
+              with (root/f'{number}.patch').open('wb') as output:
+                  subprocess.run(['git','diff','--binary','origin/master',head],stdout=output,check=True)
+              item={'number':number,'title':pr['title'],'state':pr['state'],'draft':pr['draft'],'head':head,'branch':pr['head']['ref'],'base':pr['base']['ref'],'body':pr['body'],'runs':[]}
+              runs=api(f'actions/runs?head_sha={head}&per_page=100')['workflow_runs']
+              for run in runs:
+                  row={k:run[k] for k in ['id','name','event','status','conclusion','head_sha','html_url']}
+                  jobs=api(f"actions/runs/{run['id']}/jobs?per_page=100")['jobs']
+                  row['jobs']=[{k:j[k] for k in ['id','name','status','conclusion','steps']} for j in jobs]
+                  for job in jobs:
+                      if job['conclusion']=='failure':
+                          subprocess.run(['gh','api',f"repos/{repo}/actions/jobs/{job['id']}/logs"],stdout=(root/f"{number}-{job['id']}.log").open('wb'),check=False)
+                  item['runs'].append(row)
+              index['pulls'].append(item)
+          (root/'review-index.json').write_text(json.dumps(index,indent=2))
+          PY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: repair-review-evidence
+          path: /tmp/computator-review/*
+          retention-days: 2
+          if-no-files-found: error
