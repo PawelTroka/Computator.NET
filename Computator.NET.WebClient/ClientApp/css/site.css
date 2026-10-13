@@ -1,25 +1,82 @@
-body { color: #333; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
-h1 { font-size: 2.25rem; font-weight: 400; }
-.main-nav { position: fixed; inset: 0 0 auto; z-index: 100; background: #222; color: #fff; }
-.nav-heading { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .75rem; }
-.brand { display: flex; align-items: center; gap: .5rem; color: #ddd; text-decoration: none; white-space: nowrap; }
-.brand:hover { color: #fff; }
-.main-nav ul { border-top: 1px solid #444; padding: .375rem; }
-.main-nav .nav-link { color: #aaa; border-radius: 4px; padding: .625rem 1rem; margin-bottom: .25rem; }
-.main-nav .nav-link:hover { color: #fff; background: #333; }
-.main-nav .nav-link.active { background: #4189c7; color: #fff; }
-.card { margin-bottom: 1rem; }
-.card-header { background: #f5f5f5; }
-.result-text { white-space: pre-wrap; overflow-wrap: anywhere; }
-.expression-editor { display: flex; flex: 1 1 auto; min-width: 0; border: 1px solid #ced4da; border-radius: 0 .375rem .375rem 0; }
-.chart-image { max-width: 100%; }
-.script-editor-panel { background: #3d3d3d; }
-@media (max-width: 767.98px) {
-  body { padding-top: 72px; }
-  .main-nav .mobile-collapsed { display: none; }
+:root {
+  color-scheme: dark;
+  --workspace-bg: #191b20;
+  --workspace-surface: #23262c;
+  --workspace-raised: #2b2f36;
+  --workspace-line: #41464f;
+  --workspace-text: #eff0f3;
+  --workspace-muted: #b7bdc8;
+  --workspace-accent: #e1bd83;
 }
-@media (min-width: 768px) {
-  .main-nav { bottom: 0; width: calc(25% - 20px); overflow-y: auto; }
-  .nav-heading { flex-wrap: wrap; }
-  .brand { font-size: .95rem; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--workspace-bg); color: var(--workspace-text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.6; }
+a { color: #ecd0a4; text-underline-offset: .2em; }
+a:hover { color: #fff; }
+button, input, select { font: inherit; }
+:focus-visible { outline: 3px solid var(--workspace-accent); outline-offset: 3px; }
+.app-shell { min-height: 100dvh; display: grid; grid-template-columns: 252px minmax(0, 1fr); }
+.app-sidebar { min-width: 0; background: #15171b; border-right: 1px solid var(--workspace-line); }
+.main-nav { position: sticky; top: 0; padding: 1.75rem .9rem; }
+.nav-heading { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.brand { display: inline-flex; align-items: center; gap: .65rem; color: var(--workspace-text); text-decoration: none; font-size: 1rem; font-weight: 650; letter-spacing: -.025em; }
+.brand img { flex: none; object-fit: contain; }
+.nav-caption { margin: 1rem .65rem 2rem; color: var(--workspace-muted); font-size: .75rem; }
+.main-nav .nav { gap: .4rem; }
+.main-nav .nav-link { display: flex; align-items: center; gap: .75rem; min-height: 46px; margin: 0; padding: .65rem .75rem; border: 1px solid transparent; border-radius: 7px; color: var(--workspace-muted); font-size: .875rem; text-decoration: none; }
+.main-nav .nav-link:hover { background: var(--workspace-surface); color: var(--workspace-text); }
+.main-nav .nav-link.active { background: #302b24; border-color: #655641; color: #f4ddba; }
+.nav-mark { width: 2rem; flex: none; color: var(--workspace-accent); font-family: ui-monospace, Consolas, monospace; font-size: 1rem; text-align: center; }
+.nav-footnote { margin: 2.5rem .75rem 0; color: var(--workspace-muted); font-size: .7rem; }
+.nav-toggle { display: none; border: 1px solid var(--workspace-line); border-radius: 6px; color: var(--workspace-text); background: var(--workspace-surface); padding: .45rem .75rem; }
+.app-content { min-width: 0; padding: 1.5rem clamp(1rem, 3vw, 3rem) 3rem; }
+.app-content:focus { outline: none; }
+.workspace-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1.15rem; margin-bottom: 2rem; border-bottom: 1px solid var(--workspace-line); color: var(--workspace-muted); font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; }
+.workspace-note { text-transform: none; letter-spacing: 0; }
+.workspace-page { max-width: 1360px; margin-inline: auto; }
+h1 { font-size: clamp(1.8rem, 3vw, 2.4rem); line-height: 1.15; font-weight: 600; letter-spacing: -.035em; margin-bottom: .85rem; color: var(--workspace-text); }
+h1 + p { color: var(--workspace-muted); margin-bottom: 1.8rem; }
+h2, h3 { color: var(--workspace-text); }
+.card { --bs-card-bg: var(--workspace-surface); --bs-card-border-color: var(--workspace-line); --bs-card-cap-bg: var(--workspace-raised); --bs-card-color: var(--workspace-text); margin-bottom: 1rem; border-radius: 8px; overflow: hidden; box-shadow: none; }
+.card-header { color: var(--workspace-muted); font-size: .8rem; font-weight: 600; padding: .7rem 1rem; }
+.card-body { padding: 1rem; }
+.list-group { --bs-list-group-bg: var(--workspace-surface); --bs-list-group-color: var(--workspace-text); --bs-list-group-border-color: var(--workspace-line); }
+.input-group-text { color: var(--workspace-muted); background: var(--workspace-raised); border-color: var(--workspace-line); font-size: .85rem; }
+.form-control, .form-select { color: var(--workspace-text); background-color: #1e2126; border-color: var(--workspace-line); }
+.form-control:focus, .form-select:focus { color: #fff; background-color: #1e2126; border-color: var(--workspace-accent); box-shadow: 0 0 0 3px #e1bd8330; }
+.form-control::placeholder { color: #a6adba; opacity: 1; }
+.form-control:disabled, .form-select:disabled { background-color: #292d34; color: var(--workspace-muted); }
+.btn { border-radius: 6px; font-weight: 600; letter-spacing: .005em; }
+.btn-primary { --bs-btn-color: #211b12; --bs-btn-bg: #e1bd83; --bs-btn-border-color: #e1bd83; --bs-btn-hover-color: #211b12; --bs-btn-hover-bg: #eed0a0; --bs-btn-hover-border-color: #eed0a0; --bs-btn-active-color: #211b12; --bs-btn-active-bg: #d8af70; --bs-btn-active-border-color: #d8af70; --bs-btn-disabled-color: #211b12; --bs-btn-disabled-bg: #e1bd83; --bs-btn-disabled-border-color: #e1bd83; }
+.btn-outline-primary { --bs-btn-color: #eed0a0; --bs-btn-border-color: #8c7658; --bs-btn-hover-color: #211b12; --bs-btn-hover-bg: #e1bd83; --bs-btn-hover-border-color: #e1bd83; }
+.btn-lg { font-size: .95rem; padding: .8rem 1.25rem; }
+.text-danger { color: #ffa6a6 !important; }
+.text-muted { color: var(--workspace-muted) !important; }
+.result-text { min-height: 1.6em; white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, Consolas, monospace; font-size: 1rem; }
+.expression-editor { display: flex; flex: 1 1 auto; min-width: 0; border: 1px solid var(--workspace-line); border-radius: 0 .375rem .375rem 0; overflow: hidden; background: #f8f8f8; }
+/* Keep the tested Ace themes and editor DOM untouched. The light expression band
+   and dark Ambiance script editor remain recognizable inside a neutral shell. */
+.script-editor-panel { background: #3d3d3d; }
+.chart-image { display: block; max-width: 100%; height: auto; border-radius: 6px; }
+.skip-link { position: fixed; top: .75rem; left: .75rem; z-index: 1000; transform: translateY(-180%); background: #e1bd83; color: #211b12; padding: .6rem 1rem; border-radius: 4px; }
+.skip-link:focus { transform: none; color: #211b12; }
+@media (max-width: 767.98px) {
+  .app-shell { display: block; }
+  .app-sidebar { border-right: 0; border-bottom: 1px solid var(--workspace-line); }
+  .main-nav { position: static; padding: .8rem 1rem; }
+  .nav-toggle { display: inline-block; }
+  .nav-caption, .nav-footnote { display: none; }
+  .main-nav .nav { margin-top: 1rem; }
+  .main-nav .mobile-collapsed { display: none; }
+  .app-content { padding: 1.2rem 1rem 2rem; }
+  .workspace-heading { margin-bottom: 1.5rem; padding-bottom: .9rem; }
+  .workspace-note { display: none; }
+  .input-group-lg > .input-group-text { font-size: .85rem; padding-inline: .6rem; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+@media print {
+  :root { color-scheme: light; }
+  body, .app-content, .card { background: white !important; color: black !important; }
+  .app-shell { display: block; }
+  .app-sidebar, .workspace-heading, .skip-link { display: none; }
+  h1, h2, h3 { color: black; }
 }
