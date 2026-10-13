@@ -127,7 +127,10 @@ def finish(root: Path) -> None:
     solution = ET.parse(root / 'Computator.NET.slnx')
     for project in solution.iter('Project'):
         relative = str(Path(project.get('Path')).parent / 'obj/project.assets.json').replace('\\', '/')
-        path = fresh_file(root, relative, start['startedUnix'])
+        # NuGet legitimately keeps an unchanged assets file on incremental
+        # restore. Freshness is required for test reports and produced packages,
+        # while this inventory records the graph consumed by those builds.
+        path = root / relative
         data = json.loads(path.read_text(encoding='utf-8-sig'))
         for name, item in data.get('libraries', {}).items():
             if item.get('type') == 'package':
