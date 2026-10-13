@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace Computator.NET.DataTypes.Configuration
 {
@@ -6,7 +7,12 @@ namespace Computator.NET.DataTypes.Configuration
     public sealed class GslErrorBoundary : IDisposable
     {
         [ThreadStatic] private static GslErrorBoundary _current;
-        public static bool ThrowOnError { get; set; }
+        private static bool _throwOnError;
+        public static bool ThrowOnError
+        {
+            get => Volatile.Read(ref _throwOnError);
+            set => Volatile.Write(ref _throwOnError, value);
+        }
         private readonly GslErrorBoundary _previous;
         private readonly bool _throw;
         private int _status;

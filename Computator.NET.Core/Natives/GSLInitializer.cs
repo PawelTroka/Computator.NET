@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -43,10 +44,20 @@ namespace Computator.NET.Core.Natives
                     // Install exactly once; do not race process-wide native handler
                     // changes when requests initialize their own evaluators.
                     NativeMethods.gsl_set_error_handler(UnmanagedHandler);
+                    // The settings editor updates the singleton in place. Keep
+                    // its mode live without replacing the native callback.
+                    Settings.Default.PropertyChanged += OnSettingsChanged;
                 }
-                GslErrorBoundary.ThrowOnError = Settings.Default.CalculationsErrors != CalculationsErrors.ReturnNAN;
+                UpdateErrorMode();
             }
         }
+        private static void OnSettingsChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (string.IsNullOrEmpty(args.PropertyName) || args.PropertyName == nameof(Settings.CalculationsErrors))
+                UpdateErrorMode();
+        }
+        private static void UpdateErrorMode() =>
+            GslErrorBoundary.ThrowOnError = Settings.Default.CalculationsErrors != CalculationsErrors.ReturnNAN;
         private static IntPtr Resolve(string name, Assembly assembly, DllImportSearchPath? searchPath) =>
             string.Equals(name, GslConfig.GslDllName, StringComparison.OrdinalIgnoreCase) ? _library : IntPtr.Zero;
         private static void HandleUnmanagedError(string reason, string file, int line, int status) =>

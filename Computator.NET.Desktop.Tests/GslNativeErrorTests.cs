@@ -1,10 +1,12 @@
 using System;
 using System.Reflection;
+using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.Natives;
-using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Configuration;
+using Computator.NET.DataTypes.SettingsTypes;
 using NUnit.Framework;
 
 namespace Computator.NET.Desktop.Tests
@@ -63,6 +65,51 @@ namespace Computator.NET.Desktop.Tests
                 NUnit.Framework.Assert.That(function.Evaluate(1.0), Is.EqualTo(1.0 - Math.Exp(-1.0)).Within(1e-12));
             }
             finally { GslErrorBoundary.ThrowOnError = previous; }
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void SettingsChangesUpdateExistingHostAndGeneratedFunctionsWithoutReinitialization(bool generated)
+        {
+            var previous = Settings.Default.CalculationsErrors;
+            try
+            {
+                Settings.Default.CalculationsErrors = CalculationsErrors.ReturnNAN;
+                GSLInitializer.Initialize();
+                Func<double, double> evaluate;
+                if (generated)
+                {
+                    var function = new ExpressionsEvaluator().Evaluate("gsl_sf_gamma_inc_P(x, 1)", "", CalculationsMode.Real);
+                    evaluate = x => function.Evaluate(x);
+                }
+                else
+                {
+                    var native = typeof(SpecialFunctions).GetMethod("gsl_sf_gamma_inc_P", BindingFlags.Static | BindingFlags.NonPublic)
+                        .CreateDelegate<Func<double, double, double>>();
+                    evaluate = x => native(x, 1.0);
+                }
+
+                foreach (var mode in new[] { CalculationsErrors.ShowError, CalculationsErrors.ReturnNAN, CalculationsErrors.ShowError })
+                {
+                    // Exercise the same property that the settings editor changes.
+                    // Reuse the native handler and generated function throughout.
+                    Settings.Default.CalculationsErrors = mode;
+                    if (mode == CalculationsErrors.ReturnNAN)
+                        NUnit.Framework.Assert.That(evaluate(-1.0), Is.NaN);
+                    else if (generated)
+                    {
+                        var exception = NUnit.Framework.Assert.Throws<CalculationException>(() => evaluate(-1.0));
+                        NUnit.Framework.Assert.That(exception.InnerException, Is.TypeOf<ArithmeticException>());
+                    }
+                    else NUnit.Framework.Assert.Throws<ArithmeticException>(() => evaluate(-1.0));
+                    NUnit.Framework.Assert.That(evaluate(1.0), Is.EqualTo(1.0 - Math.Exp(-1.0)).Within(1e-12));
+                }
+            }
+            finally
+            {
+                Settings.Default.CalculationsErrors = previous;
+                GSLInitializer.Initialize();
+            }
         }
     }
 }
