@@ -145,12 +145,14 @@ namespace Computator.NET.Installer
 
         private static Guid ProductId(Version version)
         {
-            using (var hash = SHA256.Create()) return new Guid(hash.ComputeHash(Encoding.UTF8.GetBytes(UpgradeCode + ":x64:" + version)).Take(16).ToArray());
+            // Windows Installer ignores a fourth version field. Equivalent input
+            // spellings must identify the same product for repair/reinstallation.
+            using (var hash = SHA256.Create()) return new Guid(hash.ComputeHash(Encoding.UTF8.GetBytes(UpgradeCode + ":x64:" + version.ToString(3))).Take(16).ToArray());
         }
         private static void VerifyIdentityRules()
         {
             var first = new Version(2, 4, 0);
-            if (ProductId(first) != ProductId(first) || ProductId(first) == ProductId(new Version(2, 4, 1)))
+            if (ProductId(first) != ProductId(new Version(2, 4, 0, 0)) || ProductId(first) == ProductId(new Version(2, 4, 1)))
                 throw new IO.InvalidDataException("MSI repair/major-upgrade identity rules failed.");
         }
         private static void WriteInventory(string payload, string output, Version version)
