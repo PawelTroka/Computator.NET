@@ -1,0 +1,15 @@
+# Historical AppX/UWP packaging → MSIX
+
+The old package was a full-trust desktop bridge, not a UWP UI implementation. This PR packages the existing .NET 10 WinForms/WPF application as **MSIX**, retaining `TROKASoftware.Computator.NET`, its publisher, application Id and `.tsl`/`.tslf` associations. No WinUI/UWP rewrite is implied. The historical manifest stays available as the identity baseline, and tests reject accidental identity drift.
+
+Run `./build.ps1 -Target MSIX-Validate`; `Build-MSIX` and the original `Build-Uwp` name invoke the same implementation. Cake's `Distribution-Stage` produces a self-contained, untrimmed win-x64 payload and smoke-launches it. The identical staging module is shared with the independent MSI PR rather than maintaining separate payload-selection rules. The packager copies that payload, adds reviewed visual assets/manifest, runs the installed Windows SDK's MakeAppx **without disabling validation**, unpacks the result and compares every staged file hash. Tool version, identity, package hash and file inventory are retained in `package-validation.json`.
+
+The default **2.4.0.0** is an experimental candidate, not a published Store release. Override with `--msix-version=...`; four numeric components, a zero Store revision and package limits are enforced. This version must advance the actual Store package before an update can be certified. The manifest minimum 10.0.19041.0 is a package API floor, not a promise that every Windows release above it remains supported by Microsoft/.NET 10. Release support must match the runtime's current OS policy.
+
+CI produces an **unsigned** MSIX. It is not sideload-installable until correctly signed/trusted and is not a certified Store update. The pipeline never reads a historical private key, auto-generates a production certificate, changes the publisher, submits to the Store or accepts new tool terms.
+
+`MSIX-Lifecycle --signed-package=...` invokes a guarded install/installed-payload launch/uninstall harness only on a disposable account/machine with `COMPUTATOR_DISPOSABLE_INSTALL_TEST=1`. It requires an already trusted owner signature and refuses to replace an existing Store installation. This deliberately does not claim successful package-identity activation from a direct EXE launch. Interactive acceptance still needs Start-menu activation, both file associations, upgrade from the actual old package, settings migration, writable user/native-cache directories, offline use, and uninstall data policy.
+
+Read-only WindowsApps files must not be treated as writable storage. Existing settings/script/native cache directories remain outside the installed payload; no user profile is harvested. Validate this using an actual Store/sideload installation before release. GSL candidate adoption belongs to the independent native-library PR and must be incorporated into the shared distribution stage after acceptance.
+
+Reference: https://learn.microsoft.com/windows/msix/package/create-app-package-with-makeappx-tool
