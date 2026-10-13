@@ -34,10 +34,13 @@ public sealed partial class PortableEngine
         var result = new StringBuilder();
         program.Invoke(text =>
         {
-            if (result.Length + text.Length > MaximumSourceCharacters) throw new InvalidOperationException("Script output exceeds the configured limit.");
-            result.Append(text);
+            lock (result)
+            {
+                if (text.Length > MaximumSourceCharacters - result.Length) throw new InvalidOperationException("Script output exceeds the configured limit.");
+                result.Append(text);
+            }
         });
-        return result.ToString();
+        lock (result) return result.ToString();
     }
     private static Compiled<T> Compile<T>(string input, string customFunctions, string prefix, string suffix) where T : Delegate
     {

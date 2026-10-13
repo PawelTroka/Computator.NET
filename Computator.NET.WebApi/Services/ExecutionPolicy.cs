@@ -118,10 +118,16 @@ namespace Computator.NET.WebApi.Services
         public void Append(string text)
         {
             if (text == null) return;
-            if (text.Length > ExecutionPolicy.MaximumOutputCharacters - _text.Length)
-                throw new ArgumentException($"Script output exceeds {ExecutionPolicy.MaximumOutputCharacters} characters.");
-            _text.Append(text);
+            // Scripts can call the output callback from multiple threads. Keep
+            // reservation and append atomic so accepted writes cannot exceed the
+            // limit or corrupt StringBuilder's internal chunks.
+            lock (_text)
+            {
+                if (text.Length > ExecutionPolicy.MaximumOutputCharacters - _text.Length)
+                    throw new ArgumentException($"Script output exceeds {ExecutionPolicy.MaximumOutputCharacters} characters.");
+                _text.Append(text);
+            }
         }
-        public override string ToString() => _text.ToString();
+        public override string ToString() { lock (_text) return _text.ToString(); }
     }
 }

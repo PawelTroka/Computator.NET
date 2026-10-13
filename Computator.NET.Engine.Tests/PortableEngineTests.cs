@@ -83,4 +83,15 @@ public class PortableEngineTests
         NUnit.Framework.Assert.Throws<ArgumentException>(() => engine.EvaluateReal(new string('1', 65537)));
         NUnit.Framework.Assert.Throws<InvalidOperationException>(() => engine.ExecuteScript("write(new string('a',65537));"));
     }
+
+    [Test]
+    public void ConcurrentScriptOutputPreservesTheExactLimit()
+    {
+        var result = new PortableEngine().ExecuteScript(@"
+            System.Threading.Tasks.Parallel.For(0, 256, i => {
+                try { write(new string('x', 1024)); }
+                catch (InvalidOperationException) { }
+            });");
+        NUnit.Framework.Assert.That(result, Is.EqualTo(new string('x', PortableEngine.MaximumSourceCharacters)));
+    }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Computator.NET.WebApi.Controllers;
 using Computator.NET.WebApi.Services;
@@ -98,6 +99,26 @@ namespace Computator.NET.WebApi.IntegrationTests
             NUnit.Framework.Assert.That(output.ToString().Length, Is.EqualTo(ExecutionPolicy.MaximumOutputCharacters));
             NUnit.Framework.Assert.Throws<ArgumentException>(() => output.Append("x"));
             NUnit.Framework.Assert.That(output.ToString().Length, Is.EqualTo(ExecutionPolicy.MaximumOutputCharacters));
+        }
+
+        [Test]
+        public void ConcurrentWritesKeepAllAcceptedOutputWithinTheLimit()
+        {
+            const int chunkSize = 1024;
+            var chunk = new string('x', chunkSize);
+            for (var attempt = 0; attempt < 16; attempt++)
+            {
+                var output = new BoundedExecutionOutput();
+                var accepted = 0;
+                Parallel.For(0, 256, new ParallelOptions { MaxDegreeOfParallelism = 8 }, _ =>
+                {
+                    try { output.Append(chunk); Interlocked.Increment(ref accepted); }
+                    catch (ArgumentException exception) when (exception.Message.StartsWith("Script output exceeds", StringComparison.Ordinal)) { }
+                });
+                var text = output.ToString();
+                NUnit.Framework.Assert.That(accepted * chunkSize, Is.EqualTo(ExecutionPolicy.MaximumOutputCharacters));
+                NUnit.Framework.Assert.That(text, Is.EqualTo(new string('x', ExecutionPolicy.MaximumOutputCharacters)));
+            }
         }
     }
 }
