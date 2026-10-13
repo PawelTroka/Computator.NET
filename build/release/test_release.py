@@ -41,5 +41,26 @@ class ReleaseTests(unittest.TestCase):
         file = self.root / 'results.xml'; file.write_text('<testsuite><testcase name="a" classname="b"/></testsuite>')
         value = validate_report(file, 1)
         self.assertEqual(value['passed'], 1); self.assertEqual(len(value['sha256']), 64)
+    def browser_report(self, projects, duplicate=False):
+        suites = []
+        for project in projects:
+            cases = ''.join(f'<testcase name="case-{i}" classname="workflows"/>' for i in range(5))
+            if duplicate: cases += '<testcase name="case-0" classname="workflows"/>'
+            suites.append(f'<testsuite name="workflows" hostname="{project}">{cases}</testsuite>')
+        return '<testsuites>' + ''.join(suites) + '</testsuites>'
+    def test_same_names_in_chromium_and_firefox_are_distinct(self):
+        file = self.root / 'results.xml'
+        file.write_text(self.browser_report(['chromium', 'firefox']))
+        self.assertEqual(validate_report(file, 10)['passed'], 10)
+        file = self.root / 'e2e.xml'
+        file.write_text(self.browser_report(['real-chromium', 'real-firefox']))
+        self.assertEqual(validate_report(file, 10)['passed'], 10)
+    def test_duplicate_same_project_and_missing_browser_are_rejected(self):
+        file = self.root / 'results.xml'
+        for projects, duplicate in [(['chromium', 'firefox'], True), (['chromium', 'chromium'], False),
+                                    (['real-chromium', 'real-firefox'], False)]:
+            with self.subTest(projects=projects, duplicate=duplicate):
+                file.write_text(self.browser_report(projects, duplicate))
+                with self.assertRaises(ValueError): validate_report(file, 10)
 
 if __name__ == '__main__': unittest.main()
