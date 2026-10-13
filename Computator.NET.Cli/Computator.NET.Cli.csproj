@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType><AssemblyName>computator</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile><PublishTrimmed>false</PublishTrimmed>
+    <PublishAot>false</PublishAot><PublishSingleFile>false</PublishSingleFile>
+  </PropertyGroup>
+  <ItemGroup><ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" /></ItemGroup>
+</Project>

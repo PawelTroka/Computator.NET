@@ -1,20 +1,24 @@
-# Travis validates the cross-platform web host, not unsupported Mono desktop builds.
+# Linux web validation complements GitHub/Windows, rather than reviving obsolete Mono builds.
 language: node_js
 os: linux
 dist: noble
 arch: amd64
 node_js: '24'
+git:
+  depth: 100
 before_install:
   - nvm install "$(cat .nvmrc)"
-  - export DOTNET_ROOT="$HOME/.dotnet"
+  - export DOTNET_ROOT="$HOME/.computator-dotnet-$(node -p 'require("./global.json").sdk.version')"
+  - python3 build/ci/verified_sdk.py --destination "$DOTNET_ROOT"
   - export PATH="$DOTNET_ROOT:$PATH"
-  - curl --fail --location --silent --show-error https://dot.net/v1/dotnet-install.sh -o /tmp/computator-dotnet-install.sh
-  - bash /tmp/computator-dotnet-install.sh --version "$(node -p 'require("./global.json").sdk.version')" --install-dir "$DOTNET_ROOT"
-install: skip
+install:
+  - dotnet tool restore
+  - python3 build/ci/preflight.py --provider travis
 script:
-  - ./build.sh --target=Web-Validate
+  - ./build.sh --target=Travis-Validate
 cache:
   directories:
     - $HOME/.nuget/packages
     - $HOME/.npm
-# Browser failures are gating; tests must never run only in after_script.
+# No after_script test workaround, sudo Mono installation, signing or deployment.
+# Native provider metadata and test counters are emitted by Cake only after success.

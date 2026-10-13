@@ -1,0 +1,35 @@
+name: AppVeyor scripts mirror (not an AppVeyor run)
+on:
+  pull_request:
+    paths: ['appveyor.yml', 'build/ci/**', 'build/followups/appveyor.cake', '.github/workflows/appveyor-mirror.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bootstrap:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Exercise the same verified SDK installer used by AppVeyor
+        shell: pwsh
+        run: |
+          $sdkDirectory = Join-Path $env:RUNNER_TEMP 'computator-dotnet'
+          python build/ci/verified_sdk.py --destination "$sdkDirectory"
+          if ($LASTEXITCODE -ne 0) { throw 'SDK verification failed.' }
+          "DOTNET_ROOT=$sdkDirectory" | Out-File -Append -FilePath $env:GITHUB_ENV
+          $sdkDirectory | Out-File -Append -FilePath $env:GITHUB_PATH
+      - name: Validate helper rejection cases and pinned tools without spoofing AppVeyor
+        shell: pwsh
+        run: ./build.ps1 -Target AppVeyor-Mirror
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: appveyor-script-mirror-evidence
+          path: artifacts/ci/**
+          retention-days: 7

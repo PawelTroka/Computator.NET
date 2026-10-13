@@ -242,9 +242,11 @@ Task("Upload-Coverage").IsDependentOn("Calculate-Coverage").Does(() =>
         throw new Exception("Coverage is in TestResults. GitHub uploads artifacts; external Coveralls/Codecov publication requires configured credentials.");
     foreach (var report in GetFiles("TestResults/**/*.cobertura.xml")) AppVeyor.UploadArtifact(report);
 });
-// Keep unsupported historical targets explicit: never silently ship old prerequisites.
-Task("Build-Installer").Does(() => { throw new Exception("The old WiX installer needs migrated prerequisites/payload validation. Use --target=Publish for tested portable ZIPs; see docs/BUILD.md."); });
-Task("Build-Uwp").Does(() => { throw new Exception("Historical UWP/Windows S packaging is not compatible with this runtime. Use --target=Publish; see docs/BUILD.md."); });
+// Each independently reviewed packaging module replaces its historical placeholder.
+if (!FileExists("build/followups/installer.cake"))
+    Task("Build-Installer").Does(() => { throw new Exception("The MSI migration module is not present. Use --target=Publish for portable ZIPs."); });
+if (!FileExists("build/followups/msix.cake"))
+    Task("Build-Uwp").Does(() => { throw new Exception("The MSIX migration module is not present. Use --target=Publish for portable ZIPs."); });
 Task("Install-Linux").Does(() => { throw new Exception("Machine-wide Mono installation is retired. Install the pinned SDK/Node and use --target=Web-Validate."); });
 Task("Default").IsDependentOn("UnitTests");
 // Independently reviewable workstreams add tasks without duplicating the build graph.

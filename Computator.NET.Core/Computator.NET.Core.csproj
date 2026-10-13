@@ -1,29 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernDesktop.props" />
-  <PropertyGroup>
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+  <PropertyGroup><UseWindowsForms>true</UseWindowsForms><UseWPF>true</UseWPF></PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WinForms.DataVisualization" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
-    <PackageReference Include="Accord.Math" />
-    <PackageReference Include="Guards" />
-    <PackageReference Include="MathNet.Numerics" />
-    <PackageReference Include="Meta.Numerics" />
-    <PackageReference Include="Unity" />
+    <PackageReference Include="Accord.Math" /><PackageReference Include="Guards" />
+    <PackageReference Include="MathNet.Numerics" /><PackageReference Include="Meta.Numerics" /><PackageReference Include="Unity" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
+    <ProjectReference Include="..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
+    <Compile Remove="Compilation\TSLCompiler.cs;Compilation\TslHandlers\*.cs;Constants\MathematicalConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Static\functions.xml;Static\TSL-Syntax.xshd;Static\TSL-Syntax_old.xshd;TSL Examples\**\*.tsl;TSL Examples\**\*.tslf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="..\CHANGELOG" Link="CHANGELOG">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Compile Update="Compilation\NativeCompiler.cs" SubType="Component" />
-    <Compile Update="Functions\ReadForm.cs" SubType="Form" />
+    <Content Include="..\CHANGELOG" Link="CHANGELOG"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory></Content>
+    <Compile Update="Compilation\NativeCompiler.cs" SubType="Component" /><Compile Update="Functions\ReadForm.cs" SubType="Form" />
   </ItemGroup>
 </Project>

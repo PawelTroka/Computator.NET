@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework><LangVersion>14.0</LangVersion><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <IsTestProject>true</IsTestProject><IsPackable>false</IsPackable><ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile><NuGetAudit>true</NuGetAudit><NuGetAuditMode>all</NuGetAuditMode>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" PrivateAssets="all" /><PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" PrivateAssets="all" />
+    <Using Include="NUnit.Framework.Legacy.ClassicAssert" Alias="Assert" />
+    <!-- Existing syntax regressions run against the exact same extracted implementation on each OS. -->
+    <Compile Include="../Computator.NET.Core.Tests/CompilersTests/TslCompilerTests.cs" Link="Parity/TslCompilerTests.cs" />
+  </ItemGroup>
+</Project>
