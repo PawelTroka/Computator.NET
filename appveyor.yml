@@ -43,6 +43,8 @@ test: off
 artifacts:
   - path: publish\*.zip
   - path: TestResults\**\*.trx
+  - path: TestResults\packaged-gsl\**\*.json
+  - path: TestResults\desktop-smoke\**\*.json
   - path: Computator.NET.WebClient\test-results\**
   - path: artifacts\*.binlog
   - path: artifacts\ci\*.json

@@ -4,7 +4,7 @@
 
 ## Commands
 
-Install the .NET SDK selected by `global.json`, PowerShell 7, and the Node/npm versions in `.nvmrc` and the web client's `package.json` for frontend tasks. The desktop/API graph requires Windows and .NET 10 Desktop/ASP.NET Core runtimes; the SDK supplies the development runtimes. Framework is used only by the legacy test-fixture writer and isolated installer authoring tool. Windows publication also builds its pinned GSL runtime and requires Python, Git, CMake and Visual Studio C++ build tools. Windows SDK packaging tools are required for MSIX. Ordinary solution builds do not build native GSL.
+Install the .NET SDK selected by `global.json`, PowerShell 7, and the Node/npm versions in `.nvmrc` and the web client's `package.json` for frontend tasks. The desktop/API graph requires Windows and .NET 10 Desktop/ASP.NET Core runtimes; the SDK supplies the development runtimes. Framework is used only by the legacy test-fixture writer and isolated installer authoring tool. Windows publication also builds its pinned GSL runtime and requires Python 3.11 or newer, Git and Visual Studio C++ build tools. The pinned vcpkg checkout supplies verified CMake/CTest tools within the build directory. Windows SDK packaging tools are required for MSIX. Ordinary solution builds do not build native GSL.
 
 ```powershell
 # Windows; the original invocation pattern remains supported.

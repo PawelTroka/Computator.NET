@@ -186,6 +186,8 @@
     <File Path="build/msix/Test-PackageActivation.ps1" />
     <File Path="build/native/ManagedProbe/Program.cs" />
     <File Path="build/native/build_gsl.py" />
+    <File Path="build/native/source_package.py" />
+    <File Path="build/native/test_source_package.py" />
     <File Path="build/native/gsl-source.json" />
     <File Path="build/native/gsl/vcpkg.json" />
     <File Path="build/native/probe/CMakeLists.txt" />
