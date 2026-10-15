@@ -25,6 +25,7 @@
   <Folder Name="/Tools/">
     <Project Path="Computator.NET.Installer/Computator.NET.Installer.csproj" />
     <Project Path="build/native/ManagedProbe/ManagedProbe.csproj" />
+    <Project Path="build/native/PublishedProbe/PublishedProbe.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="README.md" />

@@ -14,7 +14,7 @@ The active Windows project sets in `.sln` and `.slnx` match. `Computator.NET.Por
 
 `Build-Installer` now builds MSI and Burn after explicit WiX 7 terms acceptance. `Build-Uwp` forwards to `Build-MSIX`, packaging the existing full-trust WinForms/WPF application with its original Store identity. `MSIX-Validate` performs Windows SDK validation and payload hash checks, producing an unsigned candidate. These targets share a self-contained win-x64 payload and do not sign or publish it. `Package`/`Publish` continue to create portable desktop/API/web ZIPs.
 
-Only `Install-Linux` remains deliberately disabled: machine-wide Mono installation is retired. The portable engine/CLI and independent web host use modern .NET on supported non-Windows runners; they do not reproduce the entire historical desktop feature set. The optional GSL 2.8 source-build candidate also leaves the default embedded native payload unchanged pending acceptance.
+Only `Install-Linux` remains deliberately disabled: machine-wide Mono installation is retired. The portable engine/CLI and independent web host use modern .NET on supported non-Windows runners; they do not reproduce the entire historical desktop feature set. Reviewed GSL 2.8 is staged in normal Windows packages; development outputs without it retain the embedded legacy fallback. See [native acceptance](followups/GSL-ADOPTION.md).
 
 Installer compilation and unsigned MSIX validation are recorded separately from installation certification. The guarded `Installer-Validate` and `MSIX-Lifecycle` harnesses require disposable machines; owner signing, old-product upgrade/rollback and Store activation tests remain release work. See [RELEASE-3.0.md](RELEASE-3.0.md).
 
