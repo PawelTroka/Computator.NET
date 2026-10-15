@@ -18,6 +18,16 @@ function Get-SmokeCleanupPath([string]$Path) {
     return $resolved
 }
 
+function Test-SmokeProcessIdentity([Diagnostics.Process]$Process, [string]$StartedUtc) {
+    if ($Process.HasExited) { return $false }
+    try {
+        return $Process.StartTime.ToUniversalTime().ToString('o') -eq $StartedUtc -and !$Process.HasExited
+    } catch [InvalidOperationException] {
+        if ($Process.HasExited) { return $false }
+        throw
+    }
+}
+
 # No dumps, screenshots, environment variables, window captions, user documents
 # or settings are captured. Each invocation has its own result, even in aggregates.
 if ($TestContracts) {
@@ -26,11 +36,19 @@ if ($TestContracts) {
     $null = [IO.Directory]::CreateDirectory($temporary)
     try {
         # Exercise only the path validator for rejected locations, never deletion.
-        foreach ($path in @([IO.Path]::GetTempPath(), $PSScriptRoot)) {
+        # The checkout itself may legitimately be beneath TEMP.
+        foreach ($path in @([IO.Path]::GetTempPath(), [IO.Path]::GetPathRoot([IO.Path]::GetTempPath()))) {
             $rejected = $false
             try { $null = Get-SmokeCleanupPath $path } catch { $rejected = $true }
             if (!$rejected) { throw 'Smoke cleanup accepted an unowned location.' }
         }
+        $current = [Diagnostics.Process]::GetCurrentProcess()
+        try {
+            $startedUtc = $current.StartTime.ToUniversalTime().ToString('o')
+            if (!(Test-SmokeProcessIdentity $current $startedUtc) -or (Test-SmokeProcessIdentity $current '2000-01-01T00:00:00.0000000Z')) {
+                throw 'Smoke process identity must distinguish reuse of a PID from the owned instance.'
+            }
+        } finally { $current.Dispose() }
         # Framework is only a synthetic WinForms fixture producer, as in the
         # existing settings-fixture tests. No dependency is added to the product.
         $source = Join-Path $temporary 'Fixture.cs'
@@ -70,10 +88,12 @@ class Fixture {
             $info.RedirectStandardError = $true
             foreach ($argument in @('-NoProfile', '-File', $PSCommandPath, '-PublishDirectory', $directory, '-DiagnosticsDirectory', $output)) { $info.ArgumentList.Add($argument) }
             $child = [Diagnostics.Process]::Start($info)
+            $childStartedUtc = $child.StartTime.ToUniversalTime().ToString('o')
             try {
                 $stdout = $child.StandardOutput.ReadToEndAsync()
                 $stderr = $child.StandardError.ReadToEndAsync()
                 if (!$child.WaitForExit(100000)) { throw "Synthetic smoke check timed out: $mode" }
+                if (Test-SmokeProcessIdentity $child $childStartedUtc) { throw 'An exited process was reported as a live owned instance.' }
                 if (![Threading.Tasks.Task]::WaitAll([Threading.Tasks.Task[]]@($stdout, $stderr), 5000)) { throw 'Synthetic smoke output did not close.' }
                 if (($child.ExitCode -eq 0) -ne ($mode -eq 'normal')) { throw "Incorrect smoke exit status for $mode`: $($stderr.Result)" }
                 $files = @(Get-ChildItem -LiteralPath $output -Recurse -Filter result.json)
@@ -92,7 +112,11 @@ class Fixture {
                     if ($mode -eq 'bad-exit' -and ($before[0].exitCode -ne 17 -or $report.failure.phase -ne 'shutdown')) { throw 'Nonzero shutdown was not preserved.' }
                 }
                 $remaining = Get-Process -Id $report.processId -ErrorAction SilentlyContinue
-                if ($null -ne $remaining) { $remaining.Dispose(); throw 'The owned fixture is still running after cleanup.' }
+                if ($null -ne $remaining) {
+                    try {
+                        if (Test-SmokeProcessIdentity $remaining $report.processStartedUtc) { throw 'The owned fixture is still running after cleanup.' }
+                    } finally { $remaining.Dispose() }
+                }
                 $raw = Get-Content -LiteralPath $files[0].FullName -Raw
                 if ($raw.Contains($directory) -or $raw.Contains('synthetic smoke fixture') -or $raw.Contains('EnvironmentVariables')) { throw 'Diagnostics exposed a path, window caption or environment dump.' }
             } finally {
@@ -115,7 +139,7 @@ $clock = [Diagnostics.Stopwatch]::StartNew()
 $profile = Join-Path ([IO.Path]::GetTempPath()) ('Computator-Desktop-Smoke-' + [Guid]::NewGuid().ToString('N'))
 $evidence = [ordered]@{
     schemaVersion = 1; startedUtc = [DateTime]::UtcNow.ToString('o'); completedUtc = $null
-    executableSha256 = $null; processId = $null; passed = $false; normalShutdown = $false
+    executableSha256 = $null; processId = $null; processStartedUtc = $null; passed = $false; normalShutdown = $false
     closeRequested = $false; forcedTermination = $false; failure = $null
     startupTimeoutMs = 60000; idleTimeoutMs = 10000; shutdownTimeoutMs = 10000
     samples = [Collections.Generic.List[object]]::new(); cleanupErrors = [Collections.Generic.List[string]]::new()
@@ -163,6 +187,7 @@ try {
     $started = $process.Start()
     if (!$started) { throw 'Could not start the published desktop executable.' }
     $evidence.processId = $process.Id
+    $evidence.processStartedUtc = $process.StartTime.ToUniversalTime().ToString('o')
     Save-Snapshot 'started'
     Save-Evidence
     $deadline = [DateTime]::UtcNow.AddSeconds(60)
