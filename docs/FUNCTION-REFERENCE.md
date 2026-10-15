@@ -6,7 +6,7 @@ This reference documents the existing application, not a replacement mathematica
 
 The existing desktop function-information window and HTML tooltip use the same materialized `Computator.NET.Core/Static/functions.xml`. Each article contains its actual typed signatures, a short explanation, a definition or formula where appropriate, argument/support/units information, relevant caveats, and source links. Formulas are readable text and Unicode rather than remote raster images: no network is required to read an article. Optional source links provide deeper reference material.
 
-The document shell supplies UTF-8 and local styling in both desktop views. Web Ace uses a plain-text rendering of the same HTML fragment; it never injects the API description as executable `docHTML`. Parsing happens in an inert template, with active-content text excluded. This preserves the tested editor implementation rather than introducing a new math renderer or browser framework.
+The document shell supplies UTF-8 and local styling in both desktop views. The WebClient reconstructs an allowlisted HTML fragment for Ace's `docHTML` tooltip in both editors, preserving paragraphs, headings, emphasis, code, superscripts, subscripts, Unicode mathematics and safe HTTP(S) source links. Parsing happens in an inert template: scripts, event handlers, styles, frames, images and other active or remote-loading content are excluded. The existing Ace and desktop WebBrowser controls remain in use.
 
 One insertion signature can represent several typed overloads. The article lists all such menus and separates differing semantics instead of allowing the last overload to erase earlier information. Examples such as integer-vs-real random bounds, doubled-vs-actual angular momenta and real-vs-complex branches must not be inferred solely from a function name.
 
@@ -25,7 +25,7 @@ Cake owns the graph and the existing .NET tests export the *unaugmented* reflect
 
 Coverage tests require exact agreement with the live non-keyword catalog, correct attachment in both completion modes, every typed overload, actual stored constant values, meaningful section structure and HTTPS source links. HTML checks reject active markup, network-loaded images and placeholder text. Independent negative tests verify that unsupported additions fail instead of acquiring fabricated descriptions. A read-only CI job also verifies byte-for-byte regeneration and retains an offline preview and coverage report. These checks prove coverage and contracts; they are not a machine proof of every mathematical statement.
 
-Existing scientific numerical tests remain unchanged. Desktop tests exercise representative actual WebBrowser rendering; browser tests check that rich reference input becomes readable inert Ace text. New functions or signature changes must ship matching reviewed help changes.
+Existing scientific numerical tests remain unchanged. Desktop tests exercise the actual popup and standalone reference window, rapid selection changes, content replacement and disposal of their browsers. Browser tests inspect rendered HTML in both Ace editors, including real API articles and malicious-markup rejection. Independent distribution and physical-constant regressions check the documented implementation and unit conventions. New functions or signature changes must ship matching reviewed help changes.
 
 ## Primary editorial references
 
@@ -37,7 +37,7 @@ Existing scientific numerical tests remain unchanged. Desktop tests exercise rep
 - [OEIS](https://oeis.org/): named-constant definitions and original-reference bibliographies, including less common recurrence and geometric constants. Articles link individual records where verified, otherwise a specific named-constant query rather than an invented record number.
 - The checked-in implementation is authoritative for **what this program currently returns**. Source links identify wrapper-specific restrictions that differ from the broader mathematical function.
 
-Text is newly written and formulas are mathematical definitions; no third-party article or image bundle is copied into the application. Source pages are optional reference reading, not assets downloaded during execution. The editorial review date is **2026-10-15**. A source citation does not turn a rounded legacy number into an exact or continuously updated constant.
+Text is newly written and formulas are mathematical definitions; no third-party article or image bundle is copied into the application. Source pages are optional reference reading, not assets downloaded during execution. The editorial review date is **2026-10-16**. A source citation does not turn a rounded legacy number into an exact or continuously updated constant.
 
 ## Known numerical differences deliberately not changed here
 
@@ -54,9 +54,13 @@ Several descriptions would be misleading without reporting existing behavior. Th
 | `minor` | Extracts a rectangular submatrix; it does not compute a determinant or cofactor. |
 | `Geometric` | Counts trials including success, on 1,2,…; NegativeBinomial counts failures starting at zero. |
 | `Stable` density/CDF | Math.NET 5.0 supports only its Gaussian, Cauchy and Lévy special cases for evaluation, despite broader sampling support. |
+| `Categorical.InvCDF` | The cumulative-array binary search can select a later zero-weight category at a tied boundary, rather than the smallest category satisfying the mathematical quantile definition. |
+| `MatrixNormal.Sample` | The Math.NET 5.0 sampler uses an inverse covariance and a different Kronecker ordering from the stated distribution; the reference distinguishes density and actual sampling behavior. |
+| `Levy` evaluation | The mathematical limiting density at the support boundary is zero, but the current PDF/log-PDF returns NaN there; its CDF also returns NaN below support. |
 | `g`, `h`, `G` and named counterparts | Some short and long names have different legacy stored approximations. |
 | `WeakMixingAngle` | Stores sin²θ, not an angle. |
 | Gyromagnetic `Over2Pi` values | MHz/T rather than Hz/T. |
+| `PlanckLength`, `PlanckMass`, `PlanckTime` | Historical stored values differ slightly even from the 2010 central values; the reference preserves and identifies those discrepancies. |
 | `SilverConstant` / `SilverRatio` | Plastic number versus 1+sqrt(2), respectively. |
 | Hammersley sofa / complementary tetrahedral names | A feasible lower-bound construction and a supplementary angle, despite their historical names. |
 | Gibbs names | Si(π) and 2Si(π)/π rather than the usual 0.08949 fractional overshoot. |

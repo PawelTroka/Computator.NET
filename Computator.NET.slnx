@@ -150,6 +150,7 @@
     <File Path="build/reference/distributions.py" />
     <File Path="build/reference/generate.py" />
     <File Path="build/reference/test_authoring.py" />
+    <File Path="build/reference/test_physical.py" />
   </Folder>
   <Folder Name="/Historical sources (not build targets)/">
     <File Path="Computator.NET/Computator.NET.net40.csproj" />

@@ -11,6 +11,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
     internal class WebBrowserForm : Form, IShowFunctionDetails
     {
         private readonly WebBrowser webBrowser;
+        private readonly ReferenceDocumentLoader documentLoader;
         public WebBrowserForm()
         {
             FormClosing += Form_FormClosing;
@@ -20,16 +21,17 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 MinimumSize = new Size(300, 195).DpiScale(), ScrollBarsEnabled = true,
                 Dock = DockStyle.Fill, AutoSize = true
             };
+            documentLoader = new ReferenceDocumentLoader(webBrowser);
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
             Icon = GraphicsResources.computator_net_icon;
             TopMost = true; ShowInTaskbar = false; AutoSize = true; AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(webBrowser);
         }
-        public void Show(FunctionInfo functionInfo) { SetFunctionInfo(functionInfo); Show(); }
+        public void Show(FunctionInfo functionInfo) { Show(); SetFunctionInfo(functionInfo); }
         public void SetFunctionInfo(FunctionInfo functionInfo)
         {
             webBrowser.Size = webBrowser.MinimumSize;
-            webBrowser.DocumentText = FunctionReferenceDocument.Render(functionInfo);
+            documentLoader.ShowDocument(FunctionReferenceDocument.Render(functionInfo));
         }
         private void Form_FormClosing(object sender, FormClosingEventArgs e) { e.Cancel = true; Hide(); }
         private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)

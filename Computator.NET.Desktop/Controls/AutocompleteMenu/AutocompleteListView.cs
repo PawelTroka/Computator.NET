@@ -150,32 +150,38 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
-            toolTip.Close();
             var signature = autocompleteItem.Text;
             if (autocompleteItem.Details.IsNullOrEmpty())
+            {
+                toolTip.Close();
                 return;
+            }
 
             if (string.IsNullOrWhiteSpace(autocompleteItem.Details.Description) || string.IsNullOrWhiteSpace(autocompleteItem.Details.Title)
                 || autocompleteItem.Details.Description.Contains("here goes description (not done yet)")
                 || autocompleteItem.Details.Title.Contains("_title_")
                 )
+            {
+                toolTip.Close();
                 return;
+            }
 
             if (Settings.Default.TooltipType ==
                 TooltipType.Default)
             {
-                toolTip.setFunctionInfo(autocompleteItem.Details);
-
+                formTip.Hide();
                 if (control == null)
                     control = this;
 
                 toolTip.Show(control, Width + 3, 0);
+                toolTip.setFunctionInfo(autocompleteItem.Details);
             }
             else if (Settings.Default.TooltipType ==
                      TooltipType.Form)
             {
-                formTip.SetFunctionInfo(autocompleteItem.Details);
+                toolTip.Close();
                 formTip.Show();
+                formTip.SetFunctionInfo(autocompleteItem.Details);
             }
         }
 
@@ -217,6 +223,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             if (disposing)
             {
                 toolTip.Dispose();
+                formTip.Dispose();
             }
             base.Dispose(disposing);
         }

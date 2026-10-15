@@ -1820,7 +1820,7 @@
 <p class="reference-summary">Maps cumulative probability to the corresponding outcome threshold. A discrete choice among zero-based category indices, weighted by the supplied nonnegative masses.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>P(X=k)=w[k]/Σw[j], for k=0,…,length(w)−1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> probabilityMass/p is a nonempty array of finite nonnegative weights with positive total; it need not sum to one. The argument p/probability is a cumulative probability in [0,1], not another shape parameter.</p>
-<p class="reference-note"><strong>Important:</strong> The result is a category INDEX, not the corresponding weight. The order of the array defines the category labels. For discrete categories, choose the smallest index whose cumulative probability reaches the requested level. Boundary conventions matter when a category has zero mass.</p>
+<p class="reference-note"><strong>Important:</strong> The result is a category INDEX, not the corresponding weight. The order of the array defines the category labels. The mathematical lower quantile is the smallest index whose cumulative probability reaches the requested level. Math.NET 5.0 uses binary search and is not guaranteed to return the first equal cumulative weight when zero-mass categories create ties. For example, Categorical.InvCDF(new double[]{1,0,0,1},0.5) returns 1, although the lower quantile is 0. The cumulative-array overload has the same limitation.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Categorical.htm">numerics.mathdotnet.com</a></p>
 </div>]]></Description>
     <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Categorical.htm</Url>
@@ -1834,7 +1834,7 @@
 <p class="reference-summary">Maps cumulative probability to the corresponding outcome threshold. A discrete choice among zero-based category indices, weighted by the supplied nonnegative masses.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>P(X=k)=w[k]/Σw[j], for k=0,…,length(w)−1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> cdf/cdfUnnormalized is a nonempty nondecreasing array of finite nonnegative cumulative weights with positive final total. It need not end at one; its increments, not entries, are category masses. probability lies in [0,1] and is compared to the total-normalized cumulative array.</p>
-<p class="reference-note"><strong>Important:</strong> The result is a category INDEX, not the corresponding weight. The order of the array defines the category labels. For discrete categories, choose the smallest index whose cumulative probability reaches the requested level. Boundary conventions matter when a category has zero mass.</p>
+<p class="reference-note"><strong>Important:</strong> The result is a category INDEX, not the corresponding weight. The order of the array defines the category labels. The mathematical lower quantile is the smallest index whose cumulative probability reaches the requested level. Math.NET 5.0 uses binary search and is not guaranteed to return the first equal cumulative weight when zero-mass categories create ties. For example, Categorical.InvCDF(new double[]{1,0,0,1},0.5) returns 1, although the lower quantile is 0. The cumulative-array overload has the same limitation.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Categorical.htm">numerics.mathdotnet.com</a></p>
 </div>]]></Description>
     <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Categorical.htm</Url>
@@ -3494,9 +3494,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real DeuteronGFactor</code></p>
 <p class="reference-summary">Dimensionless proportionality between spin and the magnetic moment of the deuteron.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I, with spin quantum number I and the conventional electron/nuclear magneton μref.</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I; μref=μN; μN=eℏ/(2mp); I=1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: 0.8574382308.</p>
-<p class="reference-note"><strong>Important:</strong> Charged-lepton entries include the signed magnetic-moment convention; nuclei use the nuclear magneton. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Nuclei use the nuclear magneton, defined with the proton mass mp. I is the spin quantum number. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -4002,9 +4002,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real ElectronGFactor</code></p>
 <p class="reference-summary">Dimensionless proportionality between spin and the magnetic moment of the electron.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I, with spin quantum number I and the conventional electron/nuclear magneton μref.</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I; μref=eℏ/(2me); I=1/2.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -2.00231930436153.</p>
-<p class="reference-note"><strong>Important:</strong> Charged-lepton entries include the signed magnetic-moment convention; nuclei use the nuclear magneton. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> The magneton uses the electron mass me. Charged-lepton entries include the signed magnetic-moment convention. I is the spin quantum number. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -4018,7 +4018,7 @@
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the electron.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|=|μ|/(ℏI).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: s⁻¹ T⁻¹. Stored application value: 176085970800.</p>
-<p class="reference-note"><strong>Important:</strong> This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -4030,9 +4030,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real ElectronGyromagneticRatioOver2Pi</code></p>
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the electron.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI).</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI); value[MHz/T]=|μ[J/T]|/(h[J·s]·I·10⁶).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: MHz T⁻¹. Stored application value: 28024.95266.</p>
-<p class="reference-note"><strong>Important:</strong> Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -4298,7 +4298,7 @@
 <p class="reference-summary">Signed ratio of the electron magnetic moment to that of the shielded helion.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(electron)/μ(shielded helion).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: 864.058257.</p>
-<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. Shielded helion values refer to a spherical helium gas sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -4312,7 +4312,7 @@
 <p class="reference-summary">Signed ratio of the electron magnetic moment to that of the shielded proton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(electron)/μ(shielded proton).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -658.2275971.</p>
-<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. Shielded proton values refer to a spherical water sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -6420,9 +6420,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real HelionGFactor</code></p>
 <p class="reference-summary">Dimensionless proportionality between spin and the magnetic moment of the helion.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I, with spin quantum number I and the conventional electron/nuclear magneton μref.</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I; μref=μN; μN=eℏ/(2mp); I=1/2.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -4.255250613.</p>
-<p class="reference-note"><strong>Important:</strong> Charged-lepton entries include the signed magnetic-moment convention; nuclei use the nuclear magneton. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Nuclei use the nuclear magneton, defined with the proton mass mp. I is the spin quantum number. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -8807,7 +8807,7 @@
 <p class="reference-summary">Returns one random draw. A Gaussian distribution over matrices with separable row and column covariance.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>vec(X)~Normal(vec(m), k⊗v), using column-stacked vec.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> m is the d×p mean matrix; v is d×d row covariance; k is p×p column covariance. Covariance matrices must be symmetric positive definite. rnd is a non-null System.Random instance; its state advances as draws are made.</p>
-<p class="reference-note"><strong>Important:</strong> Matrix shapes are part of the contract; m is a matrix of means, not a scalar dimension. The covariance of vectorized samples is a Kronecker product, not v+k. Sample values are random, not the density/CDF evaluated at the parameters. Reproducibility requires an explicit generator and a controlled sequence of calls; these are not cryptographic random sources.</p>
+<p class="reference-note"><strong>Important:</strong> Matrix shapes are part of the contract; m is a matrix of means, not a scalar dimension. The covariance of vectorized samples is a Kronecker product, not v+k. Sample values are random, not the density/CDF evaluated at the parameters. Reproducibility requires an explicit generator and a controlled sequence of calls; these are not cryptographic random sources. IMPORTANT: Math.NET 5.0 sampling does not implement the stated column-covariance convention. It builds v⊗k⁻¹ and unpacks the draw by columns, instead of using k⊗v. In the 1×1 case with m=0, v=1 and k=4, the actual sample variance is 1/4, not the intended 4. Do not use this sampler as if k were the advertised column covariance; the formula above describes the mathematical model, not this implementation defect.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/MatrixNormal.htm">numerics.mathdotnet.com</a></p>
 </div>]]></Description>
     <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/MatrixNormal.htm</Url>
@@ -9183,9 +9183,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real MuonGFactor</code></p>
 <p class="reference-summary">Dimensionless proportionality between spin and the magnetic moment of the muon.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I, with spin quantum number I and the conventional electron/nuclear magneton μref.</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I; μref=eℏ/(2mμ); I=1/2.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -2.0023318418.</p>
-<p class="reference-note"><strong>Important:</strong> Charged-lepton entries include the signed magnetic-moment convention; nuclei use the nuclear magneton. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> The magneton uses the muon mass mμ. Charged-lepton entries include the signed magnetic-moment convention. I is the spin quantum number. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -9732,9 +9732,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real NeutronGFactor</code></p>
 <p class="reference-summary">Dimensionless proportionality between spin and the magnetic moment of the neutron.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I, with spin quantum number I and the conventional electron/nuclear magneton μref.</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I; μref=μN; μN=eℏ/(2mp); I=1/2.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -3.82608545.</p>
-<p class="reference-note"><strong>Important:</strong> Charged-lepton entries include the signed magnetic-moment convention; nuclei use the nuclear magneton. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Nuclei use the nuclear magneton, defined with the proton mass mp. I is the spin quantum number. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -9748,7 +9748,7 @@
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the neutron.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|=|μ|/(ℏI).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: s⁻¹ T⁻¹. Stored application value: 183247179.</p>
-<p class="reference-note"><strong>Important:</strong> This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -9760,9 +9760,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real NeutronGyromagneticRatioOver2Pi</code></p>
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the neutron.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI).</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI); value[MHz/T]=|μ[J/T]|/(h[J·s]·I·10⁶).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: MHz T⁻¹. Stored application value: 29.1646943.</p>
-<p class="reference-note"><strong>Important:</strong> Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -10000,7 +10000,7 @@
 <p class="reference-summary">Signed ratio of the neutron magnetic moment to that of the shielded proton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(neutron)/μ(shielded proton).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -0.68499694.</p>
-<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. Shielded proton values refer to a spherical water sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -10749,7 +10749,7 @@
 <p class="reference-summary">Natural length scale formed from quantum mechanics, gravitation and light speed.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>lP=sqrt(ℏG/c³).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: m. Stored application value: 1.61619997E-35.</p>
-<p class="reference-note"><strong>Important:</strong> A natural scale, not a measured claim of a minimum possible length. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> A natural scale, not a measured claim of a minimum possible length. The stored 1.61619997×10⁻³⁵ m differs from the 2010 CODATA central value 1.616199×10⁻³⁵ m; its extra digits are not additional precision. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -10763,7 +10763,7 @@
 <p class="reference-summary">Mass scale at which the dimensionless gravitational coupling becomes order one.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>mP=sqrt(ℏc/G).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: kg. Stored application value: 2.1765113E-08.</p>
-<p class="reference-note"><strong>Important:</strong> Uses the unreduced Planck-mass convention; the reduced gravitational mass scale differs by sqrt(8π). The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Uses the unreduced Planck-mass convention; the reduced gravitational mass scale differs by sqrt(8π). The stored 2.1765113×10⁻⁸ kg differs from the 2010 CODATA central value 2.17651×10⁻⁸ kg; its extra digits are not additional precision. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -10805,7 +10805,7 @@
 <p class="reference-summary">Light travel time across the Planck length.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>tP=lP/c=sqrt(ℏG/c⁵).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: s. Stored application value: 5.391063199999999E-44.</p>
-<p class="reference-note"><strong>Important:</strong> The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> The stored 5.3910632×10⁻⁴⁴ s differs from the 2010 CODATA central value 5.39106×10⁻⁴⁴ s; its extra digits are not additional precision. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -11143,9 +11143,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real ProtonGFactor</code></p>
 <p class="reference-summary">Dimensionless proportionality between spin and the magnetic moment of the proton.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I, with spin quantum number I and the conventional electron/nuclear magneton μref.</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I; μref=μN; μN=eℏ/(2mp); I=1/2.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: 5.585694713.</p>
-<p class="reference-note"><strong>Important:</strong> Charged-lepton entries include the signed magnetic-moment convention; nuclei use the nuclear magneton. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Nuclei use the nuclear magneton, defined with the proton mass mp. I is the spin quantum number. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -11159,7 +11159,7 @@
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the proton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|=|μ|/(ℏI).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: s⁻¹ T⁻¹. Stored application value: 267522200.5.</p>
-<p class="reference-note"><strong>Important:</strong> This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -11171,9 +11171,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real ProtonGyromagneticRatioOver2Pi</code></p>
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the proton.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI).</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI); value[MHz/T]=|μ[J/T]|/(h[J·s]·I·10⁶).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: MHz T⁻¹. Stored application value: 42.5774806.</p>
-<p class="reference-note"><strong>Important:</strong> Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -11229,7 +11229,7 @@
 <p class="reference-summary">Fractional shielding correction relating a free proton moment to the reference shielded proton in water.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μp′=μp(1−σp).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: 2.5694E-05.</p>
-<p class="reference-note"><strong>Important:</strong> The reference environment and temperature matter; this is not a universal correction for every proton-containing sample. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> The reference is a spherical water sample at 25 °C; this is not a universal correction for every proton-containing sample. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12019,7 +12019,7 @@
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the shielded helion.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|=|μ|/(ℏI).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: s⁻¹ T⁻¹. Stored application value: 203789465.9.</p>
-<p class="reference-note"><strong>Important:</strong> This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. Shielded helion values refer to a spherical helium gas sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12031,9 +12031,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real ShieldedHelionGyromagneticRatioOver2Pi</code></p>
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the shielded helion.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI).</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI); value[MHz/T]=|μ[J/T]|/(h[J·s]·I·10⁶).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: MHz T⁻¹. Stored application value: 32.43410084.</p>
-<p class="reference-note"><strong>Important:</strong> Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. Shielded helion values refer to a spherical helium gas sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12047,7 +12047,7 @@
 <p class="reference-summary">Signed magnetic dipole moment of the shielded helion (helium-3 nucleus shielded by the electrons in the reference helium environment), setting its first-order energy shift in a magnetic field.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(shielded helion); ΔE=−μ·B.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: J T⁻¹. Stored application value: -1.074553044E-26.</p>
-<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. Shielded helion values refer to a spherical helium gas sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12061,7 +12061,7 @@
 <p class="reference-summary">Signed magnetic dipole moment of the shielded helion (helium-3 nucleus shielded by the electrons in the reference helium environment), in units of the Bohr magneton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(shielded helion)/μB</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -0.001158671471.</p>
-<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. Shielded helion values refer to a spherical helium gas sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12075,7 +12075,7 @@
 <p class="reference-summary">Signed magnetic dipole moment of the shielded helion (helium-3 nucleus shielded by the electrons in the reference helium environment), in units of the nuclear magneton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(shielded helion)/μN</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -2.127497718.</p>
-<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. Shielded helion values refer to a spherical helium gas sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12089,7 +12089,7 @@
 <p class="reference-summary">Signed ratio of the shielded helion magnetic moment to that of the proton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(shielded helion)/μ(proton).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -0.761766558.</p>
-<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. Shielded helion values refer to a spherical helium gas sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12103,7 +12103,7 @@
 <p class="reference-summary">Signed ratio of the shielded helion magnetic moment to that of the shielded proton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(shielded helion)/μ(shielded proton).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: -0.7617861313.</p>
-<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Negative sign means opposite moment orientations under the source convention. Shielded quantities refer to their specified chemical environment. Shielded proton values refer to a spherical water sample at 25 °C. Shielded helion values refer to a spherical helium gas sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12117,7 +12117,7 @@
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the shielded proton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|=|μ|/(ℏI).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: s⁻¹ T⁻¹. Stored application value: 267515326.8.</p>
-<p class="reference-note"><strong>Important:</strong> This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude. Shielded proton values refer to a spherical water sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12129,9 +12129,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real ShieldedProtonGyromagneticRatioOver2Pi</code></p>
 <p class="reference-summary">Magnitude of the spin-precession frequency per unit magnetic field for the shielded proton.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI).</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>|γ|/(2π)=|μ|/(hI); value[MHz/T]=|μ[J/T]|/(h[J·s]·I·10⁶).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: MHz T⁻¹. Stored application value: 42.5763866.</p>
-<p class="reference-note"><strong>Important:</strong> Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> I=1/2 is the spin quantum number. Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately. Shielded proton values refer to a spherical water sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12145,7 +12145,7 @@
 <p class="reference-summary">Signed magnetic dipole moment of the shielded proton (proton in the reference water environment), setting its first-order energy shift in a magnetic field.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(shielded proton); ΔE=−μ·B.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: J T⁻¹. Stored application value: 1.410570499E-26.</p>
-<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. Shielded proton values refer to a spherical water sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12159,7 +12159,7 @@
 <p class="reference-summary">Signed magnetic dipole moment of the shielded proton (proton in the reference water environment), in units of the Bohr magneton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(shielded proton)/μB</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: 0.001520993128.</p>
-<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. Shielded proton values refer to a spherical water sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12173,7 +12173,7 @@
 <p class="reference-summary">Signed magnetic dipole moment of the shielded proton (proton in the reference water environment), in units of the nuclear magneton.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>μ(shielded proton)/μN</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: 2.792775598.</p>
-<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment. Shielded proton values refer to a spherical water sample at 25 °C. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
@@ -12530,7 +12530,7 @@
 <p class="reference-summary">Returns F(x)=P(X≤x), the accumulated probability through x. A heavy-tail family closed under sums up to location/scale changes; alpha controls the stability index and beta skewness.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>At alpha=2: Normal(location, stddev=sqrt(2)·scale). At alpha=1,beta=0: Cauchy(location,scale).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> 0&lt;alpha≤2, −1≤beta≤1, scale&gt;0; location is real.</p>
-<p class="reference-note"><strong>Important:</strong> Do not interchange stable-law parameterizations blindly, especially when alpha=1 and beta≠0. The implemented sampler scales/shifts a standard draw; density/CDF support is more limited than sampling. This is the lower tail. An upper-tail probability is 1−F(x), though that subtraction can lose precision near one. IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy, supported x on/above location). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them.</p>
+<p class="reference-note"><strong>Important:</strong> Do not interchange stable-law parameterizations blindly, especially when alpha=1 and beta≠0. The implemented sampler scales/shifts a standard draw; density/CDF support is more limited than sampling. This is the lower tail. An upper-tail probability is 1−F(x), though that subtraction can lose precision near one. IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them. For the Lévy branch, use x&gt;location for ordinary evaluation. At x=location, PDF and PDFLn return NaN instead of their mathematical limits 0 and −∞; CDF returns 0. Below location, PDF/PDFLn throw and CDF returns NaN, although the mathematical density and CDF are zero there.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Stable.htm">numerics.mathdotnet.com</a></p>
 </div>]]></Description>
     <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Stable.htm</Url>
@@ -12558,7 +12558,7 @@
 <p class="reference-summary">Probability density f(x). A heavy-tail family closed under sums up to location/scale changes; alpha controls the stability index and beta skewness.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>At alpha=2: Normal(location, stddev=sqrt(2)·scale). At alpha=1,beta=0: Cauchy(location,scale).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> 0&lt;alpha≤2, −1≤beta≤1, scale&gt;0; location is real. Evaluate at x; the support is specified above.</p>
-<p class="reference-note"><strong>Important:</strong> Do not interchange stable-law parameterizations blindly, especially when alpha=1 and beta≠0. The implemented sampler scales/shifts a standard draw; density/CDF support is more limited than sampling. A density is not P(X=x): point probability is zero for a continuous law. Integrate the density over an interval to obtain a probability. IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy, supported x on/above location). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them.</p>
+<p class="reference-note"><strong>Important:</strong> Do not interchange stable-law parameterizations blindly, especially when alpha=1 and beta≠0. The implemented sampler scales/shifts a standard draw; density/CDF support is more limited than sampling. A density is not P(X=x): point probability is zero for a continuous law. Integrate the density over an interval to obtain a probability. IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them. For the Lévy branch, use x&gt;location for ordinary evaluation. At x=location, PDF and PDFLn return NaN instead of their mathematical limits 0 and −∞; CDF returns 0. Below location, PDF/PDFLn throw and CDF returns NaN, although the mathematical density and CDF are zero there.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Stable.htm">numerics.mathdotnet.com</a></p>
 </div>]]></Description>
     <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Stable.htm</Url>
@@ -12572,7 +12572,7 @@
 <p class="reference-summary">Natural logarithm of probability density f(x). A heavy-tail family closed under sums up to location/scale changes; alpha controls the stability index and beta skewness.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>At alpha=2: Normal(location, stddev=sqrt(2)·scale). At alpha=1,beta=0: Cauchy(location,scale).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> 0&lt;alpha≤2, −1≤beta≤1, scale&gt;0; location is real. Evaluate at x; the support is specified above.</p>
-<p class="reference-note"><strong>Important:</strong> Do not interchange stable-law parameterizations blindly, especially when alpha=1 and beta≠0. The implemented sampler scales/shifts a standard draw; density/CDF support is more limited than sampling. This is a natural logarithm of the mass/density, not the probability of a logarithmically transformed variable. Zero mass/density has logarithm −∞; direct log evaluation can avoid ordinary underflow. IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy, supported x on/above location). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them.</p>
+<p class="reference-note"><strong>Important:</strong> Do not interchange stable-law parameterizations blindly, especially when alpha=1 and beta≠0. The implemented sampler scales/shifts a standard draw; density/CDF support is more limited than sampling. This is a natural logarithm of the mass/density, not the probability of a logarithmically transformed variable. Zero mass/density has logarithm −∞; direct log evaluation can avoid ordinary underflow. IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them. For the Lévy branch, use x&gt;location for ordinary evaluation. At x=location, PDF and PDFLn return NaN instead of their mathematical limits 0 and −∞; CDF returns 0. Below location, PDF/PDFLn throw and CDF returns NaN, although the mathematical density and CDF are zero there.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Stable.htm">numerics.mathdotnet.com</a></p>
 </div>]]></Description>
     <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Stable.htm</Url>
@@ -13393,9 +13393,9 @@
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real TritonGFactor</code></p>
 <p class="reference-summary">Dimensionless proportionality between spin and the magnetic moment of the triton.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I, with spin quantum number I and the conventional electron/nuclear magneton μref.</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>μ = g·μref·I; μref=μN; μN=eℏ/(2mp); I=1/2.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Unit: 1. Stored application value: 5.957924896.</p>
-<p class="reference-note"><strong>Important:</strong> Charged-lepton entries include the signed magnetic-moment convention; nuclei use the nuclear magneton. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
+<p class="reference-note"><strong>Important:</strong> Nuclei use the nuclear magneton, defined with the proton mass mp. I is the spin quantum number. A g-factor is not simply the moment in magneton units unless I=1. The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://physics.nist.gov/cuu/Constants/">physics.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
