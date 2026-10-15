@@ -1,4 +1,6 @@
 using System;
+using System.Xml.Linq;
+using Computator.NET.Core.Autocompletion.DataSource;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.Natives;
 using NUnit.Framework;
@@ -11,8 +13,8 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
         [OneTimeSetUp]
         public void InitializeNativeExamples() => GSLInitializer.Initialize();
 
-        // Simple published examples/conventions with independent known answers.
-        // Existing numerical tests and their tolerances are not changed.
+        // Independent known answers for the published examples and conventions.
+        // Existing mathematical tests and tolerances are not changed.
         [TestCase("sinc(0)", 1.0)]
         [TestCase("sinc(1)", 0.8414709848078965)]
         [TestCase("Heaviside(0)", 0.5)]
@@ -20,7 +22,8 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
         [TestCase("gamma(5)", 24.0)]
         [TestCase("gamma(1,2)", 0.1353352832366127)]
         [TestCase("Beta(1,1)", 1.0)]
-        [TestCase("Beta(0.5,1,1)", 0.5)]
+        [TestCase("MathNet.Numerics.SpecialFunctions.BetaIncomplete(1,1,0.5)", 0.5)]
+        [TestCase("MathNet.Numerics.SpecialFunctions.BetaRegularized(1,1,0.5)", 0.5)]
         [TestCase("BesselJ0(0)", 1.0)]
         [TestCase("EllipticK(0)", 1.5707963267948966)]
         [TestCase("ModifiedSphericalBesselKn(0,1)", 1.5707963267948966)]
@@ -42,7 +45,8 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                 "gamma(5)" => SpecialFunctions.gamma(5),
                 "gamma(1,2)" => SpecialFunctions.gamma(1, 2),
                 "Beta(1,1)" => SpecialFunctions.Beta(1, 1),
-                "Beta(0.5,1,1)" => SpecialFunctions.Beta(0.5, 1, 1),
+                "MathNet.Numerics.SpecialFunctions.BetaIncomplete(1,1,0.5)" => MathNet.Numerics.SpecialFunctions.BetaIncomplete(1, 1, 0.5),
+                "MathNet.Numerics.SpecialFunctions.BetaRegularized(1,1,0.5)" => MathNet.Numerics.SpecialFunctions.BetaRegularized(1, 1, 0.5),
                 "BesselJ0(0)" => SpecialFunctions.BesselJ0(0),
                 "EllipticK(0)" => SpecialFunctions.EllipticK(0),
                 "ModifiedSphericalBesselKn(0,1)" => SpecialFunctions.ModifiedSphericalBesselKn(0, 1),
@@ -56,6 +60,29 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                 _ => throw new ArgumentException(example)
             };
             NUnit.Framework.Assert.That(actual, Is.EqualTo(expected).Within(1e-11));
+        }
+
+        [Test]
+        public void LegacyBetaParameterBugIsExplicitRatherThanChangingTheMathematicalDefinition()
+        {
+            // The first documentation example exposed this pre-existing defect:
+            // current Beta(0.5,1,1) is 2, although the intended B_0.5(1,1) is 0.5.
+            // Record both facts and test the documented alternative, not a looser tolerance.
+            var intended = MathNet.Numerics.SpecialFunctions.BetaIncomplete(1, 1, 0.5);
+            NUnit.Framework.Assert.That(intended, Is.EqualTo(0.5).Within(1e-11));
+            var actual = SpecialFunctions.Beta(0.5, 1, 1);
+            NUnit.Framework.Assert.That(actual, Is.EqualTo(2.0).Within(1e-11));
+            NUnit.Framework.Assert.That(actual, Is.Not.EqualTo(intended));
+            NUnit.Framework.Assert.That(SpecialFunctions.β(0.5, 1, 1), Is.EqualTo(actual));
+            var reference = new FunctionsDetailsFileSource().Details;
+            foreach (var signature in new[] { "Beta(x,a,b)", "β(x,a,b)" })
+            {
+                var text = XElement.Parse(reference[signature].Description).Value;
+                NUnit.Framework.Assert.That(text, Does.Contain("Beta(0.5,1,1) = 2"));
+                NUnit.Framework.Assert.That(text, Does.Contain("MathNet.Numerics.SpecialFunctions.BetaIncomplete(a,b,x)"));
+            }
+            NUnit.Framework.Assert.That(XElement.Parse(reference["BetaNorm(x,a,b)"].Description).Value,
+                Does.Contain("MathNet.Numerics.SpecialFunctions.BetaRegularized(a,b,x)"));
         }
     }
 }

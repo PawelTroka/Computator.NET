@@ -15,12 +15,13 @@ test('HTML reference becomes readable inert text in the existing Ace tooltip', a
   await page.goto('/calculate');
   await page.locator('#expressionTextArea textarea').fill('ReferenceProbe');
   await page.locator('#expressionTextArea textarea').press('Control+Space');
-  const row = page.locator('.ace_autocomplete .ace_line').first();
-  await expect(row).toContainText('ReferenceProbe');
-  await row.hover();
-  const tooltip = page.locator('.ace_tooltip');
+  await expect(page.locator('.ace_autocomplete .ace_line').first()).toContainText('ReferenceProbe');
+  // Keyboard selection already opens Ace's documentation. Do not introduce a
+  // redundant mouse-hover transition into this keyboard-accessibility contract.
+  const tooltip = page.getByRole('tooltip');
   await expect(tooltip).toContainText('Meaning: π & γ');
   await expect(tooltip).toContainText('Arguments: x > 0');
+  await expect(tooltip).toContainText('Example: ReferenceProbe(1)');
   await expect(tooltip).not.toContainText('<p>');
   await expect(tooltip).not.toContainText('referenceExecuted');
   expect(await page.evaluate(() => (window as unknown as { referenceExecuted?: boolean }).referenceExecuted)).toBeUndefined();

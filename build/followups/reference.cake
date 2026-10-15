@@ -31,6 +31,6 @@ Task("Reference-Generate").IsDependentOn("Build").Does(() =>
 });
 Task("Reference-Validate").IsDependentOn("Build").Does(() =>
 {
-    ReferenceTest("FullyQualifiedName~FunctionReferenceCoverageTests", "reference.trx");
+    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx");
     MaterializeReference(true);
 });
