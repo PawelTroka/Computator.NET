@@ -13,10 +13,13 @@ test('cancel an actual chart computation and render/download the next plot', asy
   await page.getByRole('button', { name: 'Draw chart!' }).click(); await sent;
   await page.getByRole('button', { name: 'Cancel chart' }).click();
   await expect(page.getByRole('status')).toHaveText('Chart rendering cancelled.');
-  await editor.fill('x');
-  const response = page.waitForResponse(response => response.url().endsWith('/v2/chart') && response.request().postDataJSON().expression === 'x');
+  // Ace's textarea is an input buffer: fill() again appends to its document.
+  await editor.focus(); await editor.press('ControlOrMeta+A'); await page.keyboard.insertText('x');
+  const response = page.waitForResponse(response => response.url().endsWith('/v2/chart') && response.request().method() === 'POST', { timeout: 35_000 });
   await page.getByRole('button', { name: 'Draw chart!' }).click();
-  const actual = await response; expect(actual.ok()).toBeTruthy();
+  const actual = await response;
+  expect(actual.request().postDataJSON().expression).toBe('x');
+  expect(actual.ok()).toBeTruthy();
   const bytes = await actual.body();
   expect(bytes.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
   await expect(page.getByRole('img', { name: 'x', exact: true })).toBeVisible();

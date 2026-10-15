@@ -105,6 +105,9 @@ test('replacement and route departure revoke owned image URLs', async ({ page })
   await expression(page, 'x+1'); await page.getByRole('button', { name: 'Draw chart!' }).click();
   await expect(page.getByRole('img', { name: 'x+1', exact: true })).toBeVisible();
   await page.getByRole('link', { name: 'Calculate', exact: true }).click();
-  const urls = await page.evaluate(() => (window as unknown as { chartUrls: { created: string[]; revoked: string[] } }).chartUrls);
-  expect(urls.created).toHaveLength(2); expect(urls.revoked).toEqual(urls.created);
+  await expect(page.getByRole('heading', { name: 'Calculate', exact: true })).toBeVisible();
+  await expect.poll(() => page.evaluate(() => {
+    const urls = (window as unknown as { chartUrls: { created: string[]; revoked: string[] } }).chartUrls;
+    return { created: urls.created.length, remaining: urls.created.filter(url => !urls.revoked.includes(url)) };
+  })).toEqual({ created: 2, remaining: [] });
 });
