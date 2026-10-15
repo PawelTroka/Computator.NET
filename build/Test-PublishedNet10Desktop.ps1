@@ -182,6 +182,7 @@ try {
     $start.WorkingDirectory = $directory
     $start.UseShellExecute = $false
     $start.Environment['COMPUTATOR_DATA_DIRECTORY'] = $profile
+    $null = $start.Environment.Remove('COMPUTATOR_GSL_DIRECTORY')
     $process.StartInfo = $start
     $phase = 'startup'
     $started = $process.Start()
