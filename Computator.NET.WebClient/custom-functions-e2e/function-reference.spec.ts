@@ -22,4 +22,18 @@ test('the live API supplies the shipped constant reference to the existing edito
   await expect(tooltip).toContainText('1.602176634');
   await expect(tooltip).toContainText('Stored application value:');
   await expect(tooltip).not.toContainText('<div');
+  await expect(tooltip.locator('.reference-signature code')).toContainText('ElementaryCharge');
+  await expect(tooltip.locator('.reference-arguments strong')).toBeVisible();
+  await expect(tooltip.locator('.reference-source a[href^="https://"]')).toHaveCount(1);
+});
+
+test('the live function reference renders typed syntax and a mathematical definition as HTML', async ({ page }) => {
+  const loaded = page.waitForResponse(response => response.url().endsWith('/autocomplete/expression') && response.request().method() === 'GET');
+  await page.goto('/calculate'); await loaded;
+  await page.locator('#expressionTextArea textarea').fill('Ai');
+  await page.locator('#expressionTextArea textarea').press('Control+Space');
+  const tooltip = page.getByRole('tooltip');
+  await expect(tooltip.locator('.reference-signature code')).toContainText('Ai(real x)');
+  await expect(tooltip.locator('.reference-formula code')).toContainText('y″−xy=0');
+  await expect(tooltip.locator('.reference-source a[href^="https://"]')).toHaveCount(1);
 });

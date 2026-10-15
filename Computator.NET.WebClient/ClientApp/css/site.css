@@ -57,6 +57,13 @@ h2, h3 { color: var(--workspace-text); }
    and dark Ambiance script editor remain recognizable inside a neutral shell. */
 .script-editor-panel { background: #3d3d3d; }
 .chart-image { display: block; max-width: 100%; height: auto; border-radius: 6px; }
+.ace_doc-tooltip .computator-reference { white-space: normal; overflow-wrap: anywhere; font: 14px/1.5 system-ui, sans-serif; }
+.computator-reference .reference-title { display: block; margin-bottom: .6em; }
+.computator-reference p { margin: .6em 0; }
+.computator-reference code { color: inherit; font-family: ui-monospace, Consolas, monospace; white-space: pre-wrap; }
+.computator-reference .reference-note { border-left: 3px solid #ad7a29; padding-left: .6em; }
+.computator-reference a { color: #075aa6; text-decoration: underline; }
+.ace_dark .computator-reference a { color: #9dceff; }
 .skip-link { position: fixed; top: .75rem; left: .75rem; z-index: 1000; transform: translateY(-180%); background: #e1bd83; color: #211b12; padding: .6rem 1rem; border-radius: 4px; }
 .skip-link:focus { transform: none; color: #211b12; }
 @media (max-width: 767.98px) {

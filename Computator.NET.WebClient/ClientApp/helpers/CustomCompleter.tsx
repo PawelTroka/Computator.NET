@@ -1,6 +1,6 @@
 import { WEB_API_BASE_URL } from '../config';
-import { referenceText } from './referenceText';
-interface Completion { caption: string; value: string; score: number; meta: string; docText: string; }
+import { referenceHtml } from './referenceHtml';
+interface Completion { caption: string; value: string; score: number; meta: string; docHTML: string; }
 export class CustomCompleter {
   private items: Completion[] = [];
   private readonly controller = new AbortController();
@@ -14,7 +14,7 @@ export class CustomCompleter {
             value: item.text, score: 0,
             meta: typeof item.details.category === 'string' && item.details.category.trim()
               ? item.details.category.trim() : typeof item.details.type === 'string' ? item.details.type : '',
-            docText: `${typeof item.details.title === 'string' ? item.details.title : item.text}\n${referenceText(item.details.description)}` }));
+            docHTML: referenceHtml(typeof item.details.title === 'string' ? item.details.title : item.text, item.details.description) }));
       }).catch(() => { this.items = []; });
   }
   public dispose() { this.controller.abort(); }
