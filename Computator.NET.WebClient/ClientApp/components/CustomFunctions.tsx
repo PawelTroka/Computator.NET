@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-csharp';
 import 'ace-builds/src-noconflict/theme-ambiance';
@@ -8,7 +8,9 @@ export function CustomFunctions() {
   const functions = useCustomFunctions();
   const [fileError, setFileError] = useState(''), [importing, setImporting] = useState(false);
   const revision = useRef(0);
-  useEffect(() => () => { revision.current++; }, []);
+  // Invalidate at the unmount commit, not in a deferred passive effect after the
+  // replacement screen is visible. File reads can finish in that interval.
+  useLayoutEffect(() => () => { revision.current++; }, []);
 
   function discardPendingImport() {
     // File.arrayBuffer has no abort API. Invalidate its result immediately instead

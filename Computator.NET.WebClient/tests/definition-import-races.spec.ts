@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 const original = 'static real Probe(real x) { return x+1; }';
 const edited = 'static real Probe(real x) { return x+9; }';
-type DeferredReads = { pending: Record<string, () => void> };
+type DeferredReads = { pending: Record<string, () => Promise<void>> };
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -12,7 +12,9 @@ test.beforeEach(async ({ page }) => {
     File.prototype.arrayBuffer = function () {
       if (!this.name.startsWith('delayed-')) return read.call(this);
       return new Promise<ArrayBuffer>((resolve, reject) => {
-        reads.pending[this.name] = () => { void read.call(this).then(resolve, reject); };
+        reads.pending[this.name] = async () => {
+          try { resolve(await read.call(this)); } catch (error) { reject(error); }
+        };
       });
     };
   });
@@ -25,9 +27,8 @@ async function delayed(page: Page, name: string, buffer = Buffer.from(edited)) {
   await expect.poll(() => page.evaluate(name => Boolean((window as unknown as { definitionReads: DeferredReads }).definitionReads.pending[name]), name)).toBe(true);
 }
 async function release(page: Page, name: string) {
+  // Wait for the controlled real File read, not an arbitrary frame/timer delay.
   await page.evaluate(name => (window as unknown as { definitionReads: DeferredReads }).definitionReads.pending[name](), name);
-  // Yield a browser frame after the real File read completes, without executing code.
-  await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
 async function exported(page: Page) {
   const pending = page.waitForEvent('download'); await page.getByRole('button', { name: 'Export .tslf', exact: true }).click();
@@ -65,8 +66,13 @@ test('clearing definitions invalidates an in-flight file without resurrecting th
 test('leaving the page invalidates import without changing definitions in the provider', async ({ page }) => {
   await delayed(page, 'delayed-navigation.tslf');
   await page.getByRole('link', { name: 'Calculate', exact: true }).click();
+  // React Router can transition after the click resolves. Release the file only
+  // once the destination committed, which is the behavior this case exercises.
+  await expect(page.getByRole('heading', { name: 'Calculate', exact: true })).toBeVisible();
+  await expect(page.locator('#customFunctionsTextArea')).toHaveCount(0);
   await release(page, 'delayed-navigation.tslf');
   await page.getByRole('link', { name: 'Custom functions', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Custom functions', exact: true })).toBeVisible();
   expect(await exported(page)).toBe(original);
 });
 
