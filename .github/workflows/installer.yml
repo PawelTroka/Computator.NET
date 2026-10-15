@@ -55,4 +55,5 @@ jobs:
           path: |
             artifacts/installer/output/**
             artifacts/installer/logs/**
+            TestResults/desktop-smoke/**
           retention-days: 7
