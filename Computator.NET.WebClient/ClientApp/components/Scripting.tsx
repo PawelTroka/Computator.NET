@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-csharp';
 import 'ace-builds/src-noconflict/snippets/csharp';
@@ -19,7 +19,10 @@ export function Scripting() {
   const revision = useRef(0);
   const request = useTextResult();
   const completer = useMemo(() => new CustomCompleter('scripting'), []);
-  useEffect(() => () => { completer.dispose(); revision.current++; }, [completer]);
+  useEffect(() => () => completer.dispose(), [completer]);
+  // A file read may finish between the unmount commit and passive effects.
+  // Invalidate it before it can change the document shared with other routes.
+  useLayoutEffect(() => () => { revision.current++; }, []);
   async function importFile(file: File | undefined) {
     if (!file) return;
     const importing = ++revision.current;
