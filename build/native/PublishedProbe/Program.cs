@@ -16,9 +16,13 @@ var checks = new Dictionary<string, double>();
 var passed = false;
 try
 {
-    foreach (var name in new[] { "gsl.dll", "gslcblas.dll", "gsl-provenance.json", "COPYING.GSL" })
+    foreach (var name in new[] { "gsl.dll", "gslcblas.dll", "gsl-provenance.json", "COPYING.GSL", "GSL-2.8-source.zip", "SOURCE.GSL.txt" })
         if (!File.Exists(Path.Combine(published, "native", "gsl", name)))
             throw new FileNotFoundException("The packaged GSL payload is incomplete: " + name);
+    using (var inventory = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(published, "native", "gsl", "gsl-provenance.json"))))
+        foreach (var name in new[] { "COPYING.GSL", "GSL-2.8-source.zip", "SOURCE.GSL.txt" })
+            if (!inventory.RootElement.GetProperty("files").TryGetProperty(name, out _))
+                throw new InvalidDataException("Native provenance must bind the corresponding source and notices: " + name);
     // Exercise the deployed Core assembly and its normal resolver. Never use a
     // project reference, an opt-in native override, or the developer's profile.
     Environment.SetEnvironmentVariable("COMPUTATOR_GSL_DIRECTORY", null);

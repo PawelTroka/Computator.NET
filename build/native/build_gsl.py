@@ -9,6 +9,7 @@ import platform
 import shutil
 import subprocess
 import sys
+from source_package import package_sources
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / 'build/native'
@@ -25,6 +26,7 @@ def capture(*args: object, cwd: Path = ROOT) -> str:
 
 
 def main() -> None:
+    run(sys.executable, '-m', 'unittest', 'discover', '-s', SOURCE, '-p', 'test_source_package.py')
     pins = json.loads((SOURCE / 'gsl-source.json').read_text())
     machine = platform.machine().lower()
     arch = {'amd64': 'x64', 'x86_64': 'x64', 'arm64': 'arm64', 'aarch64': 'arm64'}.get(machine)
@@ -91,6 +93,7 @@ def main() -> None:
     if not (destination / gsl_name).exists():
         raise RuntimeError(f'Expected GSL runtime entry is missing: {gsl_name}')
     shutil.copy2(prefix / 'share/gsl/copyright', destination / 'COPYING.GSL')
+    package_sources(SOURCE, checkout, work / 'downloads' / f'gsl-{pins["version"]}.tar.gz', pins, destination)
     manifest = {
         'schemaVersion': 1, 'version': pins['version'], 'rid': rid, 'entryPoint': gsl_name,
         'source': pins, 'cmake': capture('cmake', '--version').splitlines()[0],

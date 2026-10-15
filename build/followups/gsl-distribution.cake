@@ -3,7 +3,7 @@ void StageGslPayload(string outputDirectory)
 {
     if (!IsRunningOnWindows()) throw new Exception("The packaged GSL adoption target requires Windows x64.");
     var source = "artifacts/gsl/win-x64/native";
-    RequirePayload(source, new[] { "gsl.dll", "gslcblas.dll", "gsl-provenance.json", "COPYING.GSL" });
+    RequirePayload(source, new[] { "gsl.dll", "gslcblas.dll", "gsl-provenance.json", "COPYING.GSL", "GSL-2.8-source.zip", "SOURCE.GSL.txt" });
     var destination = outputDirectory + "/native/gsl";
     EnsureDirectoryExists(destination);
     CopyDirectory(source, destination);

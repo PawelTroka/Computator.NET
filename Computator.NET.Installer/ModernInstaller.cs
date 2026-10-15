@@ -127,7 +127,8 @@ namespace Computator.NET.Installer
         {
             foreach (var name in new[] { "Computator.NET.exe", "Computator.NET.dll", "Computator.NET.runtimeconfig.json", "Computator.NET.deps.json",
                 "coreclr.dll", "hostfxr.dll", "Microsoft.CodeAnalysis.CSharp.dll", "Static/functions.xml", "pl/Computator.NET.Localization.resources.dll", "CHANGELOG", "LICENSE",
-                "native/gsl/gsl.dll", "native/gsl/gslcblas.dll", "native/gsl/gsl-provenance.json", "native/gsl/COPYING.GSL" })
+                "native/gsl/gsl.dll", "native/gsl/gslcblas.dll", "native/gsl/gsl-provenance.json", "native/gsl/COPYING.GSL",
+                "native/gsl/GSL-2.8-source.zip", "native/gsl/SOURCE.GSL.txt" })
                 if (!IO.File.Exists(IO.Path.Combine(payload, name))) throw new IO.FileNotFoundException("Missing self-contained installer payload entry: " + name);
             if (IO.Directory.EnumerateFiles(payload, "*", IO.SearchOption.AllDirectories).Any(path =>
                 new[] { ".pfx", ".p12", ".snk", ".pem" }.Contains(IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase)))
