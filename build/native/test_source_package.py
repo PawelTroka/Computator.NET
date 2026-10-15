@@ -29,6 +29,10 @@ class SourcePackageTests(unittest.TestCase):
         self.native.mkdir(parents=True)
         (self.native / 'build_gsl.py').write_text('# exact recipe\n', newline='\n')
         (self.native / 'gsl-source.json').write_text('{}\n', newline='\n')
+        (self.native / 'probe').mkdir()
+        (self.native / 'probe/CMakeLists.txt').write_text('add_executable(probe probe.c)\n', newline='\n')
+        (self.native / 'probe/probe.c').write_text('#include "probe.h"\nint main(void) { return 0; }\n', newline='\n')
+        (self.native / 'probe/probe.h').write_text('/* required probe header */\n', newline='\n')
         (self.native / 'ManagedProbe/obj').mkdir(parents=True)
         (self.native / 'ManagedProbe/obj/cache.json').write_text('not source')
         (self.native / 'private.pfx').write_bytes(b'not a recipe')
@@ -47,6 +51,8 @@ class SourcePackageTests(unittest.TestCase):
         with zipfile.ZipFile(first / SOURCE_NAME) as archive:
             self.assertEqual(archive.read('gsl-2.8.tar.gz'), self.upstream.read_bytes())
             self.assertEqual(archive.read('build/native/build_gsl.py'), b'# exact recipe\n')
+            for name in ('CMakeLists.txt', 'probe.c', 'probe.h'):
+                self.assertEqual(archive.read('build/native/probe/' + name), (self.native / 'probe' / name).read_bytes())
             self.assertFalse(any('obj/' in name or name.endswith('.pfx') for name in archive.namelist()))
             with tarfile.open(fileobj=io.BytesIO(archive.read('vcpkg-source.tar'))) as snapshot:
                 self.assertEqual(snapshot.extractfile('ports/gsl/fix.patch').read(), b'exact patch\n')

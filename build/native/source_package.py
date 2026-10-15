@@ -32,7 +32,8 @@ def package_sources(native: Path, checkout: Path, upstream: Path, pins: dict, de
         raise ValueError('Corresponding-source packaging requires the unmodified pinned vcpkg checkout.')
     recipes = sorted(path for path in native.rglob('*') if path.is_file() and
                      not {'bin', 'obj', '__pycache__'}.intersection(path.relative_to(native).parts) and
-                     path.suffix in {'.py', '.json', '.cmake', '.txt', '.cs', '.csproj'})
+                     path.suffix in {'.py', '.json', '.cmake', '.txt', '.cs', '.csproj',
+                                     '.c', '.h', '.cc', '.cpp', '.cxx', '.hpp'})
     if not (native / 'build_gsl.py') in recipes or not (native / 'gsl-source.json') in recipes:
         raise ValueError('Native build recipes are incomplete.')
     readme = f'''GNU GSL {pins['version']} corresponding native source
