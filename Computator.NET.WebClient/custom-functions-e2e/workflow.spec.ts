@@ -12,9 +12,11 @@ async function replaceCode(page: Page, id: string, value: string) {
 async function calculate(page: Page, expected: string) {
   await page.getByRole('link', { name: 'Calculate', exact: true }).click();
   await replaceCode(page, 'expressionTextArea', 'CustomProbe(0)/1');
-  const pending = page.waitForRequest(request => request.method() === 'POST' && request.url().endsWith('/v2/execute'));
+  const pending = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/v2/execute'), { timeout: 35_000 });
   await page.getByRole('button', { name: 'Calculate!' }).click();
-  expect((await pending).postDataJSON().customFunctions).toBe(definition(Number(expected)));
+  const response = await pending;
+  expect(response.request().postDataJSON().customFunctions).toBe(definition(Number(expected)));
+  expect(response.ok()).toBeTruthy();
   await expect(page.getByRole('status')).toHaveText(expected);
 }
 test('real functions flow from unsaved editor through calculation, script and reload', async ({ page }) => {

@@ -20,9 +20,17 @@ test('cancel an actual chart computation and render/download the next plot', asy
   const actual = await response;
   expect(actual.request().postDataJSON().expression).toBe('x');
   expect(actual.ok()).toBeTruthy();
-  const bytes = await actual.body();
+  expect(actual.headers()['content-type']).toContain('image/png');
+  const chart = page.getByRole('img', { name: 'x', exact: true });
+  await expect(chart).toBeVisible();
+  // Read the displayed blob: Chromium can report an empty response.body()
+  // after the preceding request is aborted, despite receiving the PNG.
+  const bytes = Buffer.from(await chart.evaluate(async (image: HTMLImageElement) => {
+    await image.decode();
+    if (image.naturalWidth <= 100) throw new Error('The chart image did not render.');
+    return Array.from(new Uint8Array(await (await fetch(image.src)).arrayBuffer()));
+  }));
   expect(bytes.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
-  await expect(page.getByRole('img', { name: 'x', exact: true })).toBeVisible();
   const pending = page.waitForEvent('download'); await page.getByRole('link', { name: 'Download PNG' }).click();
   expect(await readFile((await (await pending).path())!)).toEqual(bytes);
 });
