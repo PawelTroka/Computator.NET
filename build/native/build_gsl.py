@@ -21,8 +21,8 @@ def run(*args: object, cwd: Path = ROOT, env: dict[str, str] | None = None) -> N
     subprocess.run(command, cwd=cwd, env=env, check=True)
 
 
-def capture(*args: object, cwd: Path = ROOT) -> str:
-    return subprocess.check_output([str(arg) for arg in args], cwd=cwd, text=True).strip()
+def capture(*args: object, cwd: Path = ROOT, env: dict[str, str] | None = None) -> str:
+    return subprocess.check_output([str(arg) for arg in args], cwd=cwd, env=env, text=True).strip()
 
 
 def main() -> None:
@@ -68,9 +68,16 @@ def main() -> None:
         '--x-manifest-root=' + str(SOURCE / 'gsl'), '--x-install-root=' + str(installed), '--binarysource=clear', env=environment)
     prefix = installed / triplet
     probe_build = work / 'probe'
-    run('cmake', '-S', SOURCE / 'probe', '-B', probe_build,
+    # Use the source-pinned vcpkg tool recipe, not an older CI-image CMake that
+    # cannot discover the image's compiler (notably Visual Studio 2026).
+    tool_environment = dict(environment, VCPKG_FORCE_DOWNLOADED_BINARIES='1')
+    cmake = Path(capture(executable, 'fetch', 'cmake', '--x-stderr-status', env=tool_environment))
+    ctest = cmake.with_name('ctest.exe' if os_name == 'win' else 'ctest')
+    if not cmake.is_file() or not ctest.is_file():
+        raise RuntimeError('The pinned CMake tool package is incomplete.')
+    run(cmake, '-S', SOURCE / 'probe', '-B', probe_build,
         '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_PREFIX_PATH=' + str(prefix))
-    run('cmake', '--build', probe_build, '--config', 'Release', '--parallel', '2')
+    run(cmake, '--build', probe_build, '--config', 'Release', '--parallel', '2')
     probe_environment = dict(environment)
     if os_name == 'win':
         probe_environment['PATH'] = str(prefix / 'bin') + os.pathsep + environment['PATH']
@@ -78,7 +85,7 @@ def main() -> None:
         probe_environment['LD_LIBRARY_PATH'] = str(prefix / 'lib')
     else:
         probe_environment['DYLD_LIBRARY_PATH'] = str(prefix / 'lib')
-    run('ctest', '--test-dir', probe_build, '-C', 'Release', '--output-on-failure', env=probe_environment)
+    run(ctest, '--test-dir', probe_build, '-C', 'Release', '--output-on-failure', env=probe_environment)
     destination = ROOT / 'artifacts/gsl' / rid / 'native'
     if destination.exists():
         shutil.rmtree(destination)
@@ -96,7 +103,7 @@ def main() -> None:
     package_sources(SOURCE, checkout, work / 'downloads' / f'gsl-{pins["version"]}.tar.gz', pins, destination)
     manifest = {
         'schemaVersion': 1, 'version': pins['version'], 'rid': rid, 'entryPoint': gsl_name,
-        'source': pins, 'cmake': capture('cmake', '--version').splitlines()[0],
+        'source': pins, 'cmake': capture(cmake, '--version').splitlines()[0],
         'toolchain': (probe_build / 'CMakeCache.txt').read_text(errors='replace'),
         'files': {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in destination.iterdir() if path.is_file()}
     }
