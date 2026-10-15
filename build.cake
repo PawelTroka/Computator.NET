@@ -81,6 +81,7 @@ void PublishDesktop()
     {
         Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/desktop"
     });
+    StageGslPayload("artifacts/desktop");
     RequirePayload("artifacts/desktop", new[] { "Computator.NET.exe", "Microsoft.CodeAnalysis.CSharp.dll", "MathNet.Numerics.dll",
         "Meta.Numerics.dll", "Static/functions.xml", "Static/TSL-Syntax.xshd", "pl/Computator.NET.Localization.resources.dll", "CHANGELOG" });
     if (modernRuntime)
@@ -97,6 +98,7 @@ void PublishApi()
     {
         Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/api"
     });
+    StageGslPayload("artifacts/api");
     if (modernRuntime) PowerShell("build/Test-PublishedNet10Api.ps1", "-PublishDirectory artifacts/api");
     else RequirePayload("artifacts/api", new[] { "Computator.NET.WebApi.exe", "Static/functions.xml" });
 }
@@ -187,8 +189,8 @@ Task("SelectedTests").IsDependentOn("Build").Does(() =>
 {
     foreach (var project in suite == "All" ? suites.Keys.ToArray() : new[] { suite }) RunSuite(project);
 });
-Task("Publish-Desktop").IsDependentOn("Build").Does(PublishDesktop);
-Task("Publish-Api").IsDependentOn("Build").Does(PublishApi);
+Task("Publish-Desktop").IsDependentOn("Build").IsDependentOn("Native-GSL").Does(PublishDesktop);
+Task("Publish-Api").IsDependentOn("Build").IsDependentOn("Native-GSL").Does(PublishApi);
 var ci = Task("CI").IsDependentOn("SelectedTests");
 if (suite == "All" || suite == "Computator.NET.Desktop.Tests") ci.IsDependentOn("Publish-Desktop");
 if (suite == "All" || suite == "Computator.NET.WebApi.IntegrationTests") ci.IsDependentOn("Publish-Api");

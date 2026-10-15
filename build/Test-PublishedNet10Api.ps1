@@ -15,6 +15,8 @@ $start.ArgumentList.Add((Join-Path $directory 'Computator.NET.WebApi.dll'))
 $start.ArgumentList.Add('--urls'); $start.ArgumentList.Add($address)
 $start.Environment['ASPNETCORE_ENVIRONMENT'] = 'Production'
 $start.Environment['DOTNET_ENVIRONMENT'] = 'Production'
+# Exercise the package's default resolver, never a developer's opt-in build tree.
+[void]$start.Environment.Remove('COMPUTATOR_GSL_DIRECTORY')
 $token = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
 $start.Environment['ExecutionAccess__Token'] = $token
 $profile = Join-Path ([IO.Path]::GetTempPath()) ('Computator-Api-Smoke-' + [Guid]::NewGuid().ToString('N'))
@@ -47,6 +49,31 @@ try {
     $script = [Uri]::EscapeDataString('write(42);')
     $result = $client.GetStringAsync("$address/api/script/$script").GetAwaiter().GetResult()
     if ($result -ne '42') { throw "Published scripting regression: $result" }
+    # Inspect the already-loaded module after real native-backed calculations.
+    # Explicitly loading a DLL here would bypass the resolver we need to verify.
+    $gslScript = @'
+var gamma = gammaP(1,1);
+var airy = AiPrime(0);
+using var current = System.Diagnostics.Process.GetCurrentProcess();
+System.Diagnostics.ProcessModule gsl = null;
+foreach (System.Diagnostics.ProcessModule module in current.Modules)
+    if (module.ModuleName.Equals("gsl.dll", System.StringComparison.OrdinalIgnoreCase)) gsl = module;
+if (gsl == null) throw new System.Exception("GSL was not loaded by the numerical functions.");
+var version = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(
+    System.Runtime.InteropServices.Marshal.ReadIntPtr(
+        System.Runtime.InteropServices.NativeLibrary.GetExport(gsl.BaseAddress, "gsl_version")));
+write(System.Text.Json.JsonSerializer.Serialize(new { pid = current.Id, path = gsl.FileName, version, gamma, airy }));
+'@
+    $gsl = $client.GetStringAsync("$address/api/script/$([Uri]::EscapeDataString($gslScript))").GetAwaiter().GetResult() | ConvertFrom-Json
+    $expectedGsl = [IO.Path]::GetFullPath((Join-Path $directory 'native/gsl/gsl.dll'))
+    if ($gsl.pid -eq $process.Id -or $gsl.pid -le 0) { throw 'Published GSL scripting did not execute in an owned worker.' }
+    if ($gsl.version -ne '2.8' -or ![string]::Equals([IO.Path]::GetFullPath($gsl.path), $expectedGsl, [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Published worker selected GSL $($gsl.version) from '$($gsl.path)', expected packaged GSL 2.8 at '$expectedGsl'."
+    }
+    if (![double]::IsFinite($gsl.gamma) -or [Math]::Abs($gsl.gamma - (1 - [Math]::Exp(-1))) -gt 1e-12 -or
+        ![double]::IsFinite($gsl.airy) -or [Math]::Abs($gsl.airy - (-0.2588194037928068)) -gt 1e-12) {
+        throw 'Published GSL worker numerical regression.'
+    }
     foreach ($format in @('png', 'bmp')) {
         $bytes = $client.GetByteArrayAsync("$address/api/chart/$format/300/300/0/5/0/5/x").GetAwaiter().GetResult()
         if ($bytes.Length -le 24) { throw 'Published chart payload is incomplete.' }
@@ -55,7 +82,7 @@ try {
     }
     $swagger = $client.GetStringAsync("$address/swagger/v1/swagger.json").GetAwaiter().GetResult() | ConvertFrom-Json
     if (!$swagger.paths -or $swagger.info.title -ne 'Computator.NET.Web API') { throw 'Published OpenAPI document is invalid.' }
-    Write-Host 'Published API passed: token protection, real calculation/script, PNG, BMP and OpenAPI.'
+    Write-Host 'Published API passed: token protection, real calculation/script, packaged GSL 2.8 worker, PNG, BMP and OpenAPI.'
 }
 finally {
     $client.Dispose()

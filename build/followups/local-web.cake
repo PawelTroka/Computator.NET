@@ -2,11 +2,12 @@
 // target name. An aggregate target gets the same relative-API production assets.
 Task("Local-Web-Assets").IsDependentOn("Web-Restore").Does(() =>
     NodeCommand("npm", "run build", new Dictionary<string, string> { { "VITE_API_BASE_URL", "/api" } }));
-Task("Local-Web-Stage").IsDependentOn("Build").IsDependentOn("Local-Web-Assets").Does(() =>
+Task("Local-Web-Stage").IsDependentOn("Build").IsDependentOn("Native-GSL").IsDependentOn("Local-Web-Assets").Does(() =>
 {
     if (!IsRunningOnWindows()) throw new Exception("The chart-backed local package currently supports Windows x64.");
     CleanDirectory("artifacts/local-web");
     foreach (var entry in new[] { new[] { "Computator.NET.WebApi/Computator.NET.WebApi.csproj", "api" }, new[] { webProject, "webclient" } })
+    {
         DotNetPublish(entry[0], new DotNetPublishSettings
         {
             Configuration = configuration, Runtime = "win-x64", SelfContained = true,
@@ -14,8 +15,11 @@ Task("Local-Web-Stage").IsDependentOn("Build").IsDependentOn("Local-Web-Assets")
             ArgumentCustomization = a => a.Append("-p:SkipFrontendBuild=true -p:PublishTrimmed=false -p:PublishSingleFile=false -p:PublishAot=false")
                 .Append("-p:WarningsAsErrors=NU1900%3BNU1901%3BNU1902%3BNU1903%3BNU1904")
         });
+        if (entry[1] == "api") StageGslPayload("artifacts/local-web/api");
+    }
     RequirePayload("artifacts/local-web/api", new[] { "Computator.NET.WebApi.exe", "coreclr.dll", "Static/functions.xml" });
     RequirePayload("artifacts/local-web/webclient", new[] { "Computator.NET.WebClient.exe", "coreclr.dll", "dist/index.html" });
+    PowerShell("build/Test-PublishedNet10Api.ps1", "-PublishDirectory artifacts/local-web/api");
     System.IO.File.WriteAllText("artifacts/local-web/webclient/appsettings.json",
         "{\"LocalWeb\":{\"Enabled\":true,\"OpenBrowser\":true},\"Logging\":{\"LogLevel\":{\"Default\":\"Information\",\"Microsoft.AspNetCore\":\"Warning\"}}}");
     System.IO.File.WriteAllText("artifacts/local-web/Start-Computator.cmd", "@echo off\r\ncd /d \"%~dp0webclient\"\r\nComputator.NET.WebClient.exe\r\n");
