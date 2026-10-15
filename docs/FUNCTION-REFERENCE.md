@@ -45,7 +45,7 @@ Several descriptions would be misleading without reporting existing behavior. Th
 
 | Existing identifier | Explicitly documented distinction |
 | --- | --- |
-| `BetaNorm(x,a,b)` | The native forwarding uses the wrong parameter order for the advertised normalized beta; the article gives the intended definition, actual forwarding and a usable alternative. |
+| `Beta(x,a,b)`, `β(x,a,b)`, `BetaNorm(x,a,b)` | Both incomplete-beta wrappers forward the wrong parameter order. An independent example test reproduced Beta(0.5,1,1)=2 instead of 0.5. The help distinguishes actual/intended results and gives the tested Math.NET BetaIncomplete/BetaRegularized alternatives; dividing the broken three-argument wrapper by complete beta is not a fix. |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
 | `CoulombGprime` / `Coupling9j` | Current forwarded order / ninth-argument behavior differs from the advertised general formula. |
 | Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |

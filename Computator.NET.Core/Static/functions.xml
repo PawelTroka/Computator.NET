@@ -1090,19 +1090,19 @@
     <Url>https://dlmf.nist.gov/5.12</Url>
   </FunctionInfo>
   <FunctionInfo Signature="Beta(x,a,b)">
-    <Title>Unregularized incomplete beta</Title>
+    <Title>Incomplete beta — legacy parameter-order caveat</Title>
     <Type>SpecialFunctions</Type>
     <Category>SpecialFunctions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real Beta(real x, real a, real b)</code></p>
-<p class="reference-summary">The beta integral accumulated up to x.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> 0≤x≤1, a&gt;0, b&gt;0; argument order is x,a,b.</p>
-<p class="reference-note"><strong>Important:</strong> Divide by Beta(a,b) to obtain the regularized Iₓ(a,b).</p>
-<p class="reference-example"><strong>Example:</strong> Beta(0.5,1,1) = 0.5</p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/8.17">dlmf.nist.gov</a></p>
+<p class="reference-summary">The intended quantity is the lower beta integral accumulated up to x; the current wrapper passes its arguments in a different order.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>Intended: Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt. Current forwarding: B_b(x,a).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> The visible signature is x,a,b and checks 0≤x≤1, a,b&gt;0, but Meta.Numerics expects a,b,x. The effective integration limit is b, so b&gt;1 can be rejected by the library.</p>
+<p class="reference-note"><strong>Important:</strong> The wrapper and its β alias call Meta.Numerics.Functions.AdvancedMath.Beta(x,a,b), not Beta(a,b,x). Beta(0.5,1,1) = 2, not the intended 0.5. For Bₓ(a,b), use MathNet.Numerics.SpecialFunctions.BetaIncomplete(a,b,x). This content change does not alter calculations.</p>
+<p class="reference-example"><strong>Example:</strong> MathNet.Numerics.SpecialFunctions.BetaIncomplete(1,1,0.5) = 0.5</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics/SpecialFunctions.htm">numerics.mathdotnet.com</a></p>
 </div>]]></Description>
-    <Url>https://dlmf.nist.gov/8.17</Url>
+    <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics/SpecialFunctions.htm</Url>
   </FunctionInfo>
   <FunctionInfo Signature="Beta.CDF(a,b,x)">
     <Title>Beta — Cumulative probability</Title>
@@ -1271,7 +1271,7 @@
 <p class="reference-summary">The intended quantity is the beta integral divided by B(a,b), a value in [0,1] on its usual domain.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>Intended: Iₓ(a,b)=Bₓ(a,b)/B(a,b). Current native forwarding: I_b(x,a).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> The visible wrapper checks 0≤x≤1 and a,b&gt;0, but GSL expects shape1,shape2,limit.</p>
-<p class="reference-note"><strong>Important:</strong> The current code calls gsl_sf_beta_inc(x,a,b), so the result is NOT generally Iₓ(a,b). Until the numerical wrapper is corrected, use Beta(x,a,b)/Beta(a,b) for that intended value. This reference change does not alter the implementation.</p>
+<p class="reference-note"><strong>Important:</strong> The current code calls gsl_sf_beta_inc(x,a,b), so the result is NOT generally Iₓ(a,b). For the intended value use MathNet.Numerics.SpecialFunctions.BetaRegularized(a,b,x); the three-argument Beta wrapper also has an ordering defect, so Beta(x,a,b)/Beta(a,b) is not a reliable workaround. This reference change does not alter the implementation.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://www.gnu.org/software/gsl/doc/html/specfunc.html#incomplete-beta-function">www.gnu.org</a></p>
 </div>]]></Description>
     <Url>https://www.gnu.org/software/gsl/doc/html/specfunc.html#incomplete-beta-function</Url>
@@ -16978,19 +16978,19 @@
     <Url>https://dlmf.nist.gov/5.12</Url>
   </FunctionInfo>
   <FunctionInfo Signature="β(x,a,b)">
-    <Title>Unregularized incomplete beta</Title>
+    <Title>Incomplete beta — legacy parameter-order caveat</Title>
     <Type>SpecialFunctions</Type>
     <Category>SpecialFunctions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real β(real x, real a, real b)</code></p>
-<p class="reference-summary">The beta integral accumulated up to x.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> 0≤x≤1, a&gt;0, b&gt;0; argument order is x,a,b.</p>
-<p class="reference-note"><strong>Important:</strong> Alias of Beta with the same convention. Divide by Beta(a,b) to obtain the regularized Iₓ(a,b).</p>
-<p class="reference-example"><strong>Example:</strong> Beta(0.5,1,1) = 0.5</p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/8.17">dlmf.nist.gov</a></p>
+<p class="reference-summary">The intended quantity is the lower beta integral accumulated up to x; the current wrapper passes its arguments in a different order.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>Intended: Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt. Current forwarding: B_b(x,a).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> The visible signature is x,a,b and checks 0≤x≤1, a,b&gt;0, but Meta.Numerics expects a,b,x. The effective integration limit is b, so b&gt;1 can be rejected by the library.</p>
+<p class="reference-note"><strong>Important:</strong> Alias of Beta with the same convention. The wrapper and its β alias call Meta.Numerics.Functions.AdvancedMath.Beta(x,a,b), not Beta(a,b,x). Beta(0.5,1,1) = 2, not the intended 0.5. For Bₓ(a,b), use MathNet.Numerics.SpecialFunctions.BetaIncomplete(a,b,x). This content change does not alter calculations.</p>
+<p class="reference-example"><strong>Example:</strong> MathNet.Numerics.SpecialFunctions.BetaIncomplete(1,1,0.5) = 0.5</p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics/SpecialFunctions.htm">numerics.mathdotnet.com</a></p>
 </div>]]></Description>
-    <Url>https://dlmf.nist.gov/8.17</Url>
+    <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics/SpecialFunctions.htm</Url>
   </FunctionInfo>
   <FunctionInfo Signature="δ(x)">
     <Title>Dirac-delta point helper</Title>

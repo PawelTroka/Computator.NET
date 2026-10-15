@@ -115,15 +115,15 @@ def describe(item, values):
                      'B(a,b)=∫₀¹ t^(a−1)(1−t)^(b−1)dt = Γ(a)Γ(b)/Γ(a+b)',
                      'Real a>0 and b>0 in this wrapper; symmetric in a and b.',alias,'Beta(1,1) = 1',DLMF+'5.12')
         if name=='Beta':
-            return A('Unregularized incomplete beta','The beta integral accumulated up to x.',
-                     'Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt', '0≤x≤1, a>0, b>0; argument order is x,a,b.',
-                     alias+'Divide by Beta(a,b) to obtain the regularized Iₓ(a,b).','Beta(0.5,1,1) = 0.5',DLMF+'8.17')
+            return A('Incomplete beta — legacy parameter-order caveat','The intended quantity is the lower beta integral accumulated up to x; the current wrapper passes its arguments in a different order.',
+                     'Intended: Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt. Current forwarding: B_b(x,a).', 'The visible signature is x,a,b and checks 0≤x≤1, a,b>0, but Meta.Numerics expects a,b,x. The effective integration limit is b, so b>1 can be rejected by the library.',
+                     alias+'The wrapper and its β alias call Meta.Numerics.Functions.AdvancedMath.Beta(x,a,b), not Beta(a,b,x). Beta(0.5,1,1) = 2, not the intended 0.5. For Bₓ(a,b), use MathNet.Numerics.SpecialFunctions.BetaIncomplete(a,b,x). This content change does not alter calculations.','MathNet.Numerics.SpecialFunctions.BetaIncomplete(1,1,0.5) = 0.5',MATHNET+'MathNet.Numerics/SpecialFunctions.htm')
         if name=='BetaNorm':
             return A('Regularized incomplete beta — legacy parameter-order caveat',
                      'The intended quantity is the beta integral divided by B(a,b), a value in [0,1] on its usual domain.',
                      'Intended: Iₓ(a,b)=Bₓ(a,b)/B(a,b). Current native forwarding: I_b(x,a).',
                      'The visible wrapper checks 0≤x≤1 and a,b>0, but GSL expects shape1,shape2,limit.',
-                     'The current code calls gsl_sf_beta_inc(x,a,b), so the result is NOT generally Iₓ(a,b). Until the numerical wrapper is corrected, use Beta(x,a,b)/Beta(a,b) for that intended value. This reference change does not alter the implementation.',url=GSL+'#incomplete-beta-function')
+                     'The current code calls gsl_sf_beta_inc(x,a,b), so the result is NOT generally Iₓ(a,b). For the intended value use MathNet.Numerics.SpecialFunctions.BetaRegularized(a,b,x); the three-argument Beta wrapper also has an ordering defect, so Beta(x,a,b)/Beta(a,b) is not a reliable workaround. This reference change does not alter the implementation.',url=GSL+'#incomplete-beta-function')
         if name=='logBeta':
             return A('Natural logarithm of beta','A numerically useful logarithmic form of the positive beta function.',
                      'ln B(a,b)=lnΓ(a)+lnΓ(b)−lnΓ(a+b)', 'Real a>0,b>0 in this wrapper.',alias,'logBeta(1,1) = 0',DLMF+'5.12')
