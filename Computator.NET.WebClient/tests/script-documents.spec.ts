@@ -3,7 +3,9 @@ import { readFile } from 'node:fs/promises';
 const key = 'computator.script-document.v1';
 const source = '// zażółć gęślą — λ\nwrite(2);';
 async function replace(page: Page, code: string) {
-  const input = page.getByRole('textbox', { name: 'TSL script', exact: true });
+  // Ace updates its textarea aria-label to describe the cursor after edits.
+  // Use the same stable editor input as the existing workflow tests.
+  const input = page.locator('#scriptTextArea textarea');
   await input.focus(); await input.press('ControlOrMeta+A'); await page.keyboard.insertText(code);
 }
 async function stored(page: Page) {
@@ -43,8 +45,10 @@ test('invalid documents leave the current draft intact', async ({ page }) => {
 });
 test('replacement and new-document actions respect explicit cancellation', async ({ page }) => {
   await page.goto('/scripting'); await replace(page, source);
+  const declined = page.waitForEvent('dialog');
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByLabel('Import .tsl', { exact: true }).setInputFiles({ name: 'other.tsl', mimeType: 'text/plain', buffer: Buffer.from('write(9);') });
+  await declined;
   await expect(page.locator('#scriptTextArea')).toContainText('zażółć');
   page.once('dialog', dialog => dialog.dismiss()); await page.getByRole('button', { name: 'New script', exact: true }).click();
   expect(await stored(page)).toBe(source);
