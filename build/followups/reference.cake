@@ -1,10 +1,14 @@
 // Content authors use these explicitly. Ordinary application builds only copy
 // committed functions.xml; they never scrape, rewrite content or contact sources.
-void ReferenceTest(string filter, string logger)
+void ReferenceTest(string filter, string logger, int minimumTests)
 {
     var old = EnvironmentVariable("COMPUTATOR_REFERENCE_INVENTORY");
     var inventory = System.IO.Path.GetFullPath("artifacts/reference/inventory.json");
+    var report = "TestResults/" + logger;
     EnsureDirectoryExists("artifacts/reference");
+    // A filter that discovers no tests must not reuse a previous runtime catalog.
+    if (FileExists(inventory)) DeleteFile(inventory);
+    if (FileExists(report)) DeleteFile(report);
     System.Environment.SetEnvironmentVariable("COMPUTATOR_REFERENCE_INVENTORY", inventory);
     try
     {
@@ -17,6 +21,7 @@ void ReferenceTest(string filter, string logger)
         });
     }
     finally { System.Environment.SetEnvironmentVariable("COMPUTATOR_REFERENCE_INVENTORY", old); }
+    PowerShell("build/Assert-TestResults.ps1", "-Path " + report + " -MinimumTests " + minimumTests);
     if (!FileExists(inventory)) throw new Exception("Runtime reference inventory was not produced.");
 }
 void MaterializeReference(bool check)
@@ -26,11 +31,11 @@ void MaterializeReference(bool check)
 }
 Task("Reference-Generate").IsDependentOn("Build").Does(() =>
 {
-    ReferenceTest("FullyQualifiedName~FunctionReferenceCoverageTests.ExportRuntimeCatalogForReview", "reference-inventory.trx");
+    ReferenceTest("FullyQualifiedName~FunctionReferenceCoverageTests.ExportRuntimeCatalogForReview", "reference-inventory.trx", 1);
     MaterializeReference(false);
 });
 Task("Reference-Validate").IsDependentOn("Build").Does(() =>
 {
-    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx");
+    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx", 30);
     MaterializeReference(true);
 });

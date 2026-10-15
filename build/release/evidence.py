@@ -11,20 +11,21 @@ import xml.etree.ElementTree as ET
 from versioning import check
 
 REPORTS = {
-    'TestResults/Computator.NET.Core.Tests.trx': 270,
+    'TestResults/Computator.NET.Core.Tests.trx': 300,
     'TestResults/Computator.NET.Core.IntegrationTests.trx': 947,
-    'TestResults/Computator.NET.Desktop.Tests.trx': 26,
-    'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 109,
-    'TestResults/portable.trx': 127,
-    'Computator.NET.WebClient/test-results/results.xml': 22,
+    'TestResults/Computator.NET.Desktop.Tests.trx': 32,
+    'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 117,
+    'TestResults/portable.trx': 144,
+    'TestResults/reference.trx': 30,
+    'Computator.NET.WebClient/test-results/results.xml': 70,
     'Computator.NET.WebClient/test-results/e2e.xml': 10,
-    'Computator.NET.WebClient/test-results/custom-functions.xml': 14,
+    'Computator.NET.WebClient/test-results/custom-functions.xml': 22,
 }
 
 def required_reports(root: Path) -> dict[str, int]:
     reports = dict(REPORTS)
     if (root / 'build/followups/local-web.cake').is_file():
-        reports['Computator.NET.WebClient/test-results/local-package.xml'] = 2
+        reports['Computator.NET.WebClient/test-results/local-package.xml'] = 6
     return reports
 
 
@@ -37,7 +38,9 @@ def required_artifacts(root: Path, version: dict) -> list[str]:
         f'artifacts/msix/Computator.NET.{version["msixVersion"]}.win-x64.msix',
         'artifacts/msix/package-validation.json',
         'artifacts/installer/output/Computator.NET.reviewed.wxs',
-        'artifacts/installer/output/payload.xml']
+        'artifacts/installer/output/payload.xml',
+        'artifacts/reference/inventory.json', 'artifacts/reference/coverage.json',
+        'artifacts/reference/preview.html']
     if (root / 'build/followups/local-web.cake').is_file():
         artifacts.append('publish/Computator.NET.LocalWeb.win-x64.zip')
     return artifacts

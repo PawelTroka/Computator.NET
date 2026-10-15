@@ -28,7 +28,11 @@ jobs:
           name: release-candidate-evidence
           path: |
             artifacts/release-evidence/**
+            artifacts/reference/**
+            artifacts/*.binlog
+            artifacts/api/*.log
             TestResults/*.trx
             TestResults/desktop-smoke/**
-            Computator.NET.WebClient/test-results/*.xml
+            Computator.NET.WebClient/test-results/**
+            Computator.NET.WebClient/playwright-report/**
           retention-days: 14

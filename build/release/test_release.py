@@ -1,8 +1,10 @@
 import tempfile
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 from versioning import identity, check, expected_block
-from evidence import validate_report, fresh_file, required_artifacts
+from evidence import begin, finish, validate_report, fresh_file, required_artifacts, required_reports, digest
+import json
 import os
 import time
 
@@ -100,5 +102,67 @@ class ReleaseTests(unittest.TestCase):
         validate_report(file, 2)
         file.write_text(self.browser_report(['chromium']))
         with self.assertRaises(ValueError): validate_report(file, 2)
+
+    def trx_report(self, count):
+        results = ''.join(f'<UnitTestResult testId="case-{i}" outcome="Passed"/>' for i in range(count))
+        definitions = ''.join(f'<UnitTest id="case-{i}"/>' for i in range(count))
+        return (f'<TestRun><Results>{results}</Results><TestDefinitions>{definitions}</TestDefinitions>'
+                f'<ResultSummary outcome="Completed"><Counters total="{count}" passed="{count}"/></ResultSummary></TestRun>')
+
+    def reference_candidate(self):
+        # Exercise the actual begin/finish orchestration. Only Git is substituted;
+        # every required report and file is real and confined to this fixture.
+        fake_git = patch('evidence.git', side_effect=lambda root, *args: 'candidate-commit' if args[0] == 'rev-parse' else '')
+        fake_git.start()
+        self.addCleanup(fake_git.stop)
+        self.version()
+        (self.root / 'SharedAssemblyInfo.cs').write_text(expected_block(identity(self.root)))
+        (self.root / 'build/followups').mkdir(parents=True)
+        (self.root / 'build/followups/local-web.cake').touch()
+        (self.root / 'build/ModernDesktop.props').write_text('<Project><TargetFramework>net10.0-windows</TargetFramework></Project>')
+        (self.root / 'Computator.NET.slnx').write_text('<Solution/>')
+        reference = self.root / 'TestResults/reference.trx'
+        reference.parent.mkdir(parents=True)
+        reference.write_text('previous run must not survive begin')
+        begin(self.root)
+        self.assertFalse(reference.exists())
+        for relative, count in required_reports(self.root).items():
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            if path.suffix == '.trx':
+                path.write_text(self.trx_report(count))
+            else:
+                projects = ('chromium', 'firefox') if path.name in ('results.xml', 'local-package.xml') else ('real-chromium', 'real-firefox')
+                cases = ''.join(f'<testcase classname="workflow" name="case-{i}"/>' for i in range(count // 2))
+                path.write_text('<testsuites>' + ''.join(f'<testsuite hostname="{project}" name="workflow">{cases}</testsuite>' for project in projects) + '</testsuites>')
+        for relative in required_artifacts(self.root, identity(self.root)):
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b'current candidate fixture')
+        return reference
+
+    def test_release_cannot_omit_or_reuse_reference_validation(self):
+        reference = self.reference_candidate()
+        self.assertEqual(required_reports(self.root)['TestResults/reference.trx'], 30)
+        for state in ('missing', 'stale', 'incomplete'):
+            with self.subTest(state=state):
+                if state == 'missing':
+                    reference.unlink()
+                else:
+                    reference.write_text(self.trx_report(29 if state == 'incomplete' else 30))
+                    timestamp = 1 if state == 'stale' else time.time()
+                    os.utime(reference, (timestamp, timestamp))
+                with self.assertRaisesRegex(ValueError, 'reference.trx'):
+                    finish(self.root)
+                self.assertFalse((self.root / 'artifacts/release-evidence/manifest.json').exists())
+
+    def test_release_manifest_binds_reference_test_and_rendered_artifacts(self):
+        self.reference_candidate()
+        finish(self.root)
+        manifest = json.loads((self.root / 'artifacts/release-evidence/manifest.json').read_text())
+        self.assertEqual(manifest['reports']['TestResults/reference.trx']['passed'], 30)
+        for filename in ('inventory.json', 'coverage.json', 'preview.html'):
+            relative = 'artifacts/reference/' + filename
+            self.assertEqual(manifest['artifacts'][relative]['sha256'], digest(self.root / relative))
 
 if __name__ == '__main__': unittest.main()

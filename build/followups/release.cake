@@ -11,7 +11,7 @@ Task("Release-Verify").IsDependentOn("Release-Identity-Validate").Does(() =>
     // Separate Cake invocations deliberately isolate profile/env/output state:
     // focused browser tests use their original direct-API mocks; real-stack tests
     // rebuild with their protected same-origin profile. Neither conceals the other.
-    var targets = new List<string> { "Publish", "Web-E2E", "Web-CustomFunctions", "Portable-Validate", "Installer-Source", "MSIX-Validate" };
+    var targets = new List<string> { "Reference-Validate", "Publish", "Web-E2E", "Web-CustomFunctions", "Portable-Validate", "Installer-Source", "MSIX-Validate" };
     if (FileExists("build/followups/local-web.cake")) targets.Add("Local-Web-Package");
     foreach (var selected in targets)
         CheckedProcess("dotnet", new ProcessSettings
