@@ -8,6 +8,16 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 if (!$IsWindows) { throw 'Desktop process validation requires Windows.' }
 
+function Get-SmokeCleanupPath([string]$Path) {
+    $resolved = (Resolve-Path -LiteralPath $Path).Path.TrimEnd('\', '/')
+    $temporaryPrefix = (Resolve-Path -LiteralPath ([IO.Path]::GetTempPath())).Path.TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+    if (!$resolved.StartsWith($temporaryPrefix, [StringComparison]::OrdinalIgnoreCase) -or
+        ((Get-Item -LiteralPath $resolved).Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+        throw 'Refusing to remove a redirected smoke directory or a path outside the temporary directory.'
+    }
+    return $resolved
+}
+
 # No dumps, screenshots, environment variables, window captions, user documents
 # or settings are captured. Each invocation has its own result, even in aggregates.
 if ($TestContracts) {
@@ -15,6 +25,12 @@ if ($TestContracts) {
     $results = Join-Path ([IO.Path]::GetFullPath($DiagnosticsDirectory)) ('contracts-' + [Guid]::NewGuid().ToString('N'))
     $null = [IO.Directory]::CreateDirectory($temporary)
     try {
+        # Exercise only the path validator for rejected locations, never deletion.
+        foreach ($path in @([IO.Path]::GetTempPath(), $PSScriptRoot)) {
+            $rejected = $false
+            try { $null = Get-SmokeCleanupPath $path } catch { $rejected = $true }
+            if (!$rejected) { throw 'Smoke cleanup accepted an unowned location.' }
+        }
         # Framework is only a synthetic WinForms fixture producer, as in the
         # existing settings-fixture tests. No dependency is added to the product.
         $source = Join-Path $temporary 'Fixture.cs'
@@ -49,6 +65,7 @@ class Fixture {
             if ($mode -ne 'normal') { [IO.File]::WriteAllText((Join-Path $directory $mode), '') }
             $info = [Diagnostics.ProcessStartInfo]::new((Join-Path $PSHOME 'pwsh.exe'))
             $info.UseShellExecute = $false
+            $info.CreateNoWindow = $true
             $info.RedirectStandardOutput = $true
             $info.RedirectStandardError = $true
             foreach ($argument in @('-NoProfile', '-File', $PSCommandPath, '-PublishDirectory', $directory, '-DiagnosticsDirectory', $output)) { $info.ArgumentList.Add($argument) }
@@ -85,7 +102,8 @@ class Fixture {
         }
         Write-Host 'Desktop smoke contracts passed: normal close, refused close, early exit and nonzero shutdown. Negative-fixture reports are expected failures, not application results.'
     } finally {
-        Remove-Item -LiteralPath $temporary -Recurse -Force
+        $cleanupPath = Get-SmokeCleanupPath $temporary
+        Remove-Item -LiteralPath $cleanupPath -Recurse -Force
     }
     return
 }
@@ -185,7 +203,12 @@ try {
         Save-Snapshot 'after-cleanup'
     } catch { $evidence.cleanupErrors.Add($_.Exception.GetType().Name) }
     finally { $process.Dispose() }
-    try { if (Test-Path -LiteralPath $profile) { Remove-Item -LiteralPath $profile -Recurse -Force } }
+    try {
+        if (Test-Path -LiteralPath $profile) {
+            $cleanupPath = Get-SmokeCleanupPath $profile
+            Remove-Item -LiteralPath $cleanupPath -Recurse -Force
+        }
+    }
     catch { $evidence.cleanupErrors.Add($_.Exception.GetType().Name) }
     if ($evidence.cleanupErrors.Count -ne 0) { $evidence.passed = $false }
     $evidence.completedUtc = [DateTime]::UtcNow.ToString('o')
