@@ -18,6 +18,8 @@ class SourcePackageTests(unittest.TestCase):
         self.checkout = self.root / 'vcpkg'
         self.checkout.mkdir()
         subprocess.run(['git', 'init', '-q', str(self.checkout)], check=True)
+        subprocess.run(['git', '-C', str(self.checkout), 'config', 'core.autocrlf', 'true'], check=True)
+        subprocess.run(['git', '-C', str(self.checkout), 'config', 'core.eol', 'crlf'], check=True)
         patch = self.checkout / 'ports/gsl/fix.patch'
         patch.parent.mkdir(parents=True)
         patch.write_text('exact patch\n', newline='\n')
@@ -44,7 +46,10 @@ class SourcePackageTests(unittest.TestCase):
 
     def test_exact_source_recipe_patch_notice_and_deterministic_archive(self):
         first, second = self.root / 'one', self.root / 'two'
-        for destination in (first, second):
+        for index, destination in enumerate((first, second)):
+            if index:
+                subprocess.run(['git', '-C', str(self.checkout), 'config', 'core.autocrlf', 'false'], check=True)
+                subprocess.run(['git', '-C', str(self.checkout), 'config', 'core.eol', 'lf'], check=True)
             package_sources(self.native, self.checkout, self.upstream, self.pins, destination)
         self.assertEqual((first / SOURCE_NAME).read_bytes(), (second / SOURCE_NAME).read_bytes())
         self.assertEqual((first / NOTICE_NAME).read_bytes(), (second / NOTICE_NAME).read_bytes())

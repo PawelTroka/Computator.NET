@@ -73,7 +73,10 @@ maintained separately at https://github.com/PawelTroka/Computator.NET .
 '''
     destination.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryFile() as snapshot:
-        subprocess.run(['git', '-C', str(checkout), 'archive', '--format=tar', commit], stdout=snapshot, check=True)
+        # git archive otherwise applies the runner's autocrlf/eol conversion to
+        # text blobs, changing patch bytes and source hashes across hosts.
+        subprocess.run(['git', '-c', 'core.autocrlf=false', '-c', 'core.eol=lf',
+                        '-C', str(checkout), 'archive', '--format=tar', commit], stdout=snapshot, check=True)
         snapshot.seek(0)
         with zipfile.ZipFile(destination / SOURCE_NAME, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
             add_stream(archive, 'README.txt', io.BytesIO(readme.encode('utf-8')))
