@@ -193,7 +193,7 @@ def describe(item, values=None):
         action='Inverse CDF (quantile)'
         definition='Maps cumulative probability to the corresponding outcome threshold. '+model
         parameters+=' The argument p/probability is a cumulative probability in [0,1], not another shape parameter.'
-        notes.append('For discrete categories, choose the smallest index whose cumulative probability reaches the requested level. Boundary conventions matter when a category has zero mass.' if family in DISCRETE else 'Interior probabilities 0<p<1 avoid infinite endpoints for unbounded distributions. Numerical inversion has finite accuracy.')
+        notes.append('The mathematical lower quantile is the smallest index whose cumulative probability reaches the requested level. Math.NET 5.0 uses binary search and is not guaranteed to return the first equal cumulative weight when zero-mass categories create ties. For example, Categorical.InvCDF(new double[]{1,0,0,1},0.5) returns 1, although the lower quantile is 0. The cumulative-array overload has the same limitation.' if family=='Categorical' else 'Interior probabilities 0<p<1 avoid infinite endpoints for unbounded distributions. Numerical inversion has finite accuracy.')
         example=EXAMPLES.get(family,'')
     elif op in FACTORIES:
         action,conversion,limits=FACTORIES[op]
@@ -235,5 +235,7 @@ def describe(item, values=None):
         if 'rnd' in args: parameters+=' rnd is the random generator.'
         if 'values' in args: parameters+=' values is the output index array, filled in place.'
     if family=='Stable' and op in ('PDF','PDFLn','CDF'):
-        notes.append('IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy, supported x on/above location). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them.')
+        notes.append('IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them. For the Lévy branch, use x>location for ordinary evaluation. At x=location, PDF and PDFLn return NaN instead of their mathematical limits 0 and −∞; CDF returns 0. Below location, PDF/PDFLn throw and CDF returns NaN, although the mathematical density and CDF are zero there.')
+    if family=='MatrixNormal' and op=='Sample':
+        notes.append('IMPORTANT: Math.NET 5.0 sampling does not implement the stated column-covariance convention. It builds v⊗k⁻¹ and unpacks the draw by columns, instead of using k⊗v. In the 1×1 case with m=0, v=1 and k=4, the actual sample variance is 1/4, not the intended 4. Do not use this sampler as if k were the advertised column covariance; the formula above describes the mathematical model, not this implementation defect.')
     return A(title+' — '+action,definition,formula,parameters,' '.join(notes),example,url,category)
