@@ -191,6 +191,11 @@
     <File Path="build/native/gsl-source.json" />
     <File Path="build/native/gsl/vcpkg.json" />
     <File Path="build/native/probe/CMakeLists.txt" />
+    <File Path="build/native/probe/probe.c" />
+    <File Path="build/native/triplets/computator-win-x64.cmake" />
+    <File Path="build/native/triplets/computator-linux-x64.cmake" />
+    <File Path="build/native/triplets/computator-osx-x64.cmake" />
+    <File Path="build/native/triplets/computator-osx-arm64.cmake" />
     <File Path="build/portable/Test-Cli.ps1" />
     <File Path="build/release/evidence.py" />
     <File Path="build/release/test_release.py" />

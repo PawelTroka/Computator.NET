@@ -50,8 +50,8 @@ Contents:
 - build/native: Computator.NET's native build script, pins, triplets and probes.
 
 Rebuild (Windows x64, Linux x64 or macOS x64/ARM64):
-1. Extract this archive into an empty working directory. Install Git, Python 3,
-   a supported
+1. Extract this archive into an empty working directory. Install Git, Python 3.11
+   or newer, a supported
    C/C++ toolchain (MSVC on Windows) and .NET SDK 10.0.402 or a compatible patch.
 2. The automated driver verifies Git HEAD and fetches the pinned vcpkg commit
    into artifacts/native-tools/vcpkg. Keep that directory absent before the first
