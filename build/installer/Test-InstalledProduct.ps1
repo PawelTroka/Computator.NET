@@ -38,6 +38,9 @@ try {
         if (!(Test-Path -LiteralPath $path) -or (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -ne $file.SHA256) { throw "Installed payload mismatch: $($file.Path)" }
     }
     & (Join-Path $PSScriptRoot '../Test-PublishedNet10Desktop.ps1') -PublishDirectory $application
+    $gslReport = Join-Path $PSScriptRoot ('../../TestResults/packaged-gsl/' + [Guid]::NewGuid().ToString('N') + '/result.json')
+    & dotnet run --project (Join-Path $PSScriptRoot '../native/PublishedProbe/PublishedProbe.csproj') --configuration Release -- $application $gslReport
+    if ($LASTEXITCODE -ne 0) { throw 'Installed application did not select and validate its packaged GSL 2.8 runtime.' }
     Remove-Item -LiteralPath (Join-Path $application 'Static/functions.xml')
     Invoke-Msi @('/fa', $productCode, '/qn', '/norestart', '/l*v', ('"' + $root + '\repair.log"'))
     if (!(Test-Path -LiteralPath (Join-Path $application 'Static/functions.xml'))) { throw 'Repair did not restore the application payload.' }
@@ -45,7 +48,7 @@ try {
     $didInstall = $false
     if (Test-Path -LiteralPath (Join-Path $application 'Computator.NET.exe')) { throw 'Uninstall left the main executable behind.' }
     if (!(Test-Path -LiteralPath $sentinel)) { throw 'Uninstall removed user data.' }
-    Write-Host 'MSI installation, payload hashes, launch, repair, uninstall and external user-data preservation passed.'
+    Write-Host 'MSI installation, payload hashes, launch, packaged GSL 2.8, repair, uninstall and external user-data preservation passed.'
 }
 finally {
     try {

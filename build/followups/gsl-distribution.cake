@@ -1,17 +1,16 @@
-// Explicit adoption target: source-build provenance accompanies the tested payload.
-Task("GSL-Distribution-Validate").IsDependentOn("Native-GSL-Validate").IsDependentOn("Distribution-Stage").Does(() =>
+// Every packaged Windows application adopts the same reviewed native payload.
+void StageGslPayload(string outputDirectory)
 {
+    if (!IsRunningOnWindows()) throw new Exception("The packaged GSL adoption target requires Windows x64.");
     var source = "artifacts/gsl/win-x64/native";
-    var destination = distributionDirectory + "/native/gsl";
+    RequirePayload(source, new[] { "gsl.dll", "gslcblas.dll", "gsl-provenance.json", "COPYING.GSL" });
+    var destination = outputDirectory + "/native/gsl";
     EnsureDirectoryExists(destination);
     CopyDirectory(source, destination);
-    RequirePayload(destination, new[] { "gsl.dll", "gslcblas.dll", "gsl-provenance.json" });
-    // Clear the opt-in override: this must select the packaged default, not the build tree.
-    var old = EnvironmentVariable("COMPUTATOR_GSL_DIRECTORY");
-    try
-    {
-        System.Environment.SetEnvironmentVariable("COMPUTATOR_GSL_DIRECTORY", null);
-        PowerShell("build/Test-PublishedNet10Desktop.ps1", "-PublishDirectory " + distributionDirectory);
-    }
-    finally { System.Environment.SetEnvironmentVariable("COMPUTATOR_GSL_DIRECTORY", old); }
-});
+    var report = "TestResults/packaged-gsl/" + Guid.NewGuid().ToString("N") + "/result.json";
+    var args = new ProcessArgumentBuilder().Append("run --project build/native/PublishedProbe/PublishedProbe.csproj --configuration")
+        .Append(configuration).Append("--").AppendQuoted(MakeAbsolute(Directory(outputDirectory)).FullPath)
+        .AppendQuoted(MakeAbsolute(File(report)).FullPath);
+    CheckedProcess("dotnet", new ProcessSettings { Arguments = args });
+}
+Task("GSL-Distribution-Validate").IsDependentOn("Native-GSL-Validate").IsDependentOn("Distribution-Stage");

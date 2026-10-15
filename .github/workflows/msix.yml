@@ -31,4 +31,5 @@ jobs:
             artifacts/msix/*.msix
             artifacts/msix/package-validation.json
             TestResults/desktop-smoke/**
+            TestResults/packaged-gsl/**
           retention-days: 7

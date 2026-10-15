@@ -56,4 +56,5 @@ jobs:
             artifacts/installer/output/**
             artifacts/installer/logs/**
             TestResults/desktop-smoke/**
+            TestResults/packaged-gsl/**
           retention-days: 7
