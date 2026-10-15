@@ -18,9 +18,9 @@ BASE={
 'PlanckConstantOver2Pi':('Reduced Planck constant','Quantum of angular momentum; uses angular frequency rather than cycles per second.','ℏ=h/(2π); E=ℏω.','J s',''),
 'PlanckConstantOver2PiInEvS':('Reduced Planck constant in electronvolt seconds','Converts angular frequency to energy in electronvolts.','E[eV]=ℏ[eV·s]·ω[s⁻¹].','eV s',''),
 'PlanckConstantOver2PiTimesCInMeVFm':('Reduced Planck constant times c','Energy–length conversion useful in nuclear and particle physics.','ℏc.','MeV fm','A femtometre is 10⁻¹⁵ m.'),
-'PlanckLength':('Planck length','Natural length scale formed from quantum mechanics, gravitation and light speed.','lP=sqrt(ℏG/c³).','m','A natural scale, not a measured claim of a minimum possible length.'),
-'PlanckTime':('Planck time','Light travel time across the Planck length.','tP=lP/c=sqrt(ℏG/c⁵).','s',''),
-'PlanckMass':('Planck mass','Mass scale at which the dimensionless gravitational coupling becomes order one.','mP=sqrt(ℏc/G).','kg','Uses the unreduced Planck-mass convention; the reduced gravitational mass scale differs by sqrt(8π).'),
+'PlanckLength':('Planck length','Natural length scale formed from quantum mechanics, gravitation and light speed.','lP=sqrt(ℏG/c³).','m','A natural scale, not a measured claim of a minimum possible length. The stored 1.61619997×10⁻³⁵ m differs from the 2010 CODATA central value 1.616199×10⁻³⁵ m; its extra digits are not additional precision.'),
+'PlanckTime':('Planck time','Light travel time across the Planck length.','tP=lP/c=sqrt(ℏG/c⁵).','s','The stored 5.3910632×10⁻⁴⁴ s differs from the 2010 CODATA central value 5.39106×10⁻⁴⁴ s; its extra digits are not additional precision.'),
+'PlanckMass':('Planck mass','Mass scale at which the dimensionless gravitational coupling becomes order one.','mP=sqrt(ℏc/G).','kg','Uses the unreduced Planck-mass convention; the reduced gravitational mass scale differs by sqrt(8π). The stored 2.1765113×10⁻⁸ kg differs from the 2010 CODATA central value 2.17651×10⁻⁸ kg; its extra digits are not additional precision.'),
 'PlanckMassEnergyEquivalentInGev':('Planck mass energy','Energy equivalent of the unreduced Planck mass.','EP=mP·c².','GeV','This is an energy, not the mass value in kilograms.'),
 'PlanckTemperature':('Planck temperature','Temperature associated with the Planck mass energy.','TP=mP·c²/kB.','K',''),
 'ElementaryCharge':('Elementary charge','Positive magnitude of the charge of a proton; an electron has charge −e.','e = 1.602176634×10⁻¹⁹ C exactly in the modern SI.','C','The identifier ElementaryCharge is distinct from the mathematical constant e in TSL.'),
@@ -51,7 +51,7 @@ BASE={
 'ThomsonCrossSection':('Thomson scattering cross section','Low-energy total cross section for photon scattering by a free electron.','σT=(8π/3)re².','m²','Valid in the classical low-photon-energy limit, not the full relativistic Compton regime.'),
 'QuantumOfCirculation':('Quantum circulation h/(2me)','Circulation scale formed with a pair of electron masses.','h/(2me).','m² s⁻¹','Use the mass appropriate to the physical system; this constant is specifically electron-mass based.'),
 'QuantumOfCirculationTimes2':('Quantum circulation h/me','Twice the electron-pair circulation scale.','h/me.','m² s⁻¹',''),
-'ProtonMagneticShieldingCorrection':('Proton magnetic shielding correction','Fractional shielding correction relating a free proton moment to the reference shielded proton in water.','μp′=μp(1−σp).','1','The reference environment and temperature matter; this is not a universal correction for every proton-containing sample.'),
+'ProtonMagneticShieldingCorrection':('Proton magnetic shielding correction','Fractional shielding correction relating a free proton moment to the reference shielded proton in water.','μp′=μp(1−σp).','1','The reference is a spherical water sample at 25 °C; this is not a universal correction for every proton-containing sample.'),
 'AtomicMassConstant':('Atomic mass constant','One twelfth of the mass of a free neutral carbon-12 atom at rest in its ground state.','mu=m(¹²C)/12.','kg','The dalton/unified atomic mass unit uses this mass; its value in kilograms is experimentally determined.'),
 'AtomicMassConstantEnergyEquivalent':('Atomic mass unit energy','Rest-energy equivalent of one unified atomic mass unit.','mu c².','J',''),
 'AtomicMassConstantEnergyEquivalentInMeV':('Atomic mass unit energy in MeV','Rest-energy equivalent of one unified atomic mass unit in nuclear-energy units.','mu c².','MeV',''),
@@ -118,6 +118,10 @@ UNIT_ENERGY={'AtomicMassUnit':('u','mu c²'),'ElectronVolt':('eV','e·1 V'),'Har
 
 def finish(item, values, title, definition, formula, unit, note='', url=NIST):
     value=values[item['signature']]
+    if 'ShieldedProton' in item['signature']:
+        note+=' Shielded proton values refer to a spherical water sample at 25 °C.'
+    if 'ShieldedHelion' in item['signature']:
+        note+=' Shielded helion values refer to a spherical helium gas sample at 25 °C.'
     return A(title,definition,formula,'Unit: '+unit+'. Stored application value: '+value+'.',
              (note+' ' if note else '')+METROLOGY,url=url,category='Physical constants')
 
@@ -212,10 +216,17 @@ def describe(item, values):
               'μ('+label+')'+('/'+denominator if ratio else '; ΔE=−μ·B.'),'1' if ratio else 'J T⁻¹',
               'Shielded values include the reference electronic/chemical environment; they are not the free nuclear moment.' if particle.startswith('Shielded') else 'The sign is part of the physical convention and must not be discarded.')
         if rest=='GFactor':
+            spin='1' if particle=='Deuteron' else '1/2'
+            if particle in ('Electron','Muon','Tau'):
+                magneton='eℏ/(2'+mass+')'
+                convention='The magneton uses the '+label+' mass '+mass+'. Charged-lepton entries include the signed magnetic-moment convention.'
+            else:
+                magneton='μN; μN=eℏ/(2mp)'
+                convention='Nuclei use the nuclear magneton, defined with the proton mass mp.'
             return finish(item,values,label.capitalize()+' g-factor',
               'Dimensionless proportionality between spin and the magnetic moment of the '+label+'.',
-              'μ = g·μref·I, with spin quantum number I and the conventional electron/nuclear magneton μref.','1',
-              'Charged-lepton entries include the signed magnetic-moment convention; nuclei use the nuclear magneton. A g-factor is not simply the moment in magneton units unless I=1.')
+              'μ = g·μref·I; μref='+magneton+'; I='+spin+'.','1',
+              convention+' I is the spin quantum number. A g-factor is not simply the moment in magneton units unless I=1.')
         if rest=='MagneticMomentAnomaly':
             return finish(item,values,label.capitalize()+' magnetic-moment anomaly',
               'Quantum correction to the magnitude of the charged-lepton Dirac g-factor.','a=(|g|−2)/2.','1',
@@ -224,8 +235,8 @@ def describe(item, values):
             over=rest.endswith('Over2Pi')
             return finish(item,values,label.capitalize()+' gyromagnetic ratio'+(' / 2π' if over else ''),
               'Magnitude of the spin-precession frequency per unit magnetic field for the '+label+'.',
-              '|γ|/(2π)=|μ|/(hI).' if over else '|γ|=|μ|/(ℏI).', 'MHz T⁻¹' if over else 's⁻¹ T⁻¹',
-              'Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately.' if over else 'This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude.')
+              '|γ|/(2π)=|μ|/(hI); value[MHz/T]=|μ[J/T]|/(h[J·s]·I·10⁶).' if over else '|γ|=|μ|/(ℏI).', 'MHz T⁻¹' if over else 's⁻¹ T⁻¹',
+              'I=1/2 is the spin quantum number. '+('Over2Pi entries are in MHz/T, NOT Hz/T. The stored positive value is a magnitude; the magnetic-moment sign is stored separately.' if over else 'This is angular frequency per field, conventionally rad/s/T; the tabulated value is a magnitude.'))
         if rest=='RmsChargeRadius':
             return finish(item,values,label.capitalize()+' rms charge radius','Root-mean-square radius of the '+label+' charge distribution.','rcharge=sqrt(⟨r²⟩charge).','m','A structure parameter, not a sharp hard-sphere boundary.')
     raise KeyError('No physical definition for '+name)
