@@ -51,7 +51,7 @@ Contents:
 
 Rebuild (Windows x64, Linux x64 or macOS x64/ARM64):
 1. Extract this archive into an empty working directory. Install Git, Python 3,
-   CMake, a supported
+   a supported
    C/C++ toolchain (MSVC on Windows) and .NET SDK 10.0.402 or a compatible patch.
 2. The automated driver verifies Git HEAD and fetches the pinned vcpkg commit
    into artifacts/native-tools/vcpkg. Keep that directory absent before the first
@@ -63,7 +63,8 @@ Rebuild (Windows x64, Linux x64 or macOS x64/ARM64):
 4. Run python build/native/build_gsl.py from the archive root. The pinned port
    applies both patches and the replacement CMake project; triplets control
    static CRT/dynamic GSL linkage. C and managed ABI probes must pass. The build
-   may download general-purpose build tools and unmodified tool dependencies.
+   downloads the checksum-verified CMake tool selected by the pinned vcpkg
+   recipe; it may also download other unmodified general-purpose build tools.
 
 The build records compiler configuration and per-file hashes in
 gsl-provenance.json. No compiler binaries, credentials or build caches are in
