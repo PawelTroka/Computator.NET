@@ -29,5 +29,6 @@ jobs:
           path: |
             artifacts/release-evidence/**
             TestResults/*.trx
+            TestResults/desktop-smoke/**
             Computator.NET.WebClient/test-results/*.xml
           retention-days: 14

@@ -30,4 +30,5 @@ jobs:
           path: |
             artifacts/msix/*.msix
             artifacts/msix/package-validation.json
+            TestResults/desktop-smoke/**
           retention-days: 7
