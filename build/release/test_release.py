@@ -1,9 +1,11 @@
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 import unittest
 from unittest.mock import patch
 from versioning import identity, check, expected_block
-from evidence import begin, finish, validate_report, fresh_file, required_artifacts, required_reports, digest
+from evidence import (begin, finish, validate_report, fresh_file, required_artifacts, required_reports,
+                      digest, required_gsl_directories, packaged_gsl_evidence)
 import json
 import os
 import time
@@ -109,6 +111,136 @@ class ReleaseTests(unittest.TestCase):
         return (f'<TestRun><Results>{results}</Results><TestDefinitions>{definitions}</TestDefinitions>'
                 f'<ResultSummary outcome="Completed"><Counters total="{count}" passed="{count}"/></ResultSummary></TestRun>')
 
+    def gsl_candidate(self):
+        started = time.time()
+        reports = {}
+        for index, directory in enumerate(required_gsl_directories(self.root)):
+            native = self.root / directory / 'native/gsl'
+            native.mkdir(parents=True, exist_ok=True)
+            files = ('gsl.dll', 'gslcblas.dll', 'COPYING.GSL', 'GSL-2.8-source.zip', 'SOURCE.GSL.txt')
+            for name in files:
+                (native / name).write_bytes((directory + ': fixture ' + name).encode())
+            provenance = {'schemaVersion': 1, 'version': '2.8', 'rid': 'win-x64', 'entryPoint': 'gsl.dll',
+                          'files': {name: digest(native / name) for name in files}}
+            (native / 'gsl-provenance.json').write_text(json.dumps(provenance))
+            report = self.root / f'TestResults/packaged-gsl/probe-{index}/result.json'
+            report.parent.mkdir(parents=True, exist_ok=True)
+            report.write_text(json.dumps({'schemaVersion': 1, 'completedUtc': datetime.now(timezone.utc).isoformat(),
+                'passed': True, 'publishedDirectory': str(self.root / directory),
+                'expectedLibrary': str(native / 'gsl.dll'), 'selectedLibrary': str(native / 'gsl.dll'),
+                'nativeVersion': '2.8', 'nativeHash': digest(native / 'gsl.dll').upper(),
+                'checks': {'gamma': 2, 'gammaP': 0.26424111765711533, 'AiPrime': -0.2588194037928068, 'BesselJ0': 1},
+                'failure': None}))
+            reports[directory] = report
+        return started, reports
+
+    def test_gsl_requires_each_publish_directory_and_optional_local_api(self):
+        self.assertEqual(required_gsl_directories(self.root), ['artifacts/desktop', 'artifacts/api', 'artifacts/distribution/win-x64'])
+        (self.root / 'build/followups').mkdir(parents=True)
+        (self.root / 'build/followups/local-web.cake').touch()
+        started, reports = self.gsl_candidate()
+        self.assertEqual(set(packaged_gsl_evidence(self.root, started)), set(reports))
+        self.assertIn('artifacts/local-web/api', reports)
+        for directory, path in reports.items():
+            with self.subTest(directory=directory):
+                original = path.read_bytes(); path.unlink()
+                with self.assertRaisesRegex(ValueError, directory): packaged_gsl_evidence(self.root, started)
+                path.write_bytes(original)
+
+    def test_gsl_rejects_stale_report_even_with_current_claimed_time(self):
+        started, reports = self.gsl_candidate()
+        path = reports['artifacts/desktop']
+        os.utime(path, (1, 1))
+        with self.assertRaisesRegex(ValueError, 'Missing/stale'): packaged_gsl_evidence(self.root, started)
+
+    def test_gsl_rejects_failed_misdirected_or_stale_claims(self):
+        started, reports = self.gsl_candidate()
+        path = reports['artifacts/api']; original = json.loads(path.read_text())
+        for field, value in [('schemaVersion', 2), ('schemaVersion', True), ('passed', False), ('passed', 1),
+                             ('failure', 'probe failed'), ('nativeVersion', '1.16'), ('nativeHash', '0' * 64),
+                             ('expectedLibrary', str(self.root / 'old/gsl.dll')),
+                             ('selectedLibrary', str(self.root / 'old/gsl.dll')),
+                             ('publishedDirectory', str(self.root / 'another-checkout/artifacts/api')),
+                             ('completedUtc', '2000-01-01T00:00:00+00:00'),
+                             ('completedUtc', datetime.fromtimestamp(started - 0.1, timezone.utc).isoformat()),
+                             ('completedUtc', datetime.fromtimestamp(time.time() + 60, timezone.utc).isoformat()),
+                             ('completedUtc', datetime.now().isoformat()), ('completedUtc', None)]:
+            with self.subTest(field=field, value=value):
+                path.write_text(json.dumps({**original, field: value}))
+                with self.assertRaises(ValueError): packaged_gsl_evidence(self.root, started)
+
+    def test_gsl_checks_must_be_present_finite_numeric_and_correct(self):
+        started, reports = self.gsl_candidate()
+        path = reports['artifacts/api']; original = json.loads(path.read_text())
+        for name in original['checks']:
+            for value in (None, float('nan'), float('inf'), True, '2', 99):
+                with self.subTest(name=name, value=value):
+                    checks = {**original['checks'], name: value}
+                    if value is None: del checks[name]
+                    path.write_text(json.dumps({**original, 'checks': checks}))
+                    with self.assertRaisesRegex(ValueError, name): packaged_gsl_evidence(self.root, started)
+
+    def test_gsl_current_dll_must_match_successful_probe(self):
+        started, _ = self.gsl_candidate()
+        (self.root / 'artifacts/api/native/gsl/gsl.dll').write_bytes(b'replaced after the probe')
+        with self.assertRaisesRegex(ValueError, 'version/hash'): packaged_gsl_evidence(self.root, started)
+
+    def test_gsl_latest_failed_probe_cannot_fall_back_to_earlier_success(self):
+        started, reports = self.gsl_candidate()
+        old = reports['artifacts/api']; data = json.loads(old.read_text())
+        latest = old.parent.with_name('later-probe') / 'result.json'
+        latest.parent.mkdir(); latest.write_text(json.dumps({**data, 'passed': False, 'failure': 'failed'}))
+        os.utime(old, (started, started)); os.utime(latest, (started + 1, started + 1))
+        with self.assertRaisesRegex(ValueError, 'Failed/invalid'): packaged_gsl_evidence(self.root, started)
+        old.write_text(json.dumps({**data, 'passed': False})); os.utime(old, (started, started))
+        latest.write_text(json.dumps(data)); os.utime(latest, (started + 1, started + 1))
+        value = packaged_gsl_evidence(self.root, started)['artifacts/api']
+        self.assertEqual(value['report'], latest.relative_to(self.root).as_posix())
+
+    def test_gsl_provenance_must_exist_and_match_current_native_payload(self):
+        started, _ = self.gsl_candidate()
+        path = self.root / 'artifacts/api/native/gsl/gsl-provenance.json'; original = path.read_text()
+        path.unlink()
+        with self.assertRaisesRegex(ValueError, 'gsl-provenance'): packaged_gsl_evidence(self.root, started)
+        path.write_text(original)
+        (path.parent / 'gslcblas.dll').write_bytes(b'changed BLAS')
+        with self.assertRaisesRegex(ValueError, 'provenance hash mismatch'): packaged_gsl_evidence(self.root, started)
+
+    def test_gsl_provenance_allows_additional_source_files_and_cached_timestamps(self):
+        started, _ = self.gsl_candidate()
+        path = self.root / 'artifacts/api/native/gsl/gsl-provenance.json'; data = json.loads(path.read_text())
+        for name in ('extra-build-recipe.txt', 'extra-license.txt'):
+            (path.parent / name).write_bytes(b'fixture source distribution')
+            data['files'][name] = digest(path.parent / name)
+        path.write_text(json.dumps(data))
+        for file in path.parent.iterdir(): os.utime(file, (1, 1))
+        value = packaged_gsl_evidence(self.root, started)['artifacts/api']
+        self.assertEqual(value['provenanceSha256'], digest(path))
+        (path.parent / 'GSL-2.8-source.zip').write_bytes(b'changed source archive')
+        with self.assertRaisesRegex(ValueError, 'provenance hash mismatch'): packaged_gsl_evidence(self.root, started)
+
+    def test_gsl_source_archive_and_notice_are_required_files_and_provenance_entries(self):
+        started, _ = self.gsl_candidate()
+        path = self.root / 'artifacts/api/native/gsl/gsl-provenance.json'; original = json.loads(path.read_text())
+        for name in ('GSL-2.8-source.zip', 'SOURCE.GSL.txt'):
+            with self.subTest(name=name):
+                file = path.parent / name; content = file.read_bytes(); file.unlink()
+                with self.assertRaisesRegex(ValueError, name): packaged_gsl_evidence(self.root, started)
+                file.write_bytes(content)
+                data = {**original, 'files': dict(original['files'])}; del data['files'][name]
+                path.write_text(json.dumps(data))
+                with self.assertRaisesRegex(ValueError, 'provenance'): packaged_gsl_evidence(self.root, started)
+                path.write_text(json.dumps(original))
+
+    def test_gsl_provenance_rejects_missing_entries_and_path_traversal(self):
+        started, _ = self.gsl_candidate()
+        path = self.root / 'artifacts/api/native/gsl/gsl-provenance.json'; original = json.loads(path.read_text())
+        for name in ('../gsl.dll', '..\\gsl.dll', '.', ''):
+            path.write_text(json.dumps({**original, 'files': {**original['files'], name: '0' * 64}}))
+            with self.assertRaisesRegex(ValueError, 'filename'): packaged_gsl_evidence(self.root, started)
+        path.write_text(json.dumps({**original, 'files': {'gsl.dll': original['files']['gsl.dll']}}))
+        with self.assertRaisesRegex(ValueError, 'provenance'): packaged_gsl_evidence(self.root, started)
+
     def reference_candidate(self):
         # Exercise the actual begin/finish orchestration. Only Git is substituted;
         # every required report and file is real and confined to this fixture.
@@ -139,6 +271,7 @@ class ReleaseTests(unittest.TestCase):
             path = self.root / relative
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(b'current candidate fixture')
+        self.gsl_candidate()
         return reference
 
     def test_release_cannot_omit_or_reuse_reference_validation(self):
@@ -164,5 +297,26 @@ class ReleaseTests(unittest.TestCase):
         for filename in ('inventory.json', 'coverage.json', 'preview.html'):
             relative = 'artifacts/reference/' + filename
             self.assertEqual(manifest['artifacts'][relative]['sha256'], digest(self.root / relative))
+
+    def test_release_manifest_binds_each_gsl_report_and_current_provenance(self):
+        self.reference_candidate()
+        finish(self.root)
+        manifest = json.loads((self.root / 'artifacts/release-evidence/manifest.json').read_text())
+        self.assertEqual(set(manifest['packagedGsl']), set(required_gsl_directories(self.root)))
+        for observation in manifest['packagedGsl'].values():
+            for field in ('report', 'provenance'):
+                relative = observation[field]
+                self.assertEqual(observation[field + 'Sha256'], digest(self.root / relative))
+                self.assertEqual(manifest['artifacts'][relative]['sha256'], digest(self.root / relative))
+            self.assertEqual(observation['nativeSha256'], digest(self.root / observation['nativeLibrary']))
+        self.assertIn('self-reported', manifest['packagedGslScope'])
+
+    def test_release_rejects_missing_gsl_evidence_and_removes_old_acceptance(self):
+        self.reference_candidate()
+        finish(self.root)
+        report = next((self.root / 'TestResults/packaged-gsl').glob('*/result.json'))
+        report.unlink()
+        with self.assertRaisesRegex(ValueError, 'Missing/stale packaged GSL'): finish(self.root)
+        self.assertFalse((self.root / 'artifacts/release-evidence/manifest.json').exists())
 
 if __name__ == '__main__': unittest.main()
