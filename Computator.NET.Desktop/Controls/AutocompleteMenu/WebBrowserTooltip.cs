@@ -2,105 +2,44 @@ using System.Drawing;
 using System.Windows.Forms;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Desktop.Services;
-using Computator.NET.Localization;
 
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
     internal class WebBrowserToolTip : ToolStripDropDown
     {
-        //private Control ctl;
-        //  private WebBrowserForm form;
         private readonly WebBrowser webBrowser;
-
         public WebBrowserToolTip()
         {
             webBrowser = new WebBrowser
             {
-                MinimumSize = new Size(300, 195).DpiScale(),
-                ScrollBarsEnabled = true,
-                AutoSize = true,
+                MinimumSize = new Size(300, 195).DpiScale(), ScrollBarsEnabled = true, AutoSize = true
             };
             webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
-
-            // this.ctl = webBrowser;
-            Initialize();
-            //  form = new WebBrowserForm(webBrowser);
-            AutoClose = false;
-            AutoSize = true;
+            Initialize(); AutoClose = false; AutoSize = true;
         }
-
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string HTMLCode
         {
-            set
-            {
-                webBrowser.Size = webBrowser.MinimumSize;
-                webBrowser.DocumentText = value;
-            }
+            set { webBrowser.Size = webBrowser.MinimumSize; webBrowser.DocumentText = value; }
         }
-
         public void Initialize()
         {
-            //  this.AutoSize = true;
-            var host = new ToolStripControlHost(webBrowser);
-            //this.Margin = Padding.Empty;
-            // this.Padding = Padding.Empty;
-            // host.Margin = Padding.Empty;
-            // host.Padding = Padding.Empty;
-            //  host.AutoSize = true;
-            // host.Size = ctl.Size;
-            // this.Size = ctl.Size;
-            Items.Add(host);
+            Items.Add(new ToolStripControlHost(webBrowser));
             webBrowser.Dock = DockStyle.Fill;
-            //webBrowser.BringToFront();
-            //this.form.Controls.Add(new ComboBox());//ctl);
-            // webBrowser.Url = new Uri("http://en.m.wikipedia.org/w/index.php?search=" + title);
-
-            webBrowser.DocumentText =
-                @"In <a href=""/wiki/Mathematics"" title=""Mathematics"">mathematics</a>, the family of <b>Debye functions</b> is defined by</p>
-            <dl>
-            <dd><img class=""mwe-math-fallback-png-inline tex"" alt=""D_n(x) = \frac{n}{x^n} \int_0^x \frac{t^n}{e^t - 1}\,dt."" src=""http://upload.wikimedia.org/math/a/4/9/a4981a548490410b838189b01911f320.png""></dd>
-            </dl>
-            <p>The functions are named in honor of <a href=""/wiki/Peter_Debye"" title=""Peter Debye"">Peter Debye</a>, who came across this function (with <i>n</i> = 3) in 1912 when he analytically computed the <a href=""/wiki/Heat_capacity"" title=""Heat capacity"">heat capacity</a> of what is now called the <a href=""/wiki/Debye_model"" title=""Debye model"">Debye model</a>.</p>
-            <br/><br/><br/><br/><br/><br/><br/>
-            ";
+            // No hard-coded remote Debye image while waiting for the actual item.
+            webBrowser.DocumentText = FunctionReferenceDocument.Render(new FunctionInfo
+            {
+                Title = "Function reference", Description = "<p>Select a function or constant to see its definition and conventions.</p>"
+            });
         }
-
-        //<img class=""mwe-math-fallback-png-inline tex"" alt=""D_n(x) = \frac{n}{x^n} \int_0^x \frac{t^n}{e^t - 1}\,dt."" src=""http://upload.wikimedia.org/math/a/4/9/a4981a548490410b838189b01911f320.png"">
-
-        public void ShowForm()
+        public void ShowForm() { }
+        private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            // webBrowser.Update();
-            //var form2 = new WebBrowserForm(webBrowser);
-            // form.webBrowser = webBrowser;
-            //form.Show();
+            var browser = (WebBrowser)sender;
+            if (browser.Document?.Body == null) return;
+            var rectangle = browser.Document.Body.ScrollRectangle;
+            browser.Size = new Size(rectangle.Width + 18, System.Math.Min(rectangle.Height + 18, browser.Height));
         }
-
-        private void WebBrowser_DocumentCompleted(object sender,
-            WebBrowserDocumentCompletedEventArgs e)
-        {
-            var webBrowser = sender as WebBrowser;
-
-            var r = webBrowser.Document.Body.ScrollRectangle;
-
-            int height;
-            var overlapp = 18;
-
-            if (r.Size.Height + overlapp < webBrowser.Size.Height)
-                height = r.Size.Height + overlapp;
-            else
-                height = webBrowser.Size.Height;
-
-            webBrowser.Size = new Size(r.Width + overlapp, height);
-            //  webBrowser.Document.Body.Style = "zoom:80%;";
-        }
-
-        public void setFunctionInfo(FunctionInfo functionInfo)
-        {
-            HTMLCode = @"<b>" + functionInfo.Title + @"</b>" + @"<hr>" + functionInfo.Description + @" <br /><br /><i>" +
-                       Strings.Source_ + @"<br /><a href=""" +
-                       functionInfo.Url.Replace("http://en.wikipedia", "http://en.m.wikipedia") + @""">" +
-                       functionInfo.Url + @"</a></i>";
-        }
+        public void setFunctionInfo(FunctionInfo functionInfo) => HTMLCode = FunctionReferenceDocument.Render(functionInfo);
     }
 }

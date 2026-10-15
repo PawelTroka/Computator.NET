@@ -1,0 +1,56 @@
+# Temporary trusted-branch generation of the reviewed XML, removed after its
+# exact output has been reviewed. Normal CI is read-only and checks byte equality.
+name: Materialize reviewed reference once
+on:
+  push:
+    branches: ['content/complete-function-constant-reference']
+    paths: ['.github/workflows/reference-materialize.yml']
+permissions:
+  contents: read
+jobs:
+  materialize:
+    if: github.repository == 'PawelTroka/Computator.NET' && github.ref == 'refs/heads/content/complete-function-constant-reference'
+    runs-on: windows-2025
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Materialize authored content against actual runtime
+        run: ./build.ps1 -Target Reference-Generate
+      - name: Commit only the reviewed reference XML
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git add -- Computator.NET.Core/Static/functions.xml
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { exit 0 }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'docs: materialize complete reviewed function and constant HTML reference'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $authorization = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("x-access-token:$env:GH_TOKEN"))
+          Write-Output "::add-mask::$authorization"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $authorization" push origin HEAD:refs/heads/content/complete-function-constant-reference
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Review generated content and inputs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: authored-reference-review
+          path: |
+            artifacts/reference/**
+            build/reference/*.py
+            Computator.NET.Core/Static/functions.xml
+            TestResults/reference*.trx
+          retention-days: 7
