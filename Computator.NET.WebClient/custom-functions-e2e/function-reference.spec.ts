@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('the live API supplies the shipped constant reference to the existing editor', async ({ page }) => {
+test('the live API supplies the shipped constant reference to the existing editor', async ({ page }, info) => {
   // No route interception: use the published frontend and actual Windows API.
   const loaded = page.waitForResponse(response => response.url().endsWith('/autocomplete/expression') && response.request().method() === 'GET');
   await page.goto('/calculate');
@@ -25,9 +25,10 @@ test('the live API supplies the shipped constant reference to the existing edito
   await expect(tooltip.locator('.reference-signature code')).toContainText('ElementaryCharge');
   await expect(tooltip.locator('.reference-arguments strong')).toBeVisible();
   await expect(tooltip.locator('.reference-source a[href^="https://"]')).toHaveCount(1);
+  await page.screenshot({ path: info.outputPath('live-constant-tooltip.png') });
 });
 
-test('the live function reference renders typed syntax and a mathematical definition as HTML', async ({ page }) => {
+test('the live function reference renders typed syntax and a mathematical definition as HTML', async ({ page }, info) => {
   const loaded = page.waitForResponse(response => response.url().endsWith('/autocomplete/expression') && response.request().method() === 'GET');
   await page.goto('/calculate'); await loaded;
   await page.locator('#expressionTextArea textarea').fill('Ai');
@@ -36,4 +37,5 @@ test('the live function reference renders typed syntax and a mathematical defini
   await expect(tooltip.locator('.reference-signature code')).toContainText('Ai(real x)');
   await expect(tooltip.locator('.reference-formula code')).toContainText('y″−xy=0');
   await expect(tooltip.locator('.reference-source a[href^="https://"]')).toHaveCount(1);
+  await page.screenshot({ path: info.outputPath('live-function-tooltip.png') });
 });
