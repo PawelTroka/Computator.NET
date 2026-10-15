@@ -79,6 +79,7 @@
     <File Path="build/followups/program-lifetime.cake" />
     <File Path="build/followups/release.cake" />
     <File Path="build/followups/web-ide.cake" />
+    <File Path="build/followups/reference.cake" />
   </Folder>
   <Folder Name="/Build/CI/">
     <File Path="appveyor.yml" />
@@ -102,6 +103,7 @@
     <File Path=".github/workflows/msix-activation-contracts.yml" />
     <File Path=".github/workflows/release-evidence.yml" />
     <File Path=".github/workflows/web-ide.yml" />
+    <File Path=".github/workflows/reference-validation.yml" />
   </Folder>
   <Folder Name="/Documentation/">
     <File Path="docs/DEVELOPING.md" />
@@ -132,6 +134,22 @@
     <File Path="docs/followups/PORTABLE-SCIENCE.md" />
     <File Path="docs/followups/REAL-PROFILE-ACCEPTANCE.md" />
     <File Path="docs/followups/SIGNED-MSIX-ACCEPTANCE.md" />
+    <File Path="docs/FUNCTION-REFERENCE.md" />
+  </Folder>
+  <Folder Name="/Reference content/">
+    <File Path="Computator.NET.Core/Static/functions.xml" />
+    <File Path="build/reference/common.py" />
+    <File Path="build/reference/elementary.py" />
+    <File Path="build/reference/special.py" />
+    <File Path="build/reference/special_families.py" />
+    <File Path="build/reference/physical.py" />
+    <File Path="build/reference/mathematical.py" />
+    <File Path="build/reference/scientific.py" />
+    <File Path="build/reference/scientific_matrices.py" />
+    <File Path="build/reference/scientific_scripting.py" />
+    <File Path="build/reference/distributions.py" />
+    <File Path="build/reference/generate.py" />
+    <File Path="build/reference/test_authoring.py" />
   </Folder>
   <Folder Name="/Historical sources (not build targets)/">
     <File Path="Computator.NET/Computator.NET.net40.csproj" />
