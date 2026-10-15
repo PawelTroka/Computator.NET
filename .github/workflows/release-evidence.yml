@@ -33,6 +33,7 @@ jobs:
             artifacts/api/*.log
             TestResults/*.trx
             TestResults/desktop-smoke/**
+            TestResults/packaged-gsl/**
             Computator.NET.WebClient/test-results/**
             Computator.NET.WebClient/playwright-report/**
           retention-days: 14

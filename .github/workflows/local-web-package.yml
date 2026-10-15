@@ -28,5 +28,6 @@ jobs:
           name: local-web-package-review
           path: |
             publish/Computator.NET.LocalWeb.win-x64.zip
+            TestResults/packaged-gsl/**
             Computator.NET.WebClient/test-results/**
           retention-days: 7
