@@ -19,7 +19,7 @@ jobs:
           mkdir -p /tmp/reference-tools
           cd /tmp/reference-tools
           npm init -y >/dev/null
-          npm install --save-exact --ignore-scripts @mathjax/src@4.0.0 @resvg/resvg-js@2.6.2
+          npm install --save-exact --ignore-scripts @mathjax/src@4.1.3 @resvg/resvg-js@2.6.2
           npm audit --audit-level=high
           cd "$GITHUB_WORKSPACE"
           python3 - <<'PY'
@@ -27,9 +27,9 @@ jobs:
           root=pathlib.Path.cwd()
           extensions={'.cs','.csproj','.props','.targets','.slnx','.json','.py','.ts','.tsx','.css','.scss','.md','.yml','.ps1','.sh','.cake','.xml','.mjs','.cjs','.js'}
           with zipfile.ZipFile('/tmp/reference-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
-              for name in subprocess.check_output(['git','ls-files'],text=True).splitlines():
+              for name in subprocess.check_output(['git','ls-files','-z'],text=True).split('\0'):
                   path=root/name
-                  if path.suffix.lower() in extensions or name in ('.nvmrc','.gitattributes','global.json'):
+                  if path.is_file() and (path.suffix.lower() in extensions or name in ('.nvmrc','.gitattributes','global.json')):
                       archive.write(path,'source/'+name)
               for path in pathlib.Path('/tmp/reference-tools').rglob('*'):
                   if path.is_file() and path.suffix.lower() not in ('.woff','.woff2','.otf','.ttf','.eot'):
