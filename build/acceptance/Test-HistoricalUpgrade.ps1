@@ -12,6 +12,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+Import-Module (Join-Path $PSScriptRoot 'AcceptanceContracts.psm1') -Force
 $hosted = $env:GITHUB_ACTIONS -eq 'true' -and $env:RUNNER_ENVIRONMENT -eq 'github-hosted'
 $sandbox = $env:USERNAME -eq 'WDAGUtilityAccount'
 if (!$DisposableMachine -or $env:COMPUTATOR_DISPOSABLE_INSTALL_TEST -ne '1' -or (!$hosted -and !$sandbox)) {
@@ -236,9 +237,7 @@ try {
     $report.negativeMsiSha256 = (Get-FileHash -LiteralPath $negative).Hash
     Msi @('/i', ('"' + $negative + '"')) 'failed-upgrade.log' @(1603)
     $failureLog = Get-Content -LiteralPath (Join-Path $results 'failed-upgrade.log') -Raw
-    if ($failureLog -notmatch 'ComputatorAcceptanceFailure' -or $failureLog -notmatch 'Removal completed successfully' -or $failureLog -notmatch [regex]::Escape($legacyCode)) {
-        throw 'The failed-upgrade log does not establish historical removal followed by the intentional failure.'
-    }
+    $report.rollbackLogProof = Assert-HistoricalRollbackLog $failureLog $legacyCode $candidateCode
     if (!(Installed $legacyCode) -or (Installed $candidateCode)) { throw 'Failed upgrade did not restore the old MSI registration.' }
     if (@(Registrations | Where-Object PSChildName -eq $fixture.bundleCode).Count -ne 1) { throw 'Rollback lost the historical bundle registration.' }
     AssertHashes $oldFiles; AssertHashes $preserved
