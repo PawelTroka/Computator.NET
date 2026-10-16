@@ -140,6 +140,7 @@
   </Folder>
   <Folder Name="/Reference content/">
     <File Path="Computator.NET.Core/Static/functions.xml" />
+    <File Path="build/reference/categories.py" />
     <File Path="build/reference/common.py" />
     <File Path="build/reference/elementary.py" />
     <File Path="build/reference/special.py" />
@@ -156,6 +157,8 @@
     <File Path="build/reference/enrichment_more.py" />
     <File Path="build/reference/enrichment.py" />
     <File Path="build/reference/test_authoring.py" />
+    <File Path="build/reference/test_categories.py" />
+    <File Path="build/reference/fixtures/legacy-subject-categories.json" />
     <File Path="build/reference/test_physical.py" />
   </Folder>
   <Folder Name="/Historical sources (not build targets)/">

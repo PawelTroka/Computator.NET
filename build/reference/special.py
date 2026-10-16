@@ -1,5 +1,7 @@
 """Curated special-function reference; no numerical source is changed."""
 from common import A, DLMF, GSL, MATHNET, SOURCE
+from dataclasses import replace
+from categories import subject_category
 from special_families import polynomial, hypergeometric, elliptic, probability, bessel
 ALIASES={'Γ':'gamma','logΓ':'logGamma','ψ':'psi','digamma':'psi','ψn':'polyGamma','ψⁿ':'polyGamma',
          'β':'Beta','logβ':'logBeta','diLogarithm':'diLog','Riemannζ':'RiemannZeta','η':'DirichletEta',
@@ -55,6 +57,12 @@ INTEGRALS={
 }
 
 def describe(item, values):
+    raw = item['signature'].split('(')[0]
+    category = subject_category('SpecialFunctions', ALIASES.get(raw, raw))
+    return replace(_describe(item, values), category=category)
+
+
+def _describe(item, values):
     sig=item['signature']; raw=sig.split('(')[0]; name=ALIASES.get(raw,raw)
     args=sig[sig.find('(')+1:-1]; complex_arg='complex z' in item['menu']
     alias=('Alias of '+name+' with the same convention. ') if raw!=name else ''

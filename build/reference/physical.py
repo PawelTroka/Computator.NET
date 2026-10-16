@@ -1,5 +1,6 @@
 """Physical quantities: definitions and units, never a numerical-constant update."""
 from common import A, NIST
+from categories import subject_category
 # e in these formulas is physical elementary charge, not the TSL Euler constant.
 METROLOGY=('The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. '
            'Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.')
@@ -123,7 +124,8 @@ def finish(item, values, title, definition, formula, unit, note='', url=NIST):
     if 'ShieldedHelion' in item['signature']:
         note+=' Shielded helion values refer to a spherical helium gas sample at 25 °C.'
     return A(title,definition,formula,'Unit: '+unit+'. Stored application value: '+value+'.',
-             (note+' ' if note else '')+METROLOGY,url=url,category='Physical constants')
+             (note+' ' if note else '')+METROLOGY,url=url,
+             category=subject_category('PhysicalConstants', item['signature']))
 
 def describe(item, values):
     original=item['signature']; name=ALIASES.get(original,original)
