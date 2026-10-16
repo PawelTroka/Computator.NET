@@ -82,12 +82,16 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
             if (_documents.ContainsKey(filename))
                 return;
 
-            var document = Document;
+            var text = File.Exists(filename) ? File.ReadAllText(filename) : string.Empty;
+            NewDocument(filename, text);
+        }
 
-            Document = new TextDocument();
+        public void NewDocument(string filename, string text)
+        {
+            if (_documents.ContainsKey(filename))
+                return;
 
-            if (File.Exists(filename))
-                Text = File.ReadAllText(filename);
+            Document = new TextDocument(text);
 
             _documents.Add(filename, Document);
 
