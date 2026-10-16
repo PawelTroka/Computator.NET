@@ -124,7 +124,8 @@ namespace Computator.NET.Desktop.Tests
 
         private static Rectangle ViewportBounds(HtmlElement element)
         {
-            dynamic bounds = element.DomElement.getBoundingClientRect();
+            dynamic domElement = element.DomElement;
+            dynamic bounds = domElement.getBoundingClientRect();
             return Rectangle.FromLTRB((int)bounds.left, (int)bounds.top, (int)bounds.right, (int)bounds.bottom);
         }
 
