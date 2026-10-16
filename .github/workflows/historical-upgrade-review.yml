@@ -28,10 +28,8 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           global-json-file: global.json
-      - name: Cake acceptance contracts in both engines with isolated module paths
-        shell: pwsh
-        run: ./build.ps1 -Target Clean-Machine-Harness-Validate
       - name: Acquire the reviewed candidate bytes without rebuilding
+        id: packages
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
@@ -46,22 +44,32 @@ jobs:
           Copy-Item "$root/candidate/artifacts/installer/output" artifacts/installer/output -Recurse -Force
           @{ sourceCommit = 'd2062a33fd7af5faf3593846a589b7b5619cbf3b'; identicalMasterSourceTree = '575315952a219e4355b7f575ce0b165614ef6797'; artifactId = 12014458227; artifactRun = 38825547427; archiveSha256 = (Get-FileHash $archive).Hash; testCommit = '${{ github.sha }}' } | ConvertTo-Json | Set-Content artifacts/historical-review/candidate-provenance.json
           ./build.ps1 -Target Installer-Historical-Fetch
-      - name: Cake historical upgrade acceptance
+      - name: Cake historical EXE upgrade and failed-MSI rollback acceptance
         shell: pwsh
         env:
           COMPUTATOR_DISPOSABLE_INSTALL_TEST: '1'
         run: ./build.ps1 -Target Installer-Historical-Validate -CakeArguments '--historical-results=artifacts/installer/logs/historical'
+      - name: Cake acceptance contracts in both PowerShell engines
+        if: always()
+        shell: pwsh
+        run: ./build.ps1 -Target Clean-Machine-Harness-Validate
+      - name: Prepare but do not launch the offline Sandbox plan with authentic inputs
+        if: always() && steps.packages.outcome == 'success'
+        shell: pwsh
+        run: |
+          ./build.ps1 -Target Clean-Machine-Prepare -CakeArguments @('--candidate-bundle=artifacts/installer/output/Computator.NET.Installer.exe','--historical-bundle=artifacts/installer/historical/Computator.NET.Installer.v2.3.2.exe')
+          Get-ChildItem artifacts/clean-machine -Recurse -Filter plan.json | ForEach-Object { Get-Content $_.FullName; Copy-Item $_.FullName artifacts/historical-review/prepared-plan.json }
       - name: Print acceptance results and failure context
         if: always()
         shell: pwsh
         run: |
           Get-ChildItem artifacts/installer/logs -Recurse -Filter acceptance.json -ErrorAction SilentlyContinue | ForEach-Object { Get-Content $_.FullName }
-          Get-ChildItem artifacts/installer/logs -Recurse -Filter '*.log' -ErrorAction SilentlyContinue | ForEach-Object { Write-Host "LOG: $($_.Name)"; Get-Content $_.FullName -Tail 25 }
+          Get-ChildItem artifacts/installer/logs -Recurse -Filter '*.log' -ErrorAction SilentlyContinue | ForEach-Object { Write-Host "LOG: $($_.Name)"; Get-Content $_.FullName -Tail 40 }
       - if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: historical-upgrade-evidence
           path: |
             artifacts/installer/logs/**
-            artifacts/historical-review/candidate-provenance.json
+            artifacts/historical-review/*.json
           retention-days: 14
