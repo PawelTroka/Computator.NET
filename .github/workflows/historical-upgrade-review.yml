@@ -22,12 +22,15 @@ jobs:
           foreach ($path in Get-ChildItem build/acceptance -Filter '*.ps1') {
             $tokens = $null; $errors = $null
             [Management.Automation.Language.Parser]::ParseFile($path.FullName, [ref]$tokens, [ref]$errors) | Out-Null
-            foreach ($diagnostic in $errors) { $bad = $true; Write-Host "$($path.Name):$($diagnostic.Extent.StartLineNumber): $($diagnostic.Message) $($diagnostic.Extent.Text)" }
+            foreach ($diagnostic in $errors) { $bad = $true; Write-Host "$($path.Name):$($diagnostic.Extent.StartLineNumber): $($diagnostic.Message)" }
           }
           if ($bad) { throw 'Acceptance scripts failed the Windows PowerShell 5.1 parser.' }
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           global-json-file: global.json
+      - name: Cake acceptance contract tests in PowerShell 7 and Windows PowerShell 5.1
+        shell: pwsh
+        run: ./build.ps1 -Target Clean-Machine-Harness-Validate
       - name: Acquire the reviewed candidate bytes without rebuilding
         shell: pwsh
         env:
