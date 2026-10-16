@@ -233,38 +233,43 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void Save()
         {
-            if (!File.Exists(CurrentFileName))
-            {
-                saveFileDialog.FileName = CurrentFileName;
-                if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
-                File.WriteAllText(saveFileDialog.FileName, Text);
-
-                if (saveFileDialog.FileName != CurrentFileName)
-                {
-                    CurrentFileName = saveFileDialog.FileName;
-                }
-                tabControl.SelectedTab.ImageIndex = 0;
-            }
+            if (File.Exists(CurrentFileName))
+                SaveToFile(CurrentFileName);
             else
-            {
-                File.WriteAllText(CurrentFileName, Text);
-                tabControl.SelectedTab.ImageIndex = 0;
-            }
+                SaveAs();
         }
 
         public void SaveAs()
         {
+            var filename = SelectSaveFileName();
+            if (filename != null) SaveToFile(filename);
+        }
+
+        protected virtual string SelectSaveFileName()
+        {
             saveFileDialog.FileName = CurrentFileName;
+            return saveFileDialog.ShowDialog(this) == DialogResult.OK ? saveFileDialog.FileName : null;
+        }
 
-            if (saveFileDialog.ShowDialog() != DialogResult.OK)
-                return;
-
-            File.WriteAllText(saveFileDialog.FileName, Text);
-
-            if (saveFileDialog.FileName != CurrentFileName)
+        private void SaveToFile(string filename)
+        {
+            filename = Path.GetFullPath(filename);
+            var selectedTab = tabControl.SelectedTab;
+            // Exclude the selected tab by identity: a case or dot-segment variant
+            // of its own path is a valid destination. The last tab is the add button.
+            for (var i = 0; i < tabControl.TabPages.Count - 1; i++)
             {
-                CurrentFileName = saveFileDialog.FileName;
+                var otherTab = tabControl.TabPages[i];
+                if (otherTab != selectedTab && string.Equals(Path.GetFullPath(otherTab.Text),
+                    filename, StringComparison.OrdinalIgnoreCase))
+                    throw new IOException("This file is already open in another tab. Switch to that tab or choose a different file name.");
             }
+
+            // Check before both disk writes and RenameKey, which can replace the
+            // other document's unsaved buffer. Failed writes keep the old identity.
+            File.WriteAllText(filename, Text);
+            if (CurrentFileName != filename)
+                CurrentFileName = filename;
             tabControl.SelectedTab.ImageIndex = 0;
         }
 
