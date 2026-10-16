@@ -5586,7 +5586,7 @@
 <p class="reference-summary">Uses Math.NET’s secant method without an analytic derivative.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>fx(root) ≈ 0.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> errorMax&gt;0 is the requested solver accuracy; N&gt;0 limits iterations (default 10,000).</p>
-<p class="reference-note"><strong>Important:</strong> The initial guesses are (a+b)/2 and (a+b)/3, and [a,b] is supplied as the interval. Despite the name this is not a Newton step using an exact derivative. Degenerate initial guesses can fail. Repeated roots, discontinuities and nonfinite evaluations may defeat convergence.</p>
+<p class="reference-note"><strong>Important:</strong> Use a&lt;b. Two distinct interior starting guesses are chosen near the midpoint and one-third point, and [a,b] is supplied as the interval. Intervals too narrow for two interior floating-point values return NaN, as does failure to converge. A sign-changing interval alone does not guarantee secant convergence. Despite the name no exact derivative is used. Repeated roots, discontinuities and nonfinite evaluations may defeat convergence.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/FunctionRoot.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/FunctionRoot.cs</Url>
