@@ -4,9 +4,9 @@ This reference documents the existing application, not a replacement mathematica
 
 ## Reading it
 
-The existing desktop function-information window and HTML tooltip use the same materialized `Computator.NET.Core/Static/functions.xml`. Each article contains its actual typed signatures, a short explanation, a definition or formula where appropriate, argument/support/units information, relevant caveats, and source links. Formulas are readable text and Unicode rather than remote raster images: no network is required to read an article. Optional source links provide deeper reference material.
+The existing desktop function-information window and HTML tooltip use the same materialized `Computator.NET.Core/Static/functions.xml`. Each article contains its actual typed signatures, a short explanation, a definition or formula where appropriate, argument/support/units information, relevant caveats, and source links. Authored LaTeX equations are typeset ahead of time into locally packaged, high-resolution PNGs, accompanied by accessible text and explanations: no network or runtime mathematics renderer is required to read an article. Optional source links provide deeper reference material.
 
-The document shell supplies UTF-8 and local styling in both desktop views. The WebClient reconstructs an allowlisted HTML fragment for Ace's `docHTML` tooltip in both editors, preserving paragraphs, headings, emphasis, code, superscripts, subscripts, Unicode mathematics and safe HTTP(S) source links. Parsing happens in an inert template: scripts, event handlers, styles, frames, images and other active or remote-loading content are excluded. The existing Ace and desktop WebBrowser controls remain in use.
+The document shell supplies UTF-8 and local styling in both desktop views. The WebClient reconstructs an allowlisted HTML fragment for Ace's `docHTML` tooltip in both editors, preserving paragraphs, headings, emphasis, code, superscripts, subscripts, Unicode mathematics and safe HTTP(S) source links. Parsing happens in an inert template: scripts, event handlers, styles, frames, SVG and remote-loading content are excluded. Only strictly validated, content-addressed local equation PNGs are admitted. The existing Ace and desktop WebBrowser controls remain in use.
 
 One insertion signature can represent several typed overloads. The article lists all such menus and separates differing semantics instead of allowing the last overload to erase earlier information. Examples such as integer-vs-real random bounds, doubled-vs-actual angular momenta and real-vs-complex branches must not be inferred solely from a function name.
 
@@ -21,7 +21,7 @@ The editorial sources in `build/reference/` are original prose organized by subj
 ./build.ps1 -Target Reference-Validate
 ```
 
-Cake owns the graph and the existing .NET tests export the *unaugmented* reflection catalog with fixed typed-signature display options. The authoring tool uses only Python's standard library, has no network dependency, and writes deterministic XML. Normal application builds only copy the committed XML; Python is not required to run the application. The single SLNX exposes all reference sources and its build/docs items.
+Cake owns the graph and the existing .NET tests export the *unaugmented* reflection catalog with fixed typed-signature display options. Prose generation uses Python's standard library and writes deterministic XML. Equation authoring uses the audited MathJax and resvg development dependencies in the existing WebClient lockfile. After dependency restore, typesetting and verification work offline. Normal application builds copy the committed XML and equation assets; Python, Node and MathJax are not required to read help in the application. The single SLNX exposes all reference sources and its build/docs items.
 
 Coverage tests require exact agreement with the live non-keyword catalog, correct attachment in both completion modes, every typed overload, actual stored constant values, meaningful section structure and HTTPS source links. HTML checks reject active markup, network-loaded images and placeholder text. Independent negative tests verify that unsupported additions fail instead of acquiring fabricated descriptions. A read-only CI job also verifies byte-for-byte regeneration and retains an offline preview and coverage report. These checks prove coverage and contracts; they are not a machine proof of every mathematical statement.
 
@@ -68,3 +68,10 @@ Several descriptions would be misleading without reporting existing behavior. Th
 Physical descriptions always identify units and the actual runtime-stored binary64 value. They distinguish modern exact SI definitions (for example h, e, kB and NA) from the code's older approximations. μ₀, ε₀ and the molar mass constant are not presented as exact under the post-2019 SI. Historical conventional electrical/X-ray units remain labeled historical. No uncertainty is invented for a constant whose source code stores none.
 
 Coverage means all supported autocomplete lookup entries, not every method in every referenced library, a complete special-functions textbook, a new symbolic system, translations into every locale, or an update of the numerical implementation. Technical editorial review remains welcome, particularly before changing a legacy value or convention.
+
+## Offline typeset equations and teaching notes
+
+See [REFERENCE-EQUATIONS.md](REFERENCE-EQUATIONS.md) for the authored TeX, packaged
+PNG pipeline, contextual signatures, teaching content and executable examples.
+The old no-image HTML policy is superseded only for strictly local hashed PNG
+equations; remote images, scripts, SVG and arbitrary active content remain banned.
