@@ -31,6 +31,18 @@ Task("Build-Installer").IsDependentOn("Installer-Source").Does(() =>
 Task("Installer-Validate").IsDependentOn("Build-Installer").Does(() =>
     PowerShell("build/installer/Test-InstalledProduct.ps1", "-MsiPath artifacts/installer/output/Computator.NET.msi -InventoryPath artifacts/installer/output/payload.xml -DisposableMachine"));
 
+void WindowsAcceptancePowerShell(ProcessArgumentBuilder args)
+{
+    if (!IsRunningOnWindows()) throw new Exception("Windows PowerShell acceptance requires Windows.");
+    var home = System.IO.Path.Combine(EnvironmentVariable("WINDIR"), "System32", "WindowsPowerShell", "v1.0");
+    // pwsh -> dotnet/Cake -> powershell does not apply pwsh's WinPSModulePath
+    // filtering. Restrict these built-in-only tests to the guest engine's modules.
+    CheckedProcess(System.IO.Path.Combine(home, "powershell.exe"), new ProcessSettings
+    {
+        Arguments = args,
+        EnvironmentVariables = new Dictionary<string, string> { { "PSModulePath", System.IO.Path.Combine(home, "Modules") } }
+    });
+}
 // Acceptance can consume an already approved, unsigned candidate. It does not
 // rebuild, accept tool terms, sign, publish, or install on a developer machine.
 Task("Installer-Historical-Fetch").Does(() =>
@@ -47,5 +59,5 @@ Task("Installer-Historical-Validate").Does(() =>
         .Append("-CandidateBundlePath").AppendQuoted(artifacts + "/Computator.NET.Installer.exe")
         .Append("-HistoricalBundlePath").AppendQuoted(legacy)
         .Append("-ResultDirectory").AppendQuoted(results).Append("-DisposableMachine");
-    CheckedProcess("powershell.exe", new ProcessSettings { Arguments = args });
+    WindowsAcceptancePowerShell(args);
 });
