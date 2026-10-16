@@ -14,25 +14,27 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
-        with:
-          global-json-file: global.json
       - name: Parse acceptance scripts with Windows PowerShell 5.1
         shell: powershell
         run: |
           $ErrorActionPreference = 'Stop'
+          $bad = $false
           foreach ($path in Get-ChildItem build/acceptance -Filter '*.ps1') {
             $tokens = $null; $errors = $null
             [Management.Automation.Language.Parser]::ParseFile($path.FullName, [ref]$tokens, [ref]$errors) | Out-Null
-            if ($errors.Count) { throw ($errors | Out-String) }
+            foreach ($error in $errors) { $bad = $true; Write-Host "$($path.Name):$($error.Extent.StartLineNumber): $($error.Message) $($error.Extent.Text)" }
           }
+          if ($bad) { throw 'Acceptance scripts failed the Windows PowerShell 5.1 parser.' }
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
       - name: Acquire the reviewed candidate bytes, without rebuilding or accepting tool terms
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           $ErrorActionPreference = 'Stop'
-          New-Item -ItemType Directory -Force artifacts/historical-review | Out-Null
+          New-Item -ItemType Directory -Force artifacts/historical-review,artifacts/installer | Out-Null
           $root = (Resolve-Path artifacts/historical-review).Path
           $archive = Join-Path $root 'candidate.zip'
           Invoke-WebRequest 'https://api.github.com/repos/PawelTroka/Computator.NET/actions/artifacts/12014458227/zip' -Headers @{Authorization="Bearer $env:GH_TOKEN"} -OutFile $archive
