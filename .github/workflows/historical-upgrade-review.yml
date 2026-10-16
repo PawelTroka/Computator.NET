@@ -1,5 +1,5 @@
 name: Historical installer review
-run-name: Historical EXE acceptance with MSI handle regression
+run-name: Historical EXE acceptance with nested rollback verification
 on:
   push:
     branches: [acceptance/historical-232-upgrade]
