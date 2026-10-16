@@ -3356,7 +3356,7 @@
 <p class="reference-summary">A finite-difference derivative estimate, recursively extended to higher orders.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>[f(x−2h)−8f(x−h)+8f(x+h)−f(x+2h)]/(12h) for order=1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Nonnegative integer order; order zero returns fx(x). Step h=x·eps; when it is zero the wrapper substitutes 1e−25.</p>
-<p class="reference-note"><strong>Important:</strong> eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. In recursive higher-order calls this implementation does not forward the chosen eps, so inner levels use their default. Prefer the Math.NET derivative entry when appropriate.</p>
+<p class="reference-note"><strong>Important:</strong> eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the relative step recalculated at each evaluation point. Prefer the Math.NET derivative entry when appropriate.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Derivative.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Derivative.cs</Url>
@@ -3426,7 +3426,7 @@
 <p class="reference-summary">A finite-difference derivative estimate, recursively extended to higher orders.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>[f(x+h)−f(x)]/h for order=1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Nonnegative integer order; order zero returns fx(x). Step h=x·eps; when it is zero the wrapper substitutes 1e−25.</p>
-<p class="reference-note"><strong>Important:</strong> eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. In recursive higher-order calls this implementation does not forward the chosen eps, so inner levels use their default. Prefer the Math.NET derivative entry when appropriate.</p>
+<p class="reference-note"><strong>Important:</strong> eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the relative step recalculated at each evaluation point. Prefer the Math.NET derivative entry when appropriate.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Derivative.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Derivative.cs</Url>
@@ -3440,7 +3440,7 @@
 <p class="reference-summary">A finite-difference derivative estimate, recursively extended to higher orders.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>[f(x+h)−f(x)]/((x+h)−x) for order=1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Nonnegative integer order; order zero returns fx(x). Step begins at sqrt(eps)·x and uses the actual representable difference; at zero a fixed tiny fallback is used.</p>
-<p class="reference-note"><strong>Important:</strong> eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. In recursive higher-order calls this implementation does not forward the chosen eps, so inner levels use their default. Prefer the Math.NET derivative entry when appropriate.</p>
+<p class="reference-note"><strong>Important:</strong> eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the relative step recalculated at each evaluation point. Prefer the Math.NET derivative entry when appropriate.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Derivative.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Derivative.cs</Url>
@@ -3454,7 +3454,7 @@
 <p class="reference-summary">A finite-difference derivative estimate, recursively extended to higher orders.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>[f(x+h)−f(x−h)]/(2h) for order=1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Nonnegative integer order; order zero returns fx(x). Step h=x·eps; when it is zero the wrapper substitutes 1e−25.</p>
-<p class="reference-note"><strong>Important:</strong> eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. In recursive higher-order calls this implementation does not forward the chosen eps, so inner levels use their default. Prefer the Math.NET derivative entry when appropriate.</p>
+<p class="reference-note"><strong>Important:</strong> eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the relative step recalculated at each evaluation point. Prefer the Math.NET derivative entry when appropriate.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Derivative.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Derivative.cs</Url>
