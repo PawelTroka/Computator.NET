@@ -19,10 +19,19 @@ $knownProducts = @()
 $installer = New-Object -ComObject WindowsInstaller.Installer
 function Property([string]$Path, [string]$Name) {
     $database = $installer.OpenDatabase($Path, 0)
-    $view = $database.OpenView(('SELECT `Value` FROM `Property` WHERE `Property` = ''{0}''' -f $Name)); $view.Execute()
-    $record = $view.Fetch(); $value = if ($record) { $record.StringData(1) } else { $null }; $view.Close()
-    [Runtime.InteropServices.Marshal]::FinalReleaseComObject($database) | Out-Null
-    return $value
+    $view = $null; $record = $null
+    try {
+        $view = $database.OpenView(('SELECT `Value` FROM `Property` WHERE `Property` = ''{0}''' -f $Name))
+        # Suppress COM void returns: otherwise WinPS includes nulls in this result.
+        [void]$view.Execute()
+        $record = $view.Fetch()
+        if (!$record) { throw "Missing MSI property: $Name" }
+        return [string]$record.StringData(1)
+    } finally {
+        if ($null -ne $record) { [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($record) }
+        if ($null -ne $view) { [void]$view.Close(); [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($view) }
+        [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($database)
+    }
 }
 function Installed([string]$Code) { return [int]$installer.ProductState($Code) -eq 5 }
 function Msi([string[]]$Arguments, [string]$Log, [int[]]$Expected = @(0, 3010)) {
