@@ -30,3 +30,22 @@ Task("Build-Installer").IsDependentOn("Installer-Source").Does(() =>
 });
 Task("Installer-Validate").IsDependentOn("Build-Installer").Does(() =>
     PowerShell("build/installer/Test-InstalledProduct.ps1", "-MsiPath artifacts/installer/output/Computator.NET.msi -InventoryPath artifacts/installer/output/payload.xml -DisposableMachine"));
+
+// Acceptance can consume an already approved, unsigned candidate. It does not
+// rebuild, accept tool terms, sign, publish, or install on a developer machine.
+Task("Installer-Historical-Fetch").Does(() =>
+    PowerShell("build/acceptance/Get-HistoricalInstaller.ps1"));
+Task("Installer-Historical-Validate").Does(() =>
+{
+    if (!IsRunningOnWindows()) throw new Exception("Historical installer acceptance requires disposable Windows.");
+    var artifacts = Argument("historical-candidate-directory", "artifacts/installer/output");
+    var legacy = Argument("historical-bundle", "artifacts/installer/historical/Computator.NET.Installer.v2.3.2.exe");
+    var results = Argument("historical-results", "artifacts/installer/logs/historical-" + Guid.NewGuid().ToString("N"));
+    var args = new ProcessArgumentBuilder().Append("-NoProfile -File").AppendQuoted("build/acceptance/Test-HistoricalUpgrade.ps1")
+        .Append("-MsiPath").AppendQuoted(artifacts + "/Computator.NET.msi")
+        .Append("-InventoryPath").AppendQuoted(artifacts + "/payload.xml")
+        .Append("-CandidateBundlePath").AppendQuoted(artifacts + "/Computator.NET.Installer.exe")
+        .Append("-HistoricalBundlePath").AppendQuoted(legacy)
+        .Append("-ResultDirectory").AppendQuoted(results).Append("-DisposableMachine");
+    CheckedProcess("powershell.exe", new ProcessSettings { Arguments = args });
+});
