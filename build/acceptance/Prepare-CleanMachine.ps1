@@ -71,9 +71,11 @@ if ($bundleMode) {
 }
 $plan | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $inputs 'plan.json') -Encoding UTF8
 $settings = [xml]'<Configuration><VGpu>Disable</VGpu><Networking>Disable</Networking><ClipboardRedirection>Disable</ClipboardRedirection><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><PrinterRedirection>Disable</PrinterRedirection><MappedFolders><MappedFolder><HostFolder/><SandboxFolder>C:\Inputs</SandboxFolder><ReadOnly>true</ReadOnly></MappedFolder><MappedFolder><HostFolder/><SandboxFolder>C:\Results</SandboxFolder><ReadOnly>false</ReadOnly></MappedFolder></MappedFolders><LogonCommand><Command/></LogonCommand></Configuration>'
-$settings.Configuration.MappedFolders.MappedFolder[0].HostFolder = $inputs
-$settings.Configuration.MappedFolders.MappedFolder[1].HostFolder = $results
-$settings.Configuration.LogonCommand.Command = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Inputs\$entryPoint -InputDirectory C:\Inputs -ResultDirectory C:\Results -DisposableMachine"
+# Typed node setters avoid Windows PowerShell's XmlNode adapter rejecting a
+# pipeline-wrapped string. InnerText still performs correct XML escaping.
+$settings.SelectSingleNode('/Configuration/MappedFolders/MappedFolder[1]/HostFolder').InnerText = [string]$inputs
+$settings.SelectSingleNode('/Configuration/MappedFolders/MappedFolder[2]/HostFolder').InnerText = [string]$results
+$settings.SelectSingleNode('/Configuration/LogonCommand/Command').InnerText = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Inputs\$entryPoint -InputDirectory C:\Inputs -ResultDirectory C:\Results -DisposableMachine"
 $configuration = Join-Path $root 'Computator-Acceptance.wsb'
 $settings.Save($configuration)
 Write-Host "Prepared only; no installation or Sandbox launch was performed. Review and open: $configuration"
