@@ -23,8 +23,8 @@ namespace Computator.NET.Desktop.Tests
             var entry = new FunctionsDetailsFileSource().Details[signature];
             // A background test window can render correctly while an unrelated
             // runner console occludes CopyFromScreen. Keep this owned fixture
-            // visible; image decoding and computed-style assertions remain the
-            // actual automated gates, independent of screenshot inspection.
+            // visible; wait for its pixels as well as its DOM before saving
+            // visual evidence.
             using var window = new Form
             {
                 Size = new Size(700, 650), ShowInTaskbar = false,
@@ -60,18 +60,102 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That((string)sourceElement.currentStyle.fontSize, Is.EqualTo("15px"));
             window.BringToFront();
             window.Activate();
-            window.Refresh();
-            Application.DoEvents();
             var screenshot = System.IO.Path.Combine(TestContext.CurrentContext.WorkDirectory,
                 "reference-" + signature.Split('(')[0].Replace('.', '-') + ".png");
-            using (var bitmap = new Bitmap(window.Width, window.Height))
-            {
-                using var graphics = Graphics.FromImage(bitmap);
-                graphics.CopyFromScreen(window.Location, Point.Empty, window.Size);
-                bitmap.Save(screenshot, System.Drawing.Imaging.ImageFormat.Png);
-            }
-            TestContext.AddTestAttachment(screenshot, "Windows reference fixture; inspect for desktop occlusion before using as visual evidence");
+            SavePaintedReference(window, browser, screenshot);
             window.Close();
+        }
+
+        private static void SavePaintedReference(Form window, WebBrowser browser, string screenshot)
+        {
+            // MSHTML can expose a complete DOM, decoded images and computed
+            // styles before the hosted surface reaches the desktop compositor.
+            // A single Refresh/DoEvents followed by CopyFromScreen produced
+            // blank white evidence for gamma and ElementaryCharge in CI.
+            var title = browser.Document.GetElementsByTagName("h1")[0];
+            var summary = browser.Document.GetElementsByTagName("p").Cast<HtmlElement>()
+                .First(element => element.GetAttribute("className") == "reference-summary");
+            var equation = browser.Document.Images[0];
+            var equationAtTop = browser.ClientRectangle.Contains(ViewportBounds(equation));
+            var equationPainted = true;
+            if (!equationAtTop)
+            {
+                // Long articles can put their first equation below the fold.
+                // Capture that actual math surface as separate evidence, then
+                // return to the article heading for the main screenshot.
+                try
+                {
+                    equation.ScrollIntoView(true);
+                    equationPainted = CaptureDocumentPaint(window, browser, new[] { equation },
+                        System.IO.Path.ChangeExtension(screenshot, null) + "-equation.png");
+                }
+                finally
+                {
+                    browser.Document.Window.ScrollTo(0, 0);
+                }
+            }
+            var visibleContent = equationAtTop ? new[] { title, summary, equation } : new[] { title, summary };
+            var pagePainted = CaptureDocumentPaint(window, browser, visibleContent, screenshot);
+            NUnit.Framework.Assert.That(pagePainted && equationPainted, Is.True,
+                $"The reference DOM loaded, but its desktop pixels were not ready (article={pagePainted}, equation={equationPainted}). Inspect the attached frames.");
+        }
+
+        private static bool CaptureDocumentPaint(Form window, WebBrowser browser, HtmlElement[] visibleContent, string screenshot)
+        {
+            var clock = Stopwatch.StartNew();
+            var painted = false;
+            using var bitmap = new Bitmap(window.Width, window.Height);
+            using var graphics = Graphics.FromImage(bitmap);
+            do
+            {
+                window.Refresh();
+                Application.DoEvents();
+                graphics.CopyFromScreen(window.Location, Point.Empty, window.Size);
+                painted = visibleContent.All(element => ContainsPageText(bitmap, InScreenshot(element, browser, window)));
+                if (!painted) Thread.Sleep(20);
+            } while (!painted && clock.Elapsed < TimeSpan.FromSeconds(5));
+
+            // Retain the last observed frame even when the gate fails so the
+            // failure is reviewable instead of silently publishing blank proof.
+            bitmap.Save(screenshot, System.Drawing.Imaging.ImageFormat.Png);
+            TestContext.AddTestAttachment(screenshot, "Windows reference fixture: observed text/equation paint check");
+            return painted;
+        }
+
+        private static Rectangle ViewportBounds(HtmlElement element)
+        {
+            dynamic bounds = element.DomElement.getBoundingClientRect();
+            return Rectangle.FromLTRB((int)bounds.left, (int)bounds.top, (int)bounds.right, (int)bounds.bottom);
+        }
+
+        private static Rectangle InScreenshot(HtmlElement element, WebBrowser browser, Form window)
+        {
+            var bounds = ViewportBounds(element);
+            // Never let an off-screen DOM rectangle include the native title
+            // bar or the runner console outside the browser client surface.
+            bounds.Intersect(browser.ClientRectangle);
+            var origin = browser.PointToScreen(Point.Empty);
+            bounds.Offset(origin.X - window.Left, origin.Y - window.Top);
+            return bounds;
+        }
+
+        private static bool ContainsPageText(Bitmap bitmap, Rectangle bounds)
+        {
+            bounds.Intersect(new Rectangle(Point.Empty, bitmap.Size));
+            var sampled = 0;
+            var paper = 0;
+            var ink = 0;
+            for (var y = bounds.Top; y < bounds.Bottom; y += 2)
+            for (var x = bounds.Left; x < bounds.Right; x += 2)
+            {
+                var pixel = bitmap.GetPixel(x, y);
+                sampled++;
+                if (pixel.R > 245 && pixel.G > 245 && pixel.B > 245) paper++;
+                if (pixel.R < 150 && pixel.G < 150 && pixel.B < 170) ink++;
+            }
+            // Blank white pages have no ink; an occluding dark runner console
+            // has no paper. Sample only DOM content, excluding window chrome.
+            return sampled > 0 && paper > sampled / 2 && ink >= 20;
         }
 
         [Test]
