@@ -1,4 +1,5 @@
 name: Historical installer review
+run-name: Historical EXE acceptance with MSI handle regression
 on:
   push:
     branches: [acceptance/historical-232-upgrade]
@@ -6,6 +7,9 @@ on:
 permissions:
   contents: read
   actions: read
+concurrency:
+  group: historical-review-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   lifecycle:
     runs-on: windows-2025
@@ -42,7 +46,7 @@ jobs:
           if ((Get-FileHash $archive).Hash -ne '6a9aa40b9dc34c14e1cd9c4bbeaf1d0570a6aa38cc89b9cd6d3f33bb40908e63') { throw 'Retained candidate archive digest differs.' }
           Expand-Archive $archive "$root/candidate"
           Copy-Item "$root/candidate/artifacts/installer/output" artifacts/installer/output -Recurse -Force
-          @{ sourceCommit = 'd2062a33fd7af5faf3593846a589b7b5619cbf3b'; identicalMasterSourceTree = '575315952a219e4355b7f575ce0b165614ef6797'; artifactId = 12014458227; artifactRun = 38825547427; archiveSha256 = (Get-FileHash $archive).Hash; testCommit = '${{ github.sha }}' } | ConvertTo-Json | Set-Content artifacts/historical-review/candidate-provenance.json
+          @{ sourceCommit = 'd2062a33fd7af5faf3593846a589b7b5619cbf3b'; identicalMasterSourceTree = '575315952a219e4355b7f575ce0b165614ef6797'; sourceTree = '98a1027bad4f62c94c82f623eab6632cacabb354'; artifactId = 12014458227; artifactRun = 38825547427; archiveSha256 = (Get-FileHash $archive).Hash; testCommit = '${{ github.sha }}' } | ConvertTo-Json | Set-Content artifacts/historical-review/candidate-provenance.json
           ./build.ps1 -Target Installer-Historical-Fetch
       - name: Cake contracts and real COM regression tests in both PowerShell engines
         shell: pwsh
