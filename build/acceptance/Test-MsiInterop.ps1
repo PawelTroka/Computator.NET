@@ -8,17 +8,17 @@ if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) {
 $root = Join-Path ([IO.Path]::GetTempPath()) ('Computator-MsiInterop-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $root | Out-Null
 $installer = $null; $database = $null
+function HelperDefinition([string]$File, [string]$Name) {
+    $tokens = $null; $errors = $null
+    $ast = [Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot $File), [ref]$tokens, [ref]$errors)
+    if ($errors.Count -ne 0) { throw "Acceptance source failed parsing: $File" }
+    $function = $ast.Find({ param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $Name }, $true)
+    if (!$function) { throw "Missing MSI helper: $Name" }
+    return [scriptblock]::Create($function.Extent.Text)
+}
 try {
     # Import only the production helper functions, never the destructive scripts.
-    foreach ($definition in @(@('Test-HistoricalUpgrade.ps1','Property'), @('New-FailingUpgrade.ps1','Query'))) {
-        $tokens = $null; $errors = $null
-        $ast = [Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot $definition[0]), [ref]$tokens, [ref]$errors)
-        if ($errors.Count -ne 0) { throw "Acceptance source failed parsing: $($definition[0])" }
-        $name = $definition[1]
-        $function = $ast.Find({ param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $name }, $true)
-        if (!$function) { throw "Missing MSI helper: $name" }
-        . ([scriptblock]::Create($function.Extent.Text))
-    }
+    . (HelperDefinition 'New-FailingUpgrade.ps1' 'Query')
     $path = Join-Path $root 'read-only-contract.msi'
     $installer = New-Object -ComObject WindowsInstaller.Installer
     $database = $installer.OpenDatabase($path, 3)
@@ -36,18 +36,21 @@ try {
     }
     [void]$database.Commit()
     [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($database); $database = $null
-    foreach ($name in $expected.Keys) {
-        $values = @(Property $path $name)
-        if ($values.Count -ne 1 -or $values[0] -isnot [string] -or $values[0] -cne $expected[$name]) {
-            throw "MSI reader must return exactly the property string, without COM null outputs: $name; count=$($values.Count)"
+    foreach ($source in @('Test-HistoricalUpgrade.ps1','Guest-Acceptance.ps1')) {
+        . (HelperDefinition $source 'Property')
+        foreach ($name in $expected.Keys) {
+            $values = @(Property $path $name)
+            if ($values.Count -ne 1 -or $values[0] -isnot [string] -or $values[0] -cne $expected[$name]) {
+                throw "MSI reader must return exactly the property string, without COM null outputs: $source/$name; count=$($values.Count)"
+            }
         }
+        $missingRejected = $false
+        try { Property $path 'MissingProperty' | Out-Null } catch {
+            if ($_.Exception.Message -notlike '*Missing MSI property*') { throw }
+            $missingRejected = $true
+        }
+        if (!$missingRejected) { throw "The MSI reader accepted a missing property: $source" }
     }
-    $missingRejected = $false
-    try { Property $path 'MissingProperty' | Out-Null } catch {
-        if ($_.Exception.Message -notlike '*Missing MSI property*') { throw }
-        $missingRejected = $true
-    }
-    if (!$missingRejected) { throw 'The MSI reader accepted a missing property.' }
     $database = $installer.OpenDatabase($path, 0)
     $values = @(Query 'SELECT `Value` FROM `Property` WHERE `Property` = ''ProductVersion''')
     if ($values.Count -ne 1 -or ![Runtime.InteropServices.Marshal]::IsComObject($values[0])) { throw 'The negative-fixture query did not return exactly one COM view.' }
@@ -59,7 +62,7 @@ try {
         if ($null -ne $record) { [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($record) }
         [void]$view.Close(); [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($view)
     }
-    Write-Host "Windows Installer COM regressions passed on PowerShell $($PSVersionTable.PSVersion): three scalar properties, missing-property rejection and one query view. No product was installed."
+    Write-Host "Windows Installer COM regressions passed on PowerShell $($PSVersionTable.PSVersion): both property readers, missing-property rejection and one query view. No product was installed."
 } finally {
     if ($null -ne $database) { [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($database) }
     if ($null -ne $installer) { [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($installer) }
