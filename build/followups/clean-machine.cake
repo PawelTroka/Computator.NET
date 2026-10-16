@@ -1,6 +1,6 @@
 Task("Clean-Machine-Harness-Validate").Does(() =>
 {
-    foreach (var script in new[] { "build/acceptance/Test-Harness.ps1", "build/acceptance/Test-HistoricalContracts.ps1" })
+    foreach (var script in new[] { "build/acceptance/Test-Harness.ps1", "build/acceptance/Test-HistoricalContracts.ps1", "build/acceptance/Test-MsiInterop.ps1" })
     {
         PowerShell(script);
         if (IsRunningOnWindows()) WindowsAcceptancePowerShell(new ProcessArgumentBuilder().Append("-NoProfile -File").AppendQuoted(script));
