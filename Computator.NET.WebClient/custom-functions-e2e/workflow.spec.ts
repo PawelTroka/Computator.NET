@@ -9,12 +9,19 @@ async function replaceCode(page: Page, id: string, value: string) {
   await input.press('ControlOrMeta+A');
   await page.keyboard.insertText(value);
 }
+function executionResponse(page: Page) {
+  // Real worker startup/compilation has its own 30-second deadline. Wait for
+  // that response before applying Playwright's short DOM-rendering deadline.
+  return page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/v2/execute'), { timeout: 35_000 });
+}
 async function calculate(page: Page, expected: string) {
   await page.getByRole('link', { name: 'Calculate', exact: true }).click();
   await replaceCode(page, 'expressionTextArea', 'CustomProbe(0)/1');
-  const pending = page.waitForRequest(request => request.method() === 'POST' && request.url().endsWith('/v2/execute'));
+  const pending = executionResponse(page);
   await page.getByRole('button', { name: 'Calculate!' }).click();
-  expect((await pending).postDataJSON().customFunctions).toBe(definition(Number(expected)));
+  const response = await pending;
+  expect(response.request().postDataJSON().customFunctions).toBe(definition(Number(expected)));
+  expect(response.ok()).toBeTruthy();
   await expect(page.getByRole('status')).toHaveText(expected);
 }
 test('real functions flow from unsaved editor through calculation, script and reload', async ({ page }) => {
@@ -26,7 +33,9 @@ test('real functions flow from unsaved editor through calculation, script and re
   await calculate(page, '73');
   await page.getByRole('link', { name: 'Scripting', exact: true }).click();
   await replaceCode(page, 'scriptTextArea', 'write(CustomProbe(0)/1);');
+  const script = executionResponse(page);
   await page.getByRole('button', { name: 'Process script' }).click();
+  expect((await script).ok()).toBeTruthy();
   await expect(page.getByRole('status')).toHaveText('73');
   await page.getByRole('link', { name: 'Custom functions', exact: true }).click();
   await page.getByRole('button', { name: 'Save in this tab' }).click();
@@ -57,7 +66,9 @@ test('custom functions reach real numerical integration', async ({ page }) => {
   await page.getByRole('spinbutton', { name: 'a', exact: true }).fill('0');
   await page.getByRole('spinbutton', { name: 'b', exact: true }).fill('2');
   await page.getByRole('spinbutton', { name: 'N', exact: true }).fill('100');
+  const integral = executionResponse(page);
   await page.getByRole('button', { name: 'Compute!' }).click();
+  expect((await integral).ok()).toBeTruthy();
   await expect.poll(async () => Number(await page.getByRole('status').textContent())).toBeCloseTo(10, 6);
 });
 test('independent browser sessions never borrow another user’s definitions', async ({ browser, baseURL }) => {
@@ -92,7 +103,9 @@ test('invalid custom code yields a real error and a corrected definition recover
   await replaceCode(page, 'customFunctionsTextArea', 'static real CustomProbe(real x) { return missing; }');
   await page.getByRole('link', { name: 'Calculate', exact: true }).click();
   await replaceCode(page, 'expressionTextArea', 'CustomProbe(0)');
+  const invalid = executionResponse(page);
   await page.getByRole('button', { name: 'Calculate!' }).click();
+  expect((await invalid).ok()).toBeFalsy();
   await expect(page.getByRole('alert')).toContainText('missing');
   await page.getByRole('link', { name: 'Custom functions', exact: true }).click();
   await replaceCode(page, 'customFunctionsTextArea', definition(7));

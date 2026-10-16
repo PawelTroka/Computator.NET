@@ -14,10 +14,10 @@ var framework = XDocument.Load("build/ModernDesktop.props").Descendants("TargetF
 var modernRuntime = framework.StartsWith("net10.", StringComparison.Ordinal);
 var suites = new Dictionary<string, int>
 {
-    { "Computator.NET.Core.Tests", modernRuntime ? 270 : 225 },
+    { "Computator.NET.Core.Tests", modernRuntime ? 300 : 225 },
     { "Computator.NET.Core.IntegrationTests", 947 },
-    { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 109 : 52 },
-    { "Computator.NET.Desktop.Tests", modernRuntime ? 26 : 9 }
+    { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 117 : 52 },
+    { "Computator.NET.Desktop.Tests", modernRuntime ? 32 : 9 }
 };
 if (configuration != "Debug" && configuration != "Release") throw new Exception("Configuration must be Debug or Release.");
 if (suite != "All" && !suites.ContainsKey(suite)) throw new Exception("Unknown test suite: " + suite);
@@ -81,6 +81,7 @@ void PublishDesktop()
     {
         Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/desktop"
     });
+    StageGslPayload("artifacts/desktop");
     RequirePayload("artifacts/desktop", new[] { "Computator.NET.exe", "Microsoft.CodeAnalysis.CSharp.dll", "MathNet.Numerics.dll",
         "Meta.Numerics.dll", "Static/functions.xml", "Static/TSL-Syntax.xshd", "pl/Computator.NET.Localization.resources.dll", "CHANGELOG" });
     if (modernRuntime)
@@ -97,6 +98,7 @@ void PublishApi()
     {
         Configuration = configuration, NoRestore = true, OutputDirectory = "artifacts/api"
     });
+    StageGslPayload("artifacts/api");
     if (modernRuntime) PowerShell("build/Test-PublishedNet10Api.ps1", "-PublishDirectory artifacts/api");
     else RequirePayload("artifacts/api", new[] { "Computator.NET.WebApi.exe", "Static/functions.xml" });
 }
@@ -187,8 +189,8 @@ Task("SelectedTests").IsDependentOn("Build").Does(() =>
 {
     foreach (var project in suite == "All" ? suites.Keys.ToArray() : new[] { suite }) RunSuite(project);
 });
-Task("Publish-Desktop").IsDependentOn("Build").Does(PublishDesktop);
-Task("Publish-Api").IsDependentOn("Build").Does(PublishApi);
+Task("Publish-Desktop").IsDependentOn("Build").IsDependentOn("Native-GSL").Does(PublishDesktop);
+Task("Publish-Api").IsDependentOn("Build").IsDependentOn("Native-GSL").Does(PublishApi);
 var ci = Task("CI").IsDependentOn("SelectedTests");
 if (suite == "All" || suite == "Computator.NET.Desktop.Tests") ci.IsDependentOn("Publish-Desktop");
 if (suite == "All" || suite == "Computator.NET.WebApi.IntegrationTests") ci.IsDependentOn("Publish-Api");

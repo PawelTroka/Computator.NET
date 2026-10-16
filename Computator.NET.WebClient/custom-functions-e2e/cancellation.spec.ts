@@ -17,7 +17,9 @@ test('Cancel execution interrupts the real request and the next script succeeds'
   await input.focus();
   await input.press('ControlOrMeta+A');
   await page.keyboard.insertText('write("zażółć π");');
+  const recovered = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/v2/execute'), { timeout: 35_000 });
   await page.getByRole('button', { name: 'Process script' }).click();
+  expect((await recovered).ok()).toBeTruthy();
   await expect(page.getByRole('status')).toHaveText('zażółć π');
   await expect(page.getByRole('alert')).toHaveCount(0);
   expect(errors).toEqual([]);

@@ -10,6 +10,13 @@ skip_tags: true
 install:
   - ps: |
       $ErrorActionPreference = 'Stop'
+      # The image also provides Python 2.7 on PATH. Select its installed x64
+      # Python 3 explicitly before the SDK bootstrap or any Cake native task.
+      $pythonDirectory = 'C:\Python314-x64'
+      if (!(Test-Path -LiteralPath (Join-Path $pythonDirectory 'python.exe'))) { throw 'The selected AppVeyor image must provide Python 3.14 x64.' }
+      $env:PATH = "$pythonDirectory;$env:PATH"
+      python -c "import sys; assert sys.version_info >= (3, 11), 'Python 3.11 or newer is required'"
+      if ($LASTEXITCODE -ne 0) { throw 'Python does not satisfy the native/source-evidence tooling requirements.' }
       [xml]$identity = Get-Content Version.props -Raw
       $productVersion = $identity.Project.PropertyGroup.ComputatorBaseVersion
       $prerelease = $identity.Project.PropertyGroup.ComputatorPrerelease
@@ -36,6 +43,8 @@ test: off
 artifacts:
   - path: publish\*.zip
   - path: TestResults\**\*.trx
+  - path: TestResults\packaged-gsl\**\*.json
+  - path: TestResults\desktop-smoke\**\*.json
   - path: Computator.NET.WebClient\test-results\**
   - path: artifacts\*.binlog
   - path: artifacts\ci\*.json

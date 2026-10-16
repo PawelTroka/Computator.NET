@@ -4,7 +4,7 @@
 
 ## Commands
 
-Install the .NET SDK selected by `global.json`, PowerShell 7, and the Node/npm versions in `.nvmrc` and the web client's `package.json` for frontend tasks. The desktop/API graph requires Windows and .NET 10 Desktop/ASP.NET Core runtimes; the SDK supplies the development runtimes. Framework is used only by the legacy test-fixture writer and isolated installer authoring tool. Python, native compiler tools and Windows SDK packaging tools are additional prerequisites for the corresponding follow-up targets linked below.
+Install the .NET SDK selected by `global.json`, PowerShell 7, and the Node/npm versions in `.nvmrc` and the web client's `package.json` for frontend tasks. The desktop/API graph requires Windows and .NET 10 Desktop/ASP.NET Core runtimes; the SDK supplies the development runtimes. Framework is used only by the legacy test-fixture writer and isolated installer authoring tool. Windows publication also builds its pinned GSL runtime and requires Python 3.11 or newer, Git and Visual Studio C++ build tools. The pinned vcpkg checkout supplies verified CMake/CTest tools within the build directory. Windows SDK packaging tools are required for MSIX. Ordinary solution builds do not build native GSL.
 
 ```powershell
 # Windows; the original invocation pattern remains supported.
@@ -38,7 +38,7 @@ dotnet cake build.cake --showdescription
 | `Package` | Build and publish desktop/API/web; create versioned ZIPs in `publish/`. Does not run every test. |
 | `Validate` / `Publish` | All four Windows suites, focused browser tests, checked publications and ZIP packaging. Follow-up validation targets below remain separate gates. Publish creates local artifacts. |
 | `Calculate-Coverage` | All Windows tests with the test SDK's coverage collector; require Cobertura output in `TestResults/`. |
-| `Portable-Validate` | Build the separate portable solution, validate the extracted engine and launch the published CLI. See [portable scope](followups/PORTABLE-ENGINE.md). |
+| `Portable-Validate` | Build the portable project entry points, validate the extracted engine and launch the published CLI. All supported projects remain in the single root SLNX. See [portable scope](followups/PORTABLE-ENGINE.md). |
 | `Native-GSL-Validate` | Build the pinned native candidate and ABI probes; on Windows, run numerical and desktop suites with the candidate selected. See [GSL](followups/GSL.md). |
 | `Installer-Source` / `Build-Installer` | Stage the self-contained desktop, validate WiX source; compile MSI/Burn with explicit WiX 7 terms acceptance. See [installer details](followups/INSTALLER.md). |
 | `MSIX-Validate` | Stage the same self-contained desktop, validate/package unsigned MSIX and verify unpacked payload hashes. `Build-MSIX` and historical `Build-Uwp` select this packaging path. See [MSIX](followups/MSIX.md). |

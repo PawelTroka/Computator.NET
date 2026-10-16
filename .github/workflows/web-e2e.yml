@@ -32,5 +32,6 @@ jobs:
           name: real-stack-results
           path: |
             Computator.NET.WebClient/test-results/**
+            TestResults/packaged-gsl/**
             artifacts/*.binlog
           retention-days: 7

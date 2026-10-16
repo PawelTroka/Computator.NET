@@ -1,6 +1,11 @@
-// Shared distribution payload for MSI and MSIX; identical in both independent PRs.
+// Shared distribution payload for MSI and MSIX.
 var distributionDirectory = "artifacts/distribution/win-x64";
-Task("Distribution-Stage").Does(() =>
+Task("Desktop-Smoke-Contracts").Does(() =>
+{
+    if (!IsRunningOnWindows()) throw new Exception("Desktop smoke contracts require Windows.");
+    PowerShell("build/Test-PublishedNet10Desktop.ps1", "-TestContracts");
+});
+Task("Distribution-Stage").IsDependentOn("Native-GSL").IsDependentOn("Desktop-Smoke-Contracts").Does(() =>
 {
     if (!IsRunningOnWindows() || !modernRuntime) throw new Exception("Desktop distribution staging requires .NET 10 on Windows.");
     CleanDirectory(distributionDirectory);
@@ -12,5 +17,6 @@ Task("Distribution-Stage").Does(() =>
     CopyFile("LICENSE", distributionDirectory + "/LICENSE");
     RequirePayload(distributionDirectory, new[] { "Computator.NET.exe", "Computator.NET.dll", "coreclr.dll", "hostfxr.dll",
         "Microsoft.CodeAnalysis.CSharp.dll", "Static/functions.xml", "pl/Computator.NET.Localization.resources.dll", "LICENSE" });
+    StageGslPayload(distributionDirectory);
     PowerShell("build/Test-PublishedNet10Desktop.ps1", "-PublishDirectory " + distributionDirectory);
 });

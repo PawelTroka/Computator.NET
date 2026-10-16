@@ -28,6 +28,16 @@ jobs:
           name: release-candidate-evidence
           path: |
             artifacts/release-evidence/**
+            artifacts/reference/**
+            artifacts/*.binlog
+            artifacts/api/*.log
+            artifacts/desktop/native/gsl/gsl-provenance.json
+            artifacts/api/native/gsl/gsl-provenance.json
+            artifacts/distribution/win-x64/native/gsl/gsl-provenance.json
+            artifacts/local-web/api/native/gsl/gsl-provenance.json
             TestResults/*.trx
-            Computator.NET.WebClient/test-results/*.xml
+            TestResults/desktop-smoke/**
+            TestResults/packaged-gsl/**
+            Computator.NET.WebClient/test-results/**
+            Computator.NET.WebClient/playwright-report/**
           retention-days: 14
