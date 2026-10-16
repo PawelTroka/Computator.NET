@@ -48,7 +48,7 @@ namespace Computator.NET.Core.Transformations
                     break;
 
                 case "DHT":
-                    HartleyTransform.DHT(copyofFunctionsPoints);
+                    OrthonormalHartley(copyofFunctionsPoints);
                     break;
 
                 case "FHT":
@@ -73,8 +73,6 @@ namespace Computator.NET.Core.Transformations
 
 
             var copyofFunctionsPoints2 = new Complex[functionPoints.Length];
-            var multidimensialArray = new double[functionPoints.Length, 2];
-
             var jaggedArray = new double[functionPoints.Length][];
             for (var i = 0; i < functionPoints.Length; i++)
                 jaggedArray[i] = new double[2];
@@ -82,9 +80,8 @@ namespace Computator.NET.Core.Transformations
 
             for (var i = 0; i < functionPoints.Length; i++)
             {
-                jaggedArray[i][0] = multidimensialArray[i, 0] = functionPoints[i].Real;
-                jaggedArray[i][1] =
-                    multidimensialArray[i, 1] = functionPoints[i].Imaginary;
+                jaggedArray[i][0] = functionPoints[i].Real;
+                jaggedArray[i][1] = functionPoints[i].Imaginary;
                 copyofFunctionsPoints2[i] = new Complex(functionPoints[i].Real,
                     copyofFunctionsPoints2[i].Imaginary);
             }
@@ -112,18 +109,15 @@ namespace Computator.NET.Core.Transformations
                     break;
 
                 case "DCT":
-                    CosineTransform.DCT(multidimensialArray);
-                    copyofFunctionsPoints = multidimensialToComplex(multidimensialArray);
+                    copyofFunctionsPoints = TransformTwoColumns(functionPoints, CosineTransform.DCT);
                     break;
 
                 case "IDCT":
-                    CosineTransform.IDCT(multidimensialArray);
-                    copyofFunctionsPoints = multidimensialToComplex(multidimensialArray);
+                    copyofFunctionsPoints = TransformTwoColumns(functionPoints, CosineTransform.IDCT);
                     break;
 
                 case "DHT":
-                    HartleyTransform.DHT(multidimensialArray);
-                    copyofFunctionsPoints = multidimensialToComplex(multidimensialArray);
+                    copyofFunctionsPoints = TransformTwoColumns(functionPoints, OrthonormalHartley);
                     break;
 
                 case "FHT":
@@ -152,12 +146,40 @@ namespace Computator.NET.Core.Transformations
             return retArr;
         }
 
-        private static Complex[] multidimensialToComplex(double[,] array)
+        private static Complex[] TransformTwoColumns(Complex[] samples, Action<double[]> columnTransform)
         {
-            var retArr = new Complex[array.Length];
-            for (var i = 0; i < array.Length; i++)
-                retArr[i] = new Complex(array[i, 0], array[i, 1]);
-            return retArr;
+            if (samples.Length == 0) return Array.Empty<Complex>();
+
+            // Preserve the N-by-2 [Re, Im] convention without Accord 3.8.0's
+            // rectangular IDCT indexing and Hartley square-dimension assumptions.
+            var real = Array.ConvertAll(samples, sample => sample.Real);
+            var imaginary = Array.ConvertAll(samples, sample => sample.Imaginary);
+            columnTransform(real);
+            columnTransform(imaginary);
+
+            // The orthonormal two-point DCT, IDCT and DHT all use this butterfly.
+            // A true 2D DHT is separable here specifically because the second
+            // dimension is 2: its cross term contains sin(PI * integer) = 0.
+            var scale = 1 / Math.Sqrt(2);
+            var result = new Complex[samples.Length];
+            for (var i = 0; i < result.Length; i++)
+                result[i] = new Complex(real[i] * scale + imaginary[i] * scale,
+                    real[i] * scale - imaginary[i] * scale);
+            return result;
+        }
+
+        private static void OrthonormalHartley(double[] samples)
+        {
+            if (samples.Length == 0) return;
+
+            // For the negative-exponent DFT, cas(theta) = cos(theta) + sin(theta)
+            // gives H(x) = (Re(FFT(x)) - Im(FFT(x))) / sqrt(N). Accord 3.8.0's
+            // one-dimensional DHT instead takes the reciprocal of this result.
+            var spectrum = Array.ConvertAll(samples, sample => new Complex(sample, 0));
+            Fourier.Forward(spectrum, FourierOptions.NoScaling);
+            var scale = 1 / Math.Sqrt(samples.Length);
+            for (var i = 0; i < samples.Length; i++)
+                samples[i] = (spectrum[i].Real - spectrum[i].Imaginary) * scale;
         }
     }
 }
