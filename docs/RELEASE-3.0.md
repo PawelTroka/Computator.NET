@@ -20,7 +20,7 @@ That review also exposed an incomplete GSL rollout: the actual MSI and published
 | Framework and .NET 10 checkpoints | #139 (`2b1d16f`) and #140 (`6944238`) passed local Cake Windows validation at their reviewed heads, including numerical, compiler, API and desktop workflow tests. Both checkpoints are merged. Later integrated changes require their own complete run. |
 | Current editor/test packages | Audited build and 252 core / 20 desktop tests passed with the newer Scintilla and Test SDK pins, including published desktop startup and normal shutdown. Exact versions remain in the manifests. |
 | Web workflows | 38 browser checks passed during component review: 16 focused checks with a mocked API, plus 22 checks against the actual protected local API (10 general workflows and 12 custom-function workflows), across Chromium and Firefox. This is bounded workflow coverage, not every numerical method or a public hosting certification. |
-| MSI/Burn | Self-contained payload staging and installer compilation succeeded after explicit owner acceptance of the WiX 7 terms. Installation, historical upgrades and signing have not been certified. |
+| MSI/Burn | Self-contained payload staging and installer compilation succeeded after explicit owner acceptance of the WiX 7 terms. Installation, historical upgrades and signing have not been certified by this first-wave evidence. See the separate historical acceptance scope below. |
 | MSIX | Windows SDK package validation and unpacked payload hash checks succeeded for an unsigned candidate retaining the existing Store identity. Installation/activation and Store acceptance remain. |
 | Native/portable work | The first-wave GSL 2.8 build and partial portable engine/CLI had dedicated validation targets. The third review now adopts GSL 2.8 for Windows packages as described above. Check each OS/RID's actual final-commit CI before claiming support. |
 
@@ -39,12 +39,18 @@ Review reports must identify the tested commit and retain TRX/browser reports, c
 | [#147](https://github.com/PawelTroka/Computator.NET/pull/147) | AppVeyor Windows build and provider evidence | `AppVeyor-Mirror`, native `AppVeyor-Validate`; [provider acceptance](followups/APPVEYOR.md) |
 | [#148](https://github.com/PawelTroka/Computator.NET/pull/148) | Travis Linux build and provider evidence | `Travis-Mirror`, native `Travis-Validate`; [provider acceptance](followups/TRAVIS.md) |
 
+## Historical installer acceptance follow-up
+
+The original official 2.3.2 download is a Burn **EXE**, with a 32-bit MSI and a separate bundle registration. [Historical upgrade acceptance](HISTORICAL-UPGRADE-ACCEPTANCE.md) records the inspected package identities and SHA-256, real settings-serializer fixtures, Cake targets, EXE-to-EXE lifecycle assertions, failed-MSI rollback scope and candidate provenance. [Offline Sandbox acceptance](CLEAN-MACHINE-ACCEPTANCE.md) packages the same test without a guest SDK requirement and verifies both candidate MSI and EXE hashes.
+
+The acceptance implementation and its contract tests are not machine-execution evidence. SDK-equipped hosted Windows results, when recorded for exact candidate bytes, remain distinct from the actual offline no-SDK gate. Neither historical package inspection nor a successful hosted run authorizes signing or publication. Keep the release checkbox below open until the required clean-machine result is recorded.
+
 ## Release gates
 
 - [ ] Record passing final-commit GitHub results for Windows suites, coverage, portable ZIPs, focused and real browser suites, portable OS jobs, native candidate jobs, installer source, MSIX and provider mirrors. Remaining skipped tests must match the exact result-guard allowlist; do not weaken numerical expectations to obtain a pass.
 - [ ] Test backed-up real settings and `.tsl`/`.tslf` documents, JSON import/backup/rollback, all editors, clipboard/IME input, custom functions and chart appearance/zoom/export. Complete high-DPI and multi-monitor acceptance.
 - [ ] Approve the final release version in `Version.props` and refresh the shared attributes. The current 3.0.0-preview.1 identity is a review candidate. Confirm the MSIX version advances the actual Store package.
-- [ ] On clean disposable Windows machines without a development SDK, test MSI installation, launch, repair, uninstall, failed-upgrade rollback and upgrade from the real 2.3.2 MSI. Verify shortcuts, file associations and preservation of user data.
+- [ ] On clean disposable Windows machines without a development SDK, test installation, launch, repair, uninstall, failed-upgrade rollback and upgrade from the original official 2.3.2 EXE and its embedded MSI. Verify MSI/Burn registrations, shortcuts, file associations and preservation/migration of user data using the exact candidate MSI and EXE hashes.
 - [ ] Sign with owner-controlled release credentials; validate MSIX installation and Start-menu/file activation, upgrade from the actual previous Store package, settings/native-cache writes, offline use and uninstall policy. Complete Store certification before submission/release claims.
 - [ ] Verify the final package's adopted GSL 2.8 payload, matching source/build archive and notices, actual resolver reports, intended native/managed ABI and numerical jobs, and difficult-input behavior. Keep the existing published releases available for rollback.
 - [ ] Verify genuine AppVeyor and Travis final-commit runs with native provider URLs/build IDs and completion evidence if those providers are advertised as active gates.
