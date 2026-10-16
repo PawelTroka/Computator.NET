@@ -15,6 +15,14 @@ export function NumericalCalculations() {
   const [loadError, setLoadError] = useState('');
   const request = useTextResult();
   const method = methods[operation].includes(selectedMethod) ? selectedMethod : methods[operation][0] ?? '';
+  function compute() {
+    // Hidden fields may retain invalid edits from another operation. Let the
+    // server apply its defaults to parameters that this operation does not use.
+    const parameters = operation === 'Integral' ? { a, b, n }
+      : operation === 'Derivative' ? { x, order, epsilon }
+      : { a, b, n, epsilon };
+    void request.execute(operations[operation], { expression, method, ...parameters });
+  }
   useEffect(() => {
     const controller = new AbortController();
     for (const name of Object.keys(operations) as Operation[]) {
@@ -39,7 +47,7 @@ export function NumericalCalculations() {
         {!method && <option value="">Loading…</option>}{methods[operation].map(name => <option key={name}>{name}</option>)}
       </select></div></div>
       <div className="col-md-3"><button type="button" className="btn btn-primary btn-lg" disabled={!expression.trim() || !method || request.pending}
-        onClick={() => void request.execute(operations[operation], { expression, method, a, b, x, epsilon, n, order })}>Compute!</button></div>
+        onClick={compute}>Compute!</button></div>
     </div><div className="row g-3"><div className="col-md-4"><section className="card">
       <div className="card-header">{operation === 'Derivative' ? 'Derivative at point x:' : 'Interval:'}</div><div className="card-body">
         {operation === 'Derivative' ? <><NumericInput label="x" value={x} onValueChanged={setX} /><NumericInput label="order" value={order} onValueChanged={setOrder} /></>
