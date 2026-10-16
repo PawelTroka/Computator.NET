@@ -15249,7 +15249,7 @@
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real factorial(real n)</code></p>
 <p class="reference-summary">Product of the positive integers up to n, with the empty product equal to one.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>n! = 1·2·…·n; 0!=1.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Intended for nonnegative integer n. Returns a floating-point approximation and overflows for sufficiently large n.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Intended for nonnegative integer n. Returns a floating-point approximation; n≥171, including positive infinity, returns positive infinity immediately because 171! exceeds the finite range of a double.</p>
 <p class="reference-note"><strong>Important:</strong> This loop accepts a real n: fractional n is effectively truncated by the loop and negative n returns 1. It is not Γ(n+1) analytic continuation; use gamma explicitly for that.</p>
 <p class="reference-example"><strong>Example:</strong> factorial(5) = 120</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/5.4">dlmf.nist.gov</a></p>
