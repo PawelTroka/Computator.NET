@@ -35,6 +35,7 @@ namespace Computator.NET.Desktop.Controls
                 {
                     if (tabPage.Text == oldName)
                     {
+                        tabPage.Name = newName;
                         tabPage.Text = newName;
                         break;
                     }
@@ -203,7 +204,10 @@ namespace Computator.NET.Desktop.Controls
         public void AddTab(string filename = "")
         {
             if (TabPages.ContainsKey(filename))
+            {
+                SelectedTab = TabPages[filename];
                 return;
+            }
 
             var tabPage = new TabPage();
             if (string.IsNullOrEmpty(filename))

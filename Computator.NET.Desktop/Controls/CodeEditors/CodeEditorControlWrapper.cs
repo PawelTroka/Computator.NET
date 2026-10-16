@@ -127,7 +127,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         public string CurrentFileName
         {
             get { return tabControl.SelectedTab.Text; }
-            set { tabControl.SelectedTab.Text = value; }
+            set { RenameDocument(CurrentFileName, value); }
         }
 
         public void ClearHighlightedErrors()
@@ -175,6 +175,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                 if (tabPage.Text == tabName)
                 {
                     tabControl.SelectedTab = tabPage;
+                    return;
                 }
             }
         }
@@ -186,6 +187,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                 if (tabPage.Text == tabName)
                 {
                     tabControl.TabPages.Remove(tabPage);
+                    return;
                 }
             }
         }
@@ -230,7 +232,6 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
                 if (saveFileDialog.FileName != CurrentFileName)
                 {
-                    CurrentCodeEditor.RenameDocument(CurrentFileName, saveFileDialog.FileName);
                     CurrentFileName = saveFileDialog.FileName;
                 }
                 tabControl.SelectedTab.ImageIndex = 0;
@@ -253,7 +254,6 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
             if (saveFileDialog.FileName != CurrentFileName)
             {
-                CurrentCodeEditor.RenameDocument(tabControl.SelectedTab.Text, saveFileDialog.FileName);
                 CurrentFileName = saveFileDialog.FileName;
             }
             tabControl.SelectedTab.ImageIndex = 0;
@@ -293,15 +293,21 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         private void TabControl_ControlRemoved(object sender, ControlEventArgs e)
         {
-            // if (_codeEditorType == CodeEditorType.Scintilla)
-            {
-                CloseDocument(e.Control.Text);
-            }
+            CloseDocument(e.Control.Text);
+
+            // Editor implementations choose their own surviving document on close.
+            // The selected tab owns the filename used by Save, so restore its
+            // document even when removing a background tab raised no selection event.
+            var selectedTab = tabControl.SelectedTab;
+            if (selectedTab != null && selectedTab != e.Control &&
+                ContainsDocument(selectedTab.Text))
+                SwitchDocument(selectedTab.Text);
         }
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl.SelectedIndex < tabControl.TabPages.Count - 1)
+            if (tabControl.SelectedIndex >= 0 &&
+                tabControl.SelectedIndex < tabControl.TabPages.Count - 1)
             {
                 if (ContainsDocument(tabControl.SelectedTab.Text))
                     SwitchDocument(tabControl.SelectedTab.Text);
