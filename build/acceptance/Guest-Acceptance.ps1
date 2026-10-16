@@ -1,5 +1,6 @@
-# Windows PowerShell 5.1 compatible: the clean guest must not need PowerShell 7,
+﻿# Windows PowerShell 5.1 compatible: the clean guest must not need PowerShell 7,
 # a modern shared runtime, Node or a development SDK to test the installed product.
+# Keep the UTF-8 BOM: Windows PowerShell otherwise misparses Unicode fixture text.
 [CmdletBinding()]
 param([Parameter(Mandatory)][string]$InputDirectory, [Parameter(Mandatory)][string]$ResultDirectory, [switch]$DisposableMachine)
 $ErrorActionPreference = 'Stop'
@@ -110,7 +111,7 @@ try {
     Write-Error $_ -ErrorAction Continue
 } finally {
     foreach ($code in $knownProducts) {
-        try { if (Installed $code) { Msi @('/x', $code) ('cleanup-' + $code.Trim('{}') + '.log') } } catch { $report.cleanupError = $_.Exception.Message }
+        try { if (Installed $code) { Msi @('/x', $code) ('cleanup-' + $code.Trim('{}') + '.log') } } catch { $report.cleanupError = $_.Exception.Message; $report.status = 'failed' }
     }
     $report.completedUtc = [DateTime]::UtcNow.ToString('o')
     $report.candidateSha256 = $plan.candidateSha256
