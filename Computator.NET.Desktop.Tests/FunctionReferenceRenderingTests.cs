@@ -21,7 +21,15 @@ namespace Computator.NET.Desktop.Tests
         public void ShippedHtmlRendersOfflineInTheDesktopBrowser(string signature, string expected)
         {
             var entry = new FunctionsDetailsFileSource().Details[signature];
-            using var window = new Form { Size = new Size(700, 650), ShowInTaskbar = false };
+            // A background test window can render correctly while an unrelated
+            // runner console occludes CopyFromScreen. Keep this owned fixture
+            // visible; image decoding and computed-style assertions remain the
+            // actual automated gates, independent of screenshot inspection.
+            using var window = new Form
+            {
+                Size = new Size(700, 650), ShowInTaskbar = false,
+                TopMost = true, StartPosition = FormStartPosition.CenterScreen
+            };
             using var browser = new WebBrowser { Dock = DockStyle.Fill, ScriptErrorsSuppressed = false };
             window.Controls.Add(browser);
             var navigations = new System.Collections.Generic.List<string>();
@@ -50,6 +58,10 @@ namespace Computator.NET.Desktop.Tests
                 .First(element => element.GetAttribute("className") == "reference-source");
             dynamic sourceElement = source.DomElement;
             NUnit.Framework.Assert.That((string)sourceElement.currentStyle.fontSize, Is.EqualTo("15px"));
+            window.BringToFront();
+            window.Activate();
+            window.Refresh();
+            Application.DoEvents();
             var screenshot = System.IO.Path.Combine(TestContext.CurrentContext.WorkDirectory,
                 "reference-" + signature.Split('(')[0].Replace('.', '-') + ".png");
             using (var bitmap = new Bitmap(window.Width, window.Height))
@@ -58,7 +70,7 @@ namespace Computator.NET.Desktop.Tests
                 graphics.CopyFromScreen(window.Location, Point.Empty, window.Size);
                 bitmap.Save(screenshot, System.Drawing.Imaging.ImageFormat.Png);
             }
-            TestContext.AddTestAttachment(screenshot, "Actual Windows offline reference control");
+            TestContext.AddTestAttachment(screenshot, "Windows reference fixture; inspect for desktop occlusion before using as visual evidence");
             window.Close();
         }
 
