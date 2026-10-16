@@ -1,0 +1,68 @@
+name: Historical installer review
+on:
+  push:
+    branches: [acceptance/historical-232-upgrade]
+    paths: [.github/workflows/historical-upgrade-review.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Inspect retained packages without installation
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force artifacts/historical-review | Out-Null
+          $root = (Resolve-Path artifacts/historical-review).Path
+          $exe = Join-Path $root 'Computator.NET.Installer.v2.3.2.exe'
+          Invoke-WebRequest 'https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.Installer.v2.3.2.exe' -OutFile $exe
+          Write-Host "HISTORICAL_SHA256=$((Get-FileHash $exe).Hash)"
+          Write-Host "HISTORICAL_SIZE=$((Get-Item $exe).Length)"
+          Invoke-WebRequest 'https://api.nuget.org/v3-flatcontainer/wixsharp.wix.bin/3.11.0/wixsharp.wix.bin.3.11.0.nupkg' -OutFile "$root/wix.zip"
+          Expand-Archive "$root/wix.zip" "$root/wix"
+          $dark = @(Get-ChildItem "$root/wix" -Recurse -Filter dark.exe)
+          if ($dark.Count -ne 1) { throw 'Expected exactly one pinned WiX 3 extractor.' }
+          & $dark[0].FullName -nologo -x "$root/legacy" $exe -o "$root/legacy.wxs"
+          if ($LASTEXITCODE -ne 0) { throw 'Historical Burn extraction failed.' }
+          $installer = New-Object -ComObject WindowsInstaller.Installer
+          function Dump-Msi($path) {
+            $db = $installer.OpenDatabase($path, 0)
+            Write-Host "MSI_PATH=$path SHA256=$((Get-FileHash $path).Hash)"
+            foreach ($table in @('Property','Upgrade','InstallExecuteSequence','Shortcut','Registry')) {
+              Write-Host "TABLE=$table"
+              $view = $db.OpenView("SELECT * FROM ``$table``"); $view.Execute()
+              while ($r = $view.Fetch()) {
+                $columns = for ($i=1; $i -le $r.FieldCount; $i++) { $r.StringData($i) }
+                Write-Host ($columns -join ' | ')
+              }
+              $view.Close()
+            }
+            Write-Host "TEMPLATE=$($db.SummaryInformation(0).Property(7))"
+            [Runtime.InteropServices.Marshal]::FinalReleaseComObject($db) | Out-Null
+          }
+          Get-ChildItem "$root/legacy" -Recurse -Filter '*.msi' | ForEach-Object { Dump-Msi $_.FullName }
+          Get-ChildItem "$root/legacy" -Recurse -Filter '*manifest*' | ForEach-Object { Write-Host "MANIFEST=$($_.FullName)"; Get-Content $_.FullName }
+          $archive = Join-Path $root 'candidate.zip'
+          Invoke-WebRequest 'https://api.github.com/repos/PawelTroka/Computator.NET/actions/artifacts/12014458227/zip' -Headers @{Authorization="Bearer $env:GH_TOKEN"} -OutFile $archive
+          if ((Get-FileHash $archive).Hash -ne '6a9aa40b9dc34c14e1cd9c4bbeaf1d0570a6aa38cc89b9cd6d3f33bb40908e63') { throw 'Retained candidate archive digest differs from GitHub metadata.' }
+          Expand-Archive $archive "$root/candidate"
+          Get-ChildItem "$root/candidate" -Recurse -File | Where-Object Extension -in '.msi','.exe','.xml','.wxs' | Select-Object FullName,Length | Format-Table -AutoSize
+          Get-ChildItem "$root/candidate" -Recurse -Filter '*.msi' | ForEach-Object { Dump-Msi $_.FullName }
+          [Runtime.InteropServices.Marshal]::FinalReleaseComObject($installer) | Out-Null
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: historical-package-inspection
+          path: |
+            artifacts/historical-review/Computator.NET.Installer.v2.3.2.exe
+            artifacts/historical-review/legacy/**
+            artifacts/historical-review/legacy.wxs
+          retention-days: 7
