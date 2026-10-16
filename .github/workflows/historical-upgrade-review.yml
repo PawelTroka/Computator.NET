@@ -44,6 +44,25 @@ jobs:
           Copy-Item "$root/candidate/artifacts/installer/output" artifacts/installer/output -Recurse -Force
           @{ sourceCommit = 'd2062a33fd7af5faf3593846a589b7b5619cbf3b'; identicalMasterSourceTree = '575315952a219e4355b7f575ce0b165614ef6797'; artifactId = 12014458227; artifactRun = 38825547427; archiveSha256 = (Get-FileHash $archive).Hash; testCommit = '${{ github.sha }}' } | ConvertTo-Json | Set-Content artifacts/historical-review/candidate-provenance.json
           ./build.ps1 -Target Installer-Historical-Fetch
+      - name: Inspect MSI identity preflight without installing
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $installer = New-Object -ComObject WindowsInstaller.Installer
+          $tokens = $null; $errors = $null
+          $ast = [Management.Automation.Language.Parser]::ParseFile((Resolve-Path build/acceptance/Test-HistoricalUpgrade.ps1).Path, [ref]$tokens, [ref]$errors)
+          $function = $ast.Find({ param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Property' }, $true)
+          . ([scriptblock]::Create($function.Extent.Text))
+          $msi = (Resolve-Path artifacts/installer/output/Computator.NET.msi).Path
+          [xml]$inventory = Get-Content artifacts/installer/output/payload.xml -Raw
+          $fixture = Get-Content build/acceptance/historical-2.3.2.json -Raw | ConvertFrom-Json
+          $observations = @()
+          foreach ($name in @('ProductCode','UpgradeCode','ProductVersion')) {
+            $values = @(Property $msi $name)
+            $observations += [pscustomobject]@{ name = $name; count = $values.Count; values = @($values | ForEach-Object { @{ value = "$_"; type = $_.GetType().FullName } }) }
+          }
+          @{ properties = $observations; inventoryProduct = [string]$inventory.Payload.ProductCode; inventoryVersion = [string]$inventory.Payload.Version; expectedUpgrade = $fixture.upgradeCode } | ConvertTo-Json -Depth 8 | Tee-Object -FilePath artifacts/historical-review/msi-identity-diagnostics.json
+          [Runtime.InteropServices.Marshal]::FinalReleaseComObject($installer) | Out-Null
       - name: Cake historical EXE upgrade and failed-MSI rollback acceptance
         shell: pwsh
         env:
