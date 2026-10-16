@@ -3,7 +3,7 @@ Task("Clean-Machine-Harness-Validate").Does(() =>
     foreach (var script in new[] { "build/acceptance/Test-Harness.ps1", "build/acceptance/Test-HistoricalContracts.ps1" })
     {
         PowerShell(script);
-        if (IsRunningOnWindows()) PowerShell(script, "", "powershell.exe");
+        if (IsRunningOnWindows()) WindowsAcceptancePowerShell(new ProcessArgumentBuilder().Append("-NoProfile -File").AppendQuoted(script));
     }
 });
 Task("Clean-Machine-Prepare").IsDependentOn("Clean-Machine-Harness-Validate").Does(() =>
