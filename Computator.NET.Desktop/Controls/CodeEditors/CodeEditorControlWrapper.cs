@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Controls;
@@ -27,6 +28,8 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
+        private TabPage _activeTab;
+        private bool _restoringTabs;
 
 
         public CodeEditorControlWrapper(
@@ -78,7 +81,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             tableLayout.Controls.Add(tabControl, 0, 0);
             tableLayout.Controls.Add(panel, 0, 1);
             Controls.Add(tableLayout);
-            SetEditorVisibility();
+            SetEditorVisibility(Settings.Default.CodeEditor);
             SetFont(Settings.Default.ScriptingFont);
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
             tabControl.ControlRemoved += TabControl_ControlRemoved;
@@ -152,24 +155,101 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void RenameDocument(string filename, string newFilename)
         {
-            if (CurrentCodeEditor.ContainsDocument(filename))
-            {
-                CurrentCodeEditor.RenameDocument(filename, newFilename);
-                tabControl.RenameTab(filename, newFilename);
-            }
+            var documentTab = FindDocumentTab(filename);
+            if (documentTab == null || !CurrentCodeEditor.ContainsDocument(documentTab.Text)) return;
+
+            newFilename = DocumentFilePath.Normalize(newFilename);
+            EnsureCanRenameDocument(documentTab.Text, newFilename);
+            var oldFilename = documentTab.Text;
+            CurrentCodeEditor.RenameDocument(oldFilename, newFilename);
+            tabControl.RenameTab(oldFilename, newFilename);
+        }
+
+        public void EnsureCanRenameDocument(string filename, string newFilename)
+        {
+            newFilename = DocumentFilePath.Normalize(newFilename);
+            var sourceTab = FindDocumentTab(filename);
+            var destinationTab = FindDocumentTab(newFilename);
+            if (destinationTab != null && destinationTab != sourceTab)
+                throw new IOException("This file is already open in another tab. Switch to that tab or choose a different file name.");
         }
 
         public bool ContainsDocument(string filename)
         {
-            return CurrentCodeEditor.ContainsDocument(filename);
+            var documentTab = FindDocumentTab(filename);
+            return documentTab != null && CurrentCodeEditor.ContainsDocument(documentTab.Text);
         }
 
         public void NewDocument(string filename)
         {
-            //   if(string.IsNullOrEmpty(filename))
-            tabControl.AddTab(filename);
-            // else
-            // this.CurrentCodeEditor.NewDocument(filename);
+            if (string.IsNullOrEmpty(filename))
+            {
+                tabControl.AddTab();
+                return;
+            }
+
+            filename = DocumentFilePath.Normalize(filename);
+            var existingTab = FindDocumentTab(filename);
+            if (existingTab != null)
+            {
+                SwitchTab(existingTab.Text);
+                return;
+            }
+
+            // Finish disk I/O before committing a tab or touching an active
+            // buffer. A locked or unreadable file cannot become Save's target.
+            var text = File.Exists(filename) ? File.ReadAllText(filename) : string.Empty;
+            var previousTab = tabControl.SelectedTab;
+            try
+            {
+                CurrentCodeEditor.NewDocument(filename, text);
+                tabControl.AddTab(filename);
+            }
+            catch
+            {
+                RestoreAfterFailedOpen(FindDocumentTab(filename), previousTab, filename);
+                throw;
+            }
+        }
+
+        private TabPage FindDocumentTab(string filename)
+        {
+            if (string.IsNullOrEmpty(filename)) return null;
+            foreach (TabPage documentTab in tabControl.TabPages)
+                if (IsDocumentTab(documentTab) && string.Equals(documentTab.Text, filename, StringComparison.OrdinalIgnoreCase))
+                    return documentTab;
+
+            if (!DocumentFilePath.TryNormalize(filename, out var fullPath)) return null;
+            foreach (TabPage documentTab in tabControl.TabPages)
+                if (documentTab.Tag is string documentPath &&
+                    string.Equals(documentPath, fullPath, StringComparison.OrdinalIgnoreCase))
+                    return documentTab;
+            return null;
+        }
+
+        private bool IsDocumentTab(TabPage tab)
+        {
+            return tab != null && tab.Name != "addTabPage" && tabControl.TabPages.Contains(tab);
+        }
+
+        private void RestoreAfterFailedOpen(TabPage failedTab, TabPage previousTab, string failedFilename)
+        {
+            _restoringTabs = true;
+            try
+            {
+                CurrentCodeEditor.CloseDocument(failedFilename);
+                if (failedTab != null && failedTab != previousTab) tabControl.TabPages.Remove(failedTab);
+                if (IsDocumentTab(previousTab) && CurrentCodeEditor.ContainsDocument(previousTab.Text))
+                {
+                    tabControl.SelectedTab = previousTab;
+                    CurrentCodeEditor.SwitchDocument(previousTab.Text);
+                    _activeTab = previousTab;
+                }
+            }
+            finally
+            {
+                _restoringTabs = false;
+            }
         }
 
         public void HighlightErrors(IEnumerable<CompilerError> errors)
@@ -179,26 +259,17 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void SwitchTab(string tabName)
         {
-            foreach (TabPage tabPage in tabControl.TabPages)
-            {
-                if (tabPage.Text == tabName)
-                {
-                    tabControl.SelectedTab = tabPage;
-                    return;
-                }
-            }
+            var documentTab = FindDocumentTab(tabName);
+            if (documentTab == null) return;
+            tabControl.SelectedTab = documentTab;
+            CurrentCodeEditor.SwitchDocument(documentTab.Text);
+            _activeTab = documentTab;
         }
 
         public void RemoveTab(string tabName)
         {
-            foreach (TabPage tabPage in tabControl.TabPages)
-            {
-                if (tabPage.Text == tabName)
-                {
-                    tabControl.TabPages.Remove(tabPage);
-                    return;
-                }
-            }
+            var documentTab = FindDocumentTab(tabName);
+            if (documentTab != null) tabControl.TabPages.Remove(documentTab);
         }
 
         public void Undo()
@@ -275,12 +346,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void SwitchDocument(string filename)
         {
-            CurrentCodeEditor.SwitchDocument(filename);
+            SwitchTab(filename);
         }
 
         public void CloseDocument(string filename)
         {
-            CurrentCodeEditor.CloseDocument(filename);
+            RemoveTab(filename);
         }
 
 
@@ -302,28 +373,43 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         private void TabControl_ControlRemoved(object sender, ControlEventArgs e)
         {
-            CloseDocument(e.Control.Text);
+            if (_restoringTabs) return;
+            CurrentCodeEditor.CloseDocument(e.Control.Text);
 
             // Editor implementations choose their own surviving document on close.
             // The selected tab owns the filename used by Save, so restore its
             // document even when removing a background tab raised no selection event.
             var selectedTab = tabControl.SelectedTab;
             if (selectedTab != null && selectedTab != e.Control &&
-                ContainsDocument(selectedTab.Text))
-                SwitchDocument(selectedTab.Text);
+                CurrentCodeEditor.ContainsDocument(selectedTab.Text))
+            {
+                CurrentCodeEditor.SwitchDocument(selectedTab.Text);
+                _activeTab = selectedTab;
+            }
         }
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl.SelectedIndex >= 0 &&
-                tabControl.SelectedIndex < tabControl.TabPages.Count - 1)
+            var selectedTab = tabControl.SelectedTab;
+            if (_restoringTabs || !IsDocumentTab(selectedTab)) return;
+            try
             {
-                if (ContainsDocument(tabControl.SelectedTab.Text))
-                    SwitchDocument(tabControl.SelectedTab.Text);
+                if (CurrentCodeEditor.ContainsDocument(selectedTab.Text))
+                    CurrentCodeEditor.SwitchDocument(selectedTab.Text);
                 else
                 {
-                    CurrentCodeEditor.NewDocument(tabControl.SelectedTab.Text);
+                    // Tabs created by the new-tab button have no disk identity,
+                    // even if a same-named file exists in the working directory.
+                    var text = selectedTab.Tag is string path && File.Exists(path)
+                        ? File.ReadAllText(path) : string.Empty;
+                    CurrentCodeEditor.NewDocument(selectedTab.Text, text);
                 }
+                _activeTab = selectedTab;
+            }
+            catch
+            {
+                RestoreAfterFailedOpen(selectedTab, _activeTab, selectedTab.Text);
+                throw;
             }
         }
 
@@ -335,40 +421,63 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             }
         }
 
-        public void ChangeEditorType() //TODO: test
+        public void ChangeEditorType()
         {
             if (_codeEditorType == Settings.Default.CodeEditor) return;
 
             var currentDocument = CurrentFileName;
-
+            var previousKind = _codeEditorType;
+            var previousEditor = CurrentCodeEditor;
+            var nextKind = Settings.Default.CodeEditor;
+            var nextEditor = _codeEditors[nextKind];
             var documents = new Dictionary<string, string>();
 
-            foreach (var document in CurrentCodeEditor.Documents)
+            try
             {
-                SwitchDocument(document);
-                documents.Add(document, Text);
-                CloseDocument(document);
+                foreach (var document in previousEditor.Documents)
+                {
+                    previousEditor.SwitchDocument(document);
+                    documents.Add(document, previousEditor.Text);
+                }
+            }
+            finally
+            {
+                previousEditor.SwitchDocument(currentDocument);
             }
 
-            SetEditorVisibility();
+            if (nextEditor.Documents.Any())
+                throw new InvalidOperationException("The inactive editor still contains documents; their contents have been preserved.");
 
-            foreach (var document in documents)
+            try
             {
-                if (CurrentCodeEditor.ContainsDocument(document.Key))
-                    SwitchDocument(document.Key);
-                else
-                    CurrentCodeEditor.NewDocument(document.Key);
-
-                Text = document.Value;
-                // MessageBox.Show(Text);
+                foreach (var document in documents)
+                {
+                    // Never reload files while moving unsaved buffers between
+                    // implementations. Files can be locked, replaced or deleted.
+                    nextEditor.NewDocument(document.Key, document.Value);
+                    if (nextEditor.Text != document.Value)
+                        throw new InvalidOperationException("The editor could not preserve the document text.");
+                }
+                nextEditor.SwitchDocument(currentDocument);
+                SetEditorVisibility(nextKind);
+            }
+            catch
+            {
+                foreach (var document in documents.Keys)
+                    nextEditor.CloseDocument(document);
+                SetEditorVisibility(previousKind);
+                previousEditor.SwitchDocument(currentDocument);
+                throw;
             }
 
-            SwitchDocument(currentDocument);
+            // Retire the source registry only after the complete target is ready.
+            foreach (var document in documents.Keys)
+                previousEditor.CloseDocument(document);
         }
 
-        private void SetEditorVisibility()
+        private void SetEditorVisibility(CodeEditorType editorType)
         {
-            _codeEditorType = Settings.Default.CodeEditor;
+            _codeEditorType = editorType;
 
             switch (_codeEditorType)
             {

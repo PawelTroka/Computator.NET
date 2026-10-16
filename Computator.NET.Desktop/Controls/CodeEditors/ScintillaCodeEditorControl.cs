@@ -80,14 +80,22 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             if (_documents.ContainsKey(filename))
                 return;
 
+            var text = File.Exists(filename) ? File.ReadAllText(filename) : string.Empty;
+            NewDocument(filename, text);
+        }
+
+        public void NewDocument(string filename, string text)
+        {
+            if (_documents.ContainsKey(filename))
+                return;
+
             var document = Document;
             AddRefDocument(document);
 
             // Replace the current document with a new one
             Document = Document.Empty;
 
-            if (File.Exists(filename))
-                Text = File.ReadAllText(filename);
+            Text = text;
 
             _documents.Add(filename, Document);
 
@@ -153,8 +161,10 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public override string Text
         {
-            get { return base.Text.Replace('*', SpecialSymbols.DotSymbol); }
-            set { base.Text = value.Replace('*', SpecialSymbols.DotSymbol); }
+            // Keyboard input handles the multiplication shortcut. Loading or
+            // transferring a buffer must preserve literals and comments too.
+            get { return base.Text; }
+            set { base.Text = value; }
         }
 
         public void SetFont(Font font)

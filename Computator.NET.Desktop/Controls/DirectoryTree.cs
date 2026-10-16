@@ -43,8 +43,9 @@ namespace Computator.NET.Desktop.Controls
                 new ToolStripMenuItem(Strings.Delete_file, null, (o, e) =>
                 {
                     if (ctxNode?.Parent == null || ctxNode.TreeView != this || Directory.Exists(ctxNode.FullPath)) return;
-                    CodeEditorWrapper?.RemoveTab(ctxNode.FullPath);
                     File.Delete(ctxNode.FullPath);
+                    // A failed deletion must leave its unsaved editor buffer open.
+                    CodeEditorWrapper?.RemoveTab(ctxNode.FullPath);
                     ctxNode.Remove();
                     SelectedNode = Nodes.Count > 0 ? Nodes[0] : null;
                     ctxNode = SelectedNode;
@@ -114,11 +115,7 @@ namespace Computator.NET.Desktop.Controls
                 // Never delete a different document to make a rename succeed.
                 if (Directory.Exists(oldPath)) Directory.Move(oldPath, newPath);
                 else if (File.Exists(oldPath))
-                {
-                    File.Move(oldPath, newPath);
-                    if (CodeEditorWrapper.ContainsDocument(oldPath))
-                        CodeEditorWrapper.RenameDocument(oldPath, newPath);
-                }
+                    RenameFile(oldPath, newPath);
                 else createFile(newPath);
             }
             catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException)
@@ -126,6 +123,16 @@ namespace Computator.NET.Desktop.Controls
                 e.CancelEdit = true;
                 MessageBox.Show(exception.Message, Strings.Label_Edit_error);
             }
+        }
+
+        private void RenameFile(string oldPath, string newPath)
+        {
+            // The destination may be open with unsaved changes even if
+            // another process has deleted its file from disk.
+            CodeEditorWrapper.EnsureCanRenameDocument(oldPath, newPath);
+            File.Move(oldPath, newPath);
+            if (CodeEditorWrapper.ContainsDocument(oldPath))
+                CodeEditorWrapper.RenameDocument(oldPath, newPath);
         }
 
         private void createFile(string fullPath)
