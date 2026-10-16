@@ -7,14 +7,26 @@ permissions:
   contents: read
   actions: read
 jobs:
-  inspect:
+  lifecycle:
     runs-on: windows-2025
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Inspect retained packages without installation
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Parse acceptance scripts with Windows PowerShell 5.1
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          foreach ($path in Get-ChildItem build/acceptance -Filter '*.ps1') {
+            $tokens = $null; $errors = $null
+            [Management.Automation.Language.Parser]::ParseFile($path.FullName, [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count) { throw ($errors | Out-String) }
+          }
+      - name: Acquire the reviewed candidate bytes, without rebuilding or accepting tool terms
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
@@ -22,47 +34,32 @@ jobs:
           $ErrorActionPreference = 'Stop'
           New-Item -ItemType Directory -Force artifacts/historical-review | Out-Null
           $root = (Resolve-Path artifacts/historical-review).Path
-          $exe = Join-Path $root 'Computator.NET.Installer.v2.3.2.exe'
-          Invoke-WebRequest 'https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.Installer.v2.3.2.exe' -OutFile $exe
-          Write-Host "HISTORICAL_SHA256=$((Get-FileHash $exe).Hash)"
-          Write-Host "HISTORICAL_SIZE=$((Get-Item $exe).Length)"
-          Invoke-WebRequest 'https://api.nuget.org/v3-flatcontainer/wixsharp.wix.bin/3.11.0/wixsharp.wix.bin.3.11.0.nupkg' -OutFile "$root/wix.zip"
-          Expand-Archive "$root/wix.zip" "$root/wix"
-          $dark = @(Get-ChildItem "$root/wix" -Recurse -Filter dark.exe)
-          if ($dark.Count -ne 1) { throw 'Expected exactly one pinned WiX 3 extractor.' }
-          & $dark[0].FullName -nologo -x "$root/legacy" $exe -o "$root/legacy.wxs"
-          if ($LASTEXITCODE -ne 0) { throw 'Historical Burn extraction failed.' }
-          $installer = New-Object -ComObject WindowsInstaller.Installer
-          function Dump-Msi($path) {
-            $db = $installer.OpenDatabase($path, 0)
-            Write-Host "MSI_PATH=$path SHA256=$((Get-FileHash $path).Hash)"
-            foreach ($table in @('Property','Upgrade','InstallExecuteSequence','Shortcut','Registry')) {
-              Write-Host "TABLE=$table"
-              $view = $db.OpenView("SELECT * FROM ``$table``"); $view.Execute()
-              while ($r = $view.Fetch()) {
-                $columns = for ($i=1; $i -le $r.FieldCount; $i++) { $r.StringData($i) }
-                Write-Host ($columns -join ' | ')
-              }
-              $view.Close()
-            }
-            Write-Host "TEMPLATE=$($db.SummaryInformation(0).Property(7))"
-            [Runtime.InteropServices.Marshal]::FinalReleaseComObject($db) | Out-Null
-          }
-          Get-ChildItem "$root/legacy" -Recurse -Filter '*.msi' | ForEach-Object { Dump-Msi $_.FullName }
-          Get-ChildItem "$root/legacy" -Recurse -Filter '*manifest*' | ForEach-Object { Write-Host "MANIFEST=$($_.FullName)"; Get-Content $_.FullName }
           $archive = Join-Path $root 'candidate.zip'
           Invoke-WebRequest 'https://api.github.com/repos/PawelTroka/Computator.NET/actions/artifacts/12014458227/zip' -Headers @{Authorization="Bearer $env:GH_TOKEN"} -OutFile $archive
           if ((Get-FileHash $archive).Hash -ne '6a9aa40b9dc34c14e1cd9c4bbeaf1d0570a6aa38cc89b9cd6d3f33bb40908e63') { throw 'Retained candidate archive digest differs from GitHub metadata.' }
           Expand-Archive $archive "$root/candidate"
-          Get-ChildItem "$root/candidate" -Recurse -File | Where-Object Extension -in '.msi','.exe','.xml','.wxs' | Select-Object FullName,Length | Format-Table -AutoSize
-          Get-ChildItem "$root/candidate" -Recurse -Filter '*.msi' | ForEach-Object { Dump-Msi $_.FullName }
-          [Runtime.InteropServices.Marshal]::FinalReleaseComObject($installer) | Out-Null
+          Copy-Item "$root/candidate/artifacts/installer/output" artifacts/installer/output -Recurse -Force
+          $provenance = @{ sourceCommit = 'd2062a33fd7af5faf3593846a589b7b5619cbf3b'; identicalMasterSourceTree = '575315952a219e4355b7f575ce0b165614ef6797'; artifactId = 12014458227; artifactRun = 38825547427; archiveSha256 = (Get-FileHash $archive).Hash; testCommit = '${{ github.sha }}' }
+          $provenance | ConvertTo-Json | Set-Content artifacts/historical-review/candidate-provenance.json
+          ./build.ps1 -Target Installer-Historical-Fetch
+      - name: Cake historical EXE upgrade and failed-MSI rollback acceptance
+        shell: pwsh
+        env:
+          COMPUTATOR_DISPOSABLE_INSTALL_TEST: '1'
+        run: |
+          if ($env:RUNNER_ENVIRONMENT -ne 'github-hosted') { throw 'Only a disposable GitHub-hosted runner is authorized.' }
+          ./build.ps1 -Target Installer-Historical-Validate -CakeArguments '--historical-results=artifacts/installer/logs/historical'
+      - name: Print acceptance results and failure context
+        if: always()
+        shell: pwsh
+        run: |
+          Get-ChildItem artifacts/installer/logs -Recurse -Filter acceptance.json -ErrorAction SilentlyContinue | ForEach-Object { Get-Content $_.FullName }
+          Get-ChildItem artifacts/installer/logs -Recurse -Filter '*.log' -ErrorAction SilentlyContinue | ForEach-Object { Write-Host "LOG: $($_.Name)"; Get-Content $_.FullName -Tail 25 }
       - if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          name: historical-package-inspection
+          name: historical-upgrade-evidence
           path: |
-            artifacts/historical-review/Computator.NET.Installer.v2.3.2.exe
-            artifacts/historical-review/legacy/**
-            artifacts/historical-review/legacy.wxs
-          retention-days: 7
+            artifacts/installer/logs/**
+            artifacts/historical-review/candidate-provenance.json
+          retention-days: 14
