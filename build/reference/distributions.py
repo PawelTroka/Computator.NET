@@ -10,7 +10,7 @@ FAMILIES = {
 'Beta': ('Beta', 'A bounded continuous distribution for proportions on the unit interval.',
  'f(x)=x^(a−1)(1−x)^(b−1)/B(a,b); E[X]=a/(a+b).',
  'Shape parameters a>0 and b>0; 0<x<1. Endpoint limits may be infinite when a or b is below one.',
- 'The library has limiting/degenerate cases at zero or infinite shapes. Use strictly positive finite shapes for the ordinary beta density; do not confuse the Beta class with the scalar Beta special function.'),
+ 'The library has limiting/degenerate cases at zero or infinite shapes. Use strictly positive finite shapes for the ordinary beta density; the short Beta class name collides with the scalar Beta special function in generated TSL. Use MathNet.Numerics.Distributions.Beta.PDF(a,b,x), or the corresponding fully qualified member, to avoid that collision.'),
 'Binomial': ('Binomial', 'The number of successes among n independent Bernoulli trials with common success probability p.',
  'P(X=k)=C(n,k)·p^k·(1−p)^(n−k).', 'n is a nonnegative integer; 0≤p≤1; integer k ranges from 0 to n.', ''),
 'Categorical': ('Categorical', 'A discrete choice among zero-based category indices, weighted by the supplied nonnegative masses.',
@@ -136,7 +136,7 @@ DISCRETE={'Bernoulli','Binomial','Categorical','ConwayMaxwellPoisson','DiscreteU
 EXAMPLES={
  'Normal': 'Normal.CDF(0,1,0) = 0.5; Normal.InvCDF(0,1,0.5) = 0.',
  'Bernoulli': 'Bernoulli.PMF(0.25,1) = 0.25.',
- 'Beta': 'Beta.PDF(1,1,0.5) = 1: uniform density on [0,1].',
+ 'Beta': 'MathNet.Numerics.Distributions.Beta.PDF(1,1,0.5) = 1: uniform density on [0,1].',
  'Binomial': 'Binomial.PMF(0.5,2,1) = 0.5.',
  'Cauchy': 'Cauchy.CDF(0,1,0) = 0.5.',
  'ContinuousUniform': 'ContinuousUniform.PDF(0,2,1) = 0.5.',

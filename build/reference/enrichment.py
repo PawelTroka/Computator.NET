@@ -235,7 +235,7 @@ MODEL_LESSONS = {
 DISTRIBUTION_EXAMPLES = {
 'Normal': [('Normal.CDF(0,1,1)-Normal.CDF(0,1,-1)','approximately 0.6826894921','Subtract the lower cumulative probability from the upper one to find the probability of lying within one standard deviation.')],
 'Bernoulli':[('Bernoulli.PMF(0.25,1)','0.25','The mass at one is the success probability, not a density height.')],
-'Beta':[('Beta.PDF(2,2,0.5)','1.5','The symmetric density peaks above one. Its area, not its peak height, is the probability.')],
+'Beta':[('MathNet.Numerics.Distributions.Beta.PDF(2,2,0.5)','1.5','The symmetric density peaks above one. Its area, not its peak height, is the probability. The qualified class name avoids the scalar Beta function name collision in TSL.')],
 'Binomial':[('Binomial.PMF(0.5,4,2)','0.375','Choose the two successful trials in six ways, each pattern having probability 1/16.')],
 'Categorical':[('Categorical.PMF(new double[]{1,3},1)','0.75','The second category receives weight 3 out of total weight 4. Its index is one.')],
 'Cauchy':[('Cauchy.CDF(0,1,0)','0.5','Symmetry places half the probability below the location; this does not imply that a population mean exists.')],

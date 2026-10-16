@@ -5,7 +5,10 @@ import { resolve } from 'node:path';
 // Use an actual committed equation, not a one-pixel stand-in. These tests run
 // against both the Vite preview and the published ASP.NET host via existing Cake.
 const manifest = JSON.parse(readFileSync(resolve('..', 'Computator.NET.Core', 'Static', 'reference-equations', 'manifest.json'), 'utf8'));
-const [id, asset] = Object.entries(manifest.equations)[0] as [string, { width: number; height: number }];
+const equations = manifest.equations as Record<string, { tex: string; width: number; height: number }>;
+const gamma = Object.entries(equations).find(([, equation]) => equation.tex.includes('Gamma(z)'));
+if (!gamma) throw new Error('The shipped gamma integral is missing');
+const [id, asset] = gamma;
 
 for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea']]) {
   test(`offline equation and context-aware overload help in ${route}`, async ({ page }, info) => {

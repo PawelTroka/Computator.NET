@@ -36,7 +36,8 @@ test('the live function reference renders typed syntax and a mathematical defini
   await page.locator('#expressionTextArea textarea').fill('Ai');
   await page.locator('#expressionTextArea textarea').press('Control+Space');
   const tooltip = page.getByRole('tooltip');
-  await expect(tooltip.locator('.reference-signature code')).toContainText('Ai(real x)');
+  await expect(page.locator('.ace_autocomplete')).toContainText('Ai(real x)');
+  await expect(tooltip.locator('.reference-signature code')).toHaveCount(0);
   const equation = tooltip.locator('img.reference-math').first();
   await expect(equation).toHaveAttribute('alt', /y″−xy=0/);
   await expect.poll(() => equation.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true);
