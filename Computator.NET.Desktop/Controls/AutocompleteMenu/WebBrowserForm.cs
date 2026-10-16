@@ -38,11 +38,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             Controls.Add(webBrowser);
         }
         public void Show(FunctionInfo functionInfo) { Show(); SetFunctionInfo(functionInfo); }
-        public void SetFunctionInfo(FunctionInfo functionInfo)
+        public void SetFunctionInfo(FunctionInfo functionInfo) => SetFunctionInfo(functionInfo, null);
+        public void SetFunctionInfo(FunctionInfo functionInfo, string displayedSignature)
         {
             // Document loading must not shrink/reset a manually resized window.
             // DockStyle.Fill handles layout; long articles remain scrollable.
-            documentLoader.ShowDocument(FunctionReferenceDocument.Render(functionInfo));
+            documentLoader.ShowDocument(FunctionReferenceDocument.Render(functionInfo, displayedSignature));
         }
         private void Form_FormClosing(object sender, FormClosingEventArgs e) { e.Cancel = true; Hide(); }
     }

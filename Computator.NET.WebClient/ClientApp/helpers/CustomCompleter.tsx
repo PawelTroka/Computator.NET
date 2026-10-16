@@ -14,7 +14,8 @@ export class CustomCompleter {
             value: item.text, score: 0,
             meta: typeof item.details.category === 'string' && item.details.category.trim()
               ? item.details.category.trim() : typeof item.details.type === 'string' ? item.details.type : '',
-            docHTML: referenceHtml(typeof item.details.title === 'string' ? item.details.title : item.text, item.details.description) }));
+            docHTML: referenceHtml(typeof item.details.title === 'string' ? item.details.title : item.text, item.details.description,
+              typeof item.menuText === 'string' ? item.menuText : item.text) }));
       }).catch(() => { this.items = []; });
   }
   public dispose() { this.controller.abort(); }

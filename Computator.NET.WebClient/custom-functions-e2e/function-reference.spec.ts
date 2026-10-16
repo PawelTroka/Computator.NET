@@ -13,7 +13,7 @@ test('the live API supplies the shipped constant reference to the existing edito
   expect(charge!.details.description).toContain('reference-summary');
   expect(charge!.details.description).toContain('Stored application value:');
   expect(charge!.details.description).toContain('1.602176634');
-  expect(charge!.details.description).not.toContain('<img');
+  expect(charge!.details.description).toContain('reference-math');
   await page.locator('#expressionTextArea textarea').fill('ElementaryCharge');
   await page.locator('#expressionTextArea textarea').press('Control+Space');
   await expect(page.locator('.ace_autocomplete')).toContainText('ElementaryCharge');
@@ -22,7 +22,9 @@ test('the live API supplies the shipped constant reference to the existing edito
   await expect(tooltip).toContainText('1.602176634');
   await expect(tooltip).toContainText('Stored application value:');
   await expect(tooltip).not.toContainText('<div');
-  await expect(tooltip.locator('.reference-signature code')).toContainText('ElementaryCharge');
+  await expect(tooltip).not.toContainText('Syntax');
+  await expect(tooltip.locator('img.reference-math').first()).toBeVisible();
+  await expect.poll(() => tooltip.locator('img.reference-math').first().evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true);
   await expect(tooltip.locator('.reference-arguments strong')).toBeVisible();
   await expect(tooltip.locator('.reference-source a[href^="https://"]')).toHaveCount(1);
   await page.screenshot({ path: info.outputPath('live-constant-tooltip.png') });
@@ -35,7 +37,10 @@ test('the live function reference renders typed syntax and a mathematical defini
   await page.locator('#expressionTextArea textarea').press('Control+Space');
   const tooltip = page.getByRole('tooltip');
   await expect(tooltip.locator('.reference-signature code')).toContainText('Ai(real x)');
-  await expect(tooltip.locator('.reference-formula code')).toContainText('y″−xy=0');
+  const equation = tooltip.locator('img.reference-math').first();
+  await expect(equation).toHaveAttribute('alt', /y″−xy=0/);
+  await expect.poll(() => equation.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true);
+  await expect(tooltip.locator('.reference-explanation').first()).toBeVisible();
   await expect(tooltip.locator('.reference-source a[href^="https://"]')).toHaveCount(1);
   await page.screenshot({ path: info.outputPath('live-function-tooltip.png') });
 });

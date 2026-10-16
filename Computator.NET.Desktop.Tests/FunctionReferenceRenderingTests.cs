@@ -30,7 +30,15 @@ namespace Computator.NET.Desktop.Tests
             browser.DocumentText = FunctionReferenceDocument.Render(entry);
             WaitForText(browser, expected);
             NUnit.Framework.Assert.That(browser.Document.Body.InnerText, Does.Contain("Arguments / value"));
-            NUnit.Framework.Assert.That(browser.Document.Images.Count, Is.Zero);
+            NUnit.Framework.Assert.That(browser.Document.Images.Count, Is.GreaterThan(0));
+            foreach (HtmlElement image in browser.Document.Images)
+            {
+                NUnit.Framework.Assert.That(image.GetAttribute("src"), Does.StartWith("data:image/png;base64,"));
+                dynamic rendered = image.DomElement;
+                NUnit.Framework.Assert.That((bool)rendered.complete, Is.True);
+                NUnit.Framework.Assert.That((int)rendered.naturalWidth, Is.GreaterThan(0));
+                NUnit.Framework.Assert.That(image.GetAttribute("alt"), Is.Not.Empty);
+            }
             NUnit.Framework.Assert.That(navigations.All(scheme => scheme == "about"), Is.True);
             // Check computed styles in the actual Windows HTML engine, rather
             // than merely finding desired numbers in the stylesheet source.
@@ -42,6 +50,15 @@ namespace Computator.NET.Desktop.Tests
                 .First(element => element.GetAttribute("className") == "reference-source");
             dynamic sourceElement = source.DomElement;
             NUnit.Framework.Assert.That((string)sourceElement.currentStyle.fontSize, Is.EqualTo("15px"));
+            var screenshot = System.IO.Path.Combine(TestContext.CurrentContext.WorkDirectory,
+                "reference-" + signature.Split('(')[0].Replace('.', '-') + ".png");
+            using (var bitmap = new Bitmap(window.Width, window.Height))
+            {
+                using var graphics = Graphics.FromImage(bitmap);
+                graphics.CopyFromScreen(window.Location, Point.Empty, window.Size);
+                bitmap.Save(screenshot, System.Drawing.Imaging.ImageFormat.Png);
+            }
+            TestContext.AddTestAttachment(screenshot, "Actual Windows offline reference control");
             window.Close();
         }
 
