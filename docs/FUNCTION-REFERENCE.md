@@ -27,6 +27,12 @@ Coverage tests require exact agreement with the live non-keyword catalog, correc
 
 Existing scientific numerical tests remain unchanged. Desktop tests exercise the actual popup and standalone reference window, rapid selection changes, content replacement and disposal of their browsers. Browser tests inspect rendered HTML in both Ace editors, including real API articles and malicious-markup rejection. Independent distribution and physical-constant regressions check the documented implementation and unit conventions. New functions or signature changes must ship matching reviewed help changes.
 
+### Subject categories
+
+`Type` identifies the runtime family; `Category` is the subject shown in menus and completion metadata. `build/reference/categories.py` supplies explicit subjects for elementary and special functions, mathematical values and physical constants. Function aliases resolve to the canonical name and share its subject across overloads. Constant groups preserve the engine's existing `CategoryAttribute` labels, including universal, electromagnetic, atomic/nuclear, geometry and basic mathematical groups.
+
+Generation rejects missing subjects, labels that only repeat the runtime type, conflicting subjects for a shared overload key, and names without a reviewed assignment. A fixture taken from the catalogue before #172 independently protects all 318 still-supported function memberships that were flattened. Runtime tests separately compare every constant's materialized subject with its actual attribute and check that restored categories reach both completion modes. Changes to categories do not replace the authored explanations, equations, examples, stored values or source links.
+
 ## Primary editorial references
 
 - [NIST Digital Library of Mathematical Functions](https://dlmf.nist.gov/): definitions, branch/normalization conventions and special-function relations. Individual articles link the relevant chapter/section.
