@@ -35,6 +35,26 @@ jobs:
           target.write_bytes(patch)
           subprocess.run(['git', 'apply', '--check', str(target)], check=True)
           subprocess.run(['git', 'apply', '--index', str(target)], check=True)
+          def replace(path, old, new):
+              file = pathlib.Path(path)
+              text = file.read_text(encoding='utf-8')
+              assert text.count(old) == 1, path
+              file.write_text(text.replace(old, new), encoding='utf-8', newline='\n')
+          replace('Computator.NET.Desktop/Controls/AutocompleteMenu/WebBrowserForm.cs',
+              'public void SetFunctionInfo(FunctionInfo functionInfo, string displayedSignature = null)',
+              'public void SetFunctionInfo(FunctionInfo functionInfo) => SetFunctionInfo(functionInfo, null);\n        public void SetFunctionInfo(FunctionInfo functionInfo, string displayedSignature)')
+          replace('Computator.NET.Core.Tests/AutocompletionTests/FunctionReferenceRichContentTests.cs',
+              'using System.IO;', 'using System.IO;\nusing File = System.IO.File;')
+          replace('docs/FUNCTION-REFERENCE.md',
+              'Formulas are readable text and Unicode rather than remote raster images: no network is required to read an article.',
+              'Authored LaTeX equations are typeset ahead of time into locally packaged, high-resolution PNGs, accompanied by accessible text and explanations: no network or runtime mathematics renderer is required to read an article.')
+          replace('docs/FUNCTION-REFERENCE.md',
+              'scripts, event handlers, styles, frames, images and other active or remote-loading content are excluded.',
+              'scripts, event handlers, styles, frames, SVG and remote-loading content are excluded. Only strictly validated, content-addressed local equation PNGs are admitted.')
+          replace('docs/FUNCTION-REFERENCE.md',
+              "The authoring tool uses only Python's standard library, has no network dependency, and writes deterministic XML. Normal application builds only copy the committed XML; Python is not required to run the application.",
+              "Prose generation uses Python's standard library and writes deterministic XML. Equation authoring uses the audited MathJax and resvg development dependencies in the existing WebClient lockfile. After dependency restore, typesetting and verification work offline. Normal application builds copy the committed XML and equation assets; Python, Node and MathJax are not required to read help in the application.")
+          subprocess.run(['git', 'add', '--', 'Computator.NET.Desktop/Controls/AutocompleteMenu/WebBrowserForm.cs', 'Computator.NET.Core.Tests/AutocompletionTests/FunctionReferenceRichContentTests.cs', 'docs/FUNCTION-REFERENCE.md'], check=True)
       - name: Update the existing single frontend lockfile
         shell: pwsh
         working-directory: Computator.NET.WebClient
