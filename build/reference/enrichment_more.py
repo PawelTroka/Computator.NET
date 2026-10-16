@@ -5,6 +5,7 @@ A family equation supplements the original convention unless it is equivalent.
 """
 import re
 from enrichment import Enrichment, Equation, WorkedExample
+from normalization_examples import NORMALIZATION_EXAMPLES, normalization_examples
 
 EXTRA={}
 def add(names,tex,explanation,example=None):
@@ -35,16 +36,17 @@ add('Variations',r'V(n,k)=\frac{n!}{(n-k)!}','Ordered selections distinguish whi
 add('VariationsWithRepetition',r'V_{\mathrm{rep}}(n,k)=n^k','Repetition leaves all n choices available at every one of the k positions. The order still matters.',('VariationsWithRepetition(3,2)','9','Three independent choices for each of two positions give nine sequences.'))
 add('CombinationsWithRepetition',r'C_{\mathrm{rep}}(n,k)=\binom{n+k-1}{k}','This counts unordered selections with repeated kinds allowed. It is useful for distributing identical objects among distinct categories, rather than ordering distinct objects.',('CombinationsWithRepetition(3,2)','6','From A, B and C choose AA, AB, AC, BB, BC or CC.'))
 
-add('gammaP|leftRegularizedGamma',r'P(a,x)=\frac{1}{\Gamma(a)}\int_0^x t^{a-1}e^{-t}\,dt','The lower regularized gamma function is a fraction of the complete gamma integral. For positive shape and nonnegative x it lies between zero and one. Together with the upper fraction Q it sums to one.',('gammaP(1,1)','approximately 0.6321205588','At shape one the integral is 1−exp(−1).'))
-add('gammaQ|rightRegularizedGamma',r'Q(a,x)=\frac{1}{\Gamma(a)}\int_x^\infty t^{a-1}e^{-t}\,dt','This is the upper fraction, not the lower fraction. A dedicated upper-tail evaluation avoids subtracting a CDF already rounded to one when the remaining probability is very small.',('gammaQ(1,1)','approximately 0.3678794412','At shape one the upper tail equals exp(−1).'))
+add('gammaP|leftRegularizedGamma',r'P(a,x)=\frac{1}{\Gamma(a)}\int_0^x t^{a-1}e^{-t}\,dt','The lower regularized gamma function is a fraction of the complete gamma integral. For positive shape and nonnegative x it lies between zero and one. Together with the upper fraction Q it sums to one.',('gammaP(3,1)','approximately 0.0803013971','The upper fraction is 5/(2e); subtracting it from one gives the lower fraction here. The unnormalized upper area gamma(3,1)=5/e is a different quantity.'))
+add('gammaQ|rightRegularizedGamma',r'Q(a,x)=\frac{1}{\Gamma(a)}\int_x^\infty t^{a-1}e^{-t}\,dt','This is the upper fraction, not the lower fraction. A dedicated upper-tail evaluation avoids subtracting a CDF already rounded to one when the remaining probability is very small.',('gammaQ(3,1)','approximately 0.9196986029','Integrating t²exp(−t) from one to infinity gives 5/e. Division by Γ(3)=2 yields the fraction 5/(2e).'))
 add('BetaNorm',r'I_x(a,b)=\frac{B_x(a,b)}{B(a,b)}','Normalization turns the incomplete beta area into a cumulative probability for positive shapes. The current wrapper’s argument-order warning remains essential; use its documented correctly ordered alternative until the numerical wrapper is repaired.')
 add('logBeta',r'\ln B(a,b)=\ln\Gamma(a)+\ln\Gamma(b)-\ln\Gamma(a+b)','A log-normalization is useful when products of small probabilities underflow. Keep the value in log space as long as possible instead of exponentiating immediately.')
-add('Pochhammer',r'(a)_x=\frac{\Gamma(a+x)}{\Gamma(a)}','For a nonnegative integer x this is a rising product starting at a. It differs from a falling factorial, which steps down instead. Analytic continuation needs the parameter restrictions and pole conventions below.')
-add('PochhammerRelative',r'\frac{(a)_x-1}{x}','The relative form is useful near x=0, where directly subtracting one from a quantity near one loses digits. Its limiting value is digamma(a) when that limit exists.')
+add('Pochhammer',r'(a)_x=\frac{\Gamma(a+x)}{\Gamma(a)}','For a nonnegative integer x this is a rising product starting at a. It differs from a falling factorial, which steps down instead. Analytic continuation needs the parameter restrictions and pole conventions below.',('Pochhammer(3,2)','12','Two rising factors starting at three give 3·4=12. A falling product would instead give 3·2.'))
+add('PochhammerRelative',r'\frac{(a)_x-1}{x}','The relative form is useful near x=0, where directly subtracting one from a quantity near one loses digits. Its limiting value is digamma(a) when that limit exists.',('PochhammerRelative(3,2)','5.5','The rising product is (3)₂=12. Subtract one and divide by the second argument two: (12−1)/2=5.5.'))
 add('HurwitzZeta',r'\zeta(s,q)=\sum_{n=0}^{\infty}\frac1{(n+q)^s}','The shift q moves the starting point of the reciprocal-power sum. q=1 recovers Riemann zeta in the convergent half-plane; it is not a second exponent.',('HurwitzZeta(2,1)','approximately 1.6449340668','At shift one the sum is 1+1/4+1/9+⋯=π²/6.'))
 add('DirichletEta',r'\eta(s)=\sum_{n=1}^{\infty}\frac{(-1)^{n-1}}{n^s}=(1-2^{1-s})\zeta(s)','Alternating signs improve convergence compared with the positive zeta series. At s=1 the product representation has a removable cancellation; the limiting value is ln(2).',('DirichletEta(1)','approximately 0.6931471806','This is the alternating harmonic sum.'))
 add('LambertW0|LambertWm1',r'W(x)e^{W(x)}=x','On the negative real interval where two solutions exist, the branch number chooses which one is returned. Branch zero stays above −1; branch −1 stays below −1. The wrapper’s endpoint restrictions must still be respected.')
-add('diLog|SpencesIntegral',r'\operatorname{Li}_2(z)=\sum_{n=1}^{\infty}\frac{z^n}{n^2}\quad(|z|<1)','The convergent series defines the dilogarithm near zero. Elsewhere the implementation uses continuation with its stated branch. Be careful with the name Spence: some references use Li₂(1−z), whereas this application’s alias uses the convention stated below.')
+add('diLog',r'\operatorname{Li}_2(z)=\sum_{n=1}^{\infty}\frac{z^n}{n^2}\quad(|z|<1)','The convergent series defines the dilogarithm near zero. Elsewhere the implementation uses continuation with its stated branch. This argument convention differs from the reflected argument of SpencesIntegral.')
+add('SpencesIntegral',r'\operatorname{Spence}(z)=\operatorname{Li}_2(1-z)','This wrapper reflects its input about one before evaluating the dilogarithm. It is not an alias of diLog(z): moving z from one to two moves the dilogarithm argument from zero to minus one. The reflected cut and the real-wrapper restrictions must be interpreted with that change of argument.')
 add('PolyLog',r'\operatorname{Li}_s(z)=\sum_{n=1}^{\infty}\frac{z^n}{n^s}\quad(|z|<1)','The order changes the reciprocal-power weighting of the series. Order one connects to −ln(1−z), and order two is the dilogarithm. Do not sum the defining series outside its convergence region as an implementation recipe.')
 add('Si',r'\operatorname{Si}(x)=\int_0^x\frac{\sin t}{t}\,dt','Sine integral accumulates both positive and negative lobes of sinc. The area approaches a limit through oscillation; the result is not simply x times the current sinc value.',('Si(0)','0','An integral over a zero-length interval is zero.'))
 add('Ci',r'\operatorname{Ci}(x)=-\int_x^\infty\frac{\cos t}{t}\,dt','Cosine integral uses a tail normalization and has a logarithmic singularity near zero. Unlike sine integral, there is no finite value obtained by filling a removable hole at zero.')
@@ -85,7 +87,7 @@ MATRICES={
 'rank':(r'\operatorname{rank}A=\dim\operatorname{col}A','Rank counts independent column directions. In floating point, nearly dependent directions require a numerical threshold; a computed rank can change when a poorly conditioned matrix is perturbed.'),
 'ker':(r'\ker A=\{x:Ax=0\}','The kernel contains vectors mapped to zero. A returned basis spans the whole null space, but individual basis vectors are not unique. Verify the residual of A times each basis vector.'),
 'solve':(r'AX=B','Solving recovers unknowns from a linear relation. Check the original augmented-matrix convention below and verify the residual AX−B afterwards; a small residual alone does not guarantee a well-conditioned answer.'),
-'pow':(r'A^n=\underbrace{AA\cdots A}_{n\ \mathrm{factors}}','A matrix power uses matrix multiplication, not elementwise exponentiation. For square matrices the zero power is identity; read the implementation’s restrictions before requesting a negative or noninteger exponent.'),
+'pow':(r'A^n=\underbrace{AA\cdots A}_{n\ \mathrm{factors}},\quad n\in\mathbb N,\ n\ge1','A matrix power uses matrix multiplication, not elementwise exponentiation. For square matrices the zero power is identity; read the implementation’s restrictions before requesting a negative or noninteger exponent.'),
 'IdentityMatrix':(r'I_{ij}=\delta_{ij}','The overload taking a matrix copies its shape, not its contents. Only a square identity of the matching size is a two-sided multiplicative identity.'),
 'OnesMatrix':(r'M_{ij}=1','An all-ones matrix is not an identity matrix. Multiplication by it forms sums; an identity matrix instead preserves the operand.'),
 'ZerosMatrix':(r'M_{ij}=0','The zero matrix is an additive identity of a specified shape. Its dimensions still matter even though every stored value is zero.'),
@@ -111,14 +113,16 @@ MATRICES={
 def extra_enrichment(item,article,name):
     sig=item['signature'];kind=item['type'];base=re.sub(r'<.*>', '',name).split('.')[-1]
     if kind=='MatrixFunctions':
+        from matrix_examples import examples_for
+        examples=examples_for(sig,base)
         if base in MATRICES:
             tex,text=MATRICES[base]
-            return Enrichment((Equation(tex,article.formula,'Mathematical interpretation'),),(text,),(),False)
+            return Enrichment((Equation(tex,article.formula,'Mathematical interpretation'),),(text,),examples,False)
         text={'matrix':'Rows and columns have different roles: row i and column j select one entry, using zero-based indices. Create a small matrix first and verify its shape before applying an operation to a larger data set.',
               'vector':'A vector is a one-dimensional collection with linear-algebra operations. A single scalar can be interpreted as a size or as one element depending on the overload; use the displayed typed signature to make the intended construction explicit.',
               'array':'An array is a mutable storage container, not automatically a mathematical matrix or vector. Indexing starts at zero, and allocation fixes the number of slots rather than filling them with a sequence of indices.',
               'list':'A list can grow as elements are appended. Unlike a matrix, it has no built-in row/column algebra; convert data deliberately when a numerical routine expects a matrix or array.'}[base]
-        return Enrichment((),(text,),(),False)
+        return Enrichment((),(text,),examples,False)
     if kind=='Integral':
         methods={'simpsonMethod':'Simpson’s rule combines samples with alternating weights four and two. An even subinterval count is required. Smoothness is important: a discontinuity or unresolved narrow peak can defeat a seemingly dense grid.',
           'trapezoidalMethod':'The trapezoidal rule connects samples by straight segments. Refining the grid reduces discretization error for smooth functions, but a small change after one refinement is not a proof that a missed feature was resolved.',
@@ -156,11 +160,37 @@ def extra_enrichment(item,article,name):
         elif base in ('write','writeln','show'):text='Output is a presentation step, not a change to the mathematical value. Keep intermediate values in variables when later operations need their full precision; reparsing a rounded display can change the calculation.'
         else:text='A conversion changes the representation or type of a value. It does not add physical units or improve the original numerical precision; handle out-of-range and unsupported conversions explicitly.'
         return Enrichment((),(text,),(),False)
+    if kind=='ElementaryFunctions' and name=='root':
+        if '(z' in sig:
+            return Enrichment((Equation(r'\operatorname{root}(z,n)=\exp(\operatorname{Log}(z)/n),\quad z\ne0,\ n\ne0',article.formula,'Complex power convention'),),(
+                'A nonzero complex input uses its principal logarithm. For a positive integer order n there are n algebraic roots; this call selects one by dividing the principal phase by n.',
+                'The point −8 has principal phase π, so its complex cube root has magnitude two and phase π/3. This differs from the negative real cube root chosen by the real-input parity helper.'),(
+                WorkedExample('Re(root(-8+0i,3))','1','The selected root is 2(cos(π/3)+i·sin(π/3)); its real coordinate is one.'),
+                WorkedExample('Im(root(-8+0i,3))','approximately 1.7320508076','The imaginary coordinate is 2sin(π/3)=sqrt(3).')),False)
+        return Enrichment((Equation(r'(-2)^3=-8,\qquad (3i)^2=-9','Two illustrated branches of the real-input helper.','Branch examples'),),(
+            'The real-input helper is not a call to public pow(x,1/n). It uses a private test of the reciprocal exponent to retain negative real roots for recognized odd orders and to promote recognized even roots to complex values.',
+            'The small positive integer examples below are intentional. The helper’s floating-point parity tests should not be generalized into a claim about arbitrary rational exponents or negative orders.'),(
+            WorkedExample('root(-8,3)','-2','The helper recognizes this odd order and returns the negative real root; cubing −2 gives −8.'),
+            WorkedExample('Im(root(-9,2))','3','This even order selects the complex root 3i, whose imaginary coordinate is three.')),False)
     if name in EXTRA:
         tex,text,examples=EXTRA[name]
+        if name=='SpencesIntegral':
+            code='Re(SpencesIntegral(2+0i))' if '(z' in sig else 'SpencesIntegral(2)'
+            examples=(WorkedExample(code,'approximately -0.8224670334','The reflected input is −1. The alternating reciprocal-square series gives Li₂(−1)=−π²/12.'),)
+        if name=='erfcx':
+            code='Re(erfcx(1+0i))' if '(z' in sig else 'erfcx(1)'
+            examples=(WorkedExample(code,'approximately 0.4275835762','At one the scaled result is e·erfc(1). This moderate input illustrates the normalization without assuming that the direct wrapper is numerically stable at extremes.'),)
         return Enrichment((Equation(tex,article.formula or text,'Mathematical interpretation'),),(text,),examples,False)
     if kind!='SpecialFunctions':return Enrichment()
     if 'Bessel' in name or name.startswith(('Hankel','SphericalHankel','Struve')):
+        if name in ('ModifiedSphericalBesselIn','ModifiedSphericalBesselKn'):
+            if name.endswith('In'):
+                tex=r'e^{-|x|}i_n(x),\qquad i_n(x)=\sqrt{\frac{\pi}{2x}}I_{n+1/2}(x)\quad(x>0)'
+                text='This wrapper returns the exponentially scaled spherical function. For positive x the spherical normalization contributes sqrt(π/(2x)) and a half-integer cylindrical order; exp(−x) then removes the leading growth. The GSL real extension also covers negative x and the supplied zero limits.'
+            else:
+                tex=r'e^x k_n(x),\qquad k_n(x)=\sqrt{\frac{\pi}{2x}}K_{n+1/2}(x)\quad(x>0)'
+                text='The exponential is part of the returned value. GSL’s spherical normalization gives k0(x)=π exp(−x)/(2x), so the scaled order-zero result is π/(2x). A convention omitting π/2 would produce a different answer.'
+            return Enrichment((Equation(tex,article.formula,'Scaled return value'),),(text,),normalization_examples(sig),False)
         if 'Zeros' in name:tex=r'J_\nu(j_{\nu,s})=0';text='The argument s selects a numbered positive zero, not an evaluation coordinate. Zeros determine eigenfrequencies when a boundary condition forces a cylindrical mode to vanish.'
         elif 'Prime' in name:tex=r'J_n^{\prime}(x)=\frac{J_{n-1}(x)-J_{n+1}(x)}{2}';text='A derivative changes the radial boundary condition: a zero derivative can represent a different physical mode than a zero function value. The prime is differentiation, not a shifted order.'
         elif 'Modified' in name or name.startswith('logBessel'):
@@ -172,14 +202,16 @@ def extra_enrichment(item,article,name):
         else:
             tex=r'x^2y^{\prime\prime}+xy^{\prime}+(x^2-\nu^2)y=0'
             text='Bessel functions describe radial modes in cylindrical geometry. Spherical and Riccati variants rescale related half-integer solutions; Hankel functions combine independent solutions into complex waves. Use the specific function and normalization below, rather than treating all family names as aliases.'
-        return Enrichment((Equation(tex,tex,'Underlying cylindrical equation' if not ('Zeros' in name or 'Prime' in name) else 'Defining relation'),),(text,),(),False)
+        return Enrichment((Equation(tex,tex,'Underlying cylindrical equation' if not ('Zeros' in name or 'Prime' in name) else 'Defining relation'),),(text,),normalization_examples(sig),False)
     if name.startswith(('AiZeros','BiZeros')):
         f=('\\operatorname{Ai}' if name.startswith('Ai') else '\\operatorname{Bi}')+('^{\\prime}' if 'Prime' in name else '')
         return Enrichment((Equation(f+r'(a_s)=0,\qquad a_1>a_2>\cdots',article.formula),),('The input selects a zero by index; it is not the x coordinate at which Ai or Bi is evaluated. Distinguish zeros of the function from zeros of its derivative, since they impose different boundary conditions.',),(),True)
     if name.startswith('FermiDirac'):
         tex=r'F_j(x)=\frac1{\Gamma(j+1)}\int_0^\infty\frac{t^j}{e^{t-x}+1}\,dt\quad(j>-1)'
         if sig.count(',') and name=='FermiDiracF0':tex=r'F_0(x,b)=\ln(1+e^{x-b})'
-        return Enrichment((Equation(tex,article.formula,'Normalized integral'),),('The gamma normalization is part of this convention. Tables that omit it differ by Γ(j+1). The exponential denominator represents occupation, while the power of t accounts for the mode weighting.',),(),False)
+        text='The gamma normalization is part of this convention. Tables that omit it differ by Γ(j+1). The exponential denominator represents occupation, while the power of t accounts for the mode weighting.'
+        if name=='FermiDiracFj':text+=' Negative integer orders use continuation formulas; the example at j=−1 is not an improper integral with the displayed j>−1 condition.'
+        return Enrichment((Equation(tex,article.formula,'Normalized integral'),),(text,),normalization_examples(sig),False)
     if name.startswith('Mathieu'):
         return Enrichment((Equation(r'y^{\prime\prime}+(a-2q\cos2x)y=0', 'Angular Mathieu equation.','Underlying angular equation'),),('Periodic angular Mathieu solutions occur only for selected characteristic values. The An/Bn routines find those values, whereas CE/SE evaluate the corresponding angular functions. Modified radial functions use a transformed equation; the names are not interchangeable.',),(),False)
     if name.startswith('Coulomb'):
@@ -193,9 +225,12 @@ def extra_enrichment(item,article,name):
         'Hypergeometric2F1renorm':r'\frac{{}_2F_1(a,b;c;x)}{\Gamma(c)}',
         'HypergeometricU':r'xy^{\prime\prime}+(b-x)y^{\prime}-ay=0,\quad U(a,b,x)\sim x^{-a}',
         'Hypergeometric2F0':r'{}_2F_0(a,b;;x)\sim\sum_{k=0}^{\infty}\frac{(a)_k(b)_k x^k}{k!}'}
-        return Enrichment((Equation(forms[name],article.formula,'Defining representation'),),('The parameters control the differential equation and its normalization, while x is the evaluation coordinate. A terminating series, a convergent series and an asymptotic expansion require different interpretations. The representation below is not permission to sum an infinite series outside its domain.',),(),False)
+        tex=forms[name]
+        if name in ('Hypergeometric2F1','Hypergeometric2F1renorm') and sig.count(',')==2:
+            tex=tex.replace('a,b','a,\\overline{a}').replace('(a)_k(b)_k',r'(a)_k(\overline{a})_k')
+        return Enrichment((Equation(tex,article.formula,'Defining representation'),),('The parameters control the differential equation and its normalization, while x is the evaluation coordinate. A terminating series, a convergent series and an asymptotic expansion require different interpretations. The representation below is not permission to sum an infinite series outside its domain.',),normalization_examples(sig),False)
     if name.startswith('Gegenbauer'):
-        return Enrichment((Equation(r'\sum_{n=0}^{\infty}C_n^{(\alpha)}(x)t^n=(1-2xt+t^2)^{-\alpha}',article.formula),),('The coefficient of tⁿ in this generating function is the degree-n polynomial. α selects an orthogonal-polynomial family; setting α=1/2 recovers Legendre polynomials, subject to the domain conventions below.',),(),True)
+        return Enrichment((Equation(r'\sum_{n=0}^{\infty}C_n^{(\alpha)}(x)t^n=(1-2xt+t^2)^{-\alpha},\quad\alpha\ne0',article.formula),),('The coefficient of tⁿ in this generating function is the degree-n polynomial. α selects an orthogonal-polynomial family; setting α=1/2 recovers Legendre polynomials. The α=0 wrapper uses the separate GSL limiting convention below, so that case is excluded from this representation.',),normalization_examples(sig),True)
     polynomials={
     'Laguerre':r'L_n^{(\alpha)}(x)=\sum_{k=0}^{n}(-1)^k\binom{n+\alpha}{n-k}\frac{x^k}{k!}',
     'LegendreP':r'P_l(x)=\frac1{2^l l!}\frac{d^l}{dx^l}(x^2-1)^l',
@@ -211,17 +246,18 @@ def extra_enrichment(item,article,name):
     'LegendreH3D':r'H_0(\lambda,\eta)=\frac{\sin(\lambda\eta)}{\lambda\sinh\eta}'}
     if name in polynomials:
         tex=polynomials[name]
-        if name=='LegendreP' and sig.count(',')==2:tex=r'P_l^m(x)=(-1)^m(1-x^2)^{m/2}\frac{d^mP_l(x)}{dx^m}'
-        return Enrichment((Equation(tex,article.formula,'Representation / normalization'),),('Degree, order and evaluation coordinate are separate inputs. Changing a degree chooses another member of the family, not another point on the same curve. The normalization and weighting convention determine how coefficients from different references can be compared.',),(),False)
+        if name=='Laguerre' and sig.count(',')==1:tex=r'L_n(x)=\sum_{k=0}^n(-1)^k\binom nk\frac{x^k}{k!}\quad(\alpha=0)'
+        if name=='LegendreP' and sig.count(',')==2:tex=r'\begin{aligned}P_l^m(x)&=(-1)^m(1-x^2)^{m/2}\frac{d^mP_l(x)}{dx^m}\quad(0\le m\le l),\\P_l^{-m}(x)&=(-1)^m\frac{(l-m)!}{(l+m)!}P_l^m(x).\end{aligned}'
+        return Enrichment((Equation(tex,article.formula,'Representation / normalization'),),('Degree, order and evaluation coordinate are separate inputs. Changing a degree chooses another member of the family, not another point on the same curve. The normalization and weighting convention determine how coefficients from different references can be compared.',),normalization_examples(sig),False)
     if name.startswith('JacobiElliptic'):
-        return Enrichment((Equation(r'\operatorname{sn}^2(u|m)+\operatorname{cn}^2(u|m)=1,\qquad\operatorname{dn}^2(u|m)+m\operatorname{sn}^2(u|m)=1','Jacobi elliptic identities; m is the parameter.','Family identities'),),('These generalize trigonometric functions: at parameter m=0, sn and cn reduce to sin and cos and dn becomes one. Here m is the parameter, while Legendre-form elliptic-integral routines below use the modulus k; m=k².',),(),False)
+        return Enrichment((Equation(r'\operatorname{sn}^2(u|m)+\operatorname{cn}^2(u|m)=1,\qquad\operatorname{dn}^2(u|m)+m\operatorname{sn}^2(u|m)=1','Jacobi elliptic identities; m is the parameter.','Family identities'),),('These generalize trigonometric functions: at parameter m=0, sn and cn reduce to sin and cos and dn becomes one. Here m is the parameter, while Legendre-form elliptic-integral routines below use the modulus k; m=k².',),normalization_examples(sig),False)
     if name.startswith('Elliptic'):
         symbol=name[len('Elliptic'):];upper=r'\pi/2' if sig.count(',')==0 or (symbol=='Π' and sig.count(',')==1) else r'\phi'
         kernels={'K':r'\frac1{\sqrt{1-k^2\sin^2t}}','F':r'\frac1{\sqrt{1-k^2\sin^2t}}','E':r'\sqrt{1-k^2\sin^2t}','D':r'\frac{\sin^2t}{\sqrt{1-k^2\sin^2t}}','Π':r'\frac1{(1+n\sin^2t)\sqrt{1-k^2\sin^2t}}'}
-        return Enrichment((Equation(r'\int_0^{'+upper+'}'+kernels[symbol]+r'\,dt',article.formula,'Integral convention'),),('The complete integral ends at π/2; the incomplete integral ends at the supplied angle. The application uses modulus k, not parameter m=k². For the third kind, also check the sign of the characteristic in the denominator: conventions differ between libraries.',),(),False)
+        return Enrichment((Equation(r'\int_0^{'+upper+'}'+kernels[symbol]+r'\,dt',article.formula,'Integral convention'),),('The complete integral ends at π/2; the incomplete integral ends at the supplied angle. The application uses modulus k, not parameter m=k². For the third kind, also check the sign of the characteristic in the denominator: conventions differ between libraries.',),normalization_examples(sig),False)
     if name.startswith('Carlson'):
         forms={'C':r'R_C(x,y)=\frac12\int_0^\infty\frac{dt}{(t+y)\sqrt{t+x}}','F':r'R_F(x,y,z)=\frac12\int_0^\infty\frac{dt}{\sqrt{(t+x)(t+y)(t+z)}}','D':r'R_D(x,y,z)=\frac32\int_0^\infty\frac{dt}{(t+z)\sqrt{(t+x)(t+y)(t+z)}}','J':r'R_J(x,y,z,p)=\frac32\int_0^\infty\frac{dt}{(t+p)\sqrt{(t+x)(t+y)(t+z)}}'}
-        return Enrichment((Equation(forms[name[-1]],article.formula),),('Symmetric elliptic forms avoid selecting an amplitude/modulus representation first. Their arguments are not simply the k and φ of Legendre-form integrals, so translate the formula rather than reusing arguments by position.',),(),True)
+        return Enrichment((Equation(forms[name[-1]],article.formula),),('Symmetric elliptic forms avoid selecting an amplitude/modulus representation first. Their arguments are not simply the k and φ of Legendre-form integrals, so translate the formula rather than reusing arguments by position.',),normalization_examples(sig),True)
     return Enrichment()
 
 # Optimization landscapes: evaluation is not an optimization algorithm.

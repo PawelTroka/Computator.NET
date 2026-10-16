@@ -4,7 +4,7 @@ const elements = new Set(['DIV', 'P', 'BR', 'PRE', 'UL', 'LI', 'CODE', 'STRONG',
 const excluded = new Set(['SCRIPT', 'STYLE', 'TEMPLATE', 'IFRAME', 'OBJECT', 'EMBED', 'SVG', 'MATH', 'NOSCRIPT', 'NOFRAMES']);
 const classes = new Set(['function-reference', 'reference-arguments', 'reference-example', 'reference-formula',
   'reference-note', 'reference-source', 'reference-summary',
-  'reference-explanation', 'reference-equation', 'reference-worked-example', 'reference-variant']);
+  'reference-explanation', 'reference-equation', 'reference-worked-example', 'reference-example-context', 'reference-variant']);
 
 export function referenceHtml(title: string, fragment: unknown, _displayedSignature?: string): string {
   const template = document.createElement('template');

@@ -5,19 +5,22 @@ using System.IO;
 using File = System.IO.File;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Xml.Linq;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Autocompletion.DataSource;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Natives;
 using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.DataTypes.Utility;
 using NUnit.Framework;
 
 namespace Computator.NET.Core.Tests.AutocompletionTests
 {
-    [TestFixture, NonParallelizable]
+    [TestFixture, NonParallelizable, Apartment(ApartmentState.STA)]
     public class FunctionReferenceRichContentTests
     {
         [TestCase(null)]
@@ -127,36 +130,133 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                 NUnit.Framework.Assert.That(entry.Elements("p").Where(p => (string)p.Attribute("class") == "reference-signature").Elements("strong"), Is.Empty);
         }
 
-        public static IEnumerable<TestCaseData> WorkedExamples()
+        private static IEnumerable<(string Code, string Editor, string Result)> ReadWorkedExamples(IEnumerable<FunctionInfo> entries)
         {
-            var examples = new Dictionary<string, string>(StringComparer.Ordinal);
-            foreach (var entry in new FunctionsDetailsFileSource().Details.Values)
+            foreach (var entry in entries)
                 foreach (var example in XElement.Parse(entry.Description).Descendants("div").Where(div => (string)div.Attribute("class") == "reference-worked-example"))
                 {
                     var code = example.Element("pre")?.Element("code")?.Value;
+                    if (string.IsNullOrWhiteSpace(code)) throw new InvalidDataException("Empty worked example: " + entry.Signature);
+                    var contexts = example.Elements("p").Where(p => (string)p.Attribute("class") == "reference-example-context").Select(p => p.Value).ToArray();
+                    if (contexts.Length > 1 || (contexts.Length == 1 && contexts[0] != "Scripting editor"))
+                        throw new InvalidDataException("Unknown worked-example editor: " + entry.Signature);
+                    var editor = contexts.Length == 0 ? "expression" : "scripting";
                     var result = example.Elements("p").First(p => p.Element("strong")?.Value == "Result:").Value.Substring("Result:".Length).Trim();
-                    if (examples.TryGetValue(code, out var prior) && prior != result) throw new InvalidDataException("Conflicting example answers: " + code);
-                    examples[code] = result;
+                    yield return (code, editor, result);
                 }
+        }
+
+        private static FunctionInfo ExampleEntry(string code, string context)
+        {
+            var example = new XElement("div", new XAttribute("class", "reference-worked-example"),
+                new XElement("pre", new XElement("code", code)),
+                new XElement("p", new XElement("strong", "Result:"), " 5"));
+            if (context != null) example.AddFirst(new XElement("p", new XAttribute("class", "reference-example-context"), context));
+            return new FunctionInfo { Description = new XElement("div", example).ToString(SaveOptions.DisableFormatting) };
+        }
+
+        [TestCase(null, "expression", "gamma(5)")]
+        [TestCase("Scripting editor", "scripting", "writeln(det(matrix({{3,1},{1,2}})));")]
+        public void ExampleReaderPreservesTheRequiredEditorAndCompleteDisplayedCode(string context, string editor, string code)
+        {
+            var example = ReadWorkedExamples(new[] { ExampleEntry(code, context) }).Single();
+            NUnit.Framework.Assert.That(example.Editor, Is.EqualTo(editor));
+            NUnit.Framework.Assert.That(example.Code, Is.EqualTo(code), "Execute the text readers can copy, without adding hidden imports or statements.");
+        }
+
+        [TestCase("")]
+        [TestCase("Console")]
+        [TestCase("scripting")]
+        public void ExampleReaderRejectsUnknownContextInsteadOfGuessingAnEvaluator(string context)
+        {
+            NUnit.Framework.Assert.Throws<InvalidDataException>(() => ReadWorkedExamples(new[] { ExampleEntry("1", context) }).ToArray());
+        }
+
+        [Test]
+        public void DesktopRenderingRetainsScriptingInstructionsAndRunnableCode()
+        {
+            const string code = "writeln(det(matrix({{3,1},{1,2}})));";
+            var rendered = FunctionReferenceDocument.Render(ExampleEntry(code, "Scripting editor"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("Scripting editor"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("<code>" + code + "</code>"));
+        }
+
+        [Test]
+        public void ShippedMatrixExamplesIdentifyTheScriptingEditor()
+        {
+            var examples = ReadWorkedExamples(new FunctionsDetailsFileSource().Details.Values.Where(entry => entry.Type == "MatrixFunctions")).ToArray();
+            NUnit.Framework.Assert.That(examples.Length, Is.GreaterThanOrEqualTo(42));
+            foreach (var example in examples)
+            {
+                NUnit.Framework.Assert.That(example.Editor, Is.EqualTo("scripting"), example.Code);
+                NUnit.Framework.Assert.That(example.Code, Does.StartWith("writeln(").And.EndWith(");"));
+            }
+        }
+
+        public static IEnumerable<TestCaseData> WorkedExamples()
+        {
+            var examples = new Dictionary<(string Editor, string Code), string>();
+            foreach (var example in ReadWorkedExamples(new FunctionsDetailsFileSource().Details.Values))
+            {
+                var key = (example.Editor, example.Code);
+                if (examples.TryGetValue(key, out var prior) && prior != example.Result)
+                    throw new InvalidDataException("Conflicting example answers: " + example.Code);
+                examples[key] = example.Result;
+            }
             if (examples.Count < 65) throw new InvalidDataException("Too few executable worked examples.");
-            foreach (var pair in examples.OrderBy(pair => pair.Key, StringComparer.Ordinal))
+            foreach (var pair in examples.OrderBy(pair => pair.Key.Editor, StringComparer.Ordinal).ThenBy(pair => pair.Key.Code, StringComparer.Ordinal))
             {
                 var text = pair.Value.Replace("approximately ", "");
                 var expected = double.Parse(text, NumberStyles.Float, CultureInfo.InvariantCulture);
-                // Published decimal answers are intentionally rounded. The budget
-                // reflects their last displayed digit, not a weakened algorithm test.
+                // Use a fixed relative budget of 1e-9, an absolute budget of 1e-12
+                // for zero, and a 1e-300 absolute floor for nonzero answers.
+                // The number of displayed decimal digits does not change this budget.
                 var tolerance = Math.Max(Math.Abs(expected) * 1e-9, expected == 0 ? 1e-12 : 1e-300);
-                yield return new TestCaseData(pair.Key, expected, tolerance).SetName("Reference worked example: " + pair.Key);
+                yield return new TestCaseData(pair.Key.Editor, pair.Key.Code, expected, tolerance).SetName("Reference worked example (" + pair.Key.Editor + "): " + pair.Key.Code);
             }
         }
 
         [TestCaseSource(nameof(WorkedExamples))]
-        public void EveryNewNumericWorkedExampleExecutesThroughTheActualTslEvaluator(string code, double expected, double tolerance)
+        public void EveryNewNumericWorkedExampleExecutesThroughTheActualTslEvaluator(string editor, string code, double expected, double tolerance)
         {
-            GSLInitializer.Initialize();
-            var function = new ExpressionsEvaluator().Evaluate(code, "", CalculationsMode.Real);
-            var actual = Convert.ToDouble(function.Evaluate(0.0), CultureInfo.InvariantCulture);
-            NUnit.Framework.Assert.That(actual, Is.EqualTo(expected).Within(tolerance), code);
+            var settings = Computator.NET.Core.Properties.Settings.Default;
+            var previousNotation = settings.NumericalOutputNotation;
+            var previousWorkingDirectory = settings.WorkingDirectory;
+            var previousDirectory = Directory.GetCurrentDirectory();
+            var previousCulture = CultureInfo.CurrentCulture;
+            var previousUiCulture = CultureInfo.CurrentUICulture;
+            try
+            {
+                CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+                CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
+                settings.NumericalOutputNotation = NumericalOutputNotationType.EngineeringNotation;
+                settings.WorkingDirectory = previousDirectory;
+                GSLInitializer.Initialize();
+                double actual;
+                if (editor == "expression")
+                {
+                    var function = new ExpressionsEvaluator().Evaluate(code, "", CalculationsMode.Real);
+                    actual = Convert.ToDouble(function.Evaluate(0.0), CultureInfo.InvariantCulture);
+                }
+                else if (editor == "scripting")
+                {
+                    var output = new StringBuilder();
+                    var script = new ScriptEvaluator().Evaluate(code, "");
+                    script.Evaluate(value => output.Append(value));
+                    NUnit.Framework.Assert.That(double.TryParse(output.ToString().Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out actual),
+                        Is.True, "Expected one numeric scripting output from " + code + ": " + output);
+                }
+                else throw new InvalidDataException("Unsupported worked-example editor: " + editor);
+                NUnit.Framework.Assert.That(actual, Is.EqualTo(expected).Within(tolerance), code);
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(previousDirectory);
+                settings.WorkingDirectory = previousWorkingDirectory;
+                settings.NumericalOutputNotation = previousNotation;
+                CultureInfo.CurrentCulture = previousCulture;
+                CultureInfo.CurrentUICulture = previousUiCulture;
+            }
         }
     }
 }

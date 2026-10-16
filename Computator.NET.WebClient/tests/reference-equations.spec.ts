@@ -25,7 +25,7 @@ for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripti
           '<p class="reference-summary">A definition for both real and complex inputs.</p>' +
           `<p class="reference-equation"><img class="reference-math" src="reference-equations/${id}.png" width="${asset.width}" height="${asset.height}" alt="A genuine typeset equation" onerror="window.referenceExecuted=true" style="opacity:0" /></p>` +
           '<p class="reference-explanation">Interpret the result before using it in another computation.</p>' +
-          '<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Probe(1)</code></pre><p>Result: one</p></div></div>'
+          '<div class="reference-worked-example"><p><strong>Worked example</strong></p><p class="reference-example-context" onclick="window.referenceExecuted=true">Scripting editor</p><pre><code>writeln(det(matrix({{3,1},{1,2}})));</code></pre><p>Result: five</p></div></div>'
       } }]
     }));
     await page.goto(route);
@@ -43,7 +43,9 @@ for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripti
     expect(await equation.evaluate((node: HTMLImageElement) => node.naturalWidth)).toBe(3 * asset.width);
     await expect(equation).not.toHaveAttribute('style');
     await expect(equation).not.toHaveAttribute('onerror');
-    await expect(tooltip.locator('.reference-worked-example pre code')).toHaveText('Probe(1)');
+    await expect(tooltip.locator('.reference-example-context')).toHaveText('Scripting editor');
+    await expect(tooltip.locator('.reference-example-context')).not.toHaveAttribute('onclick');
+    await expect(tooltip.locator('.reference-worked-example pre code')).toHaveText('writeln(det(matrix({{3,1},{1,2}})));');
     expect(remoteImages).toEqual([]);
     await page.screenshot({ path: info.outputPath('offline-equation-without-signatures.png') });
   });

@@ -7,13 +7,19 @@ updates. Examples use the public spelling and preserve documented wrapper bugs.
 from dataclasses import dataclass, replace
 import re
 from common import A
-import elementary, special, distributions
+import elementary, special, distributions, physical
+from constant_lessons import CONSTANT_LESSONS
+from physical_equations import BASE_EQUATIONS
+from physical_family_lessons import family_lesson
 
 @dataclass(frozen=True)
 class WorkedExample:
     code: str
     result: str
     explanation: str
+    # Scalar authoring expressions become complete writeln statements in the
+    # scripting editor, so readers and runtime tests execute identical text.
+    editor: str = 'expression'
 
 @dataclass(frozen=True)
 class Equation:
@@ -63,24 +69,9 @@ for name, tex, text in [
     ('sech',r'\operatorname{sech}x=\frac{1}{\cosh x}','The reciprocal of cosh is a positive, even bell-shaped curve. It is one at zero and decays toward zero in either real direction.'),
     ('csch',r'\operatorname{csch}x=\frac{1}{\sinh x}','The reciprocal of sinh is odd and singular at zero. It decays in magnitude for large positive or negative real arguments.')]:
     lesson(name,tex,[text,'Hyperbolic functions use exponentials, not angles on the unit circle. Their names do not imply periodicity on the real axis.'])
-for name, tex in {
-'arcsin':r'\sin(\arcsin x)=x,\quad -1\le x\le1',
-'arccos':r'\cos(\arccos x)=x,\quad -1\le x\le1',
-'arctan':r'\tan(\arctan x)=x',
-'arccot':r'\operatorname{arccot}x=\frac{\pi}{2}-\arctan x',
-'arcsec':r'\operatorname{arcsec}x=\arccos(1/x)',
-'arccsc':r'\operatorname{arccsc}x=\arcsin(1/x)',
-'arsinh':r'\operatorname{arsinh}x=\ln(x+\sqrt{x^2+1})',
-'arcosh':r'\operatorname{arcosh}x=\ln(x+\sqrt{x+1}\sqrt{x-1})',
-'artanh':r'\operatorname{artanh}x=\frac12\ln\frac{1+x}{1-x}',
-'arcoth':r'\operatorname{arcoth}x=\frac12\ln\frac{x+1}{x-1}',
-'arcsch':r'\operatorname{arcsch}x=\ln(1/x+\sqrt{1/x^2+1})',
-'arsech':r'\operatorname{arsech}x=\ln(1/x+\sqrt{1/x+1}\sqrt{1/x-1})'
-}.items():
-    lesson(name,tex,[
-        'An inverse function answers which input produces a given output. When several inputs are possible, this routine chooses one branch; the stated domain and range specify which value you receive.',
-        'An inverse is not a reciprocal. For example, arccos(x) finds an angle, whereas 1/cos(x) is secant. For complex inputs, branch choices are part of the definition and ordinary real inverse identities cannot be applied across a cut without care.'
-    ])
+from inverse_lessons import REAL_INVERSES, COMPLEX_INVERSES
+for name, (tex, paragraphs, examples) in REAL_INVERSES.items():
+    lesson(name, tex, paragraphs, examples)
 lesson('exp',r'e^z=\sum_{n=0}^{\infty}\frac{z^n}{n!}',[
     'The exponential describes growth or decay at a rate proportional to the current value. In A·exp(k·t), a positive k means growth and a negative k means decay; changing A rescales the initial amount.',
     'A real exponential is positive. For imaginary arguments it describes rotation, which connects exponentials to sine and cosine. Very large real parts can overflow floating-point range.'
@@ -91,8 +82,9 @@ lesson('ln|log',r'\ln x=y\quad\Longleftrightarrow\quad e^y=x',[
 ],[('ln(e)', '1', 'The natural logarithm and exponential undo one another on positive real values.')])
 lesson('sqrt',r'(\sqrt z)^2=z',[
     'A positive real number has two square roots with opposite signs; sqrt selects the nonnegative one. It does not return a pair of roots.',
-    'Negative inputs need the complex overload for a complex result. Squaring a principal complex square root recovers its argument, but taking the principal square root of z² does not always recover z.'
-],[('sqrt(9)', '3', 'The other solution of y²=9 is −3; it is not the value selected by sqrt.')])
+    'The real-input wrapper automatically returns a complex value for a negative argument: sqrt(-1) is i. Squaring a principal complex square root recovers its argument, but taking the principal square root of z² does not always recover z.'
+],[('sqrt(9)', '3', 'The other solution of y²=9 is −3; it is not the value selected by sqrt.'),
+   ('Im(sqrt(-9))', '3', 'No explicit complex literal is needed: the negative real argument is promoted and the selected result is 3i.')])
 lesson('abs',r'|a+ib|=\sqrt{a^2+b^2}',[
     'Absolute value is distance from zero. For real numbers it removes the sign; for complex numbers it combines both coordinates into a nonnegative magnitude.',
     'Magnitude does not retain phase. Two different complex numbers can therefore have the same absolute value, and abs(z) must not be used when the direction of z is important.'
@@ -129,10 +121,17 @@ lesson('Beta',r'B(a,b)=\int_0^1 t^{a-1}(1-t)^{b-1}\,dt=\frac{\Gamma(a)\Gamma(b)}
     'The beta integral balances powers of the distances to the two ends of the unit interval. Interchanging a and b reflects t about one half, so the complete beta function is symmetric.',
     'Dividing the integrand by B(a,b) produces a probability density on [0,1]. The complete special function is a normalization constant, not the Beta distribution object and not a cumulative probability.'
 ],[('Beta(2,3)', 'approximately 0.0833333333', 'Γ(2)Γ(3)/Γ(5)=1·2/24=1/12.')])
-lesson('Ai|Bi|AiPrime|BiPrime',r'y^{\prime\prime}(x)-x\,y(x)=0',[
-    'The Airy equation is a model for a turning point: on one side solutions oscillate, while on the other they grow or decay. This is why Airy functions appear near the boundary between oscillatory and evanescent waves.',
-    'Ai is the solution that decays for positive x; Bi grows there. The Prime functions return slopes with respect to x, not squares or derivatives with respect to an order parameter. Choosing the correct solution matters more than merely satisfying the differential equation.'
-],[('Ai(0)', 'approximately 0.3550280539', 'The value at the turning point is finite and nonzero; Ai does not mean a function that vanishes at x=0.')])
+for name, description, example in [
+    ('Ai', 'Ai is the Airy solution that decays as x becomes large and positive. Its normalization is fixed; an arbitrary multiple also solves the equation but is not the value of Ai.',
+        ('Ai(0)', 'approximately 0.3550280539', 'At the turning point, Ai(0)=1/[3^(2/3)Γ(2/3)]. Decay on the positive side does not mean a zero value at the origin.')),
+    ('Bi', 'Bi is the independent Airy solution that grows as x becomes large and positive. It is not the reciprocal of Ai; both become oscillatory for negative arguments.',
+        ('Bi(0)', 'approximately 0.6149266274', 'At zero, Bi(0)=sqrt(3)·Ai(0). The normalization distinguishes the two standard solutions.')),
+    ('AiPrime', 'AiPrime differentiates the decaying Airy solution with respect to x. The negative slope at zero shows that Ai is decreasing there; the Prime suffix is not a square or an order parameter.',
+        ('AiPrime(0)', 'approximately -0.2588194038', 'The initial slope is −1/[3^(1/3)Γ(1/3)], rather than the initial function value Ai(0).')),
+    ('BiPrime', 'BiPrime differentiates the growing Airy solution with respect to x. Its positive slope at zero distinguishes it from AiPrime. The derivative itself does not satisfy the same homogeneous Airy equation.',
+        ('BiPrime(0)', 'approximately 0.4482883574', 'The slope is sqrt(3) times the magnitude of AiPrime(0), and is positive.'))]:
+    lesson(name, r'y^{\prime\prime}(x)-x\,y(x)=0', [
+        'The Airy equation models a turning point between oscillatory and growing or decaying behavior, such as the boundary between propagating and evanescent waves.', description], [example])
 lesson('erf',r'\operatorname{erf}(z)=\frac{2}{\sqrt\pi}\int_0^z e^{-t^2}\,dt',[
     'The error function accumulates a Gaussian-shaped curve from zero to its argument. It is odd, equals zero at the origin and approaches ±1 along the real axis.',
     'For a standard normal variable, Φ(x)=(1+erf(x/√2))/2. The scaling by √2 and the shift by one half are essential: erf(x) itself is not the standard normal CDF.'
@@ -239,36 +238,20 @@ DISTRIBUTION_EXAMPLES = {
 'Binomial':[('Binomial.PMF(0.5,4,2)','0.375','Choose the two successful trials in six ways, each pattern having probability 1/16.')],
 'Categorical':[('Categorical.PMF(new double[]{1,3},1)','0.75','The second category receives weight 3 out of total weight 4. Its index is one.')],
 'Cauchy':[('Cauchy.CDF(0,1,0)','0.5','Symmetry places half the probability below the location; this does not imply that a population mean exists.')],
-'ChiSquared':[('ChiSquared.CDF(2,2)','approximately 0.6321205588','Two degrees of freedom give an exponential law with rate one half.')],
+'ChiSquared':[('ChiSquared.CDF(2,2)','0.632120558829','Two degrees of freedom give an exponential law with rate one half.')],
 'ContinuousUniform':[('ContinuousUniform.PDF(0,0.5,0.25)','2','Density two over an interval of length one half integrates to total probability one.')],
-'DiscreteUniform':[('DiscreteUniform.PMF(1,6,6)','approximately 0.1666666667','Both endpoints count, so a fair die has six equally likely integer outcomes.')],
-'Exponential':[('Exponential.CDF(2,0.5)','approximately 0.6321205588','At one mean waiting time, 1/rate=0.5, the accumulated probability is 1−e⁻¹.')],
-'Gamma':[('Gamma.PDF(1,2,0.5)','approximately 0.7357588823','Shape one reduces gamma to the exponential density with rate two.')],
+'DiscreteUniform':[('DiscreteUniform.PMF(1,6,6)','0.166666666667','Both endpoints count, so a fair die has six equally likely integer outcomes.')],
+'Exponential':[('Exponential.CDF(2,0.5)','0.632120558829','At one mean waiting time, 1/rate=0.5, the accumulated probability is 1−e⁻¹.')],
+'Gamma':[('Gamma.PDF(1,2,0.5)','0.735758882343','Shape one reduces gamma to the exponential density with rate two.')],
 'Geometric':[('Geometric.PMF(0.5,2)','0.25','One failure followed by one success has probability (1−0.5)·0.5.')],
 'Laplace':[('Laplace.CDF(0,1,0)','0.5','Half the probability lies on each side of the location.')],
 'LogNormal':[('LogNormal.CDF(0,1,1)','0.5','The logarithm of one is zero, the center of the associated normal distribution; one is the lognormal median.')],
 'NegativeBinomial':[('NegativeBinomial.PMF(1,0.5,0)','0.5','Zero failures before the first success means the first trial succeeds.')],
 'Pareto':[('Pareto.CDF(1,2,2)','0.75','The remaining tail above two is (1/2)²=1/4, leaving cumulative probability 3/4.')],
-'Poisson':[('Poisson.PMF(2,0)','approximately 0.1353352832','With expected count two, the probability of no events is e⁻².')],
-'Rayleigh':[('Rayleigh.CDF(1,1)','approximately 0.3934693403','At x equal to the scale, the CDF is 1−e⁻¹ᐟ².')],
+'Poisson':[('Poisson.PMF(2,0)','0.135335283237','With expected count two, the probability of no events is e⁻².')],
+'Rayleigh':[('Rayleigh.CDF(1,1)','0.393469340287','At x equal to the scale, the CDF is 1−e⁻¹ᐟ².')],
 'StudentT':[('StudentT.CDF(0,1,3,0)','0.5','The center splits the probability in half even though the tails are heavier than Gaussian tails.')],
-'Weibull':[('Weibull.CDF(1,2,2)','approximately 0.6321205588','Shape one is exponential with scale two; x=2 is one scale unit.')],
-}
-
-CONSTANT_LESSONS={
-'PI':(r'C=2\pi r,\qquad A=\pi r^2',[('2*PI*3','approximately 18.8495559215','A circle of radius three has circumference 2πr. Area would instead use πr².')]),
-'e':(r'e=\sum_{n=0}^{\infty}\frac1{n!}',[('ln(e)','1','Euler’s number is the base of natural logarithms; it is not an electric charge.')]),
-'GoldenRatio':(r'\varphi=\frac{1+\sqrt5}{2},\qquad\varphi^2=\varphi+1',[('GoldenRatio*GoldenRatio-GoldenRatio','approximately 1','This checks the defining quadratic using the stored approximation.')]),
-'ElementaryCharge':(r'e_{\mathrm{SI}}=1.602176634\times10^{-19}\ \mathrm C',[('-ElementaryCharge','-1.602176565E-19','An electron carries negative charge. This expression uses the application’s historical stored magnitude, not the newer exact SI number above.')]),
-'SpeedOfLightInVacuum':(r'c=299\,792\,458\ \mathrm{m\,s^{-1}}',[('SpeedOfLightInVacuum*1e-9','0.299792458','Light travels about 30 centimetres in one nanosecond in vacuum.')]),
-'PlanckConstant':(r'E=h\nu',[('PlanckConstant*5e14','approximately 3.313034785E-19','For frequency 5×10¹⁴ Hz, multiply by the stored Planck constant to obtain joules. The legacy value must not be silently replaced by a modern exact value.')]),
-'BoltzmannConstant':(r'E_{\mathrm{scale}}=k_{\mathrm B}T',[('BoltzmannConstant*300','approximately 4.1419464E-21','At 300 kelvin, kBT is a characteristic thermal energy in joules, not the energy of every particle.')]),
-'AvogadroConstant':(r'N=nN_{\mathrm A}',[]),
-'GravitationalConstant':(r'F=G\frac{m_1m_2}{r^2}',[]),
-'ElectronMass':(r'E_0=m_{\mathrm e}c^2',[]),
-'BohrRadius':(r'a_0=\frac{\hbar}{m_{\mathrm e}c\alpha}',[]),
-'FineStructureConstant':(r'\alpha=\frac{e^2}{4\pi\varepsilon_0\hbar c}',[]),
-'AtomicMassConstant':(r'm_{\mathrm u}=\frac{m({}^{12}\mathrm C)}{12}',[])
+'Weibull':[('Weibull.CDF(1,2,2)','0.632120558829','Shape one is exponential with scale two; x=2 is one scale unit.')],
 }
 
 def value_tex(value):
@@ -284,13 +267,26 @@ def value_tex(value):
 def enrich(item, article, values):
     kind=item['type']; signature=item['signature']; name=signature.split('(')[0]
     if kind in distributions.FAMILIES:
-        op=name.split('.')[-1]; notes=[MODEL_LESSONS[kind]]
+        op=name.split('.')[-1]; notes=[MODEL_LESSONS[kind]]; operation_equations=[]
         if op=='CDF':
-            notes.append('To find an interval probability, subtract cumulative probabilities at its boundaries. For a continuous law use F(b)−F(a); for an integer-valued law, P(a≤X≤b)=F(b)−F(a−1). The distinction prevents losing the mass at the lower endpoint.')
-        elif op in ('PDF','PDFLn'):
+            if kind in distributions.DISCRETE:
+                notes.append('For integer bounds a and b, the inclusive interval probability is F(b)−F(a−1). Subtracting F(a) instead would remove the probability mass at the lower endpoint as well.')
+                operation_equations.append(Equation(r'\Pr(a\le X\le b)=F(b)-F(a-1),\quad a,b\in\mathbb Z', 'For integer bounds, inclusive probability from a to b is F(b) minus F(a−1).', 'Inclusive integer interval'))
+            else:
+                notes.append('For a continuous law, subtract F(a) from F(b) to obtain the interval probability between a and b. This uses cumulative areas rather than density heights; individual endpoints have zero point probability.')
+                operation_equations.append(Equation(r'\Pr(a\le X\le b)=F(b)-F(a)=\int_a^b f(x)\,dx', 'Continuous interval probability is the CDF difference F(b)−F(a), or the density integrated from a to b.', 'Interval probability'))
+        elif op=='PDF':
             notes.append('For a short interval of width Δx around x, probability is approximately f(x)·Δx when the density changes slowly there. The approximation improves as the interval shrinks; it is not a probability assigned to the single point x.')
-        elif op in ('PMF','PMFLn'):
+        elif op=='PDFLn':
+            notes.append('The returned number is ℓ(x)=ln f(x), not f(x). Recover a density with exp(ℓ(x)) before multiplying by a small interval width; multiplying the log-density itself by a width does not give a probability. A log-density can be positive when the density exceeds one.')
+            notes.append('For independent observations, add their log-densities to obtain a joint log-likelihood. Keep that sum in log space when an ordinary product would underflow. Integrating log-density does not produce a cumulative probability.')
+            operation_equations.append(Equation(r'\ell(x)=\ln f(x),\qquad f(x)=e^{\ell(x)}', 'Log-density ℓ(x) is ln f(x); the ordinary density is exp(ℓ(x)).', 'Log-density result'))
+        elif op=='PMF':
             notes.append('Add point masses for disjoint allowed outcomes to obtain their combined probability. Unlike a continuous density, this number already refers to an individual outcome, so no bin width is needed.')
+        elif op=='PMFLn':
+            notes.append('The returned number is the natural logarithm of a point probability. Exponentiate it to recover the mass. A finite log-mass is at most zero; probability one has log-mass zero and probability zero has log-mass −∞.')
+            notes.append('Add log-masses to combine independent observations, because their probabilities multiply. For alternative outcomes whose probabilities add, use a sum of exponentials, or its stable log-sum-exp form, instead of adding their log-masses directly.')
+            operation_equations.append(Equation(r'\ell_k=\ln\Pr(X=k),\qquad\Pr(X=k)=e^{\ell_k}', 'The log-mass is ln of the point probability; exponentiating recovers that probability.', 'Log-mass result'))
         elif op.startswith('InvCDF'):
             notes.append('A quantile reverses the CDF question: instead of asking how much probability lies below a value, choose the accumulated probability and obtain its threshold. Use 0.95 for the 95th percentile, not 95.')
         elif op.startswith('Sample'):
@@ -305,16 +301,31 @@ def enrich(item, article, values):
         # Stable's characteristic function and Wishart's constructive definition
         # supplement rather than replace the more general original convention.
         replace_formula=kind not in ('Stable','Wishart','NormalGamma','Triangular')
-        examples=tuple(WorkedExample(*e) for e in DISTRIBUTION_EXAMPLES.get(kind,()))
-        return Enrichment((eq,),tuple(notes),examples,replace_formula)
+        from distribution_examples import examples_for
+        examples=examples_for(kind,op,DISTRIBUTION_EXAMPLES.get(kind,()))
+        return Enrichment((eq,*operation_equations),tuple(notes),examples,replace_formula)
     if kind in ('PhysicalConstants','MathematicalConstants'):
         value=values.get(name, {'i':'<0; 1>', 'Infinity':'Infinity', 'NaN':'NaN'}.get(name));eqs=[];notes=[];examples=[];replaces=False
         if value is None: raise ValueError('Missing constant value: '+name)
         if name in CONSTANT_LESSONS:
-            tex,ex=CONSTANT_LESSONS[name];eqs.append(Equation(tex,article.formula));examples=[WorkedExample(*e) for e in ex]
+            tex,paragraphs,ex=CONSTANT_LESSONS[name]
+            eqs.append(Equation(tex,article.formula,'Definition / interpretation'))
+            notes.extend(paragraphs)
+            examples=[WorkedExample(*e) for e in ex]
             # Keep prose formula containing SI qualifications visible as a convention.
         if kind=='PhysicalConstants':
-            notes.append('The symbol in a physical equation denotes a quantity with units; this identifier evaluates to a plain number. Supply the other quantities in the compatible units listed above, because the expression engine does not attach dimensional units or convert them automatically.')
+            if name not in CONSTANT_LESSONS:
+                canonical=physical.ALIASES.get(name,name)
+                if canonical in BASE_EQUATIONS:
+                    tex,paragraph=BASE_EQUATIONS[canonical]
+                    paragraphs=(paragraph,) if paragraph else ()
+                else:
+                    authored=family_lesson(name)
+                    if authored is None:raise ValueError('Missing physical definition equation: '+name)
+                    tex,paragraphs=authored
+                eqs.append(Equation(tex,article.formula,'Definition / interpretation'))
+                notes.extend(paragraphs)
+            notes.append('The symbol in a physical equation denotes a quantity with units; this identifier evaluates to a plain number. Supply the other quantities in the compatible units stated in this article, because the expression engine does not attach dimensional units or convert them automatically.')
             if 'Relationship' in name:
                 notes.append('Use a conversion relationship in its stated direction: multiply a value in the source unit by the factor to obtain the target-unit value. Converting back requires division by that factor, not a second multiplication. Check the direction rather than inferring it from the magnitude.')
             elif 'Ratio' in name:
@@ -323,13 +334,17 @@ def enrich(item, article, values):
                 notes.append('A natural or atomic unit is a scale chosen to simplify equations, not an instruction to change the application’s unit system. Multiply a dimensionless number of these units by the stored scale to express it in the stated conventional units.')
             else:
                 notes.append('Keep the distinction between the stated physical definition and the stored approximation. Related constants may come from different historical adjustments; substituting them into an exact identity need not give exact numerical agreement. Extra displayed digits are not a measurement uncertainty.')
-        else:
+        elif name not in CONSTANT_LESSONS:
             notes.append('Evaluating this identifier retrieves its stored numerical approximation; it does not run the defining infinite series, limit or geometric construction. Use the definition to understand the constant and the stored-value line to judge the numerical precision actually available.')
             if value not in ('NaN','Infinity','-Infinity'):
                 notes.append('Equality in a mathematical identity does not imply bit-for-bit equality after floating-point evaluation. When checking a relation involving this constant, compare an error or residual against an appropriate tolerance instead of demanding exact equality.')
         eqs.append(Equation(value_tex(value), 'Stored application value: '+value+'.','Stored numeric value'))
         return Enrichment(tuple(eqs),tuple(notes),tuple(examples),replaces)
     canonical=elementary.ALIASES.get(name,name) if kind=='ElementaryFunctions' else special.ALIASES.get(name,name) if hasattr(special,'ALIASES') else name
+    if kind=='ElementaryFunctions' and '(z' in signature and canonical in COMPLEX_INVERSES:
+        tex, paragraph, example=COMPLEX_INVERSES[canonical]
+        return Enrichment((Equation(tex,article.formula,'Intended inverse' if canonical=='arsinh' else 'Definition'),),
+            (paragraph,),(WorkedExample(*example),),canonical!='arsinh')
     if canonical in LESSONS:
         tex,paragraphs,examples=LESSONS['psi' if canonical=='polyGamma' and ',' not in signature else canonical]
         # Overloads can represent a different mathematical operation. Never give
@@ -338,8 +353,8 @@ def enrich(item, article, values):
         if canonical=='gamma' and ',' in signature:
             return Enrichment((Equation(r'\Gamma(a,x)=\int_x^\infty t^{a-1}e^{-t}\,dt',article.formula),),(
                 'The lower limit x removes the beginning of the complete gamma integral, leaving an unnormalized upper tail. Divide by Γ(a) to obtain the regularized upper fraction, or use the dedicated upper-tail routine.',
-                'For a=1 the power of t disappears and the remaining integral is exp(−x). This is a convenient independent check of the argument order and upper-tail convention.'),
-                (WorkedExample('gamma(1,2)','approximately 0.1353352832','Integrating exp(−t) from two to infinity gives exp(−2).'),),True)
+                'For integer a=3, integrating twice by parts gives Γ(3,x)=exp(−x)(x²+2x+2). This area can exceed one; only division by Γ(3)=2 turns it into an upper-tail probability.'),
+                (WorkedExample('gamma(3,1)','approximately 1.8393972059','The upper area is exp(−1)(1+2+2)=5/e. Dividing by Γ(3)=2 gives the separate regularized value Q(3,1).'),),True)
         if canonical=='Beta' and signature.count(',')>1:
             return Enrichment((Equation(r'B_x(a,b)=\int_0^x t^{a-1}(1-t)^{b-1}\,dt',article.formula,'Intended definition'),),(
                 'Incomplete beta stops the beta integral at x rather than at one. It is an accumulated area, not yet a probability until normalized by the complete beta function.',
@@ -348,6 +363,7 @@ def enrich(item, article, values):
         if canonical in ('ln','log') and ',' in signature:
             from enrichment_more import extra_enrichment
             return extra_enrichment(item,article,'log')
-        return Enrichment((Equation(tex,article.formula,'Underlying Airy equation' if canonical in ('AiPrime','BiPrime') else 'Definition'),),paragraphs,examples,canonical not in ('AiPrime','BiPrime'))
+        label='Intended inverse' if canonical=='arsinh' else 'Underlying Airy equation' if canonical in ('AiPrime','BiPrime') else 'Definition'
+        return Enrichment((Equation(tex,article.formula,label),),paragraphs,examples,canonical not in ('AiPrime','BiPrime','arsinh'))
     from enrichment_more import extra_enrichment
     return extra_enrichment(item,article,canonical)

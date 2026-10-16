@@ -69,7 +69,7 @@ def hypergeometric(name,args):
     if '2F1' in name:
         return A(('Renormalized ' if renorm else '')+('conjugate-parameter ' if conj else '')+'Gauss hypergeometric function',
                  'The Gauss hypergeometric solution with numerator parameters '+('a and its complex conjugate.' if conj else 'a,b and denominator parameter c.'),
-                 '₂F₁(a,b;c;x)=Σₖ₌₀^∞ (a)ₖ(b)ₖ xᵏ/[(c)ₖ k!]'+(' ; returned value is ₂F₁/Γ(c).' if renorm else '.'),
+                 ('₂F₁(a,conjugate(a);c;x)=Σₖ₌₀^∞ (a)ₖ(conjugate(a))ₖ xᵏ/[(c)ₖ k!]' if conj else '₂F₁(a,b;c;x)=Σₖ₌₀^∞ (a)ₖ(b)ₖ xᵏ/[(c)ₖ k!]')+(' ; returned value is ₂F₁/Γ(c).' if renorm else '.'),
                  ('The complex overload supplies b=conjugate(a), not an arbitrary second complex parameter. ' if conj else '')+
                  'Real x in the GSL real-domain implementation; the series converges for |x|<1, with supported boundary/continuation cases. The ordinary form has denominator poles at c=0,−1,−2,… unless a limiting cancellation applies.',
                  'Renormalization removes the explicit Γ(c) factor, and is not division by Γ(a)Γ(b).' if renorm else 'Do not infer complex branch values for x>1 from this real-valued interface.',url=GSL+'#hypergeometric-functions')

@@ -42,6 +42,18 @@ ALLOWED_TAGS={'div','p','strong','b','code','pre','br','a','ul','li','sup','sub'
 SECTIONS=(('formula','Definition / convention'),('arguments','Arguments / value'),
           ('note','Important'),('example','Example'))
 def esc(value): return html.escape(value, quote=True)
+def worked_example_html(example):
+    if example.editor not in ('expression', 'scripting'):
+        raise ValueError('Unsupported worked-example editor: '+str(example.editor))
+    context = ''
+    code = example.code
+    if example.editor == 'scripting':
+        context = '<p class="reference-example-context">Scripting editor</p>'
+        code = 'writeln('+code+');'
+    return ('<div class="reference-worked-example"><p><strong>Worked example</strong></p>'+context+
+        '<pre><code>'+esc(code)+'</code></pre>'+
+        '<p><strong>Result:</strong> '+esc(example.result)+'</p><p>'+esc(example.explanation)+'</p></div>')
+
 def module_for(kind):
     if kind in MAPPINGS:return MAPPINGS[kind]
     if kind in SCIENCE:return scientific
@@ -91,8 +103,7 @@ def articles(inventory):
             if not extra.replaces_formula:
                 for equation in extra.equations:chunks.append(equation_html(equation))
             for example in extra.examples:
-                chunks.append('<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>'+esc(example.code)+'</code></pre>'+
-                    '<p><strong>Result:</strong> '+esc(example.result)+'</p><p>'+esc(example.explanation)+'</p></div>')
+                chunks.append(worked_example_html(example))
             if urlparse(article.url).scheme!='https':raise ValueError('Reference must be HTTPS: '+signature)
         sources=list(dict.fromkeys(article.url for _,article in authored))
         chunks.append('<p class="reference-source"><strong>Reference:</strong> '+

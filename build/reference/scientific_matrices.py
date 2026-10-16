@@ -51,7 +51,7 @@ def matrix(name,args,sig):
         t,d,f,a,n=basics[name];return A(t,d,f,a,n,url=url,category='Linear algebra')
     if name in ('LU','QR','Cholesky','Evd','Svd','GramSchmidt'):
         d,f,a={
-          'LU':('Pivoted lower/upper triangular factorization.','A = P·L·U, subject to the factorization object’s permutation convention.','Square matrix for the usual LU solve/determinant operations.'),
+          'LU':('Pivoted lower/upper triangular factorization.','P·A = L·U, where P is Math.NET’s row-pivot permutation. Equivalently A = P⁻¹·L·U.','Square matrix for the usual LU solve/determinant operations.'),
           'QR':('Orthogonal/unitary–triangular factorization.','A=Q·R','Rectangular real or complex matrix; Q has orthogonal/unitary columns as provided by the selected Math.NET factorization.'),
           'Cholesky':('Triangular factorization of a positive-definite matrix.','A=L·Lᴴ','Square symmetric/Hermitian positive-definite matrix; nonsymmetric or nonpositive-definite input is not admissible.'),
           'Evd':('Eigenvalue decomposition.','A·V≈V·D','Square matrix. Eigenvalues may be complex even for a real nonsymmetric matrix.'),

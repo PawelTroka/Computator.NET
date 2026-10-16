@@ -26,7 +26,7 @@ INVERSE={
  'arccot':('Inverse cotangent','The inverse cotangent in the application’s PI/2-minus-arctangent convention.','arccot(t) = PI/2 − arctan(t)','Real domain all finite numbers, range (0,PI). This differs from atan(1/t) for negative real t.','arccot(0) ≈ PI/2'),
  'arcsec':('Inverse secant','Inverse secant expressed through inverse cosine.','arcsec(t) = arccos(1/t)','Real domain |t|≥1; range [0,PI] excluding PI/2.','arcsec(1) = 0'),
  'arccsc':('Inverse cosecant','Inverse cosecant expressed through inverse sine.','arccsc(t) = arcsin(1/t)','Real domain |t|≥1; range [−PI/2,PI/2] excluding zero.','arccsc(1) ≈ PI/2'),
- 'arsinh':('Inverse hyperbolic sine','The inverse of hyperbolic sine.','arsinh(t) = ln(t + sqrt(t²+1))','All finite real inputs. The direct logarithmic formula can lose accuracy for large negative arguments.','arsinh(0) = 0'),
+ 'arsinh':('Inverse hyperbolic sine','Intended to invert hyperbolic sine; the current wrapper has a formula defect.','Intended: arsinh(t) = ln(t + sqrt(t²+1)).','The mathematical inverse accepts every finite real input, but the current implementation does not evaluate that inverse.','ln(1+sqrt(2)) ≈ 0.8813735870 is the intended inverse at one.'),
  'arcosh':('Inverse hyperbolic cosine','The nonnegative real inverse of hyperbolic cosine.','arcosh(t) = ln(t + sqrt(t+1)·sqrt(t−1))','Real domain t≥1; nonnegative result.','arcosh(1) = 0'),
  'artanh':('Inverse hyperbolic tangent','The inverse of hyperbolic tangent.','artanh(t) = ½ ln((1+t)/(1−t))','Finite real values require −1<t<1. The endpoints are logarithmic singularities.','artanh(0) = 0'),
  'arcoth':('Inverse hyperbolic cotangent','The application’s logarithmic inverse-cotangent-hyperbolic convention.','arcoth(t) = ½ ln((t+1)/(t−1))','Finite real domain |t|>1. The spelling arctgh is an alias for this function, NOT for artanh.','arcoth(2) ≈ 0.5493061443'),
@@ -37,7 +37,7 @@ OTHER={
  'Heaviside': A('Heaviside step','A unit step with the symmetric half-value convention at its discontinuity.','H(x)=0 for x<0; H(0)=½; H(x)=1 for x>0.','Use for piecewise real functions.','The value at zero is a convention; it is not inferred by numerical integration.','Heaviside(0) = 0.5',DLMF+'1.16'),
  'DiracDelta': A('Dirac-delta point helper','A pointwise infinity marker used by this application, not an implementation of a Dirac distribution.','δ(x)=+∞ when x=0; δ(x)=0 otherwise.','The mathematical Dirac delta is defined by its action on test functions, not as an ordinary sampled function.','Do not use this helper to expect unit-area plots or correct quadrature of an impulse. Finite-width approximations or analytic integration are needed.','DiracDelta(0) = Infinity',DLMF+'1.16'),
  'KroneckerDelta': A('Kronecker delta','An equality indicator, distinct from the Dirac delta.','δij=1 when i=j, and 0 otherwise.','Inputs are compared using exact floating-point equality, even though the usual notation uses integer indices.','','KroneckerDelta(2,2) = 1',DLMF+'1.2'),
- 'sgn': A('Sign of a real number','Indicates whether a real argument is negative, zero or positive.','sgn(x) = −1, 0 or 1.','Use finite real x. NaN has no mathematical sign and follows the underlying Math.Sign error behavior.','','sgn(-4) = -1', 'https://learn.microsoft.com/dotnet/api/system.math.sign'),
+ 'sgn': A('Sign of a real number','Indicates whether a real argument is negative, zero or positive.','sgn(x) = −1, 0 or 1.','NaN propagates as NaN: the wrapper checks it before calling Math.Sign. Positive and negative infinity have signs +1 and −1.','','sgn(-4) = -1', SOURCE+'Computator.NET.Core/Functions/ElementaryFunctions.cs'),
  'gcd': A('Greatest common divisor','The largest positive integer dividing both integer inputs.','gcd(a,b) divides a and b; gcd(12,18)=6.','Use positive integers for this implementation.','The wrapper returns NaN if either input is zero, rather than the common gcd(a,0)=|a| convention; its Euclidean loop does not normalize negative inputs.','gcd(12,18) = 6',SOURCE+'Computator.NET.Core/Functions/ElementaryFunctions.cs'),
  'lcm': A('Least common multiple','The smallest positive integer divisible by both positive integer inputs.','lcm(a,b)=a·b/gcd(a,b).','Use positive integers. The intermediate integer product can overflow.','The wrapper returns NaN if either argument is zero; it does not implement the conventional zero least-common-multiple value.','lcm(4,6) = 12',SOURCE+'Computator.NET.Core/Functions/ElementaryFunctions.cs'),
  'factorial': A('Factorial','Product of the positive integers up to n, with the empty product equal to one.','n! = 1·2·…·n; 0!=1.','Intended for nonnegative integer n. Returns a floating-point approximation and overflows for sufficiently large n.','This loop accepts a real n: fractional n is effectively truncated by the loop and negative n returns 1. It is not Γ(n+1) analytic continuation; use gamma explicitly for that.','factorial(5) = 120',DLMF+'5.4'),
@@ -63,14 +63,17 @@ def describe(item, values):
         if complex_input:
             domain='Complex argument z; the formula gives its complex continuation. Reciprocal functions retain poles at zeros of their denominators.'
         note=alias + ('This is sin(t)/t, NOT sin(PI·t)/(PI·t).' if name=='sinc' else '')
+        hyperbolic=name in ('sinh','cosh','tanh','coth','sech','csch')
         return A(title+(' — complex argument' if complex_input else ''),definition,formula,
-                 'Angles are measured in radians. '+domain,note,example,DLMF+('4.28' if name in ('sinh','cosh','tanh','coth','sech','csch') else '4.14'))
+                 ('The argument is dimensionless; it is not a circular angle. ' if hyperbolic else 'Angles are measured in radians. ')+domain,note,example,DLMF+('4.28' if hyperbolic else '4.14'))
     if name in INVERSE:
         title,definition,formula,domain,example=INVERSE[name]
         note=alias
         if complex_input:
             domain='Complex z. The implementation uses System.Numerics principal inverse/logarithm/square-root values in the displayed formula; branch cuts and endpoint side matter. It returns one value, not all inverse branches.'
             if name=='arccot':note+=' The PI/2−atan convention need not equal atan(1/z) across branches.'
+        if name=='arsinh':
+            note+=' Both current overloads evaluate Log(t)+sqrt(t²+1), not Log(t+sqrt(t²+1)). This is a known implementation defect; the displayed intended equation is not a claim that the wrapper already implements it.'
         return A(title+(' — complex argument' if complex_input else ''),definition,formula,
                  'Results are in radians where interpreted as angles. '+domain,note,example,DLMF+('4.37' if name in ('arsinh','arcosh','artanh','arcoth','arcsch','arsech') else '4.23'))
     if name in OTHER:
@@ -97,7 +100,11 @@ def describe(item, values):
           'exp':('Exponential','Raises Euler’s number to a real or complex power.','exp(x+i·y)=exp(x)·(cos(y)+i·sin(y)).','Finite real or complex argument; large real parts can overflow or underflow.','exp(0) = 1'),
           'pow':('Power','Raises the first argument to the second. The real and complex overloads share this completion signature.','pow(x,y)=xʸ; for nonzero complex x, exp(y·Log(x)).','Real negative bases with nonintegral exponents can produce NaN. The complex overload selects a branch, not all possible powers.','pow(2,3) = 8'),
           'sqrt':('Square root','Selects the nonnegative real square root, or the principal complex square root.','sqrt(t)²=t.','The real-input wrapper promotes negative x to a complex result; its return type is dynamic. Complex input returns the principal root.','sqrt(-1) = i'),
-          'root':('Root by reciprocal exponent','Computes a power with exponent 1/n; it does not enumerate all roots.','root(t,n)=pow(t,1/n).','Use n≠0. Negative real t is promoted to a complex power when its reciprocal exponent is nonintegral. Thus an odd real n does not guarantee the negative real root.','root(8,3) ≈ 2')
+          'root':('Root by reciprocal exponent','Selects one root using the overload’s power convention; it does not enumerate all roots.','The real overload uses the private dpow(t,1/n) helper; the complex overload uses exp(Log(z)/n).','Use n≠0. The real overload uses a private parity helper for the reciprocal exponent: root(-8,3)=-2 and root(-9,2)=3i. These are not the same contract as public pow(t,1/n). Its floating-point parity tests are not a reliable rational-exponent classifier for arbitrary fractional, negative or very large orders.','root(-8,3) ≈ -2')
         }[name]
+        if name=='root' and complex_input:
+            formula='root(z,n)=exp(Log(z)/n) for z≠0 and n≠0.'
+            domain='Complex arguments, with n≠0. For nonzero z, the principal Log(z) fixes the selected power. Even a negative real value written as a complex argument can therefore select a different root from the real-input helper.'
+            example='root(-8+0i,3) ≈ 1+1.7320508076i.'
         return A(title,definition,formula,domain,alias,example,DLMF+'4.2')
     raise KeyError('Undocumented elementary function '+signature)

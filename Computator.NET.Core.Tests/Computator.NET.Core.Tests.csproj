@@ -3,5 +3,7 @@
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" />
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />
+    <!-- ScriptEvaluator loads the same charting assembly as the public scripting editor. -->
+    <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
   </ItemGroup>
 </Project>

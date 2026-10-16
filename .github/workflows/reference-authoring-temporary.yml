@@ -1,0 +1,210 @@
+# Temporary authoring aid for issue #175. Remove this workflow after its generated
+# commit has been verified, before opening the final educational-content PR.
+name: Temporary reference authoring
+
+on:
+  push:
+    branches: [fix/reference-educational-accuracy]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reference-authoring-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  author-reference:
+    if: >-
+      github.repository == 'PawelTroka/Computator.NET' &&
+      github.ref == 'refs/heads/fix/reference-educational-accuracy' &&
+      github.event.deleted == false
+    runs-on: windows-2025
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    env:
+      REFERENCE_SOURCE_SHA: ${{ github.sha }}
+    steps:
+      - name: Check out the immutable source commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Generate from the actual Windows runtime inventory
+        shell: pwsh
+        run: ./build.ps1 -Target Reference-Generate
+      # A separate Cake invocation rebuilds the newly generated static resources
+      # before executing the reference and worked-example runtime tests.
+      - name: Rebuild and validate the generated reference
+        shell: pwsh
+        run: ./build.ps1 -Target Reference-Validate
+      - name: Commit only validated generated files and record their hashes
+        id: generated
+        shell: python
+        run: |
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+
+          def git(*args):
+              return subprocess.check_output(["git", *args])
+
+          xml = "Computator.NET.Core/Static/functions.xml"
+          equations = "Computator.NET.Core/Static/reference-equations"
+          manifest = equations + "/manifest.json"
+          png_pattern = re.compile(re.escape(equations) + r"/[0-9a-f]{64}\.png")
+
+          def allowed(path):
+              return path in (xml, manifest) or png_pattern.fullmatch(path) is not None
+
+          def paths(data):
+              return [path.decode("utf-8") for path in data.split(b"\0") if path]
+
+          source = os.environ["REFERENCE_SOURCE_SHA"]
+          if git("rev-parse", "HEAD").decode().strip() != source:
+              raise RuntimeError("Checkout no longer matches the source event commit.")
+          changed = paths(git("diff", "--name-only", "--no-renames", "-z", "HEAD"))
+          unexpected = [path for path in changed if not allowed(path)]
+          if unexpected:
+              raise RuntimeError("Generation changed authored files: " + repr(unexpected))
+
+          # Explicit pathspecs include obsolete generated PNG deletions but exclude
+          # the license notice, authored Python, workflow, build files and tests.
+          git("add", "--all", "--", xml, manifest, ":(glob)" + equations + "/*.png")
+          staged = paths(git("diff", "--cached", "--name-only", "--no-renames", "-z"))
+          if any(not allowed(path) for path in staged):
+              raise RuntimeError("The index contains a file outside the generated-file allowlist.")
+
+          generated_files = [Path(xml), Path(manifest), *sorted(Path(equations).glob("*.png"))]
+          hashes = {}
+          for path in generated_files:
+              name = path.as_posix()
+              if not allowed(name) or path.is_symlink():
+                  raise RuntimeError("Unexpected generated file: " + name)
+              data = path.read_bytes()
+              hashes[name] = {
+                  "sha256": hashlib.sha256(data).hexdigest(),
+                  "bytes": len(data),
+                  "gitBlob": hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest(),
+              }
+
+          if staged:
+              git("-c", "user.name=github-actions[bot]",
+                  "-c", "user.email=41898282+github-actions[bot]@users.noreply.github.com",
+                  "-c", "commit.gpgsign=false", "commit", "--quiet",
+                  "-m", "Generate validated educational reference from the Windows runtime")
+          generated = git("rev-parse", "HEAD").decode().strip()
+          committed = paths(git("diff", "--name-only", "--no-renames", "-z", source, generated))
+          if sorted(committed) != sorted(staged):
+              raise RuntimeError("Committed paths differ from the reviewed generated-file index.")
+
+          # Compare every stored Git blob with the unfiltered bytes produced by
+          # Cake, including unchanged files. The SHA-256 list lets a downloaded
+          # artifact or later local regeneration be compared byte for byte.
+          stored = {}
+          for entry in git("ls-tree", "-r", "-z", generated, "--", xml, equations).split(b"\0"):
+              if not entry:
+                  continue
+              metadata, raw_path = entry.split(b"\t", 1)
+              name = raw_path.decode("utf-8")
+              if allowed(name):
+                  mode, kind, blob = metadata.decode().split()
+                  if mode != "100644" or kind != "blob":
+                      raise RuntimeError("Unexpected generated Git entry: " + name)
+                  stored[name] = blob
+          if stored != {name: details["gitBlob"] for name, details in hashes.items()}:
+              raise RuntimeError("Committed reference bytes differ from the validated working files.")
+
+          proof = {
+              "sourceCommit": source,
+              "generatedCommit": generated,
+              "workflowRun": os.environ["GITHUB_RUN_ID"],
+              "validatedTargets": ["Reference-Generate", "Reference-Validate"],
+              "changedPaths": staged,
+              "files": hashes,
+          }
+          Path("artifacts/reference/generated-file-hashes.json").write_text(
+              json.dumps(proof, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+          print(f"Verified {len(hashes)} generated files at {generated}; {len(staged)} changed paths.")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write("generated_sha=" + generated + "\n")
+
+      - name: Push the generated commit only if the source branch is unchanged
+        shell: python
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          import base64
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+
+          remote = "https://github.com/PawelTroka/Computator.NET.git"
+          branch = "refs/heads/fix/reference-educational-accuracy"
+          proof_path = Path("artifacts/reference/generated-file-hashes.json")
+          proof = json.loads(proof_path.read_text(encoding="utf-8"))
+          source = os.environ["REFERENCE_SOURCE_SHA"]
+          generated = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
+          if proof["sourceCommit"] != source or proof["generatedCommit"] != generated:
+              raise RuntimeError("Commit does not match the validated generation evidence.")
+
+          # The token exists only in this step's environment and Git's in-memory
+          # configuration; checkout has not persisted credentials on disk.
+          authorization = base64.b64encode(("x-access-token:" + os.environ["GH_TOKEN"]).encode()).decode()
+          print("::add-mask::" + authorization, flush=True)
+          git_env = dict(os.environ)
+          git_env.update({
+              "GIT_CONFIG_COUNT": "1",
+              "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
+              "GIT_CONFIG_VALUE_0": "AUTHORIZATION: basic " + authorization,
+              "GIT_TERMINAL_PROMPT": "0",
+          })
+
+          def remote_head():
+              rows = subprocess.check_output(
+                  ["git", "ls-remote", "--exit-code", remote, branch], env=git_env).decode().splitlines()
+              if len(rows) != 1 or rows[0].split()[1] != branch:
+                  raise RuntimeError("Expected source branch was not found.")
+              return rows[0].split()[0]
+
+          if remote_head() != source:
+              raise RuntimeError("Source branch advanced during generation; refusing to push stale output.")
+          if generated != source:
+              # Explicit destination, normal fast-forward only: never force,
+              # rebase, merge or update any other ref.
+              subprocess.run(["git", "push", remote, "HEAD:" + branch], env=git_env, check=True)
+          if remote_head() != generated:
+              raise RuntimeError("Remote branch no longer matches the validated generated commit.")
+
+          proof["verifiedRemoteCommit"] = generated
+          proof_path.write_text(json.dumps(proof, indent=2, sort_keys=True) + "\n",
+                                encoding="utf-8", newline="\n")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+              summary.write("## Validated reference generation\n\n")
+              summary.write("Source commit: `" + source + "`\n\n")
+              summary.write("Generated commit: `" + generated + "`\n\n")
+              summary.write(f"Verified {len(proof['files'])} generated files against their committed bytes.\n\n")
+              summary.write("Remove this temporary workflow after reviewing the evidence, before opening the content PR.\n")
+
+      - name: Preserve the runtime inventory, preview, generated bytes and test evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: reference-authoring-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            artifacts/reference/**
+            TestResults/reference*.trx
+            Computator.NET.Core/Static/functions.xml
+            Computator.NET.Core/Static/reference-equations/**
+          retention-days: 7

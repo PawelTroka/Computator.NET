@@ -3,7 +3,8 @@
 The existing `functions.xml` remains the only runtime article catalogue. This
 change adds authored TeX, interpretation paragraphs and worked examples through
 `build/reference/enrichment.py` and `enrichment_more.py`, alongside the original
-subject modules. Original unit/domain warnings and known numerical-wrapper
+subject modules and the focused constant, inverse-function, normalization,
+distribution-example and matrix-example lesson modules. Original unit/domain warnings and known numerical-wrapper
 limitations are retained. No numerical implementation is silently corrected by
 editing its help text.
 
@@ -63,13 +64,81 @@ their actual historical stored values alongside any current-SI definition.
 Worked examples contain executable input, an explicit answer and an explanation
 of why that answer is meaningful. The runtime test discovers each distinct new
 numeric example from the shipped XML and evaluates it through the actual TSL
-compiler, rather than checking a duplicate hardcoded example list. Rounded
-printed answers are tested with a documented display-precision budget; existing
-numerical-suite tolerances are unchanged. Coverage counts are not a claim that
+compiler, rather than checking a duplicate hardcoded example list. Printed
+answers must satisfy the existing fixed relative budget of 1e-9 (1e-12 for zero,
+with a 1e-300 floor for nonzero values); adding fewer displayed digits does not
+relax it. Existing numerical-suite tolerances are unchanged. Coverage counts are not a claim that
 all mathematical sentences have been independently proved or that every routine
 has a new worked example.
 
+## Reviewed educational follow-up
+
+The current authoring snapshot has the following counts, measured from the local
+generated XML and equation inventory. Shared examples are counted once by editor
+and complete displayed code, using the same key as the runtime test.
+
+| Measure | Count |
+| --- | ---: |
+| Catalogue entries | 1,220 |
+| Distinct authored TeX equations | 1,068 |
+| Entries with worked examples | 561 |
+| Distinct executable examples | 383 |
+| Expression / scripting examples | 338 / 45 |
+| Mathematical constants with a defining equation and stored value | 88 / 88 |
+| Physical constants with a defining equation and stored value | 342 / 342 |
+
+Distribution articles contain 152 distinct deterministic examples across 276
+entries, covering densities, masses, logarithms, cumulative probabilities,
+quantiles, parameter conversions, estimation and input rejection. Random samples
+are not assigned fixed answers. Each of the 42 matrix entries has its own
+scripting example, observing a scalar entry, dimension, determinant, norm or
+predicate so its answer can be checked. The other three scripting examples check
+matrix-valued distribution parameters. Additional special-function examples
+distinguish normalized, scaled and incomplete variants.
+
+Maintain these lessons in the authored Python modules, then regenerate through
+Cake. `constant_lessons.py` holds explicit named lessons and aliases;
+`physical_equations.py` covers the remaining canonical `physical.BASE` keys;
+`physical_family_lessons.py` covers only the declared atomic, natural, conversion
+and particle families. A new physical identifier must receive a reviewed defining
+equation, compatible units and appropriate qualifications; an unknown identifier
+fails generation. Keep the partition and alias tests current. Extend
+`inverse_lessons.py`, `normalization_examples.py`, `distribution_examples.py` and
+`matrix_examples.py` for operation-specific explanations and examples. Review the
+actual parameter order, domain, normalization and required editor, and derive
+expected answers independently of the wrapper being tested. Do not infer TeX
+definitions from arbitrary prose or stored decimal strings, or edit generated
+XML/images by hand.
+
+Historical stored constants remain unchanged and are distinguished from modern
+SI definitions. The known `arsinh` parenthesis defect remains documented: the
+typeset intended inverse and its explicit-formula example do not claim that the
+wrapper is repaired. Historical X-ray units use the assigned line multipliers in
+the [CODATA 2010 report, §9.4, equations (255)–(257)](https://physics.nist.gov/cuu/pdf/JPCRD2010CODATA.pdf#page=41),
+including `λ(Mo Kα₁) = 707.831 xu(Mo)`. Their stored conversions to meters
+remain unchanged. Content counts do not establish runtime success; the corresponding
+Windows commit must pass Cake `Reference-Validate`.
+
+When integrating the separate numerical fixes, review their affected lessons:
+[#182](https://github.com/PawelTroka/Computator.NET/pull/182) changes `arsinh`,
+[#184](https://github.com/PawelTroka/Computator.NET/pull/184) changes reversed-limit
+quadrature, and [#185](https://github.com/PawelTroka/Computator.NET/pull/185) changes
+the pointwise matrix folds. Remove a compatibility warning only after the
+corresponding implementation is present, update affected examples, and regenerate
+the reference against that combined revision.
+
 ## Authoring and verification
+
+Author `WorkedExample.code` as a scalar expression. Its `editor` field defaults
+to `expression`; set `editor='scripting'` when the example needs scripting-only
+functions, including the matrix helpers. Generation validates these two modes,
+labels the latter **Scripting editor**, and displays a complete `writeln(...);`
+statement. The test executes that exact displayed code through `ScriptEvaluator`
+and captures its output. Expression examples continue through `ExpressionsEvaluator`
+in real mode. This prevents a mathematically correct answer from concealing an
+example that cannot run in the indicated editor. Test setup selects invariant
+culture and engineering notation and restores both settings and the process
+working directory afterward.
 
 ```powershell
 ./build.ps1 -Target Reference-Generate
