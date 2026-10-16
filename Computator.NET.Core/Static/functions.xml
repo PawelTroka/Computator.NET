@@ -10868,29 +10868,29 @@
     <Url>https://oeis.org/search?q=Pogson%20ratio</Url>
   </FunctionInfo>
   <FunctionInfo Signature="PointwiseDivide&lt;T&gt;(matrices1,matrices2, ...)">
-    <Title>Elementwise division — first-operand caveat</Title>
+    <Title>Elementwise division</Title>
     <Type>MatrixFunctions</Type>
     <Category>Matrix operations</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>Matrix PointwiseDivide&lt;T&gt;(Matrix matrices1, Matrix matrices2,  ...)</code></p>
-<p class="reference-summary">Intended to divide equally shaped matrices entry by entry.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>Intended: resultᵢⱼ=Aᵢⱼ/Bᵢⱼ/…</code></p>
+<p class="reference-summary">Divides equally shaped matrices entry by entry, from left to right.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>resultᵢⱼ=(Aᵢⱼ/Bᵢⱼ)/…</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Nonempty inputs for indexed left-fold implementations; elementwise operations require equal dimensions.</p>
-<p class="reference-note"><strong>Important:</strong> The current loop starts with a copy of A and divides from index 0, giving (A/A)⊘B⊘…. Zeros in A may already cause invalid values. This is not matrix inverse multiplication.</p>
+<p class="reference-note"><strong>Important:</strong> Folds left to right into a new dense matrix without changing the inputs. A single argument returns an independent copy, including zero entries. Later zero divisors follow Math.NET floating-point division behavior. This is not matrix inverse multiplication.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs</Url>
   </FunctionInfo>
   <FunctionInfo Signature="PointwiseMultiply&lt;T&gt;(matrices1,matrices2, ...)">
-    <Title>Elementwise multiplication — first-operand caveat</Title>
+    <Title>Elementwise multiplication</Title>
     <Type>MatrixFunctions</Type>
     <Category>Matrix operations</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><strong>Syntax</strong><br /><code>Matrix PointwiseMultiply&lt;T&gt;(Matrix matrices1, Matrix matrices2,  ...)</code></p>
-<p class="reference-summary">Intended to multiply equally shaped matrices entry by entry.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>Intended: resultᵢⱼ=AᵢⱼBᵢⱼ…</code></p>
+<p class="reference-summary">Multiplies equally shaped matrices entry by entry, using each operand once.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>resultᵢⱼ=AᵢⱼBᵢⱼ…</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Nonempty inputs for indexed left-fold implementations; elementwise operations require equal dimensions.</p>
-<p class="reference-note"><strong>Important:</strong> The current loop starts with a copy of A and multiplies from index 0, so A is included TWICE: A²⊙B⊙…. A single argument is squared. This is not ordinary matrix multiplication.</p>
+<p class="reference-note"><strong>Important:</strong> Folds left to right into a new dense matrix without changing the inputs. A single argument returns an independent copy, including zero entries. This is not ordinary matrix multiplication.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs</Url>
