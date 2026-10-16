@@ -1,0 +1,42 @@
+name: Temporary reference editorial preparation
+on:
+  push:
+    branches: [fix/reference-reading-layout]
+    paths: [.github/workflows/reference-editorial-preparation.yml]
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Prepare read-only source and isolated build-tool inputs
+        shell: bash
+        run: |
+          mkdir -p /tmp/reference-tools
+          cd /tmp/reference-tools
+          npm init -y >/dev/null
+          npm install --save-exact --ignore-scripts @mathjax/src@4.0.0 @resvg/resvg-js@2.6.2
+          npm audit --audit-level=high
+          cd "$GITHUB_WORKSPACE"
+          python3 - <<'PY'
+          import pathlib, subprocess, zipfile
+          root=pathlib.Path.cwd()
+          extensions={'.cs','.csproj','.props','.targets','.slnx','.json','.py','.ts','.tsx','.css','.scss','.md','.yml','.ps1','.sh','.cake','.xml','.mjs','.cjs','.js'}
+          with zipfile.ZipFile('/tmp/reference-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
+              for name in subprocess.check_output(['git','ls-files'],text=True).splitlines():
+                  path=root/name
+                  if path.suffix.lower() in extensions or name in ('.nvmrc','.gitattributes','global.json'):
+                      archive.write(path,'source/'+name)
+              for path in pathlib.Path('/tmp/reference-tools').rglob('*'):
+                  if path.is_file() and path.suffix.lower() not in ('.woff','.woff2','.otf','.ttf','.eot'):
+                      archive.write(path,'tools/'+str(path.relative_to('/tmp/reference-tools')))
+          PY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: reference-editorial-inputs
+          path: /tmp/reference-source.zip
+          retention-days: 1
