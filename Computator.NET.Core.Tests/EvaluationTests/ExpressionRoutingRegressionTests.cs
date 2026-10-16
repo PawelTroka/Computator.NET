@@ -73,7 +73,7 @@ namespace Computator.NET.Core.Tests.EvaluationTests
             var mode = _modeDeterminer.DetermineMode(input);
             Assert.That(mode, Is.EqualTo(CalculationsMode.Real));
             var function = new ExpressionsEvaluator().Evaluate(input, "", mode);
-            Assert.That(function.Evaluate(2), Is.EqualTo(expected));
+            Assert.That(function.Evaluate(2d), Is.EqualTo(expected));
         }
 
         [Test]
