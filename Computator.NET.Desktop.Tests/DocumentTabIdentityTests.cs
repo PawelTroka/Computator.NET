@@ -185,6 +185,34 @@ namespace Computator.NET.Desktop.Tests
                 NUnit.Framework.Assert.That(File.ReadAllText(paths[i]), Is.EqualTo(OriginalText[i]));
         }
 
+        [Test]
+        public void DisposedEditorDoesNotReactToSettingsChanges()
+        {
+            var originalKind = Settings.Default.CodeEditor;
+            var visibleText = _editor.Text;
+            var isolatedBootstrapper = new CoreBootstrapper();
+            using (isolatedBootstrapper.Container)
+            {
+                var disposedEditor = isolatedBootstrapper.Create<CodeEditorControlWrapper>();
+                try
+                {
+                    NUnit.Framework.Assert.That(disposedEditor.Handle, Is.Not.EqualTo(IntPtr.Zero));
+                    disposedEditor.Dispose();
+                    NUnit.Framework.Assert.That(disposedEditor.IsDisposed, Is.True);
+
+                    Settings.Default.CodeEditor = originalKind == CodeEditorType.Scintilla
+                        ? CodeEditorType.AvalonEdit
+                        : CodeEditorType.Scintilla;
+                    NUnit.Framework.Assert.That(_editor.Text, Is.EqualTo(visibleText));
+                }
+                finally
+                {
+                    disposedEditor.Dispose();
+                    Settings.Default.CodeEditor = originalKind;
+                }
+            }
+        }
+
         private string[] OpenDocuments(CodeEditorType kind)
         {
             Settings.Default.CodeEditor = kind;

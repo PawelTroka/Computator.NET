@@ -87,21 +87,30 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             NewDocument();
 
 
-            Settings.Default.PropertyChanged += (o, e) =>
+            Settings.Default.PropertyChanged += Settings_PropertyChanged;
+        }
+
+        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
             {
-                switch (e.PropertyName)
-                {
-                    case "CodeEditor":
-                        ChangeEditorType();
-                        break;
+                case "CodeEditor":
+                    ChangeEditorType();
+                    break;
 
 
-                    case "ScriptingFont":
-                        SetFont(Settings.Default.ScriptingFont);
+                case "ScriptingFont":
+                    SetFont(Settings.Default.ScriptingFont);
 
-                        break;
-                }
-            };
+                    break;
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                Settings.Default.PropertyChanged -= Settings_PropertyChanged;
+            base.Dispose(disposing);
         }
 
         private ICodeEditorControl CurrentCodeEditor
