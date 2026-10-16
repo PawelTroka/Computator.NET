@@ -31,15 +31,20 @@ examples remain selectable. PNG equations are not selectable mathematical text o
 semantic MathML. The existing HTML engine is preserved rather than silently
 introducing a WebView runtime requirement.
 
-## Context-aware signatures
+## Signatures belong in autocomplete, not descriptions
 
-XML retains every typed overload once. The redundant “Syntax” heading and second
-copies in overload section headings are removed at authoring time. A tooltip
-removes a signature only when it exactly matches the visible completion caption
-(after whitespace normalization). Untyped captions do not hide typed argument
-information, sibling overloads remain, and the standalone details reader keeps all
-signatures because no completion caption is visible there. Case and punctuation
-are meaningful and are not normalized away.
+Descriptions start with the article title and explanation. Desktop tooltips,
+the standalone reader, both web editors and the offline editorial preview remove
+the entire `reference-signature` block, including alternate overload signatures.
+There is no exception for missing, untyped or differently formatted captions.
+The autocomplete list and insertion text are unchanged; type/domain explanations,
+mathematical equations, overload-specific prose and worked-example code remain.
+
+XML retains typed overload metadata for the existing catalogue coverage checks;
+rendering never mutates that source data. Legacy signature blocks with a Syntax
+heading or extra classes are removed as well. The renderers' optional caption
+argument is retained for compatibility with existing callers, not as a condition
+for showing redundant signatures.
 
 ## Content boundaries
 
@@ -83,7 +88,8 @@ Core tests verify source/image hashes, 3x pixel dimensions, no orphan assets,
 complete overload retention, safe paths, content counts and actual worked-example
 results. Desktop tests inspect image completion in the real Windows HTML control,
 font sizes and window persistence. Hosted web tests verify real PNG bytes,
-loading, both Ace editors, safe attributes and context-aware sibling overloads.
+loading, both Ace editors, safe attributes and signature-free descriptions with
+unchanged autocomplete captions. Preview tests enforce the same presentation.
 Actual API tests continue to exercise the shipped constant and Airy articles.
 
 Primary references are retained with each article (NIST DLMF, GNU GSL, versioned

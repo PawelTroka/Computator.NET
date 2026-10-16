@@ -3,23 +3,12 @@
 const elements = new Set(['DIV', 'P', 'BR', 'PRE', 'UL', 'LI', 'CODE', 'STRONG', 'B', 'EM', 'I', 'SUB', 'SUP', 'A']);
 const excluded = new Set(['SCRIPT', 'STYLE', 'TEMPLATE', 'IFRAME', 'OBJECT', 'EMBED', 'SVG', 'MATH', 'NOSCRIPT', 'NOFRAMES']);
 const classes = new Set(['function-reference', 'reference-arguments', 'reference-example', 'reference-formula',
-  'reference-note', 'reference-signature', 'reference-source', 'reference-summary',
+  'reference-note', 'reference-source', 'reference-summary',
   'reference-explanation', 'reference-equation', 'reference-worked-example', 'reference-variant']);
 
-export function referenceHtml(title: string, fragment: unknown, displayedSignature?: string): string {
+export function referenceHtml(title: string, fragment: unknown, _displayedSignature?: string): string {
   const template = document.createElement('template');
   if (typeof fragment === 'string') template.innerHTML = fragment;
-  const normalize = (text: string) => text.trim().replace(/\s+/g, ' ');
-  if (displayedSignature?.trim()) {
-    for (const signature of Array.from(template.content.querySelectorAll('p.reference-signature'))) {
-      if (Array.from(signature.children).some(child => child.tagName !== 'CODE' && child.tagName !== 'BR')) continue;
-      const codes = Array.from(signature.children).filter(child => child.tagName === 'CODE');
-      const retained = codes.filter(code => normalize(code.textContent ?? '') !== normalize(displayedSignature));
-      if (!codes.length || retained.length === codes.length) continue;
-      if (!retained.length) signature.remove();
-      else signature.replaceChildren(...retained.flatMap((code, index) => index ? [document.createElement('br'), code] : [code]));
-    }
-  }
   const article = document.createElement('div');
   article.className = 'computator-reference';
   const heading = document.createElement('strong');
@@ -31,7 +20,10 @@ export function referenceHtml(title: string, fragment: unknown, displayedSignatu
     if (source.nodeType !== Node.ELEMENT_NODE) return;
     const element = source as Element;
     const name = element.tagName.toUpperCase(); // SVG/MathML names are lowercase.
-    if (excluded.has(name)) return;
+    // Autocomplete owns the signatures. Remove the entire metadata block,
+    // including sibling overloads and legacy Syntax headings, in every context.
+    // Do not strip code from examples, formulas or argument explanations.
+    if (excluded.has(name) || element.classList.contains('reference-signature')) return;
     if (name === 'IMG') {
       // Accept only packaged PNG equations, never data URLs, remote resources,
       // SVG or arbitrary same-origin paths. Reconstruct every attribute.

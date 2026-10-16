@@ -11,17 +11,18 @@ if (!gamma) throw new Error('The shipped gamma integral is missing');
 const [id, asset] = gamma;
 
 for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea']]) {
-  test(`offline equation and context-aware overload help in ${route}`, async ({ page }, info) => {
+  for (const caption of ['real ReferenceEquationProbe(real x)', 'ReferenceEquationProbe(x)']) {
+  test(`offline equation without repeated signatures in ${route} with ${caption}`, async ({ page }, info) => {
     const remoteImages: string[] = [];
     page.on('request', request => {
       if (request.resourceType() === 'image' && !request.url().startsWith('http://127.0.0.1:4173/')) remoteImages.push(request.url());
     });
     await page.route('**/api/autocomplete/**', route => route.fulfill({
       headers: { 'access-control-allow-origin': '*' },
-      json: [{ text: 'ReferenceEquationProbe(x)', menuText: 'real ReferenceEquationProbe(real x)', details: {
+      json: [{ text: 'ReferenceEquationProbe(x)', menuText: caption, details: {
         title: 'Offline typeset reference', category: 'Functions', type: 'ElementaryFunctions',
         description: '<div class="function-reference"><p class="reference-signature"><code>real ReferenceEquationProbe(real x)</code><br/><code>complex ReferenceEquationProbe(complex x)</code></p>' +
-          '<p class="reference-summary">A definition with retained alternate overload information.</p>' +
+          '<p class="reference-summary">A definition for both real and complex inputs.</p>' +
           `<p class="reference-equation"><img class="reference-math" src="reference-equations/${id}.png" width="${asset.width}" height="${asset.height}" alt="A genuine typeset equation" onerror="window.referenceExecuted=true" style="opacity:0" /></p>` +
           '<p class="reference-explanation">Interpret the result before using it in another computation.</p>' +
           '<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Probe(1)</code></pre><p>Result: one</p></div></div>'
@@ -31,8 +32,10 @@ for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripti
     await page.locator(`${editor} textarea`).fill('ReferenceEquationProbe');
     await page.locator(`${editor} textarea`).press('Control+Space');
     const tooltip = page.getByRole('tooltip');
-    await expect(tooltip.locator('.reference-signature code')).toHaveCount(1);
-    await expect(tooltip.locator('.reference-signature code')).toHaveText('complex ReferenceEquationProbe(complex x)');
+    await expect(tooltip.locator('.reference-signature')).toHaveCount(0);
+    await expect(tooltip).not.toContainText('complex ReferenceEquationProbe(complex x)');
+    await expect(page.locator('.ace_autocomplete')).toContainText(caption);
+    await expect(tooltip.locator('.reference-summary')).toHaveText('A definition for both real and complex inputs.');
     await expect(tooltip).not.toContainText('real ReferenceEquationProbe(real x)');
     const equation = tooltip.locator('img.reference-math');
     await expect(equation).toHaveAttribute('src', `/reference-equations/${id}.png`);
@@ -42,8 +45,9 @@ for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripti
     await expect(equation).not.toHaveAttribute('onerror');
     await expect(tooltip.locator('.reference-worked-example pre code')).toHaveText('Probe(1)');
     expect(remoteImages).toEqual([]);
-    await page.screenshot({ path: info.outputPath('offline-equation-and-overloads.png') });
+    await page.screenshot({ path: info.outputPath('offline-equation-without-signatures.png') });
   });
+  }
 }
 
 test('packaged equation endpoint returns PNG bytes, not the SPA fallback', async ({ request }) => {

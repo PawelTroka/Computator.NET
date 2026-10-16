@@ -1,4 +1,7 @@
 import copy
+from html.parser import HTMLParser
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 import hashlib
 import json
 from pathlib import Path
@@ -52,3 +55,64 @@ class RichContentTests(unittest.TestCase):
         value=self.article('gamma(x)')
         self.assertNotIn('<strong>Example:</strong> gamma(5)',value)
         self.assertIn('<code>gamma(5)</code>',value)
+
+
+class VisibleText(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.parts = []
+
+    def handle_data(self, data):
+        self.parts.append(data)
+
+
+class PreviewTests(unittest.TestCase):
+    def test_preview_removes_all_signature_blocks_but_keeps_content_and_metadata(self):
+        for signature_block in [
+            '<p class="reference-signature"><code>real gamma(real x)</code><br /><code>complex gamma(complex z)</code></p>',
+            '<div class="legacy reference-signature extra"><strong>Syntax</strong><code>real gamma(real x)</code></div>',
+        ]:
+            with self.subTest(signature_block=signature_block), TemporaryDirectory() as directory:
+                assets = Path(directory) / 'assets'
+                assets.mkdir()
+                entries = [{'signature': 'gamma(x)', 'title': 'Gamma function', 'description':
+                    '<div class="function-reference">' + signature_block +
+                    '<p class="reference-summary">Extends factorials.</p>' +
+                    '<p class="reference-arguments">Positive real x.</p>' +
+                    '<pre><code>gamma(5)</code></pre><p>Result: 24</p></div>'}]
+                original = copy.deepcopy(entries)
+                output = Path(directory) / 'preview.html'
+                with patch.object(generate, 'ASSETS', assets):
+                    generate.write_preview(entries, output)
+                document = output.read_text(encoding='utf-8')
+                text = VisibleText()
+                text.feed(document)
+                visible = ''.join(text.parts)
+                for unwanted in ('reference-signature', 'real gamma(real x)', 'complex gamma(complex z)'):
+                    self.assertNotIn(unwanted, document)
+                self.assertNotIn('gamma(x)', visible)
+                self.assertIn('<h2>Gamma function</h2>', document)
+                self.assertIn('data-signature="gamma(x)"', document)
+                self.assertIn('Extends factorials.', visible)
+                self.assertIn('Positive real x.', visible)
+                self.assertIn('<code>gamma(5)</code>', document)
+                self.assertIn('Result: 24', visible)
+                self.assertEqual(entries, original)
+
+    def test_preview_without_signature_metadata_is_still_rendered(self):
+        with TemporaryDirectory() as directory:
+            assets = Path(directory) / 'assets'
+            assets.mkdir()
+            output = Path(directory) / 'preview.html'
+            entries = [{'signature': 'Probe(x)', 'title': 'Probe <value>',
+                        'description': '<div><p>Meaning.</p><pre><code>Probe(1)</code></pre></div>'}]
+            with patch.object(generate, 'ASSETS', assets):
+                generate.write_preview(entries, output)
+            document = output.read_text(encoding='utf-8')
+            self.assertIn('<h2>Probe &lt;value&gt;</h2>', document)
+            self.assertIn('<code>Probe(1)</code>', document)
+            self.assertIn('Meaning.', document)
+
+
+if __name__ == '__main__':
+    unittest.main()

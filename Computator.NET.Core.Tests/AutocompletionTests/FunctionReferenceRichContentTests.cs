@@ -6,7 +6,6 @@ using File = System.IO.File;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Autocompletion.DataSource;
@@ -21,34 +20,57 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
     [TestFixture, NonParallelizable]
     public class FunctionReferenceRichContentTests
     {
-        // These use HTML (not an XML parser) for the document shell; isolate the
-        // XML-compatible fragment when examining the retained code metadata.
-        private static string[] VisibleSignatures(string document) => Regex.Matches(document,
-            "<p class=\"reference-signature\">(.*?)</p>", RegexOptions.Singleline)
-            .SelectMany(match => XElement.Parse(match.Value).Elements("code").Select(code => code.Value)).ToArray();
-
-        [TestCase(null, 2)]
-        [TestCase("real Probe(real x)", 1)]
-        [TestCase("real   Probe(real x)", 1)]
-        [TestCase("Probe(x)", 2)]
-        [TestCase("REAL Probe(real x)", 2)]
-        public void OnlyAnExactlyRepeatedVisibleSignatureIsRemoved(string context, int expected)
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("   ")]
+        [TestCase("real Probe(real x)")]
+        [TestCase("real   Probe(real x)")]
+        [TestCase("Probe(x)")]
+        [TestCase("REAL Probe(real x)")]
+        public void DescriptionsNeverRepeatSignaturesRegardlessOfCaption(string context)
         {
             var entry = new FunctionInfo { Title = "Probe", Description =
-                "<div><p class=\"reference-signature\"><code>real Probe(real x)</code><br /><code>complex Probe(complex x)</code></p><p>Meaning.</p></div>" };
-            var retained = VisibleSignatures(FunctionReferenceDocument.Render(entry, context));
-            NUnit.Framework.Assert.That(retained.Length, Is.EqualTo(expected));
-            NUnit.Framework.Assert.That(retained, Does.Contain("complex Probe(complex x)"));
+                "<div><p class=\"reference-signature\"><code>real Probe(real x)</code><br /><code>complex Probe(complex x)</code></p>" +
+                "<p class=\"reference-summary\">Meaning.</p><p class=\"reference-arguments\">Real and complex inputs.</p>" +
+                "<pre><code>Probe(1)</code></pre></div>" };
+            var original = entry.Description;
+            var rendered = FunctionReferenceDocument.Render(entry, context);
+            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("reference-signature"));
+            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("real Probe(real x)"));
+            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("complex Probe(complex x)"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("Meaning."));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("Real and complex inputs."));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("<code>Probe(1)</code>"));
+            NUnit.Framework.Assert.That(entry.Description, Is.EqualTo(original), "Rendering must not mutate the catalogue.");
         }
 
         [Test]
-        public void RemovingTheOnlyRepeatedSignatureDoesNotLeaveAnEmptySection()
+        public void LegacySignatureHeadingsAndExtraClassesDoNotLeakIntoDescriptions()
         {
             var entry = new FunctionInfo { Title = "Probe", Description =
-                "<div><p class=\"reference-signature\"><code>real Probe(real x)</code></p><p>Meaning.</p></div>" };
-            var rendered = FunctionReferenceDocument.Render(entry, "real Probe(real x)");
-            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("<p class=\"reference-signature\">"));
+                "<div><div class=\"legacy reference-signature extra\"><strong>Syntax</strong><code>real Probe(real x)</code></div>" +
+                "<p>Meaning.</p><pre><code>real Example(real x) { return x; }</code></pre></div>" };
+            var rendered = FunctionReferenceDocument.Render(entry);
+            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("reference-signature"));
+            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("Syntax"));
+            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("real Probe(real x)"));
             NUnit.Framework.Assert.That(rendered, Does.Contain("Meaning."));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("real Example(real x) { return x; }"),
+                "Example code is not signature metadata and must remain readable.");
+        }
+
+        [TestCase("gamma(x)")]
+        [TestCase("ElementaryCharge")]
+        [TestCase("ConicalP(μ,λ,x)")]
+        public void StandaloneShippedDescriptionsStartWithContentNotSignatures(string signature)
+        {
+            var entry = new FunctionsDetailsFileSource().Details[signature];
+            var rendered = FunctionReferenceDocument.Render(entry);
+            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("reference-signature"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("reference-summary"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("reference-explanation"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("reference-math"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("Arguments / value"));
         }
 
         [TestCase("https://example.invalid/a.png")]

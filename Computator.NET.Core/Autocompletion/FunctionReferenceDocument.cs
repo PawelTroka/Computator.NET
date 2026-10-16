@@ -15,7 +15,9 @@ namespace Computator.NET.Core.Autocompletion
         public static string Render(FunctionInfo info, string displayedSignature = null)
         {
             if (info == null) throw new ArgumentNullException(nameof(info));
-            var description = PrepareFragment(info.Description, displayedSignature);
+            // Keep the optional argument for existing callers, but captions no longer
+            // decide whether signatures are repeated inside a description.
+            var description = PrepareFragment(info.Description);
             // Description is the locally shipped reference, verified by content
             // tests. This helper is not a sanitizer for arbitrary user HTML.
             // Keep the stylesheet compatible with the offline Windows browser;
@@ -26,7 +28,7 @@ namespace Computator.NET.Core.Autocompletion
                 "</title><style>body{font:18px/1.6 'Segoe UI',Arial,sans-serif;margin:0;padding:16px;color:#24262b;background:#fff;word-wrap:break-word;}" +
                 "h1{font-size:24px;line-height:1.3;margin:0 0 16px;}p{margin:12px 0;}" +
                 "code{font-size:1em;font-family:Consolas,'Cambria Math',monospace;white-space:normal;word-wrap:break-word;}" +
-                ".reference-signature{color:#454958;}.reference-note{border-left:3px solid #b07934;padding-left:12px;}" +
+                ".reference-note{border-left:3px solid #b07934;padding-left:12px;}" +
                 ".reference-formula{padding:12px;background:#f4f6f8;border-left:3px solid #75879b;}" +
                 ".reference-formula code{font-family:'Cambria Math','Segoe UI',serif;font-size:1.125em;}" +
                 ".reference-equation{overflow-x:auto;padding:12px;background:#fff;border-left:3px solid #75879b;}" +
@@ -36,28 +38,21 @@ namespace Computator.NET.Core.Autocompletion
                 ".reference-source{font-size:15px;}a{color:#305c85;text-decoration:underline;}</style></head><body><h1>" +
                 WebUtility.HtmlEncode(info.Title) + "</h1>" + description + "</body></html>";
         }
-        // A completion caption supplies context. The standalone reader does not:
-        // retain all typed overloads there, and retain siblings in every context.
-        private static string PrepareFragment(string fragment, string displayedSignature)
+        // Signatures belong in autocomplete, not the explanatory article. This
+        // applies to both tooltip modes and the standalone reader, even when a
+        // caller has no caption or uses a different spelling of that caption.
+        private static string PrepareFragment(string fragment)
         {
             if (string.IsNullOrWhiteSpace(fragment)) return fragment ?? "";
             using var input = new StringReader("<reference-root>" + fragment + "</reference-root>");
             using var reader = XmlReader.Create(input, new XmlReaderSettings
                 { DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null });
             var root = XElement.Load(reader, LoadOptions.PreserveWhitespace);
-            foreach (var signature in root.Descendants("p").Where(p => (string)p.Attribute("class") == "reference-signature").ToArray())
-            {
-                if (signature.Elements().Any(child => child.Name != "code" && child.Name != "br")) continue;
-                var codes = signature.Elements("code").ToArray();
-                var retained = codes.Where(code => string.IsNullOrWhiteSpace(displayedSignature) ||
-                    Normalize(code.Value) != Normalize(displayedSignature)).ToArray();
-                // The current catalogue contains code children plus separators.
-                // Do not discard an unfamiliar, possibly meaningful structure.
-                if (codes.Length == 0 || codes.Length == retained.Length) continue;
-                if (retained.Length == 0) signature.Remove();
-                else signature.ReplaceNodes(retained.SelectMany((code, index) => index == 0
-                    ? new object[] { code } : new object[] { new XElement("br"), code }));
-            }
+            foreach (var signature in root.Descendants().Where(element =>
+                ((string)element.Attribute("class") ?? "")
+                    .Split((char[])null, StringSplitOptions.RemoveEmptyEntries)
+                    .Contains("reference-signature")).ToArray())
+                signature.Remove();
             foreach (var image in root.Descendants("img"))
             {
                 var source = (string)image.Attribute("src") ?? "";
@@ -78,6 +73,5 @@ namespace Computator.NET.Core.Autocompletion
             }
             return string.Concat(root.Nodes().Select(node => node.ToString(SaveOptions.DisableFormatting)));
         }
-        private static string Normalize(string signature) => Regex.Replace(signature.Trim(), @"\s+", " ");
     }
 }

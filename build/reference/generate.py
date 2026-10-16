@@ -66,8 +66,8 @@ def articles(inventory):
         title=authored[0][1].title
         category=authored[0][1].category or kind
         url=authored[0][1].url
-        # Keep full overload metadata in XML. Each UI suppresses only the exact
-        # signature already visible in its current context, never sibling overloads.
+        # Keep overload metadata for catalogue validation. Display renderers and
+        # the editorial preview remove this block: signatures live in autocomplete.
         chunks=['<div class="function-reference">',
                 '<p class="reference-signature">'+'<br />'.join('<code>'+esc(menu)+'</code>' for menu in menus)+'</p>']
         for menu,article in authored:
@@ -139,8 +139,16 @@ def xml_bytes(entries):
 def write_preview(entries,path):
     sections=[]
     for index,item in enumerate(entries):
-        sections.append('<section id="entry-'+str(index)+'"><h2>'+esc(item['signature'])+' — '+esc(item['title'])+'</h2>'+item['description']+'</section>')
-    text='''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Computator.NET function reference</title><style>body{font:16px/1.5 system-ui,sans-serif;margin:0 auto;padding:2rem;max-width:64rem;color:#24262b;background:#fafafa}h1{font-size:2rem}h2{font-size:1.25rem}section{padding:1.2rem;margin:1.2rem 0;border:1px solid #ddd;border-radius:8px;background:white}code{font-family:Consolas,monospace;overflow-wrap:anywhere}.reference-note{border-left:3px solid #b07934;padding-left:.8rem}.reference-signature{color:#454958}.reference-source{font-size:.88rem}a{color:#305c85}p{margin:.7rem 0}</style><h1>Computator.NET function and constant reference</h1><p>Offline editorial preview. The application uses the same HTML fragments from functions.xml. No network resources are required; source links are optional reading.</p>'''+''.join(sections)+'</html>'
+        # Match the desktop/web article presentation without mutating the source
+        # metadata used by catalogue coverage checks. Never strip example code.
+        fragment=ET.fromstring(item['description'])
+        for parent in fragment.iter():
+            for child in list(parent):
+                if 'reference-signature' in child.get('class','').split():
+                    parent.remove(child)
+        description=ET.tostring(fragment,encoding='unicode')
+        sections.append('<section id="entry-'+str(index)+'" data-signature="'+esc(item['signature'])+'"><h2>'+esc(item['title'])+'</h2>'+description+'</section>')
+    text='''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Computator.NET function reference</title><style>body{font:16px/1.5 system-ui,sans-serif;margin:0 auto;padding:2rem;max-width:64rem;color:#24262b;background:#fafafa}h1{font-size:2rem}h2{font-size:1.25rem}section{padding:1.2rem;margin:1.2rem 0;border:1px solid #ddd;border-radius:8px;background:white}code{font-family:Consolas,monospace;overflow-wrap:anywhere}.reference-note{border-left:3px solid #b07934;padding-left:.8rem}.reference-source{font-size:.88rem}a{color:#305c85}p{margin:.7rem 0}</style><h1>Computator.NET function and constant reference</h1><p>Offline editorial preview. The application uses the same HTML fragments from functions.xml. No network resources are required; source links are optional reading.</p>'''+''.join(sections)+'</html>'
     text=text.replace('</style>', '.reference-equation{overflow-x:auto;padding:12px;background:white}.reference-math{display:block;max-width:none}.reference-worked-example{border-left:3px solid #718595;padding:0 16px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>')
     path.parent.mkdir(parents=True,exist_ok=True);path.write_text(text,encoding='utf-8')
     import shutil

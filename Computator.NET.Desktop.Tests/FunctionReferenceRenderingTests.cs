@@ -75,13 +75,13 @@ namespace Computator.NET.Desktop.Tests
         }
 
         [Test]
-        public void LongSignaturesWrapWithoutHorizontalOverflow()
+        public void LongExampleCodeWrapsWithoutHorizontalOverflow()
         {
             const string title = "Reference <example> & details";
             var entry = new FunctionInfo
             {
                 Title = title,
-                Description = "<div class=\"function-reference\"><p class=\"reference-signature\"><code>" +
+                Description = "<div class=\"function-reference\"><p class=\"reference-example\"><code>" +
                     new string('W', 500) + "</code></p></div>"
             };
             using var window = new Form { ClientSize = new Size(360, 480), ShowInTaskbar = false };
@@ -90,6 +90,8 @@ namespace Computator.NET.Desktop.Tests
             window.Show();
             browser.DocumentText = FunctionReferenceDocument.Render(entry);
             WaitForText(browser, title);
+            NUnit.Framework.Assert.That(browser.Document.Body.InnerText, Does.Contain(new string('W', 500)),
+                "The wrapping check must exercise retained content, not an empty removed signature.");
             NUnit.Framework.Assert.That(browser.Document.Body.ScrollRectangle.Width, Is.LessThanOrEqualTo(browser.ClientSize.Width));
             NUnit.Framework.Assert.That(browser.Document.GetElementsByTagName("example").Count, Is.Zero,
                 "The title remains encoded text, not injected markup.");
@@ -133,6 +135,8 @@ namespace Computator.NET.Desktop.Tests
                 Application.DoEvents(); Thread.Sleep(10);
             }
             NUnit.Framework.Assert.That(browser.Document?.Body?.InnerText, Does.Contain(expected));
+            NUnit.Framework.Assert.That(browser.Document.Body.InnerHtml, Does.Not.Contain("reference-signature"),
+                "Descriptions must not repeat signatures, including in standalone windows.");
         }
     }
 }
