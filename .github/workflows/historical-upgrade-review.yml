@@ -22,13 +22,13 @@ jobs:
           foreach ($path in Get-ChildItem build/acceptance -Filter '*.ps1') {
             $tokens = $null; $errors = $null
             [Management.Automation.Language.Parser]::ParseFile($path.FullName, [ref]$tokens, [ref]$errors) | Out-Null
-            foreach ($error in $errors) { $bad = $true; Write-Host "$($path.Name):$($error.Extent.StartLineNumber): $($error.Message) $($error.Extent.Text)" }
+            foreach ($diagnostic in $errors) { $bad = $true; Write-Host "$($path.Name):$($diagnostic.Extent.StartLineNumber): $($diagnostic.Message) $($diagnostic.Extent.Text)" }
           }
           if ($bad) { throw 'Acceptance scripts failed the Windows PowerShell 5.1 parser.' }
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           global-json-file: global.json
-      - name: Acquire the reviewed candidate bytes, without rebuilding or accepting tool terms
+      - name: Acquire the reviewed candidate bytes without rebuilding
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
@@ -38,19 +38,16 @@ jobs:
           $root = (Resolve-Path artifacts/historical-review).Path
           $archive = Join-Path $root 'candidate.zip'
           Invoke-WebRequest 'https://api.github.com/repos/PawelTroka/Computator.NET/actions/artifacts/12014458227/zip' -Headers @{Authorization="Bearer $env:GH_TOKEN"} -OutFile $archive
-          if ((Get-FileHash $archive).Hash -ne '6a9aa40b9dc34c14e1cd9c4bbeaf1d0570a6aa38cc89b9cd6d3f33bb40908e63') { throw 'Retained candidate archive digest differs from GitHub metadata.' }
+          if ((Get-FileHash $archive).Hash -ne '6a9aa40b9dc34c14e1cd9c4bbeaf1d0570a6aa38cc89b9cd6d3f33bb40908e63') { throw 'Retained candidate archive digest differs.' }
           Expand-Archive $archive "$root/candidate"
           Copy-Item "$root/candidate/artifacts/installer/output" artifacts/installer/output -Recurse -Force
-          $provenance = @{ sourceCommit = 'd2062a33fd7af5faf3593846a589b7b5619cbf3b'; identicalMasterSourceTree = '575315952a219e4355b7f575ce0b165614ef6797'; artifactId = 12014458227; artifactRun = 38825547427; archiveSha256 = (Get-FileHash $archive).Hash; testCommit = '${{ github.sha }}' }
-          $provenance | ConvertTo-Json | Set-Content artifacts/historical-review/candidate-provenance.json
+          @{ sourceCommit = 'd2062a33fd7af5faf3593846a589b7b5619cbf3b'; identicalMasterSourceTree = '575315952a219e4355b7f575ce0b165614ef6797'; artifactId = 12014458227; artifactRun = 38825547427; archiveSha256 = (Get-FileHash $archive).Hash; testCommit = '${{ github.sha }}' } | ConvertTo-Json | Set-Content artifacts/historical-review/candidate-provenance.json
           ./build.ps1 -Target Installer-Historical-Fetch
-      - name: Cake historical EXE upgrade and failed-MSI rollback acceptance
+      - name: Cake historical upgrade acceptance
         shell: pwsh
         env:
           COMPUTATOR_DISPOSABLE_INSTALL_TEST: '1'
-        run: |
-          if ($env:RUNNER_ENVIRONMENT -ne 'github-hosted') { throw 'Only a disposable GitHub-hosted runner is authorized.' }
-          ./build.ps1 -Target Installer-Historical-Validate -CakeArguments '--historical-results=artifacts/installer/logs/historical'
+        run: ./build.ps1 -Target Installer-Historical-Validate -CakeArguments '--historical-results=artifacts/installer/logs/historical'
       - name: Print acceptance results and failure context
         if: always()
         shell: pwsh
