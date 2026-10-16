@@ -204,7 +204,9 @@ namespace Computator.NET.Desktop.Tests
                 {
                     var external = Path.Combine(_directory, "external-version.tmp");
                     File.WriteAllText(external, "newer external document");
-                    File.Move(external, destination, true);
+                    // An external atomic save replaces the namespace entry;
+                    // the production guard still holds the original file open.
+                    File.Replace(external, destination, null);
                     File.Replace(staged, destination, backup);
                 });
 

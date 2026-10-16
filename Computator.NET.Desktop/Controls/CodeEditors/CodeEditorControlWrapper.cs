@@ -389,8 +389,8 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             {
                 var filename = DocumentFilePath.Normalize(saveFileDialog.FileName);
                 EnsureSaveDestinationAvailable(tabControl.SelectedTab, filename);
-                // Record the destination accepted by the native overwrite dialog;
-                // changes after FileOk must not be silently adopted at commit time.
+                // Record the chosen destination at FileOk; changes after this
+                // snapshot must not be silently adopted at commit time.
                 var snapshot = DocumentFileSafety.Capture(filename);
                 _selectedSavePath = filename;
                 _selectedSaveSnapshot = snapshot;
