@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           global-json-file: global.json
-      - name: Cake acceptance contract tests in PowerShell 7 and Windows PowerShell 5.1
+      - name: Cake acceptance contracts in both engines with isolated module paths
         shell: pwsh
         run: ./build.ps1 -Target Clean-Machine-Harness-Validate
       - name: Acquire the reviewed candidate bytes without rebuilding
