@@ -1,4 +1,5 @@
-# Windows PowerShell 5.1; no dotnet, compiler, package manager or developer SDK is used here.
+﻿# Windows PowerShell 5.1; keep the UTF-8 BOM for Unicode fixtures.
+# No dotnet, compiler, package manager or developer SDK is used here.
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$MsiPath,
@@ -39,10 +40,15 @@ New-Item -ItemType Directory -Path $root -Force | Out-Null
 $results = [IO.Path]::GetFullPath($ResultDirectory)
 if (Test-Path -LiteralPath (Join-Path $results 'acceptance.json')) { throw 'Refusing to mix historical acceptance runs in an existing report directory.' }
 New-Item -ItemType Directory -Path $results -Force | Out-Null
+for ($part = Get-Item -LiteralPath $results; $null -ne $part; $part = $part.Parent) {
+    if ($part.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Acceptance results must not have redirected ancestors.' }
+}
 $report = [ordered]@{
     schemaVersion = 2; status = 'running'; historicalUpgrade = 'not-completed'; stages = @()
     startedUtc = [DateTime]::UtcNow.ToString('o'); machine = $env:COMPUTERNAME; os = [Environment]::OSVersion.VersionString
     environment = $(if ($hosted) { 'github-hosted-sdk-equipped' } else { 'windows-sandbox' })
+    powershellVersion = $PSVersionTable.PSVersion.ToString()
+    harnessSha256 = (Get-FileHash -LiteralPath $PSCommandPath).Hash
     noModernRuntimeRequired = [bool]$RequireNoModernRuntime
     candidateSha256 = (Get-FileHash -LiteralPath $msi).Hash
     candidateBundleSha256 = (Get-FileHash -LiteralPath $candidateBundle).Hash
@@ -68,10 +74,13 @@ function Registrations {
         Where-Object { $_.PSObject.Properties['DisplayName'] -and $_.DisplayName -eq 'Computator.NET' }
 }
 function Run([string]$Executable, [string[]]$Arguments, [int[]]$Expected = @(0,3010)) {
-    $process = Start-Process -FilePath $Executable -ArgumentList $Arguments -PassThru -WindowStyle Hidden
+    $capture = Join-Path $results ('process-' + [Guid]::NewGuid().ToString('N'))
+    $process = Start-Process -FilePath $Executable -ArgumentList $Arguments -PassThru -WindowStyle Hidden -RedirectStandardOutput ($capture + '.stdout.log') -RedirectStandardError ($capture + '.stderr.log')
     try {
-        if (!$process.WaitForExit(300000)) { $process.Kill(); throw "Timed out: $Executable" }
-        if ($process.ExitCode -notin $Expected) { throw "$Executable returned $($process.ExitCode); expected $($Expected -join ',')." }
+        $null = $process.Handle
+        if (!$process.WaitForExit(300000)) { $process.Kill(); throw "Timed out: $Executable; see $capture.*.log" }
+        $process.Refresh()
+        if ($process.ExitCode -notin $Expected) { throw "$Executable returned $($process.ExitCode); expected $($Expected -join ','); see $capture.*.log" }
         return [int]$process.ExitCode
     } finally { $process.Dispose() }
 }
@@ -239,7 +248,7 @@ try {
     Launch $newExecutable
     AssertHashes $preserved
     $jsonPath = Join-Path $profile 'settings.json'
-    $settings = Get-Content -LiteralPath $jsonPath -Raw | ConvertFrom-Json
+    $settings = Get-Content -LiteralPath $jsonPath -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($settings.SchemaVersion -ne 1 -or $settings.Language -ne 'pl-PL' -or !$settings.ShowReturnTypeInExpression -or
         $settings.ShowParametersTypeInExpression -or $settings.ShowReturnTypeInScripting -or $settings.ShowParametersTypeInScripting -or
         $settings.ExpressionFont.Size -ne 18.25 -or $settings.ScriptingFont.Size -ne 14.5 -or
@@ -267,7 +276,7 @@ try {
     $report.stages += 'repair-uninstall-and-user-data-preservation'
     $report.historicalUpgrade = 'passed'; $report.status = 'passed'
 } catch {
-    $report.status = 'failed'; $report.error = $_.Exception.ToString()
+    $report.status = 'failed'; $report.error = $_.Exception.ToString(); $report.errorLocation = $_.ScriptStackTrace
     Write-Error $_ -ErrorAction Continue
 } finally {
     if ($startedInstallation) {
