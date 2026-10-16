@@ -7165,8 +7165,8 @@
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real Integral.rectangleMethod(function fx, real a, real b, real N)</code></p>
 <p class="reference-summary">Approximates area by equal-width rectangles evaluated at their midpoints.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>h·Σⱼ₌₀ᴺ⁻¹ f(a+(j+1/2)h), h=(b−a)/N.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and a&lt;b, except supported infinite endpoints of the adaptive method.</p>
-<p class="reference-note"><strong>Important:</strong> N is the number of panels. For smooth f, error is generally of order h². The hand-written midpoint/trapezoid/Simpson wrappers use |b−a| and then advance from a; they do not implement reversed-bound antisymmetry. Use a&lt;b. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and finite bounds a,b in either order.</p>
+<p class="reference-note"><strong>Important:</strong> N is the number of panels. For smooth f, error is generally of order h². A signed step (b−a)/N follows the interval from a to b. Reversing the limits reverses the integral sign; equal bounds give zero for a finite integrand. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs</Url>
@@ -7193,8 +7193,8 @@
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real Integral.simpsonMethod(function fx, real a, real b, real N)</code></p>
 <p class="reference-summary">Integrates piecewise quadratic interpolation on pairs of equal-width panels.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>h/3·[f(a)+4f(a+h)+2f(a+2h)+…+4f(b−h)+f(b)].</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and a&lt;b, except supported infinite endpoints of the adaptive method.</p>
-<p class="reference-note"><strong>Important:</strong> Use a positive even integer N. This wrapper increments odd N by 1; it does not interpret fractional N consistently. Smooth-function error is generally of order h⁴. The hand-written midpoint/trapezoid/Simpson wrappers use |b−a| and then advance from a; they do not implement reversed-bound antisymmetry. Use a&lt;b. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and finite bounds a,b in either order.</p>
+<p class="reference-note"><strong>Important:</strong> Use a positive even integer N. This wrapper increments odd N by 1; it does not interpret fractional N consistently. Smooth-function error is generally of order h⁴. A signed step (b−a)/N follows the interval from a to b. Reversing the limits reverses the integral sign; equal bounds give zero for a finite integrand. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs</Url>
@@ -7207,8 +7207,8 @@
 <p class="reference-signature"><strong>Syntax</strong><br /><code>real Integral.trapezoidalMethod(function fx, real a, real b, real N)</code></p>
 <p class="reference-summary">Approximates the integral by straight-line interpolation on each panel.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>h·[f(a)/2+Σⱼ₌₁ᴺ⁻¹ f(a+jh)+f(b)/2], h=(b−a)/N.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and a&lt;b, except supported infinite endpoints of the adaptive method.</p>
-<p class="reference-note"><strong>Important:</strong> N is the number of panels; smooth-function error is generally of order h². The hand-written midpoint/trapezoid/Simpson wrappers use |b−a| and then advance from a; they do not implement reversed-bound antisymmetry. Use a&lt;b. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and finite bounds a,b in either order.</p>
+<p class="reference-note"><strong>Important:</strong> N is the number of panels; smooth-function error is generally of order h². A signed step (b−a)/N follows the interval from a to b. Reversing the limits reverses the integral sign; equal bounds give zero for a finite integrand. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs</Url>
