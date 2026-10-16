@@ -3,7 +3,6 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Constants;
 using Computator.NET.Core.Functions;
@@ -66,7 +65,6 @@ namespace Computator.NET.Core.Evaluation
 
         private readonly TslCompiler _tslCompiler;
 
-        private readonly Regex _implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
         private string _customFunctionsCSharpCode;
         private Type _delegateType;
         private string _functionSignature;
@@ -101,11 +99,13 @@ namespace Computator.NET.Core.Evaluation
 
         public Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode)
         {
-            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, _implicitFunctionRegex.IsMatch(input));
-
-
             if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentException(Strings.Expression_should_not_be_empty_);
+
+            var expression = ExpressionAnalysis.Parse(_tslCompiler.TransformToCSharp(input));
+            if (expression.IsEmpty)
+                throw new ArgumentException(Strings.Expression_should_not_be_empty_);
+            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, expression.IsImplicit);
 
             MainTslCode = input;
             CustomFunctionsTslCode =
@@ -162,8 +162,8 @@ namespace Computator.NET.Core.Evaluation
                     //    _tslCompiler.Variables.Add("x");
                     //    _tslCompiler.Variables.Add("y");
                     //    _tslCompiler.Variables.Add("z");
-                    _functionSignature = LambdaXyz;
                     _delegateType = typeof(Func<double, double, double, double>);
+                    _functionSignature = LambdaXyz;
                     break;
                 case FunctionType.Scripting:
                     _delegateType = typeof(Action<Action<string>>);
@@ -176,13 +176,7 @@ namespace Computator.NET.Core.Evaluation
         private void TransformImplicitToExplicit()
         {
             if (IsImplicit)
-            {
-                var match = _implicitFunctionRegex.Match(MainCSharpCode);
-
-
-                MainCSharpCode = MainCSharpCode.Substring(0, match.Index) + "-(" +
-                                 MainCSharpCode.Substring(match.Index + 1) + ")";
-            }
+                MainCSharpCode = ExpressionAnalysis.Parse(MainCSharpCode).ToExplicit();
         }
 
         protected Delegate Compile()
