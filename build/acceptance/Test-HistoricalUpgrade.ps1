@@ -61,11 +61,20 @@ $installer = New-Object -ComObject WindowsInstaller.Installer
 $startedInstallation = $false
 function Property([string]$Path, [string]$Name) {
     $db = $installer.OpenDatabase($Path, 0)
+    $view = $null; $record = $null
     try {
-        $view = $db.OpenView(('SELECT `Value` FROM `Property` WHERE `Property` = ''{0}''' -f $Name)); $view.Execute()
-        try { $record = $view.Fetch(); if (!$record) { throw "Missing MSI property: $Name" }; return $record.StringData(1) }
-        finally { $view.Close() }
-    } finally { [Runtime.InteropServices.Marshal]::FinalReleaseComObject($db) | Out-Null }
+        $view = $db.OpenView(('SELECT `Value` FROM `Property` WHERE `Property` = ''{0}''' -f $Name))
+        # IDispatch void calls can emit explicit null pipeline entries in WinPS.
+        # Returning those alongside the value turns scalar comparisons into filters.
+        [void]$view.Execute()
+        $record = $view.Fetch()
+        if (!$record) { throw "Missing MSI property: $Name" }
+        return [string]$record.StringData(1)
+    } finally {
+        if ($null -ne $record) { [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($record) }
+        if ($null -ne $view) { [void]$view.Close(); [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($view) }
+        [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($db)
+    }
 }
 function Installed([string]$Code) { return [int]$installer.ProductState($Code) -eq 5 }
 function Registrations {
@@ -186,8 +195,15 @@ try {
     if (@(Registrations).Count -gt 0 -or (Installed $legacyCode) -or (Installed $candidateCode)) { throw 'Refusing to touch an existing Computator.NET installation.' }
     $profile = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'Computator.NET'
     if (Test-Path -LiteralPath $profile) { throw 'Refusing to touch an existing Computator.NET user profile.' }
-    if ((Property $msi 'ProductCode') -ne $candidateCode -or (Property $msi 'UpgradeCode') -ne $fixture.upgradeCode -or
-        (Property $msi 'ProductVersion') -ne $inventory.Payload.Version -or $candidateCode -eq $legacyCode) { throw 'Candidate MSI/inventory identity does not describe a major upgrade of the historical product.' }
+    $identity = [ordered]@{}
+    foreach ($name in @('ProductCode','UpgradeCode','ProductVersion')) {
+        $value = @(Property $msi $name)
+        if ($value.Count -ne 1 -or $value[0] -isnot [string]) { throw "MSI property reader did not return one string: $name" }
+        $identity[$name] = $value[0]
+    }
+    $report.candidateMsiIdentity = $identity
+    if ($identity.ProductCode -ne $candidateCode -or $identity.UpgradeCode -ne $fixture.upgradeCode -or
+        $identity.ProductVersion -ne $inventory.Payload.Version -or $candidateCode -eq $legacyCode) { throw 'Candidate MSI/inventory identity does not describe a major upgrade of the historical product.' }
     if (@($inventory.Payload.File).Count -lt 1) { throw 'Empty candidate inventory.' }
     $startedInstallation = $true
     Bundle $historicalBundle '/install' 'historical-bundle-install.log'
