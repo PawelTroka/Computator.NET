@@ -1,4 +1,11 @@
-Task("Clean-Machine-Harness-Validate").Does(() => PowerShell("build/acceptance/Test-Harness.ps1"));
+Task("Clean-Machine-Harness-Validate").Does(() =>
+{
+    foreach (var script in new[] { "build/acceptance/Test-Harness.ps1", "build/acceptance/Test-HistoricalContracts.ps1" })
+    {
+        PowerShell(script);
+        if (IsRunningOnWindows()) PowerShell(script, "", "powershell.exe");
+    }
+});
 Task("Clean-Machine-Prepare").IsDependentOn("Clean-Machine-Harness-Validate").Does(() =>
 {
     var msi = Argument("msi", "artifacts/installer/output/Computator.NET.msi");
