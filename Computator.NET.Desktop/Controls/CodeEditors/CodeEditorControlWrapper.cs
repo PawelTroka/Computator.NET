@@ -28,6 +28,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         private readonly DocumentsTabControl tabControl;
         private CodeEditorType _codeEditorType;
+        private static readonly List<WeakReference<CodeEditorControlWrapper>> LiveEditors =
+            new List<WeakReference<CodeEditorControlWrapper>>();
+        private readonly Dictionary<TabPage, DocumentFileSnapshot> _fileSnapshots =
+            new Dictionary<TabPage, DocumentFileSnapshot>();
+        private string _selectedSavePath;
+        private DocumentFileSnapshot _selectedSaveSnapshot;
         private TabPage _activeTab;
         private bool _restoringTabs;
 
@@ -91,6 +97,9 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
 
             Settings.Default.PropertyChanged += Settings_PropertyChanged;
+            saveFileDialog.FileOk += SaveFileDialog_FileOk;
+            lock (LiveEditors)
+                LiveEditors.Add(new WeakReference<CodeEditorControlWrapper>(this));
         }
 
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -112,7 +121,14 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 Settings.Default.PropertyChanged -= Settings_PropertyChanged;
+                saveFileDialog.FileOk -= SaveFileDialog_FileOk;
+                saveFileDialog.Dispose();
+                lock (LiveEditors)
+                    LiveEditors.RemoveAll(reference => !reference.TryGetTarget(out var editor) || editor == this);
+                _fileSnapshots.Clear();
+            }
             base.Dispose(disposing);
         }
 
@@ -160,6 +176,23 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
             newFilename = DocumentFilePath.Normalize(newFilename);
             EnsureCanRenameDocument(documentTab.Text, newFilename);
+            CommitDocumentRename(documentTab, newFilename);
+        }
+
+        public void RenameFile(string filename, string newFilename)
+        {
+            filename = DocumentFilePath.Normalize(filename);
+            newFilename = DocumentFilePath.Normalize(newFilename);
+            var documentTab = FindDocumentTab(filename);
+            EnsureCanRenameDocument(filename, newFilename);
+            File.Move(filename, newFilename);
+            if (documentTab != null) CommitDocumentRename(documentTab, newFilename);
+        }
+
+        private void CommitDocumentRename(TabPage documentTab, string newFilename)
+        {
+            // Disk I/O and collision validation must finish before a write/move.
+            // Committing its already-validated identity cannot reread locked files.
             var oldFilename = documentTab.Text;
             CurrentCodeEditor.RenameDocument(oldFilename, newFilename);
             tabControl.RenameTab(oldFilename, newFilename);
@@ -172,6 +205,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             var destinationTab = FindDocumentTab(newFilename);
             if (destinationTab != null && destinationTab != sourceTab)
                 throw new IOException("This file is already open in another tab. Switch to that tab or choose a different file name.");
+            EnsureSaveDestinationAvailable(sourceTab, newFilename);
         }
 
         public bool ContainsDocument(string filename)
@@ -198,16 +232,19 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
             // Finish disk I/O before committing a tab or touching an active
             // buffer. A locked or unreadable file cannot become Save's target.
-            var text = File.Exists(filename) ? File.ReadAllText(filename) : string.Empty;
+            var snapshot = DocumentFileSafety.Capture(filename);
             var previousTab = tabControl.SelectedTab;
             try
             {
-                CurrentCodeEditor.NewDocument(filename, text);
+                CurrentCodeEditor.NewDocument(filename, snapshot.Text);
                 tabControl.AddTab(filename);
+                _fileSnapshots[tabControl.SelectedTab] = snapshot;
             }
             catch
             {
-                RestoreAfterFailedOpen(FindDocumentTab(filename), previousTab, filename);
+                var failedTab = tabControl.TabPages.Cast<TabPage>()
+                    .FirstOrDefault(tab => string.Equals(tab.Text, filename, StringComparison.Ordinal));
+                RestoreAfterFailedOpen(failedTab, previousTab, filename);
                 throw;
             }
         }
@@ -216,13 +253,23 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             if (string.IsNullOrEmpty(filename)) return null;
             foreach (TabPage documentTab in tabControl.TabPages)
-                if (IsDocumentTab(documentTab) && string.Equals(documentTab.Text, filename, StringComparison.OrdinalIgnoreCase))
+                if (IsDocumentTab(documentTab) && string.Equals(documentTab.Text, filename, StringComparison.Ordinal))
                     return documentTab;
 
             if (!DocumentFilePath.TryNormalize(filename, out var fullPath)) return null;
             foreach (TabPage documentTab in tabControl.TabPages)
                 if (documentTab.Tag is string documentPath &&
-                    string.Equals(documentPath, fullPath, StringComparison.OrdinalIgnoreCase))
+                    string.Equals(documentPath, fullPath, StringComparison.Ordinal))
+                    return documentTab;
+            // Verify case-only spellings before accepting a case-insensitive tab
+            // key: explicitly case-sensitive directories can contain two files.
+            foreach (TabPage documentTab in tabControl.TabPages)
+                if (documentTab.Tag is string documentPath &&
+                    string.Equals(documentPath, fullPath, StringComparison.OrdinalIgnoreCase) &&
+                    DocumentFileSafety.AreSameFile(fullPath, documentPath))
+                    return documentTab;
+            foreach (TabPage documentTab in tabControl.TabPages)
+                if (documentTab.Tag is string documentPath && DocumentFileSafety.AreSameFile(fullPath, documentPath))
                     return documentTab;
             return null;
         }
@@ -238,6 +285,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             try
             {
                 CurrentCodeEditor.CloseDocument(failedFilename);
+                if (failedTab != null) _fileSnapshots.Remove(failedTab);
                 if (failedTab != null && failedTab != previousTab) tabControl.TabPages.Remove(failedTab);
                 if (IsDocumentTab(previousTab) && CurrentCodeEditor.ContainsDocument(previousTab.Text))
                 {
@@ -304,39 +352,108 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void Save()
         {
-            if (!File.Exists(CurrentFileName))
-            {
-                saveFileDialog.FileName = CurrentFileName;
-                if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
-                File.WriteAllText(saveFileDialog.FileName, Text);
-
-                if (saveFileDialog.FileName != CurrentFileName)
-                {
-                    CurrentFileName = saveFileDialog.FileName;
-                }
-                tabControl.SelectedTab.ImageIndex = 0;
-            }
+            var selectedTab = tabControl.SelectedTab;
+            // Untitled labels are not filesystem identities, even when a file in
+            // the working directory happens to have the same name.
+            if (selectedTab?.Tag is string filename && File.Exists(filename))
+                SaveToFile(selectedTab, filename, null);
             else
-            {
-                File.WriteAllText(CurrentFileName, Text);
-                tabControl.SelectedTab.ImageIndex = 0;
-            }
+                SaveAs();
         }
 
         public void SaveAs()
         {
+            var selectedTab = tabControl.SelectedTab;
+            var originalName = CurrentFileName;
+            _selectedSavePath = null;
+            _selectedSaveSnapshot = null;
+            var filename = SelectSaveFileName();
+            if (filename == null) return;
+            if (selectedTab != tabControl.SelectedTab || CurrentFileName != originalName)
+                throw new IOException("The active document changed while choosing a filename. Select the document and save again.");
+            filename = DocumentFilePath.Normalize(filename);
+            var selectedSnapshot = string.Equals(filename, _selectedSavePath, StringComparison.Ordinal)
+                ? _selectedSaveSnapshot : null;
+            SaveToFile(selectedTab, filename, selectedSnapshot);
+        }
+
+        protected virtual string SelectSaveFileName()
+        {
             saveFileDialog.FileName = CurrentFileName;
+            return saveFileDialog.ShowDialog(this) == DialogResult.OK ? saveFileDialog.FileName : null;
+        }
 
-            if (saveFileDialog.ShowDialog() != DialogResult.OK)
-                return;
-
-            File.WriteAllText(saveFileDialog.FileName, Text);
-
-            if (saveFileDialog.FileName != CurrentFileName)
+        private void SaveFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
             {
-                CurrentFileName = saveFileDialog.FileName;
+                var filename = DocumentFilePath.Normalize(saveFileDialog.FileName);
+                EnsureSaveDestinationAvailable(tabControl.SelectedTab, filename);
+                // Record the chosen destination at FileOk; changes after this
+                // snapshot must not be silently adopted at commit time.
+                var snapshot = DocumentFileSafety.Capture(filename);
+                _selectedSavePath = filename;
+                _selectedSaveSnapshot = snapshot;
             }
-            tabControl.SelectedTab.ImageIndex = 0;
+            catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException ||
+                                               exception is ArgumentException || exception is NotSupportedException)
+            {
+                e.Cancel = true;
+                System.Windows.Forms.MessageBox.Show(this, exception.Message, "Save file",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void SaveToFile(TabPage selectedTab, string filename, DocumentFileSnapshot selectedSnapshot)
+        {
+            filename = DocumentFilePath.Normalize(filename);
+            if (selectedTab == null || selectedTab != tabControl.SelectedTab ||
+                !CurrentCodeEditor.ContainsDocument(selectedTab.Text))
+                throw new IOException("The selected document is no longer available. Select the document and save again.");
+            EnsureCanRenameDocument(selectedTab.Text, filename);
+            EnsureSaveDestinationAvailable(selectedTab, filename);
+
+            DocumentFileSnapshot expected;
+            if (selectedTab.Tag is string sourcePath && DocumentFileSafety.AreSameFile(filename, sourcePath))
+            {
+                if (!_fileSnapshots.TryGetValue(selectedTab, out expected))
+                    throw new IOException("The original file version is unavailable. Use Save As with a new filename.");
+            }
+            else
+                expected = selectedSnapshot ?? DocumentFileSafety.Capture(filename);
+
+            // Stage and validate before replacing any existing bytes. A failed
+            // stage/commit leaves the editor identity and unsaved buffer intact.
+            var saved = DocumentFileSafety.Write(filename, Text, expected);
+            if (CurrentFileName != filename)
+                CommitDocumentRename(selectedTab, filename);
+            _fileSnapshots[selectedTab] = saved;
+            selectedTab.ImageIndex = 0;
+            if (saved.RetainedBackupPath != null)
+                System.Windows.Forms.MessageBox.Show(this,
+                    "The file was saved. A previous version has been kept at '" + saved.RetainedBackupPath +
+                    "' because it could not be safely removed.", "Saved file backup",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void EnsureSaveDestinationAvailable(TabPage selectedTab, string filename)
+        {
+            var editors = new List<CodeEditorControlWrapper>();
+            lock (LiveEditors)
+            {
+                LiveEditors.RemoveAll(reference => !reference.TryGetTarget(out var editor) || editor.IsDisposed);
+                foreach (var reference in LiveEditors)
+                    if (reference.TryGetTarget(out var editor)) editors.Add(editor);
+            }
+            foreach (var editor in editors)
+            {
+                foreach (TabPage otherTab in editor.tabControl.TabPages)
+                {
+                    if (editor == this && otherTab == selectedTab) continue;
+                    if (otherTab.Tag is string otherPath && DocumentFileSafety.AreSameFile(filename, otherPath))
+                        throw new IOException("This file is already open in another document or editor view. Switch to that document or choose a different filename.");
+                }
+            }
         }
 
         public void AppendText(string text)
@@ -373,6 +490,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         private void TabControl_ControlRemoved(object sender, ControlEventArgs e)
         {
+            if (e.Control is TabPage removedTab) _fileSnapshots.Remove(removedTab);
             if (_restoringTabs) return;
             CurrentCodeEditor.CloseDocument(e.Control.Text);
 
@@ -400,9 +518,10 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                 {
                     // Tabs created by the new-tab button have no disk identity,
                     // even if a same-named file exists in the working directory.
-                    var text = selectedTab.Tag is string path && File.Exists(path)
-                        ? File.ReadAllText(path) : string.Empty;
-                    CurrentCodeEditor.NewDocument(selectedTab.Text, text);
+                    var snapshot = selectedTab.Tag is string path
+                        ? DocumentFileSafety.Capture(path) : DocumentFileSnapshot.Missing;
+                    CurrentCodeEditor.NewDocument(selectedTab.Text, snapshot.Text);
+                    if (selectedTab.Tag is string) _fileSnapshots[selectedTab] = snapshot;
                 }
                 _activeTab = selectedTab;
             }
