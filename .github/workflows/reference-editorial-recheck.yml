@@ -26,10 +26,12 @@ jobs:
         run: |
           from pathlib import Path
           import subprocess
+          changed=[]
           def replace(path, old, new):
               file=Path(path); text=file.read_text(encoding='utf-8')
               assert text.count(old)==1, (path, old)
               file.write_text(text.replace(old,new),encoding='utf-8',newline='\n')
+              if path not in changed: changed.append(path)
           replace('build/reference/enrichment.py', "'Beta.PDF(2,2,0.5)'", "'MathNet.Numerics.Distributions.Beta.PDF(2,2,0.5)'")
           replace('build/reference/enrichment.py',
               'The symmetric density peaks above one. Its area, not its peak height, is the probability.',
@@ -48,10 +50,13 @@ jobs:
               'Real x,y. The displayed standard form has minimum 0 at (0,0), but the pinned implementation omits +0.7 and has value -0.7 at that same minimizer. Add 0.7 explicitly when comparing with the standard benchmark.')
           replace('build/reference/special.py',
               "return A(title,definition,formula,domain,'This evaluates a benchmark surface; it does not run an optimizer.',url=MATHNET+'MathNet.Numerics/TestFunctions.htm',category='Optimization benchmarks')",
-              "return A(title,definition,formula,domain,'This evaluates a benchmark surface; it does not run an optimizer.',url=(SOURCE+'Numerics/SpecialFunctions/TestFunctions.cs' if name=='Bohachevsky1' else MATHNET+'MathNet.Numerics/TestFunctions.htm'),category='Optimization benchmarks')")
+              "return A(title,definition,formula,domain,'This evaluates a benchmark surface; it does not run an optimizer.',url=('https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs' if name=='Bohachevsky1' else MATHNET+'MathNet.Numerics/TestFunctions.htm'),category='Optimization benchmarks')")
           replace('Computator.NET.WebClient/custom-functions-e2e/function-reference.spec.ts',
               "await expect(tooltip.locator('.reference-signature code')).toContainText('Ai(real x)');",
               "await expect(page.locator('.ace_autocomplete')).toContainText('Ai(real x)');\n  await expect(tooltip.locator('.reference-signature code')).toHaveCount(0);")
+          replace('Computator.NET.WebClient/tests/reference-equations.spec.ts',
+              'const [id, asset] = Object.entries(manifest.equations)[0] as [string, { width: number; height: number }];',
+              "const equations = manifest.equations as Record<string, { tex: string; width: number; height: number }>;\nconst gamma = Object.entries(equations).find(([, equation]) => equation.tex.includes('Gamma(z)'));\nif (!gamma) throw new Error('The shipped gamma integral is missing');\nconst [id, asset] = gamma;")
           test=Path('Computator.NET.Core.Tests/AutocompletionTests/FunctionReferenceCompatibilityExampleTests.cs')
           assert not test.exists()
           test.write_text('''using System;
@@ -59,8 +64,10 @@ jobs:
           using Computator.NET.Core.Compilation;
           using Computator.NET.Core.Evaluation;
           using Computator.NET.Core.Functions;
+          using Computator.NET.Core.Natives;
           using Computator.NET.DataTypes;
           using NUnit.Framework;
+
           namespace Computator.NET.Core.Tests.AutocompletionTests
           {
               [TestFixture, NonParallelizable]
@@ -69,10 +76,11 @@ jobs:
                   [Test]
                   public void BetaDistributionExampleAvoidsTheDemonstratedNameCollision()
                   {
+                      GSLInitializer.Initialize();
                       var evaluator = new ExpressionsEvaluator();
-                      evaluator.InitializeGSL();
                       NUnit.Framework.Assert.Throws<CompilationException>(() => evaluator.Evaluate("Beta.PDF(2,2,0.5)", "", CalculationsMode.Real));
-                      var value = (double)evaluator.Evaluate("MathNet.Numerics.Distributions.Beta.PDF(2,2,0.5)", "", CalculationsMode.Real);
+                      var function = evaluator.Evaluate("MathNet.Numerics.Distributions.Beta.PDF(2,2,0.5)", "", CalculationsMode.Real);
+                      var value = Convert.ToDouble(function.Evaluate(0.0));
                       NUnit.Framework.Assert.That(value, Is.EqualTo(1.5).Within(1e-12));
                       var entries = new FunctionsDetailsFileSource().Details;
                       foreach (var entry in entries)
@@ -82,6 +90,7 @@ jobs:
                               NUnit.Framework.Assert.That(entry.Value.Description, Does.Contain("MathNet.Numerics.Distributions.Beta.PDF"));
                           }
                   }
+
                   [Test]
                   public void BohachevskyReferenceSeparatesStandardDefinitionFromPinnedImplementation()
                   {
@@ -98,7 +107,8 @@ jobs:
               }
           }
           ''', encoding='utf-8', newline='\n')
-          subprocess.run(['git','add','--','build/reference/enrichment.py','build/reference/enrichment_more.py','build/reference/special.py','build/reference/distributions.py','Computator.NET.WebClient/custom-functions-e2e/function-reference.spec.ts',str(test)],check=True)
+          changed.append(str(test))
+          subprocess.run(['git','add','--',*changed],check=True)
       - name: Regenerate the existing reference through Cake
         shell: pwsh
         run: ./build.ps1 -Target Reference-Generate
