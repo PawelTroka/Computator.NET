@@ -75,8 +75,15 @@ namespace Computator.NET.Desktop.Tests
                     NUnit.Framework.Assert.That(browser.Document.Body.InnerText, Does.Contain(item.Details.Title), item.Text);
                     NUnit.Framework.Assert.That(browser.Document.Body.InnerText, Does.Contain("Arguments / value"), item.Text);
                     NUnit.Framework.Assert.That(browser.Document.GetElementsByTagName("strong").Count, Is.GreaterThanOrEqualTo(3), item.Text);
-                    NUnit.Framework.Assert.That(browser.Document.GetElementsByTagName("code").Count, Is.GreaterThanOrEqualTo(1), item.Text);
-                    NUnit.Framework.Assert.That(browser.Document.Images.Count, Is.Zero, item.Text);
+                    // Matching completion syntax is deliberately absent from its help;
+                    // content, equations and any sibling overloads remain.
+                    NUnit.Framework.Assert.That(browser.Document.Body.InnerText, Does.Not.Contain("Syntax"), item.Text);
+                    if (item.Details.Description.Contains("reference-math"))
+                    {
+                        NUnit.Framework.Assert.That(browser.Document.Images.Count, Is.GreaterThan(0), item.Text);
+                        foreach (HtmlElement image in browser.Document.Images)
+                            NUnit.Framework.Assert.That(image.GetAttribute("src"), Does.StartWith("data:image/png;base64,"));
+                    }
                     NUnit.Framework.Assert.That(mode == TooltipType.Default ? popup.Visible : details.Visible, Is.True, item.Text);
                     var bounds = mode == TooltipType.Default ? popup.Bounds : details.Bounds;
                     var workArea = Screen.FromControl(browser).WorkingArea;

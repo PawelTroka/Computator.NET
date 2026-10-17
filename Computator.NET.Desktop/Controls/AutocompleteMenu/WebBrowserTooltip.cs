@@ -37,6 +37,6 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             var rectangle = browser.Document.Body.ScrollRectangle;
             browser.Size = new Size(rectangle.Width + 18, System.Math.Min(rectangle.Height + 18, browser.Height));
         }
-        public void setFunctionInfo(FunctionInfo functionInfo) => HTMLCode = FunctionReferenceDocument.Render(functionInfo);
+        public void setFunctionInfo(FunctionInfo functionInfo, string displayedSignature = null) => HTMLCode = FunctionReferenceDocument.Render(functionInfo, displayedSignature);
     }
 }

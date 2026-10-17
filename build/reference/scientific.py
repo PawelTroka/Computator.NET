@@ -95,7 +95,7 @@ def derivative(name,args):
     t,f=data[name]
     return A(t,'A finite-difference derivative estimate, recursively extended to higher orders.',f+' for order=1.',
              'Nonnegative integer order; order zero returns fx(x). '+('Step begins at sqrt(eps)·x and uses the actual representable difference; at zero a fixed tiny fallback is used.' if name=='stableFiniteDifferenceFormula' else 'Step h=x·eps; when it is zero the wrapper substitutes 1e−25.'),
-             'eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. In recursive higher-order calls this implementation does not forward the chosen eps, so inner levels use their default. Prefer the Math.NET derivative entry when appropriate.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Derivative.cs',category='Numerical differentiation')
+             'eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the relative step recalculated at each evaluation point. Prefer the Math.NET derivative entry when appropriate.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Derivative.cs',category='Numerical differentiation')
 
 def root(name,args):
     data={
@@ -106,7 +106,7 @@ def root(name,args):
       'secantMethod':('Secant root finder','Uses the line through the two most recent function values to estimate the next root.',
                      'a,b are initial guesses, not enforced bounds. Iteration can leave the interval. This implementation returns a value only if |fx(result)|≤errorMax after its loop; otherwise NaN.'),
       'secantNewtonRaphsonMethod':('Bounded secant convenience wrapper','Uses Math.NET’s secant method without an analytic derivative.',
-                                  'The initial guesses are (a+b)/2 and (a+b)/3, and [a,b] is supplied as the interval. Despite the name this is not a Newton step using an exact derivative. Degenerate initial guesses can fail.'),
+                                  'Use a<b. Two distinct interior starting guesses are chosen near the midpoint and one-third point, and [a,b] is supplied as the interval. Intervals too narrow for two interior floating-point values return NaN, as does failure to converge. A sign-changing interval alone does not guarantee secant convergence. Despite the name no exact derivative is used.'),
       'BroydenMethod':('One-variable Broyden wrapper','Applies the multidimensional Broyden solver to a one-element system.',
                        'Only the midpoint (a+b)/2 is used as the starting guess; a,b are NOT enforced bounds or a guaranteed bracket. TryFindRoot failure returns NaN.')
     }
