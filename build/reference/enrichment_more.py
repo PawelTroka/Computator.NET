@@ -187,7 +187,11 @@ def extra_enrichment(item,article,name):
     if name.startswith('Coulomb'):
         return Enrichment((Equation(r'u^{\prime\prime}+\left(1-\frac{2\eta}{\rho}-\frac{L(L+1)}{\rho^2}\right)u=0','Radial Coulomb equation.','Underlying wave equation'),),('The radial coordinate ρ and Coulomb parameter η play different roles. Regular and irregular solutions encode different behavior at the origin; derivative and normalization helpers act on those solutions rather than introducing a new potential.',),(),False)
     if name.startswith('Coupling') or name=='ClebschGordan':
-        return Enrichment((Equation(r'|j_1-j_2|\le j\le j_1+j_2','Triangle rule for coupling two angular momenta.','Selection-rule example'),),('Recoupling coefficients are amplitudes with phase conventions, not probabilities by themselves. Integer wrappers can encode twice the physical spin; using 1 where 1/2 was intended changes the state space before any arithmetic takes place.',),(),False)
+        examples=()
+        if name=='Coupling9j':
+            examples=(WorkedExample('Coupling9j(2,2,2,2,2,2,2,2,0)', '1/18 (approximately 0.05555555556)',
+                'The doubled arguments represent rows of physical spins (1,1,1), (1,1,1), and (1,1,0). Changing only the final argument from 0 to 2 changes the bottom-right physical spin from 0 to 1 and makes the 9-j symbol zero.'),)
+        return Enrichment((Equation(r'|j_1-j_2|\le j\le j_1+j_2','Triangle rule for coupling two angular momenta.','Selection-rule example'),),('Recoupling coefficients are amplitudes with phase conventions, not probabilities by themselves. Integer wrappers can encode twice the physical spin; using 1 where 1/2 was intended changes the state space before any arithmetic takes place.',),examples,False)
     if name.startswith('Hypergeometric'):
         forms={'Hypergeometric0F1':r'{}_0F_1(;c;x)=\sum_{k=0}^{\infty}\frac{x^k}{(c)_k k!}',
         'Hypergeometric1F1':r'{}_1F_1(a;b;x)=\sum_{k=0}^{\infty}\frac{(a)_k x^k}{(b)_k k!}',

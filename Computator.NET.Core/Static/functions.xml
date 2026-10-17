@@ -3881,10 +3881,10 @@
 <p class="reference-signature"><code>real Coupling9j(integer ja, integer jb, integer jc, integer jd, integer je, integer jf, integer jg, integer jh, integer ji)</code></p>
 <p class="reference-summary">An angular-momentum recoupling coefficient with phase and selection rules fixed by the conventional Wigner/Racah definition.</p>
 <p class="reference-explanation">Recoupling coefficients are amplitudes with phase conventions, not probabilities by themselves. Integer wrappers can encode twice the physical spin; using 1 where 1/2 was intended changes the state space before any arithmetic takes place.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>Arguments specify the successive rows of the 3×3 Wigner array.</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>The 3×3 Wigner array has successive rows (ja,jb,jc), (jd,je,jf), and (jg,jh,ji), with each argument divided by two to obtain its physical spin.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Every integer argument is TWICE the physical spin/projection: e.g. 1 represents 1/2. Triangle and parity selection rules apply; forbidden couplings vanish or are rejected by the library.</p>
-<p class="reference-note"><strong>Important:</strong>  Current implementation forwards jf as the ninth argument instead of ji. Thus changing ji alone does not change the result; it is not a general 9-j calculation until that wrapper is corrected.</p>
 <p class="reference-equation"><strong>Selection-rule example</strong><br /><img class="reference-math" src="reference-equations/65770f7a0382ea38d04286a8c056b0f58823b3d14c28d5410f11367530a3312b.png" alt="Triangle rule for coupling two angular momenta." width="198" height="28" /></p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Coupling9j(2,2,2,2,2,2,2,2,0)</code></pre><p><strong>Result:</strong> 1/18 (approximately 0.05555555556)</p><p>The doubled arguments represent rows of physical spins (1,1,1), (1,1,1), and (1,1,0). Changing only the final argument from 0 to 2 changes the bottom-right physical spin from 0 to 1 and makes the 9-j symbol zero.</p></div>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/34.6">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/34.6</Url>

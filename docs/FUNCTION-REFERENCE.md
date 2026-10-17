@@ -63,7 +63,7 @@ Several descriptions would be misleading without reporting existing behavior. Th
 | Existing identifier | Explicitly documented distinction |
 | --- | --- |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
-| `CoulombGprime` / `Coupling9j` | Current forwarded order / ninth-argument behavior differs from the advertised general formula. |
+| `CoulombGprime` | The current forwarded order differs from the requested angular order L. |
 | Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |
 | `Debye` outside orders 1–6 | The fallback is not the normalized higher-order Debye definition. |
 | `PointwiseMultiply` / `PointwiseDivide` | The left-fold loops include the first operand twice / divide it by itself. |

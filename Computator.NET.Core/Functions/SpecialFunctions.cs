@@ -1342,7 +1342,7 @@ namespace Computator.NET.Core.Functions
         {
             if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0 || jg < 0 || jh < 0 || ji < 0)
                 return double.NaN;
-            return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, jf);
+            return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, ji);
         }
 
         public static double Coupling3j(double j1, double j2, double j3, double m1, double m2, double m3)
@@ -4552,7 +4552,7 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
         {
             if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0 || jg < 0 || jh < 0 || ji < 0)
                 return double.NaN;
-            return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, jf);
+            return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, ji);
         }
 
         public static double Coupling3j(double j1, double j2, double j3, double m1, double m2, double m3)
