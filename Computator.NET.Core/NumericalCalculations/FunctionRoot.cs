@@ -102,7 +102,13 @@ namespace Computator.NET.Core.NumericalCalculations
 
             for (var i = 0; i < N; i++)
             {
-                if (x2 - x1 == 0.0 || (fx(x2) - fx(x1)) == 0.0 || fx(x2) == 0.0)
+                // Separate guards preserve short-circuit evaluation and avoid
+                // confusing logical OR with TSL absolute-value notation.
+                if (x2 - x1 == 0.0)
+                    break;
+                if ((fx(x2) - fx(x1)) == 0.0)
+                    break;
+                if (fx(x2) == 0.0)
                     break;
                 var xOld = x2;
                 x2 = x2 - (fx(x2) * (x2 - x1)) / (fx(x2) - fx(x1));
@@ -219,7 +225,13 @@ namespace Computator.NET.Core.NumericalCalculations
 
             for (var i = 0; i < N; i++)
             {
-                if (x2 - x1 == 0.0 || (fx(x2) - fx(x1)) == 0.0 || fx(x2) == 0.0)
+                // Separate guards preserve short-circuit evaluation and avoid
+                // confusing logical OR with TSL absolute-value notation.
+                if (x2 - x1 == 0.0)
+                    break;
+                if ((fx(x2) - fx(x1)) == 0.0)
+                    break;
+                if (fx(x2) == 0.0)
                     break;
                 var xOld = x2;
                 x2 = x2 - (fx(x2) * (x2 - x1)) / (fx(x2) - fx(x1));

@@ -65,6 +65,8 @@ internal static class DevelopmentAssets
                 paths.AddRange(Directory.EnumerateFiles(Path.Combine(root, directory), "*", SearchOption.AllDirectories));
         foreach (var name in new[] { "package.json", "package-lock.json", "index.html", "vite.config.ts", "tsconfig.json", ".env", ".env.local", ".env.production", ".env.production.local" })
             if (File.Exists(Path.Combine(root, name))) paths.Add(Path.Combine(root, name));
+        var equations = Path.GetFullPath(Path.Combine(root, "..", "Computator.NET.Core", "Static", "reference-equations"));
+        if (Directory.Exists(equations)) paths.AddRange(Directory.EnumerateFiles(equations, "*", SearchOption.TopDirectoryOnly));
         using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         // This is a public build-time endpoint, never the execution token.
         hash.AppendData(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("VITE_API_BASE_URL") ?? "<default>"));

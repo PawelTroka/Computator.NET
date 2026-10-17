@@ -27,7 +27,8 @@ class AuthoringTests(unittest.TestCase):
         first=articles(self.inventory()); second=articles(self.inventory())
         self.assertEqual(xml_bytes(first),xml_bytes(second))
         self.assertIn('sinc(0)=1',first[0]['description'])
-        self.assertNotIn('<img',first[0]['description'])
+        self.assertIn('<img class="reference-math"',first[0]['description'])
+        self.assertNotIn('<strong>Syntax',first[0]['description'])
     def test_keywords_do_not_require_math_articles(self):
         inventory=self.inventory();inventory['items'].append({'signature':'while','type':'Keyword','menu':'while'})
         self.assertEqual(len(articles(inventory)),1)
