@@ -19,11 +19,18 @@ class RichContentTests(unittest.TestCase):
         self.assertIn('factorial',a)
         self.assertIn('lower limit',b)
         self.assertNotEqual(ET.fromstring(a).find('.//img').get('src'),ET.fromstring(b).find('.//img').get('src'))
-    def test_typeset_beta_preserves_both_bug_warning_and_correct_alternative(self):
-        value=self.article('Beta(x,a,b)')
-        self.assertIn('Beta(0.5,1,1) = 2',value)
-        self.assertIn('MathNet.Numerics.SpecialFunctions.BetaIncomplete',value)
-        self.assertIn('reference-math',value)
+    def test_typeset_beta_describes_the_repaired_public_wrappers(self):
+        for signature in ['Beta(x,a,b)','β(x,a,b)','BetaNorm(x,a,b)']:
+            with self.subTest(signature=signature):
+                value=self.article(signature)
+                self.assertIn('The public order is x,a,b',value)
+                self.assertIn('reference-math',value)
+                self.assertIn('reference-worked-example',value)
+                self.assertNotIn('legacy parameter-order caveat',value)
+                self.assertNotIn('Beta(0.5,1,1) = 2',value)
+                self.assertNotIn('until the numerical wrapper is repaired',value)
+                self.assertNotIn('implementation warning below',value)
+                self.assertNotIn('forwards a different argument order',value)
     def test_every_authoring_image_has_source_hash_dimensions_and_alt(self):
         for signature in ['gamma(x)','Ai(x)','SphericalBesselJ0(x)','Hypergeometric2F1(a,b,c,x)']:
             root=ET.fromstring(self.article(signature))

@@ -1303,21 +1303,21 @@
     <Url>https://dlmf.nist.gov/5.12</Url>
   </FunctionInfo>
   <FunctionInfo Signature="Beta(x,a,b)">
-    <Title>Incomplete beta — legacy parameter-order caveat</Title>
+    <Title>Lower incomplete beta</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>real Beta(real x, real a, real b)</code></p>
-<p class="reference-summary">The intended quantity is the lower beta integral accumulated up to x; the current wrapper passes its arguments in a different order.</p>
+<p class="reference-summary">The lower beta integral accumulated up to x, without division by the complete beta function.</p>
 <p class="reference-explanation">Incomplete beta stops the beta integral at x rather than at one. It is an accumulated area, not yet a probability until normalized by the complete beta function.</p>
-<p class="reference-explanation">The implementation warning below is essential: the public wrapper currently forwards a different argument order. The worked example deliberately calls the correctly ordered Math.NET alternative, not the faulty wrapper.</p>
-<p class="reference-equation"><strong>Intended definition</strong><br /><img class="reference-math" src="reference-equations/3b96a17daea48dbd8892dc1b964c489dce702fbf9f0b1e6e6e5ba3427f83ceef.png" alt="Intended: Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt. Current forwarding: B_b(x,a)." width="277" height="55" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> The visible signature is x,a,b and checks 0≤x≤1, a,b&gt;0, but Meta.Numerics expects a,b,x. The effective integration limit is b, so b&gt;1 can be rejected by the library.</p>
-<p class="reference-note"><strong>Important:</strong> The wrapper and its β alias call Meta.Numerics.Functions.AdvancedMath.Beta(x,a,b), not Beta(a,b,x). Beta(0.5,1,1) = 2, not the intended 0.5. For Bₓ(a,b), use MathNet.Numerics.SpecialFunctions.BetaIncomplete(a,b,x). This content change does not alter calculations.</p>
-<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>MathNet.Numerics.SpecialFunctions.BetaIncomplete(1,1,0.5)</code></pre><p><strong>Result:</strong> 0.5</p><p>With both shapes equal to one the integrand is one, so the area from zero to 0.5 is 0.5.</p></div>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics/SpecialFunctions.htm">numerics.mathdotnet.com</a></p>
+<p class="reference-explanation">The first argument sets the upper integration limit; a and b determine the shape of the integrand. At x=0 the area is zero, and at x=1 it equals the complete beta function.</p>
+<p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/3b96a17daea48dbd8892dc1b964c489dce702fbf9f0b1e6e6e5ba3427f83ceef.png" alt="Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt." width="277" height="55" /></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real 0≤x≤1 and a,b&gt;0; out-of-domain values return NaN. The first argument is the integration limit and the other two are shape parameters.</p>
+<p class="reference-note"><strong>Important:</strong> The public order is x,a,b; Meta.Numerics receives Beta(a,b,x). This is an unnormalized area: Beta(0,a,b)=0 and Beta(1,a,b)=Beta(a,b). Use BetaNorm for the corresponding cumulative probability.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Beta(0.5,1,1)</code></pre><p><strong>Result:</strong> 0.5</p><p>With both shapes equal to one the integrand is one, so the area from zero to 0.5 is 0.5.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/8.17">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics/SpecialFunctions.htm</Url>
+    <Url>https://dlmf.nist.gov/8.17</Url>
   </FunctionInfo>
   <FunctionInfo Signature="Beta.CDF(a,b,x)">
     <Title>Beta — Cumulative probability</Title>
@@ -1511,17 +1511,18 @@
     <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics.Distributions/Beta.htm</Url>
   </FunctionInfo>
   <FunctionInfo Signature="BetaNorm(x,a,b)">
-    <Title>Regularized incomplete beta — legacy parameter-order caveat</Title>
+    <Title>Regularized incomplete beta</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>real BetaNorm(real x, real a, real b)</code></p>
-<p class="reference-summary">The intended quantity is the beta integral divided by B(a,b), a value in [0,1] on its usual domain.</p>
-<p class="reference-explanation">Normalization turns the incomplete beta area into a cumulative probability for positive shapes. The current wrapper’s argument-order warning remains essential; use its documented correctly ordered alternative until the numerical wrapper is repaired.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>Intended: Iₓ(a,b)=Bₓ(a,b)/B(a,b). Current native forwarding: I_b(x,a).</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> The visible wrapper checks 0≤x≤1 and a,b&gt;0, but GSL expects shape1,shape2,limit.</p>
-<p class="reference-note"><strong>Important:</strong> The current code calls gsl_sf_beta_inc(x,a,b), so the result is NOT generally Iₓ(a,b). For the intended value use MathNet.Numerics.SpecialFunctions.BetaRegularized(a,b,x); the three-argument Beta wrapper also has an ordering defect, so Beta(x,a,b)/Beta(a,b) is not a reliable workaround. This reference change does not alter the implementation.</p>
-<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/5d20d8adc9ce53cfaea8669abb71d61cffcb858ad4caad59a36334ca862a16e5.png" alt="Intended: Iₓ(a,b)=Bₓ(a,b)/B(a,b). Current native forwarding: I_b(x,a)." width="175" height="57" /></p>
+<p class="reference-summary">The lower beta integral divided by B(a,b), giving a cumulative probability for positive shape parameters.</p>
+<p class="reference-explanation">Normalization turns the incomplete beta area into a cumulative probability for positive shapes. The first argument x is the integration limit; a and b are the shape parameters. For a=b=1 the density is uniform and the result is x.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>Iₓ(a,b)=Bₓ(a,b)/B(a,b).</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real 0≤x≤1 and a,b&gt;0; out-of-domain values return NaN. The value is in [0,1], with endpoints zero and one.</p>
+<p class="reference-note"><strong>Important:</strong> The public order is x,a,b; GSL receives gsl_sf_beta_inc(a,b,x). Unlike Beta(x,a,b), this function includes normalization by the complete beta integral.</p>
+<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/5d20d8adc9ce53cfaea8669abb71d61cffcb858ad4caad59a36334ca862a16e5.png" alt="Iₓ(a,b)=Bₓ(a,b)/B(a,b)." width="175" height="57" /></p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>BetaNorm(0.5,1,1)</code></pre><p><strong>Result:</strong> 0.5</p><p>With a uniform density on [0,1], half of the total probability lies below 0.5.</p></div>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://www.gnu.org/software/gsl/doc/html/specfunc.html#incomplete-beta-function">www.gnu.org</a></p>
 </div>]]></Description>
     <Url>https://www.gnu.org/software/gsl/doc/html/specfunc.html#incomplete-beta-function</Url>
@@ -20079,21 +20080,21 @@
     <Url>https://dlmf.nist.gov/5.12</Url>
   </FunctionInfo>
   <FunctionInfo Signature="β(x,a,b)">
-    <Title>Incomplete beta — legacy parameter-order caveat</Title>
+    <Title>Lower incomplete beta</Title>
     <Type>SpecialFunctions</Type>
     <Category>Gamma and related functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>real β(real x, real a, real b)</code></p>
-<p class="reference-summary">The intended quantity is the lower beta integral accumulated up to x; the current wrapper passes its arguments in a different order.</p>
+<p class="reference-summary">The lower beta integral accumulated up to x, without division by the complete beta function.</p>
 <p class="reference-explanation">Incomplete beta stops the beta integral at x rather than at one. It is an accumulated area, not yet a probability until normalized by the complete beta function.</p>
-<p class="reference-explanation">The implementation warning below is essential: the public wrapper currently forwards a different argument order. The worked example deliberately calls the correctly ordered Math.NET alternative, not the faulty wrapper.</p>
-<p class="reference-equation"><strong>Intended definition</strong><br /><img class="reference-math" src="reference-equations/3b96a17daea48dbd8892dc1b964c489dce702fbf9f0b1e6e6e5ba3427f83ceef.png" alt="Intended: Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt. Current forwarding: B_b(x,a)." width="277" height="55" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> The visible signature is x,a,b and checks 0≤x≤1, a,b&gt;0, but Meta.Numerics expects a,b,x. The effective integration limit is b, so b&gt;1 can be rejected by the library.</p>
-<p class="reference-note"><strong>Important:</strong> Alias of Beta with the same convention. The wrapper and its β alias call Meta.Numerics.Functions.AdvancedMath.Beta(x,a,b), not Beta(a,b,x). Beta(0.5,1,1) = 2, not the intended 0.5. For Bₓ(a,b), use MathNet.Numerics.SpecialFunctions.BetaIncomplete(a,b,x). This content change does not alter calculations.</p>
-<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>MathNet.Numerics.SpecialFunctions.BetaIncomplete(1,1,0.5)</code></pre><p><strong>Result:</strong> 0.5</p><p>With both shapes equal to one the integrand is one, so the area from zero to 0.5 is 0.5.</p></div>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://numerics.mathdotnet.com/api/MathNet.Numerics/SpecialFunctions.htm">numerics.mathdotnet.com</a></p>
+<p class="reference-explanation">The first argument sets the upper integration limit; a and b determine the shape of the integrand. At x=0 the area is zero, and at x=1 it equals the complete beta function.</p>
+<p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/3b96a17daea48dbd8892dc1b964c489dce702fbf9f0b1e6e6e5ba3427f83ceef.png" alt="Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt." width="277" height="55" /></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real 0≤x≤1 and a,b&gt;0; out-of-domain values return NaN. The first argument is the integration limit and the other two are shape parameters.</p>
+<p class="reference-note"><strong>Important:</strong> Alias of Beta with the same convention. The public order is x,a,b; Meta.Numerics receives Beta(a,b,x). This is an unnormalized area: Beta(0,a,b)=0 and Beta(1,a,b)=Beta(a,b). Use BetaNorm for the corresponding cumulative probability.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Beta(0.5,1,1)</code></pre><p><strong>Result:</strong> 0.5</p><p>With both shapes equal to one the integrand is one, so the area from zero to 0.5 is 0.5.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/8.17">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://numerics.mathdotnet.com/api/MathNet.Numerics/SpecialFunctions.htm</Url>
+    <Url>https://dlmf.nist.gov/8.17</Url>
   </FunctionInfo>
   <FunctionInfo Signature="δ(x)">
     <Title>Dirac-delta point helper</Title>
