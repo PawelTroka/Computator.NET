@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Computator.NET.Core.Compilation
@@ -60,12 +61,51 @@ namespace Computator.NET.Core.Compilation
             // interpolated text and comments even before notation is translated.
             var source = SourceText.From(tslCode);
             var root = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.CSharp14)).GetRoot();
+            // A declaration establishes a literal identifier, even when it resembles
+            // reserved elementary-function shorthand. Protect its references in
+            // this fragment too; separate callers can use the C# @ escape.
+            var declaredPowerNames = new HashSet<string>(StringComparer.Ordinal);
+            var constructedTypeSpans = new HashSet<TextSpan>();
+            foreach (var node in root.DescendantNodes())
+            {
+                var identifier = node switch
+                {
+                    MethodDeclarationSyntax method => method.Identifier,
+                    LocalFunctionStatementSyntax function => function.Identifier,
+                    DelegateDeclarationSyntax declaration => declaration.Identifier,
+                    VariableDeclaratorSyntax variable => variable.Identifier,
+                    ParameterSyntax parameter => parameter.Identifier,
+                    PropertyDeclarationSyntax property => property.Identifier,
+                    BaseTypeDeclarationSyntax type => type.Identifier,
+                    _ => default
+                };
+                if (PowHandler.IsSymbolicPowerIdentifier(identifier.ValueText))
+                    declaredPowerNames.Add(identifier.ValueText);
+
+                // Constructors (including attributes and primary-constructor
+                // base calls) name types, never function-power shorthand. Only
+                // protect the type tokens here, so a separate cosᶻ(z) beside
+                // new cosᶻ(3) still denotes the requested cosine power.
+                var constructedType = node switch
+                {
+                    ObjectCreationExpressionSyntax creation => creation.Type,
+                    AttributeSyntax attribute => attribute.Name,
+                    PrimaryConstructorBaseTypeSyntax baseType => baseType.Type,
+                    _ => null
+                };
+                if (constructedType != null)
+                    foreach (var name in constructedType.DescendantTokens())
+                        if (PowHandler.IsSymbolicPowerIdentifier(name.ValueText))
+                            constructedTypeSpans.Add(name.Span);
+            }
             var literals = new List<string>();
             var changes = new List<TextChange>();
             var prefix = "__ComputatorLiteral" + Guid.NewGuid().ToString("N") + "_";
             foreach (var token in root.DescendantTokens(descendIntoTrivia: true))
             {
-                if (token.Span.Length == 0 || !IsLiteralText(token.Kind())) continue;
+                if (token.Span.Length == 0 || (!IsLiteralText(token.Kind()) &&
+                    !(token.IsKind(SyntaxKind.IdentifierToken) &&
+                        (declaredPowerNames.Contains(token.ValueText) || constructedTypeSpans.Contains(token.Span))))) continue;
                 changes.Add(new TextChange(token.Span, prefix + literals.Count + "__"));
                 literals.Add(token.Text);
             }
