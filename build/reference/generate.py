@@ -185,12 +185,21 @@ def write_preview(entries,path):
             for child in list(parent):
                 if 'reference-signature' in child.get('class','').split():
                     parent.remove(child)
-        for image in fragment.iter('img'):
-            if image.get('class')=='reference-math-inline':image.set('style',inline_style(image))
+        for parent in list(fragment.iter()):
+            for index,image in enumerate(list(parent)):
+                if image.tag!='img' or image.get('class')!='reference-math-inline':continue
+                image.set('style',inline_style(image))
+                image.set('aria-hidden','true')
+                alternative=image.get('alt');image.set('alt','')
+                wrapper=ET.Element('span',{'class':'reference-inline'})
+                wrapper.tail=image.tail;image.tail=None
+                parent.remove(image);parent.insert(index,wrapper)
+                wrapper.append(image)
+                ET.SubElement(wrapper,'span',{'class':'reference-math-text'}).text=alternative
         description=ET.tostring(fragment,encoding='unicode')
         sections.append('<section id="entry-'+str(index)+'" data-signature="'+esc(item['signature'])+'"><h2>'+esc(item['title'])+'</h2>'+description+'</section>')
     text='''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Computator.NET function reference</title><style>body{font:16px/1.5 system-ui,sans-serif;margin:0 auto;padding:2rem;max-width:64rem;color:#24262b;background:#fafafa}h1{font-size:2rem}h2{font-size:1.25rem}section{padding:1.2rem;margin:1.2rem 0;border:1px solid #ddd;border-radius:8px;background:white}code{font-family:Consolas,monospace;overflow-wrap:anywhere}.reference-note{border-left:3px solid #b07934;padding-left:.8rem}.reference-source{font-size:.88rem}a{color:#305c85}p{margin:.7rem 0}</style><h1>Computator.NET function and constant reference</h1><p>Offline editorial preview. The application uses the same HTML fragments from functions.xml. No network resources are required; source links are optional reading.</p>'''+''.join(sections)+'</html>'
-    text=text.replace('</style>', '.reference-equation{overflow-x:auto;padding:12px;background:white}.reference-math{display:block;max-width:none}.reference-math-inline{display:inline-block;max-width:none}.reference-worked-example{border-left:3px solid #718595;padding:0 16px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>')
+    text=text.replace('</style>', '.reference-equation{overflow-x:auto;padding:12px;background:white}.reference-math{display:block;max-width:none}.reference-math-inline{display:inline-block;max-width:none}.reference-math-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.reference-worked-example{border-left:3px solid #718595;padding:0 16px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>')
     path.parent.mkdir(parents=True,exist_ok=True);path.write_text(text,encoding='utf-8')
     import shutil
     shutil.copytree(ASSETS,path.parent/'reference-equations',dirs_exist_ok=True)

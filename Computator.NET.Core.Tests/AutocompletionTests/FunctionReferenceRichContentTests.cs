@@ -101,7 +101,7 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
             image.SetAttributeValue("onerror", "window.referenceExecuted=true");
             var entry = new FunctionInfo { Description = new XElement("p", "The weight ", image, " stays in this sentence.").ToString() };
             var rendered = FunctionReferenceDocument.Render(entry);
-            NUnit.Framework.Assert.That(rendered, Does.Contain("The weight <img"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("The weight <span class=\"reference-inline\"><img"));
             NUnit.Framework.Assert.That(rendered, Does.Contain(" stays in this sentence."));
             NUnit.Framework.Assert.That(rendered, Does.Not.Contain("position:fixed").And.Not.Contain("999px").And.Not.Contain("referenceExecuted"));
             NUnit.Framework.Assert.That(rendered, Does.Contain("data:image/png;base64,"));
@@ -109,6 +109,10 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                 (height / 20m).ToString("0.###", CultureInfo.InvariantCulture) + "em;vertical-align:" +
                 (-depth / 1000m).ToString("0.###", CultureInfo.InvariantCulture) + "em;";
             NUnit.Framework.Assert.That(rendered, Does.Contain(style));
+            var paragraph = XElement.Parse(rendered.Substring(rendered.IndexOf("<p>", StringComparison.Ordinal)).Split("</body>")[0]);
+            NUnit.Framework.Assert.That(paragraph.Value, Is.EqualTo("The weight x^α exp(−x) stays in this sentence."));
+            NUnit.Framework.Assert.That((string)paragraph.Descendants("img").Single().Attribute("aria-hidden"), Is.EqualTo("true"));
+            NUnit.Framework.Assert.That(paragraph.Descendants("span").Count(span => (string)span.Attribute("class") == "reference-math-text"), Is.EqualTo(1));
         }
 
         [TestCase("data-depth", "")]

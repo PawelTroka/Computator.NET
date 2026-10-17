@@ -46,7 +46,12 @@ namespace Computator.NET.Desktop.Tests
                 dynamic rendered = image.DomElement;
                 NUnit.Framework.Assert.That((bool)rendered.complete, Is.True);
                 NUnit.Framework.Assert.That((int)rendered.naturalWidth, Is.GreaterThan(0));
-                NUnit.Framework.Assert.That(image.GetAttribute("alt"), Is.Not.Empty);
+                if (image.GetAttribute("className") == "reference-math-inline")
+                {
+                    NUnit.Framework.Assert.That(image.GetAttribute("aria-hidden"), Is.EqualTo("true"));
+                    NUnit.Framework.Assert.That(image.Parent.InnerText, Is.Not.Empty);
+                }
+                else NUnit.Framework.Assert.That(image.GetAttribute("alt"), Is.Not.Empty);
             }
             NUnit.Framework.Assert.That(navigations.All(scheme => scheme == "about"), Is.True);
             // Check computed styles in the actual Windows HTML engine, rather
@@ -192,7 +197,8 @@ namespace Computator.NET.Desktop.Tests
         public void InlineLaguerreMathSharesTheTextBaselineAndScalesWithProse(int width, int fontSize)
         {
             var entry = new FunctionsDetailsFileSource().Details["Laguerre(n,α,x)"];
-            using var window = new Form { ClientSize = new Size(width, 650), ShowInTaskbar = false };
+            using var window = new Form { ClientSize = new Size(width, 650), ShowInTaskbar = false,
+                TopMost = true, StartPosition = FormStartPosition.CenterScreen };
             using var browser = new WebBrowser { Dock = DockStyle.Fill };
             window.Controls.Add(browser);
             window.Show();
@@ -204,6 +210,10 @@ namespace Computator.NET.Desktop.Tests
                 .First(element => element.GetAttribute("className") == "reference-summary");
             var images = summary.GetElementsByTagName("img").Cast<HtmlElement>().ToArray();
             NUnit.Framework.Assert.That(images.Length, Is.EqualTo(3));
+            dynamic selection = ((dynamic)browser.Document.Body.DomElement).createTextRange();
+            selection.moveToElementText(summary.DomElement);
+            NUnit.Framework.Assert.That((string)selection.text,
+                Is.EqualTo("A degree-n polynomial orthogonal on [0,∞) with weight x^α exp(−x)."));
             foreach (var image in images)
             {
                 var marker = browser.Document.CreateElement("span");
@@ -224,6 +234,10 @@ namespace Computator.NET.Desktop.Tests
                 marker.OuterHtml = "";
             }
             NUnit.Framework.Assert.That(summary.ScrollRectangle.Width, Is.LessThanOrEqualTo(browser.ClientSize.Width));
+            var screenshot = System.IO.Path.Combine(TestContext.CurrentContext.WorkDirectory,
+                $"reference-inline-laguerre-{width}-{fontSize}.png");
+            window.BringToFront(); window.Activate();
+            NUnit.Framework.Assert.That(CaptureDocumentPaint(window, browser, new[] { summary }, screenshot), Is.True);
             window.Close();
         }
 

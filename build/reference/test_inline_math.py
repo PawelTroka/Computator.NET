@@ -2,6 +2,8 @@
 from unittest.mock import patch
 import hashlib
 import unittest
+from tempfile import TemporaryDirectory
+from pathlib import Path
 import xml.etree.ElementTree as ET
 from common import A, M, P
 from enrichment import Enrichment
@@ -75,6 +77,23 @@ class InlineMathTests(unittest.TestCase):
         for altered in [dict(self.asset,mode='display'),dict(self.asset,tex='x')]:
             with patch.object(generate,'equation_manifest',return_value={self.key:altered}):
                 with self.assertRaises(ValueError):generate.prose_html(P(M(self.tex,'x^α exp(−x)')))
+
+    def test_preview_preserves_full_sentence_as_text_without_duplicate_accessible_math(self):
+        description='<div><p class="reference-summary">'+self.rendered()+'</p></div>'
+        entry={'signature':'Probe(x)','title':'Probe','description':description}
+        with TemporaryDirectory() as directory:
+            root=Path(directory);assets=root/'assets';assets.mkdir()
+            with patch.object(generate,'ASSETS',assets):
+                generate.write_preview([entry],root/'preview.html')
+            preview=(root/'preview.html').read_text()
+        content=preview.split('<p class="reference-summary">')[1].split('</p>')[0]
+        paragraph=ET.fromstring('<p>'+content+'</p>')
+        self.assertEqual(''.join(paragraph.itertext()),
+            'The weight x^α exp(−x) remains part of this sentence, with explanatory words before and after the mathematical expression and its interpretation.')
+        self.assertEqual(paragraph.find('.//img').get('aria-hidden'),'true')
+        self.assertEqual(paragraph.find('.//img').get('alt'),'')
+        self.assertEqual(len(paragraph.findall('.//span[@class="reference-math-text"]')),1)
+        self.assertEqual(entry['description'],description)
 
     def test_reported_laguerre_sentence_has_complete_inline_notation(self):
         item={'signature':'Laguerre(n,α,x)','menu':'real Laguerre(integer n,real α,real x)','type':'SpecialFunctions'}

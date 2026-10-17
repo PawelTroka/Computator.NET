@@ -27,7 +27,9 @@ async function openReference(page: Page, route: string, editor: string, fragment
 }
 
 for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea']]) {
-  for (const width of [360, 1280]) {
+  for (const [width, deviceScaleFactor] of [[360, 1], [1280, 1], [360, 3], [1280, 3]]) {
+    test.describe(`${route} ${width}px at ${deviceScaleFactor}x`, () => {
+    test.use({ deviceScaleFactor });
     test(`shipped Laguerre prose scales and aligns inline in ${route} at ${width}px`, async ({ page }, info) => {
       await page.setViewportSize({ width, height: 900 });
       const remote: string[] = [];
@@ -38,8 +40,22 @@ for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripti
       const summary = tooltip.locator('.reference-summary');
       const images = summary.locator('img.reference-math-inline');
       await expect(images).toHaveCount(3);
-      await expect(summary.locator('img[alt="x^α exp(−x)"]')).toHaveCount(1);
+      expect(await images.first().evaluate(node => getComputedStyle(node).filter))
+        .toBe(route === '/scripting' ? 'brightness(0) invert(1)' : 'none');
+      await expect(summary.locator('.reference-math-text').last()).toHaveText('x^α exp(−x)');
       await expect(summary.locator('br')).toHaveCount(0);
+      const sentence = 'A degree-n polynomial orthogonal on [0,∞) with weight x^α exp(−x).';
+      expect(await summary.textContent()).toBe(sentence);
+      const selected = await summary.evaluate(node => {
+        const range = document.createRange(); range.selectNodeContents(node);
+        const selection = window.getSelection()!;
+        selection.removeAllRanges(); selection.addRange(range);
+        const text = selection.toString(); selection.removeAllRanges(); return text;
+      });
+      expect(selected).toBe(sentence);
+      expect(await summary.ariaSnapshot()).toBe('- paragraph: A degree- n polynomial orthogonal on [0,∞) with weight x^α exp(−x) .');
+      await expect(summary.getByRole('img')).toHaveCount(0);
+      expect(await page.evaluate(() => window.devicePixelRatio)).toBe(deviceScaleFactor);
       await expect(tooltip.locator('.reference-signature')).toHaveCount(0);
       await expect(page.locator('.ace_autocomplete')).toContainText('real InlineReferenceProbe(real x)');
       await expect.poll(() => images.evaluateAll(nodes => nodes.every(node => (node as HTMLImageElement).complete && (node as HTMLImageElement).naturalWidth > 0))).toBe(true);
@@ -74,6 +90,7 @@ for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripti
       await tooltip.locator('.computator-reference').evaluate((node: HTMLElement) => { node.style.fontSize = ''; });
       expect(remote).toEqual([]);
       await page.screenshot({ path: info.outputPath('inline-laguerre.png') });
+    });
     });
   }
 }

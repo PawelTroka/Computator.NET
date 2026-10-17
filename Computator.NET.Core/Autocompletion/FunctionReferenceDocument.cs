@@ -35,6 +35,7 @@ namespace Computator.NET.Core.Autocompletion
                 ".reference-equation{overflow-x:auto;padding:12px;background:#fff;border-left:3px solid #75879b;}" +
                 ".reference-math{display:block;max-width:none;}" +
                 ".reference-math-inline{display:inline-block;max-width:none;}" +
+                ".reference-math-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}" +
                 ".reference-worked-example{padding:12px;border:1px solid #d5dce3;background:#f8fafc;}" +
                 "pre{white-space:pre-wrap;word-wrap:break-word;margin:8px 0;}" +
                 ".reference-source{font-size:15px;}a{color:#305c85;text-decoration:underline;}</style></head><body><h1>" +
@@ -55,7 +56,7 @@ namespace Computator.NET.Core.Autocompletion
                     .Split((char[])null, StringSplitOptions.RemoveEmptyEntries)
                     .Contains("reference-signature")).ToArray())
                 signature.Remove();
-            foreach (var image in root.Descendants("img"))
+            foreach (var image in root.Descendants("img").ToArray())
             {
                 var source = (string)image.Attribute("src") ?? "";
                 if (!Regex.IsMatch(source, @"\Areference-equations/[a-f0-9]{64}\.png\z", RegexOptions.CultureInvariant))
@@ -102,6 +103,13 @@ namespace Computator.NET.Core.Autocompletion
                     image.SetAttributeValue("data-depth", depth);
                     image.SetAttributeValue("style", "width:" + Em(width / 20m) + ";height:" + Em(height / 20m) +
                         ";vertical-align:" + Em(-depth / 1000m) + ";");
+                    image.SetAttributeValue("aria-hidden", "true");
+                    image.SetAttributeValue("alt", "");
+                    // Reconstruct selectable/readable text from the validated
+                    // alternative. Never accept an authored hidden-text class.
+                    var wrapper = new XElement("span", new XAttribute("class", "reference-inline"));
+                    image.ReplaceWith(wrapper);
+                    wrapper.Add(image, new XElement("span", new XAttribute("class", "reference-math-text"), alternative));
                 }
             }
             return string.Concat(root.Nodes().Select(node => node.ToString(SaveOptions.DisableFormatting)));

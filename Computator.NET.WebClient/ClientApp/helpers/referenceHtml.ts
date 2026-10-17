@@ -52,6 +52,19 @@ export function referenceHtml(title: string, fragment: unknown, _displayedSignat
         image.style.width = `${Number(width) / 20}em`;
         image.style.height = `${Number(height) / 20}em`;
         image.style.verticalAlign = `${-depth / 1000}em`;
+        // Keep the mathematical words in text selection and the accessibility
+        // tree. The image is their visual presentation, not a second reading.
+        const inlineMath = document.createElement('span');
+        inlineMath.className = 'reference-inline';
+        const text = document.createElement('span');
+        text.className = 'reference-math-text'; text.textContent = alt;
+        // Firefox includes image alternatives when copying a selection even
+        // when aria-hidden; the real text below already supplies the formula.
+        image.alt = '';
+        image.setAttribute('aria-hidden', 'true');
+        inlineMath.append(image, text);
+        target.appendChild(inlineMath);
+        return;
       }
       target.appendChild(image);
       return;

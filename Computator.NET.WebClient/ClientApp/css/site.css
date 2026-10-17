@@ -93,6 +93,8 @@ h2, h3 { color: var(--workspace-text); }
 .computator-reference .reference-equation { background: #fff; color: #202630; padding: .65rem; overflow-x: auto; border-left: 3px solid #75879b; }
 .computator-reference .reference-math { display: block; max-width: none; }
 .computator-reference .reference-math-inline { display: inline-block; max-width: none; }
+.ace_dark .computator-reference .reference-math-inline { filter: brightness(0) invert(1); }
+.computator-reference .reference-math-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .computator-reference .reference-worked-example { border: 1px solid #929daa; padding: .7rem; margin: .9rem 0; }
 .computator-reference pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1em; }
 .computator-reference code { font-size: 1em; }
