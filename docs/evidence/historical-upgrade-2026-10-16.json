@@ -11,7 +11,7 @@
     "repair-uninstall-and-user-data-preservation"
   ],
   "startedUtc": "2026-10-16T13:19:22.3780944Z",
-  "machine": "runnervm0xl3a",
+  "machine": "<HOSTNAME>",
   "os": "Microsoft Windows NT 10.0.26100.0",
   "environment": "github-hosted-sdk-equipped",
   "powershellVersion": "5.1.26100.33438",
@@ -53,27 +53,27 @@
   "preservedFiles": [
     {
       "sha256": "C9790903499CD22C56D05DD4BCF654FEA3B6D065A4251B0E663FA83A5ADE5D90",
-      "path": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\Computator-Historical-28952791ed3d4e829eaa296e4e60c142\\External documents\\another file.tsl"
+      "path": "%TEMP%\\Computator-Historical-<RUN_ID>\\External documents\\another file.tsl"
     },
     {
       "sha256": "848C970099EEC912DBD94E394848B96B35321D0157EFD6E32F7D8BDF037688F8",
-      "path": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\Computator-Historical-28952791ed3d4e829eaa296e4e60c142\\External documents\\another file.tslf"
+      "path": "%TEMP%\\Computator-Historical-<RUN_ID>\\External documents\\another file.tslf"
     },
     {
       "sha256": "848C970099EEC912DBD94E394848B96B35321D0157EFD6E32F7D8BDF037688F8",
-      "path": "C:\\Users\\runneradmin\\Documents\\Computator.NET\\Acceptance functions\\Zażółć gęślą - keep.tslf"
+      "path": "%USERPROFILE%\\Documents\\Computator.NET\\Acceptance functions\\Zażółć gęślą - keep.tslf"
     },
     {
       "sha256": "C9790903499CD22C56D05DD4BCF654FEA3B6D065A4251B0E663FA83A5ADE5D90",
-      "path": "C:\\Users\\runneradmin\\Documents\\Computator.NET\\Acceptance scripts\\Zażółć gęślą - keep.tsl"
+      "path": "%USERPROFILE%\\Documents\\Computator.NET\\Acceptance scripts\\Zażółć gęślą - keep.tsl"
     },
     {
       "sha256": "B786E013686C61CB800D2EBB3C1BE73ABDA7595932877E23C669EC805EB77501",
-      "path": "C:\\Users\\runneradmin\\Documents\\Computator.NET\\settings.dat"
+      "path": "%USERPROFILE%\\Documents\\Computator.NET\\settings.dat"
     },
     {
       "sha256": "646C7E1B14980C78DD38712C74E1DA664FA6D6D6986C2446D3029D2D5AD5086C",
-      "path": "C:\\Users\\runneradmin\\Documents\\Computator.NET\\settings.json"
+      "path": "%USERPROFILE%\\Documents\\Computator.NET\\settings.json"
     }
   ],
   "completedUtc": "2026-10-16T13:20:38.2126786Z"

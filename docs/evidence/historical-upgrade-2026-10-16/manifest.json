@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "preservedOnUtcDate": "2026-10-17",
+  "repository": "PawelTroka/Computator.NET",
+  "acceptancePullRequest": 174,
+  "testedHarnessCommit": "d852eaa7a683a4bf084b75af281ff9aad762f09c",
+  "acceptanceReportCommitBeforeRedaction": "d9fb572f96a267c1033c71bf936efa18f298e33e",
+  "artifact": {
+    "id": 12048572484,
+    "name": "historical-upgrade-evidence",
+    "size_in_bytes": 382990,
+    "url": "https://api.github.com/repos/PawelTroka/Computator.NET/actions/artifacts/12048572484",
+    "archive_download_url": "https://api.github.com/repos/PawelTroka/Computator.NET/actions/artifacts/12048572484/zip",
+    "expired": false,
+    "created_at": "2026-10-16T13:20:53Z",
+    "expires_at": "2026-10-30T13:20:52Z",
+    "updated_at": "2026-10-16T13:20:53Z",
+    "digest": "sha256:1b198a1714a06c942c5a6e40fa49da7c235127857ab31ebde3859688441aa302",
+    "workflow_run": {
+      "id": 38906708104,
+      "repository_id": 53814882,
+      "head_repository_id": 53814882,
+      "head_branch": "acceptance/historical-232-upgrade",
+      "head_sha": "d852eaa7a683a4bf084b75af281ff9aad762f09c"
+    }
+  },
+  "verification": {
+    "downloadedBytes": 382990,
+    "downloadedSha256": "1b198a1714a06c942c5a6e40fa49da7c235127857ab31ebde3859688441aa302",
+    "matchedGitHubDigest": true,
+    "allZipMemberCrcsPassed": true,
+    "fileMembers": 29,
+    "installerLogs": 9,
+    "completeInstallerLogLines": 20867,
+    "noInstallerExecuted": true,
+    "noWorkflowRerun": true
+  },
+  "retainedLogArchive": {
+    "path": "installer-logs.zip",
+    "bytes": 260917,
+    "sha256": "b77eb0d2ef41cff5b036b8c254145171c6e4bf71f436891c3755312940fddf1a",
+    "encoding": "UTF-8 without BOM, LF",
+    "allLogLinesPreservedInOrder": true
+  },
+  "privacy": {
+    "rulesImplementation": "verify.py: Redactor",
+    "redactionValuesRetained": false,
+    "rules": [
+      "Runner account, hostname and account SID replaced by role aliases; SYSTEM SID retained.",
+      "Private profile, workspace, acceptance temporary ID and Burn temporary workdir paths aliased.",
+      "Restart Manager session keys and Burn pipe/IPC secret redacted.",
+      "Email and telephone contact metadata redacted globally, including registry and nested Property(N) records.",
+      "Memory, free-disk and display telemetry values redacted.",
+      "Action names, timestamps, PID/thread correlation, product/upgrade/package IDs, return codes and file/package hashes retained."
+    ],
+    "installerLogRedactions": {
+      "acceptance_temp_id": 46,
+      "burn_ipc_secret": 1,
+      "burn_temp_id": 7,
+      "host_telemetry": 84,
+      "host_telemetry_change": 14,
+      "private_ARPCONTACT": 6,
+      "private_ARPHELPTELEPHONE": 6,
+      "private_ComputerName": 7,
+      "private_LogonUser": 7,
+      "private_MsiRestartManagerSessionKey": 14,
+      "private_UserSID": 7,
+      "user_profile": 168,
+      "user_temp": 56,
+      "workspace": 93
+    }
+  },
+  "limitations": [
+    "The archive digest authenticates the downloaded bytes against GitHub metadata, not a publisher signature.",
+    "The original raw ZIP is not republished; sanitized bytes have separate checksums.",
+    "The report already contained every original result field; only private identities/paths are changed.",
+    "49 historical file hashes were asserted in memory but not exported; 569 candidate hashes are identified by payload.xml digest, and payload.xml is absent from this artifact.",
+    "Five existing user-data files were checked after rollback; six final user-data hashes include settings.json created by the later successful candidate upgrade.",
+    "The prepared offline plan was not executed; the successful acceptance ran on an SDK-equipped hosted Windows runner.",
+    "The Type19 failure preceded execution of the parent candidate installation script; the tested rollback restored a genuinely removed legacy product."
+  ],
+  "members": [
+    {
+      "path": "historical-review/candidate-provenance.json",
+      "bytes": 415,
+      "sha256": "6e9d2b1570ccfe26c7ff81e936f0355d085d081847376d7ff9acbe88f5a7df13",
+      "decision": "preserved",
+      "retainedPath": "candidate-provenance.json",
+      "retainedBytes": 406,
+      "retainedSha256": "57bf8633fc1687069fbf9a64dde81d7fbbb07e650557a6a74f071ec05af0e111",
+      "transform": "normalized-json"
+    },
+    {
+      "path": "historical-review/harness-source.zip",
+      "bytes": 47092,
+      "sha256": "90d7361cdaf0508ab604528f9be2e0b354375a5d47b50bb98252560d36e38223",
+      "decision": "referenced-existing-git-content",
+      "retainedPath": "source-references.json",
+      "reason": "All 35 source files match tested Git commit d852eaa7a683a4bf084b75af281ff9aad762f09c after CRLF-to-LF conversion. Original individual source bytes are reconstructable; ZIP metadata is unnecessary."
+    },
+    {
+      "path": "historical-review/prepared-plan.json",
+      "bytes": 2072,
+      "sha256": "8001fd0e8f5eee26be5ddc9fa40c33092fd51578a157a98d02576f437bea296f",
+      "decision": "preserved",
+      "retainedPath": "prepared-plan.json",
+      "retainedBytes": 2017,
+      "retainedSha256": "a0289db34521258e1962240a1a289409b58b72a75e28740c9f78ff9b57f8c780",
+      "transform": "normalized-json"
+    },
+    {
+      "path": "installer/logs/historical/acceptance.json",
+      "bytes": 5110,
+      "sha256": "7a362cfa936503c1bbaaa51e2ec027b8708aa39f3ac67ca7d0990865512e4a7c",
+      "decision": "existing-report-redacted-in-place",
+      "retainedPath": "../historical-upgrade-2026-10-16.json",
+      "retainedBytes": 3526,
+      "retainedSha256": "faeaf100dcb19c407bfefeb520cb9efed1da7acd83c2d3f4ed42c7215b6b36db",
+      "transform": "same-result-fields-with-private-identifiers-redacted",
+      "reason": "Semantically identical to the report already committed at d9fb572f96a267c1033c71bf936efa18f298e33e; no second report copy."
+    },
+    {
+      "path": "installer/logs/historical/candidate-bundle-uninstall.log",
+      "bytes": 10561,
+      "sha256": "81ae9956cc8bfc3ac519f050abb5a9159fcc3f5d4c27935b668816d5464f48f5",
+      "decision": "preserved",
+      "archiveMember": "candidate-bundle-uninstall.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 10067,
+      "retainedSha256": "f3cb27e0d585ef88039cdd785c174c159a2b19ee97a2abd8296aea4236369d3c",
+      "lines": 79,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "burn_temp_id": 1,
+        "workspace": 17
+      }
+    },
+    {
+      "path": "installer/logs/historical/candidate-bundle-uninstall_000_Computator.NET.msi.log",
+      "bytes": 1056320,
+      "sha256": "af65df1b26517e33342dedce980139cef0650f28d991ee371a623992534b46b6",
+      "decision": "preserved",
+      "archiveMember": "candidate-bundle-uninstall_000_Computator.NET.msi.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 523209,
+      "retainedSha256": "e2aae960d5abc6f13a084cb197e9f56fc5c70f0b77fe0ee2e4e8837049941733",
+      "lines": 4642,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "burn_temp_id": 1,
+        "host_telemetry": 12,
+        "host_telemetry_change": 2,
+        "private_ComputerName": 1,
+        "private_LogonUser": 1,
+        "private_MsiRestartManagerSessionKey": 2,
+        "private_UserSID": 1,
+        "user_profile": 24,
+        "user_temp": 1,
+        "workspace": 8
+      }
+    },
+    {
+      "path": "installer/logs/historical/candidate-bundle-upgrade.log",
+      "bytes": 12857,
+      "sha256": "c8a83dbef623329c1e8a1fe58a731073857f64fb86c0f10a03215c17d6675448",
+      "decision": "preserved",
+      "archiveMember": "candidate-bundle-upgrade.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 12239,
+      "retainedSha256": "66ed0f68f0b04d47a33f05e397755c9378abb5c4b11c7592071204c9959eed54",
+      "lines": 88,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "burn_temp_id": 1,
+        "workspace": 22
+      }
+    },
+    {
+      "path": "installer/logs/historical/candidate-bundle-upgrade_000_Computator.NET.msi.log",
+      "bytes": 1514228,
+      "sha256": "ab169f56ae629c390f2a53fda30c6e179914943af2720894cd9f22a2bcd25123",
+      "decision": "preserved",
+      "archiveMember": "candidate-bundle-upgrade_000_Computator.NET.msi.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 752052,
+      "retainedSha256": "138b61bc91fe75faa56c15b8cfcab6fd4ebca4f5bca24c52e1035b4169e209cc",
+      "lines": 4648,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "burn_temp_id": 1,
+        "host_telemetry": 24,
+        "host_telemetry_change": 4,
+        "private_ARPCONTACT": 1,
+        "private_ARPHELPTELEPHONE": 1,
+        "private_ComputerName": 2,
+        "private_LogonUser": 2,
+        "private_MsiRestartManagerSessionKey": 4,
+        "private_UserSID": 2,
+        "user_profile": 48,
+        "user_temp": 2,
+        "workspace": 8
+      }
+    },
+    {
+      "path": "installer/logs/historical/candidate-bundle-upgrade_001_{252e03f2-85db-4a38-a29c-14e31af5aae1}.log",
+      "bytes": 10847,
+      "sha256": "cbdbc6f9f19fe2be4d2077c41253d1875086904246940507d97c6b0cb04f6869",
+      "decision": "preserved",
+      "archiveMember": "candidate-bundle-upgrade_001_{252e03f2-85db-4a38-a29c-14e31af5aae1}.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 10589,
+      "retainedSha256": "75d0f2afd2a367e0a6dfa59bf9711433bfe730a130296ed6061c273db9ae0049",
+      "lines": 82,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "burn_ipc_secret": 1,
+        "workspace": 5
+      }
+    },
+    {
+      "path": "installer/logs/historical/candidate-repair.log",
+      "bytes": 2364650,
+      "sha256": "1de0e7c2cb6e62002901c01474aca6c3667df3744c1051fee4b1527997091672",
+      "decision": "preserved",
+      "archiveMember": "candidate-repair.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 1174763,
+      "retainedSha256": "7d6fbc184c0198bc99fe87861837814d50785ff88d77b573bb10c0c47fa9ad42",
+      "lines": 7346,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "host_telemetry": 12,
+        "host_telemetry_change": 2,
+        "private_ComputerName": 1,
+        "private_LogonUser": 1,
+        "private_MsiRestartManagerSessionKey": 2,
+        "private_UserSID": 1,
+        "user_profile": 24,
+        "user_temp": 1,
+        "workspace": 5
+      }
+    },
+    {
+      "path": "installer/logs/historical/failed-upgrade.log",
+      "bytes": 681104,
+      "sha256": "db0558ba256f06d1f00484daa348003296f14fe838cf66e9e24069490e30b068",
+      "decision": "preserved",
+      "archiveMember": "failed-upgrade.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 334965,
+      "retainedSha256": "41edeb93fbcc52a91bca11797834e071066f82546624e915c1ace5ed878e1832",
+      "lines": 2772,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "acceptance_temp_id": 46,
+        "host_telemetry": 24,
+        "host_telemetry_change": 4,
+        "private_ARPCONTACT": 3,
+        "private_ARPHELPTELEPHONE": 3,
+        "private_ComputerName": 2,
+        "private_LogonUser": 2,
+        "private_MsiRestartManagerSessionKey": 4,
+        "private_UserSID": 2,
+        "user_profile": 48,
+        "user_temp": 48,
+        "workspace": 5
+      }
+    },
+    {
+      "path": "installer/logs/historical/historical-bundle-install.log",
+      "bytes": 12305,
+      "sha256": "975a2868b459c7d21055421793f1cc18209c538bb2854749ccf200e63d1b2771",
+      "decision": "preserved",
+      "archiveMember": "historical-bundle-install.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 11760,
+      "retainedSha256": "af83077a174b2f65c3ab991aa1761a0c98c04ddc7567cd5c84295d7ec8329972",
+      "lines": 92,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "burn_temp_id": 2,
+        "user_temp": 2,
+        "workspace": 15
+      }
+    },
+    {
+      "path": "installer/logs/historical/historical-bundle-install_000_Computator.NET.msi.log",
+      "bytes": 283956,
+      "sha256": "93f509eb17f8594283f74e98d50b035340c2880813d744e36d0b025cca1f1123",
+      "decision": "preserved",
+      "archiveMember": "historical-bundle-install_000_Computator.NET.msi.log",
+      "retainedPath": "installer-logs.zip",
+      "retainedBytes": 140511,
+      "retainedSha256": "ef13a80398a89027510f9605f06afc879c5f04cffd7e35ac74d5a1c3c0c6b50d",
+      "lines": 1118,
+      "transform": "decoded-utf8-lf-redacted",
+      "redactions": {
+        "burn_temp_id": 1,
+        "host_telemetry": 12,
+        "host_telemetry_change": 2,
+        "private_ARPCONTACT": 2,
+        "private_ARPHELPTELEPHONE": 2,
+        "private_ComputerName": 1,
+        "private_LogonUser": 1,
+        "private_MsiRestartManagerSessionKey": 2,
+        "private_UserSID": 1,
+        "user_profile": 24,
+        "user_temp": 2,
+        "workspace": 8
+      }
+    },
+    {
+      "path": "installer/logs/historical/process-2edc9a59d21b47389b793713328cb58e.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-2edc9a59d21b47389b793713328cb58e.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-4a37b2d2b2534325bd10ee8f5fa9a32d.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-4a37b2d2b2534325bd10ee8f5fa9a32d.stdout.log",
+      "bytes": 99,
+      "sha256": "53271b4a9f6d855c71c74ce9025716c1001f03fde3ca94e92f53a6abf219d327",
+      "decision": "preserved-deduplicated",
+      "retainedPath": "settings-fixture-results.log",
+      "retainedBytes": 92,
+      "retainedSha256": "eaaa7a3451d392597cca848e70cecc28a707503c5423d4915681a3d34ed8ef75",
+      "transform": "deduplicated-stdout",
+      "redactions": {
+        "user_profile": 1
+      },
+      "reason": "Three original stdout members have identical bytes; one result line retained with all three source mappings."
+    },
+    {
+      "path": "installer/logs/historical/process-5c5b44c0e8a147afa9fed0d7fbd9b9d7.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-5c5b44c0e8a147afa9fed0d7fbd9b9d7.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-88d2b42e0b954f80b90518f4282dc138.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-88d2b42e0b954f80b90518f4282dc138.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-90125d2b37f64a10a4ce554ded93a97c.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-90125d2b37f64a10a4ce554ded93a97c.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-bf9e5bb8779f4c4aab80f228dba6308f.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-bf9e5bb8779f4c4aab80f228dba6308f.stdout.log",
+      "bytes": 99,
+      "sha256": "53271b4a9f6d855c71c74ce9025716c1001f03fde3ca94e92f53a6abf219d327",
+      "decision": "preserved-deduplicated",
+      "retainedPath": "settings-fixture-results.log",
+      "retainedBytes": 92,
+      "retainedSha256": "eaaa7a3451d392597cca848e70cecc28a707503c5423d4915681a3d34ed8ef75",
+      "transform": "deduplicated-stdout",
+      "redactions": {
+        "user_profile": 1
+      },
+      "reason": "Three original stdout members have identical bytes; one result line retained with all three source mappings."
+    },
+    {
+      "path": "installer/logs/historical/process-de90a123aec74d7e90695752db173c90.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-de90a123aec74d7e90695752db173c90.stdout.log",
+      "bytes": 99,
+      "sha256": "53271b4a9f6d855c71c74ce9025716c1001f03fde3ca94e92f53a6abf219d327",
+      "decision": "preserved-deduplicated",
+      "retainedPath": "settings-fixture-results.log",
+      "retainedBytes": 92,
+      "retainedSha256": "eaaa7a3451d392597cca848e70cecc28a707503c5423d4915681a3d34ed8ef75",
+      "transform": "deduplicated-stdout",
+      "redactions": {
+        "user_profile": 1
+      },
+      "reason": "Three original stdout members have identical bytes; one result line retained with all three source mappings."
+    },
+    {
+      "path": "installer/logs/historical/process-e5e74b8a5dff4f3c8e5c6db7544abf19.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    },
+    {
+      "path": "installer/logs/historical/process-e5e74b8a5dff4f3c8e5c6db7544abf19.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decision": "omitted-empty",
+      "reason": "Zero-byte stdout/stderr contains no execution evidence."
+    }
+  ]
+}
