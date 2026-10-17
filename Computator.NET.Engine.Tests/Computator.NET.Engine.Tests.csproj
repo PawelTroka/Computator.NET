@@ -6,7 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
-    <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexChartAxesLayout.cs" Link="Charting/ComplexChartAxesLayout.cs" />
+    <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
+    <Compile Include="../Computator.NET.Desktop.Tests/ComplexChartRenderingTests.cs" Link="Charting/ComplexChartRenderingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" />

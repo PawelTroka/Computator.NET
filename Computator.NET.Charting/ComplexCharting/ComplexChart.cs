@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -36,8 +34,6 @@ namespace Computator.NET.Charting.ComplexCharting
         // private Graphics g;
         private double quality;
         //  private Task RedrawTask;
-        private  Color[,] _pointsColors;
-
         private  ComplexPoint[,] _pointsValues;
         private bool _redrawing = false;
         private Function function;
@@ -208,32 +204,48 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region constructing
 
-        private Task<Bitmap> CalculateValuesAndColorsAsync()
+        private sealed class ChartSamples
         {
-            return Task.Factory.StartNew(CalculateValuesAndColors);
+            public ChartSamples(Bitmap bitmap, ComplexPoint[,] pointsValues)
+            {
+                Bitmap = bitmap;
+                PointsValues = pointsValues;
+            }
+
+            public Bitmap Bitmap { get; }
+            public ComplexPoint[,] PointsValues { get; }
         }
 
-        private Bitmap CalculateValuesAndColors()
+        private Task<ChartSamples> CalculateValuesAndColorsAsync(int width, int height)
         {
-            return CalculateValuesAndColors(DrawWidth, DrawHeight, true);
+            return Task.Factory.StartNew(() => CalculateValuesAndColors(width, height));
         }
 
-        private Bitmap CalculateValuesAndColors(int width, int height, bool updatePoints)
+        private ChartSamples CalculateValuesAndColors(int width, int height)
         {
+            // Exports sample independently of the live control and must not replace
+            // the points used by its mouse-coordinate tooltip.
+            var plottedFunction = function;
+            if (plottedFunction == null)
+                return new ChartSamples(new Bitmap(width, height), null);
+
             var pointsValues = new ComplexPoint[width, height];
             var pointsColors = new Color[width, height];
+            var xMin = XMin;
+            var xMax = XMax;
+            var yMin = YMin;
+            var yMax = YMax;
 
-
-            Parallel.For(0, pointsValues.GetLength(0), x =>
+            Parallel.For(0, width, x =>
             {
-                var re = XMin + x * (XMax - XMin) / pointsValues.GetLength(0);
-                for (var y = 0; y < pointsValues.GetLength(1); y++)
+                var re = xMin + x * (xMax - xMin) / width;
+                for (var y = 0; y < height; y++)
                 {
-                    var im = YMax - y * (YMax - YMin) / pointsValues.GetLength(1);
+                    var im = yMax - y * (yMax - yMin) / height;
 
                     var z = new Complex(re, im);
 
-                    var fz = function.Evaluate(z);
+                    var fz = plottedFunction.Evaluate(z);
                     pointsValues[x, y] = new ComplexPoint(z, fz);
 
                     if (double.IsInfinity(fz.Real) || double.IsNaN(fz.Real) || double.IsInfinity(fz.Imaginary) ||
@@ -243,29 +255,25 @@ namespace Computator.NET.Charting.ComplexCharting
                     }
                     else
                     {
-                        if (function.IsImplicit)
-                        {
-                            pointsColors[x, y] = ComplexToColor(fz);
-                        }
-                        else
-                            pointsColors[x, y] = ComplexToColor(fz);
-                        //image.SetPixel(x, y, ComplexToColor(fz)/*pointsColors[x, y]*/);
+                        pointsColors[x, y] = ComplexToColor(fz);
                     }
 
                 }
             });
 
-            var bitmap = new Bitmap(pointsColors.GetLength(0), pointsColors.GetLength(1));
-
-            for (int x = 0; x < bitmap.Width; x++)
-                for (int y = 0; y < bitmap.Height; y++)
-                    bitmap.SetPixel(x, y, pointsColors[x, y]);
-            if (updatePoints)
+            var bitmap = new Bitmap(width, height);
+            try
             {
-                _pointsValues = pointsValues;
-                _pointsColors = pointsColors;
+                for (int x = 0; x < bitmap.Width; x++)
+                    for (int y = 0; y < bitmap.Height; y++)
+                        bitmap.SetPixel(x, y, pointsColors[x, y]);
+                return new ChartSamples(bitmap, pointsValues);
             }
-            return bitmap;
+            catch
+            {
+                bitmap.Dispose();
+                throw;
+            }
         }
 
         public ComplexChart()
@@ -343,12 +351,22 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void Print()
         {
-            imagePrinter.Print(image);
+            if (image == null)
+                return;
+
+            var size = SnapshotSize;
+            using (var bitmap = ComposeImage(image, size.Width, size.Height))
+                imagePrinter.Print(bitmap);
         }
 
         public void PrintPreview()
         {
-            imagePrinter.PrintPreview(image);
+            if (image == null)
+                return;
+
+            var size = SnapshotSize;
+            using (var bitmap = ComposeImage(image, size.Width, size.Height))
+                imagePrinter.PrintPreview(bitmap);
         }
 
         public void SetChartAreaValues(double x0, double xn, double y0, double yn)
@@ -364,12 +382,14 @@ namespace Computator.NET.Charting.ComplexCharting
             if (image == null)
                 return;
 
-            var size = ClientSize.Width > 0 && ClientSize.Height > 0 ? ClientSize : image.Size;
-            using (var snapshot = CreateImage(image, size))
-            {
-                snapshot.Save(path, imageFormat);
-            }
+            // Preserve full display dimensions even when the plot was sampled at
+            // lower quality, and never burn the overlay into the cached colors.
+            var size = SnapshotSize;
+            using (var bitmap = ComposeImage(image, size.Width, size.Height))
+                bitmap.Save(path, imageFormat);
         }
+
+        private Size SnapshotSize => ClientSize.Width > 0 && ClientSize.Height > 0 ? ClientSize : image.Size;
 
         public Image GetImage(int width, int height)
         {
@@ -378,29 +398,23 @@ namespace Computator.NET.Charting.ComplexCharting
             if (height <= 0)
                 throw new ArgumentOutOfRangeException(nameof(height));
 
-            var size = new Size(width, height);
-            if (function == null)
-                return CreateImage(image, size);
-
-            // Export sampling must not resize the control or replace the point grid
-            // used by its on-screen mouse tooltips.
-            using (var sampled = CalculateValuesAndColors(Math.Max(1, (int)(width * quality)),
-                Math.Max(1, (int)(height * quality)), false))
-            {
-                return CreateImage(sampled, size);
-            }
+            var samples = CalculateValuesAndColors(Math.Max(1, (int)(width * quality)),
+                Math.Max(1, (int)(height * quality)));
+            using (var sampledImage = samples.Bitmap)
+                return ComposeImage(sampledImage, width, height);
         }
 
-        private Bitmap CreateImage(Image source, Size size)
+        private Bitmap ComposeImage(Image source, int width, int height)
         {
-            var bitmap = new Bitmap(size.Width, size.Height);
+            var bitmap = new Bitmap(width, height);
             try
             {
-                bitmap.SetResolution(DeviceDpi, DeviceDpi);
+                // Offscreen output has a stable scale on every monitor and server.
+                bitmap.SetResolution(96, 96);
                 using (var graphics = Graphics.FromImage(bitmap))
                 {
                     graphics.Clear(BackColor);
-                    PaintOn(graphics, new Rectangle(Point.Empty, size), source);
+                    PaintOn(graphics, new Rectangle(0, 0, width, height), source);
                 }
                 return bitmap;
             }
@@ -422,7 +436,10 @@ namespace Computator.NET.Charting.ComplexCharting
         public void ClearAll()
         {
             function = null;
-            image = new Bitmap(DrawWidth, DrawHeight);
+            _pointsValues = null;
+            var previousImage = image;
+            image = new Bitmap(Math.Max(1, DrawWidth), Math.Max(1, DrawHeight));
+            previousImage?.Dispose();
             Invalidate();
         }
 
@@ -447,10 +464,26 @@ namespace Computator.NET.Charting.ComplexCharting
                 return;
             _redrawing = true;
             Cursor = Cursors.WaitCursor;
-            image = await CalculateValuesAndColorsAsync();
-            Cursor = Cursors.Default;
-            Invalidate();
-            _redrawing = false;
+            try
+            {
+                var samples = await CalculateValuesAndColorsAsync(DrawWidth, DrawHeight);
+                if (function == null || IsDisposed)
+                {
+                    samples.Bitmap.Dispose();
+                    return;
+                }
+                var previousImage = image;
+                image = samples.Bitmap;
+                _pointsValues = samples.PointsValues;
+                previousImage?.Dispose();
+                Invalidate();
+            }
+            finally
+            {
+                if (!IsDisposed)
+                    Cursor = Cursors.Default;
+                _redrawing = false;
+            }
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -458,70 +491,22 @@ namespace Computator.NET.Charting.ComplexCharting
             PaintOn(pe.Graphics, ClientRectangle, image);
         }
 
-        private void PaintOn(Graphics graphics, Rectangle bounds, Image source)
+
+        private void PaintOn(Graphics g, Rectangle r, Image source)
         {
-            if (bounds.Width <= 0 || bounds.Height <= 0)
+            if (r.Width <= 0 || r.Height <= 0)
                 return;
             if (source != null)
-                graphics.DrawImage(source, bounds);
+                g.DrawImage(source, r);
+
             if (ShouldDrawAxes)
-                DrawAxes(graphics, bounds);
+                DrawAxes(g, r);
         }
 
-        private void DrawAxes(Graphics graphics, Rectangle bounds)
+        private void DrawAxes(Graphics g, Rectangle bounds)
         {
-            if (bounds.Width <= 0 || bounds.Height <= 0)
-                return;
-            var layout = ComplexChartAxesLayout.Create(bounds.Size, XMin, XMax, YMin, YMax,
-                Math.Max(graphics.DpiX, graphics.DpiY), AxisArrowRelativeSize);
-            var state = graphics.Save();
-            try
-            {
-                graphics.PageUnit = GraphicsUnit.Pixel;
-                graphics.PageScale = 1;
-                graphics.SetClip(bounds, CombineMode.Intersect);
-                graphics.TranslateTransform(bounds.X, bounds.Y);
-                graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-
-                var baseFont = LabelsFont ?? Font;
-                // Physical font units already receive DPI from GDI+. Pixel fonts
-                // need the full scale; applying DPI twice makes labels too large.
-                var fontScale = baseFont.Unit == GraphicsUnit.Pixel
-                    ? layout.Scale : layout.Scale * 96f / graphics.DpiY;
-                using (var pen = new Pen(AxesColor, layout.StrokeWidth))
-                using (var axesBrush = new SolidBrush(AxesColor))
-                using (var labelsBrush = new SolidBrush(LabelsColor))
-                using (var font = new Font(baseFont.FontFamily, baseFont.Size * fontScale,
-                    baseFont.Style, baseFont.Unit, baseFont.GdiCharSet, baseFont.GdiVerticalFont))
-                using (var format = new StringFormat(StringFormatFlags.NoWrap)
-                {
-                    Trimming = StringTrimming.EllipsisCharacter
-                })
-                {
-                    graphics.DrawLine(pen, layout.XStart, layout.XEnd);
-                    graphics.DrawLine(pen, layout.YStart, layout.YEnd);
-                    if (layout.ArrowLength > 0)
-                    {
-                        graphics.FillPolygon(axesBrush, layout.XArrow);
-                        graphics.FillPolygon(axesBrush, layout.YArrow);
-                    }
-
-                    var xLabel = XLabel ?? string.Empty;
-                    var yLabel = YLabel ?? string.Empty;
-                    var xSize = graphics.MeasureString(xLabel, font, int.MaxValue, format);
-                    var ySize = graphics.MeasureString(yLabel, font, int.MaxValue, format);
-                    layout.GetLabelBounds(xSize, ySize, out var xBounds, out var yBounds);
-                    if (xBounds.Width > 0 && xBounds.Height > 0)
-                        graphics.DrawString(xLabel, font, labelsBrush, xBounds, format);
-                    if (yBounds.Width > 0 && yBounds.Height > 0)
-                        graphics.DrawString(yLabel, font, labelsBrush, yBounds, format);
-                }
-            }
-            finally
-            {
-                graphics.Restore(state);
-            }
+            ComplexAxesRenderer.Draw(g, bounds, XMin, XMax, YMin, YMax,
+                AxisArrowRelativeSize, XLabel, YLabel, LabelsFont, AxesColor, LabelsColor);
         }
 
         #endregion
