@@ -54,7 +54,14 @@ namespace Computator.NET.Core.Compilation
         };
         
         
-        public string TransformToCSharp(string tslCode)
+        public string TransformToCSharp(string tslCode) => TransformToCSharp(tslCode, string.Empty);
+
+        /// <summary>
+        /// Translates a caller with the member declarations supplied by its
+        /// separately authored custom-functions fragment. No names are retained
+        /// between compilations.
+        /// </summary>
+        public string TransformToCSharp(string tslCode, string customFunctionsCode)
         {
             // TSL notation is executable syntax, never literal text. Let the
             // existing C# lexer recognize escaped/verbatim/raw strings, chars,
@@ -63,8 +70,8 @@ namespace Computator.NET.Core.Compilation
             var root = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.CSharp14)).GetRoot();
             // A declaration establishes a literal identifier, even when it resembles
             // reserved elementary-function shorthand. Protect its references in
-            // this fragment too; separate callers can use the C# @ escape.
-            var declaredPowerNames = new HashSet<string>(StringComparer.Ordinal);
+            // this fragment too, including members from the separate definitions.
+            var declaredPowerNames = GetSharedPowerNames(customFunctionsCode);
             var constructedTypeSpans = new HashSet<TextSpan>();
             foreach (var node in root.DescendantNodes())
             {
@@ -134,6 +141,34 @@ namespace Computator.NET.Core.Compilation
             var protectedCode = source.WithChanges(ordered).ToString();
             var result = TslHandlers.Aggregate(protectedCode, (current, handler) => handler.Replace(current));
             return Regex.Replace(result, prefix + @"(\d+)__", match => literals[int.Parse(match.Groups[1].Value)]);
+        }
+
+        private static HashSet<string> GetSharedPowerNames(string customFunctionsCode)
+        {
+            var names = new HashSet<string>(StringComparer.Ordinal);
+            if (string.IsNullOrEmpty(customFunctionsCode)) return names;
+            var root = CSharpSyntaxTree.ParseText(customFunctionsCode,
+                new CSharpParseOptions(LanguageVersion.CSharp14)).GetRoot();
+            foreach (var node in root.DescendantNodes())
+            {
+                // The fragment is inserted into the generated program class.
+                // Only its direct members are visible to a separate caller;
+                // nested types, parameters and function-local names are not.
+                if (node.Ancestors().Any(parent => parent is BaseTypeDeclarationSyntax
+                    or BaseMethodDeclarationSyntax or LocalFunctionStatementSyntax
+                    or AnonymousFunctionExpressionSyntax or AccessorDeclarationSyntax)) continue;
+                var identifier = node switch
+                {
+                    MethodDeclarationSyntax method => method.Identifier,
+                    LocalFunctionStatementSyntax function => function.Identifier,
+                    VariableDeclaratorSyntax variable => variable.Identifier,
+                    PropertyDeclarationSyntax property => property.Identifier,
+                    _ => default
+                };
+                if (PowHandler.IsSymbolicPowerIdentifier(identifier.ValueText))
+                    names.Add(identifier.ValueText);
+            }
+            return names;
         }
 
         private static bool IsLiteralText(SyntaxKind kind) => kind is
