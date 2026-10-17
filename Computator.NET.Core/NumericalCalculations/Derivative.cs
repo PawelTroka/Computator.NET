@@ -37,7 +37,7 @@ namespace Computator.NET.Core.NumericalCalculations
                 return fx(x);
             if (order == 1)
                 return (fx(x + dx) - fx(x))/dx;
-            return (finiteDifferenceFormula(fx, x + dx, order - 1) - finiteDifferenceFormula(fx, x, order - 1))/dx;
+            return (finiteDifferenceFormula(fx, x + dx, order - 1, eps) - finiteDifferenceFormula(fx, x, order - 1, eps))/dx;
         }
 
         public static double stableFiniteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
@@ -55,7 +55,7 @@ namespace Computator.NET.Core.NumericalCalculations
                 return fx(x);
             if (order == 1)
                 return (fx(xph) - fx(x))/dx;
-            return (stableFiniteDifferenceFormula(fx, xph, order - 1) - stableFiniteDifferenceFormula(fx, x, order - 1))/
+            return (stableFiniteDifferenceFormula(fx, xph, order - 1, eps) - stableFiniteDifferenceFormula(fx, x, order - 1, eps))/
                    dx;
         }
 
@@ -68,8 +68,8 @@ namespace Computator.NET.Core.NumericalCalculations
                 return fx(x);
             if (order == 1)
                 return (fx(x + dx) - fx(x - dx))/(2*dx);
-            return (twoPointfiniteDifferenceFormula(fx, x + dx, order - 1) -
-                    twoPointfiniteDifferenceFormula(fx, x - dx, order - 1))/(2*dx);
+            return (twoPointfiniteDifferenceFormula(fx, x + dx, order - 1, eps) -
+                    twoPointfiniteDifferenceFormula(fx, x - dx, order - 1, eps))/(2*dx);
         }
 
         public static double centeredFivePointMethod(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
@@ -83,8 +83,8 @@ namespace Computator.NET.Core.NumericalCalculations
                 return fx(x);
             if (order == 1)
                 return (fx(x - 2*dx) - 8*fx(x - dx) + 8*fx(x + dx) - fx(x + 2*dx))/(12*dx);
-            return (centeredFivePointMethod(fx, x - 2*dx, order - 1) - 8*centeredFivePointMethod(fx, x - dx, order - 1) +
-                    8*centeredFivePointMethod(fx, x + dx, order - 1) - centeredFivePointMethod(fx, x + 2*dx, order - 1))/
+            return (centeredFivePointMethod(fx, x - 2*dx, order - 1, eps) - 8*centeredFivePointMethod(fx, x - dx, order - 1, eps) +
+                    8*centeredFivePointMethod(fx, x + dx, order - 1, eps) - centeredFivePointMethod(fx, x + 2*dx, order - 1, eps))/
                    (12*dx);
         }
 
@@ -150,7 +150,7 @@ namespace Computator.NET.Core.NumericalCalculations
                 return fx(x);
             if (order == 1)
                 return (fx(x + dx) - fx(x))/dx;
-            return (finiteDifferenceFormula(fx, x + dx, order - 1) - finiteDifferenceFormula(fx, x, order - 1))/dx;
+            return (finiteDifferenceFormula(fx, x + dx, order - 1, eps) - finiteDifferenceFormula(fx, x, order - 1, eps))/dx;
         }
 
         public static double stableFiniteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
@@ -168,7 +168,7 @@ namespace Computator.NET.Core.NumericalCalculations
                 return fx(x);
             if (order == 1)
                 return (fx(xph) - fx(x))/dx;
-            return (stableFiniteDifferenceFormula(fx, xph, order - 1) - stableFiniteDifferenceFormula(fx, x, order - 1))/
+            return (stableFiniteDifferenceFormula(fx, xph, order - 1, eps) - stableFiniteDifferenceFormula(fx, x, order - 1, eps))/
                    dx;
         }
 
@@ -181,8 +181,8 @@ namespace Computator.NET.Core.NumericalCalculations
                 return fx(x);
             if (order == 1)
                 return (fx(x + dx) - fx(x - dx))/(2*dx);
-            return (twoPointfiniteDifferenceFormula(fx, x + dx, order - 1) -
-                    twoPointfiniteDifferenceFormula(fx, x - dx, order - 1))/(2*dx);
+            return (twoPointfiniteDifferenceFormula(fx, x + dx, order - 1, eps) -
+                    twoPointfiniteDifferenceFormula(fx, x - dx, order - 1, eps))/(2*dx);
         }
 
         public static double centeredFivePointMethod(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
@@ -196,8 +196,8 @@ namespace Computator.NET.Core.NumericalCalculations
                 return fx(x);
             if (order == 1)
                 return (fx(x - 2*dx) - 8*fx(x - dx) + 8*fx(x + dx) - fx(x + 2*dx))/(12*dx);
-            return (centeredFivePointMethod(fx, x - 2*dx, order - 1) - 8*centeredFivePointMethod(fx, x - dx, order - 1) +
-                    8*centeredFivePointMethod(fx, x + dx, order - 1) - centeredFivePointMethod(fx, x + 2*dx, order - 1))/
+            return (centeredFivePointMethod(fx, x - 2*dx, order - 1, eps) - 8*centeredFivePointMethod(fx, x - dx, order - 1, eps) +
+                    8*centeredFivePointMethod(fx, x + dx, order - 1, eps) - centeredFivePointMethod(fx, x + 2*dx, order - 1, eps))/
                    (12*dx);
         }
    public static double derivativeAtPoint(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
