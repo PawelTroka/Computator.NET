@@ -30,14 +30,29 @@ export function referenceHtml(title: string, fragment: unknown, _displayedSignat
       const src = element.getAttribute('src') ?? '';
       const width = element.getAttribute('width') ?? '', height = element.getAttribute('height') ?? '';
       const alt = element.getAttribute('alt') ?? '';
+      const imageClass = element.getAttribute('class');
+      const inline = imageClass === 'reference-math-inline';
+      const depthText = element.getAttribute('data-depth') ?? '';
+      const depth = Number(depthText);
       if (!/^reference-equations\/[a-f0-9]{64}\.png$/.test(src) ||
-          element.getAttribute('class') !== 'reference-math' || !alt.trim() ||
-          !/^[1-9]\d{0,3}$/.test(width) || Number(width) > 2400 ||
-          !/^[1-9]\d{0,2}$/.test(height) || Number(height) > 800) return;
+          (!inline && imageClass !== 'reference-math') || !alt.trim() ||
+          !/^[1-9]\d{0,3}$/.test(width) || Number(width) > (inline ? 320 : 2400) ||
+          !/^[1-9]\d{0,2}$/.test(height) || Number(height) > (inline ? 100 : 800) ||
+          (inline ? !/^(?:0|-?[1-9][0-9]{0,3})$/.test(depthText) || depth < -1000 || depth >= Number(height) * 50
+            : element.hasAttribute('data-depth'))) return;
       const image = document.createElement('img');
-      image.className = 'reference-math'; image.alt = alt;
+      image.className = inline ? 'reference-math-inline' : 'reference-math'; image.alt = alt;
       image.width = Number(width); image.height = Number(height);
       image.src = '/' + src;
+      if (inline) {
+        // Scale with surrounding prose. The measured descent, in 1/1000 em,
+        // aligns each expression to the text baseline instead of centering it.
+        // Only bounded numeric metadata reaches these reconstructed styles.
+        image.setAttribute('data-depth', String(depth));
+        image.style.width = `${Number(width) / 20}em`;
+        image.style.height = `${Number(height) / 20}em`;
+        image.style.verticalAlign = `${-depth / 1000}em`;
+      }
       target.appendChild(image);
       return;
     }

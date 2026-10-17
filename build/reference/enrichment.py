@@ -6,7 +6,7 @@ updates. Examples use the public spelling and preserve documented wrapper bugs.
 """
 from dataclasses import dataclass, replace
 import re
-from common import A
+from common import A, P, M
 import elementary, special, distributions
 
 @dataclass(frozen=True)
@@ -36,8 +36,8 @@ def lesson(names, tex, paragraphs, examples=()):
         LESSONS[name] = (tex, tuple(paragraphs), tuple(WorkedExample(*e) for e in examples))
 
 lesson('sin', r'\sin x=\frac{e^{ix}-e^{-ix}}{2i}', [
-    'On a circle of radius one, sin(x) is the vertical coordinate after rotating through x radians. Increasing the angle by a full turn, 2π, returns to the same point; changing its sign reflects the vertical coordinate.',
-    'For an oscillation A·sin(ω·t+φ), A sets the amplitude, ω is angular frequency in radians per unit time and φ is the starting phase. Convert degrees by multiplying by PI/180 before evaluation.'
+    P('On a circle of radius one, ', M('\\sin(x)', 'sin(x)'), ' is the vertical coordinate after rotating through ', M('x', 'x'), ' radians. Increasing the angle by a full turn, ', M('2\\pi', '2π'), ', returns to the same point; changing its sign reflects the vertical coordinate.'),
+    P('For an oscillation ', M('A\\sin(\\omega t+\\varphi)', 'A·sin(ω·t+φ)'), ', ', M('A', 'A'), ' sets the amplitude, ', M('\\omega', 'ω'), ' is angular frequency in radians per unit time and ', M('\\varphi', 'φ'), ' is the starting phase. Convert degrees by multiplying by ', M('\\pi/180', 'PI/180'), ' before evaluation.')
 ], [('sin(30*PI/180)', '0.5', 'Thirty degrees is π/6 radians. Passing 30 without the conversion would ask for the sine of 30 radians, a different angle.')])
 lesson('cos', r'\cos x=\frac{e^{ix}+e^{-ix}}{2}', [
     'Cosine is the horizontal coordinate on the unit circle. It starts at one at zero angle, reaches zero at a quarter-turn and returns to one after 2π radians.',
@@ -52,7 +52,7 @@ for name, numerator, denominator, text in [
     lesson(name, rf'\{name} x=\frac{{{a}}}{{\{denominator} x}}', [text,
         'A floating-point value near a pole is not a reliable representation of an infinite mathematical limit. On a plot, keep the branches separated rather than treating a large sampled value as a connection across the singularity.'])
 lesson('sinc', r'\operatorname{sinc}x=\begin{cases}\frac{\sin x}{x},&x\ne0,\\1,&x=0.\end{cases}', [
-    'The ratio sin(x)/x has a removable singularity: both numerator and denominator approach zero, but their ratio approaches one. The function supplies that limiting value explicitly, so a graph does not have a hole at the origin.',
+    P('The ratio ', M('\\sin(x)/x', 'sin(x)/x'), ' has a removable singularity: both numerator and denominator approach zero, but their ratio approaches one. The function supplies that limiting value explicitly, so a graph does not have a hole at the origin.'),
     'The nonzero real zeros occur at integer multiples of π. Signal-processing texts often use a normalized sinc whose zeros occur at nonzero integers; that is a different scaling of the argument.'
 ], [('sinc(0)', '1', 'Use the supplied continuous value instead of evaluating 0/0.'), ('sinc(PI)', 'approximately 0', 'This is the first positive zero. Floating-point evaluation may leave a tiny residual.')])
 for name, tex, text in [
@@ -86,12 +86,12 @@ lesson('exp',r'e^z=\sum_{n=0}^{\infty}\frac{z^n}{n!}',[
     'A real exponential is positive. For imaginary arguments it describes rotation, which connects exponentials to sine and cosine. Very large real parts can overflow floating-point range.'
 ],[('exp(0)', '1', 'Zero elapsed time leaves the initial multiplier unchanged.'),('exp(-1)', 'approximately 0.3678794412', 'After one time constant, exponential decay has about 36.8 percent of its initial amount.')])
 lesson('ln|log',r'\ln x=y\quad\Longleftrightarrow\quad e^y=x',[
-    'A logarithm turns multiplication into addition: ln(a·b)=ln(a)+ln(b) for positive real inputs. This is useful for combining likelihoods or working with products too small to represent directly.',
-    'The real natural logarithm requires x>0. A complex logarithm also records phase and chooses a branch; adding 2πi describes other branches rather than another value returned by the same call.'
+    P('A logarithm turns multiplication into addition: ', M('\\ln(ab)=\\ln(a)+\\ln(b)', 'ln(a·b)=ln(a)+ln(b)'), ' for positive real inputs. This is useful for combining likelihoods or working with products too small to represent directly.'),
+    P('The real natural logarithm requires ', M('x>0', 'x>0'), '. A complex logarithm also records phase and chooses a branch; adding ', M('2\\pi i', '2πi'), ' describes other branches rather than another value returned by the same call.')
 ],[('ln(e)', '1', 'The natural logarithm and exponential undo one another on positive real values.')])
 lesson('sqrt',r'(\sqrt z)^2=z',[
     'A positive real number has two square roots with opposite signs; sqrt selects the nonnegative one. It does not return a pair of roots.',
-    'Negative inputs need the complex overload for a complex result. Squaring a principal complex square root recovers its argument, but taking the principal square root of z² does not always recover z.'
+    P('Negative inputs need the complex overload for a complex result. Squaring a principal complex square root recovers its argument, but taking the principal square root of ', M('z^2', 'z²'), ' does not always recover ', M('z', 'z'), '.')
 ],[('sqrt(9)', '3', 'The other solution of y²=9 is −3; it is not the value selected by sqrt.')])
 lesson('abs',r'|a+ib|=\sqrt{a^2+b^2}',[
     'Absolute value is distance from zero. For real numbers it removes the sign; for complex numbers it combines both coordinates into a nonnegative magnitude.',
@@ -110,8 +110,10 @@ lesson('Heaviside',r'H(x)=\begin{cases}0,&x<0,\\\frac12,&x=0,\\1,&x>0.\end{cases
     'The half-value at the jump is a convention. It does not smooth the discontinuity or turn a numerical derivative into a finite approximation to an ideal impulse.'
 ],[('Heaviside(0)', '0.5', 'The value right at the switch is explicitly chosen; either side still approaches a different limit.')])
 lesson('gamma',r'\begin{aligned}\Gamma(z)&=\int_0^\infty t^{z-1}e^{-t}\,dt\quad(\Re z>0),\\\Gamma(z+1)&=z\Gamma(z).\end{aligned}',[
-    'Gamma extends the factorial relation beyond whole numbers. The shift matters: Γ(n)=(n−1)!, so the continuous counterpart of n! is Γ(n+1), not Γ(n).',
-    'In the integral, t^(z−1) controls the behavior near zero and e^(−t) suppresses the far tail. Outside the integral’s convergence region the function is defined by analytic continuation, except at its poles. For large positive arguments, logGamma can avoid forming an overflowing gamma value.'
+    P('Gamma extends the factorial relation beyond whole numbers. The shift matters: ', M(r'\Gamma(n)=(n-1)!','Γ(n)=(n−1)!'),
+      ', so the continuous counterpart of ',M(r'n!','n!'),' is ',M(r'\Gamma(n+1)','Γ(n+1)'),', not ',M(r'\Gamma(n)','Γ(n)'),'.'),
+    P('In the integral, ',M(r't^{z-1}','t^(z−1)'),' controls the behavior near zero and ',M(r'e^{-t}','e^(−t)'),
+      ' suppresses the far tail. Outside the integral’s convergence region the function is defined by analytic continuation, except at its poles. For large positive arguments, logGamma can avoid forming an overflowing gamma value.')
 ],[('gamma(5)', '24', 'Apply the recurrence four times: Γ(5)=4·3·2·1·Γ(1), and Γ(1)=1.'),('gamma(0.5)', 'approximately 1.7724538509', 'The half-integer value is √π, showing why gamma appears in Gaussian integrals.')])
 lesson('logGamma',r'\exp(\operatorname{Log}\Gamma(z))=\Gamma(z)',[
     'Log-gamma keeps a rapidly growing gamma value in logarithmic form. It is useful in factorial ratios and statistical log-likelihoods, where adding and subtracting log-gamma values can replace products and quotients.',
@@ -123,11 +125,11 @@ lesson('psi',r'\psi(z)=\frac{\Gamma^{\prime}(z)}{\Gamma(z)},\qquad\psi(n)=H_{n-1
 ],[('psi(1)', 'approximately -0.5772156649', 'The harmonic sum H₀ is empty, leaving minus the Euler–Mascheroni constant.')])
 lesson('polyGamma',r'\psi^{(n)}(x)=\frac{d^{n+1}}{dx^{n+1}}\ln\Gamma(x)',[
     'The order counts derivatives of digamma. Order zero is digamma itself; order one is trigamma, the curvature of log-gamma.',
-    'Different orders describe different functions, not powers of one function. In particular, the superscript on ψ⁽ⁿ⁾ denotes differentiation, not exponentiation.'
+    P('Different orders describe different functions, not powers of one function. In particular, the superscript on ', M('\\psi^{(n)}', 'ψ⁽ⁿ⁾'), ' denotes differentiation, not exponentiation.')
 ],[('polyGamma(1,1)', 'approximately 1.6449340668', 'Trigamma at one equals the reciprocal-square sum π²/6.')])
 lesson('Beta',r'B(a,b)=\int_0^1 t^{a-1}(1-t)^{b-1}\,dt=\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}',[
     'The beta integral balances powers of the distances to the two ends of the unit interval. Interchanging a and b reflects t about one half, so the complete beta function is symmetric.',
-    'Dividing the integrand by B(a,b) produces a probability density on [0,1]. The complete special function is a normalization constant, not the Beta distribution object and not a cumulative probability.'
+    P('Dividing the integrand by ', M('B(a,b)', 'B(a,b)'), ' produces a probability density on ', M('[0,1]', '[0,1]'), '. The complete special function is a normalization constant, not the Beta distribution object and not a cumulative probability.')
 ],[('Beta(2,3)', 'approximately 0.0833333333', 'Γ(2)Γ(3)/Γ(5)=1·2/24=1/12.')])
 lesson('Ai|Bi|AiPrime|BiPrime',r'y^{\prime\prime}(x)-x\,y(x)=0',[
     'The Airy equation is a model for a turning point: on one side solutions oscillate, while on the other they grow or decay. This is why Airy functions appear near the boundary between oscillatory and evanescent waves.',
@@ -288,7 +290,7 @@ def enrich(item, article, values):
         if op=='CDF':
             notes.append('To find an interval probability, subtract cumulative probabilities at its boundaries. For a continuous law use F(b)−F(a); for an integer-valued law, P(a≤X≤b)=F(b)−F(a−1). The distinction prevents losing the mass at the lower endpoint.')
         elif op in ('PDF','PDFLn'):
-            notes.append('For a short interval of width Δx around x, probability is approximately f(x)·Δx when the density changes slowly there. The approximation improves as the interval shrinks; it is not a probability assigned to the single point x.')
+            notes.append(P('For a short interval of width ', M('\\Delta x', 'Δx'), ' around ', M('x', 'x'), ', probability is approximately ', M('f(x)\\Delta x', 'f(x)·Δx'), ' when the density changes slowly there. The approximation improves as the interval shrinks; it is not a probability assigned to the single point ', M('x', 'x'), '.'))
         elif op in ('PMF','PMFLn'):
             notes.append('Add point masses for disjoint allowed outcomes to obtain their combined probability. Unlike a continuous density, this number already refers to an individual outcome, so no bin width is needed.')
         elif op.startswith('InvCDF'):

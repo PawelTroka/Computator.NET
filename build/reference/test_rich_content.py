@@ -45,7 +45,8 @@ class RichContentTests(unittest.TestCase):
             root=ET.fromstring(self.article(signature))
             for image in root.iter('img'):
                 asset=generate.equation_manifest()[Path(image.get('src')).stem]
-                self.assertEqual(Path(image.get('src')).stem,hashlib.sha256(asset['tex'].encode()).hexdigest())
+                identity=('inline\0' if asset.get('mode')=='inline' else '')+asset['tex']
+                self.assertEqual(Path(image.get('src')).stem,hashlib.sha256(identity.encode()).hexdigest())
                 self.assertEqual(int(image.get('width')),asset['width'])
                 self.assertTrue(image.get('alt'))
     def test_invalid_image_attributes_are_rejected(self):

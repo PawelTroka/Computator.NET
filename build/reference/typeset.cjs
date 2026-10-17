@@ -26,23 +26,45 @@ if (!args.includes('--input') || !args.includes('--output')) throw Error('Expect
   const equations = JSON.parse(fs.readFileSync(input, 'utf8'));
   const adaptor = liteAdaptor({ fontSize: 20 });
   RegisterHTMLHandler(adaptor);
-  const svg = new SVG({ fontCache: 'none', mtextInheritFont: false });
+  // MathJax 4 otherwise emits separate SVG siblings at inline break points.
+  // Each asset must contain the complete expression, including unary signs.
+  const svg = new SVG({ fontCache: 'none', mtextInheritFont: false, linebreaks: { inline: false } });
   const document = mathjax.document('', { InputJax: new TeX({ packages: ['base', 'ams'],
     formatError(_jax, error) { throw Error(error.message); } }), OutputJax: svg });
-  const manifest = { schema: 1, renderer: 'MathJax 4.1.3 / resvg 2.6.2; 20px math, 3x pixels', equations: {} };
+  const manifest = { schema: 2, renderer: 'MathJax 4.1.3 / resvg 2.6.2; 20px math, 3x pixels; inline depth in 1/1000 em', equations: {} };
   if (!check) fs.mkdirSync(output, { recursive: true });
-  for (const [id, tex] of Object.entries(equations).sort(([a], [b]) => a.localeCompare(b))) {
-    if (id !== hash(tex) || tex.length > 6000) throw Error(`Invalid equation identity/length: ${id}`);
+  for (const [id, source] of Object.entries(equations).sort(([a], [b]) => a.localeCompare(b))) {
+    const inline = typeof source === 'object' && source !== null && source.mode === 'inline';
+    const tex = inline ? source.tex : source;
+    if (typeof tex !== 'string' || id !== hash((inline ? 'inline\0' : '') + tex) || tex.length > 6000)
+      throw Error(`Invalid equation identity/length: ${id}`);
     if (/\\(?:href|url|style|class|cssId|includegraphics|require|html)\b/.test(tex)) throw Error(`Active TeX command: ${id}`);
     try {
-      const result = await document.convertPromise(tex, { display: true, em: 20, ex: 10, containerWidth: 560 });
+      const result = await document.convertPromise(tex, { display: !inline, em: 20, ex: 10, containerWidth: 560 });
+      if (adaptor.childNodes(result).length !== 1 || adaptor.kind(adaptor.firstChild(result)) !== 'svg')
+        throw Error('Expected one complete SVG; refusing to discard inline equation segments');
       const node = adaptor.firstChild(result);
       const box = adaptor.getAttribute(node, 'viewBox').split(/\s+/).map(Number);
       if (box.length !== 4 || box.some(n => !Number.isFinite(n)) || box[2] <= 0 || box[3] <= 0) throw Error('Invalid SVG box');
       const [x, y, w, h] = box;
-      const width = Math.ceil((w + 400) / 50), height = Math.ceil((h + 400) / 50);
-      if (width > 2400 || height > 800) throw Error('Equation needs editorial line breaks');
-      adaptor.setAttribute(node, 'viewBox', `${x - 200} ${y - 200} ${w + 400} ${h + 400}`);
+      // SVG's y=0 is the mathematical baseline. Tight inline padding avoids
+      // inserting display-equation whitespace into prose; keep the display
+      // geometry untouched so all existing PNGs retain their identities.
+      const padding = inline ? 25 : 200;
+      const width = Math.ceil((w + 2 * padding) / 50), height = Math.ceil((h + 2 * padding) / 50);
+      if (width > (inline ? 320 : 2400) || height > (inline ? 100 : 800))
+        throw Error('Equation needs editorial line breaks or display math');
+      // Match the inline viewBox aspect ratio to the integer pixel dimensions.
+      // Otherwise SVG's default "meet" scaling can add letterboxing that moves
+      // the glyph baseline independently of the measured image-box depth.
+      // 50 SVG units = 1px at 20px/em; center the extra rounding padding.
+      const boxWidth = inline ? width * 50 : w + 2 * padding;
+      const boxHeight = inline ? height * 50 : h + 2 * padding;
+      const boxX = inline ? x - (boxWidth - w) / 2 : x - padding;
+      const boxY = inline ? y - (boxHeight - h) / 2 : y - padding;
+      const depth = Math.round(boxY + boxHeight); // 1 SVG unit = 1/1000 em
+      if (inline && (depth < -1000 || depth >= height * 50)) throw Error('Invalid inline baseline');
+      adaptor.setAttribute(node, 'viewBox', `${boxX} ${boxY} ${boxWidth} ${boxHeight}`);
       adaptor.setAttribute(node, 'width', `${width}`); adaptor.setAttribute(node, 'height', `${height}`);
       adaptor.setAttribute(node, 'style', 'color:#202630');
       // MathJax's diagnostic data-latex attributes contain literal TeX, which
@@ -61,6 +83,7 @@ if (!args.includes('--input') || !args.includes('--output')) throw Error('Expect
       const png = new Resvg(serialized, { fitTo: { mode: 'zoom', value: 3 }, font: { loadSystemFonts: false } }).render().asPng();
       if (png.length > 512000) throw Error('Equation exceeds the image byte budget');
       manifest.equations[id] = { tex, width, height, sha256: hash(png) };
+      if (inline) Object.assign(manifest.equations[id], { mode: 'inline', depth });
       const file = path.join(output, `${id}.png`);
       if (check) {
         if (!fs.existsSync(file) || !fs.readFileSync(file).equals(png)) throw Error('PNG differs from authored TeX');

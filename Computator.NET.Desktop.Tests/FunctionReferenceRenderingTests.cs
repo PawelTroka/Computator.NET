@@ -18,6 +18,7 @@ namespace Computator.NET.Desktop.Tests
         [TestCase("gamma(x)", "Gamma function")]
         [TestCase("ElementaryCharge", "1.602176634")]
         [TestCase("Normal.CDF(mean,stddev,x)", "standard deviation")]
+        [TestCase("Laguerre(n,α,x)", "Generalized Laguerre polynomial")]
         public void ShippedHtmlRendersOfflineInTheDesktopBrowser(string signature, string expected)
         {
             var entry = new FunctionsDetailsFileSource().Details[signature];
@@ -75,7 +76,8 @@ namespace Computator.NET.Desktop.Tests
             var title = browser.Document.GetElementsByTagName("h1")[0];
             var summary = browser.Document.GetElementsByTagName("p").Cast<HtmlElement>()
                 .First(element => element.GetAttribute("className") == "reference-summary");
-            var equation = browser.Document.Images[0];
+            var equation = browser.Document.Images.Cast<HtmlElement>()
+                .First(image => image.GetAttribute("className") == "reference-math");
             var equationAtTop = browser.ClientRectangle.Contains(ViewportBounds(equation));
             var equationPainted = true;
             if (!equationAtTop)
@@ -180,6 +182,48 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(browser.Document.Body.ScrollRectangle.Width, Is.LessThanOrEqualTo(browser.ClientSize.Width));
             NUnit.Framework.Assert.That(browser.Document.GetElementsByTagName("example").Count, Is.Zero,
                 "The title remains encoded text, not injected markup.");
+            window.Close();
+        }
+
+        [TestCase(360, 18)]
+        [TestCase(360, 27)]
+        [TestCase(700, 18)]
+        [TestCase(700, 27)]
+        public void InlineLaguerreMathSharesTheTextBaselineAndScalesWithProse(int width, int fontSize)
+        {
+            var entry = new FunctionsDetailsFileSource().Details["Laguerre(n,α,x)"];
+            using var window = new Form { ClientSize = new Size(width, 650), ShowInTaskbar = false };
+            using var browser = new WebBrowser { Dock = DockStyle.Fill };
+            window.Controls.Add(browser);
+            window.Show();
+            browser.DocumentText = FunctionReferenceDocument.Render(entry);
+            WaitForText(browser, "Generalized Laguerre polynomial");
+            browser.Document.Body.Style = "font-size:" + fontSize + "px";
+            Application.DoEvents();
+            var summary = browser.Document.GetElementsByTagName("p").Cast<HtmlElement>()
+                .First(element => element.GetAttribute("className") == "reference-summary");
+            var images = summary.GetElementsByTagName("img").Cast<HtmlElement>().ToArray();
+            NUnit.Framework.Assert.That(images.Length, Is.EqualTo(3));
+            foreach (var image in images)
+            {
+                var marker = browser.Document.CreateElement("span");
+                marker.Style = "display:inline-block;width:0;height:0;vertical-align:baseline";
+                image.InsertAdjacentElement(HtmlElementInsertionOrientation.AfterEnd, marker);
+                dynamic imageNode = image.DomElement;
+                dynamic markerNode = marker.DomElement;
+                dynamic bounds = imageNode.getBoundingClientRect();
+                dynamic markerBounds = markerNode.getBoundingClientRect();
+                var authoredWidth = int.Parse(image.GetAttribute("width"));
+                var authoredHeight = int.Parse(image.GetAttribute("height"));
+                var depth = int.Parse(image.GetAttribute("data-depth"));
+                NUnit.Framework.Assert.That((string)imageNode.currentStyle.display, Is.EqualTo("inline-block"));
+                NUnit.Framework.Assert.That((double)(bounds.right - bounds.left), Is.EqualTo(authoredWidth / 20.0 * fontSize).Within(1.1));
+                NUnit.Framework.Assert.That((double)(bounds.bottom - bounds.top), Is.EqualTo(authoredHeight / 20.0 * fontSize).Within(1.1));
+                NUnit.Framework.Assert.That((double)bounds.bottom - depth / 1000.0 * fontSize,
+                    Is.EqualTo((double)markerBounds.top).Within(1.1), "The image must use its own measured descent.");
+                marker.OuterHtml = "";
+            }
+            NUnit.Framework.Assert.That(summary.ScrollRectangle.Width, Is.LessThanOrEqualTo(browser.ClientSize.Width));
             window.Close();
         }
 

@@ -83,6 +83,53 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
             NUnit.Framework.Assert.Throws<InvalidDataException>(() => FunctionReferenceDocument.Render(entry));
         }
 
+        private static XElement InlineLaguerreImage()
+        {
+            var entry = new FunctionsDetailsFileSource().Details["Laguerre(n,α,x)"];
+            return XElement.Parse(entry.Description).Descendants("img")
+                .First(image => (string)image.Attribute("alt") == "x^α exp(−x)");
+        }
+
+        [Test, SetCulture("pl-PL")]
+        public void DesktopInlineMathReconstructsNumericLayoutWithoutTrustingSourceStyles()
+        {
+            var image = InlineLaguerreImage();
+            var width = (int)image.Attribute("width");
+            var height = (int)image.Attribute("height");
+            var depth = (int)image.Attribute("data-depth");
+            image.SetAttributeValue("style", "position:fixed;width:999px");
+            image.SetAttributeValue("onerror", "window.referenceExecuted=true");
+            var entry = new FunctionInfo { Description = new XElement("p", "The weight ", image, " stays in this sentence.").ToString() };
+            var rendered = FunctionReferenceDocument.Render(entry);
+            NUnit.Framework.Assert.That(rendered, Does.Contain("The weight <img"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain(" stays in this sentence."));
+            NUnit.Framework.Assert.That(rendered, Does.Not.Contain("position:fixed").And.Not.Contain("999px").And.Not.Contain("referenceExecuted"));
+            NUnit.Framework.Assert.That(rendered, Does.Contain("data:image/png;base64,"));
+            var style = "width:" + (width / 20m).ToString("0.###", CultureInfo.InvariantCulture) + "em;height:" +
+                (height / 20m).ToString("0.###", CultureInfo.InvariantCulture) + "em;vertical-align:" +
+                (-depth / 1000m).ToString("0.###", CultureInfo.InvariantCulture) + "em;";
+            NUnit.Framework.Assert.That(rendered, Does.Contain(style));
+        }
+
+        [TestCase("data-depth", "")]
+        [TestCase("data-depth", "NaN")]
+        [TestCase("data-depth", "1;position:fixed")]
+        [TestCase("data-depth", "-1001")]
+        [TestCase("data-depth", "5000")]
+        [TestCase("data-depth", "+1")]
+        [TestCase("data-depth", "01")]
+        [TestCase("width", "321")]
+        [TestCase("height", "101")]
+        [TestCase("class", "reference-math-inline extra")]
+        [TestCase("alt", "")]
+        public void DesktopInlineMathRejectsUnboundedOrMalformedMetadata(string name, string value)
+        {
+            var image = InlineLaguerreImage();
+            image.SetAttributeValue(name, value);
+            var entry = new FunctionInfo { Description = new XElement("p", image).ToString() };
+            NUnit.Framework.Assert.Throws<InvalidDataException>(() => FunctionReferenceDocument.Render(entry));
+        }
+
         [Test]
         public void EveryShippedEquationMatchesItsTexIdentityHashAndPixelSize()
         {
@@ -94,7 +141,9 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
             foreach (var pair in equations.EnumerateObject())
             {
                 var item = pair.Value;
-                var textHash = Convert.ToHexString(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(item.GetProperty("tex").GetString()))).ToLowerInvariant();
+                var inline = item.TryGetProperty("mode", out var mode) && mode.GetString() == "inline";
+                var identity = (inline ? "inline\0" : "") + item.GetProperty("tex").GetString();
+                var textHash = Convert.ToHexString(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(identity))).ToLowerInvariant();
                 NUnit.Framework.Assert.That(pair.Name, Is.EqualTo(textHash));
                 var bytes = File.ReadAllBytes(Path.Combine(directory, pair.Name + ".png"));
                 NUnit.Framework.Assert.That(Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant(), Is.EqualTo(item.GetProperty("sha256").GetString()));
@@ -111,6 +160,11 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                     NUnit.Framework.Assert.That(ids, Does.Contain(id), entry.Signature);
                     NUnit.Framework.Assert.That((int)image.Attribute("width"), Is.EqualTo(equations.GetProperty(id).GetProperty("width").GetInt32()));
                     NUnit.Framework.Assert.That((int)image.Attribute("height"), Is.EqualTo(equations.GetProperty(id).GetProperty("height").GetInt32()));
+                    var inline = (string)image.Attribute("class") == "reference-math-inline";
+                    var asset = equations.GetProperty(id);
+                    NUnit.Framework.Assert.That(asset.TryGetProperty("mode", out var mode) && mode.GetString() == "inline", Is.EqualTo(inline));
+                    if (inline)
+                        NUnit.Framework.Assert.That((int)image.Attribute("data-depth"), Is.EqualTo(asset.GetProperty("depth").GetInt32()));
                     used.Add(id);
                 }
             NUnit.Framework.Assert.That(used.OrderBy(x => x), Is.EqualTo(ids.OrderBy(x => x)), "No stale or unused equation assets.");

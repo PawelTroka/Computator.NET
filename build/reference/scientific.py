@@ -2,7 +2,7 @@
 
 These descriptions follow the application wrappers, not a wish-list API.
 """
-from common import A, SOURCE, MATHNET
+from common import A, P, M, SOURCE, MATHNET
 from scientific_matrices import matrix
 from scientific_scripting import scripting
 
@@ -111,7 +111,7 @@ def root(name,args):
                        'Only the midpoint (a+b)/2 is used as the starting guess; a,b are NOT enforced bounds or a guaranteed bracket. TryFindRoot failure returns NaN.')
     }
     if name=='findRoot':
-        return A('Select a numerical root method','Dispatches a real equation fx(x)=0 to a named root-finding algorithm.',
+        return A('Select a numerical root method',P('Dispatches a real equation ',M(r'\operatorname{fx}(x)=0','fx(x)=0'),' to a named root-finding algorithm.'),
                  'Find x such that fx(x)=0.', 'Positive errorMax and positive iteration count N, in the supported integer range; callable fx must return meaningful finite values near the root.',
                  'Exact names: bisection method; secant method; secant Newton Raphson method; Brent\'s method; Broyden\'s method. Unknown names return NaN. The interpretation of a,b and of errorMax depends on the algorithm; it is not a universal certified root-error bound.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/FunctionRoot.cs',category='Root finding')
     t,d,n=data[name]

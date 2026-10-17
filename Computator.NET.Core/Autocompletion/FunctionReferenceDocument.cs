@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Net;
 using System.IO;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace Computator.NET.Core.Autocompletion
                 ".reference-formula code{font-family:'Cambria Math','Segoe UI',serif;font-size:1.125em;}" +
                 ".reference-equation{overflow-x:auto;padding:12px;background:#fff;border-left:3px solid #75879b;}" +
                 ".reference-math{display:block;max-width:none;}" +
+                ".reference-math-inline{display:inline-block;max-width:none;}" +
                 ".reference-worked-example{padding:12px;border:1px solid #d5dce3;background:#f8fafc;}" +
                 "pre{white-space:pre-wrap;word-wrap:break-word;margin:8px 0;}" +
                 ".reference-source{font-size:15px;}a{color:#305c85;text-decoration:underline;}</style></head><body><h1>" +
@@ -58,6 +60,24 @@ namespace Computator.NET.Core.Autocompletion
                 var source = (string)image.Attribute("src") ?? "";
                 if (!Regex.IsMatch(source, @"\Areference-equations/[a-f0-9]{64}\.png\z", RegexOptions.CultureInvariant))
                     throw new InvalidDataException("The reference contains a nonlocal equation image.");
+                var imageClass = (string)image.Attribute("class") ?? "";
+                var inline = imageClass == "reference-math-inline";
+                var alternative = (string)image.Attribute("alt");
+                if ((!inline && imageClass != "reference-math") || string.IsNullOrWhiteSpace(alternative))
+                    throw new InvalidDataException("The reference image needs a mathematical class and alternative.");
+                var width = EquationDimension(image, "width", inline ? 320 : 2400);
+                var height = EquationDimension(image, "height", inline ? 100 : 800);
+                var depth = 0;
+                var depthText = (string)image.Attribute("data-depth") ?? "";
+                if (inline)
+                {
+                    if (!Regex.IsMatch(depthText, @"\A(?:0|-?[1-9][0-9]{0,3})\z", RegexOptions.CultureInvariant) ||
+                        !int.TryParse(depthText, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out depth) ||
+                        depth < -1000 || depth >= height * 50)
+                        throw new InvalidDataException("Invalid inline equation baseline.");
+                }
+                else if (image.Attribute("data-depth") != null)
+                    throw new InvalidDataException("Display equations must not have inline layout metadata.");
                 var path = PathUtility.GetFullPath("Static", "reference-equations", source.Substring("reference-equations/".Length));
                 using var stream = File.OpenRead(path);
                 if (stream.Length < 24 || stream.Length > 512000)
@@ -69,9 +89,33 @@ namespace Computator.NET.Core.Autocompletion
                 // DocumentText has an about:blank origin. Inline only this article's
                 // reviewed PNGs instead of granting local-file/network access or
                 // embedding the entire catalogue's images into every API response.
+                // Rebuild image attributes; source CSS/handlers never become a
+                // way to inject arbitrary styles through inline math metadata.
+                image.RemoveAttributes();
+                image.SetAttributeValue("class", imageClass);
+                image.SetAttributeValue("alt", alternative);
+                image.SetAttributeValue("width", width);
+                image.SetAttributeValue("height", height);
                 image.SetAttributeValue("src", "data:image/png;base64," + Convert.ToBase64String(bytes));
+                if (inline)
+                {
+                    image.SetAttributeValue("data-depth", depth);
+                    image.SetAttributeValue("style", "width:" + Em(width / 20m) + ";height:" + Em(height / 20m) +
+                        ";vertical-align:" + Em(-depth / 1000m) + ";");
+                }
             }
             return string.Concat(root.Nodes().Select(node => node.ToString(SaveOptions.DisableFormatting)));
         }
+
+        private static int EquationDimension(XElement image, string name, int maximum)
+        {
+            var text = (string)image.Attribute(name) ?? "";
+            if (!Regex.IsMatch(text, @"\A[1-9][0-9]{0,3}\z", RegexOptions.CultureInvariant) ||
+                !int.TryParse(text, NumberStyles.None, CultureInfo.InvariantCulture, out var value) || value > maximum)
+                throw new InvalidDataException("Invalid reference image dimension.");
+            return value;
+        }
+
+        private static string Em(decimal value) => value.ToString("0.###", CultureInfo.InvariantCulture) + "em";
     }
 }

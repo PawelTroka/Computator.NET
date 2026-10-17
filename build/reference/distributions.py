@@ -1,17 +1,17 @@
 """Explicit probability models and operation semantics for Math.NET 5.0's exposed API."""
-from common import A
+from common import A, P, M
 # title, definition, density/mass, parameter conventions, implementation caveat
 FAMILIES = {
 'Normal': ('Normal (Gaussian)', 'A symmetric bell-shaped distribution about its mean. The width is the standard deviation, not the variance.',
  'f(x)=exp(−(x−μ)²/(2σ²))/(σ·sqrt(2π)); E[X]=μ; Var[X]=σ².',
  'mean=μ is real; stddev=σ>0; x is real.', 'A zero standard deviation is a degenerate point mass accepted by some library paths; ordinary density formulas assume σ>0.'),
-'Bernoulli': ('Bernoulli', 'One success/failure trial: X=1 for success and X=0 for failure.',
+'Bernoulli': ('Bernoulli', P('One success/failure trial: ', M('X=1', 'X=1'), ' for success and ', M('X=0', 'X=0'), ' for failure.'),
  'P(X=1)=p; P(X=0)=1−p; E[X]=p.', '0≤p≤1; k is 0 or 1.', ''),
 'Beta': ('Beta', 'A bounded continuous distribution for proportions on the unit interval.',
  'f(x)=x^(a−1)(1−x)^(b−1)/B(a,b); E[X]=a/(a+b).',
  'Shape parameters a>0 and b>0; 0<x<1. Endpoint limits may be infinite when a or b is below one.',
  'The library has limiting/degenerate cases at zero or infinite shapes. Use strictly positive finite shapes for the ordinary beta density; the short Beta class name collides with the scalar Beta special function in generated TSL. Use MathNet.Numerics.Distributions.Beta.PDF(a,b,x), or the corresponding fully qualified member, to avoid that collision.'),
-'Binomial': ('Binomial', 'The number of successes among n independent Bernoulli trials with common success probability p.',
+'Binomial': ('Binomial', P('The number of successes among ', M('n', 'n'), ' independent Bernoulli trials with common success probability ', M('p', 'p'), '.'),
  'P(X=k)=C(n,k)·p^k·(1−p)^(n−k).', 'n is a nonnegative integer; 0≤p≤1; integer k ranges from 0 to n.', ''),
 'Categorical': ('Categorical', 'A discrete choice among zero-based category indices, weighted by the supplied nonnegative masses.',
  'P(X=k)=w[k]/Σw[j], for k=0,…,length(w)−1.',
@@ -84,15 +84,15 @@ FAMILIES = {
  'vec(X)~Normal(vec(m), k⊗v), using column-stacked vec.',
  'm is the d×p mean matrix; v is d×d row covariance; k is p×p column covariance. Covariance matrices must be symmetric positive definite.',
  'Matrix shapes are part of the contract; m is a matrix of means, not a scalar dimension. The covariance of vectorized samples is a Kronecker product, not v+k.'),
-'Multinomial': ('Multinomial', 'The vector of category counts from n independent categorical trials.',
+'Multinomial': ('Multinomial', P('The vector of category counts from ', M('n', 'n'), ' independent categorical trials.'),
  'P(X=x)=n!·Πpᵢ^xᵢ/Πxᵢ!, with Σxᵢ=n.',
  'n is a nonnegative integer; p is a nonempty nonnegative weight array with positive total, normalized internally. The returned integer counts sum to n.',
  'One draw returns the whole count vector, not a single category index. Use Categorical for one category index.'),
-'NegativeBinomial': ('Negative binomial — failures', 'The number of failures before r successes; the gamma-function extension also permits positive real r.',
+'NegativeBinomial': ('Negative binomial — failures', P('The number of failures before ', M('r', 'r'), ' successes; the gamma-function extension also permits positive real ', M('r', 'r'), '.'),
  'P(X=k)=Γ(k+r)/(Γ(r)·k!) · p^r(1−p)^k, k=0,1,… .',
  'r>0, 0<p≤1 for the ordinary law; k is a nonnegative integer. p is the success probability.',
  'E[X]=r(1−p)/p. This counts failures, unlike this library’s Geometric class, which counts trials including the first success. Boundary r=0 or p=0 needs separate limiting interpretation.'),
-'NormalGamma': ('Normal–gamma', 'A joint conjugate distribution for a normal mean μ and PRECISION τ (the inverse variance).',
+'NormalGamma': ('Normal–gamma', P('A joint conjugate distribution for a normal mean ', M('\\mu', 'μ'), ' and PRECISION ', M('\\tau', 'τ'), ' (the inverse variance).'),
  'τ~Gamma(precisionShape, rate=precisionInverseScale); μ|τ~Normal(meanLocation, variance=1/(meanScale·τ)).',
  'Use positive finite meanScale, precisionShape and precisionInverseScale, with real meanLocation. precShape/precInvScale are the same parameters in the validator.',
  'A sample is a MeanPrecisionPair, not a scalar observation or a mean/variance pair. Larger meanScale increases confidence in the conditional mean. The library also supports special infinite-parameter known-mean/known-precision limits.'),
@@ -180,12 +180,16 @@ def describe(item, values=None):
             notes.append('This is a natural logarithm of the mass/density, not the probability of a logarithmically transformed variable. Zero mass/density has logarithm −∞; direct log evaluation can avoid ordinary underflow.')
         else:
             notes.append('A mass is a point probability between 0 and 1.' if discrete else 'A density is not P(X=x): point probability is zero for a continuous law. Integrate the density over an interval to obtain a probability.')
-        definition=action+'. '+model
+        notation=M(r'p(x=k)' if op.endswith('Ln') else r'P(X=k)',
+                   'p(x=k)' if op.endswith('Ln') else 'P(X=k)') if discrete else M(r'f(x)','f(x)')
+        label='Probability mass ' if discrete else 'Probability density '
+        if op.endswith('Ln'):label='Natural logarithm of '+label.lower()
+        definition=P(label,notation,'. ',model)
         parameters+=(' Evaluate at integer k in the stated support.' if discrete else ' Evaluate at x; the support is specified above.')
         example=EXAMPLES.get(family,'')
     elif op=='CDF':
         action='Cumulative probability'
-        definition='Returns F(x)=P(X≤x), the accumulated probability through x. '+model
+        definition=P('Returns ', M('F(x)=P(X\\le x)', 'F(x)=P(X≤x)'), ', the accumulated probability through ', M('x', 'x'), '. ')+model
         notes.append('This is the lower tail. An upper-tail probability is 1−F(x), though that subtraction can lose precision near one.')
         if family in DISCRETE: notes.append('For a discrete law, the mathematical CDF is a step function over integer outcomes; use integer x at jumps. Fractional-x behavior must not be used as a continuous interpolation of probability masses.')
         example=EXAMPLES.get(family,'')
