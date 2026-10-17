@@ -105,7 +105,7 @@ def root(name,args):
       'secantMethod':('Secant root finder','Uses the line through the two most recent function values to estimate the next root.',
                      'a,b are initial guesses, not enforced bounds. Iteration can leave the interval. This implementation returns a value only if |fx(result)|≤errorMax after its loop; otherwise NaN.'),
       'secantNewtonRaphsonMethod':('Bounded secant convenience wrapper','Uses Math.NET’s secant method without an analytic derivative.',
-                                  'The initial guesses are (a+b)/2 and (a+b)/3, and [a,b] is supplied as the interval. Despite the name this is not a Newton step using an exact derivative. Degenerate initial guesses can fail.'),
+                                  'Use a<b. Two distinct interior starting guesses are chosen near the midpoint and one-third point, and [a,b] is supplied as the interval. Intervals too narrow for two interior floating-point values return NaN, as does failure to converge. A sign-changing interval alone does not guarantee secant convergence. Despite the name no exact derivative is used.'),
       'BroydenMethod':('One-variable Broyden wrapper','Applies the multidimensional Broyden solver to a one-element system.',
                        'Only the midpoint (a+b)/2 is used as the starting guess; a,b are NOT enforced bounds or a guaranteed bracket. TryFindRoot failure returns NaN.')
     }

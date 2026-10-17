@@ -76,7 +76,24 @@ namespace Computator.NET.Core.NumericalCalculations
         {
             double root;
 
-            return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, (a + b) / 2, (a + b) / 3, a, b, errorMax, (int)N, out root) ? root : double.NaN;
+            // Select interior points relative to the interval, without overflowing
+            // either the endpoint sum or the width of a large interval across zero.
+            var width = b - a;
+            var firstGuess = double.IsInfinity(width) ? a / 2 + b / 2 : a + width / 2;
+            var thirdWidth = double.IsInfinity(width) ? b / 3 - a / 3 : width / 3;
+            var secondGuess = a + thirdWidth;
+
+            // Rounding can merge the guesses in a very narrow interval. If there
+            // is only one interior value, Math.NET rejects the endpoint reached
+            // here before evaluating fx, while preserving its argument validation.
+            if (secondGuess == firstGuess)
+            {
+                secondGuess = System.Math.BitIncrement(firstGuess);
+                if (secondGuess >= b)
+                    secondGuess = System.Math.BitDecrement(firstGuess);
+            }
+
+            return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, firstGuess, secondGuess, a, b, errorMax, (int)N, out root) ? root : double.NaN;
         }
 
         public static double secantMethod(System.Func<double, double> fx, double a, double b, double errorMax = ERROR_MAX_MIN, uint N = ITERATIONS_MAX)
@@ -85,7 +102,13 @@ namespace Computator.NET.Core.NumericalCalculations
 
             for (var i = 0; i < N; i++)
             {
-                if (x2 - x1 == 0.0 || (fx(x2) - fx(x1)) == 0.0 || fx(x2) == 0.0)
+                // Separate guards preserve short-circuit evaluation and avoid
+                // confusing logical OR with TSL absolute-value notation.
+                if (x2 - x1 == 0.0)
+                    break;
+                if ((fx(x2) - fx(x1)) == 0.0)
+                    break;
+                if (fx(x2) == 0.0)
                     break;
                 var xOld = x2;
                 x2 = x2 - (fx(x2) * (x2 - x1)) / (fx(x2) - fx(x1));
@@ -176,7 +199,24 @@ namespace Computator.NET.Core.NumericalCalculations
         {
             double root;
 
-            return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, (a + b) / 2, (a + b) / 3, a, b, errorMax, (int)N, out root) ? root : double.NaN;
+            // Select interior points relative to the interval, without overflowing
+            // either the endpoint sum or the width of a large interval across zero.
+            var width = b - a;
+            var firstGuess = double.IsInfinity(width) ? a / 2 + b / 2 : a + width / 2;
+            var thirdWidth = double.IsInfinity(width) ? b / 3 - a / 3 : width / 3;
+            var secondGuess = a + thirdWidth;
+
+            // Rounding can merge the guesses in a very narrow interval. If there
+            // is only one interior value, Math.NET rejects the endpoint reached
+            // here before evaluating fx, while preserving its argument validation.
+            if (secondGuess == firstGuess)
+            {
+                secondGuess = System.Math.BitIncrement(firstGuess);
+                if (secondGuess >= b)
+                    secondGuess = System.Math.BitDecrement(firstGuess);
+            }
+
+            return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, firstGuess, secondGuess, a, b, errorMax, (int)N, out root) ? root : double.NaN;
         }
 
         public static double secantMethod(System.Func<double, double> fx, double a, double b, double errorMax = ERROR_MAX_MIN, uint N = ITERATIONS_MAX)
@@ -185,7 +225,13 @@ namespace Computator.NET.Core.NumericalCalculations
 
             for (var i = 0; i < N; i++)
             {
-                if (x2 - x1 == 0.0 || (fx(x2) - fx(x1)) == 0.0 || fx(x2) == 0.0)
+                // Separate guards preserve short-circuit evaluation and avoid
+                // confusing logical OR with TSL absolute-value notation.
+                if (x2 - x1 == 0.0)
+                    break;
+                if ((fx(x2) - fx(x1)) == 0.0)
+                    break;
+                if (fx(x2) == 0.0)
                     break;
                 var xOld = x2;
                 x2 = x2 - (fx(x2) * (x2 - x1)) / (fx(x2) - fx(x1));
