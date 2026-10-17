@@ -77,9 +77,14 @@ test('saving and importing identical saved code permit reload without a warning'
 test('imported changes warn until successfully saved', async ({ page }) => {
   await edit(page, savedCode);
   await page.getByRole('button', { name: 'Save in this tab', exact: true }).click();
+  const confirmation = page.waitForEvent('dialog');
+  page.once('dialog', dialog => dialog.accept());
   await page.getByLabel('Import .tslf', { exact: true }).setInputFiles({
     name: 'edited.tslf', mimeType: 'text/plain', buffer: Buffer.from(draftCode)
   });
+  const dialog = await confirmation;
+  expect(dialog.type()).toBe('confirm');
+  expect(dialog.message()).toContain('Replace the current custom functions?');
   await expect(page.getByRole('status')).toHaveText('Unsaved changes');
   const warned = await reloadAndStay(page);
   expect(await exported(page)).toBe(draftCode);
