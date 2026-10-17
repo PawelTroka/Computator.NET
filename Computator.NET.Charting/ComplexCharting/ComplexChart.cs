@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -213,46 +215,56 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private Bitmap CalculateValuesAndColors()
         {
-            _pointsValues = new ComplexPoint[DrawWidth, DrawHeight];
-            _pointsColors = new Color[_pointsValues.GetLength(0), _pointsValues.GetLength(1)];
+            return CalculateValuesAndColors(DrawWidth, DrawHeight, true);
+        }
+
+        private Bitmap CalculateValuesAndColors(int width, int height, bool updatePoints)
+        {
+            var pointsValues = new ComplexPoint[width, height];
+            var pointsColors = new Color[width, height];
 
 
-            Parallel.For(0, _pointsValues.GetLength(0), x =>
+            Parallel.For(0, pointsValues.GetLength(0), x =>
             {
-                var re = XMin + x * (XMax - XMin) / _pointsValues.GetLength(0);
-                for (var y = 0; y < _pointsValues.GetLength(1); y++)
+                var re = XMin + x * (XMax - XMin) / pointsValues.GetLength(0);
+                for (var y = 0; y < pointsValues.GetLength(1); y++)
                 {
-                    var im = YMax - y * (YMax - YMin) / _pointsValues.GetLength(1);
+                    var im = YMax - y * (YMax - YMin) / pointsValues.GetLength(1);
 
                     var z = new Complex(re, im);
 
                     var fz = function.Evaluate(z);
-                    _pointsValues[x, y] = new ComplexPoint(z, fz);
+                    pointsValues[x, y] = new ComplexPoint(z, fz);
 
                     if (double.IsInfinity(fz.Real) || double.IsNaN(fz.Real) || double.IsInfinity(fz.Imaginary) ||
                         double.IsNaN(fz.Imaginary))
                     {
-                        _pointsColors[x, y] = Color.White;
+                        pointsColors[x, y] = Color.White;
                     }
                     else
                     {
                         if (function.IsImplicit)
                         {
-                            _pointsColors[x, y] = ComplexToColor(fz);
+                            pointsColors[x, y] = ComplexToColor(fz);
                         }
                         else
-                            _pointsColors[x, y] = ComplexToColor(fz);
+                            pointsColors[x, y] = ComplexToColor(fz);
                         //image.SetPixel(x, y, ComplexToColor(fz)/*pointsColors[x, y]*/);
                     }
 
                 }
             });
 
-            var bitmap = new Bitmap(_pointsColors.GetLength(0), _pointsColors.GetLength(1));
+            var bitmap = new Bitmap(pointsColors.GetLength(0), pointsColors.GetLength(1));
 
             for (int x = 0; x < bitmap.Width; x++)
                 for (int y = 0; y < bitmap.Height; y++)
-                    bitmap.SetPixel(x, y, _pointsColors[x, y]);
+                    bitmap.SetPixel(x, y, pointsColors[x, y]);
+            if (updatePoints)
+            {
+                _pointsValues = pointsValues;
+                _pointsColors = pointsColors;
+            }
             return bitmap;
         }
 
@@ -351,39 +363,52 @@ namespace Computator.NET.Charting.ComplexCharting
         {
             if (image == null)
                 return;
-            
-            if (ShouldDrawAxes)
-            {
-                using (var graphics = Graphics.FromImage(image))
-                {
-                    DrawAxes(graphics);
-                }
-            }
 
-            image.Save(path, imageFormat);
+            var size = ClientSize.Width > 0 && ClientSize.Height > 0 ? ClientSize : image.Size;
+            using (var snapshot = CreateImage(image, size))
+            {
+                snapshot.Save(path, imageFormat);
+            }
         }
 
         public Image GetImage(int width, int height)
         {
-            var oldWidth = this.Width;
-            var oldHeight = this.Height;
-            this.Width = width;
-            this.Height = height;
+            if (width <= 0)
+                throw new ArgumentOutOfRangeException(nameof(width));
+            if (height <= 0)
+                throw new ArgumentOutOfRangeException(nameof(height));
 
-            var img = CalculateValuesAndColors();
+            var size = new Size(width, height);
+            if (function == null)
+                return CreateImage(image, size);
 
-            var bitmap = new Bitmap(img, width, height);
-            if (ShouldDrawAxes)
+            // Export sampling must not resize the control or replace the point grid
+            // used by its on-screen mouse tooltips.
+            using (var sampled = CalculateValuesAndColors(Math.Max(1, (int)(width * quality)),
+                Math.Max(1, (int)(height * quality)), false))
             {
+                return CreateImage(sampled, size);
+            }
+        }
+
+        private Bitmap CreateImage(Image source, Size size)
+        {
+            var bitmap = new Bitmap(size.Width, size.Height);
+            try
+            {
+                bitmap.SetResolution(DeviceDpi, DeviceDpi);
                 using (var graphics = Graphics.FromImage(bitmap))
                 {
-                    DrawAxes(graphics);
+                    graphics.Clear(BackColor);
+                    PaintOn(graphics, new Rectangle(Point.Empty, size), source);
                 }
+                return bitmap;
             }
-
-            this.Width = oldWidth;
-            this.Height = oldHeight;
-            return bitmap;
+            catch
+            {
+                bitmap.Dispose();
+                throw;
+            }
         }
 
         #endregion
@@ -430,76 +455,73 @@ namespace Computator.NET.Charting.ComplexCharting
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            pe.Graphics.DrawImage(image,ClientRectangle);
-            
-            if (ShouldDrawAxes)
-                DrawAxes(pe.Graphics);
+            PaintOn(pe.Graphics, ClientRectangle, image);
         }
 
-
-        private void PaintOn(Graphics g, Rectangle r)
+        private void PaintOn(Graphics graphics, Rectangle bounds, Image source)
         {
-            g.DrawImage(image, r);
-
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+                return;
+            if (source != null)
+                graphics.DrawImage(source, bounds);
             if (ShouldDrawAxes)
-                DrawAxes(g);
+                DrawAxes(graphics, bounds);
         }
 
-        private void DrawAxes(Graphics g)
+        private void DrawAxes(Graphics graphics, Rectangle bounds)
         {
-            using (var myPen = new Pen(AxesColor))
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+                return;
+            var layout = ComplexChartAxesLayout.Create(bounds.Size, XMin, XMax, YMin, YMax,
+                Math.Max(graphics.DpiX, graphics.DpiY), AxisArrowRelativeSize);
+            var state = graphics.Save();
+            try
             {
-                var middlePoint = GetMiddlePoint();
+                graphics.PageUnit = GraphicsUnit.Pixel;
+                graphics.PageScale = 1;
+                graphics.SetClip(bounds, CombineMode.Intersect);
+                graphics.TranslateTransform(bounds.X, bounds.Y);
+                graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
-                var xEnd = new Point(Width, middlePoint.Y);
-                var yEnd = new Point(middlePoint.X, Height);
+                var baseFont = LabelsFont ?? Font;
+                // Physical font units already receive DPI from GDI+. Pixel fonts
+                // need the full scale; applying DPI twice makes labels too large.
+                var fontScale = baseFont.Unit == GraphicsUnit.Pixel
+                    ? layout.Scale : layout.Scale * 96f / graphics.DpiY;
+                using (var pen = new Pen(AxesColor, layout.StrokeWidth))
+                using (var axesBrush = new SolidBrush(AxesColor))
+                using (var labelsBrush = new SolidBrush(LabelsColor))
+                using (var font = new Font(baseFont.FontFamily, baseFont.Size * fontScale,
+                    baseFont.Style, baseFont.Unit, baseFont.GdiCharSet, baseFont.GdiVerticalFont))
+                using (var format = new StringFormat(StringFormatFlags.NoWrap)
+                {
+                    Trimming = StringTrimming.EllipsisCharacter
+                })
+                {
+                    graphics.DrawLine(pen, layout.XStart, layout.XEnd);
+                    graphics.DrawLine(pen, layout.YStart, layout.YEnd);
+                    if (layout.ArrowLength > 0)
+                    {
+                        graphics.FillPolygon(axesBrush, layout.XArrow);
+                        graphics.FillPolygon(axesBrush, layout.YArrow);
+                    }
 
-                var xEnd1Axis = new Point((int)(Width * (1 - AxisArrowRelativeSize)),
-                    (int)(middlePoint.Y * (1 - AxisArrowRelativeSize)));
-                var xEnd2Axis = new Point((int)(Width * (1 - AxisArrowRelativeSize)),
-                    (int)(middlePoint.Y * (1 + AxisArrowRelativeSize)));
-
-                var yEnd1Axis = new Point((int)(middlePoint.X * (1 - AxisArrowRelativeSize)),
-                    (int)(Height * AxisArrowRelativeSize));
-                var yEnd2Axis = new Point((int)(middlePoint.X * (1 + AxisArrowRelativeSize)),
-                    (int)(Height * AxisArrowRelativeSize));
-
-
-                var xStart = new Point(0, middlePoint.Y);
-                var yStart = new Point(middlePoint.X, 0);
-
-                //Y axis (ImZ)
-                g.DrawLine(myPen, middlePoint, yEnd);
-                g.DrawLine(myPen, middlePoint, yStart);
-                g.DrawLine(myPen, yStart, yEnd1Axis);
-                g.DrawLine(myPen, yStart, yEnd2Axis);
-                g.DrawString(YLabel, LabelsFont, new SolidBrush(LabelsColor), middlePoint.X - 60, 15);
-
-                //X axis(ReZ)
-                g.DrawLine(myPen, middlePoint, xEnd);
-                g.DrawLine(myPen, middlePoint, xStart);
-                g.DrawLine(myPen, xEnd, xEnd1Axis);
-                g.DrawLine(myPen, xEnd, xEnd2Axis);
-                g.DrawString(XLabel, LabelsFont, new SolidBrush(LabelsColor), Width - 60, middlePoint.Y + 10);
+                    var xLabel = XLabel ?? string.Empty;
+                    var yLabel = YLabel ?? string.Empty;
+                    var xSize = graphics.MeasureString(xLabel, font, int.MaxValue, format);
+                    var ySize = graphics.MeasureString(yLabel, font, int.MaxValue, format);
+                    layout.GetLabelBounds(xSize, ySize, out var xBounds, out var yBounds);
+                    if (xBounds.Width > 0 && xBounds.Height > 0)
+                        graphics.DrawString(xLabel, font, labelsBrush, xBounds, format);
+                    if (yBounds.Width > 0 && yBounds.Height > 0)
+                        graphics.DrawString(yLabel, font, labelsBrush, yBounds, format);
+                }
             }
-        }
-
-        private Point GetMiddlePoint()
-        {
-            var x = (int) (Math.Abs(XMin)/(XMax - XMin)*Width);
-            var y = (int) (Math.Abs(YMax)/(YMax - YMin)*Height);
-
-            if (XMax <= 0) //we have only negative numbers for x
-                x = Width - 1;
-            else if (XMin >= 0) //we have only positive numbers for x
-                x = 0;
-
-            if (YMax <= 0)
-                y = 0;
-            else if (YMin >= 0)
-                y = Height - 1;
-
-            return new Point(x, y);
+            finally
+            {
+                graphics.Restore(state);
+            }
         }
 
         #endregion

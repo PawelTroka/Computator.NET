@@ -11,5 +11,7 @@
     <Using Include="NUnit.Framework.Legacy.ClassicAssert" Alias="Assert" />
     <!-- Existing syntax regressions run against the exact same extracted implementation on each OS. -->
     <Compile Include="../Computator.NET.Core.Tests/CompilersTests/TslCompilerTests.cs" Link="Parity/TslCompilerTests.cs" />
+    <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
+    <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexChartAxesLayout.cs" Link="Charting/ComplexChartAxesLayout.cs" />
   </ItemGroup>
 </Project>
