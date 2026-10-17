@@ -145,9 +145,11 @@ def extra_enrichment(item,article,name):
         return Enrichment((Equation(tex,'A uniform draw U scales and shifts into the requested range.','Sampling model'),),(
             'Read the typed overload: integer limits use an inclusive integer interval, while real arguments scale a continuous draw. An interval endpoint in an example is not a promise that random sampling will hit it in a finite run.',
             'A complex overload has its own geometric convention below. Independent real and imaginary draws fill a rectangle, whereas one shared interpolation parameter stays on a line segment; these are different distributions.'),(),False)
-    if kind=='MathematicalTransformations':return Enrichment((),(
+    if kind=='MathematicalTransformations':return Enrichment((Equation(
+        r'\begin{aligned}H_k&=\frac{1}{\sqrt N}\sum_{n=0}^{N-1}x_n\left[\cos\!\left(\frac{2\pi kn}{N}\right)+\sin\!\left(\frac{2\pi kn}{N}\right)\right],\\H(H(x))&=x\qquad(N>0).\end{aligned}',
+        article.formula,'Real orthonormal Hartley transform'),),(
         'This operation acts on sampled chart data. A point transformation is not necessarily equivalent to transforming the underlying continuous function, especially after interpolation or numerical differentiation.',
-        'Keep an unmodified copy when comparing transformations. The stored sample spacing and chosen chart interval are part of the numerical result.'),(),False)
+        'Keep an unmodified copy when comparing transformations. The stored sample spacing and chosen chart interval are part of the numerical result.'),(),True)
     if kind=='ScriptingFunctions':
         if base.startswith('File') or 'file' in sig or 'path' in sig or 'writer' in sig:
             text='File operations affect external state, unlike a pure mathematical expression. Use a deliberate working directory and a disposable example file when learning. Check the original append/overwrite and ownership rules below; opening a writer is not a numerical calculation.'

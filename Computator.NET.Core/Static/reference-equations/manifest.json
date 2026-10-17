@@ -146,6 +146,12 @@
       "height": 51,
       "sha256": "879866fc9382844861c1ed09ec093521810fe9cb9c0b07716823b2edfbe0956b"
     },
+    "087254b10b2ae009c30a419320daa48e4bd7c617df173f4b70932d28913183c9": {
+      "tex": "\\begin{aligned}H_k&=\\frac{1}{\\sqrt N}\\sum_{n=0}^{N-1}x_n\\left[\\cos\\!\\left(\\frac{2\\pi kn}{N}\\right)+\\sin\\!\\left(\\frac{2\\pi kn}{N}\\right)\\right],\\\\H(H(x))&=x\\qquad(N>0).\\end{aligned}",
+      "width": 481,
+      "height": 93,
+      "sha256": "a3777c5528e2d9894d503da1dd1b7e7600416b6807f9e0a3fc9fbe52b3e222d8"
+    },
     "08b585fc25aaa76530b71c468005448272cf3a42c0512b5b8ba5f929039b45f3": {
       "tex": "-1838.2819709",
       "width": 140,
