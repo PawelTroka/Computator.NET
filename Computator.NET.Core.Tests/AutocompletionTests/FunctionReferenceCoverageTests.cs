@@ -158,7 +158,7 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
             void Contains(string signature, string expected) => NUnit.Framework.Assert.That(
                 XElement.Parse(reference[signature].Description).Value, Does.Contain(expected), signature);
             Contains("sinc(x)", "NOT sin(PI");
-            Contains("BetaNorm(x,a,b)", "gsl_sf_beta_inc(x,a,b)");
+            Contains("BetaNorm(x,a,b)", "gsl_sf_beta_inc(a,b,x)");
             Contains("WeakMixingAngle", "NOT θW");
             Contains("SilverConstant", "NOT equal");
             Contains("ComplementaryTetrahedralAngle", "SUPPLEMENT");
