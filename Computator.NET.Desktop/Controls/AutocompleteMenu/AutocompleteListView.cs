@@ -174,14 +174,14 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                     control = this;
 
                 toolTip.Show(control, Width + 3, 0);
-                toolTip.setFunctionInfo(autocompleteItem.Details);
+                toolTip.setFunctionInfo(autocompleteItem.Details, autocompleteItem.MenuText);
             }
             else if (Settings.Default.TooltipType ==
                      TooltipType.Form)
             {
                 toolTip.Close();
                 formTip.Show();
-                formTip.SetFunctionInfo(autocompleteItem.Details);
+                formTip.SetFunctionInfo(autocompleteItem.Details, autocompleteItem.MenuText);
             }
         }
 

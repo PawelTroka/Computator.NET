@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Computator.NET.Core.Abstract;
@@ -18,42 +19,62 @@ namespace Computator.NET.Core.Menu.Commands
             {
                 childrenCommands.Add(new DummyCommand(keyValue.Value)
                 {
-                    ChildrenCommands = BuildFunctionsOrConstantsCommands(keyValue.Key, expressionTextProvider,
+                    ChildrenCommands = BuildFunctionsOrConstantsCommands(keyValue.Key, keyValue.Value, expressionTextProvider,
                         scriptingTextProvider, customFunctionsTextProvider, sharedViewState, autocompleteProvider, mouseButtonsProvider, showFunctionDetails)
                 });
             }
 
             ChildrenCommands = childrenCommands;
-
         }
 
-
-        private static List<IToolbarCommand> BuildFunctionsOrConstantsCommands(string key, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider, IClickedMouseButtonsProvider mouseButtonsProvider, IShowFunctionDetails showFunctionDetails)
+        private static List<IToolbarCommand> BuildFunctionsOrConstantsCommands(string key, string parentText, ITextProvider expressionTextProvider, IScriptProvider scriptingTextProvider, IScriptProvider customFunctionsTextProvider, ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider, IClickedMouseButtonsProvider mouseButtonsProvider, IShowFunctionDetails showFunctionDetails)
         {
-            var dict = new Dictionary<string, IToolbarCommand>();
-            
+            var commands = new List<IToolbarCommand>();
+            var categories = new Dictionary<string, List<IToolbarCommand>>(StringComparer.Ordinal);
+
             foreach (var f in autocompleteProvider.ExpressionAutocompleteItems)
             {
                 if (f.Details.IsNullOrEmpty() || f.Details.Type != key)
                     continue;
 
-                //TODO: remove this code when made sure it does nothing:
-                if (f.Details.Category == "")
-                    f.Details.Category = "_empty_";
+                var functionCommand = new FunctionOrConstantCommand(f, expressionTextProvider,
+                    scriptingTextProvider, customFunctionsTextProvider, sharedViewState, mouseButtonsProvider, showFunctionDetails);
 
-
-                if (!dict.ContainsKey(f.Details.Category))
+                // A runtime type or its caption is a fallback, not a subject subgroup.
+                // Keep these entries accessible without modifying shared reference data.
+                if (IsRedundantCategory(f.Details.Category, key, parentText))
                 {
-                    //var cat = new ToolStripMenuItem(f.Value.Category) { Name = f.Value.Category };
-                    var command = new DummyCommand(f.Details.Category) { ChildrenCommands = new List<IToolbarCommand>() };
-                    dict.Add(f.Details.Category, command);
+                    commands.Add(functionCommand);
+                    continue;
                 }
-                (dict[f.Details.Category].ChildrenCommands as List<IToolbarCommand>).Add(
-                    new FunctionOrConstantCommand(f, expressionTextProvider,
-                        scriptingTextProvider, customFunctionsTextProvider, sharedViewState, mouseButtonsProvider, showFunctionDetails));
+
+                var category = f.Details.Category.Trim();
+                if (!categories.TryGetValue(category, out var categoryCommands))
+                {
+                    categoryCommands = new List<IToolbarCommand>();
+                    categories.Add(category, categoryCommands);
+                    commands.Add(new DummyCommand(category) { ChildrenCommands = categoryCommands });
+                }
+
+                categoryCommands.Add(functionCommand);
             }
 
-            return dict.Values.ToList();
+            return commands;
+        }
+
+        private static bool IsRedundantCategory(string category, string key, string parentText)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+                return true;
+
+            var normalizedCategory = NormalizeMenuLabel(category);
+            return string.Equals(normalizedCategory, NormalizeMenuLabel(key), StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(normalizedCategory, NormalizeMenuLabel(parentText), StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string NormalizeMenuLabel(string label)
+        {
+            return new string((label ?? string.Empty).Where(character => !char.IsWhiteSpace(character) && character != '&').ToArray());
         }
     }
 }
