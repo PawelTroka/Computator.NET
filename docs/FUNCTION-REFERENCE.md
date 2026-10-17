@@ -56,6 +56,19 @@ regressions cover uniform and polynomial integrals, asymmetric shapes, both
 endpoints and the existing invalid-domain checks. The two-argument complete
 beta functions retain their existing meaning.
 
+## Corrected Wigner 9-j final argument
+
+`Coupling9j(ja,jb,jc,jd,je,jf,jg,jh,ji)` now forwards all nine supplied
+arguments to GSL, in both the host implementation and the emitted TSL helper.
+The last argument selects the lower-right spin; it is no longer replaced by
+`jf`. The public integer convention is unchanged: every value is **twice** the
+physical spin, so `1` represents spin `1/2` and `2` represents spin `1`.
+For example, `Coupling9j(2,2,2,2,2,2,2,2,0)` returns `1/18`; changing only the
+last argument to `2` gives zero. The [GSL coupling conventions](https://www.gnu.org/software/gsl/doc/html/specfunc.html#coupling-coefficients)
+and [DLMF zero-argument reduction](https://dlmf.nist.gov/34.7.E1) provide
+independent definitions for the regression values. Tests exercise integer and
+half-integer spins, allowed and forbidden couplings, and negative-input guards.
+
 ## Known numerical differences deliberately not changed here
 
 Several descriptions would be misleading without reporting existing behavior. This content PR does not silently correct algorithms, update constant values or relax numerical tests. Separate numerical fixes should update both tests and the corresponding reference:
@@ -63,7 +76,7 @@ Several descriptions would be misleading without reporting existing behavior. Th
 | Existing identifier | Explicitly documented distinction |
 | --- | --- |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
-| `CoulombGprime` / `Coupling9j` | Current forwarded order / ninth-argument behavior differs from the advertised general formula. |
+| `CoulombGprime` | Current forwarded order differs from the advertised general formula. |
 | Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |
 | `Debye` outside orders 1–6 | The fallback is not the normalized higher-order Debye definition. |
 | `PointwiseMultiply` / `PointwiseDivide` | The left-fold loops include the first operand twice / divide it by itself. |

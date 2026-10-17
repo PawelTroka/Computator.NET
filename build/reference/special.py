@@ -242,11 +242,13 @@ def _describe(item, values):
         doubled='integer' in item['menu']
         kind={'Coupling3j':'Wigner 3-j symbol','Coupling6j':'Wigner 6-j symbol','Coupling9j':'Wigner 9-j symbol','CouplingRacahW':'Racah W coefficient'}[name]
         note='The integer and real 3-j/6-j overloads use DIFFERENT argument units; explicitly use real literals when supplying actual spins.' if name in ('Coupling3j','Coupling6j') else ''
-        if name=='Coupling9j':note+=' Current implementation forwards jf as the ninth argument instead of ji. Thus changing ji alone does not change the result; it is not a general 9-j calculation until that wrapper is corrected.'
+        if name=='Coupling9j':note='The final argument ji selects the lower-right spin independently of jf. A forbidden row or column coupling has value zero.'
         return A(kind,'An angular-momentum recoupling coefficient with phase and selection rules fixed by the conventional Wigner/Racah definition.',
                  'Arguments specify the successive rows of the 3×3 Wigner array.' if name=='Coupling9j' else '',
                  ('Every integer argument is TWICE the physical spin/projection: e.g. 1 represents 1/2. ' if doubled else 'Arguments are the actual nonnegative integer or half-integer spin values. ')+
-                 ('Magnetic projections must obey |m|≤j, compatible parity and m₁+m₂+m₃=0.' if name=='Coupling3j' else 'Triangle and parity selection rules apply; forbidden couplings vanish or are rejected by the library.'),note,url=DLMF+'34.2' if name=='Coupling3j' else DLMF+'34.4' if name=='Coupling6j' else DLMF+'34.6' if name=='Coupling9j' else GSL+'#coupling-coefficients')
+                 ('Magnetic projections must obey |m|≤j, compatible parity and m₁+m₂+m₃=0.' if name=='Coupling3j' else 'Triangle and parity selection rules apply; forbidden couplings vanish or are rejected by the library.'),note,
+                 example='Coupling9j(2,2,2,2,2,2,2,2,0) = 1/18 ≈ 0.0555555555555556' if name=='Coupling9j' else '',
+                 url=DLMF+'34.2' if name=='Coupling3j' else DLMF+'34.4' if name=='Coupling6j' else DLMF+'34.6' if name=='Coupling9j' else GSL+'#coupling-coefficients')
     if name in ('Gegenbauer','Gegenbauer1','Gegenbauer2','Gegenbauer3','Laguerre','LegendreP','LegendreQ','SphericalLegendreP','ConicalP','SphericalConicalP','CylindricalConicalP','LegendreH3D','ChebyshevT','HermiteH','HermiteHe','ZernikeR'):
         return polynomial(name,args,alias)
     if name.startswith('Hypergeometric'):return hypergeometric(name,args)

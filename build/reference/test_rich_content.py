@@ -31,6 +31,15 @@ class RichContentTests(unittest.TestCase):
                 self.assertNotIn('until the numerical wrapper is repaired',value)
                 self.assertNotIn('implementation warning below',value)
                 self.assertNotIn('forwards a different argument order',value)
+    def test_nine_j_reference_describes_the_corrected_doubled_spin_contract(self):
+        signature='Coupling9j(ja,jb,jc,jd,je,jf,jg,jh,ji)'
+        menu='real Coupling9j('+','.join('integer '+name for name in ['ja','jb','jc','jd','je','jf','jg','jh','ji'])+')'
+        value=self.article(signature,menu=menu)
+        self.assertIn('TWICE the physical spin',value)
+        self.assertIn('ji selects the lower-right spin independently of jf',value)
+        self.assertIn('Coupling9j(2,2,2,2,2,2,2,2,0) = 1/18',value)
+        self.assertNotIn('forwards jf',value)
+        self.assertNotIn('not a general 9-j calculation',value)
     def test_every_authoring_image_has_source_hash_dimensions_and_alt(self):
         for signature in ['gamma(x)','Ai(x)','SphericalBesselJ0(x)','Hypergeometric2F1(a,b,c,x)']:
             root=ET.fromstring(self.article(signature))
