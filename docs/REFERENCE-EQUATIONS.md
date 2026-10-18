@@ -113,6 +113,39 @@ for showing redundant signatures.
 
 ## Content boundaries
 
+### Definition placement and desktop reading space
+
+An article opens with its summary, then its definition or convention, argument
+guidance and implementation warnings. Longer teaching notes and examples follow.
+This keeps the formula easy to find without separating it from its domain or
+presenting it before the introductory context. Supplementary family relations,
+such as an underlying Bessel equation or an illustrative Gabor model, retain
+their labels and appear after the explanatory notes. They do not replace the
+individual overload's definition.
+
+The eight optimization benchmark families explicitly mark their existing TeX as
+the same mathematical definition as the text formula. This removes the duplicate
+plain-text definition in Ackley and those seven related families. Bohachevsky's
+formula is labelled **Standard benchmark definition**, with its pinned-library
+offset warning next to it. The existing 764 equation assets are reused unchanged.
+An equation elsewhere in the enrichment catalogue is not automatically treated
+as a replacement definition.
+
+The PointwiseMultiply and PointwiseDivide teaching notes also describe the
+corrected operand fold from #185. Their previous notes still claimed the first
+operand was applied twice, contradicting the implementation and argument notes.
+Each operand now contributes once; a single argument returns an independent copy.
+
+The desktop popup starts at 660 × 540 logical pixels, autocomplete allows up to
+420 logical pixels of height, and the separate reader starts at 900 × 760 logical
+pixels. Defaults are scaled for display density and limited to the monitor's
+working area. Long documents and wide equations scroll within the popup instead
+of resizing it from document dimensions. The separate reader continues to retain
+the user's chosen size across article changes and reopening.
+
+This is a partial follow-up to issue #224. Explanatory drawings and additional
+per-function typesetting work remain outside this change.
+
 All 1,220 existing entries gain explanatory guidance, with subject-specific
 interpretations and explicit numerical/physical caveats. Display equations appear
 in 1,172 entries; together with inline mathematics, 1,173 entries include typeset

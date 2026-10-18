@@ -109,9 +109,15 @@ def articles(inventory):
             # Do not repeat a typed signature in a second section heading.
             if len(authored)>1:chunks.append('<p class="reference-variant"><strong>'+esc(article.title)+'</strong></p>')
             chunks.append('<p class="reference-summary">'+prose_html(article.definition)+'</p>')
-            for paragraph in extra.paragraphs:
-                chunks.append('<p class="reference-explanation">'+prose_html(paragraph)+'</p>')
             for field,label in SECTIONS:
+                # Introduce the function, then give its definition together with
+                # the applicable arguments and implementation caveats. Longer
+                # teaching notes follow this quick reference. Supplementary
+                # family equations still follow those notes; they must not be
+                # promoted into definitions of an individual overload.
+                if field=='example':
+                    for paragraph in extra.paragraphs:
+                        chunks.append('<p class="reference-explanation">'+prose_html(paragraph)+'</p>')
                 value=getattr(article,field)
                 if field=='formula' and extra.replaces_formula:
                     for equation in extra.equations:chunks.append(equation_html(equation))

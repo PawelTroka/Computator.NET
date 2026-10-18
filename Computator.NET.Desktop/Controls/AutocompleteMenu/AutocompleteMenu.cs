@@ -60,7 +60,10 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             Enabled = true;
             AppearInterval = 500;
             _timer.Tick += Timer_Tick;
-            MaximumSize = new Size(2000, 200).DpiScale();
+            var preferred = new Size(2000, 420).DpiScale();
+            var available = Screen.FromControl(Host).WorkingArea.Size;
+            MaximumSize = new Size(Math.Min(preferred.Width, Math.Max(1, available.Width - 4)),
+                Math.Min(preferred.Height, Math.Max(1, available.Height - 4)));
             AutoPopup = true;
 
             SearchPattern = @"[\w\.]";

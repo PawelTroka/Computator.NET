@@ -74,6 +74,58 @@ class RichContentTests(unittest.TestCase):
         self.assertNotIn('<strong>Example:</strong> gamma(5)',value)
         self.assertIn('<code>gamma(5)</code>',value)
 
+    def test_definitions_and_their_caveats_precede_longer_teaching_notes(self):
+        for signature in ['Ackley(xi1,xi2, ...)', 'gamma(x)', 'SphericalBesselJ0(x)']:
+            with self.subTest(signature=signature):
+                root=ET.fromstring(self.article(signature))
+                sections=[element.get('class') for element in root]
+                defining_class='reference-formula' if 'reference-formula' in sections else 'reference-equation'
+                summary=sections.index('reference-summary')
+                definition=sections.index(defining_class)
+                arguments=sections.index('reference-arguments')
+                explanation=sections.index('reference-explanation')
+                self.assertLess(summary,definition)
+                self.assertLess(definition,arguments)
+                self.assertLess(arguments,explanation)
+                if 'reference-note' in sections:self.assertLess(sections.index('reference-note'),explanation)
+
+    def test_reviewed_benchmark_definitions_are_typeset_once(self):
+        for name in ['Ackley','Rastrigin','Bohachevsky1','Himmelblau','Matyas','Rosenbrock','dropWave','sixHumpCamel']:
+            with self.subTest(name=name):
+                root=ET.fromstring(self.article(name+'(x,y)'))
+                self.assertIsNone(root.find("./p[@class='reference-formula']"))
+                equations=root.findall("./p[@class='reference-equation']")
+                self.assertEqual(len(equations),1)
+                label='Standard benchmark definition' if name=='Bohachevsky1' else 'Definition'
+                self.assertEqual(equations[0].find('strong').text,label)
+                self.assertIsNotNone(equations[0].find("./img[@class='reference-math']"))
+
+    def test_supplementary_family_equations_keep_their_explanatory_context(self):
+        for signature in ['Gabor(x,y,λ,θ,ψ,σ,γ)', 'SphericalBesselJ0(x)']:
+            with self.subTest(signature=signature):
+                root=ET.fromstring(self.article(signature))
+                sections=[element.get('class') for element in root]
+                self.assertLess(sections.index('reference-formula'),sections.index('reference-explanation'))
+                self.assertLess(sections.index('reference-explanation'),sections.index('reference-equation'))
+                self.assertNotEqual(root.find("./p[@class='reference-equation']/strong").text,'Definition')
+
+    def test_standard_benchmark_formula_does_not_hide_the_implementation_offset(self):
+        root=ET.fromstring(self.article('Bohachevsky1(x,y)'))
+        arguments=''.join(root.find("./p[@class='reference-arguments']").itertext())
+        self.assertIn('implementation omits +0.7',arguments)
+        self.assertIn('value -0.7 at that same minimizer',arguments)
+        self.assertIn('Bohachevsky1(0,0)+0.7',''.join(root.itertext()))
+
+    def test_pointwise_teaching_notes_describe_the_repaired_operand_fold(self):
+        for name,contract in [('PointwiseMultiply','using each operand once'),('PointwiseDivide','from left to right')]:
+            with self.subTest(name=name):
+                root=ET.fromstring(self.article(name+'<T>(matrices1,matrices2, ...)',kind='MatrixFunctions'))
+                explanation=''.join(root.find("./p[@class='reference-explanation']").itertext())
+                self.assertIn(contract,explanation)
+                self.assertIn('independent copy',explanation)
+                for stale in ['included twice','repeated first operand','current wrapper','buggy fold']:
+                    self.assertNotIn(stale,explanation)
+
 
 class VisibleText(HTMLParser):
     def __init__(self):
