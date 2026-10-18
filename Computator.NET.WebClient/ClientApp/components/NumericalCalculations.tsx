@@ -4,13 +4,10 @@ import { Expression } from './Expression';
 import { NumericInput } from './NumericInput';
 import { ResultPanel } from './ResultPanel';
 import { useTextResult } from '../helpers/useTextResult';
-const operations = { Integral: 'integral', Derivative: 'derivative', 'Function root': 'function-root' } as const;
-type Operation = keyof typeof operations;
+import { numericalOperations as operations, type NumericalOperation as Operation, useNumericalDraft } from '../helpers/NumericalDraftContext';
 export function NumericalCalculations() {
-  const [a, setA] = useState(-1), [b, setB] = useState(1), [x, setX] = useState(0);
-  const [epsilon, setEpsilon] = useState(1e-6), [n, setN] = useState(1e5), [order, setOrder] = useState(1);
-  const [expression, setExpression] = useState(''), [operation, setOperation] = useState<Operation>('Integral');
-  const [selectedMethod, setSelectedMethod] = useState('');
+  const { a, setA, b, setB, x, setX, epsilon, setEpsilon, n, setN, order, setOrder,
+    expression, setExpression, operation, setOperation, selectedMethod, setSelectedMethod } = useNumericalDraft();
   const [methods, setMethods] = useState<Record<Operation, string[]>>({ Integral: [], Derivative: [], 'Function root': [] });
   const [loadError, setLoadError] = useState('');
   const request = useTextResult();
