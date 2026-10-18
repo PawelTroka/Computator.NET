@@ -22,13 +22,13 @@ namespace Computator.NET.Core.Compilation
             BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         private static readonly CSharpParseOptions ParseOptions = new CSharpParseOptions(LanguageVersion.CSharp14);
         private static readonly Lazy<HashSet<string>> ExpressionNames = new Lazy<HashSet<string>>(
-            () => Names(typeof(PrecompiledExpressionSurface), false));
+            () => Names(false, typeof(PrecompiledExpressionSurface), typeof(PrecompiledExpressionBuiltins<>)));
         private static readonly Lazy<HashSet<string>> ScriptNames = new Lazy<HashSet<string>>(
-            () => Names(typeof(PrecompiledScriptMathSurface), false));
+            () => Names(false, typeof(PrecompiledScriptMathSurface), typeof(PrecompiledScriptMathBuiltins<>)));
         private static readonly Lazy<HashSet<string>> PrivateExpressionNames = new Lazy<HashSet<string>>(
-            () => Names(typeof(PrecompiledExpressionSurface), true));
+            () => Names(true, typeof(PrecompiledExpressionSurface), typeof(PrecompiledExpressionBuiltins<>)));
         private static readonly Lazy<HashSet<string>> PrivateScriptNames = new Lazy<HashSet<string>>(
-            () => Names(typeof(PrecompiledScriptMathSurface), true));
+            () => Names(true, typeof(PrecompiledScriptMathSurface), typeof(PrecompiledScriptMathBuiltins<>)));
         private static readonly Lazy<bool> ExpressionStateShareable = new Lazy<bool>(() =>
             HasShareableState(typeof(PrecompiledExpressionSurface)));
         private static readonly Lazy<bool> ScriptStateShareable = new Lazy<bool>(() =>
@@ -44,10 +44,10 @@ namespace Computator.NET.Core.Compilation
             "StackTrace", "StackFrame", "BaseType", "DeclaringType", "GetExecutingAssembly", "GetCallingAssembly"
         };
 
-        private static HashSet<string> Names(Type type, bool onlyNonPublic)
+        private static HashSet<string> Names(bool onlyNonPublic, params Type[] types)
         {
-            // These are application-owned nongeneric types, never user types.
-            return new HashSet<string>(type.GetMembers(Members).Where(member => !onlyNonPublic ||
+            // Only application-owned definitions, never closed user types.
+            return new HashSet<string>(types.SelectMany(type => type.GetMembers(Members)).Where(member => !onlyNonPublic ||
                 member is MethodBase method && !method.IsPublic || member is FieldInfo field && !field.IsPublic ||
                 member is PropertyInfo property && property.GetAccessors(true).Any(accessor => !accessor.IsPublic) ||
                 member is Type nested && !nested.IsNestedPublic).Select(member => member.Name.Split('`')[0]), StringComparer.Ordinal);
@@ -60,12 +60,9 @@ namespace Computator.NET.Core.Compilation
                 if (field.IsLiteral) continue;
                 if (!field.IsInitOnly) return false;
                 var valueType = field.FieldType;
-                if (valueType.IsPrimitive || valueType.IsEnum || valueType == typeof(decimal) ||
-                    valueType == typeof(Complex) || valueType == typeof(string)) continue;
-                // The original ToCode already binds each program's m_random to
-                // this process-wide generator. No new random state is shared.
-                if (field.IsPrivate && field.Name == "m_random" && valueType == typeof(Random) &&
-                    ReferenceEquals(field.GetValue(null), Random.Shared)) continue;
+                if ((valueType.IsPrimitive && valueType != typeof(IntPtr) && valueType != typeof(UIntPtr)) ||
+                    valueType.IsEnum || valueType == typeof(decimal) || valueType == typeof(Complex) || valueType == typeof(string))
+                    continue;
                 return false;
             }
             return type.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic)

@@ -1,6 +1,6 @@
 <Project>
-  <!-- Compile the actual shipped ToCode fragments with the application, not once
-       per expression. No separately maintained numerical implementation. -->
+  <!-- Build the exact shipped ToCode bodies once; do not maintain another
+       implementation of the numerical functions. -->
   <UsingTask TaskName="GeneratePrecompiledTslBuiltins" TaskFactory="RoslynCodeTaskFactory"
              AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
@@ -8,11 +8,8 @@
       <OutputFile ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
-      <Using Namespace="System" />
-      <Using Namespace="System.IO" />
-      <Using Namespace="System.Text" />
-      <Using Namespace="System.Text.RegularExpressions" />
-      <Using Namespace="System.Collections.Generic" />
+      <Using Namespace="System" /><Using Namespace="System.IO" /><Using Namespace="System.Text" />
+      <Using Namespace="System.Text.RegularExpressions" /><Using Namespace="System.Collections.Generic" />
       <Using Namespace="System.Security.Cryptography" />
       <Code Type="Fragment" Language="cs"><![CDATA[
         var fragments = new Dictionary<string, string>(StringComparer.Ordinal);
@@ -20,8 +17,7 @@
         {
             string source = File.ReadAllText(sourceItem.ItemSpec);
             var matches = Regex.Matches(source, @"\bpublic\s+const\s+string\s+ToCode\s*=");
-            if (matches.Count != 1)
-                throw new InvalidOperationException("Expected exactly one ToCode constant in " + sourceItem.ItemSpec);
+            if (matches.Count != 1) throw new InvalidOperationException("Expected exactly one ToCode constant in " + sourceItem.ItemSpec);
             int position = matches[0].Index + matches[0].Length;
             while (position < source.Length && char.IsWhiteSpace(source[position])) position++;
             if (position + 1 >= source.Length || source[position] != '@' || source[position + 1] != '"')
@@ -33,8 +29,7 @@
             {
                 char character = source[position++];
                 if (character != '"') { fragment.Append(character); continue; }
-                if (position < source.Length && source[position] == '"')
-                { fragment.Append('"'); position++; continue; }
+                if (position < source.Length && source[position] == '"') { fragment.Append('"'); position++; continue; }
                 closed = true;
                 break;
             }
@@ -46,9 +41,16 @@
         string[] kinds = { "MathematicalConstants", "PhysicalConstants", "ElementaryFunctions", "SpecialFunctions",
             "StatisticsFunctions", "Integral", "Derivative", "FunctionRoot" };
         var common = new List<string>();
-        foreach (string kind in kinds) common.Add(fragments[kind]);
-        var script = new List<string>(common);
-        script.Add(fragments["MatrixFunctions"]);
+        var immutable = new List<string>();
+        foreach (string kind in kinds)
+        {
+            common.Add(fragments[kind]);
+            // Statistics owns the replaceable public rnd field. Preserve that
+            // entire fragment inside a separately closed per-program generic.
+            if (kind != "StatisticsFunctions") immutable.Add(fragments[kind]);
+        }
+        var script = new List<string>(common); script.Add(fragments["MatrixFunctions"]);
+        var scriptImmutable = new List<string>(immutable); scriptImmutable.Add(fragments["MatrixFunctions"]);
         Func<string, string> hash = value => {
             using (var sha = SHA256.Create())
                 return BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(value))).Replace("-", "").ToLowerInvariant();
@@ -60,24 +62,25 @@
         generated.AppendLine("using real = System.Double; using complex = System.Numerics.Complex; using natural = System.UInt64; using integer = System.Int64;");
         generated.AppendLine("using MathNet.Numerics.Distributions;");
         generated.AppendLine("namespace Computator.NET.Core.Compilation.Builtins {");
-        // CLR P/Invoke declarations cannot live in a generic type. Keep the
-        // entire unmodified mathematical body in a nongeneric surface instead.
-        // BuiltinFacadePolicy rejects a surface containing nonshareable static
-        // storage; a new mutable helper automatically retains the legacy path.
+        // Native imports remain unchanged in nongeneric surfaces. The policy
+        // verifies that these surfaces contain no mutable authored static state.
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
         generated.AppendLine("public class PrecompiledExpressionSurface {");
-        foreach (string fragment in common) generated.AppendLine(fragment);
+        foreach (string fragment in immutable) generated.AppendLine(fragment);
         generated.AppendLine("}");
         // Scalar and matrix pow overloads must be declared together.
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
         generated.AppendLine("public class PrecompiledScriptMathSurface {");
-        foreach (string fragment in script) generated.AppendLine(fragment);
+        foreach (string fragment in scriptImmutable) generated.AppendLine(fragment);
         generated.AppendLine("}");
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
-        generated.AppendLine("public class PrecompiledExpressionBuiltins<TProgram> : PrecompiledExpressionSurface { }");
+        generated.AppendLine("public class PrecompiledExpressionBuiltins<TProgram> : PrecompiledExpressionSurface {");
+        generated.AppendLine(fragments["StatisticsFunctions"]);
+        generated.AppendLine("}");
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
-        generated.AppendLine("public class PrecompiledScriptMathBuiltins<TProgram> : PrecompiledScriptMathSurface { }");
-        // Preserve the exact helper used by the emitted matrix implementation.
+        generated.AppendLine("public class PrecompiledScriptMathBuiltins<TProgram> : PrecompiledScriptMathSurface {");
+        generated.AppendLine(fragments["StatisticsFunctions"]);
+        generated.AppendLine("}");
         generated.AppendLine(fragments["NumericalExtensions"]);
         generated.AppendLine("public static class PrecompiledBuiltinSourceHashes {");
         generated.AppendLine("public const string Expression = \"" + hash(string.Join("\0", common)) + "\";");
