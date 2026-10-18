@@ -13903,36 +13903,38 @@
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs</Url>
   </FunctionInfo>
   <FunctionInfo Signature="RiccatiBesselζ(n,x)">
-    <Title>Riccati-labelled Bessel combination</Title>
+    <Title>Riccati–Hankel function of the second kind</Title>
     <Type>SpecialFunctions</Type>
     <Category>Bessel functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>complex RiccatiBesselζ(integer n, real x)</code></p>
-<p class="reference-summary">The application’s radial Bessel combination, with its sign and cylindrical/spherical convention made explicit.</p>
+<p class="reference-summary">A spherical Hankel wave multiplied by its radial argument, with the same normalization as the real Riccati–Bessel functions S and C.</p>
 <p class="reference-explanation">Bessel functions describe radial modes in cylindrical geometry. Spherical and Riccati variants rescale related half-integer solutions; Hankel functions combine independent solutions into complex waves. Use the specific function and normalization below, rather than treating all family names as aliases.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>x·[Jₙ(x)−iYₙ(x)]</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Integer n; use x&gt;0 for irregular/Hankel forms. Singular limits at zero should not be inferred from multiplication by x.</p>
-<p class="reference-note"><strong>Important:</strong>  This wrapper calls the CYLINDRICAL Hankel function, not spherical hₙ. Its result therefore differs from the usual Riccati–Hankel x·hₙ convention. The formula above documents current behavior.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>ζₙ(x)=x·hₙ⁽²⁾(x)=Sₙ(x)+iCₙ(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Integer n and real x&gt;0. Nonpositive arguments return NaN; the finite order-zero limit at x=0 is not evaluated by this wrapper.</p>
+<p class="reference-note"><strong>Important:</strong> Here Sₙ=x·jₙ and Cₙ=−x·yₙ use spherical Bessel functions. The first and second kinds are complex conjugates on the positive real axis; the outgoing/incoming interpretation also depends on the time convention.</p>
+<p class="reference-example"><strong>Example:</strong> RiccatiBesselζ(0,0.5) ≈ 0.4794255386 + 0.8775825619i</p>
 <p class="reference-equation"><strong>Underlying cylindrical equation</strong><br /><img class="reference-math" src="reference-equations/4b1d528807d77bbf966f5d623fcb834c0ad987f3d20156ec0b0399c791aff773.png" alt="x^2y^{\prime\prime}+xy^{\prime}+(x^2-\nu^2)y=0" width="256" height="31" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs">github.com</a></p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/10.47">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs</Url>
+    <Url>https://dlmf.nist.gov/10.47</Url>
   </FunctionInfo>
   <FunctionInfo Signature="RiccatiBesselξ(n,x)">
-    <Title>Riccati-labelled Bessel combination</Title>
+    <Title>Riccati–Hankel function of the first kind</Title>
     <Type>SpecialFunctions</Type>
     <Category>Bessel functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>complex RiccatiBesselξ(integer n, real x)</code></p>
-<p class="reference-summary">The application’s radial Bessel combination, with its sign and cylindrical/spherical convention made explicit.</p>
+<p class="reference-summary">A spherical Hankel wave multiplied by its radial argument, with the same normalization as the real Riccati–Bessel functions S and C.</p>
 <p class="reference-explanation">Bessel functions describe radial modes in cylindrical geometry. Spherical and Riccati variants rescale related half-integer solutions; Hankel functions combine independent solutions into complex waves. Use the specific function and normalization below, rather than treating all family names as aliases.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>x·[Jₙ(x)+iYₙ(x)]</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Integer n; use x&gt;0 for irregular/Hankel forms. Singular limits at zero should not be inferred from multiplication by x.</p>
-<p class="reference-note"><strong>Important:</strong>  This wrapper calls the CYLINDRICAL Hankel function, not spherical hₙ. Its result therefore differs from the usual Riccati–Hankel x·hₙ convention. The formula above documents current behavior.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>ξₙ(x)=x·hₙ⁽¹⁾(x)=Sₙ(x)−iCₙ(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Integer n and real x&gt;0. Nonpositive arguments return NaN; the finite order-zero limit at x=0 is not evaluated by this wrapper.</p>
+<p class="reference-note"><strong>Important:</strong> Here Sₙ=x·jₙ and Cₙ=−x·yₙ use spherical Bessel functions. The first and second kinds are complex conjugates on the positive real axis; the outgoing/incoming interpretation also depends on the time convention.</p>
+<p class="reference-example"><strong>Example:</strong> RiccatiBesselξ(0,0.5) ≈ 0.4794255386 − 0.8775825619i</p>
 <p class="reference-equation"><strong>Underlying cylindrical equation</strong><br /><img class="reference-math" src="reference-equations/4b1d528807d77bbf966f5d623fcb834c0ad987f3d20156ec0b0399c791aff773.png" alt="x^2y^{\prime\prime}+xy^{\prime}+(x^2-\nu^2)y=0" width="256" height="31" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs">github.com</a></p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/10.47">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs</Url>
+    <Url>https://dlmf.nist.gov/10.47</Url>
   </FunctionInfo>
   <FunctionInfo Signature="RiccatiBesselχ(n,x)">
     <Title>Riccati-labelled Bessel combination</Title>

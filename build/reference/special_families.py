@@ -162,12 +162,17 @@ def bessel(name,args,alias):
                  'J_ν(j_(ν,s))=0; 0<j_(ν,1)<j_(ν,2)<…', 'Real order ν≥0; supply integer index s≥1.',
                  's is rounded to the nearest unsigned integer, with midpoint ties away from zero; s<0.5 is rejected. It is not a starting guess for root finding.',
                  'BesselJνZeros(0,1) ≈ 2.4048255577',DLMF+'10.21')
-    if name in ('RiccatiBesselS','RiccatiBesselC','RiccatiBesselξ','RiccatiBesselζ'):
-        actual={'RiccatiBesselS':'x·jₙ(x)','RiccatiBesselC':'−x·yₙ(x)',
-                'RiccatiBesselξ':'x·[Jₙ(x)+iYₙ(x)]','RiccatiBesselζ':'x·[Jₙ(x)−iYₙ(x)]'}[name]
-        note=alias
-        if name.endswith(('ξ','ζ')):note+=' This wrapper calls the CYLINDRICAL Hankel function, not spherical hₙ. Its result therefore differs from the usual Riccati–Hankel x·hₙ convention. The formula above documents current behavior.'
-        else:note+=' jₙ and yₙ are spherical Bessel functions. C/χ uses a minus sign; some references use the opposite sign.'
+    if name in ('RiccatiBesselξ','RiccatiBesselζ'):
+        first=name.endswith('ξ')
+        return A('Riccati–Hankel function of the '+('first' if first else 'second')+' kind',
+                 'A spherical Hankel wave multiplied by its radial argument, with the same normalization as the real Riccati–Bessel functions S and C.',
+                 'ξₙ(x)=x·hₙ⁽¹⁾(x)=Sₙ(x)−iCₙ(x)' if first else 'ζₙ(x)=x·hₙ⁽²⁾(x)=Sₙ(x)+iCₙ(x)',
+                 'Integer n and real x>0. Nonpositive arguments return NaN; the finite order-zero limit at x=0 is not evaluated by this wrapper.',
+                 'Here Sₙ=x·jₙ and Cₙ=−x·yₙ use spherical Bessel functions. The first and second kinds are complex conjugates on the positive real axis; the outgoing/incoming interpretation also depends on the time convention.',
+                 name+'(0,0.5) ≈ 0.4794255386'+(' − ' if first else ' + ')+'0.8775825619i',DLMF+'10.47')
+    if name in ('RiccatiBesselS','RiccatiBesselC'):
+        actual={'RiccatiBesselS':'x·jₙ(x)','RiccatiBesselC':'−x·yₙ(x)'}[name]
+        note=alias+' jₙ and yₙ are spherical Bessel functions. C/χ uses a minus sign; some references use the opposite sign.'
         return A('Riccati-labelled Bessel combination','The application’s radial Bessel combination, with its sign and cylindrical/spherical convention made explicit.',actual,
                  'Integer n; use x>0 for irregular/Hankel forms. Singular limits at zero should not be inferred from multiplication by x.',note,url=SOURCE+'Computator.NET.Core/Functions/SpecialFunctions.cs')
     if name.startswith(('Hankel','SphericalHankel')):

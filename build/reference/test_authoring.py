@@ -32,5 +32,18 @@ class AuthoringTests(unittest.TestCase):
     def test_keywords_do_not_require_math_articles(self):
         inventory=self.inventory();inventory['items'].append({'signature':'while','type':'Keyword','menu':'while'})
         self.assertEqual(len(articles(inventory)),1)
+    def test_riccati_hankel_articles_use_spherical_relations_and_keep_zero_caveat(self):
+        for name,relation in (('RiccatiBesselξ','ξₙ(x)=x·hₙ⁽¹⁾(x)=Sₙ(x)−iCₙ(x)'),
+                              ('RiccatiBesselζ','ζₙ(x)=x·hₙ⁽²⁾(x)=Sₙ(x)+iCₙ(x)')):
+            with self.subTest(name=name):
+                inventory={'items':[{'signature':name+'(n,x)',
+                    'menu':'complex '+name+'(int n, real x)','type':'SpecialFunctions'}], 'constants':[]}
+                article=articles(inventory)[0]
+                self.assertIn(relation,article['description'])
+                self.assertIn('spherical Bessel functions',article['description'])
+                self.assertIn('Nonpositive arguments return NaN',article['description'])
+                self.assertIn('finite order-zero limit at x=0 is not evaluated',article['description'])
+                self.assertNotIn('CYLINDRICAL Hankel',article['description'])
+                self.assertEqual(article['url'],'https://dlmf.nist.gov/10.47')
 
 if __name__=='__main__':unittest.main()

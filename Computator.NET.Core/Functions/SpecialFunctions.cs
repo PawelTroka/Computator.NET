@@ -2752,12 +2752,14 @@ namespace Computator.NET.Core.Functions
 
         public static System.Numerics.Complex RiccatiBesselξ(int n, double x)
         {
-            return x*Hankel1(n, x);
+            if (x <= 0.0) return new System.Numerics.Complex(double.NaN, double.NaN);
+            return x*SphericalHankel1(n, x);
         }
 
         public static System.Numerics.Complex RiccatiBesselζ(int n, double x)
         {
-            return x*Hankel2(n, x);
+            if (x <= 0.0) return new System.Numerics.Complex(double.NaN, double.NaN);
+            return x*SphericalHankel2(n, x);
         }
 
         #endregion
@@ -5962,12 +5964,14 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static System.Numerics.Complex RiccatiBesselξ(int n, double x)
         {
-            return x*Hankel1(n, x);
+            if (x <= 0.0) return new System.Numerics.Complex(double.NaN, double.NaN);
+            return x*SphericalHankel1(n, x);
         }
 
         public static System.Numerics.Complex RiccatiBesselζ(int n, double x)
         {
-            return x*Hankel2(n, x);
+            if (x <= 0.0) return new System.Numerics.Complex(double.NaN, double.NaN);
+            return x*SphericalHankel2(n, x);
         }
 
         #endregion

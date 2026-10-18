@@ -77,7 +77,6 @@ Several descriptions would be misleading without reporting existing behavior. Th
 | --- | --- |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
 | `CoulombGprime` | Current forwarded order differs from the advertised general formula. |
-| Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |
 | `Debye` outside orders 1–6 | The fallback is not the normalized higher-order Debye definition. |
 | `minor` | Extracts a rectangular submatrix; it does not compute a determinant or cofactor. |
 | `Geometric` | Counts trials including success, on 1,2,…; NegativeBinomial counts failures starting at zero. |
