@@ -38,6 +38,9 @@ namespace Computator.NET.Core.Compilation
                 .Any(name => ScriptNames.Value.Contains(name)));
         private static readonly HashSet<string> IntrospectionNames = new HashSet<string>(StringComparer.Ordinal)
         {
+            // This legacy private scratch field is invocation-local in the
+            // precompiled surface. Explicit access retains the original class.
+            "sfResult",
             "FunctionsCreator", "FunctionsCreatorNS", "GetType", "GetMethod", "GetMethods", "GetField", "GetFields",
             "GetMember", "GetMembers", "GetProperty", "GetProperties", "GetNestedType", "GetNestedTypes", "GetTypeInfo",
             "Reflection", "Assembly", "MethodBase", "MethodInfo", "FieldInfo", "MemberInfo", "BindingFlags",

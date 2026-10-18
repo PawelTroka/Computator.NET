@@ -1,6 +1,6 @@
 <Project>
-  <!-- Build the exact shipped ToCode bodies once; do not maintain another
-       implementation of the numerical functions. -->
+  <!-- Build the shipped ToCode bodies once, with the explicitly audited
+       invocation-local Coulomb scratch result described below. -->
   <UsingTask TaskName="GeneratePrecompiledTslBuiltins" TaskFactory="RoslynCodeTaskFactory"
              AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
@@ -38,6 +38,21 @@
                 throw new InvalidOperationException("Unsupported or unterminated ToCode initializer: " + sourceItem.ItemSpec);
             fragments.Add(sourceItem.GetMetadata("Kind"), fragment.ToString());
         }
+        // The only mutable field remaining in SpecialFunctions is a native
+        // Coulomb output buffer, written and immediately read in one call. It
+        // must not become cross-program shared storage. Localize that exact
+        // reviewed field/use pair; reject any future additional use or change.
+        // The original ToCode remains untouched for private-field compatibility.
+        const string scratchField = "private static gsl_sf_result sfResult;";
+        const string scratchCall = "gsl_sf_coulomb_CL_e(L, η, out sfResult);";
+        string special = fragments["SpecialFunctions"];
+        if (Regex.Matches(special, @"\bsfResult\b").Count != 3 ||
+            Regex.Matches(special, Regex.Escape(scratchField)).Count != 1 ||
+            Regex.Matches(special, Regex.Escape(scratchCall)).Count != 1 ||
+            Regex.Matches(special, @"return\s+sfResult\.val\s*;").Count != 1)
+            throw new InvalidOperationException("Coulomb scratch storage changed; review its locality before precompiling.");
+        string localizedSpecial = special.Replace(scratchField, "")
+            .Replace(scratchCall, "gsl_sf_result sfResult;\n            " + scratchCall);
         string[] kinds = { "MathematicalConstants", "PhysicalConstants", "ElementaryFunctions", "SpecialFunctions",
             "StatisticsFunctions", "Integral", "Derivative", "FunctionRoot" };
         var common = new List<string>();
@@ -45,9 +60,7 @@
         foreach (string kind in kinds)
         {
             common.Add(fragments[kind]);
-            // Statistics owns the replaceable public rnd field. Preserve that
-            // entire fragment inside a separately closed per-program generic.
-            if (kind != "StatisticsFunctions") immutable.Add(fragments[kind]);
+            if (kind != "StatisticsFunctions") immutable.Add(kind == "SpecialFunctions" ? localizedSpecial : fragments[kind]);
         }
         var script = new List<string>(common); script.Add(fragments["MatrixFunctions"]);
         var scriptImmutable = new List<string>(immutable); scriptImmutable.Add(fragments["MatrixFunctions"]);
@@ -62,8 +75,6 @@
         generated.AppendLine("using real = System.Double; using complex = System.Numerics.Complex; using natural = System.UInt64; using integer = System.Int64;");
         generated.AppendLine("using MathNet.Numerics.Distributions;");
         generated.AppendLine("namespace Computator.NET.Core.Compilation.Builtins {");
-        // Native imports remain unchanged in nongeneric surfaces. The policy
-        // verifies that these surfaces contain no mutable authored static state.
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
         generated.AppendLine("public class PrecompiledExpressionSurface {");
         foreach (string fragment in immutable) generated.AppendLine(fragment);
@@ -85,6 +96,7 @@
         generated.AppendLine("public static class PrecompiledBuiltinSourceHashes {");
         generated.AppendLine("public const string Expression = \"" + hash(string.Join("\0", common)) + "\";");
         generated.AppendLine("public const string ScriptMath = \"" + hash(string.Join("\0", script)) + "\";");
+        generated.AppendLine("public const string LocalizedSpecial = \"" + hash(localizedSpecial) + "\";");
         generated.AppendLine("public const string NumericalExtensions = \"" + hash(fragments["NumericalExtensions"]) + "\";");
         generated.AppendLine("} }");
         Directory.CreateDirectory(Path.GetDirectoryName(OutputFile));
