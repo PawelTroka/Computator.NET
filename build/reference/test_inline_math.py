@@ -5,7 +5,7 @@ import unittest
 from tempfile import TemporaryDirectory
 from pathlib import Path
 import xml.etree.ElementTree as ET
-from common import A, M, P
+from common import A, M, P, Prose
 from enrichment import Enrichment
 import generate
 
@@ -27,6 +27,36 @@ class InlineMathTests(unittest.TestCase):
         self.assertEqual(generate.prose_html(r'Leave x^2, sin(x), $x$ and \(x\) literal.'),
                          r'Leave x^2, sin(x), $x$ and \(x\) literal.')
         self.assertEqual(generate.prose_html('<img src="remote">'),'&lt;img src=&quot;remote&quot;&gt;')
+
+    def test_mathematical_constant_note_retains_inline_math_and_legacy_suffix(self):
+        stored_value='3.141592653589793'
+        note=P('Trigonometric functions use radians: a full turn is ',M(r'2\pi','2π'),'.')
+        original=generate.mathematical.DATA['PI']
+        with patch.dict(generate.mathematical.DATA,{'PI':(*original[:3],note,original[4])}):
+            article=generate.mathematical.describe({'signature':'PI'},{'PI':stored_value})
+        suffix=' This is the finite stored binary64 approximation, not an arbitrary-precision evaluation of the defining limit, series or construction.'
+        self.assertIsInstance(article.note,Prose)
+        self.assertEqual(str(article.note),str(note)+suffix)
+        self.assertIn('Stored application value: '+stored_value+'.',article.arguments)
+        paragraph=ET.fromstring('<p>'+generate.prose_html(article.note)+'</p>')
+        image=paragraph.find('img')
+        self.assertEqual(image.get('alt'),'2π')
+        self.assertEqual(image.get('src'),'reference-equations/'+generate.inline_identity(r'2\pi')+'.png')
+        self.assertEqual(image.tail,'.'+suffix)
+
+    def test_distribution_caveat_retains_inline_math_and_operation_notes(self):
+        caveat=P('The ordinary density ',M(r'f(x)','f(x)'),' assumes a nonzero standard deviation.')
+        original=generate.distributions.FAMILIES['Normal']
+        with patch.dict(generate.distributions.FAMILIES,{'Normal':(*original[:4],caveat)}):
+            article=generate.distributions.describe({'type':'Normal','signature':'Normal.PDF(mean,stddev,x)'})
+        operation_note='A density is not P(X=x): point probability is zero for a continuous law. Integrate the density over an interval to obtain a probability.'
+        self.assertIsInstance(article.note,Prose)
+        self.assertEqual(str(article.note),str(caveat)+' '+operation_note)
+        paragraph=ET.fromstring('<p>'+generate.prose_html(article.note)+'</p>')
+        image=paragraph.find('img')
+        self.assertEqual(image.get('alt'),'f(x)')
+        self.assertEqual(image.get('src'),'reference-equations/'+generate.inline_identity(r'f(x)')+'.png')
+        self.assertEqual(image.tail,' assumes a nonzero standard deviation. '+operation_note)
 
     def test_inline_identity_cannot_reuse_display_typesetting(self):
         self.assertEqual(self.key,hashlib.sha256(('inline\0'+self.tex).encode()).hexdigest())
@@ -85,7 +115,7 @@ class InlineMathTests(unittest.TestCase):
             root=Path(directory);assets=root/'assets';assets.mkdir()
             with patch.object(generate,'ASSETS',assets):
                 generate.write_preview([entry],root/'preview.html')
-            preview=(root/'preview.html').read_text()
+            preview=(root/'preview.html').read_text(encoding='utf-8')
         content=preview.split('<p class="reference-summary">')[1].split('</p>')[0]
         paragraph=ET.fromstring('<p>'+content+'</p>')
         self.assertEqual(''.join(paragraph.itertext()),

@@ -186,14 +186,14 @@ def write_preview(entries,path):
                 if 'reference-signature' in child.get('class','').split():
                     parent.remove(child)
         for parent in list(fragment.iter()):
-            for index,image in enumerate(list(parent)):
+            for child_index,image in enumerate(list(parent)):
                 if image.tag!='img' or image.get('class')!='reference-math-inline':continue
                 image.set('style',inline_style(image))
                 image.set('aria-hidden','true')
                 alternative=image.get('alt');image.set('alt','')
                 wrapper=ET.Element('span',{'class':'reference-inline'})
                 wrapper.tail=image.tail;image.tail=None
-                parent.remove(image);parent.insert(index,wrapper)
+                parent.remove(image);parent.insert(child_index,wrapper)
                 wrapper.append(image)
                 ET.SubElement(wrapper,'span',{'class':'reference-math-text'}).text=alternative
         description=ET.tostring(fragment,encoding='unicode')

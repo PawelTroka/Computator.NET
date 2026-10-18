@@ -4,6 +4,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 import hashlib
 import json
+import re
 from pathlib import Path
 import unittest
 import xml.etree.ElementTree as ET
@@ -84,6 +85,30 @@ class VisibleText(HTMLParser):
 
 
 class PreviewTests(unittest.TestCase):
+    def test_preview_keeps_distinct_article_anchors_when_wrapping_inline_math(self):
+        with TemporaryDirectory() as directory:
+            assets = Path(directory) / 'assets'
+            assets.mkdir()
+            image = ('<img class="reference-math-inline" src="reference-equations/' + 'a' * 64 +
+                     '.png" alt="x" width="12" height="10" data-depth="25" />')
+            entries = [
+                {'signature': 'Plain(x)', 'title': 'Plain article',
+                 'description': '<div><p>Meaning.</p><pre><code>Plain(1)</code></pre></div>'},
+                {'signature': 'Inline(x)', 'title': 'Inline article',
+                 'description': '<div><p>Before ' + image + ' after.</p></div>'},
+                {'signature': 'Multiple(x)', 'title': 'Multiple expressions',
+                 'description': '<div><p>First ' + image + ', second ' + image + '.</p></div>'},
+            ]
+            original = copy.deepcopy(entries)
+            output = Path(directory) / 'preview.html'
+            with patch.object(generate, 'ASSETS', assets):
+                generate.write_preview(entries, output)
+            anchors = re.findall(r'<section id="([^"]+)" data-signature="([^"]+)"',
+                                 output.read_text(encoding='utf-8'))
+            self.assertEqual(anchors, [('entry-' + str(index), entry['signature'])
+                                       for index, entry in enumerate(entries)])
+            self.assertEqual(entries, original)
+
     def test_preview_removes_all_signature_blocks_but_keeps_content_and_metadata(self):
         for signature_block in [
             '<p class="reference-signature"><code>real gamma(real x)</code><br /><code>complex gamma(complex z)</code></p>',

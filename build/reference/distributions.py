@@ -242,4 +242,8 @@ def describe(item, values=None):
         notes.append('IMPORTANT: Math.NET 5.0 implements this evaluation only for alpha=2 (Gaussian), alpha=1 with beta=0 (Cauchy), or alpha=0.5 with beta=1 (Lévy). Other stable parameters throw NotSupportedException even though sampling and IsValidParameterSet accept them. For the Lévy branch, use x>location for ordinary evaluation. At x=location, PDF and PDFLn return NaN instead of their mathematical limits 0 and −∞; CDF returns 0. Below location, PDF/PDFLn throw and CDF returns NaN, although the mathematical density and CDF are zero there.')
     if family=='MatrixNormal' and op=='Sample':
         notes.append('IMPORTANT: Math.NET 5.0 sampling does not implement the stated column-covariance convention. It builds v⊗k⁻¹ and unpacks the draw by columns, instead of using k⊗v. In the 1×1 case with m=0, v=1 and k=4, the actual sample variance is 1/4, not the intended 4. Do not use this sampler as if k were the advertised column covariance; the formula above describes the mathematical model, not this implementation defect.')
-    return A(title+' — '+action,definition,formula,parameters,' '.join(notes),example,url,category)
+    # Prose concatenation preserves math in a shared caveat or operation note.
+    note=notes[0] if notes else ''
+    for paragraph in notes[1:]:
+        note=note+' '+paragraph
+    return A(title+' — '+action,definition,formula,parameters,note,example,url,category)

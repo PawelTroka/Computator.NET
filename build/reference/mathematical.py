@@ -104,5 +104,5 @@ def describe(item, values):
     representation='Stored application value: '+value+'. '+units.capitalize()+'.'
     if name not in ('NaN','Infinity','i'):
         note+=' This is the finite stored binary64 approximation, not an arbitrary-precision evaluation of the defining limit, series or construction.'
-    return A(title,definition,formula,representation,note.strip(),url=url,
+    return A(title,definition,formula,representation,note.strip() if isinstance(note,str) else note,url=url,
              category=subject_category('MathematicalConstants', name))
