@@ -97,7 +97,7 @@ def derivative(name,args):
     t,f=data[name]
     return A(t,'A finite-difference derivative estimate, recursively extended to higher orders.',f+' for order=1.',
              'Nonnegative integer order; order zero returns fx(x). '+('Step begins at sqrt(eps)·x and uses the actual representable difference; at zero a fixed tiny fallback is used.' if name=='stableFiniteDifferenceFormula' else 'Step h=x·eps; when it is zero the wrapper substitutes 1e−25.'),
-             'eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. In recursive higher-order calls this implementation does not forward the chosen eps, so inner levels use their default. Prefer the Math.NET derivative entry when appropriate.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Derivative.cs',category='Numerical differentiation')
+             'eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the relative step recalculated at each evaluation point. Prefer the Math.NET derivative entry when appropriate.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Derivative.cs',category='Numerical differentiation')
 
 def root(name,args):
     data={
