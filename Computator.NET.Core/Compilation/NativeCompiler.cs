@@ -27,6 +27,9 @@ namespace Computator.NET.Core.Compilation
             new ConcurrentDictionary<string, PortableExecutableReference>(StringComparer.OrdinalIgnoreCase);
         private static readonly Lazy<string[]> RuntimeReferences = new Lazy<string[]>(FindRuntimeReferences);
         private readonly object _referenceLock = new object();
+        private static readonly Lazy<string[]> DefaultResolvedReferences = new Lazy<string[]>(() =>
+            new[] { "Meta.Numerics.dll", "MathNet.Numerics.dll", "Accord.Math.dll", "Accord.dll" }
+                .Select(ResolveReference).ToArray());
         private readonly List<string> _references = new List<string>
         {
             "Meta.Numerics.dll", "MathNet.Numerics.dll", "Accord.Math.dll", "Accord.dll"
@@ -67,9 +70,9 @@ namespace Computator.NET.Core.Compilation
         {
             if (input == null) throw new ArgumentNullException(nameof(input));
             string[] references;
-            lock (_referenceLock) references = _references.ToArray();
+            lock (_referenceLock) references = _references.Skip(4).ToArray();
 
-            var metadata = RuntimeReferences.Value.Concat(references.Select(ResolveReference))
+            var metadata = RuntimeReferences.Value.Concat(DefaultResolvedReferences.Value).Concat(references.Select(ResolveReference))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file)));
             var tree = CSharpSyntaxTree.ParseText(input,
