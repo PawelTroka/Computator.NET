@@ -38,6 +38,6 @@ Task("Reference-Generate").IsDependentOn("Build").IsDependentOn("Web-Restore").D
 });
 Task("Reference-Validate").IsDependentOn("Build").IsDependentOn("Web-Restore").Does(() =>
 {
-    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx", 30);
+    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx", 153);
     MaterializeReference(true);
 });

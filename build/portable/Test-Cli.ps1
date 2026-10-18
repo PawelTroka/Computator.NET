@@ -127,5 +127,6 @@ try {
     }
     # Failure must not poison the next independent invocation.
     Assert-Number -Arguments @('integrate','--expression','x','--a','0','--b','2','--steps','2') -Expected 2 -Tolerance 1e-12
+    if ($script:cases -lt 39) { throw "Expected at least 39 published CLI process checks, but ran $script:cases." }
     Write-Host "Published portable CLI passed $script:cases process checks: numerical commands, documents, strict options, Console isolation, errors and recovery."
 } finally { Remove-Item -LiteralPath $temp -Recurse -Force }
