@@ -332,17 +332,18 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private void _MouseClick(object s, MouseEventArgs e)
         {
-            var x = (int)(e.Location.X * quality);
-            var y = (int)(e.Location.Y * quality);
-            if (_pointsValues!=null && x< _pointsValues.GetLength(0) && y<_pointsValues.GetLength(1))
-            {
-                var fz = _pointsValues[x, y].Fz;
-                var z = _pointsValues[x, y].Z;
+            if (_pointsValues == null || !ClientRectangle.Contains(e.Location))
+                return;
+            // The visible image can still have the previous size/quality while a
+            // replacement renders. Sample its actual grid, as PaintOn scales it.
+            var x = (int)((double)e.X * _pointsValues.GetLength(0) / ClientSize.Width);
+            var y = (int)((double)e.Y * _pointsValues.GetLength(1) / ClientSize.Height);
+            var fz = _pointsValues[x, y].Fz;
+            var z = _pointsValues[x, y].Z;
 
-                toolTip.SetToolTip(this,
-                    $"f(z) = {fz.Real:0.###}{fz.Imaginary:+0.###;-0.###}i = {fz.Magnitude:0.###} exp({fz.Phase:0.###})\nz = {z.Real:0.###}{z.Imaginary:+0.###;-#0.###}i = {z.Magnitude:0.###} exp({z.Phase:0.###})");
-                toolTip.ShowAlways = true;
-            }
+            toolTip.SetToolTip(this,
+                $"f(z) = {fz.Real:0.###}{fz.Imaginary:+0.###;-0.###}i = {fz.Magnitude:0.###} exp({fz.Phase:0.###})\nz = {z.Real:0.###}{z.Imaginary:+0.###;-#0.###}i = {z.Magnitude:0.###} exp({z.Phase:0.###})");
+            toolTip.ShowAlways = true;
         }
 
         #endregion

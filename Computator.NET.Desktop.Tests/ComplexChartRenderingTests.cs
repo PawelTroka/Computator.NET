@@ -675,6 +675,39 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(PrivateField(chart, "_pointsValues"), Is.Null);
         }
 
+        [Test]
+        public void MouseCoordinatesFollowTheVisibleCachedPlotWhileItsReplacementRenders()
+        {
+            using var chart = CreateChart(100, 80, 5);
+            InitializeFunction(chart, z => z);
+            using var started = new ManualResetEventSlim();
+            using var release = new ManualResetEventSlim();
+            chart.AddFunction(new Function(new Func<Complex, Complex>(z =>
+            {
+                started.Set();
+                if (!release.Wait(TimeSpan.FromSeconds(10)))
+                    throw new TimeoutException("The test did not release its blocked function");
+                return z + 17;
+            }), FunctionType.Complex));
+            try
+            {
+                NUnit.Framework.Assert.That(started.Wait(TimeSpan.FromSeconds(5)), Is.True);
+                chart.ClientSize = new Size(240, 160);
+                chart.Quality = 50;
+                typeof(ComplexChart).GetMethod("_MouseClick", PrivateInstance).Invoke(chart,
+                    new object[] { chart, new MouseEventArgs(MouseButtons.Left, 1, 120, 80, 0) });
+                var tooltip = ((ToolTip)PrivateField(chart, "toolTip")).GetToolTip(chart);
+                NUnit.Framework.Assert.That(tooltip, Does.StartWith("f(z) = 0"),
+                    "Until the replacement is ready, mouse coordinates must match the visible cached samples");
+                NUnit.Framework.Assert.That(tooltip, Does.Contain("z = 0"));
+            }
+            finally
+            {
+                release.Set();
+                WaitForRedraw(chart);
+            }
+        }
+
         [TestCase("replace")]
         [TestCase("clear")]
         [TestCase("dispose")]
