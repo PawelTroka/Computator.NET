@@ -1,9 +1,5 @@
 name: Historical performance comparison
 on:
-  pull_request:
-    paths:
-      - 'build/performance/**'
-      - '.github/workflows/performance-comparison.yml'
   workflow_dispatch:
     inputs:
       pairs:
@@ -68,7 +64,7 @@ jobs:
   # continue and this job produces an independent same-machine before/after result.
   modern_translation_diagnostic:
     name: Modern translation guard diagnostic
-    if: ${{ github.head_ref == 'perf/issue-191-cross-version' || inputs.modern_translation_diagnostic }}
+    if: ${{ inputs.modern_translation_diagnostic }}
     runs-on: windows-2025
     timeout-minutes: 30
     permissions:

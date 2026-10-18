@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "scope": "Separate Windows x64 source translation diagnostic. One fixture per fresh process. No historical comparison, product binary, desktop startup, Roslyn compilation latency or universal steady-state claim.",
+  "baselineCommit": "58982403dead54824810a96439b851d3123e0e03",
+  "firstGuardCommit": "afa521ec577cdae2b5a3492bfe87fde1e5494b06",
+  "candidateTranslatorSha256": "dae855f79f7b65ee02c8f418ee8b662bf976342db3b930dab29396b1caa1ebcd",
+  "guardInsertionUtf8": "            // The per-call placeholder prefix makes the restoration pattern unique.\n            // With no protected tokens, rebuilding that regex cannot change the result.\n            if (literals.Count == 0) return result;\n",
+  "sdkVersion": "10.0.402",
+  "runtimeVersion": "10.0.13",
+  "probeSha256": "a7e7507a716c2cb36ad12d03bf9625d2b882c971db77da5cbdc30f55e5708671",
+  "scenarios": {
+    "translation-plain": {
+      "fixture": "plain",
+      "metric": "translation.expression.batch.ms",
+      "operations": 512
+    },
+    "translation-empty": {
+      "fixture": "empty",
+      "metric": "translation.empty.batch.ms",
+      "operations": 1024
+    },
+    "translation-literal": {
+      "fixture": "literal_script",
+      "metric": "translation.literal.batch.ms",
+      "operations": 128
+    }
+  },
+  "warmupMinimumMs": 10000,
+  "warmupMinimumBatches": 20,
+  "warmupMaximumMs": 30000,
+  "warmupMaximumBatches": 100000,
+  "measurementRepetitions": 9,
+  "defaultPairs": 20,
+  "interpretation": "Fixed warmup; no repeat-until-favorable or filtering. Retain every warmup timing and stability diagnostics. Timing confidence intervals describe this declared process protocol; a stability warning prevents a claim of settled steady state.",
+  "stabilityDiagnostic": {
+    "lastWarmupBatches": 20,
+    "secondHalfFirstHalfMedianRatioRange": [
+      0.9,
+      1.1
+    ],
+    "relativeMedianAbsoluteDeviationMaximum": 0.1,
+    "observationsExcludedWhenUnstable": false
+  }
+}

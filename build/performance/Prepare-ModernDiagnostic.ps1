@@ -81,7 +81,7 @@ function Test-AuxiliaryChange([string]$Path) {
     if ($Path -match '^Computator\.NET[^/]*Tests/') { return $true }
     if ($Path -match '^(docs/|\.github/)' -or $Path -match '^[^/]+\.(md|slnx)$') { return $true }
     if ($Path -in @('CHANGELOG', 'LICENSE', 'LICENSE.txt', '.gitignore', '.travis.yml', 'appveyor.yml')) { return $true }
-    if ($Path -eq 'build/performance/DesktopStartup.cs') { return $true }
+    if ($Path -in @('build/performance/DesktopStartup.cs', 'build/performance/CompilationDiagnostics.cs.txt')) { return $true }
     if ($Path -match '^build/performance/diagnostics/translation/') {
         # Retained standalone probe/evidence does not enter Worker.csproj's
         # explicit Compile items. Permit inert project templates, never active

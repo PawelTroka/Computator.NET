@@ -115,6 +115,9 @@
     <File Path="build/performance/Get-HistoricalBaseline.ps1" />
     <File Path="build/performance/Prepare-Comparison.ps1" />
     <File Path="build/performance/Prepare-ModernDiagnostic.ps1" />
+    <File Path="build/performance/Profile-Compilation.ps1" />
+    <File Path="build/performance/inspect_compilation.py" />
+    <File Path="build/performance/CompilationDiagnostics.cs.txt" />
     <File Path="build/performance/compare.py" />
     <File Path="build/performance/test_compare.py" />
   </Folder>

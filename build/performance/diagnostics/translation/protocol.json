@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "scope": "Isolated Linux x64 .NET 10 translation diagnostic; no historical/desktop/startup/end-to-end compilation claim.",
+  "sdkVersion": "10.0.402",
+  "runtimeVersion": "10.0.13",
+  "sourceCommitObserved": "c558523a738ef13dea452195d301781427c6cdbe",
+  "recommendedBaselineCommit": "58982403dead54824810a96439b851d3123e0e03",
+  "sourceFiles": [
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TSLCompiler.cs",
+      "sha256": "bc95cacb67e6f459be47cb3f2f38fbddd948ba56ffd0d53a23b6c71048db871e"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/AbsHandler.cs",
+      "sha256": "fe81241da0f5f0be13fe4bf61cdb2113928c4d728406b487333cede66d7e1f13"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/DivisionHandler.cs",
+      "sha256": "83109979d4ab61b296d2c149fc7bf2d4dd10c676cfcb9cf9708ee73c4da2975d"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/FunctionPowerResolver.cs",
+      "sha256": "5f273e75ce76d2f215672eaa397567c3184b8075cb25335ff2e3cf130e1f9edd"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/FunctionsHandler.cs",
+      "sha256": "c56dda53037be7877692e7363ba648269cfae3008336055d55ea5ac0a199db30"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/Groups.cs",
+      "sha256": "e972a0726eb4e2c90d5bec774719c0248df84791e4709cc861f617f61c550c0f"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/ITslHandler.cs",
+      "sha256": "b32212c65f02c523ffe7413f52458f0410a85654097261ac75dbcc35564b717e"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/MatrixHandler.cs",
+      "sha256": "3cbb55a404b64b08b8cc5f9b0273b91b422fec159e61846d005a93a6edd1a5ae"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/MultiplyingHandler.cs",
+      "sha256": "db6f7f9542bcf194795b31cca6f28df617bd301b97a32578924a0b45fcd833f0"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/PowHandler.cs",
+      "sha256": "fde4eb9694bef8e48603ba2dfd5c390a55ae444ec0895b71b260f3316d537bce"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/RefOutHandler.cs",
+      "sha256": "129208e2a7207cc92771cd5de0c5b351c0ad538d3dbd89ad32bbbbac8a8b7378"
+    },
+    {
+      "repositoryPath": "Computator.NET.Core/Compilation/TslHandlers/SpecialSymbolsHandler.cs",
+      "sha256": "8851c48068173484601af76fede491a388ab59663ea9c59c1085183bbcecc0e3"
+    },
+    {
+      "repositoryPath": "Computator.NET.DataTypes/Text/SpecialSymbols.cs",
+      "sha256": "f86a17d346eb58d3bfdcd61a988022b287915091e85cdabb46289c1339b2b442"
+    }
+  ],
+  "inputs": {
+    "Probe.cs": "e3735a7295e814b034d1caeca9d2d4ac5914614d4cc18612182fd1afb0ac9729",
+    "Fixtures.json": "6bbd6a3bf63b802090fa5af7e0e9a23e43ac199c7749ac53388aeedc00f3210b",
+    "Oracle.json": "2c49dc6acf6c7424e5870a19ca4687d5161fa82eca971e6a24192dbecc886b44"
+  },
+  "supervisorSha256": "b47e89d73f2d51fc3d96a9f25218396739788de8266dbe249213d53219c1f603",
+  "roslynSha256": {
+    "Microsoft.CodeAnalysis.dll": "55618d457128eec582017545b8929ebf195669003b6ec737110f9519e1711d28",
+    "Microsoft.CodeAnalysis.CSharp.dll": "fc571a6647ac45b0b0dc1866b795529bb2eeb93adf9be97fcd5903cf482f700a"
+  },
+  "runtimeSha256": {
+    "System.Private.CoreLib.dll": "11a0f23df9fbb128743f372b0583528aac702f6b534706bfc28bfcd54dae6907",
+    "libcoreclr.so": "2d4d3f0b2698a74f186329510d93785e55d10934cb9ebe6e3edca6b24c624402",
+    "System.Text.RegularExpressions.dll": "d6aa536e4f318533743499a726b12ff550aebc34afd8324d2267406f02e14fe9",
+    "libclrjit.so": "39b743f983aee4e89d29a7a06728806045a0629391b63cbb199fa198b5710652"
+  },
+  "operations": {
+    "translation.expression.batch.ms": 512,
+    "translation.empty.batch.ms": 1024,
+    "translation.comment.batch.ms": 256,
+    "translation.symbolic.batch.ms": 512,
+    "translation.literal.batch.ms": 128,
+    "translation.large.script.batch.ms": 8
+  },
+  "warmupMinimumMs": 1500,
+  "measurementRepetitions": 7,
+  "defaultPairs": 20,
+  "change": "Insert only if (literals.Count == 0) return result; immediately before unique-pattern Regex.Replace, after all TSL handlers.",
+  "preMeasuredCorrectness": "43 exact output/exception fixtures plus 1024 independent numeric expression points; every timed output checked afterwards.",
+  "allocationScope": "GC.GetAllocatedBytesForCurrentThread deltas; current-thread diagnostic allocation counts, no allocation confidence interval.",
+  "supplementalOriginalRunIdentityNote": "Regex and JIT-library hashes were captured during the original collection for provenance; they were not pinned in that collection manifest. This reproducer checks them before preparation and measurement."
+}

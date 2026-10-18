@@ -111,4 +111,18 @@ Both payloads use byte-identical current driver files and the same .NET 10 host/
 python build/performance/compare.py run --manifest C:/Benchmarks/modern-input/manifest.json --output C:/Benchmarks/modern-results --pairs 20 --timeout 120 --bootstrap 50000 --seed 191
 ```
 
-The workflow enables this pinned diagnostic on the issue-191 investigation branch. Other branches can explicitly select `modern_translation_diagnostic` when dispatching the workflow; it is not a general gate for unrelated future product changes.
+Select `modern_translation_diagnostic` when dispatching the Historical performance comparison workflow. The full historical matrix and this pinned diagnostic are deliberate manual experiments; they are not general gates for unrelated future product changes.
+
+
+## Measurements and compiler attribution
+
+See [the issue-191 measurement report](../../docs/performance/issue-191/README.md) for the authenticated historical-control boundary, every initial metric, numerical observations and statistical reproducer. The separate [translation fixture experiment](diagnostics/translation/README.md) retains the initial Linux probe's unfavorable literal-control finding and specifies its independent Windows follow-up.
+
+Use the compiler diagnostics on a separate prepared host, or after measured workloads have finished. Their instrumented timings do not enter the historical comparison:
+
+```powershell
+./build/performance/Profile-Compilation.ps1 -InputDirectory artifacts/performance-input -OutputDirectory artifacts/performance-profiles
+python build/performance/inspect_compilation.py --input artifacts/performance-input --output artifacts/compilation-diagnostics
+```
+
+The pinned Microsoft dotnet-trace tool preserves native traces and Speedscope conversions for the existing real/script workers. Sampled thread stacks are not precise on-CPU percentages. The separate source/phase host captures actual generated programs from both versions and checks the first modern compilation and 32 repeats against numerical/script oracles. It records parsing/reference setup, symbolic-power resolution, emission, loading and delegate binding. Generated diagnostic projects live only under the output directory; no diagnostic project joins the product build.

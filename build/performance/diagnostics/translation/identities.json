@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "sourceCommitsWithIdentical13TranslatorInputs": [
+    "ba57b8f08c1014363d26e7b87249c0e51fe74688",
+    "c558523a738ef13dea452195d301781427c6cdbe",
+    "58982403dead54824810a96439b851d3123e0e03"
+  ],
+  "sourceCommitRecordedByOriginalManifest": "c558523a738ef13dea452195d301781427c6cdbe",
+  "completeRawSha256": "85857f175b461e56d4e4e5c529423590730a71c8ac9a04980ac128264e9da74d",
+  "incompleteRawSha256": "f411879afebd43918d657b0292d521a5d5d2744609cd44022eb6b40a7fc515c2",
+  "runtimeVersion": "10.0.13",
+  "sdkVersion": "10.0.402",
+  "sourceInputs": "13 repository-relative source SHA256 identities are in protocol.json.",
+  "binaries": {
+    "baseline": {
+      "probeSha256": "d0f6f0f25fe30fb77bc68e9ba2c000d0262db8d983877115f2f60295c851fc42",
+      "translatorCoreSha256": "0e12dc405f12af5ade190cdb65ca732348fcad841f84ea89dec3726324956d66",
+      "coreLibrarySha256": "11a0f23df9fbb128743f372b0583528aac702f6b534706bfc28bfcd54dae6907"
+    },
+    "candidate": {
+      "probeSha256": "d0f6f0f25fe30fb77bc68e9ba2c000d0262db8d983877115f2f60295c851fc42",
+      "translatorCoreSha256": "e0bd6249f637c19e5e074c9d1323a30cadae4689ee3064f6ffa80551fe2b7bba",
+      "coreLibrarySha256": "11a0f23df9fbb128743f372b0583528aac702f6b534706bfc28bfcd54dae6907"
+    }
+  },
+  "supplementalRuntimeIdentityNote": "The Regex and JIT-library hashes in protocol.json were captured after original preparation for provenance; the original run pinned CoreLib and libcoreclr, but did not include these two files in its original pre/post artifact gate. Future reproductions pin all four."
+}

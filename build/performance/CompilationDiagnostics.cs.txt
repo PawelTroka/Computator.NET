@@ -1,0 +1,235 @@
+// Diagnostic source template. Build only into an isolated output directory.
+// The benchmark Worker and product assemblies remain unchanged.
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
+using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Evaluation;
+using Computator.NET.Core.Natives;
+using Computator.NET.DataTypes;
+using Computator.NET.DataTypes.Functions;
+#if MODERN_COMPILER
+using Computator.NET.Core.Compilation.TslHandlers;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+#endif
+
+internal static class CompilationDiagnostics
+{
+    private const BindingFlags PrivateInstance = BindingFlags.Instance | BindingFlags.NonPublic;
+    private const string RealExpression = "sin(x)+cos(x)+x*x/4";
+    private const string Script = "real sum=0; for(integer k=1;k<=1000;k++){sum+=k*k;} write(sum.ToString(\"R\", System.Globalization.CultureInfo.InvariantCulture));";
+    private static readonly Dictionary<string, object> Result = new Dictionary<string, object>();
+
+    [STAThread]
+    private static int Main(string[] args)
+    {
+        try
+        {
+            if (args.Length != 3 || (args[1] != "real" && args[1] != "script"))
+                throw new ArgumentException("Usage: capture|phases real|script OUTPUT_OR_SOURCE");
+            if (IntPtr.Size != 8) throw new InvalidOperationException("An x64 diagnostic process is required.");
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
+            Result["schema"] = 1;
+            Result["scope"] = "Separate compiler attribution diagnostic; no cross-version timing inference.";
+            Result["mode"] = args[0];
+            Result["scenario"] = args[1];
+            Result["runtime"] = (typeof(object).Assembly.GetName().Name == "mscorlib" ? ".NET Framework CLR " : ".NET ") + Environment.Version;
+            Result["bitness"] = 64;
+            Result["coreVersion"] = typeof(ExpressionsEvaluator).Assembly.GetName().Version.ToString();
+            Result["coreSha256"] = Hash(File.ReadAllBytes(typeof(ExpressionsEvaluator).Assembly.Location));
+            Result["referenceContext"] = "Reference counts are observed in this separate diagnostic host with copied Worker deps/runtimeconfig; all paths are retained, including any diagnostic entry-assembly reference.";
+            Result["input"] = args[1] == "real" ? RealExpression : Script;
+            GSLInitializer.Initialize();
+            var evaluator = args[1] == "script" ? new ScriptEvaluator() : new ExpressionsEvaluator();
+            if (args[0] == "capture") Capture(evaluator, args[1], Path.GetFullPath(args[2]));
+#if MODERN_COMPILER
+            else if (args[0] == "phases") Phases(evaluator, args[1], Path.GetFullPath(args[2]));
+#endif
+            else throw new ArgumentException("Unsupported diagnostic mode for this runtime.");
+            Result["correctness"] = true;
+            Console.WriteLine(Json(Result));
+            return 0;
+        }
+        catch (Exception error)
+        {
+            Console.Error.WriteLine(error);
+            Result["correctness"] = false;
+            Result["error"] = error.ToString();
+            Console.WriteLine(Json(Result));
+            return 1;
+        }
+    }
+
+    private static void Capture(ExpressionsEvaluator evaluator, string scenario, string directory)
+    {
+        if (!Directory.Exists(directory) || Directory.EnumerateFileSystemEntries(directory).Any())
+            throw new InvalidOperationException("Capture output must be an existing empty directory.");
+        BaseFunction function = null;
+        Result["firstPublicEvaluateMs"] = Time(() => function = scenario == "real"
+            ? (BaseFunction)evaluator.Evaluate(RealExpression, "", CalculationsMode.Real)
+            : ((ScriptEvaluator)evaluator).Evaluate(Script, ""));
+        var compiled = (Delegate)typeof(BaseFunction).GetField("_function", PrivateInstance).GetValue(function);
+        Validate(compiled, scenario);
+        string full = (string)typeof(ExpressionsEvaluator).GetMethod("BuildCode", PrivateInstance).Invoke(evaluator, null);
+        string begin = (string)typeof(ExpressionsEvaluator).GetField("Begin", BindingFlags.NonPublic | BindingFlags.Static).GetRawConstantValue();
+        string lambdaScript = (string)typeof(ExpressionsEvaluator).GetField("LambdaScript", BindingFlags.NonPublic | BindingFlags.Static).GetRawConstantValue();
+        File.WriteAllText(Path.Combine(directory, "fullsource.cs.txt"), full, new UTF8Encoding(false));
+        File.WriteAllText(Path.Combine(directory, "begin.cs.txt"), begin, new UTF8Encoding(false));
+        File.WriteAllText(Path.Combine(directory, "script-wrapper.cs.txt"), lambdaScript, new UTF8Encoding(false));
+        Result["fullSource"] = Describe(full);
+        Result["commonWrapper"] = Describe(begin);
+        Result["scriptWrapper"] = Describe(lambdaScript);
+        Result["translatedMain"] = function.CsCode;
+        Result["generatedAssembly"] = DescribeAssembly(compiled.Method.Module.Assembly);
+        var compiler = (NativeCompiler)typeof(ExpressionsEvaluator).GetField("NativeCompiler", PrivateInstance).GetValue(evaluator);
+#if MODERN_COMPILER
+        // Capture is separate from the fresh-process phase diagnostic. Enumerating
+        // these references cannot prewarm the latter process.
+        var create = typeof(NativeCompiler).GetMethod("CreateCompilation", PrivateInstance);
+        var compilation = (CSharpCompilation)create.Invoke(compiler, new object[] { full });
+        Result["references"] = compilation.References.Select(reference => reference.Display).ToArray();
+        Result["referenceCount"] = compilation.References.Count();
+        Result["symbolicPowerCandidates"] = FunctionPowerResolver.HasCandidates(compilation.SyntaxTrees.Single().GetRoot());
+#else
+        var parameters = (System.CodeDom.Compiler.CompilerParameters)typeof(NativeCompiler)
+            .GetField("_parameters", PrivateInstance).GetValue(compiler);
+        Result["references"] = parameters.ReferencedAssemblies.Cast<string>().ToArray();
+        Result["referenceCount"] = parameters.ReferencedAssemblies.Count;
+        Result["compilerOptions"] = parameters.CompilerOptions;
+        Result["generateInMemory"] = parameters.GenerateInMemory;
+#endif
+    }
+
+#if MODERN_COMPILER
+    private static void Phases(ExpressionsEvaluator evaluator, string scenario, string sourcePath)
+    {
+        string source = File.ReadAllText(sourcePath, Encoding.UTF8);
+        Result["fullSource"] = Describe(source);
+        Result["phaseInterpretation"] = "Fresh process uses the exact source captured by public Evaluate/BuildCode in a separate process. First native compile plus 32 repeats, no artificial warmup or forced GC. This excludes TSL translation, evaluator routing and source construction; reflection dispatch overhead is included. No claim of fully tiered steady state.";
+        var compiler = (NativeCompiler)typeof(ExpressionsEvaluator).GetField("NativeCompiler", PrivateInstance).GetValue(evaluator);
+        var create = typeof(NativeCompiler).GetMethod("CreateCompilation", PrivateInstance);
+        var load = typeof(NativeCompiler).Assembly.GetType("Computator.NET.Core.Compilation.CollectibleProgramLoader", true)
+            .GetMethod("LoadProgram", BindingFlags.Public | BindingFlags.Static);
+        var rows = new List<Dictionary<string, object>>();
+        for (int index = 0; index < 33; index++)
+        {
+            var row = new Dictionary<string, object>();
+            row["index"] = index;
+            row["firstNativeCompile"] = index == 0;
+            CSharpCompilation compilation = null;
+            Assembly assembly = null;
+            Delegate compiled = null;
+            row["createCompilationMs"] = Time(() => compilation = (CSharpCompilation)create.Invoke(compiler, new object[] { source }));
+            row["resolveFunctionPowersMs"] = Time(() => compilation = FunctionPowerResolver.Resolve(compilation));
+            using (var output = new MemoryStream())
+            {
+                row["emitMs"] = Time(() =>
+                {
+                    var emit = compilation.Emit(output);
+                    if (!emit.Success) throw new InvalidOperationException(string.Join("\n", emit.Diagnostics));
+                });
+                row["assemblyBytes"] = output.Length;
+                row["loadProgramMs"] = Time(() => assembly = (Assembly)load.Invoke(null, new object[] { output }));
+            }
+            row["bindDelegateMs"] = Time(() =>
+            {
+                var method = assembly.GetType("FunctionsCreatorNS.FunctionsCreator").GetMethod("CustomFunction", BindingFlags.Public | BindingFlags.Static);
+                compiled = Delegate.CreateDelegate(scenario == "real" ? typeof(Func<double, double>) : typeof(Action<Action<string>>), method);
+            });
+            Validate(compiled, scenario);
+            row["correctness"] = true;
+            row["collections"] = new[] { GC.CollectionCount(0), GC.CollectionCount(1), GC.CollectionCount(2) };
+            if (index == 0)
+            {
+                Result["references"] = compilation.References.Select(reference => reference.Display).ToArray();
+                Result["referenceCount"] = compilation.References.Count();
+                Result["symbolicPowerCandidates"] = FunctionPowerResolver.HasCandidates(compilation.SyntaxTrees.Single().GetRoot());
+                Result["generatedAssembly"] = DescribeAssembly(assembly);
+            }
+            rows.Add(row);
+        }
+        Result["phases"] = rows;
+    }
+#endif
+
+    private static void Validate(Delegate compiled, string scenario)
+    {
+        if (scenario == "real")
+        {
+            var function = (Func<double, double>)compiled;
+            for (int index = 0; index < 1024; index++)
+            {
+                double x = (index - 512) / 256.0;
+                double expected = Math.Sin(x) + Math.Cos(x) + x * x / 4;
+                double actual = function(x);
+                if (double.IsNaN(actual) || double.IsInfinity(actual) || Math.Abs(actual - expected) > 2e-13 * Math.Max(1, Math.Abs(expected)))
+                    throw new InvalidOperationException("Independent real-expression oracle failed.");
+            }
+        }
+        else
+        {
+            var output = new List<string>();
+            ((Action<Action<string>>)compiled)(output.Add);
+            if (output.Count != 1 || output[0] != "333833500") throw new InvalidOperationException("Independent script output oracle failed.");
+        }
+    }
+
+    private static object Describe(string text)
+    {
+        byte[] bytes = Encoding.UTF8.GetBytes(text);
+        return new Dictionary<string, object> { { "characters", text.Length }, { "utf8Bytes", bytes.Length },
+            { "lines", text.Count(character => character == '\n') + 1 }, { "sha256", Hash(bytes) } };
+    }
+    private static object DescribeAssembly(Assembly assembly)
+    {
+        var types = assembly.GetTypes();
+        var creator = assembly.GetType("FunctionsCreatorNS.FunctionsCreator");
+        return new Dictionary<string, object> { { "typeCount", types.Length },
+            { "publicStaticFunctions", creator.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).Length },
+            { "allDeclaredMethods", types.Sum(type => type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly).Length) } };
+    }
+    private static string Hash(byte[] bytes)
+    {
+        using (var digest = SHA256.Create()) return BitConverter.ToString(digest.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();
+    }
+    private static double Time(Action action)
+    {
+        long start = Stopwatch.GetTimestamp();
+        action();
+        return (Stopwatch.GetTimestamp() - start) * 1000.0 / Stopwatch.Frequency;
+    }
+    private static string Json(object value)
+    {
+        if (value == null) return "null";
+        if (value is string)
+        {
+            var result = new StringBuilder("\"");
+            foreach (char character in (string)value)
+            {
+                if (character == '"' || character == '\\') result.Append('\\').Append(character);
+                else if (character < 32) result.Append("\\u").Append(((int)character).ToString("x4"));
+                else result.Append(character);
+            }
+            return result.Append('"').ToString();
+        }
+        if (value is bool) return (bool)value ? "true" : "false";
+        var dictionary = value as System.Collections.IDictionary;
+        if (dictionary != null)
+        {
+            var items = new List<string>();
+            foreach (System.Collections.DictionaryEntry item in dictionary) items.Add(Json(item.Key.ToString()) + ":" + Json(item.Value));
+            return "{" + string.Join(",", items) + "}";
+        }
+        var sequence = value as System.Collections.IEnumerable;
+        if (sequence != null) return "[" + string.Join(",", sequence.Cast<object>().Select(Json)) + "]";
+        return Convert.ToString(value, CultureInfo.InvariantCulture);
+    }
+}

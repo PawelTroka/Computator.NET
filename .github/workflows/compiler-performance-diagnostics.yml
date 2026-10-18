@@ -1,0 +1,72 @@
+name: Compiler performance attribution
+on:
+  pull_request:
+    paths:
+      - 'build/performance/Profile-Compilation.ps1'
+      - 'build/performance/inspect_compilation.py'
+      - 'build/performance/CompilationDiagnostics.cs.txt'
+      - '.github/workflows/compiler-performance-diagnostics.yml'
+  workflow_dispatch:
+    inputs:
+      candidate_commit:
+        description: 'Exact .NET 10 candidate commit to profile; blank uses the selected ref'
+        required: false
+permissions:
+  contents: read
+jobs:
+  attribution:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 235
+    runs-on: windows-2025
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.candidate_commit || github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Authenticate product payloads and condition their native profiles
+        id: prepare
+        shell: pwsh
+        run: ./build/performance/Prepare-Comparison.ps1 -OutputDirectory artifacts/performance-input -DisposableProfile
+      - name: Collect separate real and script sampled-thread traces
+        shell: pwsh
+        run: ./build/performance/Profile-Compilation.ps1 -InputDirectory artifacts/performance-input -OutputDirectory artifacts/performance-profiles
+      - name: Capture actual generated programs and inspect first plus 32 repeated compiler phases
+        if: ${{ !cancelled() && steps.prepare.outcome == 'success' }}
+        shell: pwsh
+        run: |
+          python build/performance/inspect_compilation.py --input artifacts/performance-input --output artifacts/compilation-diagnostics
+          if ($LASTEXITCODE -ne 0) { throw 'Compilation phase diagnostic failed; retain all source and process evidence.' }
+      - name: Label attribution evidence separately from benchmark measurements
+        if: always()
+        shell: pwsh
+        run: |
+          '## Compiler attribution diagnostics' | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          'These instrumented runs do not supply cross-version benchmark observations. Sampled .NET thread stacks include off-CPU time. Phase records use exact generated sources in separate diagnostic hosts and preserve all 33 compilations and correctness checks.' | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: compiler-performance-attribution
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            artifacts/performance-profiles/*.nettrace
+            artifacts/performance-profiles/*.speedscope.json
+            artifacts/performance-profiles/*.txt
+            artifacts/performance-profiles/*.json
+            artifacts/compilation-diagnostics/compilation-diagnostics.json
+            artifacts/compilation-diagnostics/input-manifest.json
+            artifacts/compilation-diagnostics/global.json
+            artifacts/compilation-diagnostics/CompilationDiagnostics.cs.txt
+            artifacts/compilation-diagnostics/logs/
+            artifacts/compilation-diagnostics/baseline/*-source/
+            artifacts/compilation-diagnostics/candidate/*-source/
+            artifacts/compilation-diagnostics/baseline/project/*.cs
+            artifacts/compilation-diagnostics/baseline/project/*.csproj
+            artifacts/compilation-diagnostics/candidate/project/*.cs
+            artifacts/compilation-diagnostics/candidate/project/*.csproj
+            artifacts/performance-input/manifest.json
+            artifacts/performance-input/windows-environment.json
+            artifacts/performance-input/historical/baseline-provenance.json
