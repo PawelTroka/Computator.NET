@@ -69,15 +69,77 @@ and [DLMF zero-argument reduction](https://dlmf.nist.gov/34.7.E1) provide
 independent definitions for the regression values. Tests exercise integer and
 half-integer spins, allowed and forbidden couplings, and negative-input guards.
 
+## Corrected irregular Coulomb derivative order
+
+`CoulombGprime(L,η,ρ)` now returns the derivative of the irregular Coulomb
+wave of the requested order `L`, in both the host and the emitted TSL helper.
+The [GSL Coulomb-wave interface](https://www.gnu.org/software/gsl/doc/html/specfunc.html#coulomb-wave-functions)
+returns its irregular wave at order `L-k`; the wrapper now supplies `k=0`
+instead of `k=L`, which previously selected order zero for every call.
+For example, `CoulombGprime(1,0,0.5)` returns approximately
+`−3.591598762879524`, instead of the order-zero value `−0.479425538604203`.
+
+Independent regressions use the [zero-charge spherical-Bessel identities](https://dlmf.nist.gov/33.5.E3)
+and the [unit Coulomb Wronskian](https://dlmf.nist.gov/33.2.E12), including
+nonzero positive and negative charge parameters. The existing requirements
+`L≥0` and `ρ>0`, the derivative's meaning with respect to `ρ`, and the
+overflow/error policy are unchanged. In particular, this correction does not
+add reconstruction from GSL's overflow scaling exponents.
+
+## Corrected inverse-error domains and tiny complementary tails
+
+`inverseErf(x)` accepts the full real domain `[-1,1]`, and `inverseErfc(x)`
+accepts `[0,2]`. Their endpoint infinities and invalid-input NaNs are retained.
+Both `inverseErf(-0.5)` and `inverseErfc(1.5)` now return approximately
+`−0.4769362762044699` in host calls and emitted TSL helpers.
+
+Complementary inversion stays direct for small positive inputs. The existing
+Math.NET routine handles the extreme positive tail below `1e-300`, using a
+conservative transition before the Meta.Numerics refinement overflows farther
+into the tail. At the smallest positive
+binary64 value, `inverseErfc(double.Epsilon)` is approximately
+`27.21329321081295`; it is finite. Independent fixtures use the bounded
+[DLMF complementary-error asymptotic expansion](https://dlmf.nist.gov/7.12)
+at high precision with the exact binary64 inputs, alongside cases immediately
+on either side of the implementation transition.
+
+## Corrected real inverse hyperbolic tangents
+
+`artanh` and its `artgh` alias now use the runtime inverse hyperbolic tangent.
+`arcoth` and `arctgh` use the reciprocal relation away from their poles and
+retain the direct logarithmic ratio close to the poles, where rounding the
+reciprocal first would amplify error. Tiny results, signed zeros and infinite
+cotangent limits are preserved in both host calls and emitted helpers.
+For example, `artanh(1e-20)` and `arcoth(1e20)` now both give approximately
+`1e-20`. Real domains, endpoint infinities and complex overloads retain their
+existing conventions. See the [DLMF inverse hyperbolic definitions](https://dlmf.nist.gov/4.37).
+
+## Corrected spherical Riccati–Hankel convention
+
+`RiccatiBesselξ(n,x)` and `RiccatiBesselζ(n,x)` use the
+[spherical Hankel convention](https://dlmf.nist.gov/10.47):
+`ξₙ = x·hₙ⁽¹⁾ = Sₙ − iCₙ` and `ζₙ = x·hₙ⁽²⁾ = Sₙ + iCₙ`,
+where `Sₙ = x·jₙ` and `Cₙ = −x·yₙ`. Their reference articles now show the
+corresponding radial equation, `u″+[1−n(n+1)/x²]u=0`.
+For example, `RiccatiBesselξ(0,0.5)` is approximately
+`0.4794255386 − 0.8775825619i`.
+
+For `0<x≤1e-8`, scaled radial values are evaluated directly when their final
+components fit in binary64. This avoids a spherical intermediate overflowing
+before multiplication by `x`; for order zero the limit is approached through
+`sin(x) − i·cos(x)`. Negative integer orders retain the spherical reflection
+relations. Nonpositive inputs still return complex NaN, and the order-zero
+limit at exactly zero remains unevaluated by this API. This correction does
+not change the separate S/C or spherical-Hankel APIs or reconstruct truly
+unrepresentable values.
+
 ## Known numerical differences deliberately not changed here
 
-Several descriptions would be misleading without reporting existing behavior. This content PR does not silently correct algorithms, update constant values or relax numerical tests. Separate numerical fixes should update both tests and the corresponding reference:
+The remaining distinctions below are preserved and documented. Each numerical correction above updates its tests and reference together; the other entries still describe current behavior:
 
 | Existing identifier | Explicitly documented distinction |
 | --- | --- |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
-| `CoulombGprime` | Current forwarded order differs from the advertised general formula. |
-| Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |
 | `Debye` outside orders 1–6 | The fallback is not the normalized higher-order Debye definition. |
 | `minor` | Extracts a rectangular submatrix; it does not compute a determinant or cofactor. |
 | `Geometric` | Counts trials including success, on 1,2,…; NegativeBinomial counts failures starting at zero. |

@@ -19,6 +19,14 @@ The CLI accepts UTF-8 documents, invariant numeric arguments, emits JSON results
 
 Real/two-variable and complex arithmetic, existing TSL rewrite syntax, scalar BCL functions (sin/cos/tan/sqrt/exp/ln/log/abs/pow/floor/ceil/round), mathematical constants, custom definitions and managed scripts with a supplied output callback. Scalar spelling adapters delegate to .NET's functions rather than introducing a new numerical algorithm.
 
+### Boolean operators and absolute values
+
+Conditions, scripts and custom functions support short-circuit logical OR chains such as `true || false || false` and `|x| > 0 || |y| > 0 || |x+y| > 0`. Later operands are evaluated only when the earlier operands are false. Single bars still denote absolute values; nested `||x||` and the supported adjacent expression `|x||y|` retain their mathematical meanings.
+
+Double bars can be ambiguous when an absolute value sits between other expressions. Complete Boolean and comparison chains follow C# logical precedence: for Boolean variables `a` and `b`, `a||b||+z>1` means `a || b || (+z > 1)`. A numerical comparison previously written as `x||y||+z>1` must use explicit multiplication or function notation, for example `x*abs(y)+z>1`.
+
+Whole arithmetic operands retain established nested-absolute-value forms, including `x||y||+z`, `x||y||*z` and `x||y||+z+1`. Grouping or a function argument keeps an inner mathematical expression separate from the surrounding Boolean chain, as in `(x||y||+z)>1 || a || b` or `abs(x||y||+z)>1 || a || b`. Prefer explicit multiplication and `abs(...)` when combining this notation with Boolean conditions. The parser classifies syntax before compiling types; it does not infer whether an arbitrary variable or function returns a Boolean or a number.
+
 ### Explicit remaining extraction
 
 The existing full special-function/GSL catalog, matrix/numerical-method service, interactive `read` dialogs, settings/font/UI dependencies, and renderer are still in Windows Core. An unsupported name is a compiler diagnostic; no fabricated result or silent fallback pretends it exists. A browser opening on Mac while calling a Windows server is still remote access, not an offline Mac engine. Combine accepted GSL runtime assets from #143 with an explicit portable interop service before expanding native functions.

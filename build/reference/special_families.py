@@ -131,8 +131,8 @@ def probability(name,args,complex_arg):
      'erfcx':('Exponentially scaled complementary error','Removes the leading Gaussian exponential from erfc mathematically.', 'erfcx(z)=exp(z²)erfc(z)', 'Real or complex input; erfcx(0)=1.'),
      'erfi':('Imaginary error function','An entire counterpart of erf defined by rotating its argument.', 'erfi(z)=−i·erf(i·z)', 'Complex input; for real z its mathematical value is real, despite the name.'),
      'faddeeva':('Faddeeva complex probability function','A complex Gaussian-response function used in Voigt line profiles and wave propagation.', 'w(z)=exp(−z²)erfc(−i·z)', 'Complex z; w is entire. This is not simply erf(z) or a real probability.'),
-     'inverseErf':('Inverse error function',P('Solves ', M('\\operatorname{erf}(y)=x', 'erf(y)=x'), ' on the real principal inverse.'), 'erf(inverseErf(x))=x', 'Mathematical domain −1≤x≤1; this wrapper accepts ONLY 0≤x≤1. The endpoint x=1 corresponds to +∞.'),
-     'inverseErfc':('Inverse complementary error',P('Solves ', M('\\operatorname{erfc}(y)=x', 'erfc(y)=x'), ' on the real principal inverse.'), 'erfc(inverseErfc(x))=x', 'Mathematical domain 0≤x≤2; this wrapper accepts ONLY 0≤x≤1. x=0 corresponds to +∞ and x=1 gives 0.'),
+     'inverseErf':('Inverse error function',P('Solves ', M('\\operatorname{erf}(y)=x', 'erf(y)=x'), ' on the real principal inverse.'), 'erf(inverseErf(x))=x', 'Real domain −1≤x≤1. Negative inputs give negative results; x=−1 gives −∞, x=0 gives 0 and x=1 gives +∞. Inputs outside the domain return NaN.'),
+     'inverseErfc':('Inverse complementary error',P('Solves ', M('\\operatorname{erfc}(y)=x', 'erfc(y)=x'), ' on the real principal inverse.'), 'erfc(inverseErfc(x))=x', 'Real domain 0≤x≤2. Inputs above 1 give negative results; x=0 gives +∞, x=1 gives 0 and x=2 gives −∞. Inputs outside the domain return NaN.'),
      'logErfc':('Logarithm of the complementary error function','Computes the Gaussian-tail logarithm directly rather than taking a logarithm after tail underflow.', 'ln(erfc(x))', 'Real x; useful for likelihoods involving small Gaussian tails.'),
      'erfZ':('Standard normal density','The probability density of a zero-mean, unit-variance Gaussian.', 'φ(x)=exp(−x²/2)/sqrt(2PI)', 'Real x; a density, not a tail probability. Area over an interval gives a probability.'),
      'erfQ':('Standard normal upper-tail probability',P('The probability that a standard normal variable exceeds ', M('x', 'x'), '.'), 'Q(x)=1/2·erfc(x/sqrt(2))', 'Real x; values lie in [0,1]. erfQ(0)=1/2.'),
@@ -145,7 +145,8 @@ def probability(name,args,complex_arg):
     note=''
     if name=='erfcx':note='The current wrapper forms erfc(z)/exp(−z²) directly. It can still overflow, underflow or suffer cancellation; do not assume the name guarantees a stabilized scaled algorithm.'
     if name=='erfc' and complex_arg:note='The complex wrapper subtracts erf(z) from 1, so very small complementary tails may lose relative accuracy.'
-    return A(title,definition,formula,domain,note,url=DLMF+'7.2' if name not in ('OwenT','Logistic','Logit') else 'https://accord-framework.net/docs/html/T_Accord_Math_OwensT.htm' if name=='OwenT' else MATHNET+'MathNet.Numerics/SpecialFunctions.htm')
+    if name=='inverseErfc':note='Positive binary64 tails, including subnormal inputs, have finite inverses. Complementary inversion is evaluated directly: forming inverseErf(1−x) first would round very small x away.'
+    return A(title,definition,formula,domain,note,url=DLMF+('7.17' if name in ('inverseErf','inverseErfc') else '7.2') if name not in ('OwenT','Logistic','Logit') else 'https://accord-framework.net/docs/html/T_Accord_Math_OwensT.htm' if name=='OwenT' else MATHNET+'MathNet.Numerics/SpecialFunctions.htm')
 
 def bessel(name,args,alias):
     if name in ('StruveL0','StruveL1'):
@@ -162,12 +163,17 @@ def bessel(name,args,alias):
                  'J_ν(j_(ν,s))=0; 0<j_(ν,1)<j_(ν,2)<…', 'Real order ν≥0; supply integer index s≥1.',
                  's is rounded to the nearest unsigned integer, with midpoint ties away from zero; s<0.5 is rejected. It is not a starting guess for root finding.',
                  'BesselJνZeros(0,1) ≈ 2.4048255577',DLMF+'10.21')
-    if name in ('RiccatiBesselS','RiccatiBesselC','RiccatiBesselξ','RiccatiBesselζ'):
-        actual={'RiccatiBesselS':'x·jₙ(x)','RiccatiBesselC':'−x·yₙ(x)',
-                'RiccatiBesselξ':'x·[Jₙ(x)+iYₙ(x)]','RiccatiBesselζ':'x·[Jₙ(x)−iYₙ(x)]'}[name]
-        note=alias
-        if name.endswith(('ξ','ζ')):note+=' This wrapper calls the CYLINDRICAL Hankel function, not spherical hₙ. Its result therefore differs from the usual Riccati–Hankel x·hₙ convention. The formula above documents current behavior.'
-        else:note+=' jₙ and yₙ are spherical Bessel functions. C/χ uses a minus sign; some references use the opposite sign.'
+    if name in ('RiccatiBesselξ','RiccatiBesselζ'):
+        first=name.endswith('ξ')
+        return A('Riccati–Hankel function of the '+('first' if first else 'second')+' kind',
+                 'A spherical Hankel wave multiplied by its radial argument, with the same normalization as the real Riccati–Bessel functions S and C.',
+                 'ξₙ(x)=x·hₙ⁽¹⁾(x)=Sₙ(x)−iCₙ(x)' if first else 'ζₙ(x)=x·hₙ⁽²⁾(x)=Sₙ(x)+iCₙ(x)',
+                 'Integer n and real x>0. Nonpositive arguments return NaN; the finite order-zero limit at x=0 is not evaluated by this wrapper.',
+                 'Here Sₙ=x·jₙ and Cₙ=−x·yₙ use spherical Bessel functions. The first and second kinds are complex conjugates on the positive real axis; the outgoing/incoming interpretation also depends on the time convention. For 0<x≤1e−8, the implementation uses scaled radial values to avoid overflowing an intermediate spherical function when the final components remain representable.',
+                 name+'(0,0.5) ≈ 0.4794255386'+(' − ' if first else ' + ')+'0.8775825619i',DLMF+'10.47')
+    if name in ('RiccatiBesselS','RiccatiBesselC'):
+        actual={'RiccatiBesselS':'x·jₙ(x)','RiccatiBesselC':'−x·yₙ(x)'}[name]
+        note=alias+' jₙ and yₙ are spherical Bessel functions. C/χ uses a minus sign; some references use the opposite sign.'
         return A('Riccati-labelled Bessel combination','The application’s radial Bessel combination, with its sign and cylindrical/spherical convention made explicit.',actual,
                  'Integer n; use x>0 for irregular/Hankel forms. Singular limits at zero should not be inferred from multiplication by x.',note,url=SOURCE+'Computator.NET.Core/Functions/SpecialFunctions.cs')
     if name.startswith(('Hankel','SphericalHankel')):

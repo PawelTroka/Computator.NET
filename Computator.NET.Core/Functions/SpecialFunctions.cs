@@ -576,7 +576,8 @@ namespace Computator.NET.Core.Functions
             var r1 = new gsl_sf_result();
             var r2 = new gsl_sf_result();
             var r3 = new gsl_sf_result();
-            gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out r2, out r3, out sfResult, out d1, out d2);
+            // GSL returns the irregular wave at L-k; use k=0 to retain the requested order.
+            gsl_sf_coulomb_wave_FG_e(η, ρ, L, 0, out r1, out r2, out r3, out sfResult, out d1, out d2);
             return sfResult.val;
         }
 
@@ -2267,16 +2268,23 @@ namespace Computator.NET.Core.Functions
 
         public static double inverseErf(double x)
         {
-            if (x > 1 || x < 0)
+            if (x > 1 || x < -1)
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.InverseErf(x);
         }
         public static double inverseErfc(double x)
         {
-            if (x > 1 || x<0)
+            if (x > 2 || x < 0)
                 return double.NaN;
-            return
-                Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
+            // Meta.Numerics' refinement overflows exp(y*y) in the far tail.
+            // Keep direct complementary inversion for subnormal probabilities.
+            if (x > 0 && x < 1e-300)
+                return MathNet.Numerics.SpecialFunctions.ErfcInv(x);
+            // Meta.Numerics accepts [0,1]. Reflect the other half using
+            // erfc(-y)=2-erfc(y), while retaining direct small-tail evaluation.
+            return x > 1
+                ? -Meta.Numerics.Functions.AdvancedMath.InverseErfc(2 - x)
+                : Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
         }
 
         public static double logErfc(double x)
@@ -2752,12 +2760,65 @@ namespace Computator.NET.Core.Functions
 
         public static System.Numerics.Complex RiccatiBesselξ(int n, double x)
         {
-            return x*Hankel1(n, x);
+            if (x <= 0.0) return new System.Numerics.Complex(double.NaN, double.NaN);
+            if (TryRiccatiHankelSmallArgument(n, x, false, out var value)) return value;
+            return x*SphericalHankel1(n, x);
         }
 
         public static System.Numerics.Complex RiccatiBesselζ(int n, double x)
         {
-            return x*Hankel2(n, x);
+            if (x <= 0.0) return new System.Numerics.Complex(double.NaN, double.NaN);
+            if (TryRiccatiHankelSmallArgument(n, x, true, out var value)) return value;
+            return x*SphericalHankel2(n, x);
+        }
+
+        private static bool TryRiccatiHankelSmallArgument(int n, double x, bool secondKind,
+            out System.Numerics.Complex value)
+        {
+            value = default(System.Numerics.Complex);
+            if (!(x > 0.0 && x <= 1e-8)) return false;
+
+            // At tiny x, y_n can overflow even when C_n=-x*y_n is finite.
+            // Work with the scaled components instead. The mapping also
+            // handles int.MinValue without overflowing its negation.
+            var order = n < 0 ? -(n + 1) : n;
+            var s = System.Math.Sin(x);
+            var c = System.Math.Cos(x);
+            if (order > 0)
+            {
+                var previousC = c;
+                c = c / x + s;
+                if (double.IsInfinity(c)) return false;
+
+                // DLMF 10.53.1: S_m=x^(m+1)/(2m+1)!! times a series.
+                // For m>=1 and this range, omitting its correction changes
+                // the exact value by less than 1.1e-17 relatively.
+                s = x * (x / 3.0);
+                for (var k = 2; k <= order; k++)
+                {
+                    // Exact scaled recurrence (DLMF 10.51.1), initialized
+                    // by C_0=cos(x), C_1=cos(x)/x+sin(x). Use double order
+                    // factors to avoid integer overflow. Genuine result
+                    // overflow keeps the existing backend behavior.
+                    var nextC = ((2.0 * k - 1.0) / x) * c - previousC;
+                    if (double.IsInfinity(nextC)) return false;
+                    previousC = c;
+                    c = nextC;
+                    s *= x / (2.0 * k + 1.0);
+                }
+            }
+
+            if (n < 0)
+            {
+                // Half-integer reflection: S_-m-1=(-1)^m*C_m and
+                // C_-m-1=(-1)^(m+1)*S_m (DLMF 10.47.3-4).
+                var sign = order % 2 == 0 ? 1.0 : -1.0;
+                var positiveS = s;
+                s = sign * c;
+                c = -sign * positiveS;
+            }
+            value = new System.Numerics.Complex(s, secondKind ? c : -c);
+            return true;
         }
 
         #endregion
@@ -3786,7 +3847,8 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
             var r1 = new gsl_sf_result();
             var r2 = new gsl_sf_result();
             var r3 = new gsl_sf_result();
-            gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out r2, out r3, out sfResult, out d1, out d2);
+            // GSL returns the irregular wave at L-k; use k=0 to retain the requested order.
+            gsl_sf_coulomb_wave_FG_e(η, ρ, L, 0, out r1, out r2, out r3, out sfResult, out d1, out d2);
             return sfResult.val;
         }
 
@@ -5477,16 +5539,23 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static double inverseErf(double x)
         {
-            if (x > 1 || x < 0)
+            if (x > 1 || x < -1)
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.InverseErf(x);
         }
         public static double inverseErfc(double x)
         {
-            if (x > 1 || x<0)
+            if (x > 2 || x < 0)
                 return double.NaN;
-            return
-                Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
+            // Meta.Numerics' refinement overflows exp(y*y) in the far tail.
+            // Keep direct complementary inversion for subnormal probabilities.
+            if (x > 0 && x < 1e-300)
+                return MathNet.Numerics.SpecialFunctions.ErfcInv(x);
+            // Meta.Numerics accepts [0,1]. Reflect the other half using
+            // erfc(-y)=2-erfc(y), while retaining direct small-tail evaluation.
+            return x > 1
+                ? -Meta.Numerics.Functions.AdvancedMath.InverseErfc(2 - x)
+                : Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
         }
 
         public static double logErfc(double x)
@@ -5962,12 +6031,65 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static System.Numerics.Complex RiccatiBesselξ(int n, double x)
         {
-            return x*Hankel1(n, x);
+            if (x <= 0.0) return new System.Numerics.Complex(double.NaN, double.NaN);
+            if (TryRiccatiHankelSmallArgument(n, x, false, out var value)) return value;
+            return x*SphericalHankel1(n, x);
         }
 
         public static System.Numerics.Complex RiccatiBesselζ(int n, double x)
         {
-            return x*Hankel2(n, x);
+            if (x <= 0.0) return new System.Numerics.Complex(double.NaN, double.NaN);
+            if (TryRiccatiHankelSmallArgument(n, x, true, out var value)) return value;
+            return x*SphericalHankel2(n, x);
+        }
+
+        private static bool TryRiccatiHankelSmallArgument(int n, double x, bool secondKind,
+            out System.Numerics.Complex value)
+        {
+            value = default(System.Numerics.Complex);
+            if (!(x > 0.0 && x <= 1e-8)) return false;
+
+            // At tiny x, y_n can overflow even when C_n=-x*y_n is finite.
+            // Work with the scaled components instead. The mapping also
+            // handles int.MinValue without overflowing its negation.
+            var order = n < 0 ? -(n + 1) : n;
+            var s = System.Math.Sin(x);
+            var c = System.Math.Cos(x);
+            if (order > 0)
+            {
+                var previousC = c;
+                c = c / x + s;
+                if (double.IsInfinity(c)) return false;
+
+                // DLMF 10.53.1: S_m=x^(m+1)/(2m+1)!! times a series.
+                // For m>=1 and this range, omitting its correction changes
+                // the exact value by less than 1.1e-17 relatively.
+                s = x * (x / 3.0);
+                for (var k = 2; k <= order; k++)
+                {
+                    // Exact scaled recurrence (DLMF 10.51.1), initialized
+                    // by C_0=cos(x), C_1=cos(x)/x+sin(x). Use double order
+                    // factors to avoid integer overflow. Genuine result
+                    // overflow keeps the existing backend behavior.
+                    var nextC = ((2.0 * k - 1.0) / x) * c - previousC;
+                    if (double.IsInfinity(nextC)) return false;
+                    previousC = c;
+                    c = nextC;
+                    s *= x / (2.0 * k + 1.0);
+                }
+            }
+
+            if (n < 0)
+            {
+                // Half-integer reflection: S_-m-1=(-1)^m*C_m and
+                // C_-m-1=(-1)^(m+1)*S_m (DLMF 10.47.3-4).
+                var sign = order % 2 == 0 ? 1.0 : -1.0;
+                var positiveS = s;
+                s = sign * c;
+                c = -sign * positiveS;
+            }
+            value = new System.Numerics.Complex(s, secondKind ? c : -c);
+            return true;
         }
 
         #endregion
