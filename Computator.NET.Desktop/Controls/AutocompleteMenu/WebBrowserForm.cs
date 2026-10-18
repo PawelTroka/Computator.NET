@@ -16,31 +16,35 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             FormClosing += Form_FormClosing;
             Text = Strings.Functions_and_Constants_Details;
-            webBrowser = new WebBrowser
-            {
-                MinimumSize = new Size(300, 195).DpiScale(), ScrollBarsEnabled = true,
-                Dock = DockStyle.Fill, AutoSize = true
-            };
-            documentLoader = new ReferenceDocumentLoader(webBrowser);
-            webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
             Icon = GraphicsResources.computator_net_icon;
-            TopMost = true; ShowInTaskbar = false; AutoSize = true; AutoScaleMode = AutoScaleMode.Font;
+            TopMost = true;
+            ShowInTaskbar = false;
+            AutoSize = false;
+            AutoScaleMode = AutoScaleMode.Font;
+            StartPosition = FormStartPosition.CenterScreen;
+
+            // This is a reading window, not a tooltip. Start with usable space,
+            // respect small displays and keep the user's chosen size thereafter.
+            var available = Screen.FromControl(this).WorkingArea.Size;
+            var preferred = new Size(680, 660).DpiScale();
+            Size = new Size(System.Math.Min(preferred.Width, available.Width),
+                System.Math.Min(preferred.Height, available.Height));
+            var minimum = new Size(360, 280).DpiScale();
+            MinimumSize = new Size(System.Math.Min(minimum.Width, Width),
+                System.Math.Min(minimum.Height, Height));
+
+            webBrowser = new WebBrowser { ScrollBarsEnabled = true, Dock = DockStyle.Fill };
+            documentLoader = new ReferenceDocumentLoader(webBrowser);
             Controls.Add(webBrowser);
         }
         public void Show(FunctionInfo functionInfo) { Show(); SetFunctionInfo(functionInfo); }
-        public void SetFunctionInfo(FunctionInfo functionInfo)
+        public void SetFunctionInfo(FunctionInfo functionInfo) => SetFunctionInfo(functionInfo, null);
+        public void SetFunctionInfo(FunctionInfo functionInfo, string displayedSignature)
         {
-            webBrowser.Size = webBrowser.MinimumSize;
-            documentLoader.ShowDocument(FunctionReferenceDocument.Render(functionInfo));
+            // Document loading must not shrink/reset a manually resized window.
+            // DockStyle.Fill handles layout; long articles remain scrollable.
+            documentLoader.ShowDocument(FunctionReferenceDocument.Render(functionInfo, displayedSignature));
         }
         private void Form_FormClosing(object sender, FormClosingEventArgs e) { e.Cancel = true; Hide(); }
-        private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            var browser = (WebBrowser)sender;
-            if (browser.Document?.Body == null) return;
-            var rectangle = browser.Document.Body.ScrollRectangle;
-            var height = System.Math.Min(rectangle.Height + 18, browser.Height);
-            browser.Size = new Size(rectangle.Width + 18, height);
-        }
     }
 }

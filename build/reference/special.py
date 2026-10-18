@@ -12,7 +12,7 @@ TESTS={
  'Rastrigin':('Rastrigin optimization landscape','A quadratic bowl modulated by a cosine in every coordinate; a test of escaping local minima.',
               '10d + Σ[xⱼ² − 10cos(2PI·xⱼ)]', 'Supply d≥1 real coordinates; the global minimum is 0 at the origin.'),
  'Bohachevsky1':('First Bohachevsky benchmark','A two-dimensional bowl with periodic local structure.',
-                 'x² + 2y² − 0.3cos(3PI·x) − 0.4cos(4PI·y) + 0.7', 'Real x,y; global minimum 0 at (0,0).'),
+                 'x² + 2y² − 0.3cos(3PI·x) − 0.4cos(4PI·y) + 0.7', 'Real x,y. The displayed standard form has minimum 0 at (0,0), but the pinned implementation omits +0.7 and has value -0.7 at that same minimizer. Add 0.7 explicitly when comparing with the standard benchmark.'),
  'dropWave':('Drop-wave benchmark','A radially symmetric oscillatory optimization surface.',
              '−[1+cos(12sqrt(x²+y²))]/[2+(x²+y²)/2]', 'Real x,y; global minimum −1 at (0,0).'),
  'Himmelblau':('Himmelblau benchmark','A two-dimensional polynomial with four equal global minima.',
@@ -60,7 +60,7 @@ def describe(item, values):
     alias=('Alias of '+name+' with the same convention. ') if raw!=name else ''
     if name in TESTS:
         title,definition,formula,domain=TESTS[name]
-        return A(title,definition,formula,domain,'This evaluates a benchmark surface; it does not run an optimizer.',url=MATHNET+'MathNet.Numerics/TestFunctions.htm',category='Optimization benchmarks')
+        return A(title,definition,formula,domain,'This evaluates a benchmark surface; it does not run an optimizer.',url=('https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs' if name=='Bohachevsky1' else MATHNET+'MathNet.Numerics/TestFunctions.htm'),category='Optimization benchmarks')
     if name=='findRoot':
         return A('Bracketed scalar root search','Attempts to find a zero of the supplied real function within [a,b].',
                  'Find x such that f(x)=0.', 'Supply a callable f and finite endpoints with a<b that bracket a continuous root.',
