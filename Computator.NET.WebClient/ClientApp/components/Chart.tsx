@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { WEB_API_BASE_URL } from '../config';
 import { useCustomFunctions } from '../helpers/CustomFunctionsContext';
+import { useChartDraft } from '../helpers/ToolDraftContext';
 import { Expression } from './Expression';
 import { NumericInput } from './NumericInput';
 
@@ -8,8 +9,7 @@ type Plot = { expression: string; customFunctions: string; xMin: number; xMax: n
 type RenderedPlot = { url: string; expression: string };
 
 export function Chart() {
-  const [expression, setExpression] = useState('');
-  const [xMin, setXMin] = useState(-5), [xMax, setXMax] = useState(5), [yMin, setYMin] = useState(-5), [yMax, setYMax] = useState(5);
+  const { expression, setExpression, xMin, setXMin, xMax, setXMax, yMin, setYMin, yMax, setYMax } = useChartDraft();
   const [rendered, setRendered] = useState<RenderedPlot>();
   const [error, setError] = useState(''), [pending, setPending] = useState(false), [status, setStatus] = useState('');
   const container = useRef<HTMLDivElement>(null);
