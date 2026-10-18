@@ -1,9 +1,5 @@
 name: Independent translation fixture diagnostic
 on:
-  pull_request:
-    paths:
-      - 'build/performance/diagnostics/translation/**'
-      - '.github/workflows/translation-fixture-diagnostic.yml'
   workflow_dispatch:
     inputs:
       candidate_commit:

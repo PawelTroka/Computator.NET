@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using File = System.IO.File;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.Natives;
