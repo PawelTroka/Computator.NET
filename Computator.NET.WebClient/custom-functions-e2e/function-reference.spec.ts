@@ -82,17 +82,24 @@ for (const [mode, route, editor] of [
           await expect(tooltip.locator('.reference-note')).toContainText('Real μ allows ±0.5 as well');
         }
 
-        const equations = tooltip.locator('img.reference-math');
+        const equations = tooltip.locator('img.reference-math, img.reference-math-inline');
         expect(await equations.count()).toBeGreaterThan(0);
         for (const equation of await equations.all()) {
           await expect(equation).toBeVisible();
           await expect(equation).toHaveAttribute('src', /^\/reference-equations\/[a-f0-9]{64}\.png$/);
           await expect.poll(() => equation.evaluate((node: HTMLImageElement) =>
-            node.complete && node.naturalWidth === 3 * node.width && node.naturalHeight === 3 * node.height)).toBe(true);
+            node.complete && node.naturalWidth === 3 * Number(node.getAttribute('width')) &&
+            node.naturalHeight === 3 * Number(node.getAttribute('height')))).toBe(true);
           const imageResponse = await page.request.get((await equation.getAttribute('src'))!);
           expect(imageResponse.ok()).toBeTruthy();
           expect(imageResponse.headers()['content-type']).toContain('image/png');
           expect((await imageResponse.body()).subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))).toBe(true);
+        }
+        for (const inline of await tooltip.locator('.reference-inline').all()) {
+          const image = inline.locator('img');
+          await expect(image).toHaveAttribute('aria-hidden', 'true');
+          await expect(image).toHaveAttribute('alt', '');
+          expect((await inline.locator('.reference-math-text').textContent())!.trim()).not.toBe('');
         }
         expect(remoteImages).toEqual([]);
         await page.screenshot({ path: info.outputPath(`live-${mode}-${article.name}-reference.png`) });

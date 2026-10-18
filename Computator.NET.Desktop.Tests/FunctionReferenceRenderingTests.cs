@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Computator.NET.Core.Abstract;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Autocompletion.DataSource;
@@ -18,6 +19,7 @@ namespace Computator.NET.Desktop.Tests
         [TestCase("gamma(x)", "Gamma function")]
         [TestCase("ElementaryCharge", "1.602176634")]
         [TestCase("Normal.CDF(mean,stddev,x)", "standard deviation")]
+        [TestCase("Laguerre(n,α,x)", "Generalized Laguerre polynomial")]
         public void ShippedHtmlRendersOfflineInTheDesktopBrowser(string signature, string expected)
         {
             var entry = new FunctionsDetailsFileSource().Details[signature];
@@ -45,7 +47,12 @@ namespace Computator.NET.Desktop.Tests
                 dynamic rendered = image.DomElement;
                 NUnit.Framework.Assert.That((bool)rendered.complete, Is.True);
                 NUnit.Framework.Assert.That((int)rendered.naturalWidth, Is.GreaterThan(0));
-                NUnit.Framework.Assert.That(image.GetAttribute("alt"), Is.Not.Empty);
+                if (image.GetAttribute("className") == "reference-math-inline")
+                {
+                    NUnit.Framework.Assert.That(image.GetAttribute("aria-hidden"), Is.EqualTo("true"));
+                    NUnit.Framework.Assert.That(image.Parent.InnerText, Is.Not.Empty);
+                }
+                else NUnit.Framework.Assert.That(image.GetAttribute("alt"), Is.Not.Empty);
             }
             NUnit.Framework.Assert.That(navigations.All(scheme => scheme == "about"), Is.True);
             // Check computed styles in the actual Windows HTML engine, rather
@@ -75,7 +82,8 @@ namespace Computator.NET.Desktop.Tests
             var title = browser.Document.GetElementsByTagName("h1")[0];
             var summary = browser.Document.GetElementsByTagName("p").Cast<HtmlElement>()
                 .First(element => element.GetAttribute("className") == "reference-summary");
-            var equation = browser.Document.Images[0];
+            var equation = browser.Document.Images.Cast<HtmlElement>()
+                .First(image => image.GetAttribute("className") == "reference-math");
             var equationAtTop = browser.ClientRectangle.Contains(ViewportBounds(equation));
             var equationPainted = true;
             if (!equationAtTop)
@@ -180,6 +188,70 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(browser.Document.Body.ScrollRectangle.Width, Is.LessThanOrEqualTo(browser.ClientSize.Width));
             NUnit.Framework.Assert.That(browser.Document.GetElementsByTagName("example").Count, Is.Zero,
                 "The title remains encoded text, not injected markup.");
+            window.Close();
+        }
+
+        [TestCase(360, 18)]
+        [TestCase(360, 27)]
+        [TestCase(700, 18)]
+        [TestCase(700, 27)]
+        public void InlineLaguerreMathSharesTheTextBaselineAndScalesWithProse(int width, int fontSize)
+        {
+            var entry = new FunctionsDetailsFileSource().Details["Laguerre(n,α,x)"];
+            // Keep expectations independent of the rendered DOM. MSHTML exposes
+            // numeric image attributes as numbers, which GetAttribute drops.
+            var authoredImages = XElement.Parse(entry.Description).Elements("p")
+                .Single(element => (string)element.Attribute("class") == "reference-summary")
+                .Elements("img").Select(image => new
+                {
+                    Width = (int)image.Attribute("width"),
+                    Height = (int)image.Attribute("height"),
+                    Depth = (int)image.Attribute("data-depth")
+                }).ToArray();
+            NUnit.Framework.Assert.That(authoredImages.Length, Is.EqualTo(3));
+            using var window = new Form { ClientSize = new Size(width, 650), ShowInTaskbar = false,
+                TopMost = true, StartPosition = FormStartPosition.CenterScreen };
+            using var browser = new WebBrowser { Dock = DockStyle.Fill };
+            window.Controls.Add(browser);
+            window.Show();
+            browser.DocumentText = FunctionReferenceDocument.Render(entry);
+            WaitForText(browser, "Generalized Laguerre polynomial");
+            browser.Document.Body.Style = "font-size:" + fontSize + "px";
+            Application.DoEvents();
+            var summary = browser.Document.GetElementsByTagName("p").Cast<HtmlElement>()
+                .First(element => element.GetAttribute("className") == "reference-summary");
+            var images = summary.GetElementsByTagName("img").Cast<HtmlElement>().ToArray();
+            NUnit.Framework.Assert.That(images.Length, Is.EqualTo(authoredImages.Length));
+            dynamic selection = ((dynamic)browser.Document.Body.DomElement).createTextRange();
+            selection.moveToElementText(summary.DomElement);
+            NUnit.Framework.Assert.That((string)selection.text,
+                Is.EqualTo("A degree-n polynomial orthogonal on [0,∞) with weight x^α exp(−x)."));
+            for (var index = 0; index < images.Length; index++)
+            {
+                var image = images[index];
+                var authored = authoredImages[index];
+                var marker = browser.Document.CreateElement("span");
+                marker.Style = "display:inline-block;width:0;height:0;vertical-align:baseline";
+                image.InsertAdjacentElement(HtmlElementInsertionOrientation.AfterEnd, marker);
+                dynamic imageNode = image.DomElement;
+                dynamic markerNode = marker.DomElement;
+                dynamic bounds = imageNode.getBoundingClientRect();
+                dynamic markerBounds = markerNode.getBoundingClientRect();
+                NUnit.Framework.Assert.That((bool)imageNode.complete, Is.True);
+                NUnit.Framework.Assert.That((int)imageNode.naturalWidth, Is.EqualTo(authored.Width * 3));
+                NUnit.Framework.Assert.That((int)imageNode.naturalHeight, Is.EqualTo(authored.Height * 3));
+                NUnit.Framework.Assert.That((string)imageNode.currentStyle.display, Is.EqualTo("inline-block"));
+                NUnit.Framework.Assert.That((double)(bounds.right - bounds.left), Is.EqualTo(authored.Width / 20.0 * fontSize).Within(1.1));
+                NUnit.Framework.Assert.That((double)(bounds.bottom - bounds.top), Is.EqualTo(authored.Height / 20.0 * fontSize).Within(1.1));
+                NUnit.Framework.Assert.That((double)bounds.bottom - authored.Depth / 1000.0 * fontSize,
+                    Is.EqualTo((double)markerBounds.top).Within(1.1), "The image must use its own measured descent.");
+                marker.OuterHtml = "";
+            }
+            NUnit.Framework.Assert.That(summary.ScrollRectangle.Width, Is.LessThanOrEqualTo(browser.ClientSize.Width));
+            var screenshot = System.IO.Path.Combine(TestContext.CurrentContext.WorkDirectory,
+                $"reference-inline-laguerre-{width}-{fontSize}.png");
+            window.BringToFront(); window.Activate();
+            NUnit.Framework.Assert.That(CaptureDocumentPaint(window, browser, new[] { summary }, screenshot), Is.True);
             window.Close();
         }
 

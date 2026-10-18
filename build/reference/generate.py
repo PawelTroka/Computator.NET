@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
 import elementary, physical, mathematical, special, scientific, distributions
 from enrichment import enrich
+from common import InlineMath, Prose
 from functools import lru_cache
 
 ASSETS=Path(__file__).resolve().parents[2]/"Computator.NET.Core/Static/reference-equations"
@@ -33,6 +34,32 @@ def equation_html(equation):
     if asset["tex"] != equation.tex:raise ValueError("Equation source mismatch: "+key)
     return ('<p class="reference-equation"><strong>'+esc(equation.label)+'</strong><br />'
         '<img class="reference-math" src="reference-equations/'+key+'.png" alt="'+esc(equation.text)+'" width="'+str(asset["width"])+'" height="'+str(asset["height"])+'" /></p>')
+
+def inline_identity(tex):
+    # A TeX expression has different size and limits in inline/display modes.
+    # Keep existing display identities byte-for-byte stable.
+    return hashlib.sha256(('inline\0'+tex).encode('utf-8')).hexdigest()
+
+def prose_html(value):
+    if not isinstance(value, Prose):return esc(value)
+    chunks=[]
+    for part in value.parts:
+        if not isinstance(part, InlineMath):
+            chunks.append(esc(part))
+            continue
+        key=inline_identity(part.tex)
+        EQUATIONS[key]={'tex':part.tex,'mode':'inline'}
+        if COLLECT_EQUATIONS:continue
+        asset=equation_manifest()[key]
+        if asset['tex']!=part.tex or asset.get('mode')!='inline':raise ValueError('Inline source mismatch: '+key)
+        chunks.append('<img class="reference-math-inline" src="reference-equations/'+key+'.png" alt="'+esc(part.text)+
+            '" width="'+str(asset['width'])+'" height="'+str(asset['height'])+'" data-depth="'+str(asset['depth'])+'" />')
+    return ''.join(chunks)
+
+def inline_style(image):
+    # Only generated, validated integer metadata reaches these numeric styles.
+    def em(value):return format(value,'.3f').rstrip('0').rstrip('.')+'em'
+    return 'width:'+em(int(image.get('width'))/20)+';height:'+em(int(image.get('height'))/20)+';vertical-align:'+em(-int(image.get('data-depth'))/1000)+';'
 
 MAPPINGS={'ElementaryFunctions':elementary,'PhysicalConstants':physical,
           'MathematicalConstants':mathematical,'SpecialFunctions':special}
@@ -81,9 +108,9 @@ def articles(inventory):
             extra=enrich(selected,article,values)
             # Do not repeat a typed signature in a second section heading.
             if len(authored)>1:chunks.append('<p class="reference-variant"><strong>'+esc(article.title)+'</strong></p>')
-            chunks.append('<p class="reference-summary">'+esc(article.definition)+'</p>')
+            chunks.append('<p class="reference-summary">'+prose_html(article.definition)+'</p>')
             for paragraph in extra.paragraphs:
-                chunks.append('<p class="reference-explanation">'+esc(paragraph)+'</p>')
+                chunks.append('<p class="reference-explanation">'+prose_html(paragraph)+'</p>')
             for field,label in SECTIONS:
                 value=getattr(article,field)
                 if field=='formula' and extra.replaces_formula:
@@ -92,13 +119,13 @@ def articles(inventory):
                 if field=='example' and any(value.startswith(ex.code+' ') or value.startswith(ex.code+'=') for ex in extra.examples):
                     continue
                 if value:
-                    value='<code>'+esc(value)+'</code>' if field=='formula' else esc(value)
+                    value='<code>'+esc(value)+'</code>' if field=='formula' else prose_html(value)
                     chunks.append('<p class="reference-'+field+'"><strong>'+label+':</strong> '+value+'</p>')
             if not extra.replaces_formula:
                 for equation in extra.equations:chunks.append(equation_html(equation))
             for example in extra.examples:
                 chunks.append('<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>'+esc(example.code)+'</code></pre>'+
-                    '<p><strong>Result:</strong> '+esc(example.result)+'</p><p>'+esc(example.explanation)+'</p></div>')
+                    '<p><strong>Result:</strong> '+esc(example.result)+'</p><p>'+prose_html(example.explanation)+'</p></div>')
             if urlparse(article.url).scheme!='https':raise ValueError('Reference must be HTTPS: '+signature)
         sources=list(dict.fromkeys(article.url for _,article in authored))
         chunks.append('<p class="reference-source"><strong>Reference:</strong> '+
@@ -113,16 +140,22 @@ def validate_fragment(fragment,signature='fragment'):
     root=ET.fromstring(fragment)
     for node in root.iter():
         if node.tag not in ALLOWED_TAGS:raise ValueError('Unsupported markup in '+signature)
-        allowed=('class','src','alt','width','height') if node.tag=='img' else ('class','href')
+        allowed=('class','src','alt','width','height','data-depth') if node.tag=='img' else ('class','href')
         if any(name not in allowed for name in node.attrib):raise ValueError('Unsupported attribute in '+signature)
         if node.tag=='img':
             src=node.get('src','')
             if not re.fullmatch(r'reference-equations/[a-f0-9]{64}\.png',src):raise ValueError('Nonlocal equation image: '+signature)
-            if node.get('class')!='reference-math' or not node.get('alt','').strip():raise ValueError('Missing equation alternative: '+signature)
-            for dimension,maximum in [('width',2400),('height',800)]:
-                if not node.get(dimension,'').isdigit() or not 0<int(node.get(dimension))<=maximum:raise ValueError('Invalid image dimensions: '+signature)
+            inline=node.get('class')=='reference-math-inline'
+            if node.get('class') not in ('reference-math','reference-math-inline') or not node.get('alt','').strip():raise ValueError('Missing equation alternative: '+signature)
+            for dimension,maximum in [('width',320 if inline else 2400),('height',100 if inline else 800)]:
+                if not re.fullmatch(r'[1-9][0-9]{0,3}',node.get(dimension,'')) or int(node.get(dimension))>maximum:raise ValueError('Invalid image dimensions: '+signature)
+            if inline:
+                depth=node.get('data-depth','')
+                if not re.fullmatch(r'0|-?[1-9][0-9]{0,3}',depth) or not -1000<=int(depth)<int(node.get('height'))*50:
+                    raise ValueError('Invalid inline baseline: '+signature)
+            elif 'data-depth' in node.attrib:raise ValueError('Display equations do not have inline metadata: '+signature)
         if node.tag=='a' and urlparse(node.get('href','')).scheme!='https':raise ValueError('Unsafe link in '+signature)
-    text=' '.join(root.itertext())
+    text=' '.join(root.itertext())+' '+' '.join(image.get('alt','') for image in root.iter('img'))
     if len(text.split())<20:raise ValueError('Insufficient descriptive content: '+signature)
     if re.search(r'not done yet|_title_|TODO|TBD|lorem ipsum',text,re.I):raise ValueError('Placeholder: '+signature)
     if not root.findall("./p[@class='reference-summary']"):raise ValueError('Missing summary: '+signature)
@@ -152,10 +185,21 @@ def write_preview(entries,path):
             for child in list(parent):
                 if 'reference-signature' in child.get('class','').split():
                     parent.remove(child)
+        for parent in list(fragment.iter()):
+            for child_index,image in enumerate(list(parent)):
+                if image.tag!='img' or image.get('class')!='reference-math-inline':continue
+                image.set('style',inline_style(image))
+                image.set('aria-hidden','true')
+                alternative=image.get('alt');image.set('alt','')
+                wrapper=ET.Element('span',{'class':'reference-inline'})
+                wrapper.tail=image.tail;image.tail=None
+                parent.remove(image);parent.insert(child_index,wrapper)
+                wrapper.append(image)
+                ET.SubElement(wrapper,'span',{'class':'reference-math-text'}).text=alternative
         description=ET.tostring(fragment,encoding='unicode')
         sections.append('<section id="entry-'+str(index)+'" data-signature="'+esc(item['signature'])+'"><h2>'+esc(item['title'])+'</h2>'+description+'</section>')
     text='''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Computator.NET function reference</title><style>body{font:16px/1.5 system-ui,sans-serif;margin:0 auto;padding:2rem;max-width:64rem;color:#24262b;background:#fafafa}h1{font-size:2rem}h2{font-size:1.25rem}section{padding:1.2rem;margin:1.2rem 0;border:1px solid #ddd;border-radius:8px;background:white}code{font-family:Consolas,monospace;overflow-wrap:anywhere}.reference-note{border-left:3px solid #b07934;padding-left:.8rem}.reference-source{font-size:.88rem}a{color:#305c85}p{margin:.7rem 0}</style><h1>Computator.NET function and constant reference</h1><p>Offline editorial preview. The application uses the same HTML fragments from functions.xml. No network resources are required; source links are optional reading.</p>'''+''.join(sections)+'</html>'
-    text=text.replace('</style>', '.reference-equation{overflow-x:auto;padding:12px;background:white}.reference-math{display:block;max-width:none}.reference-worked-example{border-left:3px solid #718595;padding:0 16px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>')
+    text=text.replace('</style>', '.reference-equation{overflow-x:auto;padding:12px;background:white}.reference-math{display:block;max-width:none}.reference-math-inline{display:inline-block;max-width:none}.reference-math-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.reference-worked-example{border-left:3px solid #718595;padding:0 16px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>')
     path.parent.mkdir(parents=True,exist_ok=True);path.write_text(text,encoding='utf-8')
     import shutil
     shutil.copytree(ASSETS,path.parent/'reference-equations',dirs_exist_ok=True)
@@ -189,6 +233,7 @@ def main():
             'byType':dict(sorted(Counter(i['type'] for i in entries).items())),
             'xmlSha256':hashlib.sha256(data).hexdigest(),
             'entriesWithTypesetMath':sum('reference-math' in e['description'] for e in entries),
+            'entriesWithInlineMath':sum('reference-math-inline' in e['description'] for e in entries),
             'entriesWithTeachingNotes':sum('reference-explanation' in e['description'] for e in entries),
             'entriesWithWorkedExamples':sum('reference-worked-example' in e['description'] for e in entries),
             'uniqueTypesetEquations':len(EQUATIONS)}

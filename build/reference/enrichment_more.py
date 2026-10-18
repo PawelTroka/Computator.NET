@@ -5,6 +5,7 @@ A family equation supplements the original convention unless it is equivalent.
 """
 import re
 from enrichment import Enrichment, Equation, WorkedExample
+from common import P, M
 
 EXTRA={}
 def add(names,tex,explanation,example=None):
@@ -197,7 +198,10 @@ def extra_enrichment(item,article,name):
         'Hypergeometric2F0':r'{}_2F_0(a,b;;x)\sim\sum_{k=0}^{\infty}\frac{(a)_k(b)_k x^k}{k!}'}
         return Enrichment((Equation(forms[name],article.formula,'Defining representation'),),('The parameters control the differential equation and its normalization, while x is the evaluation coordinate. A terminating series, a convergent series and an asymptotic expansion require different interpretations. The representation below is not permission to sum an infinite series outside its domain.',),(),False)
     if name.startswith('Gegenbauer'):
-        return Enrichment((Equation(r'\sum_{n=0}^{\infty}C_n^{(\alpha)}(x)t^n=(1-2xt+t^2)^{-\alpha}',article.formula),),('The coefficient of tⁿ in this generating function is the degree-n polynomial. α selects an orthogonal-polynomial family; setting α=1/2 recovers Legendre polynomials, subject to the domain conventions below.',),(),True)
+        return Enrichment((Equation(r'\sum_{n=0}^{\infty}C_n^{(\alpha)}(x)t^n=(1-2xt+t^2)^{-\alpha}',article.formula),),(
+            P('The coefficient of ',M(r't^n','tⁿ'),' in this generating function is the degree-',M('n','n'),
+              ' polynomial. ',M(r'\alpha','α'),' selects an orthogonal-polynomial family; setting ',M(r'\alpha=1/2','α=1/2'),
+              ' recovers Legendre polynomials, subject to the domain conventions below.'),),(),True)
     polynomials={
     'Laguerre':r'L_n^{(\alpha)}(x)=\sum_{k=0}^{n}(-1)^k\binom{n+\alpha}{n-k}\frac{x^k}{k!}',
     'LegendreP':r'P_l(x)=\frac1{2^l l!}\frac{d^l}{dx^l}(x^2-1)^l',
@@ -220,7 +224,9 @@ def extra_enrichment(item,article,name):
     if name.startswith('Elliptic'):
         symbol=name[len('Elliptic'):];upper=r'\pi/2' if sig.count(',')==0 or (symbol=='Π' and sig.count(',')==1) else r'\phi'
         kernels={'K':r'\frac1{\sqrt{1-k^2\sin^2t}}','F':r'\frac1{\sqrt{1-k^2\sin^2t}}','E':r'\sqrt{1-k^2\sin^2t}','D':r'\frac{\sin^2t}{\sqrt{1-k^2\sin^2t}}','Π':r'\frac1{(1+n\sin^2t)\sqrt{1-k^2\sin^2t}}'}
-        return Enrichment((Equation(r'\int_0^{'+upper+'}'+kernels[symbol]+r'\,dt',article.formula,'Integral convention'),),('The complete integral ends at π/2; the incomplete integral ends at the supplied angle. The application uses modulus k, not parameter m=k². For the third kind, also check the sign of the characteristic in the denominator: conventions differ between libraries.',),(),False)
+        return Enrichment((Equation(r'\int_0^{'+upper+'}'+kernels[symbol]+r'\,dt',article.formula,'Integral convention'),),(
+            P('The complete integral ends at ',M(r'\pi/2','π/2'),'; the incomplete integral ends at the supplied angle. The application uses modulus ',M('k','k'),
+              ', not parameter ',M(r'm=k^2','m=k²'),'. For the third kind, also check the sign of the characteristic in the denominator: conventions differ between libraries.'),),(),False)
     if name.startswith('Carlson'):
         forms={'C':r'R_C(x,y)=\frac12\int_0^\infty\frac{dt}{(t+y)\sqrt{t+x}}','F':r'R_F(x,y,z)=\frac12\int_0^\infty\frac{dt}{\sqrt{(t+x)(t+y)(t+z)}}','D':r'R_D(x,y,z)=\frac32\int_0^\infty\frac{dt}{(t+z)\sqrt{(t+x)(t+y)(t+z)}}','J':r'R_J(x,y,z,p)=\frac32\int_0^\infty\frac{dt}{(t+p)\sqrt{(t+x)(t+y)(t+z)}}'}
         return Enrichment((Equation(forms[name[-1]],article.formula),),('Symmetric elliptic forms avoid selecting an amplitude/modulus representation first. Their arguments are not simply the k and φ of Legendre-form integrals, so translate the formula rather than reusing arguments by position.',),(),True)

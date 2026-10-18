@@ -1,5 +1,5 @@
 """Curated special-function reference; no numerical source is changed."""
-from common import A, DLMF, GSL, MATHNET, SOURCE
+from common import A, P, M, DLMF, GSL, MATHNET, SOURCE
 from dataclasses import replace
 from categories import subject_category
 from special_families import polynomial, hypergeometric, elliptic, probability, bessel
@@ -28,7 +28,7 @@ TESTS={
 }
 INTEGRALS={
  'Si':('Sine integral','Accumulated sinc oscillation from the origin.', 'Si(x)=∫₀ˣ sin(t)/t dt', 'Real x; the removable value of the integrand at zero is 1. Si(0)=0; Si is odd.'),
- 'Ci':('Cosine integral','A logarithmically singular antiderivative of cos(x)/x, with the conventional tail normalization.',
+ 'Ci':('Cosine integral',P('A logarithmically singular antiderivative of ', M('\\cos(x)/x', 'cos(x)/x'), ', with the conventional tail normalization.'),
         'Ci(x)=−∫ₓ^∞ cos(t)/t dt = γ+ln(x)+∫₀ˣ [cos(t)−1]/t dt', 'Use real x>0. This wrapper rejects x<0; the limiting value as x→0+ is −∞.'),
  'Ei':('Exponential integral','The real principal-value exponential integral, useful in growth, decay and transport problems.',
         'Ei(x)=PV ∫₋∞ˣ exp(t)/t dt', 'Real x≠0. PV specifies the Cauchy principal value across t=0; Ei has a logarithmic singularity there.'),
@@ -38,15 +38,15 @@ INTEGRALS={
          'Shi(x)=∫₀ˣ sinh(t)/t dt', 'Real x; the integrand has removable value 1 at zero. Shi is odd and grows rapidly for large |x|.'),
  'Chi':('Hyperbolic cosine integral','A logarithmically singular integral associated with cosh.',
          'Chi(x)=γ+ln|x|+∫₀ˣ [cosh(t)−1]/t dt', 'Real x≠0; this wrapper explicitly returns NaN at zero.'),
- 'Ti':('Inverse tangent integral','Integrates arctangent divided by its argument; it is sometimes written Ti₂.',
+ 'Ti':('Inverse tangent integral',P('Integrates arctangent divided by its argument; it is sometimes written ', M('\\operatorname{Ti}_2', 'Ti₂'), '.'),
         'Ti₂(x)=∫₀ˣ atan(t)/t dt', 'Real x; the integrand tends to 1 at zero. This is an integral of arctangent, not the inverse of an integral.'),
- 'Tai':('Arctangent integral','The GSL-backed inverse tangent integral, using the same mathematical Ti₂ convention as Ti.',
+ 'Tai':('Arctangent integral',P('The GSL-backed inverse tangent integral, using the same mathematical ', M('\\operatorname{Ti}_2', 'Ti₂'), ' convention as Ti.'),
          'Tai(x)=∫₀ˣ atan(t)/t dt', 'Real x; a different numerical implementation from Ti, not a different normalization.'),
- 'Clausen':('Clausen integral of order two','The imaginary part of the dilogarithm on the unit circle; an odd, 2PI-periodic function.',
+ 'Clausen':('Clausen integral of order two',P('The imaginary part of the dilogarithm on the unit circle; an odd, ', M('2\\pi', '2PI'), '-periodic function.'),
             'Cl₂(x)=Σₙ₌₁^∞ sin(nx)/n² = −∫₀ˣ ln|2sin(t/2)| dt', 'Real angle x in radians; logarithmic integrand singularities are integrable.'),
- 'Dawson':('Dawson integral','An exponentially scaled integral of exp(t²), often encountered in Gaussian line-shape calculations.',
+ 'Dawson':('Dawson integral',P('An exponentially scaled integral of ', M('\\exp(t^2)', 'exp(t²)'), ', often encountered in Gaussian line-shape calculations.'),
            'D(x)=exp(−x²)∫₀ˣ exp(t²) dt', 'Real x. It is odd, D(0)=0, and D(x) is asymptotic to 1/(2x) for large |x|.'),
- 'Ein':('Entire complementary exponential integral','An entire complex function with the logarithmic singularity removed from E₁.',
+ 'Ein':('Entire complementary exponential integral',P('An entire complex function with the logarithmic singularity removed from ', M('E_1', 'E₁'), '.'),
         'Ein(z)=∫₀ᶻ [1−exp(−t)]/t dt = Σₙ₌₁^∞ (−1)ⁿ⁺¹zⁿ/(n·n!)', 'Complex z; Ein(0)=0 and the integrand has a removable singularity. This is not Ei(z).'),
  'FresnelC':('Fresnel cosine integral','The real component of the normalized Fresnel integral, used in diffraction.',
              'C(x)=∫₀ˣ cos(PI·t²/2) dt', 'Real x. The PI/2 factor is part of this convention; C tends to 1/2 as x→+∞.'),
@@ -70,7 +70,7 @@ def _describe(item, values):
         title,definition,formula,domain=TESTS[name]
         return A(title,definition,formula,domain,'This evaluates a benchmark surface; it does not run an optimizer.',url=('https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs' if name=='Bohachevsky1' else MATHNET+'MathNet.Numerics/TestFunctions.htm'),category='Optimization benchmarks')
     if name=='findRoot':
-        return A('Bracketed scalar root search','Attempts to find a zero of the supplied real function within [a,b].',
+        return A('Bracketed scalar root search',P('Attempts to find a zero of the supplied real function within ', M('[a,b]', '[a,b]'), '.'),
                  'Find x such that f(x)=0.', 'Supply a callable f and finite endpoints with a<b that bracket a continuous root.',
                  'This convenience wrapper fixes accuracy at 0.01 and maximum iterations at 10,000, catches solver exceptions and returns NaN on failure. Use FunctionRoot methods when you need explicit controls.',
                  'findRoot(x => x*x-2,0,2) ≈ 1.414 (within the requested accuracy)',MATHNET+'MathNet.Numerics/FindRoots.htm')
@@ -86,7 +86,7 @@ def _describe(item, values):
                  'This returns a real scalar. It is distinct from the wavelength/rotation-based complex two-dimensional overload.',url='https://accord-framework.net/docs/html/M_Accord_Math_Gabor_Function1D.htm')
     if name in ('gamma','logGamma','psi','polyGamma','gammaP','gammaQ','leftRegularizedGamma','rightRegularizedGamma'):
         if name=='gamma' and ',' in args:
-            return A('Upper incomplete gamma','The tail of the gamma integral, without division by Γ(a).',
+            return A('Upper incomplete gamma',P('The tail of the gamma integral, without division by ', M('\\Gamma(a)', 'Γ(a)'), '.'),
                      'Γ(a,x)=∫ₓ^∞ t^(a−1)exp(−t) dt', 'Real a>0 and x≥0; other inputs are rejected by this wrapper.',
                      alias+'Do not confuse this with the lower incomplete gamma or the normalized tails gammaP/gammaQ.', 'gamma(1,2) ≈ exp(-2)',DLMF+'8.2')
         if name in ('gammaP','gammaQ','leftRegularizedGamma','rightRegularizedGamma'):
@@ -104,16 +104,16 @@ def _describe(item, values):
                      'Simple poles at 0,−1,−2,…; finite negative nonintegers are defined by continuation. Large magnitudes may overflow.',
                      alias+'Γ(n)=(n−1)!, not n!. The complex gamma function is single-valued away from its poles.', 'gamma(5) = 24',DLMF+'5.2')
         if name=='logGamma':
-            return A('Logarithm of gamma'+(' — complex argument' if complex_arg else ''),'Evaluates log Γ without first forming a possibly overflowing gamma value.',
+            return A('Logarithm of gamma'+(' — complex argument' if complex_arg else ''),P('Evaluates ', M('\\log\\Gamma', 'log Γ'), ' without first forming a possibly overflowing gamma value.'),
                      'exp(LogΓ(z))=Γ(z) away from poles, with the library’s continuous branch convention.',
                      ('This wrapper rejects Re(z)<0 even though complex log-gamma has a larger mathematical continuation. Poles and branch conventions remain relevant.' if complex_arg else 'Real x>0 only in this wrapper; x≤0 returns NaN.'),
                      alias+'A complex log-gamma value need not equal the principal logarithm of a separately rounded complex gamma value.', 'logGamma(1) = 0',DLMF+'5.2')
         if name=='psi' or (name=='polyGamma' and args=='x'):
-            return A('Digamma — logarithmic derivative of gamma','The derivative of log Γ, widely used in likelihood equations and harmonic-number identities.',
+            return A('Digamma — logarithmic derivative of gamma',P('The derivative of ', M('\\log\\Gamma', 'log Γ'), ', widely used in likelihood equations and harmonic-number identities.'),
                      'ψ(z)=Γ′(z)/Γ(z); ψ(n)=Hₙ₋₁−γ for positive integers n.',
                      'Poles at 0,−1,−2,…; use non-pole real or complex arguments.',
                      alias+('The one-argument polyGamma/ψn/ψⁿ names mean order zero, i.e. digamma, not trigamma.' if name=='polyGamma' else ''), 'psi(1) ≈ -0.5772156649',DLMF+'5.2')
-        return A('Polygamma of integer order','The n-th derivative of the digamma function.',
+        return A('Polygamma of integer order',P('The ', M('n', 'n'), '-th derivative of the digamma function.'),
                  'ψ⁽ⁿ⁾(x)=dⁿ⁺¹ lnΓ(x)/dxⁿ⁺¹; ψ⁽⁰⁾=ψ.',
                  'Integer n≥0; avoid gamma poles in x. n=1 is trigamma, n=2 tetragamma.',alias,
                  'polyGamma(1,1) ≈ PI*PI/6',DLMF+'5.15')
@@ -123,14 +123,14 @@ def _describe(item, values):
                      'B(a,b)=∫₀¹ t^(a−1)(1−t)^(b−1)dt = Γ(a)Γ(b)/Γ(a+b)',
                      'Real a>0 and b>0 in this wrapper; symmetric in a and b.',alias,'Beta(1,1) = 1',DLMF+'5.12')
         if name=='Beta':
-            return A('Lower incomplete beta','The lower beta integral accumulated up to x, without division by the complete beta function.',
+            return A('Lower incomplete beta',P('The lower beta integral accumulated up to ', M('x', 'x'), ', without division by the complete beta function.'),
                      'Bₓ(a,b)=∫₀ˣ t^(a−1)(1−t)^(b−1)dt.',
                      'Real 0≤x≤1 and a,b>0; out-of-domain values return NaN. The first argument is the integration limit and the other two are shape parameters.',
                      alias+'The public order is x,a,b; Meta.Numerics receives Beta(a,b,x). This is an unnormalized area: Beta(0,a,b)=0 and Beta(1,a,b)=Beta(a,b). Use BetaNorm for the corresponding cumulative probability.',
                      'Beta(0.5,1,1) = 0.5',DLMF+'8.17')
         if name=='BetaNorm':
             return A('Regularized incomplete beta',
-                     'The lower beta integral divided by B(a,b), giving a cumulative probability for positive shape parameters.',
+                     P('The lower beta integral divided by ', M('B(a,b)', 'B(a,b)'), ', giving a cumulative probability for positive shape parameters.'),
                      'Iₓ(a,b)=Bₓ(a,b)/B(a,b).',
                      'Real 0≤x≤1 and a,b>0; out-of-domain values return NaN. The value is in [0,1], with endpoints zero and one.',
                      'The public order is x,a,b; GSL receives gsl_sf_beta_inc(a,b,x). Unlike Beta(x,a,b), this function includes normalization by the complete beta integral.',
@@ -161,7 +161,7 @@ def _describe(item, values):
             return A('Riemann zeta function','Analytic continuation of the sum of reciprocal powers of positive integers.',
                      'ζ(s)=Σₙ₌₁^∞ n^(−s) for Re(s)>1.', 'A simple pole occurs at s=1; trivial zeros occur at negative even integers. Complex input uses the meromorphic continuation.',alias,'RiemannZeta(2) ≈ PI*PI/6',DLMF+'25.2')
         if name=='DirichletEta':
-            return A('Dirichlet eta function','The alternating zeta series, with its removable value supplied at s=1.',
+            return A('Dirichlet eta function',P('The alternating zeta series, with its removable value supplied at ', M('s=1', 's=1'), '.'),
                      'η(s)=Σₙ₌₁^∞ (−1)ⁿ⁻¹/nˢ = (1−2^(1−s))ζ(s)', 'Real s; the series converges for s>0, with continuation outside that range.',alias,'DirichletEta(1) ≈ ln(2)',DLMF+'25.2')
         return A('Hurwitz zeta function','Shifts the reciprocal-power series away from the positive integers.',
                  'ζ(s,q)=Σₙ₌₀^∞ (n+q)^(−s)', 'The argument named x is the exponent s. This real GSL interface requires s>1 and q>0; it is not the full analytic continuation.',alias,'HurwitzZeta(2,1) ≈ PI*PI/6',DLMF+'25.11')
@@ -198,7 +198,7 @@ def _describe(item, values):
                  'FermiDiracF0(0) ≈ ln(2)' if order=='0' else '',GSL+'#fermi-dirac-function')
     if name in ('LambertW0','LambertWm1'):
         lower=name.endswith('m1')
-        return A('Lambert W, real branch '+('−1' if lower else '0'), 'Inverts the map w↦w·exp(w), selecting one branch.',
+        return A('Lambert W, real branch '+('−1' if lower else '0'), P('Inverts the map ', M('w\\mapsto w\\exp(w)', 'w↦w·exp(w)'), ', selecting one branch.'),
                  'W(x)·exp(W(x))=x.',
                  ('The negative real branch has x∈[−1/e,0) and W≤−1.' if lower else 'The principal real branch has x≥−1/e and W≥−1.'),
                  'This wrapper rejects x=−1/e as well as smaller inputs, although the mathematical endpoint is W=−1. '+
@@ -236,7 +236,7 @@ def _describe(item, values):
                      'Integers l≥0, −l≤m≤l. θ is polar angle and φ azimuth, both radians. Negative m follows Yₗ⁻ᵐ=(−1)ᵐ conjugate(Yₗᵐ).',
                      'The associated Legendre convention includes the Condon–Shortley phase; ∫|Y|²dΩ=1.', 'SphericalHarmonic(0,0,0,0) ≈ 1/sqrt(4*PI)',DLMF+'14.30')
         if name=='ClebschGordan':
-            return A('Clebsch–Gordan coefficient','The amplitude for coupling |j₁,m₁⟩ and |j₂,m₂⟩ into |j,m⟩.',
+            return A('Clebsch–Gordan coefficient',P('The amplitude for coupling ', M('|j_1,m_1\\rangle', '|j₁,m₁⟩'), ' and ', M('|j_2,m_2\\rangle', '|j₂,m₂⟩'), ' into ', M('|j,m\\rangle', '|j,m⟩'), '.'),
                      '⟨j₁m₁,j₂m₂|jm⟩=(−1)^(j₁−j₂+m)sqrt(2j+1) · (j₁ j₂ j; m₁ m₂ −m)',
                      'Use actual integer or half-integer spins, not doubled values; j≥0, |m|≤j, matching half-integer parity. Selection rules require m=m₁+m₂ and triangle conditions.',url=DLMF+'34.1')
         doubled='integer' in item['menu']
@@ -260,21 +260,22 @@ def _describe(item, values):
         first=name.startswith('Ai'); base='Ai' if first else 'Bi'; prime='Prime' in name; zeros='Zeros' in name
         if zeros:
             return A(base+('′' if prime else '')+' negative zero by index',
-                     'Returns the s-th negative real zero, ordered outward from the origin, of '+base+('′' if prime else '')+'.',
+                     P('Returns the ',M('s','s'),'-th negative real zero, ordered outward from the origin, of ',
+                       M(r'\operatorname{'+base+'}'+(r'^{\prime}' if prime else ''),base+('′' if prime else '')),'.'),
                      base+('′' if prime else '')+'(a_s)=0; a₁>a₂>… and all a_s<0.',
                      'The argument x is an INDEX, not a coordinate. Supply a positive integer starting at 1.',
                      'The wrapper rounds x to the nearest integer with midpoint ties away from zero; x<0.5 is rejected. Avoid noninteger or out-of-range indices.',
                      'AiZeros(1) ≈ -2.3381074105' if name=='AiZeros' else '',DLMF+'9.9')
         return A(base+(' derivative' if prime else ' Airy function'),
                  ('Derivative of the '+('decaying' if first else 'growing')+' Airy solution.' if prime else
-                  ('The Airy solution that decays for large positive x.' if first else 'The independent Airy solution that grows for large positive x.')),
+                  (P('The Airy solution that decays for large positive ', M('x', 'x'), '.') if first else P('The independent Airy solution that grows for large positive ', M('x', 'x'), '.'))),
                  'y″−xy=0; Ai and Bi oscillate for negative x.',
                  'Real x; derivative is with respect to x. These are unscaled values and may overflow/underflow for large positive x.',alias,
                  'Ai(0) ≈ 0.3550280539' if name=='Ai' else 'Bi(0) ≈ 0.6149266274' if name=='Bi' else '',DLMF+'9.2')
     if name.startswith('Mathieu'):
         characteristic=name in ('MathieuAn','MathieuBn');radial=name in ('MathieuMc','MathieuMs');even=name in ('MathieuAn','MathieuCE','MathieuMc')
         return A(('Even' if even else 'Odd')+(' Mathieu characteristic value' if characteristic else ' radial Mathieu function' if radial else ' angular Mathieu function'),
-                 ('The eigenvalue aₙ(q) or bₙ(q) for which the angular Mathieu equation has the corresponding periodic solution.' if characteristic else
+                 (P('The eigenvalue ', M('a_n(q)', 'aₙ(q)'), ' or ', M('b_n(q)', 'bₙ(q)'), ' for which the angular Mathieu equation has the corresponding periodic solution.') if characteristic else
                   'A radial solution of the modified Mathieu equation used in elliptic-coordinate boundary problems.' if radial else
                   'A periodic angular solution of Mathieu’s equation with the GSL normalization.'),
                  'f″−[a−2q cosh(2x)]f=0' if radial else 'y″+[a−2q cos(2x)]y=0',
