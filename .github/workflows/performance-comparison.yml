@@ -1,0 +1,60 @@
+name: Historical performance comparison
+on:
+  pull_request:
+    paths:
+      - 'build/performance/**'
+      - '.github/workflows/performance-comparison.yml'
+  workflow_dispatch:
+    inputs:
+      pairs:
+        description: 'Independent process pairs per scenario (20 for measurement; below 15 is screening only)'
+        required: true
+        default: '20'
+permissions:
+  contents: read
+jobs:
+  comparison:
+    runs-on: windows-2025
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        session: [1, 2]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Check analyzer contracts
+        shell: pwsh
+        run: python -m unittest discover -s build/performance -p 'test_*.py' -v
+      - name: Build and authenticate both products, then condition startup
+        shell: pwsh
+        run: ./build/performance/Prepare-Comparison.ps1 -OutputDirectory artifacts/performance-input -DisposableProfile
+      - name: Measure sequential, counterbalanced process pairs
+        shell: pwsh
+        env:
+          PAIRS: ${{ inputs.pairs || '20' }}
+        run: |
+          python build/performance/compare.py run --manifest artifacts/performance-input/manifest.json --output artifacts/performance-results --pairs $env:PAIRS --timeout 120 --bootstrap 50000 --seed 191
+          if ($LASTEXITCODE -ne 0) { throw 'Comparison failed; inspect retained observations.' }
+      - name: Publish measurement summary
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path artifacts/performance-results/report.md) { Get-Content artifacts/performance-results/report.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: performance-session-${{ matrix.session }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            artifacts/performance-results/
+            artifacts/performance-input/manifest.json
+            artifacts/performance-input/windows-environment.json
+            artifacts/performance-input/historical/baseline-provenance.json
+            artifacts/performance-input/*conditioning*
