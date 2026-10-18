@@ -316,7 +316,7 @@ def enrich(item, article, values):
             tex,ex=CONSTANT_LESSONS[name];eqs.append(Equation(tex,article.formula));examples=[WorkedExample(*e) for e in ex]
             # Keep prose formula containing SI qualifications visible as a convention.
         if kind=='PhysicalConstants':
-            notes.append('The symbol in a physical equation denotes a quantity with units; this identifier evaluates to a plain number. Supply the other quantities in the compatible units listed above, because the expression engine does not attach dimensional units or convert them automatically.')
+            notes.append('The symbol in a physical equation denotes a quantity with units; this identifier evaluates to a plain number. Supply the other quantities in the compatible units shown in this entry, because the expression engine does not attach dimensional units or convert them automatically.')
             if 'Relationship' in name:
                 notes.append('Use a conversion relationship in its stated direction: multiply a value in the source unit by the factor to obtain the target-unit value. Converting back requires division by that factor, not a second multiplication. Check the direction rather than inferring it from the magnitude.')
             elif 'Ratio' in name:
