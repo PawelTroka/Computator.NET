@@ -160,6 +160,34 @@ changes. When integrating the authoring changes, retain #229's
 regenerate `functions.xml` from the combined sources. Illustrations for other
 mathematical domains remain further editorial work.
 
+### Unit-circle projections and normal probability
+
+Two additional diagrams reuse the same offline figure pipeline:
+
+| Diagram | Exact reference entries | Interpretation |
+| --- | --- | --- |
+| Unit circle | `sin(x)`, `sin(z)`, `cos(x)`, `cos(z)` | At the real angle θ = π/4, cosine is the horizontal projection and sine the vertical projection of a unit radius; both equal √2/2. The caption explicitly limits this picture to real inputs. |
+| Standard normal | `Normal.PDF(mean,stddev,x)`, `Normal.CDF(mean,stddev,x)` | For μ = 0 and σ = 1, curve height is density and accumulated area is probability. The shaded left tail through x = 1 has probability about 0.8413; the tails continue beyond the plotted interval. |
+
+These are supplemental examples. They follow the existing definitions, argument
+conventions and equations, keeping those sections in their original order. The
+complex trigonometric articles retain their complex-domain explanations. Normal
+inverse-CDF and other distributions do not inherit a picture with different
+parameters or a different domain.
+
+The two new 600 × 374 figures use the existing 3× PNG rendering, glyph outlines,
+source hashes, manifest, asset allowlist and packaging. No extra plotting library
+or runtime renderer is required. Together with the benchmark figures, the shared
+manifest contains ten diagrams serving fifteen articles. The eight benchmark
+images and their metadata remain unchanged.
+
+The existing `Reference-Generate` and `Reference-Validate` targets include these
+figures. Mathematical checks cover the trigonometric projections and normal
+density/area separately from the rendering checks. Browser tests inspect actual
+shipped articles in both Ace editors at 360px and 1280px, including image integrity,
+alternatives, aspect ratio, source-link scrolling and deferred image requests.
+Native checks decode, size and capture the diagrams in the Windows HTML engine.
+
 All 1,220 existing entries gain explanatory guidance, with subject-specific
 interpretations and explicit numerical/physical caveats. Display equations appear
 in 1,172 entries; together with inline mathematics, 1,173 entries include typeset

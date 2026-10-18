@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "renderer": "Sampled contours and sections; MathJax 4.1.3 / resvg 2.6.2; 3x pixels",
+  "renderer": "Scientific paths and sampled curves; MathJax 4.1.3 / resvg 2.6.2; 3x pixels",
   "figures": {
     "7019380f33af550e616fdd0bfd50e1ba816c430ee8dd4debcdf8acbe25d9bc47": {
       "name": "Ackley",
@@ -272,6 +272,43 @@
         ]
       ],
       "sliceTex": "y=-0.712656"
+    },
+    "995a00705b77afaab3529b9ea2a3eec6ee5241938da80af9482cfac83b71913e": {
+      "name": "UnitCircle",
+      "width": 600,
+      "height": 374,
+      "sha256": "768d7047411e516eddbf7be61a326da554eb9b2e238232ac267c2651eb087dad",
+      "source": "https://dlmf.nist.gov/4.14",
+      "caption": "Real-angle illustration at θ=π/4 radians: the radius-one point is (cosθ,sinθ)=(√2/2,√2/2). The blue horizontal and orange vertical projections are signed x and y coordinates; the axes also show their negative directions. Complex inputs are not represented by this circle.",
+      "alt": "Real-angle unit circle at θ=π/4: a radius of one reaches the point (√2/2,√2/2). Blue cosine and orange sine projections give its horizontal and vertical coordinates. Both axes include -1 and 1. Complex inputs are not represented by this circle.",
+      "angle": 0.7853981633974483,
+      "radius": 1,
+      "point": [
+        0.7071067811865476,
+        0.7071067811865475
+      ]
+    },
+    "d7b540322dcf6ee14bb26ce2f0ea0d35ca61edfb840134bce3fe59bd0205d52f": {
+      "name": "StandardNormal",
+      "width": 600,
+      "height": 374,
+      "sha256": "acbd9e6db5b794bb9f2f31dd7497eff156b681db6b96fddba54a6255d0261592",
+      "source": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm",
+      "caption": "Standard-normal example with μ=0 and σ=1. The shaded left-tail area for X≤1 has probability approximately 0.8413; the orange marker has density f(1)≈0.2420, a height rather than a probability. The drawing shows x from -4 to 4; both tails continue beyond the plotted range, and the stated probability includes the entire left tail.",
+      "alt": "Standard-normal density with μ=0 and σ=1, shown from x=-4 to x=4. The region left of x=1 is shaded for cumulative probability approximately 0.8413. The marked curve height at x=1 is approximately 0.2420. Both tails continue beyond the drawing.",
+      "mean": 0,
+      "stddev": 1,
+      "x": [
+        -4,
+        4
+      ],
+      "y": [
+        0,
+        0.45
+      ],
+      "threshold": 1,
+      "probability": 0.8413447460685429,
+      "densityAtThreshold": 0.24197072451914337
     }
   }
 }

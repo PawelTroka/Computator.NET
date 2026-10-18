@@ -102,7 +102,9 @@ Coverage means all supported autocomplete lookup entries, not every method in ev
 See [REFERENCE-EQUATIONS.md](REFERENCE-EQUATIONS.md) for the authored TeX, packaged
 PNG pipeline, contextual signatures, teaching content and executable examples.
 The old no-image HTML policy is superseded only for strictly local hashed PNG
-equations and sampled benchmark diagrams; remote images, scripts, SVG and
+equations, sampled benchmark diagrams, unit-circle projections and normal
+probability diagrams; remote images, scripts, SVG and
 arbitrary active content remain banned. The diagram class and asset directory
 are validated together. See the #224 section of the linked document for the
-eight illustrated benchmark families and the integration notes for PR #229.
+eight illustrated benchmark families, the six trigonometric/normal entries, and
+the integration notes for PR #229.

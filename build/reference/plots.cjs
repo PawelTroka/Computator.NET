@@ -70,6 +70,52 @@ const models = {
   }
 };
 
+// These examples use the real-angle and standard-normal conventions documented
+// by NIST. Keep them separate from the benchmark models and their existing
+// contour contracts. The probability is independently checked by integrating
+// the density; it includes the left tail beyond the displayed interval.
+const diagrams = {
+  UnitCircle: {
+    angle: Math.PI / 4, radius: 1,
+    source: 'https://dlmf.nist.gov/4.14',
+    caption: 'Real-angle illustration at θ=π/4 radians: the radius-one point is (cosθ,sinθ)=(√2/2,√2/2). The blue horizontal and orange vertical projections are signed x and y coordinates; the axes also show their negative directions. Complex inputs are not represented by this circle.',
+    alt: 'Real-angle unit circle at θ=π/4: a radius of one reaches the point (√2/2,√2/2). Blue cosine and orange sine projections give its horizontal and vertical coordinates. Both axes include -1 and 1. Complex inputs are not represented by this circle.'
+  },
+  StandardNormal: {
+    value: x => Math.exp(-x*x/2) / Math.sqrt(2*Math.PI),
+    mean: 0, stddev: 1, x: [-4, 4], y: [0, 0.45], threshold: 1,
+    probability: 0.8413447460685429,
+    source: 'https://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm',
+    caption: 'Standard-normal example with μ=0 and σ=1. The shaded left-tail area for X≤1 has probability approximately 0.8413; the orange marker has density f(1)≈0.2420, a height rather than a probability. The drawing shows x from -4 to 4; both tails continue beyond the plotted range, and the stated probability includes the entire left tail.',
+    alt: 'Standard-normal density with μ=0 and σ=1, shown from x=-4 to x=4. The region left of x=1 is shaded for cumulative probability approximately 0.8413. The marked curve height at x=1 is approximately 0.2420. Both tails continue beyond the drawing.'
+  }
+};
+
+function unitCircleGeometry(angle = diagrams.UnitCircle.angle) {
+  if (!Number.isFinite(angle)) throw Error('A real, finite angle is required');
+  const point = [Math.cos(angle), Math.sin(angle)];
+  return {
+    point,
+    cosine: [[0, 0], [point[0], 0]],
+    sine: [[point[0], 0], point],
+    horizontal: [[0, point[1]], point],
+    arc: Array.from({ length: 33 }, (_, i) => [0.28*Math.cos(angle*i/32), 0.28*Math.sin(angle*i/32)])
+  };
+}
+
+function normalSamples(segments = 800) {
+  if (!Number.isInteger(segments) || segments < 8 || segments > 10000) throw Error('Invalid density sample count');
+  const model = diagrams.StandardNormal;
+  const curve = Array.from({ length: segments + 1 }, (_, i) => {
+    const x = model.x[0] + i*(model.x[1]-model.x[0])/segments;
+    return [x, model.value(x)];
+  });
+  const shaded = curve.filter(([x]) => x <= model.threshold);
+  // End the polygon at the exact threshold even when it falls between samples.
+  if (shaded.at(-1)[0] !== model.threshold) shaded.push([model.threshold, model.value(model.threshold)]);
+  return { curve, shaded };
+}
+
 // Marching squares on a uniformly sampled grid, with a centre-value decision
 // for saddle cells. Return data-space segments so numerical tests do not rely
 // on pixels or merely mirror the SVG strings.
@@ -97,6 +143,88 @@ function contours(value, xr, yr, level, cells = 160) {
     }
   }
   return result;
+}
+
+async function unitCircleSvg(label) {
+  const model = diagrams.UnitCircle, geometry = unitCircleGeometry(model.angle);
+  const centre = [174, 178], scale = 104;
+  const number = x => Number(x.toFixed(3)).toString();
+  const point = ([x,y]) => [centre[0]+scale*x, centre[1]-scale*y];
+  const line = coordinates => coordinates.map((p,i) => (i ? 'L' : 'M')+point(p).map(number).join(',')).join('');
+  let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="374" viewBox="0 0 600 374"><rect width="600" height="374" fill="white"/>';
+  svg += await label('\\text{Sine and cosine on the unit circle}',300,21,21);
+  svg += `<circle cx="${centre[0]}" cy="${centre[1]}" r="${scale*model.radius}" fill="#fafcff" stroke="#93a0b1" stroke-width="1.8"/>`;
+  svg += '<path d="M43,178H311M174,308V47" fill="none" stroke="#66768a" stroke-width="1.2"/>';
+  svg += '<path d="M316,178L307,174L307,182ZM174,42L170,51L178,51Z" fill="#66768a"/>';
+  for (const value of [-1,1]) {
+    const [px,py] = point([value,value]);
+    svg += `<path d="M${px},174v8M170,${py}h8" stroke="#66768a" stroke-width="1.2"/>`;
+    svg += await label(String(value),px+value*13,198,15) + await label(String(value),161,py-value*10,15,'end');
+  }
+  svg += await label('0',161,193,14) + await label('x',326,178,17) + await label('y',196,49,17);
+  svg += `<path d="${line(geometry.horizontal)}" fill="none" stroke="#93a0b1" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+  svg += `<path d="${line([[0,0],geometry.point])}" fill="none" stroke="#26364b" stroke-width="2.2"/>`;
+  svg += `<path d="${line(geometry.cosine)}" fill="none" stroke="#347b9e" stroke-width="3.4"/>`;
+  svg += `<path d="${line(geometry.sine)}" fill="none" stroke="#d57a22" stroke-width="3.4"/>`;
+  svg += `<path d="${line(geometry.arc)}" fill="none" stroke="#26364b" stroke-width="1.4"/>`;
+  const [px,py] = point(geometry.point);
+  svg += `<circle cx="${number(px)}" cy="${number(py)}" r="4.5" fill="#26364b" stroke="white" stroke-width="1.2"/>`;
+  svg += await label('\\theta',213,159,17);
+  svg += await label('\\cos\\theta',(centre[0]+px)/2,218,16);
+  svg += await label('\\sin\\theta',px+48,(centre[1]+py)/2,16);
+  svg += await label('\\theta=\\frac{\\pi}{4}\\quad\\text{(real)}',450,70,20);
+  svg += '<path d="M344,119h18" stroke="#347b9e" stroke-width="3.4"/>';
+  svg += await label('x=\\cos\\theta=\\frac{\\sqrt{2}}{2}',472,119,20);
+  svg += '<path d="M344,172h18" stroke="#d57a22" stroke-width="3.4"/>';
+  svg += await label('y=\\sin\\theta=\\frac{\\sqrt{2}}{2}',472,172,20);
+  svg += await label('x^2+y^2=1',454,230,20);
+  svg += await label('\\text{Radius}=1',454,276,18);
+  svg += await label('\\text{Projections are signed coordinates.}',300,337,16);
+  svg += await label('\\text{Complex arguments are not shown.}',300,360,14);
+  return svg+'</svg>';
+}
+
+async function standardNormalSvg(label) {
+  const model = diagrams.StandardNormal, samples = normalSamples();
+  const panel = { x: 60, y: 67, w: 510, h: 228 };
+  const number = x => Number(x.toFixed(3)).toString();
+  const point = ([x,y]) => [panel.x+(x-model.x[0])/(model.x[1]-model.x[0])*panel.w,
+    panel.y+panel.h-(y-model.y[0])/(model.y[1]-model.y[0])*panel.h];
+  const line = coordinates => coordinates.map((p,i) => (i ? 'L' : 'M')+point(p).map(number).join(',')).join('');
+  let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="374" viewBox="0 0 600 374"><rect width="600" height="374" fill="white"/>';
+  svg += await label('\\text{Standard normal: }\\mu=0,\\;\\sigma=1',300,22,21);
+  svg += await label('\\text{Density}',60,48,16,'start');
+  svg += `<rect x="${panel.x}" y="${panel.y}" width="${panel.w}" height="${panel.h}" fill="#fafcff"/>`;
+  for (const y of [0,0.1,0.2,0.3,0.4]) {
+    const py = point([0,y])[1];
+    svg += `<path d="M${panel.x},${number(py)}h${panel.w}" stroke="#e3e8ef" stroke-width="0.8"/>`;
+    svg += await label(number(y),panel.x-8,py,14,'end');
+  }
+  const shaded = [[model.x[0],0],...samples.shaded,[model.threshold,0]];
+  svg += `<path d="${line(shaded)}Z" fill="#bed7eb" stroke="none"/>`;
+  svg += `<path d="M${panel.x},${panel.y}v${panel.h}h${panel.w}" fill="none" stroke="#66768a" stroke-width="1.2"/>`;
+  svg += `<path d="${line(samples.curve)}" fill="none" stroke="#315585" stroke-width="2.4"/>`;
+  for (const x of [-4,-2,0,1,2,4]) {
+    const px = point([x,0])[0];
+    svg += `<path d="M${number(px)},295v4" stroke="#66768a" stroke-width="1.2"/>`;
+    svg += await label(String(x),px,311,15);
+  }
+  const density = model.value(model.threshold), [px,py] = point([model.threshold,density]);
+  svg += `<path d="${line([[model.threshold,0],[model.threshold,density]])}" stroke="#d57a22" stroke-width="1.8" stroke-dasharray="5 4"/>`;
+  svg += `<circle cx="${number(px)}" cy="${number(py)}" r="4.3" fill="#d57a22" stroke="white" stroke-width="1.2"/>`;
+  svg += '<rect x="86" y="83" width="171" height="76" rx="5" fill="white" fill-opacity="0.96" stroke="#c6d0dc"/>';
+  svg += await label('P(X\\leq 1)',171,108,20);
+  svg += await label('\\approx '+model.probability.toFixed(4),171,137,20);
+  svg += '<path d="M218,159L254,215" fill="none" stroke="#66768a" stroke-width="1.2"/>';
+  svg += '<path d="M258,221L250,216L257,212Z" fill="#66768a"/>';
+  svg += await label('f(x)=\\frac{e^{-x^2/2}}{\\sqrt{2\\pi}}',459,103,18);
+  svg += await label('f(1)\\approx '+density.toFixed(4),463,177,17);
+  svg += await label('\\text{density height}',463,204,14);
+  svg += `<path d="M416,185L${number(px+5)},${number(py+3)}" fill="none" stroke="#d57a22" stroke-width="1.2"/>`;
+  svg += await label('x',315,328,17);
+  svg += await label('\\text{Area gives probability; curve height gives density.}',300,346,14);
+  svg += await label('\\text{Both tails continue beyond the displayed }[-4,4].',300,365,13);
+  return svg+'</svg>';
 }
 
 async function render(output, check) {
@@ -131,7 +259,7 @@ async function render(output, check) {
   }
   const colors = ['#315585','#347b9e','#369d96','#79ad66','#c2a342','#ad714c'];
   const number = x => Number(x.toFixed(3)).toString();
-  const manifest = { schema: 1, renderer: 'Sampled contours and sections; MathJax 4.1.3 / resvg 2.6.2; 3x pixels', figures: {} };
+  const manifest = { schema: 1, renderer: 'Scientific paths and sampled curves; MathJax 4.1.3 / resvg 2.6.2; 3x pixels', figures: {} };
   if (!check) fs.mkdirSync(output, { recursive: true });
   for (const [name,model] of Object.entries(models)) {
     const width = 600, height = 374;
@@ -192,6 +320,23 @@ async function render(output, check) {
     if (check) { if (!fs.existsSync(file) || !fs.readFileSync(file).equals(png)) throw Error(`${name} plot differs`); }
     else fs.writeFileSync(file,png);
   }
+  for (const [name,model] of Object.entries(diagrams)) {
+    const width = 600, height = 374;
+    const svg = await (name === 'UnitCircle' ? unitCircleSvg(label) : standardNormalSvg(label));
+    if (/<(?:text|image|script|foreignObject)\b|(?:href|src)\s*=/i.test(svg)) throw Error('Plot must contain only self-contained vector outlines');
+    const id = hash(svg);
+    const png = new Resvg(svg, { fitTo: { mode: 'zoom', value: 3 }, font: { loadSystemFonts: false } }).render().asPng();
+    if (png.length > 512000) throw Error(`${name} exceeds the PNG byte budget`);
+    const data = name === 'UnitCircle'
+      ? { angle: model.angle, radius: model.radius, point: unitCircleGeometry(model.angle).point }
+      : { mean: model.mean, stddev: model.stddev, x: model.x, y: model.y, threshold: model.threshold,
+          probability: model.probability, densityAtThreshold: model.value(model.threshold) };
+    manifest.figures[id] = { name, width, height, sha256: hash(png), source: model.source,
+      caption: model.caption, alt: model.alt, ...data };
+    const file = path.join(output,id+'.png');
+    if (check) { if (!fs.existsSync(file) || !fs.readFileSync(file).equals(png)) throw Error(`${name} plot differs`); }
+    else fs.writeFileSync(file,png);
+  }
   const json = JSON.stringify(manifest,null,2)+'\n';
   const file = path.join(output,'manifest.json');
   if (check) { if (fs.readFileSync(file,'utf8') !== json) throw Error('Plot manifest differs'); }
@@ -199,9 +344,9 @@ async function render(output, check) {
     fs.writeFileSync(file,json);
     for (const file of fs.readdirSync(output)) if (/^[a-f0-9]{64}\.png$/.test(file) && !manifest.figures[file.slice(0,-4)]) fs.unlinkSync(path.join(output,file));
   }
-  console.log(`${check ? 'Verified' : 'Rendered'} ${Object.keys(models).length} offline benchmark diagrams.`);
+  console.log(`${check ? 'Verified' : 'Rendered'} ${Object.keys(models).length + Object.keys(diagrams).length} offline reference diagrams.`);
 }
-module.exports = { models, contours };
+module.exports = { models, contours, diagrams, unitCircleGeometry, normalSamples };
 if (require.main === module) {
   const args = process.argv.slice(2);
   if (!args.includes('--output')) throw Error('Expected --output directory [--check]');

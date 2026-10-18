@@ -176,13 +176,13 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
         }
 
         [Test]
-        public void EveryBenchmarkDiagramIsPackagedWithMatchingHashDimensionsAndAnExplanation()
+        public void EveryDiagramIsPackagedWithMatchingHashDimensionsAndAnExplanation()
         {
             var directory = PathUtility.GetFullPath("Static", "reference-figures");
             using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "manifest.json")));
             var figures = manifest.RootElement.GetProperty("figures");
             var ids = figures.EnumerateObject().Select(property => property.Name).ToHashSet(StringComparer.Ordinal);
-            NUnit.Framework.Assert.That(ids.Count, Is.EqualTo(8));
+            NUnit.Framework.Assert.That(ids.Count, Is.EqualTo(10));
             var used = new HashSet<string>(StringComparer.Ordinal);
             foreach (var entry in new FunctionsDetailsFileSource().Details.Values)
                 foreach (var image in XElement.Parse(entry.Description).Descendants("img")
@@ -191,7 +191,12 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                     var id = Path.GetFileNameWithoutExtension((string)image.Attribute("src"));
                     NUnit.Framework.Assert.That(ids, Does.Contain(id), entry.Signature);
                     var item = figures.GetProperty(id);
-                    NUnit.Framework.Assert.That(entry.Signature, Does.StartWith(item.GetProperty("name").GetString() + "("));
+                    var name = item.GetProperty("name").GetString();
+                    if (name == "UnitCircle")
+                        NUnit.Framework.Assert.That(entry.Signature, Is.AnyOf("sin(x)", "sin(z)", "cos(x)", "cos(z)"));
+                    else if (name == "StandardNormal")
+                        NUnit.Framework.Assert.That(entry.Signature, Is.AnyOf("Normal.PDF(mean,stddev,x)", "Normal.CDF(mean,stddev,x)"));
+                    else NUnit.Framework.Assert.That(entry.Signature, Does.StartWith(name + "("));
                     NUnit.Framework.Assert.That((int)image.Attribute("width"), Is.EqualTo(item.GetProperty("width").GetInt32()));
                     NUnit.Framework.Assert.That((int)image.Attribute("height"), Is.EqualTo(item.GetProperty("height").GetInt32()));
                     NUnit.Framework.Assert.That((string)image.Attribute("alt"), Is.EqualTo(item.GetProperty("alt").GetString()));

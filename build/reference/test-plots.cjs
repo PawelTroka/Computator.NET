@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { models, contours } = require('./plots.cjs');
+const { models, contours, diagrams, unitCircleGeometry, normalSamples } = require('./plots.cjs');
 
 const close = (actual, expected, tolerance = 1e-10) => assert.ok(Math.abs(actual-expected) <= tolerance,
   `Expected ${expected}, received ${actual}`);
@@ -62,4 +62,86 @@ test('saddle contours do not connect through a region with the wrong value', () 
     assert.equal(Math.sign(a[0]),Math.sign(b[0]));
     assert.equal(Math.sign(a[1]),Math.sign(b[1]));
   }
+});
+
+test('unit-circle geometry gives the exact real pi/4 projections and radius', () => {
+  const model = diagrams.UnitCircle, geometry = unitCircleGeometry();
+  close(model.angle,Math.PI/4);
+  assert.equal(model.radius,1);
+  close(geometry.point[0],Math.SQRT1_2);
+  close(geometry.point[1],Math.SQRT1_2);
+  close(geometry.point[0]**2 + geometry.point[1]**2,1);
+  close(Math.atan2(geometry.point[1],geometry.point[0]),model.angle);
+  assert.deepEqual(geometry.cosine,[[0,0],[geometry.point[0],0]]);
+  assert.deepEqual(geometry.sine,[[geometry.point[0],0],geometry.point]);
+  assert.deepEqual(geometry.horizontal,[[0,geometry.point[1]],geometry.point]);
+  for (const [x,y] of geometry.arc) close(x*x+y*y,0.28**2);
+  close(Math.atan2(...geometry.arc.at(-1).toReversed()),model.angle);
+  assert.match(model.caption,/Real-angle illustration/);
+  assert.match(model.caption,/Complex inputs are not represented/);
+});
+
+test('projections retain signed coordinates in all real-angle quadrants', () => {
+  const cases = [[0,1,0], [Math.PI/2,0,1], [Math.PI,-1,0],
+    [3*Math.PI/2,0,-1], [-Math.PI/4,Math.SQRT1_2,-Math.SQRT1_2]];
+  for (const [angle,x,y] of cases) {
+    const geometry = unitCircleGeometry(angle);
+    close(geometry.point[0],x); close(geometry.point[1],y);
+    close(geometry.cosine[1][0],x);
+    close(geometry.sine[1][1],y);
+    close(geometry.sine[0][0],geometry.sine[1][0]);
+  }
+  for (const invalid of [NaN,Infinity,-Infinity,'0']) assert.throws(() => unitCircleGeometry(invalid));
+});
+
+test('standard-normal density uses sigma one and has the correct peak and symmetry', () => {
+  const model = diagrams.StandardNormal;
+  assert.equal(model.mean,0); assert.equal(model.stddev,1); assert.equal(model.threshold,1);
+  assert.deepEqual(model.x,[-4,4]);
+  close(model.value(0),0.3989422804014327);
+  close(model.value(1),0.24197072451914337);
+  let previous = Infinity;
+  for (const x of [0,0.25,0.5,1,2,3,4]) {
+    close(model.value(x),model.value(-x));
+    assert.ok(model.value(x) > 0 && model.value(x) < previous);
+    previous = model.value(x);
+  }
+  assert.ok(Math.abs(model.value(1)-model.probability) > 0.5,'Density height must not be labelled as cumulative probability.');
+});
+
+test('normal shading ends exactly at one even when the threshold lies between samples', () => {
+  const model = diagrams.StandardNormal;
+  for (const segments of [800,503]) {
+    const { curve, shaded } = normalSamples(segments);
+    assert.equal(curve.length,segments+1);
+    assert.equal(curve[0][0],-4); assert.equal(curve.at(-1)[0],4);
+    assert.equal(shaded[0][0],-4); assert.equal(shaded.at(-1)[0],1);
+    assert.ok(shaded.every(([x,y]) => x <= 1 && y > 0 && y < model.y[1]));
+    for (let i = 0; i < curve.length; i++) {
+      close(curve[i][1],model.value(curve[i][0]));
+      if (i) assert.ok(curve[i][0] > curve[i-1][0]);
+    }
+    close(shaded.at(-1)[1],0.24197072451914337);
+  }
+  for (const invalid of [0,7,8.5,10001,NaN]) assert.throws(() => normalSamples(invalid));
+});
+
+test('independent density integration verifies the labelled probability and omitted tails', () => {
+  // Simpson integration is independent of both the fixed probability annotation
+  // and the uniformly sampled polygon used by the renderer.
+  function integrate(value,a,b) {
+    const count = 20000, step = (b-a)/count;
+    let sum = value(a)+value(b);
+    for (let i = 1; i < count; i++) sum += (i%2 ? 4 : 2)*value(a+i*step);
+    return sum*step/3;
+  }
+  const model = diagrams.StandardNormal;
+  close(integrate(model.value,-10,10),1,1e-12);
+  close(integrate(model.value,-10,0),0.5,1e-12);
+  close(integrate(model.value,-10,model.threshold),model.probability,1e-12);
+  const omittedLeftTail = integrate(model.value,-10,model.x[0]);
+  close(omittedLeftTail,0.000031671241833119924,1e-14);
+  close(integrate(model.value,model.x[0],model.threshold)+omittedLeftTail,model.probability,1e-12);
+  assert.equal(model.probability.toFixed(4),'0.8413');
+  assert.match(model.caption,/both tails continue beyond the plotted range/);
 });

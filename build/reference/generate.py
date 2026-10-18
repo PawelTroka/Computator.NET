@@ -32,12 +32,20 @@ def figure_manifest():
     return json.loads((FIGURES/"manifest.json").read_text(encoding="utf-8"))["figures"]
 
 def figure_html(item):
-    name=item['signature'].split('(')[0]
-    if COLLECT_EQUATIONS or item['type']!='SpecialFunctions' or name not in special.TESTS:return ''
+    if COLLECT_EQUATIONS:return ''
+    signature,kind=item['signature'],item['type']
+    name=signature.split('(')[0]
+    if kind=='SpecialFunctions' and name in special.TESTS:
+        heading='Reading the landscape'
+    elif kind=='ElementaryFunctions' and signature in ('sin(x)','sin(z)','cos(x)','cos(z)'):
+        name,heading='UnitCircle','Reading sine and cosine'
+    elif kind=='Normal' and signature in ('Normal.PDF(mean,stddev,x)','Normal.CDF(mean,stddev,x)'):
+        name,heading='StandardNormal','Density and accumulated probability'
+    else:return ''
     matches=[(key,asset) for key,asset in figure_manifest().items() if asset['name']==name]
-    if len(matches)!=1:raise ValueError('Expected one reviewed benchmark diagram for '+name)
+    if len(matches)!=1:raise ValueError('Expected one reviewed diagram for '+name)
     key,asset=matches[0]
-    return ('<div class="reference-figure"><p><strong>Reading the landscape</strong></p>'+
+    return ('<div class="reference-figure"><p><strong>'+esc(heading)+'</strong></p>'+
             '<img class="reference-plot" src="reference-figures/'+key+'.png" alt="'+esc(asset['alt'])+
             '" width="'+str(asset['width'])+'" height="'+str(asset['height'])+'" />'+
             '<p>'+esc(asset['caption'])+'</p></div>')

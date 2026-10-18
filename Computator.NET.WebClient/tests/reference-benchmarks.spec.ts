@@ -59,7 +59,7 @@ test('every diagram is served as a PNG and loaded through the production allowli
     `<div class="reference-figure"><img class="reference-plot" src="reference-figures/${id}.png" width="${asset.width}" height="${asset.height}" alt="${asset.name} landscape" /></div>`).join('');
   const tooltip = await openArticle(page,'/calculate','#expressionTextArea',fragment);
   const plots = tooltip.locator('img.reference-plot');
-  await expect(plots).toHaveCount(8);
+  await expect(plots).toHaveCount(Object.keys(figures).length);
   await expect.poll(() => plots.evaluateAll(nodes => nodes.every(node => (node as HTMLImageElement).complete && (node as HTMLImageElement).naturalWidth > 0))).toBe(true);
   for (const [id,asset] of Object.entries(figures)) {
     const response = await request.get(`/reference-figures/${id}.png`);
