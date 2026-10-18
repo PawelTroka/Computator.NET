@@ -11,13 +11,12 @@ namespace Computator.NET.Desktop.Views
 {
     public partial class ChartAreaValuesView : UserControl, IChartAreaValuesView
     {
-        //private ChartAreaValuesPresenter presenter;
         private readonly ErrorProvider _errorProvider;
 
         public ChartAreaValuesView()
         {
             InitializeComponent();
-            _errorProvider = new ErrorProvider(yNNumericUpDown);
+            _errorProvider = new ErrorProvider(this);
             if (RuntimeInformation.IsWindows)
             {
                 using (var icon = new IconEx(IconEx.SystemIcons.Error, _errorProvider.Icon.Size.DpiScale()))
@@ -32,7 +31,8 @@ namespace Computator.NET.Desktop.Views
             { nameof(YMin), y0NumericUpDown},
             { nameof(YMax), yNNumericUpDown},
         };
-            //presenter = new ChartAreaValuesPresenter(this);
+            XAxisLabel = "x";
+            YAxisLabel = "y";
         }
 
         private readonly Dictionary<string, Control> _controlsByProperties;
@@ -40,6 +40,35 @@ namespace Computator.NET.Desktop.Views
         public void SetError(string property, string error)
         {
             _errorProvider.SetError(_controlsByProperties[property], error);
+        }
+
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public string XAxisLabel
+        {
+            get => xMinLabel.Text;
+            set
+            {
+                SetRangeLabel(xMinLabel, x0NumericUpDown, value);
+                SetRangeLabel(xMaxLabel, xnNumericUpDown, value);
+            }
+        }
+
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public string YAxisLabel
+        {
+            get => yMinLabel.Text;
+            set
+            {
+                SetRangeLabel(yMinLabel, y0NumericUpDown, value);
+                SetRangeLabel(yMaxLabel, yNNumericUpDown, value);
+            }
+        }
+
+        private static void SetRangeLabel(ChartRangeLabel label, Control input, string axis)
+        {
+            label.Text = axis;
+            // Keep plain-text names for assistive technology and validation balloons.
+            label.AccessibleName = input.AccessibleName = $"{axis} {(label.IsMaximum ? "max" : "min")}";
         }
 
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]

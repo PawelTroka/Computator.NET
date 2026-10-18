@@ -19,6 +19,7 @@ namespace Computator.NET.Desktop.Views
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            if (disposing) _errorProvider?.Dispose();
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -39,13 +40,13 @@ namespace Computator.NET.Desktop.Views
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
+            this.xMaxLabel = new ChartRangeLabel();
             this.yNNumericUpDown = new ScientificNumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
+            this.xMinLabel = new ChartRangeLabel();
             this.x0NumericUpDown = new ScientificNumericUpDown();
-            this.y0label = new System.Windows.Forms.Label();
+            this.yMinLabel = new ChartRangeLabel();
             this.y0NumericUpDown = new ScientificNumericUpDown();
-            this.yNlabel = new System.Windows.Forms.Label();
+            this.yMaxLabel = new ChartRangeLabel();
             this.xnNumericUpDown = new ScientificNumericUpDown();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
@@ -112,13 +113,13 @@ namespace Computator.NET.Desktop.Views
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-            this.tableLayoutPanel1.Controls.Add(this.label4, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.xMaxLabel, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.yNNumericUpDown, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.xMinLabel, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.x0NumericUpDown, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.y0label, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.yMinLabel, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.y0NumericUpDown, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this.yNlabel, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.yMaxLabel, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.xnNumericUpDown, 2, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 23);
@@ -134,18 +135,19 @@ namespace Computator.NET.Desktop.Views
             this.tableLayoutPanel1.Size = new System.Drawing.Size(198, 142);
             this.tableLayoutPanel1.TabIndex = 16;
             // 
-            // label4
+            // xMaxLabel
             // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label4.AutoSize = true;
-            this.label4.Font = CustomFonts.GetMathFont(10.2F);
-            this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label4.Location = new System.Drawing.Point(9, 42);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(42, 20);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "xN =";
+            this.xMaxLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.xMaxLabel.AutoSize = true;
+            this.xMaxLabel.Font = CustomFonts.GetMathFont(10.2F);
+            this.xMaxLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.xMaxLabel.Location = new System.Drawing.Point(9, 42);
+            this.xMaxLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.xMaxLabel.Name = "xMaxLabel";
+            this.xMaxLabel.Size = new System.Drawing.Size(42, 20);
+            this.xMaxLabel.TabIndex = 7;
+            this.xMaxLabel.Text = "x";
+            this.xMaxLabel.IsMaximum = true;
             // 
             // yNNumericUpDown
             // 
@@ -170,6 +172,7 @@ namespace Computator.NET.Desktop.Views
             0});
             this.yNNumericUpDown.Name = "yNNumericUpDown";
             this.yNNumericUpDown.Size = _numericScaledSize;
+            this.yNNumericUpDown.MinimumSize = _numericScaledSize;
             this.yNNumericUpDown.TabIndex = 17;
             this.yNNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.yNNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
@@ -179,18 +182,18 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             // 
-            // label3
+            // xMinLabel
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label3.AutoSize = true;
-            this.label3.Font = CustomFonts.GetMathFont(10.2F);
-            this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label3.Location = new System.Drawing.Point(12, 11);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 20);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "x0 =";
+            this.xMinLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.xMinLabel.AutoSize = true;
+            this.xMinLabel.Font = CustomFonts.GetMathFont(10.2F);
+            this.xMinLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.xMinLabel.Location = new System.Drawing.Point(12, 11);
+            this.xMinLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.xMinLabel.Name = "xMinLabel";
+            this.xMinLabel.Size = new System.Drawing.Size(39, 20);
+            this.xMinLabel.TabIndex = 5;
+            this.xMinLabel.Text = "x";
             // 
             // x0NumericUpDown
             //
@@ -215,6 +218,7 @@ namespace Computator.NET.Desktop.Views
             0});
             this.x0NumericUpDown.Name = "x0NumericUpDown";
             this.x0NumericUpDown.Size = _numericScaledSize;
+            this.x0NumericUpDown.MinimumSize = _numericScaledSize;
             this.x0NumericUpDown.TabIndex = 10;
             this.x0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.x0NumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
@@ -224,18 +228,18 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             // 
-            // y0label
+            // yMinLabel
             // 
-            this.y0label.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.y0label.AutoSize = true;
-            this.y0label.Font = CustomFonts.GetMathFont(10.2F);
-            this.y0label.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.y0label.Location = new System.Drawing.Point(11, 79);
-            this.y0label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.y0label.Name = "y0label";
-            this.y0label.Size = new System.Drawing.Size(40, 20);
-            this.y0label.TabIndex = 14;
-            this.y0label.Text = "y0 =";
+            this.yMinLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.yMinLabel.AutoSize = true;
+            this.yMinLabel.Font = CustomFonts.GetMathFont(10.2F);
+            this.yMinLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.yMinLabel.Location = new System.Drawing.Point(11, 79);
+            this.yMinLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.yMinLabel.Name = "yMinLabel";
+            this.yMinLabel.Size = new System.Drawing.Size(40, 20);
+            this.yMinLabel.TabIndex = 14;
+            this.yMinLabel.Text = "y";
             // 
             // y0NumericUpDown
             //
@@ -260,6 +264,7 @@ namespace Computator.NET.Desktop.Views
             0});
             this.y0NumericUpDown.Name = "y0NumericUpDown";
             this.y0NumericUpDown.Size = _numericScaledSize;
+            this.y0NumericUpDown.MinimumSize = _numericScaledSize;
             this.y0NumericUpDown.TabIndex = 16;
             this.y0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.y0NumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
@@ -269,18 +274,19 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             // 
-            // yNlabel
+            // yMaxLabel
             // 
-            this.yNlabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.yNlabel.AutoSize = true;
-            this.yNlabel.Font = CustomFonts.GetMathFont(10.2F);
-            this.yNlabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.yNlabel.Location = new System.Drawing.Point(8, 110);
-            this.yNlabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.yNlabel.Name = "yNlabel";
-            this.yNlabel.Size = new System.Drawing.Size(43, 20);
-            this.yNlabel.TabIndex = 15;
-            this.yNlabel.Text = "yN =";
+            this.yMaxLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.yMaxLabel.AutoSize = true;
+            this.yMaxLabel.Font = CustomFonts.GetMathFont(10.2F);
+            this.yMaxLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.yMaxLabel.Location = new System.Drawing.Point(8, 110);
+            this.yMaxLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.yMaxLabel.Name = "yMaxLabel";
+            this.yMaxLabel.Size = new System.Drawing.Size(43, 20);
+            this.yMaxLabel.TabIndex = 15;
+            this.yMaxLabel.Text = "y";
+            this.yMaxLabel.IsMaximum = true;
             // 
             // xnNumericUpDown
             // 
@@ -305,6 +311,7 @@ namespace Computator.NET.Desktop.Views
             0});
             this.xnNumericUpDown.Name = "xnNumericUpDown";
             this.xnNumericUpDown.Size = _numericScaledSize;
+            this.xnNumericUpDown.MinimumSize = _numericScaledSize;
             this.xnNumericUpDown.TabIndex = 11;
             this.xnNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.xnNumericUpDown.UpDownMode = ScientificNumericUpDown.UpDownBehavior.Adaptive;
@@ -388,12 +395,12 @@ namespace Computator.NET.Desktop.Views
         private System.Windows.Forms.GroupBox groupBox2;
         private ScientificNumericUpDown yNNumericUpDown;
         private ScientificNumericUpDown y0NumericUpDown;
-        private System.Windows.Forms.Label yNlabel;
-        private System.Windows.Forms.Label y0label;
+        private ChartRangeLabel yMaxLabel;
+        private ChartRangeLabel yMinLabel;
         private ScientificNumericUpDown xnNumericUpDown;
         private ScientificNumericUpDown x0NumericUpDown;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private ChartRangeLabel xMaxLabel;
+        private ChartRangeLabel xMinLabel;
         private System.Windows.Forms.Button clearChartButton;
         private System.Windows.Forms.Button addToChartButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
