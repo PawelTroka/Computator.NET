@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 const key = 'computator.custom-functions.v1';
 const maximum = 65536;
 type State = { code: string; setCode: (code: string) => void; save: () => void; clear: () => void; dirty: boolean; error: string };
@@ -17,6 +17,16 @@ export function CustomFunctionsProvider({ children }: { children: ReactNode }) {
   const [initial] = useState(read);
   const [code, update] = useState(initial.code), [saved, setSaved] = useState(initial.code);
   const [error, setError] = useState(initial.error), [blocked, setBlocked] = useState(Boolean(initial.error));
+  const dirty = code !== saved;
+  // Definitions also stay in memory while visiting another tool. Keep the
+  // reload/close warning with the shared provider to protect edits after
+  // leaving the editor or after a failed save.
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [dirty]);
   function setCode(next: string) { if (next.length <= maximum) update(next); else setError('Definitions exceed 65,536 characters.'); }
   function save() {
     if (blocked) { setError('Stored definitions could not be read. Clear explicitly before replacing them.'); return; }
@@ -27,7 +37,7 @@ export function CustomFunctionsProvider({ children }: { children: ReactNode }) {
     try { sessionStorage.removeItem(key); update(''); setSaved(''); setBlocked(false); setError(''); }
     catch { setError('The browser could not clear stored definitions.'); }
   }
-  return <Context.Provider value={{ code, setCode, save, clear, dirty: code !== saved, error }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ code, setCode, save, clear, dirty, error }}>{children}</Context.Provider>;
 }
 export function useCustomFunctions() {
   const context = useContext(Context);
