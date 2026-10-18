@@ -884,6 +884,9 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double factorial(double n)
         {
+            // 171! already exceeds the finite range of double.
+            if (n >= 171)
+                return double.PositiveInfinity;
             double f = 1;
             for (ulong i = 1; i <= n; i++)
                 f = f*i;
@@ -2054,6 +2057,9 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double factorial(double n)
         {
+            // 171! already exceeds the finite range of double.
+            if (n >= 171)
+                return double.PositiveInfinity;
             double f = 1;
             for (ulong i = 1; i <= n; i++)
                 f = f*i;
