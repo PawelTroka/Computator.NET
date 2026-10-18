@@ -127,7 +127,7 @@ $result = foreach ($name in @('Computator.NET.exe', 'Computator.NET.Core.dll', '
     $configuration = @($attributes | Where-Object { $_.AttributeType.FullName -eq 'System.Reflection.AssemblyConfigurationAttribute' })
     if ($target.Count -ne 1 -or $configuration.Count -ne 1) { throw "Missing or ambiguous assembly metadata: $name" }
     $kind = [Reflection.PortableExecutableKinds]0
-    $machine = [Reflection.ImageFileMachine]0
+    $machine = [Reflection.ImageFileMachine]::I386
     $assembly.ManifestModule.GetPEKind([ref]$kind, [ref]$machine)
     $fileVersion = [Diagnostics.FileVersionInfo]::GetVersionInfo($path).FileVersion
     [pscustomobject]@{
