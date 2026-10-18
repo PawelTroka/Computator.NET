@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "historicalUpgrade": "passed",
+  "stages": [
+    "official-exe-install-profile-and-launch",
+    "historical-install-and-failed-upgrade-rollback",
+    "candidate-install-payload-and-launch",
+    "real-settings-migration",
+    "shortcuts-and-file-associations",
+    "repair-uninstall-and-user-data-preservation"
+  ],
+  "startedUtc": "2026-10-16T13:19:22.3780944Z",
+  "machine": "runnervm0xl3a",
+  "os": "Microsoft Windows NT 10.0.26100.0",
+  "environment": "github-hosted-sdk-equipped",
+  "powershellVersion": "5.1.26100.33438",
+  "harnessSha256": "7F42CB8051A932543614A0C1BF649E1ADFF3D690B407241855811ED72720A444",
+  "noModernRuntimeRequired": false,
+  "candidateSha256": "7BD90DE7A16E0F1EFED1CB825F4F740BFCB3163700C8993FA37D9B63CC0F51BD",
+  "candidateBundleSha256": "2334A232D8A04959D04A3D34408BA3F73A88289F4D056DEE8DA644AAAAB35851",
+  "inventorySha256": "8CFA670A0D4E96D31582646084F1489EA7151B4661FE59FCA8F9EB7B9B3BAC4F",
+  "historicalBundleSha256": "30B107DCED1C147B6F3BA9089B97D2131DD43AA195D5A23C3A95D9B150149D4A",
+  "candidateProductCode": "{5ee11f5a-4f1e-fc4e-a296-bc713710e32e}",
+  "historicalProductCode": "{BDA7D43C-B1D1-4844-AC3F-198D33E3F237}",
+  "historicalBundleCode": "{252E03F2-85DB-4A38-A29C-14E31AF5AAE1}",
+  "cleanupErrors": [],
+  "modernRuntimeLocations": [
+    "C:\\Program Files (x86)\\dotnet",
+    "C:\\Program Files (x86)\\dotnet\\",
+    "C:\\Program Files\\dotnet",
+    "C:\\Program Files\\dotnet\\"
+  ],
+  "candidateMsiIdentity": {
+    "ProductCode": "{5EE11F5A-4F1E-FC4E-A296-BC713710E32E}",
+    "UpgradeCode": "{86D89770-B31B-4467-BC5E-B54B0FF263A1}",
+    "ProductVersion": "3.0.0"
+  },
+  "historicalInstallDirectory": "C:\\Program Files (x86)\\Computator.NET",
+  "historicalPayloadFiles": 49,
+  "negativeMsiSha256": "D494DC8F177C5C944E09C5A359E56409BFDE8544B8F9C4CADC87E2D60FD71752",
+  "rollbackLogProof": {
+    "failureAction": "ComputatorAcceptanceFailure",
+    "upgradingProductCode": "{5ee11f5a-4f1e-fc4e-a296-bc713710e32e}",
+    "removedProductCode": "{BDA7D43C-B1D1-4844-AC3F-198D33E3F237}",
+    "engineDiagnostics": [
+      "MSI (s) (98:08) [13:19:49:760]: Error in rollback skipped.\tReturn: 5"
+    ],
+    "failureReturnValue": 3
+  },
+  "candidateInstallDirectory": "C:\\Program Files\\Computator.NET",
+  "candidatePayloadFiles": 569,
+  "preservedFiles": [
+    {
+      "sha256": "C9790903499CD22C56D05DD4BCF654FEA3B6D065A4251B0E663FA83A5ADE5D90",
+      "path": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\Computator-Historical-28952791ed3d4e829eaa296e4e60c142\\External documents\\another file.tsl"
+    },
+    {
+      "sha256": "848C970099EEC912DBD94E394848B96B35321D0157EFD6E32F7D8BDF037688F8",
+      "path": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\Computator-Historical-28952791ed3d4e829eaa296e4e60c142\\External documents\\another file.tslf"
+    },
+    {
+      "sha256": "848C970099EEC912DBD94E394848B96B35321D0157EFD6E32F7D8BDF037688F8",
+      "path": "C:\\Users\\runneradmin\\Documents\\Computator.NET\\Acceptance functions\\Zażółć gęślą - keep.tslf"
+    },
+    {
+      "sha256": "C9790903499CD22C56D05DD4BCF654FEA3B6D065A4251B0E663FA83A5ADE5D90",
+      "path": "C:\\Users\\runneradmin\\Documents\\Computator.NET\\Acceptance scripts\\Zażółć gęślą - keep.tsl"
+    },
+    {
+      "sha256": "B786E013686C61CB800D2EBB3C1BE73ABDA7595932877E23C669EC805EB77501",
+      "path": "C:\\Users\\runneradmin\\Documents\\Computator.NET\\settings.dat"
+    },
+    {
+      "sha256": "646C7E1B14980C78DD38712C74E1DA664FA6D6D6986C2446D3029D2D5AD5086C",
+      "path": "C:\\Users\\runneradmin\\Documents\\Computator.NET\\settings.json"
+    }
+  ],
+  "completedUtc": "2026-10-16T13:20:38.2126786Z"
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "releaseTag": "v2.3.2",
+  "assetId": 5646129,
+  "fileName": "Computator.NET.Installer.v2.3.2.exe",
+  "downloadUrl": "https://github.com/PawelTroka/Computator.NET/releases/download/v2.3.2/Computator.NET.Installer.v2.3.2.exe",
+  "size": 28069455,
+  "sha256": "30b107dced1c147b6f3ba9089b97d2131dd43aa195d5a23c3a95d9b150149d4a",
+  "upgradeCode": "{86D89770-B31B-4467-BC5E-B54B0FF263A1}",
+  "productCode": "{BDA7D43C-B1D1-4844-AC3F-198D33E3F237}",
+  "bundleCode": "{252E03F2-85DB-4A38-A29C-14E31AF5AAE1}",
+  "productVersion": "2.3.2.0",
+  "msiTemplate": "Intel;1033",
+  "modernWindowsPayloadSha256": "72dc69f1be5d69be6854d601ce6ce55580a2de47e6a13da6887fa484a2095135",
+  "inspectionRun": "https://github.com/PawelTroka/Computator.NET/actions/runs/38886691140",
+  "provenanceNote": "SHA-256 observed from the official release asset on 2026-10-16, not a publisher-signed checksum. Burn manifest establishes both MSI variants, their shared ProductCode, selection conditions and separate bundle registration. The modern-Windows MSI is the final same-named extracted payload; the acceptance test installs the original EXE, not this extracted file."
+}
