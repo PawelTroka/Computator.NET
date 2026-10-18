@@ -135,6 +135,16 @@ namespace Computator.NET.Desktop.Tests
                 window.PerformLayout();
                 view.PerformLayout();
                 Application.DoEvents();
+                // Retain the actual frame even if a following containment check fails.
+                using var bitmap = new Bitmap(view.Width, view.Height);
+                view.DrawToBitmap(bitmap, view.ClientRectangle);
+                var path = Path.Combine(FindRepositoryRoot(), "TestResults", "chart-area-labels",
+                    $"{mode.ToString().ToLowerInvariant()}-{(int)(scale * 100)}percent.png");
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                bitmap.Save(path, ImageFormat.Png);
+                TestContext.AddTestAttachment(path,
+                    "Actual WinForms controls; font/layout scaling, not physical monitor DPI switching");
+
                 var table = Find<TableLayoutPanel>(view, "tableLayoutPanel1");
                 foreach (var name in LabelNames)
                 {
@@ -152,15 +162,6 @@ namespace Computator.NET.Desktop.Tests
                     NUnit.Framework.Assert.That(input.Right + 16 * scale,
                         Is.LessThanOrEqualTo(table.ClientSize.Width), name);
                 }
-
-                using var bitmap = new Bitmap(view.Width, view.Height);
-                view.DrawToBitmap(bitmap, view.ClientRectangle);
-                var path = Path.Combine(FindRepositoryRoot(), "TestResults", "chart-area-labels",
-                    $"{mode.ToString().ToLowerInvariant()}-{(int)(scale * 100)}percent.png");
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-                bitmap.Save(path, ImageFormat.Png);
-                TestContext.AddTestAttachment(path,
-                    "Actual WinForms controls; font/layout scaling, not physical monitor DPI switching");
             }
         }
 

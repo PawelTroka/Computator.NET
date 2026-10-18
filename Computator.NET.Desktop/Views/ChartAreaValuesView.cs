@@ -37,6 +37,21 @@ namespace Computator.NET.Desktop.Views
 
         private readonly Dictionary<string, Control> _controlsByProperties;
 
+        public override Size GetPreferredSize(Size proposedSize)
+        {
+            var preferred = base.GetPreferredSize(proposedSize);
+            if (tableLayoutPanel1 != null && groupBox2 != null)
+            {
+                // A right-docked, autosized view must include its range table's
+                // content width; the nested docked group otherwise only reports
+                // the view's old minimum width and clips the numeric inputs.
+                var ranges = tableLayoutPanel1.GetPreferredSize(Size.Empty);
+                preferred.Width = Math.Max(preferred.Width,
+                    ranges.Width + groupBox2.Padding.Horizontal + Padding.Horizontal);
+            }
+            return preferred;
+        }
+
         public void SetError(string property, string error)
         {
             _errorProvider.SetError(_controlsByProperties[property], error);
@@ -50,6 +65,7 @@ namespace Computator.NET.Desktop.Views
             {
                 SetRangeLabel(xMinLabel, x0NumericUpDown, value);
                 SetRangeLabel(xMaxLabel, xnNumericUpDown, value);
+                Parent?.PerformLayout(this, nameof(XAxisLabel));
             }
         }
 
@@ -61,6 +77,7 @@ namespace Computator.NET.Desktop.Views
             {
                 SetRangeLabel(yMinLabel, y0NumericUpDown, value);
                 SetRangeLabel(yMaxLabel, yNNumericUpDown, value);
+                Parent?.PerformLayout(this, nameof(YAxisLabel));
             }
         }
 
