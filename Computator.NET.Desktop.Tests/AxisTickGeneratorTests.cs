@@ -130,6 +130,28 @@ namespace Computator.NET.Desktop.Tests
                 Is.InRange(longAxis.MajorTicks.Count - 2, longAxis.MajorTicks.Count + 2));
         }
 
+        [TestCase(-4.4, 4.4, 237, 2.5)]
+        [TestCase(-5.5, 5.5, 150, 5)]
+        public void FractionalViewportBudgetsRetainNonzeroLabelsThatFit(double minimum, double maximum,
+            double length, double expectedStep)
+        {
+            const double spacing = 64;
+            var ticks = AxisTickGenerator.Create(minimum, maximum, length, spacing);
+            NUnit.Framework.Assert.That(ticks.MajorStep, Is.EqualTo(expectedStep));
+            NUnit.Framework.Assert.That(ticks.MajorTicks.Any(tick => tick.Value < 0), Is.True);
+            NUnit.Framework.Assert.That(ticks.MajorTicks.Any(tick => tick.Value > 0), Is.True);
+            for (var index = 1; index < ticks.MajorTicks.Count; index++)
+                NUnit.Framework.Assert.That(
+                    (ticks.MajorTicks[index].Fraction - ticks.MajorTicks[index - 1].Fraction) * length,
+                    Is.GreaterThanOrEqualTo(spacing - 1e-9),
+                    "Retaining the signed scale must still respect the requested pixel separation");
+
+            var scaled = AxisTickGenerator.Create(minimum, maximum, length * 1.5, spacing * 1.5);
+            NUnit.Framework.Assert.That(scaled.MajorStep, Is.EqualTo(ticks.MajorStep));
+            NUnit.Framework.Assert.That(scaled.MajorTicks.Select(tick => (tick.Value, tick.Fraction, tick.Label)),
+                Is.EqualTo(ticks.MajorTicks.Select(tick => (tick.Value, tick.Fraction, tick.Label))));
+        }
+
         [TestCase(-1e-12, 1e-12)]
         [TestCase(1e12, 5e12)]
         public void ExtremeMagnitudesUseCompactScientificNotation(double minimum, double maximum)

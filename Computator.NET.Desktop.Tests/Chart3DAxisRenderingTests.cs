@@ -250,6 +250,8 @@ namespace Computator.NET.Desktop.Tests
                 var ordinaryInk = CountOpaque(normal, label.Bounds, 1);
                 var scaledInk = CountOpaque(high, label.Bounds, 2);
                 NUnit.Framework.Assert.That(ordinaryInk, Is.GreaterThan(5), label.Text);
+                NUnit.Framework.Assert.That(CountDark(normal, label.Bounds), Is.GreaterThan(5),
+                    "The configured black text must remain visible inside its contrasting halo: " + label.Text);
                 NUnit.Framework.Assert.That(scaledInk / (double)ordinaryInk, Is.InRange(2.5, 5.5), label.Text);
             }
         }
@@ -293,7 +295,9 @@ namespace Computator.NET.Desktop.Tests
             {
                 labels.LabelX = labels.LabelY = labels.LabelZ = string.Empty;
                 NUnit.Framework.Assert.That(labels.Annotations.Labels.All(label => label.Value.HasValue), Is.True);
-                var withNumbers = chart.RenderImage(513, 287);
+                var withNumbers = chart.RenderImage(513, 287, 96, out var exportedLabels);
+                NUnit.Framework.Assert.That(exportedLabels.Count(label => label.Value.HasValue), Is.GreaterThanOrEqualTo(3));
+                NUnit.Framework.Assert.That(exportedLabels.All(label => label.Value.HasValue), Is.True);
                 labels.ActiveLabels = false;
                 var withoutNumbers = chart.RenderImage(513, 287);
                 var before = Pixels(withNumbers);
@@ -342,7 +346,7 @@ namespace Computator.NET.Desktop.Tests
                     MixedSurface(item.Width * 96 / item.Dpi, item.Height * 96 / item.Dpi,
                         item.Maximum / 2, item.YMaximum.Value / 2, item.NormalizeCoordinates) :
                     Surface(item.Width * 96 / item.Dpi, item.Height * 96 / item.Dpi, item.Minimum, item.Maximum);
-                var bitmap = chart.RenderImage(item.Width, item.Height, item.Dpi);
+                var bitmap = chart.RenderImage(item.Width, item.Height, item.Dpi, out var exportedLabels);
                 var path = Path.Combine(destination, item.Name + ".png");
                 Save(bitmap, path);
                 images.Add(new
@@ -354,7 +358,7 @@ namespace Computator.NET.Desktop.Tests
                     yUnit = item.NormalizeCoordinates ? item.YMaximum / 2 : null,
                     chart.Scale, chart.EqualAxes, labelColor = chart.AxisLabels.Color.ToString(),
                     sha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))),
-                    labels = chart.AxisLabels.Annotations.Labels.Select(label => new
+                    labels = exportedLabels.Select(label => new
                     {
                         label.Axis, label.Value, label.Text,
                         x = label.Bounds.X, y = label.Bounds.Y, width = label.Bounds.Width, height = label.Bounds.Height
@@ -496,6 +500,22 @@ namespace Computator.NET.Desktop.Tests
         }
 
         private static string Digest(BitmapSource bitmap) => Convert.ToHexString(SHA256.HashData(Pixels(bitmap)));
+
+        private static int CountDark(BitmapSource bitmap, Rect rectangle)
+        {
+            var bytes = Pixels(bitmap);
+            var count = 0;
+            for (var y = Math.Max(0, (int)Math.Floor(rectangle.Top));
+                y < Math.Min(bitmap.PixelHeight, Math.Ceiling(rectangle.Bottom)); y++)
+                for (var x = Math.Max(0, (int)Math.Floor(rectangle.Left));
+                    x < Math.Min(bitmap.PixelWidth, Math.Ceiling(rectangle.Right)); x++)
+                {
+                    var offset = (y * bitmap.PixelWidth + x) * 4;
+                    if (bytes[offset + 3] > 127 && bytes[offset] < 80 &&
+                        bytes[offset + 1] < 80 && bytes[offset + 2] < 80) count++;
+                }
+            return count;
+        }
 
         private static int CountNonwhite(BitmapSource bitmap)
         {

@@ -386,6 +386,12 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         internal RenderTargetBitmap RenderImage(int width, int height, double dpi = 96)
         {
+            return RenderImage(width, height, dpi, out _);
+        }
+
+        internal RenderTargetBitmap RenderImage(int width, int height, double dpi,
+            out IReadOnlyList<RenderedAxisLabel> renderedLabels)
+        {
             if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width));
             if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height));
             if (!double.IsFinite(dpi) || dpi <= 0) throw new ArgumentOutOfRangeException(nameof(dpi));
@@ -419,6 +425,7 @@ namespace Computator.NET.Charting.Chart3D.UI
 
             var bitmap = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
             bitmap.Render(output);
+            renderedLabels = labels.Annotations.Labels.ToArray();
             return bitmap;
         }
 

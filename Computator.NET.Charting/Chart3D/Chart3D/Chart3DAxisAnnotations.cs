@@ -164,7 +164,12 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
                     LineJoin = PenLineJoin.Round
                 };
                 foreach (var label in _labels)
-                    drawing.DrawGeometry(labelBrush, labelOutline, label.Geometry);
+                {
+                    // Stroke first: drawing a centered halo over the fill erases
+                    // thin numerical strokes at ordinary display sizes.
+                    drawing.DrawGeometry(null, labelOutline, label.Geometry);
+                    drawing.DrawGeometry(labelBrush, null, label.Geometry);
+                }
                 drawing.Pop();
             }
             InvalidateVisual();

@@ -25,8 +25,10 @@ namespace Computator.NET.Charting.Axes
             culture = culture ?? CultureInfo.InvariantCulture;
             // Two target intervals ensure at least one globally aligned tick in
             // short viewports. The renderer can omit labels that do not fit.
+            // Keep the budget fractional: flooring it before choosing a nice
+            // interval can discard values whose actual pixel separation fits.
             var intervals = Math.Max(2, Math.Min(MaximumMajorIntervals,
-                Math.Floor(length / minimumMajorSpacing)));
+                length / minimumMajorSpacing));
             var span = maximum - minimum;
             var requestedStep = IsFinite(span)
                 ? span / intervals
