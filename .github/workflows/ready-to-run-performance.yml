@@ -1,0 +1,83 @@
+name: ReadyToRun published correctness and latency
+on:
+  pull_request:
+    paths:
+      - 'Computator.NET/Computator.NET.csproj'
+      - 'build/performance/Prepare-Comparison.ps1'
+      - 'build/performance/Prepare-ReadyToRun.ps1'
+      - '.github/workflows/ready-to-run-performance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  comparison:
+    runs-on: windows-2025
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        experiment: [historical, modern]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Verify compiler correctness before preparing the published experiment
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path artifacts/r2r-tests -Force | Out-Null
+          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj -c Release --filter FullyQualifiedName~PrecompiledBuiltin --logger 'trx;LogFileName=builtins.trx' --results-directory artifacts/r2r-tests 2>&1 | Tee-Object -FilePath artifacts/r2r-tests/build-and-test.log
+          if ($LASTEXITCODE -ne 0) { throw 'Correctness failed; do not benchmark a failing product.' }
+          [xml]$trx = Get-Content artifacts/r2r-tests/builtins.trx -Raw
+          $counts = $trx.TestRun.ResultSummary.Counters
+          if ([int]$counts.executed -lt 38 -or [int]$counts.failed -ne 0 -or [int]$counts.executed -ne [int]$counts.passed) { throw 'Focused test completeness failed.' }
+          python -m unittest discover -s build/performance -p 'test_*.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'Benchmark protocol tests failed.' }
+      - name: Publish IL and R2R from the same source and verify native image headers
+        shell: pwsh
+        run: |
+          ./build/performance/Prepare-ReadyToRun.ps1 -OutputDirectory artifacts/r2r-input -DisposableProfile
+      - name: Screen all published workloads with correctness oracles
+        shell: pwsh
+        env:
+          EXPERIMENT: ${{ matrix.experiment }}
+        run: |
+          python build/performance/compare.py run --manifest "artifacts/r2r-input/$env:EXPERIMENT-manifest.json" --output artifacts/r2r-screening --pairs 1 --timeout 120 --bootstrap 50000 --seed 191
+          if ($LASTEXITCODE -ne 0) { throw 'Published workload screening failed; retain observations and stop.' }
+      - name: Measure twenty sequential same-machine process pairs
+        shell: pwsh
+        env:
+          EXPERIMENT: ${{ matrix.experiment }}
+        run: |
+          python build/performance/compare.py run --manifest "artifacts/r2r-input/$env:EXPERIMENT-manifest.json" --output artifacts/r2r-results --pairs 20 --timeout 120 --bootstrap 50000 --seed 191
+          if ($LASTEXITCODE -ne 0) { throw 'Comparison invalid; inspect raw observations.' }
+      - name: Print exact measured results and source identities
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path artifacts/r2r-results/report.md) {
+            Get-Content artifacts/r2r-results/report.md
+            Get-Content artifacts/r2r-results/report.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ready-to-run-${{ matrix.experiment }}-evidence
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            artifacts/r2r-tests/
+            artifacts/r2r-input/*manifest.json
+            artifacts/r2r-input/publication-audit.json
+            artifacts/r2r-input/il/build-commands.json
+            artifacts/r2r-input/il/windows-environment.json
+            artifacts/r2r-input/il/*conditioning*
+            artifacts/r2r-input/r2r/build-commands.json
+            artifacts/r2r-input/r2r/windows-environment.json
+            artifacts/r2r-input/r2r/*conditioning*
+            artifacts/r2r-input/r2r/historical/baseline-provenance.json
+            artifacts/r2r-screening/
+            artifacts/r2r-results/

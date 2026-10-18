@@ -10,6 +10,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
+    <!-- Precompile the application and its distributed compiler dependencies.
+         IL remains available: TSL/Roslyn and collectible programs still work.
+         An explicit false override preserves an IL-only diagnostic publish. -->
+    <PublishReadyToRun Condition="'$(PublishReadyToRun)' == '' and '$(Configuration)' == 'Release' and '$(RuntimeIdentifier)' == 'win-x64'">true</PublishReadyToRun>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />
