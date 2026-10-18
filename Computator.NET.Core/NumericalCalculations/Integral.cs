@@ -73,7 +73,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double trapezoidalMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var h = System.Math.Abs(b - a)/N;
+            var h = (b - a)/N;
             double s = 0, x1, x2;
 
             for (var i = 0; i < N; i++)
@@ -87,7 +87,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double rectangleMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var h = System.Math.Abs(b - a)/N;
+            var h = (b - a)/N;
             double s = 0, x;
 
             for (var i = 0; i < N; i++)
@@ -103,7 +103,7 @@ namespace Computator.NET.Core.NumericalCalculations
             if (N%2 != 0) //not even
                 N++;
 
-            var h = System.Math.Abs(b - a)/N;
+            var h = (b - a)/N;
             double s = 0, x;
 
             for (var i = 1; i < N; i++)
@@ -155,7 +155,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double trapezoidalMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var h = System.Math.Abs(b - a)/N;
+            var h = (b - a)/N;
             double s = 0, x1, x2;
 
             for (var i = 0; i < N; i++)
@@ -169,7 +169,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double rectangleMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var h = System.Math.Abs(b - a)/N;
+            var h = (b - a)/N;
             double s = 0, x;
 
             for (var i = 0; i < N; i++)
@@ -185,7 +185,7 @@ namespace Computator.NET.Core.NumericalCalculations
             if (N%2 != 0) //not even
                 N++;
 
-            var h = System.Math.Abs(b - a)/N;
+            var h = (b - a)/N;
             double s = 0, x;
 
             for (var i = 1; i < N; i++)

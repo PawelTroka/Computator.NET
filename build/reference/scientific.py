@@ -68,9 +68,12 @@ def integral(name,args):
                  'Approximates ∫ₐᵇ fx(t) dt.', 'Supply a real callable fx, a<b and an appropriate positive integral N.',
                  'Exact method names: trapezoidal method; rectangle method; Simpson\'s method; double exponential transformation; non-adaptive Gauss–Kronrod method; infinity-adaptive Gauss–Kronrod method; Monte Carlo method; Romberg\'s method. Unknown names return NaN. N means panels, tolerance inverse or depth depending on the selected method; the default 10,000 is invalid for Romberg.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Integral.cs',category='Numerical integration')
     t,d,f,n=data[name]
-    caveat=' The hand-written midpoint/trapezoid/Simpson wrappers use |b−a| and then advance from a; they do not implement reversed-bound antisymmetry. Use a<b.' if name in ('rectangleMethod','trapezoidalMethod','simpsonMethod') else ''
-    return A(t,d,f,'fx is a real-valued callable. Supply integral N>0 and a<b, except supported infinite endpoints of the adaptive method.',
-             n+caveat+' These are numerical estimates, not symbolic antiderivatives or certified error bounds.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Integral.cs',category='Numerical integration')
+    oriented=name in ('rectangleMethod','trapezoidalMethod','simpsonMethod')
+    arguments=('fx is a real-valued callable. Supply integral N>0 and finite bounds a,b in either order.'
+               if oriented else 'fx is a real-valued callable. Supply integral N>0 and a<b, except supported infinite endpoints of the adaptive method.')
+    orientation=' A signed step (b−a)/N follows the interval from a to b. Reversing the limits reverses the integral sign; equal bounds give zero for a finite integrand.' if oriented else ''
+    return A(t,d,f,arguments,
+             n+orientation+' These are numerical estimates, not symbolic antiderivatives or certified error bounds.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Integral.cs',category='Numerical integration')
 
 def derivative(name,args):
     if name=='derivative' and args.startswith('methodName'):
