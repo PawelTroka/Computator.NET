@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Text;
 using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Compilation.TslHandlers;
 using Computator.NET.Core.Constants;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.NumericalCalculations;
@@ -12,6 +13,7 @@ using Computator.NET.DataTypes.Functions;
 using Computator.NET.DataTypes.Utility;
 using Computator.NET.Localization;
 using NLog;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Computator.NET.Core.Evaluation
 {
@@ -89,6 +91,24 @@ namespace Computator.NET.Core.Evaluation
             Logger = LogManager.GetLogger(GetType().FullName);
             AdditionalObjectsCode = "";
             AdditionalUsings = "";
+        }
+
+        internal ExpressionAnalysis AnalyzeFunctionPowers(string expression, string customFunctionsCode, bool isImplicit)
+        {
+            // Make every coordinate available while binding. This discovers coordinates
+            // hidden in a bare power suffix without mistaking an exact custom name for
+            // a power. Implicit equations have real coordinates, including z.
+            var coordinateType = isImplicit ? "double" : "System.Numerics.Complex";
+            var source = Begin + _tslCompiler.TransformToCSharp(customFunctionsCode, "", true) +
+                "public static object CustomFunction(double x, double y, " + coordinateType + " z) { return " +
+                expression + "; } } }";
+            var compilation = FunctionPowerResolver.Resolve(NativeCompiler.CreateCompilation(source));
+            var method = compilation.SyntaxTrees.Single().GetRoot().DescendantNodes()
+                .OfType<MethodDeclarationSyntax>().LastOrDefault(node => node.Identifier.ValueText == "CustomFunction");
+            var result = method?.Body?.Statements.OfType<ReturnStatementSyntax>().FirstOrDefault()?.Expression;
+            // While the user types, malformed input or custom definitions can prevent
+            // the generated method from parsing. Evaluation owns those diagnostics.
+            return ExpressionAnalysis.Parse(result?.ToFullString() ?? expression);
         }
 
 

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Computator.NET.Core.Compilation.TslHandlers;
 
 namespace Computator.NET.Core.Evaluation
 {
@@ -29,6 +30,7 @@ namespace Computator.NET.Core.Evaluation
 
         public bool IsEmpty => !_expression.DescendantTokens().Any(token => !token.IsMissing && token.Span.Length > 0);
         public bool IsImplicit => _equation != null;
+        public bool HasFunctionPowers => FunctionPowerResolver.HasCandidates(_expression);
 
         public bool ContainsVariable(string name)
         {

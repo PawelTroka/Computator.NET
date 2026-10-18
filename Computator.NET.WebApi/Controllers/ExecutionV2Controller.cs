@@ -36,7 +36,7 @@ namespace Computator.NET.WebApi.Controllers
                     new ScriptEvaluator().Evaluate(request.Expression, request.CustomFunctions).Evaluate(output.Append);
                     return Ok(new { result = output.ToString() });
                 }
-                var mode = request.Operation == "calculate" ? _mode.DetermineMode(request.Expression) : CalculationsMode.Real;
+                var mode = request.Operation == "calculate" ? _mode.DetermineMode(request.Expression, request.CustomFunctions) : CalculationsMode.Real;
                 var function = new ExpressionsEvaluator().Evaluate(request.Expression, request.CustomFunctions, mode);
                 string result;
                 switch (request.Operation)
@@ -73,7 +73,7 @@ namespace Computator.NET.WebApi.Controllers
             IChart chart = null;
             try
             {
-                var mode = _mode.DetermineMode(request.Expression);
+                var mode = _mode.DetermineMode(request.Expression, request.CustomFunctions);
                 if (mode == CalculationsMode.Fxy) return UnprocessableEntity(new ProblemDetails { Title = "Server-side 3D rendering is not implemented." });
                 var function = new ExpressionsEvaluator().Evaluate(request.Expression, request.CustomFunctions, mode);
                 chart = _charts.Create(mode); chart.AddFunction(function);

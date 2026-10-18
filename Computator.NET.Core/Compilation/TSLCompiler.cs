@@ -13,6 +13,8 @@ namespace Computator.NET.Core.Compilation
     public interface ITslCompiler
     {
         string TransformToCSharp(string tslCode);
+        string TransformToCSharp(string tslCode, string customFunctionsCode, bool deferSymbolicFunctionPowers) =>
+            TransformToCSharp(tslCode);
     }
 
     public class TslCompiler : ITslCompiler
@@ -67,7 +69,7 @@ namespace Computator.NET.Core.Compilation
         /// <summary>
         /// Evaluation defers bare symbolic call names until the complete program
         /// can bind them. The existing overloads retain syntax-only translation
-        /// for editor previews and calculation-mode analysis.
+        /// for editor previews. Mode analysis uses the same deferred binding as evaluation.
         /// </summary>
         public string TransformToCSharp(string tslCode, string customFunctionsCode, bool deferSymbolicFunctionPowers)
         {

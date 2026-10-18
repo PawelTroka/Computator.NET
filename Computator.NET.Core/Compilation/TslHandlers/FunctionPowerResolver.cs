@@ -25,7 +25,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
                     var root = tree.GetRoot();
                     // Most programs need no binding pass. In particular, declarations
                     // and literal text alone must not activate symbolic lowering.
-                    if (!root.DescendantNodes().OfType<InvocationExpressionSyntax>().Any(IsCandidate)) break;
+                    if (!HasCandidates(root)) break;
                     var rewritten = new Rewriter(compilation.GetSemanticModel(tree)).Visit(root)!;
                     if (ReferenceEquals(root, rewritten)) break;
                     var nextTree = tree.WithRootAndOptions(rewritten, tree.Options);
@@ -38,6 +38,9 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             }
             return compilation;
         }
+
+        public static bool HasCandidates(SyntaxNode root) =>
+            root.DescendantNodesAndSelf().OfType<InvocationExpressionSyntax>().Any(IsCandidate);
 
         internal static bool IsSuperscriptLetter(char character) =>
             char.IsLetter(character) && SpecialSymbols.SuperscriptAlphabet.IndexOf(character) >= 0;

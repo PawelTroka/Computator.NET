@@ -7,6 +7,7 @@ namespace Computator.NET.Core.Evaluation
     public interface IModeDeterminer
     {
         CalculationsMode DetermineMode(string input);
+        CalculationsMode DetermineMode(string input, string customFunctionsCode) => DetermineMode(input);
     }
 
     public class ModeDeterminer : IModeDeterminer
@@ -18,18 +19,24 @@ namespace Computator.NET.Core.Evaluation
             _tslCompiler = tslCompiler ?? throw new ArgumentNullException(nameof(tslCompiler));
         }
 
-        public CalculationsMode DetermineMode(string input)
+        public CalculationsMode DetermineMode(string input) => DetermineMode(input, string.Empty);
+
+        public CalculationsMode DetermineMode(string input, string customFunctionsCode)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return CalculationsMode.Error;
 
-            var expression = ExpressionAnalysis.Parse(_tslCompiler.TransformToCSharp(input));
+            var cSharp = _tslCompiler.TransformToCSharp(input, customFunctionsCode ?? "", true);
+            var expression = ExpressionAnalysis.Parse(cSharp);
             if (expression.IsEmpty)
                 return CalculationsMode.Error;
 
-            var isZ = expression.ContainsVariable("z");
-            var isI = expression.ContainsVariable("i");
-            var isY = expression.ContainsVariable("y");
+            var inputs = expression.HasFunctionPowers
+                ? new ExpressionsEvaluator().AnalyzeFunctionPowers(cSharp, customFunctionsCode ?? "", expression.IsImplicit)
+                : expression;
+            var isZ = inputs.ContainsVariable("z");
+            var isI = inputs.ContainsVariable("i");
+            var isY = inputs.ContainsVariable("y");
 
             if (!expression.IsImplicit)
             {

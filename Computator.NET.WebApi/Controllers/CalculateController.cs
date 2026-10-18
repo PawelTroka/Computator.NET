@@ -64,7 +64,7 @@ namespace Computator.NET.WebApi.Controllers
         //[HttpGet("{calculationsMode}/{equation}/{customFunctionsCode}")]
         public string Get(string equation, double x = 0, double y = 0, string customFunctionsCode = "")
         {
-            var calculationsMode = _modeDeterminer.DetermineMode((equation));
+            var calculationsMode = _modeDeterminer.DetermineMode(equation, customFunctionsCode);
 
             return Get(calculationsMode, equation, x, y, customFunctionsCode);
         }
