@@ -5,11 +5,19 @@
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile><NuGetAudit>true</NuGetAudit><NuGetAuditMode>all</NuGetAuditMode>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
+    <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
+    <Compile Include="../Computator.NET.Desktop.Tests/ComplexChartRenderingTests.cs" Link="Charting/ComplexChartRenderingTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" PrivateAssets="all" /><PackageReference Include="NUnit" />
     <PackageReference Include="NUnit3TestAdapter" PrivateAssets="all" />
     <Using Include="NUnit.Framework.Legacy.ClassicAssert" Alias="Assert" />
     <!-- Existing syntax regressions run against the exact same extracted implementation on each OS. -->
     <Compile Include="../Computator.NET.Core.Tests/CompilersTests/TslCompilerTests.cs" Link="Parity/TslCompilerTests.cs" />
+    <!-- Exercise the desktop transform adapter and its regressions on every OS. -->
+    <Compile Include="../Computator.NET.Core/Transformations/TrigonometricTransformations.cs" Link="Parity/TrigonometricTransformations.cs" />
+    <Compile Include="../Computator.NET.Core.Tests/TransformationsTests/MathematicalTransformationsTests.cs" Link="Parity/MathematicalTransformationsTests.cs" />
   </ItemGroup>
 </Project>

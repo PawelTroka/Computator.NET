@@ -28,6 +28,8 @@ export function CustomFunctions() {
       if (revision.current !== importingRevision) return;
       const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes).replace(/^\uFEFF/, '');
       if (text.length > 65536) throw new Error('Definitions exceed 65,536 characters.');
+      if (functions.code && functions.code !== text &&
+          !confirm('Replace the current custom functions? Export them first to keep a separate copy.')) return;
       functions.setCode(text); setFileError('');
     } catch (reason) {
       if (revision.current === importingRevision) setFileError(reason instanceof Error ? reason.message : 'The file could not be read.');

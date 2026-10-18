@@ -1,18 +1,19 @@
 """Physical quantities: definitions and units, never a numerical-constant update."""
-from common import A, NIST
+from common import A, P, M, NIST
+from categories import subject_category
 # e in these formulas is physical elementary charge, not the TSL Euler constant.
 METROLOGY=('The stored value is the application’s legacy binary64 value, not a live CODATA lookup or an uncertainty-bearing measurement. '
            'Use the cited current NIST/SI definition for precision work; independently stored related constants may not be numerically consistent.')
 BASE={
 'c':('Speed of light in vacuum','Propagation speed of light in vacuum and conversion between time and length.','c = 299792458 m/s exactly in the SI.','m s⁻¹','The short name and SpeedOfLightInVacuum represent the same physical quantity.'),
 'g':('Legacy gravitational acceleration','A stored near-Earth acceleration used in elementary mechanics.','F=m·g; free-fall distance from rest is ½g·t².','m s⁻²','The stored 9.80625 is NOT the conventional standard acceleration 9.80665. Use StandardAccelerationOfGravity for the conventional value; local gravity varies with location.'),
-'h':('Planck constant — short name','Relates photon energy to ordinary frequency, E=h·ν.','h = 6.62607015×10⁻³⁴ J·s exactly in the modern SI.','J s','This short name and PlanckConstant have different historical stored approximations. Neither should be treated as the current exact SI value.'),
+'h':('Planck constant — short name',P('Relates photon energy to ordinary frequency, ', M('E=h\\nu', 'E=h·ν'), '.'),'h = 6.62607015×10⁻³⁴ J·s exactly in the modern SI.','J s','This short name and PlanckConstant have different historical stored approximations. Neither should be treated as the current exact SI value.'),
 'G':('Newtonian gravitational constant — short name','Sets the strength of Newtonian gravitational attraction.','F=G·m₁·m₂/r².','m³ kg⁻¹ s⁻²','The short name G and NewtonianConstantOfGravitation have slightly different stored values. G is experimentally determined, not an SI defining constant.'),
 'MagneticConstant':('Vacuum magnetic permeability','Relates magnetic flux density and magnetic field strength in vacuum.','B=μ₀·H.','N A⁻²','The code stores the pre-2019 exact convention 4·PI×10⁻⁷. In the modern SI μ₀ is experimentally determined through the fine-structure constant, not exactly that number.'),
 'ElectricConstant':('Vacuum electric permittivity','Relates electric displacement to electric field in vacuum and enters Coulomb’s law.','D=ε₀·E; ε₀=1/(μ₀c²).','F m⁻¹','Not exact in the modern SI. Do not assume the rounded independently stored μ₀ and ε₀ obey their relation to every displayed digit.'),
 'ImpedanceOfVacuum':('Characteristic impedance of vacuum','Ratio of electric-field to magnetic-field strength in a plane electromagnetic wave in vacuum.','Z₀=μ₀c=sqrt(μ₀/ε₀).','Ω',''),
 'NewtonianConstantOfGravitation':('Newtonian gravitational constant','Sets the proportionality in the inverse-square gravitational force law.','F=G·m₁·m₂/r².','m³ kg⁻¹ s⁻²','This measured constant is not exact; distinguish it from a local acceleration g.'),
-'NewtonianConstantOfGravitationOverHBarC':('Gravitational coupling in particle-energy units','Newton’s gravitational constant divided by ℏc, represented using GeV-based high-energy units.','G/(ℏc).','(GeV/c²)⁻²','This is not dimensionless. Multiplying by a mass squared in GeV/c² gives a dimensionless gravitational coupling.'),
+'NewtonianConstantOfGravitationOverHBarC':('Gravitational coupling in particle-energy units',P('Newton’s gravitational constant divided by ', M('\\hbar c', 'ℏc'), ', represented using GeV-based high-energy units.'),'G/(ℏc).','(GeV/c²)⁻²','This is not dimensionless. Multiplying by a mass squared in GeV/c² gives a dimensionless gravitational coupling.'),
 'PlanckConstant':('Planck constant','Converts ordinary frequency to quantum energy.','E=h·ν.','J s','Modern SI fixes h exactly at 6.62607015×10⁻³⁴ J·s; the stored legacy approximation differs.'),
 'PlanckConstantInEvS':('Planck constant in electronvolt seconds','Converts photon frequency in hertz to energy in electronvolts.','E[eV]=h[eV·s]·ν[Hz].','eV s',''),
 'PlanckConstantOver2Pi':('Reduced Planck constant','Quantum of angular momentum; uses angular frequency rather than cycles per second.','ℏ=h/(2π); E=ℏω.','J s',''),
@@ -23,14 +24,14 @@ BASE={
 'PlanckMass':('Planck mass','Mass scale at which the dimensionless gravitational coupling becomes order one.','mP=sqrt(ℏc/G).','kg','Uses the unreduced Planck-mass convention; the reduced gravitational mass scale differs by sqrt(8π). The stored 2.1765113×10⁻⁸ kg differs from the 2010 CODATA central value 2.17651×10⁻⁸ kg; its extra digits are not additional precision.'),
 'PlanckMassEnergyEquivalentInGev':('Planck mass energy','Energy equivalent of the unreduced Planck mass.','EP=mP·c².','GeV','This is an energy, not the mass value in kilograms.'),
 'PlanckTemperature':('Planck temperature','Temperature associated with the Planck mass energy.','TP=mP·c²/kB.','K',''),
-'ElementaryCharge':('Elementary charge','Positive magnitude of the charge of a proton; an electron has charge −e.','e = 1.602176634×10⁻¹⁹ C exactly in the modern SI.','C','The identifier ElementaryCharge is distinct from the mathematical constant e in TSL.'),
+'ElementaryCharge':('Elementary charge',P('Positive magnitude of the charge of a proton; an electron has charge ', M('-e', '−e'), '.'),'e = 1.602176634×10⁻¹⁹ C exactly in the modern SI.','C','The identifier ElementaryCharge is distinct from the mathematical constant e in TSL.'),
 'ElementaryChargeOverH':('Elementary charge divided by Planck constant','Frequency-per-voltage conversion underlying quantum electrical relations.','e/h.','A J⁻¹','Equivalently Hz/V. Physical e is ElementaryCharge, not Euler’s number.'),
 'BohrMagneton':('Bohr magneton','Natural magnetic-moment scale for an electron.','μB=eℏ/(2me).','J T⁻¹','A magnetic moment, not a magnetic field.'),
 'NuclearMagneton':('Nuclear magneton','Magnetic-moment scale defined using the proton mass.','μN=eℏ/(2mp).','J T⁻¹','Nuclear magnetic moments need not be an integer number of nuclear magnetons.'),
 'BohrRadius':('Bohr radius','Atomic length scale equal to the ground-state orbit radius in the simplest hydrogen model.','a₀=ℏ/(me·c·α).','m',''),
 'ClassicalElectronRadius':('Classical electron radius','Length scale obtained by equating an electrostatic energy scale to the electron rest energy.','re=e²/(4π ε₀ me c²)=α²a₀.','m','Not a measured geometric radius of an extended electron.'),
 'ComptonWavelength':('Electron Compton wavelength','Photon wavelength whose quantum energy equals the electron rest energy.','λC=h/(me·c).','m','This is the ordinary Compton wavelength; the reduced one is smaller by 2π.'),
-'ComptonWavelengthOver2Pi':('Reduced electron Compton wavelength','Electron quantum length scale using ℏ rather than h.','λC/(2π)=ℏ/(me·c).','m',''),
+'ComptonWavelengthOver2Pi':('Reduced electron Compton wavelength',P('Electron quantum length scale using ', M('\\hbar', 'ℏ'), ' rather than ', M('h', 'h'), '.'),'λC/(2π)=ℏ/(me·c).','m',''),
 'ConductanceQuantum':('Conductance quantum','Conductance scale of a fully transmitting spin-degenerate electronic channel.','G₀=2e²/h.','S','The factor two represents spin degeneracy.'),
 'InverseOfConductanceQuantum':('Resistance quantum for a spin-degenerate channel','Reciprocal of the conductance quantum.','1/G₀=h/(2e²).','Ω','Half of the von Klitzing resistance h/e².'),
 'MagneticFluxQuantum':('Superconducting flux quantum','Magnetic flux associated with the charge 2e of a Cooper pair.','Φ₀=h/(2e).','Wb',''),
@@ -39,7 +40,7 @@ BASE={
 'ConventionalValueOfJosephsonConstant':('1990 conventional Josephson value','The historical KJ-90 assigned value used to realize conventional electrical voltage.','KJ-90 = 483597.9×10⁹ Hz/V.','Hz V⁻¹','A historical conventional assignment, not the present SI Josephson constant. The 1990 electrical conventions were replaced by the revised SI in 2019.'),
 'ConventionalValueOfVonKlitzingConstant':('1990 conventional von Klitzing value','Historical RK-90 assigned value for conventional electrical resistance.','RK-90 = 25812.807 Ω.','Ω','Do not interchange a conventional 1990 value and its modern SI value without conversion.'),
 'FineStructureConstant':('Fine-structure constant','Dimensionless low-energy electromagnetic coupling strength.','α=e²/(4π ε₀ℏc).','1','Experimentally determined; do not confuse physical α with the GSL order/shape parameter of the same letter.'),
-'InverseFineStructureConstant':('Inverse fine-structure constant','Reciprocal of the electromagnetic coupling α.','α⁻¹.','1','Stored independently from FineStructureConstant, so rounding need not preserve an exact reciprocal.'),
+'InverseFineStructureConstant':('Inverse fine-structure constant',P('Reciprocal of the electromagnetic coupling ',M(r'\alpha','α'),'.'),'α⁻¹.','1','Stored independently from FineStructureConstant, so rounding need not preserve an exact reciprocal.'),
 'FermiCouplingConstant':('Fermi coupling constant','Low-energy effective strength of weak-interaction four-fermion coupling, in the usual particle-physics convention.','GF/(ℏc)³.','GeV⁻²','The supplied number uses natural-unit conventions; do not treat it as an SI joule-based coefficient.'),
 'WeakMixingAngle':('Squared weak mixing sine','Electroweak mixing parameter in the on-shell mass-ratio convention.','sin²θW=1−(mW/mZ)².','1','Despite the identifier, this stores sin² of an angle, NOT θW in radians or degrees. The value is convention- and determination-dependent.'),
 'RydbergConstant':('Rydberg constant for infinite nuclear mass','Wavenumber scale in hydrogenic spectral formulas.','R∞=α²me c/(2h); 1/λ=R∞(1/n₁²−1/n₂²).','m⁻¹','Finite nuclear mass and other corrections are separate.'),
@@ -77,8 +78,8 @@ BASE={
 'WienFrequencyDisplacementLawConstant':('Wien frequency displacement constant','Frequency of the maximum of Planck spectral radiance per unit frequency, divided by temperature.','νmax/T=(kB/h)x, where 3(1−exp(−x))=x and x>0.','Hz K⁻¹','The frequency peak is not c divided by the wavelength peak; changing spectral density changes the peak location.'),
 'WienWavelengthDisplacementLawConstant':('Wien wavelength displacement constant','Wavelength of the maximum of Planck spectral radiance per unit wavelength, times temperature.','λmax·T=(hc/kB)/x, where 5(1−exp(−x))=x and x>0.','m K','The maximum depends on whether the spectrum is defined per wavelength or per frequency.'),
 'AngstromStar':('Ångström star','Historical X-ray wavelength unit, slightly different from the exact ångström.','1 Å*=the stored length in metres.','m','The ångström without a star is exactly 10⁻¹⁰ m; Å* is a separate calibrated X-ray unit.'),
-'CuXUnit':('Copper X unit','Historical X-ray length unit tied to the Cu Kα₁ line.','λ(Cu Kα₁)=1537.400 xu(Cu).','m','Not the same calibrated unit as the molybdenum X unit.'),
-'MoXUnit':('Molybdenum X unit','Historical X-ray length unit tied to the Mo Kα₁ line.','λ(Mo Kα₁)=707.831 xu(Mo).','m',''),
+'CuXUnit':('Copper X unit',P('Historical X-ray length unit tied to the Cu ',M(r'K_{\alpha_1}','Kα₁'),' line.'),'λ(Cu Kα₁)=1537.400 xu(Cu).','m','Not the same calibrated unit as the molybdenum X unit.'),
+'MoXUnit':('Molybdenum X unit',P('Historical X-ray length unit tied to the Mo ',M(r'K_{\alpha_1}','Kα₁'),' line.'),'λ(Mo Kα₁)=707.831 xu(Mo).','m',''),
 'LatticeParameterOfSilicon':('Silicon lattice parameter','Cubic unit-cell edge length for the reference silicon crystal.','a(Si).','m','Crystal conditions and isotope composition matter; use the source reference conditions for precision diffraction.'),
 '_220LatticeSpacingOfSilicon':('Silicon {220} lattice spacing','Distance between adjacent {220} planes of the reference silicon lattice.','d₂₂₀=a/sqrt(8).','m','The leading underscore is part of the application identifier.'),
 'MolarVolumeOfSilicon':('Silicon molar volume','Reference volume occupied by one mole of crystalline silicon atoms.','Vm=NA·a³/8 for a diamond-cubic cell.','m³ mol⁻¹','Applies to the specified reference crystal conditions, not every temperature or composition.'),
@@ -123,7 +124,8 @@ def finish(item, values, title, definition, formula, unit, note='', url=NIST):
     if 'ShieldedHelion' in item['signature']:
         note+=' Shielded helion values refer to a spherical helium gas sample at 25 °C.'
     return A(title,definition,formula,'Unit: '+unit+'. Stored application value: '+value+'.',
-             (note+' ' if note else '')+METROLOGY,url=url,category='Physical constants')
+             (note+' ' if note else '')+METROLOGY,url=url,
+             category=subject_category('PhysicalConstants', item['signature']))
 
 def describe(item, values):
     original=item['signature']; name=ALIASES.get(original,original)
@@ -131,39 +133,45 @@ def describe(item, values):
     if name.startswith('AtomicUnitOf'):
         suffix=name[len('AtomicUnitOf'):]; label,formula,unit=ATOMIC[suffix]
         return finish(item,values,'Atomic unit of '+label,
-          'Conversion from one Hartree atomic unit of '+label+' to the stated SI unit. Atomic units use the electron mass me, elementary charge e, reduced Planck constant ℏ and Bohr radius a₀.',formula,unit,
+          'Conversion from one Hartree atomic unit of '+label+P(' to the stated SI unit. Atomic units use the electron mass ', M('m_e', 'me'), ', elementary charge ', M('e', 'e'), ', reduced Planck constant ', M('\\hbar', 'ℏ'), ' and Bohr radius ', M('a_0', 'a₀'), '.'),formula,unit,
           'Multiply an atomic-unit value by this factor to obtain the stated unit. Do not mix Hartree and Rydberg atomic-unit conventions.')
     if name.startswith('NaturalUnitOf'):
         label,formula,unit=NATURAL[name[len('NaturalUnitOf'):]]
         return finish(item,values,'Electron-based natural unit of '+label,
-          'Conversion for the electron-based natural-unit system using me, c and ℏ.',formula,unit,
+          P('Conversion for the electron-based natural-unit system using ', M('m_e', 'me'), ', ', M('c', 'c'), ' and ', M('\\hbar', 'ℏ'), '.'),formula,unit,
           'This is the electron-mass convention, not a Planck-unit definition. Multiply a number expressed in this natural unit by the stored factor.')
     if name.endswith('Relationship'):
         middle=name[:-len('Relationship')]
         pairs=[(a,b) for a in UNIT_ENERGY for b in UNIT_ENERGY if a!=b and a+b==middle]
         if len(pairs)!=1:raise KeyError(name)
         a,b=pairs[0];ua,ea=UNIT_ENERGY[a];ub,eb=UNIT_ENERGY[b]
+        unit_tex={'u':r'\mathrm{u}','eV':r'\mathrm{eV}','Eh':r'E_{\mathrm{h}}','Hz':r'\mathrm{Hz}',
+                  'm⁻¹':r'\mathrm{m}^{-1}','J':r'\mathrm{J}','K':r'\mathrm{K}','kg':r'\mathrm{kg}'}
         return finish(item,values,ua+' to '+ub+' energy-equivalent conversion',
-          'Converts a numeric quantity in '+ua+' to its energy-equivalent quantity in '+ub+'. Mass uses E=mc², frequency E=hν, reciprocal wavelength E=hc/λ and temperature E=kB T.',
+          P('Converts a numeric quantity in ',M(unit_tex[ua],ua),' to its energy-equivalent quantity in ',M(unit_tex[ub],ub),
+            '. Mass uses ', M('E=mc^2', 'E=mc²'), ', frequency ', M('E=h\\nu', 'E=hν'), ', reciprocal wavelength ', M('E=hc/\\lambda', 'E=hc/λ'), ' and temperature ', M('E=k_{\\mathrm{B}}T', 'E=kB T'), '.'),
           'Output['+ub+'] = input['+ua+'] × '+original+'.',ub+' per '+ua,
           'This relates equivalent energies; it does not assert that a thermal system has a single photon frequency. Inverse metres mean ordinary spectroscopic wavenumber, not radians per metre.')
     if name.startswith('LoschmidtConstant') or name.startswith('MolarVolumeOfIdealGas'):
         atmosphere='101325' in name; pressure='101325 Pa (1 atm)' if atmosphere else '100000 Pa (1 bar)'
         isnumber=name.startswith('Loschmidt')
         return finish(item,values,('Ideal-gas number density' if isnumber else 'Ideal-gas molar volume')+' at 273.15 K',
-          ('Number of gas particles per unit volume' if isnumber else 'Volume per mole of an ideal gas')+' at T=273.15 K and p='+pressure+'.',
+          P(('Number of gas particles per unit volume' if isnumber else 'Volume per mole of an ideal gas')+' at ',
+            M(r'T=273.15\,\mathrm{K}','T=273.15 K'),' and ',
+            M('p='+('101325' if atmosphere else '100000')+r'\,\mathrm{Pa}','p='+('101325' if atmosphere else '100000')+' Pa'),
+            ' (1 atm).' if atmosphere else ' (1 bar).'),
           'n₀=p/(kB T).' if isnumber else 'Vm=RT/p.', 'm⁻³' if isnumber else 'm³ mol⁻¹',
           'The pressure in the identifier is historical shorthand; this entry uses '+pressure+', not 101325 kPa.')
     if name.startswith('SackurTetrodeConstant'):
         p='101325 Pa' if '101325' in name else '100000 Pa'
         return finish(item,values,'Sackur–Tetrode entropy constant at '+p,
-          'Dimensionless entropy reference for a monatomic ideal gas, using T₀=1 K, reference mass mu and the stated pressure p₀.',
+          P('Dimensionless entropy reference for a monatomic ideal gas, using ', M('T_0=1\\,\\mathrm{K}', 'T₀=1 K'), ', reference mass ', M('m_{\\mathrm{u}}', 'mu'), ' and the stated pressure ', M('p_0', 'p₀'), '.'),
           'S₀/R = 5/2 + ln[(2πmu kB T₀)^(3/2)·kB T₀/(h³p₀)].','1',
           'Used in S/(nR)=S₀/R+(3/2)ln(m/mu)+(5/2)ln(T/T₀)−ln(p/p₀). Not an entropy in joules by itself.')
     if name in ('FirstChandrasekharConstant','SecondChandrasekharConstant'):
         first=name.startswith('First');c='Γ(4/3)/(4π/3)^(1/3)' if first else '(1/(2π))^(1/3)'
         return finish(item,values,('Mean' if first else 'Most probable')+' nearest-neighbour coefficient',
-          'For a homogeneous three-dimensional Poisson point process of number density n, the '+('mean' if first else 'mode of the')+' nearest-neighbour distance scales as this coefficient times n^(−1/3).',
+          'For a homogeneous three-dimensional Poisson point process of number density n, the '+('mean' if first else 'mode of the')+P(' nearest-neighbour distance scales as this coefficient times ', M('n^{-1/3}', 'n^(−1/3)'), '.'),
           'r'+('mean' if first else 'mode')+' = '+c+'·n^(−1/3).','1',
           'This is Chandrasekhar’s spatial-statistics coefficient, not the white-dwarf Chandrasekhar mass limit.',
           'https://oeis.org/'+('A213054' if first else 'A213055'))

@@ -13,6 +13,10 @@ on:
         description: 'Install, launch, repair and uninstall on the disposable GitHub-hosted runner'
         type: boolean
         default: false
+      validate_historical_upgrade:
+        description: 'Test the official 2.3.2 EXE upgrade, failed-MSI rollback and user-data preservation (SDK-equipped runner)'
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -21,10 +25,10 @@ concurrency:
 jobs:
   authoring:
     runs-on: windows-2025
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - name: Check explicit lifecycle prerequisites
-        if: github.event_name == 'workflow_dispatch' && inputs.validate_installer_lifecycle && !inputs.accept_wix7_eula
+        if: github.event_name == 'workflow_dispatch' && (inputs.validate_installer_lifecycle || inputs.validate_historical_upgrade) && !inputs.accept_wix7_eula
         shell: pwsh
         run: throw 'Lifecycle validation also requires explicit WiX 7 acceptance for the installer build.'
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -48,6 +52,16 @@ jobs:
         run: |
           if ($env:RUNNER_ENVIRONMENT -ne 'github-hosted') { throw 'Lifecycle validation requires a disposable GitHub-hosted runner.' }
           ./build/installer/Test-InstalledProduct.ps1 -MsiPath artifacts/installer/output/Computator.NET.msi -InventoryPath artifacts/installer/output/payload.xml -DisposableMachine
+      - name: Explicitly requested historical EXE upgrade acceptance through Cake
+        if: github.event_name == 'workflow_dispatch' && inputs.accept_wix7_eula && inputs.validate_historical_upgrade
+        shell: pwsh
+        env:
+          COMPUTATOR_DISPOSABLE_INSTALL_TEST: '1'
+        run: |
+          if ($env:RUNNER_ENVIRONMENT -ne 'github-hosted') { throw 'Historical acceptance requires a disposable GitHub-hosted runner.' }
+          ./build.ps1 -Target Clean-Machine-Harness-Validate
+          ./build.ps1 -Target Installer-Historical-Fetch
+          ./build.ps1 -Target Installer-Historical-Validate
       - if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:

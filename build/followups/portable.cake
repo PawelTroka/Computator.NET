@@ -19,7 +19,7 @@ Task("Portable-Test").IsDependentOn("Portable-Build").Does(() =>
         Configuration = configuration, NoBuild = true, NoRestore = true, ResultsDirectory = "TestResults",
         Loggers = new[] { "trx;LogFileName=portable.trx" }
     });
-    PowerShell("build/Assert-TestResults.ps1", "-Path " + report + " -MinimumTests 144");
+    PowerShell("build/Assert-TestResults.ps1", "-Path " + report + " -MinimumTests 605");
 });
 Task("Portable-Publish").IsDependentOn("Portable-Test").Does(() =>
 {

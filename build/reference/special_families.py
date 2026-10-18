@@ -1,10 +1,10 @@
 """Explicit polynomial, hypergeometric, elliptic, Gaussian and Bessel conventions."""
-from common import A, DLMF, GSL, MATHNET, SOURCE
+from common import A, P, M, DLMF, GSL, MATHNET, SOURCE
 
 def polynomial(name,args,alias):
     if name.startswith('Gegenbauer'):
         n='n' if name=='Gegenbauer' else name[-1]
-        return A('Gegenbauer polynomial, order '+n,'An ultraspherical polynomial orthogonal on [−1,1] with weight (1−x²)^(α−1/2).',
+        return A('Gegenbauer polynomial, order '+n,P('An ultraspherical polynomial orthogonal on ', M('[-1,1]', '[−1,1]'), ' with weight ', M('(1-x^2)^{\\alpha-1/2}', '(1−x²)^(α−1/2)'), '.'),
                  'Σₙ₌₀^∞ Cₙ^(α)(x)tⁿ=(1−2xt+t²)^(−α)',
                  'Integer n≥0; α>−1/2 for the general wrapper, with the usual nondegenerate orthogonality for α≠0.',
                  'α=1/2 gives Legendre polynomials. The α=0 case has a special GSL limiting convention; it is not obtained by blindly substituting zero into this generating function.',
@@ -12,14 +12,14 @@ def polynomial(name,args,alias):
     if name=='Laguerre':
         associated='α' in args
         return A('Generalized Laguerre polynomial' if associated else 'Laguerre polynomial',
-                 'A degree-n polynomial orthogonal on [0,∞) with weight x^α exp(−x).',
+                 P('A degree-', M('n', 'n'), ' polynomial orthogonal on ', M('[0,\\infty)', '[0,∞)'), ' with weight ', M('x^\\alpha\\exp(-x)', 'x^α exp(−x)'), '.'),
                  'Lₙ^(α)(x)=Σₖ₌₀ⁿ (−1)ᵏ C(n+α,n−k)xᵏ/k!',
                  'Integer n≥0. '+('The general wrapper requires α>−1.' if associated else 'This overload fixes α=0.'),
                  'The argument x is an evaluation coordinate, not an index.', 'Laguerre(1,2) = -1' if not associated else '',DLMF+'18.5')
     if name=='LegendreP':
         associated=args.count(',')==2
         return A('Associated Legendre function' if associated else 'Legendre polynomial',
-                 'An associated angular-momentum function built by differentiating a Legendre polynomial.' if associated else 'The degree-l solution of Legendre’s equation normalized to P_l(1)=1.',
+                 'An associated angular-momentum function built by differentiating a Legendre polynomial.' if associated else P('The degree-', M('l', 'l'), ' solution of Legendre’s equation normalized to ', M('P_l(1)=1', 'P_l(1)=1'), '.'),
                  'P_l^m(x)=(−1)^m(1−x²)^(m/2) dᵐP_l(x)/dxᵐ for m≥0.' if associated else 'P_l(x)=1/(2ˡl!) dˡ[(x²−1)ˡ]/dxˡ.',
                  'Integer l≥0, −1≤x≤1 in this wrapper.'+(' Integer |m|≤l; negative orders use the standard factorial relation.' if associated else ''),
                  'Includes the Condon–Shortley phase (−1)^m; this is not spherical-harmonic normalization.' if associated else '',
@@ -33,7 +33,7 @@ def polynomial(name,args,alias):
                  'sqrt[(2l+1)(l−m)!/(4PI(l+m)!)]·P_l^m(x)', 'Integer 0≤m≤l and −1≤x≤1; set x=cosθ for spherical harmonics.',
                  'Includes the Condon–Shortley phase. It is not the unnormalized LegendreP overload.',url=GSL+'#legendre-functions-and-spherical-harmonics')
     if name=='ConicalP':
-        return A('Conical Legendre function','A real-valued conical function whose Legendre degree has imaginary part λ.',
+        return A('Conical Legendre function',P('A real-valued conical function whose Legendre degree has imaginary part ', M('\\lambda', 'λ'), '.'),
                  'P_(−1/2+iλ)^μ(x)', 'Real λ, x>−1. Supported μ are 0,1 and ±1/2; all other orders return NaN.',
                  'Integer μ accepts only 0 and 1. Real μ allows ±0.5 as well; the two overloads share this insertion signature.',url=GSL+'#conical-functions')
     if name in ('SphericalConicalP','CylindricalConicalP'):
@@ -43,12 +43,12 @@ def polynomial(name,args,alias):
                  ('Integer l≥−1' if spherical else 'Integer m≥−1')+', real λ and x>−1; this wrapper additionally rejects x=0.',
                  'The index determines the negative order; it is not the μ argument of ConicalP.',url=GSL+'#conical-functions')
     if name=='LegendreH3D':
-        return A('Radial eigenfunction on three-dimensional hyperbolic space','A regular radial eigenfunction of the Laplacian on H³ in the GSL normalization.',
+        return A('Radial eigenfunction on three-dimensional hyperbolic space',P('A regular radial eigenfunction of the Laplacian on ', M('\\mathbb{H}^3', 'H³'), ' in the GSL normalization.'),
                  'For l=0: sin(λη)/(λsinhη), with continuous limits.',
                  'Integer l≥0, radial coordinate η≥0, real spectral parameter λ. This wrapper rejects λ=0 for l≥2.',
                  'This is a hyperbolic-space radial function, not an ordinary Legendre polynomial evaluated at η.',url=GSL+'#radial-eigenfunctions-for-hyperbolic-space')
     if name=='ChebyshevT':
-        return A('Chebyshev polynomial of the first kind','A polynomial equioscillating on [−1,1], useful for approximation.',
+        return A('Chebyshev polynomial of the first kind',P('A polynomial equioscillating on ', M('[-1,1]', '[−1,1]'), ', useful for approximation.'),
                  'Tₙ(cosθ)=cos(nθ)', 'Integer n≥0 and |x|≤1 in this wrapper, although the polynomial itself extends beyond that interval.',
                  '', 'ChebyshevT(2,0) = -1',DLMF+'18.5')
     if name in ('HermiteH','HermiteHe'):
@@ -68,7 +68,7 @@ def hypergeometric(name,args):
     renorm='renorm' in name;conj=args=='a,c,x'
     if '2F1' in name:
         return A(('Renormalized ' if renorm else '')+('conjugate-parameter ' if conj else '')+'Gauss hypergeometric function',
-                 'The Gauss hypergeometric solution with numerator parameters '+('a and its complex conjugate.' if conj else 'a,b and denominator parameter c.'),
+                 'The Gauss hypergeometric solution with numerator parameters '+('a and its complex conjugate.' if conj else P(M('a,b', 'a,b'), ' and denominator parameter ', M('c', 'c'), '.')),
                  '₂F₁(a,b;c;x)=Σₖ₌₀^∞ (a)ₖ(b)ₖ xᵏ/[(c)ₖ k!]'+(' ; returned value is ₂F₁/Γ(c).' if renorm else '.'),
                  ('The complex overload supplies b=conjugate(a), not an arbitrary second complex parameter. ' if conj else '')+
                  'Real x in the GSL real-domain implementation; the series converges for |x|<1, with supported boundary/continuation cases. The ordinary form has denominator poles at c=0,−1,−2,… unless a limiting cancellation applies.',
@@ -78,7 +78,7 @@ def hypergeometric(name,args):
                  '₀F₁(;c;x)=Σₖ₌₀^∞ xᵏ/[(c)ₖ k!]', 'Real c,x; c must not be zero or a negative integer for the ordinary definition.',
                  'The empty numerator parameter list is intentional. The Pochhammer symbol denotes a rising factorial.', 'Hypergeometric0F1(1,0) = 1',DLMF+'16.2')
     if name=='Hypergeometric1F1':
-        return A('Kummer confluent hypergeometric function','The regular confluent hypergeometric solution M(a,b,x).',
+        return A('Kummer confluent hypergeometric function',P('The regular confluent hypergeometric solution ', M('M(a,b,x)', 'M(a,b,x)'), '.'),
                  '₁F₁(a;b;x)=Σₖ₌₀^∞ (a)ₖ xᵏ/[(b)ₖ k!]',
                  'The integer m,n overload uses m as a and n as b. Real x; ordinary denominator parameters b=0,−1,… are singular except for valid terminating/limiting cases.',
                  'Unlike the similarly named Tricomi U, this is the solution normalized to 1 at x=0.', 'Hypergeometric1F1(1.0,1.0,1) ≈ e',DLMF+'13.2')
@@ -106,7 +106,7 @@ def elliptic(name,args):
                  'R_D is symmetric in x,y; R_F and R_J are symmetric in x,y,z; R_D(x,y,z)=R_J(x,y,z,z).',url=DLMF+'19.16')
     if name.startswith('JacobiElliptic'):
         kind=name[-2:].lower()
-        return A('Jacobi elliptic '+kind,'An elliptic analogue of a trigonometric function, parameterized by m.',
+        return A('Jacobi elliptic '+kind,P('An elliptic analogue of a trigonometric function, parameterized by ', M('m', 'm'), '.'),
                  {'sn':'sn(u|m)=sin(am(u|m))','cn':'cn(u|m)=cos(am(u|m))','dn':'dn²(u|m)=1−m·sn²(u|m)'}[kind],
                  'Real u and −1≤m≤1 in this wrapper. Here m is the PARAMETER k², unlike the modulus argument of EllipticK/E/F.',
                  'Identities: sn²+cn²=1 and dn²+m·sn²=1. At m=0, sn=sin, cn=cos and dn=1.',url=DLMF+'22.2')
@@ -131,11 +131,11 @@ def probability(name,args,complex_arg):
      'erfcx':('Exponentially scaled complementary error','Removes the leading Gaussian exponential from erfc mathematically.', 'erfcx(z)=exp(z²)erfc(z)', 'Real or complex input; erfcx(0)=1.'),
      'erfi':('Imaginary error function','An entire counterpart of erf defined by rotating its argument.', 'erfi(z)=−i·erf(i·z)', 'Complex input; for real z its mathematical value is real, despite the name.'),
      'faddeeva':('Faddeeva complex probability function','A complex Gaussian-response function used in Voigt line profiles and wave propagation.', 'w(z)=exp(−z²)erfc(−i·z)', 'Complex z; w is entire. This is not simply erf(z) or a real probability.'),
-     'inverseErf':('Inverse error function','Solves erf(y)=x on the real principal inverse.', 'erf(inverseErf(x))=x', 'Mathematical domain −1≤x≤1; this wrapper accepts ONLY 0≤x≤1. The endpoint x=1 corresponds to +∞.'),
-     'inverseErfc':('Inverse complementary error','Solves erfc(y)=x on the real principal inverse.', 'erfc(inverseErfc(x))=x', 'Mathematical domain 0≤x≤2; this wrapper accepts ONLY 0≤x≤1. x=0 corresponds to +∞ and x=1 gives 0.'),
+     'inverseErf':('Inverse error function',P('Solves ', M('\\operatorname{erf}(y)=x', 'erf(y)=x'), ' on the real principal inverse.'), 'erf(inverseErf(x))=x', 'Mathematical domain −1≤x≤1; this wrapper accepts ONLY 0≤x≤1. The endpoint x=1 corresponds to +∞.'),
+     'inverseErfc':('Inverse complementary error',P('Solves ', M('\\operatorname{erfc}(y)=x', 'erfc(y)=x'), ' on the real principal inverse.'), 'erfc(inverseErfc(x))=x', 'Mathematical domain 0≤x≤2; this wrapper accepts ONLY 0≤x≤1. x=0 corresponds to +∞ and x=1 gives 0.'),
      'logErfc':('Logarithm of the complementary error function','Computes the Gaussian-tail logarithm directly rather than taking a logarithm after tail underflow.', 'ln(erfc(x))', 'Real x; useful for likelihoods involving small Gaussian tails.'),
      'erfZ':('Standard normal density','The probability density of a zero-mean, unit-variance Gaussian.', 'φ(x)=exp(−x²/2)/sqrt(2PI)', 'Real x; a density, not a tail probability. Area over an interval gives a probability.'),
-     'erfQ':('Standard normal upper-tail probability','The probability that a standard normal variable exceeds x.', 'Q(x)=1/2·erfc(x/sqrt(2))', 'Real x; values lie in [0,1]. erfQ(0)=1/2.'),
+     'erfQ':('Standard normal upper-tail probability',P('The probability that a standard normal variable exceeds ', M('x', 'x'), '.'), 'Q(x)=1/2·erfc(x/sqrt(2))', 'Real x; values lie in [0,1]. erfQ(0)=1/2.'),
      'hazard':('Standard normal hazard function','The Gaussian density divided by the remaining upper-tail probability.', 'h(x)=φ(x)/Q(x)', 'Real x. This is the normal hazard or inverse Mills ratio, not a probability bounded by 1.'),
      'OwenT':('Owen’s T function','A bivariate-normal probability integral useful for skew-normal and correlated-tail calculations.', 'T(h,a)=1/(2PI) ∫₀ᵃ exp[−h²(1+t²)/2]/(1+t²) dt', 'Real h,a; even in h and odd in a. The three-argument overload requires ah=a·h as a precomputed product.'),
      'Logistic':('Logistic sigmoid','Maps a real log-odds value to a probability.', 'σ(x)=1/(1+exp(−x))', 'Real x; mathematical values lie in (0,1), with floating-point saturation at extremes. Logistic(0)=0.5.'),
@@ -154,11 +154,11 @@ def bessel(name,args,alias):
                  'L_ν(x)=Σₖ₌₀^∞ (x/2)^(2k+ν+1)/[Γ(k+3/2)Γ(k+ν+3/2)]',
                  'Real x; this entry fixes ν='+order+'. Large positive x gives rapid exponential growth.',url=DLMF+'11.2')
     if name=='logBesselKν':
-        return A('Logarithm of modified Bessel K','Computes ln K_ν(x) without requiring a representable unscaled K value.',
+        return A('Logarithm of modified Bessel K',P('Computes ', M('\\ln K_\\nu(x)', 'ln K_ν(x)'), ' without requiring a representable unscaled ', M('K', 'K'), ' value.'),
                  'ln[K_ν(x)]', 'Real ν≥0 and x>0 in this wrapper; otherwise NaN.',
                  'K is positive for this domain. This logarithm is distinct from a scaled K function.',url=GSL+'#irregular-modified-cylindrical-bessel-functions')
     if name=='BesselJνZeros':
-        return A('Positive zero of Bessel J by index','Returns the s-th positive zero of J_ν.',
+        return A('Positive zero of Bessel J by index',P('Returns the ', M('s', 's'), '-th positive zero of ', M('J_\\nu', 'J_ν'), '.'),
                  'J_ν(j_(ν,s))=0; 0<j_(ν,1)<j_(ν,2)<…', 'Real order ν≥0; supply integer index s≥1.',
                  's is rounded to the nearest unsigned integer, with midpoint ties away from zero; s<0.5 is rejected. It is not a starting guess for root finding.',
                  'BesselJνZeros(0,1) ≈ 2.4048255577',DLMF+'10.21')

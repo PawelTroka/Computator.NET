@@ -34,10 +34,9 @@ namespace Computator.NET.Charting.ComplexCharting
         // private Graphics g;
         private double quality;
         //  private Task RedrawTask;
-        private  Color[,] _pointsColors;
-
         private  ComplexPoint[,] _pointsValues;
         private bool _redrawing = false;
+        private long _redrawVersion;
         private Function function;
         private Bitmap image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
@@ -206,54 +205,76 @@ namespace Computator.NET.Charting.ComplexCharting
 
         #region constructing
 
-        private Task<Bitmap> CalculateValuesAndColorsAsync()
+        private sealed class ChartSamples
         {
-            return Task.Factory.StartNew(CalculateValuesAndColors);
+            public ChartSamples(Bitmap bitmap, ComplexPoint[,] pointsValues)
+            {
+                Bitmap = bitmap;
+                PointsValues = pointsValues;
+            }
+
+            public Bitmap Bitmap { get; }
+            public ComplexPoint[,] PointsValues { get; }
         }
 
-        private Bitmap CalculateValuesAndColors()
+        private Task<ChartSamples> CalculateValuesAndColorsAsync(int width, int height)
         {
-            _pointsValues = new ComplexPoint[DrawWidth, DrawHeight];
-            _pointsColors = new Color[_pointsValues.GetLength(0), _pointsValues.GetLength(1)];
+            return Task.Factory.StartNew(() => CalculateValuesAndColors(width, height));
+        }
 
+        private ChartSamples CalculateValuesAndColors(int width, int height)
+        {
+            // Exports sample independently of the live control and must not replace
+            // the points used by its mouse-coordinate tooltip.
+            var plottedFunction = function;
+            if (plottedFunction == null)
+                return new ChartSamples(new Bitmap(width, height), null);
 
-            Parallel.For(0, _pointsValues.GetLength(0), x =>
+            var pointsValues = new ComplexPoint[width, height];
+            var pointsColors = new Color[width, height];
+            var xMin = XMin;
+            var xMax = XMax;
+            var yMin = YMin;
+            var yMax = YMax;
+
+            Parallel.For(0, width, x =>
             {
-                var re = XMin + x * (XMax - XMin) / _pointsValues.GetLength(0);
-                for (var y = 0; y < _pointsValues.GetLength(1); y++)
+                var re = xMin + x * (xMax - xMin) / width;
+                for (var y = 0; y < height; y++)
                 {
-                    var im = YMax - y * (YMax - YMin) / _pointsValues.GetLength(1);
+                    var im = yMax - y * (yMax - yMin) / height;
 
                     var z = new Complex(re, im);
 
-                    var fz = function.Evaluate(z);
-                    _pointsValues[x, y] = new ComplexPoint(z, fz);
+                    var fz = plottedFunction.Evaluate(z);
+                    pointsValues[x, y] = new ComplexPoint(z, fz);
 
                     if (double.IsInfinity(fz.Real) || double.IsNaN(fz.Real) || double.IsInfinity(fz.Imaginary) ||
                         double.IsNaN(fz.Imaginary))
                     {
-                        _pointsColors[x, y] = Color.White;
+                        pointsColors[x, y] = Color.White;
                     }
                     else
                     {
-                        if (function.IsImplicit)
-                        {
-                            _pointsColors[x, y] = ComplexToColor(fz);
-                        }
-                        else
-                            _pointsColors[x, y] = ComplexToColor(fz);
-                        //image.SetPixel(x, y, ComplexToColor(fz)/*pointsColors[x, y]*/);
+                        pointsColors[x, y] = ComplexToColor(fz);
                     }
 
                 }
             });
 
-            var bitmap = new Bitmap(_pointsColors.GetLength(0), _pointsColors.GetLength(1));
-
-            for (int x = 0; x < bitmap.Width; x++)
-                for (int y = 0; y < bitmap.Height; y++)
-                    bitmap.SetPixel(x, y, _pointsColors[x, y]);
-            return bitmap;
+            var bitmap = new Bitmap(width, height);
+            try
+            {
+                for (int x = 0; x < bitmap.Width; x++)
+                    for (int y = 0; y < bitmap.Height; y++)
+                        bitmap.SetPixel(x, y, pointsColors[x, y]);
+                return new ChartSamples(bitmap, pointsValues);
+            }
+            catch
+            {
+                bitmap.Dispose();
+                throw;
+            }
         }
 
         public ComplexChart()
@@ -263,6 +284,20 @@ namespace Computator.NET.Charting.ComplexCharting
             DoubleBuffered = true;
             attachEventHandlers();
             Quality = 50;       
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ++_redrawVersion;
+                function = null;
+                _pointsValues = null;
+                image?.Dispose();
+                image = null;
+                toolTip.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
 
@@ -297,17 +332,18 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private void _MouseClick(object s, MouseEventArgs e)
         {
-            var x = (int)(e.Location.X * quality);
-            var y = (int)(e.Location.Y * quality);
-            if (_pointsValues!=null && x< _pointsValues.GetLength(0) && y<_pointsValues.GetLength(1))
-            {
-                var fz = _pointsValues[x, y].Fz;
-                var z = _pointsValues[x, y].Z;
+            if (_pointsValues == null || !ClientRectangle.Contains(e.Location))
+                return;
+            // The visible image can still have the previous size/quality while a
+            // replacement renders. Sample its actual grid, as PaintOn scales it.
+            var x = (int)((double)e.X * _pointsValues.GetLength(0) / ClientSize.Width);
+            var y = (int)((double)e.Y * _pointsValues.GetLength(1) / ClientSize.Height);
+            var fz = _pointsValues[x, y].Fz;
+            var z = _pointsValues[x, y].Z;
 
-                toolTip.SetToolTip(this,
-                    $"f(z) = {fz.Real:0.###}{fz.Imaginary:+0.###;-0.###}i = {fz.Magnitude:0.###} exp({fz.Phase:0.###})\nz = {z.Real:0.###}{z.Imaginary:+0.###;-#0.###}i = {z.Magnitude:0.###} exp({z.Phase:0.###})");
-                toolTip.ShowAlways = true;
-            }
+            toolTip.SetToolTip(this,
+                $"f(z) = {fz.Real:0.###}{fz.Imaginary:+0.###;-0.###}i = {fz.Magnitude:0.###} exp({fz.Phase:0.###})\nz = {z.Real:0.###}{z.Imaginary:+0.###;-#0.###}i = {z.Magnitude:0.###} exp({z.Phase:0.###})");
+            toolTip.ShowAlways = true;
         }
 
         #endregion
@@ -331,12 +367,22 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void Print()
         {
-            imagePrinter.Print(image);
+            if (image == null)
+                return;
+
+            var size = SnapshotSize;
+            using (var bitmap = ComposeImage(image, size.Width, size.Height))
+                imagePrinter.Print(bitmap);
         }
 
         public void PrintPreview()
         {
-            imagePrinter.PrintPreview(image);
+            if (image == null)
+                return;
+
+            var size = SnapshotSize;
+            using (var bitmap = ComposeImage(image, size.Width, size.Height))
+                imagePrinter.PrintPreview(bitmap);
         }
 
         public void SetChartAreaValues(double x0, double xn, double y0, double yn)
@@ -351,39 +397,48 @@ namespace Computator.NET.Charting.ComplexCharting
         {
             if (image == null)
                 return;
-            
-            if (ShouldDrawAxes)
-            {
-                using (var graphics = Graphics.FromImage(image))
-                {
-                    DrawAxes(graphics);
-                }
-            }
 
-            image.Save(path, imageFormat);
+            // Preserve full display dimensions even when the plot was sampled at
+            // lower quality, and never burn the overlay into the cached colors.
+            var size = SnapshotSize;
+            using (var bitmap = ComposeImage(image, size.Width, size.Height))
+                bitmap.Save(path, imageFormat);
         }
+
+        private Size SnapshotSize => ClientSize.Width > 0 && ClientSize.Height > 0 ? ClientSize : image.Size;
 
         public Image GetImage(int width, int height)
         {
-            var oldWidth = this.Width;
-            var oldHeight = this.Height;
-            this.Width = width;
-            this.Height = height;
+            if (width <= 0)
+                throw new ArgumentOutOfRangeException(nameof(width));
+            if (height <= 0)
+                throw new ArgumentOutOfRangeException(nameof(height));
 
-            var img = CalculateValuesAndColors();
+            var samples = CalculateValuesAndColors(Math.Max(1, (int)(width * quality)),
+                Math.Max(1, (int)(height * quality)));
+            using (var sampledImage = samples.Bitmap)
+                return ComposeImage(sampledImage, width, height);
+        }
 
-            var bitmap = new Bitmap(img, width, height);
-            if (ShouldDrawAxes)
+        private Bitmap ComposeImage(Image source, int width, int height)
+        {
+            var bitmap = new Bitmap(width, height);
+            try
             {
+                // Offscreen output has a stable scale on every monitor and server.
+                bitmap.SetResolution(96, 96);
                 using (var graphics = Graphics.FromImage(bitmap))
                 {
-                    DrawAxes(graphics);
+                    graphics.Clear(BackColor);
+                    PaintOn(graphics, new Rectangle(0, 0, width, height), source);
                 }
+                return bitmap;
             }
-
-            this.Width = oldWidth;
-            this.Height = oldHeight;
-            return bitmap;
+            catch
+            {
+                bitmap.Dispose();
+                throw;
+            }
         }
 
         #endregion
@@ -396,8 +451,12 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void ClearAll()
         {
+            ++_redrawVersion;
             function = null;
-            image = new Bitmap(DrawWidth, DrawHeight);
+            _pointsValues = null;
+            var previousImage = image;
+            image = new Bitmap(Math.Max(1, DrawWidth), Math.Max(1, DrawHeight));
+            previousImage?.Dispose();
             Invalidate();
         }
 
@@ -418,88 +477,73 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public async void Redraw()
         {
+            if (IsDisposed || Disposing)
+                return;
+            ++_redrawVersion;
             if (function == null || DrawWidth <= 0 || DrawHeight <= 0 || _redrawing)
                 return;
             _redrawing = true;
             Cursor = Cursors.WaitCursor;
-            image = await CalculateValuesAndColorsAsync();
-            Cursor = Cursors.Default;
-            Invalidate();
-            _redrawing = false;
+            try
+            {
+                // Changes during evaluation coalesce into one new render. Never
+                // publish obsolete functions, dimensions or mouse-sampling data.
+                while (function != null && !IsDisposed && DrawWidth > 0 && DrawHeight > 0)
+                {
+                    var version = _redrawVersion;
+                    ChartSamples samples;
+                    try
+                    {
+                        samples = await CalculateValuesAndColorsAsync(DrawWidth, DrawHeight);
+                    }
+                    catch (Exception) when (function == null || IsDisposed || version != _redrawVersion)
+                    {
+                        // A discarded evaluation must not show an error after a new
+                        // plot, clear or close. Current evaluation errors still propagate.
+                        continue;
+                    }
+                    if (function == null || IsDisposed || version != _redrawVersion)
+                    {
+                        samples.Bitmap.Dispose();
+                        continue;
+                    }
+                    var previousImage = image;
+                    image = samples.Bitmap;
+                    _pointsValues = samples.PointsValues;
+                    previousImage?.Dispose();
+                    Invalidate();
+                    break;
+                }
+            }
+            finally
+            {
+                if (!IsDisposed)
+                    Cursor = Cursors.Default;
+                _redrawing = false;
+            }
         }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            pe.Graphics.DrawImage(image,ClientRectangle);
-            
+            PaintOn(pe.Graphics, ClientRectangle, image);
+        }
+
+
+        private void PaintOn(Graphics g, Rectangle r, Image source)
+        {
+            if (r.Width <= 0 || r.Height <= 0)
+                return;
+            if (source != null)
+                g.DrawImage(source, r);
+
             if (ShouldDrawAxes)
-                DrawAxes(pe.Graphics);
+                DrawAxes(g, r);
         }
 
-
-        private void PaintOn(Graphics g, Rectangle r)
+        private void DrawAxes(Graphics g, Rectangle bounds)
         {
-            g.DrawImage(image, r);
-
-            if (ShouldDrawAxes)
-                DrawAxes(g);
-        }
-
-        private void DrawAxes(Graphics g)
-        {
-            using (var myPen = new Pen(AxesColor))
-            {
-                var middlePoint = GetMiddlePoint();
-
-                var xEnd = new Point(Width, middlePoint.Y);
-                var yEnd = new Point(middlePoint.X, Height);
-
-                var xEnd1Axis = new Point((int)(Width * (1 - AxisArrowRelativeSize)),
-                    (int)(middlePoint.Y * (1 - AxisArrowRelativeSize)));
-                var xEnd2Axis = new Point((int)(Width * (1 - AxisArrowRelativeSize)),
-                    (int)(middlePoint.Y * (1 + AxisArrowRelativeSize)));
-
-                var yEnd1Axis = new Point((int)(middlePoint.X * (1 - AxisArrowRelativeSize)),
-                    (int)(Height * AxisArrowRelativeSize));
-                var yEnd2Axis = new Point((int)(middlePoint.X * (1 + AxisArrowRelativeSize)),
-                    (int)(Height * AxisArrowRelativeSize));
-
-
-                var xStart = new Point(0, middlePoint.Y);
-                var yStart = new Point(middlePoint.X, 0);
-
-                //Y axis (ImZ)
-                g.DrawLine(myPen, middlePoint, yEnd);
-                g.DrawLine(myPen, middlePoint, yStart);
-                g.DrawLine(myPen, yStart, yEnd1Axis);
-                g.DrawLine(myPen, yStart, yEnd2Axis);
-                g.DrawString(YLabel, LabelsFont, new SolidBrush(LabelsColor), middlePoint.X - 60, 15);
-
-                //X axis(ReZ)
-                g.DrawLine(myPen, middlePoint, xEnd);
-                g.DrawLine(myPen, middlePoint, xStart);
-                g.DrawLine(myPen, xEnd, xEnd1Axis);
-                g.DrawLine(myPen, xEnd, xEnd2Axis);
-                g.DrawString(XLabel, LabelsFont, new SolidBrush(LabelsColor), Width - 60, middlePoint.Y + 10);
-            }
-        }
-
-        private Point GetMiddlePoint()
-        {
-            var x = (int) (Math.Abs(XMin)/(XMax - XMin)*Width);
-            var y = (int) (Math.Abs(YMax)/(YMax - YMin)*Height);
-
-            if (XMax <= 0) //we have only negative numbers for x
-                x = Width - 1;
-            else if (XMin >= 0) //we have only positive numbers for x
-                x = 0;
-
-            if (YMax <= 0)
-                y = 0;
-            else if (YMin >= 0)
-                y = Height - 1;
-
-            return new Point(x, y);
+            ComplexAxesRenderer.Draw(g, bounds, XMin, XMax, YMin, YMax,
+                AxisArrowRelativeSize, XLabel, YLabel, LabelsFont, AxesColor, LabelsColor);
         }
 
         #endregion

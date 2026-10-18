@@ -8,7 +8,6 @@ import 'ace-builds/src-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/ext-keybinding_menu';
 import 'ace-builds/src-noconflict/ext-settings_menu';
 import { CustomCompleter } from '../helpers/CustomCompleter';
-import { SpecialSymbolsHandler } from '../helpers/SpecialSymbolsHandler';
 import { useTextResult } from '../helpers/useTextResult';
 import { maximumScriptBytes, maximumScriptCharacters, useScriptDocument } from '../helpers/ScriptDocumentContext';
 import { ResultPanel } from './ResultPanel';
@@ -58,7 +57,11 @@ export function Scripting() {
       <div className="card-header">Script:</div><div className="card-body script-editor-panel">
         <AceEditor name="scriptTextArea" mode="csharp" theme="ambiance" width="100%" minLines={15} maxLines={25}
           fontSize={16} showPrintMargin={false} showGutter highlightActiveLine value={script.code} tabSize={4}
-          onChange={text => { revision.current++; script.replace(SpecialSymbolsHandler.replace(text, false)); setFileError(''); }}
+          onChange={text => {
+            // Rewriting notation here changes literal text and comment delimiters,
+            // including elsewhere in an imported document. Keep source edits exact.
+            revision.current++; script.replace(text); setFileError('');
+          }}
           onLoad={editor => { editor.completers = [completer]; editor.container.querySelector('textarea')?.setAttribute('aria-label', 'TSL script'); }}
           enableBasicAutocompletion enableLiveAutocompletion setOptions={{ useWorker: false, enableSnippets: true, showLineNumbers: true }} />
       </div></section></div>

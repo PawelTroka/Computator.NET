@@ -304,14 +304,14 @@ namespace Computator.NET.Core.Functions
         public static double Beta(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return Meta.Numerics.Functions.AdvancedMath.Beta(x, a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(a, b, x);
         }
 
 
         public static double BetaNorm(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return gsl_sf_beta_inc(x, a, b);
+            return gsl_sf_beta_inc(a, b, x);
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
@@ -338,7 +338,7 @@ namespace Computator.NET.Core.Functions
         public static double β(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return Meta.Numerics.Functions.AdvancedMath.Beta(x, a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(a, b, x);
         }
 
 
@@ -1342,7 +1342,7 @@ namespace Computator.NET.Core.Functions
         {
             if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0 || jg < 0 || jh < 0 || ji < 0)
                 return double.NaN;
-            return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, jf);
+            return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, ji);
         }
 
         public static double Coupling3j(double j1, double j2, double j3, double m1, double m2, double m3)
@@ -3514,14 +3514,14 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
         public static double Beta(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return Meta.Numerics.Functions.AdvancedMath.Beta(x, a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(a, b, x);
         }
 
 
         public static double BetaNorm(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return gsl_sf_beta_inc(x, a, b);
+            return gsl_sf_beta_inc(a, b, x);
         }
 
         [System.Runtime.InteropServices.DllImport(Computator.NET.DataTypes.Configuration.GslConfig.GslDllName,
@@ -3548,7 +3548,7 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
         public static double β(double x, double a, double b)
         {
             if (x > 1 || x < 0 || a <= 0 || b <= 0) return double.NaN;
-            return Meta.Numerics.Functions.AdvancedMath.Beta(x, a, b);
+            return Meta.Numerics.Functions.AdvancedMath.Beta(a, b, x);
         }
 
 
@@ -4552,7 +4552,7 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
         {
             if (ja < 0 || jb < 0 || jc < 0 || jd < 0 || je < 0 || jf < 0 || jg < 0 || jh < 0 || ji < 0)
                 return double.NaN;
-            return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, jf);
+            return gsl_sf_coupling_9j(ja, jb, jc, jd, je, jf, jg, jh, ji);
         }
 
         public static double Coupling3j(double j1, double j2, double j3, double m1, double m2, double m3)

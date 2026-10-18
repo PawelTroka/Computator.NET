@@ -57,7 +57,7 @@ h2, h3 { color: var(--workspace-text); }
    and dark Ambiance script editor remain recognizable inside a neutral shell. */
 .script-editor-panel { background: #3d3d3d; }
 .chart-image { display: block; max-width: 100%; height: auto; border-radius: 6px; }
-.ace_doc-tooltip .computator-reference { white-space: normal; overflow-wrap: anywhere; font: 14px/1.5 system-ui, sans-serif; }
+.ace_doc-tooltip .computator-reference { white-space: normal; overflow-wrap: anywhere; font: 17px/1.6 system-ui, sans-serif; }
 .computator-reference .reference-title { display: block; margin-bottom: .6em; }
 .computator-reference p { margin: .6em 0; }
 .computator-reference code { color: inherit; font-family: ui-monospace, Consolas, monospace; white-space: pre-wrap; }
@@ -87,3 +87,15 @@ h2, h3 { color: var(--workspace-text); }
   .app-sidebar, .workspace-heading, .skip-link { display: none; }
   h1, h2, h3 { color: black; }
 }
+
+/* Equations retain readable type size: wide displays scroll instead of being
+   squeezed to illegible thumbnails. PNG glyphs are 3x their CSS dimensions. */
+.computator-reference .reference-equation { background: #fff; color: #202630; padding: .65rem; overflow-x: auto; border-left: 3px solid #75879b; }
+.computator-reference .reference-math { display: block; max-width: none; }
+.computator-reference .reference-math-inline { display: inline-block; max-width: none; }
+.ace_dark .computator-reference .reference-math-inline { filter: brightness(0) invert(1); }
+.computator-reference .reference-math-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.computator-reference .reference-worked-example { border: 1px solid #929daa; padding: .7rem; margin: .9rem 0; }
+.computator-reference pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1em; }
+.computator-reference code { font-size: 1em; }
+.computator-reference .reference-source { font-size: .88em; }

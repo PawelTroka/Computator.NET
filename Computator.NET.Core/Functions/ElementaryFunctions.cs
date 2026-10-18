@@ -245,7 +245,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arsinh(double x)
         {
-            return System.Math.Log(x) + System.Math.Sqrt(x*x + 1);
+            return System.Math.Asinh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -683,7 +683,17 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Log(z) + System.Numerics.Complex.Sqrt(z*z + 1);
+            if (z.Imaginary == 0)
+                return new System.Numerics.Complex(System.Math.Asinh(z.Real), z.Imaginary);
+            if (double.IsInfinity(z.Real) && double.IsInfinity(z.Imaginary))
+                return new System.Numerics.Complex(z.Real, System.Math.CopySign(System.Math.PI/4, z.Imaginary));
+
+            // asinh(z) = -i asin(i z). Rotate components instead of multiplying
+            // by i, and retain the signed-zero side of each imaginary-axis cut.
+            var inverse = System.Numerics.Complex.Asin(new System.Numerics.Complex(-z.Imaginary, z.Real));
+            return new System.Numerics.Complex(
+                System.Math.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
+                System.Math.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
         }
 
         /*Angielska nazwa funkcji"),
@@ -874,6 +884,9 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double factorial(double n)
         {
+            // 171! already exceeds the finite range of double.
+            if (n >= 171)
+                return double.PositiveInfinity;
             double f = 1;
             for (ulong i = 1; i <= n; i++)
                 f = f*i;
@@ -1405,7 +1418,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arsinh(double x)
         {
-            return System.Math.Log(x) + System.Math.Sqrt(x*x + 1);
+            return System.Math.Asinh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1843,7 +1856,17 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
         {
-            return System.Numerics.Complex.Log(z) + System.Numerics.Complex.Sqrt(z*z + 1);
+            if (z.Imaginary == 0)
+                return new System.Numerics.Complex(System.Math.Asinh(z.Real), z.Imaginary);
+            if (double.IsInfinity(z.Real) && double.IsInfinity(z.Imaginary))
+                return new System.Numerics.Complex(z.Real, System.Math.CopySign(System.Math.PI/4, z.Imaginary));
+
+            // asinh(z) = -i asin(i z). Rotate components instead of multiplying
+            // by i, and retain the signed-zero side of each imaginary-axis cut.
+            var inverse = System.Numerics.Complex.Asin(new System.Numerics.Complex(-z.Imaginary, z.Real));
+            return new System.Numerics.Complex(
+                System.Math.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
+                System.Math.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
         }
 
         /*Angielska nazwa funkcji""),
@@ -2034,6 +2057,9 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double factorial(double n)
         {
+            // 171! already exceeds the finite range of double.
+            if (n >= 171)
+                return double.PositiveInfinity;
             double f = 1;
             for (ulong i = 1; i <= n; i++)
                 f = f*i;

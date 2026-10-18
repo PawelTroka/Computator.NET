@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import { Expression } from './Expression';
 import { NumericInput } from './NumericInput';
 import { ResultPanel } from './ResultPanel';
 import { useTextResult } from '../helpers/useTextResult';
+import { useCalculatorDraft } from '../helpers/CalculatorDraftContext';
 
 export function Calculate() {
-  const [x, setX] = useState(0), [y, setY] = useState(0), [expression, setExpression] = useState('');
+  const { x, setX, y, setY, expression, setExpression } = useCalculatorDraft();
   const request = useTextResult();
   return <><h1>Calculate</h1><p>Write down formulas you want to calculate (eg: 2x+5-PI)</p>
     <Expression expression={expression} onExpressionChange={setExpression} />

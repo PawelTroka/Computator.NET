@@ -94,7 +94,7 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
         [Test]
         public void AllDescriptionsAreSelfContainedStructuredHtmlWithoutPlaceholders()
         {
-            var tags = new HashSet<string> { "div", "p", "strong", "b", "code", "pre", "br", "a", "ul", "li", "sup", "sub" };
+            var tags = new HashSet<string> { "div", "p", "strong", "b", "code", "pre", "br", "a", "ul", "li", "sup", "sub", "img" };
             foreach (var pair in new FunctionsDetailsFileSource().Details)
             {
                 var detail = pair.Value;
@@ -107,7 +107,20 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                 foreach (var node in fragment.DescendantsAndSelf())
                 {
                     NUnit.Framework.Assert.That(tags.Contains(node.Name.ToString()), Is.True, pair.Key + ": " + node.Name);
-                    NUnit.Framework.Assert.That(node.Attributes().All(a => a.Name == "class" || a.Name == "href"), Is.True, pair.Key);
+                    NUnit.Framework.Assert.That(node.Attributes().All(a => a.Name == "class" || a.Name == "href" || (node.Name == "img" && new[] { "src", "alt", "width", "height", "data-depth" }.Contains(a.Name.ToString()))), Is.True, pair.Key);
+                    if (node.Name == "img")
+                    {
+                        NUnit.Framework.Assert.That((string)node.Attribute("src"), Does.Match(@"\Areference-equations/[a-f0-9]{64}\.png\z"));
+                        var inline = (string)node.Attribute("class") == "reference-math-inline";
+                        NUnit.Framework.Assert.That((string)node.Attribute("class"), Is.AnyOf("reference-math", "reference-math-inline"));
+                        NUnit.Framework.Assert.That((string)node.Attribute("alt"), Is.Not.Null.And.Not.Empty);
+                        NUnit.Framework.Assert.That(int.Parse((string)node.Attribute("width")), Is.InRange(1, inline ? 320 : 2400));
+                        var height = int.Parse((string)node.Attribute("height"));
+                        NUnit.Framework.Assert.That(height, Is.InRange(1, inline ? 100 : 800));
+                        if (inline)
+                            NUnit.Framework.Assert.That(int.Parse((string)node.Attribute("data-depth")), Is.InRange(-1000, height * 50 - 1));
+                        else NUnit.Framework.Assert.That(node.Attribute("data-depth"), Is.Null);
+                    }
                     if (node.Name == "a")
                         NUnit.Framework.Assert.That(Uri.TryCreate((string)node.Attribute("href"), UriKind.Absolute, out var href) && href.Scheme == "https", Is.True, pair.Key);
                 }
@@ -150,7 +163,7 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
             void Contains(string signature, string expected) => NUnit.Framework.Assert.That(
                 XElement.Parse(reference[signature].Description).Value, Does.Contain(expected), signature);
             Contains("sinc(x)", "NOT sin(PI");
-            Contains("BetaNorm(x,a,b)", "gsl_sf_beta_inc(x,a,b)");
+            Contains("BetaNorm(x,a,b)", "gsl_sf_beta_inc(a,b,x)");
             Contains("WeakMixingAngle", "NOT θW");
             Contains("SilverConstant", "NOT equal");
             Contains("ComplementaryTetrahedralAngle", "SUPPLEMENT");

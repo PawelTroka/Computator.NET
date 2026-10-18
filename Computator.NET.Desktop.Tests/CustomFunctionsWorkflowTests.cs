@@ -12,6 +12,7 @@ using Computator.NET.Core.Model;
 using Computator.NET.Core.Natives;
 using Computator.NET.Core.Services.ErrorHandling;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.DataTypes;
 using Computator.NET.Desktop.Bootstrapping;
 using Computator.NET.Desktop.Views;
 using Moq;
@@ -114,6 +115,34 @@ namespace Computator.NET.Desktop.Tests
             var field = typeof(ExceptionsHandler).GetField("_customFunctionsEditor", BindingFlags.NonPublic | BindingFlags.Instance);
             NUnit.Framework.Assert.That(field.GetValue(handler), Is.SameAs(_custom.CustomFunctionsEditor));
             NUnit.Framework.Assert.That(_custom.CustomFunctionsEditor, Is.Not.SameAs(_scripting.CodeEditorView));
+        }
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        public void VisibleCustomDefinitionsDetermineWhetherASuperscriptIsAnInput(CodeEditorType editor)
+        {
+            Settings.Default.CodeEditor = editor;
+            _errors.Clear();
+            _state.CurrentView = ViewName.CustomFunctions;
+            _custom.CustomFunctionsEditor.Text = "static real cosᶻ(real value) { return value + 7; }";
+            var expression = _bootstrapper.Create<ITextProvider>();
+            expression.Text = "cosᶻ(0)";
+            _state.CurrentView = ViewName.Calculations;
+            NUnit.Framework.Assert.That(_state.CalculationsMode, Is.EqualTo(CalculationsMode.Real));
+            _state.DefaultActions[ViewName.Calculations](this, EventArgs.Empty);
+            AssertNoErrors();
+            NUnit.Framework.Assert.That(Find(_window, "calculationValueTextBox").Text, Is.EqualTo("7"));
+
+            // Removing the exact name exposes the built-in cosine raised to z.
+            // Returning to calculation must reroute the unchanged expression.
+            _state.CurrentView = ViewName.CustomFunctions;
+            _custom.CustomFunctionsEditor.Text = "";
+            _state.CurrentView = ViewName.Calculations;
+            NUnit.Framework.Assert.That(_state.CalculationsMode, Is.EqualTo(CalculationsMode.Complex));
+            _state.DefaultActions[ViewName.Calculations](this, EventArgs.Empty);
+            AssertNoErrors();
+            NUnit.Framework.Assert.That(Find(_window, "calculationValueTextBox").Text, Is.EqualTo("1"));
         }
 
         private void AssertNoErrors() => NUnit.Framework.Assert.That(_errors, Is.Empty, string.Join(Environment.NewLine, _errors));

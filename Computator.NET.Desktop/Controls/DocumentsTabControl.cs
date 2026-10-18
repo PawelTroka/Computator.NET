@@ -35,7 +35,9 @@ namespace Computator.NET.Desktop.Controls
                 {
                     if (tabPage.Text == oldName)
                     {
+                        tabPage.Name = newName;
                         tabPage.Text = newName;
+                        tabPage.Tag = newName;
                         break;
                     }
                 }
@@ -202,12 +204,20 @@ namespace Computator.NET.Desktop.Controls
 
         public void AddTab(string filename = "")
         {
-            if (TabPages.ContainsKey(filename))
-                return;
+            if (!string.IsNullOrEmpty(filename))
+            {
+                foreach (TabPage existing in TabPages)
+                    if (existing != addTabPage && string.Equals(existing.Text, filename, StringComparison.OrdinalIgnoreCase))
+                    {
+                        SelectedTab = existing;
+                        return;
+                    }
+            }
 
             var tabPage = new TabPage();
             if (string.IsNullOrEmpty(filename))
             {
+                while (TabPages.ContainsKey(Strings.AddTab_NewFile + id)) id++;
                 tabPage.Text = Strings.AddTab_NewFile + id;
                 tabPage.ImageIndex = 1;
                 tabPage.Name = Strings.AddTab_NewFile + id;
@@ -217,6 +227,7 @@ namespace Computator.NET.Desktop.Controls
                 tabPage.Text = filename;
                 tabPage.ImageIndex = 0;
                 tabPage.Name = filename;
+                tabPage.Tag = filename;
             }
             TabPages.Insert(TabPages.Count - 1, tabPage);
             SelectedIndex = TabPages.IndexOf(tabPage);
@@ -230,10 +241,11 @@ namespace Computator.NET.Desktop.Controls
 
         private void closeOtherTabsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (TabPage tabPage in TabPages)
+            var selectedTab = SelectedTab;
+            for (var i = TabPages.Count - 1; i >= 0; i--)
             {
-                if (tabPage != SelectedTab && tabPage != addTabPage)
-                    TabPages.Remove(tabPage);
+                if (TabPages[i] != selectedTab && TabPages[i] != addTabPage)
+                    TabPages.RemoveAt(i);
             }
             // Documents.Remove(this.SelectedTab.Text);
 
