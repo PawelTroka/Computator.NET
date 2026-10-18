@@ -8510,8 +8510,8 @@
 <p class="reference-explanation">Rectangles approximate area from one representative height per subinterval. The choice of sampling point and the number of intervals affect bias; inspect the original method convention below.</p>
 <p class="reference-explanation">Integration returns signed area: values below the axis contribute negatively. Splitting at known singularities or discontinuities is often more informative than only increasing the number of samples.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>h·Σⱼ₌₀ᴺ⁻¹ f(a+(j+1/2)h), h=(b−a)/N.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and a&lt;b, except supported infinite endpoints of the adaptive method.</p>
-<p class="reference-note"><strong>Important:</strong> N is the number of panels. For smooth f, error is generally of order h². The hand-written midpoint/trapezoid/Simpson wrappers use |b−a| and then advance from a; they do not implement reversed-bound antisymmetry. Use a&lt;b. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and finite bounds a,b in either order.</p>
+<p class="reference-note"><strong>Important:</strong> N is the number of panels. For smooth f, error is generally of order h². A signed step (b−a)/N follows the interval from a to b. Reversing the limits reverses the integral sign; equal bounds give zero for a finite integrand. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
 <p class="reference-equation"><strong>Quantity being approximated</strong><br /><img class="reference-math" src="reference-equations/73e8d8ea44b4dc5bfd56af19985994541e3e817815597797e825d431e1c07b91.png" alt="Signed area from a to b under f(x)." width="141" height="58" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs">github.com</a></p>
 </div>]]></Description>
@@ -8544,8 +8544,8 @@
 <p class="reference-explanation">Simpson’s rule combines samples with alternating weights four and two. An even subinterval count is required. Smoothness is important: a discontinuity or unresolved narrow peak can defeat a seemingly dense grid.</p>
 <p class="reference-explanation">Integration returns signed area: values below the axis contribute negatively. Splitting at known singularities or discontinuities is often more informative than only increasing the number of samples.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>h/3·[f(a)+4f(a+h)+2f(a+2h)+…+4f(b−h)+f(b)].</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and a&lt;b, except supported infinite endpoints of the adaptive method.</p>
-<p class="reference-note"><strong>Important:</strong> Use a positive even integer N. This wrapper increments odd N by 1; it does not interpret fractional N consistently. Smooth-function error is generally of order h⁴. The hand-written midpoint/trapezoid/Simpson wrappers use |b−a| and then advance from a; they do not implement reversed-bound antisymmetry. Use a&lt;b. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and finite bounds a,b in either order.</p>
+<p class="reference-note"><strong>Important:</strong> Use a positive even integer N. This wrapper increments odd N by 1; it does not interpret fractional N consistently. Smooth-function error is generally of order h⁴. A signed step (b−a)/N follows the interval from a to b. Reversing the limits reverses the integral sign; equal bounds give zero for a finite integrand. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
 <p class="reference-equation"><strong>Quantity being approximated</strong><br /><img class="reference-math" src="reference-equations/73e8d8ea44b4dc5bfd56af19985994541e3e817815597797e825d431e1c07b91.png" alt="Signed area from a to b under f(x)." width="141" height="58" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs">github.com</a></p>
 </div>]]></Description>
@@ -8561,8 +8561,8 @@
 <p class="reference-explanation">The trapezoidal rule connects samples by straight segments. Refining the grid reduces discretization error for smooth functions, but a small change after one refinement is not a proof that a missed feature was resolved.</p>
 <p class="reference-explanation">Integration returns signed area: values below the axis contribute negatively. Splitting at known singularities or discontinuities is often more informative than only increasing the number of samples.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>h·[f(a)/2+Σⱼ₌₁ᴺ⁻¹ f(a+jh)+f(b)/2], h=(b−a)/N.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and a&lt;b, except supported infinite endpoints of the adaptive method.</p>
-<p class="reference-note"><strong>Important:</strong> N is the number of panels; smooth-function error is generally of order h². The hand-written midpoint/trapezoid/Simpson wrappers use |b−a| and then advance from a; they do not implement reversed-bound antisymmetry. Use a&lt;b. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> fx is a real-valued callable. Supply integral N&gt;0 and finite bounds a,b in either order.</p>
+<p class="reference-note"><strong>Important:</strong> N is the number of panels; smooth-function error is generally of order h². A signed step (b−a)/N follows the interval from a to b. Reversing the limits reverses the integral sign; equal bounds give zero for a finite integrand. These are numerical estimates, not symbolic antiderivatives or certified error bounds.</p>
 <p class="reference-equation"><strong>Quantity being approximated</strong><br /><img class="reference-math" src="reference-equations/73e8d8ea44b4dc5bfd56af19985994541e3e817815597797e825d431e1c07b91.png" alt="Signed area from a to b under f(x)." width="141" height="58" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/NumericalCalculations/Integral.cs">github.com</a></p>
 </div>]]></Description>
@@ -12939,33 +12939,33 @@
     <Url>https://oeis.org/search?q=Pogson%20ratio</Url>
   </FunctionInfo>
   <FunctionInfo Signature="PointwiseDivide&lt;T&gt;(matrices1,matrices2, ...)">
-    <Title>Elementwise division — first-operand caveat</Title>
+    <Title>Elementwise division</Title>
     <Type>MatrixFunctions</Type>
     <Category>Matrix operations</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>Matrix PointwiseDivide&lt;T&gt;(Matrix matrices1, Matrix matrices2,  ...)</code></p>
-<p class="reference-summary">Intended to divide equally shaped matrices entry by entry.</p>
+<p class="reference-summary">Divides equally shaped matrices entry by entry, from left to right.</p>
 <p class="reference-explanation">Elementwise division is not a matrix solve. The original warning below also records the current repeated first operand, which can introduce invalid zero-over-zero entries before any later operands are processed.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>Intended: resultᵢⱼ=Aᵢⱼ/Bᵢⱼ/…</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>resultᵢⱼ=(Aᵢⱼ/Bᵢⱼ)/…</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Nonempty inputs for indexed left-fold implementations; elementwise operations require equal dimensions.</p>
-<p class="reference-note"><strong>Important:</strong> The current loop starts with a copy of A and divides from index 0, giving (A/A)⊘B⊘…. Zeros in A may already cause invalid values. This is not matrix inverse multiplication.</p>
-<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/93a461537b506c6037f45549e38e3b93a9816b002998a3a46e506c0fa7033081.png" alt="Intended: resultᵢⱼ=Aᵢⱼ/Bᵢⱼ/…" width="183" height="29" /></p>
+<p class="reference-note"><strong>Important:</strong> Folds left to right into a new dense matrix without changing the inputs. A single argument returns an independent copy, including zero entries. Later zero divisors follow Math.NET floating-point division behavior. This is not matrix inverse multiplication.</p>
+<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/93a461537b506c6037f45549e38e3b93a9816b002998a3a46e506c0fa7033081.png" alt="resultᵢⱼ=(Aᵢⱼ/Bᵢⱼ)/…" width="183" height="29" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs</Url>
   </FunctionInfo>
   <FunctionInfo Signature="PointwiseMultiply&lt;T&gt;(matrices1,matrices2, ...)">
-    <Title>Elementwise multiplication — first-operand caveat</Title>
+    <Title>Elementwise multiplication</Title>
     <Type>MatrixFunctions</Type>
     <Category>Matrix operations</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>Matrix PointwiseMultiply&lt;T&gt;(Matrix matrices1, Matrix matrices2,  ...)</code></p>
-<p class="reference-summary">Intended to multiply equally shaped matrices entry by entry.</p>
+<p class="reference-summary">Multiplies equally shaped matrices entry by entry, using each operand once.</p>
 <p class="reference-explanation">This equation is the intended elementwise operation, not the current wrapper’s first-operand behavior. The warning below records that A is included twice; do not confuse the buggy fold with ordinary matrix multiplication.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>Intended: resultᵢⱼ=AᵢⱼBᵢⱼ…</code></p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>resultᵢⱼ=AᵢⱼBᵢⱼ…</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Nonempty inputs for indexed left-fold implementations; elementwise operations require equal dimensions.</p>
-<p class="reference-note"><strong>Important:</strong> The current loop starts with a copy of A and multiplies from index 0, so A is included TWICE: A²⊙B⊙…. A single argument is squared. This is not ordinary matrix multiplication.</p>
-<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/687fed4599e358f9e4aa0522d8e3dba1a35f99903c289b5bed0861f85ae34bd0.png" alt="Intended: resultᵢⱼ=AᵢⱼBᵢⱼ…" width="173" height="29" /></p>
+<p class="reference-note"><strong>Important:</strong> Folds left to right into a new dense matrix without changing the inputs. A single argument returns an independent copy, including zero entries. This is not ordinary matrix multiplication.</p>
+<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/687fed4599e358f9e4aa0522d8e3dba1a35f99903c289b5bed0861f85ae34bd0.png" alt="resultᵢⱼ=AᵢⱼBᵢⱼ…" width="173" height="29" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs</Url>
@@ -18114,7 +18114,7 @@
 <p class="reference-explanation">Factorial counts the orderings of n distinct objects. At each position there is one fewer choice, giving n·(n−1)·…·1. The empty arrangement explains the convention 0!=1.</p>
 <p class="reference-explanation">This routine is an integer-product helper even though its argument type permits nonintegers. Use the separate gamma function for analytic continuation, and read the implementation warning before supplying fractional or negative inputs.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/756895ab691e9de39310a207c3b5425567ddbd024a2e2bbc4de53bd18c6bc3fd.png" alt="n! = 1·2·…·n; 0!=1." width="193" height="64" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Intended for nonnegative integer n. Returns a floating-point approximation and overflows for sufficiently large n.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Intended for nonnegative integer n. Returns a floating-point approximation; n≥171, including positive infinity, returns positive infinity immediately because 171! exceeds the finite range of a double.</p>
 <p class="reference-note"><strong>Important:</strong> This loop accepts a real n: fractional n is effectively truncated by the loop and negative n returns 1. It is not Γ(n+1) analytic continuation; use gamma explicitly for that.</p>
 <div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>factorial(5)</code></pre><p><strong>Result:</strong> 120</p><p>Five distinct objects have 5·4·3·2·1 possible orders.</p></div>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/5.4">dlmf.nist.gov</a></p>
