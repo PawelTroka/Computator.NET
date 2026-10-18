@@ -36,6 +36,7 @@ namespace Computator.NET.Charting.ComplexCharting
         //  private Task RedrawTask;
         private  ComplexPoint[,] _pointsValues;
         private bool _redrawing = false;
+        private long _redrawVersion;
         private Function function;
         private Bitmap image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
@@ -285,6 +286,20 @@ namespace Computator.NET.Charting.ComplexCharting
             Quality = 50;       
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ++_redrawVersion;
+                function = null;
+                _pointsValues = null;
+                image?.Dispose();
+                image = null;
+                toolTip.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
 
         
 
@@ -435,6 +450,7 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void ClearAll()
         {
+            ++_redrawVersion;
             function = null;
             _pointsValues = null;
             var previousImage = image;
@@ -460,23 +476,43 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public async void Redraw()
         {
+            if (IsDisposed || Disposing)
+                return;
+            ++_redrawVersion;
             if (function == null || DrawWidth <= 0 || DrawHeight <= 0 || _redrawing)
                 return;
             _redrawing = true;
             Cursor = Cursors.WaitCursor;
             try
             {
-                var samples = await CalculateValuesAndColorsAsync(DrawWidth, DrawHeight);
-                if (function == null || IsDisposed)
+                // Changes during evaluation coalesce into one new render. Never
+                // publish obsolete functions, dimensions or mouse-sampling data.
+                while (function != null && !IsDisposed && DrawWidth > 0 && DrawHeight > 0)
                 {
-                    samples.Bitmap.Dispose();
-                    return;
+                    var version = _redrawVersion;
+                    ChartSamples samples;
+                    try
+                    {
+                        samples = await CalculateValuesAndColorsAsync(DrawWidth, DrawHeight);
+                    }
+                    catch (Exception) when (function == null || IsDisposed || version != _redrawVersion)
+                    {
+                        // A discarded evaluation must not show an error after a new
+                        // plot, clear or close. Current evaluation errors still propagate.
+                        continue;
+                    }
+                    if (function == null || IsDisposed || version != _redrawVersion)
+                    {
+                        samples.Bitmap.Dispose();
+                        continue;
+                    }
+                    var previousImage = image;
+                    image = samples.Bitmap;
+                    _pointsValues = samples.PointsValues;
+                    previousImage?.Dispose();
+                    Invalidate();
+                    break;
                 }
-                var previousImage = image;
-                image = samples.Bitmap;
-                _pointsValues = samples.PointsValues;
-                previousImage?.Dispose();
-                Invalidate();
             }
             finally
             {

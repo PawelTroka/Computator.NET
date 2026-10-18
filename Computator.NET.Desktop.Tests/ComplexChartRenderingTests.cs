@@ -601,6 +601,167 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(PrivateField(chart, "_pointsValues"), Is.SameAs(cachedPoints));
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void NewPlotRequestedDuringRenderingPublishesOnlyTheLatestFunction(bool clearFirst)
+        {
+            using var chart = CreateChart(100, 80, 5);
+            using var started = new ManualResetEventSlim();
+            using var release = new ManualResetEventSlim();
+            chart.AddFunction(new Function(new Func<Complex, Complex>(z =>
+            {
+                started.Set();
+                if (!release.Wait(TimeSpan.FromSeconds(10)))
+                    throw new TimeoutException("The test did not release its blocked function");
+                return new Complex(2, 0);
+            }), FunctionType.Complex));
+            try
+            {
+                NUnit.Framework.Assert.That(started.Wait(TimeSpan.FromSeconds(5)), Is.True);
+                if (clearFirst) chart.ClearAll();
+                chart.AddFunction(new Function(new Func<Complex, Complex>(z => new Complex(17, 0)),
+                    FunctionType.Complex));
+            }
+            finally
+            {
+                release.Set();
+                WaitForRedraw(chart);
+            }
+            var points = (ComplexPoint[,])PrivateField(chart, "_pointsValues");
+            NUnit.Framework.Assert.That(points, Is.Not.Null);
+            NUnit.Framework.Assert.That(points.Cast<ComplexPoint>().All(point => point.Fz == new Complex(17, 0)),
+                Is.True, "A completed obsolete render must not replace the newly requested plot");
+        }
+
+        [Test]
+        public void ResizeRequestedDuringRenderingUpdatesTheSamplingGrid()
+        {
+            using var chart = CreateChart(100, 80, 5);
+            using var started = new ManualResetEventSlim();
+            using var release = new ManualResetEventSlim();
+            chart.AddFunction(new Function(new Func<Complex, Complex>(z =>
+            {
+                started.Set();
+                if (!release.Wait(TimeSpan.FromSeconds(10)))
+                    throw new TimeoutException("The test did not release its blocked function");
+                return z;
+            }), FunctionType.Complex));
+            try
+            {
+                NUnit.Framework.Assert.That(started.Wait(TimeSpan.FromSeconds(5)), Is.True);
+                chart.ClientSize = new Size(240, 160);
+                chart.Quality = 50;
+            }
+            finally
+            {
+                release.Set();
+                WaitForRedraw(chart);
+            }
+            var points = (ComplexPoint[,])PrivateField(chart, "_pointsValues");
+            NUnit.Framework.Assert.That(points.GetLength(0), Is.EqualTo(240));
+            NUnit.Framework.Assert.That(points.GetLength(1), Is.EqualTo(160));
+            NUnit.Framework.Assert.That(((Bitmap)PrivateField(chart, "image")).Size, Is.EqualTo(chart.ClientSize));
+        }
+
+        [Test]
+        public void DisposingAChartReleasesItsCachedBitmapAndTooltipSamples()
+        {
+            using var chart = CreateChart(100, 80, 5);
+            InitializeFunction(chart, z => z);
+            var bitmap = (Bitmap)PrivateField(chart, "image");
+            chart.Dispose();
+            NUnit.Framework.Assert.That(() => bitmap.Width, Throws.TypeOf<ArgumentException>(),
+                "The control owns its cached image and must release it when closed");
+            NUnit.Framework.Assert.That(PrivateField(chart, "_pointsValues"), Is.Null);
+        }
+
+        [TestCase("replace")]
+        [TestCase("clear")]
+        [TestCase("dispose")]
+        [TestCase("current")]
+        public void FailedRenderingReportsOnlyCurrentErrorsAndAllowsTheNextPlot(string action)
+        {
+            // NUnit wraps its STA synchronization context and records async void
+            // exceptions itself. A dedicated UI thread exercises the real application
+            // exception route without disposing NUnit's shared marshaling control.
+            Exception failure = null;
+            var thread = new Thread(() =>
+            {
+                SynchronizationContext.SetSynchronizationContext(null);
+                try { AssertFailedRenderingBehavior(action); }
+                catch (Exception exception) { failure = exception; }
+            }) { IsBackground = true };
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            NUnit.Framework.Assert.That(thread.Join(TimeSpan.FromSeconds(30)), Is.True,
+                "The isolated UI thread did not finish");
+            if (failure != null)
+                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
+        }
+
+        private static void AssertFailedRenderingBehavior(string action)
+        {
+            using var chart = CreateChart(100, 80, 5);
+            using var started = new ManualResetEventSlim();
+            using var release = new ManualResetEventSlim();
+            Exception uiError = null;
+            ThreadExceptionEventHandler captureError = (_, args) => uiError = args.Exception;
+            Application.ThreadException += captureError;
+            try
+            {
+                chart.AddFunction(new Function(new Func<Complex, Complex>(z =>
+                {
+                    started.Set();
+                    if (!release.Wait(TimeSpan.FromSeconds(10)))
+                        throw new TimeoutException("The test did not release its blocked function");
+                    throw new InvalidOperationException("test evaluation failure");
+                }), FunctionType.Complex));
+                NUnit.Framework.Assert.That(started.Wait(TimeSpan.FromSeconds(5)), Is.True);
+                if (action == "replace")
+                    chart.AddFunction(new Function(new Func<Complex, Complex>(z => new Complex(17, 0)),
+                        FunctionType.Complex));
+                else if (action == "clear")
+                    chart.ClearAll();
+                else if (action == "dispose")
+                    chart.Dispose();
+            }
+            finally
+            {
+                release.Set();
+                try
+                {
+                    WaitForRedraw(chart);
+                    // async void posts its exception separately from the await continuation.
+                    Application.DoEvents();
+                }
+                finally
+                {
+                    Application.ThreadException -= captureError;
+                }
+            }
+
+            if (action == "current")
+            {
+                NUnit.Framework.Assert.That(uiError, Is.Not.Null,
+                    "A failure in the current plot must remain visible to the application");
+                NUnit.Framework.Assert.That(uiError.ToString(), Does.Contain("test evaluation failure"));
+                InitializeFunction(chart, z => new Complex(17, 0));
+            }
+            else
+                NUnit.Framework.Assert.That(uiError, Is.Null,
+                    "A discarded plot must not report a late error after replacement, clear or disposal");
+
+            var points = (ComplexPoint[,])PrivateField(chart, "_pointsValues");
+            if (action == "replace" || action == "current")
+            {
+                NUnit.Framework.Assert.That(points, Is.Not.Null);
+                NUnit.Framework.Assert.That(points.Cast<ComplexPoint>().All(point => point.Fz == new Complex(17, 0)),
+                    Is.True, "A failed evaluation must not block the next requested plot");
+            }
+            else
+                NUnit.Framework.Assert.That(points, Is.Null);
+        }
+
         [Test]
         public void ClearingWhileAFunctionIsRenderingDoesNotRepublishItsOldSamples()
         {
