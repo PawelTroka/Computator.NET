@@ -257,8 +257,10 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 			}
 			if (n < 0)
 				M2 = M2.Inverse();
-			//for (int j = 1; j < Math.Abs(n); j++)
-			// M = M * M;
+			// |Int32.MinValue| does not fit in Int32. Square the inverse first,
+			// then use the representable half-exponent with the same power routine.
+			if (n == int.MinValue)
+				return (M2 * M2).Power(-(n / 2));
 			return M2.Power(System.Math.Abs(n));
 		}
 
@@ -710,8 +712,10 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 			}
 			if (n < 0)
 				M2 = M2.Inverse();
-			//for (int j = 1; j < Math.Abs(n); j++)
-			// M = M * M;
+			// |Int32.MinValue| does not fit in Int32. Square the inverse first,
+			// then use the representable half-exponent with the same power routine.
+			if (n == int.MinValue)
+				return (M2 * M2).Power(-(n / 2));
 			return M2.Power(System.Math.Abs(n));
 		}
 
