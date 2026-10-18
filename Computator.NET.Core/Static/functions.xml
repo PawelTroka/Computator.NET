@@ -18351,11 +18351,12 @@
 <p class="reference-summary">Solves <img class="reference-math-inline" src="reference-equations/f1c11125c655f6e89cfcb290bc0e1ed70807f766fdd9dd0235e27e37ebe44543.png" alt="erf(y)=x" width="89" height="21" data-depth="275" /> on the real principal inverse.</p>
 <p class="reference-explanation">The inverse recovers a threshold from an error-function value. Endpoints correspond to infinite limits, and values close to an endpoint are sensitive to small input errors.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>erf(inverseErf(x))=x</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Mathematical domain −1≤x≤1; this wrapper accepts ONLY 0≤x≤1. The endpoint x=1 corresponds to +∞.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real domain −1≤x≤1. Negative inputs give negative results; x=−1 gives −∞, x=0 gives 0 and x=1 gives +∞. Inputs outside the domain return NaN.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/b520776394db019971843712e8cd93ca717703b69bbe78e0c6b24d4e56b60f7e.png" alt="erf(inverseErf(x))=x" width="145" height="32" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.2">dlmf.nist.gov</a></p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>inverseErf(-0.5)</code></pre><p><strong>Result:</strong> approximately -0.4769362762</p><p>The error function is odd, so inverting a negative value gives the negative of the corresponding positive threshold. Applying erf to this result recovers -0.5.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.17">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://dlmf.nist.gov/7.2</Url>
+    <Url>https://dlmf.nist.gov/7.17</Url>
   </FunctionInfo>
   <FunctionInfo Signature="inverseErfc(x)">
     <Title>Inverse complementary error</Title>
@@ -18366,11 +18367,12 @@
 <p class="reference-summary">Solves <img class="reference-math-inline" src="reference-equations/c5ce5ba123df7eb4030ea7dc6d6f66eedb3eb3f16cec7d34adec1c4f05ae1994.png" alt="erfc(y)=x" width="97" height="21" data-depth="275" /> on the real principal inverse.</p>
 <p class="reference-explanation">Complementary inversion is useful for a small tail probability supplied directly. It avoids first subtracting that small value from one and losing its significant digits.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>erfc(inverseErfc(x))=x</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Mathematical domain 0≤x≤2; this wrapper accepts ONLY 0≤x≤1. x=0 corresponds to +∞ and x=1 gives 0.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real domain 0≤x≤2. Inputs above 1 give negative results; x=0 gives +∞, x=1 gives 0 and x=2 gives −∞. Inputs outside the domain return NaN.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/063b6fea35ffb1f70e57ccba596b73198a985be521849aeeca070dc8d10267e0.png" alt="erfc(inverseErfc(x))=x" width="160" height="32" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.2">dlmf.nist.gov</a></p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>inverseErfc(1.5)</code></pre><p><strong>Result:</strong> approximately -0.4769362762</p><p>The complementary error function decreases through erfc(0)=1. A value of 1.5 therefore corresponds to a negative threshold; erfc of this result recovers 1.5.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.17">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://dlmf.nist.gov/7.2</Url>
+    <Url>https://dlmf.nist.gov/7.17</Url>
   </FunctionInfo>
   <FunctionInfo Signature="isHermitian&lt;T&gt;(M)">
     <Title>Hermitian-symmetry predicate</Title>

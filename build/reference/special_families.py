@@ -131,8 +131,8 @@ def probability(name,args,complex_arg):
      'erfcx':('Exponentially scaled complementary error','Removes the leading Gaussian exponential from erfc mathematically.', 'erfcx(z)=exp(z²)erfc(z)', 'Real or complex input; erfcx(0)=1.'),
      'erfi':('Imaginary error function','An entire counterpart of erf defined by rotating its argument.', 'erfi(z)=−i·erf(i·z)', 'Complex input; for real z its mathematical value is real, despite the name.'),
      'faddeeva':('Faddeeva complex probability function','A complex Gaussian-response function used in Voigt line profiles and wave propagation.', 'w(z)=exp(−z²)erfc(−i·z)', 'Complex z; w is entire. This is not simply erf(z) or a real probability.'),
-     'inverseErf':('Inverse error function',P('Solves ', M('\\operatorname{erf}(y)=x', 'erf(y)=x'), ' on the real principal inverse.'), 'erf(inverseErf(x))=x', 'Mathematical domain −1≤x≤1; this wrapper accepts ONLY 0≤x≤1. The endpoint x=1 corresponds to +∞.'),
-     'inverseErfc':('Inverse complementary error',P('Solves ', M('\\operatorname{erfc}(y)=x', 'erfc(y)=x'), ' on the real principal inverse.'), 'erfc(inverseErfc(x))=x', 'Mathematical domain 0≤x≤2; this wrapper accepts ONLY 0≤x≤1. x=0 corresponds to +∞ and x=1 gives 0.'),
+     'inverseErf':('Inverse error function',P('Solves ', M('\\operatorname{erf}(y)=x', 'erf(y)=x'), ' on the real principal inverse.'), 'erf(inverseErf(x))=x', 'Real domain −1≤x≤1. Negative inputs give negative results; x=−1 gives −∞, x=0 gives 0 and x=1 gives +∞. Inputs outside the domain return NaN.'),
+     'inverseErfc':('Inverse complementary error',P('Solves ', M('\\operatorname{erfc}(y)=x', 'erfc(y)=x'), ' on the real principal inverse.'), 'erfc(inverseErfc(x))=x', 'Real domain 0≤x≤2. Inputs above 1 give negative results; x=0 gives +∞, x=1 gives 0 and x=2 gives −∞. Inputs outside the domain return NaN.'),
      'logErfc':('Logarithm of the complementary error function','Computes the Gaussian-tail logarithm directly rather than taking a logarithm after tail underflow.', 'ln(erfc(x))', 'Real x; useful for likelihoods involving small Gaussian tails.'),
      'erfZ':('Standard normal density','The probability density of a zero-mean, unit-variance Gaussian.', 'φ(x)=exp(−x²/2)/sqrt(2PI)', 'Real x; a density, not a tail probability. Area over an interval gives a probability.'),
      'erfQ':('Standard normal upper-tail probability',P('The probability that a standard normal variable exceeds ', M('x', 'x'), '.'), 'Q(x)=1/2·erfc(x/sqrt(2))', 'Real x; values lie in [0,1]. erfQ(0)=1/2.'),
@@ -145,7 +145,7 @@ def probability(name,args,complex_arg):
     note=''
     if name=='erfcx':note='The current wrapper forms erfc(z)/exp(−z²) directly. It can still overflow, underflow or suffer cancellation; do not assume the name guarantees a stabilized scaled algorithm.'
     if name=='erfc' and complex_arg:note='The complex wrapper subtracts erf(z) from 1, so very small complementary tails may lose relative accuracy.'
-    return A(title,definition,formula,domain,note,url=DLMF+'7.2' if name not in ('OwenT','Logistic','Logit') else 'https://accord-framework.net/docs/html/T_Accord_Math_OwensT.htm' if name=='OwenT' else MATHNET+'MathNet.Numerics/SpecialFunctions.htm')
+    return A(title,definition,formula,domain,note,url=DLMF+('7.17' if name in ('inverseErf','inverseErfc') else '7.2') if name not in ('OwenT','Logistic','Logit') else 'https://accord-framework.net/docs/html/T_Accord_Math_OwensT.htm' if name=='OwenT' else MATHNET+'MathNet.Numerics/SpecialFunctions.htm')
 
 def bessel(name,args,alias):
     if name in ('StruveL0','StruveL1'):

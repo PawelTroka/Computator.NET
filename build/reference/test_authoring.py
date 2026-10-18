@@ -32,5 +32,19 @@ class AuthoringTests(unittest.TestCase):
     def test_keywords_do_not_require_math_articles(self):
         inventory=self.inventory();inventory['items'].append({'signature':'while','type':'Keyword','menu':'while'})
         self.assertEqual(len(articles(inventory)),1)
+    def test_inverse_error_articles_teach_both_halves_of_their_domains(self):
+        for name,domain,endpoint,example in (
+            ('inverseErf','−1≤x≤1','x=−1 gives −∞','inverseErf(-0.5)'),
+            ('inverseErfc','0≤x≤2','x=2 gives −∞','inverseErfc(1.5)'),
+        ):
+            with self.subTest(function=name):
+                inventory={'items':[{'signature':name+'(x)','menu':'real '+name+'(real x)','type':'SpecialFunctions'}], 'constants':[]}
+                article=articles(inventory)[0]
+                self.assertIn(domain,article['description'])
+                self.assertIn(endpoint,article['description'])
+                self.assertIn('Inputs outside the domain return NaN',article['description'])
+                self.assertIn('<pre><code>'+example+'</code></pre>',article['description'])
+                self.assertNotIn('accepts ONLY',article['description'])
+                self.assertEqual(article['url'],'https://dlmf.nist.gov/7.17')
 
 if __name__=='__main__':unittest.main()

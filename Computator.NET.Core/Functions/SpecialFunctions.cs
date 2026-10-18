@@ -2267,16 +2267,19 @@ namespace Computator.NET.Core.Functions
 
         public static double inverseErf(double x)
         {
-            if (x > 1 || x < 0)
+            if (x > 1 || x < -1)
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.InverseErf(x);
         }
         public static double inverseErfc(double x)
         {
-            if (x > 1 || x<0)
+            if (x > 2 || x < 0)
                 return double.NaN;
-            return
-                Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
+            // Meta.Numerics accepts [0,1]. Reflect the other half using
+            // erfc(-y)=2-erfc(y), while retaining direct small-tail evaluation.
+            return x > 1
+                ? -Meta.Numerics.Functions.AdvancedMath.InverseErfc(2 - x)
+                : Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
         }
 
         public static double logErfc(double x)
@@ -5477,16 +5480,19 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static double inverseErf(double x)
         {
-            if (x > 1 || x < 0)
+            if (x > 1 || x < -1)
                 return double.NaN;
             return Meta.Numerics.Functions.AdvancedMath.InverseErf(x);
         }
         public static double inverseErfc(double x)
         {
-            if (x > 1 || x<0)
+            if (x > 2 || x < 0)
                 return double.NaN;
-            return
-                Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
+            // Meta.Numerics accepts [0,1]. Reflect the other half using
+            // erfc(-y)=2-erfc(y), while retaining direct small-tail evaluation.
+            return x > 1
+                ? -Meta.Numerics.Functions.AdvancedMath.InverseErfc(2 - x)
+                : Meta.Numerics.Functions.AdvancedMath.InverseErfc(x);
         }
 
         public static double logErfc(double x)
