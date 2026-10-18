@@ -69,7 +69,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
                 // Bind each proposed outer power with its already rewritten
                 // arguments, so ordinary nested powers resolve in one tree pass.
                 var visited = (InvocationExpressionSyntax)base.VisitInvocationExpression(node)!;
-                if (!IsCandidate(node) || HasExistingName(node.Expression) || IsDynamic(node) ||
+                if (!IsCandidate(node) || HasExistingName(node.Expression) || HasDynamicReceiver(node) ||
                     HasRewrittenName(node, visited)) return visited;
                 // An earlier rewrite can repair an inferred local's type. Do
                 // not choose a split while such a value still affects binding.
@@ -93,9 +93,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
                             SpeculativeBindingOption.BindAsExpression).Symbol)) return visited;
                     // Binding pow alone can succeed even when its inner call has
                     // the wrong arity/types. Such a split is not an alternative.
-                    var callBinding = _model.GetSpeculativeSymbolInfo(node.SpanStart, call,
-                        SpeculativeBindingOption.BindAsExpression);
-                    if (callBinding.Symbol is not IMethodSymbol) continue;
+                    if (!BindsMethod(call, node.SpanStart)) continue;
                     var exponentType = _model.GetSpeculativeTypeInfo(node.SpanStart, exponent,
                         SpeculativeBindingOption.BindAsExpression).Type;
                     if (exponentType == null || exponentType.TypeKind == TypeKind.Error) continue;
@@ -104,9 +102,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
                         {
                             SyntaxFactory.Argument(call), SyntaxFactory.Argument(exponent)
                         })));
-                    var binding = _model.GetSpeculativeSymbolInfo(node.SpanStart, power,
-                        SpeculativeBindingOption.BindAsExpression);
-                    if (binding.Symbol is not IMethodSymbol) continue;
+                    if (!BindsMethod(power, node.SpanStart)) continue;
                     // Two valid suffix splits can denote different mathematics.
                     // Keep the unresolved name and normal diagnostics; the author
                     // can choose a grouped prefix, postfix power or explicit pow.
@@ -114,6 +110,21 @@ namespace Computator.NET.Core.Compilation.TslHandlers
                     replacement = power.WithTriviaFrom(visited);
                 }
                 return replacement ?? visited;
+            }
+
+            private bool BindsMethod(InvocationExpressionSyntax invocation, int position)
+            {
+                var binding = _model.GetSpeculativeSymbolInfo(position, invocation,
+                    SpeculativeBindingOption.BindAsExpression);
+                if (binding.Symbol is IMethodSymbol) return true;
+                // Desktop sqrt(double) returns dynamic. Its power, and outer
+                // calls using that result, retain runtime overload selection
+                // within a statically known method group.
+                return binding.CandidateReason == CandidateReason.LateBound &&
+                    binding.CandidateSymbols.Length != 0 &&
+                    binding.CandidateSymbols.All(symbol => symbol is IMethodSymbol) &&
+                    _model.GetSpeculativeTypeInfo(position, invocation,
+                        SpeculativeBindingOption.BindAsExpression).Type?.TypeKind == TypeKind.Dynamic;
             }
 
             private static bool HasUnresolvedType(ISymbol? symbol) => symbol switch
@@ -142,8 +153,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             private static bool IsValueOrCallable(ISymbol? symbol) =>
                 symbol != null && symbol is not INamespaceOrTypeSymbol && symbol is not IAliasSymbol;
 
-            private bool IsDynamic(InvocationExpressionSyntax invocation) =>
-                _model.GetTypeInfo(invocation).Type?.TypeKind == TypeKind.Dynamic ||
+            private bool HasDynamicReceiver(InvocationExpressionSyntax invocation) =>
                 invocation.Expression is MemberAccessExpressionSyntax member &&
                 _model.GetTypeInfo(member.Expression).Type?.TypeKind == TypeKind.Dynamic;
 
@@ -158,8 +168,9 @@ namespace Computator.NET.Core.Compilation.TslHandlers
                 var invocation = _model.GetSpeculativeSymbolInfo(original.SpanStart, visited,
                     SpeculativeBindingOption.BindAsExpression);
                 if (IsValueOrCallable(invocation.Symbol) || invocation.CandidateSymbols.Any(IsValueOrCallable)) return true;
-                return _model.GetSpeculativeTypeInfo(original.SpanStart, visited,
-                    SpeculativeBindingOption.BindAsExpression).Type?.TypeKind == TypeKind.Dynamic;
+                return visited.Expression is MemberAccessExpressionSyntax member &&
+                    _model.GetSpeculativeTypeInfo(original.SpanStart, member.Expression,
+                        SpeculativeBindingOption.BindAsExpression).Type?.TypeKind == TypeKind.Dynamic;
             }
         }
     }

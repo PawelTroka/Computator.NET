@@ -42,7 +42,9 @@ method named `cosᶻ`.
 Names in unrelated local or nested-type scopes do not suppress a power in the
 caller. Resolution uses each new compilation; removing a definition cannot
 leave stale parser state. An explicit `@cosᶻ` requests a literal identifier.
-Dynamic calls retain runtime binding to their complete member names.
+Dynamic receivers retain runtime binding to their complete member names.
+Statically known functions may return dynamic values, as desktop `sqrt` does;
+their powers and nested calls keep ordinary runtime overload selection.
 
 When no complete name exists, each possible trailing superscript-letter suffix
 is decoded as an exponent identifier. The base call and resulting `pow` must

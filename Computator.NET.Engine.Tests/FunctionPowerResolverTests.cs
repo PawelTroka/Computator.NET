@@ -200,6 +200,64 @@ public class FunctionPowerResolverTests
             diagnostic.GetMessage().Contains("Fⁿᵐ", StringComparison.Ordinal)), Is.True);
     }
 
+    [TestCase("sqrtʸ(4)", 4)]
+    [TestCase("sqrtʸ(-4).Real", -4)]
+    [TestCase("cosʸ(sqrtʸ(4))", 0.42724998309569323)]
+    [TestCase("cosʸ(sqrt(4))", 0.17317818956819406)]
+    [TestCase("sqrtʸ(value)", 4)]
+    public void KnownMethodGroupsSupportPowersOfDynamicValues(string expression, double expected)
+    {
+        // The desktop sqrt(double) returns dynamic so a negative real input
+        // can produce Complex. Its surrounding calls dispatch at runtime.
+        var source = $$"""
+            public class Entry
+            {
+                static dynamic sqrt(double x)
+                {
+                    if (x < 0) return System.Numerics.Complex.Sqrt(x);
+                    return System.Math.Sqrt(x);
+                }
+                static System.Numerics.Complex sqrt(System.Numerics.Complex x) =>
+                    System.Numerics.Complex.Sqrt(x);
+                static double cos(double x) => System.Math.Cos(x);
+                static System.Numerics.Complex cos(System.Numerics.Complex x) =>
+                    System.Numerics.Complex.Cos(x);
+                static double pow(double x, double y) => System.Math.Pow(x, y);
+                static System.Numerics.Complex pow(System.Numerics.Complex x, System.Numerics.Complex y) =>
+                    System.Numerics.Complex.Pow(x, y);
+                static double y = 2;
+                public static double Run()
+                {
+                    dynamic value = 4.0;
+                    return {{expression}};
+                }
+            }
+            """;
+
+        NUnit.Framework.Assert.That(Evaluate(source), Is.EqualTo(expected).Within(1e-12));
+    }
+
+    [Test]
+    public void AnExactCallableWithADynamicArgumentWinsOverShorthand()
+    {
+        const string source = """
+            public class Entry
+            {
+                static double F(double x) => x + 1;
+                static double Fʸ(double x) => 99;
+                static double pow(double x, double y) => System.Math.Pow(x, y);
+                static double y = 2;
+                public static double Run()
+                {
+                    dynamic value = 2.0;
+                    return Fʸ(value);
+                }
+            }
+            """;
+
+        NUnit.Framework.Assert.That(Evaluate(source), Is.EqualTo(99));
+    }
+
     private static CSharpCompilation CreateCompilation(string source, byte[]? dependency = null) =>
         CSharpCompilation.Create("FunctionPowerTest_" + Guid.NewGuid().ToString("N"),
             new[] { CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.CSharp14)) },

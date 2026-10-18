@@ -72,6 +72,26 @@ namespace Computator.NET.Core.Tests.EvaluationTests
         }
 
         [Test]
+        public void NestedPowersKeepTheDesktopSquareRootsDynamicResult()
+        {
+            const double x = 4;
+            const double y = 3;
+            var function = _evaluator.Evaluate("cosʸ(sqrtʸ(x))", string.Empty, CalculationsMode.Fxy);
+
+            NUnit.Framework.Assert.That(function.Evaluate(x, y),
+                Is.EqualTo(Math.Pow(Math.Cos(Math.Pow(Math.Sqrt(x), y)), y)).Within(1e-12));
+        }
+
+        [Test]
+        public void ARealSquareRootCanReturnComplexBeforeItsSymbolicPower()
+        {
+            var z = new Complex(0.7, 0.4);
+            var function = _evaluator.Evaluate("sqrtᶻ(-1)", string.Empty, CalculationsMode.Complex);
+
+            AssertComplexEqual(Complex.Pow(Complex.Sqrt(-1), z), function.Evaluate(z));
+        }
+
+        [Test]
         public void UnicodeCustomFunctionCanHaveASymbolicPower()
         {
             var z = new Complex(0.7, 0.4);
@@ -140,11 +160,12 @@ namespace Computator.NET.Core.Tests.EvaluationTests
         }
 
         [Test]
-        public void DynamicArgumentDoesNotCauseAnUnresolvedNameToBeReinterpreted()
+        public void DynamicArgumentsDoNotMakeAnOutOfScopeExponentValid()
         {
             const string customFunctions =
                 "static complex Probe(complex value) { dynamic argument = value; return cosᶻ(argument); }";
 
+            // The caller's z coordinate is not in scope inside this method.
             NUnit.Framework.Assert.Throws<CompilationException>(() =>
                 _evaluator.Evaluate("Probe(z)", customFunctions, CalculationsMode.Complex));
         }
