@@ -45,7 +45,8 @@ namespace Computator.NET.Core.Compilation
             // Never cache a constructed type containing a collectible program.
             return new HashSet<string>(type.GetMembers(Members).Where(member => !onlyNonPublic ||
                 member is MethodBase method && !method.IsPublic || member is FieldInfo field && !field.IsPublic ||
-                member is Type nested && !nested.IsNestedPublic).Select(member => member.Name), StringComparer.Ordinal);
+                member is PropertyInfo property && property.GetAccessors(true).Any(accessor => !accessor.IsPublic) ||
+                member is Type nested && !nested.IsNestedPublic).Select(member => member.Name.Split('`')[0]), StringComparer.Ordinal);
         }
 
         internal static bool CanUse(string customCode, string mainCode, bool scripting)
@@ -73,15 +74,23 @@ namespace Computator.NET.Core.Compilation
 
         private static IEnumerable<string> DeclaredNames(SyntaxNode root)
         {
-            foreach (var node in root.DescendantNodes())
+            var owner = root.DescendantNodes().OfType<ClassDeclarationSyntax>().FirstOrDefault();
+            if (owner == null) yield break;
+            // Only class members can change binding inside a built-in body or
+            // hide its inherited overload group. A local loop index named i,
+            // for example, has the same scope on both compilation paths.
+            foreach (var member in owner.Members)
             {
-                var identifier = node switch
+                if (member is BaseFieldDeclarationSyntax field)
+                {
+                    foreach (var variable in field.Declaration.Variables) yield return variable.Identifier.ValueText;
+                    continue;
+                }
+                var identifier = member switch
                 {
                     MethodDeclarationSyntax method => method.Identifier,
-                    LocalFunctionStatementSyntax function => function.Identifier,
-                    VariableDeclaratorSyntax variable => variable.Identifier,
-                    ParameterSyntax parameter => parameter.Identifier,
                     PropertyDeclarationSyntax property => property.Identifier,
+                    EventDeclarationSyntax eventDeclaration => eventDeclaration.Identifier,
                     BaseTypeDeclarationSyntax type => type.Identifier,
                     DelegateDeclarationSyntax declaration => declaration.Identifier,
                     _ => default
