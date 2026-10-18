@@ -3883,7 +3883,8 @@
 <p class="reference-explanation">Recoupling coefficients are amplitudes with phase conventions, not probabilities by themselves. Integer wrappers can encode twice the physical spin; using 1 where 1/2 was intended changes the state space before any arithmetic takes place.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>Arguments specify the successive rows of the 3×3 Wigner array.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Every integer argument is TWICE the physical spin/projection: e.g. 1 represents 1/2. Triangle and parity selection rules apply; forbidden couplings vanish or are rejected by the library.</p>
-<p class="reference-note"><strong>Important:</strong>  Current implementation forwards jf as the ninth argument instead of ji. Thus changing ji alone does not change the result; it is not a general 9-j calculation until that wrapper is corrected.</p>
+<p class="reference-note"><strong>Important:</strong> The final argument ji selects the lower-right spin independently of jf. A forbidden row or column coupling has value zero.</p>
+<p class="reference-example"><strong>Example:</strong> Coupling9j(2,2,2,2,2,2,2,2,0) = 1/18 ≈ 0.0555555555555556</p>
 <p class="reference-equation"><strong>Selection-rule example</strong><br /><img class="reference-math" src="reference-equations/65770f7a0382ea38d04286a8c056b0f58823b3d14c28d5410f11367530a3312b.png" alt="Triangle rule for coupling two angular momenta." width="198" height="28" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/34.6">dlmf.nist.gov</a></p>
 </div>]]></Description>
