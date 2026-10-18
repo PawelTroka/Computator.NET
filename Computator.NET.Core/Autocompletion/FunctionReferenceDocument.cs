@@ -34,6 +34,7 @@ namespace Computator.NET.Core.Autocompletion
                 ".reference-formula code{font-family:'Cambria Math','Segoe UI',serif;font-size:1.125em;}" +
                 ".reference-equation{overflow-x:auto;padding:12px;background:#fff;border-left:3px solid #75879b;}" +
                 ".reference-math{display:block;max-width:none;}" +
+                ".reference-figure{margin:16px 0;}.reference-plot{display:block;max-width:100%;height:auto;background:#fff;}" +
                 ".reference-math-inline{display:inline-block;max-width:none;}" +
                 ".reference-math-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}" +
                 ".reference-worked-example{padding:12px;border:1px solid #d5dce3;background:#f8fafc;}" +
@@ -59,13 +60,15 @@ namespace Computator.NET.Core.Autocompletion
             foreach (var image in root.Descendants("img").ToArray())
             {
                 var source = (string)image.Attribute("src") ?? "";
-                if (!Regex.IsMatch(source, @"\Areference-equations/[a-f0-9]{64}\.png\z", RegexOptions.CultureInvariant))
-                    throw new InvalidDataException("The reference contains a nonlocal equation image.");
                 var imageClass = (string)image.Attribute("class") ?? "";
+                var plot = imageClass == "reference-plot";
+                var directory = plot ? "reference-figures" : "reference-equations";
+                if (!Regex.IsMatch(source, @"\A" + directory + @"/[a-f0-9]{64}\.png\z", RegexOptions.CultureInvariant))
+                    throw new InvalidDataException("The reference contains a nonlocal image.");
                 var inline = imageClass == "reference-math-inline";
                 var alternative = (string)image.Attribute("alt");
-                if ((!inline && imageClass != "reference-math") || string.IsNullOrWhiteSpace(alternative))
-                    throw new InvalidDataException("The reference image needs a mathematical class and alternative.");
+                if ((!inline && !plot && imageClass != "reference-math") || string.IsNullOrWhiteSpace(alternative))
+                    throw new InvalidDataException("The reference image needs a reviewed class and alternative.");
                 var width = EquationDimension(image, "width", inline ? 320 : 2400);
                 var height = EquationDimension(image, "height", inline ? 100 : 800);
                 var depth = 0;
@@ -79,7 +82,7 @@ namespace Computator.NET.Core.Autocompletion
                 }
                 else if (image.Attribute("data-depth") != null)
                     throw new InvalidDataException("Display equations must not have inline layout metadata.");
-                var path = PathUtility.GetFullPath("Static", "reference-equations", source.Substring("reference-equations/".Length));
+                var path = PathUtility.GetFullPath("Static", directory, source.Substring(directory.Length + 1));
                 using var stream = File.OpenRead(path);
                 if (stream.Length < 24 || stream.Length > 512000)
                     throw new InvalidDataException("Invalid reference equation size.");

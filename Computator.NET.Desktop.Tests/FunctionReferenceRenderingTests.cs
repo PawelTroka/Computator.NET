@@ -20,6 +20,7 @@ namespace Computator.NET.Desktop.Tests
         [TestCase("ElementaryCharge", "1.602176634")]
         [TestCase("Normal.CDF(mean,stddev,x)", "standard deviation")]
         [TestCase("Laguerre(n,α,x)", "Generalized Laguerre polynomial")]
+        [TestCase("Ackley(xi1,xi2, ...)", "Reading the landscape")]
         public void ShippedHtmlRendersOfflineInTheDesktopBrowser(string signature, string expected)
         {
             var entry = new FunctionsDetailsFileSource().Details[signature];
@@ -70,6 +71,16 @@ namespace Computator.NET.Desktop.Tests
             var screenshot = System.IO.Path.Combine(TestContext.CurrentContext.WorkDirectory,
                 "reference-" + signature.Split('(')[0].Replace('.', '-') + ".png");
             SavePaintedReference(window, browser, screenshot);
+            foreach (var figure in browser.Document.Images.Cast<HtmlElement>()
+                         .Where(image => image.GetAttribute("className") == "reference-plot"))
+            {
+                figure.ScrollIntoView(true);
+                NUnit.Framework.Assert.That(ViewportBounds(figure).Width, Is.LessThanOrEqualTo(browser.ClientSize.Width),
+                    "The benchmark diagram must fit within the native reading surface.");
+                NUnit.Framework.Assert.That(CaptureDocumentPaint(window, browser, new[] { figure },
+                    System.IO.Path.ChangeExtension(screenshot, null) + "-diagram.png"), Is.True,
+                    "The offline diagram must decode and paint in the native HTML control.");
+            }
             window.Close();
         }
 

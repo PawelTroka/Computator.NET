@@ -113,6 +113,53 @@ for showing redundant signatures.
 
 ## Content boundaries
 
+### Scientific benchmark diagrams (#224)
+
+Ackley, Rastrigin, Bohachevsky1, Himmelblau, Matyas, Rosenbrock, dropWave and
+sixHumpCamel now have original, labelled two-coordinate diagrams. Eight images
+serve nine lookup entries, including the two Rosenbrock signatures. Each image
+pairs sampled level curves with a marked path and its evaluated objective values.
+Minima and axis values are shown explicitly; captions explain what a slice can
+and cannot establish about a surface. Matyas follows its shallow diagonal and
+Rosenbrock its curved valley. Himmelblau marks all four global minimizers; the
+six-hump camel plot marks both symmetry-related minima and discloses the rounded
+slice coordinate. The Bohachevsky drawing follows the actual returned value -0.7
+at the origin, consistent with the existing implementation warning.
+
+Ackley, Rastrigin and sixHumpCamel also gain executable worked examples,
+discovered by the existing runtime example test. All prior article text,
+formulas, examples, argument guidance and qualifications are retained.
+
+`build/reference/plots.cjs` samples the mathematical formulas and draws the
+geometry, including contour interpolation. It uses the existing pinned
+MathJax/resvg development dependencies to turn axis-label glyphs and paths into
+PNG images. No new dependency, operating-system font or image-generation model
+is used. The function conventions are checked against the
+[pinned Math.NET implementation](https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs).
+The diagrams are numerical illustrations, not proofs of global optimality or
+runtime optimizer results. Tests independently check analytic values, minima,
+the valley identities and contour geometry on a circle and saddle.
+
+The eight 600 × 374 diagrams have 3× pixel resolution. Their SVG-source hashes
+name the PNG files in `Static/reference-figures`; the manifest records image
+hashes, dimensions, axis ranges, contour values, minima, captions and text
+alternatives. Both `Reference-Generate` and `Reference-Validate` run their
+deterministic generation and geometry tests. Ordinary builds only copy the
+committed images. The desktop renderer and web sanitizer accept only the exact
+`reference-plot` class with hashed `reference-figures/*.png` paths, bounded sizes
+and a nonempty alternative; the directory and class must agree. They still
+reject remote, data, SVG, traversal and active-attribute input. All previous
+equation and inline-math source identities remain unchanged.
+
+This implements the missing benchmark illustrations from #224. The separate
+[PR #229](https://github.com/PawelTroka/Computator.NET/pull/229) handles definition
+placement, benchmark formula promotion and desktop reading space. This diagram
+change independently targets the same master revision without duplicating those
+changes. When integrating the authoring changes, retain #229's
+`definition_label='Definition'` alongside each new worked-example tuple, then
+regenerate `functions.xml` from the combined sources. Illustrations for other
+mathematical domains remain further editorial work.
+
 All 1,220 existing entries gain explanatory guidance, with subject-specific
 interpretations and explicit numerical/physical caveats. Display equations appear
 in 1,172 entries; together with inline mathematics, 1,173 entries include typeset
