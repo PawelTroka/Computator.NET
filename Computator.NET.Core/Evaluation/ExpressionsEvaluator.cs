@@ -182,8 +182,8 @@ namespace Computator.NET.Core.Evaluation
         protected Delegate Compile()
         {
             SetVariablesAndSignatures();
-            _customFunctionsCSharpCode = _tslCompiler.TransformToCSharp(CustomFunctionsTslCode);
-            MainCSharpCode = _tslCompiler.TransformToCSharp(MainTslCode, CustomFunctionsTslCode);
+            _customFunctionsCSharpCode = _tslCompiler.TransformToCSharp(CustomFunctionsTslCode, string.Empty, deferSymbolicFunctionPowers: true);
+            MainCSharpCode = _tslCompiler.TransformToCSharp(MainTslCode, CustomFunctionsTslCode, deferSymbolicFunctionPowers: true);
             TransformImplicitToExplicit();
 
             var fullCode = BuildCode();
