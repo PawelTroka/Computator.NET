@@ -129,4 +129,16 @@
   <data name="addToChartButton.Text" xml:space="preserve">
     <value>Add to chart</value>
   </data>
+  <data name="MinimumAxisAccessibleName" xml:space="preserve">
+    <value>Minimum {0}</value>
+  </data>
+  <data name="MaximumAxisAccessibleName" xml:space="preserve">
+    <value>Maximum {0}</value>
+  </data>
+  <data name="RealPartAxisAccessibleName" xml:space="preserve">
+    <value>real part of z</value>
+  </data>
+  <data name="ImaginaryPartAxisAccessibleName" xml:space="preserve">
+    <value>imaginary part of z</value>
+  </data>
 </root>

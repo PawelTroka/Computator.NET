@@ -135,4 +135,16 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Wartości na wykresie</value>
   </data>
+  <data name="MinimumAxisAccessibleName" xml:space="preserve">
+    <value>Minimalna wartość {0}</value>
+  </data>
+  <data name="MaximumAxisAccessibleName" xml:space="preserve">
+    <value>Maksymalna wartość {0}</value>
+  </data>
+  <data name="RealPartAxisAccessibleName" xml:space="preserve">
+    <value>części rzeczywistej z</value>
+  </data>
+  <data name="ImaginaryPartAxisAccessibleName" xml:space="preserve">
+    <value>części urojonej z</value>
+  </data>
 </root>

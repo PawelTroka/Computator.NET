@@ -7,6 +7,9 @@ namespace Computator.NET.Core.Abstract.Views
     {
         string AddChartLabel { set; }
 
+        string XAxisLabel { get; set; }
+        string YAxisLabel { get; set; }
+
         double Quality { get; }
 
         event EventHandler AddClicked;

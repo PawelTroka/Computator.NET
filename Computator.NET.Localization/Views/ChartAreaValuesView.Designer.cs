@@ -95,5 +95,40 @@ namespace Computator.NET.Localization.Views {
                 return ResourceManager.GetString("label2.Text", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum {0}.
+        /// </summary>
+        public static string MinimumAxisAccessibleName {
+            get {
+                return ResourceManager.GetString("MinimumAxisAccessibleName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum {0}.
+        /// </summary>
+        public static string MaximumAxisAccessibleName {
+            get {
+                return ResourceManager.GetString("MaximumAxisAccessibleName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to real part of z.
+        /// </summary>
+        public static string RealPartAxisAccessibleName {
+            get {
+                return ResourceManager.GetString("RealPartAxisAccessibleName", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to imaginary part of z.
+        /// </summary>
+        public static string ImaginaryPartAxisAccessibleName {
+            get {
+                return ResourceManager.GetString("ImaginaryPartAxisAccessibleName", resourceCulture);
+            }
+        }
     }
 }

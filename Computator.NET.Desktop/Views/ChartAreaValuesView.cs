@@ -11,7 +11,6 @@ namespace Computator.NET.Desktop.Views
 {
     public partial class ChartAreaValuesView : UserControl, IChartAreaValuesView
     {
-        //private ChartAreaValuesPresenter presenter;
         private readonly ErrorProvider _errorProvider;
 
         public ChartAreaValuesView()
@@ -32,7 +31,8 @@ namespace Computator.NET.Desktop.Views
             { nameof(YMin), y0NumericUpDown},
             { nameof(YMax), yNNumericUpDown},
         };
-            //presenter = new ChartAreaValuesPresenter(this);
+            SetAxisLabels(xMinLabel, xMaxLabel, x0NumericUpDown, xnNumericUpDown, "x");
+            SetAxisLabels(yMinLabel, yMaxLabel, y0NumericUpDown, yNNumericUpDown, "y");
         }
 
         private readonly Dictionary<string, Control> _controlsByProperties;
@@ -40,6 +40,36 @@ namespace Computator.NET.Desktop.Views
         public void SetError(string property, string error)
         {
             _errorProvider.SetError(_controlsByProperties[property], error);
+        }
+
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public string XAxisLabel
+        {
+            get => xMinLabel.Axis;
+            set => SetAxisLabels(xMinLabel, xMaxLabel, x0NumericUpDown, xnNumericUpDown, value);
+        }
+
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public string YAxisLabel
+        {
+            get => yMinLabel.Axis;
+            set => SetAxisLabels(yMinLabel, yMaxLabel, y0NumericUpDown, yNNumericUpDown, value);
+        }
+
+        private static void SetAxisLabels(ChartAreaBoundLabel minimumLabel, ChartAreaBoundLabel maximumLabel,
+            Control minimumInput, Control maximumInput, string axis)
+        {
+            minimumLabel.Axis = maximumLabel.Axis = axis;
+            var accessibleAxis = axis switch
+            {
+                "Re(z)" => Localization.Views.ChartAreaValuesView.RealPartAxisAccessibleName,
+                "Im(z)" => Localization.Views.ChartAreaValuesView.ImaginaryPartAxisAccessibleName,
+                _ => axis
+            };
+            minimumLabel.AccessibleName = minimumInput.AccessibleName = string.Format(
+                Localization.Views.ChartAreaValuesView.MinimumAxisAccessibleName, accessibleAxis);
+            maximumLabel.AccessibleName = maximumInput.AccessibleName = string.Format(
+                Localization.Views.ChartAreaValuesView.MaximumAxisAccessibleName, accessibleAxis);
         }
 
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
