@@ -32,10 +32,40 @@ namespace Computator.NET.Desktop.Views
             { nameof(YMin), y0NumericUpDown},
             { nameof(YMax), yNNumericUpDown},
         };
+            XAxisName = "x";
+            YAxisName = "y";
             //presenter = new ChartAreaValuesPresenter(this);
         }
 
         private readonly Dictionary<string, Control> _controlsByProperties;
+
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public string XAxisName
+        {
+            get => label3.CoordinateName;
+            set
+            {
+                SuspendLayout();
+                label3.CoordinateName = label4.CoordinateName = value;
+                x0NumericUpDown.AccessibleName = label3.AccessibleName;
+                xnNumericUpDown.AccessibleName = label4.AccessibleName;
+                ResumeLayout(true);
+            }
+        }
+
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public string YAxisName
+        {
+            get => y0label.CoordinateName;
+            set
+            {
+                SuspendLayout();
+                y0label.CoordinateName = yNlabel.CoordinateName = value;
+                y0NumericUpDown.AccessibleName = y0label.AccessibleName;
+                yNNumericUpDown.AccessibleName = yNlabel.AccessibleName;
+                ResumeLayout(true);
+            }
+        }
 
         public void SetError(string property, string error)
         {

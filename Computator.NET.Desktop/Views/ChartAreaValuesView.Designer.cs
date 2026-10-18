@@ -39,13 +39,13 @@ namespace Computator.NET.Desktop.Views
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
+            this.label4 = new AxisRangeLabel();
             this.yNNumericUpDown = new ScientificNumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
+            this.label3 = new AxisRangeLabel();
             this.x0NumericUpDown = new ScientificNumericUpDown();
-            this.y0label = new System.Windows.Forms.Label();
+            this.y0label = new AxisRangeLabel();
             this.y0NumericUpDown = new ScientificNumericUpDown();
-            this.yNlabel = new System.Windows.Forms.Label();
+            this.yNlabel = new AxisRangeLabel();
             this.xnNumericUpDown = new ScientificNumericUpDown();
             this.clearChartButton = new System.Windows.Forms.Button();
             this.addToChartButton = new System.Windows.Forms.Button();
@@ -145,7 +145,8 @@ namespace Computator.NET.Desktop.Views
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 20);
             this.label4.TabIndex = 7;
-            this.label4.Text = "xN =";
+            this.label4.CoordinateName = "x";
+            this.label4.IsMaximum = true;
             // 
             // yNNumericUpDown
             // 
@@ -169,6 +170,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             this.yNNumericUpDown.Name = "yNNumericUpDown";
+            this.yNNumericUpDown.MinimumSize = new Size(_numericScaledSize.Width, 0);
             this.yNNumericUpDown.Size = _numericScaledSize;
             this.yNNumericUpDown.TabIndex = 17;
             this.yNNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -190,7 +192,8 @@ namespace Computator.NET.Desktop.Views
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 20);
             this.label3.TabIndex = 5;
-            this.label3.Text = "x0 =";
+            this.label3.CoordinateName = "x";
+            this.label3.IsMaximum = false;
             // 
             // x0NumericUpDown
             //
@@ -214,6 +217,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             this.x0NumericUpDown.Name = "x0NumericUpDown";
+            this.x0NumericUpDown.MinimumSize = new Size(_numericScaledSize.Width, 0);
             this.x0NumericUpDown.Size = _numericScaledSize;
             this.x0NumericUpDown.TabIndex = 10;
             this.x0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -235,7 +239,8 @@ namespace Computator.NET.Desktop.Views
             this.y0label.Name = "y0label";
             this.y0label.Size = new System.Drawing.Size(40, 20);
             this.y0label.TabIndex = 14;
-            this.y0label.Text = "y0 =";
+            this.y0label.CoordinateName = "y";
+            this.y0label.IsMaximum = false;
             // 
             // y0NumericUpDown
             //
@@ -259,6 +264,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             this.y0NumericUpDown.Name = "y0NumericUpDown";
+            this.y0NumericUpDown.MinimumSize = new Size(_numericScaledSize.Width, 0);
             this.y0NumericUpDown.Size = _numericScaledSize;
             this.y0NumericUpDown.TabIndex = 16;
             this.y0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -280,7 +286,8 @@ namespace Computator.NET.Desktop.Views
             this.yNlabel.Name = "yNlabel";
             this.yNlabel.Size = new System.Drawing.Size(43, 20);
             this.yNlabel.TabIndex = 15;
-            this.yNlabel.Text = "yN =";
+            this.yNlabel.CoordinateName = "y";
+            this.yNlabel.IsMaximum = true;
             // 
             // xnNumericUpDown
             // 
@@ -304,6 +311,7 @@ namespace Computator.NET.Desktop.Views
             0,
             0});
             this.xnNumericUpDown.Name = "xnNumericUpDown";
+            this.xnNumericUpDown.MinimumSize = new Size(_numericScaledSize.Width, 0);
             this.xnNumericUpDown.Size = _numericScaledSize;
             this.xnNumericUpDown.TabIndex = 11;
             this.xnNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -388,12 +396,12 @@ namespace Computator.NET.Desktop.Views
         private System.Windows.Forms.GroupBox groupBox2;
         private ScientificNumericUpDown yNNumericUpDown;
         private ScientificNumericUpDown y0NumericUpDown;
-        private System.Windows.Forms.Label yNlabel;
-        private System.Windows.Forms.Label y0label;
+        private AxisRangeLabel yNlabel;
+        private AxisRangeLabel y0label;
         private ScientificNumericUpDown xnNumericUpDown;
         private ScientificNumericUpDown x0NumericUpDown;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private AxisRangeLabel label4;
+        private AxisRangeLabel label3;
         private System.Windows.Forms.Button clearChartButton;
         private System.Windows.Forms.Button addToChartButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
