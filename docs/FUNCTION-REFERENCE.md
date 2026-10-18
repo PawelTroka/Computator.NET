@@ -50,7 +50,6 @@ Several descriptions would be misleading without reporting existing behavior. Th
 | `CoulombGprime` / `Coupling9j` | Current forwarded order / ninth-argument behavior differs from the advertised general formula. |
 | Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |
 | `Debye` outside orders 1–6 | The fallback is not the normalized higher-order Debye definition. |
-| `PointwiseMultiply` / `PointwiseDivide` | The left-fold loops include the first operand twice / divide it by itself. |
 | `minor` | Extracts a rectangular submatrix; it does not compute a determinant or cofactor. |
 | `Geometric` | Counts trials including success, on 1,2,…; NegativeBinomial counts failures starting at zero. |
 | `Stable` density/CDF | Math.NET 5.0 supports only its Gaussian, Cauchy and Lévy special cases for evaluation, despite broader sampling support. |
