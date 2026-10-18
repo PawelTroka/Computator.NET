@@ -31,6 +31,7 @@ namespace Computator.NET.Core.Abstract.Controls
         bool ContainsDocument(string oldPath);
         void EnsureCanRenameDocument(string oldPath, string fullPath);
         void RenameDocument(string oldPath, string fullPath);
+        void RenameFile(string oldPath, string fullPath);
 
         void SwitchTab(string fullPath);
     }

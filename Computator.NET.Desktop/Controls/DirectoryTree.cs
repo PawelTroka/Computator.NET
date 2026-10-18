@@ -129,10 +129,7 @@ namespace Computator.NET.Desktop.Controls
         {
             // The destination may be open with unsaved changes even if
             // another process has deleted its file from disk.
-            CodeEditorWrapper.EnsureCanRenameDocument(oldPath, newPath);
-            File.Move(oldPath, newPath);
-            if (CodeEditorWrapper.ContainsDocument(oldPath))
-                CodeEditorWrapper.RenameDocument(oldPath, newPath);
+            CodeEditorWrapper.RenameFile(oldPath, newPath);
         }
 
         private void createFile(string fullPath)
