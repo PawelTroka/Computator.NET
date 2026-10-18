@@ -183,7 +183,7 @@ namespace Computator.NET.Core.Evaluation
         {
             SetVariablesAndSignatures();
             _customFunctionsCSharpCode = _tslCompiler.TransformToCSharp(CustomFunctionsTslCode);
-            MainCSharpCode = _tslCompiler.TransformToCSharp(MainTslCode);
+            MainCSharpCode = _tslCompiler.TransformToCSharp(MainTslCode, CustomFunctionsTslCode);
             TransformImplicitToExplicit();
 
             var fullCode = BuildCode();

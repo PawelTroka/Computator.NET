@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using Computator.NET.DataTypes.Text;
 using Microsoft.CodeAnalysis.CSharp;
@@ -6,17 +9,37 @@ namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public class PowHandler : ITslHandler
     {
-        // Superscript letters may be legal parts of existing function names
-        // (notably ψⁿ). Only numeric literals before arguments are power shorthand;
-        // symbolic exponents remain unambiguous after the closing parenthesis.
+        // Bare symbolic prefixes are reserved for the conventional elementary
+        // function spellings below: cosᶻ(z) means pow(cos(z),z). Other identifiers
+        // (notably ψⁿ, Probeᶻ and qualified names) keep their existing meaning.
+        // Named/qualified identifiers accept a grouped prefix: Probe⁽ʸ⁾(x).
+        // An intentional custom name overlapping this shorthand can be escaped
+        // as @cosᶻ; declarations in the same TSL fragment are protected as well.
+        private static readonly HashSet<string> SymbolicPowerFunctions = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "sinc", "sin", "cos", "tan", "tg", "ctg", "cot", "sec", "csc", "cosec",
+            "sinh", "cosh", "tanh", "tgh", "coth", "ctgh", "sech", "csch", "cosech",
+            "arcsin", "arccos", "arctan", "arctg", "arccot", "arcctg", "arcsec", "arccsc", "arccosec",
+            "arsinh", "arcosh", "artanh", "artgh", "arcoth", "arctgh", "arcsch", "arcosech", "arsech",
+            "ln", "log", "log2", "log10", "sqrt", "root", "pow", "exp"
+        };
         private const string Identifier = @"@?[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}]*";
         private const string QualifiedIdentifier = Identifier + @"(?:\s*\.\s*" + Identifier + @")*";
         private const string Parentheses = @"\((?:[^()]|(?<open>\()|(?<-open>\)))*(?(open)(?!))\)";
         private const string SuperscriptDigits = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+        private static readonly char[] SuperscriptCharacters = SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray();
+
+        private static readonly Regex NumericPowerRegex = new Regex(
+            @"\A[⁺⁻]?[" + SuperscriptDigits + @"]+(?:" + Regex.Escape(SpecialSymbols.DecimalSeparatorSuperscript) +
+            "[" + SuperscriptDigits + @"]+)?\z", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+        private static readonly Regex GroupedPowerRegex = new Regex(
+            @"\A⁽(?:[^⁽⁾]|(?<openPower>⁽)|(?<-openPower>⁾))*(?(openPower)(?!))⁾\z",
+            RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         private static readonly Regex FunctionWithPrefixPowerRegex = new Regex(
-            @"(?<function>" + QualifiedIdentifier + @")\s*(?<power>[⁺⁻]?[" + SuperscriptDigits + @"]+(?:" +
-            Regex.Escape(SpecialSymbols.DecimalSeparatorSuperscript) + "[" + SuperscriptDigits + @"]+)?)\s*(?<arguments>" + Parentheses + ")",
+            @"(?<function>" + QualifiedIdentifier + @")\s*(?<power>[" + SpecialSymbols.SuperscriptsWithoutSpace +
+            "][" + SpecialSymbols.Superscripts + @"]*)\s*(?<arguments>" + Parentheses + ")",
             RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         // Capture a named call together with its arguments. Matching just (x)
@@ -38,7 +61,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             do
             {
                 previous = result;
-                result = FunctionWithPrefixPowerRegex.Replace(result, ReplacePrefixPower);
+                result = ReplacePrefixPowers(result);
                 result = ExpressionInParenthesesRaisedToAnyPowerRegex.Replace(result, ReplaceParenthesizedPower);
             } while (result != previous);
 
@@ -46,12 +69,64 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             return VariableRaisedToAnyPowerRegex.Replace(result, ReplaceMatchWithPow);
         }
 
-        private static string ReplacePrefixPower(Match match)
+        private static string ReplacePrefixPowers(string source)
+        {
+            var output = new StringBuilder();
+            var copied = 0;
+            var next = 0;
+            while (true)
+            {
+                var match = FunctionWithPrefixPowerRegex.Match(source, next);
+                if (!match.Success) break;
+                var replacement = ReplacePrefixPower(source, match);
+                if (replacement == null)
+                {
+                    // Preserve the outer name but keep scanning its arguments:
+                    // ψⁿ(...) must not hide an inner cosʸ(x). This is iterative so
+                    // nested preserved calls do not recurse on the managed stack.
+                    next = match.Groups["arguments"].Index + 1;
+                    continue;
+                }
+                output.Append(source, copied, match.Index - copied).Append(replacement);
+                copied = next = match.Index + match.Length;
+            }
+            return copied == 0 ? source : output.Append(source, copied, source.Length - copied).ToString();
+        }
+
+        private static string? ReplacePrefixPower(string source, Match match)
         {
             var function = match.Groups["function"].Value;
-            if (SyntaxFacts.GetKeywordKind(function) != SyntaxKind.None) return match.Value;
+            var power = match.Groups["power"].Value.Trim();
+            if (SyntaxFacts.GetKeywordKind(function) != SyntaxKind.None) return null;
+
+            // Superscript letters are identifier characters, so the greedy name
+            // match may include part of the exponent (cosᶜᵒˢ⁽ᶻ⁾, for example).
+            // Split them off only when the remaining unqualified name is one of
+            // the reserved spellings, never from a custom or qualified callable.
+            var firstSuperscript = function.IndexOfAny(SuperscriptCharacters);
+            var name = firstSuperscript < 0 ? function : function.Substring(0, firstSuperscript);
+            if (SymbolicPowerFunctions.Contains(name) && !FollowsMemberAccess(source, match.Index))
+            {
+                power = function.Substring(name.Length) + power;
+                function = name;
+            }
+            else if (!NumericPowerRegex.IsMatch(power) && !GroupedPowerRegex.IsMatch(power))
+                return null;
+
             return "pow(" + function + match.Groups["arguments"].Value + "," +
-                SpecialSymbols.SuperscriptsToAscii(match.Groups["power"].Value) + ")";
+                SpecialSymbols.SuperscriptsToAscii(power) + ")";
+        }
+
+        internal static bool IsSymbolicPowerIdentifier(string name)
+        {
+            var firstSuperscript = name.IndexOfAny(SuperscriptCharacters);
+            return firstSuperscript > 0 && SymbolicPowerFunctions.Contains(name.Substring(0, firstSuperscript));
+        }
+
+        private static bool FollowsMemberAccess(string source, int index)
+        {
+            while (index > 0 && char.IsWhiteSpace(source[index - 1])) index--;
+            return index > 0 && (source[index - 1] == '.' || source[index - 1] == ':');
         }
 
         private static string ReplaceParenthesizedPower(Match match)
