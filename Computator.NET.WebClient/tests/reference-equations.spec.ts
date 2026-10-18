@@ -56,3 +56,38 @@ test('packaged equation endpoint returns PNG bytes, not the SPA fallback', async
   expect(response.headers()['content-type']).toContain('image/png');
   expect((await response.body()).subarray(0, 8).equals(Buffer.from([137,80,78,71,13,10,26,10]))).toBe(true);
 });
+
+for (const [route, editor] of [['/calculate', '#expressionTextArea'], ['/scripting', '#scriptTextArea']]) {
+  test(`unopened reference articles do not fetch their equations in ${route}`, async ({ page }) => {
+    const other = Object.entries(equations).find(([otherId]) => otherId !== id)!;
+    const images: string[] = [];
+    page.on('request', request => {
+      const path = new URL(request.url()).pathname;
+      if (path.startsWith('/reference-equations/')) images.push(path);
+    });
+    await page.route('**/api/autocomplete/**', request => request.fulfill({
+      headers: { 'access-control-allow-origin': '*' },
+      json: [
+        ['SelectedEquationProbe', id, asset],
+        ['UnopenedEquationProbe', other[0], other[1]]
+      ].map(([name, equationId, dimensions]) => {
+        const size = dimensions as typeof asset;
+        return { text: `${name}(x)`, menuText: `real ${name}(real x)`, details: {
+          title: name, type: 'SpecialFunctions',
+          description: `<p class="reference-equation"><img class="reference-math" src="reference-equations/${equationId}.png" width="${size.width}" height="${size.height}" alt="${name} equation" /></p>`
+        } };
+      })
+    }));
+    await page.goto(route);
+    const input = page.locator(`${editor} textarea`);
+    await input.fill('SelectedEquationProbe');
+    await input.press('Control+Space');
+    const tooltip = page.getByRole('tooltip');
+    await expect(tooltip.locator('.reference-title')).toHaveText('SelectedEquationProbe');
+    const equation = tooltip.locator('img.reference-math');
+    await expect.poll(() => equation.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth > 0)).toBe(true);
+    // Completing and displaying this article proves the entire autocomplete
+    // response was processed. Its unopened sibling must not issue a request.
+    expect([...new Set(images)]).toEqual([`/reference-equations/${id}.png`]);
+  });
+}

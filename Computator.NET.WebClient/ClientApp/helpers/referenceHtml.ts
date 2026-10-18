@@ -9,14 +9,18 @@ const classes = new Set(['function-reference', 'reference-arguments', 'reference
 export function referenceHtml(title: string, fragment: unknown, _displayedSignature?: string): string {
   const template = document.createElement('template');
   if (typeof fragment === 'string') template.innerHTML = fragment;
-  const article = document.createElement('div');
+  // Detached images owned by the active document still fetch their sources.
+  // Keep reconstruction inert too: autocomplete sanitizes every article, but
+  // its PNGs should load only when Ace inserts the selected article's HTML.
+  const inert = template.content.ownerDocument;
+  const article = inert.createElement('div');
   article.className = 'computator-reference';
-  const heading = document.createElement('strong');
+  const heading = inert.createElement('strong');
   heading.className = 'reference-title'; heading.textContent = title;
   article.append(heading);
 
   function append(source: Node, target: Node) {
-    if (source.nodeType === Node.TEXT_NODE) { target.appendChild(document.createTextNode(source.textContent ?? '')); return; }
+    if (source.nodeType === Node.TEXT_NODE) { target.appendChild(inert.createTextNode(source.textContent ?? '')); return; }
     if (source.nodeType !== Node.ELEMENT_NODE) return;
     const element = source as Element;
     const name = element.tagName.toUpperCase(); // SVG/MathML names are lowercase.
@@ -40,7 +44,7 @@ export function referenceHtml(title: string, fragment: unknown, _displayedSignat
           !/^[1-9]\d{0,2}$/.test(height) || Number(height) > (inline ? 100 : 800) ||
           (inline ? !/^(?:0|-?[1-9][0-9]{0,3})$/.test(depthText) || depth < -1000 || depth >= Number(height) * 50
             : element.hasAttribute('data-depth'))) return;
-      const image = document.createElement('img');
+      const image = inert.createElement('img');
       image.className = inline ? 'reference-math-inline' : 'reference-math'; image.alt = alt;
       image.width = Number(width); image.height = Number(height);
       image.src = '/' + src;
@@ -54,9 +58,9 @@ export function referenceHtml(title: string, fragment: unknown, _displayedSignat
         image.style.verticalAlign = `${-depth / 1000}em`;
         // Keep the mathematical words in text selection and the accessibility
         // tree. The image is their visual presentation, not a second reading.
-        const inlineMath = document.createElement('span');
+        const inlineMath = inert.createElement('span');
         inlineMath.className = 'reference-inline';
-        const text = document.createElement('span');
+        const text = inert.createElement('span');
         text.className = 'reference-math-text'; text.textContent = alt;
         // Firefox includes image alternatives when copying a selection even
         // when aria-hidden; the real text below already supplies the formula.
@@ -71,7 +75,7 @@ export function referenceHtml(title: string, fragment: unknown, _displayedSignat
     }
     let destination = target;
     if (elements.has(name)) {
-      const clean = document.createElement(name.toLowerCase());
+      const clean = inert.createElement(name.toLowerCase());
       const retained = Array.from(element.classList).filter(name => classes.has(name));
       if (retained.length) clean.className = retained.join(' ');
       if (name === 'A') {

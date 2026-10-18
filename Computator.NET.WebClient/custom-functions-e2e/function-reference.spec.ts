@@ -23,9 +23,13 @@ for (const [mode, route, editor] of [
     // No route interception: use the published frontend and actual Windows API.
     const frontendOrigin = new URL(baseURL!).origin;
     const remoteImages: string[] = [];
+    const equationRequests: string[] = [];
+    const openedEquations = new Set<string>();
     page.on('request', request => {
       if (request.resourceType() === 'image' && new URL(request.url()).origin !== frontendOrigin)
         remoteImages.push(request.url());
+      const path = new URL(request.url()).pathname;
+      if (path.startsWith('/reference-equations/')) equationRequests.push(path);
     });
     const loaded = page.waitForResponse(response => response.url().endsWith(`/autocomplete/${mode}`) && response.request().method() === 'GET');
     await page.goto(route);
@@ -85,6 +89,7 @@ for (const [mode, route, editor] of [
         const equations = tooltip.locator('img.reference-math, img.reference-math-inline');
         expect(await equations.count()).toBeGreaterThan(0);
         for (const equation of await equations.all()) {
+          openedEquations.add((await equation.getAttribute('src'))!);
           await expect(equation).toBeVisible();
           await expect(equation).toHaveAttribute('src', /^\/reference-equations\/[a-f0-9]{64}\.png$/);
           await expect.poll(() => equation.evaluate((node: HTMLImageElement) =>
@@ -101,6 +106,9 @@ for (const [mode, route, editor] of [
           await expect(image).toHaveAttribute('alt', '');
           expect((await inline.locator('.reference-math-text').textContent())!.trim()).not.toBe('');
         }
+        // The live catalogue contains hundreds of other equations. Preparing
+        // autocomplete must not load the images belonging to unopened articles.
+        expect(equationRequests.filter(path => !openedEquations.has(path))).toEqual([]);
         expect(remoteImages).toEqual([]);
         await page.screenshot({ path: info.outputPath(`live-${mode}-${article.name}-reference.png`) });
       });
