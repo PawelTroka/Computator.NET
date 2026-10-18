@@ -1,6 +1,6 @@
 <Project>
-  <!-- Build the shipped ToCode bodies once, with the explicitly audited
-       invocation-local Coulomb scratch result described below. -->
+  <!-- Build shipped ToCode bodies once; the three native Coulomb scratch
+       outputs are explicitly localized and independently regression-tested. -->
   <UsingTask TaskName="GeneratePrecompiledTslBuiltins" TaskFactory="RoslynCodeTaskFactory"
              AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
@@ -30,33 +30,38 @@
                 char character = source[position++];
                 if (character != '"') { fragment.Append(character); continue; }
                 if (position < source.Length && source[position] == '"') { fragment.Append('"'); position++; continue; }
-                closed = true;
-                break;
+                closed = true; break;
             }
             while (position < source.Length && char.IsWhiteSpace(source[position])) position++;
             if (!closed || position >= source.Length || source[position] != ';')
                 throw new InvalidOperationException("Unsupported or unterminated ToCode initializer: " + sourceItem.ItemSpec);
             fragments.Add(sourceItem.GetMetadata("Kind"), fragment.ToString());
         }
-        // The only mutable field remaining in SpecialFunctions is a native
-        // Coulomb output buffer, written and immediately read in one call. It
-        // must not become cross-program shared storage. Localize that exact
-        // reviewed field/use pair; reject any future additional use or change.
-        // The original ToCode remains untouched for private-field compatibility.
+        // sfResult is written/read immediately in CoulombC, CoulombGprime and
+        // CoulombFprime. Preserve every native argument (including historical
+        // order semantics), but never share their output buffer across programs.
         const string scratchField = "private static gsl_sf_result sfResult;";
-        const string scratchCall = "gsl_sf_coulomb_CL_e(L, η, out sfResult);";
+        string[] scratchCalls = {
+            "gsl_sf_coulomb_CL_e(L, η, out sfResult);",
+            "gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out r2, out r3, out sfResult, out d1, out d2);",
+            "gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out sfResult, out r3, out r2, out d1, out d2);"
+        };
         string special = fragments["SpecialFunctions"];
-        if (Regex.Matches(special, @"\bsfResult\b").Count != 3 ||
-            Regex.Matches(special, Regex.Escape(scratchField)).Count != 1 ||
-            Regex.Matches(special, Regex.Escape(scratchCall)).Count != 1 ||
-            Regex.Matches(special, @"return\s+sfResult\.val\s*;").Count != 1)
-            throw new InvalidOperationException("Coulomb scratch storage changed; review its locality before precompiling.");
-        string localizedSpecial = special.Replace(scratchField, "")
-            .Replace(scratchCall, "gsl_sf_result sfResult;\n            " + scratchCall);
+        int uses = Regex.Matches(special, @"\bsfResult\b").Count;
+        int declarations = Regex.Matches(special, Regex.Escape(scratchField)).Count;
+        int returns = Regex.Matches(special, @"return\s+sfResult\.val\s*;").Count;
+        if (uses != 7 || declarations != 1 || returns != 3)
+            throw new InvalidOperationException("Review Coulomb scratch locality: uses=" + uses + ", fields=" + declarations + ", returns=" + returns);
+        string localizedSpecial = special.Replace(scratchField, "");
+        foreach (string call in scratchCalls)
+        {
+            int count = Regex.Matches(special, Regex.Escape(call)).Count;
+            if (count != 1) throw new InvalidOperationException("Review Coulomb scratch call count " + count + ": " + call);
+            localizedSpecial = localizedSpecial.Replace(call, "gsl_sf_result sfResult;\n            " + call);
+        }
         string[] kinds = { "MathematicalConstants", "PhysicalConstants", "ElementaryFunctions", "SpecialFunctions",
             "StatisticsFunctions", "Integral", "Derivative", "FunctionRoot" };
-        var common = new List<string>();
-        var immutable = new List<string>();
+        var common = new List<string>(); var immutable = new List<string>();
         foreach (string kind in kinds)
         {
             common.Add(fragments[kind]);
@@ -79,19 +84,16 @@
         generated.AppendLine("public class PrecompiledExpressionSurface {");
         foreach (string fragment in immutable) generated.AppendLine(fragment);
         generated.AppendLine("}");
-        // Scalar and matrix pow overloads must be declared together.
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
         generated.AppendLine("public class PrecompiledScriptMathSurface {");
         foreach (string fragment in scriptImmutable) generated.AppendLine(fragment);
         generated.AppendLine("}");
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
         generated.AppendLine("public class PrecompiledExpressionBuiltins<TProgram> : PrecompiledExpressionSurface {");
-        generated.AppendLine(fragments["StatisticsFunctions"]);
-        generated.AppendLine("}");
+        generated.AppendLine(fragments["StatisticsFunctions"]); generated.AppendLine("}");
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
         generated.AppendLine("public class PrecompiledScriptMathBuiltins<TProgram> : PrecompiledScriptMathSurface {");
-        generated.AppendLine(fragments["StatisticsFunctions"]);
-        generated.AppendLine("}");
+        generated.AppendLine(fragments["StatisticsFunctions"]); generated.AppendLine("}");
         generated.AppendLine(fragments["NumericalExtensions"]);
         generated.AppendLine("public static class PrecompiledBuiltinSourceHashes {");
         generated.AppendLine("public const string Expression = \"" + hash(string.Join("\0", common)) + "\";");
@@ -118,8 +120,7 @@
     <_TslBuiltinSource Include="$(MSBuildThisFileDirectory)../Computator.NET.Core/Functions/MatrixFunctions.cs" Kind="MatrixFunctions" />
     <_TslBuiltinSource Include="$(MSBuildThisFileDirectory)../Computator.NET.Core/Evaluation/NumericalExtensions.cs" Kind="NumericalExtensions" />
   </ItemGroup>
-  <Target Name="GenerateTslBuiltinFacade" Inputs="@(_TslBuiltinSource);$(MSBuildThisFileFullPath)"
-          Outputs="$(IntermediateOutputPath)PrecompiledTslBuiltins.g.cs">
+  <Target Name="GenerateTslBuiltinFacade" Inputs="@(_TslBuiltinSource);$(MSBuildThisFileFullPath)" Outputs="$(IntermediateOutputPath)PrecompiledTslBuiltins.g.cs">
     <Error Condition="'$(CheckForOverflowUnderflow)' == 'true'" Text="Precompiled TSL builtins require the same unchecked arithmetic policy as NativeCompiler." />
     <GeneratePrecompiledTslBuiltins Sources="@(_TslBuiltinSource)" OutputFile="$(IntermediateOutputPath)PrecompiledTslBuiltins.g.cs" />
   </Target>
