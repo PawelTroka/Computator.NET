@@ -5,6 +5,11 @@
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile><NuGetAudit>true</NuGetAudit><NuGetAuditMode>all</NuGetAuditMode>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
+    <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
+    <Compile Include="../Computator.NET.Desktop.Tests/ComplexChartRenderingTests.cs" Link="Charting/ComplexChartRenderingTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" PrivateAssets="all" /><PackageReference Include="NUnit" />
     <PackageReference Include="NUnit3TestAdapter" PrivateAssets="all" />
