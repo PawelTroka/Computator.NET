@@ -92,10 +92,16 @@ namespace Computator.NET.Core.Tests.FunctionsTests
             const string script = @"
                 for (var i = 0; i < 256; i++) {
                     var value = random(-2147483648,2147483647);
-                    if (value < -2147483648.0 || value > 2147483647.0 || value != System.Math.Truncate(value))
+                    if (value < -2147483648.0)
+                        throw new System.InvalidOperationException();
+                    if (value > 2147483647.0)
+                        throw new System.InvalidOperationException();
+                    if (value != System.Math.Truncate(value))
                         throw new System.InvalidOperationException();
                     var positive = random(2147483647);
-                    if (positive < 0 || positive > 2147483647.0)
+                    if (positive < 0)
+                        throw new System.InvalidOperationException();
+                    if (positive > 2147483647.0)
                         throw new System.InvalidOperationException();
                 }
                 if (!System.Double.IsNaN(random(-1))) throw new System.InvalidOperationException();

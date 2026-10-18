@@ -7,6 +7,8 @@
     <PackageReference Include="Accord.Math" /><PackageReference Include="Guards" />
     <PackageReference Include="MathNet.Numerics" /><PackageReference Include="Meta.Numerics" /><PackageReference Include="Unity" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
+    <!-- ScriptEvaluator compiles against Charting even when its host uses no charts. -->
+    <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
     <ProjectReference Include="..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
     <Compile Remove="Compilation\TSLCompiler.cs;Compilation\TslHandlers\*.cs;Constants\MathematicalConstants.cs" />
     <Compile Remove="Functions\MatrixFunctions.cs;Evaluation\NumericalExtensions.cs;NumericalCalculations\Integral.cs;NumericalCalculations\Derivative.cs;NumericalCalculations\FunctionRoot.cs" />
