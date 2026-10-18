@@ -1,23 +1,58 @@
-# Clean Windows and historical-upgrade acceptance — roadmap 5
+# Clean Windows and historical-upgrade acceptance
 
-This adds a real offline Windows Sandbox acceptance harness. It does **not** represent SDK-equipped CI as a clean machine, automatically enable Windows features, install on the developer host, accept WiX terms or sign a package.
+The offline Windows Sandbox harness does **not** represent SDK-equipped CI as a clean machine, automatically enable Windows features, install on the developer host, accept WiX terms or sign a package. Preparation and report verification are Cake tasks on the host; the guest needs only Windows PowerShell 5.1 and Windows' built-in installer facilities, not Cake or a development SDK.
 
-First obtain the compiled candidate MSI and its matching payload inventory through the approved installer target. To test an actual historical upgrade, separately obtain the authentic historical **MSI** and independently verify its SHA-256. The public 2.3.2 release offers a bootstrapper; do not pass that EXE as if it were an MSI or silently substitute a newly generated fixture. Extract/obtain its actual embedded MSI through an owner-reviewed process. Its UpgradeCode and ProductVersion must match the known 2.3.2 product.
+## Preferred historical path: the real official EXE
+
+Obtain the approved unsigned candidate MSI, its matching `payload.xml` and corresponding candidate EXE. The official historical release publishes a Burn EXE, not a separately listed MSI. The pinned acquisition task downloads and verifies the real release asset without executing it:
 
 ```powershell
-./build.ps1 -Target Clean-Machine-Prepare --msi=C:\Candidates\Computator.NET.msi --inventory=C:\Candidates\payload.xml --legacy-msi=C:\Historical\Computator.NET-2.3.2.msi --legacy-sha256=<verified-sha256>
+./build.ps1 -Target Installer-Historical-Fetch
+./build.ps1 -Target Clean-Machine-Prepare -CakeArguments @(
+    '--msi=C:\Candidates\Computator.NET.msi',
+    '--inventory=C:\Candidates\payload.xml',
+    '--candidate-bundle=C:\Candidates\Computator.NET.Installer.exe',
+    '--historical-bundle=artifacts/installer/historical/Computator.NET.Installer.v2.3.2.exe'
+)
 ```
 
-The target creates a unique acceptance directory and a `.wsb` configuration. It maps only copied inputs read-only and a newly created empty results directory writable. Networking, clipboard, camera, microphone, printer and vGPU access are disabled. Review the generated paths/configuration, then explicitly open it on a Windows host where Sandbox is already available. Nothing launches automatically from preparation.
+Both EXEs are required together. Preparation verifies the historical EXE's reviewed SHA-256 and size and copies all inputs into a unique run directory. `plan.json` binds the MSI, EXEs, inventory and guest scripts to hashes. See [historical package identities and test scope](HISTORICAL-UPGRADE-ACCEPTANCE.md).
 
-The PowerShell 5.1 guest checks that no modern shared runtime/SDK or Computator.NET installation exists. It verifies input hashes and identities, installs the historical product when supplied, and creates a guest-only deliberately failing candidate MSI by inserting a type-19 error after InstallFiles. It requires rollback to restore the old registration/executable and verifies that old application still launches. The actual unmodified candidate then upgrades/installs, all installed payload hashes are checked, the self-contained product launches and shuts down, a removed data file is repaired, and uninstall must retain an external Unicode-named user document.
+The `.wsb` configuration maps only copied inputs read-only and a newly created empty results directory writable. Networking, clipboard, camera, microphone, printer and vGPU access are disabled. Review the generated paths/configuration, then explicitly open the `.wsb` on a Windows host where Sandbox is already available. Nothing launches automatically from preparation. Do not map a real user's profile or documents into the guest.
 
-The negative MSI is not a distribution artifact and is never copied back as a release output. Installer logs and a structured acceptance result remain in the newly mapped results directory. Cleanup only targets product codes established from the checked input packages in this disposable guest. Failure/cleanup failure is not reported as acceptance success.
+## What the guest checks
 
-The authentic v2.3.2 bundle's MSI ProductVersion is `2.3.2.0`. The rollback probe requires removal after InstallInitialize and before InstallFiles; removal before the transaction or after the deliberate failure cannot establish this rollback claim and is rejected. This tests rollback of the historical removal, not failure after every deferred candidate action has executed.
+The schema-2 guest checks common and configured modern runtime/SDK locations, PATH and runtime registration. Finding a modern runtime/SDK is a hard failure. It also refuses an existing Computator.NET installation or profile. The OS-supplied .NET Framework needed by the historical application and Windows PowerShell is not a development SDK.
 
-Without a historical MSI the harness can test fresh installation, but explicitly reports historical acceptance as not requested. `Clean-Machine-Verify` requires the real historical rollback/upgrade stages and the exact candidate hash. A successful fresh-install-only report cannot satisfy it.
+The shared historical harness installs the original 2.3.2 EXE, creates a profile with the installed historical settings serializer, writes reproducible `.tsl`/`.tslf` files, checks launch and shell integration, and tests intentional MSI-upgrade failure and rollback. It then upgrades using the unmodified candidate EXE, checks the complete candidate payload, semantic settings migration, unchanged original documents/settings, repair and EXE uninstall. MSI and Burn registrations are checked separately. See the linked scope document for the precise assertions.
 
-Normal PR CI tests PowerShell syntax, read-only/writable mapping boundaries, legacy-hash requirements and rejection of wrong-hash, failed or incomplete evidence. **It does not launch Sandbox or execute the MSI lifecycle.** Actual guest execution, bootstrapper UX, standard-user launch, broader supported Windows editions, visual/profile acceptance and signed release review still require recorded runs. The report is evidence, not a cryptographic attestation against a malicious operator.
+The negative MSI stays inside the disposable guest and is not a release output. Rollback requires removal after `InstallInitialize` and before `InstallFiles`, with the intentional failure after `InstallFiles`. It verifies recovery after historical removal, **not** failure after every deferred candidate action or Burn-engine failure-chain recovery. Preserve this distinction when writing acceptance reports.
 
-Windows Sandbox configuration and Windows Installer transaction behavior are documented by Microsoft. The harness intentionally fails if a package's removal schedule does not roll back safely; do not weaken that check merely to obtain a pass. Keep the original candidate and historical artifacts untouched for review.
+MSI/Burn logs and a structured `acceptance.json` remain in the new writable results directory. Cleanup targets only known test-product identities after the harness's clean-machine preflight. Failure or cleanup failure returns failure; discard the guest after inspecting retained diagnostics. User fixtures stay in the disposable guest rather than being copied into host profile directories.
+
+## Verify the exact candidate
+
+After actual guest execution, compute hashes from the same candidate inputs used to prepare that guest and verify the resulting report:
+
+```powershell
+$msiHash = (Get-FileHash C:\Candidates\Computator.NET.msi -Algorithm SHA256).Hash
+$exeHash = (Get-FileHash C:\Candidates\Computator.NET.Installer.exe -Algorithm SHA256).Hash
+$result = 'C:\path\to\this-run\results\acceptance.json'
+./build.ps1 -Target Clean-Machine-Verify -CakeArguments @(
+    "--acceptance-result=$result",
+    "--candidate-sha256=$msiHash",
+    "--candidate-bundle-sha256=$exeHash"
+)
+```
+
+The release-facing verifier requires the official EXE schema-2 historical flow, all mandatory stages, matching candidate MSI **and** EXE hashes, the pinned historical EXE identity, no modern runtime/SDK and successful cleanup. Fresh-install-only, extracted-MSI-only and SDK-equipped hosted-runner reports do not satisfy it. A report is recorded evidence, not a cryptographic attestation against a malicious operator.
+
+## Retained MSI-only diagnostic mode
+
+The older `--legacy-msi` plus owner-verified `--legacy-sha256` preparation mode is retained for targeted MSI diagnosis, and omitting historical inputs still permits fresh-install testing. An EXE must never be passed as an MSI. These modes produce schema-1 reports and cannot satisfy the official-bundle release gate. Do not combine legacy-MSI arguments with the two-EXE mode.
+
+## CI versus actual machine acceptance
+
+Normal PR CI runs `Clean-Machine-Harness-Validate`, covering plan safety and rejection of wrong-package, incomplete, SDK-equipped or cleanup-failed evidence. On Windows it executes contract tests with PowerShell 7 and the actual Windows PowerShell 5.1 guest engine. A UTF-8 BOM is required for guest scripts with Unicode source text; PS7-only parsing previously missed a real PS5.1 failure. Cake's Windows acceptance launcher also isolates module resolution from inherited PS7 module paths.
+
+**Normal PR CI does not launch Sandbox or install the historical product.** The separately opted-in installer workflow can run the lifecycle on a disposable hosted Windows runner, but that runner has an SDK. Actual offline Sandbox execution, standard-user launch, interactive bootstrapper UX, other supported Windows editions, owner-profile trials and signed-release acceptance still require their own recorded results. None of these tasks authorizes signing, publication or Store submission.

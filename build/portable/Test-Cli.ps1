@@ -60,6 +60,38 @@ try {
     [IO.File]::WriteAllText($scriptFile, 'write(Probe(6)); write("zażółć λ");', [Text.UTF8Encoding]::new($true))
     $value = Invoke-Cli -Arguments @('script','--file',$scriptFile,'--functions',$functions)
     if ($value.result -ne '3zażółć λ') { throw 'Published portable UTF-8 document execution failed.' }
+    # Ordinary trusted code and referenced libraries may write to Console. Those
+    # messages must not become extra JSON documents or corrupt structured errors.
+    [IO.File]::WriteAllText($scriptFile, 'Console.WriteLine("discarded stdout λ"); Console.Error.WriteLine("discarded stderr λ"); write("kept λ");', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$scriptFile)
+    if ($value.result -ne 'kept λ') { throw 'Console isolation changed TSL write output.' }
+    [IO.File]::WriteAllText($scriptFile, 'Console.WriteLine("discarded stdout"); Console.Error.WriteLine("discarded stderr"); throw new InvalidOperationException("expected execution failure");', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$scriptFile) -ExpectedExit 1
+    if ($value.error -ne 'InvalidOperationException' -or $value.message -ne 'expected execution failure') { throw 'Console isolation lost the execution error.' }
+    [IO.File]::WriteAllText($functions, 'static real Probe(real x) { Console.WriteLine("discarded stdout"); Console.Error.WriteLine("discarded stderr"); return x/2; }', [Text.UTF8Encoding]::new($false))
+    Assert-Number -Arguments @('calculate','--expression','Probe(6)','--functions',$functions) -Expected 3
+    Assert-Number -Arguments @('integrate','--expression','Probe(x)','--a','0','--b','6','--steps','2','--functions',$functions) -Expected 9 -Tolerance 1e-10
+    [IO.File]::WriteAllText($functions, 'static real Probe(real x) { Console.WriteLine("discarded stdout"); Console.Error.WriteLine("discarded stderr"); throw new InvalidOperationException("expected function failure"); }', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('calculate','--expression','Probe(6)','--functions',$functions) -ExpectedExit 1
+    if ($value.error -ne 'InvalidOperationException' -or $value.message -ne 'expected function failure') { throw 'Console isolation lost the custom function error.' }
+    # Keep the protocol writers usable even when trusted code replaces Console.
+    $redirect = 'Console.SetOut(new System.IO.StringWriter()); Console.SetError(new System.IO.StringWriter()); '
+    [IO.File]::WriteAllText($scriptFile, $redirect + 'write("restored");', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$scriptFile)
+    if ($value.result -ne 'restored') { throw 'The result protocol writer was replaced.' }
+    [IO.File]::WriteAllText($scriptFile, $redirect + 'throw new InvalidOperationException("restored failure");', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$scriptFile) -ExpectedExit 1
+    if ($value.error -ne 'InvalidOperationException' -or $value.message -ne 'restored failure') { throw 'The error protocol writer was replaced.' }
+    # ProcessExit runs after Main returns; ordinary shutdown logging must stay
+    # outside the protocol too, on both the success and failure paths.
+    $shutdown = 'AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) => { Console.WriteLine("ordinary shutdown log"); Console.Error.WriteLine("ordinary shutdown warning"); }; '
+    [IO.File]::WriteAllText($scriptFile, $shutdown + 'write("42");', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$scriptFile)
+    if ($value.result -ne '42') { throw 'Shutdown logging corrupted the result.' }
+    [IO.File]::WriteAllText($scriptFile, $shutdown + 'throw new InvalidOperationException("expected shutdown failure");', [Text.UTF8Encoding]::new($false))
+    $value = Invoke-Cli -Arguments @('script','--file',$scriptFile) -ExpectedExit 1
+    if ($value.error -ne 'InvalidOperationException' -or $value.message -ne 'expected shutdown failure') { throw 'Shutdown logging corrupted the structured error.' }
+    [IO.File]::WriteAllText($functions, 'static real Probe(real x) { return x/2; }', [Text.UTF8Encoding]::new($true))
     Assert-Number -Arguments @('integrate','--expression','x*x','--a','0','--b','3','--steps','100') -Expected 9 -Tolerance 1e-10
     Assert-Number -Arguments @('integrate','--expression','Probe(x)','--a','0','--b','6','--functions',$functions) -Expected 9 -Tolerance 1e-10
     Assert-Number -Arguments @('differentiate','--expression','x*x','--x','3') -Expected 6 -Tolerance 1e-6
@@ -95,5 +127,6 @@ try {
     }
     # Failure must not poison the next independent invocation.
     Assert-Number -Arguments @('integrate','--expression','x','--a','0','--b','2','--steps','2') -Expected 2 -Tolerance 1e-12
-    Write-Host "Published portable CLI passed $script:cases process checks: numerical commands, documents, strict options, errors and recovery."
+    if ($script:cases -lt 39) { throw "Expected at least 39 published CLI process checks, but ran $script:cases." }
+    Write-Host "Published portable CLI passed $script:cases process checks: numerical commands, documents, strict options, Console isolation, errors and recovery."
 } finally { Remove-Item -LiteralPath $temp -Recurse -Force }

@@ -1,94 +1,54 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+using System;
 using Computator.NET.Core.Compilation;
 using Computator.NET.DataTypes;
-using Computator.NET.DataTypes.Text;
 
 namespace Computator.NET.Core.Evaluation
 {
     public interface IModeDeterminer
     {
         CalculationsMode DetermineMode(string input);
+        CalculationsMode DetermineMode(string input, string customFunctionsCode) => DetermineMode(input);
     }
 
     public class ModeDeterminer : IModeDeterminer
     {
-        private readonly Regex FindI;
-        private readonly Regex FindY;
-        private readonly Regex FindZ;
-
-        private readonly string post =
-            $@")(?:[\+\-\*{SpecialSymbols.DotSymbol}\/\,\)\s{SpecialSymbols.Superscripts}](?:\n|\r|\r\n|.)*)?$";
-
-        private readonly string postExponent = $@")(?:(?:[^{SpecialSymbols.SuperscriptAlphabet}]+)|$)";
-        //^(?:(?:\n|\r|\r\n|.)*[\+\-·\/\,\(\s])?(x)(?:[\+\-·\/\,\)\s](?:\n|\r|\r\n|.)*)?$
-        private readonly string pre = $@"^(?:(?:\n|\r|\r\n|.)*[\+\-\*{SpecialSymbols.DotSymbol}\/\,\(\s])?(";
-        private readonly string preExponent = $@"[^{SpecialSymbols.SuperscriptAlphabet}]+(";
-        //private Regex FindX;
         private readonly ITslCompiler _tslCompiler;
 
         public ModeDeterminer(ITslCompiler tslCompiler)
         {
-            _tslCompiler = tslCompiler;
-            //  FindX = new Regex(pre + "x" + post, RegexOptions.Compiled);
-            FindY =
-                new Regex(
-                    mergePatterns(pre + "y" + post,
-                        preExponent + SpecialSymbols.AsciiToSuperscript("y") + postExponent),
-                    RegexOptions.Compiled);
-
-            FindZ =
-                new Regex(
-                    mergePatterns(pre + "z" + post,
-                        preExponent + SpecialSymbols.AsciiToSuperscript("z") + postExponent),
-                    RegexOptions.Compiled);
-
-            FindI =
-                new Regex(
-                    mergePatterns(pre + "i" + post,
-                        preExponent + SpecialSymbols.AsciiToSuperscript("i") + postExponent),
-                    RegexOptions.Compiled);
+            _tslCompiler = tslCompiler ?? throw new ArgumentNullException(nameof(tslCompiler));
         }
 
-        //[^⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ](ˣ)(?:(?:[^⁰¹²³⁴⁵⁶⁷⁸⁹ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁᵂᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷʸᶻᵅᵝᵞᵟᵋᶿᶥᶲᵠᵡ]+)|$)
+        public CalculationsMode DetermineMode(string input) => DetermineMode(input, string.Empty);
 
-
-        private static string mergePatterns(params string[] patterns)
+        public CalculationsMode DetermineMode(string input, string customFunctionsCode)
         {
-            var sb = new StringBuilder();
-            foreach (var pattern in patterns)
-            {
-                sb.AppendFormat(@"(?:{0})|", pattern);
-            }
-            sb.Remove(sb.Length - 1, 1);
+            if (string.IsNullOrWhiteSpace(input))
+                return CalculationsMode.Error;
 
-            return sb.ToString();
-        }
+            var cSharp = _tslCompiler.TransformToCSharp(input, customFunctionsCode ?? "", true);
+            var expression = ExpressionAnalysis.Parse(cSharp);
+            if (expression.IsEmpty)
+                return CalculationsMode.Error;
 
-        public CalculationsMode DetermineMode(string input)
-        {
-            var isImplicit = input.Contains("=");
-            input = _tslCompiler.TransformToCSharp(input);
-            var isZ = FindZ.IsMatch(input);
-            var isI = FindI.IsMatch(input);
-            var isY = FindY.IsMatch(input);
+            var inputs = expression.HasFunctionPowers
+                ? new ExpressionsEvaluator().AnalyzeFunctionPowers(cSharp, customFunctionsCode ?? "", expression.IsImplicit)
+                : expression;
+            var isZ = inputs.ContainsVariable("z");
+            var isI = inputs.ContainsVariable("i");
+            var isY = inputs.ContainsVariable("y");
 
-
-            if (!isImplicit)
+            if (!expression.IsImplicit)
             {
                 if (isZ || isI)
                     return CalculationsMode.Complex;
                 return isY ? CalculationsMode.Fxy : CalculationsMode.Real;
-                //return FindX.IsMatch(input) ? CalculationsMode.Real : CalculationsMode.Error;
             }
 
             if (isI)
-                return CalculationsMode.Error; //TODO: we don't have implicit mode for complex function yet
+                return CalculationsMode.Error; // Implicit complex functions are not supported.
 
-            if (isZ && isY)
-                return CalculationsMode.Fxy;
-
-            return CalculationsMode.Real;
+            return isZ && isY ? CalculationsMode.Fxy : CalculationsMode.Real;
         }
     }
 }

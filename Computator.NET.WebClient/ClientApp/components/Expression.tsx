@@ -18,7 +18,14 @@ export function Expression({ expression, onExpressionChange }: {
       <AceEditor name="expressionTextArea" mode="csharp" theme="github"
         width="100%" minLines={1} maxLines={1} fontSize={20} showPrintMargin={false} showGutter={false}
         highlightActiveLine={false} value={expression} tabSize={1}
-        onChange={text => onExpressionChange(SpecialSymbolsHandler.replace(text.replace(/[\r\n]+/g, ' '), false))}
+        onChange={text => {
+          // Literals and comments can contain meaningful asterisks and newlines.
+          // Preserve their source, including unfinished input, without attempting
+          // to parse every C# literal form while the user is still typing.
+          const source = /["']|\/[/*]/.test(text) ? text
+            : SpecialSymbolsHandler.replace(text.replace(/[\r\n]+/g, ' '), false);
+          onExpressionChange(source);
+        }}
         onLoad={editor => {
           editor.completers = [completer];
           editor.container.querySelector('textarea')?.setAttribute('aria-label', 'Expression');

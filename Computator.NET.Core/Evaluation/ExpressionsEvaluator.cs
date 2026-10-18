@@ -3,8 +3,8 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Compilation.TslHandlers;
 using Computator.NET.Core.Constants;
 using Computator.NET.Core.Functions;
 using Computator.NET.Core.NumericalCalculations;
@@ -13,6 +13,7 @@ using Computator.NET.DataTypes.Functions;
 using Computator.NET.DataTypes.Utility;
 using Computator.NET.Localization;
 using NLog;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Computator.NET.Core.Evaluation
 {
@@ -66,7 +67,6 @@ namespace Computator.NET.Core.Evaluation
 
         private readonly TslCompiler _tslCompiler;
 
-        private readonly Regex _implicitFunctionRegex = new Regex(@"=[^>]", RegexOptions.Compiled);
         private string _customFunctionsCSharpCode;
         private Type _delegateType;
         private string _functionSignature;
@@ -93,6 +93,24 @@ namespace Computator.NET.Core.Evaluation
             AdditionalUsings = "";
         }
 
+        internal ExpressionAnalysis AnalyzeFunctionPowers(string expression, string customFunctionsCode, bool isImplicit)
+        {
+            // Make every coordinate available while binding. This discovers coordinates
+            // hidden in a bare power suffix without mistaking an exact custom name for
+            // a power. Implicit equations have real coordinates, including z.
+            var coordinateType = isImplicit ? "double" : "System.Numerics.Complex";
+            var source = Begin + _tslCompiler.TransformToCSharp(customFunctionsCode, "", true) +
+                "public static object CustomFunction(double x, double y, " + coordinateType + " z) { return " +
+                expression + "; } } }";
+            var compilation = FunctionPowerResolver.Resolve(NativeCompiler.CreateCompilation(source));
+            var method = compilation.SyntaxTrees.Single().GetRoot().DescendantNodes()
+                .OfType<MethodDeclarationSyntax>().LastOrDefault(node => node.Identifier.ValueText == "CustomFunction");
+            var result = method?.Body?.Statements.OfType<ReturnStatementSyntax>().FirstOrDefault()?.Expression;
+            // While the user types, malformed input or custom definitions can prevent
+            // the generated method from parsing. Evaluation owns those diagnostics.
+            return ExpressionAnalysis.Parse(result?.ToFullString() ?? expression);
+        }
+
 
         private bool IsImplicit
             =>
@@ -101,11 +119,13 @@ namespace Computator.NET.Core.Evaluation
 
         public Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode)
         {
-            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, _implicitFunctionRegex.IsMatch(input));
-
-
             if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentException(Strings.Expression_should_not_be_empty_);
+
+            var expression = ExpressionAnalysis.Parse(_tslCompiler.TransformToCSharp(input));
+            if (expression.IsEmpty)
+                throw new ArgumentException(Strings.Expression_should_not_be_empty_);
+            FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, expression.IsImplicit);
 
             MainTslCode = input;
             CustomFunctionsTslCode =
@@ -162,8 +182,8 @@ namespace Computator.NET.Core.Evaluation
                     //    _tslCompiler.Variables.Add("x");
                     //    _tslCompiler.Variables.Add("y");
                     //    _tslCompiler.Variables.Add("z");
-                    _functionSignature = LambdaXyz;
                     _delegateType = typeof(Func<double, double, double, double>);
+                    _functionSignature = LambdaXyz;
                     break;
                 case FunctionType.Scripting:
                     _delegateType = typeof(Action<Action<string>>);
@@ -176,20 +196,14 @@ namespace Computator.NET.Core.Evaluation
         private void TransformImplicitToExplicit()
         {
             if (IsImplicit)
-            {
-                var match = _implicitFunctionRegex.Match(MainCSharpCode);
-
-
-                MainCSharpCode = MainCSharpCode.Substring(0, match.Index) + "-(" +
-                                 MainCSharpCode.Substring(match.Index + 1) + ")";
-            }
+                MainCSharpCode = ExpressionAnalysis.Parse(MainCSharpCode).ToExplicit();
         }
 
         protected Delegate Compile()
         {
             SetVariablesAndSignatures();
-            _customFunctionsCSharpCode = _tslCompiler.TransformToCSharp(CustomFunctionsTslCode);
-            MainCSharpCode = _tslCompiler.TransformToCSharp(MainTslCode);
+            _customFunctionsCSharpCode = _tslCompiler.TransformToCSharp(CustomFunctionsTslCode, string.Empty, deferSymbolicFunctionPowers: true);
+            MainCSharpCode = _tslCompiler.TransformToCSharp(MainTslCode, CustomFunctionsTslCode, deferSymbolicFunctionPowers: true);
             TransformImplicitToExplicit();
 
             var fullCode = BuildCode();

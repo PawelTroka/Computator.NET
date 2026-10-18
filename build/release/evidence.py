@@ -13,15 +13,15 @@ import xml.etree.ElementTree as ET
 from versioning import check
 
 REPORTS = {
-    'TestResults/Computator.NET.Core.Tests.trx': 300,
+    'TestResults/Computator.NET.Core.Tests.trx': 804,
     'TestResults/Computator.NET.Core.IntegrationTests.trx': 947,
-    'TestResults/Computator.NET.Desktop.Tests.trx': 32,
+    'TestResults/Computator.NET.Desktop.Tests.trx': 263,
     'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 117,
-    'TestResults/portable.trx': 144,
-    'TestResults/reference.trx': 30,
-    'Computator.NET.WebClient/test-results/results.xml': 70,
+    'TestResults/portable.trx': 605,
+    'TestResults/reference.trx': 153,
+    'Computator.NET.WebClient/test-results/results.xml': 172,
     'Computator.NET.WebClient/test-results/e2e.xml': 10,
-    'Computator.NET.WebClient/test-results/custom-functions.xml': 22,
+    'Computator.NET.WebClient/test-results/custom-functions.xml': 26,
 }
 
 GSL_CHECKS = {'gamma': 2.0, 'gammaP': 1 - 2 / math.e,

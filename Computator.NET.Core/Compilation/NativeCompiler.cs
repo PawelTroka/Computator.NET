@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using Computator.NET.Localization;
+using Computator.NET.Core.Compilation.TslHandlers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using NLog;
@@ -44,20 +45,7 @@ namespace Computator.NET.Core.Compilation
 
         public Assembly Compile(string input)
         {
-            if (input == null) throw new ArgumentNullException(nameof(input));
-            string[] references;
-            lock (_referenceLock) references = _references.ToArray();
-
-            var metadata = RuntimeReferences.Value.Concat(references.Select(ResolveReference))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file)));
-            var tree = CSharpSyntaxTree.ParseText(input,
-                new CSharpParseOptions(LanguageVersion.CSharp14), encoding: Encoding.UTF8);
-            var compilation = CSharpCompilation.Create("Computator.TSL." + Guid.NewGuid().ToString("N"),
-                new[] { tree }, metadata,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
-                    optimizationLevel: OptimizationLevel.Release));
-
+            var compilation = FunctionPowerResolver.Resolve(CreateCompilation(input));
             using (var output = new MemoryStream())
             {
                 var result = compilation.Emit(output);
@@ -72,6 +60,24 @@ namespace Computator.NET.Core.Compilation
                 // those are released, the runtime can collect the whole context.
                 return CollectibleProgramLoader.LoadProgram(output);
             }
+        }
+
+        // Routing may bind the generated program, but must never emit or execute it.
+        internal CSharpCompilation CreateCompilation(string input)
+        {
+            if (input == null) throw new ArgumentNullException(nameof(input));
+            string[] references;
+            lock (_referenceLock) references = _references.ToArray();
+
+            var metadata = RuntimeReferences.Value.Concat(references.Select(ResolveReference))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file)));
+            var tree = CSharpSyntaxTree.ParseText(input,
+                new CSharpParseOptions(LanguageVersion.CSharp14), encoding: Encoding.UTF8);
+            return CSharpCompilation.Create("Computator.TSL." + Guid.NewGuid().ToString("N"),
+                new[] { tree }, metadata,
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
+                    optimizationLevel: OptimizationLevel.Release));
         }
 
         public void AddDll(string dllPath)

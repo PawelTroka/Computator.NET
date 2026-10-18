@@ -1,0 +1,4840 @@
+{
+  "schema": 2,
+  "renderer": "MathJax 4.1.3 / resvg 2.6.2; 20px math, 3x pixels; inline depth in 1/1000 em",
+  "equations": {
+    "005d63f791b4eabb339a7c69f5fe37288262622e067d63fb814be9f04f8b5711": {
+      "tex": "0.0007273895104",
+      "width": 154,
+      "height": 22,
+      "sha256": "d609398d65702f466f121d740f55f9fc711c11a724ed2a111234b0734e386d43"
+    },
+    "00a007babe8d978f98617f27245d08f1c6f7252da63a13db212daa7472f2e086": {
+      "tex": "5.670373\\times10^{-8}",
+      "width": 148,
+      "height": 27,
+      "sha256": "78799a40714256431bfe3299ea9207c82992a73920fab3c39e9a01d062528dfa"
+    },
+    "00d388e0f787dbfb0a854c691c822f2b7020f92c0d13cfc5cb0c6ae7ea272df9": {
+      "tex": "\\mathrm{kg}",
+      "width": 22,
+      "height": 19,
+      "sha256": "3c5723a268e1bedc65d5a81049174374e3852d1313507bb5f96335feb717e664",
+      "mode": "inline",
+      "depth": 231
+    },
+    "00e05275df2c9441754da6eb3d27cd3a05901a8c1878bd5f691e796828725fb4": {
+      "tex": "p_0",
+      "width": 20,
+      "height": 14,
+      "sha256": "85064860262e1971f76e0f56b2cfb19be5b9cba0c618932e6b73f8437d1ba934",
+      "mode": "inline",
+      "depth": 226
+    },
+    "01918f949d778e163e0670933ea38b966fdb8cc8b0255a08b22553dff2c8cb94": {
+      "tex": "\\Pr(X=k)=\\frac{\\Gamma(k+r)}{\\Gamma(r)k!}p^r(1-p)^k,\\quad k=0,1,\\ldots",
+      "width": 415,
+      "height": 57,
+      "sha256": "fb228e6377a94b76d2d873571912b87440802e17fc8bc1b54299b1af422ac38d"
+    },
+    "01aec75eeff589109046c5a33632affc9256a24c5db15d30dfac07a788fbb185": {
+      "tex": "2.179872171\\times10^{-18}",
+      "width": 185,
+      "height": 27,
+      "sha256": "6a2d868adb1674742f5128ca93d8544c0af647dcae9638c2eb84b2600b4d483c"
+    },
+    "01f2a2077b30d4e596c660d88cce96176319e19c42f56627e29a8f0510d646a4": {
+      "tex": "0.00027244371095",
+      "width": 164,
+      "height": 22,
+      "sha256": "cfd3d58faa0d051592df9c5a30a342603111a18f664a2d27d112e35855231e48"
+    },
+    "023460dd4a833d06c2c34fabe71d01e1c81e1d41b4431f08c007f796a9a65e14": {
+      "tex": "95788335.8",
+      "width": 104,
+      "height": 22,
+      "sha256": "315452de166c62a20ffd1ca6ade51363dc087719beea99297c72e59bbde0f017"
+    },
+    "02bd87324c37f7d9f3d7136708558699b3cda293c5d981fdfd24e6c89b65c351": {
+      "tex": "1.28808866833\\times10^{-21}",
+      "width": 205,
+      "height": 27,
+      "sha256": "39b82c1c051aa34d7ac5adccf06d0f76b878a5d755f45bf6d11f38558b1b7d85"
+    },
+    "031ded29b34d5709a70c4fc7854eb4f523deee50042b59bdf9fb1aa93762658e": {
+      "tex": "0.34053732955099913",
+      "width": 194,
+      "height": 22,
+      "sha256": "139299d6f2913258df2665578ff3c8a7ee4b25ec5b5aa823dd8e0fb529b3fda9"
+    },
+    "0328fe78b1cda2562371b5ab5ee635aefbbce98efc6e134267f67514c252d935": {
+      "tex": "-1.074553044\\times10^{-26}",
+      "width": 201,
+      "height": 28,
+      "sha256": "8f65c680cca96e505ebd4076e8867d61976328ab085199edbfb23ec648fc1632"
+    },
+    "036164fdb99e3f983ec2663c210873b7934425c463c960332ffa5b5709efb1b7": {
+      "tex": "1836.15267245",
+      "width": 134,
+      "height": 22,
+      "sha256": "e463504518981a37527601f4faa484725f50b38a465ea4858e8c1cd67433311c"
+    },
+    "03f209cde2570673cff6c5bc9cb8c30ec9826e30e2bfc85f9cc66d43cef4b787": {
+      "tex": "0.00152103221",
+      "width": 134,
+      "height": 22,
+      "sha256": "f6fd84eaf14727e705d7d38c2de3b980983ff8ac8d3712df45a9c925a1360319"
+    },
+    "04835f4137de47b5e17442eb72b02cdec5259827014b77b22e6623319b2b74ff": {
+      "tex": "|j_2,m_2\\rangle",
+      "width": 67,
+      "height": 21,
+      "sha256": "c1a05dbc96040968b79494ac53997cfeba00f97abba9e42aa317e38345b8be60",
+      "mode": "inline",
+      "depth": 275
+    },
+    "04aea7bd874de9cfc746bb927f85aa411e3d34ea02242a53e74fab9cf579b8cc": {
+      "tex": "\\log_2 x=\\frac{\\ln x}{\\ln2}",
+      "width": 124,
+      "height": 50,
+      "sha256": "4c9a85de9f0840d25763e7e8d0f982bad8971198207fdad93ea3cb85e74006dc"
+    },
+    "050fe4396550b8f33eade014b18034eb3034c67715bc55a4f444608b264d634a": {
+      "tex": "(\\sqrt z)^2=z",
+      "width": 95,
+      "height": 31,
+      "sha256": "c10247abc13e9410b1051957561d798dc84a06c2211bf7161ec46a1c98e6091e"
+    },
+    "052dab93f27548bdaf2204b116825107bd10c073207972aa2b28b087c08dadc4": {
+      "tex": "2\\pi i",
+      "width": 30,
+      "height": 15,
+      "sha256": "038b7e862289c26bae42bc923c191208816348b8c5cb4b4b93dccedc760a6e6d",
+      "mode": "inline",
+      "depth": 48
+    },
+    "0545be1f96b6e3686f62e6247114bee561abeccbc1baf3c5c7641e0b599b6672": {
+      "tex": "\\overline{a+ib}=a-ib",
+      "width": 136,
+      "height": 30,
+      "sha256": "da0b44853780e9e7287ad040ec3ca779b051477f245cc5c15235d2088c784260"
+    },
+    "057ccb4b8059f98462a290870c8ea0ab9c99f27307a1b19fefe8198f5303b307": {
+      "tex": "0.5990701173677961",
+      "width": 184,
+      "height": 22,
+      "sha256": "737896c03f3e74b5d9512253e9a7c6fcb4e22d08c8b4d08e1190abc177400dff"
+    },
+    "05e2d1cedb8bcfed7d80028e63db36bedddbef46b804916bb5b7a1cb05d24961": {
+      "tex": "1.220932\\times10^{19}",
+      "width": 144,
+      "height": 27,
+      "sha256": "c401845664f74c6c80fb9b68c5fed24eabf78743278dde895bf3a673cf196f63"
+    },
+    "063b6fea35ffb1f70e57ccba596b73198a985be521849aeeca070dc8d10267e0": {
+      "tex": "\\operatorname{erfc}(\\operatorname{erfc}^{-1}x)=x",
+      "width": 160,
+      "height": 32,
+      "sha256": "8218125aaba2fe3c2637de7187e6ddcb812721caee3d2b14b7e9b4a0d5f484e5"
+    },
+    "069592a7a7c4d328d95c8cd5f64f6d609a198ff5330f59d0e64637063bf44807": {
+      "tex": "1.11056\\times10^{-16}",
+      "width": 145,
+      "height": 27,
+      "sha256": "b834d923a1f47e96d69eab094316c0fe60550083f4670180095c9e2a3b6c910e"
+    },
+    "069d60a1371518b7986d13983f424e28100aa8fb82a854dab14cfb9490f9ffc2": {
+      "tex": "{}_0F_1(;c;x)=\\sum_{k=0}^{\\infty}\\frac{x^k}{(c)_k k!}",
+      "width": 209,
+      "height": 64,
+      "sha256": "45c48436ceb6198c0e92820fac8c384d8a936290354e09dbd9f88c71293a0ed5"
+    },
+    "06b494049a0e65bc0d3aa436f110316b7815f0113bb1c80279592a82932197a7": {
+      "tex": "2.8179403267\\times10^{-15}",
+      "width": 195,
+      "height": 27,
+      "sha256": "1e91bd79af13299f43d0283f57022811cef6f00b771f741c30940f09f42da741"
+    },
+    "06c21c531834836927377931bf236c2695aca7cfa150a1632a5bdb35da6fcf55": {
+      "tex": "0.6627434193491816",
+      "width": 184,
+      "height": 22,
+      "sha256": "67324a75e53d849ccf253c846881ab129ae7e5b55d726213b214a001f4ffa3c1"
+    },
+    "070bd3ffc7c4cade8b46ec8aa6c634b2802952888666ddc3e0ce4a9b056069bb": {
+      "tex": "B_{uv}=A_{i+u,j+v}",
+      "width": 135,
+      "height": 29,
+      "sha256": "4ccc3c7b11b2613b4468533b4ad73cb1fbf52597d44f6a7931efc19195e17cd6"
+    },
+    "0715daf008f648934dbd22f57ec90f2274c00774be2734ef6a1f04b852c06844": {
+      "tex": "2.9931526707",
+      "width": 124,
+      "height": 22,
+      "sha256": "beb168b43b945180774fe3bd2849ee1ff6988d9b2bdb25a8f72926ec0915d493"
+    },
+    "0754cf0897a71abbc1fef5437644927187ab40f7ba61bb3b4cd9d876df9e3925": {
+      "tex": "[0,1]",
+      "width": 42,
+      "height": 21,
+      "sha256": "9429a99e32e7e4497cd0a412cf398be62221f7f1b5dd7f5d12e629fcc6e67d35",
+      "mode": "inline",
+      "depth": 275
+    },
+    "07584be4952eb4a675f8361b41b1bdab683a943557d44a87f887f33b1d27e364": {
+      "tex": "f(x)=\\frac{\\alpha x_m^\\alpha}{x^{\\alpha+1}},\\quad x\\ge x_m",
+      "width": 215,
+      "height": 51,
+      "sha256": "879866fc9382844861c1ed09ec093521810fe9cb9c0b07716823b2edfbe0956b"
+    },
+    "082bbd8ff566d8e64138770cee7e32e84da0544a4f48ff239f5f67bc12cec55c": {
+      "tex": "\\pi/180",
+      "width": 53,
+      "height": 21,
+      "sha256": "c7960eeb91fabdbabcd71cf7dc88a2cf462a06dbc07c652b2671126708a353c5",
+      "mode": "inline",
+      "depth": 275
+    },
+    "087254b10b2ae009c30a419320daa48e4bd7c617df173f4b70932d28913183c9": {
+      "tex": "\\begin{aligned}H_k&=\\frac{1}{\\sqrt N}\\sum_{n=0}^{N-1}x_n\\left[\\cos\\!\\left(\\frac{2\\pi kn}{N}\\right)+\\sin\\!\\left(\\frac{2\\pi kn}{N}\\right)\\right],\\\\H(H(x))&=x\\qquad(N>0).\\end{aligned}",
+      "width": 481,
+      "height": 93,
+      "sha256": "a3777c5528e2d9894d503da1dd1b7e7600416b6807f9e0a3fc9fbe52b3e222d8"
+    },
+    "08b585fc25aaa76530b71c468005448272cf3a42c0512b5b8ba5f929039b45f3": {
+      "tex": "-1838.2819709",
+      "width": 140,
+      "height": 24,
+      "sha256": "92c22c3bc84aa4dd531698a68d160ac9cb6abc6b6da7348314eff9a14be22493"
+    },
+    "0978df208629f2e850f9a9dc3f69511f17abef1633a3c5877141f42fba5ca7bf": {
+      "tex": "1.00207697\\times10^{-13}",
+      "width": 175,
+      "height": 27,
+      "sha256": "70961582124ea31aecc364cc27545da93220d1ff27a3e6335c12f7e843ba7fb0"
+    },
+    "0a7b212e506b0eca70264f64588e8db6c92745e8e3221d80a25a39fbff95308d": {
+      "tex": "2.792775598",
+      "width": 114,
+      "height": 22,
+      "sha256": "514961d0bcbea17bbfcfe70ba8fc4f2fbe9dd9762c7851b700795bbae441db11"
+    },
+    "0a826d569ae570f022945cacc8a5ed753e779bb0c89d026ee63c986757cd1554": {
+      "tex": "4.35974434\\times10^{-18}",
+      "width": 175,
+      "height": 27,
+      "sha256": "974bd3610a85333be17e20ae46656355302199d038533d19591b8c43475a38f4"
+    },
+    "0b6c6e61dd348ea80099ee8814b7c79a00c86fe785285eb7796d35f230ea431e": {
+      "tex": "-658.2275971",
+      "width": 130,
+      "height": 24,
+      "sha256": "2d3c16198771a227aea4cb24b8d0ed747b5a59b513d502621f3a0b1c527b55bf"
+    },
+    "0cea413da30db136ab61ab05caffcb04f84812471cc8ce82125b9f3e27ab498b": {
+      "tex": "1.205883301\\times10^{-5}",
+      "width": 178,
+      "height": 27,
+      "sha256": "8febf3d7b2213a9d846690d8e91dc0d2190fada38c7bcbf0ffae9b5c0162e66b"
+    },
+    "0d3159bc188eba238e42758799e413f28c2a6b158151ecf6f59535ea681c6da9": {
+      "tex": "1.2599210498948732",
+      "width": 184,
+      "height": 22,
+      "sha256": "051c14c34c219fd63fd234999ae4bed484a37e51e04908b88a921c29ee49e3f4"
+    },
+    "0d7b21a25ca1413e92c2a361eb6b573c55c88f3ab81777b5ec278ea605c93e7b": {
+      "tex": "\\operatorname{Chi}(x)=\\gamma+\\ln|x|+\\int_0^x\\frac{\\cosh t-1}{t}\\,dt",
+      "width": 343,
+      "height": 55,
+      "sha256": "4b99788ddbfecf5d583ed97b287bc11d7e0cb19cdf0c7e3e33f801223d5057ae"
+    },
+    "0d83eacdd7d50f995d5d0e2343afaa1b201dd0a4470fcd569d2199d692d62014": {
+      "tex": "28024.95266",
+      "width": 114,
+      "height": 22,
+      "sha256": "2a2b0ceee11586347260e8acfcae090d112f0b654c193c7eeea5158cfc8febf2"
+    },
+    "0e8f914174cbceceb55a454082af1c614a8abcfac252891f301cca6c0269e395": {
+      "tex": "\\sum_{n=0}^{\\infty}C_n^{(\\alpha)}(x)t^n=(1-2xt+t^2)^{-\\alpha}",
+      "width": 290,
+      "height": 64,
+      "sha256": "d5a3b991858b58872c0eee6734637712932655532154d33be1d356c86ff014d3"
+    },
+    "0eabfe99b701e1ddca1e46286edd380c1d40c65cfe1d24471cc78a3af752ec91": {
+      "tex": "A",
+      "width": 16,
+      "height": 16,
+      "sha256": "214a7a77436b417ca11416c9a6a29f29f0bb4259c0303216f964560b70d57fd6",
+      "mode": "inline",
+      "depth": 42
+    },
+    "0f0ebf93556c62cf335c57afe868a54c9fc90b72aa81b96148db041370de94bb": {
+      "tex": "267522200.5",
+      "width": 114,
+      "height": 22,
+      "sha256": "5bdcb6cb02929ad226fdfd1b95197bc751b7317abac87afccf29129a2cc52819"
+    },
+    "0fadf0b5ff734de529bb2702482ebed505f8b057aae70abf5714ce2dc07c2491": {
+      "tex": "0.00036582682",
+      "width": 134,
+      "height": 22,
+      "sha256": "9f03b377b4839d2af826093652f067dd330d941195125b4f23adb9b500eb3a74"
+    },
+    "0fe66de9c1cc4d50f7d6b87d8d0b8bbb5f2f21e77043a5aced01cfa2c3b4024e": {
+      "tex": "\\operatorname{Ti}_2",
+      "width": 30,
+      "height": 18,
+      "sha256": "6df7daaf346c0bd2df8a67729f6b47e6dcebbcbf7fa90c2dac47463bf184e1ab",
+      "mode": "inline",
+      "depth": 187
+    },
+    "105ec268fac1fbceb7c345eeab82c2f33a35e506ee80e2963a7adf02a53d1a19": {
+      "tex": "P_{-1/2+i\\lambda}^{-m}(x)",
+      "width": 106,
+      "height": 36,
+      "sha256": "de32a78f1964a92ca23a6cb4d105fa33a1df5d9ef8bafe4694d2c6a7efbef39c"
+    },
+    "1109738a65d8976627f4ae6fd42794fdd25f33ecb54183839c0221a9f7c0017b": {
+      "tex": "1.867594294\\times10^{-15}",
+      "width": 185,
+      "height": 27,
+      "sha256": "7378dc857ae0c50d86be4239a67e1fdbbd6585a228e1114db405497f9b52b4e5"
+    },
+    "116e48fd046f84708e008077894c8ac0e0c5993098da0f9648c23d47200f7865": {
+      "tex": "x_1=c",
+      "width": 57,
+      "height": 13,
+      "sha256": "674443eb74bdc33afcac73f13bce52594f4129c0a08dce66858bffc163ee2e43",
+      "mode": "inline",
+      "depth": 179
+    },
+    "11bb686e5f9a153f89e20ee552e54e92579e53376349ea80ac966bbd93aaccd0": {
+      "tex": "7.62259357",
+      "width": 104,
+      "height": 22,
+      "sha256": "79d160c0a3fb94e32e8259d188af97aa5f5872c6b388696757af806762bedc80"
+    },
+    "1260b8ab4c3813a717e9c1c20c904006dcdc40307f9c7bcd3240c0a9973eda57": {
+      "tex": "0.70258",
+      "width": 74,
+      "height": 22,
+      "sha256": "f86b7824115077967f13e49745a0dce985d36e8c2394abdfffb400e596642b72"
+    },
+    "12bfeef1fb17d683606e214372ebb39c1bb1008c4843717f45b13162e4adc3f1": {
+      "tex": "42.5774806",
+      "width": 104,
+      "height": 22,
+      "sha256": "bd772229edf8956d5bfd10c28373a98c5ebacd67f8498629e0b010c1e800b076"
+    },
+    "12f3010ca0d476d11f6b820190a8a357ed363858b40eb1b13aba0859e0b55e6b": {
+      "tex": "-2.0023318418",
+      "width": 140,
+      "height": 24,
+      "sha256": "84fde086ee392238c9dd77d9ac1e98e2ae47942fb695aa597b3942d511ca9086"
+    },
+    "12f53a37c1b48681107233d8b7bf613b78b679e4dbb565723c0896061746609d": {
+      "tex": "2.978962448",
+      "width": 114,
+      "height": 22,
+      "sha256": "13525bae59b917f080d9f33afc5214476c1ba4cbe9fba0c10f643452a884c6a3"
+    },
+    "1380fdc75166515f5941db9289f23b41845726ecb7d4f50b3eaea1440a0f996f": {
+      "tex": "0.0001134289267",
+      "width": 154,
+      "height": 22,
+      "sha256": "088eb99ee80c94fefb99fa67213a113960c10ee7411b737bf728cfd6bbd42d0f"
+    },
+    "14448e9ef27b447c8cfd84075fc3161fbbc239161a7c3bf7eda70b3a5eebdce2": {
+      "tex": "T_0=1\\,\\mathrm{K}",
+      "width": 77,
+      "height": 18,
+      "sha256": "58951088c8254177adb82864193af23c4d8e7a24ce97a233e3b7ed82308ed0d5",
+      "mode": "inline",
+      "depth": 191
+    },
+    "145026cf0fff31d37617cd35f9cd427dab5ffee8d3a7023f6a95a254a5201991": {
+      "tex": "42.5763866",
+      "width": 104,
+      "height": 22,
+      "sha256": "a77ca379281887b701b68aa0a5170db428637742ab6e9ab3f5926737dffff1a3"
+    },
+    "14858ccf227bb4283853e2d695e632f33e5c948b6feefda9cac0cea756b21b86": {
+      "tex": "\\ln x=y\\quad\\Longleftrightarrow\\quad e^y=x",
+      "width": 214,
+      "height": 27,
+      "sha256": "758f99a7699d4be77a9a4782b82e2c7568e951fa0586505662816c96809e4bd1"
+    },
+    "1495017ca912ecb210154a7df00bac7fe5d15eafcd18654f83183cfece11ca7d": {
+      "tex": "1.9106332362490186",
+      "width": 184,
+      "height": 22,
+      "sha256": "4f08438a172b9178c67348d19170833256f8a2284452115dee692692554515c4"
+    },
+    "14ea46fbde4bfda62a8d7a6a8a908008f03348fca6e5ed1ef9265d7c6e655f16": {
+      "tex": "0.67171388",
+      "width": 104,
+      "height": 22,
+      "sha256": "1ccb711c858e0c21dd611678f43526802b50980816005f62fddaecc856929e07"
+    },
+    "15646341339ee1f66e417f1061a59e85152dfe921e1384951b79a7f6335d4061": {
+      "tex": "1.536179\\times10^{-40}",
+      "width": 155,
+      "height": 27,
+      "sha256": "d0130198634f28f0159812ad27062034ea0132c862972e1123d3265970d3a0b7"
+    },
+    "1565bf19c8b5a8e172f14cbdb59f697891377b92c973e35cb62d379ce5d2fdf3": {
+      "tex": "2.5694\\times10^{-5}",
+      "width": 128,
+      "height": 27,
+      "sha256": "44adb4b22079536abc90ad9748ffc073151fcb900e760f594bac9539ca9a0b5c"
+    },
+    "1583668a0a5dbb1033e517106723ee36a10a839506b44d50c09c07abee6b7bab": {
+      "tex": "2.6867805\\times10^{25}",
+      "width": 154,
+      "height": 27,
+      "sha256": "362d0e8999145b7366f3f2081c532ee413f3971013f4b620bacf3f59f63d885d"
+    },
+    "163bb5c36076128850564dc5b36e2620bd604ed0c148de0e49c2e865eaca4d17": {
+      "tex": "1.535370508836253",
+      "width": 174,
+      "height": 22,
+      "sha256": "32387b3af9cca4490396881f05ac2641dcf9efbe2276c86732bce4c6eb077ba6"
+    },
+    "164106451b80496c953cd6dc9e594602e7162bb2bd794fdc68e4fb3353b11862": {
+      "tex": "w\\mapsto w\\exp(w)",
+      "width": 125,
+      "height": 21,
+      "sha256": "d85336de79000e0b5dca1cf97f5eece0112db5d65c7081e67d6dd67c72a0fe12",
+      "mode": "inline",
+      "depth": 275
+    },
+    "168a305a0d1600de9753d1db1e9496a09b72d4eeed384b8d75b3104bad5722b5": {
+      "tex": "-2.5029078750958926",
+      "width": 200,
+      "height": 24,
+      "sha256": "22d2a3530008eb3307029325b81b129479522de68d3efd2a1fba9c251b9665e2"
+    },
+    "16c5e3d8188e291b662af0107777a0f3fad73b23d229aad60d02bd9c0bf3fd99": {
+      "tex": "\\operatorname{Bi}^{\\prime}(a_s)=0,\\qquad a_1>a_2>\\cdots",
+      "width": 263,
+      "height": 29,
+      "sha256": "5819d81ad7e3c0b670bea22d13836f340a32d9c211f37ac6acafd7ebe5d13098"
+    },
+    "17309eb9c1c4908995e1565c5470de9d4e2aa39ee4ee7622c2f78cff26407c9c": {
+      "tex": "6.24150934\\times10^{18}",
+      "width": 164,
+      "height": 27,
+      "sha256": "f6f9c3346913bcf697086cb273186f1c213699ac02e16b4f8b4e7e344edddb5d"
+    },
+    "173f2deadeca3181fe1093731faa3cd48c377d30f38f432b4496a4427c94d9a5": {
+      "tex": "F(x)=x\\int_x^\\infty K_{5/3}(t)\\,dt",
+      "width": 216,
+      "height": 55,
+      "sha256": "e7eb7ebeb65954602f90a9439822df432a2c84e20ad6f90a5fcbc091c05c1242"
+    },
+    "174cae51bb7877af2a58c2bd11142d882cf92ab5b919a0127bd1eaed95c3d993": {
+      "tex": "\\operatorname{Ci}(x)=-\\int_x^\\infty\\frac{\\cos t}{t}\\,dt",
+      "width": 209,
+      "height": 55,
+      "sha256": "80c8e9533369aa1403dd91d2b50580a0317a44d70d09be954227c45d258610d1"
+    },
+    "18380138cf4c4c5b6bc24270f95ee6c39720b684b318ce0481430b7347db7141": {
+      "tex": "\\mathrm{J}",
+      "width": 12,
+      "height": 16,
+      "sha256": "cafe5d61f6594dd9ffec7292db1b7355f9ef52fd967b9013dbe1c94cde14f4b5",
+      "mode": "inline",
+      "depth": 70
+    },
+    "186b3985157c1cc2bd5872c5bb0de04766a7bd99b7f9f7ddef19c234353e751a": {
+      "tex": "e^{-t}",
+      "width": 29,
+      "height": 18,
+      "sha256": "c93991a94428f58869ffce2d57ff2ee21dec87fe3d79a5ed21e3b2f1b0c1a106",
+      "mode": "inline",
+      "depth": 53
+    },
+    "1986e1ad45c96bbf5d0c3a0274ae0bc860d2c13abbccbaddd504b0f15734fc61": {
+      "tex": "4.556335252755\\times10^{-8}",
+      "width": 208,
+      "height": 27,
+      "sha256": "08ec64b8f14a1e1196b17a9c16ad3291309ffbbe83abc6877de1dac21df54f94"
+    },
+    "1a41077c38d253a77ba836224aa73f9b9def729c8a94536faef1e1d1b694f78c": {
+      "tex": "1.854801936\\times10^{-23}",
+      "width": 185,
+      "height": 27,
+      "sha256": "ad89766f82f5a949fce22d55e16342fbdd181599682b0276350efc183d5b07cf"
+    },
+    "1b6f3fb89cb9c4db10e9621827625f216329e62896c1b12ff3e5d58272605510": {
+      "tex": "3.206361449\\times10^{-53}",
+      "width": 185,
+      "height": 27,
+      "sha256": "c46c2d5744b3b7168c5ba8cb501a5a54c55f02b5c2d34ab8fee9fe4ec094d036"
+    },
+    "1b79001c6a2504ddce6720c581a64cca2deabea6cbc63f8085b9d53e1305073e": {
+      "tex": "7.37249668\\times10^{-51}",
+      "width": 175,
+      "height": 27,
+      "sha256": "562d2282bad6565c89da5f443325211052829050cdcdc0b29bdea50120ab302a"
+    },
+    "1b9251ea1fcadd59a405cbd3fd37f7357bf67c2408ae396ab1cf135bbfea0a4c": {
+      "tex": "m_e",
+      "width": 27,
+      "height": 13,
+      "sha256": "62bc46f03796ce7f1399b062c12b0086bb7201a97e820f86cf4be1326963956e",
+      "mode": "inline",
+      "depth": 183
+    },
+    "1bf036c81d78b61eb4664902ecad9160a39a7a6a348e1d9a92b4b0e997b7fb59": {
+      "tex": "6.5096582\\times10^{39}",
+      "width": 154,
+      "height": 27,
+      "sha256": "69ee34e4deaf4bcfc7b9032ad8a6eb93586a0320a32feb69d23c26f23d3060b5"
+    },
+    "1bf55e4a08a8d545d8a341b1a8c3bdab0f444e3175f7a6ac694f57809f50151a": {
+      "tex": "l",
+      "width": 7,
+      "height": 16,
+      "sha256": "e60d16cfefa1a9bd6cf8fd2b7a630eda955d076888b486657f4cdda575e2e869",
+      "mode": "inline",
+      "depth": 59
+    },
+    "1c8ea8116374dca8a7e12a969c94bbdfd0d616a1c49e3de0196c1a8dc323dea1": {
+      "tex": "f(x)=\\begin{cases}\\frac{2(x-a)}{(b-a)(c-a)},&a\\le x<c,\\\\\\frac{2(b-x)}{(b-a)(b-c)},&c\\le x\\le b.\\end{cases}",
+      "width": 289,
+      "height": 76,
+      "sha256": "bd67ca6fd8bb335ec6d344ce5cdc946b5cd50d6a557a838afa16b58eda93f73c"
+    },
+    "1cc9d6079fee39a77930df9fbc22a7f38d7c07af8e6fbd8cfdd260c54757b21e": {
+      "tex": "\\tau",
+      "width": 12,
+      "height": 10,
+      "sha256": "db84d8bb2488e37669d1ea76df8a89e36486754d249d357ebb91d93d8ed97aaf",
+      "mode": "inline",
+      "depth": 41
+    },
+    "1da634731d1d65579fe9381b8170d05aefe8f961d605f1b5d3c06cad7e332386": {
+      "tex": "x^2y^{\\prime\\prime}+xy^{\\prime}-(x^2+\\nu^2)y=\\frac{4(x/2)^{\\nu+1}}{\\sqrt\\pi\\,\\Gamma(\\nu+1/2)}",
+      "width": 380,
+      "height": 60,
+      "sha256": "e66f163413c20171d8307585d422b56fee0ad680933612a7075165432165f29f"
+    },
+    "1e453b3337627299c0bca101fac4d32b92e2d72fde38b8b570d8c9c4f5eb1bd6": {
+      "tex": "[-1,1]",
+      "width": 57,
+      "height": 21,
+      "sha256": "33ec29c1f649aa152d6472e1ad75428ba5c0766e7a4d26a86e5ed5353201b90d",
+      "mode": "inline",
+      "depth": 275
+    },
+    "1e54b671e2806d0788311ca8744f0a755d504fcc4e897115a8672722511d4473": {
+      "tex": "5.2917721092\\times10^{-11}",
+      "width": 195,
+      "height": 27,
+      "sha256": "151bead933a449fd00c817f803e304ba44623261eb1a4ff288bd9c2246dfa416"
+    },
+    "1ed31f1c766277d502d4cf54a5778f3b9410db1d9595aea7d09ead9cca57ec81": {
+      "tex": "2.0721465\\times10^{-13}",
+      "width": 165,
+      "height": 27,
+      "sha256": "0168ee19d7bdce2c2567df9796b5b4126732996c8488d57a5a83c927ee273b95"
+    },
+    "1fad22a92cd592047585b9c39677c64d4f299a7186133be8bb51d8ce392e309b": {
+      "tex": "0.00190749",
+      "width": 104,
+      "height": 22,
+      "sha256": "ef20e0dd83cc1958bae9fb60c7f64d6ec8858dab4d55731ee49d9326a71ad69a"
+    },
+    "1fb09559ac4d9d1f5c65d9fc4760d58eb20f6aa20f13bd6beb54ad00d72da9e7": {
+      "tex": "\\sum_{j=1}^{d-1}\\left[100(x_{j+1}-x_j^2)^2+(1-x_j)^2\\right]",
+      "width": 295,
+      "height": 70,
+      "sha256": "b77596271af96bb3925b47364021daab798d97f7be86b62a8c7e9aa616be9014"
+    },
+    "1fd50356315fc8320b7239d2b80e2ed6572bb6293eb3a42ceaef65fe78c485b1": {
+      "tex": "|a+ib|=\\sqrt{a^2+b^2}",
+      "width": 178,
+      "height": 36,
+      "sha256": "541e52ab9b761227f6d085fffa7df1033da6cb8ca9e169103d43163c1b3d06f5"
+    },
+    "205c2b80100c5aca2de370080194af563dc37350f42d7ea7075b2fe8a2229b02": {
+      "tex": "183247179",
+      "width": 98,
+      "height": 22,
+      "sha256": "c02a2a87cb123d2117b7e02ca4abecbd703a24c6ec45494edf90521416185f28"
+    },
+    "2066578204af0ef9bbc113b7703beb6260672c415a3adcb41e46fe93f62a45d7": {
+      "tex": "K",
+      "width": 19,
+      "height": 15,
+      "sha256": "6157cc1b0228afd58230c33a1b7e2b388429a6db5ea472c8ba8444614ef1bfa6",
+      "mode": "inline",
+      "depth": 33
+    },
+    "20ab7dfe7e65161fc3d2c8e8fb7e1d0b1bd0c3b2cd04d55da74f74221a7e4668": {
+      "tex": "x^2y^{\\prime\\prime}+xy^{\\prime}-(x^2+\\nu^2)y=0",
+      "width": 256,
+      "height": 31,
+      "sha256": "06fa47e3e88fa36e296531787886084345b05ab4be4ebdbf7419d010e0d9b5e1"
+    },
+    "21bf9907e61df5bb222665ec8d811a94655c059931d4e4a6f86aa3fd36439a56": {
+      "tex": "J_\\nu",
+      "width": 22,
+      "height": 18,
+      "sha256": "6e5dd83099d1d3b925d9e89add1be872af49d9d479074f72379c4532949e5a8f",
+      "mode": "inline",
+      "depth": 184
+    },
+    "21f3aab95d8674de5a88764fa441fa9be7397c703fd391f7f31787904b7dc8c8": {
+      "tex": "2187691.26379",
+      "width": 134,
+      "height": 22,
+      "sha256": "729ed2ea17ad7f9fb2e6672f4a9e751571602260bc51da03c406ef588aaae061"
+    },
+    "229f6457706c20731d955215bb9a731279ca2416a65af4d1d66feff744d44fd5": {
+      "tex": "0.001520993128",
+      "width": 144,
+      "height": 22,
+      "sha256": "c769b2a18feef437338cca08dd180aac7f7007baa2c9161e3ef99a9d034ad335"
+    },
+    "23412ee02e633c5f10d372088e8948c3c42c2c502542631ba524f6750df0a035": {
+      "tex": "\\operatorname{He}_n(x)=(-1)^n e^{x^2/2}\\frac{d^n}{dx^n}e^{-x^2/2}",
+      "width": 278,
+      "height": 50,
+      "sha256": "17d69b824e18b5cc303dd317eb9d312b8ebc71e425ab13c08132af19124fca96"
+    },
+    "235e9c03a97eb85aebf39dae7a438233a0c51be25c69ad8ba5418fd2f5252dfc": {
+      "tex": "3.0155007134",
+      "width": 124,
+      "height": 22,
+      "sha256": "847ae5b87424b04267d5b79b7eb0f16e621f39c08af8085a29691b4d47cab337"
+    },
+    "238dbb6648536647ff86b70341177c878ff20cc53870651bf7566fbc88be3769": {
+      "tex": "0.4382829367270321+(0.3605924718713855)i",
+      "width": 407,
+      "height": 28,
+      "sha256": "71c9745c805458aff5ac84a86862929f31e9b99366223d871057a6c49158a8f9"
+    },
+    "2499aa07c6c7cd92d259330a1698940bfa39b781f8e6971504fea97a813e6dcf": {
+      "tex": "\\operatorname{artanh}x=\\frac12\\ln\\frac{1+x}{1-x}",
+      "width": 201,
+      "height": 51,
+      "sha256": "33dd9f6910c45aaf49e6670d4191427f7a68fc110f4e497e4c0881f0861912a6"
+    },
+    "24f76e68a09cd7221dcb470926568f347f9254686f6f9095f5afcd46d2188718": {
+      "tex": "0.004001506179125",
+      "width": 174,
+      "height": 22,
+      "sha256": "58013a604cac6d1534a6b8760d14a66a4db1811c5698c201a3b47b2c1bfb8a9c"
+    },
+    "2622b76f37410150ac50993009f33a4f9f2c1dee74dac5ca2228fed535780d32": {
+      "tex": "\\tan x=\\frac{\\sin x}{\\cos x}",
+      "width": 129,
+      "height": 49,
+      "sha256": "bd9fdbc7f7950495f73c846dc745e1dc2db0ec0d7c6d14149ae6aa45f70287f7"
+    },
+    "265a6bfdfeaa9880aed65820a02c82ee4490b2253c9de81f207a1370df9d0740": {
+      "tex": "E=hc/\\lambda",
+      "width": 85,
+      "height": 21,
+      "sha256": "56a8710d5d2284f8d5c9110e659a8d532762d21b196fce5b917882d124d7f0bc",
+      "mode": "inline",
+      "depth": 275
+    },
+    "26798967f95d441f94b682794e919d796f4948838eb3fd8252ff1d6f629d5559": {
+      "tex": "\\operatorname{lcm}(a,b)=\\frac{ab}{\\gcd(a,b)}\\quad(a,b>0)",
+      "width": 293,
+      "height": 55,
+      "sha256": "6f6a3bf522893a9c0b0b3762ed710002488ea9555a8a3f43e7b51edd429f6b2d"
+    },
+    "26a665d67a164cba2e7a9b8ca82f3f6ff2858c9e6f7b2c974ea253e7ba835282": {
+      "tex": "-3.82608545",
+      "width": 120,
+      "height": 24,
+      "sha256": "4efc55c4a7d7f4c987e207d5616c9e84a9cbd8612fb017561e3d013bb7817c3f"
+    },
+    "26d894eaab8fa681646adc2b8d6c7bf8e1d95a518cf61f788a0bc8a3e3f5d677": {
+      "tex": "864.058257",
+      "width": 104,
+      "height": 22,
+      "sha256": "a6358c9f38c2d182c2877f2cfe5d737c1f991afa5da8a8459991e683fc8be3cf"
+    },
+    "271d8cf5173e521a5f8bdb121c1fa8b6314c809db5956a9dd2277b9b5fddddd6": {
+      "tex": "1.07354415\\times10^{-9}",
+      "width": 168,
+      "height": 27,
+      "sha256": "19ec632434bb9ceb3d39c0d26ba3a1d5ebfcd45677762325802837ee19aa6913"
+    },
+    "27f0f7cacc691b280074f8a938fb5b8ffe841b9a9f1dec09a21273c6475025c8": {
+      "tex": "9.10938291\\times10^{-31}",
+      "width": 175,
+      "height": 27,
+      "sha256": "12c6faa350e0b1e9a5e5692ae73dc935477fac8bc15b78df096e3a689ff45b2f"
+    },
+    "280e4258913503ba82a40a4d9c53b279d872913e24f7fda48289741f4ced4ea2": {
+      "tex": "\\exp(t^2)",
+      "width": 64,
+      "height": 23,
+      "sha256": "967c127309b697c8d6fbfdd641ec1d07776ad489e7c0f24305f3bbde3b51ee42",
+      "mode": "inline",
+      "depth": 282
+    },
+    "281325b82b01e3997da9b1cf198ff7cf655c1be1e9a9a8420661d8dc92645e95": {
+      "tex": "0.001007276466812",
+      "width": 174,
+      "height": 22,
+      "sha256": "5ecf988e13896ee2ce7299719cc7b75c687f3bc7fe52b12796fccc1bb64e1fbb"
+    },
+    "2838516d092e757dd3d5337cbdc0f4e48fda8946baf7f424c418175a942e8f28": {
+      "tex": "\\hbar",
+      "width": 12,
+      "height": 16,
+      "sha256": "82e4fc6858b346d8cbf579128b0fe54275543f8fbf2bcddee513b7d80a3c94c7",
+      "mode": "inline",
+      "depth": 59
+    },
+    "2840841219187b23e41e5090261ec8a1127b6cef0ebb4fc98e752938f89f2d8d": {
+      "tex": "V(n,k)=\\frac{n!}{(n-k)!}",
+      "width": 174,
+      "height": 55,
+      "sha256": "c5002ee47dcd18f18f9db40de34c277b7c887569ab5b378eaf3ad7ce3b6d8554"
+    },
+    "288eb7d985c047b2637ee0b3f3318157a07176bba19d992494758aaccf97d65e": {
+      "tex": "\\cos(x)/x",
+      "width": 77,
+      "height": 21,
+      "sha256": "85e9d6abcc3f9fd9a0b433df2993446a07b1edd1b3fc90820e88fe3d1fc60c87",
+      "mode": "inline",
+      "depth": 275
+    },
+    "289927deb9de024c26d530857021390b7461c8257e6d0d5cebb08f12250bfdf7": {
+      "tex": "R_C(x,y)=\\frac12\\int_0^\\infty\\frac{dt}{(t+y)\\sqrt{t+x}}",
+      "width": 297,
+      "height": 59,
+      "sha256": "8af071397aa6681cf18386786df9eee69929511e1fd47902663aa67ea66c06d1"
+    },
+    "28fe3e67d89d1e4121d97030a14edb4fb2e6fe54554b380de73ea3a70569583b": {
+      "tex": "|j,m\\rangle",
+      "width": 50,
+      "height": 21,
+      "sha256": "cfe8be3cc9ad474bc0cb10378dcc2f7dd79856e1ff8b49c53e28cdd40d5e862c",
+      "mode": "inline",
+      "depth": 275
+    },
+    "2937260f023986317d95fcae1237adfc222697b71913b12324c39bcd0873f9c3": {
+      "tex": "0.00054386734461",
+      "width": 164,
+      "height": 22,
+      "sha256": "44ada842d139aed393bb678af17d2e6c5104632b92209cd86bcf695b98da0d45"
+    },
+    "296a892229fc8da7ed29d9d1f42b298498e767463ae952366235fcc20f58642d": {
+      "tex": "\\mathrm{m}^{-1}",
+      "width": 38,
+      "height": 18,
+      "sha256": "e37a74b10610cc9766ce23ad2128c63a1281e5fa6f418c53d723669f8ae6eaed",
+      "mode": "inline",
+      "depth": 33
+    },
+    "297752a40d1f5ddd798b1c27f54488d5c5e3bd0c341c220110697263ccf7abe9": {
+      "tex": "2808.921005",
+      "width": 114,
+      "height": 22,
+      "sha256": "bf806e40de6f645f6eaf2482f4ae3d2a013343b27311e4034c05680df1f6f8d4"
+    },
+    "29b3a3af43cfbd6d0a8dedfa9361e4c91ae60d204fe76616727343315018dbeb": {
+      "tex": "1.672621777\\times10^{-27}",
+      "width": 185,
+      "height": 27,
+      "sha256": "9b58bb555aa4f4d617c50e4c99fcd5042c57b355d6392741a8190ec200d0e204"
+    },
+    "2a9fcea6832c39901449b03faa3d91104eaacf95a7f2cf509d7f8121e5efed8d": {
+      "tex": "B(a,b)",
+      "width": 60,
+      "height": 21,
+      "sha256": "57d5328b7376e4ecc9866035347cde6c7150a957b89aaa09e8a3ad536b727c2e",
+      "mode": "inline",
+      "depth": 275
+    },
+    "2acb764a175e13c8de2d7a236be6c9667e5204b57b2c93e755e1d9a2f05e4895": {
+      "tex": "AA^{\\mathsf H}\\approx I",
+      "width": 87,
+      "height": 27,
+      "sha256": "d624966faeeebfc9da15da1a697f79ae45383bac6aee65ed478843c55ae3d09d"
+    },
+    "2b34e7e1b302fde15978a0a2fada41f00b76f3e11d6ad16bf8649cb97ec1e923": {
+      "tex": "X=1",
+      "width": 55,
+      "height": 15,
+      "sha256": "415549bb04a9946070e3c2b8b680f795de36c9ac47fe8c36131308ddafef515d",
+      "mode": "inline",
+      "depth": 34
+    },
+    "2b93e933e2a46f487b4ab8aa85a5a4c0fbe23159f36caa6359b0969e7a494e42": {
+      "tex": "\\mathrm{NaN}",
+      "width": 48,
+      "height": 22,
+      "sha256": "f0aec0773343a53efa703d7b0dcfb9e68a5f312b822738249bff88a2391f58a4"
+    },
+    "2ba6a78204b1e0467216b3bf3dbd75f78957a85f643cf8f4076656693bd275d6": {
+      "tex": "w\\exp(w)=1",
+      "width": 116,
+      "height": 21,
+      "sha256": "2e9566784127a4dedef2c378eb9ca8979d9eb0f3cf24f89f063cac98d8f0b8e1",
+      "mode": "inline",
+      "depth": 275
+    },
+    "2c0e3c2927b791ab9278c4cfb07116078531171e4761c0612147ef9140ca9861": {
+      "tex": "1.6616879496335941",
+      "width": 184,
+      "height": 22,
+      "sha256": "f743efbe834a2666278a6208bc31d50ee7e05bff3a789380832b9a00a570848c"
+    },
+    "2c4dd44cfb52a34ee245b5e87361a96c5fdaf6776f4ab41afc4eb1a23f4481fc": {
+      "tex": "X=\\frac{U/d_1}{V/d_2},\\quad U\\sim\\chi^2_{d_1},\\quad V\\sim\\chi^2_{d_2}",
+      "width": 302,
+      "height": 57,
+      "sha256": "c2af3d4a2870e2a1c44292f6f29f4ce8093a650203456eb5d2d1e77228f3cd93"
+    },
+    "2d040c5462ff6a42a934c2a2048e747e6f006a68baeaa00e674320bd55d4da9c": {
+      "tex": "PA=LU",
+      "width": 94,
+      "height": 23,
+      "sha256": "f66bdd96f93632f8f77f57cf572e69b333efcbdf89406c9acc269e107937ad0b"
+    },
+    "2d7fd98c717b5535be601cd034d6f5a2d4d1da24872abb597b493850a215c716": {
+      "tex": "-3.183345107",
+      "width": 130,
+      "height": 24,
+      "sha256": "f6121cffe9fb1925e2c4f556748f18d8539bc8510e5a31bd5f8325f44ff1a72b"
+    },
+    "2e3d7f63c407f177d6d8f818b17385b632ea0ed56c9e0479e1525fdf0a81f831": {
+      "tex": "-1.1517078",
+      "width": 110,
+      "height": 24,
+      "sha256": "19babcbafa12a531976932d66bd2e77be331a812c59ed98f2186dc68f5830c6b"
+    },
+    "2e926365de2cbccd4136006a3094f97b2f92adc11289605359d986fc8f6f6b8b": {
+      "tex": "6.652458734\\times10^{-29}",
+      "width": 185,
+      "height": 27,
+      "sha256": "3f424b62bce64e9dc53995955714bda19b0852e945fca74ef6f9c65026d15023"
+    },
+    "2e973651a2518e22bcbc0663aaf2cb4551555b703bbbbb10bf7ea65d6c494f44": {
+      "tex": "5.97191967\\times10^{-10}",
+      "width": 175,
+      "height": 27,
+      "sha256": "fcf2bede6c40c956bbaae7668ed0c8abd6eab5d3d4206d6120d0b7ca7e007495"
+    },
+    "2eb36db91031315782c367f8dc074fa70d48ab5c889c56f43de1342dd0b8708f": {
+      "tex": "-1.00115965218076",
+      "width": 180,
+      "height": 24,
+      "sha256": "7c07dde4cc06026bcb41cf16cddff608a52116d5a7140a431080e4bf04a53e96"
+    },
+    "2ed7385223508f6268d725f5b374c345852723ef820a2af5c159581813f5f800": {
+      "tex": "25812.8074434",
+      "width": 134,
+      "height": 22,
+      "sha256": "a840db0256eeb81bdd4e338a309f857c829d8bdf2c506bc01b3e5dca0104285e"
+    },
+    "2f7061aafe1e8cc7c69a2cf529bc4957241654c0c2c43c44de247f1e55a23ef0": {
+      "tex": "\\int_0^\\infty|R_{nl}(r)|^2r^2\\,dr=1",
+      "width": 200,
+      "height": 55,
+      "sha256": "e6e1ef7742c481a7162ea72fe6eec2cab99d50f814c152539a19d3a8f46f9730"
+    },
+    "304bc09a606afafd663c26c45a90a02ee05042d920011c1039e8c70a9bb68117": {
+      "tex": "R_J(x,y,z,p)=\\frac32\\int_0^\\infty\\frac{dt}{(t+p)\\sqrt{(t+x)(t+y)(t+z)}}",
+      "width": 465,
+      "height": 61,
+      "sha256": "66251039013be4ebbb9f36fa411576fa5c5a0f73ddb90d681d59f0bc6a53d7c2"
+    },
+    "30663343b9560c943ff57b525191aa4691bfbe39b30216a28fc6acc5405f3845": {
+      "tex": "P_{-1/2+i\\lambda}^{\\mu}(x)",
+      "width": 106,
+      "height": 36,
+      "sha256": "bd07f2796ec43ae3f4469fe194f243e989682783b989729ad95f55991e08a362"
+    },
+    "3131e25955202e2a51188e9fdbb6fbc78a5ea0dc54e7f47ff393f4648cba32c7": {
+      "tex": "\\operatorname{arccsc}x=\\arcsin(1/x)",
+      "width": 201,
+      "height": 28,
+      "sha256": "fb3c041b32b2b7318f224b21c57f6dd511f1e582969a3f03656399bd8cbaa5d4"
+    },
+    "320d23e8ec55682e5ac6bbac540afc16a5de43d590424a508742414e8130c824": {
+      "tex": "\\log_b x=\\frac{\\ln x}{\\ln b}",
+      "width": 123,
+      "height": 50,
+      "sha256": "88ee88d5642f2cfd6e159404dda47c9915797bfee7afd7d9faa375aafd6501e5"
+    },
+    "32961d2c2388a4f6824d3109b9e1b626fac7039fcedfd29d13d08e463123b241": {
+      "tex": "203789465.9",
+      "width": 114,
+      "height": 22,
+      "sha256": "d8e57dac051c9f2886f143fe2dfffa01372fa2d2fe844b6ec382651a0b9d36cd"
+    },
+    "33402d503ce7f3f0ac26325ea5049f5804497d7d8aff05b97faa3678da5435c9": {
+      "tex": "-0.00104187563",
+      "width": 150,
+      "height": 24,
+      "sha256": "7f3d087619359709a2c9447b9488f61b0de11bde1238caec88c2e04fb707d57a"
+    },
+    "33488905fdfb86c6d6b26c851c94e59f05c7590710db6c56b72a1ca50c2f0ad5": {
+      "tex": "F_j(x)=\\frac1{\\Gamma(j+1)}\\int_0^\\infty\\frac{t^j}{e^{t-x}+1}\\,dt\\quad(j>-1)",
+      "width": 401,
+      "height": 58,
+      "sha256": "36e318db7cd2d983f62e05bca93c19b6bdef974c0805ab07fd2c97f4e5605f1e"
+    },
+    "33489efa25ff2aa92293e9f6695187a8defe09e90fdf34dddea9d45be1c124a8": {
+      "tex": "0.012",
+      "width": 54,
+      "height": 22,
+      "sha256": "91dc588701443e71907a4266643e2c7f67c289321d35e068e2e15811a7c7b367"
+    },
+    "33952dbb998396a8792b9c4ad1986094c78897b2855c6662c31091177a336f47": {
+      "tex": "0.00018192000653",
+      "width": 164,
+      "height": 22,
+      "sha256": "10fb979290016bd7b7dfed50c02fb3267aa85bef50b191e495f2e6502a259cd6"
+    },
+    "33dcda2caa44d074b40ffd475395fdde5fe6fa382de5c0f85b2b2176fdff98c1": {
+      "tex": "0.00116592091",
+      "width": 134,
+      "height": 22,
+      "sha256": "545e3698b3eb475ddee58d6814f40ad7054bd5418485461a7769180988da3748"
+    },
+    "34209cdb5a1ecb40c0d82164919c267f22b1b1d4367e06033df20bfa7cb2c37a": {
+      "tex": "6579683920729000",
+      "width": 168,
+      "height": 22,
+      "sha256": "f849177ef98baca8ea9f4b5a9100eab4b453d4c83a06638ac060bff8aa92e79a"
+    },
+    "34b5ae2279bad9687edae3f3bdd6d4366a2ee5686bfd942d5a11f37fc40d7d34": {
+      "tex": "2.955765285651995",
+      "width": 174,
+      "height": 22,
+      "sha256": "3e07f851ee39d80011e763c6751a0cf965546fa7e094bb829de04c5ef0476d9e"
+    },
+    "3516999549b8880ce6c911c2fcb1c14997fa99814093ec9356b99b3b858776c8": {
+      "tex": "0.00104066882",
+      "width": 134,
+      "height": 22,
+      "sha256": "8ae1f9a8f389343111244eb65877a0e65e38092adb5c6e9345bc73130ff2c80c"
+    },
+    "35690f1c99ff67cf4d9a054b7133191a809861356c1899e9ab31c80655402e5c": {
+      "tex": "2.207416099162478",
+      "width": 174,
+      "height": 22,
+      "sha256": "a8b23801ee41641d581740b7f37dee2ed98ae21a0ec84190c9e23d09468fabab"
+    },
+    "35b782950766d8ef33f6ebed140bea7c15c16a3cc0813c5cd451e54a9cb04721": {
+      "tex": "1.3035772690342964",
+      "width": 184,
+      "height": 22,
+      "sha256": "8131708c5fe73b5aa63c7292b08ade2f2ded8048168e9ec71320313a9c359ff2"
+    },
+    "362c82b508a5d90ccb5d9afe788c4e1a189f5a4e04dbd8ed9e82b011b98f07e8": {
+      "tex": "M_{ij}=0",
+      "width": 77,
+      "height": 28,
+      "sha256": "e3a5725dccc464455fafd0ab99767828df646552822298a29051a48305fe3db6"
+    },
+    "366698db0630b1026e0be49490b435628989467c931564c8dd2aba5905b11a98": {
+      "tex": "c",
+      "width": 10,
+      "height": 11,
+      "sha256": "a75c2db9bb98e098327988f3bbc0d4ec650c9475889df2eac715af825a95e565",
+      "mode": "inline",
+      "depth": 60
+    },
+    "369fd08ce44141c290aa312e0574d0e374aade88d5d8dd4619733aa8369d8a1d": {
+      "tex": "0.2113248654051871",
+      "width": 184,
+      "height": 22,
+      "sha256": "2a769fa9175e72e8e608b6e65f43e763e3fe40ffd2ed712ddb0bbeddce027a44"
+    },
+    "37187c43749783d3b22c21d858e0b40b56f15c60581f414454798b843b518e35": {
+      "tex": "3.0149322468",
+      "width": 124,
+      "height": 22,
+      "sha256": "3b0635fbf0a361efacd93c5b36ffc5c8fdae79e0edc249bf9702e2222b8e7038"
+    },
+    "372b00c2235f1914dfa36ffe221a4950ad32248576b76b06e8cee82b4c471d6a": {
+      "tex": "176085970800",
+      "width": 128,
+      "height": 22,
+      "sha256": "61bbd84110df969eafd877452d3788f21139b28a33a280de9db286667294f51e"
+    },
+    "37582d49a13ed95ffd0a57e9d5c60e2ae39eda4ea110beeb742b98870dd020a2": {
+      "tex": "E=h\\nu",
+      "width": 72,
+      "height": 23,
+      "sha256": "d81c536795cee56575492827f93d07260ba1a4a526af4f268567f230ed705221"
+    },
+    "379d4814d8b50c55538295e6910c805fbf02faffbb76c2eb1ad8be616adbb238": {
+      "tex": "-0.44820652",
+      "width": 120,
+      "height": 24,
+      "sha256": "aa836923b5385025159dff57928566f460059f5e2c90489724691f93d9606e89"
+    },
+    "37af56de1467eba2a8fa3970ff99bffc71ed25a37633119601355bb85b1c9f1c": {
+      "tex": "32.43410084",
+      "width": 114,
+      "height": 22,
+      "sha256": "a54dc441aa1e9e47b7a8ecdf1d31990ff75829e414309aa04585b00202729be6"
+    },
+    "380921ec770b275f6f0e4d26a8654107d2196ee8f81282d6364c46c976660a5c": {
+      "tex": "\\operatorname{arsinh}x=\\ln(x+\\sqrt{x^2+1})",
+      "width": 247,
+      "height": 36,
+      "sha256": "92918e58a8a7c236546990181dc61a42ed34e5977b01b566a64a8729ae4f5a53"
+    },
+    "381aee189ee13dd5c72a14b07519aba514b5da6abcb787005f7dbc84259e297b": {
+      "tex": "\\Gamma(n)=(n-1)!",
+      "width": 136,
+      "height": 21,
+      "sha256": "bfb836ee3eac1f984ba9c2c60493d2b32884f97d0625a906c83c29da100ee9a1",
+      "mode": "inline",
+      "depth": 275
+    },
+    "386f36b67ef9d67b0e59a87792546cb60ad95cba0d16dd48e2a05ff70ffa9d35": {
+      "tex": "3670.4829652",
+      "width": 124,
+      "height": 22,
+      "sha256": "3623b76c3491153a47b9a518c8a7f2574b06cc4d51f6aab823f332b695adc9c7"
+    },
+    "387ddd94f34301a6fa38f0928e213d49e279415ae2043a88098ae7257cbb9398": {
+      "tex": "8.18710506\\times10^{-14}",
+      "width": 175,
+      "height": 27,
+      "sha256": "5b5580d169b95d5a1a84f9ab9f450c84d2c124275c3e9065b519b050f4f05b4a"
+    },
+    "387ec0b959495a9710f3c7cea014e35189ed0adf713f26c33c95890dbf18b779": {
+      "tex": "2.685452001",
+      "width": 114,
+      "height": 22,
+      "sha256": "acc84c642738238102d0fc71147950971afebd8f2bf90e2a113e241ed81a106b"
+    },
+    "3937063574331b1d2a752876c431018f89bd59a4435af788ac68e2f37bc3e22a": {
+      "tex": "-1.45989806",
+      "width": 120,
+      "height": 24,
+      "sha256": "e65af03db79cbf3d630b605f02674211e9756e3b77b492cab9677e2afd7c899b"
+    },
+    "39753d4d41f65e000749d49d49c54934fcd0ed37bc74825bd5633697d1b0d4c6": {
+      "tex": "2.792847356",
+      "width": 114,
+      "height": 22,
+      "sha256": "fa76d59ebded060190dace4ed06511460a1176f5627937f2745696c5594900dd"
+    },
+    "3991d1ee6148f4e1da70b59603ffd977758f742bd2f500e7f269724b82940e7b": {
+      "tex": "1.410606743\\times10^{-26}",
+      "width": 185,
+      "height": 27,
+      "sha256": "a29ccab759d15947a6ab7866a40767e6eb62a009294f5783cc6eab6e52d0b38f"
+    },
+    "39e5d2e19d83f65bedbad90ac4e036dcdba315f60fd229fcf8350f181d82608f": {
+      "tex": "0.0028977721",
+      "width": 124,
+      "height": 22,
+      "sha256": "20cd500e4cd4000b9166b31b878e075f7542c4858a324248dbbb7a85bda64bb4"
+    },
+    "3a25a5f77f73e6f6dff08827b9d468f57f383ee21b16961aff32877921dde596": {
+      "tex": "4.66920160910299",
+      "width": 164,
+      "height": 22,
+      "sha256": "29c7a443c9b258b35330ad32be383438b77ea828c15725ba87630da16fed57e5"
+    },
+    "3b0fcf0e206d4285cdf69ce2d579700d6fe3d14935c70e4ae5da6d52c66575d7": {
+      "tex": "6.62606957\\times10^{-34}",
+      "width": 175,
+      "height": 27,
+      "sha256": "605e6bec440bfe9cd2330d19338ec95534a020c6620e6787ad54a89a7ea972a8"
+    },
+    "3b45c1f029343502a7d8f7325b6a68a0eaebc956141c71dde9d31fdc88804f88": {
+      "tex": "f(x)=\\frac{r^k x^{k-1}e^{-rx}}{\\Gamma(k)},\\quad k\\in\\mathbb{N},\\quad r>0",
+      "width": 328,
+      "height": 58,
+      "sha256": "d9eae5b00d85b88ff29f81c2d33ed87aea6c66e86c67efa1325217d59732d0c0"
+    },
+    "3b60ad392e3ca0b3bead40335bd7dca8bfc443f39adc65218ddbf67c4dfd87c7": {
+      "tex": "1.99900750097",
+      "width": 134,
+      "height": 22,
+      "sha256": "bd424cde4978e85795cb9c880d742f4558f3bdca5a628668a55837db1916c2f9"
+    },
+    "3b96a17daea48dbd8892dc1b964c489dce702fbf9f0b1e6e6e5ba3427f83ceef": {
+      "tex": "B_x(a,b)=\\int_0^x t^{a-1}(1-t)^{b-1}\\,dt",
+      "width": 277,
+      "height": 55,
+      "sha256": "0ae428415f4d3d072b08f0dccf245b7b305dc93c5193fdf3c708c33502eac523"
+    },
+    "3bb17572ea95aed005ea6dc6f119cda5102847ee6de601bde6eda136490e14c9": {
+      "tex": "-1.1648708",
+      "width": 110,
+      "height": 24,
+      "sha256": "953f38bee550d5b2c9770afef05322d7e175077da1861dd015b81a6dcffa294c"
+    },
+    "3bb78535cc9555ff19fe3556aaa41c78a0a45c64d49ba2bc564507648a8e77a1": {
+      "tex": "100000",
+      "width": 68,
+      "height": 22,
+      "sha256": "1f1a8ab8174ef761d12625ea29433f1062071f9db90ca6029c4080071b1cc3d2"
+    },
+    "3c6ba18f582f3035805eed70cbe56b0615cc46db9c4f5ae2a500a7aa34762ba1": {
+      "tex": "1.112650056\\times10^{-10}",
+      "width": 185,
+      "height": 27,
+      "sha256": "421f30df91387f08b73e20acb815fdf1fa2e11ec9767f302f1133e2c8c6d79be"
+    },
+    "3d20994bcc7f718585e97f6419a0628f7378353364cfa9aea072c1da19d83324": {
+      "tex": "\\operatorname{Ei}(x)=\\operatorname{PV}\\int_{-\\infty}^x\\frac{e^t}{t}\\,dt",
+      "width": 203,
+      "height": 57,
+      "sha256": "1fd7814c87dc0f3980e8209a88c32be3ff8be875d345407b2830fa6056d6aab7"
+    },
+    "3da0e29a3d6651bd4d704d5318b49eae6278784b601f53fa9d98457d25209225": {
+      "tex": "F_0(x,b)=\\ln(1+e^{x-b})",
+      "width": 204,
+      "height": 32,
+      "sha256": "65f3af5497802ef716c88a2d8339bcc9b64f5155936ef10a43a32092a2d22008"
+    },
+    "3dcad587509e23c269c44e3b3d3e16cc390b5a9eb87051128fce81809afb142b": {
+      "tex": "m_{\\mathrm u}=\\frac{m({}^{12}\\mathrm C)}{12}",
+      "width": 134,
+      "height": 53,
+      "sha256": "6271923a361b733407af77f802515f8b594e88f9838a5a32d38bd3df4e19142f"
+    },
+    "3e25e58eaec3517b763de389210020aa08e20095e2ffdef9773ed48e5b61664a": {
+      "tex": "1.509190311\\times10^{33}",
+      "width": 174,
+      "height": 27,
+      "sha256": "5985b512a4fbc85415e988d0586567f38659e938986baa893db5c5ba7d708812"
+    },
+    "3e3dd852f41024342a429b029edfcce8f456383f2fe640595fc31a624e637e10": {
+      "tex": "G(x)=xK_{2/3}(x)",
+      "width": 156,
+      "height": 31,
+      "sha256": "50cc9f60ad6b5835b3625d88112da790acef44fbf5987d975cd2ad8abf52e301"
+    },
+    "3ed3b61193772529105c0011116f6dafc76dda3130c686492a25db1b4191a750": {
+      "tex": "T_n(\\cos\\theta)=\\cos(n\\theta)",
+      "width": 176,
+      "height": 28,
+      "sha256": "4a2757971ab445e068f032a81f557b694b4256fef2f96ebc0b8190e05babf50d"
+    },
+    "3f762e5065e955a18da0c2d96766f6ae2b7d15c4924c347e3cf7facf901af52d": {
+      "tex": "\\operatorname{erfc}(z)=1-\\operatorname{erf}(z)",
+      "width": 175,
+      "height": 28,
+      "sha256": "0663cede8d6eae8daff620ca7911d27cd8da5caa279be8f517440736124117b6"
+    },
+    "3fab691645d212903d845fce822bc73bdf740016fe6852cbdb92b36e19e6f248": {
+      "tex": "\\operatorname{Bi}",
+      "width": 21,
+      "height": 15,
+      "sha256": "8db48d8918bc4a846a3aa1f29fedcf9623d9b263311f1cf123a926f3f1ddd239",
+      "mode": "inline",
+      "depth": 34
+    },
+    "3fb17f86091ed11000e5ab6acb1e39dbeff394de387e8aca0e4450fbbfd8e504": {
+      "tex": "3.97259968933",
+      "width": 134,
+      "height": 22,
+      "sha256": "859c689d3c130eecfdc494c976a3306d90e8c112aa1eeb46d99df8ea80390d2f"
+    },
+    "3fe76564a8261049e9222a9b6c4d0efca4b4fafe1a3d7b326e426e63199cbdc4": {
+      "tex": "3289841960364000",
+      "width": 168,
+      "height": 22,
+      "sha256": "8a8f3ae211deb34735f137184a2a0b7c3ff9746f59dd303314eebac62f899794"
+    },
+    "4025d7fe63bb74c2c96c726065337f547bbbce16020c612bfb4b2f64ad7f9efe": {
+      "tex": "-1.7475645946331821",
+      "width": 200,
+      "height": 24,
+      "sha256": "2014d1af01570d2ecacbd98c86251e6eeb45f4c3e263b0a749aa0987dad2aee5"
+    },
+    "403dbe10b117720c9a15f461c9b11dbf8597e1be28d34f95b48eb4c2fb29f665": {
+      "tex": "8.775\\times10^{-16}",
+      "width": 125,
+      "height": 27,
+      "sha256": "805cfd20817d861649bb59b2945f95a3ccd80895315eab6b4092fccb8d821d94"
+    },
+    "404bcfda1bc4ef7e7931847bfb8cfce57ab3e6b5e2ad2f2d5b124f6aeea2b7a3": {
+      "tex": "\\operatorname{arcosh}x=\\ln(x+\\sqrt{x+1}\\sqrt{x-1})",
+      "width": 300,
+      "height": 33,
+      "sha256": "3048da25f7b8036f502f89950f7dd46c9b693596cae0cc624cf0113b78eb9c5d"
+    },
+    "42cd3edcd11c3f7f4c966231ecd5a0c13bf393534fcf621cd1ef28b880d56bd9": {
+      "tex": "0.2223",
+      "width": 64,
+      "height": 22,
+      "sha256": "0d128e681e00822cd474a0f320d45413399a060fddef926a4f8d55b59e1a9908"
+    },
+    "42d68b3d6a5d8a2be56167c5f38534a789bd3698b2e92374bf48f9689fac90a5": {
+      "tex": "1.6066951524152917",
+      "width": 184,
+      "height": 22,
+      "sha256": "a9272f6ff3ae53599041895490876cb1c47ad11cc07610f9eb37ad92d78f677c"
+    },
+    "435b90907ad0029f6f04b8ec4232b0a17f23455d2262649366956e3033486bcf": {
+      "tex": "x^2+2y^2-0.3\\cos(3\\pi x)-0.4\\cos(4\\pi y)+0.7",
+      "width": 387,
+      "height": 31,
+      "sha256": "c920c2ee7b8494ec88a2789d89d0b9ad8d046924539ee881d1d5a3a981e4d7e7"
+    },
+    "43876622f3b2c11fcdcf176878b353242152625936de646d3b8dea961ebd194d": {
+      "tex": "1.8519370519824663",
+      "width": 184,
+      "height": 22,
+      "sha256": "f37b51fc2e3201cb29224c3b40fa38b7156da84c348664fdbca0b1334b616ba8"
+    },
+    "439d4154b716512a399dd32f87ca6b1f39c412b539af833a27a3b4ffadca64c3": {
+      "tex": "10973731.568539",
+      "width": 154,
+      "height": 22,
+      "sha256": "06c73f01a1361087c4aaf20afab55e2741574201127ba30c0f977b3ba3c80f1d"
+    },
+    "43c4b87860bd53a64638ec4420667aa7a8c1344fa2415e82fb7095c69c7480c5": {
+      "tex": "x^2=x+1",
+      "width": 94,
+      "height": 20,
+      "sha256": "0ea6caaee73d7b49be8d584775aec1997c291fff7bd78ac71120c37c0187b074",
+      "mode": "inline",
+      "depth": 125
+    },
+    "43fd8db66cb684ff0108230f4ce31caa300da5f1fc6850b546162c47fbded6e1": {
+      "tex": "\\operatorname{erf}(z)=\\frac{2}{\\sqrt\\pi}\\int_0^z e^{-t^2}\\,dt",
+      "width": 212,
+      "height": 57,
+      "sha256": "d490a589e1e208c7da6f8ac687cb0e63787aa2f933d8c3872a859eee86e1911b"
+    },
+    "4457d1f2dab600b772489428fbf492e8d31ac1373751f7a399fde8194ed6d1ff": {
+      "tex": "0.9877003907360534",
+      "width": 184,
+      "height": 22,
+      "sha256": "50156ccb2200a2c3071bf0c752fbc7dad2238c1cb362ab16632d58340504db82"
+    },
+    "449cadb46ce37049602ef3150bd72fe32ab82133911c1800302f5e45911a63bd": {
+      "tex": "960.9205",
+      "width": 84,
+      "height": 22,
+      "sha256": "05d0bf0fd944c89bbab855e002ec8b326d3a8abaf54c5ff510942b7241750d9b"
+    },
+    "449fc4892355f4d9e17b54827be925c5ed2cd0cf5c9905a944beb86eeb22f121": {
+      "tex": "2.51188643150958",
+      "width": 164,
+      "height": 22,
+      "sha256": "5b30f9e2c1f0cd9b1abea64aa7d58d80b4de1410bb0d55afe6e0230bde2fcef2"
+    },
+    "44dbe95660e90a41a91e294eec5620399b3702af26acce1604fc0f9be236827d": {
+      "tex": "P(n)=n!",
+      "width": 95,
+      "height": 28,
+      "sha256": "6edcc1f1cff8f2f938b1d69a217c42bbf877e0ab15b9bc48b0bd14f76b0e5977"
+    },
+    "44dc1913890b0386a0d9efb8de30d4a4109511ae6d80c7f650b17d7fa064be4c": {
+      "tex": "4.486551331\\times10^{-40}",
+      "width": 185,
+      "height": 27,
+      "sha256": "a15a7326c9b6ab70ff6518404961c7f63f388feb867581e1f4734100f41d720d"
+    },
+    "45444ebed5229b797f61064cf7fd8e72424d90758acacef8a412bd491bd46efa": {
+      "tex": "\\operatorname{tr}A=\\sum_i A_{ii}",
+      "width": 128,
+      "height": 51,
+      "sha256": "e4d6b4b0fe6f68403fb344d89ac28f4083baee9d162b63b8093869669c011939"
+    },
+    "45d95ab6b08ab63b97f5b2df7fe5829be303aa24b5d36249caba8e76149c542a": {
+      "tex": "0.7475979202534114",
+      "width": 184,
+      "height": 22,
+      "sha256": "35a1ed759686c30112882abac08e722681a3ed91a1cd8ee883479d2cf241818c"
+    },
+    "46301d1cf1a6b14fc97d367c5f08c95c1245f61b4bc093c9b4a97cda5aceaa36": {
+      "tex": "Q(x)=\\frac12\\operatorname{erfc}\\!\\left(\\frac{x}{\\sqrt2}\\right)",
+      "width": 194,
+      "height": 58,
+      "sha256": "ce3a2addcadc46acff686c11129d867e3072468374c0a39cde360de34623e7f3"
+    },
+    "4679719c10383fd805d3629c1f654adcccd7616128460cb54e6a3a83915a1593": {
+      "tex": "11604.519",
+      "width": 94,
+      "height": 22,
+      "sha256": "d65d8004e7c8df9abe39fa1c8bef6aaec0eb6d8615dc2c5d43e3b3f442c57b9e"
+    },
+    "4705276968dc5fe9910220f009656c203f95dccaf6d737ab2947bbe867baf457": {
+      "tex": "1.602176565\\times10^{-19}",
+      "width": 185,
+      "height": 27,
+      "sha256": "2cc2c72e6d930fe0b5912e687160117d7aec16e2f1b7f8557086d9761cb650f8"
+    },
+    "470b24d89b3e1bda0f905e9cfc9e8db3640c8acaaf4aad6b9feb4625e97f75a9": {
+      "tex": "\\frac{(a)_x-1}{x}",
+      "width": 88,
+      "height": 52,
+      "sha256": "0fda0d8d0c8be045627da42e3b6a8893fa70c61f8a64de59957e5763cfb90191"
+    },
+    "481b99faf0c78fe33ec9c775e18f9db5028e0e5d13efcd83e64d4877893d0c2a": {
+      "tex": "4.001506179125",
+      "width": 144,
+      "height": 22,
+      "sha256": "3846f7f7e0254173477f0d46d62bd5295522f1f06196a256fb58dd3cfad71a67"
+    },
+    "48c33c2cf59b4ee9eea97a6d32911176a97335d92bc33b710dfb1f6141e4381c": {
+      "tex": "\\lambda",
+      "width": 13,
+      "height": 16,
+      "sha256": "ca77dcff8a1f9d180b5d05f409decba824b8342fa5152d05712064d3ef4416f7",
+      "mode": "inline",
+      "depth": 60
+    },
+    "48ff04ab9be1e866403073bd95df067404cb2dd7ebc40b9fbbcc7d0594b902eb": {
+      "tex": "\\cos x=\\frac{e^{ix}+e^{-ix}}{2}",
+      "width": 169,
+      "height": 52,
+      "sha256": "99cf5cae825b7938bdcf2d26063bc785b7f6eba47fe3e2b22264ed0bba2a44c5"
+    },
+    "491a24dcf014cfc0710adccc4f019323c7aacadf5921164657cc5e41e1ab017f": {
+      "tex": "-\\frac{1+\\cos(12\\sqrt{x^2+y^2})}{2+(x^2+y^2)/2}",
+      "width": 213,
+      "height": 62,
+      "sha256": "ea11b67f5f3812baaf9050c15a371951a4ff79aed63330c6889576a24b869e52"
+    },
+    "49b1a85b48ee0d78faec7d76fd3ab4bd1cde363e9771c4fbb3e6bada9810bafc": {
+      "tex": "A\\sin(\\omega t+\\varphi)",
+      "width": 117,
+      "height": 21,
+      "sha256": "ecf403d60826e7a0522d25c09f248045f944fecb6a05385e0d253986b1fa4bfb",
+      "mode": "inline",
+      "depth": 275
+    },
+    "4a150bc604389f07d5a51a457261ee76351ca4d8fd781788539a3fb8d2055edd": {
+      "tex": "29.1646943",
+      "width": 104,
+      "height": 22,
+      "sha256": "bfa8eb9ed45dbfa0e9932c9d55281f3eef2897bb23faeb1cf26231c725b1451d"
+    },
+    "4a7777d127694ae3d12b3e51486cfe2e5be848d28519654ca2df9e1a5862e3a7": {
+      "tex": "0.915965594177219",
+      "width": 174,
+      "height": 22,
+      "sha256": "2f23b3ff0a5dbea79d14fb50944e589d7d1cfcfa216440840d7e935b5704462d"
+    },
+    "4ab548798cb982b6cbe9ee84a8258d011c207755920f93bf2c7c478aeda321ad": {
+      "tex": "\\operatorname{Shi}(x)=\\int_0^x\\frac{\\sinh t}{t}\\,dt",
+      "width": 200,
+      "height": 55,
+      "sha256": "98c3e2ac8a5377a8a9c44ad4df8774f1a8bfc9ffcc415454a12b103fbf88d84d"
+    },
+    "4aced60b799efc785c6f0e3476a8dafbfecc6d655b97f9226ace705f8edfe33f": {
+      "tex": "M(a,b,x)",
+      "width": 86,
+      "height": 21,
+      "sha256": "526830ee980d6b885cb96e8e3792b69dbfda34fcd760fc96f1120925e572fe20",
+      "mode": "inline",
+      "depth": 275
+    },
+    "4b1d528807d77bbf966f5d623fcb834c0ad987f3d20156ec0b0399c791aff773": {
+      "tex": "x^2y^{\\prime\\prime}+xy^{\\prime}+(x^2-\\nu^2)y=0",
+      "width": 256,
+      "height": 31,
+      "sha256": "57951d110f76e8f1acf98f477ec982dd03c0028146b31846d52bc419ca1fb9db"
+    },
+    "4bb3e018704e7540e2656cc6b963945baac089892d1652e998ed44accfa24075": {
+      "tex": "\\tanh x=\\frac{\\sinh x}{\\cosh x}",
+      "width": 151,
+      "height": 50,
+      "sha256": "a97e0a50691ed85bc015bf1b077bf00af8a1dd9ccc5b5c9bfc932232bf6752ab"
+    },
+    "4c5b07ba726974fbf3d62e2573ca87e230f0d2bc4068dca9332c7fe4e176d5cd": {
+      "tex": "\\operatorname{arcoth}x=\\frac12\\ln\\frac{x+1}{x-1}",
+      "width": 199,
+      "height": 51,
+      "sha256": "db9aae24b2275487d55484a4763f307b4b2cef58d860e983c177c290705356a4"
+    },
+    "4d142cc470b5af79d110dc663afcd19c4c34582e93772a36c303c6ebfa0e4786": {
+      "tex": "1.008664916",
+      "width": 114,
+      "height": 22,
+      "sha256": "e4e16b394ba782920bf4ffeb6c8f581e8db449275244c3f7f0e102b7fce36b3b"
+    },
+    "4df3a2756c61f5b0c4a298cb1db9f4d6478c156e5564429ce4e84db73e74ead0": {
+      "tex": "0.5419260701392891",
+      "width": 184,
+      "height": 22,
+      "sha256": "4d8cac0866a24881e11b366f3c25657f2c1869ebc760e9b1e93d51c77b768132"
+    },
+    "4e308034abe4c4b9843723e042c7a12d809fc334ea825eaa0ca88877813ed020": {
+      "tex": "x>0",
+      "width": 50,
+      "height": 16,
+      "sha256": "74ea182f6736a8c210c684ab7a4b06149fee97e95325ae92fead7b4410b23bfa",
+      "mode": "inline",
+      "depth": 91
+    },
+    "4e5fb9aff91844a735134ade239672dc575eb2e53a0f09b1c410f2b9c19cf59a": {
+      "tex": "\\Gamma(n+1)",
+      "width": 76,
+      "height": 21,
+      "sha256": "760a4c3904210b34a04d9b13d679491562586e5cb36cf0930b87b79234d8fecd",
+      "mode": "inline",
+      "depth": 275
+    },
+    "4f1f2d5e964bfd20d3cfee1e7bfa4ce6e0a0ec2da2e944f3544fc45a5bbcdf88": {
+      "tex": "\\pi",
+      "width": 13,
+      "height": 10,
+      "sha256": "3ff44c86f99757f0a6b8bf77101ffbda72cad7684574be3831f39a29667d12b5",
+      "mode": "inline",
+      "depth": 40
+    },
+    "4f9cff9bf228fe91a144ab297e53678506f646844fbe771e4b272c56065e3272": {
+      "tex": "0.6154797086703873",
+      "width": 184,
+      "height": 22,
+      "sha256": "16380cde032427eccd87c881cc4463b5773e22acb8976080055055f08ccec2fb"
+    },
+    "507231e9dca163e0f92b11f8fdbb4271f6d523f0d168b157fb14ca1ec3f20ddf": {
+      "tex": "n^{-1/3}",
+      "width": 47,
+      "height": 20,
+      "sha256": "de3b6f39179ad537efb88b40ebe620a1682cf60bf99a75da80111fbfb5181b9f",
+      "mode": "inline",
+      "depth": 59
+    },
+    "509b7be0e9f1ba0c62eec208a2daa81594909c8b472a7fe3d1807ce6eca93bff": {
+      "tex": "197.3269718",
+      "width": 114,
+      "height": 22,
+      "sha256": "1bb3b90a568f821e2d62f59792ef8cab626fb4d5cb8569052c954446fc2ac18a"
+    },
+    "50c7e70c5f7a03fc3e4861700895d4d6629c0bf9e71f07083ee453eb31164b1d": {
+      "tex": "\\operatorname{arsech}x=\\ln(1/x+\\sqrt{1/x+1}\\sqrt{1/x-1})",
+      "width": 365,
+      "height": 46,
+      "sha256": "f5f631d1eb34ff8c62e3c248937c1233fb0abed4e84022f5b0e5b6c150c426df"
+    },
+    "50fd1f9c8e44d9c0f4d40b2e5fde082d2e25372dcf7cdc7cda45b965e7a92772": {
+      "tex": "\\int_0^{\\pi/2}\\frac1{\\sqrt{1-k^2\\sin^2t}}\\,dt",
+      "width": 208,
+      "height": 65,
+      "sha256": "6d76da5b53b6ee0ba6a9da34452fcbae8253585d25eadcedbad96f4425208fa6"
+    },
+    "510a607b928637afd6994c9dedde48c33dfda590c97c57e6338f998ce7dc0142": {
+      "tex": "21947463.13708",
+      "width": 144,
+      "height": 22,
+      "sha256": "e3f6f634a3d7be2e950b747383b209f926296631e4bf795491e6285c19b0c8a6"
+    },
+    "51434d9ad46abb9bcffa9937d87d02be92360e3e071243f06a81714d4941046a": {
+      "tex": "2.6516462\\times10^{25}",
+      "width": 154,
+      "height": 27,
+      "sha256": "a71e2edf723cedeeff031ae55ff8fd3a95296175e8712dcec8f73716ab313e0f"
+    },
+    "51ff4af91e2ca57c2f1ec97129bbd94cc3dba04118d9fffb76ae0e3fc5b39bc4": {
+      "tex": "267515326.8",
+      "width": 114,
+      "height": 22,
+      "sha256": "f5f350bd7aea474206f93cc7ed8f37e3d3ee271dafde6ef734e8a605bb9915bc"
+    },
+    "5203525a22a1ad7384c2ac4505257e8629fc31c781e5d70c57fb06829b4e92ee": {
+      "tex": "0.022710953",
+      "width": 114,
+      "height": 22,
+      "sha256": "50021f0ed69d72b4ba0c9a0c8d2301bb66fe9d05268566a2f2e728ed9d72cfe3"
+    },
+    "525fb2fce90abf3c7d2416843e8a54144555994c5b0ca6fb7040cab349451b8d": {
+      "tex": "3.9903127176\\times10^{-10}",
+      "width": 195,
+      "height": 27,
+      "sha256": "548a3196d16b496a2f20e728cce92da9508e30d62441c735527dedce516dc6fd"
+    },
+    "5266aa4ff1d865b2a9d7c25ecf8e86822bccf1f564bab5038c4d1748a4cfe676": {
+      "tex": "1838.6836605",
+      "width": 124,
+      "height": 22,
+      "sha256": "6702ce113a3385e56fefcf615d1d9bbea6582b88ee07034893e5a529063010f4"
+    },
+    "5282f20bd5a08d08f3b7acf3213f031adb12dd909caf884e41ba3b3e6df457de": {
+      "tex": "F(x)=C(x)+iS(x)",
+      "width": 191,
+      "height": 28,
+      "sha256": "b510536a43a53ec3ecc72ef3fb4ed5308244677f8525e1fbd55b6306164c3cc8"
+    },
+    "52840502d699323e913dc3d46a1789a5b89a1f379fde63876ad973fd96215fe2": {
+      "tex": "D(x)=e^{-x^2}\\int_0^x e^{t^2}\\,dt",
+      "width": 196,
+      "height": 55,
+      "sha256": "fce990a5cafe461f1ab8e05e5dd83e31337fb77b44124e716f694670aa5895e7"
+    },
+    "5285083dd7c0e17d42d45d621fd466e17789f45b362a8ed1bbee04d6ce9a1f55": {
+      "tex": "\\gcd(a,b)=\\gcd(b,a\\bmod b)",
+      "width": 240,
+      "height": 28,
+      "sha256": "ac3ea3c08c7cfbcd9c9261e3f4ebf675fae29e73dbe06989266600f0980945d9"
+    },
+    "535a2e9e49ed5d1651cc2572057eb2aa5d445df216e102490a0e64d79b786d1a": {
+      "tex": "0.1124545177",
+      "width": 124,
+      "height": 22,
+      "sha256": "d8184797721f9c4730f67b92cba2130b52bc6cca976b953a0dfa891369c7155e"
+    },
+    "5367867ab060a4e99fa2c79e1dd901d95c5f2778df28a68eea08bcfc69271fa1": {
+      "tex": "\\int_0^{\\pi/2}\\sqrt{1-k^2\\sin^2t}\\,dt",
+      "width": 199,
+      "height": 59,
+      "sha256": "7aa833d0d8c018f1a6c8a5b787e76640a85d14f27cb16ae289f01debe70f968f"
+    },
+    "53de019a70bbec14b76b659f03335e7e885b6d10cbb931ab147e8d21a02da8e5": {
+      "tex": "\\operatorname{Ein}(z)=\\int_0^z\\frac{1-e^{-t}}{t}\\,dt",
+      "width": 215,
+      "height": 56,
+      "sha256": "c1b1aa6710f87d513112dc818229dfc2e55168df5e042f5fad44855743a769f9"
+    },
+    "53ef2cd0afa1d042a50e7958c6e15cf19449875877c9b108a601b33f1f9259ab": {
+      "tex": "0.6180339887498948",
+      "width": 184,
+      "height": 22,
+      "sha256": "9104f3134dfe3c08c3ded457622c3cbb5cd336b88e62864d2c2627e16c8429eb"
+    },
+    "54573168f1599044ea209ee4b5e1e6c025582ea38f101257ce23c983548d4070": {
+      "tex": "2.1001941568\\times10^{-16}",
+      "width": 195,
+      "height": 27,
+      "sha256": "8dfd7e77da113f0a47567039eb46a93194cc7dc97331111f2154cb1cc964e40f"
+    },
+    "549381f4ac65d361cc776b664a89af0921e503ab25d3bbad07d407bdc6e367ea": {
+      "tex": "-0.001158740958",
+      "width": 160,
+      "height": 24,
+      "sha256": "c51b1ca6620cb9a6a4fefb7e24dbccd9fed605452d68a7a3b021d065d3728cfb"
+    },
+    "549a84e85fc7110ca1192f3f76a53c7e650c9335a18f1545bb6fc98d40c270d7": {
+      "tex": "f(x)=\\frac{k}{\\lambda}\\left(\\frac{x}{\\lambda}\\right)^{k-1}e^{-(x/\\lambda)^k}",
+      "width": 228,
+      "height": 50,
+      "sha256": "e8b9781379829f3a3cdc8a5b2906532933744f43e2b4a8af2e85379af0c01725"
+    },
+    "54a4e84557d70c376a9354d1a0c65687a173dcf332f7a30ca1651a3594cce189": {
+      "tex": "a,b",
+      "width": 30,
+      "height": 19,
+      "sha256": "f8ddfd2e22cbd580d97c47ed7bcb0bf94b8315ccd056c17fd81c50225a63e644",
+      "mode": "inline",
+      "depth": 225
+    },
+    "552c9209c98775ce36c8db57b108fe007a25ef5ebb2c68a9bd8e0b05b1480aa9": {
+      "tex": "1.61619997\\times10^{-35}",
+      "width": 175,
+      "height": 27,
+      "sha256": "ec32f12f2dc750a93576ac5f673c9f2bda9c82ff00e16a9200a7414a3f07f8bd"
+    },
+    "552dca83dcc0b78042449e530e78ce05dfb1334d363932a222869c6f8fd9c717": {
+      "tex": "\\int_0^{\\pi/2}\\frac{\\sin^2t}{\\sqrt{1-k^2\\sin^2t}}\\,dt",
+      "width": 208,
+      "height": 65,
+      "sha256": "f4301f70a7a81ffe9bbf4650acfa951ec2c052aea896113f2dd96cdc0f04806c"
+    },
+    "5551581df18c2508718748a756572fe45eb787745173f1e030bc0cb7874e40d6": {
+      "tex": "1.191042869\\times10^{-16}",
+      "width": 185,
+      "height": 27,
+      "sha256": "5ca3fafb18c58a270c609159312abd31c042b0a6b449ad8b21ed457c3e95afdd"
+    },
+    "55bbbac17eda59340dd5bf3f53224ef8533b6082fe508becbea012c46e210ee1": {
+      "tex": "1.3806488\\times10^{-23}",
+      "width": 165,
+      "height": 27,
+      "sha256": "6b8bfae42a3ccca573bfd5151d64e170d1901568c75ba043f2224dbce30c4f8f"
+    },
+    "55d313a856fb201c3c927511f0397b6bf50efdaf5672d898294ccc71d7138c2b": {
+      "tex": "J_n(x)=\\int_0^x\\frac{t^n e^t}{(e^t-1)^2}\\,dt",
+      "width": 222,
+      "height": 57,
+      "sha256": "84718916764d29784c513b185fa6dc173d0b321ffa9655c4ab2cf0818611dba4"
+    },
+    "5684371126136bf203bc3f5161ca088d04f071e47ea40d3ae0975a3b8bb4c50c": {
+      "tex": "1.00209952\\times10^{-13}",
+      "width": 175,
+      "height": 27,
+      "sha256": "9a996692332efdac6f0473920c2908600a2d3b9ff3687dd461d26cc5acbe551c"
+    },
+    "56de04b2f50ae45e75e2843de353d6cb33c48ed39c899f52082e47452f3f0634": {
+      "tex": "m_{\\mathrm{u}}",
+      "width": 29,
+      "height": 13,
+      "sha256": "fcfad2cc7f6f64c223ff512f6deaff2de24ba7e868b487a881853b3fe8e0b288",
+      "mode": "inline",
+      "depth": 183
+    },
+    "572419a85928361d05e349f30e739dbe45fb46c41b7920cda83b510d5ea021be": {
+      "tex": "3.74177153\\times10^{-16}",
+      "width": 175,
+      "height": 27,
+      "sha256": "3a19cda96db2eb6dc6adb50d9d126426a0a208a539f6d7d1777fb077d3601c0e"
+    },
+    "5739d3d10d45d7af555e827b4e86cf63085a360f6bc4206f0fd6e36222379a09": {
+      "tex": "A=A^{\\mathsf H}",
+      "width": 77,
+      "height": 27,
+      "sha256": "51454583192d1aefaaa1b368e5ad5168d7b84992b421f5c28b9c5d08d41bc1ad"
+    },
+    "576a27ba8d82b23a703287fdb0da0c291c1f986bcbe553e95a317d89e78f69dd": {
+      "tex": "S(x)=\\int_0^x\\sin\\!\\left(\\frac{\\pi t^2}{2}\\right)\\,dt",
+      "width": 224,
+      "height": 58,
+      "sha256": "ee5ec63c13086179cf99a313214671b3e12d37832eb246e8fc4d66c8dbe44932"
+    },
+    "57fdd5624ed018ccf54814a1bd966f2639958d6a89677cd17dfd569a34fddbb2": {
+      "tex": "\\operatorname{sn}^2(u|m)+\\operatorname{cn}^2(u|m)=1,\\qquad\\operatorname{dn}^2(u|m)+m\\operatorname{sn}^2(u|m)=1",
+      "width": 516,
+      "height": 31,
+      "sha256": "119e9c6de36218cd58b70a17a6e709151b15f8c51a103e4f1aecf2f5ea0260fa"
+    },
+    "582ef56d30874419973e65df29ead1f922b124f5cc02c676919207e22d4dab39": {
+      "tex": "4.4398216689\\times10^{-24}",
+      "width": 195,
+      "height": 27,
+      "sha256": "1083be836992ecd7ad73e5e6a55863fcb85cca86903d41aed4380e58a7ffeb8d"
+    },
+    "58463a226a1fcfbf402de485c8db6813b42a92b102a1b96ae798ae992778e16e": {
+      "tex": "0.6601618158468696",
+      "width": 184,
+      "height": 22,
+      "sha256": "345fa93f246808a2337e78cf5a56697275a3986966585879d5df1bb1e39287ec"
+    },
+    "585fdc08f2e63699c418277bfed785ee85a17c77b421f2d43a019767ed72cbb6": {
+      "tex": "Q_0(x)=\\frac12\\ln\\left|\\frac{1+x}{1-x}\\right|",
+      "width": 194,
+      "height": 51,
+      "sha256": "4adc3461c79ee0b73f1ab3043620483ab81708d15de710bf341a85bcabb0412e"
+    },
+    "5864f80948e3fda96e3b627eba006ac209715c2f63817827cd4bdcfa4807cd1e": {
+      "tex": "n",
+      "width": 13,
+      "height": 11,
+      "sha256": "ab19575b23a94fcbcee9176d6ae98cc6744b2ef1f1f755187af33aef0ea9d37f",
+      "mode": "inline",
+      "depth": 60
+    },
+    "58b5d6c68a5990e97a6068399e5bfd65115557944c2ec57c05b835b8e0a792e9": {
+      "tex": "(A^{\\mathsf H})_{ij}=\\overline{A_{ji}}",
+      "width": 117,
+      "height": 35,
+      "sha256": "05acde1ed267c53b156e9173f1060864a895b11e9a40c3a3db8b6723db324b02"
+    },
+    "58cf79da841be56ba5e7af273e0fd65582ee3fd3a697b9b37998a8b47962caaa": {
+      "tex": "\\operatorname{Ai}^{\\prime}",
+      "width": 29,
+      "height": 18,
+      "sha256": "10d0eb8ec9cf4d57026ac0faa6c6f0ad17ced28114c13f58c2017bc3f2edf58e",
+      "mode": "inline",
+      "depth": 34
+    },
+    "58ebc6607cf5a2b0092a52fb508768a09174404cfe307db5c0f070ce9a39e960": {
+      "tex": "\\log_{10}x=\\frac{\\ln x}{\\ln10}",
+      "width": 140,
+      "height": 50,
+      "sha256": "18e1d3a018588e95b693262a469413412c63e66711a07e3b95f75d362fee25c7"
+    },
+    "58fe451ec7c8240124497be80bce3f00b576c2b79f296f0d019b8c6f7054a535": {
+      "tex": "5.0073563\\times10^{-27}",
+      "width": 165,
+      "height": 27,
+      "sha256": "a987b1021e978883c567278565d5ca0f5650fd6527bd2f430b13c3d905d135ae"
+    },
+    "5904e975b268cf8cd973d89f315d351f0d59888d57e5351371a4db8328451baf": {
+      "tex": "p=100000\\,\\mathrm{Pa}",
+      "width": 125,
+      "height": 19,
+      "sha256": "7566e1490f68d1402305beddd18ae50a7e0253cff19ef6804c34d07cdad3363f",
+      "mode": "inline",
+      "depth": 231
+    },
+    "59d8a551fd5008a4a603791289566764a5d672c5b76ef4f384b350cdd9098531": {
+      "tex": "\\hbar c",
+      "width": 21,
+      "height": 16,
+      "sha256": "85607367760739eedb268db5e8319c71759eb9dc477eb40e6a0466f44edd33b5",
+      "mode": "inline",
+      "depth": 59
+    },
+    "5a5bd15bcdf0ef74c246d566fd1f5fc9e526212506fdee6d0c2aae17a06a6f62": {
+      "tex": "0.02542623527",
+      "width": 134,
+      "height": 22,
+      "sha256": "e66337ae8f3fe2cda6fda564bdf575ede9afdbf3708210906a088c96890917f0"
+    },
+    "5a6835a346610db4b9b5f6404e5ca06b30ef2930c40eede33e7369f5c2107ee3": {
+      "tex": "\\operatorname{Ai}(a_s)=0,\\qquad a_1>a_2>\\cdots",
+      "width": 257,
+      "height": 28,
+      "sha256": "a3a62d7d4e716c7c7c071f6a6d88e107ac4534cb1b3ba20edcf319ba2b637617"
+    },
+    "5af6774980441f661c6c0b6d3aaf85fe141b4b1e47b136b39243b075e1f24db8": {
+      "tex": "e^z=\\sum_{n=0}^{\\infty}\\frac{z^n}{n!}",
+      "width": 114,
+      "height": 64,
+      "sha256": "f9608baa58a95a0e0b3b885d0ec770c06df3e951e4c133ab1b8f1ed3a7fd7b73"
+    },
+    "5b425d285b911cd59ecaba7b774b68e07a33be00fc165479155915d42a82b84c": {
+      "tex": "\\operatorname{logit}(p)=\\ln\\frac{p}{1-p}",
+      "width": 173,
+      "height": 48,
+      "sha256": "2ceb1dce53ca2ae27fb3b5ad7cf0767fb650ea8e031cdfa1dadaf015bc7ec4af"
+    },
+    "5c18e61fdf75b87776981d32a018d8f3d4eeeb8dd97ec4dd5d192f776975d09b": {
+      "tex": "2.2523427168\\times10^{23}",
+      "width": 184,
+      "height": 27,
+      "sha256": "ed6b5116a79ff20dbae1fb3c79d2167aab36b28b9802795540935779a627e681"
+    },
+    "5c5a13a46f1cf6f035bdfa62297e7733fcce37b9f7c847f0a2170c87914c1e0f": {
+      "tex": "\\operatorname{sgn}x=\\begin{cases}-1,&x<0,\\\\0,&x=0,\\\\1,&x>0,\\end{cases}",
+      "width": 204,
+      "height": 76,
+      "sha256": "8f46c3daba47cb92ffdd6e2317fa8dd508ddb6c2e3198b6327d4cc38852cd138"
+    },
+    "5c8a321c4816609c45af77b435e3d6593142f146ce05bcdfd578f3f147fe6bc5": {
+      "tex": "{}_1F_1(a;b;x)=\\sum_{k=0}^{\\infty}\\frac{(a)_k x^k}{(b)_k k!}",
+      "width": 226,
+      "height": 64,
+      "sha256": "15a2bbf7ba171b28de51e973fdaf07fac32ce38a71d006284706d80ed940aa6f"
+    },
+    "5caea2b4da699c65ea18ae71194a49da7a6209cc437e02a97b057b1fce5ba0a0": {
+      "tex": "f(x)=\\begin{cases}(b-a)^{-1},&a\\le x\\le b,\\\\0,&\\text{otherwise}.\\end{cases}",
+      "width": 284,
+      "height": 54,
+      "sha256": "f49522c386da908fea3cabf0dce2d80fe97638b123923fecfa230dcc567f2815"
+    },
+    "5d20d8adc9ce53cfaea8669abb71d61cffcb858ad4caad59a36334ca862a16e5": {
+      "tex": "I_x(a,b)=\\frac{B_x(a,b)}{B(a,b)}",
+      "width": 175,
+      "height": 57,
+      "sha256": "90fa510a436c922295cbc3aa93797dd0ccb5582cede5f278845e0284f59e9f3a"
+    },
+    "5d79eb965260cb2beb780be182c179aea3747da7d56c7da61f8401b7d46ab93c": {
+      "tex": "1.166364\\times10^{-5}",
+      "width": 148,
+      "height": 27,
+      "sha256": "5c6e551b52ca5951cc9b101c4e2fc366f7902ca0710a6ddd83e102c34909fc05"
+    },
+    "5ecdfb5daa794a46c82e341597c081eb7f0dec94da1e9e8644b534e56e1ac12a": {
+      "tex": "\\varphi=\\frac{1+\\sqrt5}{2},\\qquad\\varphi^2=\\varphi+1",
+      "width": 263,
+      "height": 55,
+      "sha256": "78f827024f6dfffb44a1af3c74f2081c5a60b19aba02f53bfbe8f263180d2946"
+    },
+    "5efd43cc5d822009314a6b693f4ca28d2e6d424bcecffae25b29428c30e3e6d8": {
+      "tex": "\\sinh x=(e^x-e^{-x})/2",
+      "width": 195,
+      "height": 30,
+      "sha256": "7d6e2bf0f913929103896c5e3ebe32d6e25cfd998b5dda59720d1012bf0a89af"
+    },
+    "5f4176829574a46c9b8f9be5c891862f1129c3bac58816dc2d4569cf88d387ef": {
+      "tex": "e=\\sum_{n=0}^{\\infty}\\frac1{n!}",
+      "width": 103,
+      "height": 64,
+      "sha256": "9fd0dce452d02dd92913e7f56909322b0834eef0a10e24c384accb1084566d0b"
+    },
+    "5f8c1ea5855526d3187b1ffc644a3ae64c5b3e64b57c702491b65b39417ea6c4": {
+      "tex": "w^n=z",
+      "width": 69,
+      "height": 23,
+      "sha256": "3b0c1fbd20954290cfca4a7dc79b466e6e30ddfb9624f8ec1542a799683a608f"
+    },
+    "5fb145885f54a69c784d007a976994649dc28166a09ec46ac35977072430568c": {
+      "tex": "8.854187816999999\\times10^{-12}",
+      "width": 245,
+      "height": 27,
+      "sha256": "542b4e835bba4aeb6a93fa7908f36e09a4e0637720ff99619adf48d3c1024927"
+    },
+    "5fca72ce0466364388e7291e898f728fab27326be149bda3b6f67a420de83a63": {
+      "tex": "101325",
+      "width": 68,
+      "height": 22,
+      "sha256": "632ff9b830acfd55b57c2d3aa1499a72dbffc06fa3a4a1a3644560a39312b758"
+    },
+    "604ce22f51065d337fc2c70fd6d2b0ae120a607fe2931ffd201170e421c95d6b": {
+      "tex": "C(x)=\\int_0^x\\cos\\!\\left(\\frac{\\pi t^2}{2}\\right)\\,dt",
+      "width": 228,
+      "height": 58,
+      "sha256": "991689f90873a06a27ff6971e3a1c672aa6ead7d9cc6f9cd76a0a5483b8b3119"
+    },
+    "609041bc520deeebc6e52e260f58c0ae365c71e4e8ac944c87c8058ecfed8c1b": {
+      "tex": "1.1789797444721672",
+      "width": 184,
+      "height": 22,
+      "sha256": "7b1db4ceb250fc5cfbf6fe41d29f1fe0aa886e4d369b0bf83ad57e3c274b9176"
+    },
+    "60d4a70392b12a2544f2a546ca2182bfe2a6bacfc008fe240962aed65a702d32": {
+      "tex": "0.26(x^2+y^2)-0.48xy",
+      "width": 204,
+      "height": 31,
+      "sha256": "14d27d99a8916d19ec51dd27ab9b7bb6ab2c1e66d5d00975e62595bdc4f5afa4"
+    },
+    "60d9a06f3e2b7b7548148f409ad3f534c932f647b7e825944b65aa426980423d": {
+      "tex": "1.505349631\\times10^{-10}",
+      "width": 185,
+      "height": 27,
+      "sha256": "610cc506007d8dbdb4ac310a7abad1ff8d78569f1e6d1755b02a38723e0dd841"
+    },
+    "60fb52b3922e73ef6d8e4da88aecbe9dcfa765c21c27f1f11364a8054fccb1a1": {
+      "tex": "0.5539602783650902",
+      "width": 184,
+      "height": 22,
+      "sha256": "6dee6b8dfbe73d64970f4383c0a4b2b12682e34b5820f6901298168bf94aa4e1"
+    },
+    "615b0e1f6a8222cda6958d5e363edb0c49dfdaf797791c8279f8be4344d526a1": {
+      "tex": "1.112650056\\times10^{-17}",
+      "width": 185,
+      "height": 27,
+      "sha256": "9bbd50203296a9b320ba55d1c1d734aa40624f8260a666116297043388f62098"
+    },
+    "617bb47280d16a53d5f894d93b7de456f03d03d73c032de63b40954b6ef407ab": {
+      "tex": "3.2758229187218113",
+      "width": 184,
+      "height": 22,
+      "sha256": "4fb7bae7a34c3a6dd71b888986d374b6a222fe06b9667422765d4952b2b4c7ee"
+    },
+    "61a361e92dec2ff12795fad4d730abebeb9c646cd74d12ff944f55fb7742d638": {
+      "tex": "x^3=x+1",
+      "width": 94,
+      "height": 20,
+      "sha256": "a3155fd750afd32240242e5d825f863560b562ef3c80be0d2a6de6ee3ed1f5a7",
+      "mode": "inline",
+      "depth": 125
+    },
+    "62fef614b17648d7433eb8eb4c69783899d94fb205953f688789d799efe71644": {
+      "tex": "(1-x^2)^{\\alpha-1/2}",
+      "width": 115,
+      "height": 24,
+      "sha256": "24f93b803d3dafb8d16a2162264367352e480aca676e28080e6a030f5e76d250",
+      "mode": "inline",
+      "depth": 277
+    },
+    "6351265d831b57dab37c99b5152e3a597087696917ca9235d7050b15ea452bbd": {
+      "tex": "2\\pi",
+      "width": 23,
+      "height": 15,
+      "sha256": "aa8dc7d7a9a90bab43cf77f766a81986bdf9331e092f9b88ce99fc3124090fcb",
+      "mode": "inline",
+      "depth": 48
+    },
+    "63d5d08a7e96e9989f160867773905e03dc1f640335f4416d865170c357e6439": {
+      "tex": "1.618033988749895",
+      "width": 174,
+      "height": 22,
+      "sha256": "7d4441765ef3f1747a6700bcb60e8ce38cff50032600cbb3f9c6481708d6059f"
+    },
+    "63fe869d6c4a4f3edd02301f214e760378e4d67f0092f06ea40cdb0f66bca5f2": {
+      "tex": "3.3598856662431777",
+      "width": 184,
+      "height": 22,
+      "sha256": "e5dceee20520838af4fdfa51024a16bb504eb2146fd56e719952a13b05b6ab40"
+    },
+    "64fd4b90a0148b7388900bfb4d50c5ee1da9c5508edf7fdd465a89cc6a7da12a": {
+      "tex": "R_F(x,y,z)=\\frac12\\int_0^\\infty\\frac{dt}{\\sqrt{(t+x)(t+y)(t+z)}}",
+      "width": 391,
+      "height": 61,
+      "sha256": "d0bdce66b098de42c1ba056595508b69f8db7f9de15b69d9557d0a06aeda5564"
+    },
+    "6520a795d1aac657e2ddd965a654a1f62800ddc2d322c93efc75cd908edd6af2": {
+      "tex": "\\operatorname{arcsch}x=\\ln(1/x+\\sqrt{1/x^2+1})",
+      "width": 288,
+      "height": 46,
+      "sha256": "1d906d4551b5d63c03e04f3dee1e75e4c58839b3aa1c68c079600d19b1c805b5"
+    },
+    "65375c8033f952a64983df19f0b91ff22cecb0161d622fc3fafbdd63e98671b7": {
+      "tex": "-8.89059697",
+      "width": 120,
+      "height": 24,
+      "sha256": "cc0bf6cface9f385d9385f508610685d24b559d9e7ab03e40c691bcf9499bf8d"
+    },
+    "656f8d41abb75b771ece9c4f00cd06e76e421883a58f6b42fd5285ce7fdd054b": {
+      "tex": "69.503476",
+      "width": 94,
+      "height": 22,
+      "sha256": "5f6eebf6695830c8b0ad04e471623f24dab6007f72bac33bda9e57982fbe70ac"
+    },
+    "65770f7a0382ea38d04286a8c056b0f58823b3d14c28d5410f11367530a3312b": {
+      "tex": "|j_1-j_2|\\le j\\le j_1+j_2",
+      "width": 198,
+      "height": 28,
+      "sha256": "0b67686f49443a9b0374fe6dc44fb5339c3e932336fffa4502693230bfca6eb5"
+    },
+    "6639f7a04facc80076d81e56f59dd3e708eafb10da65db5a6b3cd73eafbaa06a": {
+      "tex": "\\varphi(n)=n\\prod_{p\\mid n}\\left(1-\\frac1p\\right)",
+      "width": 200,
+      "height": 64,
+      "sha256": "0da684cb2147214cd6f931096cbb733bcae020e88ff0653413ebe56d3ba96144"
+    },
+    "66b99f949522c7af09bc98d3c61f7205f7a15e5edb07ca07d1efe2a2b8386fa4": {
+      "tex": "1.3110287771460598",
+      "width": 184,
+      "height": 22,
+      "sha256": "378be8cc373026a8ac5d5485b486745792eabe774be196be45f35990d29708c7"
+    },
+    "66fb9b13aad5695c1591e294dc09f31e6ac269f89133f80b015647027380973c": {
+      "tex": "1.5198298460045\\times10^{-16}",
+      "width": 225,
+      "height": 27,
+      "sha256": "0b66f4843320930480e8e0cc8b326e80fecb864935f7c53e1311558053281cd0"
+    },
+    "67d0d6be15d1df3355149103c0e40ccf84df4a144bed6f4c00f2706216124123": {
+      "tex": "6700535850",
+      "width": 108,
+      "height": 22,
+      "sha256": "1a6058313fc35764e4d6bec6ac9f41e18024e32c44f0cdfa2534c706308bf662"
+    },
+    "687fed4599e358f9e4aa0522d8e3dba1a35f99903c289b5bed0861f85ae34bd0": {
+      "tex": "(A\\odot B)_{ij}=A_{ij}B_{ij}",
+      "width": 173,
+      "height": 29,
+      "sha256": "dcbddc2b002edee288100c21af9becd7dac10fd5199e9e557f568ca7aa9f586b"
+    },
+    "68b9bcd5e37cef8fa8c6c03ac9f5365c3655861bd4990a6e622f7f4513cfc93f": {
+      "tex": "3.335640951\\times10^{-9}",
+      "width": 178,
+      "height": 27,
+      "sha256": "58e665b9f18abf0ba8d934fcdf039cd82676731399f0a7be2bfd6f3656005bfd"
+    },
+    "68ed4138e9a017efffd463e25c053318c4122d49c24b65e466f004437602cb0b": {
+      "tex": "f(x)=\\frac{1}{\\pi s\\left[1+((x-\\ell)/s)^2\\right]}",
+      "width": 255,
+      "height": 55,
+      "sha256": "1908b5a29c7efb7ee86060a663d97026a63d502600396ae681ae2af94ca5b712"
+    },
+    "691eb60da3640fe6ebb0cf75e4b2db5ddadff1967d08a9c2c3786f566af0711e": {
+      "tex": "|x|",
+      "width": 24,
+      "height": 21,
+      "sha256": "2cf7fe9af68ade439e93f90c979e59d4a7432408336fe38c5dcd5238d0662668",
+      "mode": "inline",
+      "depth": 275
+    },
+    "69699276fb7aed0bbe1b75c983d7b68710f9c13f5b2cbf05140f6d3708841837": {
+      "tex": "10809540800000",
+      "width": 148,
+      "height": 22,
+      "sha256": "f1a54c255b174ab77b61632a91c017b230e4aeb33b7c99bdf3a7e40525abad3e"
+    },
+    "6a9bb98d199c5c0b2af974518f1e08ccc9949596969e8957e7cc8b105af9114f": {
+      "tex": "P(a,x)=\\frac{1}{\\Gamma(a)}\\int_0^x t^{a-1}e^{-t}\\,dt",
+      "width": 264,
+      "height": 56,
+      "sha256": "8bf111ad6130759cfa7491fbba76c2849f011c8a4020350caa0ad16d5c289fd9"
+    },
+    "6ac38ec67a832f7f2f3b916b387f52b5ff6a3be88245a8ced5c49217d64433fc": {
+      "tex": "\\operatorname{fx}(x)=0",
+      "width": 82,
+      "height": 21,
+      "sha256": "d1bdaa176d32c054e901e2047fcce6f7b59f5993409603752804afad95a17039",
+      "mode": "inline",
+      "depth": 275
+    },
+    "6b03d16cba2e6dea2954473ce30f143a3f2a90701438f9a4feb5e0ba9f22204f": {
+      "tex": "0.119626565779",
+      "width": 144,
+      "height": 22,
+      "sha256": "ce96364643d472aa9fbe8b019b1891cee4477a298ff258799f3035b868195fbb"
+    },
+    "6b0a7e3eb647e77809739c843dcb32a67dd4c85eb82f5bf73dfb32b30f4cfb0c": {
+      "tex": "\\phi(x)=\\frac{e^{-x^2/2}}{\\sqrt{2\\pi}}",
+      "width": 133,
+      "height": 61,
+      "sha256": "93220f2b27da22b82732b3a3a516ef281c30c42fc66cfb8c3bfbe9750990b91e"
+    },
+    "6baae0339b1f6785c985b5438eeab53217dfe5f7556c365b60defeb0e69d91b0": {
+      "tex": "w(z)=e^{-z^2}\\operatorname{erfc}(-iz)",
+      "width": 192,
+      "height": 34,
+      "sha256": "7c66b8afe5e2bbea0bc2455b6b4568e9b1ed05e65ca5ec4dbadc8d241a9c16ec"
+    },
+    "6baf3f0df88f1215cc6e76f6d529c35807d497f965709e21171bf111d1649c52": {
+      "tex": "C_{\\mathrm{rep}}(n,k)=\\binom{n+k-1}{k}",
+      "width": 226,
+      "height": 52,
+      "sha256": "df389c13777d328669bd67b6aaf81e883a5b984c106e4f7937e587ed8bf27a50"
+    },
+    "6c0c7f8e56fc7841dd458a4fb893c22982ed6dc4fd9a98358838fbbb8ff39865": {
+      "tex": "A=LL^{\\mathsf H}",
+      "width": 89,
+      "height": 27,
+      "sha256": "f4134bca1cd01c31ee004e6455cd078da569be2543f82661dc59f3f7fc02fa14"
+    },
+    "6c3c6d58e78fb4ec1e446c887085bba90e2b2c8d21093db6cd52f786da82a9da": {
+      "tex": "0.7945071927794792",
+      "width": 184,
+      "height": 22,
+      "sha256": "66f14432aa26c9322b6a460013911839d7a54a5b5f07cb9e0f23ca09df2dee27"
+    },
+    "6c7076ff3a6d00af619d935d723d560b93b769ec125ed9e30b7376226257b59f": {
+      "tex": "1.030640834100713",
+      "width": 174,
+      "height": 22,
+      "sha256": "2e828407ef0156d4e7c64265c2ac8555347a67c3dda20493528b36e3dc470845"
+    },
+    "6cc10b349fc5f287e1a38bfc7c04a5406229432c481636d2e45a9ae055a39ba7": {
+      "tex": "\\cot x=\\frac{\\cos x}{\\sin x}",
+      "width": 127,
+      "height": 45,
+      "sha256": "850c302b026e2c77d0ec890f5916743d654cdd7be917f96a3fa861afcae97b29"
+    },
+    "6cf2a537f4e5fb03e3c8167a38b0b0127f1891ed8f00cb00ae6ca5253454be3c": {
+      "tex": "2.29371248\\times10^{17}",
+      "width": 164,
+      "height": 27,
+      "sha256": "8b38b724c7eef11d7161108850bd29e8ca27b7831fb735e8c9160d0f3f11897a"
+    },
+    "6d0c56ce620946ed5ecf9556bfb582ad068ddb115bc08b2d33dd63a814d46132": {
+      "tex": "0.0003636947552",
+      "width": 154,
+      "height": 22,
+      "sha256": "59a1521e76cded11cf01460c360aa1397079f7939272fe8d47bdcc84078b3ab4"
+    },
+    "6d157c58bf6dc21c87fc55d2465de25dfe05a10a4409331ebd16e1e12efaea59": {
+      "tex": "c=299\\,792\\,458\\ \\mathrm{m\\,s^{-1}}",
+      "width": 195,
+      "height": 27,
+      "sha256": "db8d983c589ffbd701d3902747e7865f54f52cbda6eb6bc90535b93193850c7e"
+    },
+    "6d4cbe536b51a434e1ffffd37f68249ba94542f0f840410e7b5acbf0bdde1697": {
+      "tex": "13.60569253",
+      "width": 114,
+      "height": 22,
+      "sha256": "83b64dfe8fcc0afd3607fcdd681dc5dc8af1df946551e76431adce86ad9e6aca"
+    },
+    "6dd0afcac6d66595e6b4fedb92f71e89d5a0526b24225a2b3475680eda5609a1": {
+      "tex": "k",
+      "width": 12,
+      "height": 16,
+      "sha256": "dacefae9ce199624fa9ab8f93779b039f9c0bfe20bebee515ca6ca3bb5c7efdd",
+      "mode": "inline",
+      "depth": 59
+    },
+    "6e4584f3d90eb686ff21bb6a4d2c977251a90ace5c20ecaecbfb366e19fe2cd3": {
+      "tex": "\\Gamma(a)",
+      "width": 40,
+      "height": 21,
+      "sha256": "dd5fb29bae93b4e5fb0e08d74ac31e3a8628947c25763a8e812a612ddb6b3492",
+      "mode": "inline",
+      "depth": 275
+    },
+    "6ed6a3aff92637aea6b56b1a3b010726be68fc605817a0822b3e7d3724fe810c": {
+      "tex": "6.67384\\times10^{-11}",
+      "width": 145,
+      "height": 27,
+      "sha256": "f7d9da0a222235e1704f46ce9ea309c96216ef773fa45df68784a5cefa0d5c7c"
+    },
+    "6f2b1f503259cf7d759bf09adb0434dbc2c1b0a190e3f044fe1421faa91a09ec": {
+      "tex": "P(X=k)",
+      "width": 86,
+      "height": 21,
+      "sha256": "0350fb90a1cc1156091f3b232357449165e1f48e2bdc8442caf5d4d242ddde51",
+      "mode": "inline",
+      "depth": 275
+    },
+    "6fac3aadf4966cfbf9222091b92ba125b82cd7bf8e643d88a072c2f3457c11b3": {
+      "tex": "2.6220575542921196",
+      "width": 184,
+      "height": 22,
+      "sha256": "e4c58f4f146c0cc695e683f29d77d8d35a6bfda7e6d2f868cf1b74fe69e63ab3"
+    },
+    "6fffc9cb03cee68ecc52dedc8384d92bc6cd46626e4450620e9ef7207bf6f669": {
+      "tex": "n!!=n(n-2)(n-4)\\cdots",
+      "width": 213,
+      "height": 28,
+      "sha256": "203362de599b17931f1631a640b9ffa3be03e4c9ef41f433dcc2b633d2f9fa02"
+    },
+    "701e1a31257a91afe8c531e54bb7b6be4de9a9356d185978682de37dccf6a3bf": {
+      "tex": "2.9937170308",
+      "width": 124,
+      "height": 22,
+      "sha256": "c192bd9c41872d4b4efc96c8608537259224077478de1e9815a83f537310ecc8"
+    },
+    "702e73817c221d21ef0bdadaea1a04168e4a9e5904b648b78ddbcd36e70c0f2d": {
+      "tex": "-e",
+      "width": 26,
+      "height": 15,
+      "sha256": "952d15a91db63c906fb57b557ad99ee8878b913d0db08bbb8d9870feee8f3ccc",
+      "mode": "inline",
+      "depth": 125
+    },
+    "72097957c5c8b57a323ffd4de36b7dc3720e6a830ab80162b5a0c008b0fedcfe": {
+      "tex": "5.05078353\\times10^{-27}",
+      "width": 175,
+      "height": 27,
+      "sha256": "bba32c337e4e26fe7e88fd1fdf239b88ad766fa891fc3c7bdbe38d999e1abf29"
+    },
+    "72638e69d0e6bd28154fd7d7cc22103a53700320b115450b44208735deb08a16": {
+      "tex": "3.1524512605\\times10^{-8}",
+      "width": 188,
+      "height": 27,
+      "sha256": "c879ef0fde9dc705bfedbd8fbfd1c01f76f66f1839cfdb91bd2dab44a1c41518"
+    },
+    "727c6c605b0e92abef36d4dbfb2bba8a772c791f4bb23b942b5f844b9e75b3a6": {
+      "tex": "E_1",
+      "width": 25,
+      "height": 18,
+      "sha256": "cae8a1e200f11d2d637fae7d9d9d475db33ef3baa2c7cbf5e2882bf1a6d4d48a",
+      "mode": "inline",
+      "depth": 185
+    },
+    "72d4b667b7ef10e173d17a7c875688a1925564bc79c27f3fbed1bbb88bc34b10": {
+      "tex": "u^{\\prime\\prime}+\\left(1-\\frac{2\\eta}{\\rho}-\\frac{L(L+1)}{\\rho^2}\\right)u=0",
+      "width": 312,
+      "height": 57,
+      "sha256": "d04987b8747932c2f8ca9d171a1e95ed0866eb39c096798090501682b61a6889"
+    },
+    "72e1aafef9358af5efa9904b3c43bc438e9f2079f295e29c4d827377142f61cd": {
+      "tex": "1.2824271291006226",
+      "width": 184,
+      "height": 22,
+      "sha256": "93bfea7f8b8024e48c96f2a8bc16830832baec89f790dd96deefcc1a58aa9ff2"
+    },
+    "732707a851a8524aa0928dab2043c2bd37a34484abc63ef5524eabd914d7fd72": {
+      "tex": "\\tau\\sim\\operatorname{Gamma}(\\alpha,\\beta),\\quad\\mu\\mid\\tau\\sim\\mathcal{N}(m,(\\lambda\\tau)^{-1})",
+      "width": 377,
+      "height": 31,
+      "sha256": "116fc5aa218bfc35377662e30ccd08445a38f7ebb3e47d01dc104cfc7c425278"
+    },
+    "732df1f5ab26cab070c68691f8ecb8bc8b7d938a821c8109f9664ee7dc8b8942": {
+      "tex": "E_{\\mathrm{scale}}=k_{\\mathrm B}T",
+      "width": 117,
+      "height": 26,
+      "sha256": "aace8a3561b6949a5f49e35340b5505847c386a1a44568c091ab1fef93e94281"
+    },
+    "732feadad25ce42379750227a35e7e90004d99cf6f4aa499d51c8692013842c9": {
+      "tex": "\\exp(\\operatorname{Log}\\Gamma(z))=\\Gamma(z)",
+      "width": 192,
+      "height": 28,
+      "sha256": "d61f9e316e1d18289cc0380e0a1d290f59234a824a0a0cb79d04dcb1d07e31db"
+    },
+    "736fd8b1d51c40c8ca97a0dcfde5ecfec8b2d18d3f23aba91a6a711eb0049c57": {
+      "tex": "s",
+      "width": 11,
+      "height": 11,
+      "sha256": "0a4fcaeb4a087f4aea6ee87c9eb716315ac4cee3891054e34c9427d6e8376417",
+      "mode": "inline",
+      "depth": 60
+    },
+    "739cd9fb4152ae2918225c0dc619c39b3cc862785fab15c22f4a11744d2fcf38": {
+      "tex": "\\ln B(a,b)=\\ln\\Gamma(a)+\\ln\\Gamma(b)-\\ln\\Gamma(a+b)",
+      "width": 370,
+      "height": 28,
+      "sha256": "be58697cde48a6b401aec7ffbb246cd9d33b4e1b634e224d97a6d212c8aa2d60"
+    },
+    "73e8d8ea44b4dc5bfd56af19985994541e3e817815597797e825d431e1c07b91": {
+      "tex": "I=\\int_a^b f(x)\\,dx",
+      "width": 141,
+      "height": 58,
+      "sha256": "4f930b813d75dfc8d378e2001ace31c07a8987ba4114fd185818cd3852c0d805"
+    },
+    "7424d7167d0b16a1fd33b24d7cf09c6ab384a03d89fa3df374cf8ec3130f29d7": {
+      "tex": "f(x)=\\frac{x^{a-1}(1-x)^{b-1}}{B(a,b)},\\quad0<x<1",
+      "width": 322,
+      "height": 59,
+      "sha256": "8db00906b8f708c3d24489ef993df681fafb74b17ca68f6583d3a7ae5eefa113"
+    },
+    "7448dbb5fbb37fb8035a26ffd48c088b7397108751f28020a1810e8284c055f2": {
+      "tex": "f^{(n)}(x)=\\frac{d^n f}{dx^n}",
+      "width": 136,
+      "height": 50,
+      "sha256": "1027249b262fd5c01227b5d2c2f43f511c1db1134b42419e29856017026089c5"
+    },
+    "74a6ff3d2eb4da232a39ee91d7e6ad85010790a4c1135f6bffcc2418310b0be1": {
+      "tex": "y^{\\prime\\prime}(x)-x\\,y(x)=0",
+      "width": 171,
+      "height": 29,
+      "sha256": "555e835b8d723d850f4c00f0947f5ffe771cf741359a2a5abe1b9066b8fd4105"
+    },
+    "74ab86906e20d3e11da64d4783217180b704b509507ea5e79a6170b1c96a4827": {
+      "tex": "p",
+      "width": 12,
+      "height": 14,
+      "sha256": "29b59b79840706f79f3f6fa8f8ea91c836deacfb68ec45a6d1a96a0c4bcb532a",
+      "mode": "inline",
+      "depth": 226
+    },
+    "74bee172b7a8d86edddeacafea9b41abb601698a4f8e43c745985b5242bb72c7": {
+      "tex": "1.2408064788027995",
+      "width": 184,
+      "height": 22,
+      "sha256": "ba759cf2f1d4a356357f2eedb832fcb9715532432920cfa58ab98d0a70295463"
+    },
+    "74d9310f87e0bcfc42651d2fc6df8edc63eefacbd3fd74db2b78ac174a26b2e5": {
+      "tex": "751300660420000",
+      "width": 158,
+      "height": 22,
+      "sha256": "ffb5404d73bd957c111f9abbf206e7774ff3a6fb195623df5798989ea0ae2193"
+    },
+    "74fd33a8230cb06ed3bd6970cae97f5e55f98f920ee97fce6dc0a48987566c74": {
+      "tex": "\\operatorname{arcsec}x=\\arccos(1/x)",
+      "width": 203,
+      "height": 28,
+      "sha256": "e360d8859bfff012d5a8ce33acda16fdbaeef653ab843b316f5779418f8d7b34"
+    },
+    "7532dc11e4f5a72818c078dffee3a78a70f92dc171cfe20081b428ae5ea68e4b": {
+      "tex": "P_l^m(x)=(-1)^m(1-x^2)^{m/2}\\frac{d^mP_l(x)}{dx^m}",
+      "width": 325,
+      "height": 52,
+      "sha256": "73a1203e90581b26a1e397635f685cbaa28210646564d0f5d838fc8302c15b33"
+    },
+    "7557211da9a951deb0019faa711d0f3f25493fd6e752eba0860c54e7b24bd8a6": {
+      "tex": "H_n(x)=(-1)^n e^{x^2}\\frac{d^n}{dx^n}e^{-x^2}",
+      "width": 242,
+      "height": 50,
+      "sha256": "4f4792a7d09d837912a4873e51f6971042beec6982fb4f61476a57e6f7e4f86c"
+    },
+    "755a5f7134199b2fdbe404271ba937a437366e39d631110e95c836252bc78961": {
+      "tex": "A=QR,\\qquad Q^{\\mathsf H}Q=I",
+      "width": 210,
+      "height": 30,
+      "sha256": "8a6582e184fa382a3b4e629869d92613b21116e711df37214b34d618d4bcdef3"
+    },
+    "756895ab691e9de39310a207c3b5425567ddbd024a2e2bbc4de53bd18c6bc3fd": {
+      "tex": "n!=\\prod_{k=1}^n k,\\qquad 0!=1",
+      "width": 193,
+      "height": 64,
+      "sha256": "8bf199c6fbae9a0354899e6f729c7bf7345a1c5225f88cec52d3591b41311dc7"
+    },
+    "75bf5e5e5180614562e41cd0584c7347b9ef33babb06fb4590bc10d01c59d9de": {
+      "tex": "315775.04",
+      "width": 94,
+      "height": 22,
+      "sha256": "0aab63391b2a880ad1fec18fa4c86ee7d7782f49cd1842ee5c69734f982a9413"
+    },
+    "75df262a266cea322252b39337a8ea7f49404ad2822e49edbfdb878c5ab97f80": {
+      "tex": "0.8346268416740732",
+      "width": 184,
+      "height": 22,
+      "sha256": "91b59728015f0a15fa099880369a722bf8e3b58a5a79884ac958b608f3714c3e"
+    },
+    "765d282f3fd3a551bcd11d1c8e19e1a419907e3f19f0fda74310fe820deaac74": {
+      "tex": "\\Pr(X=k)=e^{-\\lambda}\\frac{\\lambda^k}{k!},\\quad k=0,1,\\ldots",
+      "width": 307,
+      "height": 53,
+      "sha256": "e528f6737f2cbfb48b73a493076e73af40763cf01266e9f770f3b32f365f64c1"
+    },
+    "7698998c0a3287894f77c14a0b032235334840a66892303a7d10150caf098304": {
+      "tex": "-175882008800",
+      "width": 144,
+      "height": 24,
+      "sha256": "e26a2b2e06b2980a4639ab2994a2db810ca4374fc2f138f4e2a2e4d4c6ebecd1"
+    },
+    "7705eb4d16f1ee82a69c8e58879fc8efa7b764e1614553358d6d5cd6bf047b31": {
+      "tex": "s=1",
+      "width": 48,
+      "height": 15,
+      "sha256": "d852f70b2cf64408433fa5c1b64459db993241bc73dcc8a362ae059e0076fcba",
+      "mode": "inline",
+      "depth": 48
+    },
+    "7752414fd25982dd650225dd817515fbc3ce3f0382633235325b6354d04a27a9": {
+      "tex": "2.4263102389\\times10^{-12}",
+      "width": 195,
+      "height": 27,
+      "sha256": "19a4d37f6fe0dbaf61eebf91b85c826afb2f7877a0dcee6723b9b9caaee1c465"
+    },
+    "77ce671e9993938964dcda3f9966078cb36dc8d8b10c824fedcb76123a90637f": {
+      "tex": "0.01438777",
+      "width": 104,
+      "height": 22,
+      "sha256": "704311ab4aad15e6fb20a49113f1da2fa470db5aecb74bbbfc10592b4b67f68b"
+    },
+    "781f9b9d3fe1b8ffa569fa41327482b7f33eb95097e3e8ff827722b493c4eb52": {
+      "tex": "1.451369234883381",
+      "width": 174,
+      "height": 22,
+      "sha256": "9c105828aef29b0c01ed67de51aba1d0386526d3bbe26c09f60f79f1abb45396"
+    },
+    "785bad67f8f03d40b8c40fb0f9817036536dd26587e3e9f71fae99038cfe249a": {
+      "tex": "483597900000000",
+      "width": 158,
+      "height": 22,
+      "sha256": "4728a81e81954a4d8e3338c14c98c2183f0e88d407f5093edead1c13411a919b"
+    },
+    "7933aba7e36e5993a169da4c7ee6928976a04ed647fa649a648de1707033fbe5": {
+      "tex": "-1.074617486\\times10^{-26}",
+      "width": 201,
+      "height": 28,
+      "sha256": "5bc0649ffe8e139f74f08b24d1e58efd5f01bfdd98dd2ba8c6c068768b0fa066"
+    },
+    "797ef090e61e6c4c34c7c16347f5411723a7e845ba8ad8925b18e7d2dc0f3eee": {
+      "tex": "h",
+      "width": 13,
+      "height": 16,
+      "sha256": "617901590cd56774b858373f31403eae1d7ac6c89c13eb8f9ea9cecd677b635a",
+      "mode": "inline",
+      "depth": 59
+    },
+    "7986d8970059e318b417b63ea82e0b1eaf849c704dd85666fb0cae693d806100": {
+      "tex": "B(a,b)=\\int_0^1 t^{a-1}(1-t)^{b-1}\\,dt=\\frac{\\Gamma(a)\\Gamma(b)}{\\Gamma(a+b)}",
+      "width": 377,
+      "height": 59,
+      "sha256": "7cc9a4483a3fed9345e66d946923a88b86f314666cb557d1ccb2ae3d6ea312db"
+    },
+    "79c513c7e2f3e8994652e94e1cad9d3a4b128d715497cb2b9c421c8ce4438bb9": {
+      "tex": "6.673848\\times10^{-11}",
+      "width": 155,
+      "height": 27,
+      "sha256": "61c7de3dbb6578b90ebf50264dc6c59ec50387247879ec77c9d1a4c11595d18d"
+    },
+    "7af6e040bd510a80fa0c9fe01564f7444417222bb63c22269d993d19670c2ff5": {
+      "tex": "0.2801694990238691",
+      "width": 184,
+      "height": 22,
+      "sha256": "aaeb42e89f60287d718d530477052184ff799b14adf297a4b61feafd429f9c56"
+    },
+    "7b4412046dd7e973d37e2d96c9f340c5caccf78121c1a1465e7ac7a40441c6e8": {
+      "tex": "-0.7617861313",
+      "width": 140,
+      "height": 24,
+      "sha256": "6b650bcff0d71cd242800b71fc4517d0bfafa98632ecc858055623c6291efbf0"
+    },
+    "7c92b1c239325cd680b5d3e5e5e3ab4674794f361710c5d55b427441ff5cf00d": {
+      "tex": "0.73733830336929",
+      "width": 164,
+      "height": 22,
+      "sha256": "ee008c30b24aa83822167ee3268eb8b8fedbbd2e8c91723f94ae59a96bac77f5"
+    },
+    "7cfe9658ad6bf152b16b9afc655ae9ee1dd9525905c0b69482fad4f3a8402635": {
+      "tex": "1.1319882487943",
+      "width": 154,
+      "height": 22,
+      "sha256": "e3a4d49726f4aaa6b256c64edc09844c490e37ab0e00f3d1ad314d4453da0759"
+    },
+    "7dbb8b0f7e615b602b83152c164d945146740fda79adee805d0137abfb101c93": {
+      "tex": "(a)_x=\\frac{\\Gamma(a+x)}{\\Gamma(a)}",
+      "width": 154,
+      "height": 57,
+      "sha256": "75ec4640ab8bfd3ee4ded2e77dbc66bb154e7dbf9ed172deb368c2a6508fddf5"
+    },
+    "7e14c8370d0efaa90dc0369ee3bab6630505a5a9b2fdbad857fed3ef541b856d": {
+      "tex": "\\operatorname{csch}x=\\frac{1}{\\sinh x}",
+      "width": 146,
+      "height": 49,
+      "sha256": "547d9167b193a9e3822ca111d6cb4716af51d1ce4056367991b2ea94f0a8134d"
+    },
+    "7ea478771f14fa8a1b9cb5ad9d7bad2641ff5e4b03fcf409343bbb85ea92e9ce": {
+      "tex": "-20e^{-0.2\\sqrt{\\frac1d\\sum_j x_j^2}}-e^{\\frac1d\\sum_j\\cos(2\\pi x_j)}+20+e",
+      "width": 358,
+      "height": 39,
+      "sha256": "360eca5fa3811f0661c37cfe1b4c4695a2f1596a9099e80523c9540922e3e99f"
+    },
+    "7efc2255970e98a6d0defc90cfdc025ea1fa9f7726faeda31d403ecbfcf3b4e5": {
+      "tex": "\\int_0^{\\phi}\\sqrt{1-k^2\\sin^2t}\\,dt",
+      "width": 185,
+      "height": 58,
+      "sha256": "07c912c80178ea760e36078b48cfc6237c4bef7d7d76a4728149a78c30501007"
+    },
+    "7f18094bcf45bb711d60267334eb29d44b0f5abb51db4b162869c59f5ef81025": {
+      "tex": "0.23223921",
+      "width": 104,
+      "height": 22,
+      "sha256": "e33bfa17ea23813904a2796786c8b3fabcc4164f4767abec8be662860038e478"
+    },
+    "7fcd315dd07f019c8b84d8b9b6ca7ef9c73ae818a8aaa4a6f195b647d370c435": {
+      "tex": "1.32140985623\\times10^{-15}",
+      "width": 205,
+      "height": 27,
+      "sha256": "46ec434bed86d044748336274a63777e5ab3aa4835d1751cdde2b5c088d0f621"
+    },
+    "806cdd327352a9a41a8f452d5447bf3468d7d66deaf32c3c0fc4837407afa337": {
+      "tex": "f(x)=r e^{-rx},\\quad F(x)=1-e^{-rx}\\quad(x\\ge0)",
+      "width": 371,
+      "height": 30,
+      "sha256": "be5ebca4a68059479379ab8430e4e9b00cdd768356a38132f2678b5f8201df6a"
+    },
+    "8081e6c83887fa111c96db4d7727700c5ce0136365b3ed6b691278708f618cd9": {
+      "tex": "1.1970449",
+      "width": 94,
+      "height": 22,
+      "sha256": "76e27f45bd1d1b8f855fb976f529347bf9c44f6795b772fe58f8bb1638ee7e55"
+    },
+    "814cbeafe5cc05c3af612eba59af2ecf640ced4d91e7188044dd9ffe2e23f2f6": {
+      "tex": "2.718281828459045",
+      "width": 174,
+      "height": 22,
+      "sha256": "d2d2bf1fd20a0dd04106f96e8de54cceaf696a4bde2391d12c7a7a99900b8801"
+    },
+    "81548750b4e04250bf6299e83c6623e9867b809ac66ff094c09c1f681db4ff23": {
+      "tex": "-0.00484197044",
+      "width": 150,
+      "height": 24,
+      "sha256": "42c21738f3f769120c192f8068ef43ac1d140177045134b97abdf9a01dd8793b"
+    },
+    "8184ead38904e336333642d84e160b82d4c8c4a289ed954d4ba689a8e49152a7": {
+      "tex": "0.5349496061",
+      "width": 124,
+      "height": 22,
+      "sha256": "377ef19866177e9bc693f9d08d1766fe6502bb75d8ec4aaed518ba8906cb1b8a"
+    },
+    "81fe3fab9be5396b51b5aab7b351fc55bdf632d9e773aa3c8ec0ffbae23deb5b": {
+      "tex": "\\psi^{(n)}",
+      "width": 36,
+      "height": 23,
+      "sha256": "062c26928067750c404f609015e540154502d046d0461eb3df2cfb9d3f9bd741",
+      "mode": "inline",
+      "depth": 232
+    },
+    "820280dd8e54f34102cb7a906e9f48d21a4446b778703dc9eb8abf8503d94f5c": {
+      "tex": "R_n^m(\\rho)=\\sum_{s=0}^{(n-m)/2}\\frac{(-1)^s(n-s)!\\rho^{n-2s}}{s!((n+m)/2-s)!((n-m)/2-s)!}",
+      "width": 463,
+      "height": 70,
+      "sha256": "b5c5c85ebb1c94dd63c67a357ca7f87ad73e9b66fe2562d65d92a519cedc217d"
+    },
+    "823629a8384c15357a9c7f8c6c00599cba5dfc6a17edb3482e21aa6fe112d6b6": {
+      "tex": "X=\\sum_{i=1}^{\\nu}z_i z_i^\\mathsf{T},\\quad z_i\\sim\\mathcal N(0,V)",
+      "width": 263,
+      "height": 64,
+      "sha256": "456d51f51b932ff32c974552e45993ceaeb70083cb1772c95bd869e3228e93d4"
+    },
+    "8282859e007a9dbd4f4ffe9b0885e745e89ae83ad96f94448a66da103ffc11a5": {
+      "tex": "5496.9215267",
+      "width": 124,
+      "height": 22,
+      "sha256": "ab6ebf9b92d9af81292f020a90aedbeb5512cca05d93773fd409b2b1c0784ef2"
+    },
+    "828e4cf818733706ddb4f937d27abcdc979e7dc185fd2fe757cec4ddca56b246": {
+      "tex": "2.210218902\\times10^{-42}",
+      "width": 185,
+      "height": 27,
+      "sha256": "224e1e078a05de2d446b6027918179f24b2f786f8e047830d8edab530d73d183"
+    },
+    "829261829cb4e6ca455ae4dfa98c14108650b284f4dd33102fdf9852496ad4bc": {
+      "tex": "|z|=\\sqrt{(\\operatorname{Re}z)^2+(\\operatorname{Im}z)^2}",
+      "width": 222,
+      "height": 46,
+      "sha256": "63523913361ef7b36f0a4f8ed75162b0f7d330d7dd2f8142518245fc8da06f68"
+    },
+    "82ee4c49384d3d32171dbef2363b1905799866730fc6f879df886c911c660289": {
+      "tex": "206.7669896",
+      "width": 114,
+      "height": 22,
+      "sha256": "622e70495e38b0862650a20be746dcc402902a2314a576c54d7302a9b11db6f0"
+    },
+    "835f86be679866017bfcea7f69884c7c65aced008a74287e1f5e84e370a64f67": {
+      "tex": "2.84678\\times10^{-10}",
+      "width": 145,
+      "height": 27,
+      "sha256": "513b14ee0f5cbc853eb77862a67a9bcdec98246904e6edf956576618d7d3477a"
+    },
+    "84e3fbb0382ee80ba6f39330a2967ca2d83b6d350eb23ab7300cf7862727f6fe": {
+      "tex": "K_{\\alpha_1}",
+      "width": 35,
+      "height": 20,
+      "sha256": "3d70344122518db4cc1e302ca82bd087131c40d5e5e512ba2c29e971fc612325",
+      "mode": "inline",
+      "depth": 286
+    },
+    "85452f2b77450f94a29d2e56529e7c78b8a115acc2469ffadd7f2ea6371e660c": {
+      "tex": "0.0030155007134",
+      "width": 154,
+      "height": 22,
+      "sha256": "166d9e5098c7e4564b9b6126e693e74b718df1a41513ffa6251440582b028be9"
+    },
+    "85cf6d44af86e9b7cb90bcd9ab04d2e0196c7b8bbda1f4bfdb8b3dcf76adee83": {
+      "tex": "1.1762808182599176",
+      "width": 184,
+      "height": 22,
+      "sha256": "595993d17296e37206f54f64dc73261ebf0796840c44ec25398ed0f0517563bb"
+    },
+    "8602334610d586f8befb1d6379f8d7879cfb60fd2e250d36accece02380db8fb": {
+      "tex": "2.418884326502\\times10^{-17}",
+      "width": 215,
+      "height": 27,
+      "sha256": "14db8566ba56ef1d8e9401c15c958842cb3233ab69fbb266b819ccd9a0a37cf7"
+    },
+    "860c839179962e51c99af21d25a3cecdc40fffc930a95c203630ce8aa7299d81": {
+      "tex": "8.892484",
+      "width": 84,
+      "height": 22,
+      "sha256": "e2b98088d2bf92cbac4b281682a023b455790bea9972e140d93273ae302c34f9"
+    },
+    "8678dabb11956a2e33f87f7dcc6a90125dcfea5ce9470a30471c7707357d711c": {
+      "tex": "\\Pr(X=k)=\\frac{\\binom Kk\\binom{N-K}{n-k}}{\\binom Nn}",
+      "width": 226,
+      "height": 75,
+      "sha256": "ae519d79da24418f87ba366222071dc883d3b522e9e797112598edd2c8793cb8"
+    },
+    "86e0759afbaa48112b98ab7aa6e96e97bb0e6d216c5ba4c86fd301143e641070": {
+      "tex": "\\Pr(X=k)=\\frac{w_k}{\\sum_j w_j}",
+      "width": 189,
+      "height": 54,
+      "sha256": "84bb85021ace79663cb78bcf1255ed521e7592a47bb6dcc0ed4d1ce2bee6ec87"
+    },
+    "87abb8a6555569f60a3ec279976d570a4048749cb369f24d9143ad8a58618b21": {
+      "tex": "x^y=e^{y\\ln x}\\quad(x>0)",
+      "width": 181,
+      "height": 32,
+      "sha256": "a56af8ac1f3dc61dbe9da3062ea6a703bd6ba09b22b79718f5149a2c97e9bb77"
+    },
+    "8830f6ee8b24715dc13958c23461f2aec1374c0a1f2fa93c23177cd4c0b02fc7": {
+      "tex": "\\coth x=\\frac{\\cosh x}{\\sinh x}",
+      "width": 149,
+      "height": 50,
+      "sha256": "2e58b08c9dd3aac65b332052523cde0b09f7cd5f5b36b6bd395b6826d666c620"
+    },
+    "8877352e08cfa98c64a40948248535a5a42c8b8d689fe6501b63b2609d46849e": {
+      "tex": "\\log\\Gamma",
+      "width": 43,
+      "height": 19,
+      "sha256": "329b5c721df096ea9219766b62cbf98ae1b0d49cbf57d015dfd8c0fdcaf88738",
+      "mode": "inline",
+      "depth": 231
+    },
+    "894a21331505e9e6c60032738104d29cf3170bdf91881aa4c48e1570b8b2f3b8": {
+      "tex": "z\\mapsto i^z",
+      "width": 57,
+      "height": 15,
+      "sha256": "ac2179f289e22ba613bed94e9e3a9393e1ae18990e9705f2d5aa105a9b56fc26",
+      "mode": "inline",
+      "depth": 43
+    },
+    "89535ef774e60100790d892f765b3b198816231da63cc648252b49587f2e5c08": {
+      "tex": "0.12345678910111213",
+      "width": 194,
+      "height": 22,
+      "sha256": "491e09c1fa3de3ec0d1d40c313479929139c46c6eb9ed06e32e7d4fcb278f008"
+    },
+    "8983db0fd5453891fd38d8129cfc38c1ae5281bdb2a1ac108f71b3ddfc7161d2": {
+      "tex": "6.64465675\\times10^{-27}",
+      "width": 175,
+      "height": 27,
+      "sha256": "e78434ff116f5f4baa635499d235f468d65c3a107507466e09008019de669d52"
+    },
+    "8994058b394e1c091e2f5ecdacfa62d11469915c32570797fdf05ba0231fad32": {
+      "tex": "\\int_0^{2\\pi}\\int_0^\\pi|Y_l^m(\\theta,\\phi)|^2\\sin\\theta\\,d\\theta\\,d\\phi=1",
+      "width": 306,
+      "height": 58,
+      "sha256": "b5abe038ef7c6302d8432c4d3e194daa5b83e6e67ea6da3395c45fa7e30a575d"
+    },
+    "89b10509fb4f1373577473d25b75297b0640863c12cf1a535b5c62d8e9f4069f": {
+      "tex": "0.26149721284764277",
+      "width": 194,
+      "height": 22,
+      "sha256": "e1169166469b6e50e110b5eec0529d4f1f3c50b62639fc02505e4e73f118feac"
+    },
+    "8a01e740c9ef40597f968b8653ae55e9b18d420bcb00e512d0f1dc583a2f842c": {
+      "tex": "\\alpha=1/2",
+      "width": 71,
+      "height": 21,
+      "sha256": "ebdda0676f9e63aeb7760b3e3b07fdcb4d8a1d62a67b2baf9956cc7a7f8bdec5",
+      "mode": "inline",
+      "depth": 275
+    },
+    "8a131b7c7b9b3e03755993dd4ab8bfcdb4fa115c13e5051f2f5fa21f8b78b62f": {
+      "tex": "\\mathrm{u}",
+      "width": 13,
+      "height": 11,
+      "sha256": "338686a5ffea463397ab24b479332429b3a85efb73c640544ccf3e435f8b94c3",
+      "mode": "inline",
+      "depth": 60
+    },
+    "8a141d4fb126f41f77ee167ca4e105b37d9ba85e1c6e83d33768155fb3daeed0": {
+      "tex": "F_1=F_2=1",
+      "width": 108,
+      "height": 18,
+      "sha256": "7720247d0b694fcd5d621041c04d9a985b05e7669576415d49d4b05af0133b5f",
+      "mode": "inline",
+      "depth": 185
+    },
+    "8af6f8203df6921642a1dc0fd8a31c78d86b406be8ba2d4a2e133eaed292c850": {
+      "tex": "{}_2F_0(a,b;;x)\\sim\\sum_{k=0}^{\\infty}\\frac{(a)_k(b)_k x^k}{k!}",
+      "width": 268,
+      "height": 64,
+      "sha256": "c8128e0313933f3897d3b8cf58ab60341aff2ed561717071e373aa13ecc9295b"
+    },
+    "8b10086ee76d19f0fe4fd0944d776cf09f6f47868c61047e29a828f6eb9335fc": {
+      "tex": "-0.761766558",
+      "width": 130,
+      "height": 24,
+      "sha256": "543e2e1c5d835d0d639e4ee0f71bdecc7d7cf1732f9cb636b9a9f9a33cf19e80"
+    },
+    "8baf4e365d03713e43278d8f452f14872f2a206e2263a1356d8e50458fcff975": {
+      "tex": "\\operatorname{Cl}_2(x)=\\sum_{n=1}^{\\infty}\\frac{\\sin(nx)}{n^2}",
+      "width": 195,
+      "height": 64,
+      "sha256": "0c3d825b35220f38bda944a28fd4084acd16531a21587790b6a03522f3191243"
+    },
+    "8c270609acbabc1a64441208615e4cee666d70694ad18d85d40feaad3a049ef8": {
+      "tex": "1081202338000",
+      "width": 138,
+      "height": 22,
+      "sha256": "ceb70db81ee8122747840d84ba8c3d131761eee94cdf41830a3155d11a6ab6c3"
+    },
+    "8c52b1bf578d7a3f669ea0fa41c0a7071ebbb7fa040cf8271b2d66b21065c4ac": {
+      "tex": "E_n(x)=\\int_1^\\infty\\frac{e^{-xt}}{t^n}\\,dt",
+      "width": 192,
+      "height": 56,
+      "sha256": "3d1ac85db5fe72998444ed0b4b8642bb4431ef470b9c83a6fc5b3ca4d3af39db"
+    },
+    "8c639947f9f0626358b01c4dd495fbe65b07590ac42b2125372db8d356bdd6ba": {
+      "tex": "0.5671432904097838",
+      "width": 184,
+      "height": 22,
+      "sha256": "111ed5b5d87f7814765014670e9bdc14d6f722baba43edafb8479d486d5a9160"
+    },
+    "8d39301a0a030c7ac0994dc0e182b0e82c153b0110001a31dc78d8dfd2258cd1": {
+      "tex": "5.03411701\\times10^{24}",
+      "width": 164,
+      "height": 27,
+      "sha256": "588f4aec9bd5c36b13ae1cbf6844e4304788468f6d41a8074b8a843c841fa67d"
+    },
+    "8d8fce6d1ca8158c68c62f89df0924e191ba0b01b4ff4e66e2919b061f061387": {
+      "tex": "xy^{\\prime\\prime}+(b-x)y^{\\prime}-ay=0,\\quad U(a,b,x)\\sim x^{-a}",
+      "width": 392,
+      "height": 30,
+      "sha256": "5adc46d8d410eba4b1ee4a5e012c56d5b70738422b3f80a1742396b05fbf1568"
+    },
+    "8e62faf24529b2d5035ef00716a99b7177b456e3b40bf36c0bbfd37e8cf259f1": {
+      "tex": "6.97787\\times10^{-16}",
+      "width": 145,
+      "height": 27,
+      "sha256": "a9eb9f9cdeb6f31d429c3ea7944872dd20b897e35d8c63bd1d29c7c85b48c8bd"
+    },
+    "8e75783374b608ece82deb4f9c166aa5d2430fd7470a9ec49734670168875080": {
+      "tex": "-0.68497934",
+      "width": 120,
+      "height": 24,
+      "sha256": "3b9f515ac2d67334cf8f6646f313ad73123789d11b7193ce40b3bef482db96d2"
+    },
+    "8ef402359eb47665077c3ed8a5b5eed70238948ca12a0b3d31f820fd7430561e": {
+      "tex": "1-t^4",
+      "width": 52,
+      "height": 20,
+      "sha256": "f6e9bba453dd3383d2077873b8fc4d3bdf49e3fbbd471e4d5f34045713fc99cb",
+      "mode": "inline",
+      "depth": 121
+    },
+    "8f9befaf9314dc2a9a92373e91aed70fba522351249ca063566e0875165df6c1": {
+      "tex": "1.29333217",
+      "width": 104,
+      "height": 22,
+      "sha256": "6c6f911441b650073ec8a866cd79fb91c82a8597044130366d58c97d23988bf8"
+    },
+    "8fff1aaf4e41ad56a83d2687bf54e478d080d87541b22032fb67abf1aec7625f": {
+      "tex": "2.8077702420285195",
+      "width": 184,
+      "height": 22,
+      "sha256": "fcbf2685e3e8afea2c8c34a066e1f93f5e330b1724c826d70610e06d406bf150"
+    },
+    "915c2d4e418a44af3f8ff3ace99a8980ddba7e2fc855f356006634a95c3a2b9e": {
+      "tex": "0.022413968",
+      "width": 114,
+      "height": 22,
+      "sha256": "1ec5a4322e15b4341e5f031e7d52a0759fddf0ffc9fea847083c494efbedfa17"
+    },
+    "91ba9a885835247aaedca1a9687d6d94834817c8bd230d1e04c1fdaf206eef10": {
+      "tex": "\\left(4-2.1x^2+\\frac{x^4}{3}\\right)x^2+xy+(-4+4y^2)y^2",
+      "width": 378,
+      "height": 58,
+      "sha256": "1cfe2a27fe2cb05885ae2055823fa74b07412cfd5a6c268dadcbd5544abee9c9"
+    },
+    "91d14d278b609b0fa0fa1d2cef24f565f3d8cde911406fe68a72a3efb3a073f8": {
+      "tex": "8.6173324\\times10^{-5}",
+      "width": 158,
+      "height": 27,
+      "sha256": "5933b35681faab6125b9d8516c8dfb350bcfbcad7aaba305717227808744aab1"
+    },
+    "91df25bebfb1df726d9c6e9458213eba7b32f1fed2a908210a385d02cd49902a": {
+      "tex": "L_n^{(\\alpha)}(x)=\\sum_{k=0}^{n}(-1)^k\\binom{n+\\alpha}{n-k}\\frac{x^k}{k!}",
+      "width": 282,
+      "height": 64,
+      "sha256": "e38d4e7463fee653a1a92449b9879046432b1aed0b6b4689b1b22abe02748d3c"
+    },
+    "9300d4477aafeeb9038fcbd7e5a8c9fb10af56e2d6788878fb51ac9effbc80e2": {
+      "tex": "3.1668114\\times10^{-6}",
+      "width": 158,
+      "height": 27,
+      "sha256": "5ee49a03ad5c837300503ffaf63c81ee9b7f6170f380d802f17c393514e5425d"
+    },
+    "931ad0016dd1729ee282315a14e623b79706bbc3550e08c334500279fd1c099d": {
+      "tex": "f(x)=\\frac{x^{\\nu/2-1}e^{-x/2}}{2^{\\nu/2}\\Gamma(\\nu/2)}",
+      "width": 179,
+      "height": 60,
+      "sha256": "8c8d385727504a66d6ae7817e646d8acf29b97b4b2d67cc48058060bb3faf5aa"
+    },
+    "9339726fc6bd3c5b7282700489f0711571e8eb5ed2f349205ea7bffa9611db59": {
+      "tex": "0.00115965218076",
+      "width": 164,
+      "height": 22,
+      "sha256": "339360c81b0dc3ba675635faec5be870efb7e4c667390cff9db65d6af0d7a985"
+    },
+    "93a461537b506c6037f45549e38e3b93a9816b002998a3a46e506c0fa7033081": {
+      "tex": "(A\\oslash B)_{ij}=A_{ij}/B_{ij}",
+      "width": 183,
+      "height": 29,
+      "sha256": "068ac5e273c49aabbe703ea80cdf34c6bb2d07999a76b06340d738d2c327de5b"
+    },
+    "93ebb776dd8f07c4b9a6c21243eaa08a0eee00cbc1ca87682e769afe070c335a": {
+      "tex": "1.2566370614359173\\times10^{-6}",
+      "width": 248,
+      "height": 27,
+      "sha256": "11b5c72dbf4c1b59ede6f51fbde2e03fa9a59c4338440929f3e535ffaef46433"
+    },
+    "945d5b155dcece045dae6fb0e832aeb2f6f669a5aea17090e7a78823fe5be03b": {
+      "tex": "a_n(q)",
+      "width": 47,
+      "height": 21,
+      "sha256": "35258ef718f7bc53b3aa8115edf554b7f0154ff26412fa0572860ad2b9449538",
+      "mode": "inline",
+      "depth": 275
+    },
+    "947cf1def85f30a5ad07a55008436afdfab59b95cf9f7bd53a80f88029a4f1a3": {
+      "tex": "x_{n+2}=x_n/(1+x_{n+1})",
+      "width": 189,
+      "height": 21,
+      "sha256": "759a405e97d1beabd7a2f01cf79a58b40965124f41f781760ca860dd75bbfb62",
+      "mode": "inline",
+      "depth": 275
+    },
+    "94a4133a4a6453acbd040549a77b1c4419511d383bdad5710a3b7cec47a43940": {
+      "tex": "1.99285174\\times10^{-24}",
+      "width": 175,
+      "height": 27,
+      "sha256": "5233903c0421f992b8d3eff12d6ca01ed25486779673b1c33a2ced9b993d5570"
+    },
+    "9621d2b7018174ce2ed531cf4778ac6b1e4ac1e0360667344bc600d22b55ff59": {
+      "tex": "235051.7464",
+      "width": 114,
+      "height": 22,
+      "sha256": "c9a53513dffa4cfc3429d0e2d94962cc2137bd81ad5847b29ed014d3c5f875db"
+    },
+    "963ec13541578d185ff250ab383993a08a67d9db106c1122a1611ef3a2c58d2f": {
+      "tex": "\\cosh x=(e^x+e^{-x})/2",
+      "width": 197,
+      "height": 30,
+      "sha256": "675bb1165c217daba8d7b35d45e1d20c12ac24fb560fb9314349c16d7b841249"
+    },
+    "96a65fbf14058799893ba0d9790305f95bd2887fb3a59fa18d9e1b5673881911": {
+      "tex": "(x^2+y-11)^2+(x+y^2-7)^2",
+      "width": 269,
+      "height": 31,
+      "sha256": "a543bc2d76b339cf923484775346ab5b92446402f91e29be4f5059f9675ca530"
+    },
+    "96a831ff2355646b1aa0edec909408047a93f5dc2e387aeab4aecea46e644bb4": {
+      "tex": "\\sin x=\\frac{e^{ix}-e^{-ix}}{2i}",
+      "width": 167,
+      "height": 53,
+      "sha256": "4e4ff5e6c4027e0461b1ca714f854e04423c1d5380df0421b2a64c0df0d93078"
+    },
+    "96d30d519b32d4351184bb5542cc012de0cbd8a0476877b1990e14b15d0954d2": {
+      "tex": "0.18785964246206713",
+      "width": 194,
+      "height": 22,
+      "sha256": "a591f50f22c09ead3d5418975aa23d3d1624c09ff0dbd262405a772b2e7cdd16"
+    },
+    "97680d053ed807441c8694c89893059031f9e0d228a758c4377971f7f8e89cf8": {
+      "tex": "1.902160583104",
+      "width": 144,
+      "height": 22,
+      "sha256": "3503eddaf7bc03ae2fc34f595be6c7e7fb728888dbec6daf4059644c5c47a18f"
+    },
+    "97c069360e48f7024e8182d673adbd1766fbdcf42e5b073182620343d6ead10f": {
+      "tex": "X=0",
+      "width": 55,
+      "height": 16,
+      "sha256": "f2548873bc027aa60a4963ffaa671f7759fb44f88b9f3ae147c888eb7676fc42",
+      "mode": "inline",
+      "depth": 70
+    },
+    "97f5a9766e4cf54c21f5753acf9eb85b40a3af05e9767fa4af9a2b8cf0f68317": {
+      "tex": "\\delta_{ij}=\\begin{cases}1,&i=j,\\\\0,&i\\ne j,\\end{cases}",
+      "width": 156,
+      "height": 52,
+      "sha256": "21e05c43957b7058df73f2d5eabe878f72208186c33dd3394db1b16b5fa6c139"
+    },
+    "980bd9c4c3dcb6fa85774f45df2d638834c707d17789ca0b26c5b87967d9b220": {
+      "tex": "938.272046",
+      "width": 104,
+      "height": 22,
+      "sha256": "c357dd2474527549b3f79e333b8b3588541bec0b88a4e6d42b573819cd2a76d2"
+    },
+    "9889ef0271b2227ef5d5a8f345df1a1707f03e87eb1035517a7f1070db192476": {
+      "tex": "0.0072973525698",
+      "width": 154,
+      "height": 22,
+      "sha256": "822d06300fb2dfd40b21fabd8ac33e176a0e8abdccbf95e55a23b68a4db2f0b9"
+    },
+    "98d903f6f08443d43fd3c610b34927d8ccf1f3bc3044955001519d30872cc51b": {
+      "tex": "\\operatorname{vec}(X)\\sim\\mathcal{N}\\!\\left(\\operatorname{vec}(M),K\\otimes V\\right)",
+      "width": 263,
+      "height": 28,
+      "sha256": "d67fd1633fc0623e45441f394b814f304563de49afcc4dcef0971c8a5b26e396"
+    },
+    "98dca233825a0e742ff90e91c5b439b6bc01d293dbfab5c515dea54c65067c6e": {
+      "tex": "A=U\\Sigma V^{\\mathsf H}",
+      "width": 108,
+      "height": 27,
+      "sha256": "0496f5570749377bfd8d17f2bcb67a098054bb564d9b4f0eb3f8629b6b348ffd"
+    },
+    "990d3f1b1575b1250addfb9184468321490564481e1a87acb19bcddbf3842bd9": {
+      "tex": "\\operatorname{Im}(a+ib)=b",
+      "width": 134,
+      "height": 28,
+      "sha256": "0ee22e054547b84f69de1d68ac5c2d57b3e1b8a39034583d5f82f8dc6cca3f99"
+    },
+    "99ca4237a5f5cbd35f0c237a19ea7c8e97effe525dcde11c0dbd16dfeb71ebc0": {
+      "tex": "-2.127625306",
+      "width": 130,
+      "height": 24,
+      "sha256": "d042da08f88ef5939c0eea90b4b6b0e5ae1eb55483018932d17259878ee916fa"
+    },
+    "9b02f4ec62c41ae8ba4ac32f953a3d8de37d35dfa9259d6d52029d68fb864546": {
+      "tex": "8.88024331",
+      "width": 104,
+      "height": 22,
+      "sha256": "acbbd5a42545d23474e018d62dc87b0506656991228e4656bdd903897e80759b"
+    },
+    "9b091f6fd120d40363ca626ee066a6b814fc531009c9fad3304bc492d2844b20": {
+      "tex": "0.52879",
+      "width": 74,
+      "height": 22,
+      "sha256": "b80acc289f873c4645329020955ada7d15f21f8ff52b292b5ebdfc17ae467288"
+    },
+    "9b0ee8b6f71c3599d8ddf20fd2e0c97a02a62b1701bfed58eae6a0a4a3f1aace": {
+      "tex": "E=k_{\\mathrm{B}}T",
+      "width": 80,
+      "height": 18,
+      "sha256": "2977c2c3cd8e9d0e8f1ae504c7f8218358265caac803957e8a9468b293d3cfcd",
+      "mode": "inline",
+      "depth": 178
+    },
+    "9b5cb035a7ee41b6754d99a16fcaadb855dfde2dbb6b67305673532b7c27e3ca": {
+      "tex": "\\operatorname{sech}x=\\frac{1}{\\cosh x}",
+      "width": 148,
+      "height": 49,
+      "sha256": "50986480441d27d58c9e4b197ae770d1462fbfeb30c96f3154506463f830301c"
+    },
+    "9b6c9dcc4cd33b99952abdb43a10628e3182ef9d107d5014b31c448780ddd1f0": {
+      "tex": "2.6854520010653062",
+      "width": 184,
+      "height": 22,
+      "sha256": "f0f48e16dcd63500d5ef90d233242edb4bc2b3805fbaaa4ea0267225f4232d95"
+    },
+    "9b7ef10344e1980de77656403897ab59b59204112cf2f4225904d179b0f1e398": {
+      "tex": "{}_2F_1(a,b;c;x)=\\sum_{k=0}^{\\infty}\\frac{(a)_k(b)_k x^k}{(c)_k k!}",
+      "width": 277,
+      "height": 64,
+      "sha256": "a99f428938338a4f8fb41e5d00d85dec7d45231dce7dedfa6222710ebcd6ab39"
+    },
+    "9bf529a5861a1532daaaaeef98a23b37a050eaa2a3e3922182f3707e47ebbd6b": {
+      "tex": "4.33073489\\times10^{-27}",
+      "width": 175,
+      "height": 27,
+      "sha256": "4bbe5b837f1ade0592ff8a3939bd5ca5c0ba9fa6d0a9944f0fa42477f88abbd0"
+    },
+    "9c0a4f9ddf8c698eb077c8b6c0dc4933ac9475e880ddde5f8b263728b51e21e4": {
+      "tex": "P_{-1/2+i\\lambda}^{-l-1/2}(x)",
+      "width": 106,
+      "height": 40,
+      "sha256": "05e34c4fc46acbbe1eee7e235da73a1cba4c883c0688c4af6b91695de2febd3c"
+    },
+    "9c6d685b7c78f7acb956d6207218073f9b18290dc34fdfef73c35baec87de662": {
+      "tex": "p>1,\\quad d\\mid p\\Longrightarrow d\\in\\{1,p\\}\\quad(d>0)",
+      "width": 328,
+      "height": 28,
+      "sha256": "6201b46331764216610aabdee06d9f93b28805a287f09c81446a9d5115e2b493"
+    },
+    "9c9cb4cd098a40ca9c73c32ff6347c1ffd28a320e51a41e6a265807bf1adfdc6": {
+      "tex": "\\mathrm{Hz}",
+      "width": 25,
+      "height": 15,
+      "sha256": "f229040a915d816fc8879e4305258078185e860f006f82877126351271c972f8",
+      "mode": "inline",
+      "depth": 34
+    },
+    "9cab066f7dde5c1d2c6c7baf268529c980c78c0d43a22330d495c66eeaf240a6": {
+      "tex": "f(X)\\propto|X|^{-(\\nu+d+1)/2}e^{-\\operatorname{tr}(\\Psi X^{-1})/2}",
+      "width": 287,
+      "height": 34,
+      "sha256": "5cd63626b5559d5dfc42ee00de103837682634cda74ff9c95876d67dbb2df6bc"
+    },
+    "9cdc79600da5f397a15cbf970c50e89467508969545d6ccbbc51fd71af49bdef": {
+      "tex": "\\alpha",
+      "width": 14,
+      "height": 11,
+      "sha256": "ae65f923c0b01113c8ef1afdb57976e66b89f481117c2e2877e308ea042988bf",
+      "mode": "inline",
+      "depth": 60
+    },
+    "9ce0783b145a18200df3e946ddf0ba15c09286d941484d8d35b737bb29b1e653": {
+      "tex": "23.14069263277927",
+      "width": 174,
+      "height": 22,
+      "sha256": "070c7dfca31ba904357666707f1f13a1d95aec9ff68403311ceb9c858c42efc2"
+    },
+    "9cfafbc3058143fe29693575f1b3e179267fc732206da2b3066ddd583bf5cccc": {
+      "tex": "\\cos(\\arccos x)=x,\\quad -1\\le x\\le1",
+      "width": 286,
+      "height": 28,
+      "sha256": "8c94069d2cfc52f23183b17ed881e6012bf9aefe7d32de0b8c6e975eb95eaaa1"
+    },
+    "9d66f09f8d8fd8114ec8e207ccf31bffe0f405b1742de18b97d54164b382dcb1": {
+      "tex": "0.30366300289873266",
+      "width": 194,
+      "height": 22,
+      "sha256": "de788812e26c8fbc99065f805726b4fe9f68b67d850f732002ba45af9304b153"
+    },
+    "9dc1f4f11c917dedd64e0176130fad5906a3850fad044b08e68e6285841f6983": {
+      "tex": "t^n",
+      "width": 19,
+      "height": 15,
+      "sha256": "90d455184eb612a8809fefd8c9b8e367caf80643f105ebcda68df591aa9fb17b",
+      "mode": "inline",
+      "depth": 43
+    },
+    "9dfaa24e6e6e5e5f62ef37e034da08a352983841bf2d74bfb79da66c29c83ee1": {
+      "tex": "12906.4037217",
+      "width": 134,
+      "height": 22,
+      "sha256": "9ee514260dfc272deaa78f57c9603ffd476541e90044559dc19ba508d5af35c7"
+    },
+    "9e6b0dd31a8dd824ebdea452192c9dc45d5ae3fd944590d347cdfe722d6ba518": {
+      "tex": "\\mathbb{H}^3",
+      "width": 26,
+      "height": 18,
+      "sha256": "0b69f10e22295b236c9c18a3fd6dda9af129f43d541b4d07b8aa9bfcef0cd5e0",
+      "mode": "inline",
+      "depth": 33
+    },
+    "9e83c57a4ebe13f9231cf8294ec001a8f74ae9978954d2091f668aa29cfa1375": {
+      "tex": "0.510998928",
+      "width": 114,
+      "height": 22,
+      "sha256": "fe6541937cd227ea3c7ca6eafa10513f55fee66ea24f7dadb0376435a5070193"
+    },
+    "9ee3ca640a65538d40d5a4555d95495e843c566f1e285edb65ac22f8a7e1f460": {
+      "tex": "z=a+ib",
+      "width": 88,
+      "height": 17,
+      "sha256": "0d65efe7e0f8aff20b34c458eacf63bf2663765d1cd6c5352da44a3dbd16a631",
+      "mode": "inline",
+      "depth": 120
+    },
+    "9eec8df60a7a531dc30adc74242676102c4c8fe3f4a490317842e053a6aa03b7": {
+      "tex": "p=101325\\,\\mathrm{Pa}",
+      "width": 125,
+      "height": 19,
+      "sha256": "a55d3efc70984de3bb4eecfe9011fed9c18813c7f735e73eb6672897c4b199fe",
+      "mode": "inline",
+      "depth": 231
+    },
+    "9eef68f5d3204305b6c7384db7a1ab82b3db08c19f72f24ebe7fd6a99f20bdfe": {
+      "tex": "-1.91304272",
+      "width": 120,
+      "height": 24,
+      "sha256": "eb69680de84e73b88498ffee4d61d4560708aaada0e2f6686fb3651992d07951"
+    },
+    "9f2695435141b8b8573be7fcda06d86a673ff24c74e23272e522ee065f0defe9": {
+      "tex": "A\\oplus B=A\\otimes I+I\\otimes B",
+      "width": 213,
+      "height": 25,
+      "sha256": "7bc922d785e2fae8bee97178e6c343760fc2b6d824390d2d7badaf02ca8f4d4e"
+    },
+    "9f292f0f9ae1d8f0ce751c06a8afbc77a0a80fc30d8efd7815fe8d39232cba43": {
+      "tex": "2.295587149392638",
+      "width": 174,
+      "height": 22,
+      "sha256": "c025cc3dfacf21b5500638cb74d9133a24c7d6b194e239a02d2447ec5e13e420"
+    },
+    "9f2f8db267adc7be73ed27ab6d12c364d955a63c4c3f67f577141d9736e485b8": {
+      "tex": "f(x)=\\frac{e^{-(\\ln x-\\mu)^2/(2\\sigma^2)}}{x\\sigma\\sqrt{2\\pi}},\\quad x>0",
+      "width": 279,
+      "height": 61,
+      "sha256": "f45bb972fafa3f8ec6cf487d38beead16efc9d2a77fc0c34e2bc537bfc1a69db"
+    },
+    "9f6b8a86368643d50cc04793155b830ae09b39a8d61efe6bec366abf2a3afbfc": {
+      "tex": "(A\\otimes B)_{ij\\ \\mathrm{block}}=A_{ij}B",
+      "width": 198,
+      "height": 29,
+      "sha256": "a790a66778c5583fdeefe4ae33f1c88e384fb56ae7789965fe02da072748ff7f"
+    },
+    "9fabbb413777ad879eac71fb457840c57844260d240b5b000f74678bcd0a6166": {
+      "tex": "h(x)=\\frac{\\phi(x)}{Q(x)}",
+      "width": 125,
+      "height": 57,
+      "sha256": "09829ab27e547630339f9f1f180bffa630dcd5754a0466b5159811e3116ee589"
+    },
+    "9fca51987c96ba92d35f303353b7065f31114501c9f2afa37463ff1fdffe8f1f": {
+      "tex": "0.001",
+      "width": 54,
+      "height": 22,
+      "sha256": "00d1ce2b4f8b4c7c17e45b1630d85bf78f076a8b5166899c7e6df309a3f421e9"
+    },
+    "a07850a9c4546f97af8004f57eb711a8f5ceec2e1c6b7d9ba0512baddf0224ea": {
+      "tex": "\\operatorname{Bi}(a_s)=0,\\qquad a_1>a_2>\\cdots",
+      "width": 256,
+      "height": 28,
+      "sha256": "6505162b7b56b6a6d30a73eaf187d6a4beea46dddeb1ea40dd1379375c534a8e"
+    },
+    "a0791f97a993b052e717f6fe9127d802647fedb4963bab52327af87aac5ebf9e": {
+      "tex": "\\mu",
+      "width": 14,
+      "height": 15,
+      "sha256": "643a24beeb65d898fbeaa7c46671275106af39b2fc0590ef536b3d163da13370",
+      "mode": "inline",
+      "depth": 262
+    },
+    "a0cb2ca670068f291fc1bbcf7aa5fb27886f014abbc8952ed21538c00dde1e55": {
+      "tex": "b_n(q)",
+      "width": 45,
+      "height": 21,
+      "sha256": "a0dedfe8fb109bc5f09496c46d4228e9cfff11e11b8982356b24d3b6943095f6",
+      "mode": "inline",
+      "depth": 275
+    },
+    "a0d2550b7c7090f6ef4ea86f9f0b30ebe2d9f9a86b4f9f89ee065ddd68bc77ab": {
+      "tex": "-4.255250613",
+      "width": 130,
+      "height": 24,
+      "sha256": "9c7b29af5353e01ea0c93f8082792f2307d7e59b0dc6bc2e03bcc12cd13c8982"
+    },
+    "a14310cec8851ab1ceec07b71b616c1dff37ac73c9306aab5bda797a5d64631f": {
+      "tex": "514220652000",
+      "width": 128,
+      "height": 22,
+      "sha256": "9244c736fcba4a514ef113938e9e7ed9bb177852847d6edc8a7ad9f7d0383932"
+    },
+    "a1c9d7ba9738e28b11ef1a8f93944a8ef5faef932608002b3192a399a274feff": {
+      "tex": "P_l(x)=\\frac1{2^l l!}\\frac{d^l}{dx^l}(x^2-1)^l",
+      "width": 230,
+      "height": 54,
+      "sha256": "418fbb944c5439f33cbb17a804c1720531d7abe3f4fc9a6fa07b72ba795a3389"
+    },
+    "a2576a374949962f8b62e82ae3ccec94742ec192bd053a1f0ddd70b89ad824f5": {
+      "tex": "x^\\alpha\\exp(-x)",
+      "width": 100,
+      "height": 21,
+      "sha256": "68c61b45615dbdd1bcc43470d98a03c0a055357ce7e43f1cac4500f3e117d6cb",
+      "mode": "inline",
+      "depth": 275
+    },
+    "a350ec5ec98837bcf66a170170c8ee0bb4a408a141b15e81e83c5989e2e86891": {
+      "tex": "f(x)=\\frac{\\beta^\\alpha x^{-\\alpha-1}e^{-\\beta/x}}{\\Gamma(\\alpha)},\\quad x>0",
+      "width": 279,
+      "height": 59,
+      "sha256": "68ff5e414ce74fdee1f1185246595685ea72fffdc5632eb57d52ca6dec3d45ba"
+    },
+    "a3be834a6a99af5e5ad54cbf5555a8475e9d8e1ea8b4b0a19ce74cab79cc1d19": {
+      "tex": "\\omega",
+      "width": 14,
+      "height": 11,
+      "sha256": "60ec127beabe196be3be9ac9d5d5eb932b360e2790d235d4d0e82d9bb4660544",
+      "mode": "inline",
+      "depth": 60
+    },
+    "a3db10e4de5a75a33b449d8f96098c4e428973eed2aa8025d5288ec5c4658c4e": {
+      "tex": "2.414213562373095",
+      "width": 174,
+      "height": 22,
+      "sha256": "de390a743520291d2d24312dfc23a041f27aecb239eabb7c0b4a126e6a0784a7"
+    },
+    "a51a797fea0e7de5c04a80916e979b5e5df7f7cc590cf847073172e3136c265a": {
+      "tex": "10d+\\sum_{j=1}^d\\left[x_j^2-10\\cos(2\\pi x_j)\\right]",
+      "width": 263,
+      "height": 70,
+      "sha256": "4207ca2e7902e9666cdb4a114756b3a8122be77898e86e8b6919838765497fd0"
+    },
+    "a5c7aa23d7468694b9ce04907b7be3cd65213ea33e5068e84a17ff3eed56f2d1": {
+      "tex": "a_0=\\frac{\\hbar}{m_{\\mathrm e}c\\alpha}",
+      "width": 110,
+      "height": 53,
+      "sha256": "ed93a69845a5015d4d5aab0dd73c92952475cb8f67e48c4453a471480288f1bc"
+    },
+    "a5cad9be84014557d019b7e130c2bdf09f508eae914c8f51ff7936ac57e91598": {
+      "tex": "\\sqrt{\\frac{(2l+1)(l-m)!}{4\\pi(l+m)!}}P_l^m(x)",
+      "width": 230,
+      "height": 70,
+      "sha256": "5ec022aee24811fc696b6c64f7c996e6baf43c2086ca818fa27e28ccf6600d6b"
+    },
+    "a69be14fbb79a122031e298131d88810176433d1308b8ffdd9311a15a778cb06": {
+      "tex": "f(x)=\\frac{x}{\\sigma^2}e^{-x^2/(2\\sigma^2)},\\quad x\\ge0",
+      "width": 255,
+      "height": 45,
+      "sha256": "b2787b98e7c43107d28767371339fcc046183c812441219fe95a7d3889f806af"
+    },
+    "a6f5239c55b0af9b728ee40bd332179edf9b2045457c6d6343748ef25e649260": {
+      "tex": "f(x_*)=0",
+      "width": 92,
+      "height": 28,
+      "sha256": "c680f2f2ce164a2a3cd227d3b51f7a13a3d4226d13b0c478fff8cd702791fa05"
+    },
+    "a6fce12ae0c7270e63339af875826e805b35fae8e878d5fce0711805a7440f22": {
+      "tex": "\\sin(x)/x",
+      "width": 74,
+      "height": 21,
+      "sha256": "dcde40713bb7b6dc8975ac75d365d01eb763a15ba98c067848f708405f20e918",
+      "mode": "inline",
+      "depth": 275
+    },
+    "a708997516fb24c082d52a5a71577c441fc0e22b5ae013fa85a1c13be99d2360": {
+      "tex": "\\int_0^{\\phi}\\frac{\\sin^2t}{\\sqrt{1-k^2\\sin^2t}}\\,dt",
+      "width": 194,
+      "height": 64,
+      "sha256": "cf1107609dbe143d747a48c210e40d3d9fa049e26ff56d942b7bf10658c09945"
+    },
+    "a72e6827807a0f4829abe0c67a8d8b79de1a76f0781df07d36200adff9fc2918": {
+      "tex": "1.1865691104156255",
+      "width": 184,
+      "height": 22,
+      "sha256": "ad21b78638c5651c6285e42987e114ec6b95dbd185770aa0165ca11b4d7b73fa"
+    },
+    "a77ae3ed286dacade838f9f1d01cc364e4140b00491ed636a24c7625bb076e58": {
+      "tex": "\\ln K_\\nu(x)",
+      "width": 75,
+      "height": 21,
+      "sha256": "832963a4d253c70e4a7e758f785a45cd15013dd036c949cb2bc65a8d8608552e",
+      "mode": "inline",
+      "depth": 275
+    },
+    "a7ddcff782497f10759793ac8de19b8140ffdb79325812420cf18e4bfa66acbd": {
+      "tex": "0.439924012571",
+      "width": 144,
+      "height": 22,
+      "sha256": "2cd0d6db07dcecb29400618c90f417cde55728752be1130c0c333c345a4541b8"
+    },
+    "a8c4019b6e4f25acd679dd6b1ba7abe3e58b643e9404b51b48a808b77851080c": {
+      "tex": "2.665144142690225",
+      "width": 174,
+      "height": 22,
+      "sha256": "8694550e28c5a8f1cb0abb3953927d5d06d7cd9af6dd40e2db1ab0ca99f8e8b4"
+    },
+    "a8f60584f77c4695146882df761b62fcee9b70b9466153749eb58bbdc298c9bf": {
+      "tex": "f(x)=\\frac{\\Gamma((\\nu+1)/2)}{s\\sqrt{\\nu\\pi}\\Gamma(\\nu/2)}\\left(1+\\frac{(x-\\ell)^2}{\\nu s^2}\\right)^{-(\\nu+1)/2}",
+      "width": 395,
+      "height": 66,
+      "sha256": "cf07f98c636d18730ec7f66c5b75e3a5bee5ba3d6347d43352bfe533bcd4a885"
+    },
+    "a9094603245e192b655e9ef5f664be8eb653d6275ab429c50dbc2105f03acdb2": {
+      "tex": "(A^{\\mathsf T})_{ij}=A_{ji}",
+      "width": 117,
+      "height": 32,
+      "sha256": "598ccc9371ec5f78cb5cc16f42b8df90b9ce1bdfdcd725092bdc12f925144b71"
+    },
+    "a92304885ac1adcfd5bc761fdfedeaec6892934cec2cf5bc1eb77d08898342c6": {
+      "tex": "\\operatorname{Ti}_2(x)=\\int_0^x\\frac{\\arctan t}{t}\\,dt",
+      "width": 221,
+      "height": 55,
+      "sha256": "375c4b55924d4af87540b8c5ec4a63910eec47a5eba892265afd66ab660f4556"
+    },
+    "a92693df642abed8465a858ad96dd64c877f3898cded8e6a4e2297cc4eb96aa8": {
+      "tex": "0.5963473623231941",
+      "width": 184,
+      "height": 22,
+      "sha256": "68f5841eb6021cc28e325c5d43db4cab4d61095c403bb7c2d0280dfffb50e56c"
+    },
+    "a9c2e4547c717024092ea7041b6636a9f5ee84d25f2302c2fb93d15cf721b45e": {
+      "tex": "r",
+      "width": 11,
+      "height": 11,
+      "sha256": "9e661f255a0788a925d4ff9c87cbe6b99b6727890d28a74648315cc3408e9896",
+      "mode": "inline",
+      "depth": 60
+    },
+    "a9cb23c601cd13f4845faa63c5ccbd6e3ff90eff980ae70949fadb172e09e8f6": {
+      "tex": "2.566543832171389",
+      "width": 174,
+      "height": 22,
+      "sha256": "b742f446c106c9808b6521dc4a0d42a7d650c22e653deb931ad43e3c2d47a2f2"
+    },
+    "aa1aaf90008df99e05daf1c72ab7151c46aa48dbaa5d5398a61f447b5d95c995": {
+      "tex": "1.2020569031595942",
+      "width": 184,
+      "height": 22,
+      "sha256": "1207046c8548ffdf870cb6c3eada8da9a516c7736c09fff762c4a9a79ec366d0"
+    },
+    "aa36d464b75cd66ec8337f6480ec5d8882af2079de4ee92ae3c093eba077ec76": {
+      "tex": "m",
+      "width": 19,
+      "height": 11,
+      "sha256": "ca7de05e0e728d527e54fe72b7ae3b3c8f936e179377ee1b6032652fe0299eeb",
+      "mode": "inline",
+      "depth": 60
+    },
+    "aaa4241c447413962f75dc881859ca47027f3f7ea264e517f8c9d7945b29ba77": {
+      "tex": "1776.82",
+      "width": 74,
+      "height": 22,
+      "sha256": "edcc3285abbc9f49c6365f900eb27b73cb11640f9979716b1caf982b1d8fff0f"
+    },
+    "aaadbdb61ea8eade928a2e1e002f5f35d6432292a4352402e92e162449a7d750": {
+      "tex": "Q(a,x)=\\frac{1}{\\Gamma(a)}\\int_x^\\infty t^{a-1}e^{-t}\\,dt",
+      "width": 271,
+      "height": 56,
+      "sha256": "83835e72adef6bcbfc498639f2968f10a96757333a6877e7df69adb19f75ca92"
+    },
+    "ab8b3bbfe30a09d6f0268167ff47fa25d5e259c49eb2e6981a987fddae5fc80c": {
+      "tex": "9.2510868\\times10^{-14}",
+      "width": 165,
+      "height": 27,
+      "sha256": "3a593c094cf616fabbb171532268e493d5df5143c44fe871e1734cc43ee0910e"
+    },
+    "abc8d93ef4e422452fd10d03ccddc03b2a444979d0244a3779e77a12b883068d": {
+      "tex": "t^{z-1}",
+      "width": 35,
+      "height": 18,
+      "sha256": "84b6ceb3d938dd2d611fc97fc36f107226a3312f38e32d26f2cdd369489b7b43",
+      "mode": "inline",
+      "depth": 39
+    },
+    "abe6c7eb01dbe65e5b8ae78419f00c7b6dab274c986db00ea111e489ac74cc66": {
+      "tex": "W(x)e^{W(x)}=x",
+      "width": 139,
+      "height": 32,
+      "sha256": "b0a78fb707adc6073e7e80d045253c09b5bd8bdc59a12266056bd6110fa45a21"
+    },
+    "ac2f764f9ab1ca492ce9239206eee4ce4850baa2ebd775d69b20ba0d4e87fb43": {
+      "tex": "806554.429",
+      "width": 104,
+      "height": 22,
+      "sha256": "22d9e1a7f4e7c6084ff1eb7b944602e2c2c795137abec9ebd021674a982f825a"
+    },
+    "ac8d21e157949711557b80ebe9555e5590b0ae383f96375247c6757c244fcab8": {
+      "tex": "x^2=2x+1",
+      "width": 104,
+      "height": 20,
+      "sha256": "32021d445ad133740f0f6e3bf372caf316ece8be8105fda63e5bf4f5803075c4",
+      "mode": "inline",
+      "depth": 125
+    },
+    "aca07c6b808c2c42fa60021b2be45b857a98ce439101301645e2d421718a8cb3": {
+      "tex": "F_1=1",
+      "width": 60,
+      "height": 18,
+      "sha256": "c849e8190a65d7be7b32c167286b0ec8868845f02b1eb12edd7acc88951ee522",
+      "mode": "inline",
+      "depth": 185
+    },
+    "acb0b90e5a8ad45441dcfd28ef30517adbeca68bed5e910ae5577569eae501ea": {
+      "tex": "8.23872278\\times10^{-8}",
+      "width": 168,
+      "height": 27,
+      "sha256": "edf79ad1dcb0daa800e2e1a58d74c441ec8177a165957949d91b0a279bedde0b"
+    },
+    "ace6186b8e864349f22260893ce795b71f5c2c08d88d03a56b801ba7504ad6c6": {
+      "tex": "\\operatorname{arccot}x=\\frac{\\pi}{2}-\\arctan x",
+      "width": 218,
+      "height": 44,
+      "sha256": "fedaef19f50746a3bb9848d40c600900a2017bed6772ee4ddc5a9b272a162857"
+    },
+    "ad911dbf58ae67a9fb2af3688b3a73753c07d87e652fc5efdb004a623f28aeb9": {
+      "tex": "1.660538921\\times10^{-27}",
+      "width": 185,
+      "height": 27,
+      "sha256": "042061736422cb1afb5392c99e2bc43bef9be5c5eeec43440e597c3f4ffd213c"
+    },
+    "ad96b4e86446d6df81646d9426738a6c498e6f4ebc724a90c20834bb1c9cfb3a": {
+      "tex": "\\Gamma(n)",
+      "width": 42,
+      "height": 21,
+      "sha256": "7fa66d386719567f6e411223786d6f52eba31071d12c35534d6e3eda30787b03",
+      "mode": "inline",
+      "depth": 275
+    },
+    "ada806609e98fb7b760b2244c6d73429aeec9e94518ee673e0e4654ff63c1b6a": {
+      "tex": "2.30557392\\times10^{-30}",
+      "width": 175,
+      "height": 27,
+      "sha256": "240b5403fec2580f2836afad1c5a069484e9d65c5b3e20c1dbca69f7e72f79c0"
+    },
+    "addbc9668c93677cffb3831a8590c96e72cb128bdae1198e955b59330ba7210a": {
+      "tex": "\\operatorname{rank}A=\\dim\\operatorname{col}A",
+      "width": 172,
+      "height": 23,
+      "sha256": "d99229ce67c50bc8d96d6c9036e8de3485ed224bccac0de6fe55780c5a13939a"
+    },
+    "ade6fbe31b1121bd0f7791da9d5ff9b077214c1ad15052a2f88203ab01e75436": {
+      "tex": "z",
+      "width": 11,
+      "height": 11,
+      "sha256": "ebdf01cd73271f30a9d87da3d2ff29322f6a5c64320537e8dc63cc39e3ead672",
+      "mode": "inline",
+      "depth": 60
+    },
+    "adf9af2d41040cb646d0c963cd290bc37a5db6ac42233b2fe73f2b896d0559a9": {
+      "tex": "\\Pr(X=k)=\\frac{k^{-s}}{\\sum_{j=1}^N j^{-s}},\\quad k=1,\\ldots,N",
+      "width": 344,
+      "height": 65,
+      "sha256": "ddff209590bb89e41879988bf7243765bbfea29d4d7118bfbd6aed34fa2a0053"
+    },
+    "ae2b65593c0857411a31638831ac57ffcaa0464a7f81abbf3a3733aded351dbd": {
+      "tex": "0.37395581361920227",
+      "width": 194,
+      "height": 22,
+      "sha256": "67b0413b5039498d010091a3c48879cd85b8abe50ad3e11146bdb84953624e9a"
+    },
+    "ae89f1bbfad7d4085b2aaffa4d8f0fac4d04a448de909407b0c88e2d660bcdac": {
+      "tex": "V_{\\mathrm{rep}}(n,k)=n^k",
+      "width": 136,
+      "height": 32,
+      "sha256": "6dc77086cc71f4fdced56a627a1c04270cd6c4d9c23e3c39a0dc200a66b48372"
+    },
+    "aea71959b3630f28daabf9b4aa93db7258aea77b35078b2153fe776ff50ba099": {
+      "tex": "\\sum_{k=0}^{31}\\operatorname{bit}_k(x)\\operatorname{bit}_k(y)",
+      "width": 163,
+      "height": 67,
+      "sha256": "4242e1854807b49a4484dae8ce949e9c02e82a9b6b2ed2e9fb209f711e5b0ccb"
+    },
+    "aeb5420bfb69c084c456f9d4dbe400f41dc7d12acccdb7fde0cb8ac816fd8659": {
+      "tex": "H_0(\\lambda,\\eta)=\\frac{\\sin(\\lambda\\eta)}{\\lambda\\sinh\\eta}",
+      "width": 179,
+      "height": 56,
+      "sha256": "03c94e5dc5559bbf324944432b079b67431102bf29bd537e9c3dfd084ce0bd90"
+    },
+    "aeb5e1989651eeecfa478dd2f45e55bf222dd8c3e70b822a456c2849898fe718": {
+      "tex": "241798934800000",
+      "width": 158,
+      "height": 22,
+      "sha256": "af8617546ad2a3ce8784d5d08e7db9786b058018a6e678852af2e1b679dd8391"
+    },
+    "aefb2b3b1b4d1d03b0535e9e1391ed6ccfe3d903077d819664bc496168282e76": {
+      "tex": "\\int_0^{\\phi}\\frac1{(1+n\\sin^2t)\\sqrt{1-k^2\\sin^2t}}\\,dt",
+      "width": 303,
+      "height": 67,
+      "sha256": "6f71537e29e2352156201b59df4b382eff2a86e274035524fde4f7230de70291"
+    },
+    "afd0470614132efb31646109980e90c7c49109a69bc960bb564e592f3c20d9ca": {
+      "tex": "\\binom nk=\\frac{n!}{k!(n-k)!}",
+      "width": 166,
+      "height": 55,
+      "sha256": "12ad456f40a1dab0393b05465d4089fd18eb13b9304150809ed07fb34fa28f55"
+    },
+    "afd8a15f3b1e07da4c0504ec8b86e8f17d0b62d1aff6e54088dd668feec44762": {
+      "tex": "5.391063199999999\\times10^{-44}",
+      "width": 245,
+      "height": 27,
+      "sha256": "7f35b1ce48f8e4fe83751359fff09320d3ddc437a9bda77adb4322c8c118ad96"
+    },
+    "b0a67987867134edbbb19c2a5af5aead231758d419b7e50919899e0ca530db15": {
+      "tex": "\\int_0^{\\phi}\\frac1{\\sqrt{1-k^2\\sin^2t}}\\,dt",
+      "width": 194,
+      "height": 64,
+      "sha256": "49e62cd7a0c5b84d3dc7057804eba78800f51e1fe38beaf0f9419599a524798b"
+    },
+    "b133e02c1a85bf9cb674f9075ab0fe01e01a56e817cce65add7b4e181cf610cd": {
+      "tex": "0.0594649",
+      "width": 94,
+      "height": 22,
+      "sha256": "282eda8a09021b6e04835df20a73cd98ff86b0709c5bc4569371efe129bb28b8"
+    },
+    "b2309a4e07041c0813ed5f786fcbbc1c08d104cc55fa761e9a23b33e83c49ea6": {
+      "tex": "1.007276466812",
+      "width": 144,
+      "height": 22,
+      "sha256": "d52cfb9513b4a93b402bbb308231746f470f4584a3659c1f6dee0464587b97d2"
+    },
+    "b2349827d81d6940b53ac138191b1e2d1e3657f0277fd6b10a7a1719e22dd214": {
+      "tex": "1.410570499\\times10^{-26}",
+      "width": 185,
+      "height": 27,
+      "sha256": "883c34034bd1795eb506699aaa3170bbe48d6c2366e33fddd099aaba2bf2ecf5"
+    },
+    "b2ae7b36709da147c31b4d8a94a00a2dab24892bb87ab9a5a2a5a8893af773d0": {
+      "tex": "1.492417954\\times10^{-10}",
+      "width": 185,
+      "height": 27,
+      "sha256": "792be40801c1d1caaff2d8188e98305a95ff534428106c6e5b19da6ed71ce60a"
+    },
+    "b2ef14a1219fc99fbef30290fdb9658e5ff14e47e1b3d3af1970ec37932b6ba7": {
+      "tex": "\\Delta x",
+      "width": 30,
+      "height": 16,
+      "sha256": "447622c3016681c8d8da291a2a4f2ca74ad7258d71b678ca72603884a4e67eb7",
+      "mode": "inline",
+      "depth": 48
+    },
+    "b2f7a325216a902ed567f4b40faee674e21eadf11a437fc08e863ac067e08f9d": {
+      "tex": "0.528063",
+      "width": 84,
+      "height": 22,
+      "sha256": "f3b622c16ca52e7d99873ab6bd67db70df0cba5efe8123f60fe280abeb5de45d"
+    },
+    "b2f9dd86a75d90a51d90fea4573bbaa2fa586abb274566b7cd60ddaac829b4fd": {
+      "tex": "M_{ij}=1",
+      "width": 77,
+      "height": 28,
+      "sha256": "4ab0aa654a83a7e6670b729077f3b99c3a2ac904c1621e08ca447189173817d3"
+    },
+    "b3102e72a469c0eb1da27458048736f2e0f09ed2bd0fa2262c08e4c850b6f61d": {
+      "tex": "J_n^{\\prime}(x)=\\frac{J_{n-1}(x)-J_{n+1}(x)}{2}",
+      "width": 249,
+      "height": 51,
+      "sha256": "e4f34ecff620c658cc6f43c7a8ebef2b198c805eaf0f8a02097b0eb1eb35f174"
+    },
+    "b341d211d6b495a57cf7a656934f5f70e6c65623dca3d2ec0d7db326acce0dee": {
+      "tex": "\\mathrm{K}",
+      "width": 17,
+      "height": 15,
+      "sha256": "a450baa342ee7985b752b2dc30919cc32e730428235ddecc9fa7bf70a3c68161",
+      "mode": "inline",
+      "depth": 34
+    },
+    "b3d33ffeea98bce33c4b72bcf7852371b5cb8a342c716eb8348a97b5fabdf08e": {
+      "tex": "a_0",
+      "width": 21,
+      "height": 14,
+      "sha256": "5afb1bab96d5596a60b2837d28b49444dfd8e19268cfa250abcfee38378fa6ec",
+      "mode": "inline",
+      "depth": 212
+    },
+    "b4a8331331f9e75500747fedda1da471a1b9f6382bae1411c708ebe1bfcb54cf": {
+      "tex": "\\operatorname{Re}(a+ib)=a",
+      "width": 135,
+      "height": 28,
+      "sha256": "5b9a8a86466ca74d12fd98b702c96ddb30ecbb7344735b41f04daa7fe191cba8"
+    },
+    "b4ef6dc044cad07e2c065ecca21ece9f1a28a73be5457995f6fad8e5fd47cdf3": {
+      "tex": "0.704770923010458",
+      "width": 174,
+      "height": 22,
+      "sha256": "864a2bf6eab5503d538f6b7abe607b43956c5d15720670fc2d2c6ed3a74491ae"
+    },
+    "b520776394db019971843712e8cd93ca717703b69bbe78e0c6b24d4e56b60f7e": {
+      "tex": "\\operatorname{erf}(\\operatorname{erf}^{-1}x)=x",
+      "width": 145,
+      "height": 32,
+      "sha256": "c5375a6c5cba376e7c9e58cf948601e8db9d4e24aa0b871a1b86bc70593b5ea2"
+    },
+    "b5409a6f38332cc192cba1f7903b804b513278756b08c510d1e7a04aad53726c": {
+      "tex": "\\varphi",
+      "width": 15,
+      "height": 15,
+      "sha256": "755ae5cf075a35ae8bbba9bac18117b37089a186eaac994cd70e16e3f5c5395c",
+      "mode": "inline",
+      "depth": 263
+    },
+    "b5722e7791be421bd2572d8a7e52407a205ec9b3645e71239a87d4003fe0f38a": {
+      "tex": "2.067833758\\times10^{-15}",
+      "width": 185,
+      "height": 27,
+      "sha256": "5ff50051b661872b47858833b2176d5917a352d30c493ea6840f7204d13095c3"
+    },
+    "b5843d49ca567f86db2d1d273e006b01e1341584a5cbc6bcb126f7b903895ae2": {
+      "tex": "-2.00231930436153",
+      "width": 180,
+      "height": 24,
+      "sha256": "8f0c5c27c29879c84b6ce4a4f8fc072a16ade4c81128ef714f0c514e786a0a7e"
+    },
+    "b59f0d65fffbc718e0719a64674d5fba931901a39e7c089a8a35f58778868807": {
+      "tex": "\\log\\operatorname{erfc}(x)",
+      "width": 96,
+      "height": 28,
+      "sha256": "12957d4a3fde99c7573a5b7782791f4ee3252bb3c09ab42ae9d30cca7988c78c"
+    },
+    "b799b82fa974bdcc73711ca62af212421ea0ecb1d9604999708c901c100d7815": {
+      "tex": "J_\\nu(j_{\\nu,s})=0",
+      "width": 109,
+      "height": 29,
+      "sha256": "f4db10c313d044bd08aa29bce5b89692e1337fcfc55446d5d4464b28c3f0eb41"
+    },
+    "b826cbe512d86de27e5bc890d853c72ad0e551b14dd752e7c023da39cc72d4ce": {
+      "tex": "96485.3321",
+      "width": 104,
+      "height": 22,
+      "sha256": "eee44d147b9710a3a2709aaf9860521ac36a4236efb8fd507cfbdc9f7c3e14e9"
+    },
+    "b84b4b3c5a678f0f6de5d07246bfa3307771ca2117349918315692d0d452a580": {
+      "tex": "6.58211928\\times10^{-16}",
+      "width": 175,
+      "height": 27,
+      "sha256": "26e87e1e3417a69da82465673a24fc58441a694d53eb941654ece7bb0b6d068e"
+    },
+    "b89ae71963b06854c1616945c19dae3242f3f6ce271e40e9b72cda87a772c651": {
+      "tex": "1.986445684\\times10^{-25}",
+      "width": 185,
+      "height": 27,
+      "sha256": "5346400015d140746c10a2bd64a8a90836b598ee580fbebe2fc80a3135f2e4d8"
+    },
+    "b8b6b9ddf34b11ba36553b02c7fbd34099156a9df55fe7f8eb342e3e3db426e3": {
+      "tex": "0.9702701143920339",
+      "width": 184,
+      "height": 22,
+      "sha256": "2473e96664565d150bb5bcdbc7dedf1677f26b90edf4fbd9989330ce5fad8e21"
+    },
+    "b8f53f8bbe35f09e6474b26d3150435a7ca8b1e6139585bc95477260eacee478": {
+      "tex": "0.6876523689276943",
+      "width": 184,
+      "height": 22,
+      "sha256": "843fadacba93026e5dee2c2786bf0c14f13484753b1d4d22886367878b9be528"
+    },
+    "b9344501a846714205304314fa60ab8329782dfda0181bfebb18bf568aa11f92": {
+      "tex": "13996245550",
+      "width": 118,
+      "height": 22,
+      "sha256": "85df44d66224dc085a39b3d0135ac11403c82e6506a885d54bc33293b81fd51b"
+    },
+    "b95a2dd0178f26271e6382df8cf762e39ac804219a7ba8fb87babbd36f17593e": {
+      "tex": "96485.3365",
+      "width": 104,
+      "height": 22,
+      "sha256": "1cf765b7caa7a37f1e9a48654d4f8030f892c1156754c7e494171952bb3b4d57"
+    },
+    "b9a9dec30b12bca1deb9c3e9bf2614273288f621b331e7a3d9485dbf6b6a517f": {
+      "tex": "c_n(x)=\\frac{x^n}{n!},\\qquad e^x=\\sum_{n=0}^{\\infty}c_n(x)",
+      "width": 284,
+      "height": 64,
+      "sha256": "cbc94a50c0f7ff264f0922b58cdfc7c2568afb91f6926232970abf63a9d06dac"
+    },
+    "ba3b216b3714e1f8363c3b8532b5eeba8eb793cc757a6ec7002a76dd33e96fa1": {
+      "tex": "1.3195909068\\times10^{-15}",
+      "width": 195,
+      "height": 27,
+      "sha256": "a271a058f6a0902991dc308d719933e910992fa9ac3847278b6aebcc6b0ff418"
+    },
+    "ba7cace4c31b0a51b2be538c88ffed29e94bf31697340ee901f8e75da397b0bd": {
+      "tex": "n!",
+      "width": 19,
+      "height": 16,
+      "sha256": "646e564d1d396715068697941fd0bb13f7909a134934a0c5249a87976bcce7f3",
+      "mode": "inline",
+      "depth": 48
+    },
+    "bac48f3c29e6fabd1400199f2e2e7283d55e6fff97b175c44af7a6a75f78e7de": {
+      "tex": "\\Pr(X=k)=p(1-p)^{k-1},\\quad k=1,2,\\ldots",
+      "width": 344,
+      "height": 32,
+      "sha256": "32d4976acce4f9d02cc05b98a0647bf9404f211fb4c0a8037531cc935a89f7da"
+    },
+    "bb6cb7e5441635d70a7fac5aa9cee832d93f246900db97725cff7ddd1c5f834a": {
+      "tex": "2.21953166887197",
+      "width": 164,
+      "height": 22,
+      "sha256": "29d78b6d30b9935d0d5fe75e4a006d66f5b7295e2e8117980b12bf032fc16911"
+    },
+    "bb72a5c713cc761324e320d020e7abdac1f5e5461e2db291be84f89a33871ac5": {
+      "tex": "1.324717957244746",
+      "width": 174,
+      "height": 22,
+      "sha256": "7452d7133a2fb2940231b715f19d28f5ccc26e01b1b274648aa11fb3172fd422"
+    },
+    "bb73f75a8917b63a1939d1beccbcb3c1384712b9e5ebcbdbdc6f1ff6f7c902f8": {
+      "tex": "e",
+      "width": 11,
+      "height": 11,
+      "sha256": "3f0ff93ff196c2f5fe63975c03b55a03ed46667845c37a5d81093f959d8439c2",
+      "mode": "inline",
+      "depth": 60
+    },
+    "bbe5cabce5f3b04d810a27a0e44df1bd301562341df9bab841b7f8710883697d": {
+      "tex": "1.504609447\\times10^{-26}",
+      "width": 185,
+      "height": 27,
+      "sha256": "1a4fc83bfb01537eaa1b4f1f44fd8742474b76803b523e247c3a141769ef565d"
+    },
+    "bc0ba909996cca65ef56675f9012bc4a4e216636dcae2fc6b3a6d845c462e63b": {
+      "tex": "\\psi^{(n)}(x)=\\frac{d^{n+1}}{dx^{n+1}}\\ln\\Gamma(x)",
+      "width": 215,
+      "height": 53,
+      "sha256": "735156bd5c9864cf362b8ea7415f1898e7d967d63e4f9c2f658cd4febbf35f4a"
+    },
+    "bc460c8c881015af3aa0e972b288522ffc889f3562a318afa2213de70f91a752": {
+      "tex": "R_D(x,y,z)=\\frac32\\int_0^\\infty\\frac{dt}{(t+z)\\sqrt{(t+x)(t+y)(t+z)}}",
+      "width": 448,
+      "height": 61,
+      "sha256": "168ed8ac3a7862a44e48878ad44266c9e3e073e2b99b8437ef3f9695d28a7c02"
+    },
+    "bcce7d271becd1a22eca7be9b99edffa791322aeed4ab3ffcf7bd969843d740c": {
+      "tex": "\\psi(z)=\\frac{\\Gamma^{\\prime}(z)}{\\Gamma(z)},\\qquad\\psi(n)=H_{n-1}-\\gamma",
+      "width": 323,
+      "height": 57,
+      "sha256": "dc1e74c47643d024e430e9226f83cd2b566888a178379546822443d889dbeacc"
+    },
+    "bcfb601c3cb1f14fc17592f362c5c6876ab030e32c5e400afe0b7bbc748c90c4": {
+      "tex": "\\ker A=\\{x:Ax=0\\}",
+      "width": 192,
+      "height": 28,
+      "sha256": "da0fab75ceeefa841dc6798af4ddb87e27cb2e69211e6c6ef0d62d59b69630a9"
+    },
+    "bd018d568b912e2ac449dbfea4686c3cb877f80664b92a1c9ccb5cf0232e2cdd": {
+      "tex": "0.0004669754556",
+      "width": 154,
+      "height": 22,
+      "sha256": "3c3ffd959d0dc1681d473fa062db614039a41d201a6632af6070d28051783ae5"
+    },
+    "bd31d43a4c9a4418448e36d5606216bf2fb8e96447a03344a399e25a6e12719e": {
+      "tex": "f(x)=\\frac{2^{1-\\nu/2}x^{\\nu-1}e^{-x^2/2}}{\\Gamma(\\nu/2)},\\quad x>0",
+      "width": 299,
+      "height": 60,
+      "sha256": "7b3c310ea41790c7a14aa9121046bbecaceeeaadf1181c4cef605071ec3cb368"
+    },
+    "bd575a4e671dabfab96985c5e1760bb1f360cdd37f311f8021f7df7e5d0dd93e": {
+      "tex": "E=mc^2",
+      "width": 78,
+      "height": 18,
+      "sha256": "2d190e36561a7fbeb11425876013726c0d6780622c2c3e73c8ab606afa39edf8",
+      "mode": "inline",
+      "depth": 39
+    },
+    "bd7b6753c0950107ef58938c7259c9b68f73528e27113005318233cc5abe93aa": {
+      "tex": "0+(1)i",
+      "width": 75,
+      "height": 28,
+      "sha256": "8a9d0e89e23e8419996dcd940dd3bd589e8e576c639f0fccbc62939c6a050803"
+    },
+    "bd861d34571b91889339e6b9fdfffa734d0ddd6c867fcbecfff73d6ded79e979": {
+      "tex": "1.6487772754\\times10^{-41}",
+      "width": 195,
+      "height": 27,
+      "sha256": "56cdc1c0bcb162fe683a95a3564dd372473243ecd17862c3c3226d6316f9a32c"
+    },
+    "bdab1563ee8cc49440d829a1118bac55db9a1b51a8e5b46e32649e49f859882c": {
+      "tex": "1/n",
+      "width": 33,
+      "height": 21,
+      "sha256": "95e5da32d426f9a04f89d14e60853f69108266669f8bb2dc29add0910f0131f1",
+      "mode": "inline",
+      "depth": 275
+    },
+    "be08b7c2c24636bcd3c768864325c00eb7dde40dc8daa8485cc77f0e80dd5ac6": {
+      "tex": "5.431020504\\times10^{-10}",
+      "width": 185,
+      "height": 27,
+      "sha256": "e63133d9065b38b88c54b222b2080610367e909c9dc3939e03f7b700130f819e"
+    },
+    "be098300053e6dfbf76cd3c3096c5c785b5919886a580527b2d8c000d7642ea8": {
+      "tex": "i",
+      "width": 8,
+      "height": 15,
+      "sha256": "b382551c8420b92465578dd1f49b08b3a170ec011a4ab2810ded23056522a6ff",
+      "mode": "inline",
+      "depth": 50
+    },
+    "be334a0a84bb0971da869b8617ced0dbc33a806939eb3c697c44cfcd75c369ff": {
+      "tex": "0.001622393657",
+      "width": 144,
+      "height": 22,
+      "sha256": "9e82f85c89915999a4b144c85da7e04da09fd6318be6cd42ae95cac18a8171a0"
+    },
+    "bec3213ffa538a624dc0a62c6ae77fafe8b7acb001d7ad59ffa345aa22f5f682": {
+      "tex": "4.49953902\\times10^{-10}",
+      "width": 175,
+      "height": 27,
+      "sha256": "74042457fd9f07373d9b06dc95407cf697d3a4c07cb5b175aa9b483b43ce0959"
+    },
+    "bf81209b3e53d4e377ab33a6c55a92d8ee0de84c570665d9b2123af0c749e749": {
+      "tex": "0.1126095272",
+      "width": 124,
+      "height": 22,
+      "sha256": "edf105c90d1103ca82b3ef67e04dc4f564ea45586892a8c781a9183a6bb9182b"
+    },
+    "bfb43b20d6efddb44e558264f101205e829ed26f38cce302c6bb6658daa690ac": {
+      "tex": "105.6583715",
+      "width": 114,
+      "height": 22,
+      "sha256": "4a0d2597ec684abe848c607e3e5332a22225a21420f05a45fddab41bae29274b"
+    },
+    "c025ec450525e0a7028fc1154963a7a0b26e613d4fa698fd2ffef2ac8496b877": {
+      "tex": "F(x)=P(X\\le x)",
+      "width": 156,
+      "height": 21,
+      "sha256": "d30f038443264c64773fa237b28cb307ebdbd2a0ebcb03d1cbd30c351ed71891",
+      "mode": "inline",
+      "depth": 275
+    },
+    "c041cc5541603090d0c8aeac3b38b90e5c56ef6d821adac9240daba5f7dda347": {
+      "tex": "2.9212623246\\times10^{-8}",
+      "width": 188,
+      "height": 27,
+      "sha256": "c51f99b86031fee84d3e9b6d5ef0d8d1071a69f5e32cde9519b775ae4cbbdab9"
+    },
+    "c0c3a1f37c51395c5fd81db8d7d3060ad0a507253c85305371719ddf36e349f0": {
+      "tex": "f(x)=\\frac{e^{-(x-\\mu)^2/(2\\sigma^2)}}{\\sigma\\sqrt{2\\pi}},\\quad\\sigma>0",
+      "width": 265,
+      "height": 61,
+      "sha256": "a3d8e9f00819eb3ac11d7cbd5e5608c770b8964e9bbe1e7875300055cdfa0ec2"
+    },
+    "c126091ba65586eafec39e5d49bf79134c6fcc0b7a12f18914bfef821e9af670": {
+      "tex": "2.1424\\times10^{-15}",
+      "width": 135,
+      "height": 27,
+      "sha256": "0ea43ebb9fda742522f0ff21021528b1e2ecce4d31c7a6e08ae945668062ebfa"
+    },
+    "c130ce0ac5c7e66a63e0457c9e17e740defb94de981cd3c72740ce9e7d20ebd4": {
+      "tex": "I_{ij}=\\delta_{ij}",
+      "width": 78,
+      "height": 29,
+      "sha256": "4b0015a194dae4987222fbf93aebe496df2983e098031c8b3bb8da5d27865671"
+    },
+    "c1345d1bfed08bee078e910da13659b0d536c89fc5e29e6c0fce0b446aeba045": {
+      "tex": "2.1030891047\\times10^{-16}",
+      "width": 195,
+      "height": 27,
+      "sha256": "10b32830a0c0e240d6794a59517106d7128a6fc970da6ac521be910d587e0371"
+    },
+    "c157a08cb001e6d9c69c4cea06079e19eb5f366f4d72d47e1425f0b57029bbc9": {
+      "tex": "0.110001",
+      "width": 84,
+      "height": 22,
+      "sha256": "2ce8c3f3581f5fe4911c1d9b60cfe114cb4d114e601b1d82c694596e7ecdea9e"
+    },
+    "c163578bfc4c45964990f6b3b21dafeba09a3f15210a90184de942daf82694a0": {
+      "tex": "58789254000",
+      "width": 118,
+      "height": 22,
+      "sha256": "c46bcbcf641dcde4ec7bb6d93862d04cd45ce3b806d023a6f9b1f93a5f425e72"
+    },
+    "c1fd861070d88e3a95ac65e0f33ebc6536a755309efa474cc7705de706969c68": {
+      "tex": "5.957924896",
+      "width": 114,
+      "height": 22,
+      "sha256": "79e446c2151ec6f5e27285b38314ea7f7e3e3a9b40577760beecf4319d7e80f7"
+    },
+    "c20dfe7296eff9312cb900f3c00daef9d15a7aac05db32c667a1fcd9eb242702": {
+      "tex": "\\operatorname{erfcx}(z)=e^{z^2}\\operatorname{erfc}(z)",
+      "width": 187,
+      "height": 34,
+      "sha256": "802bc1b00db4898e1d7dbd11b91c7405f4d701ad147141090fadee6f9f2255a7"
+    },
+    "c2c15a81048cc9425a92fa7f0457392fee394b1693d2b84a934f99fb5c722166": {
+      "tex": "16.8167",
+      "width": 74,
+      "height": 22,
+      "sha256": "f824092b89a66a500c40d3a8a16f6fa34dfc2652b82448c12c4094f2a354d141"
+    },
+    "c2c82ffbdf995d18c538a18c4b2970bd0cd863260bf31383c0bc79ca1009a958": {
+      "tex": "376.730313461",
+      "width": 134,
+      "height": 22,
+      "sha256": "91da89ce29793e429592baf8971ca2ce5318a8c9a83453e3f830e2b3198544e0"
+    },
+    "c3df25bac697f9b415d722cae5d7a7194e189f94636bbc1311176c8464d4fafa": {
+      "tex": "9.27400968\\times10^{-24}",
+      "width": 175,
+      "height": 27,
+      "sha256": "cb2a54672fddffc455f16141421301b81fa396bb1463a93d858e72b520080bed"
+    },
+    "c3e013b21dfcb67109bcb7c908a4685280cb041dcfc82d2309a020a552348f15": {
+      "tex": "1.8245151574069245",
+      "width": 184,
+      "height": 22,
+      "sha256": "f9bdc824a64a53208588aac6bfeee31b2282700b6d0b3a99541df8fd820b4d97"
+    },
+    "c3eef6914459bc6f3852819cc155c63a16030fac073cd2511397252fac6943a3": {
+      "tex": "AX=B",
+      "width": 82,
+      "height": 23,
+      "sha256": "eaad3ddee1fc9a3b525821c4932d2b59afc8c694469768ac44c1ad7ed9f5dd65"
+    },
+    "c440a139a666a3ad0241f28bbce326a72e9b4486b347ae2af340cd20d526c215": {
+      "tex": "931.494061",
+      "width": 104,
+      "height": 22,
+      "sha256": "71300a33e090eff80a1d0e7268f6e15b71e780a4b324d3036dd80c23419e408d"
+    },
+    "c45408212a989b85f4c41384849a244904f4c88e4323da4aa6d59496620ba7d3": {
+      "tex": "0.00138844919",
+      "width": 134,
+      "height": 22,
+      "sha256": "9e7932160ed72e5895c9b53abec3130c7a504d8e9bbe0b94880ee35bebefb884"
+    },
+    "c4879ea4cfbb1ca71f6dc6c34fd04da64ba5111cecee243ffcdf771a5f52f333": {
+      "tex": "\\zeta(s,q)=\\sum_{n=0}^{\\infty}\\frac1{(n+q)^s}",
+      "width": 198,
+      "height": 64,
+      "sha256": "b5a607ea6d316fab1aa35cd38c9266e5fc148fa382f13c6babadfd463b0c2a78"
+    },
+    "c58034404c333cb961f5bccaf5089ee40078b1c8dadc3b2a2a15459574709429": {
+      "tex": "\\ln(ab)=\\ln(a)+\\ln(b)",
+      "width": 188,
+      "height": 21,
+      "sha256": "e80ee449eb748d0985c8639c8352eff60c0611fb532f24018f2f371a6ddfe691",
+      "mode": "inline",
+      "depth": 275
+    },
+    "c5ce5ba123df7eb4030ea7dc6d6f66eedb3eb3f16cec7d34adec1c4f05ae1994": {
+      "tex": "\\operatorname{erfc}(y)=x",
+      "width": 97,
+      "height": 21,
+      "sha256": "221e0f1017581b0b008f7ac213c2900cf7d8e45e056280ed7217f4cb288e2245",
+      "mode": "inline",
+      "depth": 275
+    },
+    "c5dfcc1b04ce271af544818441328ec544e510efce13210b6b8e5d576af84427": {
+      "tex": "3.86159268\\times10^{-13}",
+      "width": 175,
+      "height": 27,
+      "sha256": "47c9f3c4e6610613924a005bff5f49a58e6b73d48d14c33700f3f04d08d2fdfd"
+    },
+    "c60370c5199c19d0141e24b7b52859ad44ca7ee47450fa01bbb611fe8c8beebf": {
+      "tex": "3.00506297\\times10^{-10}",
+      "width": 175,
+      "height": 27,
+      "sha256": "81d0c1a8c2626726abed089183ee5fecee36a05515fbc004d9c2741ad10e02fa"
+    },
+    "c6d8528d8d7af230298a08b1177a30ced6c7eeb894de0ec1253efc54450047d7": {
+      "tex": "N=nN_{\\mathrm A}",
+      "width": 93,
+      "height": 25,
+      "sha256": "676dabbf92eed4a758260af313f2c246a8cde1004b8ee7e52dba13b9de171667"
+    },
+    "c6de3cf65f114d4f443e59c0491b35051e85356010303128ddb5289375f61e4e": {
+      "tex": "4.7992434\\times10^{-11}",
+      "width": 165,
+      "height": 27,
+      "sha256": "d281760a023a005752767a79fc43fd655ac6d19deb89675a4ed4d1fe14888559"
+    },
+    "c7be6446bff9a68bb0fe59742db3461caa0c97f6e827e2b6f6f037ad9a72458a": {
+      "tex": "\\Pr(X=k)=\\frac{\\lambda^k}{(k!)^\\nu Z},\\quad Z=\\sum_{j=0}^{\\infty}\\frac{\\lambda^j}{(j!)^\\nu}",
+      "width": 340,
+      "height": 66,
+      "sha256": "8e590e2cdef9284e22eee943a02304ace6ecfd4406ede844b6e6a6d207201427"
+    },
+    "c8617566c80ae3aea049c6ac7d64c0618fd8693f11911264a466a937091244a7": {
+      "tex": "483597870000000",
+      "width": 158,
+      "height": 22,
+      "sha256": "f741fb46ec96738b4547e7093810a79ff4d0bcf416310515f3f43fa197523cec"
+    },
+    "c901224e45e841a8f9ddbac4a1cf0c8a75967af139e65b7ecd5981df33d2abb5": {
+      "tex": "AV=VD",
+      "width": 98,
+      "height": 23,
+      "sha256": "27c85ed22216ea571abad21a4b2c193569098fca65cdcc094e0d20038185fd3d"
+    },
+    "c955ba1298ea09ee193f132bc12befc9f0302f76e97ae345f7f0beb99709c52c": {
+      "tex": "\\operatorname{erfi}(z)=-i\\operatorname{erf}(iz)",
+      "width": 170,
+      "height": 28,
+      "sha256": "8b9a41c363b9d26b58f70585455d9607da63b503f70829572fd0471e1443f153"
+    },
+    "c9659b785415d9dfac1c2ceeba4ba349f3a5a187e4581052bb6d646edb69f837": {
+      "tex": "0.9553166181245093",
+      "width": 184,
+      "height": 22,
+      "sha256": "c6215edbd9b407ab93636037e285f372bf26a8db8387d63b2ff80ab9813217f5"
+    },
+    "c9871f2d963fe6d0bd3311b30bfe54e41ce124dcb563536ef0545979f23917fa": {
+      "tex": "0.8574382308",
+      "width": 124,
+      "height": 22,
+      "sha256": "22eafaeb20bbaa38f04f4d6e7d85263067ede28149f38771efbda80dd4669ea8"
+    },
+    "c98babdf390244efd622580eaab54d51531073d7787876100fb343fad29eb73c": {
+      "tex": "f(x)\\Delta x",
+      "width": 68,
+      "height": 21,
+      "sha256": "8461e9bf7257a67239dfdb12e9853945d3a49fd4ea45edf04d8c6e65cb1ffc9f",
+      "mode": "inline",
+      "depth": 275
+    },
+    "c9a722744ce2beb0b9bf5e7648778a6b63cb9b7adfabb53238ba14fcf3c91931": {
+      "tex": "[a,b]",
+      "width": 41,
+      "height": 21,
+      "sha256": "dd987066c28e7c4a053284b0314945a325eef2a6541b9f8a3046a6dce3cd7ddd",
+      "mode": "inline",
+      "depth": 275
+    },
+    "c9dcf1b441c6416f631b5beb3d9886e9c50f2fc4b57ca6a3afff452b297cd302": {
+      "tex": "9.80625",
+      "width": 74,
+      "height": 22,
+      "sha256": "6c60995318cfe55d3e2e6fd96d05f2cdeadee7c8c19215888c3825057cf751fe"
+    },
+    "c9ebcdb41be32c4a61449ec43f399f13d04b8b72d4a43e4f294229aba786eee6": {
+      "tex": "\\pi/2",
+      "width": 33,
+      "height": 21,
+      "sha256": "f17bc17a8be1604828d8ed9ad3b1c1bdf9954068dc6ce97ec5eea132d270a47b",
+      "mode": "inline",
+      "depth": 275
+    },
+    "ca4c57916d83388f4c9afcb9013ba903e47f23b4d30426f0828de298d3c56179": {
+      "tex": "e_{\\mathrm{SI}}=1.602176634\\times10^{-19}\\ \\mathrm C",
+      "width": 257,
+      "height": 29,
+      "sha256": "dcec13a83dcb975bab10bfb8ffe34e6b4fb73760e8546e3db0d6fdad4e215719"
+    },
+    "caf286de23a61384a1e548b8e5b82e8fd7e7bda441de6c38f842330ff63d7f19": {
+      "tex": "\\operatorname{Bi}^{\\prime}",
+      "width": 29,
+      "height": 17,
+      "sha256": "a5b5a79e33ede6ad766300c8f47aee912b9a107bbce64de4b3689518ba5b8980",
+      "mode": "inline",
+      "depth": 26
+    },
+    "cb1a27f649ba952f10af16cc963b3ad1c250a06bb8a071340995d27942f0193d": {
+      "tex": "2.73092429\\times10^{-22}",
+      "width": 175,
+      "height": 27,
+      "sha256": "1473ee6539eea0fa98a504e71c28269ed374fc784cf20cb7c7cd77f73cdb7b14"
+    },
+    "cb2df5e3876ff51d9f300f2a60bd7971461a115416d8990e0ea7b178c72c98f9": {
+      "tex": "\\frac{{}_2F_1(a,b;c;x)}{\\Gamma(c)}",
+      "width": 129,
+      "height": 57,
+      "sha256": "6c536ae63cdadcc701431655ce6a103735d6c6eb96ca17d66c0e1f684c051419"
+    },
+    "cb77e868f9ff4b8bd967b3c678ba6964d639569958dff6e615db3cda52894a5b": {
+      "tex": "0.002013553212712",
+      "width": 174,
+      "height": 22,
+      "sha256": "69e457d521a8887283840734a40f128a8184404ecfb86a1c7610bfe1a916a934"
+    },
+    "cbef01a11ef8cfc83b31e86d3fdde23dd67642a958bb043a74dc327ef5645658": {
+      "tex": "0.000287592",
+      "width": 114,
+      "height": 22,
+      "sha256": "e512c31c0d36562382d4c640b8896782fc763a4189ee7ed68c42e5f6204b2ba6"
+    },
+    "cbf2710d4e570808eafb72d5ae91cfa9518d2ba59b3b1790412a4787dd4af70c": {
+      "tex": "\\varphi(t)=\\mathrm{E}[e^{itX}]",
+      "width": 129,
+      "height": 31,
+      "sha256": "77ede1521800ee37571794daa4ee7dd21e04da9ba1a892ff2b5e55b8bf934036"
+    },
+    "cd952a5d1cdb68913a0ab8e1d6538c20cf8d680d5b8b122d2865e092ef327682": {
+      "tex": "z=|z|e^{i\\arg z}",
+      "width": 112,
+      "height": 31,
+      "sha256": "03a05b3f59251b4613850a43620209b4abe98484a741f1fe546ee7a947096fc0"
+    },
+    "cf227a3dbb95d130d1013fb7d2749d2d88edcb43cf8b75853121c6cc039a54d6": {
+      "tex": "1.90749",
+      "width": 74,
+      "height": 22,
+      "sha256": "38b40e89d39f2545442facbdd5013ccc2a5fbc1958514a2f70a5e756986bf803"
+    },
+    "cf35d0b009c91f6592d1522f7d341c74752d36af3d30863a28f2923018da0bd4": {
+      "tex": "1.7320508075688772",
+      "width": 184,
+      "height": 22,
+      "sha256": "d5467910acacb3a26c8f9be8cc1fe4ee8de9ff7494bd40ab63abc691d97ca053"
+    },
+    "cf3a829f791f95d45eb6067457516835e9bc3643d4f195992869558d1973591c": {
+      "tex": "\\sigma(x)=\\frac1{1+e^{-x}}",
+      "width": 147,
+      "height": 51,
+      "sha256": "eb5d32085fbe333258ca33f442979e6ee67390459b90c0ade0b44e8413047f97"
+    },
+    "cfa16dff9b4a906e86be3412b07a7894756944556f08f06865618c656df136d5": {
+      "tex": "9.80665",
+      "width": 74,
+      "height": 22,
+      "sha256": "5e89caabffac7c204a48a7858edd046466a53141b3f4aba1c19f592491272c8c"
+    },
+    "cfc92cc25a052b95622f62fc8dd98014244f2d57ff4d95936ce4390fb95d6c85": {
+      "tex": "3727.37924",
+      "width": 104,
+      "height": 22,
+      "sha256": "85ae65bfd024acddc7a1ca42bc6e8c13773d863eab678d4a2d6ebb5efa865e7e"
+    },
+    "cfecc7f50f32c8844379db110ea2dbb078822c6fcc8ed6edf71df33e4018e5e5": {
+      "tex": "\\Pr(\\mathbf{X}=\\mathbf{x})=\\frac{n!}{\\prod_i x_i!}\\prod_i p_i^{x_i},\\quad\\sum_i x_i=n",
+      "width": 364,
+      "height": 60,
+      "sha256": "5faa53f0a9eaca65a0c4cd5924ffb8f1deba51b5338ff6a2c7dc5c1b87c66f8b"
+    },
+    "d01a7301bbc9908f8d1d3a34f575d5c087f5194f8d6d0f5264d3ac609a06c036": {
+      "tex": "\\operatorname{Ai}",
+      "width": 22,
+      "height": 16,
+      "sha256": "b91e535e9fdf1917e123aa4611501c418b3b39e0dfc8ce9312095e1e68ff615b",
+      "mode": "inline",
+      "depth": 42
+    },
+    "d02208e1c7991a8065b5d70d7e6d7f194bed46001f59c51fbd9e77d8f79aff90": {
+      "tex": "\\operatorname{Ai}^{\\prime}(a_s)=0,\\qquad a_1>a_2>\\cdots",
+      "width": 264,
+      "height": 30,
+      "sha256": "6826c7bb3181ef4458831125d5caa65282febc92c1a63d073b3708fcfbc964a1"
+    },
+    "d08dab5fc15e0d60063ce1488e98ebe12d420e70a195614c775147790c7c9092": {
+      "tex": "34231776.845",
+      "width": 124,
+      "height": 22,
+      "sha256": "e1d47de8fbac7e3ddb84e137e31ac8a6f7391d4b405656e56128ddc2ebb04f57"
+    },
+    "d08eda3f3526a2a981c358ecf9d3c9304cc97c5552b513dcee6a45438a4cc4e4": {
+      "tex": "T(h,a)=\\frac1{2\\pi}\\int_0^a\\frac{e^{-h^2(1+t^2)/2}}{1+t^2}\\,dt",
+      "width": 284,
+      "height": 59,
+      "sha256": "21a4839687ca5c59d9be1dd1212b4d33f04e253f4e5b5caccbe3b3551f0551e7"
+    },
+    "d1954085a6651d1d5ac85388b1265e819f99a53d78c9f1543402335060d07a1f": {
+      "tex": "2.013553212712",
+      "width": 144,
+      "height": 22,
+      "sha256": "1e95c8318038999efdfd3167d34e8598f9c92fb3603a2a2dc1d080620e294b3c"
+    },
+    "d203e9d54ea960297e340bf8738e171aa1e55534386ed655284b0ad3a14cde6f": {
+      "tex": "0.0030149322468",
+      "width": 154,
+      "height": 22,
+      "sha256": "e92740af2dd250e091dac522ec8f312ef18df1e80ad6abe2f6f959c2fab821ef"
+    },
+    "d222d9076f891638667cc58d4fac0075256bc85c4f042693d7bea3f2ba26e702": {
+      "tex": "\\Gamma(a,x)=\\int_x^\\infty t^{a-1}e^{-t}\\,dt",
+      "width": 217,
+      "height": 55,
+      "sha256": "514aa09213fa37cd0bbcf555089659c26001d1752fc5c6cd0f7f658811173c34"
+    },
+    "d2a040a330f6474cd656c213fef42e4d3997870e9405b4c31108c2f24fef4b71": {
+      "tex": "A\\mathbin{\\oplus}_{\\mathrm{direct}}B=\\begin{pmatrix}A&0\\\\0&B\\end{pmatrix}",
+      "width": 207,
+      "height": 56,
+      "sha256": "b89f48b4f15a6e0dea575db3fc17f39e4e62ff6838e33452b8d73357101776f1"
+    },
+    "d3fc3504a3ee936e68e94e135812d0480b9436e408a91c48cd0a6112dff677dd": {
+      "tex": "\\sin(\\arcsin x)=x,\\quad -1\\le x\\le1",
+      "width": 282,
+      "height": 28,
+      "sha256": "eb4bdc29d50f4d9a119cbdfea66355275a8ae03d20717479b8e58feb6db3adb6"
+    },
+    "d445b36b216cc24e748c4bcff793dc103ae4a52a6f008d37dfba0575df022697": {
+      "tex": "\\begin{aligned}\\Gamma(z)&=\\int_0^\\infty t^{z-1}e^{-t}\\,dt\\quad(\\Re z>0),\\\\\\Gamma(z+1)&=z\\Gamma(z).\\end{aligned}",
+      "width": 333,
+      "height": 81,
+      "sha256": "c269271c6351854969dd258a9772fee7d9eedbea1dc99d24dd689cf8e612f8a0"
+    },
+    "d4c1a02b90e9627305a17cfd87e6d8d4a5f51b875ff004391d5584e9479f4c37": {
+      "tex": "\\Pr(X=k)=\\frac1{b-a+1},\\quad k=a,\\ldots,b",
+      "width": 336,
+      "height": 51,
+      "sha256": "a2a863e85bcc60d7c30024dbd6326cbe5b177241c8346b2598827dc1eaec0c08"
+    },
+    "d4f89d4857884069b36f7a2c0f4abda40615ecef2b58da740516db164a0fb7c8": {
+      "tex": "A=A^{\\mathsf T}",
+      "width": 76,
+      "height": 26,
+      "sha256": "b95989bfa104730f48119b7ddd32d51638a5d8668a3490ef824c42c039821353"
+    },
+    "d51b5e0567d0ee4a28996e7436ac811c569315b87e32e7e1ccca4f86055addc2": {
+      "tex": "D_n(x)=\\frac{n}{x^n}\\int_0^x\\frac{t^n}{e^t-1}\\,dt",
+      "width": 237,
+      "height": 55,
+      "sha256": "b7093fb1ba6b323acb5f6aa69a7db5e5d162e6e2d78585234f7acaf96f125471"
+    },
+    "d53ebda2645b9b03ee13dd97ae04e23675b619c6f33a5d8d5ad2945099f1b668": {
+      "tex": "1.883531475\\times10^{-28}",
+      "width": 185,
+      "height": 27,
+      "sha256": "cccb5653247d2370f50833bf3fedc95fcb3a8ad74b3daad0738d7a697a950e88"
+    },
+    "d66d1f8c1026dbc66d121a039f480b23e7698863ab53bf4671c550046298b6b8": {
+      "tex": "8.47835326\\times10^{-30}",
+      "width": 175,
+      "height": 27,
+      "sha256": "8c8e79ed8d0fe7a0d528804c207e82491854ae2dd29333febeba7db7c40f9893"
+    },
+    "d684440f10ba4154b6dd2dc993b7d7b8e7ebc29de136958d94ca9f2ef0023dab": {
+      "tex": "\\sec x=\\frac{1}{\\cos x}",
+      "width": 126,
+      "height": 49,
+      "sha256": "639aca3992736d556603c8d3979b2550bcc730cc27e95ef9f1069a58a803eaac"
+    },
+    "d6eaf6d950c6f3eb938fc2b1fbf24b0700e635c443bbd9d2e63e1bbf581218de": {
+      "tex": "3.16747\\times10^{-27}",
+      "width": 145,
+      "height": 27,
+      "sha256": "b57220ab065864af1663e4646c6fce46b028ff84bb556c70211b48786208c8a5"
+    },
+    "d7e2e73881f84755cb55668fca4c43d560a6b6ad7d3dd9d98a53486b365ed30f": {
+      "tex": "939.565379",
+      "width": 104,
+      "height": 22,
+      "sha256": "c473e800a957abf16b53b8b9c7af4db655b99015b0675ac330db861bc4d3ee26"
+    },
+    "d7e7c5b6166406f6cbc82be77d6747fb8de34e179016b04547e6450f547b2e55": {
+      "tex": "-2.127497718",
+      "width": 130,
+      "height": 24,
+      "sha256": "5862dafd9ab93b619e476e35ac97ae572c309eae1dc92ad4d08248ec7bcab53a"
+    },
+    "d7f043c7dcbe4db1310d849110d5816e4803ddab86993a6fc68c2eabed7ab65a": {
+      "tex": "4.50038741\\times10^{-10}",
+      "width": 175,
+      "height": 27,
+      "sha256": "bd4a01f6d57254c9c3361de41306879ce8f4fc685756fdc41b200d76f7014e44"
+    },
+    "d87161d3db0f446a737451f12ddf2c9e1308b99acd495d64e7c8d642d258b7a7": {
+      "tex": "5495.8852754",
+      "width": 124,
+      "height": 22,
+      "sha256": "987a7016caaf545ed914e52039429922a54bda1954e3b66e23e2d4fe2c4eb196"
+    },
+    "d8af4461dd36b1c622d02fb30dab39c3a0139a7ee385261d49213ad357bd974b": {
+      "tex": "x",
+      "width": 13,
+      "height": 11,
+      "sha256": "091c172db03a7ce224fdfc064987e28a8a4988130b3638e7a4e73fb809fa351d",
+      "mode": "inline",
+      "depth": 60
+    },
+    "d91069dc5a2c99257c003d9b2c20b425fc962afade4559e26a4071ca7d8973ba": {
+      "tex": "1.782661845\\times10^{-36}",
+      "width": 185,
+      "height": 27,
+      "sha256": "a5d799c8081e879a928a1f1f6a95082cc883df39c21c96cebc5496a1aa35aeed"
+    },
+    "d92571f336e0d868e522870ffc7b626893b87ac65148eb2a987a4995464d22d4": {
+      "tex": "\\sin(x)",
+      "width": 53,
+      "height": 21,
+      "sha256": "a4e417fe2ffb2be6452d8f7304bc8590085c2708e579f09d22d5f3cc54b6a701",
+      "mode": "inline",
+      "depth": 275
+    },
+    "d97344592dc703a2da6d3ed2731f602b08574bed1433e763d6942debbb0fa1d6": {
+      "tex": "E_{\\mathrm{h}}",
+      "width": 26,
+      "height": 18,
+      "sha256": "05b6641a02282c25ea1a45474a80706c9e697872eb98024e7002550f79b5b3a1",
+      "mode": "inline",
+      "depth": 185
+    },
+    "da4d1f19925865d26ad6d2fa8224666c440331c5221a93b7fca2292dd6e33132": {
+      "tex": "-9.2847643\\times10^{-24}",
+      "width": 181,
+      "height": 28,
+      "sha256": "fd9e78b9a17a6afc716cc18511fa7415fa75b91feaabc61b1f0c18a843aa6e6f"
+    },
+    "da5062552801ddebf0ae1b14376b52781f0540d780905c4ead2cebccd1ed92d9": {
+      "tex": "-0.001158671471",
+      "width": 160,
+      "height": 24,
+      "sha256": "0fe062824a6ed2029c02260138d477db0fa6b295833185767377f09e68f682f8"
+    },
+    "db02abf76d6a754162f778c03d6c2de5a59a2616cb17b13cfa6af1ef61cc1d52": {
+      "tex": "-658.2106848",
+      "width": 130,
+      "height": 24,
+      "sha256": "3f618dc02484f857dac98d2be275d89fb31c93e0f3e8f688e6a9c655c8e9e31a"
+    },
+    "db03fc3e1a8504378fd55bf5b430abe1dfa4750bae847d6c9a120678b340e3ed": {
+      "tex": "\\alpha=\\frac{e^2}{4\\pi\\varepsilon_0\\hbar c}",
+      "width": 116,
+      "height": 56,
+      "sha256": "0ac3e630752f7683dbe62836eb075af1df18acd999ebc8f43faa17ee0a5df750"
+    },
+    "db3cc214eff6e51db8001f6008a4e0f5d33c5eaa5b5c31be47c6dab5526bd97e": {
+      "tex": "|j_1,m_1\\rangle",
+      "width": 67,
+      "height": 21,
+      "sha256": "5653082284a37dad7fe740d57963b6ed811fa63054329ae6cd6883ea89c13d24",
+      "mode": "inline",
+      "depth": 275
+    },
+    "dc74f0d57208a248f43d6ac8bf6dad6ed8208127fb2c24cf919e30066c3a0cb0": {
+      "tex": "1.2309594173407745",
+      "width": 184,
+      "height": 22,
+      "sha256": "9b1f4fedb35ceec91d423a7e77756b4842eefb8df52a7f8613440222b79969f0"
+    },
+    "dcd7d6615fe771b25ea83cf62c6bfa49c1951464519249209df3c393c9915168": {
+      "tex": "931494061",
+      "width": 98,
+      "height": 22,
+      "sha256": "f6f0ff24500b43aece76bd038f24c0c8ca4ab7d8fc5a26a5d221ec3449036dca"
+    },
+    "ddc6f17ce6a3f161d14d5add53dce580c548db03d7f4916863cb05f68aaeb03a": {
+      "tex": "\\operatorname{Li}_2(z)=\\sum_{n=1}^{\\infty}\\frac{z^n}{n^2}\\quad(|z|<1)",
+      "width": 241,
+      "height": 64,
+      "sha256": "e4cac03fcb3ba1373e7a26bc918a183b3bbbbf2c77ce0fd27cec41fed0521da5"
+    },
+    "de062848c91786a130f7ecefdeff14485750aa2a2b4f30cc91eb5441bf2a5283": {
+      "tex": "y^{\\prime\\prime}+(a-2q\\cos2x)y=0",
+      "width": 227,
+      "height": 29,
+      "sha256": "f3830f761ac8dac15da106e291fb283ac4ac6450616e78797091e9063138d175"
+    },
+    "de11bda2f3ddcbf5ba61d82aa971309c194989eef506d708b428e4eeacd446f4": {
+      "tex": "0.001008664916",
+      "width": 144,
+      "height": 22,
+      "sha256": "5d5b8d94914964111de79bc33ff63cf7fa0ca1ee7a2bc651d43c851cc58f1406"
+    },
+    "de45cf991348f3829108ef2f0d126f1740b3ab53945ab1ee9cae625ae9610f71": {
+      "tex": "-0.68499694",
+      "width": 120,
+      "height": 24,
+      "sha256": "cd6a451e776adbae7d36309d7889585def72c5501c8439f62c78d7516336e039"
+    },
+    "de94f4303a1762b39b9e8b4c2f9b22f2b29740939a4f9e0108188274643c117d": {
+      "tex": "1.356392608\\times10^{50}",
+      "width": 174,
+      "height": 27,
+      "sha256": "fdac022f51dfbaf5d7515f4a6acf22e0f12289db2b7240b18c5055ad4d03b5fd"
+    },
+    "df31338b081558a405975957d29507c67a142c883299861ff73613b70e01431e": {
+      "tex": "z^2",
+      "width": 21,
+      "height": 18,
+      "sha256": "51e9e20f82be50960ec014d2e2e81c428827243e8e2a1a045dae5d5c220e0b10",
+      "mode": "inline",
+      "depth": 39
+    },
+    "df45cbd453f7afb824cad4d9b539f6e38d9ececbc533eadd424872121d65523c": {
+      "tex": "1.692833667\\times10^{-11}",
+      "width": 185,
+      "height": 27,
+      "sha256": "8b9c6345d49279c10eef4b8acf5ef3d342b6cc7fc1cf099090faffb0fe36af9f"
+    },
+    "dfaac517bbc7bfb09c91471e375e99642ba377204cddd1972e5e7de5efd7a7fe": {
+      "tex": "E=h\\nu",
+      "width": 65,
+      "height": 16,
+      "sha256": "91e0f82d0dad7a80beb1704d06f995f320f6deff94c9620d9c5c6864ebc8eda2",
+      "mode": "inline",
+      "depth": 59
+    },
+    "dfe0b17310022b9b6d09c9a53f11ec3f0ace0b5ec8a6de25eed599d4d65c7f4e": {
+      "tex": "6.70837\\times10^{-39}",
+      "width": 145,
+      "height": 27,
+      "sha256": "03871b772b0c89132a20269926e53549d960b6f3880003c5845894d80491a020"
+    },
+    "e07fd0a8f6734228d81df26ef435b4fe0f4bd7a01901bd3ac05b1c548499d131": {
+      "tex": "\\zeta(s)=\\sum_{n=1}^\\infty n^{-s}\\quad(\\Re s>1)",
+      "width": 231,
+      "height": 64,
+      "sha256": "d920b242c0c173d1732d1cc47c0a0a57df811192408415ac6c00138dc8839471"
+    },
+    "e1447889fe80cd7ad9c3514a6694163a2caa017c8dbf2fa6a0650904417c61e9": {
+      "tex": "H(x)=\\begin{cases}0,&x<0,\\\\\\frac12,&x=0,\\\\1,&x>0.\\end{cases}",
+      "width": 195,
+      "height": 81,
+      "sha256": "f8b2df137709ee962c8b94506764c894c7acc5eef6c2c1ad26497386bf86aeb5"
+    },
+    "e1806342f846ee4bf631fcc65e40d775328e9d901736fa01afe431b628a22729": {
+      "tex": "1.00001495\\times10^{-10}",
+      "width": 175,
+      "height": 27,
+      "sha256": "6a04dd718f6691d93177cb7603b25c7f7b29f34e9e05e673ec306923543abf96"
+    },
+    "e1fc12658ed0c2e8dbc1331bb1dcaba527a8c979468b0ae1d3e01b7fa78ec135": {
+      "tex": "3.34358348\\times10^{-27}",
+      "width": 175,
+      "height": 27,
+      "sha256": "c8a644eb19c13428501785f57315e13a195dc698b0ded48d0228ecdd275b2bf6"
+    },
+    "e2682ddce3a3f6398a24f7f548145a78ad57e4da3fcfb916acb235380e67aa79": {
+      "tex": "\\operatorname{Si}(x)=\\int_0^x\\frac{\\sin t}{t}\\,dt",
+      "width": 178,
+      "height": 55,
+      "sha256": "960f497212ba7d12789bcb7c067b9f99b5ccf96e2f945c664aa91f45efe18c76"
+    },
+    "e2890052ba3e1f9a706b09b7bb3cbf7b7b6c176dd6eb9217657f343e19c347ef": {
+      "tex": "2808.391482",
+      "width": 114,
+      "height": 22,
+      "sha256": "8ffa36bac69ede3f80d7eff5fdeee69c2bcd3b0ccaced477b5373c7bacb07d98"
+    },
+    "e2958fd399efa148392387d56bc971b02d6686909706f5a81e807c5e54c818d0": {
+      "tex": "f(\\mathbf{x})=\\frac{\\Gamma(\\sum_i\\alpha_i)}{\\prod_i\\Gamma(\\alpha_i)}\\prod_i x_i^{\\alpha_i-1},\\quad\\sum_i x_i=1",
+      "width": 354,
+      "height": 62,
+      "sha256": "efbbbe464ea45ff75c454a12d7d3c1059b96586e3b4291f74a87cea1a2a18ee5"
+    },
+    "e3afba56217a4b860867c2bce5cebd2196bda2db343ebd980fc65905fd7dc8ef": {
+      "tex": "5.00641234\\times10^{-27}",
+      "width": 175,
+      "height": 27,
+      "sha256": "e33a281488b6d7b36dde24a727f3c28d833a32ff0c607488b90134a04f34aa7c"
+    },
+    "e3cae07911aa7f7985fceab32cabd1c154211ded287d4e70f550373c717b86dd": {
+      "tex": "0.00054857990946",
+      "width": 164,
+      "height": 22,
+      "sha256": "d30f6ee83c7b4016f3bc16d218ecc249c4d4d7e0814e27cefca9cf84405a4f16"
+    },
+    "e403588959ebbcbfb48b78f88427035c0a6b42f4876d89ee57b3b07c99d294a0": {
+      "tex": "1.89372",
+      "width": 74,
+      "height": 22,
+      "sha256": "62da1753f3ac59c62ceb187101661889968bacdde102bbc94d0010d5cc262b5a"
+    },
+    "e4047d2fbb950091dade884e4de92d52c6d5451eed48ab39a354e7b060b37b76": {
+      "tex": "A^{-1}A=AA^{-1}=I",
+      "width": 171,
+      "height": 26,
+      "sha256": "ddfed5f74fc654c8e1a4145db1542d0b13e5b48576fd32b51f147e3893cd67d4"
+    },
+    "e41d05dd49aa3654c087c9f15043d0c5fa4c3e2214e27a657e45feb8c7d76fa8": {
+      "tex": "7.7480917346\\times10^{-5}",
+      "width": 188,
+      "height": 27,
+      "sha256": "312c98f951d7b1d0bd7dbfffb213ff1bb19b9699d798069863282e0a49914bae"
+    },
+    "e42c961463ac8ae8c606e8a822458cd0e23c0dd5ebcc8701787fecea3edc173f": {
+      "tex": "[0,\\infty)",
+      "width": 54,
+      "height": 21,
+      "sha256": "ce93afab2534f5ae4fcc171f83c87667078aa41e05c9e7adba690707df6c163e",
+      "mode": "inline",
+      "depth": 275
+    },
+    "e4b0a8dcda4db5dc5312948764d5d17c81a73644ae2c5be8930e56b819968bc7": {
+      "tex": "5.4857990946\\times10^{-7}",
+      "width": 188,
+      "height": 27,
+      "sha256": "b1f032f3f778aa001ddb79ae0ff4735d4ac6e10a02a2664d839653596fcbc206"
+    },
+    "e4c65eea555ef26caceb5dc64fd1675fa7cebb2b581681b431c19ccbd9f0cdbb": {
+      "tex": "-4.49044807\\times10^{-26}",
+      "width": 191,
+      "height": 28,
+      "sha256": "8711742e56f94b96cabfda55d40eaf06224ca5b84fdec415f63d1e9f877e025e"
+    },
+    "e5548f82a0a0c2aa1baec7516270c597b8034cfda2491b486dbacb23ff79c95a": {
+      "tex": "1.89111",
+      "width": 74,
+      "height": 22,
+      "sha256": "37c3832705d7d7cd43de58a044881d84dcb051157900ec2cfb9d44be5d652ab2"
+    },
+    "e5c318051116c6ed7c5d37efb37d82affc558aadf7b5ad26678f55db19e4dd51": {
+      "tex": "\\tan(\\arctan x)=x",
+      "width": 161,
+      "height": 28,
+      "sha256": "fe16699a29a6378daf0c7facb9dca1b5bd905b6cb91400f506a629cb864a2d59"
+    },
+    "e5d28d25ff5e189ae023098148ce22b74a8638945d446dca25b5d0fb2064976b": {
+      "tex": "1.3310250512\\times10^{-15}",
+      "width": 195,
+      "height": 27,
+      "sha256": "98bc692e0dc5533c91d7c7b39c4ef1b0f31a020bb5e386963f5b8d0f5383e438"
+    },
+    "e6577f69654881402152d477600783db16b69650c5f790e513eab5a589bed09f": {
+      "tex": "-2143.923498",
+      "width": 130,
+      "height": 24,
+      "sha256": "71f6f2adaf0c333565a382353f17235b5356519c1284791dd253b14e64af5fda"
+    },
+    "e6bd6d2ea9b875ba171d6e8bfd9243cb57c722f2fb9637631f12658b3bd91c7f": {
+      "tex": "1875.612859",
+      "width": 114,
+      "height": 22,
+      "sha256": "59e64205f2f756b1c655b43295cd79c35e720ff5143e69d6a93ad586b20b813e"
+    },
+    "e6c6550f2af0d5c37240db76627a471cd51e9ebfa2abea7cdeb6c083e0fa81bf": {
+      "tex": "0.6243299885435508",
+      "width": 184,
+      "height": 22,
+      "sha256": "73f59d8b6b1fb81b0e21d56c4dc3ff8f84d99968283b7c6cb9468080ddaf504d"
+    },
+    "e6d078d2936a345893f62fd666a6ec52472bd1b123423c76ac6e665f611f6372": {
+      "tex": "p(x=k)",
+      "width": 76,
+      "height": 21,
+      "sha256": "0e7902787986ecceac5904929c78140663fa8ffbcffb4bf0dd04fabc7de64334",
+      "mode": "inline",
+      "depth": 275
+    },
+    "e71d6aa77c8bdcb119bce40fc1042d383cb0eff4a07e575ad0713213f5af24f9": {
+      "tex": "27.21138505",
+      "width": 114,
+      "height": 22,
+      "sha256": "24a15383731d4564a80b1e337b77e900fa094426761039f0ac074aaadda409cc"
+    },
+    "e73e337b2004fbb976a2f13e6515cedabda7a1b49a54a38094e69e8c9c8dedf5": {
+      "tex": "0.00054461702178",
+      "width": 164,
+      "height": 22,
+      "sha256": "97cccba7d6dee1b372dd6e3e7ceb00f0043f73cddb8e29359bc7ed9b50675ae0"
+    },
+    "e75f6268d339e774e5581966c8ed6a309d760875c1b64af49cec1d01afa4e28a": {
+      "tex": "U\\sim\\operatorname{Uniform}(0,1),\\qquad X=a+(b-a)U",
+      "width": 369,
+      "height": 28,
+      "sha256": "68da06c05bc58b8cb326aa11d335a86d31ad382fdc3e79256c42ced2aa363c87"
+    },
+    "e76d54a86d368b56331095d254c6447e62770a7e14ed677b1406c102bbab414e": {
+      "tex": "T=273.15\\,\\mathrm{K}",
+      "width": 117,
+      "height": 16,
+      "sha256": "ef707b50a43f1fcfc0eaa22d7e34f01623cc7731c852c4406ae9849c4a79fc85",
+      "mode": "inline",
+      "depth": 70
+    },
+    "e788dbba943aa1a5b415e864e46ce7a2f4c6ac7bf039fccc37a4d60034c740d8": {
+      "tex": "5.585694713",
+      "width": 114,
+      "height": 22,
+      "sha256": "a478debda5fcc86ad79adeecb613fda84165e30f37188ce3e158333f2372ca64"
+    },
+    "e7cbf0a04eea6347bac65cac2d283322ce3c977b70d813c595a819e341f69caa": {
+      "tex": "(p,p+2,p+6,p+8)",
+      "width": 187,
+      "height": 21,
+      "sha256": "ad6458e26e7a7025f804f5e42bc2085ca4d4e03add6655ae64e904942e8a4e39",
+      "mode": "inline",
+      "depth": 275
+    },
+    "e7f1e079e79181c567912982743c51d3ecf05354430a4e4e71083ed69a2b6e0f": {
+      "tex": "5.60958885\\times10^{35}",
+      "width": 164,
+      "height": 27,
+      "sha256": "8606df99d0e28b6b02830c373996d7494c661d9bac7a0be79de5428eada11315"
+    },
+    "e8d0aacf69a6f0e5233148d497453bdaee8013b9b42a9dbb9b8a0b742cff329a": {
+      "tex": "\\csc x=\\frac{1}{\\sin x}",
+      "width": 124,
+      "height": 49,
+      "sha256": "65f08b89244cf1f90c0cefc2069ee4d5f832ac409819b9ae1ceda481f93de0fb"
+    },
+    "e91d1dbdbad2e0436e960dd309895c3cd93d2cbbae9365a4f62331b504c3e513": {
+      "tex": "1.054571726\\times10^{-34}",
+      "width": 185,
+      "height": 27,
+      "sha256": "118ad25e98250545a8027ba333ffafc482edb482d25b022dd28a672c59405c5b"
+    },
+    "e96c23b01c14379bea4aa0012b3ff4545910b2c4a4fc2de89ade5e95eb3a97e6": {
+      "tex": "2.5849817595792532",
+      "width": 184,
+      "height": 22,
+      "sha256": "1fb3dcd0f759b3dfffdba0d186ec886cda75f7d61c60a46656487fbf23e0bf4d"
+    },
+    "ea07115360ca807b9516a066311917257f9ea7c88b481f8072b097334bd7572b": {
+      "tex": "\\mathrm{eV}",
+      "width": 25,
+      "height": 16,
+      "sha256": "bc3e14ce3551a763441dac54ca4cba056a15591a8ba483cfc512a9c9f1896ea7",
+      "mode": "inline",
+      "depth": 70
+    },
+    "ea9f6137fd47c27f891f70ee6225784c62ddd6bf02191703139467b989c36a30": {
+      "tex": "\\eta(s)=\\sum_{n=1}^{\\infty}\\frac{(-1)^{n-1}}{n^s}=(1-2^{1-s})\\zeta(s)",
+      "width": 328,
+      "height": 64,
+      "sha256": "b1e60cd1b27a83e79fe5e0477c650e5820d1527f6cc78c2b676e5ea10e43adbf"
+    },
+    "ead2fa993e9d3bc0bee268b42df25e8cf77a776fc9e507741567e3e460c57cd3": {
+      "tex": "7294.2995361",
+      "width": 124,
+      "height": 22,
+      "sha256": "158484231e9a460e3cb52fd52c04b2dd66c3d5cb7ae6b0ee231389a564eba631"
+    },
+    "eb071e00353815dbead0f11021fb8fc9141ce6a7a333acf00105547ec511bf3e": {
+      "tex": "89875517870000000",
+      "width": 178,
+      "height": 22,
+      "sha256": "eb9c845cf4186cf2d0e1b11349205b0ba687a6fc4a8afe996626aef7193ae9ae"
+    },
+    "eb7be69b7d73399964ae47f01922384eb04b45cb38657103933fc737d62efccb": {
+      "tex": "0.00018195430761",
+      "width": 164,
+      "height": 22,
+      "sha256": "8c55f714422dc3ff7c8c43280945b54a10af8664646f4e6742ca61fe44cc1d64"
+    },
+    "ebb604c15bece629a7d37f145996d32bdb2b2ec50e16f0b363a66d0f4e1b1211": {
+      "tex": "25812.807",
+      "width": 94,
+      "height": 22,
+      "sha256": "f5312d869076a7c81a5bd70d527839b2590751311a5bbbe115f8bbcd9775ebb4"
+    },
+    "ec4e1e786a3cb08432439bc820ada4b5b352d2529bc85c0a709ecd50859b5857": {
+      "tex": "\\int_{-\\infty}^{\\infty}\\delta(x-a)f(x)\\,dx=f(a)",
+      "width": 250,
+      "height": 56,
+      "sha256": "185a8b751c5fc5e22ec93338db6c504c60e0fbb06615c40b322d590042075e34"
+    },
+    "ec56afcb2668a5019b7ed10388271da38d75bee711b198d1f390ad48745ab55a": {
+      "tex": "20836618000",
+      "width": 118,
+      "height": 22,
+      "sha256": "7eced62c8bf500de71dd0e53d9732b1096366ad6835f711a8c8bf48708508c0b"
+    },
+    "ecc1c611618fdf3970934d0c1cdc9de4380f26dd4754ec057bf456067cba080f": {
+      "tex": "f(x)=\\frac{e^{-|x-\\ell|/s}}{2s},\\quad\\operatorname{Var}(X)=2s^2",
+      "width": 300,
+      "height": 54,
+      "sha256": "a5edef7130115d8655e18e1c9e5da26cb839dbb3b3897ced252faef354e43a9d"
+    },
+    "ece7234ab8c8debc2e8054ff4572807604ee6e29bbbc2f6f3fbd6ad6335e4930": {
+      "tex": "-0.0004664345537",
+      "width": 170,
+      "height": 24,
+      "sha256": "23ebc179c8259dbe226f59e91ebe4817585c64df8742f39c53d882310d0efbf2"
+    },
+    "eceb5b7b1542aebd093e2aacc05c3201b3780764621a7d5879726ddc12defc9b": {
+      "tex": "6.02214129\\times10^{26}",
+      "width": 164,
+      "height": 27,
+      "sha256": "acb2ac041215c2ceb59e4ba638d42a1f178ad94eacf32d18e9e65f4094549567"
+    },
+    "ed5622169d449e8d015fba8ec6bd4d4cc81a625b4d870f3c44d8ed9e2a6780bf": {
+      "tex": "2.061485968\\times10^{34}",
+      "width": 174,
+      "height": 27,
+      "sha256": "3f51b978294779d700be8d34e4030129069c40b72db89fd1d07a57cb0e8d8135"
+    },
+    "ed8a8cfbb280cefe85ec436aa326f01e166c39d91e3e116fc97526ace5249b65": {
+      "tex": "1.503277484\\times10^{-10}",
+      "width": 185,
+      "height": 27,
+      "sha256": "5f37150d0ed70618af9f74fcc157eb90ea4709fc167ab9f9cd66f67547b5af81"
+    },
+    "ed8c362056d24c6a4a21c233247e72ba96b2cd9c8f549330eee7eee4e6b564cb": {
+      "tex": "x_0=1",
+      "width": 58,
+      "height": 18,
+      "sha256": "cd33017e66f1273ae11eede8ffef79405588a211d1143bad0aa94a7c9cf23b3f",
+      "mode": "inline",
+      "depth": 200
+    },
+    "edc197ad41e121be206f0b4ac781c311b1e2e8c990f73a9590ec42ee7347b4da": {
+      "tex": "m=k^2",
+      "width": 65,
+      "height": 18,
+      "sha256": "2f2deb17378da0b9bd24cf6c90b46a0debd4c01b231b6153549592363e713b12",
+      "mode": "inline",
+      "depth": 39
+    },
+    "ede6d7b76526836548d6f43f07e89c297e73fc98ffdc3c9842ddf1864e5768e6": {
+      "tex": "0.1134289267",
+      "width": 124,
+      "height": 22,
+      "sha256": "3e391d0576062252e8f374b7b18a8db0b16e24e5477d1a24fe63897b940f57a5"
+    },
+    "ee56a5d1b451b7dd18e8fe124024c3151a1b726534fbe67b07a1030238fe6072": {
+      "tex": "8.3144621",
+      "width": 94,
+      "height": 22,
+      "sha256": "e61a06a30a85f4993bb42842df587ecb92a78a0ad2d417eccdbf87a1873a3882"
+    },
+    "ee9da3c3576465cb6b27a65e620b9cb51bed3d0f33d7e1820762fcad53e5652e": {
+      "tex": "137.035999074",
+      "width": 134,
+      "height": 22,
+      "sha256": "d17987a0d6f6e9f93ce6bc38eb1d94731c38d24c90d719c2fb7bece302d13481"
+    },
+    "ef5a758b52dfd060755b779c01cf95cba8231a19fd935396ca32489f69c5ed47": {
+      "tex": "6.02214129\\times10^{23}",
+      "width": 164,
+      "height": 27,
+      "sha256": "ba6c9bb4aa1f6caf0630459a2dd800adba1d1ce6589fc7d122c51b734c62132c"
+    },
+    "ef69380df0e1437106e87188c4607336d53676b10e67afb9c00cc37cef857ab5": {
+      "tex": "0.87058838",
+      "width": 104,
+      "height": 22,
+      "sha256": "8cf30ab28725c2c48342e2e385a7ec43322e892740a7333a573c8eb3814b5035"
+    },
+    "efbf700e870cb889052cffbe9d66458a3145d88424df9582ae6da734b3fdd3ec": {
+      "tex": "299792458",
+      "width": 98,
+      "height": 22,
+      "sha256": "6707bcbeccd5e6c1797511fa2970bb585507e4f96b5a377b7f70c6b14d2a4aac"
+    },
+    "efe29a22d727b12abd640ca9c85155725827d91c150cd8a17812def4c3d49287": {
+      "tex": "\\int_0^{\\pi/2}\\frac1{(1+n\\sin^2t)\\sqrt{1-k^2\\sin^2t}}\\,dt",
+      "width": 317,
+      "height": 67,
+      "sha256": "6a003dd2659634301cb761713e2f88eea4642cde797ee251d366afe31dff3380"
+    },
+    "f00523ab10cc2d5ce2983a11eb8d34c65696df61d234427842a87937cfb83adf": {
+      "tex": "g(x)=A e^{-\\frac{(x-x_0)^2}{2\\sigma^2}}\\cos(\\omega x+\\phi)",
+      "width": 259,
+      "height": 42,
+      "sha256": "fe5cdce046f3783980c6ff45278e47c901bbd8d926d834126dcd202f8a22785d"
+    },
+    "f021446a179ea2b613c71d2404cd7f1a809a1dd34699c9bf581445bc43b3fbf4": {
+      "tex": "0.5772156649015329",
+      "width": 184,
+      "height": 22,
+      "sha256": "3f76a5f8b3ee5d6722f5de12fce3ca537a43aa7bbda01c34de90ef608dfd40ee"
+    },
+    "f0a1b7875844c3ae0d28f3cc44e9a6241da33e2623a69f0a71263158dffb4e87": {
+      "tex": "3.141592653589793",
+      "width": 174,
+      "height": 22,
+      "sha256": "29ae199a84c0a7b8fc1a4e57dfe79e160d68c824b6da9f25ce9d13501a793316"
+    },
+    "f0ac462c45cc4f645bcd8cc9a1eb7b944262ffe4687978cdfd31d6191e28cf38": {
+      "tex": "206.7682843",
+      "width": 114,
+      "height": 22,
+      "sha256": "06a3a06000ab9ffa1fa1bdae1798ea97dd631bcd5d3ffe565cc4e012760aef95"
+    },
+    "f0de228233a453462661309c57453a1ae3ee4e95db184cbe91cb7472bb24a218": {
+      "tex": "A^n=\\underbrace{AA\\cdots A}_{n\\ \\mathrm{factors}}",
+      "width": 130,
+      "height": 47,
+      "sha256": "adebb47a135b112cb33b070c32d9551af2245a9c03871498ffdf0d7b96485bc9"
+    },
+    "f1454dd848cd44b9b3ff0e2139881f7b0e20a694d43b8e4d285ccdc6ff009e63": {
+      "tex": "f(x)=\\frac{r^a x^{a-1}e^{-rx}}{\\Gamma(a)},\\quad\\mathrm{E}[X]=\\frac ar",
+      "width": 292,
+      "height": 58,
+      "sha256": "76106e7323d6aff457c23188a81f82f6b564dc1624005bd789da7cf9d17b46f3"
+    },
+    "f1c11125c655f6e89cfcb290bc0e1ed70807f766fdd9dd0235e27e37ebe44543": {
+      "tex": "\\operatorname{erf}(y)=x",
+      "width": 89,
+      "height": 21,
+      "sha256": "8dd0c2a9ca8d89709a9cd8631eb89644991979d5d7cee166791b6e9141d7614f",
+      "mode": "inline",
+      "depth": 275
+    },
+    "f1cca7dbc86d08c618b0f2234ebe35191635a81b07ce155e4e24ff3c0c425964": {
+      "tex": "C=2\\pi r,\\qquad A=\\pi r^2",
+      "width": 201,
+      "height": 30,
+      "sha256": "69ecc423c0295b4e116d4cef0b639b5b3e2cfec3f80fd44bdff45ed32044e383"
+    },
+    "f232a485dc4c214af7673582f76135671f8f4ec38d87478f491225ee381f37de": {
+      "tex": "4.135667516\\times10^{-15}",
+      "width": 185,
+      "height": 27,
+      "sha256": "80b6c5cc61cfc039ce117f16de36774fdb03b963553740cc4e200279d12037d5"
+    },
+    "f2fefca36d95dd0ecee8a07efb57eec9571262b5777e824e399e36b2a5806dfc": {
+      "tex": "4.85086979\\times10^{-35}",
+      "width": 175,
+      "height": 27,
+      "sha256": "710f5f323cd660cb7012dd66109be92b5d5902b2e749b802bb24337643c2e761"
+    },
+    "f407751438368ad35dfc71a887e818c5193731c2dde42cff203ec783550e8cb9": {
+      "tex": "0.643410546288338",
+      "width": 174,
+      "height": 22,
+      "sha256": "34b78487cc87dad0933ffb776b7a16dcffaa6f69a1e0278196114b917e5540b8"
+    },
+    "f40a3e6a01d813792c56f49e746d20eefc48104200a33fab829279a3177554e5": {
+      "tex": "\\det\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}=ad-bc",
+      "width": 199,
+      "height": 56,
+      "sha256": "de6433d928c2906637bc0d3bfad14d365568cfd733bcd9b8b0d593d66d9e6842"
+    },
+    "f4b1f05abfbea28f1fe12bb9fe1fbc1b2365836b68365f389f20f8ff6a8fade3": {
+      "tex": "6.23538054\\times10^{-65}",
+      "width": 175,
+      "height": 27,
+      "sha256": "c532690aa90247d3076fad392857484b394419680a6397540e464d1a5924a830"
+    },
+    "f4cc718cfdbd97c0c3988e7fdf2a3aee18f1e70e38a87299e7ac3c5011400193": {
+      "tex": "3477.15",
+      "width": 74,
+      "height": 22,
+      "sha256": "79e998ecc631f3e5434cf6f688a8a3e6fc36f3a44305bf26df2936481d2b974c"
+    },
+    "f6483a2dbf975b0dc4acedab19faeb7181f00878d7e24a0bad966e4197361137": {
+      "tex": "\\operatorname{sinc}x=\\begin{cases}\\frac{\\sin x}{x},&x\\ne0,\\\\1,&x=0.\\end{cases}",
+      "width": 217,
+      "height": 57,
+      "sha256": "07a975d0f794bb1f11556e582c7d4f7b299d72441c9b0e16391f6a129cf957c9"
+    },
+    "f6883de58558f6b2c5d069b432aa53a286600f10d68d5c2136e7cefa3d657de0": {
+      "tex": "+\\infty",
+      "width": 44,
+      "height": 22,
+      "sha256": "9f88e2789d9ff90bd6cfcc0052a4b4058920f9892df00e5be8185ccc7fa6805b"
+    },
+    "f6d7abe60768c117fb0bd2ccb0b2f06edd193bf9465e33b405fdd9317de3838b": {
+      "tex": "-9.6623647\\times10^{-27}",
+      "width": 181,
+      "height": 28,
+      "sha256": "38ce94cc4a765505ae06e6ccc18674ca8cc1796cc4b2ccf9e4ea51b95b21bd81"
+    },
+    "f6fbebdcc22098f5badc23e8f8775ef337f2e60971c8b97ed59b9e801cef33e8": {
+      "tex": "\\Pr(X=k)=\\binom nk p^k(1-p)^{n-k}",
+      "width": 272,
+      "height": 50,
+      "sha256": "e9931c3180145e693e08ab51e884d42da85a593f847c6f7f892e81545c3ceb59"
+    },
+    "f7312a12ebdef91db3ed15b4a3dd9fe21c1fb54a033e73f28a19fbd044334986": {
+      "tex": "\\Pr(X=1)=p,\\quad\\Pr(X=0)=1-p",
+      "width": 327,
+      "height": 28,
+      "sha256": "04e451d712a99a63e322b643a2e80060de33c5e9508430b567025d0b8931ac74"
+    },
+    "f73cd63182d74049201caf074a01df6b5b0718ad01ff73dcc5aaca0103dfe802": {
+      "tex": "1.23984193\\times10^{-6}",
+      "width": 168,
+      "height": 27,
+      "sha256": "18b4eaba5cf8ccc55e13a9e9e9d9d02e58be5b6cd7d822352d455dc4fcaa42fb"
+    },
+    "f7b3a3cc83a2fc2bd455c9e71a479337955e95071f5738782b48785ee328b98e": {
+      "tex": "7.891036607\\times10^{-29}",
+      "width": 185,
+      "height": 27,
+      "sha256": "345ae51c21aa97ab1654815327961b3e9341d2feeba7dd81706b240b9cf7111b"
+    },
+    "f7f51b041de32394d57ece0c9964afae850523a9314b93ecd76f6b784b4b49f1": {
+      "tex": "4.52443873\\times10^{41}",
+      "width": 164,
+      "height": 27,
+      "sha256": "2b81169786cb837aaffe3e99e765894f45aaa5c5112f7e2ace9c42be4d5ae714"
+    },
+    "f7fa17052149a0363bad24568a0872a4b674771e6d91fe90da61e3f1e7ba78dc": {
+      "tex": "1.173444103\\times10^{-14}",
+      "width": 185,
+      "height": 27,
+      "sha256": "3da1ab118a12c33eb82ce4e5196f8866e9a5eccdf96a0009601df8eefc1857d0"
+    },
+    "f897f1f64f1d7feacd684c208017f689cc9f486184ac67cc53bae4bc758575d3": {
+      "tex": "0.307012207",
+      "width": 114,
+      "height": 22,
+      "sha256": "a5e66dd3c4095e2a7268ca051ee6b2fe9e1a939dc940bb015bd04d791fad6866"
+    },
+    "f8d1ac10eae86b24ef938ec0b8f07bdc2ef55779cb7bce4d595a59a9ae239587": {
+      "tex": "0.00483633166",
+      "width": 134,
+      "height": 22,
+      "sha256": "174cb3d4c0b575ba64a1e576c9bc916512b638b4f4eed2582442f94aaf108c9a"
+    },
+    "f90673c74d52b9aafc269a28ac0dbd7b055fa9b1351184ae212c00d097831bec": {
+      "tex": "7.2429716\\times10^{22}",
+      "width": 154,
+      "height": 27,
+      "sha256": "a2124376aec2140fb0471f198a240624ec98017c72b208abafa6373ebb597809"
+    },
+    "f9636b5c6460d4631683219d2e59714514881b60b7a630fcad3d9df0c38d092c": {
+      "tex": "0.000137093355578",
+      "width": 174,
+      "height": 22,
+      "sha256": "e8ea3c7a4e38615e45e548e4fde8db5200fef38baff58a4a8ecde35676858d23"
+    },
+    "fa065892fa3f36df7567a696412e34cb07dc505090f37f01079ab2ee9ac8a709": {
+      "tex": "1.920155714\\times10^{-10}",
+      "width": 185,
+      "height": 27,
+      "sha256": "6a2f76efd0ac63a6f9884bd9377f85bdcdb67c23bf616833f8e380cac9aa34e1"
+    },
+    "fa1ba5f2db3ca51f1a443f2a9c2ef0060b7e0862cc22069fe86d94439dbc314a": {
+      "tex": "f(x)",
+      "width": 40,
+      "height": 21,
+      "sha256": "898d7ba3de4876e0db58cce27e7d62fc9ca977dd1f5b3b6dceb097c410188bbd",
+      "mode": "inline",
+      "depth": 275
+    },
+    "fade3e0ba569a953019ced26b35c9b2e9ea247c3c0449d33bfd4be41b461e379": {
+      "tex": "1.00137841917",
+      "width": 134,
+      "height": 22,
+      "sha256": "99f1065c97a5f20b26610af5b51bbe2b256e27ee50a7d1cdb7058f1605120e93"
+    },
+    "fb27a2776dfb3d8de91283554be27c76911ca775f4a74bf43e77355004223431": {
+      "tex": "1.674927351\\times10^{-27}",
+      "width": 185,
+      "height": 27,
+      "sha256": "1db1a7c5518517ad3b697c24561c8ef052263d300c725b3c1cb5fdc2024b7f14"
+    },
+    "fb880df236189f45bbb9c5bae035c9c2b3d0d4c1be6c8f2dc9bc66e5aa67fff6": {
+      "tex": "1.30357",
+      "width": 74,
+      "height": 22,
+      "sha256": "50cc928623c75a2198515c35485c3df3687b9cb3a4f44561c97a3b98745fd666"
+    },
+    "fbe315a9eaaa85b1295a27c1a17814ed5e6ed69244c636a96df510d87d5b797d": {
+      "tex": "5.7883818066\\times10^{-5}",
+      "width": 188,
+      "height": 27,
+      "sha256": "9cc909b01843cffbacdc3fb6e80e01a0c0948d2b4f6500d0ebbd0b8cf968d203"
+    },
+    "fc67517701a72fa42bb462f1c1ef1aa18715fa348753378023cd321d1140c2b7": {
+      "tex": "E_0=m_{\\mathrm e}c^2",
+      "width": 102,
+      "height": 29,
+      "sha256": "deb13f762b3c2dcf5d2783bd0d3525227eea81fe83ae1692067f92f48fe78be1"
+    },
+    "fd0882350043109a3e1fae1a655a9fd300edea43282503f7d81da63cbc19d551": {
+      "tex": "0.00662361795",
+      "width": 134,
+      "height": 22,
+      "sha256": "ff21cfd2572494c5fec97877bb88975a3593ea261a8f4acb98f1e099a3139509"
+    },
+    "fd9eb5fd2ecdead4df5aabfafb8d5694f952eaa118ef8d85cac31fc912e3e2e0": {
+      "tex": "1.416833\\times10^{32}",
+      "width": 144,
+      "height": 27,
+      "sha256": "cb2d0f45a4a67ea869295d16e76563718fa8ee41356c9cd9f61d456680c05249"
+    },
+    "fda53969a70417834a675f92e72cc694963d3c05864aee128c4cadf0801372af": {
+      "tex": "\\lfloor A^{3^n}\\rfloor",
+      "width": 50,
+      "height": 23,
+      "sha256": "de78c315fa66127b3fc680f9d0e8a8f4e6a1a15ce2e150eaae39b34de2935987",
+      "mode": "inline",
+      "depth": 280
+    },
+    "fdaa94d73068d4b0cc206f53142924832407e62f3f29e2204fbbae18afae6edd": {
+      "tex": "0.03674932379",
+      "width": 134,
+      "height": 22,
+      "sha256": "7fb7617e8f70c8892c12d4d62eb0792e2d93c8eda1cb7145e1f61a5e2ab610ed"
+    },
+    "fe0fe15b7ff71eeb9c102fd29e1b9ad8b0bf7d5736413f0707fb25e7501c784f": {
+      "tex": "6.626069572899999\\times10^{-34}",
+      "width": 245,
+      "height": 27,
+      "sha256": "8ac6836f15aeb85e7b253f77ce250b106f6910a8e9b3d077042724900285295f"
+    },
+    "fe203eaded1c3b8648c0520d90057a97c0e01253313acb14b4aeaf62183693d2": {
+      "tex": "A\\approx I",
+      "width": 60,
+      "height": 23,
+      "sha256": "2c4faa80f90300798ce7e6d8f7ec7f5bc395fa98a6e2846f70e5d0295e44b12b"
+    },
+    "fe28f5c464b6aed320d63f7a2bffe6eecf98aed848a0fd4788a7527d15d85a86": {
+      "tex": "P_l(1)=1",
+      "width": 82,
+      "height": 21,
+      "sha256": "4935fbeb7b87b9f28f2e376fbae4f1b7766b266387220ac82893b2c8a7bef53e",
+      "mode": "inline",
+      "depth": 275
+    },
+    "feb37a99e91d0b23a5d5630a95edbcba6e0fbb95888c5c4b709503e85c50329d": {
+      "tex": "9.717362\\times10^{21}",
+      "width": 144,
+      "height": 27,
+      "sha256": "60f209e6fa457279cbfb0311154c3695cbe8d2bbd00796fb8f8c947b627d9b47"
+    },
+    "fee1d395e294ec2f7b431b126e447e0273901a8e2acf566a0cd4014499904f53": {
+      "tex": "0.99862347826",
+      "width": 134,
+      "height": 22,
+      "sha256": "2a2b5702d631d637c4c8ee5c9836feefa424638d07704912feb8447635e9a7a8"
+    },
+    "ff09e825c404f25139e1fd116433fbc78e98f7612d16bf085f30ea12ee3ec7dd": {
+      "tex": "z=\\operatorname{fxy}(x,y)",
+      "width": 110,
+      "height": 21,
+      "sha256": "7052f4d2f88faf4a9c2eeaf46bddd0f064c914cd50d3842fea0bb71941f8afbb",
+      "mode": "inline",
+      "depth": 275
+    },
+    "ff297580af4e6b53e526bce0fd610b7d3e2687850fdffb39f44998cc4c7cf564": {
+      "tex": "1.3063778838630806",
+      "width": 184,
+      "height": 22,
+      "sha256": "0972fa63986ab297ceed4212343a25f95961328c74810f2ce9c6c18aefb7feb4"
+    },
+    "ff9187ad801664bb5432d2c9508c368f0c8c02ecfba10f1a6e137913423ea7b3": {
+      "tex": "0.7642236535892206",
+      "width": 184,
+      "height": 22,
+      "sha256": "81cb1e8c0c5bbd5b468fd5a6fc90867b2ca09f3fcbe1bdb4a675a9eb6aad3002"
+    },
+    "ff920865c847e844779e6e1e6b24cffc33dc40f113cae54771d7a45be751efec": {
+      "tex": "2.1765113\\times10^{-8}",
+      "width": 158,
+      "height": 27,
+      "sha256": "30aef083eea4a97953eb26cfcc9f2ba37931ca7d181c58a50c928daad8383a5d"
+    },
+    "ffd4b2c29e371d1c015ce8f2371d73f7918dcc5a6ac678a5f6ab3bc10967d934": {
+      "tex": "46.6864498",
+      "width": 104,
+      "height": 22,
+      "sha256": "bf4237d68fa54a056303853bc6d96500e37c0ed74c5c6fb8965231790b648f81"
+    },
+    "fff520d8f0f9d81c506258e72fb09c9a641f46b8a2e1b1dc30045d7bcf85aee3": {
+      "tex": "\\operatorname{Li}_s(z)=\\sum_{n=1}^{\\infty}\\frac{z^n}{n^s}\\quad(|z|<1)",
+      "width": 241,
+      "height": 64,
+      "sha256": "dd722fc314d8667737e96aa4a7ce254bc1bf609e391f064197cf2376044780d2"
+    }
+  }
+}

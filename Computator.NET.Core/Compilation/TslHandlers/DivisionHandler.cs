@@ -6,15 +6,21 @@ namespace Computator.NET.Core.Compilation.TslHandlers
     {
         public string Replace(string input)
         {
-            var ret = DivisionByIntegerRegex.Replace(input, @"/$1.0$2");
+            var ret = DivisionByIntegerRegex.Replace(input, @"/$1$2.0$3");
 
-            ret = DivisionByParenthesisRegex.Replace(ret, @"/(1.0*($1))");
+            ret = DivisionByParenthesisRegex.Replace(ret, @"/$1(1.0*($2))");
 
             return ret;
         }
-        private static readonly Regex DivisionByIntegerRegex = new Regex(@"[\/]\s*(\d+)([^\.\d]|$)", RegexOptions.Compiled);
+        // A sign does not change the numerical division rule. Keep it outside
+        // the promoted operand, and distinguish unary signs from ++ and --,
+        // whose operand must remain assignable and execute exactly once.
+        private const string UnarySigns = @"(?:(?:\+(?!\+)|-(?!-))\s*)*";
+
+        private static readonly Regex DivisionByIntegerRegex =
+            new Regex(@"[\/]\s*(" + UnarySigns + @")(\d+)([^\.\d]|$)", RegexOptions.Compiled);
 
         private static readonly Regex DivisionByParenthesisRegex =
-            new Regex(@"[\/]\s*(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", RegexOptions.Compiled);
+            new Regex(@"[\/]\s*(" + UnarySigns + @")(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", RegexOptions.Compiled);
     }
 }

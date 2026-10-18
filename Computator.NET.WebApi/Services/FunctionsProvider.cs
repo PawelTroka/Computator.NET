@@ -31,7 +31,7 @@ namespace Computator.NET.WebApi.Services
 
         public Function GetFunction(string equation, string customFunctionsCode)
         {
-            var mode = _modeDeterminer.DetermineMode(equation);
+            var mode = _modeDeterminer.DetermineMode(equation, customFunctionsCode);
             return GetFunction(equation, mode, customFunctionsCode);
         }
 

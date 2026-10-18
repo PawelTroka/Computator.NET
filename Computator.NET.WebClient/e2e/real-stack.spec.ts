@@ -1,14 +1,26 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+async function execute(page: Page, button: string, operation: string) {
+  // The API allows 30 seconds for an isolated worker, including cold compilation.
+  // Wait for this operation's response before applying the short UI assertion
+  // deadline. Keep a bounded transport allowance and reject HTTP failures.
+  const pending = page.waitForResponse(response =>
+    new URL(response.url()).pathname === '/api/v2/execute' &&
+    response.request().method() === 'POST' &&
+    response.request().postDataJSON().operation === operation, { timeout: 35_000 });
+  await page.getByRole('button', { name: button, exact: true }).click();
+  expect((await pending).ok()).toBeTruthy();
+}
 
 // No route.fulfill, route interception, fixed answers, or test-only API implementations.
 test('real calculation changes with expression and variables', async ({ page }) => {
   await page.goto('/calculate');
   await page.locator('#expressionTextArea textarea').fill('2x+3');
   await page.getByRole('spinbutton', { name: 'x', exact: true }).fill('7');
-  await page.getByRole('button', { name: 'Calculate!' }).click();
+  await execute(page, 'Calculate!', 'calculate');
   await expect(page.getByRole('status')).toHaveText('17');
   await page.getByRole('spinbutton', { name: 'x', exact: true }).fill('9');
-  await page.getByRole('button', { name: 'Calculate!' }).click();
+  await execute(page, 'Calculate!', 'calculate');
   await expect(page.getByRole('status')).toHaveText('21');
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Calculate', exact: true })).toBeVisible();
@@ -17,7 +29,7 @@ test('real calculation changes with expression and variables', async ({ page }) 
 test('real Roslyn script execution returns computed output', async ({ page }) => {
   await page.goto('/scripting');
   await page.locator('#scriptTextArea textarea').fill('write(3+4);');
-  await page.getByRole('button', { name: 'Process script' }).click();
+  await execute(page, 'Process script', 'script');
   await expect(page.getByRole('status')).toHaveText('7');
 });
 
@@ -28,7 +40,7 @@ test('real numerical integration executes the selected backend method', async ({
   await page.getByRole('spinbutton', { name: 'a', exact: true }).fill('0');
   await page.getByRole('spinbutton', { name: 'b', exact: true }).fill('3');
   await page.getByRole('spinbutton', { name: 'N', exact: true }).fill('100');
-  await page.getByRole('button', { name: 'Compute!' }).click();
+  await execute(page, 'Compute!', 'integral');
   await expect.poll(async () => Number(await page.getByRole('status').textContent())).toBeCloseTo(6, 6);
 });
 

@@ -17,3 +17,16 @@ test('imported and restored script executes against the actual API with live def
   const pending = page.waitForEvent('download'); await page.getByRole('button', { name: 'Export .tsl', exact: true }).click();
   expect(await readFile((await (await pending).path())!, 'utf8')).toBe(code);
 });
+
+test('edited source preserves literal output and both multiplication notations against the actual API', async ({ page }) => {
+  const code = 'write("*|"); write(\'*\'); write("|"); /* * comment */ write(@"*.csv|"); write($"*{2*3}|"); write(3·4);';
+  await page.goto('/scripting');
+  const input = page.locator('#scriptTextArea textarea');
+  await input.focus(); await page.keyboard.insertText(code);
+  const response = page.waitForResponse(response => response.url().endsWith('/v2/execute') && response.request().method() === 'POST', { timeout: 35_000 });
+  await page.getByRole('button', { name: 'Process script', exact: true }).click();
+  const actual = await response;
+  expect(actual.request().postDataJSON().expression).toBe(code);
+  expect(actual.ok()).toBeTruthy();
+  await expect(page.getByRole('status')).toHaveText('*|*|*.csv|*6|12');
+});

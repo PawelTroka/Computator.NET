@@ -7,28 +7,30 @@ namespace Computator.NET.Core.Functions
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public static class StatisticsFunctions
     {
-        private static readonly System.Random m_random = new System.Random();
+        // Built-in functions may be evaluated concurrently. Keep the separately
+        // exposed rnd field unchanged for scripts which configure it themselves.
+        private static readonly System.Random m_random = System.Random.Shared;
         public static System.Random rnd = new System.Random();
 
         public static double random(double x, double y)
         {
-            //  if (x == y)
-            //    return x;
-            //else if (y < x)
-            //return double.NaN;
             return x + (y - x)*m_random.NextDouble();
         }
 
         public static double random(int x)
         {
-            if (x <= -1)
+            if (x < 0)
                 return double.NaN;
-            return m_random.Next(x + 1);
+            // The TSL integer overload includes the upper endpoint. Widen before
+            // adding one so Int32.MaxValue does not wrap to Int32.MinValue.
+            return m_random.NextInt64((long)x + 1);
         }
 
         public static double random(int x, int y)
         {
-            return m_random.Next(x, y + 1);
+            if (x > y)
+                throw new System.ArgumentOutOfRangeException(nameof(x));
+            return m_random.NextInt64(x, (long)y + 1);
         }
 
         public static double random(double x)
@@ -43,36 +45,35 @@ namespace Computator.NET.Core.Functions
 
         public static System.Numerics.Complex random(System.Numerics.Complex z)
         {
-            //return z * m_random.NextDouble();
             return new System.Numerics.Complex(z.Real*m_random.NextDouble(), z.Imaginary*m_random.NextDouble());
         }
 
         #region utils
 
+        // The legacy generated-script surface must retain the same bounds and
+        // concurrency behavior as the directly callable functions above.
         public const string ToCode = @"
 
-        private static readonly System.Random m_random = new System.Random();
+        private static readonly System.Random m_random = System.Random.Shared;
         public static System.Random rnd = new System.Random();
 
         public static double random(double x, double y)
         {
-            //  if (x == y)
-            //    return x;
-            //else if (y < x)
-            //return double.NaN;
             return x + (y - x)*m_random.NextDouble();
         }
 
         public static double random(int x)
         {
-            if (x <= -1)
+            if (x < 0)
                 return double.NaN;
-            return m_random.Next(x + 1);
+            return m_random.NextInt64((long)x + 1);
         }
 
         public static double random(int x, int y)
         {
-            return m_random.Next(x, y + 1);
+            if (x > y)
+                throw new System.ArgumentOutOfRangeException(nameof(x));
+            return m_random.NextInt64(x, (long)y + 1);
         }
 
         public static double random(double x)
@@ -87,7 +88,6 @@ namespace Computator.NET.Core.Functions
 
         public static System.Numerics.Complex random(System.Numerics.Complex z)
         {
-            //return z * m_random.NextDouble();
             return new System.Numerics.Complex(z.Real*m_random.NextDouble(), z.Imaginary*m_random.NextDouble());
         }
 

@@ -1,5 +1,5 @@
 """Script IO/plotting contracts and ownership, not a browser/portable promise."""
-from common import A, SOURCE
+from common import A, P, M, SOURCE
 
 def scripting(name,args,sig):
     url=SOURCE+'Computator.NET.Core/Functions/ScriptingFunctions.cs'
@@ -53,7 +53,7 @@ def scripting(name,args,sig):
         elif args.startswith('fx,xys'):d='Displays a real function with additional data series assembled from successive adjacent sequence pairs.'
         elif args.startswith('fxs'):d='Displays several real one-variable functions on a shared 2D chart.'
         elif args.startswith('fxys'):d='Displays one or more real two-variable functions in the desktop 3D chart.'
-        elif args.startswith('fxy,'):d='Displays the surface z=fxy(x,y) in the desktop 3D chart.'
+        elif args.startswith('fxy,'):d=P('Displays the surface ',M(r'z=\operatorname{fxy}(x,y)','z=fxy(x,y)'),' in the desktop 3D chart.')
         elif args.startswith('fz,'):d='Displays a complex function using the application’s complex-chart renderer.'
         elif args.startswith('fx,'):d='Displays a real one-variable function in a desktop 2D chart.'
         else:d='Displays a precompiled Function in the renderer selected by its FunctionType.'

@@ -131,53 +131,76 @@ namespace Computator.NET.Core.Evaluation
             return new[] { matrix.RowCount, matrix.ColumnCount };
         }
 
-        private const string _Exponents = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻";
-        private const string _ToReplace = "0123456789-";
+        private const string SuperscriptDigits = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+
+        // Parse displayed numeric values, not arbitrary TSL expressions. In
+        // particular, do not interpret a comma as a thousands/decimal separator.
         public static double FromMathString(this string mathString)
         {
-            double value = 0;
-            if (mathString.Contains("E") || mathString.Contains("e"))
+            System.ArgumentNullException.ThrowIfNull(mathString);
+            var text = mathString.Trim();
+            var dot = text.IndexOf(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol);
+            if (dot < 0)
+                return ParseMathFactor(text);
+            if (dot != text.LastIndexOf(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol))
+                throw new System.FormatException("A displayed number can contain at most one multiplication dot.");
+
+            var mantissa = text.Substring(0, dot).Trim();
+            var factor = text.Substring(dot + 1).Trim();
+            if (mantissa.Length == 0 || factor.Length == 0)
+                throw new System.FormatException("Both sides of the multiplication dot must contain a number.");
+
+            if (IsPowerOfTen(factor))
             {
-                value = double.Parse(mathString, System.Globalization.CultureInfo.InvariantCulture);
+                // Parse once instead of multiplying by a separately rounded
+                // power of ten: 5 * double.Parse("1E-324") would incorrectly be 0.
+                return ParseInvariantNumber(mantissa + "E" + ParseSuperscriptExponent(factor.Substring(2)));
             }
-            else if (mathString.Contains(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol + ""))
-            {
-                var parts1 = mathString.Split(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol);
-                if (parts1.Length == 2)
-                {
-                    if (System.Linq.Enumerable.Any(parts1[1], c => System.Linq.Enumerable.Contains(_Exponents, c)))
-                        value = double.Parse(parts1[0], System.Globalization.CultureInfo.InvariantCulture) *
-                                EngineeringToValue(parts1[1]);
-                    else
-                        value = double.Parse(parts1[0], System.Globalization.CultureInfo.InvariantCulture) *
-                                double.Parse(parts1[1], System.Globalization.CultureInfo.InvariantCulture);
-                }
-                else if (parts1.Length == 1 && System.Linq.Enumerable.Any(parts1[0], c => System.Linq.Enumerable.Contains(_Exponents, c)))
-                {
-                    value = EngineeringToValue(parts1[0]);
-                }
-            }
-            else
-            {
-                value = double.Parse(mathString, System.Globalization.CultureInfo.InvariantCulture);
-            }
-            return value;
+
+            // Preserve the historical two-factor form, e.g. 2·3.
+            return ParseInvariantNumber(mantissa) * ParseInvariantNumber(factor);
         }
-        private static double EngineeringToValue(string v)
+
+        private static double ParseMathFactor(string text)
         {
-            var sb = new System.Text.StringBuilder(v);
+            return IsPowerOfTen(text)
+                ? ParseInvariantNumber("1E" + ParseSuperscriptExponent(text.Substring(2)))
+                : ParseInvariantNumber(text);
+        }
 
-            if (sb[0] == '1' && sb[1] == '0')
+        private static bool IsPowerOfTen(string text)
+        {
+            return text.Length > 2 && text.StartsWith("10", System.StringComparison.Ordinal) &&
+                (SuperscriptDigits.IndexOf(text[2]) >= 0 || text[2] == '⁺' || text[2] == '⁻');
+        }
+
+        private static string ParseSuperscriptExponent(string exponent)
+        {
+            var result = new System.Text.StringBuilder(exponent.Length);
+            var index = 0;
+            if (exponent[0] == '⁺' || exponent[0] == '⁻')
             {
-                sb[1] = 'E';
+                result.Append(exponent[0] == '⁻' ? '-' : '+');
+                index++;
             }
+            if (index == exponent.Length)
+                throw new System.FormatException("The exponent must contain superscript digits.");
+            for (; index < exponent.Length; index++)
+            {
+                var digit = SuperscriptDigits.IndexOf(exponent[index]);
+                if (digit < 0)
+                    throw new System.FormatException("The exponent must be a signed superscript integer.");
+                result.Append((char)('0' + digit));
+            }
+            return result.ToString();
+        }
 
-            for (var i = 0; i < sb.Length; i++)
-                for (var j = 0; j < _Exponents.Length; j++)
-                    if (sb[i] == _Exponents[j])
-                        sb[i] = _ToReplace[j];
-
-            return double.Parse(sb.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+        private static double ParseInvariantNumber(string text)
+        {
+            if (text == "∞" || text == "+∞") return double.PositiveInfinity;
+            if (text == "-∞") return double.NegativeInfinity;
+            return double.Parse(text, System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture);
         }
 
         public static string ToMathString(this System.Numerics.Complex z)
@@ -396,53 +419,10 @@ namespace Computator.NET.Core.Evaluation
             return new[] { matrix.RowCount, matrix.ColumnCount };
         }
 
-        private const string _Exponents = ""⁰¹²³⁴⁵⁶⁷⁸⁹⁻"";
-        private const string _ToReplace = ""0123456789-"";
         public static double FromMathString(this string mathString)
         {
-            double value = 0;
-            if (mathString.Contains(""E"") || mathString.Contains(""e""))
-            {
-                value = double.Parse(mathString, System.Globalization.CultureInfo.InvariantCulture);
-            }
-            else if (mathString.Contains(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol + """"))
-            {
-                var parts1 = mathString.Split(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol);
-                if (parts1.Length == 2)
-                {
-                    if (System.Linq.Enumerable.Any(parts1[1], c => System.Linq.Enumerable.Contains(_Exponents, c)))
-                        value = double.Parse(parts1[0], System.Globalization.CultureInfo.InvariantCulture) *
-                                EngineeringToValue(parts1[1]);
-                    else
-                        value = double.Parse(parts1[0], System.Globalization.CultureInfo.InvariantCulture) *
-                                double.Parse(parts1[1], System.Globalization.CultureInfo.InvariantCulture);
-                }
-                else if (parts1.Length == 1 && System.Linq.Enumerable.Any(parts1[0], c => System.Linq.Enumerable.Contains(_Exponents, c)))
-                {
-                    value = EngineeringToValue(parts1[0]);
-                }
-            }
-            else
-            {
-                value = double.Parse(mathString, System.Globalization.CultureInfo.InvariantCulture);
-            }
-            return value;
-        }
-        private static double EngineeringToValue(string v)
-        {
-            var sb = new System.Text.StringBuilder(v);
-
-            if (sb[0] == '1' && sb[1] == '0')
-            {
-                sb[1] = 'E';
-            }
-
-            for (var i = 0; i < sb.Length; i++)
-                for (var j = 0; j < _Exponents.Length; j++)
-                    if (sb[i] == _Exponents[j])
-                        sb[i] = _ToReplace[j];
-
-            return double.Parse(sb.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+            // Keep generated scripts on the same parser as numeric input controls.
+            return Computator.NET.Core.Evaluation.ScriptingExtensions.FromMathString(mathString);
         }
 
         public static string ToMathString(this System.Numerics.Complex z)
@@ -530,6 +510,7 @@ namespace Computator.NET.Core.Evaluation
         }
     }
 
+        
         ";
     }
 }

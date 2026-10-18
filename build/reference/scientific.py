@@ -2,7 +2,7 @@
 
 These descriptions follow the application wrappers, not a wish-list API.
 """
-from common import A, SOURCE, MATHNET
+from common import A, P, M, SOURCE, MATHNET
 from scientific_matrices import matrix
 from scientific_scripting import scripting
 
@@ -16,8 +16,9 @@ def describe(item,values):
     if kind=='ScriptingFunctions':return scripting(name,args,sig)
     if kind=='MathematicalTransformations':
         return A('Discrete data transform','Applies a named transform to an array of equally spaced samples.',
-          '', 'Case-sensitive names: FFT, IFFT, DST, IDST, DCT, IDCT, DHT, FHT and IFHT. FHT here means Hilbert transform; DHT means Hartley.',
-          'Important overload differences: real FFT/IFFT uses Accord DFT and discards the imaginary result; complex FFT/IFFT uses Math.NET defaults and mutates the input array. Several real transforms also mutate input. The complex DCT/IDCT/DHT conversion currently indexes a rectangular array using its total element count and can throw for nonempty input. Complex FHT/IFHT starts from only the real component. Do not assume every overload is an invertible copy-producing transform.',url=SOURCE+'Computator.NET.Core/Transformations/TrigonometricTransformations.cs',category='Discrete transforms')
+          'Real DHT: H[k]=(1/sqrt(N))·Σₙ x[n]·(cos(2·PI·k·n/N)+sin(2·PI·k·n/N)); H(H(x))=x.',
+          'Case-sensitive names: FFT, IFFT, DST, IDST, DCT, IDCT, DHT, FHT and IFHT. FHT here means Hilbert transform; DHT means Hartley.',
+          'Complex DCT/IDCT/DHT treat the samples as an N-by-2 real array with columns Re and Im, transform BOTH axes with orthonormal scaling, and return N complex coefficients without modifying the input. DCT and IDCT are inverses; DHT is its own inverse. These three complex transforms and real DHT return empty arrays for empty input. Real DHT updates its input in place. Other overload differences: real FFT/IFFT uses Accord DFT and discards the imaginary result; complex FFT/IFFT uses Math.NET defaults and mutates the input array. Several other real transforms also mutate input. Complex FHT/IFHT starts from only the real component. Do not assume every overload is an invertible copy-producing transform.',url=SOURCE+'Computator.NET.Core/Transformations/TrigonometricTransformations.cs',category='Discrete transforms')
     if kind=='StatisticsFunctions':
         table={
           'rnd':('Exposed pseudorandom generator','The public System.Random instance available to scripts.',
@@ -68,9 +69,12 @@ def integral(name,args):
                  'Approximates ∫ₐᵇ fx(t) dt.', 'Supply a real callable fx, a<b and an appropriate positive integral N.',
                  'Exact method names: trapezoidal method; rectangle method; Simpson\'s method; double exponential transformation; non-adaptive Gauss–Kronrod method; infinity-adaptive Gauss–Kronrod method; Monte Carlo method; Romberg\'s method. Unknown names return NaN. N means panels, tolerance inverse or depth depending on the selected method; the default 10,000 is invalid for Romberg.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Integral.cs',category='Numerical integration')
     t,d,f,n=data[name]
-    caveat=' The hand-written midpoint/trapezoid/Simpson wrappers use |b−a| and then advance from a; they do not implement reversed-bound antisymmetry. Use a<b.' if name in ('rectangleMethod','trapezoidalMethod','simpsonMethod') else ''
-    return A(t,d,f,'fx is a real-valued callable. Supply integral N>0 and a<b, except supported infinite endpoints of the adaptive method.',
-             n+caveat+' These are numerical estimates, not symbolic antiderivatives or certified error bounds.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Integral.cs',category='Numerical integration')
+    oriented=name in ('rectangleMethod','trapezoidalMethod','simpsonMethod')
+    arguments=('fx is a real-valued callable. Supply integral N>0 and finite bounds a,b in either order.'
+               if oriented else 'fx is a real-valued callable. Supply integral N>0 and a<b, except supported infinite endpoints of the adaptive method.')
+    orientation=' A signed step (b−a)/N follows the interval from a to b. Reversing the limits reverses the integral sign; equal bounds give zero for a finite integrand.' if oriented else ''
+    return A(t,d,f,arguments,
+             n+orientation+' These are numerical estimates, not symbolic antiderivatives or certified error bounds.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Integral.cs',category='Numerical integration')
 
 def derivative(name,args):
     if name=='derivative' and args.startswith('methodName'):
@@ -94,7 +98,7 @@ def derivative(name,args):
     t,f=data[name]
     return A(t,'A finite-difference derivative estimate, recursively extended to higher orders.',f+' for order=1.',
              'Nonnegative integer order; order zero returns fx(x). '+('Step begins at sqrt(eps)·x and uses the actual representable difference; at zero a fixed tiny fallback is used.' if name=='stableFiniteDifferenceFormula' else 'Step h=x·eps; when it is zero the wrapper substitutes 1e−25.'),
-             'eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. In recursive higher-order calls this implementation does not forward the chosen eps, so inner levels use their default. Prefer the Math.NET derivative entry when appropriate.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Derivative.cs',category='Numerical differentiation')
+             'eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the relative step recalculated at each evaluation point. Prefer the Math.NET derivative entry when appropriate.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Derivative.cs',category='Numerical differentiation')
 
 def root(name,args):
     data={
@@ -105,12 +109,12 @@ def root(name,args):
       'secantMethod':('Secant root finder','Uses the line through the two most recent function values to estimate the next root.',
                      'a,b are initial guesses, not enforced bounds. Iteration can leave the interval. This implementation returns a value only if |fx(result)|≤errorMax after its loop; otherwise NaN.'),
       'secantNewtonRaphsonMethod':('Bounded secant convenience wrapper','Uses Math.NET’s secant method without an analytic derivative.',
-                                  'The initial guesses are (a+b)/2 and (a+b)/3, and [a,b] is supplied as the interval. Despite the name this is not a Newton step using an exact derivative. Degenerate initial guesses can fail.'),
+                                  'Use a<b. Two distinct interior starting guesses are chosen near the midpoint and one-third point, and [a,b] is supplied as the interval. Intervals too narrow for two interior floating-point values return NaN, as does failure to converge. A sign-changing interval alone does not guarantee secant convergence. Despite the name no exact derivative is used.'),
       'BroydenMethod':('One-variable Broyden wrapper','Applies the multidimensional Broyden solver to a one-element system.',
                        'Only the midpoint (a+b)/2 is used as the starting guess; a,b are NOT enforced bounds or a guaranteed bracket. TryFindRoot failure returns NaN.')
     }
     if name=='findRoot':
-        return A('Select a numerical root method','Dispatches a real equation fx(x)=0 to a named root-finding algorithm.',
+        return A('Select a numerical root method',P('Dispatches a real equation ',M(r'\operatorname{fx}(x)=0','fx(x)=0'),' to a named root-finding algorithm.'),
                  'Find x such that fx(x)=0.', 'Positive errorMax and positive iteration count N, in the supported integer range; callable fx must return meaningful finite values near the root.',
                  'Exact names: bisection method; secant method; secant Newton Raphson method; Brent\'s method; Broyden\'s method. Unknown names return NaN. The interpretation of a,b and of errorMax depends on the algorithm; it is not a universal certified root-error bound.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/FunctionRoot.cs',category='Root finding')
     t,d,n=data[name]

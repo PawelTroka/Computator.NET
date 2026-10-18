@@ -347,7 +347,7 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 
 			var resultMatrix = MathNet.Numerics.LinearAlgebra.Matrix<T>.Build.DenseOfMatrix(matrices[0]);
 
-			for (var i = 0; i < matrices.Length; i++)
+			for (var i = 1; i < matrices.Length; i++)
 				resultMatrix.PointwiseMultiply(matrices[i], resultMatrix);
 
 			return resultMatrix;
@@ -360,7 +360,7 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 
 			var resultMatrix = MathNet.Numerics.LinearAlgebra.Matrix<T>.Build.DenseOfMatrix(matrices[0]);
 
-			for (var i = 0; i < matrices.Length; i++)
+			for (var i = 1; i < matrices.Length; i++)
 				resultMatrix.PointwiseDivide(matrices[i], resultMatrix);
 
 			return resultMatrix;
@@ -800,7 +800,7 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 
 			var resultMatrix = MathNet.Numerics.LinearAlgebra.Matrix<T>.Build.DenseOfMatrix(matrices[0]);
 
-			for (var i = 0; i < matrices.Length; i++)
+			for (var i = 1; i < matrices.Length; i++)
 				resultMatrix.PointwiseMultiply(matrices[i], resultMatrix);
 
 			return resultMatrix;
@@ -813,7 +813,7 @@ where T : struct, System.IEquatable<T>, System.IFormattable
 
 			var resultMatrix = MathNet.Numerics.LinearAlgebra.Matrix<T>.Build.DenseOfMatrix(matrices[0]);
 
-			for (var i = 0; i < matrices.Length; i++)
+			for (var i = 1; i < matrices.Length; i++)
 				resultMatrix.PointwiseDivide(matrices[i], resultMatrix);
 
 			return resultMatrix;

@@ -4,9 +4,9 @@ This reference documents the existing application, not a replacement mathematica
 
 ## Reading it
 
-The existing desktop function-information window and HTML tooltip use the same materialized `Computator.NET.Core/Static/functions.xml`. Each article contains its actual typed signatures, a short explanation, a definition or formula where appropriate, argument/support/units information, relevant caveats, and source links. Formulas are readable text and Unicode rather than remote raster images: no network is required to read an article. Optional source links provide deeper reference material.
+The existing desktop function-information window and HTML tooltip use the same materialized `Computator.NET.Core/Static/functions.xml`. Each article contains its actual typed signatures, a short explanation, a definition or formula where appropriate, argument/support/units information, relevant caveats, and source links. Authored LaTeX equations are typeset ahead of time into locally packaged, high-resolution PNGs, accompanied by accessible text and explanations: no network or runtime mathematics renderer is required to read an article. Optional source links provide deeper reference material.
 
-The document shell supplies UTF-8 and local styling in both desktop views. The WebClient reconstructs an allowlisted HTML fragment for Ace's `docHTML` tooltip in both editors, preserving paragraphs, headings, emphasis, code, superscripts, subscripts, Unicode mathematics and safe HTTP(S) source links. Parsing happens in an inert template: scripts, event handlers, styles, frames, images and other active or remote-loading content are excluded. The existing Ace and desktop WebBrowser controls remain in use.
+The document shell supplies UTF-8 and local styling in both desktop views. The WebClient reconstructs an allowlisted HTML fragment for Ace's `docHTML` tooltip in both editors, preserving paragraphs, headings, emphasis, code, superscripts, subscripts, Unicode mathematics and safe HTTP(S) source links. Parsing happens in an inert template: scripts, event handlers, styles, frames, SVG and remote-loading content are excluded. Only strictly validated, content-addressed local equation PNGs are admitted. The existing Ace and desktop WebBrowser controls remain in use.
 
 One insertion signature can represent several typed overloads. The article lists all such menus and separates differing semantics instead of allowing the last overload to erase earlier information. Examples such as integer-vs-real random bounds, doubled-vs-actual angular momenta and real-vs-complex branches must not be inferred solely from a function name.
 
@@ -21,11 +21,17 @@ The editorial sources in `build/reference/` are original prose organized by subj
 ./build.ps1 -Target Reference-Validate
 ```
 
-Cake owns the graph and the existing .NET tests export the *unaugmented* reflection catalog with fixed typed-signature display options. The authoring tool uses only Python's standard library, has no network dependency, and writes deterministic XML. Normal application builds only copy the committed XML; Python is not required to run the application. The single SLNX exposes all reference sources and its build/docs items.
+Cake owns the graph and the existing .NET tests export the *unaugmented* reflection catalog with fixed typed-signature display options. Prose generation uses Python's standard library and writes deterministic XML. Equation authoring uses the audited MathJax and resvg development dependencies in the existing WebClient lockfile. After dependency restore, typesetting and verification work offline. Normal application builds copy the committed XML and equation assets; Python, Node and MathJax are not required to read help in the application. The single SLNX exposes all reference sources and its build/docs items.
 
 Coverage tests require exact agreement with the live non-keyword catalog, correct attachment in both completion modes, every typed overload, actual stored constant values, meaningful section structure and HTTPS source links. HTML checks reject active markup, network-loaded images and placeholder text. Independent negative tests verify that unsupported additions fail instead of acquiring fabricated descriptions. A read-only CI job also verifies byte-for-byte regeneration and retains an offline preview and coverage report. These checks prove coverage and contracts; they are not a machine proof of every mathematical statement.
 
 Existing scientific numerical tests remain unchanged. Desktop tests exercise the actual popup and standalone reference window, rapid selection changes, content replacement and disposal of their browsers. Browser tests inspect rendered HTML in both Ace editors, including real API articles and malicious-markup rejection. Independent distribution and physical-constant regressions check the documented implementation and unit conventions. New functions or signature changes must ship matching reviewed help changes.
+
+### Subject categories
+
+`Type` identifies the runtime family; `Category` is the subject shown in menus and completion metadata. `build/reference/categories.py` supplies explicit subjects for elementary and special functions, mathematical values and physical constants. Function aliases resolve to the canonical name and share its subject across overloads. Constant groups preserve the engine's existing `CategoryAttribute` labels, including universal, electromagnetic, atomic/nuclear, geometry and basic mathematical groups.
+
+Generation rejects missing subjects, labels that only repeat the runtime type, conflicting subjects for a shared overload key, and names without a reviewed assignment. A fixture taken from the catalogue before #172 independently protects all 318 still-supported function memberships that were flattened. Runtime tests separately compare every constant's materialized subject with its actual attribute and check that restored categories reach both completion modes. Changes to categories do not replace the authored explanations, equations, examples, stored values or source links.
 
 ## Primary editorial references
 
@@ -39,18 +45,40 @@ Existing scientific numerical tests remain unchanged. Desktop tests exercise the
 
 Text is newly written and formulas are mathematical definitions; no third-party article or image bundle is copied into the application. Source pages are optional reference reading, not assets downloaded during execution. The editorial review date is **2026-10-16**. A source citation does not turn a rounded legacy number into an exact or continuously updated constant.
 
+## Corrected incomplete-beta parameter order
+
+`Beta(x,a,b)`, its `β(x,a,b)` alias and `BetaNorm(x,a,b)` now pass the two
+shape parameters before the integration limit to Meta.Numerics/GSL, in both the
+host implementation and the emitted TSL helpers. The public order remains
+`x,a,b`: `Beta(0.5,1,1)` and `BetaNorm(0.5,1,1)` both return `0.5`.
+The reference uses these corrected wrappers directly. Independent analytic
+regressions cover uniform and polynomial integrals, asymmetric shapes, both
+endpoints and the existing invalid-domain checks. The two-argument complete
+beta functions retain their existing meaning.
+
+## Corrected Wigner 9-j final argument
+
+`Coupling9j(ja,jb,jc,jd,je,jf,jg,jh,ji)` now forwards all nine supplied
+arguments to GSL, in both the host implementation and the emitted TSL helper.
+The last argument selects the lower-right spin; it is no longer replaced by
+`jf`. The public integer convention is unchanged: every value is **twice** the
+physical spin, so `1` represents spin `1/2` and `2` represents spin `1`.
+For example, `Coupling9j(2,2,2,2,2,2,2,2,0)` returns `1/18`; changing only the
+last argument to `2` gives zero. The [GSL coupling conventions](https://www.gnu.org/software/gsl/doc/html/specfunc.html#coupling-coefficients)
+and [DLMF zero-argument reduction](https://dlmf.nist.gov/34.7.E1) provide
+independent definitions for the regression values. Tests exercise integer and
+half-integer spins, allowed and forbidden couplings, and negative-input guards.
+
 ## Known numerical differences deliberately not changed here
 
 Several descriptions would be misleading without reporting existing behavior. This content PR does not silently correct algorithms, update constant values or relax numerical tests. Separate numerical fixes should update both tests and the corresponding reference:
 
 | Existing identifier | Explicitly documented distinction |
 | --- | --- |
-| `Beta(x,a,b)`, `β(x,a,b)`, `BetaNorm(x,a,b)` | Both incomplete-beta wrappers forward the wrong parameter order. An independent example test reproduced Beta(0.5,1,1)=2 instead of 0.5. The help distinguishes actual/intended results and gives the tested Math.NET BetaIncomplete/BetaRegularized alternatives; dividing the broken three-argument wrapper by complete beta is not a fix. |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
-| `CoulombGprime` / `Coupling9j` | Current forwarded order / ninth-argument behavior differs from the advertised general formula. |
+| `CoulombGprime` | Current forwarded order differs from the advertised general formula. |
 | Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |
 | `Debye` outside orders 1–6 | The fallback is not the normalized higher-order Debye definition. |
-| `PointwiseMultiply` / `PointwiseDivide` | The left-fold loops include the first operand twice / divide it by itself. |
 | `minor` | Extracts a rectangular submatrix; it does not compute a determinant or cofactor. |
 | `Geometric` | Counts trials including success, on 1,2,…; NegativeBinomial counts failures starting at zero. |
 | `Stable` density/CDF | Math.NET 5.0 supports only its Gaussian, Cauchy and Lévy special cases for evaluation, despite broader sampling support. |
@@ -68,3 +96,10 @@ Several descriptions would be misleading without reporting existing behavior. Th
 Physical descriptions always identify units and the actual runtime-stored binary64 value. They distinguish modern exact SI definitions (for example h, e, kB and NA) from the code's older approximations. μ₀, ε₀ and the molar mass constant are not presented as exact under the post-2019 SI. Historical conventional electrical/X-ray units remain labeled historical. No uncertainty is invented for a constant whose source code stores none.
 
 Coverage means all supported autocomplete lookup entries, not every method in every referenced library, a complete special-functions textbook, a new symbolic system, translations into every locale, or an update of the numerical implementation. Technical editorial review remains welcome, particularly before changing a legacy value or convention.
+
+## Offline typeset equations and teaching notes
+
+See [REFERENCE-EQUATIONS.md](REFERENCE-EQUATIONS.md) for the authored TeX, packaged
+PNG pipeline, contextual signatures, teaching content and executable examples.
+The old no-image HTML policy is superseded only for strictly local hashed PNG
+equations; remote images, scripts, SVG and arbitrary active content remain banned.

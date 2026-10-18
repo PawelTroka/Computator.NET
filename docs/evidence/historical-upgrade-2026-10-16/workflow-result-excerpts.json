@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "kind": "selected-existing-job-output-not-new-execution",
+  "workflowRunId": 38906708104,
+  "jobId": 116991972175,
+  "jobUrl": "https://github.com/PawelTroka/Computator.NET/actions/runs/38906708104/job/116991972175",
+  "sourceFormat": "GitHub connector decoded job log, UTF-8 with normalized LF and one terminal LF; not an original-byte endpoint checksum",
+  "decodedSourceSha256": "e1103c1fa8feaeea360cd2911d5d4558853570b4846a8ca472908a218a2625f4",
+  "decodedSourceBytes": 107668,
+  "selectionNote": "Selected verbatim output lines retain explicit synthetic-contract/no-installation qualifications, both PowerShell COM results, actual lifecycle success and final plan-only preparation. Machine paths are aliased. Full job setup/environment and duplicated artifact log tails omitted.",
+  "excerpts": [
+    {
+      "sourceLine": 237,
+      "text": "2026-10-16T13:19:09.2766707Z Acceptance harness checks passed: syntax, restricted mappings, input hash requirements and incomplete/failed result rejection. No MSI was installed."
+    },
+    {
+      "sourceLine": 241,
+      "text": "2026-10-16T13:19:11.0947529Z Acceptance harness checks passed: syntax, restricted mappings, input hash requirements and incomplete/failed result rejection. No MSI was installed."
+    },
+    {
+      "sourceLine": 243,
+      "text": "2026-10-16T13:19:11.9735513Z Historical contract tests passed. Fixtures are synthetic report/plan/log inputs; no product was installed and no machine acceptance is claimed."
+    },
+    {
+      "sourceLine": 245,
+      "text": "2026-10-16T13:19:13.0212079Z Historical contract tests passed. Fixtures are synthetic report/plan/log inputs; no product was installed and no machine acceptance is claimed."
+    },
+    {
+      "sourceLine": 246,
+      "text": "2026-10-16T13:19:13.8924911Z Windows Installer COM regressions passed on PowerShell 7.6.6: both readers, missing-property rejection, one query view, negative fixture sequence, unchanged source and no file lock. No product was installed."
+    },
+    {
+      "sourceLine": 247,
+      "text": "2026-10-16T13:19:14.9378134Z Windows Installer COM regressions passed on PowerShell 5.1.26100.33438: both readers, missing-property rejection, one query view, negative fixture sequence, unchanged source and no file lock. No product was installed."
+    },
+    {
+      "sourceLine": 279,
+      "text": "2026-10-16T13:20:38.2460530Z Historical EXE -> failed MSI rollback -> candidate EXE upgrade, settings migration, documents, shell integration, repair and uninstall passed."
+    },
+    {
+      "sourceLine": 329,
+      "text": "2026-10-16T13:20:51.4981369Z Prepared only; no installation or Sandbox launch was performed. Review and open: <WORKSPACE>\\artifacts\\clean-machine\\<PLAN_ID>\\Computator-Acceptance.wsb"
+    }
+  ]
+}
