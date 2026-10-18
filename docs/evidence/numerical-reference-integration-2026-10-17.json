@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-10-17",
+  "repository": "PawelTroka/Computator.NET",
+  "scope": "Fixed local integration validation snapshot; inspect live PR checks for subsequent CI status. No merge or release approval.",
+  "mergeOrder": [
+    178,
+    183,
+    196,
+    197,
+    192,
+    199,
+    200
+  ],
+  "referenceDependency": {
+    "pullRequest": 197,
+    "headSha": "e42d90c2a4806285539ebfa12442a7592a2e1769",
+    "includes": [
+      178,
+      183,
+      196
+    ]
+  },
+  "numericalStages": [
+    {
+      "pullRequest": 192,
+      "branch": "fix/higher-derivative-step",
+      "intendedBase": "fix/function-menu-groups",
+      "originalHeadSha": "a7c79b03bacaf4ce74e508ef37f9d174d36b58a0",
+      "sourceTreeBeforeFinalDocumentation": "03dcb7e7e76f959fcd38ebda354acf1a39172a64"
+    },
+    {
+      "pullRequest": 199,
+      "branch": "fix/secant-root-initial-guesses",
+      "intendedBase": "fix/higher-derivative-step",
+      "originalHeadSha": "b299f5f9fe49d5670d04aa0f79a7f7e1110f3374",
+      "sourceTreeBeforeFinalDocumentation": "10613f2dfb85d05c79b420fa4079e2d11e4a5db2"
+    },
+    {
+      "pullRequest": 200,
+      "branch": "codex/fix-complex-transform-length",
+      "intendedBase": "fix/secant-root-initial-guesses",
+      "originalHeadSha": "a0b521d4d3ac32c79960b09d15360f5bac7de2f1",
+      "sourceTreeBeforeFinalDocumentation": "b3dcf6462882c3928c4ac2aff2597836a14c62a3"
+    }
+  ],
+  "historyPolicy": "Integration commits retain each original numerical PR head as an ancestor; fast-forward branch updates, no forced history replacement.",
+  "runtimeInventoryProvenance": {
+    "repository": "PawelTroka/Computator.NET",
+    "pullRequest": 197,
+    "headSha": "e42d90c2a4806285539ebfa12442a7592a2e1769",
+    "baseSha": "1d25640ae730a1e530613ca55df86938722b2ba0",
+    "ciCheckoutSha": "1a9b49788eb11aa316fc24d2f046ea2c2d2cab77",
+    "workflowRunId": 38966766207,
+    "jobId": 117195045109,
+    "workflowName": "Complete mathematical reference",
+    "conclusion": "success",
+    "artifactId": 12074767938,
+    "artifactName": "function-reference-evidence",
+    "artifactSha256": "3cffd23f9b3468c90c74b4c283274217f9770ca64773ead47264a50fededab85",
+    "artifactSize": 6647711,
+    "artifactCreatedAt": "2026-10-16T21:09:07Z",
+    "inventoryArchivePath": "artifacts/reference/inventory.json",
+    "inventorySha256": "9211dafe6637d9185f54f436cb1e139c539f3bbe90ccfd6d6c5dbe319712d42b",
+    "inventorySize": 334661,
+    "coverageArchivePath": "artifacts/reference/coverage.json",
+    "coverageSha256": "f9008bfb0a3b0bb46b031da070ae6e6bfdb00f4ee5cba5a5d66f16c53cdea40d",
+    "xmlSha256": "071e7151bd29478a623613e4e5bf5e50f27782d7368b803a515cf09b75cacbdc",
+    "referenceTrxArchivePath": "TestResults/reference.trx",
+    "referenceTrxSha256": "eb652d40b0d9f16592743404beb380e2a35d89ba3e265c95a0ccee9937809d87",
+    "referenceTestPassed": 139,
+    "referenceTestFailed": 0,
+    "referenceTestSkipped": 0,
+    "pythonAuthoringTestPassed": 27,
+    "verifiedEquations": 638,
+    "validation": "Downloaded ZIP SHA256 exactly matches GitHub artifact digest. Parsed archived runtime inventory, coverage report and TRX counters. CI checkout SHA verified from job log."
+  },
+  "localEnvironment": {
+    "os": "Linux",
+    "dotnetSdk": "10.0.402",
+    "node": "24.21.0",
+    "npm": "11.19.0"
+  },
+  "portableValidation": {
+    "project": "Computator.NET.Engine.Tests/Computator.NET.Engine.Tests.csproj",
+    "final": {
+      "fileName": "portable-combined.trx",
+      "sha256": "786e3380839621970a29df20262a9b2e7c9d72b95ce69a67dcc123368b64bcfa",
+      "total": 276,
+      "passed": 276,
+      "failed": 0,
+      "skipped": 0,
+      "failingTests": []
+    },
+    "beforeTslCompatibilityCorrection": {
+      "fileName": "portable-before-tsl-correction.trx",
+      "sha256": "1542f77179bb35f4b04f39c0f28969df46b6f7eb502ec46b15db9bfde1603a7b",
+      "total": 276,
+      "passed": 273,
+      "failed": 3,
+      "skipped": 0,
+      "failingTests": [
+        "NarrowIntervalRejectsTheNestedTslFunctionBeforeEvaluatingIt",
+        "NamedSolversComposeInATslExpression(10.0d,12.0d,4.75d,10.75d)",
+        "NamedSolversComposeInATslExpression(-10.0d,10.0d,0.0d,6.0d)"
+      ]
+    },
+    "caseGroups": {
+      "existingBaseline": 144,
+      "originalDerivative": 32,
+      "originalRootFinding": 42,
+      "originalTransform": 52,
+      "newHostAndGeneratedTslComposition": 6
+    },
+    "validatedSourceTree": "3a637bcc50ccae295f685a72d4b98458f9aed839"
+  },
+  "referenceValidation": {
+    "pythonAuthoringTests": {
+      "passed": 31,
+      "failed": 0
+    },
+    "typesetEquationsVerified": 639,
+    "xmlExactRegenerationCheck": "passed",
+    "inventorySource": "Runtime export from reference dependency CI; fresh combined Windows export remains a CI gate.",
+    "coverage": {
+      "entries": 1220,
+      "completionItems": 1294,
+      "excludedKeywords": 65,
+      "byType": {
+        "Bernoulli": 10,
+        "Beta": 11,
+        "Binomial": 10,
+        "Categorical": 19,
+        "Cauchy": 11,
+        "Chi": 10,
+        "ChiSquared": 11,
+        "ContinuousUniform": 11,
+        "ConwayMaxwellPoisson": 10,
+        "Derivative": 8,
+        "Dirichlet": 2,
+        "DiscreteUniform": 10,
+        "ElementaryFunctions": 120,
+        "Erlang": 12,
+        "Exponential": 11,
+        "FisherSnedecor": 11,
+        "FunctionRoot": 6,
+        "Gamma": 13,
+        "Geometric": 10,
+        "Hypergeometric": 10,
+        "Integral": 9,
+        "InverseGamma": 10,
+        "InverseWishart": 2,
+        "Laplace": 10,
+        "LogNormal": 14,
+        "MathematicalConstants": 88,
+        "MathematicalTransformations": 1,
+        "MatrixFunctions": 42,
+        "MatrixNormal": 2,
+        "Multinomial": 3,
+        "NegativeBinomial": 10,
+        "Normal": 15,
+        "NormalGamma": 3,
+        "Pareto": 11,
+        "PhysicalConstants": 342,
+        "Poisson": 10,
+        "Rayleigh": 11,
+        "ScriptingFunctions": 37,
+        "SpecialFunctions": 224,
+        "Stable": 10,
+        "StatisticsFunctions": 5,
+        "StudentT": 11,
+        "Triangular": 11,
+        "Weibull": 11,
+        "Wishart": 2,
+        "Zipf": 10
+      },
+      "xmlSha256": "38a27e1de0511281328c8e3651af89fef4061920adb7b1386f3f18b2ba2ffea0",
+      "entriesWithTypesetMath": 1172,
+      "entriesWithTeachingNotes": 1220,
+      "entriesWithWorkedExamples": 334,
+      "uniqueTypesetEquations": 639
+    },
+    "preservation": {
+      "baseline": "e42d90c2a4806285539ebfa12442a7592a2e1769",
+      "article_count": 1220,
+      "unchanged_articles": 1214,
+      "changed_articles": [
+        "Derivative.centeredFivePointMethod(fx,x,order,eps)",
+        "Derivative.finiteDifferenceFormula(fx,x,order,eps)",
+        "Derivative.stableFiniteDifferenceFormula(fx,x,order,eps)",
+        "Derivative.twoPointfiniteDifferenceFormula(fx,x,order,eps)",
+        "FunctionRoot.secantNewtonRaphsonMethod(fx,a,b,errorMax,N)",
+        "Transform(functionPoints,transformate)"
+      ],
+      "preserved_equations": 638,
+      "new_equations": [
+        "087254b10b2ae009c30a419320daa48e4bd7c617df173f4b70932d28913183c9"
+      ],
+      "xml_sha256": "38a27e1de0511281328c8e3651af89fef4061920adb7b1386f3f18b2ba2ffea0"
+    },
+    "authoringLifecycle": "Unit tests inspect generated article fragments without requiring the old committed XML to match before Reference-Generate can rewrite it. The existing generate.py --check independently verifies the entire committed XML.",
+    "postPortableChange": "One redundant committed-XML equality unittest was removed after portable validation; 31 authoring tests passed. Numerical production code, .NET tests, authored article output, XML and all equation assets are unchanged from the 276-test run."
+  },
+  "integrationCorrection": {
+    "ownerPullRequest": 199,
+    "location": "FunctionRoot.secantMethod and its ToCode definition",
+    "trigger": "Passing Derivative.ToCode + FunctionRoot.ToCode as PortableEngine TSL customFunctions input exposes the existing AbsHandler interpretation of logical OR.",
+    "change": "Replace one short-circuit OR guard with three ordered guards, preserving evaluation order and numerical semantics in host and emitted definitions.",
+    "boundary": "Normal desktop compilation appends these generated C# classes directly; this result does not establish a defect in that desktop injection path. No general TSL parser change."
+  },
+  "separateCiOwnership": {
+    "referenceMenuPullRequests": [
+      178,
+      183,
+      196,
+      197
+    ],
+    "preExistingReleaseAcceptanceFailures": [
+      {
+        "pullRequest": 192,
+        "runId": 38965612903,
+        "jobId": 117191213852,
+        "failed": 1,
+        "passed": 9
+      },
+      {
+        "pullRequest": 197,
+        "runId": 38966766673,
+        "jobId": 117195046376,
+        "failed": 4,
+        "passed": 6
+      }
+    ],
+    "failureSummary": "Release-Verify -> Web-E2E real-stack.spec.ts result assertions reached the 5000 ms deadline; calculations/scripts could still display Calculating..., and Number(status) for integration was NaN. This is not a failing numerical regression fixture.",
+    "changesExcluded": [
+      "workflows",
+      "general TSL parser",
+      "reference/menu rendering code"
+    ],
+    "combinedWindowsValidation": "Pending fresh CI after branch updates at this local snapshot; consult live PR checks."
+  },
+  "evidenceFileHashes": {
+    "portable-combined.trx": "786e3380839621970a29df20262a9b2e7c9d72b95ce69a67dcc123368b64bcfa",
+    "portable-before-tsl-correction.trx": "1542f77179bb35f4b04f39c0f28969df46b6f7eb502ec46b15db9bfde1603a7b",
+    "preservation.json": "592d17ca4bd9576368668a04ff11f3f2e2afe779af9695c3ac8401a3ae77899a",
+    "reference-coverage.json": "6c99b33e8bb97d62c472621439ec6bb7df7b9f749640e1d5854efb906d2c7a02"
+  },
+  "reviewedSourceSha256": {
+    "Computator.NET.Core/NumericalCalculations/Derivative.cs": "f4f13aab903a0e23d69bb294b867bf995635903fa400b4a91e2aad6f160f94dd",
+    "Computator.NET.Core/NumericalCalculations/FunctionRoot.cs": "038912b2e5106a96ca83862fd6771b3af1374e6532d6c6355ac42ca43e6bdf84",
+    "Computator.NET.Core/Transformations/TrigonometricTransformations.cs": "7809d25e0c1a5e845c589ae1a92b609fd99db48ad98f3e8327f967afd18ac992",
+    "Computator.NET.Core/Static/functions.xml": "38a27e1de0511281328c8e3651af89fef4061920adb7b1386f3f18b2ba2ffea0",
+    "Computator.NET.Core/Static/reference-equations/manifest.json": "87989631ac95cb10a000becf985edc0c553021359720aead1b81de1a7182b2aa",
+    "Computator.NET.Core/Static/reference-equations/087254b10b2ae009c30a419320daa48e4bd7c617df173f4b70932d28913183c9.png": "a3777c5528e2d9894d503da1dd1b7e7600416b6807f9e0a3fc9fbe52b3e222d8",
+    "Computator.NET.Engine.Tests/Computator.NET.Engine.Tests.csproj": "7c59184c831391d394339f2ba983f66db24b7106a0511650d1c6b1c0ce7522ee",
+    "Computator.NET.Engine.Tests/DerivativeStepTests.cs": "92cda0a8a27af81590c3d665c88e8c184b10b145408fe68e5f9704d5fc70eed7",
+    "Computator.NET.Engine.Tests/FunctionRootTests.cs": "b2106a251efd65d59ca5274b47e790f53490031a23ce585774381b79d9e2a481",
+    "Computator.NET.Engine.Tests/NumericalIntegrationTests.cs": "7db381ed76850e3c29e8a587e8251d12bfea31f9d8f4ed3013cd89c7f5f70862",
+    "Computator.NET.Core.Tests/TransformationsTests/MathematicalTransformationsTests.cs": "0498d6a9c3df6a1b73a64e12cd5be7cf76b0258e716954fd7093d3bf080cf3a0",
+    "build/reference/scientific.py": "efc791511aaaab29c4b1a096afdd72c44b4bfb92073183c4a77594f4f33da22c",
+    "build/reference/enrichment_more.py": "80bc6d462af435100e61cd6a1e11bc394d9a809ea1d21172259952b606fab3e8",
+    "build/reference/test_numerical_integration.py": "682cfe51209634a65c54347ab80e0fe5591d8df0f5a5dd9dad8f3ce29db95792"
+  }
+}
