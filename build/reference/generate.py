@@ -61,10 +61,16 @@ def articles(inventory):
         kind=next(iter(kinds)); authored=[]
         for item in sorted(variants,key=lambda value:value['menu']):
             article=module_for(kind).describe(item,values)
+            category=article.category
+            if (not category or category!=category.strip()
+                    or category.replace(' ','').casefold()==kind.casefold()):
+                raise ValueError('Missing or generic subject category for '+signature)
             if article not in [entry[1] for entry in authored]:authored.append((item['menu'],article))
         menus=sorted({item['menu'] for item in variants})
         title=authored[0][1].title
-        category=authored[0][1].category or kind
+        categories={article.category for _,article in authored}
+        if len(categories)!=1:raise ValueError('Conflicting subject categories for '+signature)
+        category=next(iter(categories))
         url=authored[0][1].url
         # Keep overload metadata for catalogue validation. Display renderers and
         # the editorial preview remove this block: signatures live in autocomplete.

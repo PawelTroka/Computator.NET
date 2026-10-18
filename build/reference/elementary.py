@@ -1,5 +1,7 @@
 """Elementary-function editorial definitions and explicit alias conventions."""
 from common import A, DLMF, MATHNET, SOURCE
+from dataclasses import replace
+from categories import subject_category
 ALIASES={'tg':'tan','ctg':'cot','cosec':'csc','tgh':'tanh','ctgh':'coth','cosech':'csch',
          'arctg':'arctan','arcctg':'arccot','arccosec':'arccsc','artgh':'artanh',
          'arctgh':'arcoth','arcosech':'arcsch','H':'Heaviside','δ':'DiracDelta',
@@ -55,6 +57,12 @@ OTHER={
 }
 
 def describe(item, values):
+    raw = item['signature'].split('(')[0]
+    category = subject_category('ElementaryFunctions', ALIASES.get(raw, raw))
+    return replace(_describe(item, values), category=category)
+
+
+def _describe(item, values):
     signature=item['signature']; original=signature.split('(')[0]; name=ALIASES.get(original,original)
     complex_input='complex' in item['menu'] and '(z' in signature
     alias=('Alias of '+name+'; it uses the same convention. ') if name!=original else ''
