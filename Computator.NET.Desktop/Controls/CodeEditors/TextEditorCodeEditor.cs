@@ -77,22 +77,19 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             if (_documents.ContainsKey(filename))
                 return;
 
+            var text = File.Exists(filename) ? File.ReadAllText(filename) : string.Empty;
+            NewDocument(filename, text);
+        }
 
-            if (File.Exists(filename))
-            {
-                Document = new DocumentFactory().CreateFromFile(filename);
-                /////Text = File.ReadAllText(filename);
+        public void NewDocument(string filename, string text)
+        {
+            if (_documents.ContainsKey(filename))
+                return;
 
-                Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy("VS-C#");
-
-            }
-            else
-            {
-                Document = new DocumentFactory().CreateDocument();
-
-                Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy("VS-C#");
-                
-            }
+            var document = new DocumentFactory().CreateDocument();
+            document.TextContent = text;
+            document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy("VS-C#");
+            Document = document;
 
             _documents.Add(filename, Document);
 

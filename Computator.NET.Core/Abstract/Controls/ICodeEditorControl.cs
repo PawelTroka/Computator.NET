@@ -29,6 +29,7 @@ namespace Computator.NET.Core.Abstract.Controls
         string CurrentFileName { get; set; }
         void RemoveTab(string fullPath);
         bool ContainsDocument(string oldPath);
+        void EnsureCanRenameDocument(string oldPath, string fullPath);
         void RenameDocument(string oldPath, string fullPath);
 
         void SwitchTab(string fullPath);
@@ -67,6 +68,7 @@ namespace Computator.NET.Core.Abstract.Controls
         void SwitchDocument(string filename);
         void CloseDocument(string filename);
         void NewDocument(string text);
+        void NewDocument(string filename, string text);
         void RenameDocument(string filename, string newFilename);
         void HighlightErrors(IEnumerable<CompilerError> errors);
         bool ContainsDocument(string filename);
