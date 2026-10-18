@@ -114,6 +114,7 @@
     <File Path="build/performance/DesktopStartup.cs" />
     <File Path="build/performance/Get-HistoricalBaseline.ps1" />
     <File Path="build/performance/Prepare-Comparison.ps1" />
+    <File Path="build/performance/Prepare-ModernDiagnostic.ps1" />
     <File Path="build/performance/compare.py" />
     <File Path="build/performance/test_compare.py" />
   </Folder>

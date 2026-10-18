@@ -95,3 +95,20 @@ python build/performance/compare.py analyze --input raw.json --output replay
 ```
 
 Do not add a timing threshold to ordinary unit tests. Correctness regressions belong in deterministic tests; performance claims require controlled repeated measurement. No speedup is claimed merely because the harness builds or its analyzer tests pass. Findings and any measured improvements are documented separately with the exact candidate and observation artifacts.
+
+## Focused modern translation diagnostic
+
+`Prepare-ModernDiagnostic.ps1` isolates the literal-restoration guard from the historical-version comparison. Its before product is pinned to `58982403dead54824810a96439b851d3123e0e03`, whose product source is unchanged from the requested `ba57b8f08c1014363d26e7b87249c0e51fe74688` candidate. Supply two separate clean checkouts and the exact after commit. The source audit permits the reviewed `TSLCompiler.cs` change, auxiliary evidence/tests and the recorded startup observer metadata correction; it rejects unrelated product or shared build changes.
+
+Both payloads use byte-identical current driver files and the same .NET 10 host/runtime. Their own Core and Engine assemblies remain distinct and are hashed. The three translation metrics use 20 fresh process pairs after one separately retained conditioning pair. This experiment measures translation, not total compilation or startup, and its observations are not pooled with historical runs.
+
+```powershell
+./build/performance/Prepare-ModernDiagnostic.ps1 `
+  -BaselineSourceDirectory C:/Benchmarks/before `
+  -CandidateSourceDirectory C:/Benchmarks/after `
+  -ExpectedCandidateCommit '<exact 40-character after commit>' `
+  -OutputDirectory C:/Benchmarks/modern-input
+python build/performance/compare.py run --manifest C:/Benchmarks/modern-input/manifest.json --output C:/Benchmarks/modern-results --pairs 20 --timeout 120 --bootstrap 50000 --seed 191
+```
+
+The workflow enables this pinned diagnostic on the issue-191 investigation branch. Other branches can explicitly select `modern_translation_diagnostic` when dispatching the workflow; it is not a general gate for unrelated future product changes.

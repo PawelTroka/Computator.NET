@@ -87,12 +87,22 @@ internal static class DesktopStartup
                 if (!Environment.Is64BitOperatingSystem || !IsWow64Process(process.Handle, out wow64) || wow64)
                     throw new InvalidOperationException("Desktop did not run as a 64-bit process.");
                 string runtime = null;
+                string runtimeFileVersion = null;
                 foreach (ProcessModule module in process.Modules)
                 {
+                    string prefix = null;
                     if (string.Equals(module.ModuleName, "clr.dll", StringComparison.OrdinalIgnoreCase))
-                        runtime = ".NET Framework CLR " + module.FileVersionInfo.FileVersion;
+                        prefix = ".NET Framework CLR ";
                     if (string.Equals(module.ModuleName, "coreclr.dll", StringComparison.OrdinalIgnoreCase))
-                        runtime = ".NET " + module.FileVersionInfo.FileVersion;
+                        prefix = ".NET ";
+                    if (prefix == null) continue;
+                    var version = module.FileVersionInfo;
+                    // FileVersion is display text and can contain commas or a
+                    // commit suffix. Numeric version parts are culture independent.
+                    runtime = prefix + string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "{0}.{1}.{2}.{3}", version.FileMajorPart, version.FileMinorPart,
+                        version.FileBuildPart, version.FilePrivatePart);
+                    runtimeFileVersion = version.FileVersion;
                 }
                 if (runtime == null) throw new InvalidOperationException("Could not identify the desktop CLR module.");
                 var result = new Result
@@ -103,7 +113,8 @@ internal static class DesktopStartup
                     Details = new Dictionary<string, object>
                     {
                         { "readiness", "owned visible exact-title main window, six workflow tabs, successful WM_NULL reply" },
-                        { "targetBitness", 64 }, { "targetRuntimeSource", "loaded CLR module file version" },
+                        { "targetBitness", 64 }, { "targetRuntimeSource", "loaded CLR module numeric file version" },
+                        { "targetRuntimeFileVersion", runtimeFileVersion },
                         { "pollIntervalMs", 10 }, { "privateBytesAtReady", process.PrivateMemorySize64 },
                         { "workingSetBytesAtReady", process.WorkingSet64 },
                         { "filesystemCache", "unflushed; fresh process, reused profile after conditioning" }
