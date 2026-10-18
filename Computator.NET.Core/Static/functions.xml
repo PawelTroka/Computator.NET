@@ -3791,7 +3791,7 @@
 <p class="reference-explanation">The radial coordinate ρ and Coulomb parameter η play different roles. Regular and irregular solutions encode different behavior at the origin; derivative and normalization helpers act on those solutions rather than introducing a new potential.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>u″+[1−2η/ρ−L(L+1)/ρ²]u=0; G_L′(η,ρ)</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Integer L≥0, real η; use ρ&gt;0. F is regular at the origin; G is the independent irregular solution.</p>
-<p class="reference-note"><strong>Important:</strong> Derivatives are with respect to dimensionless ρ, not energy or physical radius. Current forwarding uses gsl_sf_coulomb_wave_FG_e(η,ρ,L,L,...), whose G output has order L−L=0. For L≠0 this wrapper therefore returns G′₀, not the advertised G′_L. Scaling exponents returned by GSL are not applied.</p>
+<p class="reference-note"><strong>Important:</strong> Derivatives are with respect to dimensionless ρ, not energy or physical radius. Returned GSL overflow scaling exponents are not applied; avoid interpreting a scaled-overflow result as the full derivative.</p>
 <p class="reference-equation"><strong>Underlying wave equation</strong><br /><img class="reference-math" src="reference-equations/72d4b667b7ef10e173d17a7c875688a1925564bc79c27f3fbed1bbb88bc34b10.png" alt="Radial Coulomb equation." width="312" height="57" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/33.2">dlmf.nist.gov</a></p>
 </div>]]></Description>

@@ -69,6 +69,23 @@ and [DLMF zero-argument reduction](https://dlmf.nist.gov/34.7.E1) provide
 independent definitions for the regression values. Tests exercise integer and
 half-integer spins, allowed and forbidden couplings, and negative-input guards.
 
+## Corrected irregular Coulomb derivative order
+
+`CoulombGprime(L,η,ρ)` now returns the derivative of the irregular Coulomb
+wave of the requested order `L`, in both the host and the emitted TSL helper.
+The [GSL Coulomb-wave interface](https://www.gnu.org/software/gsl/doc/html/specfunc.html#coulomb-wave-functions)
+returns its irregular wave at order `L-k`; the wrapper now supplies `k=0`
+instead of `k=L`, which previously selected order zero for every call.
+For example, `CoulombGprime(1,0,0.5)` returns approximately
+`−3.591598762879524`, instead of the order-zero value `−0.479425538604203`.
+
+Independent regressions use the [zero-charge spherical-Bessel identities](https://dlmf.nist.gov/33.5.E3)
+and the [unit Coulomb Wronskian](https://dlmf.nist.gov/33.2.E12), including
+nonzero positive and negative charge parameters. The existing requirements
+`L≥0` and `ρ>0`, the derivative's meaning with respect to `ρ`, and the
+overflow/error policy are unchanged. In particular, this correction does not
+add reconstruction from GSL's overflow scaling exponents.
+
 ## Known numerical differences deliberately not changed here
 
 Several descriptions would be misleading without reporting existing behavior. This content PR does not silently correct algorithms, update constant values or relax numerical tests. Separate numerical fixes should update both tests and the corresponding reference:
@@ -76,7 +93,6 @@ Several descriptions would be misleading without reporting existing behavior. Th
 | Existing identifier | Explicitly documented distinction |
 | --- | --- |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
-| `CoulombGprime` | Current forwarded order differs from the advertised general formula. |
 | Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |
 | `Debye` outside orders 1–6 | The fallback is not the normalized higher-order Debye definition. |
 | `minor` | Extracts a rectangular submatrix; it does not compute a determinant or cofactor. |

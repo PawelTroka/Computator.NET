@@ -576,7 +576,8 @@ namespace Computator.NET.Core.Functions
             var r1 = new gsl_sf_result();
             var r2 = new gsl_sf_result();
             var r3 = new gsl_sf_result();
-            gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out r2, out r3, out sfResult, out d1, out d2);
+            // GSL returns the irregular wave at L-k; use k=0 to retain the requested order.
+            gsl_sf_coulomb_wave_FG_e(η, ρ, L, 0, out r1, out r2, out r3, out sfResult, out d1, out d2);
             return sfResult.val;
         }
 
@@ -3786,7 +3787,8 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
             var r1 = new gsl_sf_result();
             var r2 = new gsl_sf_result();
             var r3 = new gsl_sf_result();
-            gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out r2, out r3, out sfResult, out d1, out d2);
+            // GSL returns the irregular wave at L-k; use k=0 to retain the requested order.
+            gsl_sf_coulomb_wave_FG_e(η, ρ, L, 0, out r1, out r2, out r3, out sfResult, out d1, out d2);
             return sfResult.val;
         }
 
