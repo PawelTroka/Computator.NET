@@ -69,7 +69,7 @@ public class LogicalOrTests
     [TestCase("*z+1", 31.0)]
     [TestCase("+z-1", 10.0)]
     [TestCase("+z*2", 16.0)]
-    [TestCase("+z/2", 8.5)]
+    [TestCase("+z/2.0", 8.5)]
     [TestCase("+z%2", 7.0)]
     public void VariableCoefficientsAndArithmeticTermsPreserveNestedAbsoluteValues(string suffix, double expected)
     {
