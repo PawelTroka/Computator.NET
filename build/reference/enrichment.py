@@ -341,10 +341,10 @@ def enrich(item, article, values):
                 'For a=1 the power of t disappears and the remaining integral is exp(−x). This is a convenient independent check of the argument order and upper-tail convention.'),
                 (WorkedExample('gamma(1,2)','approximately 0.1353352832','Integrating exp(−t) from two to infinity gives exp(−2).'),),True)
         if canonical=='Beta' and signature.count(',')>1:
-            return Enrichment((Equation(r'B_x(a,b)=\int_0^x t^{a-1}(1-t)^{b-1}\,dt',article.formula,'Intended definition'),),(
+            return Enrichment((Equation(r'B_x(a,b)=\int_0^x t^{a-1}(1-t)^{b-1}\,dt',article.formula),),(
                 'Incomplete beta stops the beta integral at x rather than at one. It is an accumulated area, not yet a probability until normalized by the complete beta function.',
-                'The implementation warning below is essential: the public wrapper currently forwards a different argument order. The worked example deliberately calls the correctly ordered Math.NET alternative, not the faulty wrapper.'),
-                (WorkedExample('MathNet.Numerics.SpecialFunctions.BetaIncomplete(1,1,0.5)','0.5','With both shapes equal to one the integrand is one, so the area from zero to 0.5 is 0.5.'),),True)
+                'The first argument sets the upper integration limit; a and b determine the shape of the integrand. At x=0 the area is zero, and at x=1 it equals the complete beta function.'),
+                (WorkedExample('Beta(0.5,1,1)','0.5','With both shapes equal to one the integrand is one, so the area from zero to 0.5 is 0.5.'),),True)
         if canonical in ('ln','log') and ',' in signature:
             from enrichment_more import extra_enrichment
             return extra_enrichment(item,article,'log')

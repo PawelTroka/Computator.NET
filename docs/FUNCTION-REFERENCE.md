@@ -45,13 +45,23 @@ Generation rejects missing subjects, labels that only repeat the runtime type, c
 
 Text is newly written and formulas are mathematical definitions; no third-party article or image bundle is copied into the application. Source pages are optional reference reading, not assets downloaded during execution. The editorial review date is **2026-10-16**. A source citation does not turn a rounded legacy number into an exact or continuously updated constant.
 
+## Corrected incomplete-beta parameter order
+
+`Beta(x,a,b)`, its `β(x,a,b)` alias and `BetaNorm(x,a,b)` now pass the two
+shape parameters before the integration limit to Meta.Numerics/GSL, in both the
+host implementation and the emitted TSL helpers. The public order remains
+`x,a,b`: `Beta(0.5,1,1)` and `BetaNorm(0.5,1,1)` both return `0.5`.
+The reference uses these corrected wrappers directly. Independent analytic
+regressions cover uniform and polynomial integrals, asymmetric shapes, both
+endpoints and the existing invalid-domain checks. The two-argument complete
+beta functions retain their existing meaning.
+
 ## Known numerical differences deliberately not changed here
 
 Several descriptions would be misleading without reporting existing behavior. This content PR does not silently correct algorithms, update constant values or relax numerical tests. Separate numerical fixes should update both tests and the corresponding reference:
 
 | Existing identifier | Explicitly documented distinction |
 | --- | --- |
-| `Beta(x,a,b)`, `β(x,a,b)`, `BetaNorm(x,a,b)` | Both incomplete-beta wrappers forward the wrong parameter order. An independent example test reproduced Beta(0.5,1,1)=2 instead of 0.5. The help distinguishes actual/intended results and gives the tested Math.NET BetaIncomplete/BetaRegularized alternatives; dividing the broken three-argument wrapper by complete beta is not a fix. |
 | Modified spherical Bessel I/K | Returned values are exponentially **scaled** despite the public names omitting “scaled”; the K normalization includes the GSL π/2 convention. |
 | `CoulombGprime` / `Coupling9j` | Current forwarded order / ninth-argument behavior differs from the advertised general formula. |
 | Riccati-labelled ξ/ζ | Current forwarding uses cylindrical rather than spherical Hankel functions. |
