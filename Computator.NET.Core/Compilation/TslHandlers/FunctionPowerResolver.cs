@@ -40,7 +40,8 @@ namespace Computator.NET.Core.Compilation.TslHandlers
         }
 
         public static bool HasCandidates(SyntaxNode root) =>
-            root.DescendantNodesAndSelf().OfType<InvocationExpressionSyntax>().Any(IsCandidate);
+            root.DescendantNodesAndSelf(descendIntoTrivia: false)
+                .OfType<InvocationExpressionSyntax>().Any(IsCandidate);
 
         internal static bool IsSuperscriptLetter(char character) =>
             char.IsLetter(character) && SpecialSymbols.SuperscriptAlphabet.IndexOf(character) >= 0;
