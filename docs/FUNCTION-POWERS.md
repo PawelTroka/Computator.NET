@@ -74,7 +74,14 @@ grouped and literal-protection work. Review the dependent branches in order and
 revalidate after retargeting. No merge or release is authorized by the tests.
 
 `TslCompiler`'s original overloads retain syntax-only translation for editor
-previews and calculation-mode analysis. The desktop and portable evaluators
+previews. Automatic calculation-mode analysis binds candidate symbolic calls
+against the same built-ins and current custom definitions before looking for
+coordinate inputs. It does not emit, load or execute the program. This includes
+qualified powers such as `System.Math.Cosʸ(x)` while keeping exact custom names
+such as `cosᶻ` intact. Returning from the desktop custom-functions view refreshes
+the mode even when the expression has not changed.
+
+The desktop and portable evaluators
 select deferred function-name resolution through its additional overload, then
 call the shared `FunctionPowerResolver` immediately before Roslyn emits the
 complete program. Programs without candidate symbolic calls avoid the semantic

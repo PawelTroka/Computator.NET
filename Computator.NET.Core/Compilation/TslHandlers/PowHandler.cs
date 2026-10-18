@@ -9,12 +9,14 @@ namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public class PowHandler : ITslHandler
     {
-        // Bare symbolic prefixes are reserved for the conventional elementary
+        // Syntax-only previews reserve bare symbolic prefixes for conventional elementary
         // function spellings below: cosᶻ(z) means pow(cos(z),z). Other identifiers
         // (notably ψⁿ, Probeᶻ and qualified names) keep their existing meaning.
         // Named/qualified identifiers accept a grouped prefix: Probe⁽ʸ⁾(x).
         // An intentional custom name overlapping this shorthand can be escaped
         // as @cosᶻ; declarations in the same TSL fragment are protected as well.
+        // Evaluation and automatic routing defer bare names to FunctionPowerResolver,
+        // which also supports custom and qualified calls with their actual bindings.
         private static readonly HashSet<string> SymbolicPowerFunctions = new HashSet<string>(StringComparer.Ordinal)
         {
             "sinc", "sin", "cos", "tan", "tg", "ctg", "cot", "sec", "csc", "cosec",
