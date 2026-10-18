@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 2,
+  "candidateProductCode": "{5ee11f5a-4f1e-fc4e-a296-bc713710e32e}",
+  "candidateSha256": "7BD90DE7A16E0F1EFED1CB825F4F740BFCB3163700C8993FA37D9B63CC0F51BD",
+  "inventorySha256": "8CFA670A0D4E96D31582646084F1489EA7151B4661FE59FCA8F9EB7B9B3BAC4F",
+  "historicalUpgradeRequested": true,
+  "legacySha256": "",
+  "expectedUpgradeCode": "{86D89770-B31B-4467-BC5E-B54B0FF263A1}",
+  "expectedLegacyVersion": "2.3.2.0",
+  "requireNoModernRuntime": true,
+  "candidateBundleSha256": "2334A232D8A04959D04A3D34408BA3F73A88289F4D056DEE8DA644AAAAB35851",
+  "historicalBundleSha256": "30b107dced1c147b6f3ba9089b97d2131dd43aa195d5a23c3a95d9b150149d4a",
+  "inputs": [
+    {
+      "sha256": "3A309F479C404DC995B30A1044C912C6633302657E2A967F70EE250014893AC5",
+      "name": "AcceptanceContracts.psm1"
+    },
+    {
+      "sha256": "2334A232D8A04959D04A3D34408BA3F73A88289F4D056DEE8DA644AAAAB35851",
+      "name": "candidate.exe"
+    },
+    {
+      "sha256": "7BD90DE7A16E0F1EFED1CB825F4F740BFCB3163700C8993FA37D9B63CC0F51BD",
+      "name": "candidate.msi"
+    },
+    {
+      "sha256": "9A760F2102D03AF22AAA37766D0C8923E6827AE2FC9E1A52E7723780081A8EBD",
+      "name": "Guest-HistoricalUpgrade.ps1"
+    },
+    {
+      "sha256": "87D2D72A73A6E8CEE602489355C7D31A9C06D7B0E66599B5DED9267D1319F421",
+      "name": "historical-2.3.2.json"
+    },
+    {
+      "sha256": "30B107DCED1C147B6F3BA9089B97D2131DD43AA195D5A23C3A95D9B150149D4A",
+      "name": "historical.exe"
+    },
+    {
+      "sha256": "2A84F98F0C6D87BDF51B9C37C652D3EF724B29A46CAD0C41BDA916E95EAFA7A3",
+      "name": "New-FailingUpgrade.ps1"
+    },
+    {
+      "sha256": "8CFA670A0D4E96D31582646084F1489EA7151B4661FE59FCA8F9EB7B9B3BAC4F",
+      "name": "payload.xml"
+    },
+    {
+      "sha256": "7F42CB8051A932543614A0C1BF649E1ADFF3D690B407241855811ED72720A444",
+      "name": "Test-HistoricalUpgrade.ps1"
+    },
+    {
+      "sha256": "4292F3A40D8993ADA69E5FCDC0FB6D8CD5A658C12E0ACF47E56A36D237524896",
+      "name": "Write-HistoricalProfile.ps1"
+    }
+  ]
+}

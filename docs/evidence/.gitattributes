@@ -1,0 +1,5 @@
+# Evidence checksums must also verify on Windows checkouts.
+.gitattributes text eol=lf
+historical-upgrade-2026-10-16.json text eol=lf
+historical-upgrade-2026-10-16/** text eol=lf
+historical-upgrade-2026-10-16/*.zip binary
