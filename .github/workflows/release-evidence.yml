@@ -36,6 +36,7 @@ jobs:
             artifacts/distribution/win-x64/native/gsl/gsl-provenance.json
             artifacts/local-web/api/native/gsl/gsl-provenance.json
             TestResults/*.trx
+            TestResults/**/reference-*.png
             TestResults/desktop-smoke/**
             TestResults/packaged-gsl/**
             Computator.NET.WebClient/test-results/**

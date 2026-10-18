@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Computator.NET.Core.Abstract;
 using Computator.NET.Core.Autocompletion;
 using Computator.NET.Core.Autocompletion.DataSource;
@@ -197,6 +198,17 @@ namespace Computator.NET.Desktop.Tests
         public void InlineLaguerreMathSharesTheTextBaselineAndScalesWithProse(int width, int fontSize)
         {
             var entry = new FunctionsDetailsFileSource().Details["Laguerre(n,α,x)"];
+            // Keep expectations independent of the rendered DOM. MSHTML exposes
+            // numeric image attributes as numbers, which GetAttribute drops.
+            var authoredImages = XElement.Parse(entry.Description).Elements("p")
+                .Single(element => (string)element.Attribute("class") == "reference-summary")
+                .Elements("img").Select(image => new
+                {
+                    Width = (int)image.Attribute("width"),
+                    Height = (int)image.Attribute("height"),
+                    Depth = (int)image.Attribute("data-depth")
+                }).ToArray();
+            NUnit.Framework.Assert.That(authoredImages.Length, Is.EqualTo(3));
             using var window = new Form { ClientSize = new Size(width, 650), ShowInTaskbar = false,
                 TopMost = true, StartPosition = FormStartPosition.CenterScreen };
             using var browser = new WebBrowser { Dock = DockStyle.Fill };
@@ -209,13 +221,15 @@ namespace Computator.NET.Desktop.Tests
             var summary = browser.Document.GetElementsByTagName("p").Cast<HtmlElement>()
                 .First(element => element.GetAttribute("className") == "reference-summary");
             var images = summary.GetElementsByTagName("img").Cast<HtmlElement>().ToArray();
-            NUnit.Framework.Assert.That(images.Length, Is.EqualTo(3));
+            NUnit.Framework.Assert.That(images.Length, Is.EqualTo(authoredImages.Length));
             dynamic selection = ((dynamic)browser.Document.Body.DomElement).createTextRange();
             selection.moveToElementText(summary.DomElement);
             NUnit.Framework.Assert.That((string)selection.text,
                 Is.EqualTo("A degree-n polynomial orthogonal on [0,∞) with weight x^α exp(−x)."));
-            foreach (var image in images)
+            for (var index = 0; index < images.Length; index++)
             {
+                var image = images[index];
+                var authored = authoredImages[index];
                 var marker = browser.Document.CreateElement("span");
                 marker.Style = "display:inline-block;width:0;height:0;vertical-align:baseline";
                 image.InsertAdjacentElement(HtmlElementInsertionOrientation.AfterEnd, marker);
@@ -223,13 +237,13 @@ namespace Computator.NET.Desktop.Tests
                 dynamic markerNode = marker.DomElement;
                 dynamic bounds = imageNode.getBoundingClientRect();
                 dynamic markerBounds = markerNode.getBoundingClientRect();
-                var authoredWidth = int.Parse(image.GetAttribute("width"));
-                var authoredHeight = int.Parse(image.GetAttribute("height"));
-                var depth = int.Parse(image.GetAttribute("data-depth"));
+                NUnit.Framework.Assert.That((bool)imageNode.complete, Is.True);
+                NUnit.Framework.Assert.That((int)imageNode.naturalWidth, Is.EqualTo(authored.Width * 3));
+                NUnit.Framework.Assert.That((int)imageNode.naturalHeight, Is.EqualTo(authored.Height * 3));
                 NUnit.Framework.Assert.That((string)imageNode.currentStyle.display, Is.EqualTo("inline-block"));
-                NUnit.Framework.Assert.That((double)(bounds.right - bounds.left), Is.EqualTo(authoredWidth / 20.0 * fontSize).Within(1.1));
-                NUnit.Framework.Assert.That((double)(bounds.bottom - bounds.top), Is.EqualTo(authoredHeight / 20.0 * fontSize).Within(1.1));
-                NUnit.Framework.Assert.That((double)bounds.bottom - depth / 1000.0 * fontSize,
+                NUnit.Framework.Assert.That((double)(bounds.right - bounds.left), Is.EqualTo(authored.Width / 20.0 * fontSize).Within(1.1));
+                NUnit.Framework.Assert.That((double)(bounds.bottom - bounds.top), Is.EqualTo(authored.Height / 20.0 * fontSize).Within(1.1));
+                NUnit.Framework.Assert.That((double)bounds.bottom - authored.Depth / 1000.0 * fontSize,
                     Is.EqualTo((double)markerBounds.top).Within(1.1), "The image must use its own measured descent.");
                 marker.OuterHtml = "";
             }
