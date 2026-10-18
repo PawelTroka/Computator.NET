@@ -5,6 +5,10 @@ namespace Computator.NET.Core.Compilation.TslHandlers
 {
     public class MultiplyingHandler : ITslHandler
     {
+        // A callable may still contain superscript letters until the complete
+        // compilation resolves its name. Keep the trailing multiplication in
+        // sqrtʸ(x)x intact before that semantic pass runs.
+        private const string CallableIdentifier = @"@?[\p{L}\p{Nl}_][\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}]*";
         private static readonly Regex ChangeBackEngineeringNotationRegex =
             new Regex(
                 @"{{ENGINERING#NOTATION}(\d+\.?\d*)#([Ee][+-]?\d+){ENGINERING#NOTATION}([^\dα-ωΑ-Ωa-zA-Z_.]*){ENGINERING#NOTATION}}",
@@ -41,7 +45,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
                 RegexOptions.Compiled),
 
             //example: (2+cos(x))x
-            new Regex($@"((?:(?!for\b|foreach\b|while\b|using\b|if\b)\b{Groups.Identifier})|^)(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))\s*(\(|{Groups.IdentifierOrNumber})", RegexOptions.Compiled|RegexOptions.Multiline)
+            new Regex($@"((?:(?!for\b|foreach\b|while\b|using\b|if\b)\b{CallableIdentifier})|^)(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))\s*(\(|{Groups.IdentifierOrNumber})", RegexOptions.Compiled|RegexOptions.Multiline)
         };
         
 

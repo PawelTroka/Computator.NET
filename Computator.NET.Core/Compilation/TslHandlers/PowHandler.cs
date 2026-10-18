@@ -28,6 +28,8 @@ namespace Computator.NET.Core.Compilation.TslHandlers
         private const string Parentheses = @"\((?:[^()]|(?<open>\()|(?<-open>\)))*(?(open)(?!))\)";
         private const string SuperscriptDigits = "⁰¹²³⁴⁵⁶⁷⁸⁹";
         private static readonly char[] SuperscriptCharacters = SpecialSymbols.SuperscriptsWithoutSpace.ToCharArray();
+        private static readonly Regex BareCallableNameRegex = new Regex(
+            @"\A" + QualifiedIdentifier + @"\s*\z", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         private static readonly Regex NumericPowerRegex = new Regex(
             @"\A[⁺⁻]?[" + SuperscriptDigits + @"]+(?:" + Regex.Escape(SpecialSymbols.DecimalSeparatorSuperscript) +
@@ -54,14 +56,16 @@ namespace Computator.NET.Core.Compilation.TslHandlers
         private static readonly Regex VariableRaisedToAnyPowerRegex = new Regex(
             $@"({Groups.Identifier}){Groups.PowerCatchingGroup}", RegexOptions.Compiled);
 
-        public string Replace(string input)
+        public string Replace(string input) => Replace(input, false);
+
+        internal string Replace(string input, bool deferSymbolicFunctionPowers)
         {
             var result = input;
             string previous;
             do
             {
                 previous = result;
-                result = ReplacePrefixPowers(result);
+                result = ReplacePrefixPowers(result, deferSymbolicFunctionPowers);
                 result = ExpressionInParenthesesRaisedToAnyPowerRegex.Replace(result, ReplaceParenthesizedPower);
             } while (result != previous);
 
@@ -69,7 +73,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             return VariableRaisedToAnyPowerRegex.Replace(result, ReplaceMatchWithPow);
         }
 
-        private static string ReplacePrefixPowers(string source)
+        private static string ReplacePrefixPowers(string source, bool deferSymbolicFunctionPowers)
         {
             var output = new StringBuilder();
             var copied = 0;
@@ -78,7 +82,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             {
                 var match = FunctionWithPrefixPowerRegex.Match(source, next);
                 if (!match.Success) break;
-                var replacement = ReplacePrefixPower(source, match);
+                var replacement = ReplacePrefixPower(source, match, deferSymbolicFunctionPowers);
                 if (replacement == null)
                 {
                     // Preserve the outer name but keep scanning its arguments:
@@ -93,11 +97,14 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             return copied == 0 ? source : output.Append(source, copied, source.Length - copied).ToString();
         }
 
-        private static string? ReplacePrefixPower(string source, Match match)
+        private static string? ReplacePrefixPower(string source, Match match, bool deferSymbolicFunctionPowers)
         {
             var function = match.Groups["function"].Value;
             var power = match.Groups["power"].Value.Trim();
             if (SyntaxFacts.GetKeywordKind(function) != SyntaxKind.None) return null;
+            if (deferSymbolicFunctionPowers && BareCallableNameRegex.IsMatch(
+                source.Substring(match.Index, match.Groups["arguments"].Index - match.Index)))
+                return null;
 
             // Superscript letters are identifier characters, so the greedy name
             // match may include part of the exponent (cosᶜᵒˢ⁽ᶻ⁾, for example).
@@ -113,6 +120,16 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             else if (!NumericPowerRegex.IsMatch(power) && !GroupedPowerRegex.IsMatch(power))
                 return null;
 
+            if (deferSymbolicFunctionPowers)
+            {
+                // An explicit prefix already chose its callable boundary. Keep
+                // that exact name during later binding, including protected names
+                // restored by TslCompiler. This prevents Probeʸ⁺¹(x) becoming
+                // (Probe(x)^y)^1 when no callable Probeʸ actually exists.
+                var terminalStart = function.LastIndexOf('.') + 1;
+                while (char.IsWhiteSpace(function[terminalStart])) terminalStart++;
+                if (function[terminalStart] != '@') function = function.Insert(terminalStart, "@");
+            }
             return "pow(" + function + match.Groups["arguments"].Value + "," +
                 SpecialSymbols.SuperscriptsToAscii(power) + ")";
         }

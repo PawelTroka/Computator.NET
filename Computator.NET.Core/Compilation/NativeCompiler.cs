@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using Computator.NET.Localization;
+using Computator.NET.Core.Compilation.TslHandlers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using NLog;
@@ -57,6 +58,7 @@ namespace Computator.NET.Core.Compilation
                 new[] { tree }, metadata,
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
                     optimizationLevel: OptimizationLevel.Release));
+            compilation = FunctionPowerResolver.Resolve(compilation);
 
             using (var output = new MemoryStream())
             {

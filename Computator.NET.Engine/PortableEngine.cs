@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
 using Computator.NET.Core.Compilation;
+using Computator.NET.Core.Compilation.TslHandlers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -53,11 +54,12 @@ public sealed partial class PortableEngine
             "using static Computator.NET.Engine.ScalarFunctions; using static Computator.NET.Core.Constants.MathematicalConstants; " +
             "using static Computator.NET.Core.Functions.MatrixFunctions;\n" +
             TslCompiler.TypesAliases + "\npublic static class Program {\n#line 1 \"custom-functions.tslf\"\n" +
-            compiler.TransformToCSharp(customFunctions) + "\n#line default\n" + prefix +
-            compiler.TransformToCSharp(input, customFunctions) + suffix + "\n}";
+            compiler.TransformToCSharp(customFunctions, string.Empty, deferSymbolicFunctionPowers: true) + "\n#line default\n" + prefix +
+            compiler.TransformToCSharp(input, customFunctions, deferSymbolicFunctionPowers: true) + suffix + "\n}";
         var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.CSharp14), encoding: Encoding.UTF8);
         var compilation = CSharpCompilation.Create("Computator.Portable." + Guid.NewGuid().ToString("N"), new[] { tree }, References.Value,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release));
+        compilation = FunctionPowerResolver.Resolve(compilation);
         using var stream = new MemoryStream();
         var result = compilation.Emit(stream);
         if (!result.Success)

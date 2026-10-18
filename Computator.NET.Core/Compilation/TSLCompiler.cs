@@ -61,7 +61,15 @@ namespace Computator.NET.Core.Compilation
         /// separately authored custom-functions fragment. No names are retained
         /// between compilations.
         /// </summary>
-        public string TransformToCSharp(string tslCode, string customFunctionsCode)
+        public string TransformToCSharp(string tslCode, string customFunctionsCode) =>
+            TransformToCSharp(tslCode, customFunctionsCode, false);
+
+        /// <summary>
+        /// Evaluation defers bare symbolic call names until the complete program
+        /// can bind them. The existing overloads retain syntax-only translation
+        /// for editor previews and calculation-mode analysis.
+        /// </summary>
+        public string TransformToCSharp(string tslCode, string customFunctionsCode, bool deferSymbolicFunctionPowers)
         {
             // TSL notation is executable syntax, never literal text. Let the
             // existing C# lexer recognize escaped/verbatim/raw strings, chars,
@@ -139,8 +147,14 @@ namespace Computator.NET.Core.Compilation
                 end = change.Span.End;
             }
             var protectedCode = source.WithChanges(ordered).ToString();
-            var result = TslHandlers.Aggregate(protectedCode, (current, handler) => handler.Replace(current));
-            return Regex.Replace(result, prefix + @"(\d+)__", match => literals[int.Parse(match.Groups[1].Value)]);
+            var result = TslHandlers.Aggregate(protectedCode, (current, handler) =>
+                handler is PowHandler powers ? powers.Replace(current, deferSymbolicFunctionPowers) : handler.Replace(current));
+            return Regex.Replace(result, "(@?)" + prefix + @"(\d+)__", match =>
+            {
+                var literal = literals[int.Parse(match.Groups[2].Value)];
+                return match.Groups[1].Length != 0 && !literal.StartsWith("@", StringComparison.Ordinal)
+                    ? "@" + literal : literal;
+            });
         }
 
         private static HashSet<string> GetSharedPowerNames(string customFunctionsCode)
