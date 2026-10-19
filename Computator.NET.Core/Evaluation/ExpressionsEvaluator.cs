@@ -80,6 +80,7 @@ namespace Computator.NET.Core.Evaluation
         // Differential tests and specialized hosts can retain the original path.
         // No generated delegates, assemblies or constructed generic types are cached.
         protected virtual bool UsePrecompiledBuiltins => true;
+        protected virtual bool UseDirectExpressions => true;
         private string _beginCode;
         private bool _usingPrecompiledBuiltins;
         private readonly TslCompiler _tslCompiler;
@@ -136,6 +137,15 @@ namespace Computator.NET.Core.Evaluation
         public Function Evaluate(string input, string customFunctionsCode, CalculationsMode calculationsMode)
         {
             if (string.IsNullOrWhiteSpace(input)) throw new ArgumentException(Strings.Expression_should_not_be_empty_);
+            if (UsePrecompiledBuiltins && UseDirectExpressions && string.IsNullOrWhiteSpace(customFunctionsCode) &&
+                string.IsNullOrEmpty(AdditionalUsings) && string.IsNullOrEmpty(AdditionalObjectsCode) &&
+                string.IsNullOrEmpty(InitCodeAfterFunctionSignature) &&
+                DirectExpressionCompiler.TryCompile(input, calculationsMode, out var direct, out var directCode))
+            {
+                FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, false);
+                MainTslCode = input; MainCSharpCode = directCode; CustomFunctionsTslCode = "";
+                return new Function(direct, FunctionType) { TslCode = input, CsCode = directCode };
+            }
             var expression = ExpressionAnalysis.Parse(_tslCompiler.TransformToCSharp(input));
             if (expression.IsEmpty) throw new ArgumentException(Strings.Expression_should_not_be_empty_);
             FunctionType = FunctionTypeFromCalculationsMode(calculationsMode, expression.IsImplicit);

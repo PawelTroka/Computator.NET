@@ -4,6 +4,7 @@
     <TargetFramework Condition="'$(HistoricalDirectory)' != ''">net461</TargetFramework>
     <OutputType>Exe</OutputType>
     <AssemblyName>Computator.Performance.Worker</AssemblyName>
+    <StartupObject>DirectExpressionEntryPoint</StartupObject>
     <LangVersion>7.3</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -23,6 +24,7 @@
   <ItemGroup>
     <Compile Include="Worker.cs" />
     <Compile Include="DesktopStartup.cs" />
+    <Compile Include="DirectExpressionEntryPoint.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(HistoricalDirectory)' == ''">
     <ProjectReference Include="../../Computator.NET.Core/Computator.NET.Core.csproj" />

@@ -1,0 +1,81 @@
+name: Direct numeric compiler correctness and historical latency
+on:
+  pull_request:
+    paths:
+      - 'Computator.NET.Core/Compilation/DirectExpressionCompiler.cs'
+      - 'Computator.NET.Core/Evaluation/ExpressionsEvaluator.cs'
+      - 'Computator.NET.Core.Tests/DirectExpressionCompilerTests.cs'
+      - 'build/performance/DirectExpressionEntryPoint.cs'
+      - 'build/performance/prepare_direct_manifest.py'
+      - 'build/performance/Worker.csproj'
+      - '.github/workflows/direct-expression-performance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  comparison:
+    runs-on: windows-2025
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        experiment: [historical, modern]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Verify direct and full-compiler differential correctness before timing
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path artifacts/direct-tests -Force | Out-Null
+          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj -c Release --filter 'FullyQualifiedName~DirectExpressionCompilerTests|FullyQualifiedName~PrecompiledBuiltin' --logger 'trx;LogFileName=direct.trx' --results-directory artifacts/direct-tests 2>&1 | Tee-Object -FilePath artifacts/direct-tests/build-and-test.log
+          if ($LASTEXITCODE -ne 0) { throw 'Correctness failed; no performance measurements of an invalid product.' }
+          [xml]$trx = Get-Content artifacts/direct-tests/direct.trx -Raw
+          $c = $trx.TestRun.ResultSummary.Counters
+          if ([int]$c.executed -lt 80 -or [int]$c.failed -ne 0 -or [int]$c.executed -ne [int]$c.passed) { throw 'Test completeness failed.' }
+          python -m unittest discover -s build/performance -p 'test_*.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'Analyzer tests failed.' }
+      - name: Prepare original historical binaries and the ReadyToRun candidate
+        shell: pwsh
+        run: ./build/performance/Prepare-Comparison.ps1 -OutputDirectory artifacts/direct-input -ReadyToRun $true -DisposableProfile
+      - name: Record the experimental treatment and screen every workload
+        shell: pwsh
+        env:
+          EXPERIMENT: ${{ matrix.experiment }}
+        run: |
+          python build/performance/prepare_direct_manifest.py --input artifacts/direct-input/manifest.json --output artifacts/direct-input/experiment.json --experiment $env:EXPERIMENT
+          if ($LASTEXITCODE -ne 0) { throw 'Manifest preparation failed.' }
+          python build/performance/compare.py run --manifest artifacts/direct-input/experiment.json --output artifacts/direct-screening --pairs 1 --timeout 120 --bootstrap 50000 --seed 191
+          if ($LASTEXITCODE -ne 0) { throw 'Published workload screening failed.' }
+      - name: Collect twenty complete sequential same-machine process pairs
+        shell: pwsh
+        run: |
+          python build/performance/compare.py run --manifest artifacts/direct-input/experiment.json --output artifacts/direct-results --pairs 20 --timeout 120 --bootstrap 50000 --seed 191
+          if ($LASTEXITCODE -ne 0) { throw 'Invalid comparison; failures are retained, not replaced.' }
+      - name: Report observed results
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path artifacts/direct-results/report.md) {
+            Get-Content artifacts/direct-results/report.md
+            Get-Content artifacts/direct-results/report.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: direct-numeric-${{ matrix.experiment }}-evidence
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            artifacts/direct-tests/
+            artifacts/direct-input/*json
+            artifacts/direct-input/*conditioning*
+            artifacts/direct-input/historical/baseline-provenance.json
+            artifacts/direct-screening/
+            artifacts/direct-results/
+            Computator.NET.Core/Compilation/DirectExpressionCompiler.cs
+            Computator.NET.Core.Tests/DirectExpressionCompilerTests.cs
