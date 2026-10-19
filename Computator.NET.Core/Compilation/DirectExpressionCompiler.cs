@@ -9,6 +9,7 @@ using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
 using System.Reflection.PortableExecutable;
 using Computator.NET.Core.Compilation.Builtins;
+using Computator.NET.Core.Compilation.TslHandlers;
 using Computator.NET.DataTypes;
 
 namespace Computator.NET.Core.Compilation
@@ -29,9 +30,20 @@ namespace Computator.NET.Core.Compilation
         private static readonly HashSet<string> UnaryFunctions = new HashSet<string>(StringComparer.Ordinal)
         { "sin", "cos", "tan", "sinh", "cosh", "tanh", "exp", "ln", "log10", "abs", "Re", "Im" };
 
-        internal static bool TryCompile(string source, CalculationsMode mode, out Delegate function, out string csharp)
+        // Automatic GUI routing must not load the full translator before the
+        // direct compiler gets a chance. Classification ONLY parses; it never
+        // emits an image, constructs a delegate, or executes a numerical call.
+        internal static bool TryDetermineMode(string source, out CalculationsMode mode)
         {
-            function = null; csharp = null;
+            foreach (var candidate in new[] { CalculationsMode.Real, CalculationsMode.Fxy, CalculationsMode.Complex })
+                if (TryParse(source, candidate, out _)) { mode = candidate; return true; }
+            mode = CalculationsMode.Error;
+            return false;
+        }
+
+        private static bool TryParse(string source, CalculationsMode mode, out Node root)
+        {
+            root = null;
             if (source == null || source.Length > MaximumLength ||
                 (mode != CalculationsMode.Real && mode != CalculationsMode.Fxy && mode != CalculationsMode.Complex)) return false;
             if (AppContext.TryGetSwitch("Computator.Tsl.DisableDirectExpressions", out bool disabled) && disabled) return false;
@@ -42,9 +54,19 @@ namespace Computator.NET.Core.Compilation
                     c != '_' && c != ' ' && c != '\t' && c != '\r' && c != '\n' &&
                     c != '+' && c != '-' && c != '*' && c != '/' && c != '.' && c != '(' && c != ')') return false;
             if (source.Contains("++") || source.Contains("--")) return false;
-            Node root;
-            try { root = new Parser(source, mode).Parse(); }
+            // Preserve the ACTUAL TSL promotion before parsing signs: x/-0
+            // becomes x/-0.0, while x/(-0) promotes an already evaluated integer
+            // zero. Reusing the handler also retains parenthesized denominators.
+            // This handler uses regexes, not Roslyn's parser/binder/emitter.
+            if (source.IndexOf('/') >= 0) source = new DivisionHandler().Replace(source);
+            try { root = new Parser(source, mode).Parse(); return true; }
             catch (UnsupportedSyntax) { return false; }
+        }
+
+        internal static bool TryCompile(string source, CalculationsMode mode, out Delegate function, out string csharp)
+        {
+            function = null; csharp = null;
+            if (!TryParse(source, mode, out var root)) return false;
             Type result = mode == CalculationsMode.Complex ? ComplexType : Real;
             if (root.Type != result)
             {

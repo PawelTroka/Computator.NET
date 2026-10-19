@@ -1,4 +1,4 @@
-"""Keep original historical inputs and prepare a same-binary Roslyn-only control."""
+"""Keep historical binaries and prepare a same-binary Roslyn-only control."""
 import argparse
 import copy
 import json
@@ -22,11 +22,14 @@ def main():
         manifest['baseline']['environment']['COMPUTATOR_DATA_DIRECTORY'] = str(profile)
         manifest['baseline']['provenance']['version'] += ' (direct numeric compiler disabled)'
         manifest['baseline']['provenance']['directCompilerDisabled'] = True
-        # The child desktop does not inherit an AppContext switch. This scenario
-        # would compare identical startup treatments, so it is NOT measured here.
+        # A child desktop does not inherit the observer's AppContext switch. Do
+        # not present two identical startup treatments as a compiler comparison.
         manifest['scenarios'].pop('startup')
     manifest['candidate']['provenance']['directCompilerDisabled'] = False
     manifest['experiment'] = args.experiment + '-direct-numeric-r2r'
+    for scenario in ('auto-real', 'auto-complex', 'auto-surface'):
+        metrics = ['engine.initialize.ms', 'automatic.mode.ms', 'automatic.first.interaction.ms']
+        manifest['scenarios'][scenario] = {'metrics': metrics, 'operations': {metric: 1 for metric in metrics}}
     args.output.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
 
 

@@ -4,7 +4,8 @@ on:
     paths:
       - 'Computator.NET.Core/Compilation/DirectExpressionCompiler.cs'
       - 'Computator.NET.Core/Evaluation/ExpressionsEvaluator.cs'
-      - 'Computator.NET.Core.Tests/DirectExpressionCompilerTests.cs'
+      - 'Computator.NET.Core/Evaluation/ModeDeterminer.cs'
+      - 'Computator.NET.Core.Tests/DirectExpression*.cs'
       - 'build/performance/DirectExpressionEntryPoint.cs'
       - 'build/performance/prepare_direct_manifest.py'
       - 'build/performance/Worker.csproj'
@@ -32,11 +33,11 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path artifacts/direct-tests -Force | Out-Null
-          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj -c Release --filter 'FullyQualifiedName~DirectExpressionCompilerTests|FullyQualifiedName~PrecompiledBuiltin' --logger 'trx;LogFileName=direct.trx' --results-directory artifacts/direct-tests 2>&1 | Tee-Object -FilePath artifacts/direct-tests/build-and-test.log
+          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj -c Release --filter 'FullyQualifiedName~DirectExpression|FullyQualifiedName~PrecompiledBuiltin' --logger 'trx;LogFileName=direct.trx' --results-directory artifacts/direct-tests 2>&1 | Tee-Object -FilePath artifacts/direct-tests/build-and-test.log
           if ($LASTEXITCODE -ne 0) { throw 'Correctness failed; no performance measurements of an invalid product.' }
           [xml]$trx = Get-Content artifacts/direct-tests/direct.trx -Raw
           $c = $trx.TestRun.ResultSummary.Counters
-          if ([int]$c.executed -lt 80 -or [int]$c.failed -ne 0 -or [int]$c.executed -ne [int]$c.passed) { throw 'Test completeness failed.' }
+          if ([int]$c.executed -lt 103 -or [int]$c.failed -ne 0 -or [int]$c.executed -ne [int]$c.passed) { throw 'Test completeness failed.' }
           python -m unittest discover -s build/performance -p 'test_*.py' -v
           if ($LASTEXITCODE -ne 0) { throw 'Analyzer tests failed.' }
       - name: Prepare original historical binaries and the ReadyToRun candidate
@@ -78,4 +79,4 @@ jobs:
             artifacts/direct-screening/
             artifacts/direct-results/
             Computator.NET.Core/Compilation/DirectExpressionCompiler.cs
-            Computator.NET.Core.Tests/DirectExpressionCompilerTests.cs
+            Computator.NET.Core.Tests/DirectExpression*.cs
