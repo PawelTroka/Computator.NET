@@ -117,6 +117,123 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(chart.AxisLabels.Color, Is.EqualTo(labelsColor));
         }
 
+        [TestCase(true, false, DialogResult.OK)]
+        [TestCase(true, false, DialogResult.Cancel)]
+        [TestCase(true, false, DialogResult.None)]
+        [TestCase(false, true, DialogResult.OK)]
+        [TestCase(false, true, DialogResult.Cancel)]
+        [TestCase(false, true, DialogResult.None)]
+        public void Modal3DEditorPreservesLivePreviewAndCommitsOnlyOnSave(
+            bool visibleAxes, bool equalAxes, DialogResult closeAction)
+        {
+            var chart = new Chart3DControl();
+            var background = Color.FromArgb(0, 80, 120, 160);
+            var axesColor = MediaColor.FromArgb(128, 40, 80, 120);
+            var labelsColor = MediaColor.FromArgb(64, 160, 100, 60);
+            using var host = new ElementHost { Child = chart, BackColor = background };
+            PlotSurface(chart);
+            chart.VisibilityAxes = visibleAxes;
+            chart.EqualAxes = equalAxes;
+            chart.AxesColor = axesColor;
+            chart.AxisLabels.Color = labelsColor;
+            chart.AxisLabels.LabelX = "Original x axis";
+            chart.Scale = 0.5;
+
+            using (var dialog = new EditChart3DWindow(chart, host))
+            {
+                var result = ShowModalEditor(dialog, () =>
+                {
+                    NUnit.Framework.Assert.That(Find<CheckBox>(dialog, "visibleAxesCheckBox").Checked,
+                        Is.EqualTo(visibleAxes));
+                    NUnit.Framework.Assert.That(Find<CheckBox>(dialog, "equalAxesCheckBox").Checked,
+                        Is.EqualTo(equalAxes));
+                    Find<CheckBox>(dialog, "visibleAxesCheckBox").Checked = !visibleAxes;
+                    Find<CheckBox>(dialog, "equalAxesCheckBox").Checked = !equalAxes;
+                    Find<TextBox>(dialog, "xLabelTextBox").Text = "Edited x axis";
+                    Find<NumericUpDown>(dialog, "scaleNumericUpDown").Value = 0.75m;
+
+                    NUnit.Framework.Assert.That(chart.VisibilityAxes, Is.EqualTo(!visibleAxes),
+                        "Axis visibility must still preview while the editor is open.");
+                    NUnit.Framework.Assert.That(chart.EqualAxes, Is.EqualTo(!equalAxes),
+                        "Equal-axis scaling must still preview while the editor is open.");
+                    NUnit.Framework.Assert.That(chart.AxisLabels.LabelX, Is.EqualTo("Original x axis"));
+                    NUnit.Framework.Assert.That(chart.Scale, Is.EqualTo(0.5));
+
+                    if (closeAction == DialogResult.OK)
+                        dialog.AcceptButton.PerformClick();
+                    else if (closeAction == DialogResult.Cancel)
+                        dialog.CancelButton.PerformClick();
+                    else
+                        dialog.Close(); // The same close path as the title-bar close button.
+                });
+                NUnit.Framework.Assert.That(result,
+                    Is.EqualTo(closeAction == DialogResult.OK ? DialogResult.OK : DialogResult.Cancel));
+            }
+
+            var saved = closeAction == DialogResult.OK;
+            var expectedVisibility = saved ? !visibleAxes : visibleAxes;
+            var expectedEqualAxes = saved ? !equalAxes : equalAxes;
+            var expectedLabel = saved ? "Edited x axis" : "Original x axis";
+            var expectedScale = saved ? 0.75 : 0.5;
+            NUnit.Framework.Assert.That(chart.VisibilityAxes, Is.EqualTo(expectedVisibility));
+            NUnit.Framework.Assert.That(chart.EqualAxes, Is.EqualTo(expectedEqualAxes));
+            NUnit.Framework.Assert.That(chart.AxisLabels.LabelX, Is.EqualTo(expectedLabel));
+            NUnit.Framework.Assert.That(chart.Scale, Is.EqualTo(expectedScale));
+            NUnit.Framework.Assert.That(host.BackColor.ToArgb(), Is.EqualTo(background.ToArgb()));
+            NUnit.Framework.Assert.That(chart.AxesColor, Is.EqualTo(axesColor));
+            NUnit.Framework.Assert.That(chart.AxisLabels.Color, Is.EqualTo(labelsColor));
+
+            using var reopened = new EditChart3DWindow(chart, host);
+            ShowModalEditor(reopened, () =>
+            {
+                NUnit.Framework.Assert.That(Find<CheckBox>(reopened, "visibleAxesCheckBox").Checked,
+                    Is.EqualTo(expectedVisibility));
+                NUnit.Framework.Assert.That(Find<CheckBox>(reopened, "equalAxesCheckBox").Checked,
+                    Is.EqualTo(expectedEqualAxes));
+                NUnit.Framework.Assert.That(Find<TextBox>(reopened, "xLabelTextBox").Text,
+                    Is.EqualTo(expectedLabel));
+                NUnit.Framework.Assert.That(Find<NumericUpDown>(reopened, "scaleNumericUpDown").Value,
+                    Is.EqualTo((decimal)expectedScale));
+                NUnit.Framework.Assert.That(Find<ColorSwatch>(reopened, "backgroundColorRectangleShape")
+                    .FillColor.ToArgb(), Is.EqualTo(background.ToArgb()));
+                NUnit.Framework.Assert.That(Find<ColorSwatch>(reopened, "axesColorRectangleShape")
+                    .FillColor.ToArgb(), Is.EqualTo(Color.FromArgb(128, 40, 80, 120).ToArgb()));
+                NUnit.Framework.Assert.That(Find<ColorSwatch>(reopened, "labelsColorRectangleShape")
+                    .FillColor.ToArgb(), Is.EqualTo(Color.FromArgb(64, 160, 100, 60).ToArgb()));
+            });
+        }
+
+        private static DialogResult ShowModalEditor(EditChart3DWindow dialog, Action edit)
+        {
+            Exception failure = null;
+            var callbackRan = false;
+            dialog.Shown += (_, _) => dialog.BeginInvoke(new Action(() =>
+            {
+                callbackRan = true;
+                try
+                {
+                    edit();
+                }
+                catch (Exception exception)
+                {
+                    // Rethrow outside the native modal loop so assertion failures
+                    // cannot become swallowed UI exceptions or leave the test open.
+                    failure = exception;
+                }
+                finally
+                {
+                    if (dialog.DialogResult == DialogResult.None)
+                        dialog.Close();
+                }
+            }));
+
+            var result = dialog.ShowDialog();
+            if (failure != null)
+                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
+            NUnit.Framework.Assert.That(callbackRan, Is.True, "The modal editor callback must run.");
+            return result;
+        }
+
         private static T Find<T>(Control parent, string name) where T : Control
         {
             return parent.Controls.Find(name, true).OfType<T>().Single();
