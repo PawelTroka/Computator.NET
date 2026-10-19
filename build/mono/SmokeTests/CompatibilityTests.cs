@@ -25,6 +25,26 @@ using File = System.IO.File;
 
 internal static partial class Program
 {
+    private static void RuntimeFactorySidecars()
+    {
+        // A unique hint matches only sidecars, making the old loader fail
+        // deterministically rather than depending on directory enumeration order.
+        var hint = "MonoChartingSidecarRegression-" + Guid.NewGuid().ToString("N");
+        var paths = new[] { ".pdb", ".dll.config" }.Select(extension =>
+            Path.Combine(Computator.NET.DataTypes.Configuration.AppInformation.Directory, hint + extension)).ToArray();
+        try
+        {
+            foreach (var path in paths) File.WriteAllText(path, "Not a managed assembly.");
+            var fallback = RuntimeObjectFactory.CreateInstance<Computator.NET.DataTypes.Charts.IChartFactory>(hint);
+            Check(fallback != null, "Ignoring debug sidecars must retain the real chart-factory fallback.");
+            Same(fallback.GetType().Assembly, typeof(Computator.NET.Charting.ChartFactory).Assembly,
+                "Runtime discovery must select the production chart factory.");
+            var hinted = RuntimeObjectFactory.CreateInstance<Computator.NET.DataTypes.Charts.IChartFactory>("Charting");
+            Check(hinted is Computator.NET.Charting.ChartFactory, "The ordinary Charting assembly hint stopped working.");
+        }
+        finally { foreach (var path in paths) if (File.Exists(path)) File.Delete(path); }
+    }
+
     private static void FrameworkAdjacentValues()
     {
         // Independently specified IEEE-754 bit patterns, including signed zero.

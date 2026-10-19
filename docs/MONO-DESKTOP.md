@@ -237,7 +237,7 @@ The restoration was built and exercised on Ubuntu 24.04.3 x64 with .NET SDK
 | --- | --- |
 | `./build.sh --target=Mono-Validate` | Completed successfully; Framework build had zero errors and six existing warnings |
 | Production entry point, own application directory and binding redirects | Main window rendered with visible inputs/menus, then closed normally |
-| Mono acceptance report | 40 recorded cases: 39 passed, zero failed, one explicit inherited Monte Carlo limitation |
+| Mono acceptance report | 41 recorded cases: 40 passed, zero failed, one explicit inherited Monte Carlo limitation |
 | Numerical method catalogue | Seven integral, five derivative and five root delegates passed independent known-answer checks; Monte Carlo recorded separately |
 | Reference fallback | All 1,220 checked-in descriptions rendered; visible text, signature and equation alternatives checked |
 | Direct executable with actual X11 keyboard/pointer events | Entered `x*x`, clicked Add to chart, observed a parabola and closed with exit code 0 |
@@ -250,6 +250,12 @@ trusted NRBF migration, Unix document safety, visible editor/numerical workflows
 2D and complex PNG rendering, and explicit 3D rejection. Its window images use
 actual X11 screen pixels; a successful build or a blank `DrawToBitmap` capture is
 not used as evidence of usable UI.
+
+A clean hosted run also exposed an assembly-discovery ordering bug: filename
+hints could match debug-symbol or configuration sidecars before the actual
+assembly. Mono factory discovery now accepts `.dll` and `.exe` candidates only.
+The regression creates matching `.pdb` and `.dll.config` files deliberately and
+checks both the fallback factory and the ordinary production assembly hint.
 
 Consult the pull request's exact-commit checks and retained workflow evidence for
 subsequent CI results. The local Windows-targeted build is a cross-build, not a

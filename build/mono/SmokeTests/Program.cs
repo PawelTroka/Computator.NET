@@ -81,6 +81,7 @@ internal static partial class Program
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
 
         Run("mono-runtime-and-shared-source-graph", RuntimeAndSharedGraph);
+        Run("runtime-factory-ignores-debug-sidecars", RuntimeFactorySidecars);
         Run("roslyn-dynamic-and-numerical-packages", ModernCompilerAndPackages);
         Run("portable-real-notation-and-complex-evaluation", PortableExpressions);
         Run("portable-script-and-custom-function-isolation", PortableScriptsAndDefinitions);

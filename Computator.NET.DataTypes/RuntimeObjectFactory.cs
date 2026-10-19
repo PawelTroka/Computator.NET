@@ -24,6 +24,13 @@ namespace Computator.NET.DataTypes
 
             foreach (FileInfo file in possibleFiles)
             {
+#if __MonoCS__
+                // Hint matches also include .pdb and .dll.config sidecars. A
+                // clean Mono build may enumerate these before the assembly.
+                if (!string.Equals(file.Extension, ".dll", StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(file.Extension, ".exe", StringComparison.OrdinalIgnoreCase))
+                    continue;
+#endif
                 Assembly assembly = Assembly.LoadFrom(file.FullName);
                 foreach (Type type in assembly.GetTypes())
                 {
