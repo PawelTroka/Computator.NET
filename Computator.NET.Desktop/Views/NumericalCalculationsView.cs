@@ -10,6 +10,16 @@ namespace Computator.NET.Desktop.Views
         public NumericalCalculationsView()
         {
             InitializeComponent();
+#if __MonoCS__
+            Services.MonoLayout.ConfigureNumericGroup(intervalGroupBox, tableLayoutPanel2);
+            Services.MonoLayout.ConfigureNumericGroup(derivativeAtPointGroupBox, tableLayoutPanel3);
+            Services.MonoLayout.ConfigureNumericGroup(stepsGroupBox, tableLayoutPanel4);
+            Services.MonoLayout.ConfigureNumericGroup(maxErrorGroupBox, tableLayoutPanel5);
+            tableLayoutPanel1.AutoSize = false;
+            tableLayoutPanel1.RowStyles[6].SizeType = SizeType.Percent;
+            tableLayoutPanel1.RowStyles[6].Height = 100;
+            flowLayoutPanel3.AutoSize = true;
+#endif
             if (DesignMode) return;
             function.DefaultCellStyle.Font = CustomFonts.GetMathFont(function.DefaultCellStyle.Font.Size);
             result.DefaultCellStyle.Font = CustomFonts.GetMathFont(result.DefaultCellStyle.Font.Size);

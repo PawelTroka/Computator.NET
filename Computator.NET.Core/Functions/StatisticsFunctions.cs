@@ -9,7 +9,11 @@ namespace Computator.NET.Core.Functions
     {
         // Built-in functions may be evaluated concurrently. Keep the separately
         // exposed rnd field unchanged for scripts which configure it themselves.
+#if NETFRAMEWORK
+        private static readonly Compatibility.FrameworkRandom m_random = Compatibility.FrameworkRandom.Shared;
+#else
         private static readonly System.Random m_random = System.Random.Shared;
+#endif
         public static System.Random rnd = new System.Random();
 
         public static double random(double x, double y)
@@ -52,9 +56,17 @@ namespace Computator.NET.Core.Functions
 
         // The legacy generated-script surface must retain the same bounds and
         // concurrency behavior as the directly callable functions above.
-        public const string ToCode = @"
+        public const string ToCode =
+#if NETFRAMEWORK
+            @"
 
-        private static readonly System.Random m_random = System.Random.Shared;
+        private static readonly Computator.NET.Core.Compatibility.FrameworkRandom m_random = Computator.NET.Core.Compatibility.FrameworkRandom.Shared;"
+#else
+            @"
+
+        private static readonly System.Random m_random = System.Random.Shared;"
+#endif
+            + @"
         public static System.Random rnd = new System.Random();
 
         public static double random(double x, double y)

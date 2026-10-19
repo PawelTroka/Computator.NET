@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework><LangVersion>14.0</LangVersion>
+    <TargetFramework Condition="'$(ComputatorMono)' != 'true'">net10.0</TargetFramework>
+    <TargetFramework Condition="'$(ComputatorMono)' == 'true'">net48</TargetFramework><LangVersion>14.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
@@ -21,5 +22,9 @@
     <Compile Include="../Computator.NET.Core/NumericalCalculations/Integral.cs" Link="Mathematics/Integral.cs" />
     <Compile Include="../Computator.NET.Core/NumericalCalculations/Derivative.cs" Link="Mathematics/Derivative.cs" />
     <Compile Include="../Computator.NET.Core/NumericalCalculations/FunctionRoot.cs" Link="Mathematics/FunctionRoot.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(ComputatorMono)' == 'true'">
+    <Reference Include="System.Numerics" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 </Project>

@@ -13,8 +13,12 @@ namespace Computator.NET.Core.Compilation
     public interface ITslCompiler
     {
         string TransformToCSharp(string tslCode);
+#if NETFRAMEWORK
+        string TransformToCSharp(string tslCode, string customFunctionsCode, bool deferSymbolicFunctionPowers);
+#else
         string TransformToCSharp(string tslCode, string customFunctionsCode, bool deferSymbolicFunctionPowers) =>
             TransformToCSharp(tslCode);
+#endif
     }
 
     public class TslCompiler : ITslCompiler

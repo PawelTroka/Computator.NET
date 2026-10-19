@@ -1,4 +1,18 @@
 <Project>
   <Import Project="$(MSBuildThisFileDirectory)Version.props" />
   <!-- Direct package pins stay in Directory.Packages.props. No lock generation. -->
+  <PropertyGroup Condition="'$(ComputatorMono)' == 'true'">
+    <!-- Set these before the SDK computes its restore paths. Switching targets
+         must never reuse the Windows project's assets or generated resources. -->
+    <BaseIntermediateOutputPath>obj/mono/</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin/mono/</BaseOutputPath>
+    <DefaultItemExcludes>$(DefaultItemExcludes);bin/**;obj/**</DefaultItemExcludes>
+    <DefineConstants>$(DefineConstants);__MonoCS__</DefineConstants>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(ComputatorMono)' == 'true'">
+    <!-- Reference assemblies are build inputs, never shipped as a runtime. -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="all" />
+  </ItemGroup>
 </Project>

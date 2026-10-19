@@ -7,7 +7,11 @@ namespace Computator.NET.Core.Evaluation
     public interface IModeDeterminer
     {
         CalculationsMode DetermineMode(string input);
+#if NETFRAMEWORK
+        CalculationsMode DetermineMode(string input, string customFunctionsCode);
+#else
         CalculationsMode DetermineMode(string input, string customFunctionsCode) => DetermineMode(input);
+#endif
     }
 
     public class ModeDeterminer : IModeDeterminer

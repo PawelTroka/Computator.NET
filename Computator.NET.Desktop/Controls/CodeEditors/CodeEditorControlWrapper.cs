@@ -4,13 +4,17 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+#if !__MonoCS__
 using System.Windows;
+#endif
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.SettingsTypes;
+#if !__MonoCS__
 using Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit;
+#endif
 
 namespace Computator.NET.Desktop.Controls.CodeEditors
 {
@@ -542,12 +546,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void ChangeEditorType()
         {
-            if (_codeEditorType == Settings.Default.CodeEditor) return;
+            var nextKind = SupportedEditor(Settings.Default.CodeEditor);
+            if (_codeEditorType == nextKind) return;
 
             var currentDocument = CurrentFileName;
             var previousKind = _codeEditorType;
             var previousEditor = CurrentCodeEditor;
-            var nextKind = Settings.Default.CodeEditor;
             var nextEditor = _codeEditors[nextKind];
             var documents = new Dictionary<string, string>();
 
@@ -596,7 +600,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         private void SetEditorVisibility(CodeEditorType editorType)
         {
-            _codeEditorType = editorType;
+            _codeEditorType = SupportedEditor(editorType);
 
             switch (_codeEditorType)
             {
@@ -621,6 +625,17 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                     (_codeEditors[CodeEditorType.TextEditor] as Control).Show();
                     break;
             }
+        }
+
+        private static CodeEditorType SupportedEditor(CodeEditorType editorType)
+        {
+#if __MonoCS__
+            // A settings file shared with Windows may still select AvalonEdit or
+            // Scintilla. Preserve its value and use the available editor locally.
+            return CodeEditorType.TextEditor;
+#else
+            return editorType;
+#endif
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Computator.NET.DataTypes.SettingsTypes
         Scintilla,
         AvalonEdit,
 #endif
-        TextEditor,
+        // Preserve the modern settings identity in the reduced Mono enum too.
+        TextEditor = 2,
     }
 }

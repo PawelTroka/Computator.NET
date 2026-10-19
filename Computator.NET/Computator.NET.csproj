@@ -2,14 +2,15 @@
   <Import Project="..\build\ModernDesktop.props" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
+    <UseWindowsForms Condition="'$(ComputatorMono)' != 'true'">true</UseWindowsForms>
+    <UseWPF Condition="'$(ComputatorMono)' != 'true'">true</UseWPF>
     <RootNamespace>Computator.NET</RootNamespace>
     <AssemblyName>Computator.NET</AssemblyName>
     <ApplicationIcon>..\Graphics\computator.net-icon.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
+    <AppConfig Condition="'$(ComputatorMono)' == 'true'">app.mono.config</AppConfig>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />

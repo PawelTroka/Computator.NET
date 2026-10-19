@@ -1,0 +1,39 @@
+name: Mono desktop compatibility
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mono-desktop-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  linux-mono:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Install the actual Mono and X11 runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends mono-devel xvfb xauth libgdiplus libgsl-dev fonts-dejavu-core
+      - name: Build the opt-in Framework graph and run desktop acceptance
+        run: ./build.sh --target=Mono-Validate
+      - name: Retain runtime evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: mono-desktop-ubuntu-24.04
+          path: |
+            artifacts/mono/**/*.xml
+            artifacts/mono/**/*.png
+            artifacts/mono/**/*.log
+            artifacts/mono/**/*.binlog
+          retention-days: 7

@@ -1,14 +1,30 @@
 using System;
 using System.IO;
 using System.Reflection;
+#if !NETFRAMEWORK
 using System.Runtime.Loader;
+#endif
 
 namespace Computator.NET.Core.Compilation
 {
     /// <summary>
-    /// The returned assembly and its delegates own this program's lifetime. There
-    /// is deliberately no process-wide collection of generated assemblies.
+    /// Modern .NET can collect a released program. Framework/Mono preserves the
+    /// shared compiler and types but retains generated assemblies until exit.
     /// </summary>
+#if NETFRAMEWORK
+    internal static class CollectibleProgramLoader
+    {
+        public static Assembly LoadProgram(Stream image)
+        {
+            using (var buffer = new MemoryStream())
+            {
+                image.Position = 0;
+                image.CopyTo(buffer);
+                return Assembly.Load(buffer.ToArray());
+            }
+        }
+    }
+#else
     internal sealed class CollectibleProgramLoader : AssemblyLoadContext
     {
         private CollectibleProgramLoader() : base("Computator.TSL." + Guid.NewGuid().ToString("N"), isCollectible: true) { }
@@ -26,4 +42,5 @@ namespace Computator.NET.Core.Compilation
         // either can turn a collectible context into a permanent reference root.
         protected override Assembly Load(AssemblyName assemblyName) => null;
     }
+#endif
 }

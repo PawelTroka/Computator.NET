@@ -35,6 +35,8 @@ namespace Computator.NET.Desktop.Views
                 complexChart,
 #if !__MonoCS__
                 el,
+#else
+                chart3D,
 #endif
                 (Control) chartAreaValuesView,
             });

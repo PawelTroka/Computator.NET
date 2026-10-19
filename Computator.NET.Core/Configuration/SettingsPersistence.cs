@@ -14,7 +14,11 @@ namespace Computator.NET.Core.Configuration
     {
         [JsonRequired] public int SchemaVersion { get; set; } = 1;
         public string Language { get; set; } = "en";
+#if __MonoCS__
+        public CodeEditorType CodeEditor { get; set; } = CodeEditorType.TextEditor;
+#else
         public CodeEditorType CodeEditor { get; set; }
+#endif
         public FunctionsOrder FunctionsOrder { get; set; }
         public TooltipType TooltipType { get; set; }
         public FontDocument ExpressionFont { get; set; } = new FontDocument { Name = "Cambria", Size = 15.75f };
@@ -34,8 +38,15 @@ namespace Computator.NET.Core.Configuration
             if (SchemaVersion != 1) throw new InvalidDataException("Unsupported settings schema; refusing to overwrite it.");
             if (Language == null || Language.Length > 85) throw new InvalidDataException("Invalid settings language.");
             CultureInfo.GetCultureInfo(Language);
-            if (!Enum.IsDefined(CodeEditor) || !Enum.IsDefined(FunctionsOrder) || !Enum.IsDefined(TooltipType) ||
-                !Enum.IsDefined(NumericalOutputNotation) || !Enum.IsDefined(CalculationsErrors))
+#if __MonoCS__
+            // Existing Windows profiles may select Scintilla (0) or AvalonEdit
+            // (1); historical Mono profiles also used 0 for TextEditor. Mono now
+            // provides the established TextEditor only, whose persisted
+            // value remains 2 so a profile can return to the Windows application.
+            if ((int)CodeEditor == 0 || (int)CodeEditor == 1) CodeEditor = CodeEditorType.TextEditor;
+#endif
+            if (!Enum.IsDefined(typeof(CodeEditorType), CodeEditor) || !Enum.IsDefined(typeof(FunctionsOrder), FunctionsOrder) || !Enum.IsDefined(typeof(TooltipType), TooltipType) ||
+                !Enum.IsDefined(typeof(NumericalOutputNotationType), NumericalOutputNotation) || !Enum.IsDefined(typeof(CalculationsErrors), CalculationsErrors))
                 throw new InvalidDataException("Unknown settings enum value.");
             if (ExpressionFont == null || ScriptingFont == null) throw new InvalidDataException("Missing font settings.");
             ExpressionFont.Validate();
@@ -65,8 +76,8 @@ namespace Computator.NET.Core.Configuration
         };
         public void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Name) || Name.Length > 256 || !float.IsFinite(Size) || Size <= 0 || Size > 512 ||
-                ((int)Style & ~15) != 0 || !Enum.IsDefined(Unit) || Unit == GraphicsUnit.World)
+            if (string.IsNullOrWhiteSpace(Name) || Name.Length > 256 || float.IsNaN(Size) || float.IsInfinity(Size) || Size <= 0 || Size > 512 ||
+                ((int)Style & ~15) != 0 || !Enum.IsDefined(typeof(GraphicsUnit), Unit) || Unit == GraphicsUnit.World)
                 throw new InvalidDataException("Invalid font settings.");
         }
         public Font ToFont()
@@ -107,7 +118,7 @@ namespace Computator.NET.Core.Configuration
 
         private static void Write(string legacyPath, SettingsDocument document, bool validateExisting)
         {
-            ArgumentNullException.ThrowIfNull(document);
+            if (document == null) throw new ArgumentNullException(nameof(document));
             document.Validate();
             var path = Path.GetFullPath(JsonPath(legacyPath));
             Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -132,7 +143,7 @@ namespace Computator.NET.Core.Configuration
 
         public static SettingsDocument ReadLegacy(Stream stream)
         {
-            ArgumentNullException.ThrowIfNull(stream);
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             if (!stream.CanSeek || stream.Length - stream.Position > MaximumBytes)
                 throw new InvalidDataException("Legacy settings must be a bounded seekable stream.");
             // NrbfDecoder reads records only: it never loads payload types, invokes

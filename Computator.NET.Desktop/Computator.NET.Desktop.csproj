@@ -1,19 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernDesktop.props" />
   <PropertyGroup>
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
+    <UseWindowsForms Condition="'$(ComputatorMono)' != 'true'">true</UseWindowsForms>
+    <UseWPF Condition="'$(ComputatorMono)' != 'true'">true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" />
-    <PackageReference Include="Scintilla5.NET" />
+    <PackageReference Include="AvalonEdit" Condition="'$(ComputatorMono)' != 'true'" />
+    <PackageReference Include="Scintilla5.NET" Condition="'$(ComputatorMono)' != 'true'" />
     <PackageReference Include="NLog" />
     <PackageReference Include="Unity" />
     <PackageReference Include="TROKA.Software.SimpleCodeEditor" />
-    <PackageReference Include="WinForms.DataVisualization" />
+    <PackageReference Include="WinForms.DataVisualization" Condition="'$(ComputatorMono)' != 'true'" />
     <ProjectReference Include="..\Computator.NET.Charting\Computator.NET.Charting.csproj" />
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
     <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(ComputatorMono)' == 'true'">
+    <Reference Include="DataVisualizationX">
+      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Compile Remove="Controls\CodeEditors\AvalonEdit\**\*.cs;Controls\CodeEditors\ScintillaCodeEditorControl.cs;Controls\AutocompleteMenu\Wrappers\ScintillaWrapper.cs;Controls\AutocompleteMenu\ReferenceDocumentLoader.cs;Data\CompletionDataConverter.cs" />
   </ItemGroup>
 </Project>

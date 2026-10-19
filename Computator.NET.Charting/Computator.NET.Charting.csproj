@@ -1,22 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernDesktop.props" />
   <PropertyGroup>
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
+    <UseWindowsForms Condition="'$(ComputatorMono)' != 'true'">true</UseWindowsForms>
+    <UseWPF Condition="'$(ComputatorMono)' != 'true'">true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <!-- This binary is not claimed to be compatible with the .NET 10 runtime. -->
-    <PackageReference Include="WinForms.DataVisualization" />
+    <PackageReference Include="WinForms.DataVisualization" Condition="'$(ComputatorMono)' != 'true'" />
     <PackageReference Include="NLog" />
     <ProjectReference Include="..\Computator.NET.DataTypes\Computator.NET.DataTypes.csproj" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(ComputatorMono)' != 'true'">
     <!-- UseWPF supplies the Page item; Include would compile this twice. -->
     <Page Update="Chart3D\UI\Chart3DControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Remove="Chart3D\UI\Chart3DControlMono.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(ComputatorMono)' == 'true'">
+    <!-- Keep the historical Unix-capable renderer; Mono's Framework Chart is incomplete. -->
+    <Reference Include="DataVisualizationX">
+      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Compile Remove="Chart3D\Chart3D\**\*.cs;Chart3D\UI\Chart3DControl.xaml.cs;Chart3D\UI\EditChart3DWindow*.cs" />
+    <Page Remove="Chart3D\UI\Chart3DControl.xaml" />
   </ItemGroup>
 </Project>

@@ -14,7 +14,11 @@ try {
     [xml]$solution = Get-Content -LiteralPath 'Computator.NET.slnx' -Raw
     $projects = @($solution.SelectNodes('//Project') | ForEach-Object { $_.Path.Replace('\', '/') })
     $historical = @('Computator.NET/Computator.NET.net40.csproj', 'Computator.NET.Desktop.UITests/Computator.NET.Desktop.UITests.csproj')
-    $expected = @($tracked | Where-Object { $_.EndsWith('.csproj') -and $_ -notin $historical })
+    # These active probes require the explicit ComputatorMono=true graph and
+    # belong to Mono-Validate, rather than the default Windows solution build.
+    $monoProbes = @('build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj', 'build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj')
+    $outsideDefaultBuild = $historical + $monoProbes
+    $expected = @($tracked | Where-Object { $_.EndsWith('.csproj') -and $_ -notin $outsideDefaultBuild })
     $difference = @(Compare-Object ($expected | Sort-Object) ($projects | Sort-Object))
     if ($difference.Count) { throw "Solution project inventory differs from the repository: $($difference | Out-String)" }
     if (@($projects | Select-Object -Unique).Count -ne $projects.Count) { throw 'Duplicate projects in the solution.' }
@@ -22,7 +26,7 @@ try {
         if (![IO.File]::Exists((Join-Path $rootPath $node.Path))) { throw "Missing solution item: $($node.Path)" }
     }
     $items = @($solution.SelectNodes('//File') | ForEach-Object { $_.Path })
-    foreach ($path in @('build.cake', 'build.ps1', 'build.sh', 'Directory.Packages.props') + $historical) {
+    foreach ($path in @('build.cake', 'build.ps1', 'build.sh', 'Directory.Packages.props') + $outsideDefaultBuild) {
         if ($path -notin $items) { throw "Required developer/historical solution item is missing: $path" }
     }
     Write-Host "One solution; $($projects.Count) buildable projects; $($items.Count) linked developer and historical items."
