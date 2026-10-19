@@ -80,7 +80,9 @@ namespace Computator.NET.Core.Evaluation
         // Differential tests and specialized hosts can retain the original path.
         // No generated delegates, assemblies or constructed generic types are cached.
         protected virtual bool UsePrecompiledBuiltins => true;
-        protected virtual bool UseDirectExpressions => true;
+        // Subclasses can replace NativeCompiler or add references even when the
+        // source preamble is empty. Preserve that contract unless they opt in.
+        protected virtual bool UseDirectExpressions => GetType() == typeof(ExpressionsEvaluator);
         private string _beginCode;
         private bool _usingPrecompiledBuiltins;
         private readonly TslCompiler _tslCompiler;
