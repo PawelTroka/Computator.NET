@@ -900,7 +900,8 @@ namespace Computator.NET.Core.Functions
         [System.ComponentModel.Category("Integer functions")]
         public static double DoubleFactorial(double x)
         {
-            return DoubleFactorial((long)x);
+            // Preserve positive overflow before any narrowing conversion.
+            return DoubleFactorial(x > uint.MaxValue ? (long)uint.MaxValue : (long)x);
         }
         [System.ComponentModel.Category("Integer functions")]
         public static double DoubleFactorial(long n)
@@ -908,7 +909,10 @@ namespace Computator.NET.Core.Functions
             if (n < 0)
                 return double.NaN;
 
-            return gsl_sf_doublefact((uint)n);
+            // Orders beyond the native integer range already overflow. Saturate
+            // before narrowing so they retain GSL's overflow/error-mode behavior
+            // instead of wrapping around to a small, finite double factorial.
+            return gsl_sf_doublefact(n > uint.MaxValue ? uint.MaxValue : (uint)n);
         }
 
         /*Angielska nazwa funkcji"),
@@ -2077,7 +2081,7 @@ namespace Computator.NET.Core.Functions
         [System.ComponentModel.Category(""Integer functions"")]
         public static double DoubleFactorial(double x)
         {
-            return DoubleFactorial((long)x);
+            return DoubleFactorial(x > uint.MaxValue ? (long)uint.MaxValue : (long)x);
         }
         [System.ComponentModel.Category(""Integer functions"")]
         public static double DoubleFactorial(long n)
@@ -2085,7 +2089,8 @@ namespace Computator.NET.Core.Functions
             if (n < 0)
                 return double.NaN;
 
-            return gsl_sf_doublefact((uint)n);
+            // Preserve the host's overflow behavior before narrowing to uint.
+            return gsl_sf_doublefact(n > uint.MaxValue ? uint.MaxValue : (uint)n);
         }
 
         /*Angielska nazwa funkcji""),

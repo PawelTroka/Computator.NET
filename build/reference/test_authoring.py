@@ -64,5 +64,23 @@ class AuthoringTests(unittest.TestCase):
                 self.assertIn('u″+[1−n(n+1)/x²]u=0',article['description'])
                 self.assertNotIn('Underlying cylindrical equation',article['description'])
                 self.assertEqual(article['url'],'https://dlmf.nist.gov/10.47')
+    def test_double_factorial_overloads_document_the_native_overflow_contract(self):
+        inventory={'items':[
+            {'signature':'DoubleFactorial(n)','menu':'real DoubleFactorial(integer n)','type':'ElementaryFunctions'},
+            {'signature':'DoubleFactorial(x)','menu':'real DoubleFactorial(real x)','type':'ElementaryFunctions'}
+        ],'constants':[]}
+        entries=articles(inventory)
+        self.assertEqual({entry['signature'] for entry in entries},{'DoubleFactorial(n)','DoubleFactorial(x)'})
+        for entry in entries:
+            with self.subTest(signature=entry['signature']):
+                text=entry['description']
+                self.assertIn('orders above 297 as overflow',text)
+                self.assertIn('return-value mode yields positive infinity',text)
+                self.assertIn('error-reporting mode throws',text)
+                self.assertIn('rather than wrapping',text)
+                self.assertIn('truncating toward zero',text)
+                self.assertIn('<code>DoubleFactorial(7)</code>',text)
+                self.assertIn('<strong>Result:</strong> 105',text)
+                self.assertIn('<img class="reference-math"',text)
 
 if __name__=='__main__':unittest.main()

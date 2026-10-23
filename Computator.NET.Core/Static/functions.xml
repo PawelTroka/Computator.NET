@@ -4638,7 +4638,7 @@
 <p class="reference-explanation">Take every second integer rather than multiplying all integers up to n. Odd and even orders therefore form separate products; this is not factorial(n) applied twice.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>n!!=n·(n−2)·…; 0!!=1 and 1!!=1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Intended for nonnegative integers. Negative integer arguments return NaN.</p>
-<p class="reference-note"><strong>Important:</strong> The real-argument overload casts to an integer before evaluation; fractional inputs are not a generalized double factorial. Large orders overflow the numeric result.</p>
+<p class="reference-note"><strong>Important:</strong> The real-argument overload casts to an integer before evaluation, truncating toward zero; fractional inputs are not a generalized double factorial. GSL defines integer orders above 297 as overflow: the return-value mode yields positive infinity and the error-reporting mode throws. Large orders retain this behavior rather than wrapping to a smaller native unsigned integer.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/6fffc9cb03cee68ecc52dedc8384d92bc6cd46626e4450620e9ef7207bf6f669.png" alt="n!!=n·(n−2)·…; 0!!=1 and 1!!=1." width="213" height="28" /></p>
 <div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>DoubleFactorial(7)</code></pre><p><strong>Result:</strong> 105</p><p>Multiply 7, 5, 3 and 1.</p></div>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://www.gnu.org/software/gsl/doc/html/specfunc.html#factorials">www.gnu.org</a></p>
@@ -4655,7 +4655,7 @@
 <p class="reference-explanation">Take every second integer rather than multiplying all integers up to n. Odd and even orders therefore form separate products; this is not factorial(n) applied twice.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>n!!=n·(n−2)·…; 0!!=1 and 1!!=1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Intended for nonnegative integers. Negative integer arguments return NaN.</p>
-<p class="reference-note"><strong>Important:</strong> The real-argument overload casts to an integer before evaluation; fractional inputs are not a generalized double factorial. Large orders overflow the numeric result.</p>
+<p class="reference-note"><strong>Important:</strong> The real-argument overload casts to an integer before evaluation, truncating toward zero; fractional inputs are not a generalized double factorial. GSL defines integer orders above 297 as overflow: the return-value mode yields positive infinity and the error-reporting mode throws. Large orders retain this behavior rather than wrapping to a smaller native unsigned integer.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/6fffc9cb03cee68ecc52dedc8384d92bc6cd46626e4450620e9ef7207bf6f669.png" alt="n!!=n·(n−2)·…; 0!!=1 and 1!!=1." width="213" height="28" /></p>
 <div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>DoubleFactorial(7)</code></pre><p><strong>Result:</strong> 105</p><p>Multiply 7, 5, 3 and 1.</p></div>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://www.gnu.org/software/gsl/doc/html/specfunc.html#factorials">www.gnu.org</a></p>
