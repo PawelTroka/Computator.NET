@@ -185,6 +185,14 @@ internal static partial class Program
         // Exercise every parameter group through the real presenters. A visible
         // parent alone is insufficient: Mono can collapse its numeric children
         // to a few pixels, clip them, or cover them with another docked control.
+        state.CurrentView = ViewName.Charting;
+        foreach (var mode in new[] { CalculationsMode.Real, CalculationsMode.Complex, CalculationsMode.Fxy })
+        {
+            EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(mode));
+            System.Windows.Forms.Application.DoEvents();
+            foreach (var name in new[] { "x0NumericUpDown", "xnNumericUpDown", "y0NumericUpDown", "yNNumericUpDown" })
+                VerifyUsableInput(window, name);
+        }
         state.CurrentView = ViewName.Calculations;
         foreach (var mode in new[] { CalculationsMode.Real, CalculationsMode.Complex, CalculationsMode.Fxy })
         {

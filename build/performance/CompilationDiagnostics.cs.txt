@@ -23,6 +23,12 @@ using Microsoft.CodeAnalysis.CSharp;
 
 internal static class CompilationDiagnostics
 {
+#if MODERN_COMPILER
+    private sealed class RoslynDiagnosticEvaluator : ExpressionsEvaluator
+    {
+        protected override bool UseDirectExpressions => false;
+    }
+#endif
     private const BindingFlags PrivateInstance = BindingFlags.Instance | BindingFlags.NonPublic;
     private const string RealExpression = "sin(x)+cos(x)+x*x/4";
     private const string Script = "real sum=0; for(integer k=1;k<=1000;k++){sum+=k*k;} write(sum.ToString(\"R\", System.Globalization.CultureInfo.InvariantCulture));";
@@ -79,6 +85,18 @@ internal static class CompilationDiagnostics
             : ((ScriptEvaluator)evaluator).Evaluate(Script, ""));
         var compiled = (Delegate)typeof(BaseFunction).GetField("_function", PrivateInstance).GetValue(function);
         Validate(compiled, scenario);
+#if MODERN_COMPILER
+        if (compiled.Method.DeclaringType?.FullName != "FunctionsCreatorNS.FunctionsCreator")
+        {
+            Result["directExpression"] = true;
+            Result["directTranslatedMain"] = function.CsCode;
+            evaluator = new RoslynDiagnosticEvaluator();
+            Result["firstRoslynEvaluateMs"] = Time(() => function = (BaseFunction)evaluator.Evaluate(RealExpression, "", CalculationsMode.Real));
+            compiled = (Delegate)typeof(BaseFunction).GetField("_function", PrivateInstance).GetValue(function);
+            Validate(compiled, scenario);
+        }
+        else Result["directExpression"] = false;
+#endif
         string full = (string)typeof(ExpressionsEvaluator).GetMethod("BuildCode", PrivateInstance).Invoke(evaluator, null);
         string begin = (string)typeof(ExpressionsEvaluator).GetField("Begin", BindingFlags.NonPublic | BindingFlags.Static).GetRawConstantValue();
         string lambdaScript = (string)typeof(ExpressionsEvaluator).GetField("LambdaScript", BindingFlags.NonPublic | BindingFlags.Static).GetRawConstantValue();

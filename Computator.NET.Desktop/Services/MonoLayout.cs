@@ -14,6 +14,7 @@ namespace Computator.NET.Desktop.Services
         {
             group.AutoSize = false;
             table.AutoSize = false;
+            table.Dock = DockStyle.Fill;
             var widths = new int[table.ColumnCount];
             var heights = new int[table.RowCount];
             var minimumInputWidth = new Size(100, 0).DpiScale().Width;
@@ -21,9 +22,10 @@ namespace Computator.NET.Desktop.Services
             {
                 if (control is NumericUpDown number)
                 {
+                    var minimumHeight = Math.Max(number.PreferredHeight, number.Font.Height + 7);
                     number.AutoSize = false;
-                    number.MinimumSize = new Size(minimumInputWidth, number.Font.Height + 7);
-                    number.Size = new Size(Math.Max(minimumInputWidth, number.Width), number.PreferredHeight);
+                    number.MinimumSize = new Size(minimumInputWidth, minimumHeight);
+                    number.Size = new Size(Math.Max(minimumInputWidth, number.Width), minimumHeight);
                     number.Dock = DockStyle.Fill;
                 }
                 var width = control is Label ? control.PreferredSize.Width : control.Width;
