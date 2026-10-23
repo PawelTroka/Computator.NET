@@ -88,15 +88,20 @@ namespace Computator.NET.Desktop.Tests
             }
         }
 
-        [Test]
-        public void Wpf3DChartSettingsDialogLoadsWithoutPowerPacks()
+        [TestCase(0)]
+        [TestCase(128)]
+        [TestCase(255)]
+        public void Wpf3DChartSettingsDialogLoadsWithoutPowerPacks(int alpha)
         {
             var chart = new Chart3DControl();
-            using (var host = new ElementHost { Child = chart, BackColor = Color.White })
+            using (var host = new ElementHost { Child = chart, BackColor = Color.FromArgb(alpha, 40, 80, 120) })
             using (var dialog = new EditChart3DWindow(chart, host))
             {
                 NUnit.Framework.Assert.That(dialog.Handle, Is.Not.EqualTo(IntPtr.Zero));
                 NUnit.Framework.Assert.That(Descendants(dialog).OfType<ColorSwatch>().Count(), Is.EqualTo(3));
+                var background = Descendants(dialog).OfType<ColorSwatch>()
+                    .Single(swatch => swatch.Name == "backgroundColorRectangleShape");
+                NUnit.Framework.Assert.That(background.FillColor.ToArgb(), Is.EqualTo(host.BackColor.ToArgb()));
             }
         }
 

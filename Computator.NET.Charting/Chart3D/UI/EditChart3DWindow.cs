@@ -20,6 +20,9 @@ namespace Computator.NET.Charting.Chart3D.UI
 #if !__MonoCS__
         private readonly Chart3DControl chart3d;
         private readonly ElementHost elementHost;
+        private readonly bool originalEqualAxes;
+        private readonly bool originalVisibilityAxes;
+        private bool settingsSaved;
         private Color colorAxes;
         private Color colorBackground;
         private Color colorLabels; //, colorSpline;
@@ -31,6 +34,8 @@ namespace Computator.NET.Charting.Chart3D.UI
             InitializeComponent();
             this.chart3d = chart3d;
             this.elementHost = elementHost;
+            originalEqualAxes = chart3d.EqualAxes;
+            originalVisibilityAxes = chart3d.VisibilityAxes;
 
             chartTypeComboBox.Items.AddRange(Enum.GetNames(typeof(Chart3DMode)));
 
@@ -169,7 +174,23 @@ namespace Computator.NET.Charting.Chart3D.UI
         private void okButton_Click(object sender, EventArgs e)
         {
             saveData();
+            settingsSaved = true;
             Close();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // These two checkboxes preview changes on the chart immediately.
+            // Cancel, Escape and the close button must discard that preview.
+            if (!settingsSaved)
+            {
+                if (chart3d.EqualAxes != originalEqualAxes)
+                    chart3d.EqualAxes = originalEqualAxes;
+                if (chart3d.VisibilityAxes != originalVisibilityAxes)
+                    chart3d.VisibilityAxes = originalVisibilityAxes;
+            }
+
+            base.OnFormClosed(e);
         }
 
         private void anulujButton_Click(object sender, EventArgs e)
