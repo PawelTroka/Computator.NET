@@ -2,8 +2,8 @@
   <Import Project="..\build\ModernDesktop.props" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
+    <UseWindowsForms Condition="'$(ComputatorMono)' != 'true'">true</UseWindowsForms>
+    <UseWPF Condition="'$(ComputatorMono)' != 'true'">true</UseWPF>
     <RootNamespace>Computator.NET</RootNamespace>
     <AssemblyName>Computator.NET</AssemblyName>
     <ApplicationIcon>..\Graphics\computator.net-icon.ico</ApplicationIcon>
@@ -14,6 +14,7 @@
          IL remains available: TSL/Roslyn and collectible programs still work.
          An explicit false override preserves an IL-only diagnostic publish. -->
     <PublishReadyToRun Condition="'$(PublishReadyToRun)' == '' and '$(Configuration)' == 'Release' and '$(RuntimeIdentifier)' == 'win-x64'">true</PublishReadyToRun>
+    <AppConfig Condition="'$(ComputatorMono)' == 'true'">app.mono.config</AppConfig>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Computator.NET.Core\Computator.NET.Core.csproj" />

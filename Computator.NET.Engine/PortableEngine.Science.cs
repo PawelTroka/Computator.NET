@@ -16,20 +16,26 @@ public sealed partial class PortableEngine
     }
     public double Differentiate(string expression, double x, uint order = 1, string customFunctions = "")
     {
-        if (!double.IsFinite(x) || order < 1 || order > 10) throw new ArgumentOutOfRangeException(nameof(order));
+        if (!IsFinite(x) || order < 1 || order > 10) throw new ArgumentOutOfRangeException(nameof(order));
         using var program = CompileScalar(expression, customFunctions);
         return Core.NumericalCalculations.Derivative.derivative(program.Invoke, x, order);
     }
     public double FindRoot(string expression, double a, double b, double tolerance = 1e-8, uint iterations = 10000, string customFunctions = "")
     {
         Bounds(a, b);
-        if (!double.IsFinite(tolerance) || tolerance <= 0 || tolerance > 1 || iterations < 1 || iterations > 1000000)
+        if (!IsFinite(tolerance) || tolerance <= 0 || tolerance > 1 || iterations < 1 || iterations > 1000000)
             throw new ArgumentOutOfRangeException(nameof(tolerance));
         using var program = CompileScalar(expression, customFunctions);
         return Core.NumericalCalculations.FunctionRoot.BrentMethod(program.Invoke, a, b, tolerance, iterations);
     }
     private static void Bounds(double a, double b)
     {
-        if (!double.IsFinite(a) || !double.IsFinite(b) || a >= b) throw new ArgumentException("Expected finite increasing interval bounds.");
+        if (!IsFinite(a) || !IsFinite(b) || a >= b) throw new ArgumentException("Expected finite increasing interval bounds.");
     }
+
+#if NETFRAMEWORK
+    private static bool IsFinite(double value) => !double.IsNaN(value) && !double.IsInfinity(value);
+#else
+    private static bool IsFinite(double value) => double.IsFinite(value);
+#endif
 }

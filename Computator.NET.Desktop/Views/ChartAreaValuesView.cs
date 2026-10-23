@@ -33,6 +33,14 @@ namespace Computator.NET.Desktop.Views
         };
             XAxisLabel = "x";
             YAxisLabel = "y";
+#if __MonoCS__
+            // Mono's auto-sized GroupBox/percent-row table enters a size feedback
+            // loop, growing beyond the viewport and clipping all four inputs.
+            AutoSize = false;
+            AutoScroll = true;
+            MonoLayout.ConfigureNumericGroup(groupBox2, tableLayoutPanel1);
+            Width = Math.Max(new Size(210, 0).DpiScale().Width, groupBox2.Width);
+#endif
         }
 
         private readonly Dictionary<string, Control> _controlsByProperties;

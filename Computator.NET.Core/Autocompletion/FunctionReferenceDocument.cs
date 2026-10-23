@@ -87,7 +87,17 @@ namespace Computator.NET.Core.Autocompletion
                 if (stream.Length < 24 || stream.Length > 512000)
                     throw new InvalidDataException("Invalid reference equation size.");
                 var bytes = new byte[(int)stream.Length];
+#if NETFRAMEWORK
+                var offset = 0;
+                while (offset < bytes.Length)
+                {
+                    var read = stream.Read(bytes, offset, bytes.Length - offset);
+                    if (read == 0) throw new EndOfStreamException("The reference equation ended before its advertised length.");
+                    offset += read;
+                }
+#else
                 stream.ReadExactly(bytes);
+#endif
                 if (!bytes.Take(8).SequenceEqual(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 }))
                     throw new InvalidDataException("A reference equation is not a PNG.");
                 // DocumentText has an about:blank origin. Inline only this article's

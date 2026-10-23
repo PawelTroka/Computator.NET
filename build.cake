@@ -247,7 +247,7 @@ if (!FileExists("build/followups/installer.cake"))
     Task("Build-Installer").Does(() => { throw new Exception("The MSI migration module is not present. Use --target=Publish for portable ZIPs."); });
 if (!FileExists("build/followups/msix.cake"))
     Task("Build-Uwp").Does(() => { throw new Exception("The MSIX migration module is not present. Use --target=Publish for portable ZIPs."); });
-Task("Install-Linux").Does(() => { throw new Exception("Machine-wide Mono installation is retired. Use the portable or independent web targets."); });
+Task("Install-Linux").Does(() => { throw new Exception("Machine-wide installation is not provided. Use Mono-Build / Mono-Validate for the reduced desktop; see docs/MONO-DESKTOP.md."); });
 Task("Default").IsDependentOn("UnitTests");
 #load "./build/followups/*.cake"
 RunTarget(target);

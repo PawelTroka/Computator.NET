@@ -71,8 +71,9 @@ namespace Computator.NET.Core.Compilation
                     throw exception;
                 }
                 // Unique identities still preserve #39. Existing callers keep their
-                // program alive through its Assembly/Type/Delegate references; once
-                // those are released, the runtime can collect the whole context.
+                // program alive through its Assembly/Type/Delegate references. On
+                // modern .NET releasing them allows the whole context to collect;
+                // Framework/Mono retains generated assemblies until process exit.
                 return CollectibleProgramLoader.LoadProgram(output);
             }
         }
@@ -118,6 +119,8 @@ namespace Computator.NET.Core.Compilation
                 typeof(Enumerable).Assembly.Location,
                 typeof(System.Numerics.Complex).Assembly.Location,
                 typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.Location,
+                typeof(NativeCompiler).Assembly.Location,
+                typeof(TslCompiler).Assembly.Location,
                 Assembly.Load("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51").Location
             };
             var facades = Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "Facades");

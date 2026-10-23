@@ -1,10 +1,22 @@
-﻿// ReSharper disable RedundantNameQualifier
+#if NETFRAMEWORK
+using RuntimeMath = Computator.NET.Engine.Compatibility.FrameworkMath;
+#else
+using RuntimeMath = System.Math;
+#endif
+
+// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 namespace Computator.NET.Core.NumericalCalculations
 {
     public static class FunctionRoot
     {
+#if NETFRAMEWORK
+        private const string RuntimeMathType = "Computator.NET.Engine.Compatibility.FrameworkMath";
+#else
+        private const string RuntimeMathType = "System.Math";
+#endif
+
         private const uint ITERATIONS_MAX = 10000;
         private const double ERROR_MAX_MIN = 1e-8;
 
@@ -88,9 +100,9 @@ namespace Computator.NET.Core.NumericalCalculations
             // here before evaluating fx, while preserving its argument validation.
             if (secondGuess == firstGuess)
             {
-                secondGuess = System.Math.BitIncrement(firstGuess);
+                secondGuess = RuntimeMath.BitIncrement(firstGuess);
                 if (secondGuess >= b)
-                    secondGuess = System.Math.BitDecrement(firstGuess);
+                    secondGuess = RuntimeMath.BitDecrement(firstGuess);
             }
 
             return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, firstGuess, secondGuess, a, b, errorMax, (int)N, out root) ? root : double.NaN;
@@ -211,9 +223,9 @@ namespace Computator.NET.Core.NumericalCalculations
             // here before evaluating fx, while preserving its argument validation.
             if (secondGuess == firstGuess)
             {
-                secondGuess = System.Math.BitIncrement(firstGuess);
+                secondGuess = " + RuntimeMathType + @".BitIncrement(firstGuess);
                 if (secondGuess >= b)
-                    secondGuess = System.Math.BitDecrement(firstGuess);
+                    secondGuess = " + RuntimeMathType + @".BitDecrement(firstGuess);
             }
 
             return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, firstGuess, secondGuess, a, b, errorMax, (int)N, out root) ? root : double.NaN;

@@ -14,6 +14,11 @@ namespace Computator.NET.Desktop.Views
         private MainView()
         {
             InitializeComponent();
+#if __MonoCS__
+            // Mono does not dock controls added after initialization correctly
+            // while the form auto-sizes: the tab area covers the input and menus.
+            AutoSize = false;
+#endif
             symbolicCalculationsTabPage.Enabled = false;
             this.MakeSureItsNotBiggerThanScreen();
             this.Icon = GraphicsResources.computator_net_icon;

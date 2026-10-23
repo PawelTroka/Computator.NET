@@ -42,7 +42,12 @@ namespace Computator.NET.DataTypes.Configuration
             }
         }
 
+#if __MonoCS__
+        // Modern Mono can report Unix for Darwin as well as Linux.
+        public static bool IsMacOS => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+#else
         public static bool IsMacOS => Environment.OSVersion.Platform == PlatformID.MacOSX;
+#endif
         public static bool IsLinux => IsUnix && !IsMacOS;
         public static bool IsWindows => !IsUnix;
 

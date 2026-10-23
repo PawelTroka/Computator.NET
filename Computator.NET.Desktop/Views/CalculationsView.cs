@@ -10,6 +10,11 @@ namespace Computator.NET.Desktop.Views
         public CalculationsView()
         {
             InitializeComponent();
+#if __MonoCS__
+            Services.MonoLayout.ConfigureNumericGroup(groupBox3, tableLayoutPanel2);
+            tableLayoutPanel1.RowStyles[3].SizeType = SizeType.Percent;
+            tableLayoutPanel1.RowStyles[3].Height = 100;
+#endif
 
             if (!DesignMode)
             {

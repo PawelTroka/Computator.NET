@@ -1,3 +1,9 @@
+#if NETFRAMEWORK
+using RuntimeMath = Computator.NET.Core.Compatibility.FrameworkElementaryMath;
+#else
+using RuntimeMath = System.Math;
+#endif
+
 // ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable InconsistentNaming
@@ -8,6 +14,12 @@ namespace Computator.NET.Core.Functions
     public static class ElementaryFunctions
         //TODO: make functions appear in right order (etc first sin(x) then sin(z) then cos(x) ...)
     {
+#if NETFRAMEWORK
+        private const string RuntimeMathType = "Computator.NET.Core.Compatibility.FrameworkElementaryMath";
+#else
+        private const string RuntimeMathType = "System.Math";
+#endif
+
         #region trigonometric functions
 
      //   private double ∞ = 9;
@@ -245,7 +257,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arsinh(double x)
         {
-            return System.Math.Asinh(x);
+            return RuntimeMath.Asinh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -688,16 +700,16 @@ namespace Computator.NET.Core.Functions
         public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
         {
             if (z.Imaginary == 0)
-                return new System.Numerics.Complex(System.Math.Asinh(z.Real), z.Imaginary);
+                return new System.Numerics.Complex(RuntimeMath.Asinh(z.Real), z.Imaginary);
             if (double.IsInfinity(z.Real) && double.IsInfinity(z.Imaginary))
-                return new System.Numerics.Complex(z.Real, System.Math.CopySign(System.Math.PI/4, z.Imaginary));
+                return new System.Numerics.Complex(z.Real, RuntimeMath.CopySign(System.Math.PI/4, z.Imaginary));
 
             // asinh(z) = -i asin(i z). Rotate components instead of multiplying
             // by i, and retain the signed-zero side of each imaginary-axis cut.
             var inverse = System.Numerics.Complex.Asin(new System.Numerics.Complex(-z.Imaginary, z.Real));
             return new System.Numerics.Complex(
-                System.Math.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
-                System.Math.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
+                RuntimeMath.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
+                RuntimeMath.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
         }
 
         /*Angielska nazwa funkcji"),
@@ -1426,7 +1438,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arsinh(double x)
         {
-            return System.Math.Asinh(x);
+            return " + RuntimeMathType + @".Asinh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1869,16 +1881,16 @@ namespace Computator.NET.Core.Functions
         public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
         {
             if (z.Imaginary == 0)
-                return new System.Numerics.Complex(System.Math.Asinh(z.Real), z.Imaginary);
+                return new System.Numerics.Complex(" + RuntimeMathType + @".Asinh(z.Real), z.Imaginary);
             if (double.IsInfinity(z.Real) && double.IsInfinity(z.Imaginary))
-                return new System.Numerics.Complex(z.Real, System.Math.CopySign(System.Math.PI/4, z.Imaginary));
+                return new System.Numerics.Complex(z.Real, " + RuntimeMathType + @".CopySign(System.Math.PI/4, z.Imaginary));
 
             // asinh(z) = -i asin(i z). Rotate components instead of multiplying
             // by i, and retain the signed-zero side of each imaginary-axis cut.
             var inverse = System.Numerics.Complex.Asin(new System.Numerics.Complex(-z.Imaginary, z.Real));
             return new System.Numerics.Complex(
-                System.Math.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
-                System.Math.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
+                " + RuntimeMathType + @".CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
+                " + RuntimeMathType + @".CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
         }
 
         /*Angielska nazwa funkcji""),

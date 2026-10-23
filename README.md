@@ -32,6 +32,19 @@ The Framework 4.8.1 checkpoint (#139) and runtime port (#140) are merged. [MIGRA
 
 NuGet versions are centralized in `Directory.Packages.props`, without per-project NuGet lockfiles. The single npm lockfile is retained for `npm ci`. See [dependency tradeoffs](docs/BUILD.md#dependency-policy-one-frontend-lockfile-not-twelve-nuget-graphs).
 
+### Reduced Mono desktop
+
+An explicit **`ComputatorMono=true`** build targets Framework `net48` for Mono using the same desktop projects, TSL compiler and mathematical sources. It restores the historical TextEditor, Unix 2D chart library and complex charts; WPF 3D, AvalonEdit and Scintilla are excluded. The ordinary Windows application and portable .NET 10 engine/CLI remain the default targets.
+
+On a Linux host with the prerequisites in [MONO-DESKTOP.md](docs/MONO-DESKTOP.md):
+
+```sh
+./build.sh --target=Mono-Validate
+mono Computator.NET/bin/mono/Release/net48/Computator.NET.exe
+```
+
+This is an experimental compatibility build, with separate restore/build outputs. See the guide for exact tested environments, runtime checks, macOS status and feature limitations. It is not included in the Windows installers or release packages.
+
 ### Web development
 
 ```sh

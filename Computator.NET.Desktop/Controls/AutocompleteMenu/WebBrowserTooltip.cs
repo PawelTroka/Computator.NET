@@ -7,11 +7,22 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 {
     internal class WebBrowserToolTip : ToolStripDropDown
     {
+#if __MonoCS__
+        private readonly MonoReferenceText referenceText;
+#else
         private readonly WebBrowser webBrowser;
         private readonly ReferenceDocumentLoader documentLoader;
+#endif
         private readonly ToolStripControlHost browserHost;
         public WebBrowserToolTip()
         {
+#if __MonoCS__
+            referenceText = new MonoReferenceText { Dock = DockStyle.Fill };
+            browserHost = new ToolStripControlHost(referenceText)
+            {
+                AutoSize = false, Margin = Padding.Empty, Padding = Padding.Empty
+            };
+#else
             webBrowser = new WebBrowser
             {
                 ScrollBarsEnabled = true, Dock = DockStyle.Fill
@@ -21,16 +32,19 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             {
                 AutoSize = false, Margin = Padding.Empty, Padding = Padding.Empty
             };
+#endif
             Items.Add(browserHost);
             Padding = new Padding(1);
             AutoClose = false;
             AutoSize = false;
         }
+#if !__MonoCS__
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public string HTMLCode
         {
             set { documentLoader.ShowDocument(value); }
         }
+#endif
         public void ShowReference(Control owner, Point location)
         {
             // Size the reading viewport, not the document's scroll rectangle:
@@ -44,6 +58,13 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 System.Math.Max(1, ClientSize.Height - Padding.Vertical));
             Show(owner, location);
         }
-        public void setFunctionInfo(FunctionInfo functionInfo, string displayedSignature = null) => HTMLCode = FunctionReferenceDocument.Render(functionInfo, displayedSignature);
+        public void setFunctionInfo(FunctionInfo functionInfo, string displayedSignature = null)
+        {
+#if __MonoCS__
+            referenceText.ShowDocument(functionInfo);
+#else
+            HTMLCode = FunctionReferenceDocument.Render(functionInfo, displayedSignature);
+#endif
+        }
     }
 }
