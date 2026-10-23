@@ -19081,8 +19081,8 @@
 <p class="reference-summary">Raises a square matrix to an integer power using matrix multiplication.</p>
 <p class="reference-explanation">A matrix power uses matrix multiplication, not elementwise exponentiation. For square matrices the zero power is identity; read the implementation’s restrictions before requesting a negative or noninteger exponent.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>M⁰=I; M⁻ⁿ=(M⁻¹)ⁿ for n&gt;0.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Square M; negative n requires invertibility. Exclude the most-negative 32-bit integer because Math.Abs(n) overflows.</p>
-<p class="reference-note"><strong>Important:</strong> This is not an elementwise power.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Square M; negative n requires invertibility. All signed 32-bit integer exponents are accepted, including -2147483648.</p>
+<p class="reference-note"><strong>Important:</strong> This is not an elementwise power. Large powers can overflow or underflow, and negative powers of ill-conditioned matrices can amplify numerical error.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/f0de228233a453462661309c57453a1ae3ee4e95db184cbe91cb7472bb24a218.png" alt="M⁰=I; M⁻ⁿ=(M⁻¹)ⁿ for n&gt;0." width="130" height="47" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
