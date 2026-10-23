@@ -8,15 +8,15 @@ from enrichment import Enrichment, Equation, WorkedExample
 from common import P, M
 
 EXTRA={}
-def add(names,tex,explanation,example=None):
+def add(names,tex,explanation,example=None,*,definition_label=None):
     for name in names.split('|'):
-        EXTRA[name]=(tex,explanation,() if example is None else (WorkedExample(*example),))
+        EXTRA[name]=(tex,explanation,() if example is None else (WorkedExample(*example),),definition_label)
 
 add('log10',r'\log_{10}x=\frac{\ln x}{\ln10}', 'A common logarithm counts powers of ten: increasing a positive input by a factor of ten increases its logarithm by one. For complex arguments, use the stated logarithm branch rather than real product identities.',('log10(1000)','3','One thousand is ten cubed.'))
 add('log2',r'\log_2 x=\frac{\ln x}{\ln2}', 'A base-two logarithm counts doublings. It is useful for binary scales and information quantities, but an information formula still needs the correct probability model.',('log2(8)','3','Three doublings take one to eight.'))
 add('log',r'\log_b x=\frac{\ln x}{\ln b}', 'Read the argument order in the signature: the value and the base are different inputs. A real logarithm requires a positive value and a positive base other than one; a complex argument introduces branch choices.')
 add('pow',r'x^y=e^{y\ln x}\quad(x>0)', 'A positive real base has an unambiguous real power. A negative base with a noninteger exponent generally requires a complex branch; integer exponents remain repeated multiplication. Use the overload’s domain rather than assuming every real pair produces a finite result.',('pow(2,5)','32','An integer exponent means five factors of two.'))
-add('root',r'w^n=z', 'An n-th root solves a power equation; a complex nonzero number has n distinct roots for positive integer n. This helper selects the branch described below, not all roots at once. Use the original convention to decide what negative real inputs mean.')
+add('root',r'w^n=z', 'An n-th root solves a power equation; a complex nonzero number has n distinct roots for positive integer n. This helper selects the branch described in the argument guidance, not all roots at once. Use the original convention to decide what negative real inputs mean.')
 add('Re',r'\operatorname{Re}(a+ib)=a','The real part is a signed coordinate, not the magnitude. Taking it discards the imaginary component, so it is suitable only when that projection is what the calculation requires.')
 add('Im',r'\operatorname{Im}(a+ib)=b','The imaginary part is a real number multiplying i. It does not include another factor of i and it can be negative.')
 add('conj',r'\overline{a+ib}=a-ib','Complex conjugation reflects a point across the real axis. Multiplying a complex number by its conjugate gives the square of its magnitude, a real nonnegative quantity.')
@@ -40,12 +40,12 @@ add('gammaP|leftRegularizedGamma',r'P(a,x)=\frac{1}{\Gamma(a)}\int_0^x t^{a-1}e^
 add('gammaQ|rightRegularizedGamma',r'Q(a,x)=\frac{1}{\Gamma(a)}\int_x^\infty t^{a-1}e^{-t}\,dt','This is the upper fraction, not the lower fraction. A dedicated upper-tail evaluation avoids subtracting a CDF already rounded to one when the remaining probability is very small.',('gammaQ(1,1)','approximately 0.3678794412','At shape one the upper tail equals exp(−1).'))
 add('BetaNorm',r'I_x(a,b)=\frac{B_x(a,b)}{B(a,b)}','Normalization turns the incomplete beta area into a cumulative probability for positive shapes. The first argument x is the integration limit; a and b are the shape parameters. For a=b=1 the density is uniform and the result is x.',('BetaNorm(0.5,1,1)','0.5','With a uniform density on [0,1], half of the total probability lies below 0.5.'))
 add('logBeta',r'\ln B(a,b)=\ln\Gamma(a)+\ln\Gamma(b)-\ln\Gamma(a+b)','A log-normalization is useful when products of small probabilities underflow. Keep the value in log space as long as possible instead of exponentiating immediately.')
-add('Pochhammer',r'(a)_x=\frac{\Gamma(a+x)}{\Gamma(a)}','For a nonnegative integer x this is a rising product starting at a. It differs from a falling factorial, which steps down instead. Analytic continuation needs the parameter restrictions and pole conventions below.')
+add('Pochhammer',r'(a)_x=\frac{\Gamma(a+x)}{\Gamma(a)}','For a nonnegative integer x this is a rising product starting at a. It differs from a falling factorial, which steps down instead. Analytic continuation needs the stated parameter restrictions and pole conventions.')
 add('PochhammerRelative',r'\frac{(a)_x-1}{x}','The relative form is useful near x=0, where directly subtracting one from a quantity near one loses digits. Its limiting value is digamma(a) when that limit exists.')
 add('HurwitzZeta',r'\zeta(s,q)=\sum_{n=0}^{\infty}\frac1{(n+q)^s}','The shift q moves the starting point of the reciprocal-power sum. q=1 recovers Riemann zeta in the convergent half-plane; it is not a second exponent.',('HurwitzZeta(2,1)','approximately 1.6449340668','At shift one the sum is 1+1/4+1/9+⋯=π²/6.'))
 add('DirichletEta',r'\eta(s)=\sum_{n=1}^{\infty}\frac{(-1)^{n-1}}{n^s}=(1-2^{1-s})\zeta(s)','Alternating signs improve convergence compared with the positive zeta series. At s=1 the product representation has a removable cancellation; the limiting value is ln(2).',('DirichletEta(1)','approximately 0.6931471806','This is the alternating harmonic sum.'))
 add('LambertW0|LambertWm1',r'W(x)e^{W(x)}=x','On the negative real interval where two solutions exist, the branch number chooses which one is returned. Branch zero stays above −1; branch −1 stays below −1. The wrapper’s endpoint restrictions must still be respected.')
-add('diLog|SpencesIntegral',r'\operatorname{Li}_2(z)=\sum_{n=1}^{\infty}\frac{z^n}{n^2}\quad(|z|<1)','The convergent series defines the dilogarithm near zero. Elsewhere the implementation uses continuation with its stated branch. Be careful with the name Spence: some references use Li₂(1−z), whereas this application’s alias uses the convention stated below.')
+add('diLog|SpencesIntegral',r'\operatorname{Li}_2(z)=\sum_{n=1}^{\infty}\frac{z^n}{n^2}\quad(|z|<1)','The convergent series defines the dilogarithm near zero. Elsewhere the implementation uses continuation with its stated branch. Be careful with the name Spence: some references use Li₂(1−z), whereas this application’s alias uses the stated convention.')
 add('PolyLog',r'\operatorname{Li}_s(z)=\sum_{n=1}^{\infty}\frac{z^n}{n^s}\quad(|z|<1)','The order changes the reciprocal-power weighting of the series. Order one connects to −ln(1−z), and order two is the dilogarithm. Do not sum the defining series outside its convergence region as an implementation recipe.')
 add('Si',r'\operatorname{Si}(x)=\int_0^x\frac{\sin t}{t}\,dt','Sine integral accumulates both positive and negative lobes of sinc. The area approaches a limit through oscillation; the result is not simply x times the current sinc value.',('Si(0)','0','An integral over a zero-length interval is zero.'))
 add('Ci',r'\operatorname{Ci}(x)=-\int_x^\infty\frac{\cos t}{t}\,dt','Cosine integral uses a tail normalization and has a logarithmic singularity near zero. Unlike sine integral, there is no finite value obtained by filling a removable hole at zero.')
@@ -85,7 +85,7 @@ MATRICES={
 'HermitianTranspose':(r'(A^{\mathsf H})_{ij}=\overline{A_{ji}}','Conjugate transposition swaps indices and reverses the sign of imaginary parts. It is the operation used in complex inner products and unitary factorizations.'),
 'rank':(r'\operatorname{rank}A=\dim\operatorname{col}A','Rank counts independent column directions. In floating point, nearly dependent directions require a numerical threshold; a computed rank can change when a poorly conditioned matrix is perturbed.'),
 'ker':(r'\ker A=\{x:Ax=0\}','The kernel contains vectors mapped to zero. A returned basis spans the whole null space, but individual basis vectors are not unique. Verify the residual of A times each basis vector.'),
-'solve':(r'AX=B','Solving recovers unknowns from a linear relation. Check the original augmented-matrix convention below and verify the residual AX−B afterwards; a small residual alone does not guarantee a well-conditioned answer.'),
+'solve':(r'AX=B','Solving recovers unknowns from a linear relation. Check the stated augmented-matrix convention and verify the residual AX−B afterwards; a small residual alone does not guarantee a well-conditioned answer.'),
 'pow':(r'A^n=\underbrace{AA\cdots A}_{n\ \mathrm{factors}}','A matrix power uses matrix multiplication, not elementwise exponentiation. For square matrices the zero power is identity; read the implementation’s restrictions before requesting a negative or noninteger exponent.'),
 'IdentityMatrix':(r'I_{ij}=\delta_{ij}','The overload taking a matrix copies its shape, not its contents. Only a square identity of the matching size is a two-sided multiplicative identity.'),
 'OnesMatrix':(r'M_{ij}=1','An all-ones matrix is not an identity matrix. Multiplication by it forms sums; an identity matrix instead preserves the operand.'),
@@ -103,8 +103,8 @@ MATRICES={
 'KroneckerProduct':(r'(A\otimes B)_{ij\ \mathrm{block}}=A_{ij}B','Each entry of A scales a whole copy of B. Dimensions multiply rather than add, so tensor-product constructions can become large even when the factors are modest.'),
 'KroneckerSum':(r'A\oplus B=A\otimes I+I\otimes B','A Kronecker sum combines operators acting on independent factors of a tensor-product space. It is not the block-diagonal direct sum despite the overlapping mathematical notation.'),
 'DirectSum':(r'A\mathbin{\oplus}_{\mathrm{direct}}B=\begin{pmatrix}A&0\\0&B\end{pmatrix}','A direct sum places independent blocks along the diagonal. Row counts and column counts add; no cross-block coupling is introduced.'),
-'PointwiseMultiply':(r'(A\odot B)_{ij}=A_{ij}B_{ij}','This equation is the intended elementwise operation, not the current wrapper’s first-operand behavior. The warning below records that A is included twice; do not confuse the buggy fold with ordinary matrix multiplication.'),
-'PointwiseDivide':(r'(A\oslash B)_{ij}=A_{ij}/B_{ij}','Elementwise division is not a matrix solve. The original warning below also records the current repeated first operand, which can introduce invalid zero-over-zero entries before any later operands are processed.'),
+'PointwiseMultiply':(r'(A\odot B)_{ij}=A_{ij}B_{ij}','Elementwise multiplication combines entries at the same row and column, using each operand once. Unlike ordinary matrix multiplication, it does not sum over an inner dimension. The inputs must have equal shapes; a single argument returns an independent copy.'),
+'PointwiseDivide':(r'(A\oslash B)_{ij}=A_{ij}/B_{ij}','Elementwise division applies successive divisors at matching coordinates from left to right. It does not solve a linear system or multiply by an inverse. A single argument returns an independent copy, including zero entries; only later operands act as divisors.'),
 'minor':(r'B_{uv}=A_{i+u,j+v}','This helper extracts the stated submatrix range. Read its index and size contract; it is not automatically the determinant minor or signed cofactor used in a Laplace expansion.'),
 'BitwiseDotProduct':(r'\sum_{k=0}^{31}\operatorname{bit}_k(x)\operatorname{bit}_k(y)','The result counts shared set bits over all 32 bit positions. It is not a parity-reduced inner product over a two-element field; negative integers also contribute their sign bit.')
 }
@@ -123,7 +123,7 @@ def extra_enrichment(item,article,name):
     if kind=='Integral':
         methods={'simpsonMethod':'Simpson’s rule combines samples with alternating weights four and two. An even subinterval count is required. Smoothness is important: a discontinuity or unresolved narrow peak can defeat a seemingly dense grid.',
           'trapezoidalMethod':'The trapezoidal rule connects samples by straight segments. Refining the grid reduces discretization error for smooth functions, but a small change after one refinement is not a proof that a missed feature was resolved.',
-          'rectangleMethod':'Rectangles approximate area from one representative height per subinterval. The choice of sampling point and the number of intervals affect bias; inspect the original method convention below.',
+          'rectangleMethod':'Rectangles approximate area from one representative height per subinterval. The choice of sampling point and the number of intervals affect bias; inspect the stated method convention.',
           'monteCarloMethod':'Monte Carlo estimates an average of randomly sampled heights and multiplies by interval width. Sampling error is random and decreases slowly with sample count; reproducibility and uncertainty need separate handling.',
           'rombergMethod':'Romberg extrapolation combines successively refined trapezoidal estimates to cancel leading error terms. The smoothness assumptions behind that extrapolation are important near corners and singularities.',
           'doubleExponentialTransformation':'A change of variables concentrates samples near endpoints. This can help with integrable endpoint singularities, but it does not make divergent integrals finite or remove the need to check convergence.',
@@ -145,7 +145,7 @@ def extra_enrichment(item,article,name):
         tex=r'U\sim\operatorname{Uniform}(0,1),\qquad X=a+(b-a)U'
         return Enrichment((Equation(tex,'A uniform draw U scales and shifts into the requested range.','Sampling model'),),(
             'Read the typed overload: integer limits use an inclusive integer interval, while real arguments scale a continuous draw. An interval endpoint in an example is not a promise that random sampling will hit it in a finite run.',
-            'A complex overload has its own geometric convention below. Independent real and imaginary draws fill a rectangle, whereas one shared interpolation parameter stays on a line segment; these are different distributions.'),(),False)
+            'A complex overload has its own stated geometric convention. Independent real and imaginary draws fill a rectangle, whereas one shared interpolation parameter stays on a line segment; these are different distributions.'),(),False)
     if kind=='MathematicalTransformations':return Enrichment((Equation(
         r'\begin{aligned}H_k&=\frac{1}{\sqrt N}\sum_{n=0}^{N-1}x_n\left[\cos\!\left(\frac{2\pi kn}{N}\right)+\sin\!\left(\frac{2\pi kn}{N}\right)\right],\\H(H(x))&=x\qquad(N>0).\end{aligned}',
         article.formula,'Real orthonormal Hartley transform'),),(
@@ -153,15 +153,19 @@ def extra_enrichment(item,article,name):
         'Keep an unmodified copy when comparing transformations. The stored sample spacing and chosen chart interval are part of the numerical result.'),(),True)
     if kind=='ScriptingFunctions':
         if base.startswith('File') or 'file' in sig or 'path' in sig or 'writer' in sig:
-            text='File operations affect external state, unlike a pure mathematical expression. Use a deliberate working directory and a disposable example file when learning. Check the original append/overwrite and ownership rules below; opening a writer is not a numerical calculation.'
+            text='File operations affect external state, unlike a pure mathematical expression. Use a deliberate working directory and a disposable example file when learning. Check the stated append/overwrite and ownership rules; opening a writer is not a numerical calculation.'
         elif base.startswith('read'):text='Interactive input pauses execution until data is supplied. Keep the expected type and conversion rules explicit. A script that works with a desktop input dialog may not have the same interaction in a headless or worker-backed environment.'
         elif base.startswith('plot'):text='A plotted curve or surface is a sampled representation. Insufficient resolution can hide oscillations and discontinuities, and joining samples across a pole can suggest a false continuous curve. Adjust bounds and sampling quality to the feature being investigated.'
         elif base in ('write','writeln','show'):text='Output is a presentation step, not a change to the mathematical value. Keep intermediate values in variables when later operations need their full precision; reparsing a rounded display can change the calculation.'
         else:text='A conversion changes the representation or type of a value. It does not add physical units or improve the original numerical precision; handle out-of-range and unsupported conversions explicitly.'
         return Enrichment((),(text,),(),False)
     if name in EXTRA:
-        tex,text,examples=EXTRA[name]
-        return Enrichment((Equation(tex,article.formula or text,'Mathematical interpretation'),),(text,),examples,False)
+        tex,text,examples,definition_label=EXTRA[name]
+        # Replace a text formula only after reviewing that this exact equation
+        # expresses the same definition. Underlying equations and illustrative
+        # models (for example Gabor) remain supplementary material.
+        return Enrichment((Equation(tex,article.formula or text,definition_label or 'Mathematical interpretation'),),
+            (text,),examples,definition_label is not None)
     if kind!='SpecialFunctions':return Enrichment()
     if name in ('RiccatiBesselξ','RiccatiBesselζ'):
         tex=r'u^{\prime\prime}+\left(1-\frac{n(n+1)}{x^2}\right)u=0'
@@ -172,13 +176,13 @@ def extra_enrichment(item,article,name):
         elif 'Prime' in name:tex=r'J_n^{\prime}(x)=\frac{J_{n-1}(x)-J_{n+1}(x)}{2}';text='A derivative changes the radial boundary condition: a zero derivative can represent a different physical mode than a zero function value. The prime is differentiation, not a shifted order.'
         elif 'Modified' in name or name.startswith('logBessel'):
             tex=r'x^2y^{\prime\prime}+xy^{\prime}-(x^2+\nu^2)y=0'
-            text='Modified cylindrical Bessel solutions grow or decay rather than oscillate on the positive real axis. Spherical variants introduce a radial scaling and half-integer order; scaled or logarithmic forms remove dominant growth, so the exact normalization below is essential.'
+            text='Modified cylindrical Bessel solutions grow or decay rather than oscillate on the positive real axis. Spherical variants introduce a radial scaling and half-integer order; scaled or logarithmic forms remove dominant growth, so the stated normalization is essential.'
         elif name.startswith('Struve'):
             tex=r'x^2y^{\prime\prime}+xy^{\prime}-(x^2+\nu^2)y=\frac{4(x/2)^{\nu+1}}{\sqrt\pi\,\Gamma(\nu+1/2)}'
             text='The modified Struve function solves an inhomogeneous equation. The forcing term distinguishes it from modified Bessel I and K; a similar name or large-x scale is not an equality of functions.'
         else:
             tex=r'x^2y^{\prime\prime}+xy^{\prime}+(x^2-\nu^2)y=0'
-            text='Bessel functions describe radial modes in cylindrical geometry. Spherical and Riccati variants rescale related half-integer solutions; Hankel functions combine independent solutions into complex waves. Use the specific function and normalization below, rather than treating all family names as aliases.'
+            text='Bessel functions describe radial modes in cylindrical geometry. Spherical and Riccati variants rescale related half-integer solutions; Hankel functions combine independent solutions into complex waves. Use the specific function and its stated normalization, rather than treating all family names as aliases.'
         return Enrichment((Equation(tex,tex,'Underlying cylindrical equation' if not ('Zeros' in name or 'Prime' in name) else 'Defining relation'),),(text,),(),False)
     if name.startswith(('AiZeros','BiZeros')):
         f=('\\operatorname{Ai}' if name.startswith('Ai') else '\\operatorname{Bi}')+('^{\\prime}' if 'Prime' in name else '')
@@ -205,7 +209,7 @@ def extra_enrichment(item,article,name):
         return Enrichment((Equation(r'\sum_{n=0}^{\infty}C_n^{(\alpha)}(x)t^n=(1-2xt+t^2)^{-\alpha}',article.formula),),(
             P('The coefficient of ',M(r't^n','tⁿ'),' in this generating function is the degree-',M('n','n'),
               ' polynomial. ',M(r'\alpha','α'),' selects an orthogonal-polynomial family; setting ',M(r'\alpha=1/2','α=1/2'),
-              ' recovers Legendre polynomials, subject to the domain conventions below.'),),(),True)
+              ' recovers Legendre polynomials, subject to the stated domain conventions.'),),(),True)
     polynomials={
     'Laguerre':r'L_n^{(\alpha)}(x)=\sum_{k=0}^{n}(-1)^k\binom{n+\alpha}{n-k}\frac{x^k}{k!}',
     'LegendreP':r'P_l(x)=\frac1{2^l l!}\frac{d^l}{dx^l}(x^2-1)^l',
@@ -224,7 +228,7 @@ def extra_enrichment(item,article,name):
         if name=='LegendreP' and sig.count(',')==2:tex=r'P_l^m(x)=(-1)^m(1-x^2)^{m/2}\frac{d^mP_l(x)}{dx^m}'
         return Enrichment((Equation(tex,article.formula,'Representation / normalization'),),('Degree, order and evaluation coordinate are separate inputs. Changing a degree chooses another member of the family, not another point on the same curve. The normalization and weighting convention determine how coefficients from different references can be compared.',),(),False)
     if name.startswith('JacobiElliptic'):
-        return Enrichment((Equation(r'\operatorname{sn}^2(u|m)+\operatorname{cn}^2(u|m)=1,\qquad\operatorname{dn}^2(u|m)+m\operatorname{sn}^2(u|m)=1','Jacobi elliptic identities; m is the parameter.','Family identities'),),('These generalize trigonometric functions: at parameter m=0, sn and cn reduce to sin and cos and dn becomes one. Here m is the parameter, while Legendre-form elliptic-integral routines below use the modulus k; m=k².',),(),False)
+        return Enrichment((Equation(r'\operatorname{sn}^2(u|m)+\operatorname{cn}^2(u|m)=1,\qquad\operatorname{dn}^2(u|m)+m\operatorname{sn}^2(u|m)=1','Jacobi elliptic identities; m is the parameter.','Family identities'),),('These generalize trigonometric functions: at parameter m=0, sn and cn reduce to sin and cos and dn becomes one. Here m is the parameter, while Legendre-form elliptic-integral routines use the modulus k; m=k².',),(),False)
     if name.startswith('Elliptic'):
         symbol=name[len('Elliptic'):];upper=r'\pi/2' if sig.count(',')==0 or (symbol=='Π' and sig.count(',')==1) else r'\phi'
         kernels={'K':r'\frac1{\sqrt{1-k^2\sin^2t}}','F':r'\frac1{\sqrt{1-k^2\sin^2t}}','E':r'\sqrt{1-k^2\sin^2t}','D':r'\frac{\sin^2t}{\sqrt{1-k^2\sin^2t}}','Π':r'\frac1{(1+n\sin^2t)\sqrt{1-k^2\sin^2t}}'}
@@ -237,12 +241,12 @@ def extra_enrichment(item,article,name):
     return Enrichment()
 
 # Optimization landscapes: evaluation is not an optimization algorithm.
-add('Ackley',r'-20e^{-0.2\sqrt{\frac1d\sum_j x_j^2}}-e^{\frac1d\sum_j\cos(2\pi x_j)}+20+e','The central basin is surrounded by periodic local structure. Use it to test whether an optimizer can reach the narrow global basin from several starting points, not just whether it decreases the objective once.')
-add('Rastrigin',r'10d+\sum_{j=1}^d\left[x_j^2-10\cos(2\pi x_j)\right]','Cosine modulation creates many local minima inside a larger quadratic bowl. A local descent method can stop away from the global minimum even though the function is smooth.')
-add('Bohachevsky1',r'x^2+2y^2-0.3\cos(3\pi x)-0.4\cos(4\pi y)+0.7','The differently scaled coordinates and oscillations test how an optimizer handles directional curvature. The displayed standard form has its minimum zero at the origin. The pinned Math.NET implementation omits the final +0.7 and returns -0.7 there instead. This vertical shift changes objective values, not the minimizing coordinates; evaluating the function does not search for them.',('Bohachevsky1(0,0)+0.7','approximately 0','The current implementation returns -0.7 at the origin. Adding the omitted constant recovers the standard benchmark value zero; this is an explicit normalization correction, not the raw function result.'))
-add('Himmelblau',r'(x^2+y-11)^2+(x+y^2-7)^2','There are multiple equally good global minimizers. Different starting points can legitimately converge to different answers, so compare objective values and residual conditions rather than demanding one particular coordinate pair.',('Himmelblau(3,2)','0','Both squared terms vanish: 9+2−11=0 and 3+4−7=0.'))
-add('Matyas',r'0.26(x^2+y^2)-0.48xy','The mixed term rotates and flattens the quadratic valley. It gives a simple example in which coordinate directions are not the principal curvature directions.',('Matyas(0,0)','0','All quadratic contributions vanish at the origin.'))
-add('Rosenbrock',r'\sum_{j=1}^{d-1}\left[100(x_{j+1}-x_j^2)^2+(1-x_j)^2\right]','The minimum lies in a narrow curved valley. Finding the valley is easier than progressing along it; a small gradient component in one coordinate does not establish convergence in all coordinates.',('Rosenbrock(1,1)','0','Both terms of the two-dimensional expression vanish at one.'))
-add('dropWave',r'-\frac{1+\cos(12\sqrt{x^2+y^2})}{2+(x^2+y^2)/2}','The objective oscillates with distance from the origin. Its negative sign means the global minimum is the deepest negative value, not the zero approached in the far field.',('dropWave(0,0)','-1','At zero radius the numerator is two and the denominator is two, with a minus sign.'))
-add('sixHumpCamel',r'\left(4-2.1x^2+\frac{x^4}{3}\right)x^2+xy+(-4+4y^2)y^2','Several stationary points coexist, including two symmetry-related global minima. A solver returning a stationary point has not necessarily found the best minimum; compare the objective and local curvature.')
-add('Gabor',r'g(x)=A e^{-\frac{(x-x_0)^2}{2\sigma^2}}\cos(\omega x+\phi)','A Gabor model localizes an oscillation inside a Gaussian envelope. Width controls spatial localization, while carrier frequency controls oscillation. This displayed one-dimensional model is an interpretation, not a replacement for the exact phase, rotation, offset and scale conventions of the overload below.')
+add('Ackley',r'-20e^{-0.2\sqrt{\frac1d\sum_j x_j^2}}-e^{\frac1d\sum_j\cos(2\pi x_j)}+20+e','The central basin is surrounded by periodic local structure. Use it to test whether an optimizer can reach the narrow global basin from several starting points, not just whether it decreases the objective once.',definition_label='Definition')
+add('Rastrigin',r'10d+\sum_{j=1}^d\left[x_j^2-10\cos(2\pi x_j)\right]','Cosine modulation creates many local minima inside a larger quadratic bowl. A local descent method can stop away from the global minimum even though the function is smooth.',definition_label='Definition')
+add('Bohachevsky1',r'x^2+2y^2-0.3\cos(3\pi x)-0.4\cos(4\pi y)+0.7','The differently scaled coordinates and oscillations test how an optimizer handles directional curvature. The displayed standard form has its minimum zero at the origin. The pinned Math.NET implementation omits the final +0.7 and returns -0.7 there instead. This vertical shift changes objective values, not the minimizing coordinates; evaluating the function does not search for them.',('Bohachevsky1(0,0)+0.7','approximately 0','The current implementation returns -0.7 at the origin. Adding the omitted constant recovers the standard benchmark value zero; this is an explicit normalization correction, not the raw function result.'),definition_label='Standard benchmark definition')
+add('Himmelblau',r'(x^2+y-11)^2+(x+y^2-7)^2','There are multiple equally good global minimizers. Different starting points can legitimately converge to different answers, so compare objective values and residual conditions rather than demanding one particular coordinate pair.',('Himmelblau(3,2)','0','Both squared terms vanish: 9+2−11=0 and 3+4−7=0.'),definition_label='Definition')
+add('Matyas',r'0.26(x^2+y^2)-0.48xy','The mixed term rotates and flattens the quadratic valley. It gives a simple example in which coordinate directions are not the principal curvature directions.',('Matyas(0,0)','0','All quadratic contributions vanish at the origin.'),definition_label='Definition')
+add('Rosenbrock',r'\sum_{j=1}^{d-1}\left[100(x_{j+1}-x_j^2)^2+(1-x_j)^2\right]','The minimum lies in a narrow curved valley. Finding the valley is easier than progressing along it; a small gradient component in one coordinate does not establish convergence in all coordinates.',('Rosenbrock(1,1)','0','Both terms of the two-dimensional expression vanish at one.'),definition_label='Definition')
+add('dropWave',r'-\frac{1+\cos(12\sqrt{x^2+y^2})}{2+(x^2+y^2)/2}','The objective oscillates with distance from the origin. Its negative sign means the global minimum is the deepest negative value, not the zero approached in the far field.',('dropWave(0,0)','-1','At zero radius the numerator is two and the denominator is two, with a minus sign.'),definition_label='Definition')
+add('sixHumpCamel',r'\left(4-2.1x^2+\frac{x^4}{3}\right)x^2+xy+(-4+4y^2)y^2','Several stationary points coexist, including two symmetry-related global minima. A solver returning a stationary point has not necessarily found the best minimum; compare the objective and local curvature.',definition_label='Definition')
+add('Gabor',r'g(x)=A e^{-\frac{(x-x_0)^2}{2\sigma^2}}\cos(\omega x+\phi)','A Gabor model localizes an oscillation inside a Gaussian envelope. Width controls spatial localization, while carrier frequency controls oscillation. This displayed one-dimensional model is an interpretation, not a replacement for the exact phase, rotation, offset and scale conventions stated for this overload.')

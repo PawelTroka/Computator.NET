@@ -26,7 +26,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             // This is a reading window, not a tooltip. Start with usable space,
             // respect small displays and keep the user's chosen size thereafter.
             var available = Screen.FromControl(this).WorkingArea.Size;
-            var preferred = new Size(680, 660).DpiScale();
+            var preferred = new Size(900, 760).DpiScale();
             Size = new Size(System.Math.Min(preferred.Width, available.Width),
                 System.Math.Min(preferred.Height, available.Height));
             var minimum = new Size(360, 280).DpiScale();
