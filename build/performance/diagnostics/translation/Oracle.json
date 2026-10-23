@@ -1,0 +1,217 @@
+{
+  "empty": {
+    "output": "",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "plain": {
+    "output": "sin(x)\u002Bpow(x,2)/4.0",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "plain_no_power": {
+    "output": "sin(x)\u002Bcos(x)\u002Bx*x/4.0",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "numeric": {
+    "output": "2\u002B3*4",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "comment_power": {
+    "output": "pow(cos(x),y)",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "line_comment": {
+    "output": "sin(x)                    \r\n\u002Bpow(x,2)/4.0",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "comments_only": {
+    "output": "          \r\n             \n",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "documentation": {
+    "output": "///                                    \nreal a=pow(x,2);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "disabled_text": {
+    "output": "#if false\n                 \n#endif\npow(cos(x),2)",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "literal_plain": {
+    "output": "write(\u0022cos\u00B2(x) __ComputatorLiteral00000000000000000000000000000000_0__\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "literal_escaped": {
+    "output": "write(\u0022sin\u00B2(x) \\\u0022 quoted \\\\ \u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "literal_verbatim": {
+    "output": "write(@\u0022cos\u00B2(x) \u0022\u0022quoted\u0022\u0022 \\path\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "literal_raw": {
+    "output": "write(\u0022\u0022\u0022cos\u00B2(x) \u0022quoted\u0022 \\path\u0022\u0022\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "literal_utf8": {
+    "output": "var bytes = \u0022cos\u00B2(x)\u0022u8;",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "literal_raw_utf8": {
+    "output": "var bytes = \u0022\u0022\u0022cos\u00B2(x)\u0022\u0022\u0022u8;",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "char_literal": {
+    "output": "var ch=\u0027\u00B2\u0027; write(ch);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "interpolation_text": {
+    "output": "write($\u0022literal cos\u00B2(x), computed {pow(cos(x),2)}\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "interpolation_no_text": {
+    "output": "write($\u0022{pow(cos(x),2)}\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "interpolation_verbatim_no_text": {
+    "output": "write($@\u0022{pow(cos(x),2)}\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "interpolation_raw_no_text": {
+    "output": "write($$\u0022\u0022\u0022{{pow(cos(x),2)}}\u0022\u0022\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "interpolation_nested": {
+    "output": "write($\u0022value {string.Join(\u0022cos\u00B2(x)\u0022, new[] {\u0022sin\u00B2(x)\u0022})}\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "interpolation_format": {
+    "output": "write($\u0022{pow(cos(x),2):0.00}\u0022);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "symbolic": {
+    "output": "pow(cos(z),z)",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "symbolic_deferred": {
+    "output": "cos\u1DBB(z)",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "nested_symbolic": {
+    "output": "pow(\u03C8\u207F(pow(sin(x),x)),2)",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "declared_method": {
+    "output": "real cos\u1DBB(real x)=\u003Ex\u002B2; write(cos\u1DBB(3));",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "declared_delegate": {
+    "output": "delegate real cos\u1DBB(real x); cos\u1DBB f = x=\u003Ex;",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "declared_variable": {
+    "output": "real cos\u1DBB=3; write(cos\u1DBB);",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "declared_parameter": {
+    "output": "real twice(real cos\u1DBB)=\u003Ecos\u1DBB*2;",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "declared_property": {
+    "output": "real cos\u1DBB { get; set; }",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "constructed_type": {
+    "output": "new cos\u1DBB(3).value \u002B pow(cos(z),z)",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "constructed_attribute": {
+    "output": "[cos\u1DBB(3)] class Example {}",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "shared_declaration": {
+    "output": "cos\u1DBB(x)",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "shared_declaration_deferred": {
+    "output": "cos\u1DBB(x)",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "shared_explicit_power": {
+    "output": "pow(@cos\u1DBB(x),(y))",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "shared_empty_input": {
+    "output": "",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "null_input": {
+    "output": null,
+    "exceptionType": "System.ArgumentNullException",
+    "argumentName": "text"
+  },
+  "null_input_with_custom": {
+    "output": null,
+    "exceptionType": "System.ArgumentNullException",
+    "argumentName": "text"
+  },
+  "null_custom": {
+    "output": "sin(x)\u002Bpow(x,2)/4.0",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "empty_null_custom": {
+    "output": "",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "whitespace": {
+    "output": " \t\r\n ",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "large_script": {
+    "output": "real total=0;\ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \ntotal \u002B= sin(x)\u002Bpow(x,2)/4.0;                    \n",
+    "exceptionType": null,
+    "argumentName": null
+  },
+  "literal_script": {
+    "output": "real sum=0; for(integer k=1;k\u003C=1000;k\u002B\u002B){sum\u002B=k*k;} write(sum.ToString(\u0022R\u0022, System.Globalization.CultureInfo.InvariantCulture));",
+    "exceptionType": null,
+    "argumentName": null
+  }
+}

@@ -26,6 +26,7 @@
     <Project Path="Computator.NET.Installer/Computator.NET.Installer.csproj" />
     <Project Path="build/native/ManagedProbe/ManagedProbe.csproj" />
     <Project Path="build/native/PublishedProbe/PublishedProbe.csproj" />
+    <Project Path="build/performance/Worker.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="README.md" />
@@ -105,6 +106,20 @@
     <File Path=".github/workflows/release-evidence.yml" />
     <File Path=".github/workflows/web-ide.yml" />
     <File Path=".github/workflows/reference-validation.yml" />
+    <File Path=".github/workflows/performance-comparison.yml" />
+  </Folder>
+  <Folder Name="/Build/Performance/">
+    <File Path="build/performance/README.md" />
+    <File Path="build/performance/Worker.cs" />
+    <File Path="build/performance/DesktopStartup.cs" />
+    <File Path="build/performance/Get-HistoricalBaseline.ps1" />
+    <File Path="build/performance/Prepare-Comparison.ps1" />
+    <File Path="build/performance/Prepare-ModernDiagnostic.ps1" />
+    <File Path="build/performance/Profile-Compilation.ps1" />
+    <File Path="build/performance/inspect_compilation.py" />
+    <File Path="build/performance/CompilationDiagnostics.cs.txt" />
+    <File Path="build/performance/compare.py" />
+    <File Path="build/performance/test_compare.py" />
   </Folder>
   <Folder Name="/Documentation/">
     <File Path="docs/DEVELOPING.md" />

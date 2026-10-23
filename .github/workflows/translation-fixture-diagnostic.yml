@@ -1,0 +1,77 @@
+name: Independent translation fixture diagnostic
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_commit:
+        description: 'Exact candidate commit containing the reviewed guard and this diagnostic'
+        required: true
+      pairs:
+        description: 'Independent process pairs per fixture; 20 for measurement'
+        required: true
+        default: '20'
+permissions:
+  contents: read
+jobs:
+  independent-fixtures:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 235
+    runs-on: windows-2025
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.candidate_commit || github.event.pull_request.head.sha }}
+          path: fixture-candidate
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: '58982403dead54824810a96439b851d3123e0e03'
+          path: fixture-baseline
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: fixture-candidate/global.json
+      - name: Prepare and measure each fixture in independent processes
+        shell: pwsh
+        env:
+          CANDIDATE_COMMIT: ${{ inputs.candidate_commit || github.event.pull_request.head.sha }}
+          PAIRS: ${{ inputs.pairs || '20' }}
+        run: |
+          $dotnet = (Get-Command dotnet -CommandType Application | Select-Object -First 1).Source
+          $script = Join-Path $env:GITHUB_WORKSPACE 'fixture-candidate/build/performance/diagnostics/translation/reproduce-windows-fixtures.py'
+          $baseline = Join-Path $env:GITHUB_WORKSPACE 'fixture-baseline'
+          $candidate = Join-Path $env:GITHUB_WORKSPACE 'fixture-candidate'
+          $output = Join-Path $env:GITHUB_WORKSPACE 'fixture-output'
+          $packages = Join-Path $env:RUNNER_TEMP 'translation-fixture-packages'
+          python $script --baseline-repo $baseline --candidate-repo $candidate --candidate-commit $env:CANDIDATE_COMMIT --dotnet $dotnet --packages $packages --output $output --pairs $env:PAIRS
+          if ($LASTEXITCODE -ne 0) { throw 'Independent-fixture experiment failed; inspect the retained observations and build logs.' }
+      - name: Publish complete measured and stability summaries
+        if: always()
+        shell: pwsh
+        run: |
+          foreach ($name in @('report.md', 'stability.md')) {
+            $path = Join-Path $env:GITHUB_WORKSPACE ('fixture-output/results/' + $name)
+            if (Test-Path -LiteralPath $path) { Get-Content -LiteralPath $path | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append }
+          }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: independent-translation-fixtures
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            fixture-output/results/
+            fixture-output/manifest.json
+            fixture-output/preparation.json
+            fixture-output/build-commands.json
+            fixture-output/preparation-logs/
+            fixture-output/windows-protocol.json
+            fixture-output/protocol.json
+            fixture-output/FixtureProbe.cs
+            fixture-output/FixtureProbe.csproj
+            fixture-output/Fixtures.json
+            fixture-output/Oracle.json
+            fixture-output/compare.py
+            fixture-output/baseline/*.cs
+            fixture-output/baseline/*.csproj
+            fixture-output/candidate/*.cs
+            fixture-output/candidate/*.csproj

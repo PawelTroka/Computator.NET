@@ -1,0 +1,314 @@
+[
+  {
+    "id": "empty",
+    "source": "",
+    "custom": "",
+    "defer": false,
+    "api": 1,
+    "explicitExpected": ""
+  },
+  {
+    "id": "plain",
+    "source": "sin(x)+x²/4",
+    "custom": "",
+    "defer": false,
+    "api": 1,
+    "explicitExpected": "sin(x)+pow(x,2)/4.0"
+  },
+  {
+    "id": "plain_no_power",
+    "source": "sin(x)+cos(x)+x*x/4",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "numeric",
+    "source": "2+3*4",
+    "custom": "",
+    "defer": false,
+    "api": 1,
+    "explicitExpected": "2+3*4"
+  },
+  {
+    "id": "comment_power",
+    "source": "cos /*comment*/ ʸ(x)",
+    "custom": "",
+    "defer": false,
+    "api": 1,
+    "explicitExpected": "pow(cos(x),y)"
+  },
+  {
+    "id": "line_comment",
+    "source": "sin(x) // preserve this x²\r\n+x²/4",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "comments_only",
+    "source": "// cos²(x)\r\n/* sinᶻ(z) */\n",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "documentation",
+    "source": "/// <summary>cos²(x) \"string\"</summary>\nreal a=x²;",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "disabled_text",
+    "source": "#if false\nwrite(\"cos²(x)\");\n#endif\ncos²(x)",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "literal_plain",
+    "source": "write(\"cos²(x) __ComputatorLiteral00000000000000000000000000000000_0__\");",
+    "custom": "",
+    "defer": false,
+    "api": 1,
+    "explicitExpected": "write(\"cos²(x) __ComputatorLiteral00000000000000000000000000000000_0__\");"
+  },
+  {
+    "id": "literal_escaped",
+    "source": "write(\"sin²(x) \\\" quoted \\\\ \");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "literal_verbatim",
+    "source": "write(@\"cos²(x) \"\"quoted\"\" \\path\");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "literal_raw",
+    "source": "write(\"\"\"cos²(x) \"quoted\" \\path\"\"\");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "literal_utf8",
+    "source": "var bytes = \"cos²(x)\"u8;",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "literal_raw_utf8",
+    "source": "var bytes = \"\"\"cos²(x)\"\"\"u8;",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "char_literal",
+    "source": "var ch='²'; write(ch);",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "interpolation_text",
+    "source": "write($\"literal cos²(x), computed {cos²(x)}\");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "interpolation_no_text",
+    "source": "write($\"{cos²(x)}\");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "interpolation_verbatim_no_text",
+    "source": "write($@\"{cos²(x)}\");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "interpolation_raw_no_text",
+    "source": "write($$\"\"\"{{cos²(x)}}\"\"\");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "interpolation_nested",
+    "source": "write($\"value {string.Join(\"cos²(x)\", new[] {\"sin²(x)\"})}\");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "interpolation_format",
+    "source": "write($\"{cos²(x):0.00}\");",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "symbolic",
+    "source": "cosᶻ(z)",
+    "custom": "",
+    "defer": false,
+    "api": 1,
+    "explicitExpected": "pow(cos(z),z)"
+  },
+  {
+    "id": "symbolic_deferred",
+    "source": "cosᶻ(z)",
+    "custom": "",
+    "defer": true,
+    "api": 3,
+    "explicitExpected": "cosᶻ(z)"
+  },
+  {
+    "id": "nested_symbolic",
+    "source": "ψⁿ(sinˣ(x))²",
+    "custom": "",
+    "defer": false,
+    "api": 1,
+    "explicitExpected": "pow(ψⁿ(pow(sin(x),x)),2)"
+  },
+  {
+    "id": "declared_method",
+    "source": "real cosᶻ(real x)=>x+2; write(cosᶻ(3));",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "declared_delegate",
+    "source": "delegate real cosᶻ(real x); cosᶻ f = x=>x;",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "declared_variable",
+    "source": "real cosᶻ=3; write(cosᶻ);",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "declared_parameter",
+    "source": "real twice(real cosᶻ)=>cosᶻ*2;",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "declared_property",
+    "source": "real cosᶻ { get; set; }",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "constructed_type",
+    "source": "new cosᶻ(3).value + cosᶻ(z)",
+    "custom": "",
+    "defer": false,
+    "api": 1,
+    "explicitExpected": "new cosᶻ(3).value + pow(cos(z),z)"
+  },
+  {
+    "id": "constructed_attribute",
+    "source": "[cosᶻ(3)] class Example {}",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "shared_declaration",
+    "source": "cosᶻ(x)",
+    "custom": "public static real cosᶻ(real x)=>x+1;",
+    "defer": false,
+    "api": 3
+  },
+  {
+    "id": "shared_declaration_deferred",
+    "source": "cosᶻ(x)",
+    "custom": "public static real cosᶻ(real x)=>x+1;",
+    "defer": true,
+    "api": 3
+  },
+  {
+    "id": "shared_explicit_power",
+    "source": "cosᶻ⁽ʸ⁾(x)",
+    "custom": "public static real cosᶻ(real x)=>x+1;",
+    "defer": true,
+    "api": 3
+  },
+  {
+    "id": "shared_empty_input",
+    "source": "",
+    "custom": "public static real cosᶻ(real x)=>x+1;",
+    "defer": true,
+    "api": 3,
+    "explicitExpected": ""
+  },
+  {
+    "id": "null_input",
+    "source": null,
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "null_input_with_custom",
+    "source": null,
+    "custom": "public static real cosᶻ(real x)=>x+1;",
+    "defer": true,
+    "api": 3
+  },
+  {
+    "id": "null_custom",
+    "source": "sin(x)+x²/4",
+    "custom": null,
+    "defer": false,
+    "api": 3
+  },
+  {
+    "id": "empty_null_custom",
+    "source": "",
+    "custom": null,
+    "defer": false,
+    "api": 3,
+    "explicitExpected": ""
+  },
+  {
+    "id": "whitespace",
+    "source": " \t\r\n ",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "large_script",
+    "source": "real total=0;\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\ntotal += sin(x)+x²/4; // same calculation\n",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  },
+  {
+    "id": "literal_script",
+    "source": "real sum=0; for(integer k=1;k<=1000;k++){sum+=k*k;} write(sum.ToString(\"R\", System.Globalization.CultureInfo.InvariantCulture));",
+    "custom": "",
+    "defer": false,
+    "api": 1
+  }
+]

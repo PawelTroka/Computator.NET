@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework Condition="'$(HistoricalDirectory)' == ''">net10.0-windows</TargetFramework>
+    <TargetFramework Condition="'$(HistoricalDirectory)' != ''">net461</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Computator.Performance.Worker</AssemblyName>
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Optimize>true</Optimize>
+    <DebugType>portable</DebugType>
+    <IsPackable>false</IsPackable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Worker.cs" />
+    <Compile Include="DesktopStartup.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(HistoricalDirectory)' == ''">
+    <ProjectReference Include="../../Computator.NET.Core/Computator.NET.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(HistoricalDirectory)' != ''">
+    <!-- Reference the shipped, unmodified product. Never retarget/rebuild it. -->
+    <Reference Include="Computator.NET.Core"><HintPath>$(HistoricalDirectory)/Computator.NET.Core.dll</HintPath></Reference>
+    <Reference Include="Computator.NET.DataTypes"><HintPath>$(HistoricalDirectory)/Computator.NET.DataTypes.dll</HintPath></Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+</Project>

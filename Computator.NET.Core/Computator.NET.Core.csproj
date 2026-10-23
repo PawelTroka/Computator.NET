@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernDesktop.props" />
+  <Import Project="..\build\PrecompiledTslBuiltins.targets" />
   <PropertyGroup><UseWindowsForms>true</UseWindowsForms><UseWPF>true</UseWPF></PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WinForms.DataVisualization" />
