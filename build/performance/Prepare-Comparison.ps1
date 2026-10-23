@@ -5,7 +5,8 @@ param(
     [string]$HistoricalSHA256,
     [string]$HistoricalVersion = '2.3.2.0',
     [string]$HistoricalSource = '',
-    [switch]$DisposableProfile
+    [switch]$DisposableProfile,
+    [bool]$ReadyToRun = $false
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -37,8 +38,12 @@ $desktop = Join-Path $output 'candidate-desktop'
 $candidateProfile = Join-Path $output 'candidate-profile'
 $null = New-Item -ItemType Directory -Path $baseline
 Copy-Item -Path (Join-Path $historical '*') -Destination $baseline -Recurse
+$publishMode = '-p:PublishReadyToRun=' + $ReadyToRun.ToString().ToLowerInvariant()
+$buildCommands = [Collections.Generic.List[object]]::new()
 
 function Invoke-Dotnet([string[]]$Arguments) {
+    $buildCommands.Add(@{ executable = 'dotnet'; arguments = $Arguments; cwd = (Get-Location).Path })
+    $buildCommands | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $output 'build-commands.json') -Encoding utf8
     & dotnet @Arguments
     if ($LASTEXITCODE -ne 0) { throw "dotnet failed ($LASTEXITCODE): $($Arguments -join ' ')" }
 }
@@ -48,12 +53,12 @@ try {
     $env:DOTNET_CLI_TELEMETRY_OPTOUT = '1'
     $env:DOTNET_NOLOGO = '1'
     $worker = Join-Path $PSScriptRoot 'Worker.csproj'
-    Invoke-Dotnet @('build', $worker, '-c', 'Release', "-p:HistoricalDirectory=$historical", '-o', $baseline, '--nologo', '-v:minimal', '-m:1')
-    # Preserve the complete official payload and its runtime/binding policy.
+    Invoke-Dotnet @('build', $worker, '-c', 'Release', "-p:HistoricalDirectory=$historical", '-p:PublishReadyToRun=false', '-o', $baseline, '--nologo', '-v:minimal', '-m:1')
+    # The original product and its dependency and runtime policies are unchanged.
     Copy-Item -Path (Join-Path $historical '*') -Destination $baseline -Recurse -Force
     Copy-Item -LiteralPath (Join-Path $historical 'Computator.NET.exe.config') -Destination (Join-Path $baseline 'Computator.Performance.Worker.exe.config') -Force
-    Invoke-Dotnet @('publish', $worker, '-c', 'Release', '-r', 'win-x64', '--self-contained', 'false', '-o', $candidate, '--nologo', '-v:minimal', '-m:1')
-    Invoke-Dotnet @('publish', 'Computator.NET/Computator.NET.csproj', '-c', 'Release', '-r', 'win-x64', '--self-contained', 'false', '-o', $desktop, '--nologo', '-v:minimal', '-m:1')
+    Invoke-Dotnet @('publish', $worker, '-c', 'Release', '-r', 'win-x64', '--self-contained', 'false', $publishMode, '-o', $candidate, '--nologo', '-v:minimal', '-m:1')
+    Invoke-Dotnet @('publish', 'Computator.NET/Computator.NET.csproj', '-c', 'Release', '-r', 'win-x64', '--self-contained', 'false', $publishMode, '-o', $desktop, '--nologo', '-v:minimal', '-m:1')
     Invoke-Dotnet @('build-server', 'shutdown')
     $commit = (& git rev-parse HEAD).Trim()
     if ($LASTEXITCODE -ne 0) { throw 'Cannot identify candidate commit.' }
@@ -72,8 +77,7 @@ function Get-Artifact([string]$Path, [string]$RoleMode = 'none') {
 function Get-Artifacts([string]$Directory, [string]$RoleMode = 'none') {
     @(Get-ChildItem -LiteralPath $Directory -Recurse -File | Sort-Object FullName | ForEach-Object { Get-Artifact $_.FullName $RoleMode })
 }
-# Run all setup before timings; then reuse each version's own profile/native
-# extraction cache. First installation/disk-cache-cold startup is a separate test.
+# Prepare profiles and native extraction before the measured fresh processes.
 foreach ($entry in @(
     @{ worker = Join-Path $candidate 'Computator.Performance.Worker.exe'; desktop = Join-Path $baseline 'Computator.NET.exe'; label = 'baseline' },
     @{ worker = Join-Path $candidate 'Computator.Performance.Worker.exe'; desktop = Join-Path $desktop 'Computator.NET.exe'; label = 'candidate' }
@@ -130,8 +134,7 @@ $candidateVersion = [Reflection.AssemblyName]::GetAssemblyName((Join-Path $candi
 $baselineIdentity = @{
     version = $HistoricalVersion; source = $provenance.source; buildConfiguration = 'Release';
     commitUnknownReason = 'Official shipped binary is authoritative; a source tag is not proof of build reproducibility.';
-    releaseSourceTag = '56fed3363c07026d7fb290e40f852468dfe158ba';
-    archiveSHA256 = $provenance.archiveSHA256
+    releaseSourceTag = '56fed3363c07026d7fb290e40f852468dfe158ba'; archiveSHA256 = $provenance.archiveSHA256
 }
 if ($HistoricalArchive) {
     $baselineIdentity.source = $HistoricalSource
@@ -143,8 +146,8 @@ $hardware = @{
     os = Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber, OSArchitecture;
     memoryBytes = (Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory;
     frameworkRelease = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full').Release;
-    installedRuntimes = @(& dotnet --list-runtimes);
-    powerScheme = @(& powercfg /getactivescheme);
+    installedRuntimes = @(& dotnet --list-runtimes); powerScheme = @(& powercfg /getactivescheme);
+    readyToRun = $ReadyToRun;
     cacheCondition = 'fresh processes; profiles/native extraction conditioned; OS filesystem cache unflushed';
     guiProfile = 'Disposable account: legacy uses normal Documents path; candidate uses a separate COMPUTATOR_DATA_DIRECTORY.'
 }
@@ -160,11 +163,10 @@ $manifest = @{
         command = @((Join-Path $candidate 'Computator.Performance.Worker.exe')); cwd = $candidate;
         expected = @{ coreVersion = $candidateVersion; bitness = 64; runtimePrefix = '.NET 10.' };
         environment = @{ COMPUTATOR_DATA_DIRECTORY = $candidateProfile };
-        provenance = @{ version=$candidateVersion; commit=$commit; source='PawelTroka/Computator.NET'; buildConfiguration='Release'; deployment='framework-dependent win-x64' };
+        provenance = @{ version=$candidateVersion; commit=$commit; source='PawelTroka/Computator.NET'; buildConfiguration='Release'; deployment='framework-dependent win-x64'; readyToRun=$ReadyToRun };
         artifacts = @((Get-Artifacts $candidate 'primary') + (Get-Artifacts $desktop))
     };
-    scenarios = $scenarios;
-    environment = @{}
+    scenarios = $scenarios; environment = @{}
 }
 $manifestPath = Join-Path $output 'manifest.json'
 $manifest | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $manifestPath -Encoding utf8

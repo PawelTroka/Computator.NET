@@ -26,6 +26,11 @@ namespace Computator.NET.Core.Evaluation
             if (string.IsNullOrWhiteSpace(input))
                 return CalculationsMode.Error;
 
+            // Only the exact shipped compiler may bypass its own translation.
+            // Custom/injected compilers and definitions retain the full contract.
+            if (_tslCompiler.GetType() == typeof(TslCompiler) && string.IsNullOrWhiteSpace(customFunctionsCode) &&
+                DirectExpressionCompiler.TryDetermineMode(input, out var directMode)) return directMode;
+
             var cSharp = _tslCompiler.TransformToCSharp(input, customFunctionsCode ?? "", true);
             var expression = ExpressionAnalysis.Parse(cSharp);
             if (expression.IsEmpty)
