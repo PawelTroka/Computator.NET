@@ -71,6 +71,7 @@ namespace Computator.NET.Charting.Chart3D.UI
             InitializeComponent();
 
             axisLabels = new AxisLabels(canvasOn3D);
+            canvasOn3D.SizeChanged += (sender, args) => TransformChart();
 
             Focusable = true;
 
@@ -151,6 +152,8 @@ namespace Computator.NET.Charting.Chart3D.UI
             get { return axisLabels; }
             set
             {
+                if (ReferenceEquals(axisLabels, value)) return;
+                axisLabels?.Remove();
                 axisLabels = value;
                 TransformChart();
             }
@@ -264,7 +267,9 @@ namespace Computator.NET.Charting.Chart3D.UI
             using (var stream = new MemoryStream())
             {
                 encoder.Save(stream);
-                return Image.FromStream(stream);
+                stream.Position = 0;
+                using (var decoded = Image.FromStream(stream))
+                    return new Bitmap(decoded);
             }
         }
 
@@ -330,7 +335,8 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         public void PrintPreview()
         {
-            imagePrinter.PrintPreview(GetBitmap());
+            using (var bitmap = GetBitmap())
+                imagePrinter.PrintPreview(bitmap);
         }
 
         public void SetChartAreaValues(double x0, double xn, double y0, double yn)
@@ -372,11 +378,55 @@ namespace Computator.NET.Charting.Chart3D.UI
                 encoder = new PngBitmapEncoder();
 
 
-            var bitmap = new RenderTargetBitmap(width,height,96, 96, PixelFormats.Pbgra32);
-            bitmap.Render(this);
+            var bitmap = RenderImage(width, height);
             var frame = BitmapFrame.Create(bitmap);
             encoder.Frames.Add(frame);
             return encoder;
+        }
+
+        internal RenderTargetBitmap RenderImage(int width, int height, double dpi = 96)
+        {
+            return RenderImage(width, height, dpi, out _);
+        }
+
+        internal RenderTargetBitmap RenderImage(int width, int height, double dpi,
+            out IReadOnlyList<RenderedAxisLabel> renderedLabels)
+        {
+            if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width));
+            if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height));
+            if (!double.IsFinite(dpi) || dpi <= 0) throw new ArgumentOutOfRangeException(nameof(dpi));
+
+            // Relayout an isolated viewport at the output's logical dimensions.
+            // Rendering the live control into a larger bitmap only clipped it;
+            // resizing it for export would also change its visible tick layout.
+            var logicalSize = new Size(width * 96.0 / dpi, height * 96.0 / dpi);
+            var output = new Grid { Width = logicalSize.Width, Height = logicalSize.Height, Background = Background };
+            var viewport = new Viewport3D
+            {
+                Camera = mainViewport.Camera?.CloneCurrentValue(), IsHitTestVisible = false,
+                ClipToBounds = mainViewport.ClipToBounds
+            };
+            foreach (var visual in mainViewport.Children.OfType<ModelVisual3D>())
+            {
+                // Model content is a shareable Freezable. The export never changes
+                // the mesh, its matrix, or any of the live visual children.
+                viewport.Children.Add(new ModelVisual3D { Content = visual.Content, Transform = visual.Transform });
+            }
+            var canvas = new Canvas { IsHitTestVisible = false, ClipToBounds = true };
+            output.Children.Add(viewport);
+            output.Children.Add(canvas);
+            output.Measure(logicalSize);
+            output.Arrange(new Rect(new Point(), logicalSize));
+            output.UpdateLayout();
+            var labels = axisLabels.CopyTo(canvas);
+            if (m_3dChart != null && m_3dChart.GetDataNo() > 0)
+                labels.Reload(m_3dChart.GetAxes(), m_transformMatrix, viewport, VisibilityAxes, AxesColor);
+            output.UpdateLayout();
+
+            var bitmap = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
+            bitmap.Render(output);
+            renderedLabels = labels.Annotations.Labels.ToArray();
+            return bitmap;
         }
 
         public void Redraw()
@@ -425,40 +475,7 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         private Bitmap GetBitmap()
         {
-            var w = (int) ActualWidth;
-            var h = (int) ActualHeight;
-
-            BitmapEncoder encoder = new BmpBitmapEncoder();
-            var bitmap = new RenderTargetBitmap(w, h, 96, 96, PixelFormats.Pbgra32);
-
-
-            var drawingVisual = new DrawingVisual();
-            using (var drawingContext = drawingVisual.RenderOpen())
-            {
-                var visualBrush = new VisualBrush(this);
-                drawingContext.DrawRectangle(visualBrush, null,
-                    new Rect(new Point(), new Size(w, h)));
-            }
-
-            bitmap.Render(drawingVisual);
-            //bitmap.Render(this);
-
-            //  Background = new SolidColorBrush(Colors.White);
-            //  InvalidateVisual();
-
-            var frame = BitmapFrame.Create(bitmap);
-
-            encoder.Frames.Add(frame);
-
-
-            var stream = new MemoryStream();
-            encoder.Save(stream);
-
-            var bmp = new Bitmap(stream);
-
-            //     Background = new SolidColorBrush(Colors.Transparent);
-
-            return bmp;
+            return (Bitmap)GetImage(Math.Max(1, (int)ActualWidth), Math.Max(1, (int)ActualHeight));
         }
 
         private void DrawFunction(Func<double, double, double> fxy)
@@ -597,6 +614,14 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         private void UpdateChart()
         {
+            if (m_3dChart == null || m_3dChart.GetDataNo() == 0)
+            {
+                if (m_nChartModelIndex >= 0 && m_nChartModelIndex < mainViewport.Children.Count)
+                    mainViewport.Children.RemoveAt(m_nChartModelIndex);
+                m_nChartModelIndex = -1;
+                axisLabels.Remove();
+                return;
+            }
             m_3dChart.UseAxes = VisibilityAxes;
             m_3dChart.SetAxesColor(AxesColor);
             m_3dChart.GetDataRange();
@@ -608,8 +633,6 @@ namespace Computator.NET.Charting.Chart3D.UI
             else if (mode == Chart3DMode.Surface)
                 meshs = ((UniformSurfaceChart3D) m_3dChart).GetMeshes();
 
-            UpdateChartLabels(meshs);
-
             m_nChartModelIndex = new Model3D().UpdateModel(meshs,
                 m_3dChart is UniformSurfaceChart3D ? _backMaterial : null, m_nChartModelIndex, mainViewport);
 
@@ -619,6 +642,7 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         public void RescaleProjectionMatrix()
         {
+            if (m_3dChart == null || m_3dChart.GetDataNo() == 0) return;
             if (EqualAxes)
                 m_transformMatrix.CalculateProjectionMatrix(
                     Math.Min(m_3dChart.XMin(), Math.Min(m_3dChart.YMin(), m_3dChart.ZMin())),
@@ -722,34 +746,6 @@ namespace Computator.NET.Charting.Chart3D.UI
             TransformChart();
         }
 
-        private void UpdateChartLabels(ArrayList meshs)
-        {
-            if (meshs == null)
-                return;
-
-            var whichTimeCone3dAppear = 0;
-
-            for (var i = 0; i < meshs.Count; i++)
-            {
-                if (meshs[i].GetType() == typeof(Cone3D))
-                {
-                    whichTimeCone3dAppear++;
-                    if (whichTimeCone3dAppear == 1)
-                    {
-                        axisLabels.X3D = ((Cone3D) meshs[i]).GetLastPoint();
-                    }
-                    else if (whichTimeCone3dAppear == 2)
-                    {
-                        axisLabels.Y3D = ((Cone3D) meshs[i]).GetLastPoint();
-                    }
-                    else if (whichTimeCone3dAppear == 3)
-                    {
-                        axisLabels.Z3D = ((Cone3D) meshs[i]).GetLastPoint();
-                    }
-                }
-            }
-        }
-
         // this function is used to rotate, drag and zoom the 3d chart
         private void TransformChart()
         {
@@ -761,16 +757,10 @@ namespace Computator.NET.Charting.Chart3D.UI
             group1.Children.Clear();
             group1.Children.Add(new MatrixTransform3D(m_transformMatrix.m_totalMatrix));
 
-            if (axisLabels.ActiveLabels && _functions != null && _functions.Count > 0)
-            {
-                var x = axisLabels.X3D;
-                var y = axisLabels.Y3D;
-                var z = axisLabels.Z3D;
-
-                axisLabels.Reload(m_transformMatrix.VertexToScreenPt(x, mainViewport),
-                    m_transformMatrix.VertexToScreenPt(y, mainViewport),
-                    m_transformMatrix.VertexToScreenPt(z, mainViewport));
-            }
+            if (m_3dChart != null && m_3dChart.GetDataNo() > 0)
+                axisLabels.Reload(m_3dChart.GetAxes(), m_transformMatrix, mainViewport, VisibilityAxes, AxesColor);
+            else
+                axisLabels.Remove();
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

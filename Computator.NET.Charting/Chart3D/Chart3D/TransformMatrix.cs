@@ -185,18 +185,26 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         public void CalculateProjectionMatrix(double xMin, double xMax, double yMin, double yMax, double zMin,
             double zMax, double scaleFactor)
         {
-            var xC = (xMin + xMax)/2;
-            var yC = (yMin + yMax)/2;
-            var zC = (zMin + zMax)/2;
+            var xC = xMin / 2 + xMax / 2;
+            var yC = yMin / 2 + yMax / 2;
+            var zC = zMin / 2 + zMax / 2;
 
-            var xRange = (xMax - xMin)/2;
-            var yRange = (yMax - yMin)/2;
-            var zRange = (zMax - zMin)/2;
+            var xRange = xMax / 2 - xMin / 2;
+            var yRange = yMax / 2 - yMin / 2;
+            var zRange = zMax / 2 - zMin / 2;
+
+            // A finite small range is still a range. The old absolute 1e-10
+            // cutoff left its projection stale; a flat surface divided by zero
+            // on z. Only collapsed dimensions need a fallback scale.
+            var fallbackRange = Math.Max(xRange, Math.Max(yRange, zRange));
+            if (!(fallbackRange > 0) || !double.IsFinite(fallbackRange))
+                fallbackRange = 1;
+            if (!(xRange > 0) || !double.IsFinite(xRange)) xRange = fallbackRange;
+            if (!(yRange > 0) || !double.IsFinite(yRange)) yRange = fallbackRange;
+            if (!(zRange > 0) || !double.IsFinite(zRange)) zRange = fallbackRange;
 
             m_projMatrix.SetIdentity();
             m_projMatrix.Translate(new Vector3D(-xC, -yC, -zC));
-
-            if (xRange < 1e-10) return;
 
             var sX = scaleFactor/xRange;
             var sY = scaleFactor/yRange;

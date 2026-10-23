@@ -397,7 +397,7 @@ namespace Computator.NET.Desktop.Tests
         }
 
         [Test]
-        public void EmptyLabelsAndDisabledArrowheadsStillDrawPlainAxes()
+        public void EmptyCoordinateNamesAndDisabledArrowheadsRetainNumericalAxes()
         {
             using var font = new Font("Cambria", 13, GraphicsUnit.Point);
             using var bitmap = NewBitmap(320, 240, 96);
@@ -408,7 +408,13 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(layout.ArrowLength, Is.Zero);
             NUnit.Framework.Assert.That(layout.XLabelBounds.IsEmpty, Is.True);
             NUnit.Framework.Assert.That(layout.YLabelBounds.IsEmpty, Is.True);
-            NUnit.Framework.Assert.That(CountBlueInk(bitmap, layout.Bounds), Is.Zero);
+            NUnit.Framework.Assert.That(layout.Ticks, Is.Not.Null);
+            var numericalLabels = layout.Ticks.MajorTicks.Where(mark => !mark.LabelBounds.IsEmpty).ToArray();
+            NUnit.Framework.Assert.That(numericalLabels, Is.Not.Empty,
+                "Clearing coordinate names must not also hide coordinate values");
+            foreach (var mark in numericalLabels)
+                NUnit.Framework.Assert.That(CountBlueInk(bitmap, mark.LabelBounds), Is.GreaterThan(2),
+                    mark.Tick.Label);
             NUnit.Framework.Assert.That(bitmap.GetPixel(160, 30).R, Is.LessThan(128));
             NUnit.Framework.Assert.That(bitmap.GetPixel(30, 120).R, Is.LessThan(128));
         }

@@ -2,7 +2,9 @@
 // base class for 3D chart
 // version 0.1
 
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -27,16 +29,16 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         public Color m_axisYColor = Colors.DarkRed; // axis color
         public Color m_axisZColor = Color.FromRgb(0, 0, 196); // axis color
         protected Vertex3D[] m_vertices; // 3d plot data
-        private float m_xAxisCenter; // axis start point
-        private float m_xAxisLength; // axis length
+        private double m_xAxisCenter; // axis start point
+        private double m_xAxisLength; // axis length
         protected float m_xMax; // data range
         protected float m_xMin; // data range
-        private float m_yAxisCenter; // axis start point
-        private float m_yAxisLength; // axis length
+        private double m_yAxisCenter; // axis start point
+        private double m_yAxisLength; // axis length
         protected float m_yMax; // data range
         protected float m_yMin; // data range
-        private float m_zAxisCenter; // axis start point
-        private float m_zAxisLength; // axis length
+        private double m_zAxisCenter; // axis start point
+        private double m_zAxisLength; // axis length
         protected float m_zMax; // data range
         protected float m_zMin; // data range
 
@@ -154,6 +156,11 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         public void SetAxes(float x0, float y0, float z0, float xL, float yL, float zL)
         {
+            SetAxes((double)x0, y0, z0, xL, yL, zL);
+        }
+
+        private void SetAxes(double x0, double y0, double z0, double xL, double yL, double zL)
+        {
             m_xAxisLength = xL;
             m_yAxisLength = yL;
             m_zAxisLength = zL;
@@ -170,9 +177,11 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         public void SetAxes(float margin)
         {
-            var xRange = m_xMax - m_xMin;
-            var yRange = m_yMax - m_yMin;
-            var zRange = m_zMax - m_zMin;
+            // Mesh points are stored as floats, but their difference and the
+            // margin may exceed a float even when both endpoints are finite.
+            var xRange = (double)m_xMax - m_xMin;
+            var yRange = (double)m_yMax - m_yMin;
+            var zRange = (double)m_zMax - m_zMin;
 
             var xC = m_xMin - margin*xRange;
             var yC = m_yMin - margin*yRange;
@@ -184,6 +193,28 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
             SetAxes(xC, yC, zC, xL, yL, zL);
         }
 
+        internal IReadOnlyList<Chart3DAxis> GetAxes()
+        {
+            var start = new Point3D(m_xAxisCenter, m_yAxisCenter, m_zAxisCenter);
+            // The independent projection scales each coordinate separately. A
+            // single average world radius would become enormous on a short axis
+            // when another range is large. Equal spans retain the old radius.
+            var fallbackLength = Math.Max(m_xAxisLength, Math.Max(m_yAxisLength, m_zAxisLength));
+            var radii = new Vector3D(
+                (m_xAxisLength > 0 ? m_xAxisLength : fallbackLength) / m_axisLengthWidthRatio,
+                (m_yAxisLength > 0 ? m_yAxisLength : fallbackLength) / m_axisLengthWidthRatio,
+                (m_zAxisLength > 0 ? m_zAxisLength : fallbackLength) / m_axisLengthWidthRatio);
+            var xEnd = new Point3D(m_xAxisCenter + m_xAxisLength, m_yAxisCenter, m_zAxisCenter);
+            var yEnd = new Point3D(m_xAxisCenter, m_yAxisCenter + m_yAxisLength, m_zAxisCenter);
+            var zEnd = new Point3D(m_xAxisCenter, m_yAxisCenter, m_zAxisCenter + m_zAxisLength);
+            return new[]
+            {
+                new Chart3DAxis(0, start.X, xEnd.X, start, xEnd, radii),
+                new Chart3DAxis(1, start.Y, yEnd.Y, start, yEnd, radii),
+                new Chart3DAxis(2, start.Z, zEnd.Z, start, zEnd, radii)
+            };
+        }
+
         public void SetAxesColor(Color? color = null)
         {
             if (color.HasValue)
@@ -192,49 +223,16 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
                 m_axisColor = m_axisXColor = m_axisYColor = m_axisZColor = Color.FromRgb(0, 0, 196); // axis color
         }
 
-        // add the axes mesh to the Mesh3D array
-        // if you are using the projection matrix which is not uniform along all the axess, you need change this function
+        // Use the same principal-axis geometry as the numeric annotation bounds.
         public void AddAxesMeshes(ArrayList meshs)
         {
             if (!UseAxes) return;
-
-            var radius = (m_xAxisLength + m_yAxisLength + m_zAxisLength)/(3*m_axisLengthWidthRatio);
-
-            Mesh3D xAxisCylinder = new Cylinder3D(radius, radius, m_xAxisLength, 6);
-            xAxisCylinder.SetColor(m_axisXColor);
-            TransformMatrix.Transform(xAxisCylinder,
-                new Point3D(m_xAxisCenter + m_xAxisLength/2, m_yAxisCenter, m_zAxisCenter), 0, 90);
-            meshs.Add(xAxisCylinder);
-
-            Mesh3D xAxisCone = new Cone3D(2*radius, 2*radius, radius*5, 6);
-            xAxisCone.SetColor(m_axisXColor);
-            TransformMatrix.Transform(xAxisCone,
-                new Point3D(m_xAxisCenter + m_xAxisLength, m_yAxisCenter, m_zAxisCenter), 0, 90);
-            meshs.Add(xAxisCone);
-
-            Mesh3D yAxisCylinder = new Cylinder3D(radius, radius, m_yAxisLength, 6);
-            yAxisCylinder.SetColor(m_axisYColor);
-            TransformMatrix.Transform(yAxisCylinder,
-                new Point3D(m_xAxisCenter, m_yAxisCenter + m_yAxisLength/2, m_zAxisCenter), 90, 90);
-            meshs.Add(yAxisCylinder);
-
-            Mesh3D yAxisCone = new Cone3D(2*radius, 2*radius, radius*5, 6);
-            yAxisCone.SetColor(m_axisYColor);
-            TransformMatrix.Transform(yAxisCone,
-                new Point3D(m_xAxisCenter, m_yAxisCenter + m_yAxisLength, m_zAxisCenter), 90, 90);
-            meshs.Add(yAxisCone);
-
-            Mesh3D zAxisCylinder = new Cylinder3D(radius, radius, m_zAxisLength, 6);
-            zAxisCylinder.SetColor(m_axisZColor);
-            TransformMatrix.Transform(zAxisCylinder,
-                new Point3D(m_xAxisCenter, m_yAxisCenter, m_zAxisCenter + m_zAxisLength/2), 0, 0);
-            meshs.Add(zAxisCylinder);
-
-            Mesh3D zAxisCone = new Cone3D(2*radius, 2*radius, radius*5, 6);
-            zAxisCone.SetColor(m_axisZColor);
-            TransformMatrix.Transform(zAxisCone,
-                new Point3D(m_xAxisCenter, m_yAxisCenter, m_zAxisCenter + m_zAxisLength), 0, 0);
-            meshs.Add(zAxisCone);
+            foreach (var axis in GetAxes())
+            {
+                var color = axis.Index == 0 ? m_axisXColor : axis.Index == 1 ? m_axisYColor : m_axisZColor;
+                meshs.Add(axis.CreateCylinder(color));
+                meshs.Add(axis.CreateArrow(color));
+            }
         }
 
         private void AddAxesLabelsMeshes(ArrayList meshs)

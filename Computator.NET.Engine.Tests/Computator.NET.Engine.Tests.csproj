@@ -7,6 +7,10 @@
   <ItemGroup>
     <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
+    <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexTicksLayout.cs" Link="Charting/ComplexTicksLayout.cs" />
+    <Compile Include="../Computator.NET.Charting/Axes/AxisTickGenerator.cs" Link="Charting/AxisTickGenerator.cs" />
+    <Compile Include="../Computator.NET.Desktop.Tests/AxisTickGeneratorTests.cs" Link="Charting/AxisTickGeneratorTests.cs" />
+    <Compile Include="../Computator.NET.Desktop.Tests/ComplexTickRenderingTests.cs" Link="Charting/ComplexTickRenderingTests.cs" />
     <Compile Include="../Computator.NET.Desktop.Tests/ComplexChartRenderingTests.cs" Link="Charting/ComplexChartRenderingTests.cs" />
   </ItemGroup>
   <ItemGroup>
