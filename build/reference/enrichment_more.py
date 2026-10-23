@@ -63,8 +63,8 @@ add('Fresnel',r'F(x)=C(x)+iS(x)','The real and imaginary parts contain the Fresn
 add('erfcx',r'\operatorname{erfcx}(z)=e^{z^2}\operatorname{erfc}(z)','The scaled complementary error function removes the leading exponential decay on the positive real axis. It is useful for small-tail calculations where separately computing exp(z²) and erfc(z) would overflow and underflow.')
 add('erfi',r'\operatorname{erfi}(z)=-i\operatorname{erf}(iz)','The imaginary error function is real for real inputs despite its name. The definition rotates the argument of erf in the complex plane, producing very different growth on the real axis.')
 add('faddeeva',r'w(z)=e^{-z^2}\operatorname{erfc}(-iz)','This complex line-shape function combines Gaussian and dispersive behavior. Its real and imaginary parts play different roles; replacing it by a real error function would discard part of the response.')
-add('inverseErf',r'\operatorname{erf}(\operatorname{erf}^{-1}x)=x','The inverse recovers a threshold from an error-function value. Endpoints correspond to infinite limits, and values close to an endpoint are sensitive to small input errors.')
-add('inverseErfc',r'\operatorname{erfc}(\operatorname{erfc}^{-1}x)=x','Complementary inversion is useful for a small tail probability supplied directly. It avoids first subtracting that small value from one and losing its significant digits.')
+add('inverseErf',r'\operatorname{erf}(\operatorname{erf}^{-1}x)=x','The inverse recovers a threshold from an error-function value. Endpoints correspond to infinite limits, and values close to an endpoint are sensitive to small input errors.',('inverseErf(-0.5)','approximately -0.4769362762','The error function is odd, so inverting a negative value gives the negative of the corresponding positive threshold. Applying erf to this result recovers -0.5.'))
+add('inverseErfc',r'\operatorname{erfc}(\operatorname{erfc}^{-1}x)=x','Complementary inversion is useful for a small tail probability supplied directly. It avoids first subtracting that small value from one and losing its significant digits.',('inverseErfc(1.5)','approximately -0.4769362762','The complementary error function decreases through erfc(0)=1. A value of 1.5 therefore corresponds to a negative threshold; erfc of this result recovers 1.5.'))
 add('logErfc',r'\log\operatorname{erfc}(x)','This returns the logarithm of a complementary tail. Log space can represent probabilities whose ordinary floating-point values would underflow to zero.')
 add('erfZ',r'\phi(x)=\frac{e^{-x^2/2}}{\sqrt{2\pi}}','This is the standard normal density, not erf itself. Its integral over an interval gives probability; evaluating it at one point gives a density height.')
 add('erfQ',r'Q(x)=\frac12\operatorname{erfc}\!\left(\frac{x}{\sqrt2}\right)','The standard normal upper tail decreases as the threshold increases. It is the probability above x, not the CDF below x.',('erfQ(0)','0.5','Symmetry divides standard normal probability equally at zero.'))
@@ -163,6 +163,10 @@ def extra_enrichment(item,article,name):
         tex,text,examples=EXTRA[name]
         return Enrichment((Equation(tex,article.formula or text,'Mathematical interpretation'),),(text,),examples,False)
     if kind!='SpecialFunctions':return Enrichment()
+    if name in ('RiccatiBesselξ','RiccatiBesselζ'):
+        tex=r'u^{\prime\prime}+\left(1-\frac{n(n+1)}{x^2}\right)u=0'
+        text='Multiplying a spherical Hankel function by its radial argument removes the first-derivative term from the spherical wave equation. These two Riccati–Hankel functions solve the resulting radial equation, with the S and C signs given in their definitions.'
+        return Enrichment((Equation(tex,'u″+[1−n(n+1)/x²]u=0','Riccati–Bessel equation'),),(text,),(),False)
     if 'Bessel' in name or name.startswith(('Hankel','SphericalHankel','Struve')):
         if 'Zeros' in name:tex=r'J_\nu(j_{\nu,s})=0';text='The argument s selects a numbered positive zero, not an evaluation coordinate. Zeros determine eigenfrequencies when a boundary condition forces a cylindrical mode to vanish.'
         elif 'Prime' in name:tex=r'J_n^{\prime}(x)=\frac{J_{n-1}(x)-J_{n+1}(x)}{2}';text='A derivative changes the radial boundary condition: a zero derivative can represent a different physical mode than a zero function value. The prime is differentiation, not a shifted order.'

@@ -32,5 +32,37 @@ class AuthoringTests(unittest.TestCase):
     def test_keywords_do_not_require_math_articles(self):
         inventory=self.inventory();inventory['items'].append({'signature':'while','type':'Keyword','menu':'while'})
         self.assertEqual(len(articles(inventory)),1)
+    def test_inverse_error_articles_teach_both_halves_of_their_domains(self):
+        for name,domain,endpoint,example in (
+            ('inverseErf','−1≤x≤1','x=−1 gives −∞','inverseErf(-0.5)'),
+            ('inverseErfc','0≤x≤2','x=2 gives −∞','inverseErfc(1.5)'),
+        ):
+            with self.subTest(function=name):
+                inventory={'items':[{'signature':name+'(x)','menu':'real '+name+'(real x)','type':'SpecialFunctions'}], 'constants':[]}
+                article=articles(inventory)[0]
+                self.assertIn(domain,article['description'])
+                self.assertIn(endpoint,article['description'])
+                self.assertIn('Inputs outside the domain return NaN',article['description'])
+                self.assertIn('<pre><code>'+example+'</code></pre>',article['description'])
+                self.assertNotIn('accepts ONLY',article['description'])
+                self.assertEqual(article['url'],'https://dlmf.nist.gov/7.17')
+                if name=='inverseErfc':
+                    self.assertIn('including subnormal inputs',article['description'])
+    def test_riccati_hankel_articles_use_spherical_relations_and_keep_zero_caveat(self):
+        for name,relation in (('RiccatiBesselξ','ξₙ(x)=x·hₙ⁽¹⁾(x)=Sₙ(x)−iCₙ(x)'),
+                              ('RiccatiBesselζ','ζₙ(x)=x·hₙ⁽²⁾(x)=Sₙ(x)+iCₙ(x)')):
+            with self.subTest(name=name):
+                inventory={'items':[{'signature':name+'(n,x)',
+                    'menu':'complex '+name+'(int n, real x)','type':'SpecialFunctions'}], 'constants':[]}
+                article=articles(inventory)[0]
+                self.assertIn(relation,article['description'])
+                self.assertIn('spherical Bessel functions',article['description'])
+                self.assertIn('Nonpositive arguments return NaN',article['description'])
+                self.assertIn('finite order-zero limit at x=0 is not evaluated',article['description'])
+                self.assertNotIn('CYLINDRICAL Hankel',article['description'])
+                self.assertIn('Riccati–Bessel equation',article['description'])
+                self.assertIn('u″+[1−n(n+1)/x²]u=0',article['description'])
+                self.assertNotIn('Underlying cylindrical equation',article['description'])
+                self.assertEqual(article['url'],'https://dlmf.nist.gov/10.47')
 
 if __name__=='__main__':unittest.main()

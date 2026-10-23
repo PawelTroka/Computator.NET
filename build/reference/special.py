@@ -222,9 +222,7 @@ def _describe(item, values):
         prime='prime' in name; regular=name.startswith('CoulombF')
         actual='F_L' if regular else 'G_L'
         note='Derivatives are with respect to dimensionless ρ, not energy or physical radius.' if prime else ''
-        if name=='CoulombGprime':
-            note+=' Current forwarding uses gsl_sf_coulomb_wave_FG_e(η,ρ,L,L,...), whose G output has order L−L=0. For L≠0 this wrapper therefore returns G′₀, not the advertised G′_L. Scaling exponents returned by GSL are not applied.'
-        elif prime:note+=' Returned GSL overflow scaling exponents are not applied; avoid interpreting a scaled-overflow result as the full derivative.'
+        if prime:note+=' Returned GSL overflow scaling exponents are not applied; avoid interpreting a scaled-overflow result as the full derivative.'
         return A(('Derivative of ' if prime else '')+('regular' if regular else 'irregular')+' Coulomb wave',
                  'A real solution of the radial Coulomb scattering equation'+(' differentiated in its radial argument.' if prime else '.'),
                  'u″+[1−2η/ρ−L(L+1)/ρ²]u=0; '+actual+('′(η,ρ)' if prime else '(η,ρ)'),

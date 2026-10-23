@@ -3791,7 +3791,7 @@
 <p class="reference-explanation">The radial coordinate ρ and Coulomb parameter η play different roles. Regular and irregular solutions encode different behavior at the origin; derivative and normalization helpers act on those solutions rather than introducing a new potential.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>u″+[1−2η/ρ−L(L+1)/ρ²]u=0; G_L′(η,ρ)</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Integer L≥0, real η; use ρ&gt;0. F is regular at the origin; G is the independent irregular solution.</p>
-<p class="reference-note"><strong>Important:</strong> Derivatives are with respect to dimensionless ρ, not energy or physical radius. Current forwarding uses gsl_sf_coulomb_wave_FG_e(η,ρ,L,L,...), whose G output has order L−L=0. For L≠0 this wrapper therefore returns G′₀, not the advertised G′_L. Scaling exponents returned by GSL are not applied.</p>
+<p class="reference-note"><strong>Important:</strong> Derivatives are with respect to dimensionless ρ, not energy or physical radius. Returned GSL overflow scaling exponents are not applied; avoid interpreting a scaled-overflow result as the full derivative.</p>
 <p class="reference-equation"><strong>Underlying wave equation</strong><br /><img class="reference-math" src="reference-equations/72d4b667b7ef10e173d17a7c875688a1925564bc79c27f3fbed1bbb88bc34b10.png" alt="Radial Coulomb equation." width="312" height="57" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/33.2">dlmf.nist.gov</a></p>
 </div>]]></Description>
@@ -13903,36 +13903,38 @@
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs</Url>
   </FunctionInfo>
   <FunctionInfo Signature="RiccatiBesselζ(n,x)">
-    <Title>Riccati-labelled Bessel combination</Title>
+    <Title>Riccati–Hankel function of the second kind</Title>
     <Type>SpecialFunctions</Type>
     <Category>Bessel functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>complex RiccatiBesselζ(integer n, real x)</code></p>
-<p class="reference-summary">The application’s radial Bessel combination, with its sign and cylindrical/spherical convention made explicit.</p>
-<p class="reference-explanation">Bessel functions describe radial modes in cylindrical geometry. Spherical and Riccati variants rescale related half-integer solutions; Hankel functions combine independent solutions into complex waves. Use the specific function and normalization below, rather than treating all family names as aliases.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>x·[Jₙ(x)−iYₙ(x)]</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Integer n; use x&gt;0 for irregular/Hankel forms. Singular limits at zero should not be inferred from multiplication by x.</p>
-<p class="reference-note"><strong>Important:</strong>  This wrapper calls the CYLINDRICAL Hankel function, not spherical hₙ. Its result therefore differs from the usual Riccati–Hankel x·hₙ convention. The formula above documents current behavior.</p>
-<p class="reference-equation"><strong>Underlying cylindrical equation</strong><br /><img class="reference-math" src="reference-equations/4b1d528807d77bbf966f5d623fcb834c0ad987f3d20156ec0b0399c791aff773.png" alt="x^2y^{\prime\prime}+xy^{\prime}+(x^2-\nu^2)y=0" width="256" height="31" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs">github.com</a></p>
+<p class="reference-summary">A spherical Hankel wave multiplied by its radial argument, with the same normalization as the real Riccati–Bessel functions S and C.</p>
+<p class="reference-explanation">Multiplying a spherical Hankel function by its radial argument removes the first-derivative term from the spherical wave equation. These two Riccati–Hankel functions solve the resulting radial equation, with the S and C signs given in their definitions.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>ζₙ(x)=x·hₙ⁽²⁾(x)=Sₙ(x)+iCₙ(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Integer n and real x&gt;0. Nonpositive arguments return NaN; the finite order-zero limit at x=0 is not evaluated by this wrapper.</p>
+<p class="reference-note"><strong>Important:</strong> Here Sₙ=x·jₙ and Cₙ=−x·yₙ use spherical Bessel functions. The first and second kinds are complex conjugates on the positive real axis; the outgoing/incoming interpretation also depends on the time convention. For 0&lt;x≤1e−8, the implementation uses scaled radial values to avoid overflowing an intermediate spherical function when the final components remain representable.</p>
+<p class="reference-example"><strong>Example:</strong> RiccatiBesselζ(0,0.5) ≈ 0.4794255386 + 0.8775825619i</p>
+<p class="reference-equation"><strong>Riccati–Bessel equation</strong><br /><img class="reference-math" src="reference-equations/01ba51312d2bd5be821f2a97bf686262cf1273e023b8a1d8c21dcca2c01c30ad.png" alt="u″+[1−n(n+1)/x²]u=0" width="256" height="57" /></p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/10.47">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs</Url>
+    <Url>https://dlmf.nist.gov/10.47</Url>
   </FunctionInfo>
   <FunctionInfo Signature="RiccatiBesselξ(n,x)">
-    <Title>Riccati-labelled Bessel combination</Title>
+    <Title>Riccati–Hankel function of the first kind</Title>
     <Type>SpecialFunctions</Type>
     <Category>Bessel functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>complex RiccatiBesselξ(integer n, real x)</code></p>
-<p class="reference-summary">The application’s radial Bessel combination, with its sign and cylindrical/spherical convention made explicit.</p>
-<p class="reference-explanation">Bessel functions describe radial modes in cylindrical geometry. Spherical and Riccati variants rescale related half-integer solutions; Hankel functions combine independent solutions into complex waves. Use the specific function and normalization below, rather than treating all family names as aliases.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>x·[Jₙ(x)+iYₙ(x)]</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Integer n; use x&gt;0 for irregular/Hankel forms. Singular limits at zero should not be inferred from multiplication by x.</p>
-<p class="reference-note"><strong>Important:</strong>  This wrapper calls the CYLINDRICAL Hankel function, not spherical hₙ. Its result therefore differs from the usual Riccati–Hankel x·hₙ convention. The formula above documents current behavior.</p>
-<p class="reference-equation"><strong>Underlying cylindrical equation</strong><br /><img class="reference-math" src="reference-equations/4b1d528807d77bbf966f5d623fcb834c0ad987f3d20156ec0b0399c791aff773.png" alt="x^2y^{\prime\prime}+xy^{\prime}+(x^2-\nu^2)y=0" width="256" height="31" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs">github.com</a></p>
+<p class="reference-summary">A spherical Hankel wave multiplied by its radial argument, with the same normalization as the real Riccati–Bessel functions S and C.</p>
+<p class="reference-explanation">Multiplying a spherical Hankel function by its radial argument removes the first-derivative term from the spherical wave equation. These two Riccati–Hankel functions solve the resulting radial equation, with the S and C signs given in their definitions.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>ξₙ(x)=x·hₙ⁽¹⁾(x)=Sₙ(x)−iCₙ(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Integer n and real x&gt;0. Nonpositive arguments return NaN; the finite order-zero limit at x=0 is not evaluated by this wrapper.</p>
+<p class="reference-note"><strong>Important:</strong> Here Sₙ=x·jₙ and Cₙ=−x·yₙ use spherical Bessel functions. The first and second kinds are complex conjugates on the positive real axis; the outgoing/incoming interpretation also depends on the time convention. For 0&lt;x≤1e−8, the implementation uses scaled radial values to avoid overflowing an intermediate spherical function when the final components remain representable.</p>
+<p class="reference-example"><strong>Example:</strong> RiccatiBesselξ(0,0.5) ≈ 0.4794255386 − 0.8775825619i</p>
+<p class="reference-equation"><strong>Riccati–Bessel equation</strong><br /><img class="reference-math" src="reference-equations/01ba51312d2bd5be821f2a97bf686262cf1273e023b8a1d8c21dcca2c01c30ad.png" alt="u″+[1−n(n+1)/x²]u=0" width="256" height="57" /></p>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/10.47">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/SpecialFunctions.cs</Url>
+    <Url>https://dlmf.nist.gov/10.47</Url>
   </FunctionInfo>
   <FunctionInfo Signature="RiccatiBesselχ(n,x)">
     <Title>Riccati-labelled Bessel combination</Title>
@@ -18351,11 +18353,12 @@
 <p class="reference-summary">Solves <img class="reference-math-inline" src="reference-equations/f1c11125c655f6e89cfcb290bc0e1ed70807f766fdd9dd0235e27e37ebe44543.png" alt="erf(y)=x" width="89" height="21" data-depth="275" /> on the real principal inverse.</p>
 <p class="reference-explanation">The inverse recovers a threshold from an error-function value. Endpoints correspond to infinite limits, and values close to an endpoint are sensitive to small input errors.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>erf(inverseErf(x))=x</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Mathematical domain −1≤x≤1; this wrapper accepts ONLY 0≤x≤1. The endpoint x=1 corresponds to +∞.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real domain −1≤x≤1. Negative inputs give negative results; x=−1 gives −∞, x=0 gives 0 and x=1 gives +∞. Inputs outside the domain return NaN.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/b520776394db019971843712e8cd93ca717703b69bbe78e0c6b24d4e56b60f7e.png" alt="erf(inverseErf(x))=x" width="145" height="32" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.2">dlmf.nist.gov</a></p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>inverseErf(-0.5)</code></pre><p><strong>Result:</strong> approximately -0.4769362762</p><p>The error function is odd, so inverting a negative value gives the negative of the corresponding positive threshold. Applying erf to this result recovers -0.5.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.17">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://dlmf.nist.gov/7.2</Url>
+    <Url>https://dlmf.nist.gov/7.17</Url>
   </FunctionInfo>
   <FunctionInfo Signature="inverseErfc(x)">
     <Title>Inverse complementary error</Title>
@@ -18366,11 +18369,13 @@
 <p class="reference-summary">Solves <img class="reference-math-inline" src="reference-equations/c5ce5ba123df7eb4030ea7dc6d6f66eedb3eb3f16cec7d34adec1c4f05ae1994.png" alt="erfc(y)=x" width="97" height="21" data-depth="275" /> on the real principal inverse.</p>
 <p class="reference-explanation">Complementary inversion is useful for a small tail probability supplied directly. It avoids first subtracting that small value from one and losing its significant digits.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>erfc(inverseErfc(x))=x</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Mathematical domain 0≤x≤2; this wrapper accepts ONLY 0≤x≤1. x=0 corresponds to +∞ and x=1 gives 0.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Real domain 0≤x≤2. Inputs above 1 give negative results; x=0 gives +∞, x=1 gives 0 and x=2 gives −∞. Inputs outside the domain return NaN.</p>
+<p class="reference-note"><strong>Important:</strong> Positive binary64 tails, including subnormal inputs, have finite inverses. Complementary inversion is evaluated directly: forming inverseErf(1−x) first would round very small x away.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/063b6fea35ffb1f70e57ccba596b73198a985be521849aeeca070dc8d10267e0.png" alt="erfc(inverseErfc(x))=x" width="160" height="32" /></p>
-<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.2">dlmf.nist.gov</a></p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>inverseErfc(1.5)</code></pre><p><strong>Result:</strong> approximately -0.4769362762</p><p>The complementary error function decreases through erfc(0)=1. A value of 1.5 therefore corresponds to a negative threshold; erfc of this result recovers 1.5.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/7.17">dlmf.nist.gov</a></p>
 </div>]]></Description>
-    <Url>https://dlmf.nist.gov/7.2</Url>
+    <Url>https://dlmf.nist.gov/7.17</Url>
   </FunctionInfo>
   <FunctionInfo Signature="isHermitian&lt;T&gt;(M)">
     <Title>Hermitian-symmetry predicate</Title>

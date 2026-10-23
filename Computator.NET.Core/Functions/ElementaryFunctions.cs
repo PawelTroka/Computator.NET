@@ -261,7 +261,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double artanh(double x)
         {
-            return 0.5*System.Math.Log((1 + x)/(1 - x));
+            return System.Math.Atanh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -269,7 +269,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double artgh(double x)
         {
-            return 0.5*System.Math.Log((1 + x)/(1 - x));
+            return artanh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -277,6 +277,10 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcoth(double x)
         {
+            // The logarithmic ratio loses small results for large arguments.
+            // Close to the poles, retain it to avoid amplifying rounding in 1/x.
+            if (System.Math.Abs(x) >= 2)
+                return System.Math.Atanh(1.0/x);
             return 0.5*System.Math.Log((x + 1)/(x - 1));
         }
 
@@ -285,7 +289,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arctgh(double x)
         {
-            return 0.5*System.Math.Log((x + 1)/(x - 1));
+            return arcoth(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -1434,7 +1438,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double artanh(double x)
         {
-            return 0.5*System.Math.Log((1 + x)/(1 - x));
+            return System.Math.Atanh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1442,7 +1446,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double artgh(double x)
         {
-            return 0.5*System.Math.Log((1 + x)/(1 - x));
+            return artanh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1450,6 +1454,10 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcoth(double x)
         {
+            // The logarithmic ratio loses small results for large arguments.
+            // Close to the poles, retain it to avoid amplifying rounding in 1/x.
+            if (System.Math.Abs(x) >= 2)
+                return System.Math.Atanh(1.0/x);
             return 0.5*System.Math.Log((x + 1)/(x - 1));
         }
 
@@ -1458,7 +1466,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arctgh(double x)
         {
-            return 0.5*System.Math.Log((x + 1)/(x - 1));
+            return arcoth(x);
         }
 
         /*Angielska nazwa funkcji""),
