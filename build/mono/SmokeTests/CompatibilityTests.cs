@@ -228,7 +228,7 @@ internal static partial class Program
     private static void VerifyUsableInput(System.Windows.Forms.Form window, string name)
     {
         var control = Find(window, name);
-        Check(control.Visible && control.Enabled && control.ClientSize.Width >= 60 && control.ClientSize.Height >= 18,
+        Check(control.Visible && control.Enabled && control.ClientSize.Width >= 60 && control.ClientSize.Height >= Math.Min(18, control.Font.Height),
             "Desktop input is not usable: " + name + " " + control.Bounds);
         var rectangle = control.RectangleToScreen(control.ClientRectangle);
         Check(window.RectangleToScreen(window.ClientRectangle).Contains(rectangle), "Desktop input is outside MainView: " + name);

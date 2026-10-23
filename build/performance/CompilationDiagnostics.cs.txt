@@ -86,10 +86,11 @@ internal static class CompilationDiagnostics
         var compiled = (Delegate)typeof(BaseFunction).GetField("_function", PrivateInstance).GetValue(function);
         Validate(compiled, scenario);
 #if MODERN_COMPILER
-        if (compiled.Method.DeclaringType?.FullName != "FunctionsCreatorNS.FunctionsCreator")
+        if (typeof(ExpressionsEvaluator).GetField("_beginCode", PrivateInstance).GetValue(evaluator) == null)
         {
             Result["directExpression"] = true;
             Result["directTranslatedMain"] = function.CsCode;
+            Result["directGeneratedAssembly"] = DescribeAssembly(compiled.Method.Module.Assembly);
             evaluator = new RoslynDiagnosticEvaluator();
             Result["firstRoslynEvaluateMs"] = Time(() => function = (BaseFunction)evaluator.Evaluate(RealExpression, "", CalculationsMode.Real));
             compiled = (Delegate)typeof(BaseFunction).GetField("_function", PrivateInstance).GetValue(function);
