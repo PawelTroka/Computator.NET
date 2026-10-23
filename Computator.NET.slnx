@@ -154,6 +154,8 @@
     <File Path="build/reference/generate.py" />
     <File Path="build/reference/test_rich_content.py" />
     <File Path="build/reference/typeset.cjs" />
+    <File Path="build/reference/plots.cjs" />
+    <File Path="build/reference/test-plots.cjs" />
     <File Path="build/reference/enrichment_more.py" />
     <File Path="build/reference/enrichment.py" />
     <File Path="build/reference/test_authoring.py" />

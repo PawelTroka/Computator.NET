@@ -1,0 +1,314 @@
+{
+  "schema": 1,
+  "renderer": "Scientific paths and sampled curves; MathJax 4.1.3 / resvg 2.6.2; 3x pixels",
+  "figures": {
+    "7019380f33af550e616fdd0bfd50e1ba816c430ee8dd4debcdf8acbe25d9bc47": {
+      "name": "Ackley",
+      "width": 600,
+      "height": 374,
+      "sha256": "df34356c271868f30eedf6390689146d5613a8eb9ae6af2feb10ba5b21a4ea1f",
+      "source": "https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs",
+      "caption": "The two-coordinate landscape has a narrow central basin and repeated shallow basins around it. Coloured curves join equal objective values. The orange line is the y=0 cross-section shown on the right; the marked global minimum is at (0,0).",
+      "alt": "Ackley in two coordinates, x and y from -4 to 4: nested and rippled contours surround the global minimum at (0,0). The y=0 slice has its deepest value zero at x=0, with smaller repeated local basins on either side.",
+      "x": [
+        -4,
+        4
+      ],
+      "y": [
+        -4,
+        4
+      ],
+      "levels": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "minima": [
+        [
+          0,
+          0
+        ]
+      ],
+      "sliceTex": "y=0"
+    },
+    "f0146f5e4baf83ebc91bd63409b12b4c41b353366d7995a17381174df0e1588b": {
+      "name": "Rastrigin",
+      "width": 600,
+      "height": 374,
+      "sha256": "188c88d34e93247f68ef4d1d74bc5a6314f8cf7fb226c1834666184c0f5429ed",
+      "source": "https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs",
+      "caption": "The repeated contour islands are local basins inside the larger quadratic bowl. The y=0 slice shows the periodic barriers between them. Only the marked origin attains the global value zero; the nearby basins remain higher.",
+      "alt": "Rastrigin in two coordinates from -3 to 3: a grid of local basins surrounds the unique global minimum at the origin. The y=0 slice oscillates above zero except at x=0.",
+      "x": [
+        -3,
+        3
+      ],
+      "y": [
+        -3,
+        3
+      ],
+      "levels": [
+        5,
+        10,
+        20,
+        30,
+        40,
+        50
+      ],
+      "minima": [
+        [
+          0,
+          0
+        ]
+      ],
+      "sliceTex": "y=0"
+    },
+    "e8ad7c27320129acd925a6c228050932ecc019775e11202abc1c51307fa39e9a": {
+      "name": "Bohachevsky1",
+      "width": 600,
+      "height": 374,
+      "sha256": "d0fd871ffa6a5f71dfd0d8298f713a83449bdd514b60527864a41554142fff08",
+      "source": "https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs",
+      "caption": "This drawing follows the value returned by Bohachevsky1, whose minimum is -0.7 at the origin. Adding 0.7 produces the standard definition above: every height changes, while the contours and minimizing coordinates keep their shapes and positions.",
+      "alt": "Bohachevsky1 as returned by the application, without the standard +0.7 offset: contours of an oscillatory bowl and its y=0 cross-section. The marked origin has value -0.7, not zero.",
+      "x": [
+        -2,
+        2
+      ],
+      "y": [
+        -2,
+        2
+      ],
+      "levels": [
+        -0.5,
+        0,
+        1,
+        2,
+        4,
+        8
+      ],
+      "minima": [
+        [
+          0,
+          0
+        ]
+      ],
+      "sliceTex": "y=0"
+    },
+    "25bd575abe2e7259472d3b067959a5e6b7a167365c7434ac50bd45fcc9aa2449": {
+      "name": "Himmelblau",
+      "width": 600,
+      "height": 374,
+      "sha256": "5f237293d1322c31ca781215a84ad29b99f3e360c7fb34a32b2b22f435c82b38",
+      "source": "https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs",
+      "caption": "Four separate basins attain the same global value zero; all four minimizing points are marked. The y=2 slice passes through (3,2) but misses the other three minima. A one-dimensional slice alone cannot establish the number of minima of a surface.",
+      "alt": "Himmelblau level curves show four distinct equal-depth basins. Four global minimizers are marked. The horizontal y=2 slice passes through the minimum (3,2), where both squared terms vanish.",
+      "x": [
+        -4.5,
+        4.5
+      ],
+      "y": [
+        -4.5,
+        4.5
+      ],
+      "levels": [
+        1,
+        10,
+        30,
+        60,
+        120,
+        240
+      ],
+      "minima": [
+        [
+          3,
+          2
+        ],
+        [
+          -2.805118,
+          3.131312
+        ],
+        [
+          -3.77931,
+          -3.283186
+        ],
+        [
+          3.584428,
+          -1.848126
+        ]
+      ],
+      "sliceTex": "y=2"
+    },
+    "f1e5eee6747b1889028720329f1ba1986203ba2dcb7bb3c916b167814babfc54": {
+      "name": "Matyas",
+      "width": 600,
+      "height": 374,
+      "sha256": "5526fd497a068986bce4647d29b34b3cbbc2b1e98162ff307341b72cee01884f",
+      "source": "https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs",
+      "caption": "The long contour ellipses follow the diagonal y=x: changing both coordinates together moves along the shallow valley. Along that orange diagonal the function reduces to 0.04x². Perpendicular to it, along y=-x, the curvature is much stronger.",
+      "alt": "Matyas has long elliptical contours aligned with y=x and a unique minimum at the origin. The plotted diagonal slice is 0.04x squared, demonstrating the shallow direction of the valley.",
+      "x": [
+        -3,
+        3
+      ],
+      "y": [
+        -3,
+        3
+      ],
+      "levels": [
+        0.05,
+        0.2,
+        0.5,
+        1,
+        2,
+        4
+      ],
+      "minima": [
+        [
+          0,
+          0
+        ]
+      ],
+      "sliceTex": "y=x"
+    },
+    "f18f1d92d2bdb380b6ca5c7adceb8066a7bb09555eebd33b29e1de011c794e9f": {
+      "name": "Rosenbrock",
+      "width": 600,
+      "height": 374,
+      "sha256": "b2d9652eb843e9175936a2f326faaa151c995461a24658df2def1dd36c8623a4",
+      "source": "https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs",
+      "caption": "The orange path follows the curved valley y=x², rather than a straight cross-section. On this path the large squared penalty vanishes and only (1-x)² remains, reaching zero at the marked point (1,1). The close contour spacing across the valley shows why movement across it is costly.",
+      "alt": "Rosenbrock contours bend around the parabola y=x squared. The marked global minimum is (1,1). The right panel follows that curved path and plots (1-x) squared, with its minimum at x=1.",
+      "x": [
+        -2,
+        2
+      ],
+      "y": [
+        -1,
+        5
+      ],
+      "levels": [
+        0.1,
+        1,
+        5,
+        20,
+        100,
+        400
+      ],
+      "minima": [
+        [
+          1,
+          1
+        ]
+      ],
+      "sliceTex": "y=x^2"
+    },
+    "8d4b6810a30f1a68e77217329ec1b215d7b79f62082219a038668f4c44a00592": {
+      "name": "dropWave",
+      "width": 600,
+      "height": 374,
+      "sha256": "427ff7143fc4fc62ca71852f87d623bb4b73f04015d6851073bd7d90023d7772",
+      "source": "https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs",
+      "caption": "Concentric rings reflect the dependence on distance from the origin. The y=0 slice shows repeated negative troughs, with the deepest value -1 at the centre. The intervening peaks approach zero, which is not the minimizing value.",
+      "alt": "Drop-wave has concentric oscillatory rings around the origin. Its y=0 slice repeatedly drops below zero and reaches its deepest trough, -1, at x=0.",
+      "x": [
+        -2,
+        2
+      ],
+      "y": [
+        -2,
+        2
+      ],
+      "levels": [
+        -0.9,
+        -0.7,
+        -0.5,
+        -0.3,
+        -0.1
+      ],
+      "minima": [
+        [
+          0,
+          0
+        ]
+      ],
+      "sliceTex": "y=0"
+    },
+    "c82d1735d932e3443389b65c7f780a723244c665ec38e0441e8e290c1bdfc156": {
+      "name": "sixHumpCamel",
+      "width": 600,
+      "height": 374,
+      "sha256": "ba0cb112e86d119c355adf5a7e47c8253090780c5fb9de3dba15277ef0f05df0",
+      "source": "https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs",
+      "caption": "Two symmetry-related global basins are marked. The horizontal slice uses the rounded y-coordinate of the lower basin and passes close to its minimum, near x=0.089842. Other closed contours correspond to higher basins; a stationary point need not be globally best.",
+      "alt": "Six-hump camel contours show two symmetry-related deepest basins near (0.089842,-0.712656) and (-0.089842,0.712656). The plotted lower horizontal slice reaches approximately -1.031628 near x=0.089842.",
+      "x": [
+        -2,
+        2
+      ],
+      "y": [
+        -1.1,
+        1.1
+      ],
+      "levels": [
+        -1,
+        -0.8,
+        -0.4,
+        0,
+        1,
+        3
+      ],
+      "minima": [
+        [
+          0.089842,
+          -0.712656
+        ],
+        [
+          -0.089842,
+          0.712656
+        ]
+      ],
+      "sliceTex": "y=-0.712656"
+    },
+    "995a00705b77afaab3529b9ea2a3eec6ee5241938da80af9482cfac83b71913e": {
+      "name": "UnitCircle",
+      "width": 600,
+      "height": 374,
+      "sha256": "768d7047411e516eddbf7be61a326da554eb9b2e238232ac267c2651eb087dad",
+      "source": "https://dlmf.nist.gov/4.14",
+      "caption": "Real-angle illustration at θ=π/4 radians: the radius-one point is (cosθ,sinθ)=(√2/2,√2/2). The blue horizontal and orange vertical projections are signed x and y coordinates; the axes also show their negative directions. Complex inputs are not represented by this circle.",
+      "alt": "Real-angle unit circle at θ=π/4: a radius of one reaches the point (√2/2,√2/2). Blue cosine and orange sine projections give its horizontal and vertical coordinates. Both axes include -1 and 1. Complex inputs are not represented by this circle.",
+      "angle": 0.7853981633974483,
+      "radius": 1,
+      "point": [
+        0.7071067811865476,
+        0.7071067811865475
+      ]
+    },
+    "d7b540322dcf6ee14bb26ce2f0ea0d35ca61edfb840134bce3fe59bd0205d52f": {
+      "name": "StandardNormal",
+      "width": 600,
+      "height": 374,
+      "sha256": "acbd9e6db5b794bb9f2f31dd7497eff156b681db6b96fddba54a6255d0261592",
+      "source": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm",
+      "caption": "Standard-normal example with μ=0 and σ=1. The shaded left-tail area for X≤1 has probability approximately 0.8413; the orange marker has density f(1)≈0.2420, a height rather than a probability. The drawing shows x from -4 to 4; both tails continue beyond the plotted range, and the stated probability includes the entire left tail.",
+      "alt": "Standard-normal density with μ=0 and σ=1, shown from x=-4 to x=4. The region left of x=1 is shaded for cumulative probability approximately 0.8413. The marked curve height at x=1 is approximately 0.2420. Both tails continue beyond the drawing.",
+      "mean": 0,
+      "stddev": 1,
+      "x": [
+        -4,
+        4
+      ],
+      "y": [
+        0,
+        0.45
+      ],
+      "threshold": 1,
+      "probability": 0.8413447460685429,
+      "densityAtThreshold": 0.24197072451914337
+    }
+  }
+}

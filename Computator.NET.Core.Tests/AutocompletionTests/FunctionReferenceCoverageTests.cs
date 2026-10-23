@@ -110,9 +110,11 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                     NUnit.Framework.Assert.That(node.Attributes().All(a => a.Name == "class" || a.Name == "href" || (node.Name == "img" && new[] { "src", "alt", "width", "height", "data-depth" }.Contains(a.Name.ToString()))), Is.True, pair.Key);
                     if (node.Name == "img")
                     {
-                        NUnit.Framework.Assert.That((string)node.Attribute("src"), Does.Match(@"\Areference-equations/[a-f0-9]{64}\.png\z"));
+                        var plot = (string)node.Attribute("class") == "reference-plot";
+                        NUnit.Framework.Assert.That((string)node.Attribute("src"), Does.Match(@"\A" +
+                            (plot ? "reference-figures" : "reference-equations") + @"/[a-f0-9]{64}\.png\z"));
                         var inline = (string)node.Attribute("class") == "reference-math-inline";
-                        NUnit.Framework.Assert.That((string)node.Attribute("class"), Is.AnyOf("reference-math", "reference-math-inline"));
+                        NUnit.Framework.Assert.That((string)node.Attribute("class"), Is.AnyOf("reference-math", "reference-math-inline", "reference-plot"));
                         NUnit.Framework.Assert.That((string)node.Attribute("alt"), Is.Not.Null.And.Not.Empty);
                         NUnit.Framework.Assert.That(int.Parse((string)node.Attribute("width")), Is.InRange(1, inline ? 320 : 2400));
                         var height = int.Parse((string)node.Attribute("height"));

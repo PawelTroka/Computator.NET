@@ -158,7 +158,8 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
             NUnit.Framework.Assert.That(Directory.GetFiles(directory, "*.png").Select(Path.GetFileNameWithoutExtension).OrderBy(x => x), Is.EqualTo(ids.OrderBy(x => x)));
             var used = new HashSet<string>(StringComparer.Ordinal);
             foreach (var entry in new FunctionsDetailsFileSource().Details.Values)
-                foreach (var image in XElement.Parse(entry.Description).Descendants("img"))
+                foreach (var image in XElement.Parse(entry.Description).Descendants("img")
+                             .Where(image => (string)image.Attribute("class") != "reference-plot"))
                 {
                     var id = Path.GetFileNameWithoutExtension((string)image.Attribute("src"));
                     NUnit.Framework.Assert.That(ids, Does.Contain(id), entry.Signature);
@@ -172,6 +173,61 @@ namespace Computator.NET.Core.Tests.AutocompletionTests
                     used.Add(id);
                 }
             NUnit.Framework.Assert.That(used.OrderBy(x => x), Is.EqualTo(ids.OrderBy(x => x)), "No stale or unused equation assets.");
+        }
+
+        [Test]
+        public void EveryDiagramIsPackagedWithMatchingHashDimensionsAndAnExplanation()
+        {
+            var directory = PathUtility.GetFullPath("Static", "reference-figures");
+            using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "manifest.json")));
+            var figures = manifest.RootElement.GetProperty("figures");
+            var ids = figures.EnumerateObject().Select(property => property.Name).ToHashSet(StringComparer.Ordinal);
+            NUnit.Framework.Assert.That(ids.Count, Is.EqualTo(10));
+            var used = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var entry in new FunctionsDetailsFileSource().Details.Values)
+                foreach (var image in XElement.Parse(entry.Description).Descendants("img")
+                             .Where(image => (string)image.Attribute("class") == "reference-plot"))
+                {
+                    var id = Path.GetFileNameWithoutExtension((string)image.Attribute("src"));
+                    NUnit.Framework.Assert.That(ids, Does.Contain(id), entry.Signature);
+                    var item = figures.GetProperty(id);
+                    var name = item.GetProperty("name").GetString();
+                    if (name == "UnitCircle")
+                        NUnit.Framework.Assert.That(entry.Signature, Is.AnyOf("sin(x)", "sin(z)", "cos(x)", "cos(z)"));
+                    else if (name == "StandardNormal")
+                        NUnit.Framework.Assert.That(entry.Signature, Is.AnyOf("Normal.PDF(mean,stddev,x)", "Normal.CDF(mean,stddev,x)"));
+                    else NUnit.Framework.Assert.That(entry.Signature, Does.StartWith(name + "("));
+                    NUnit.Framework.Assert.That((int)image.Attribute("width"), Is.EqualTo(item.GetProperty("width").GetInt32()));
+                    NUnit.Framework.Assert.That((int)image.Attribute("height"), Is.EqualTo(item.GetProperty("height").GetInt32()));
+                    NUnit.Framework.Assert.That((string)image.Attribute("alt"), Is.EqualTo(item.GetProperty("alt").GetString()));
+                    var bytes = File.ReadAllBytes(Path.Combine(directory, id + ".png"));
+                    NUnit.Framework.Assert.That(bytes.Length, Is.InRange(24, 512000));
+                    NUnit.Framework.Assert.That(Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant(), Is.EqualTo(item.GetProperty("sha256").GetString()));
+                    NUnit.Framework.Assert.That(bytes.Take(8), Is.EqualTo(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 }));
+                    NUnit.Framework.Assert.That(System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(bytes.AsSpan(16, 4)), Is.EqualTo(3 * (int)image.Attribute("width")));
+                    NUnit.Framework.Assert.That(System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(bytes.AsSpan(20, 4)), Is.EqualTo(3 * (int)image.Attribute("height")));
+                    NUnit.Framework.Assert.That(entry.Description, Does.Contain(item.GetProperty("caption").GetString()));
+                    NUnit.Framework.Assert.That(FunctionReferenceDocument.Render(entry), Does.Contain("class=\"reference-plot\"").And.Contain("data:image/png;base64,"));
+                    used.Add(id);
+                }
+            NUnit.Framework.Assert.That(used.OrderBy(x => x), Is.EqualTo(ids.OrderBy(x => x)));
+            NUnit.Framework.Assert.That(Directory.GetFiles(directory, "*.png").Select(Path.GetFileNameWithoutExtension).OrderBy(x => x), Is.EqualTo(ids.OrderBy(x => x)));
+        }
+
+        [TestCase("src", "reference-figures/../settings.json")]
+        [TestCase("src", "https://example.invalid/figure.png")]
+        [TestCase("class", "reference-math")]
+        [TestCase("width", "2401")]
+        [TestCase("height", "801")]
+        [TestCase("data-depth", "0")]
+        [TestCase("alt", "")]
+        public void DesktopDiagramReadsRequireTheLocalFigureClassAndBoundedMetadata(string name, string value)
+        {
+            var entry = new FunctionsDetailsFileSource().Details["Ackley(xi1,xi2, ...)"];
+            var image = XElement.Parse(entry.Description).Descendants("img").Single(image => (string)image.Attribute("class") == "reference-plot");
+            image.SetAttributeValue(name, value);
+            NUnit.Framework.Assert.Throws<InvalidDataException>(() => FunctionReferenceDocument.Render(new FunctionInfo
+                { Description = new XElement("div", image).ToString() }));
         }
 
         [Test]

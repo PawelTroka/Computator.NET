@@ -66,8 +66,11 @@ Computator.NET.Core/Static/functions.xml text eol=lf
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-# Equation source/manifest bytes are verified across Windows and Unix.
+# Equation and figure source/manifest bytes are verified across Windows and Unix.
 build/reference/*.py text eol=lf
 build/reference/*.cjs text eol=lf
 Computator.NET.Core/Static/reference-equations/*.json text eol=lf
 Computator.NET.Core/Static/reference-equations/*.png binary
+Computator.NET.Core/Static/reference-figures/*.json text eol=lf
+Computator.NET.Core/Static/reference-figures/*.txt text eol=lf
+Computator.NET.Core/Static/reference-figures/*.png binary

@@ -14,7 +14,7 @@
     <Compile Remove="Functions\MatrixFunctions.cs;Evaluation\NumericalExtensions.cs;NumericalCalculations\Integral.cs;NumericalCalculations\Derivative.cs;NumericalCalculations\FunctionRoot.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Static\functions.xml;Static\reference-equations\**\*;Static\TSL-Syntax.xshd;Static\TSL-Syntax_old.xshd;TSL Examples\**\*.tsl;TSL Examples\**\*.tslf">
+    <Content Include="Static\functions.xml;Static\reference-equations\**\*;Static\reference-figures\**\*;Static\TSL-Syntax.xshd;Static\TSL-Syntax_old.xshd;TSL Examples\**\*.tsl;TSL Examples\**\*.tslf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="..\CHANGELOG" Link="CHANGELOG"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory></Content>

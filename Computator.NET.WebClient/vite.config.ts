@@ -4,25 +4,31 @@ import { readFileSync, createReadStream } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 
-// One committed set of equations is shared with the desktop package. Do not
-// fetch/render math at startup or keep a second, easily stale image catalogue.
-const equations = fileURLToPath(new URL('../Computator.NET.Core/Static/reference-equations/', import.meta.url));
-function referenceEquations() {
+// The committed equations and scientific diagrams are shared with the desktop
+// package. No mathematics renderer or duplicated image catalogue runs at startup.
+const referenceAssets = [
+  { directory: 'reference-equations', collection: 'equations' },
+  { directory: 'reference-figures', collection: 'figures' }
+].map(asset => ({ ...asset, path: fileURLToPath(new URL(`../Computator.NET.Core/Static/${asset.directory}/`, import.meta.url)) }));
+function offlineReference() {
   return {
-    name: 'computator-offline-reference-equations',
+    name: 'computator-offline-reference-assets',
     generateBundle(this: { emitFile(asset: { type: 'asset'; fileName: string; source: Buffer }): void }) {
-      const manifest = JSON.parse(readFileSync(join(equations, 'manifest.json'), 'utf8'));
-      this.emitFile({ type: 'asset', fileName: 'reference-equations/NOTICE.txt', source: readFileSync(join(equations, 'NOTICE.txt')) });
-      for (const id of Object.keys(manifest.equations)) {
-        if (!/^[a-f0-9]{64}$/.test(id)) throw Error('Invalid equation asset identity');
-        this.emitFile({ type: 'asset', fileName: `reference-equations/${id}.png`, source: readFileSync(join(equations, `${id}.png`)) });
+      for (const asset of referenceAssets) {
+        const manifest = JSON.parse(readFileSync(join(asset.path, 'manifest.json'), 'utf8'));
+        this.emitFile({ type: 'asset', fileName: `${asset.directory}/NOTICE.txt`, source: readFileSync(join(asset.path, 'NOTICE.txt')) });
+        for (const id of Object.keys(manifest[asset.collection])) {
+          if (!/^[a-f0-9]{64}$/.test(id)) throw Error('Invalid reference asset identity');
+          this.emitFile({ type: 'asset', fileName: `${asset.directory}/${id}.png`, source: readFileSync(join(asset.path, `${id}.png`)) });
+        }
       }
     },
     configureServer(server: { middlewares: { use(handler: (req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse, next: () => void) => void): void } }) {
       server.middlewares.use((req, res, next) => {
-        const match = /^\/reference-equations\/([a-f0-9]{64})\.png$/.exec(req.url ?? '');
+        const match = /^\/(reference-equations|reference-figures)\/([a-f0-9]{64})\.png$/.exec(req.url ?? '');
         if (!match) return next();
-        const stream = createReadStream(join(equations, `${match[1]}.png`));
+        const asset = referenceAssets.find(asset => asset.directory === match[1])!;
+        const stream = createReadStream(join(asset.path, `${match[2]}.png`));
         stream.on('error', () => { res.statusCode = 404; res.end(); });
         res.setHeader('Content-Type', 'image/png'); stream.pipe(res);
       });
@@ -31,7 +37,7 @@ function referenceEquations() {
 }
 
 export default defineConfig({
-  plugins: [react(), referenceEquations()],
+  plugins: [react(), offlineReference()],
   publicDir: 'wwwroot',
   build: { outDir: 'dist', emptyOutDir: true, target: 'es2022' },
   server: {

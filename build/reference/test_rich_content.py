@@ -126,6 +126,70 @@ class RichContentTests(unittest.TestCase):
                 for stale in ['included twice','repeated first operand','current wrapper','buggy fold']:
                     self.assertNotIn(stale,explanation)
 
+    def test_all_benchmarks_have_explanatory_diagrams_with_their_convention(self):
+        for name in ['Ackley','Rastrigin','Bohachevsky1','Himmelblau','Matyas','Rosenbrock','dropWave','sixHumpCamel']:
+            with self.subTest(name=name):
+                root=ET.fromstring(self.article(name+'(x,y)'))
+                arguments=root.find("./p[@class='reference-arguments']")
+                figure=root.find("./div[@class='reference-figure']")
+                self.assertTrue(figure.find('img').get('alt'))
+                self.assertEqual(figure.find('img').get('class'),'reference-plot')
+                self.assertTrue(figure.find('img').get('src').startswith('reference-figures/'))
+                self.assertIn('Reading the landscape',''.join(figure.itertext()))
+                if name=='Bohachevsky1':
+                    self.assertIn('omits +0.7',arguments.text or ''.join(arguments.itertext()))
+                    self.assertIn('minimum is -0.7',''.join(figure.itertext()))
+
+    def test_figure_allowlist_rejects_wrong_class_directory_and_attributes(self):
+        original=self.article('Ackley(x,y)')
+        for name,value in [('src','https://example.invalid/a.png'),('src','reference-figures/../a.png'),
+                           ('class','reference-math'),('width','2401'),('height','801'),
+                           ('data-depth','0'),('style','width:100vw'),('alt','')]:
+            with self.subTest(name=name,value=value):
+                root=ET.fromstring(original)
+                root.find(".//img[@class='reference-plot']").set(name,value)
+                with self.assertRaises(ValueError):generate.validate_fragment(ET.tostring(root,encoding='unicode'))
+
+    def test_concept_diagrams_serve_only_the_reviewed_overloads(self):
+        expected={
+            ('ElementaryFunctions','sin(x)'):'UnitCircle',
+            ('ElementaryFunctions','sin(z)'):'UnitCircle',
+            ('ElementaryFunctions','cos(x)'):'UnitCircle',
+            ('ElementaryFunctions','cos(z)'):'UnitCircle',
+            ('Normal','Normal.PDF(mean,stddev,x)'):'StandardNormal',
+            ('Normal','Normal.CDF(mean,stddev,x)'):'StandardNormal',
+        }
+        for (kind,signature),name in expected.items():
+            with self.subTest(signature=signature):
+                root=ET.fromstring(self.article(signature,kind))
+                figure=root.find("./div[@class='reference-figure']")
+                image=figure.find('img')
+                asset=generate.figure_manifest()[Path(image.get('src')).stem]
+                self.assertEqual(asset['name'],name)
+                self.assertEqual(image.get('alt'),asset['alt'])
+                self.assertEqual(figure.findall('p')[-1].text,asset['caption'])
+                # A supplemental picture must not push an existing definition
+                # farther down the article or replace its mathematical context.
+                children=list(root)
+                self.assertLess(children.index(root.find("./p[@class='reference-arguments']")),children.index(figure))
+                self.assertLess(children.index(root.find("./p[@class='reference-equation']")),children.index(figure))
+        for kind,signature in [('SpecialFunctions','sin(x)'),('ElementaryFunctions','sinh(x)'),
+                               ('Normal','Normal.InvCDF(mean,stddev,p)'),('LogNormal','LogNormal.PDF(μ,σ,x)')]:
+            with self.subTest(signature=signature):
+                self.assertEqual(generate.figure_html({'signature':signature,'type':kind}),'')
+
+    def test_adding_concept_diagrams_preserves_every_existing_article_node(self):
+        for signature,kind in [('sin(x)','ElementaryFunctions'),('sin(z)','ElementaryFunctions'),
+                               ('cos(x)','ElementaryFunctions'),('cos(z)','ElementaryFunctions'),
+                               ('Normal.PDF(mean,stddev,x)','Normal'),('Normal.CDF(mean,stddev,x)','Normal')]:
+            with self.subTest(signature=signature):
+                with patch.object(generate,'figure_html',return_value=''):
+                    original=self.article(signature,kind)
+                rendered=self.article(signature,kind)
+                figure=generate.figure_html({'signature':signature,'type':kind})
+                self.assertEqual(rendered.count(figure),1)
+                self.assertEqual(rendered.replace(figure+'\n',''),original)
+
 
 class VisibleText(HTMLParser):
     def __init__(self):
