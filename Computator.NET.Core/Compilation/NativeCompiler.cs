@@ -27,6 +27,9 @@ namespace Computator.NET.Core.Compilation
             new ConcurrentDictionary<string, PortableExecutableReference>(StringComparer.OrdinalIgnoreCase);
         private static readonly Lazy<string[]> RuntimeReferences = new Lazy<string[]>(FindRuntimeReferences);
         private static readonly Lazy<PortableExecutableReference[]> SharedRuntimeMetadata = new Lazy<PortableExecutableReference[]>(() => RuntimeReferences.Value.Distinct(StringComparer.OrdinalIgnoreCase).Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file))).ToArray());
+        private static readonly CSharpCompilationOptions SharedCompilationOptions =
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
+                optimizationLevel: OptimizationLevel.Release);
         private readonly object _referenceLock = new object();
         private readonly List<string> _references = new List<string>
         {
@@ -77,8 +80,7 @@ namespace Computator.NET.Core.Compilation
                 new CSharpParseOptions(LanguageVersion.CSharp14), encoding: Encoding.UTF8);
             return CSharpCompilation.Create("Computator.TSL." + Guid.NewGuid().ToString("N"),
                 new[] { tree }, metadata,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
-                    optimizationLevel: OptimizationLevel.Release));
+                SharedCompilationOptions);
         }
 
         public void AddDll(string dllPath)
