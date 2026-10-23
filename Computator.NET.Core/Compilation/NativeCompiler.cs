@@ -26,7 +26,17 @@ namespace Computator.NET.Core.Compilation
         private static readonly ConcurrentDictionary<string, PortableExecutableReference> ReferenceCache =
             new ConcurrentDictionary<string, PortableExecutableReference>(StringComparer.OrdinalIgnoreCase);
         private static readonly Lazy<string[]> RuntimeReferences = new Lazy<string[]>(FindRuntimeReferences);
-        private static readonly Lazy<PortableExecutableReference[]> SharedRuntimeMetadata = new Lazy<PortableExecutableReference[]>(() => RuntimeReferences.Value.Distinct(StringComparer.OrdinalIgnoreCase).Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file))).ToArray());
+        private static readonly Lazy<string[]> DefaultResolvedReferences = new Lazy<string[]>(() =>
+            new[] { "Meta.Numerics.dll", "MathNet.Numerics.dll", "Accord.Math.dll", "Accord.dll" }
+                .Select(ResolveReference).ToArray());
+        private static readonly Lazy<HashSet<string>> SharedDefaultReferencePaths = new Lazy<HashSet<string>>(() =>
+            new HashSet<string>(RuntimeReferences.Value.Concat(DefaultResolvedReferences.Value),
+                StringComparer.OrdinalIgnoreCase));
+        private static readonly Lazy<PortableExecutableReference[]> SharedRuntimeMetadata =
+            new Lazy<PortableExecutableReference[]>(() =>
+                SharedDefaultReferencePaths.Value
+                    .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file)))
+                    .ToArray());
         private static readonly CSharpCompilationOptions SharedCompilationOptions =
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
                 optimizationLevel: OptimizationLevel.Release);
@@ -72,11 +82,15 @@ namespace Computator.NET.Core.Compilation
         {
             if (input == null) throw new ArgumentNullException(nameof(input));
             string[] references;
-            lock (_referenceLock) references = _references.ToArray();
+            lock (_referenceLock) references = _references.Skip(4).ToArray();
 
-            var metadata = SharedRuntimeMetadata.Value.Concat(references.Select(ResolveReference)
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file))));
+            var defaultPaths = SharedDefaultReferencePaths.Value;
+            IEnumerable<PortableExecutableReference> metadata = references.Length == 0
+                ? SharedRuntimeMetadata.Value
+                : SharedRuntimeMetadata.Value.Concat(references.Select(ResolveReference)
+                    .Where(path => !defaultPaths.Contains(path))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file))));
             var tree = CSharpSyntaxTree.ParseText(input,
                 SharedParseOptions, encoding: Encoding.UTF8);
             return CSharpCompilation.Create("Computator.TSL." + Guid.NewGuid().ToString("N"),
