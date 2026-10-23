@@ -219,8 +219,13 @@ namespace Computator.NET.Charting.ComplexCharting
 
         private static bool ValidSize(SizeF size)
         {
-            return float.IsFinite(size.Width) && float.IsFinite(size.Height) &&
+            return IsFinite(size.Width) && IsFinite(size.Height) &&
                 size.Width > 0 && size.Height > 0;
+        }
+
+        private static bool IsFinite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
         }
 
         private static float Clamp(float value, float min, float max)

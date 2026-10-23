@@ -1,4 +1,4 @@
-﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 // ReSharper disable InconsistentNaming
@@ -56,17 +56,9 @@ namespace Computator.NET.Core.Functions
 
         // The legacy generated-script surface must retain the same bounds and
         // concurrency behavior as the directly callable functions above.
-        public const string ToCode =
-#if NETFRAMEWORK
-            @"
+        public const string ToCode = @"
 
-        private static readonly Computator.NET.Core.Compatibility.FrameworkRandom m_random = Computator.NET.Core.Compatibility.FrameworkRandom.Shared;"
-#else
-            @"
-
-        private static readonly System.Random m_random = System.Random.Shared;"
-#endif
-            + @"
+        private static readonly Computator.NET.Core.Compatibility.FrameworkRandom m_random = Computator.NET.Core.Compatibility.FrameworkRandom.Shared;
         public static System.Random rnd = new System.Random();
 
         public static double random(double x, double y)

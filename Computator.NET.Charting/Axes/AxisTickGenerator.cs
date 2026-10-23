@@ -138,10 +138,10 @@ namespace Computator.NET.Charting.Axes
                 if (index == previousIndex) continue;
                 previousIndex = index;
                 var value = index * step;
-                if (value != 0 && value < minimum && value >= Math.BitDecrement(minimum) &&
+                if (value != 0 && value < minimum && value >= BitDecrement(minimum) &&
                     (minimum - value) / step <= 1e-10)
                     value = minimum;
-                if (value != 0 && value > maximum && value <= Math.BitIncrement(maximum) &&
+                if (value != 0 && value > maximum && value <= BitIncrement(maximum) &&
                     (value - maximum) / step <= 1e-10)
                     value = maximum;
                 if (value > maximum) break;
@@ -205,8 +205,8 @@ namespace Computator.NET.Charting.Axes
         private static double Ulp(double value)
         {
             var magnitude = Math.Abs(value);
-            var next = Math.BitIncrement(magnitude);
-            return IsFinite(next) ? next - magnitude : magnitude - Math.BitDecrement(magnitude);
+            var next = BitIncrement(magnitude);
+            return IsFinite(next) ? next - magnitude : magnitude - BitDecrement(magnitude);
         }
 
         private static string CompactScientific(string text, CultureInfo culture)
@@ -234,6 +234,27 @@ namespace Computator.NET.Charting.Axes
         {
             return !double.IsNaN(value) && !double.IsInfinity(value);
         }
+
+#if NETFRAMEWORK
+        private static double BitIncrement(double value)
+        {
+            if (double.IsNaN(value) || double.IsPositiveInfinity(value)) return value;
+            if (value == 0) return double.Epsilon;
+            var bits = BitConverter.DoubleToInt64Bits(value);
+            return BitConverter.Int64BitsToDouble(bits + (bits < 0 ? -1 : 1));
+        }
+
+        private static double BitDecrement(double value)
+        {
+            if (double.IsNaN(value) || double.IsNegativeInfinity(value)) return value;
+            if (value == 0) return -double.Epsilon;
+            var bits = BitConverter.DoubleToInt64Bits(value);
+            return BitConverter.Int64BitsToDouble(bits + (bits < 0 ? 1 : -1));
+        }
+#else
+        private static double BitIncrement(double value) => Math.BitIncrement(value);
+        private static double BitDecrement(double value) => Math.BitDecrement(value);
+#endif
     }
 
     internal sealed class AxisTickSet

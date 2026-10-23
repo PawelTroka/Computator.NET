@@ -87,7 +87,7 @@ namespace Computator.NET.Core.Tests.FunctionsTests
                     (double.MaxValue, double.PositiveInfinity), (double.PositiveInfinity, double.PositiveInfinity),
                     // Keep truncation toward zero and the existing negative-order guard.
                     (-0.5, 1), (-1.5, double.NaN), (double.MinValue, double.NaN),
-                    (double.NegativeInfinity, double.NaN)
+                    (double.NegativeInfinity, double.NaN), (double.NaN, double.NaN)
                 };
                 foreach (var value in values)
                     foreach (var emitted in new[] { false, true })

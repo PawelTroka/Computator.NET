@@ -28,7 +28,7 @@ if ($manifest.candidate.command.Count -ne 1 -or
     throw 'Expected the existing candidate Worker executable from Prepare-Comparison.ps1.'
 }
 $workerDirectory = [string]$manifest.candidate.cwd
-$dotnetPath = (Get-Command -Name $Dotnet -CommandType Application -ErrorAction Stop).Source
+$dotnetPath = (Get-Command -Name $Dotnet -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
 $toolVersion = '10.0.750501'
 $toolSourceCommit = 'ad724c4b85e7ae775e42f393c6e95a7557a57954'
 $toolPackageSource = 'https://api.nuget.org/v3/index.json'
@@ -57,7 +57,7 @@ function Invoke-OwnedProcess([string]$Executable, [string[]]$Arguments,
 
 Assert-CandidateArtifacts
 [IO.Directory]::CreateDirectory($outputRoot) | Out-Null
-$pythonPath = (Get-Command python -CommandType Application -ErrorAction Stop).Source
+$pythonPath = (Get-Command python -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
 $supervisorPath = Join-Path $PSScriptRoot 'compare.py'
 $processAdapter = Join-Path $outputRoot 'owned-process.py'
 @'

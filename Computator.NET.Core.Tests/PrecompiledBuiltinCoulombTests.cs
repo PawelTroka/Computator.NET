@@ -28,7 +28,7 @@ namespace Computator.NET.Core.Tests
             string expected = SpecialFunctions.ToCode.Replace("private static gsl_sf_result sfResult;", "");
             string[] calls = {
                 "gsl_sf_coulomb_CL_e(L, η, out sfResult);",
-                "gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out r2, out r3, out sfResult, out d1, out d2);",
+                "gsl_sf_coulomb_wave_FG_e(η, ρ, L, 0, out r1, out r2, out r3, out sfResult, out d1, out d2);",
                 "gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out sfResult, out r3, out r2, out d1, out d2);"
             };
             foreach (string call in calls) expected = expected.Replace(call, "gsl_sf_result sfResult;\n            " + call);

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -138,6 +139,9 @@ namespace Computator.NET.Desktop.Tests
                 $"The reference DOM loaded, but its desktop pixels were not ready (article={pagePainted}, equation={equationPainted}). Inspect the attached frames.");
         }
 
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags);
+
         private static bool CaptureDocumentPaint(Form window, WebBrowser browser, HtmlElement[] visibleContent, string screenshot)
         {
             var clock = Stopwatch.StartNew();
@@ -148,7 +152,23 @@ namespace Computator.NET.Desktop.Tests
             {
                 window.Refresh();
                 Application.DoEvents();
-                graphics.CopyFromScreen(window.Location, Point.Empty, window.Size);
+                try
+                {
+                    graphics.CopyFromScreen(window.Location, Point.Empty, window.Size);
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    var hdc = graphics.GetHdc();
+                    try
+                    {
+                        if (!PrintWindow(window.Handle, hdc, 2))
+                            PrintWindow(window.Handle, hdc, 0);
+                    }
+                    finally
+                    {
+                        graphics.ReleaseHdc(hdc);
+                    }
+                }
                 painted = visibleContent.All(element => ContainsPageText(bitmap, InScreenshot(element, browser, window)));
                 if (!painted) Thread.Sleep(20);
             } while (!painted && clock.Elapsed < TimeSpan.FromSeconds(5));

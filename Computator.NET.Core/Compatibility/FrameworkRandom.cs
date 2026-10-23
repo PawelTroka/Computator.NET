@@ -1,5 +1,5 @@
-#if NETFRAMEWORK
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Computator.NET.Core.Compatibility
 {
@@ -10,6 +10,7 @@ namespace Computator.NET.Core.Compatibility
     public sealed class FrameworkRandom
     {
         public static readonly FrameworkRandom Shared = new FrameworkRandom();
+#if NETFRAMEWORK
         private readonly object _gate = new object();
         private readonly Random _random = new Random();
         private readonly byte[] _bytes = new byte[8];
@@ -42,6 +43,17 @@ namespace Computator.NET.Core.Compatibility
                 return unchecked((long)(sample % range) + minimum);
             }
         }
+#else
+        private FrameworkRandom() { }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double NextDouble() => Random.Shared.NextDouble();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public long NextInt64(long maximum) => Random.Shared.NextInt64(maximum);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public long NextInt64(long minimum, long maximum) => Random.Shared.NextInt64(minimum, maximum);
+#endif
     }
 }
-#endif

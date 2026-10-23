@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -18,6 +18,9 @@ namespace Computator.NET.Core.Compilation.TslHandlers
         private static readonly string AbsPattern =
             $@"\|([^\|]*[^\|\+\-\*{SpecialSymbols.DotSymbol}\=\s]+\s*)\|(\s*)($|(?:[^α-ωΑ-Ωa-z0-9A-Z_\s]+?))";
 
+        private static readonly string UnpairedOrDoubleAbsPattern =
+            $@"(?>(?<openBar>(?<=\|))|)\|([^\|]*[^\|\+\-\*{SpecialSymbols.DotSymbol}\=\s]+\s*)\|(?(openBar)(?=\|))(\s*)($|(?:[^α-ωΑ-Ωa-z0-9A-Z_\s]+?))";
+
         private static readonly Regex AbsSuperscriptWithMultiplyingRegex = new Regex(
             $@"([{SpecialSymbols.SuperscriptAlphabet}]+)\s*{AbsSuperscriptPattern}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
@@ -25,7 +28,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
 
         private static readonly Regex AbsSuperscriptRegex = new Regex(AbsSuperscriptPattern, RegexOptions.Compiled);
 
-        private static readonly Regex AbsRegex = new Regex(AbsPattern, RegexOptions.Compiled);
+        private static readonly Regex AbsRegex = new Regex(UnpairedOrDoubleAbsPattern, RegexOptions.Compiled);
 
 
         public string Replace(string code)

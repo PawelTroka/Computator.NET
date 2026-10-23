@@ -99,6 +99,16 @@ internal static partial class Program
         var complex = evaluator.Evaluate("arsinh(z)", "", CalculationsMode.Complex).Evaluate(new Complex(negativeZero, 0.5));
         Bits(complex.Real, long.MinValue);
         Near(complex.Imaginary, Math.PI / 6, 1e-15);
+        var generatedAtanh = evaluator.Evaluate("artanh(x)", "", CalculationsMode.Real);
+        var generatedAcoth = evaluator.Evaluate("arcoth(x)", "", CalculationsMode.Real);
+        Near(ElementaryFunctions.artanh(0.5), 0.5493061443340549, 1e-15);
+        Near(generatedAtanh.Evaluate(0.5), 0.5493061443340549, 1e-15);
+        Bits(ElementaryFunctions.artanh(negativeZero), long.MinValue);
+        Bits(generatedAtanh.Evaluate(negativeZero), long.MinValue);
+        Near(ElementaryFunctions.arcoth(2.0), 0.5493061443340549, 1e-15);
+        Near(generatedAcoth.Evaluate(2.0), 0.5493061443340549, 1e-15);
+        Near(ElementaryFunctions.arcoth(1e20), 1e-20, 1e-35);
+        Near(generatedAcoth.Evaluate(1e20), 1e-20, 1e-35);
     }
 
     private static void NumericalMethodCatalog()

@@ -158,8 +158,11 @@ namespace Computator.NET.Core.Compilation
                         return Number(signed, true);
                     }
                     if (value.Type == ComplexType)
-                        return Count(new Node { Type = ComplexType, Left = value, Code = "(" + c + value.Code + ")",
-                            Method = ComplexType.GetMethod(c == '-' ? "op_UnaryNegation" : "op_UnaryPlus", new[] { ComplexType }) });
+                    {
+                        var unaryMethod = ComplexType.GetMethod(c == '-' ? "op_UnaryNegation" : "op_UnaryPlus", new[] { ComplexType });
+                        if (unaryMethod == null) throw new UnsupportedSyntax();
+                        return Count(new Node { Type = ComplexType, Left = value, Code = "(" + c + value.Code + ")", Method = unaryMethod });
+                    }
                     return Count(new Node { Left = value, Operator = c, Code = "(" + c + value.Code + ")" });
                 }
                 finally { _nesting--; }
@@ -246,9 +249,9 @@ namespace Computator.NET.Core.Compilation
             }
             private Node Binary(char op, Node left, Node right)
             {
-                // Integer-only +/-/* has overflow and constant-folding rules
-                // outside this subset. Numeric TSL division promotes to real.
-                if (op != '/' && left.Integral && right.Integral) throw new UnsupportedSyntax();
+                // Integer-only arithmetic (including unpromoted parenthesized
+                // integer division) has C# rules outside this subset.
+                if (left.Integral && right.Integral) throw new UnsupportedSyntax();
                 var node = new Node { Left = left, Right = right, Operator = op, Code = "(" + left.Code + op + right.Code + ")" };
                 if (left.Type == ComplexType || right.Type == ComplexType)
                 {

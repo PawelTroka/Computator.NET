@@ -38,12 +38,12 @@
             fragments.Add(sourceItem.GetMetadata("Kind"), fragment.ToString());
         }
         // sfResult is written/read immediately in CoulombC, CoulombGprime and
-        // CoulombFprime. Preserve every native argument (including historical
-        // order semantics), but never share their output buffer across programs.
+        // CoulombFprime. Preserve every native argument (including the repaired
+        // irregular derivative order), but never share their output buffer across programs.
         const string scratchField = "private static gsl_sf_result sfResult;";
         string[] scratchCalls = {
             "gsl_sf_coulomb_CL_e(L, η, out sfResult);",
-            "gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out r2, out r3, out sfResult, out d1, out d2);",
+            "gsl_sf_coulomb_wave_FG_e(η, ρ, L, 0, out r1, out r2, out r3, out sfResult, out d1, out d2);",
             "gsl_sf_coulomb_wave_FG_e(η, ρ, L, L, out r1, out sfResult, out r3, out r2, out d1, out d2);"
         };
         string special = fragments["SpecialFunctions"];

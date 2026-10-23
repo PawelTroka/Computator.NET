@@ -93,6 +93,8 @@ namespace Computator.NET.Core.Tests
         [TestCase("Math.Sin(x)")]
         [TestCase("x+(1+2)")]
         [TestCase("x+(2*3)")]
+        [TestCase("x/(1/(2))")]
+        [TestCase("x/(2/(-0))")]
         [TestCase("x+2147483648")]
         [TestCase("x+1.0f")]
         [TestCase("sin(x) /* a comment */")]

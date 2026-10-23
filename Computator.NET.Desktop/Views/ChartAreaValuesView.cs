@@ -73,6 +73,13 @@ namespace Computator.NET.Desktop.Views
             {
                 SetRangeLabel(xMinLabel, x0NumericUpDown, value);
                 SetRangeLabel(xMaxLabel, xnNumericUpDown, value);
+#if __MonoCS__
+                if (groupBox2 != null && tableLayoutPanel1 != null)
+                {
+                    MonoLayout.ConfigureNumericGroup(groupBox2, tableLayoutPanel1);
+                    Width = Math.Max(new Size(210, 0).DpiScale().Width, groupBox2.Width);
+                }
+#endif
                 Parent?.PerformLayout(this, nameof(XAxisLabel));
             }
         }
@@ -85,6 +92,13 @@ namespace Computator.NET.Desktop.Views
             {
                 SetRangeLabel(yMinLabel, y0NumericUpDown, value);
                 SetRangeLabel(yMaxLabel, yNNumericUpDown, value);
+#if __MonoCS__
+                if (groupBox2 != null && tableLayoutPanel1 != null)
+                {
+                    MonoLayout.ConfigureNumericGroup(groupBox2, tableLayoutPanel1);
+                    Width = Math.Max(new Size(210, 0).DpiScale().Width, groupBox2.Width);
+                }
+#endif
                 Parent?.PerformLayout(this, nameof(YAxisLabel));
             }
         }

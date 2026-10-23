@@ -1,4 +1,4 @@
-﻿#if !__MonoCS__
+#if !__MonoCS__
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -770,8 +770,10 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         public void ShowEditDialog()
         {
-            var editChartWindow = new Charting.Chart3D.UI.EditChart3DWindow(this, this.ParentControl);
-            editChartWindow.ShowDialog();
+            using (var editChartWindow = new Charting.Chart3D.UI.EditChart3DWindow(this, this.ParentControl))
+            {
+                editChartWindow.ShowDialog();
+            }
         }
     }
 }

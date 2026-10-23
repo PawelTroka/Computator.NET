@@ -11,12 +11,6 @@ namespace Computator.NET.Core.NumericalCalculations
 {
     public static class FunctionRoot
     {
-#if NETFRAMEWORK
-        private const string RuntimeMathType = "Computator.NET.Engine.Compatibility.FrameworkMath";
-#else
-        private const string RuntimeMathType = "System.Math";
-#endif
-
         private const uint ITERATIONS_MAX = 10000;
         private const double ERROR_MAX_MIN = 1e-8;
 
@@ -223,9 +217,9 @@ namespace Computator.NET.Core.NumericalCalculations
             // here before evaluating fx, while preserving its argument validation.
             if (secondGuess == firstGuess)
             {
-                secondGuess = " + RuntimeMathType + @".BitIncrement(firstGuess);
+                secondGuess = Computator.NET.Engine.Compatibility.FrameworkMath.BitIncrement(firstGuess);
                 if (secondGuess >= b)
-                    secondGuess = " + RuntimeMathType + @".BitDecrement(firstGuess);
+                    secondGuess = Computator.NET.Engine.Compatibility.FrameworkMath.BitDecrement(firstGuess);
             }
 
             return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, firstGuess, secondGuess, a, b, errorMax, (int)N, out root) ? root : double.NaN;

@@ -71,6 +71,7 @@ namespace Computator.NET.Desktop.Controls
             }
         }
 
+#if !__MonoCS__
         protected override void OnDpiChangedAfterParent(EventArgs e)
         {
             base.OnDpiChangedAfterParent(e);
@@ -78,6 +79,7 @@ namespace Computator.NET.Desktop.Controls
             Parent?.PerformLayout(this, nameof(DeviceDpi));
             Invalidate();
         }
+#endif
 
         private Font CreateSubscriptFont() => new Font(Font.FontFamily, Font.Size * 0.75f,
             Font.Style, Font.Unit);
