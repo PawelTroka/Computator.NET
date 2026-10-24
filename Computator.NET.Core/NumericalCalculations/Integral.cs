@@ -71,12 +71,26 @@ namespace Computator.NET.Core.NumericalCalculations
             return MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(fx, a, b, 1.0/N);
         }
 
+        private static int CompositePanelCount(double N, bool requireEven)
+        {
+            // Keep every loop increment in Int32 range, including Simpson's
+            // existing adjustment of an odd count to the next even count.
+            var maximum = requireEven ? int.MaxValue - 1 : int.MaxValue;
+            if (N < 1 || N > maximum || N != System.Math.Truncate(N))
+                throw new System.ArgumentOutOfRangeException(nameof(N), N,
+                    "Panel count must be a positive integer no greater than " + maximum + ".");
+
+            var panels = (int)N;
+            return requireEven && panels % 2 != 0 ? panels + 1 : panels;
+        }
+
         public static double trapezoidalMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var h = (b - a)/N;
+            var panels = CompositePanelCount(N, requireEven: false);
+            var h = (b - a)/panels;
             double s = 0, x1, x2;
 
-            for (var i = 0; i < N; i++)
+            for (var i = 0; i < panels; i++)
             {
                 x1 = a + i*h;
                 x2 = a + (i + 1)*h;
@@ -87,10 +101,11 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double rectangleMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var h = (b - a)/N;
+            var panels = CompositePanelCount(N, requireEven: false);
+            var h = (b - a)/panels;
             double s = 0, x;
 
-            for (var i = 0; i < N; i++)
+            for (var i = 0; i < panels; i++)
             {
                 x = a + (i + 0.5)*h;
                 s += fx(x);
@@ -100,13 +115,12 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double simpsonMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            if (N%2 != 0) //not even
-                N++;
+            var panels = CompositePanelCount(N, requireEven: true);
 
-            var h = (b - a)/N;
+            var h = (b - a)/panels;
             double s = 0, x;
 
-            for (var i = 1; i < N; i++)
+            for (var i = 1; i < panels; i++)
             {
                 x = a + i*h;
 
@@ -153,12 +167,26 @@ namespace Computator.NET.Core.NumericalCalculations
             return MathNet.Numerics.Integration.DoubleExponentialTransformation.Integrate(fx, a, b, 1.0/N);
         }
 
+        private static int CompositePanelCount(double N, bool requireEven)
+        {
+            // Keep every loop increment in Int32 range, including Simpson's
+            // existing adjustment of an odd count to the next even count.
+            var maximum = requireEven ? int.MaxValue - 1 : int.MaxValue;
+            if (N < 1 || N > maximum || N != System.Math.Truncate(N))
+                throw new System.ArgumentOutOfRangeException(nameof(N), N,
+                    ""Panel count must be a positive integer no greater than "" + maximum + ""."");
+
+            var panels = (int)N;
+            return requireEven && panels % 2 != 0 ? panels + 1 : panels;
+        }
+
         public static double trapezoidalMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var h = (b - a)/N;
+            var panels = CompositePanelCount(N, requireEven: false);
+            var h = (b - a)/panels;
             double s = 0, x1, x2;
 
-            for (var i = 0; i < N; i++)
+            for (var i = 0; i < panels; i++)
             {
                 x1 = a + i*h;
                 x2 = a + (i + 1)*h;
@@ -169,10 +197,11 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double rectangleMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            var h = (b - a)/N;
+            var panels = CompositePanelCount(N, requireEven: false);
+            var h = (b - a)/panels;
             double s = 0, x;
 
-            for (var i = 0; i < N; i++)
+            for (var i = 0; i < panels; i++)
             {
                 x = a + (i + 0.5)*h;
                 s += fx(x);
@@ -182,13 +211,12 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double simpsonMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            if (N%2 != 0) //not even
-                N++;
+            var panels = CompositePanelCount(N, requireEven: true);
 
-            var h = (b - a)/N;
+            var h = (b - a)/panels;
             double s = 0, x;
 
-            for (var i = 1; i < N; i++)
+            for (var i = 1; i < panels; i++)
             {
                 x = a + i*h;
 
