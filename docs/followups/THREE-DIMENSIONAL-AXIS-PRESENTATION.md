@@ -55,10 +55,14 @@ suppresses its label. A candidate label position is accepted only when its
 **entire ink/contrast-edge rectangle** is clear of nearer geometry, including
 triangles wholly contained inside that rectangle. The opposite placement side
 may be used when clear; otherwise the complete label is omitted. Partly cut
-numerals are deliberately avoided.
+numerals are deliberately avoided. Axis names also try a position beyond the
+arrow and are never automatically shrunk below the numerical font size
+(or below the user's explicitly smaller name size).
 
 The scene index is invalidated by changes to the mesh, matrix, viewport, camera
-clip planes, or backface policy. Presentation-only edits reuse the index.
+clip planes, or backface policy. Presentation-only edits reuse the index. During
+rotation, triangle, tile, and projected-vertex buffers are cleared and repopulated
+without allocating another full mesh index each frame.
 Requested-size exports create independent annotation layouts and pass the
 destination pixels-per-DIP explicitly. Export cleanup releases mesh-change
 subscriptions even if rendering fails. Frozen meshes do not need subscriptions.
@@ -95,7 +99,7 @@ workflow runs the complete desktop suite and uploads native PNGs plus their
 source/commit/hash manifest in `diagnostics-Computator.NET.Desktop.Tests`, under
 `TestResults/chart-axis-rendering/wpf-3d/`.
 
-## Evidence and validation status
+## Verified native evidence and results
 
 The exact baseline's native before images come from successful Windows run
 [40043303079](https://github.com/PawelTroka/Computator.NET/actions/runs/40043303079),
@@ -103,8 +107,80 @@ desktop job `120719128219`, artifact `12540865126`. The downloaded ZIP SHA-256 i
 `606257e9b632d5268048fc2e925e70b26dfa5ceb8fed1111dffd76588aeb773b`.
 The manifest's tested commit and all twelve PNG hashes were verified.
 
-Local .NET SDK 10.0.402 cross-build and portable geometry checks pass. Native
-Windows execution and candidate screenshot review are pending the draft PR's
-CI run; cross-compilation alone is not a visual test. The PR description will
-record exact native results and representative before/after images when the
-run completes. Bitmap-DPI tests do not claim a physical multi-monitor transition.
+The candidate was tested at head
+`b39ae29cac877f5eb7f3ddb0bb5fa904ca504cdc`, using GitHub's test merge
+`1ee2f00821c8b3162a293f680ebdb91fcea96e14`. Both have the same tree,
+`dd1fe2bf548124192e0911a1f1caf35e8bf2d67f`. The merge's parents are the exact
+baseline above and the candidate head. The final evidence commit changes only
+this document and its images/provenance; production and test sources match the
+verified native run.
+
+| Check | Result |
+| --- | --- |
+| Complete native Windows Desktop.Tests | **468 passed, 0 failed, 0 skipped** |
+| Existing 3D axis rendering cases | **21 passed** |
+| New native occlusion and settings/export cases | **19 passed** |
+| Analytical projected-triangle geometry cases | **31 passed** locally and on Windows |
+| Complete portable Engine.Tests | **882 passed, 0 failed, 0 skipped** locally; cross-platform CI also passed |
+| Windows-targeted Release cross-build, SDK 10.0.402 | Passed, zero errors; existing warnings remain |
+| Whitespace/diff validation | Passed |
+
+Native run:
+[40098522959 / desktop job 120885710574](https://github.com/PawelTroka/Computator.NET/actions/runs/40098522959/job/120885710574).
+The native artifact is `12561569494`, with ZIP SHA-256
+`71650d10cc79db53cdf6d66516ac2c3b9954b91bec0a6515fa788b09bf017565`.
+It contains nineteen production-rendered PNGs, their source/image hashes and
+scene recipes, and the complete desktop test report. The committed image subset
+and its provenance are listed in [evidence.json](images/issue-255/evidence.json).
+
+The first Windows run exposed two test-capture assumptions: the custom-colour
+test sampled an invalidated visual before completing layout, and a binary
+alpha threshold was too sensitive to hinted glyph edges at different DPIs.
+The corrected tests complete WPF layout before capture and integrate fractional
+alpha coverage, retaining the existing DPI ratio bounds and actual dark-ink
+assertions. The successful rerun also requires independently verified hidden
+axis anchors in a real wave-surface view; unobscured views alone cannot satisfy
+that regression.
+
+Visual inspection of that rerun exposed an axis name reduced to roughly 4.6 DIP
+beside an occluding plane. The final change adds the forward placement candidate
+and readable font-size floor described above. The final 468-pass run includes
+a dedicated native pixel regression for that exact view.
+
+### Matched native before/after images
+
+The following pairs use the same formula, camera, dimensions and scene recipe.
+The first pair uses the production defaults; the 192-DPI fixture explicitly
+sets black text in both versions. Images are copied without retouching.
+
+| Master, 96 DPI | Proposed, 96 DPI |
+| --- | --- |
+| ![Master default axis presentation](images/issue-255/before-default.png) | ![Proposed default axis presentation](images/issue-255/after-default.png) |
+
+| Master, 192 DPI | Proposed, 192 DPI |
+| --- | --- |
+| ![Master at 192 DPI](images/issue-255/before-dpi-192.png) | ![Proposed at 192 DPI](images/issue-255/after-dpi-192.png) |
+
+### Real surface occlusion
+
+These additional candidate views put axis portions behind the actual plotted
+triangles. The visible fragments remain; covered strokes, ticks and labels are
+suppressed. They supplement the matched presentation pairs above.
+
+![Wave surface hiding rear axis portions](images/issue-255/after-waves-occluded.png)
+
+![Plane hiding most of its rear Y axis](images/issue-255/after-plane-occluded.png)
+
+### Interaction cost and limits
+
+A focused local Release measurement used 124,002 triangles, three long axis
+ribbons, and 150 tick/point/label query sets. After five warmups, the median of
+ten iterations was approximately 18 ms at 800 by 600 and 16 ms at 1600 by 1200
+for projection/index rebuilding plus queries. Reused buffers reduced measured
+allocation from about 39.8 MiB to 0.13-0.25 MiB per iteration. This measures the
+geometry helper, not complete WPF frame time or hardware interaction latency.
+
+Rotation/zoom/pan coverage drives the production view-transform paths in native
+WPF tests. Bitmap-DPI tests do not claim a physical multi-monitor transition.
+The implementation preserves the shipped orthographic-camera model; it does
+not add a perspective-camera feature.
