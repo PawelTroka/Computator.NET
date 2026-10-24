@@ -303,7 +303,17 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcsch(double x)
         {
-            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/(x*x) + 1));
+            if (double.IsNaN(x)) return x;
+            if (double.IsInfinity(x)) return 1.0/x;
+            var magnitude = System.Math.Abs(x);
+            if (magnitude == 0.0)
+                return RuntimeMath.CopySign(double.PositiveInfinity, x);
+            // asinh(1/x) avoids cancellation for negative or large x. For tiny
+            // x, avoid overflowing the reciprocal: the omitted correction to
+            // log(2)-log(|x|) is O(x*x), far below double precision here.
+            if (magnitude < 1e-150)
+                return RuntimeMath.CopySign(System.Math.Log(2.0) - System.Math.Log(magnitude), x);
+            return RuntimeMath.Asinh(1.0/x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -1486,7 +1496,17 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcsch(double x)
         {
-            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/(x*x) + 1));
+            if (double.IsNaN(x)) return x;
+            if (double.IsInfinity(x)) return 1.0/x;
+            var magnitude = System.Math.Abs(x);
+            if (magnitude == 0.0)
+                return Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(double.PositiveInfinity, x);
+            // asinh(1/x) avoids cancellation for negative or large x. For tiny
+            // x, avoid overflowing the reciprocal: the omitted correction to
+            // log(2)-log(|x|) is O(x*x), far below double precision here.
+            if (magnitude < 1e-150)
+                return Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(System.Math.Log(2.0) - System.Math.Log(magnitude), x);
+            return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Asinh(1.0/x);
         }
 
         /*Angielska nazwa funkcji""),

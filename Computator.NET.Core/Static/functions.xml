@@ -16944,7 +16944,7 @@
 <p class="reference-signature"><code>real arcosech(real x)</code></p>
 <p class="reference-summary">Inverse hyperbolic sine of the reciprocal argument.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/6520a795d1aac657e2ddd965a654a1f62800ddc2d322c93efc75cd908edd6af2.png" alt="arcsch(t) = ln(1/t + sqrt(1/t²+1))" width="288" height="46" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Results are in radians where interpreted as angles. Real t≠0. Direct reciprocals and subtraction can overflow or cancel near extreme inputs.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Results are in radians where interpreted as angles. Real t≠0. The real implementation is odd and remains finite for every nonzero finite double. Signed zero returns signed infinity; infinite arguments return signed zero.</p>
 <p class="reference-note"><strong>Important:</strong> Alias of arcsch; it uses the same convention. </p>
 <p class="reference-explanation">An inverse function answers which input produces a given output. When several inputs are possible, this routine chooses one branch; the stated domain and range specify which value you receive.</p>
 <p class="reference-explanation">An inverse is not a reciprocal. For example, arccos(x) finds an angle, whereas 1/cos(x) is secant. For complex inputs, branch choices are part of the definition and ordinary real inverse identities cannot be applied across a cut without care.</p>
@@ -17042,7 +17042,7 @@
 <p class="reference-signature"><code>real arcsch(real x)</code></p>
 <p class="reference-summary">Inverse hyperbolic sine of the reciprocal argument.</p>
 <p class="reference-equation"><strong>Definition</strong><br /><img class="reference-math" src="reference-equations/6520a795d1aac657e2ddd965a654a1f62800ddc2d322c93efc75cd908edd6af2.png" alt="arcsch(t) = ln(1/t + sqrt(1/t²+1))" width="288" height="46" /></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Results are in radians where interpreted as angles. Real t≠0. Direct reciprocals and subtraction can overflow or cancel near extreme inputs.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Results are in radians where interpreted as angles. Real t≠0. The real implementation is odd and remains finite for every nonzero finite double. Signed zero returns signed infinity; infinite arguments return signed zero.</p>
 <p class="reference-explanation">An inverse function answers which input produces a given output. When several inputs are possible, this routine chooses one branch; the stated domain and range specify which value you receive.</p>
 <p class="reference-explanation">An inverse is not a reciprocal. For example, arccos(x) finds an angle, whereas 1/cos(x) is secant. For complex inputs, branch choices are part of the definition and ordinary real inverse identities cannot be applied across a cut without care.</p>
 <p class="reference-example"><strong>Example:</strong> arcsch(1) ≈ 0.8813735870</p>
