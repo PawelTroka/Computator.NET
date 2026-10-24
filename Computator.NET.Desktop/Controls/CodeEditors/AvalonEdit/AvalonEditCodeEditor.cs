@@ -1,6 +1,5 @@
 ﻿#if !__MonoCS__
 //#define NEW_AUTOCOMPLETE
-//#define USE_FOLDING
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -13,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Threading;
 using System.Xml;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Autocompletion;
@@ -25,6 +25,7 @@ using Computator.NET.Desktop.Data;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Indentation.CSharp;
@@ -91,7 +92,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
             if (_documents.ContainsKey(filename))
                 return;
 
-            Document = new TextDocument(text);
+            SetDocument(new TextDocument(text));
 
             _documents.Add(filename, Document);
 
@@ -103,9 +104,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
             if (!_documents.ContainsKey(filename))
                 return;
 
-            var prevDocument = Document;
-
-            Document = _documents[filename];
+            SetDocument(_documents[filename]);
         }
 
         public void CloseDocument(string filename)
@@ -116,8 +115,14 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
             var doc = _documents[filename];
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
-            if (_documents.Count > 0)
-                SwitchDocument(_documents.Keys.Last());
+            if (ReferenceEquals(Document, doc))
+            {
+                if (_documents.Count > 0)
+                    SwitchDocument(_documents.Keys.Last());
+                else
+                    SetDocument(new TextDocument());
+            }
+            _foldedDocuments.Remove(doc);
         }
 
         public void HighlightErrors(IEnumerable<CompilerError> errors)
@@ -226,14 +231,15 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
             TextArea.IndentationStrategy =
                 new CSharpIndentationStrategy(Options);
 
-#if USE_FOLDING
-            foldingStrategy = new BraceFoldingStrategy();
-            foldingManager = FoldingManager.Install(TextArea);
-
-            var foldingUpdateTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(5)};
-            foldingUpdateTimer.Tick += delegate { UpdateFoldings(); };
-            foldingUpdateTimer.Start();
-#endif
+            _foldingUpdateTimer = new DispatcherTimer(DispatcherPriority.Background, Dispatcher)
+            {
+                Interval = TimeSpan.FromMilliseconds(250)
+            };
+            _foldingUpdateTimer.Tick += FoldingUpdateTimer_Tick;
+            TextChanged += FoldingTextChanged;
+            Loaded += FoldingLoaded;
+            Unloaded += FoldingUnloaded;
+            InstallFoldings();
 
 #if !NEW_AUTOCOMPLETE
             TextArea.TextEntering += OnTextEntering;
@@ -499,23 +505,95 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
 
         #region Folding
 
-#if USE_FOLDING
-        private FoldingManager foldingManager;
-        private object foldingStrategy;
+        private readonly BraceFoldingStrategy _foldingStrategy = new BraceFoldingStrategy();
+        private readonly Dictionary<TextDocument, List<Tuple<TextAnchor, TextAnchor>>> _foldedDocuments =
+            new Dictionary<TextDocument, List<Tuple<TextAnchor, TextAnchor>>>();
+        private FoldingManager _foldingManager;
+        private DispatcherTimer _foldingUpdateTimer;
+
+        private void SetDocument(TextDocument document)
+        {
+            if (ReferenceEquals(Document, document))
+                return;
+
+            // AvalonEdit requires uninstalling its manager before rebinding
+            // the text area. A manager belongs to exactly one TextDocument.
+            var previousDocument = Document;
+            UninstallFoldings();
+            Document = document;
+            if (previousDocument != null && !_documents.ContainsValue(previousDocument))
+                _foldedDocuments.Remove(previousDocument);
+            InstallFoldings();
+        }
+
+        private void InstallFoldings()
+        {
+            if (_foldingManager != null || Document == null)
+                return;
+
+            _foldingManager = FoldingManager.Install(TextArea);
+            UpdateFoldings();
+            if (!_foldedDocuments.TryGetValue(Document, out var folded))
+                return;
+
+            foreach (var section in _foldingManager.AllFoldings)
+                section.IsFolded = folded.Any(range => !range.Item1.IsDeleted && !range.Item2.IsDeleted &&
+                    range.Item1.Offset == section.StartOffset && range.Item2.Offset == section.EndOffset);
+            _foldedDocuments.Remove(Document);
+        }
+
+        private void UninstallFoldings()
+        {
+            _foldingUpdateTimer.Stop();
+            if (_foldingManager == null)
+                return;
+
+            _foldedDocuments[Document] = _foldingManager.AllFoldings.Where(section => section.IsFolded)
+                .Select(section =>
+                {
+                    var start = Document.CreateAnchor(section.StartOffset);
+                    var end = Document.CreateAnchor(section.EndOffset);
+                    start.MovementType = AnchorMovementType.AfterInsertion;
+                    end.MovementType = AnchorMovementType.BeforeInsertion;
+                    return Tuple.Create(start, end);
+                }).ToList();
+            FoldingManager.Uninstall(_foldingManager);
+            _foldingManager = null;
+        }
+
+        private void FoldingLoaded(object sender, RoutedEventArgs args)
+        {
+            InstallFoldings();
+        }
+
+        private void FoldingUnloaded(object sender, RoutedEventArgs args)
+        {
+            UninstallFoldings();
+        }
+
+        private void FoldingTextChanged(object sender, EventArgs args)
+        {
+            if (_foldingManager == null)
+                return;
+
+            _foldingUpdateTimer.Stop();
+            if (IsLoaded)
+                _foldingUpdateTimer.Start();
+            else
+                UpdateFoldings();
+        }
+
+        private void FoldingUpdateTimer_Tick(object sender, EventArgs args)
+        {
+            _foldingUpdateTimer.Stop();
+            UpdateFoldings();
+        }
 
         private void UpdateFoldings()
         {
-            if (foldingStrategy is BraceFoldingStrategy)
-            {
-                ((BraceFoldingStrategy) foldingStrategy).UpdateFoldings(foldingManager, Document);
-            }
-            if (foldingStrategy is XmlFoldingStrategy)
-            {
-                ((XmlFoldingStrategy) foldingStrategy).UpdateFoldings(foldingManager,
-                    Document);
-            }
+            if (_foldingManager != null)
+                _foldingStrategy.UpdateFoldings(_foldingManager, Document);
         }
-#endif
 
         #endregion
 
