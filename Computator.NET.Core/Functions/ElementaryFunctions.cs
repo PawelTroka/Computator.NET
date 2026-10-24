@@ -381,7 +381,16 @@ namespace Computator.NET.Core.Functions
 
         public static dynamic root(double x, double n)
         {
-            //n-based root
+            // Classify an integer index before taking its reciprocal: signed
+            // remainders and reciprocal rounding can otherwise change parity.
+            if (x < 0 && n != 0 && n % 1 == 0)
+            {
+                if (n % 2 == 0)
+                    return System.Numerics.Complex.Pow(x, 1.0/n);
+                return -System.Math.Pow(-x, 1.0/n);
+            }
+
+            // Preserve the existing convention for other real indices.
             return dpow(x, 1.0/n);
         }
 
@@ -1564,7 +1573,16 @@ namespace Computator.NET.Core.Functions
 
         public static dynamic root(double x, double n)
         {
-            //n-based root
+            // Classify an integer index before taking its reciprocal: signed
+            // remainders and reciprocal rounding can otherwise change parity.
+            if (x < 0 && n != 0 && n % 1 == 0)
+            {
+                if (n % 2 == 0)
+                    return System.Numerics.Complex.Pow(x, 1.0/n);
+                return -System.Math.Pow(-x, 1.0/n);
+            }
+
+            // Preserve the existing convention for other real indices.
             return dpow(x, 1.0/n);
         }
 
