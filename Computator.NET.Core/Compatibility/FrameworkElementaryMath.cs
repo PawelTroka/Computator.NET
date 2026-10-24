@@ -9,13 +9,24 @@ namespace Computator.NET.Core.Compatibility
 {
     /// <summary>
     /// BCL operations unavailable on Framework. Reuse the existing GSL dependency
-    /// for asinh instead of introducing a second special-function implementation.
+    /// for asinh/acosh instead of introducing more special-function implementations.
     /// </summary>
     public static class FrameworkElementaryMath
     {
 #if NETFRAMEWORK
         [DllImport(GslConfig.GslDllName, EntryPoint = "gsl_asinh", CallingConvention = CallingConvention.Cdecl)]
         public static extern double Asinh(double value);
+
+        [DllImport(GslConfig.GslDllName, EntryPoint = "gsl_acosh", CallingConvention = CallingConvention.Cdecl)]
+        private static extern double AcoshNative(double value);
+
+        public static double Acosh(double value)
+        {
+            // Match the BCL domain contract without invoking a native domain-error handler.
+            if (double.IsNaN(value) || value < 1.0)
+                return double.NaN;
+            return AcoshNative(value);
+        }
 
         public static double Atanh(double value)
         {
@@ -44,6 +55,9 @@ namespace Computator.NET.Core.Compatibility
 #else
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Asinh(double value) => Math.Asinh(value);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Acosh(double value) => Math.Acosh(value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Atanh(double value) => Math.Atanh(value);
