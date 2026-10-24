@@ -10,6 +10,7 @@ using Computator.NET.Core.Natives;
 using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.Desktop.Controls;
 using Computator.NET.Desktop.Controls.CodeEditors;
+using Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit;
 using NUnit.Framework;
 using Settings = Computator.NET.Core.Properties.Settings;
 
@@ -34,7 +35,8 @@ namespace Computator.NET.Desktop.Tests
             _directory = Path.Combine(Path.GetTempPath(), "Computator-DocumentTabs-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(_directory);
             _bootstrapper = new CoreBootstrapper();
-            _editor = _bootstrapper.Create<CodeEditorControlWrapper>();
+            _editor = new DiscardingEditor(_bootstrapper.Create<ScintillaCodeEditorControl>(),
+                _bootstrapper.Create<AvalonEditCodeEditor>(), _bootstrapper.Create<TextEditorCodeEditor>());
             _window = new Form();
             _window.Controls.Add(_editor);
             NUnit.Framework.Assert.That(_window.Handle, Is.Not.EqualTo(IntPtr.Zero));
@@ -511,6 +513,16 @@ namespace Computator.NET.Desktop.Tests
                 yield return child;
                 foreach (var descendant in Descendants(child)) yield return descendant;
             }
+        }
+
+        // Identity tests deliberately close edited documents; choose Don't Save
+        // explicitly now that the production workflow protects those buffers.
+        private sealed class DiscardingEditor : CodeEditorControlWrapper
+        {
+            public DiscardingEditor(ScintillaCodeEditorControl scintilla, AvalonEditCodeEditor avalon,
+                TextEditorCodeEditor textEditor) : base(scintilla, avalon, textEditor) { }
+
+            protected override DialogResult PromptToSaveChanges(string filename) => DialogResult.No;
         }
 
         [OneTimeTearDown]

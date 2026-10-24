@@ -1,4 +1,5 @@
-﻿using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -57,6 +58,7 @@ namespace Computator.NET.Core.Abstract.Controls
 
     public interface ICodeEditorControl
     {
+        event EventHandler TextChanged;
         string Text { get; set; }
         IEnumerable<string> Documents { get; }
         void Undo();

@@ -40,6 +40,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private DocumentFileSnapshot _selectedSaveSnapshot;
         private TabPage _activeTab;
         private bool _restoringTabs;
+        private int _documentOperationDepth;
 
 
         public CodeEditorControlWrapper(
@@ -96,6 +97,9 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
             tabControl.ControlRemoved += TabControl_ControlRemoved;
             tabControl.ControlAdded += TabControl_ControlAdded;
+            tabControl.DocumentsClosing += TabControl_DocumentsClosing;
+            foreach (var editor in _codeEditors.Values)
+                editor.TextChanged += Editor_TextChanged;
 
             NewDocument();
 
@@ -129,6 +133,9 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                 Settings.Default.PropertyChanged -= Settings_PropertyChanged;
                 saveFileDialog.FileOk -= SaveFileDialog_FileOk;
                 saveFileDialog.Dispose();
+                tabControl.DocumentsClosing -= TabControl_DocumentsClosing;
+                foreach (var editor in _codeEditors.Values)
+                    editor.TextChanged -= Editor_TextChanged;
                 lock (LiveEditors)
                     LiveEditors.RemoveAll(reference => !reference.TryGetTarget(out var editor) || editor == this);
                 _fileSnapshots.Clear();
@@ -240,9 +247,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             var previousTab = tabControl.SelectedTab;
             try
             {
-                CurrentCodeEditor.NewDocument(filename, snapshot.Text);
-                tabControl.AddTab(filename);
-                _fileSnapshots[tabControl.SelectedTab] = snapshot;
+                RunDocumentOperation(() =>
+                {
+                    CurrentCodeEditor.NewDocument(filename, snapshot.Text);
+                    tabControl.AddTab(filename);
+                    _fileSnapshots[tabControl.SelectedTab] = snapshot;
+                });
             }
             catch
             {
@@ -288,15 +298,18 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             _restoringTabs = true;
             try
             {
-                CurrentCodeEditor.CloseDocument(failedFilename);
-                if (failedTab != null) _fileSnapshots.Remove(failedTab);
-                if (failedTab != null && failedTab != previousTab) tabControl.TabPages.Remove(failedTab);
-                if (IsDocumentTab(previousTab) && CurrentCodeEditor.ContainsDocument(previousTab.Text))
+                RunDocumentOperation(() =>
                 {
-                    tabControl.SelectedTab = previousTab;
-                    CurrentCodeEditor.SwitchDocument(previousTab.Text);
-                    _activeTab = previousTab;
-                }
+                    CurrentCodeEditor.CloseDocument(failedFilename);
+                    if (failedTab != null) _fileSnapshots.Remove(failedTab);
+                    if (failedTab != null && failedTab != previousTab) tabControl.TabPages.Remove(failedTab);
+                    if (IsDocumentTab(previousTab) && CurrentCodeEditor.ContainsDocument(previousTab.Text))
+                    {
+                        tabControl.SelectedTab = previousTab;
+                        CurrentCodeEditor.SwitchDocument(previousTab.Text);
+                        _activeTab = previousTab;
+                    }
+                });
             }
             finally
             {
@@ -313,15 +326,152 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             var documentTab = FindDocumentTab(tabName);
             if (documentTab == null) return;
-            tabControl.SelectedTab = documentTab;
-            CurrentCodeEditor.SwitchDocument(documentTab.Text);
-            _activeTab = documentTab;
+            RunDocumentOperation(() =>
+            {
+                tabControl.SelectedTab = documentTab;
+                CurrentCodeEditor.SwitchDocument(documentTab.Text);
+                _activeTab = documentTab;
+            });
         }
 
         public void RemoveTab(string tabName)
         {
             var documentTab = FindDocumentTab(tabName);
-            if (documentTab != null) tabControl.TabPages.Remove(documentTab);
+            if (documentTab != null) tabControl.TryCloseTabs(new[] { documentTab });
+        }
+
+        private void Editor_TextChanged(object sender, EventArgs e)
+        {
+            if (_documentOperationDepth == 0 && ReferenceEquals(sender, CurrentCodeEditor))
+                RefreshDirtyIndicator();
+        }
+
+        private void RunDocumentOperation(Action operation)
+        {
+            _documentOperationDepth++;
+            try { operation(); }
+            finally
+            {
+                _documentOperationDepth--;
+                if (_documentOperationDepth == 0) RefreshDirtyIndicator();
+            }
+        }
+
+        private bool IsDirty(TabPage document, string text)
+        {
+            var savedText = _fileSnapshots.TryGetValue(document, out var snapshot) ? snapshot.Text : string.Empty;
+            return !string.Equals(text, savedText, StringComparison.Ordinal);
+        }
+
+        private void RefreshDirtyIndicator()
+        {
+            if (IsDocumentTab(_activeTab) && _activeTab == tabControl.SelectedTab &&
+                CurrentCodeEditor.ContainsDocument(_activeTab.Text))
+                _activeTab.ImageIndex = IsDirty(_activeTab, Text) ? 1 : 0;
+        }
+
+        private string ReadDocumentText(TabPage document)
+        {
+            string text = null;
+            var selected = tabControl.SelectedTab;
+            RunDocumentOperation(() =>
+            {
+                try
+                {
+                    CurrentCodeEditor.SwitchDocument(document.Text);
+                    text = CurrentCodeEditor.Text;
+                }
+                finally
+                {
+                    if (IsDocumentTab(selected)) CurrentCodeEditor.SwitchDocument(selected.Text);
+                }
+            });
+            return text;
+        }
+
+        private void TabControl_DocumentsClosing(object sender, DocumentTabsClosingEventArgs e)
+        {
+            var approval = PrepareToCloseDocuments(e.Documents, false);
+            if (approval == null || !approval()) e.Cancel = true;
+        }
+
+        public bool ConfirmCloseDocuments()
+        {
+            var approval = PrepareToCloseDocuments();
+            return approval != null && approval();
+        }
+
+        internal Func<bool> PrepareToCloseDocuments()
+        {
+            return PrepareToCloseDocuments(tabControl.TabPages.Cast<TabPage>().Where(IsDocumentTab), true);
+        }
+
+        private Func<bool> PrepareToCloseDocuments(IEnumerable<TabPage> documents, bool requireCompleteSet)
+        {
+            var targets = documents.ToArray();
+            var previous = tabControl.SelectedTab;
+            var approved = new Dictionary<TabPage, (string Filename, string Text)>();
+            try
+            {
+                foreach (var document in targets)
+                {
+                    if (!IsDocumentTab(document) || !CurrentCodeEditor.ContainsDocument(document.Text)) return null;
+                    var filename = document.Text;
+                    var text = ReadDocumentText(document);
+                    if (IsDirty(document, text))
+                    {
+                        SwitchTab(document.Text);
+                        var decision = PromptToSaveChanges(document.Text);
+                        if (!IsDocumentTab(document) || tabControl.SelectedTab != document ||
+                            !string.Equals(document.Text, filename, StringComparison.Ordinal)) return null;
+                        if (decision == DialogResult.Yes)
+                        {
+                            try { Save(); }
+                            catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException ||
+                                                              exception is ArgumentException || exception is NotSupportedException)
+                            {
+                                ShowCloseSaveError(exception.Message);
+                                return null;
+                            }
+                            // A cancelled Save As is not a successful save. The
+                            // existing writer owns collision/external-change checks.
+                            text = ReadDocumentText(document);
+                            if (IsDirty(document, text)) return null;
+                        }
+                        else if (decision != DialogResult.No) return null;
+                    }
+                    // Save As may legitimately rename this same tab. Remember
+                    // the approved identity only after that save has succeeded.
+                    approved.Add(document, (document.Text, text));
+                }
+
+                // Window exit validates every editor again after all prompts,
+                // including tabs added or changed during another editor's dialog.
+                // A targeted tab close leaves unrelated/new tabs open.
+                return () => (!requireCompleteSet ||
+                    tabControl.TabPages.Cast<TabPage>().Where(IsDocumentTab).SequenceEqual(targets)) &&
+                    approved.All(entry => IsDocumentTab(entry.Key) &&
+                        CurrentCodeEditor.ContainsDocument(entry.Key.Text) &&
+                        string.Equals(entry.Key.Text, entry.Value.Filename, StringComparison.Ordinal) &&
+                        string.Equals(ReadDocumentText(entry.Key), entry.Value.Text, StringComparison.Ordinal));
+            }
+            finally
+            {
+                if (IsDocumentTab(previous)) SwitchTab(previous.Text);
+            }
+        }
+
+        protected virtual DialogResult PromptToSaveChanges(string filename)
+        {
+            return System.Windows.Forms.MessageBox.Show(this,
+                "Save changes to '" + filename + "' before closing?", "Unsaved changes",
+                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button3);
+        }
+
+        protected virtual void ShowCloseSaveError(string message)
+        {
+            System.Windows.Forms.MessageBox.Show(this, message, "The document could not be saved",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         public void Undo()
@@ -496,18 +646,21 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             if (e.Control is TabPage removedTab) _fileSnapshots.Remove(removedTab);
             if (_restoringTabs) return;
-            CurrentCodeEditor.CloseDocument(e.Control.Text);
-
-            // Editor implementations choose their own surviving document on close.
-            // The selected tab owns the filename used by Save, so restore its
-            // document even when removing a background tab raised no selection event.
-            var selectedTab = tabControl.SelectedTab;
-            if (selectedTab != null && selectedTab != e.Control &&
-                CurrentCodeEditor.ContainsDocument(selectedTab.Text))
+            RunDocumentOperation(() =>
             {
-                CurrentCodeEditor.SwitchDocument(selectedTab.Text);
-                _activeTab = selectedTab;
-            }
+                CurrentCodeEditor.CloseDocument(e.Control.Text);
+
+                // Editor implementations choose their own surviving document on close.
+                // The selected tab owns the filename used by Save, so restore its
+                // document even when removing a background tab raised no selection event.
+                var selectedTab = tabControl.SelectedTab;
+                if (selectedTab != null && selectedTab != e.Control &&
+                    CurrentCodeEditor.ContainsDocument(selectedTab.Text))
+                {
+                    CurrentCodeEditor.SwitchDocument(selectedTab.Text);
+                    _activeTab = selectedTab;
+                }
+            });
         }
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -516,18 +669,21 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             if (_restoringTabs || !IsDocumentTab(selectedTab)) return;
             try
             {
-                if (CurrentCodeEditor.ContainsDocument(selectedTab.Text))
-                    CurrentCodeEditor.SwitchDocument(selectedTab.Text);
-                else
+                RunDocumentOperation(() =>
                 {
-                    // Tabs created by the new-tab button have no disk identity,
-                    // even if a same-named file exists in the working directory.
-                    var snapshot = selectedTab.Tag is string path
-                        ? DocumentFileSafety.Capture(path) : DocumentFileSnapshot.Missing;
-                    CurrentCodeEditor.NewDocument(selectedTab.Text, snapshot.Text);
-                    if (selectedTab.Tag is string) _fileSnapshots[selectedTab] = snapshot;
-                }
-                _activeTab = selectedTab;
+                    if (CurrentCodeEditor.ContainsDocument(selectedTab.Text))
+                        CurrentCodeEditor.SwitchDocument(selectedTab.Text);
+                    else
+                    {
+                        // Tabs created by the new-tab button have no disk identity,
+                        // even if a same-named file exists in the working directory.
+                        var snapshot = selectedTab.Tag is string path
+                            ? DocumentFileSafety.Capture(path) : DocumentFileSnapshot.Missing;
+                        CurrentCodeEditor.NewDocument(selectedTab.Text, snapshot.Text);
+                        if (selectedTab.Tag is string) _fileSnapshots[selectedTab] = snapshot;
+                    }
+                    _activeTab = selectedTab;
+                });
             }
             catch
             {
@@ -548,7 +704,11 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             var nextKind = SupportedEditor(Settings.Default.CodeEditor);
             if (_codeEditorType == nextKind) return;
+            RunDocumentOperation(() => TransferDocuments(nextKind));
+        }
 
+        private void TransferDocuments(CodeEditorType nextKind)
+        {
             var currentDocument = CurrentFileName;
             var previousKind = _codeEditorType;
             var previousEditor = CurrentCodeEditor;
