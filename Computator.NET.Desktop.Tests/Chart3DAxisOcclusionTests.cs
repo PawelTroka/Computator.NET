@@ -151,7 +151,7 @@ namespace Computator.NET.Desktop.Tests
                 .Select(segment => (segment.Start, segment.End)).ToArray();
             var triangles = Triangles(SceneMesh(chart), chart.m_transformMatrix.m_totalMatrix);
             AssertVisible(chart.AxisLabels.Annotations, triangles, 800, 600);
-            foreach (var rotation in new[] { (Yaw: 95.0, Pitch: 45.0), (Yaw: 100.0, Pitch: -30.0) })
+            foreach (var rotation in new[] { (Yaw: -60.0, Pitch: 50.0), (Yaw: 155.0, Pitch: -30.0) })
             {
                 RotateBy(chart, rotation.Yaw, rotation.Pitch);
                 chart.OnViewportMouseWheel(chart, new MouseWheelEventArgs(Mouse.PrimaryDevice, 0, 120));
@@ -163,6 +163,20 @@ namespace Computator.NET.Desktop.Tests
                 chart.UpdateLayout();
                 triangles = Triangles(SceneMesh(chart), chart.m_transformMatrix.m_totalMatrix);
                 AssertVisible(chart.AxisLabels.Annotations, triangles, 800, 600);
+                if (shape == "waves" && rotation.Yaw == -60)
+                {
+                    // This camera looks past the axes into the actual wave
+                    // mesh. Prove it exercises hidden geometry, rather than
+                    // merely confirming an unobscured scene stays visible.
+                    var fullLength = Data(chart).GetAxes().Sum(axis =>
+                        (chart.m_transformMatrix.VertexToScreenPt(axis.LabelAnchor, viewport) -
+                         chart.m_transformMatrix.VertexToScreenPt(axis.Start, viewport)).Length);
+                    var visibleLength = chart.AxisLabels.Annotations.AxisSegments
+                        .Where(segment => !segment.IsArrow).Sum(segment => (segment.End - segment.Start).Length);
+                    NUnit.Framework.Assert.That(visibleLength, Is.GreaterThan(0).And.LessThan(fullLength - 10));
+                    NUnit.Framework.Assert.That(CountSurfaceHiddenAxisAnchors(chart, triangles), Is.GreaterThan(0),
+                        "The independent ray oracle must find genuine surface-hidden anchors in this view.");
+                }
             }
             NUnit.Framework.Assert.That(chart.AxisLabels.Annotations.AxisSegments, Is.Not.Empty,
                 "Depth testing must retain the portions that are still exposed.");
@@ -250,6 +264,9 @@ namespace Computator.NET.Desktop.Tests
             chart.AxisLabels.SetProporties(new FontFamily("Georgia"), 24, Colors.Crimson,
                 FontStyles.Italic, FontWeights.Bold);
             chart.AxisLabels.LabelX = "distance";
+            // Setting presentation properties invalidates the live visual.
+            // Complete that normal WPF layout/render pass before sampling it.
+            chart.UpdateLayout();
             NUnit.Framework.Assert.That(chart.AxisLabels.Color, Is.EqualTo(Colors.Crimson));
             NUnit.Framework.Assert.That(chart.AxisLabels.Annotations.Labels.Any(item => item.Text == "distance"), Is.True);
             NUnit.Framework.Assert.That(chart.AxisLabels.Annotations.TickMarks, Is.Not.Empty);
@@ -316,6 +333,29 @@ namespace Computator.NET.Desktop.Tests
                     NUnit.Framework.Assert.That(hitDepth.Value, Is.LessThanOrEqualTo(depth + 1e-7),
                         description + " at " + screen + " must not appear through a closer triangle.");
             }
+        }
+
+        private static int CountSurfaceHiddenAxisAnchors(Chart3DControl chart, Triangle[] triangles)
+        {
+            var count = 0;
+            var viewport = Viewport(chart);
+            var rectangle = new Rect(0, 0, viewport.ActualWidth, viewport.ActualHeight);
+            foreach (var axis in Data(chart).GetAxes())
+                for (var sample = 1; sample < 20; sample++)
+                {
+                    var world = axis.At(axis.Minimum + (axis.Maximum - axis.Minimum) * sample / 20.0);
+                    var transformed = chart.m_transformMatrix.m_totalMatrix.Transform(world);
+                    var screen = chart.m_transformMatrix.VertexToScreenPt(world, viewport);
+                    if (!rectangle.Contains(screen) || transformed.Z < -8 || transformed.Z > 1) continue;
+                    var origin = new WorldPoint(transformed.X, transformed.Y, 2);
+                    if (triangles.Any(triangle =>
+                    {
+                        var hitDepth = RayDepth(origin, triangle);
+                        return hitDepth.HasValue && hitDepth >= -8 && hitDepth <= 1 &&
+                            hitDepth > transformed.Z + 1e-7;
+                    })) count++;
+                }
+            return count;
         }
 
         private static double? RayDepth(WorldPoint origin, Triangle triangle)

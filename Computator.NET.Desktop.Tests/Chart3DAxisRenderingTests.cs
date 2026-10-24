@@ -250,11 +250,15 @@ namespace Computator.NET.Desktop.Tests
             foreach (var label in numeric)
             {
                 var ordinaryInk = CountOpaque(normal, label.Bounds, 1);
-                var scaledInk = CountOpaque(high, label.Bounds, 2);
                 NUnit.Framework.Assert.That(ordinaryInk, Is.GreaterThan(5), label.Text);
                 NUnit.Framework.Assert.That(CountDark(normal, label.Bounds), Is.GreaterThan(5),
                     "The configured black text must remain visible inside its contrasting halo: " + label.Text);
-                NUnit.Framework.Assert.That(scaledInk / (double)ordinaryInk, Is.InRange(2.5, 5.5), label.Text);
+                // Hinted glyphs can move many edge pixels across an arbitrary
+                // alpha threshold at a new DPI. Integrating alpha preserves
+                // their fractional coverage while still detecting double scale.
+                var ordinaryCoverage = CountCoverage(normal, label.Bounds, 1);
+                var scaledCoverage = CountCoverage(high, label.Bounds, 2);
+                NUnit.Framework.Assert.That(scaledCoverage / ordinaryCoverage, Is.InRange(2.5, 5.5), label.Text);
             }
         }
 
@@ -346,10 +350,14 @@ namespace Computator.NET.Desktop.Tests
                     SurfaceShape: "saddle", AdditionalYaw: 85, AdditionalPitch: 30),
                 new VisualCase("waves-zoomed", 1000, 750, 96, -3, 3,
                     SurfaceShape: "waves", AdditionalYaw: 100, AdditionalPitch: 50, ZoomSteps: 1),
+                new VisualCase("waves-occluded", 1000, 750, 96, -3, 3,
+                    SurfaceShape: "waves", AdditionalYaw: -60, AdditionalPitch: 50),
+                new VisualCase("plane-hidden-y-axis", 800, 600, 96, -5, 5,
+                    SurfaceShape: "plane", AdditionalYaw: -72, AdditionalPitch: 36),
                 new VisualCase("flat-rotated", 800, 600, 96, -3, 3,
                     SurfaceShape: "flat", AdditionalYaw: 95, AdditionalPitch: 40),
                 new VisualCase("occlusion-dpi-192", 1600, 1200, 192, -3, 3,
-                    SurfaceShape: "saddle", AdditionalYaw: 140, AdditionalPitch: 55)
+                    SurfaceShape: "waves", AdditionalYaw: -60, AdditionalPitch: 50)
             };
             var images = new List<object>();
             foreach (var item in cases)
@@ -544,6 +552,18 @@ namespace Computator.NET.Desktop.Tests
         }
 
         private static string Digest(BitmapSource bitmap) => Convert.ToHexString(SHA256.HashData(Pixels(bitmap)));
+
+        private static double CountCoverage(BitmapSource bitmap, Rect rectangle, double scale)
+        {
+            var bytes = Pixels(bitmap);
+            var coverage = 0.0;
+            for (var y = Math.Max(0, (int)Math.Floor(rectangle.Top * scale));
+                y < Math.Min(bitmap.PixelHeight, Math.Ceiling(rectangle.Bottom * scale)); y++)
+                for (var x = Math.Max(0, (int)Math.Floor(rectangle.Left * scale));
+                    x < Math.Min(bitmap.PixelWidth, Math.Ceiling(rectangle.Right * scale)); x++)
+                    coverage += bytes[(y * bitmap.PixelWidth + x) * 4 + 3] / 255.0;
+            return coverage;
+        }
 
         private static int CountDark(BitmapSource bitmap, Rect rectangle)
         {
