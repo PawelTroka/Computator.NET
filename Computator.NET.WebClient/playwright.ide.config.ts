@@ -1,4 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
+// The runner already has its pinned Node executable. Source hosts must see
+// the tools inherited by the original IDE, including on restart.
+if (process.env.COMPUTATOR_IDE_PATH) process.env.PATH = process.env.COMPUTATOR_IDE_PATH;
 export default defineConfig({
   testDir: './ide-e2e',
   outputDir: 'test-results/ide',
@@ -17,10 +20,7 @@ export default defineConfig({
     {
       command: 'dotnet run --no-build --no-launch-profile -c Release --project . -- --urls http://localhost:63785',
       url: 'http://localhost:63785', reuseExistingServer: false, timeout: 300_000,
-      env: {
-        ASPNETCORE_ENVIRONMENT: 'Development', DOTNET_ENVIRONMENT: 'Development',
-        PATH: process.env.COMPUTATOR_IDE_PATH ?? process.env.PATH ?? ''
-      }
+      env: { ASPNETCORE_ENVIRONMENT: 'Development', DOTNET_ENVIRONMENT: 'Development' }
     }
   ]
 });
