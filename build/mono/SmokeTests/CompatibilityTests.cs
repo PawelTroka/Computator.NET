@@ -129,7 +129,7 @@ internal static partial class Program
         Run("desktop-generated-monte-carlo", () =>
         {
             var generated = evaluator.Evaluate("Integral.monteCarloMethod(t => 2.0, 0, 1, 1024)", "", CalculationsMode.Real);
-            Near(generated.Evaluate(0), 2, 0);
+            Near(generated.Evaluate(0.0), 2, 0);
         });
         var linear = evaluator.Evaluate("x", "", CalculationsMode.Real);
         foreach (var method in NumericalMethodsInfo.Instance.DerrivationMethods)
