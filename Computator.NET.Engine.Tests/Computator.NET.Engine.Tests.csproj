@@ -5,6 +5,11 @@
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile><NuGetAudit>true</NuGetAudit><NuGetAuditMode>all</NuGetAuditMode>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Test the desktop random-range source and complete emitted fragment on
+         every OS without adding this catalog to the portable engine API. -->
+    <Compile Include="../Computator.NET.Core/Functions/StatisticsFunctions.cs" Link="Parity/StatisticsFunctions.cs" />
+    <Compile Include="../Computator.NET.Core/Compatibility/FrameworkRandom.cs" Link="Parity/FrameworkRandom.cs" />
+    <Compile Include="../Computator.NET.Core.Tests/FunctionsTests/FloatingRandomRangeTests.cs" Link="Parity/FloatingRandomRangeTests.cs" />
     <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexTicksLayout.cs" Link="Charting/ComplexTicksLayout.cs" />
