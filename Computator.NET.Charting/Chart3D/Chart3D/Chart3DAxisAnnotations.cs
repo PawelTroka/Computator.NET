@@ -138,13 +138,18 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
                     var depth = projected?.Tip3D.Z ?? double.NaN;
                     if (projected != null && !Visible(projected.Tip3D)) continue;
                     var sizeForName = effectiveFontSize;
+                    var minimumNameSize = Math.Min(effectiveFontSize, tickFontSize);
                     for (var attempt = 0; attempt < 8; attempt++)
                     {
                         var textLayout = TextLayout(names[index], typeface, sizeForName, labelBrush, pixelsPerDip);
                         if (TryPlace(index, null, names[index], textLayout, namePositions[index], normal,
-                            safe, projections, offset, depth))
+                            safe, projections, offset, depth, nameDirection: projected?.Tangent))
                             break;
-                        sizeForName *= 0.8;
+                        // A tiny surviving fragment is not a usable axis name.
+                        // Keep it at least as large as the numerical text, unless
+                        // the user explicitly configured a smaller name size.
+                        if (sizeForName <= minimumNameSize) break;
+                        sizeForName = Math.Max(minimumNameSize, sizeForName * 0.8);
                     }
                 }
             }
@@ -305,7 +310,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         private bool TryPlace(int axis, double? value, string text, FormattedText textLayout,
             Point anchor, Vector normal, Rect safe, List<ProjectedAxis> axes, Point? nameOffset,
-            double depth, double extraClearance = 0)
+            double depth, double extraClearance = 0, Vector? nameDirection = null)
         {
             var geometry = textLayout.BuildGeometry(new Point());
             var ink = geometry.Bounds;
@@ -325,6 +330,17 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
             foreach (var side in new[] { 1, -1 })
             {
                 var center = anchor + normal * (clearance * side);
+                candidates.Add(new Rect(center.X - width / 2, center.Y - height / 2, width, height));
+            }
+            if (nameDirection.HasValue)
+            {
+                // At a surface silhouette, a readable name often fits just
+                // beyond the arrow even when both perpendicular sides overlap
+                // foreground geometry. Preserve the configured offset's priority.
+                var direction = nameDirection.Value;
+                var distance = LabelGap + 1.5 +
+                    (Math.Abs(direction.X) * width + Math.Abs(direction.Y) * height) / 2;
+                var center = anchor + direction * distance;
                 candidates.Add(new Rect(center.X - width / 2, center.Y - height / 2, width, height));
             }
             foreach (var candidate in candidates)

@@ -196,6 +196,42 @@ namespace Computator.NET.Desktop.Tests
             NUnit.Framework.Assert.That(chart.AxisLabels.Annotations.AxisSegments.Count, Is.GreaterThan(3));
         }
 
+        [Test]
+        public void PartlyOccludedAxisNamesRemainReadableOrAreOmittedAsWholeLabels()
+        {
+            // This is the exact native evidence view that previously shrank y
+            // to a 4.192 x 5.363 DIP box beside the foreground plane.
+            var chart = EmptyChart();
+            chart.Scale = 0.3375;
+            chart.AxisLabels.Color = Colors.Black;
+            chart.SetChartAreaValues(-5, 5, -5, 5);
+            chart.AddFunction(new Function(new Func<double, double, double>((x, y) => (x + y) / 2),
+                FunctionType.Real3D));
+            RotateBy(chart, 36, -18);
+            RotateBy(chart, -72, 36);
+            var names = chart.AxisLabels.Annotations.Labels.Where(label => label.IsAxisName).ToArray();
+            NUnit.Framework.Assert.That(names.Select(label => label.Text), Does.Contain("x").And.Contain("z"),
+                "Fully exposed axis names must remain available.");
+            var pixels = Pixels(Render(chart.AxisLabels.Annotations, 800, 600));
+            foreach (var label in names)
+            {
+                NUnit.Framework.Assert.That(label.Bounds.Height, Is.GreaterThanOrEqualTo(9),
+                    "A name must not shrink into an unreadable remnant: " + label.Text);
+                var ink = 0;
+                for (var y = Math.Max(0, (int)Math.Floor(label.Bounds.Top));
+                    y < Math.Min(600, Math.Ceiling(label.Bounds.Bottom)); y++)
+                    for (var x = Math.Max(0, (int)Math.Floor(label.Bounds.Left));
+                        x < Math.Min(800, Math.Ceiling(label.Bounds.Right)); x++)
+                    {
+                        var offset = (y * 800 + x) * 4;
+                        if (pixels[offset + 3] > 127 && pixels[offset] < 100 &&
+                            pixels[offset + 1] < 100 && pixels[offset + 2] < 100) ink++;
+                    }
+                NUnit.Framework.Assert.That(ink, Is.GreaterThan(5),
+                    "Each surviving name must paint readable native text: " + label.Text);
+            }
+        }
+
         [TestCase(96)]
         [TestCase(144)]
         [TestCase(192)]
