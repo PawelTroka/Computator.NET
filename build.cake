@@ -129,6 +129,9 @@ void PackagePayload(string directory, string fileName, string requiredEntry)
 
 Setup(context =>
 {
+    // Source/IDE metadata checks need neither output directories nor the legacy
+    // Framework fixture compiler (including on a Windows workstation).
+    if (string.Equals(target, "Solution-Check", StringComparison.OrdinalIgnoreCase)) return;
     EnsureDirectoryExists("artifacts");
     EnsureDirectoryExists("TestResults");
     if (IsRunningOnWindows())

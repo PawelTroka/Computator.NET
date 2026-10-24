@@ -1,0 +1,17 @@
+<Project>
+  <!-- SDK source globs preserve compilation but not the old project files'
+       explicit designer relationships. Use standard metadata shared by Rider
+       and Visual Studio, without changing compiled items or resource names.
+       A project-specific relationship always takes precedence. -->
+  <ItemGroup>
+    <Compile Update="**/*.Designer.cs">
+      <_ComputatorDesignerStem>$([System.IO.Path]::GetFileNameWithoutExtension('%(Filename)'))</_ComputatorDesignerStem>
+      <DependentUpon Condition="'%(Compile.DependentUpon)' == '' and Exists('%(RootDir)%(Directory)%(_ComputatorDesignerStem).cs')">%(_ComputatorDesignerStem).cs</DependentUpon>
+      <DependentUpon Condition="'%(Compile.DependentUpon)' == '' and Exists('%(RootDir)%(Directory)%(_ComputatorDesignerStem).settings')">%(_ComputatorDesignerStem).settings</DependentUpon>
+      <DependentUpon Condition="'%(Compile.DependentUpon)' == '' and Exists('%(RootDir)%(Directory)%(_ComputatorDesignerStem).resx')">%(_ComputatorDesignerStem).resx</DependentUpon>
+    </Compile>
+    <Compile Update="**/*.xaml.cs">
+      <DependentUpon Condition="'%(Compile.DependentUpon)' == '' and Exists('%(RootDir)%(Directory)%(Filename)')">%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>
