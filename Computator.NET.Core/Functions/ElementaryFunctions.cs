@@ -207,7 +207,8 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arccot(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            // Preserve the (0, PI) branch without subtracting nearly equal angles.
+            return System.Math.Atan2(1.0, x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -215,7 +216,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcctg(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            return arccot(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -1390,7 +1391,8 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arccot(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            // Preserve the (0, PI) branch without subtracting nearly equal angles.
+            return System.Math.Atan2(1.0, x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1398,7 +1400,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcctg(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            return arccot(x);
         }
 
         /*Angielska nazwa funkcji""),
