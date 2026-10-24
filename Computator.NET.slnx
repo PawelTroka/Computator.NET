@@ -36,6 +36,8 @@
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="README.md" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="docs/README.md" />
     <File Path="LICENSE" />
     <File Path="CHANGELOG" />
     <File Path="global.json" />
