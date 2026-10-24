@@ -1,9 +1,13 @@
-Task("Release-Identity-Validate").Does(() =>
+Task("Release-Identity-Validate")
+    .Description("Check the shared product version identity and release metadata contracts.")
+    .Does(() =>
 {
     CheckedProcess("python", new ProcessSettings { Arguments = "build/release/versioning.py" });
     CheckedProcess("python", new ProcessSettings { Arguments = "-m unittest discover -s build/release -p test_release.py" });
 });
-Task("Release-Verify").IsDependentOn("Release-Identity-Validate").Does(() =>
+Task("Release-Verify")
+    .Description("Windows: gather full candidate evidence; separate native/portable matrices remain required.")
+    .IsDependentOn("Release-Identity-Validate").Does(() =>
 {
     if (!IsRunningOnWindows()) throw new Exception("This candidate profile verifies Windows outputs. Portable/native OS matrices remain separate required evidence.");
     if (suite != "All") throw new Exception("A release candidate cannot silently verify only one selected suite.");

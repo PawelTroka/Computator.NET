@@ -13,4 +13,6 @@ void StageGslPayload(string outputDirectory)
         .AppendQuoted(MakeAbsolute(File(report)).FullPath);
     CheckedProcess("dotnet", new ProcessSettings { Arguments = args });
 }
-Task("GSL-Distribution-Validate").IsDependentOn("Native-GSL-Validate").IsDependentOn("Distribution-Stage");
+Task("GSL-Distribution-Validate")
+    .Description("Windows: validate native GSL and the staged desktop distribution.")
+    .IsDependentOn("Native-GSL-Validate").IsDependentOn("Distribution-Stage");
