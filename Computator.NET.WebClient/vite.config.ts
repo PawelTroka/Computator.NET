@@ -44,8 +44,8 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     proxy: {
-      '/api/SampleData': 'http://localhost:63785',
-      '/api': 'http://localhost:60996'
+      '/api/SampleData': 'http://localhost:5081',
+      '/api': 'http://localhost:5080'
     }
   }
 });

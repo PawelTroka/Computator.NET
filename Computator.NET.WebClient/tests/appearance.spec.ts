@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-  await page.route('http://localhost:60996/api/**', route => route.fulfill({ json: [] }));
+  await page.route('http://localhost:5080/api/**', route => route.fulfill({ json: [] }));
 });
 
 test('dark workspace retains the existing logo and expression editor', async ({ page }, info) => {
