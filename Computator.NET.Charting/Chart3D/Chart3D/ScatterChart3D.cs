@@ -28,7 +28,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
 
         // convert the 3D scatter plot into a array of Mesh3D object
-        public ArrayList GetMeshes()
+        public ArrayList GetMeshes(bool includeAxes = true)
         {
             var nDotNo = GetDataNo();
             if (nDotNo == 0) return null;
@@ -71,7 +71,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
                 dot.SetColor(plotItem.color);
                 meshs.Add(dot);
             }
-            AddAxesMeshes(meshs);
+            if (includeAxes) AddAxesMeshes(meshs);
 
             return meshs;
         }
