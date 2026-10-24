@@ -1,14 +1,17 @@
 #define PREFER_NATIVE_METHODS_OVER_SENDKING_SHORTCUT_KEYS
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes.Properties;
 using Computator.NET.Desktop.Services;
+using Computator.NET.Desktop.Controls.CodeEditors;
 
 namespace Computator.NET.Desktop.Views
 {
     public sealed partial class MainView : Form, IMainView
     {
+        private readonly CodeEditorControlWrapper[] _documentEditors;
         #region initialization and construction
 
         private MainView()
@@ -49,6 +52,35 @@ namespace Computator.NET.Desktop.Views
 
             customFunctionsView.Dock = DockStyle.Fill;
             customFunctionsTabPage.Controls.Add(customFunctionsView);
+
+            _documentEditors = new[]
+            {
+                (CodeEditorControlWrapper)scriptingView.CodeEditorView,
+                (CodeEditorControlWrapper)customFunctionsView.CustomFunctionsEditor
+            };
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (e.Cancel || _documentEditors == null) return;
+            var approvals = new List<Func<bool>>();
+            foreach (var editor in _documentEditors)
+            {
+                var approval = editor.PrepareToCloseDocuments();
+                if (approval == null)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                approvals.Add(approval);
+            }
+            foreach (var approval in approvals)
+                if (!approval())
+                {
+                    e.Cancel = true;
+                    return;
+                }
         }
 
         #endregion

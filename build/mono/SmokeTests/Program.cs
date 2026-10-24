@@ -322,9 +322,16 @@ internal static partial class Program
                     custom.CustomFunctionsEditor.NewDocument(path);
                     custom.CustomFunctionsEditor.SwitchTab(path);
                     Equal(custom.CustomFunctionsEditor.Text, "static real Probe(real x) { return x+73; }");
+                    // This acceptance workflow intentionally edited the named
+                    // script above. Save it explicitly before normal shutdown;
+                    // an unattended test must not discard a real dirty buffer.
+                    state.CurrentView = ViewName.Scripting;
+                    bootstrapper.Create<SaveCommand>().Execute();
+                    Equal(File.ReadAllText(scripting.CodeEditorView.CurrentFileName), scripting.CodeEditorView.Text);
                     Capture(window, "desktop-workflow.png");
                     window.Close();
                     Application.DoEvents();
+                    Check(window.IsDisposed, "The saved desktop workflow did not close normally.");
                 }
             }
         }
