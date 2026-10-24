@@ -3,7 +3,7 @@
     "Computator.NET.WebApi": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "http://localhost:60996",
+      "applicationUrl": "http://localhost:5080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",

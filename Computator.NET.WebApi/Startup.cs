@@ -44,7 +44,7 @@ namespace Computator.NET.WebApi
         {
             if (environment.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseRouting();
-            app.UseCors(policy => policy.WithOrigins("http://localhost:63785", "http://localhost:63784",
+            app.UseCors(policy => policy.WithOrigins("http://localhost:5081", "http://localhost:5082",
                 "http://localhost:5173", "http://127.0.0.1:5173").WithMethods("GET", "POST").AllowAnyHeader());
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseSwagger();
