@@ -151,25 +151,22 @@ select the embedded historical Windows native fallback or stage a Windows GSL
 package. Its native numerical results are validated against the actual host
 library, separately from the existing pinned Windows GSL 2.8 distribution gate.
 
-### Existing numerical limitation
+### Numerical acceptance
 
 Acceptance covers the actual numerical-method delegates exposed by the desktop.
-One pre-existing mathematical defect remains explicit: the shared Accord 3.8
-Monte Carlo integration call returns `1` for the constant function `f(x) = 2`
-over `[0, 1]` with 1,024 samples, where the integral is exactly `2`. The same call
-and result were reproduced with Accord's Framework assembly on Mono and its
-netstandard assembly on .NET 10. This is not evidence of a Mono-only failure.
+The original Mono acceptance discovered that Accord 3.8's scalar Monte Carlo
+overload returned `1` for the constant function `f(x) = 2` over `[0, 1]`, instead
+of the exact integral `2`. Its scalar loop increments the counter twice and uses
+an integer random value for each sample coordinate.
 
-```csharp
-Accord.Math.Integration.MonteCarloIntegration.Integrate(x => 2.0, 0, 1, 1024);
-// Observed on both runtimes: 1. Mathematical result: 2.
-```
-
-The acceptance report records this as a known limitation, separately from the
-other seven integral, five derivative and five root methods. The shared
-`Integral` implementation and Accord package are unchanged by this restoration;
-correcting that estimator belongs in the separate numerical-correctness work.
-The Mono build therefore does not certify every numerical method as correct.
+The shared `Integral.monteCarloMethod` now adapts the scalar function to Accord's
+multidimensional overload, which uses uniform coordinates and counts each sample
+once. The same fix applies to generated TSL, with no package change. Acceptance
+requires this case to pass alongside the other seven integral, five derivative
+and five root methods, and additionally checks the generated expression. It no
+longer treats the incorrect result as a known limitation. Nonconstant Monte Carlo
+estimates still have stochastic sampling error; these checks do not certify every
+numerical method or input as correct.
 
 ### Desktop behavior
 

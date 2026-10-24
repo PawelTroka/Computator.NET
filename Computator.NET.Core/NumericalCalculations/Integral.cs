@@ -44,7 +44,11 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double monteCarloMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
         {
-            return Accord.Math.Integration.MonteCarloIntegration.Integrate(fx, a, b, (int)N);
+            // Accord 3.8's scalar overload uses Random.Next() for coordinates
+            // and increments its sample counter twice. The multidimensional
+            // overload samples uniformly and counts each evaluation once.
+            return Accord.Math.Integration.MonteCarloIntegration.Integrate(
+                point => fx(point[0]), new[] { a }, new[] { b }, (int)N);
         }
 
         public static double infiniteAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, double N = STEPS_MAX)
@@ -126,7 +130,9 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double monteCarloMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
         {
-            return Accord.Math.Integration.MonteCarloIntegration.Integrate(fx, a, b, N);
+            // Use the corrected path in emitted/precompiled TSL as well.
+            return Accord.Math.Integration.MonteCarloIntegration.Integrate(
+                point => fx(point[0]), new[] { a }, new[] { b }, N);
         }
 
         public static double infiniteAdaptiveGaussKronrodMethod(System.Func<double, double> fx, double a, double b, int N = STEPS_MAX)
