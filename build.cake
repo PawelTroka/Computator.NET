@@ -24,6 +24,7 @@ if (suite != "All" && !suites.ContainsKey(suite)) throw new Exception("Unknown t
 string temporaryProfile = null;
 var previousDataDirectory = EnvironmentVariable("COMPUTATOR_DATA_DIRECTORY");
 var previousFixture = EnvironmentVariable("COMPUTATOR_LEGACY_FIXTURE");
+string frontendCommandPrefix = null;
 
 void CheckedProcess(string executable, ProcessSettings settings)
 {
@@ -35,8 +36,60 @@ void PowerShell(string script, string arguments = "", string executable = "pwsh"
     var args = new ProcessArgumentBuilder().Append("-NoProfile").Append("-File").AppendQuoted(script).Append(arguments);
     CheckedProcess(executable, new ProcessSettings { Arguments = args });
 }
+string FrontendToolVersion(string executable)
+{
+    IEnumerable<string> output;
+    IEnumerable<string> errors;
+    try
+    {
+        var commandScript = IsRunningOnWindows() && executable == "npm";
+        var exitCode = StartProcess(commandScript ? "cmd.exe" : executable, new ProcessSettings
+        {
+            Arguments = commandScript ? "/d /c npm --version" : "--version",
+            WorkingDirectory = webDirectory, RedirectStandardOutput = true, RedirectStandardError = true,
+            Timeout = 30000
+        }, out output, out errors);
+        if (exitCode == 0)
+            return (output.LastOrDefault() ?? "").Trim().TrimStart('v');
+    }
+    catch (Exception) { /* Report the missing/unusable prerequisite below. */ }
+    return "";
+}
+string FrontendCommandPrefix()
+{
+    if (frontendCommandPrefix != null) return frontendCommandPrefix;
+    var node = System.IO.File.ReadAllText(".nvmrc").Trim();
+    var npm = Regex.Match(System.IO.File.ReadAllText(webDirectory + "/package.json"),
+        "\"packageManager\"\\s*:\\s*\"npm@(?<version>[0-9]+\\.[0-9]+\\.[0-9]+)\"").Groups["version"].Value;
+    // These values become command arguments, so accept only exact numeric pins.
+    if (!Regex.IsMatch(node, "^[0-9]+\\.[0-9]+\\.[0-9]+$") || npm.Length == 0)
+        throw new Exception("Frontend tools require an exact Node version in .nvmrc and npm@x.y.z in packageManager.");
+    var installedNode = FrontendToolVersion("node");
+    var installedNpm = FrontendToolVersion("npm");
+    Version nodeVersion;
+    Version npmVersion;
+    // Recover older releases within the selected Node major. Much older Node
+    // runtimes may be unable to install the pinned npm before Node is selected.
+    if (!Version.TryParse(installedNode, out nodeVersion) || nodeVersion.Major < Version.Parse(node).Major ||
+        !Version.TryParse(installedNpm, out npmVersion) || npmVersion.Major < 7)
+        throw new Exception("Automatic frontend tool selection needs Node " + Version.Parse(node).Major +
+            " or newer and npm 7 or newer on PATH. Install Node " + node +
+            " (npm " + npm + "), restart the IDE so it sees the updated PATH, and retry.");
+    if (installedNode == node && installedNpm == npm) return frontendCommandPrefix = "";
+    Information("Using pinned Node {0} and npm {1} from npm's local tool cache (PATH has Node {2}, npm {3}).", node, npm, installedNode, installedNpm);
+    // npm exec adds both exact-version tools to the child PATH. Lifecycle scripts,
+    // Vite and nested IDE builds therefore use the same Node/npm without a global
+    // install, a relaxed engine policy or changes to the application lockfile.
+    return frontendCommandPrefix = "exec --yes --package=node@" + node + " --package=npm@" + npm + " -- ";
+}
 void NodeCommand(string executable, string arguments, IDictionary<string, string> environment = null)
 {
+    var prefix = FrontendCommandPrefix();
+    if (prefix.Length != 0)
+    {
+        arguments = prefix + executable + " " + arguments;
+        executable = "npm";
+    }
     // Windows npm/npx launchers are command scripts. Arguments are repository-owned.
     CheckedProcess(IsRunningOnWindows() ? "cmd.exe" : executable, new ProcessSettings
     {

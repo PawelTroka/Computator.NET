@@ -48,7 +48,10 @@ test('an IDE restart replaces assets built for another API profile', async ({ pa
   const host = spawn('dotnet', [path.resolve('bin/Release/net10.0/Computator.NET.WebClient.dll'),
     '--contentRoot', process.cwd(), '--urls', 'http://localhost:63784'], {
     cwd: process.cwd(), windowsHide: true,
-    env: { ...process.env, ASPNETCORE_ENVIRONMENT: 'Development', DOTNET_ENVIRONMENT: 'Development' }
+    env: {
+      ...process.env, ASPNETCORE_ENVIRONMENT: 'Development', DOTNET_ENVIRONMENT: 'Development',
+      PATH: process.env.COMPUTATOR_IDE_PATH ?? process.env.PATH
+    }
   });
   let output = '';
   host.stdout.on('data', chunk => { output = (output + chunk).slice(-32_000); });

@@ -17,7 +17,10 @@ export default defineConfig({
     {
       command: 'dotnet run --no-build --no-launch-profile -c Release --project . -- --urls http://localhost:63785',
       url: 'http://localhost:63785', reuseExistingServer: false, timeout: 300_000,
-      env: { ASPNETCORE_ENVIRONMENT: 'Development', DOTNET_ENVIRONMENT: 'Development' }
+      env: {
+        ASPNETCORE_ENVIRONMENT: 'Development', DOTNET_ENVIRONMENT: 'Development',
+        PATH: process.env.COMPUTATOR_IDE_PATH ?? process.env.PATH ?? ''
+      }
     }
   ]
 });
