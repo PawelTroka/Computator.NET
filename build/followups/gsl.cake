@@ -1,10 +1,14 @@
-Task("Native-GSL").Does(() =>
+Task("Native-GSL")
+    .Description("Build, test and package native GSL for the current supported platform.")
+    .Does(() =>
     CheckedProcess(IsRunningOnWindows() ? "python" : "python3", new ProcessSettings
     {
         Arguments = "build/native/build_gsl.py",
         EnvironmentVariables = new Dictionary<string, string> { { "VCPKG_DISABLE_METRICS", "1" } }
     }));
-Task("Native-GSL-Validate").IsDependentOn("Native-GSL").Does(() =>
+Task("Native-GSL-Validate")
+    .Description("Validate native GSL and, on Windows, the managed mathematical/desktop suites.")
+    .IsDependentOn("Native-GSL").Does(() =>
 {
     if (!IsRunningOnWindows()) return; // Native C/managed ABI probes already ran on this OS.
     DotNetRestore(solution, RestoreSettings());
