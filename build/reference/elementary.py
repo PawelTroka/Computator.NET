@@ -32,7 +32,7 @@ INVERSE={
  'arcosh':('Inverse hyperbolic cosine','The nonnegative real inverse of hyperbolic cosine.','arcosh(t) = ln(t + sqrt(t+1)·sqrt(t−1))','Real domain t≥1; nonnegative result.','arcosh(1) = 0'),
  'artanh':('Inverse hyperbolic tangent','The inverse of hyperbolic tangent.','artanh(t) = ½ ln((1+t)/(1−t))','Finite real values require −1<t<1. The endpoints are logarithmic singularities.','artanh(0) = 0'),
  'arcoth':('Inverse hyperbolic cotangent','The application’s logarithmic inverse-cotangent-hyperbolic convention.','arcoth(t) = ½ ln((t+1)/(t−1))','Finite real domain |t|>1. The spelling arctgh is an alias for this function, NOT for artanh.','arcoth(2) ≈ 0.5493061443'),
- 'arcsch':('Inverse hyperbolic cosecant','Inverse hyperbolic sine of the reciprocal argument.','arcsch(t) = ln(1/t + sqrt(1/t²+1))','Real t≠0. Direct reciprocals and subtraction can overflow or cancel near extreme inputs.','arcsch(1) ≈ 0.8813735870'),
+ 'arcsch':('Inverse hyperbolic cosecant','Inverse hyperbolic sine of the reciprocal argument.','arcsch(t) = ln(1/t + sqrt(1/t²+1))','Real t≠0. The real implementation is odd and remains finite for every nonzero finite double. Signed zero returns signed infinity; infinite arguments return signed zero.','arcsch(1) ≈ 0.8813735870'),
  'arsech':('Inverse hyperbolic secant','The inverse hyperbolic cosine of the reciprocal argument.','arsech(t) = ln(1/t + sqrt(1/t+1)·sqrt(1/t−1))','Finite real domain 0<t≤1.','arsech(1) = 0'),
 }
 OTHER={

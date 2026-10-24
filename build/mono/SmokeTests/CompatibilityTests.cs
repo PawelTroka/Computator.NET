@@ -109,6 +109,22 @@ internal static partial class Program
         Near(generatedAcoth.Evaluate(2.0), 0.5493061443340549, 1e-15);
         Near(ElementaryFunctions.arcoth(1e20), 1e-20, 1e-35);
         Near(generatedAcoth.Evaluate(1e20), 1e-20, 1e-35);
+        var generatedAcsch = evaluator.Evaluate("arcsch(x)", "", CalculationsMode.Real);
+        var generatedAcosech = evaluator.Evaluate("arcosech(x)", "", CalculationsMode.Real);
+        foreach (var sample in new[]
+        {
+            new[] { -1e-10, -23.7189981105004 },
+            new[] { 1e-300, 691.4686750787737 },
+            new[] { -1e-300, -691.4686750787737 },
+            new[] { 1e20, 1e-20 }
+        })
+        {
+            var tolerance = Math.Abs(sample[1]) * 2e-15;
+            Near(ElementaryFunctions.arcsch(sample[0]), sample[1], tolerance);
+            Near(ElementaryFunctions.arcosech(sample[0]), sample[1], tolerance);
+            Near(generatedAcsch.Evaluate(sample[0]), sample[1], tolerance);
+            Near(generatedAcosech.Evaluate(sample[0]), sample[1], tolerance);
+        }
     }
 
     private static void NumericalMethodCatalog()
