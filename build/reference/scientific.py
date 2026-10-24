@@ -44,13 +44,13 @@ def describe(item,values):
 def integral(name,args):
     data={
       'rectangleMethod':('Composite midpoint rule','Approximates area by equal-width rectangles evaluated at their midpoints.', 'h·Σⱼ₌₀ᴺ⁻¹ f(a+(j+1/2)h), h=(b−a)/N.',
-                         'N is the number of panels. For smooth f, error is generally of order h².'),
+                         'N must be a finite positive integer no larger than 2,147,483,647. Invalid counts throw ArgumentOutOfRangeException before evaluating fx. For smooth f, error is generally of order h².'),
       'trapezoidalMethod':('Composite trapezoidal rule','Approximates the integral by straight-line interpolation on each panel.',
                            'h·[f(a)/2+Σⱼ₌₁ᴺ⁻¹ f(a+jh)+f(b)/2], h=(b−a)/N.',
-                           'N is the number of panels; smooth-function error is generally of order h².'),
+                           'N must be a finite positive integer no larger than 2,147,483,647. Invalid counts throw ArgumentOutOfRangeException before evaluating fx. Smooth-function error is generally of order h².'),
       'simpsonMethod':('Composite Simpson rule','Integrates piecewise quadratic interpolation on pairs of equal-width panels.',
                        'h/3·[f(a)+4f(a+h)+2f(a+2h)+…+4f(b−h)+f(b)].',
-                       'Use a positive even integer N. This wrapper increments odd N by 1; it does not interpret fractional N consistently. Smooth-function error is generally of order h⁴.'),
+                       'Use a finite positive integer N no larger than 2,147,483,646. This wrapper increments odd integers by 1 to obtain an even panel count. Invalid counts throw ArgumentOutOfRangeException before evaluating fx. Smooth-function error is generally of order h⁴.'),
       'monteCarloMethod':('Monte Carlo quadrature','Estimates a one-dimensional integral by random sampling over its interval.',
                          'Integral estimate ≈ (b−a)·sample mean of f(U), U uniform on [a,b].',
                          'N is the sample count, cast to an integer. Sampling error is stochastic, usually proportional to 1/sqrt(N), not a guaranteed deterministic tolerance.'),
