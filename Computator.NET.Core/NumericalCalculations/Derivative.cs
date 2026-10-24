@@ -9,6 +9,15 @@ namespace Computator.NET.Core.NumericalCalculations
         private const double EPS_MIN = 1e-25;
         private const double EPS_MAX = 1e-9;
 
+        private static double StepScale(double x)
+        {
+            // Keep relative, sign-directed steps away from zero. A unit scale
+            // near the origin avoids collapsing the default spacing with x:
+            // evaluating exp(x) at x +/- 1e-25 can otherwise round to one.
+            var scale = System.Math.Max(1.0, System.Math.Abs(x));
+            return x < 0.0 ? -scale : scale;
+        }
+
         public static double derivative(string methodName, System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
             switch (methodName)
@@ -30,7 +39,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double finiteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
-            var dx = x*eps;
+            var dx = StepScale(x)*eps;
             if (dx == 0)
                 dx = EPS_MIN;
             if (order == 0)
@@ -43,7 +52,7 @@ namespace Computator.NET.Core.NumericalCalculations
         public static double stableFiniteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
             double dx;
-            var h = System.Math.Sqrt(eps)*x;
+            var h = System.Math.Sqrt(eps)*StepScale(x);
             if (h == 0.0)
                 h = System.Math.Sqrt(EPS_MIN);
 
@@ -61,7 +70,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double twoPointfiniteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
-            var dx = x*eps;
+            var dx = StepScale(x)*eps;
             if (dx == 0)
                 dx = EPS_MIN;
             if (order == 0)
@@ -74,7 +83,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double centeredFivePointMethod(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
-            var dx = x*eps;
+            var dx = StepScale(x)*eps;
             if (dx == 0)
                 dx = EPS_MIN;
             //[f(x-2h) - 8f(x-h) + 8f(x+h) - f(x+2h)] / 12h
@@ -122,6 +131,15 @@ namespace Computator.NET.Core.NumericalCalculations
         private const double EPS_MIN = 1e-25;
         private const double EPS_MAX = 1e-9;
 
+        private static double StepScale(double x)
+        {
+            // Keep relative, sign-directed steps away from zero. A unit scale
+            // near the origin avoids collapsing the default spacing with x:
+            // evaluating exp(x) at x +/- 1e-25 can otherwise round to one.
+            var scale = System.Math.Max(1.0, System.Math.Abs(x));
+            return x < 0.0 ? -scale : scale;
+        }
+
         public static double derivative(string methodName, System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
             switch (methodName)
@@ -143,7 +161,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double finiteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
-            var dx = x*eps;
+            var dx = StepScale(x)*eps;
             if (dx == 0)
                 dx = EPS_MIN;
             if (order == 0)
@@ -156,7 +174,7 @@ namespace Computator.NET.Core.NumericalCalculations
         public static double stableFiniteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
             double dx;
-            var h = System.Math.Sqrt(eps)*x;
+            var h = System.Math.Sqrt(eps)*StepScale(x);
             if (h == 0.0)
                 h = System.Math.Sqrt(EPS_MIN);
 
@@ -174,7 +192,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double twoPointfiniteDifferenceFormula(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
-            var dx = x*eps;
+            var dx = StepScale(x)*eps;
             if (dx == 0)
                 dx = EPS_MIN;
             if (order == 0)
@@ -187,7 +205,7 @@ namespace Computator.NET.Core.NumericalCalculations
 
         public static double centeredFivePointMethod(System.Func<double, double> fx, double x, uint order = 1, double eps = EPS_MAX)
         {
-            var dx = x*eps;
+            var dx = StepScale(x)*eps;
             if (dx == 0)
                 dx = EPS_MIN;
             //[f(x-2h) - 8f(x-h) + 8f(x+h) - f(x+2h)] / 12h
