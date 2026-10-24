@@ -24,5 +24,10 @@
          not claimed to have a native modern-.NET target. NU1701 stays visible. -->
     <PackageVersion Include="TROKA.Software.SimpleCodeEditor" Version="2.0.0" />
     <PackageVersion Include="Unity" Version="5.11.10" />
+    <!-- Explicit Framework compatibility dependencies; used only when opted in. -->
+    <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
+    <PackageVersion Include="System.Resources.Extensions" Version="10.0.13" />
+    <PackageVersion Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
+    <PackageVersion Include="System.Formats.Nrbf" Version="10.0.13" />
   </ItemGroup>
 </Project>

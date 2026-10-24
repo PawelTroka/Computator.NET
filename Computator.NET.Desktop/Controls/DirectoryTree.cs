@@ -18,6 +18,9 @@ namespace Computator.NET.Desktop.Controls
 
         public DirectoryTree()
         {
+            // TreeView defaults to backslashes even on Mono/X11. FullPath is
+            // passed to the document editor and filesystem for every tree action.
+            PathSeparator = System.IO.Path.DirectorySeparatorChar.ToString();
             Font = new Font(FontFamily.GenericSansSerif, 9.0F, FontStyle.Regular, GraphicsUnit.Point);
             AfterSelect += _AfterSelect;
             _fileMenu = new ContextMenuStrip();

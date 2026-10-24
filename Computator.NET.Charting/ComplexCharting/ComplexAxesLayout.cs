@@ -26,6 +26,7 @@ namespace Computator.NET.Charting.ComplexCharting
         public float LabelGap { get; private set; }
         public RectangleF XLabelBounds { get; private set; }
         public RectangleF YLabelBounds { get; private set; }
+        public ComplexTicksLayout Ticks { get; internal set; }
 
         public static ComplexAxesLayout Create(RectangleF bounds, float dpiX, float dpiY,
             double xMin, double xMax, double yMin, double yMax, double arrowRelativeSize)

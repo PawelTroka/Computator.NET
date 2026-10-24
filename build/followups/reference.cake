@@ -28,6 +28,8 @@ void MaterializeReference(bool check)
 {
     CheckedProcess("python", new ProcessSettings { Arguments = "build/reference/generate.py --inventory artifacts/reference/inventory.json --equations-only artifacts/reference/equations.json" });
     CheckedProcess("node", new ProcessSettings { Arguments = "build/reference/typeset.cjs --input artifacts/reference/equations.json --output Computator.NET.Core/Static/reference-equations" + (check ? " --check" : "") });
+    CheckedProcess("node", new ProcessSettings { Arguments = "build/reference/plots.cjs --output Computator.NET.Core/Static/reference-figures" + (check ? " --check" : "") });
+    CheckedProcess("node", new ProcessSettings { Arguments = "--test build/reference/test-plots.cjs" });
     CheckedProcess("python", new ProcessSettings { Arguments = "-m unittest discover -s build/reference -p test_*.py" });
     CheckedProcess("python", new ProcessSettings { Arguments = "build/reference/generate.py --inventory artifacts/reference/inventory.json --output Computator.NET.Core/Static/functions.xml --preview artifacts/reference/preview.html --report artifacts/reference/coverage.json" + (check ? " --check" : "") });
 }

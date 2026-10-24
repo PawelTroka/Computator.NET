@@ -26,6 +26,7 @@
     <Project Path="Computator.NET.Installer/Computator.NET.Installer.csproj" />
     <Project Path="build/native/ManagedProbe/ManagedProbe.csproj" />
     <Project Path="build/native/PublishedProbe/PublishedProbe.csproj" />
+    <Project Path="build/performance/Worker.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="README.md" />
@@ -105,6 +106,33 @@
     <File Path=".github/workflows/release-evidence.yml" />
     <File Path=".github/workflows/web-ide.yml" />
     <File Path=".github/workflows/reference-validation.yml" />
+    <File Path=".github/workflows/performance-comparison.yml" />
+    <File Path=".github/workflows/mono-desktop.yml" />
+  </Folder>
+  <Folder Name="/Build/Performance/">
+    <File Path="build/performance/README.md" />
+    <File Path="build/performance/Worker.cs" />
+    <File Path="build/performance/DesktopStartup.cs" />
+    <File Path="build/performance/Get-HistoricalBaseline.ps1" />
+    <File Path="build/performance/Prepare-Comparison.ps1" />
+    <File Path="build/performance/Prepare-ModernDiagnostic.ps1" />
+    <File Path="build/performance/Profile-Compilation.ps1" />
+    <File Path="build/performance/inspect_compilation.py" />
+    <File Path="build/performance/CompilationDiagnostics.cs.txt" />
+    <File Path="build/performance/compare.py" />
+    <File Path="build/performance/test_compare.py" />
+  </Folder>
+  <Folder Name="/Build/Mono compatibility (opt-in)/">
+    <File Path="build/MonoDesktop.props" />
+    <File Path="build/followups/mono.cake" />
+    <File Path="build/mono/build.sh" />
+    <File Path="build/mono/validate.sh" />
+    <File Path="build/mono/LegacyFixtureWriter.cs" />
+    <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
+    <File Path="build/mono/SmokeTests/Program.cs" />
+    <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
+    <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
+    <File Path="build/mono/StartupProbe/Program.cs" />
   </Folder>
   <Folder Name="/Documentation/">
     <File Path="docs/DEVELOPING.md" />
@@ -112,6 +140,8 @@
     <File Path="docs/RELEASE-3.0.md" />
     <File Path="docs/MIGRATION-NET10.md" />
     <File Path="docs/LEGACY-TOOLING.md" />
+    <File Path="docs/MONO-DESKTOP.md" />
+    <File Path="docs/followups/MONO-DESKTOP-RESTORATION.md" />
     <File Path="docs/followups/WEB-E2E.md" />
     <File Path="docs/followups/WEB-CUSTOM-FUNCTIONS.md" />
     <File Path="docs/followups/GSL.md" />
@@ -154,6 +184,8 @@
     <File Path="build/reference/generate.py" />
     <File Path="build/reference/test_rich_content.py" />
     <File Path="build/reference/typeset.cjs" />
+    <File Path="build/reference/plots.cjs" />
+    <File Path="build/reference/test-plots.cjs" />
     <File Path="build/reference/enrichment_more.py" />
     <File Path="build/reference/enrichment.py" />
     <File Path="build/reference/test_authoring.py" />

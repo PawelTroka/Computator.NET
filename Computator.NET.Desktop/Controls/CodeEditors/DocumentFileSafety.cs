@@ -39,7 +39,12 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             if (other == null || Exists != other.Exists) return false;
             if (!Exists) return true;
-            return Nullable.Equals(_identity, other._identity) && _bytes.AsSpan().SequenceEqual(other._bytes);
+            return Nullable.Equals(_identity, other._identity) &&
+#if __MonoCS__
+                System.Linq.Enumerable.SequenceEqual(_bytes, other._bytes);
+#else
+                _bytes.AsSpan().SequenceEqual(other._bytes);
+#endif
         }
     }
 
@@ -60,11 +65,30 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             _volume == other._volume && _low == other._low && _high == other._high;
 
         public override bool Equals(object other) => other is DocumentFileIdentity identity && Equals(identity);
-        public override int GetHashCode() => HashCode.Combine(_volume, _low, _high);
+        public override int GetHashCode()
+        {
+#if __MonoCS__
+            unchecked { return ((_volume.GetHashCode() * 397) ^ _low.GetHashCode()) * 397 ^ _high.GetHashCode(); }
+#else
+            return HashCode.Combine(_volume, _low, _high);
+#endif
+        }
     }
 
     internal static class DocumentFileSafety
     {
+        private static bool IsWindows
+        {
+            get
+            {
+#if __MonoCS__
+                return Environment.OSVersion.Platform == PlatformID.Win32NT;
+#else
+                return OperatingSystem.IsWindows();
+#endif
+            }
+        }
+
         private const string ChangedMessage =
             "The destination changed outside this editor. Your unsaved document has been kept. Choose a new file name with Save As.";
 
@@ -81,7 +105,16 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             right = Path.GetFullPath(right);
             if (string.Equals(left, right, StringComparison.Ordinal)) return true;
             var caseVariant = string.Equals(left, right, StringComparison.OrdinalIgnoreCase);
-            if (!OperatingSystem.IsWindows()) return caseVariant;
+            if (!IsWindows)
+            {
+#if __MonoCS__
+                // Tab keys are case-insensitive, while a Unix filesystem can
+                // hold both names. Never silently reuse one document's buffer.
+                if (caseVariant)
+                    throw new IOException("These document names differ only by case. The Mono editor cannot safely combine them on a case-sensitive filesystem. Choose a different file name.");
+#endif
+                return caseVariant;
+            }
 
             using (var first = OpenWindowsFile(left, 0, 7, 0x02000000))
             {
@@ -161,7 +194,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                         }
                     }
                     else
-                        File.Move(stagedPath, path, false);
+                        File.Move(stagedPath, path);
                 }
                 // Another process can replace the destination between our check
                 // and File.Replace. Its newer version is then the backup: retain
@@ -180,7 +213,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         {
             try
             {
-                if (!OperatingSystem.IsWindows())
+                if (!IsWindows)
                 {
                     if (!expected.Matches(Capture(path))) return false;
                     File.Delete(path);
@@ -213,7 +246,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private static void RestoreBackupAfterFailure(string backupPath, string path, Exception failure)
         {
             if (!File.Exists(backupPath)) return;
-            try { File.Move(backupPath, path, false); }
+            try { File.Move(backupPath, path); }
             catch (Exception restoreFailure) when (restoreFailure is IOException || restoreFailure is UnauthorizedAccessException)
             {
                 throw new IOException("The save failed. The previous file has been preserved at '" + backupPath +
@@ -255,7 +288,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private static DocumentFileSnapshot ReadSnapshot(string path, FileStream stream)
         {
             var links = 1U;
-            DocumentFileIdentity? identity = OperatingSystem.IsWindows()
+            DocumentFileIdentity? identity = IsWindows
                 ? GetIdentity(stream.SafeFileHandle, out links) : null;
             using (var bytes = new MemoryStream())
             {

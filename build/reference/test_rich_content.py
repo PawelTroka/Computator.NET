@@ -74,6 +74,122 @@ class RichContentTests(unittest.TestCase):
         self.assertNotIn('<strong>Example:</strong> gamma(5)',value)
         self.assertIn('<code>gamma(5)</code>',value)
 
+    def test_definitions_and_their_caveats_precede_longer_teaching_notes(self):
+        for signature in ['Ackley(xi1,xi2, ...)', 'gamma(x)', 'SphericalBesselJ0(x)']:
+            with self.subTest(signature=signature):
+                root=ET.fromstring(self.article(signature))
+                sections=[element.get('class') for element in root]
+                defining_class='reference-formula' if 'reference-formula' in sections else 'reference-equation'
+                summary=sections.index('reference-summary')
+                definition=sections.index(defining_class)
+                arguments=sections.index('reference-arguments')
+                explanation=sections.index('reference-explanation')
+                self.assertLess(summary,definition)
+                self.assertLess(definition,arguments)
+                self.assertLess(arguments,explanation)
+                if 'reference-note' in sections:self.assertLess(sections.index('reference-note'),explanation)
+
+    def test_reviewed_benchmark_definitions_are_typeset_once(self):
+        for name in ['Ackley','Rastrigin','Bohachevsky1','Himmelblau','Matyas','Rosenbrock','dropWave','sixHumpCamel']:
+            with self.subTest(name=name):
+                root=ET.fromstring(self.article(name+'(x,y)'))
+                self.assertIsNone(root.find("./p[@class='reference-formula']"))
+                equations=root.findall("./p[@class='reference-equation']")
+                self.assertEqual(len(equations),1)
+                label='Standard benchmark definition' if name=='Bohachevsky1' else 'Definition'
+                self.assertEqual(equations[0].find('strong').text,label)
+                self.assertIsNotNone(equations[0].find("./img[@class='reference-math']"))
+
+    def test_supplementary_family_equations_keep_their_explanatory_context(self):
+        for signature in ['Gabor(x,y,λ,θ,ψ,σ,γ)', 'SphericalBesselJ0(x)']:
+            with self.subTest(signature=signature):
+                root=ET.fromstring(self.article(signature))
+                sections=[element.get('class') for element in root]
+                self.assertLess(sections.index('reference-formula'),sections.index('reference-explanation'))
+                self.assertLess(sections.index('reference-explanation'),sections.index('reference-equation'))
+                self.assertNotEqual(root.find("./p[@class='reference-equation']/strong").text,'Definition')
+
+    def test_standard_benchmark_formula_does_not_hide_the_implementation_offset(self):
+        root=ET.fromstring(self.article('Bohachevsky1(x,y)'))
+        arguments=''.join(root.find("./p[@class='reference-arguments']").itertext())
+        self.assertIn('implementation omits +0.7',arguments)
+        self.assertIn('value -0.7 at that same minimizer',arguments)
+        self.assertIn('Bohachevsky1(0,0)+0.7',''.join(root.itertext()))
+
+    def test_pointwise_teaching_notes_describe_the_repaired_operand_fold(self):
+        for name,contract in [('PointwiseMultiply','using each operand once'),('PointwiseDivide','from left to right')]:
+            with self.subTest(name=name):
+                root=ET.fromstring(self.article(name+'<T>(matrices1,matrices2, ...)',kind='MatrixFunctions'))
+                explanation=''.join(root.find("./p[@class='reference-explanation']").itertext())
+                self.assertIn(contract,explanation)
+                self.assertIn('independent copy',explanation)
+                for stale in ['included twice','repeated first operand','current wrapper','buggy fold']:
+                    self.assertNotIn(stale,explanation)
+
+    def test_all_benchmarks_have_explanatory_diagrams_with_their_convention(self):
+        for name in ['Ackley','Rastrigin','Bohachevsky1','Himmelblau','Matyas','Rosenbrock','dropWave','sixHumpCamel']:
+            with self.subTest(name=name):
+                root=ET.fromstring(self.article(name+'(x,y)'))
+                arguments=root.find("./p[@class='reference-arguments']")
+                figure=root.find("./div[@class='reference-figure']")
+                self.assertTrue(figure.find('img').get('alt'))
+                self.assertEqual(figure.find('img').get('class'),'reference-plot')
+                self.assertTrue(figure.find('img').get('src').startswith('reference-figures/'))
+                self.assertIn('Reading the landscape',''.join(figure.itertext()))
+                if name=='Bohachevsky1':
+                    self.assertIn('omits +0.7',arguments.text or ''.join(arguments.itertext()))
+                    self.assertIn('minimum is -0.7',''.join(figure.itertext()))
+
+    def test_figure_allowlist_rejects_wrong_class_directory_and_attributes(self):
+        original=self.article('Ackley(x,y)')
+        for name,value in [('src','https://example.invalid/a.png'),('src','reference-figures/../a.png'),
+                           ('class','reference-math'),('width','2401'),('height','801'),
+                           ('data-depth','0'),('style','width:100vw'),('alt','')]:
+            with self.subTest(name=name,value=value):
+                root=ET.fromstring(original)
+                root.find(".//img[@class='reference-plot']").set(name,value)
+                with self.assertRaises(ValueError):generate.validate_fragment(ET.tostring(root,encoding='unicode'))
+
+    def test_concept_diagrams_serve_only_the_reviewed_overloads(self):
+        expected={
+            ('ElementaryFunctions','sin(x)'):'UnitCircle',
+            ('ElementaryFunctions','sin(z)'):'UnitCircle',
+            ('ElementaryFunctions','cos(x)'):'UnitCircle',
+            ('ElementaryFunctions','cos(z)'):'UnitCircle',
+            ('Normal','Normal.PDF(mean,stddev,x)'):'StandardNormal',
+            ('Normal','Normal.CDF(mean,stddev,x)'):'StandardNormal',
+        }
+        for (kind,signature),name in expected.items():
+            with self.subTest(signature=signature):
+                root=ET.fromstring(self.article(signature,kind))
+                figure=root.find("./div[@class='reference-figure']")
+                image=figure.find('img')
+                asset=generate.figure_manifest()[Path(image.get('src')).stem]
+                self.assertEqual(asset['name'],name)
+                self.assertEqual(image.get('alt'),asset['alt'])
+                self.assertEqual(figure.findall('p')[-1].text,asset['caption'])
+                # A supplemental picture must not push an existing definition
+                # farther down the article or replace its mathematical context.
+                children=list(root)
+                self.assertLess(children.index(root.find("./p[@class='reference-arguments']")),children.index(figure))
+                self.assertLess(children.index(root.find("./p[@class='reference-equation']")),children.index(figure))
+        for kind,signature in [('SpecialFunctions','sin(x)'),('ElementaryFunctions','sinh(x)'),
+                               ('Normal','Normal.InvCDF(mean,stddev,p)'),('LogNormal','LogNormal.PDF(μ,σ,x)')]:
+            with self.subTest(signature=signature):
+                self.assertEqual(generate.figure_html({'signature':signature,'type':kind}),'')
+
+    def test_adding_concept_diagrams_preserves_every_existing_article_node(self):
+        for signature,kind in [('sin(x)','ElementaryFunctions'),('sin(z)','ElementaryFunctions'),
+                               ('cos(x)','ElementaryFunctions'),('cos(z)','ElementaryFunctions'),
+                               ('Normal.PDF(mean,stddev,x)','Normal'),('Normal.CDF(mean,stddev,x)','Normal')]:
+            with self.subTest(signature=signature):
+                with patch.object(generate,'figure_html',return_value=''):
+                    original=self.article(signature,kind)
+                rendered=self.article(signature,kind)
+                figure=generate.figure_html({'signature':signature,'type':kind})
+                self.assertEqual(rendered.count(figure),1)
+                self.assertEqual(rendered.replace(figure+'\n',''),original)
+
 
 class VisibleText(HTMLParser):
     def __init__(self):

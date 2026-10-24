@@ -1,8 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernDesktop.props" />
-  <PropertyGroup><UseWindowsForms>true</UseWindowsForms></PropertyGroup>
+  <PropertyGroup><UseWindowsForms Condition="'$(ComputatorMono)' != 'true'">true</UseWindowsForms></PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WinForms.DataVisualization" /><PackageReference Include="NLog" />
+    <PackageReference Include="WinForms.DataVisualization" Condition="'$(ComputatorMono)' != 'true'" /><PackageReference Include="NLog" />
+    <Reference Include="DataVisualizationX" Condition="'$(ComputatorMono)' == 'true'">
+      <HintPath>..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
     <ProjectReference Include="..\Computator.NET.Localization\Computator.NET.Localization.csproj" />
     <ProjectReference Include="..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
     <Compile Remove="Text\SpecialSymbols.cs" />

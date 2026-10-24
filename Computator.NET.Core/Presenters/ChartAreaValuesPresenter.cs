@@ -1,18 +1,21 @@
-﻿using Computator.NET.Core.Abstract.Views;
+﻿using System;
+using Computator.NET.Core.Abstract.Views;
+using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
 using Computator.NET.Localization;
 
 namespace Computator.NET.Core.Presenters
 {
-    public class ChartAreaValuesPresenter
+    public class ChartAreaValuesPresenter : IDisposable
     {
         private readonly IChartAreaValuesView _view;
 
-        public ChartAreaValuesPresenter(IChartAreaValuesView view)
+        public ChartAreaValuesPresenter(IChartAreaValuesView view, ISharedViewState sharedViewState)
         {
             _view = view;
             EventAggregator.Instance.Subscribe<CalculationsModeChangedEvent>(OnCalculationsModeChangedEvent);
+            _view.Disposed += OnViewDisposed;
 
             _view.YMaxChanged += OnValueChanged;
             _view.XMaxChanged += OnValueChanged;
@@ -22,14 +25,15 @@ namespace Computator.NET.Core.Presenters
             _view.XMax = 5;
             _view.YMin = -_view.YMax;
             _view.XMin = -_view.XMax;
+            SetMode(sharedViewState.CalculationsMode);
         }
 
         private void OnValueChanged(object sender, System.EventArgs e)
         {
             if (_view.XMax <= _view.XMin)
             {
-                _view.SetError(nameof(_view.XMax),$"xN {Strings.NeedsToBeGreaterThan} x0");
-                _view.SetError(nameof(_view.XMin), $"x0 {Strings.NeedsToBeLessThan} xN");
+                _view.SetError(nameof(_view.XMax), $"{_view.XAxisLabel} max {Strings.NeedsToBeGreaterThan} {_view.XAxisLabel} min");
+                _view.SetError(nameof(_view.XMin), $"{_view.XAxisLabel} min {Strings.NeedsToBeLessThan} {_view.XAxisLabel} max");
             }
             else
             {
@@ -38,8 +42,8 @@ namespace Computator.NET.Core.Presenters
             }
             if (_view.YMin >= _view.YMax)
             {
-                _view.SetError(nameof(_view.YMax), $"yN {Strings.NeedsToBeGreaterThan} y0");
-                _view.SetError(nameof(_view.YMin), $"y0 {Strings.NeedsToBeLessThan} yN");
+                _view.SetError(nameof(_view.YMax), $"{_view.YAxisLabel} max {Strings.NeedsToBeGreaterThan} {_view.YAxisLabel} min");
+                _view.SetError(nameof(_view.YMin), $"{_view.YAxisLabel} min {Strings.NeedsToBeLessThan} {_view.YAxisLabel} max");
             }
             else
             {
@@ -50,9 +54,30 @@ namespace Computator.NET.Core.Presenters
 
         private void OnCalculationsModeChangedEvent(CalculationsModeChangedEvent e)
         {
-            _view.AddChartLabel = e.CalculationsMode == CalculationsMode.Complex
+            SetMode(e.CalculationsMode);
+        }
+
+        private void SetMode(CalculationsMode mode)
+        {
+            _view.XAxisLabel = mode == CalculationsMode.Complex ? "Re(z)" : "x";
+            _view.YAxisLabel = mode == CalculationsMode.Complex ? "Im(z)" : "y";
+            _view.AddChartLabel = mode == CalculationsMode.Complex
                 ? Strings.DrawChart
                 : Strings.AddToChart;
+            // Existing invalid values keep their errors, now using the visible axis names.
+            OnValueChanged(this, EventArgs.Empty);
         }
+
+        public void Dispose()
+        {
+            EventAggregator.Instance.Unsubscribe<CalculationsModeChangedEvent>(OnCalculationsModeChangedEvent);
+            _view.Disposed -= OnViewDisposed;
+            _view.YMaxChanged -= OnValueChanged;
+            _view.XMaxChanged -= OnValueChanged;
+            _view.XMinChanged -= OnValueChanged;
+            _view.YMinChanged -= OnValueChanged;
+        }
+
+        private void OnViewDisposed(object sender, EventArgs e) => Dispose();
     }
 }

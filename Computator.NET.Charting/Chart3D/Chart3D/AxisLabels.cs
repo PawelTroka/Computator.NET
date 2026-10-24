@@ -1,4 +1,5 @@
 ﻿#if !__MonoCS__
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,9 +20,14 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         private double _fontSize;
         private FontStyle _fontStyle;
         private FontWeight _fontWeight;
-        private int _indexX, _indexY, _indexZ;
         private Point _offset;
-        private TextBlock _textBlock;
+        private readonly Chart3DAxisAnnotations _annotations;
+        private IReadOnlyList<Chart3DAxis> _axes;
+        private TransformMatrix _transform;
+        private Viewport3D _viewport;
+        private bool _drawAxes;
+        private bool _hasPositions;
+        private Color _axesColor;
         private Point _x;
         public Point3D X3D;
         private Point _y;
@@ -32,7 +38,8 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         public AxisLabels(Canvas canvas)
         {
             _canvas = canvas;
-            _indexX = _indexY = _indexZ = -1;
+            _annotations = new Chart3DAxisAnnotations { IsHitTestVisible = false };
+            _annotations.DpiChanged = Reload;
             _activeX = _activeZ = _activeY = _activeLabels = true;
             _offset.X = 5;
             _offset.Y = 5;
@@ -141,12 +148,44 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
             _x = x;
             _y = y;
             _z = z;
+            _hasPositions = true;
+            _axes = null;
+            _drawAxes = false;
+            Draw();
+        }
 
-            //remove the old labels from canvas if they exist:
-            Remove();
+        internal void Reload(IReadOnlyList<Chart3DAxis> axes, TransformMatrix transform,
+            Viewport3D viewport, bool drawAxes, Color axesColor)
+        {
+            _axes = axes;
+            _transform = transform;
+            _viewport = viewport;
+            _drawAxes = drawAxes;
+            _axesColor = axesColor;
+            X3D = axes[0].LabelAnchor;
+            Y3D = axes[1].LabelAnchor;
+            Z3D = axes[2].LabelAnchor;
+            _x = transform.VertexToScreenPt(X3D, viewport);
+            _y = transform.VertexToScreenPt(Y3D, viewport);
+            _z = transform.VertexToScreenPt(Z3D, viewport);
+            _hasPositions = true;
+            Draw();
+        }
 
-            if (_activeLabels)
-                Draw();
+        internal Chart3DAxisAnnotations Annotations => _annotations;
+
+        internal AxisLabels CopyTo(Canvas canvas)
+        {
+            // Copy presentation settings for an isolated export. The live
+            // positions, visual children and measured label boxes stay untouched.
+            return new AxisLabels(canvas)
+            {
+                _labelX = _labelX, _labelY = _labelY, _labelZ = _labelZ,
+                _activeX = _activeX, _activeY = _activeY, _activeZ = _activeZ,
+                _activeLabels = _activeLabels, _offset = _offset, _color = _color,
+                _fontFamily = _fontFamily, _fontSize = _fontSize,
+                _fontStyle = _fontStyle, _fontWeight = _fontWeight
+            };
         }
 
         public void SetProporties(FontFamily fontFamily, double? fontSize, Color? color, FontStyle? fontStyle,
@@ -171,81 +210,28 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
 
         public void Reload()
         {
-            //remove the old labels from canvas if they exist:
-            Remove();
-
-            //if (_activeLabels)
             Draw();
-        }
-
-        private void RenewText()
-        {
-            _textBlock = new TextBlock
-            {
-                Foreground = new SolidColorBrush(_color),
-                FontSize = _fontSize,
-                FontFamily = _fontFamily,
-                FontStyle = _fontStyle,
-                FontWeight = _fontWeight
-            };
         }
 
         private void Draw()
         {
-            if (_activeLabels)
-            {
-                if (_activeX)
-                    DrawX();
-
-                if (_activeY)
-                    DrawY();
-
-                if (_activeZ)
-                    DrawZ();
-            }
-        }
-
-        private void DrawX()
-        {
-            //x-label:
-            RenewText();
-            _textBlock.Text = _labelX;
-            Canvas.SetLeft(_textBlock, _x.X + _offset.X);
-            Canvas.SetTop(_textBlock, _x.Y + _offset.Y);
-            _indexX = _canvas.Children.Add(_textBlock);
-        }
-
-        private void DrawY()
-        {
-            //y-label:
-            RenewText();
-            _textBlock.Text = _labelY;
-            Canvas.SetLeft(_textBlock, _y.X + _offset.X);
-            Canvas.SetTop(_textBlock, _y.Y + _offset.Y);
-            _indexY = _canvas.Children.Add(_textBlock);
-        }
-
-        private void DrawZ()
-        {
-            //z-label:
-            RenewText();
-            _textBlock.Text = _labelZ;
-            Canvas.SetLeft(_textBlock, _z.X + _offset.X);
-            Canvas.SetTop(_textBlock, _z.Y + _offset.Y);
-            _indexZ = _canvas.Children.Add(_textBlock);
+            if (!_hasPositions) return;
+            if (!_canvas.Children.Contains(_annotations))
+                _canvas.Children.Add(_annotations);
+            _annotations.Update(_axes, _transform, _viewport, _canvas.RenderSize,
+                new[] { _labelX, _labelY, _labelZ }, new[] { _x, _y, _z },
+                new[] { _activeX, _activeY, _activeZ }, _activeLabels, _drawAxes, _offset,
+                _fontFamily, _fontSize, _fontStyle, _fontWeight, _color, _axesColor);
         }
 
         public void Remove()
         {
-            //remove the old labels from canvas if they exist:
-            if (_indexZ != -1)
-                _canvas.Children.RemoveAt(_indexZ);
-            if (_indexY != -1)
-                _canvas.Children.RemoveAt(_indexY);
-            if (_indexX != -1)
-                _canvas.Children.RemoveAt(_indexX);
-
-            _indexX = _indexY = _indexZ = -1;
+            _annotations.Clear();
+            _canvas.Children.Remove(_annotations);
+            _hasPositions = false;
+            _axes = null;
+            _transform = null;
+            _viewport = null;
         }
     }
 }

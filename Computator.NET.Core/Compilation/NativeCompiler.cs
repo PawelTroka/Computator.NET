@@ -26,6 +26,21 @@ namespace Computator.NET.Core.Compilation
         private static readonly ConcurrentDictionary<string, PortableExecutableReference> ReferenceCache =
             new ConcurrentDictionary<string, PortableExecutableReference>(StringComparer.OrdinalIgnoreCase);
         private static readonly Lazy<string[]> RuntimeReferences = new Lazy<string[]>(FindRuntimeReferences);
+        private static readonly Lazy<string[]> DefaultResolvedReferences = new Lazy<string[]>(() =>
+            new[] { "Meta.Numerics.dll", "MathNet.Numerics.dll", "Accord.Math.dll", "Accord.dll" }
+                .Select(ResolveReference).ToArray());
+        private static readonly Lazy<HashSet<string>> SharedDefaultReferencePaths = new Lazy<HashSet<string>>(() =>
+            new HashSet<string>(RuntimeReferences.Value.Concat(DefaultResolvedReferences.Value),
+                StringComparer.OrdinalIgnoreCase));
+        private static readonly Lazy<PortableExecutableReference[]> SharedRuntimeMetadata =
+            new Lazy<PortableExecutableReference[]>(() =>
+                SharedDefaultReferencePaths.Value
+                    .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file)))
+                    .ToArray());
+        private static readonly CSharpCompilationOptions SharedCompilationOptions =
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
+                optimizationLevel: OptimizationLevel.Release);
+        private static readonly CSharpParseOptions SharedParseOptions = new CSharpParseOptions(LanguageVersion.CSharp14);
         private readonly object _referenceLock = new object();
         private readonly List<string> _references = new List<string>
         {
@@ -56,8 +71,9 @@ namespace Computator.NET.Core.Compilation
                     throw exception;
                 }
                 // Unique identities still preserve #39. Existing callers keep their
-                // program alive through its Assembly/Type/Delegate references; once
-                // those are released, the runtime can collect the whole context.
+                // program alive through its Assembly/Type/Delegate references. On
+                // modern .NET releasing them allows the whole context to collect;
+                // Framework/Mono retains generated assemblies until process exit.
                 return CollectibleProgramLoader.LoadProgram(output);
             }
         }
@@ -67,17 +83,20 @@ namespace Computator.NET.Core.Compilation
         {
             if (input == null) throw new ArgumentNullException(nameof(input));
             string[] references;
-            lock (_referenceLock) references = _references.ToArray();
+            lock (_referenceLock) references = _references.Skip(4).ToArray();
 
-            var metadata = RuntimeReferences.Value.Concat(references.Select(ResolveReference))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file)));
+            var defaultPaths = SharedDefaultReferencePaths.Value;
+            IEnumerable<PortableExecutableReference> metadata = references.Length == 0
+                ? SharedRuntimeMetadata.Value
+                : SharedRuntimeMetadata.Value.Concat(references.Select(ResolveReference)
+                    .Where(path => !defaultPaths.Contains(path))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file))));
             var tree = CSharpSyntaxTree.ParseText(input,
-                new CSharpParseOptions(LanguageVersion.CSharp14), encoding: Encoding.UTF8);
+                SharedParseOptions, encoding: Encoding.UTF8);
             return CSharpCompilation.Create("Computator.TSL." + Guid.NewGuid().ToString("N"),
                 new[] { tree }, metadata,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
-                    optimizationLevel: OptimizationLevel.Release));
+                SharedCompilationOptions);
         }
 
         public void AddDll(string dllPath)
@@ -100,6 +119,8 @@ namespace Computator.NET.Core.Compilation
                 typeof(Enumerable).Assembly.Location,
                 typeof(System.Numerics.Complex).Assembly.Location,
                 typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.Location,
+                typeof(NativeCompiler).Assembly.Location,
+                typeof(TslCompiler).Assembly.Location,
                 Assembly.Load("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51").Location
             };
             var facades = Path.Combine(RuntimeEnvironment.GetRuntimeDirectory(), "Facades");

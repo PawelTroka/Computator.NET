@@ -42,6 +42,12 @@
       "height": 27,
       "sha256": "6a2d868adb1674742f5128ca93d8544c0af647dcae9638c2eb84b2600b4d483c"
     },
+    "01ba51312d2bd5be821f2a97bf686262cf1273e023b8a1d8c21dcca2c01c30ad": {
+      "tex": "u^{\\prime\\prime}+\\left(1-\\frac{n(n+1)}{x^2}\\right)u=0",
+      "width": 256,
+      "height": 57,
+      "sha256": "9f6df9d648428126dc6af356e6a73fec48452eca6dfc57ab22b651a46401ee41"
+    },
     "01f2a2077b30d4e596c660d88cce96176319e19c42f56627e29a8f0510d646a4": {
       "tex": "0.00027244371095",
       "width": 164,

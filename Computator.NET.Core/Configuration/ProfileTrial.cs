@@ -16,8 +16,8 @@ namespace Computator.NET.Core.Configuration
         // never executes imported scripts. The destination must be a new directory.
         public static IReadOnlyDictionary<string, string> Prepare(string source, string destination)
         {
-            source = Path.TrimEndingDirectorySeparator(Path.GetFullPath(source));
-            destination = Path.TrimEndingDirectorySeparator(Path.GetFullPath(destination));
+            source = NormalizeDirectory(source);
+            destination = NormalizeDirectory(destination);
             RejectLinks(source);
             RejectLinks(Path.GetDirectoryName(destination));
             if (!Directory.Exists(source)) throw new DirectoryNotFoundException(source);
@@ -30,11 +30,11 @@ namespace Computator.NET.Core.Configuration
             // point at the original working/scripts directories. Refuse external roots.
             string Rebase(string path)
             {
-                if (!Path.IsPathFullyQualified(path)) throw new InvalidDataException("Trial settings directories must be absolute.");
+                if (!IsFullyQualified(path)) throw new InvalidDataException("Trial settings directories must be absolute.");
                 var full = Path.GetFullPath(path);
                 if (!Within(source, full)) throw new InvalidDataException("A settings directory is outside the supplied backup. Include it in a dedicated acceptance corpus first.");
                 RejectLinks(full);
-                return Path.GetFullPath(Path.Combine(destination, Path.GetRelativePath(source, full)));
+                return Path.GetFullPath(Path.Combine(destination, RelativeTo(source, full)));
             }
             var files = new List<string>();
             var pending = new Stack<string>(); pending.Push(source);
@@ -62,13 +62,13 @@ namespace Computator.NET.Core.Configuration
             document.WorkingDirectory = Rebase(document.WorkingDirectory);
             document.ScriptingDirectory = Rebase(document.ScriptingDirectory);
             document.CustomFunctionsDirectory = Rebase(document.CustomFunctionsDirectory);
-            var originals = files.ToDictionary(file => Path.GetRelativePath(source, file), Hash, StringComparer.OrdinalIgnoreCase);
+            var originals = files.ToDictionary(file => RelativeTo(source, file), Hash, StringComparer.OrdinalIgnoreCase);
             Directory.CreateDirectory(destination);
             try
             {
                 foreach (var file in files)
                 {
-                    var relative = Path.GetRelativePath(source, file);
+                    var relative = RelativeTo(source, file);
                     // Keep both original settings formats as evidence, outside the
                     // live settings names. The rebased JSON below is the only active input.
                     var target = Path.Combine(destination, relative);
@@ -79,7 +79,7 @@ namespace Computator.NET.Core.Configuration
                 }
                 SettingsPersistence.Save(Path.Combine(destination, "settings.dat"), document);
                 foreach (var file in files)
-                    if (Hash(file) != originals[Path.GetRelativePath(source, file)]) throw new IOException("A source input changed during preparation; discard this trial.");
+                    if (Hash(file) != originals[RelativeTo(source, file)]) throw new IOException("A source input changed during preparation; discard this trial.");
                 return originals;
             }
             catch
@@ -90,11 +90,62 @@ namespace Computator.NET.Core.Configuration
             }
         }
 
+#if NETFRAMEWORK
+        private static readonly StringComparison PathComparison = Path.DirectorySeparatorChar == '/' ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+        private static bool Within(string root, string path) => string.Equals(root, path, PathComparison) ||
+            path.StartsWith(root.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal)
+                ? root : root + Path.DirectorySeparatorChar, PathComparison);
+#else
         private static bool Within(string root, string path) => string.Equals(root, path, StringComparison.OrdinalIgnoreCase) ||
             path.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+#endif
+
+        private static string NormalizeDirectory(string path)
+        {
+#if NETFRAMEWORK
+            var full = Path.GetFullPath(path);
+            var root = Path.GetPathRoot(full);
+            while (full.Length > root.Length && (full[full.Length - 1] == Path.DirectorySeparatorChar || full[full.Length - 1] == Path.AltDirectorySeparatorChar))
+                full = full.Substring(0, full.Length - 1);
+            return full;
+#else
+            return Path.TrimEndingDirectorySeparator(Path.GetFullPath(path));
+#endif
+        }
+
+        private static bool IsFullyQualified(string path)
+        {
+#if NETFRAMEWORK
+            if (string.IsNullOrEmpty(path)) return false;
+            if (Path.DirectorySeparatorChar == '/') return path[0] == '/';
+            bool Separator(char value) => value == '\\' || value == '/';
+            return path.Length >= 3 && ((Separator(path[0]) && Separator(path[1])) ||
+                (char.IsLetter(path[0]) && path[1] == ':' && Separator(path[2])));
+#else
+            return Path.IsPathFullyQualified(path);
+#endif
+        }
+
+        private static string RelativeTo(string root, string path)
+        {
+#if NETFRAMEWORK
+            // All callers use paths already proven to lie within the source.
+            if (!Within(root, path)) throw new InvalidDataException("A profile path escaped its source directory.");
+            if (string.Equals(root, path, PathComparison)) return ".";
+            return path.Substring(root.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+#else
+            return Path.GetRelativePath(root, path);
+#endif
+        }
         private static string Hash(string file)
         {
+#if NETFRAMEWORK
+            using (var input = File.OpenRead(file))
+            using (var algorithm = SHA256.Create())
+                return BitConverter.ToString(algorithm.ComputeHash(input)).Replace("-", string.Empty);
+#else
             using (var input = File.OpenRead(file)) return Convert.ToHexString(SHA256.HashData(input));
+#endif
         }
         private static void RejectLinks(string path)
         {

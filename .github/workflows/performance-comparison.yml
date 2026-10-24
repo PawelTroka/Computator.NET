@@ -1,0 +1,130 @@
+name: Historical performance comparison
+on:
+  workflow_dispatch:
+    inputs:
+      pairs:
+        description: 'Independent process pairs per scenario (20 for measurement; below 15 is screening only)'
+        required: true
+        default: '20'
+      modern_translation_diagnostic:
+        description: 'Also run the pinned modern translation guard diagnostic'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  comparison:
+    runs-on: windows-2025
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        session: [1, 2]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Check analyzer contracts
+        shell: pwsh
+        run: python -m unittest discover -s build/performance -p 'test_*.py' -v
+      - name: Build and authenticate both products, then condition startup
+        shell: pwsh
+        run: ./build/performance/Prepare-Comparison.ps1 -OutputDirectory artifacts/performance-input -DisposableProfile
+      - name: Measure sequential, counterbalanced process pairs
+        shell: pwsh
+        env:
+          PAIRS: ${{ inputs.pairs || '20' }}
+        run: |
+          python build/performance/compare.py run --manifest artifacts/performance-input/manifest.json --output artifacts/performance-results --pairs $env:PAIRS --timeout 120 --bootstrap 50000 --seed 191
+          if ($LASTEXITCODE -ne 0) { throw 'Comparison failed; inspect retained observations.' }
+      - name: Publish measurement summary
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path artifacts/performance-results/report.md) { Get-Content artifacts/performance-results/report.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: performance-session-${{ matrix.session }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            artifacts/performance-results/
+            artifacts/performance-input/manifest.json
+            artifacts/performance-input/windows-environment.json
+            artifacts/performance-input/historical/baseline-provenance.json
+            artifacts/performance-input/*conditioning*
+
+  # Isolate the reviewed TSL guard on one runtime and host.
+  # No concurrency group or dependency on the historical jobs: existing sessions
+  # continue and this job produces an independent same-machine before/after result.
+  modern_translation_diagnostic:
+    name: Modern translation guard diagnostic
+    if: ${{ inputs.modern_translation_diagnostic }}
+    runs-on: windows-2025
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      DIAGNOSTIC_CANDIDATE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 58982403dead54824810a96439b851d3123e0e03
+          path: artifacts/source-before
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - name: Check analyzer contracts before preparing the experiment
+        shell: pwsh
+        run: |
+          python -m unittest discover -s build/performance -p 'test_*.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'Analyzer contract tests failed.' }
+      - name: Prepare pinned modern products and separate translation conditioning
+        shell: pwsh
+        run: |
+          ./build/performance/Prepare-ModernDiagnostic.ps1 `
+            -BaselineSourceDirectory (Join-Path $env:GITHUB_WORKSPACE 'artifacts/source-before') `
+            -CandidateSourceDirectory $env:GITHUB_WORKSPACE `
+            -ExpectedCandidateCommit $env:DIAGNOSTIC_CANDIDATE_COMMIT `
+            -OutputDirectory (Join-Path $env:GITHUB_WORKSPACE 'artifacts/modern-diagnostic-input')
+      - name: Measure 20 sequential modern process pairs with packaged JIT defaults
+        shell: pwsh
+        run: |
+          python build/performance/compare.py run `
+            --manifest artifacts/modern-diagnostic-input/manifest.json `
+            --output artifacts/modern-diagnostic-results `
+            --pairs 20 --timeout 120 --bootstrap 50000 --seed 191
+          if ($LASTEXITCODE -ne 0) { throw 'Modern diagnostic failed; inspect all retained observations.' }
+      - name: Publish the separately labeled diagnostic summary
+        if: always()
+        shell: pwsh
+        run: |
+          '## Modern translation guard diagnostic' | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          'This before/after comparison uses one Windows runner and the same .NET 10 driver/runtime. Its observations are separate from historical-version runs and from the preliminary conditioning pair.' | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          if (Test-Path artifacts/modern-diagnostic-results/report.md) {
+            Get-Content artifacts/modern-diagnostic-results/report.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: modern-translation-guard-diagnostic
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            artifacts/modern-diagnostic-results/
+            artifacts/modern-diagnostic-input/manifest.json
+            artifacts/modern-diagnostic-input/conditioning-manifest.json
+            artifacts/modern-diagnostic-input/windows-environment.json
+            artifacts/modern-diagnostic-input/audit/
+            artifacts/modern-diagnostic-input/preparation-logs/
+            artifacts/modern-diagnostic-input/conditioning/

@@ -1,4 +1,10 @@
-﻿// ReSharper disable RedundantNameQualifier
+#if NETFRAMEWORK
+using RuntimeMath = Computator.NET.Engine.Compatibility.FrameworkMath;
+#else
+using RuntimeMath = System.Math;
+#endif
+
+// ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable UseStringInterpolation
 namespace Computator.NET.Core.NumericalCalculations
@@ -88,9 +94,9 @@ namespace Computator.NET.Core.NumericalCalculations
             // here before evaluating fx, while preserving its argument validation.
             if (secondGuess == firstGuess)
             {
-                secondGuess = System.Math.BitIncrement(firstGuess);
+                secondGuess = RuntimeMath.BitIncrement(firstGuess);
                 if (secondGuess >= b)
-                    secondGuess = System.Math.BitDecrement(firstGuess);
+                    secondGuess = RuntimeMath.BitDecrement(firstGuess);
             }
 
             return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, firstGuess, secondGuess, a, b, errorMax, (int)N, out root) ? root : double.NaN;
@@ -211,9 +217,9 @@ namespace Computator.NET.Core.NumericalCalculations
             // here before evaluating fx, while preserving its argument validation.
             if (secondGuess == firstGuess)
             {
-                secondGuess = System.Math.BitIncrement(firstGuess);
+                secondGuess = Computator.NET.Engine.Compatibility.FrameworkMath.BitIncrement(firstGuess);
                 if (secondGuess >= b)
-                    secondGuess = System.Math.BitDecrement(firstGuess);
+                    secondGuess = Computator.NET.Engine.Compatibility.FrameworkMath.BitDecrement(firstGuess);
             }
 
             return MathNet.Numerics.RootFinding.Secant.TryFindRoot(fx, firstGuess, secondGuess, a, b, errorMax, (int)N, out root) ? root : double.NaN;

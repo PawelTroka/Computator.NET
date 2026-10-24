@@ -173,7 +173,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 if (control == null)
                     control = this;
 
-                toolTip.Show(control, Width + 3, 0);
+                toolTip.ShowReference(control, new Point(Width + 3, 0));
                 toolTip.setFunctionInfo(autocompleteItem.Details, autocompleteItem.MenuText);
             }
             else if (Settings.Default.TooltipType ==

@@ -34,6 +34,12 @@ namespace Computator.NET.Desktop
 
         public static void Start()
         {
+#if __MonoCS__
+            // Set this before creating any WinForms controls. Mono's X11 input
+            // method path can fail during startup on systems without an XIM server.
+            if (RuntimeInformation.IsUnix)
+                Environment.SetEnvironmentVariable("MONO_WINFORMS_XIM_STYLE", "disabled");
+#endif
             if (RuntimeInformation.IsWindows10S)
             {
                 MessageBox.Show("Windows 10S is not supported. Computator.NET will exit now.", Strings.Error);
@@ -41,7 +47,9 @@ namespace Computator.NET.Desktop
             }
             // The former manifest requested PerMonitorV2. Preserve that mode via the
             // modern API, and configure text rendering before the splash creates HWNDs.
+#if !__MonoCS__
             Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+#endif
             Application.SetCompatibleTextRenderingDefault(false);
             Application.EnableVisualStyles();
             LogsConfigurator.Configure();
@@ -53,7 +61,8 @@ namespace Computator.NET.Desktop
             LoadingScreen.ShowSplashScreen();
             GSLInitializer.Initialize();
             Settings.Default.RestoreScriptingExamples();
-            Application.AddMessageFilter(new MyMessageFilter());
+            if (RuntimeInformation.IsWindows)
+                Application.AddMessageFilter(new MyMessageFilter());
             var bootstrapper = new WinFormsBootstrapper();
             using (bootstrapper.Container)
             using (var mainForm = bootstrapper.Create<MainView>())

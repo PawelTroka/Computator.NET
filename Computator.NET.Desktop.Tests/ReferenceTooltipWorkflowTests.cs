@@ -41,7 +41,7 @@ namespace Computator.NET.Desktop.Tests
                 window.Controls.Add(list);
                 var provider = new AutocompleteProvider(new AutocompleteReflectionSource(), new FunctionsDetailsFileSource());
                 var catalog = provider.ScriptingAutocompleteItems.ToArray();
-                var items = new[] { "sin(x)", "gamma(x)", "PI", "ElementaryCharge", "Normal.CDF(mean,stddev,x)" }
+                var items = new[] { "sin(x)", "gamma(x)", "PI", "ElementaryCharge", "Normal.CDF(mean,stddev,x)", "Ackley(xi1,xi2, ...)" }
                     .Select(signature => catalog.First(item => item.Text == signature))
                     .Append(catalog.First(item => item.Details.Type == "MatrixFunctions")).ToArray();
                 list.MaximumSize = new Size(400, 300);
@@ -58,6 +58,7 @@ namespace Computator.NET.Desktop.Tests
                 details.Hide();
                 Application.DoEvents();
                 list.SelectedItemIndex = 1;
+                Size? readingSize = null;
                 foreach (var item in items)
                 {
                     list.SelectedItemIndex = Array.IndexOf(items, item);
@@ -89,6 +90,25 @@ namespace Computator.NET.Desktop.Tests
                     var workArea = Screen.FromControl(browser).WorkingArea;
                     NUnit.Framework.Assert.That(bounds.Width, Is.LessThanOrEqualTo(workArea.Width), item.Text);
                     NUnit.Framework.Assert.That(bounds.Height, Is.LessThanOrEqualTo(workArea.Height), item.Text);
+                    if (mode == TooltipType.Default)
+                    {
+                        NUnit.Framework.Assert.That(browser.Width, Is.GreaterThanOrEqualTo(Math.Min(500, workArea.Width - 8)), item.Text);
+                        NUnit.Framework.Assert.That(browser.Height, Is.GreaterThanOrEqualTo(Math.Min(400, workArea.Height - 8)), item.Text);
+                        if (readingSize.HasValue)
+                            NUnit.Framework.Assert.That(browser.Size, Is.EqualTo(readingSize.Value),
+                                "Loading a different article must not collapse or expand the reading viewport.");
+                        readingSize = browser.Size;
+                    }
+                    if (item.Text.StartsWith("Ackley("))
+                    {
+                        var equation = browser.Document.GetElementsByTagName("p").Cast<HtmlElement>()
+                            .Single(element => element.GetAttribute("className") == "reference-equation");
+                        dynamic rendered = equation.DomElement;
+                        dynamic rectangle = rendered.getBoundingClientRect();
+                        NUnit.Framework.Assert.That((double)rectangle.top, Is.GreaterThanOrEqualTo(0));
+                        NUnit.Framework.Assert.That((double)rectangle.bottom, Is.LessThanOrEqualTo(browser.ClientSize.Height),
+                            "Ackley's definition should be visible after its introduction without scrolling.");
+                    }
                 }
                 NUnit.Framework.Assert.That(navigations.All(scheme => scheme == "about"), Is.True);
             }

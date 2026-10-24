@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\build\ModernDesktop.props" />
   <PropertyGroup>
-    <UseWindowsForms>true</UseWindowsForms>
+    <UseWindowsForms Condition="'$(ComputatorMono)' != 'true'">true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <!-- Satellite .resx files are embedded, never regenerated as duplicate C#.

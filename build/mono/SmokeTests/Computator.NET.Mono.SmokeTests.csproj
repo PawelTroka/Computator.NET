@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\ModernDesktop.props" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Computator.NET.Mono.SmokeTests</AssemblyName>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DataVisualizationX">
+      <HintPath>..\..\..\libraries\net46\DataVisualizationX.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <ProjectReference Include="..\..\..\Computator.NET.Desktop\Computator.NET.Desktop.csproj" />
+    <ProjectReference Include="..\..\..\Computator.NET.Engine\Computator.NET.Engine.csproj" />
+    <ProjectReference Include="..\..\..\Computator.NET\Computator.NET.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\StartupProbe\Computator.NET.Mono.StartupProbe.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <Target Name="RequireMonoCompatibilityTarget" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(ComputatorMono)' != 'true'" Text="Build Mono acceptance tests with -p:ComputatorMono=true. The Windows test suites remain separate." />
+  </Target>
+</Project>

@@ -1,6 +1,8 @@
 using System.Numerics;
 using System.Reflection;
+#if !NETFRAMEWORK
 using System.Runtime.Loader;
+#endif
 using System.Text;
 using Computator.NET.Core.Compilation;
 using Computator.NET.Core.Compilation.TslHandlers;
@@ -45,8 +47,8 @@ public sealed partial class PortableEngine
     }
     private static Compiled<T> Compile<T>(string input, string customFunctions, string prefix, string suffix) where T : Delegate
     {
-        ArgumentNullException.ThrowIfNull(input);
-        ArgumentNullException.ThrowIfNull(customFunctions);
+        if (input == null) throw new ArgumentNullException(nameof(input));
+        if (customFunctions == null) throw new ArgumentNullException(nameof(customFunctions));
         if (input.Length > MaximumSourceCharacters || customFunctions.Length > MaximumSourceCharacters)
             throw new ArgumentException("Expression/script and custom definitions are each limited to 65,536 characters.");
         var compiler = new TslCompiler();
@@ -73,6 +75,13 @@ public sealed partial class PortableEngine
             throw new EngineCompilationException(errors);
         }
         stream.Position = 0;
+#if NETFRAMEWORK
+        // Framework/Mono cannot unload individual generated assemblies. Keep the
+        // same compiler and numerical types; assemblies live until process exit.
+        var assembly = Assembly.Load(stream.ToArray());
+        var method = assembly.GetType("Program", throwOnError: true)!.GetMethod("Run", BindingFlags.Static | BindingFlags.Public)!;
+        return new Compiled<T>((T)Delegate.CreateDelegate(typeof(T), method));
+#else
         var context = new AssemblyLoadContext("Computator.Program." + Guid.NewGuid().ToString("N"), isCollectible: true);
         try
         {
@@ -81,22 +90,50 @@ public sealed partial class PortableEngine
             return new Compiled<T>(context, method.CreateDelegate<T>());
         }
         catch { context.Unload(); throw; }
+#endif
     }
     private static MetadataReference[] CreateReferences()
     {
         var trusted = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") as string;
-        if (string.IsNullOrWhiteSpace(trusted)) throw new PlatformNotSupportedException("A modern .NET runtime with platform reference metadata is required.");
-        return trusted.Split(Path.PathSeparator).Concat(new[] { typeof(PortableEngine).Assembly.Location,
+        IEnumerable<string> runtime;
+        if (!string.IsNullOrWhiteSpace(trusted)) runtime = trusted!.Split(Path.PathSeparator);
+#if NETFRAMEWORK
+        else
+        {
+            var paths = new List<string>
+            {
+                typeof(object).Assembly.Location, typeof(Uri).Assembly.Location,
+                typeof(Enumerable).Assembly.Location, typeof(Complex).Assembly.Location,
+                typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.Location,
+                Assembly.Load("netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51").Location,
+                Assembly.Load("Accord").Location
+            };
+            var facades = Path.Combine(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory(), "Facades");
+            if (Directory.Exists(facades)) paths.AddRange(Directory.EnumerateFiles(facades, "*.dll"));
+            runtime = paths;
+        }
+#else
+        else throw new PlatformNotSupportedException("A modern .NET runtime with platform reference metadata is required.");
+#endif
+        return runtime.Concat(new[] { typeof(PortableEngine).Assembly.Location,
                 typeof(MathNet.Numerics.LinearAlgebra.Double.DenseMatrix).Assembly.Location,
                 typeof(Accord.Math.Integration.RombergMethod).Assembly.Location })
             .Where(File.Exists).Distinct(StringComparer.OrdinalIgnoreCase)
             .Select(path => (MetadataReference)MetadataReference.CreateFromFile(path)).ToArray();
     }
+#if NETFRAMEWORK
+    private sealed class Compiled<T>(T callback) : IDisposable where T : Delegate
+    {
+        public T Invoke { get; private set; } = callback;
+        public void Dispose() { Invoke = null!; }
+    }
+#else
     private sealed class Compiled<T>(AssemblyLoadContext context, T callback) : IDisposable where T : Delegate
     {
         public T Invoke { get; private set; } = callback;
         public void Dispose() { Invoke = null!; context.Unload(); }
     }
+#endif
 }
 public sealed record EngineDiagnostic(string Code, string File, int Line, int Column, string Message);
 public sealed class EngineCompilationException(IReadOnlyList<EngineDiagnostic> diagnostics)

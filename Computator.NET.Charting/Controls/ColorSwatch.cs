@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Computator.NET.Charting.Controls
@@ -11,7 +10,8 @@ namespace Computator.NET.Charting.Controls
         public ColorSwatch()
         {
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer | ControlStyles.Selectable, true);
+                ControlStyles.OptimizedDoubleBuffer | ControlStyles.Selectable |
+                ControlStyles.SupportsTransparentBackColor, true);
             Cursor = Cursors.Hand;
             TabStop = true;
             AccessibleRole = AccessibleRole.PushButton;
@@ -31,7 +31,8 @@ namespace Computator.NET.Charting.Controls
         {
             base.OnPaint(e);
             if (Width < 2 || Height < 2) return;
-            using (var brush = new SolidBrush(FillColor)) e.Graphics.FillRectangle(brush, ClientRectangle);
+            // WinForms paints BackColor over the parent in OnPaintBackground.
+            // Painting it again here would apply partial transparency twice.
             ControlPaint.DrawBorder(e.Graphics, ClientRectangle, SystemColors.ControlDark, ButtonBorderStyle.Solid);
             if (Focused) ControlPaint.DrawFocusRectangle(e.Graphics, Rectangle.Inflate(ClientRectangle, -3, -3));
         }

@@ -1,3 +1,9 @@
+#if NETFRAMEWORK
+using RuntimeMath = Computator.NET.Core.Compatibility.FrameworkElementaryMath;
+#else
+using RuntimeMath = System.Math;
+#endif
+
 // ReSharper disable RedundantNameQualifier
 // ReSharper disable ConvertPropertyToExpressionBody
 // ReSharper disable InconsistentNaming
@@ -245,7 +251,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arsinh(double x)
         {
-            return System.Math.Asinh(x);
+            return RuntimeMath.Asinh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -261,7 +267,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double artanh(double x)
         {
-            return 0.5*System.Math.Log((1 + x)/(1 - x));
+            return RuntimeMath.Atanh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -269,7 +275,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double artgh(double x)
         {
-            return 0.5*System.Math.Log((1 + x)/(1 - x));
+            return artanh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -277,6 +283,10 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcoth(double x)
         {
+            // The logarithmic ratio loses small results for large arguments.
+            // Close to the poles, retain it to avoid amplifying rounding in 1/x.
+            if (System.Math.Abs(x) >= 2)
+                return RuntimeMath.Atanh(1.0/x);
             return 0.5*System.Math.Log((x + 1)/(x - 1));
         }
 
@@ -285,7 +295,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arctgh(double x)
         {
-            return 0.5*System.Math.Log((x + 1)/(x - 1));
+            return arcoth(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -684,16 +694,16 @@ namespace Computator.NET.Core.Functions
         public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
         {
             if (z.Imaginary == 0)
-                return new System.Numerics.Complex(System.Math.Asinh(z.Real), z.Imaginary);
+                return new System.Numerics.Complex(RuntimeMath.Asinh(z.Real), z.Imaginary);
             if (double.IsInfinity(z.Real) && double.IsInfinity(z.Imaginary))
-                return new System.Numerics.Complex(z.Real, System.Math.CopySign(System.Math.PI/4, z.Imaginary));
+                return new System.Numerics.Complex(z.Real, RuntimeMath.CopySign(System.Math.PI/4, z.Imaginary));
 
             // asinh(z) = -i asin(i z). Rotate components instead of multiplying
             // by i, and retain the signed-zero side of each imaginary-axis cut.
             var inverse = System.Numerics.Complex.Asin(new System.Numerics.Complex(-z.Imaginary, z.Real));
             return new System.Numerics.Complex(
-                System.Math.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
-                System.Math.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
+                RuntimeMath.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
+                RuntimeMath.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
         }
 
         /*Angielska nazwa funkcji"),
@@ -896,7 +906,10 @@ namespace Computator.NET.Core.Functions
         [System.ComponentModel.Category("Integer functions")]
         public static double DoubleFactorial(double x)
         {
-            return DoubleFactorial((long)x);
+            if (double.IsNaN(x) || x <= -1.0)
+                return double.NaN;
+            // Preserve positive overflow before any narrowing conversion.
+            return DoubleFactorial(x > uint.MaxValue ? (long)uint.MaxValue : (long)x);
         }
         [System.ComponentModel.Category("Integer functions")]
         public static double DoubleFactorial(long n)
@@ -904,7 +917,10 @@ namespace Computator.NET.Core.Functions
             if (n < 0)
                 return double.NaN;
 
-            return gsl_sf_doublefact((uint)n);
+            // Orders beyond the native integer range already overflow. Saturate
+            // before narrowing so they retain GSL's overflow/error-mode behavior
+            // instead of wrapping around to a small, finite double factorial.
+            return gsl_sf_doublefact(n > uint.MaxValue ? uint.MaxValue : (uint)n);
         }
 
         /*Angielska nazwa funkcji"),
@@ -1418,7 +1434,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arsinh(double x)
         {
-            return System.Math.Asinh(x);
+            return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Asinh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1434,7 +1450,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double artanh(double x)
         {
-            return 0.5*System.Math.Log((1 + x)/(1 - x));
+            return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Atanh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1442,7 +1458,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double artgh(double x)
         {
-            return 0.5*System.Math.Log((1 + x)/(1 - x));
+            return artanh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1450,6 +1466,10 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcoth(double x)
         {
+            // The logarithmic ratio loses small results for large arguments.
+            // Close to the poles, retain it to avoid amplifying rounding in 1/x.
+            if (System.Math.Abs(x) >= 2)
+                return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Atanh(1.0/x);
             return 0.5*System.Math.Log((x + 1)/(x - 1));
         }
 
@@ -1458,7 +1478,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arctgh(double x)
         {
-            return 0.5*System.Math.Log((x + 1)/(x - 1));
+            return arcoth(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1857,16 +1877,16 @@ namespace Computator.NET.Core.Functions
         public static System.Numerics.Complex arsinh(System.Numerics.Complex z)
         {
             if (z.Imaginary == 0)
-                return new System.Numerics.Complex(System.Math.Asinh(z.Real), z.Imaginary);
+                return new System.Numerics.Complex(Computator.NET.Core.Compatibility.FrameworkElementaryMath.Asinh(z.Real), z.Imaginary);
             if (double.IsInfinity(z.Real) && double.IsInfinity(z.Imaginary))
-                return new System.Numerics.Complex(z.Real, System.Math.CopySign(System.Math.PI/4, z.Imaginary));
+                return new System.Numerics.Complex(z.Real, Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(System.Math.PI/4, z.Imaginary));
 
             // asinh(z) = -i asin(i z). Rotate components instead of multiplying
             // by i, and retain the signed-zero side of each imaginary-axis cut.
             var inverse = System.Numerics.Complex.Asin(new System.Numerics.Complex(-z.Imaginary, z.Real));
             return new System.Numerics.Complex(
-                System.Math.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
-                System.Math.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
+                Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(System.Math.Abs(inverse.Imaginary), z.Real),
+                Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(System.Math.Abs(inverse.Real), z.Imaginary));
         }
 
         /*Angielska nazwa funkcji""),
@@ -2069,7 +2089,9 @@ namespace Computator.NET.Core.Functions
         [System.ComponentModel.Category(""Integer functions"")]
         public static double DoubleFactorial(double x)
         {
-            return DoubleFactorial((long)x);
+            if (double.IsNaN(x) || x <= -1.0)
+                return double.NaN;
+            return DoubleFactorial(x > uint.MaxValue ? (long)uint.MaxValue : (long)x);
         }
         [System.ComponentModel.Category(""Integer functions"")]
         public static double DoubleFactorial(long n)
@@ -2077,7 +2099,8 @@ namespace Computator.NET.Core.Functions
             if (n < 0)
                 return double.NaN;
 
-            return gsl_sf_doublefact((uint)n);
+            // Preserve the host's overflow behavior before narrowing to uint.
+            return gsl_sf_doublefact(n > uint.MaxValue ? uint.MaxValue : (uint)n);
         }
 
         /*Angielska nazwa funkcji""),

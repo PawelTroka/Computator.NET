@@ -49,15 +49,15 @@ namespace Computator.NET.Core.Evaluation
                 : typeof(System.Windows.Forms.DataVisualization.Charting.Chart).Assembly.Location);
 
             NativeCompiler.AddDll("System.Windows.Forms.dll");
-            NativeCompiler.AddDll("System.Xaml.dll");
             //NativeCompiler.AddDll("Microsoft.CSharp.dll");
 
 #if !__MonoCS__
+            NativeCompiler.AddDll("System.Xaml.dll");
             NativeCompiler.AddDll(typeof(System.Windows.Media.Media3D.AmbientLight).Assembly.Location);//"PresentationCore.dll");
             NativeCompiler.AddDll(typeof(System.Windows.Data.XmlDataProvider).Assembly.Location);//"PresentationFramework.dll");
             NativeCompiler.AddDll(typeof(System.Windows.Forms.Integration.ElementHost).Assembly.Location);//"WindowsFormsIntegration.dll");
-#endif
             NativeCompiler.AddDll(typeof(System.Windows.Media.Matrix).Assembly.Location);//"WindowsBase.dll");
+#endif
 
             NativeCompiler.IsScripting = true;
 

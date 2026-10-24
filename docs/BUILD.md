@@ -4,7 +4,7 @@
 
 ## Commands
 
-Install the .NET SDK selected by `global.json`, PowerShell 7, and the Node/npm versions in `.nvmrc` and the web client's `package.json` for frontend tasks. The desktop/API graph requires Windows and .NET 10 Desktop/ASP.NET Core runtimes; the SDK supplies the development runtimes. Framework is used only by the legacy test-fixture writer and isolated installer authoring tool. Windows publication also builds its pinned GSL runtime and requires Python 3.11 or newer, Git and Visual Studio C++ build tools. The pinned vcpkg checkout supplies verified CMake/CTest tools within the build directory. Windows SDK packaging tools are required for MSIX. Ordinary solution builds do not build native GSL.
+Install the .NET SDK selected by `global.json`, PowerShell 7, and the Node/npm versions in `.nvmrc` and the web client's `package.json` for frontend tasks. The default desktop/API graph requires Windows and .NET 10 Desktop/ASP.NET Core runtimes; the SDK supplies the development runtimes. Framework is also used by the legacy test-fixture writer, isolated installer authoring tool and explicit reduced [Mono desktop](MONO-DESKTOP.md) target. Windows publication also builds its pinned GSL runtime and requires Python 3.11 or newer, Git and Visual Studio C++ build tools. The pinned vcpkg checkout supplies verified CMake/CTest tools within the build directory. Windows SDK packaging tools are required for MSIX. Ordinary solution builds do not build native GSL.
 
 ```powershell
 # Windows; the original invocation pattern remains supported.
@@ -39,6 +39,7 @@ dotnet cake build.cake --showdescription
 | `Validate` / `Publish` | All four Windows suites, focused browser tests, checked publications and ZIP packaging. Follow-up validation targets below remain separate gates. Publish creates local artifacts. |
 | `Calculate-Coverage` | All Windows tests with the test SDK's coverage collector; require Cobertura output in `TestResults/`. |
 | `Portable-Validate` | Build the portable project entry points, validate the extracted engine and launch the published CLI. All supported projects remain in the single root SLNX. See [portable scope](followups/PORTABLE-ENGINE.md). |
+| `Mono-Build` / `Mono-Validate` | Explicit `net48` compatibility graph using the current shared sources; real Mono startup and calculations/editor/chart acceptance. Requires the Linux GUI/native prerequisites in [MONO-DESKTOP.md](MONO-DESKTOP.md). Neither changes the default solution/package targets. |
 | `Native-GSL-Validate` | Build the pinned native candidate and ABI probes; on Windows, run numerical and desktop suites with the candidate selected. See [GSL](followups/GSL.md). |
 | `Installer-Source` / `Build-Installer` | Stage the self-contained desktop, validate WiX source; compile MSI/Burn with explicit WiX 7 terms acceptance. See [installer details](followups/INSTALLER.md). |
 | `MSIX-Validate` | Stage the same self-contained desktop, validate/package unsigned MSIX and verify unpacked payload hashes. `Build-MSIX` and historical `Build-Uwp` select this packaging path. See [MSIX](followups/MSIX.md). |
@@ -70,7 +71,7 @@ On .NET 10, Cake also launches the published desktop and Kestrel API through foc
 
 `Build-Installer` now compiles MSI/Burn candidates after explicit WiX 7 terms acceptance. `Build-Uwp` forwards to full-trust desktop MSIX packaging. Both use the shared self-contained win-x64 distribution payload; neither signs or publishes a release. Default package versions remain experimental candidates until a release version is deliberately selected.
 
-`Installer-Validate` requires an elevated disposable Windows machine. `MSIX-Lifecycle` requires a disposable account/machine and an already trusted signed package. Both require `COMPUTATOR_DISPOSABLE_INSTALL_TEST=1`; do not run them on a normal development machine. Compilation and package/hash validation do not prove installation, historical upgrade, repair or uninstall. `Install-Linux` still fails explicitly because machine-wide Mono installation is retired. See [RELEASE-3.0.md](RELEASE-3.0.md) and [LEGACY-TOOLING.md](LEGACY-TOOLING.md).
+`Installer-Validate` requires an elevated disposable Windows machine. `MSIX-Lifecycle` requires a disposable account/machine and an already trusted signed package. Both require `COMPUTATOR_DISPOSABLE_INSTALL_TEST=1`; do not run them on a normal development machine. Compilation and package/hash validation do not prove installation, historical upgrade, repair or uninstall. `Install-Linux` still fails explicitly: the opt-in Mono build does not install files machine-wide. See [RELEASE-3.0.md](RELEASE-3.0.md) and [LEGACY-TOOLING.md](LEGACY-TOOLING.md).
 
 ## Primary references
 

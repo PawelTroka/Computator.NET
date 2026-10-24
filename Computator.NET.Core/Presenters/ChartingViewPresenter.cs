@@ -89,7 +89,10 @@ namespace Computator.NET.Core.Presenters
             if (!AreChartValuesValid)
             {
                 _errorHandler.DisplayError(
-                    $"{Strings.Min_value_needs_to_be_less_than_Max_value}{Environment.NewLine}{Strings.CheckChartAreaValues}: x0, xN, y0, yN.",
+                    $"{Strings.Min_value_needs_to_be_less_than_Max_value}{Environment.NewLine}" +
+                    $"{Strings.CheckChartAreaValues}: {_view.ChartAreaValuesView.XAxisLabel} min, " +
+                    $"{_view.ChartAreaValuesView.XAxisLabel} max, {_view.ChartAreaValuesView.YAxisLabel} min, " +
+                    $"{_view.ChartAreaValuesView.YAxisLabel} max.",
                     Strings.Warning_);
                 return;
             }

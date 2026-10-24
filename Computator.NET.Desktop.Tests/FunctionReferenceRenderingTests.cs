@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -16,11 +17,15 @@ namespace Computator.NET.Desktop.Tests
     [TestFixture, Apartment(ApartmentState.STA), NonParallelizable]
     public class FunctionReferenceRenderingTests
     {
-        [TestCase("gamma(x)", "Gamma function")]
-        [TestCase("ElementaryCharge", "1.602176634")]
-        [TestCase("Normal.CDF(mean,stddev,x)", "standard deviation")]
-        [TestCase("Laguerre(n,α,x)", "Generalized Laguerre polynomial")]
-        public void ShippedHtmlRendersOfflineInTheDesktopBrowser(string signature, string expected)
+        [TestCase("gamma(x)", "Gamma function", 700, false)]
+        [TestCase("ElementaryCharge", "1.602176634", 700, false)]
+        [TestCase("Normal.CDF(mean,stddev,x)", "standard deviation", 700, true)]
+        [TestCase("Laguerre(n,α,x)", "Generalized Laguerre polynomial", 700, false)]
+        [TestCase("Ackley(xi1,xi2, ...)", "Reading the landscape", 700, true)]
+        [TestCase("sin(x)", "sine", 700, true)]
+        [TestCase("sin(x)", "sine", 360, true)]
+        [TestCase("Normal.CDF(mean,stddev,x)", "standard deviation", 360, true)]
+        public void ShippedHtmlRendersOfflineInTheDesktopBrowser(string signature, string expected, int width, bool requiresDiagram)
         {
             var entry = new FunctionsDetailsFileSource().Details[signature];
             // A background test window can render correctly while an unrelated
@@ -29,7 +34,7 @@ namespace Computator.NET.Desktop.Tests
             // visual evidence.
             using var window = new Form
             {
-                Size = new Size(700, 650), ShowInTaskbar = false,
+                Size = new Size(width, 650), ShowInTaskbar = false,
                 TopMost = true, StartPosition = FormStartPosition.CenterScreen
             };
             using var browser = new WebBrowser { Dock = DockStyle.Fill, ScriptErrorsSuppressed = false };
@@ -68,8 +73,34 @@ namespace Computator.NET.Desktop.Tests
             window.BringToFront();
             window.Activate();
             var screenshot = System.IO.Path.Combine(TestContext.CurrentContext.WorkDirectory,
-                "reference-" + signature.Split('(')[0].Replace('.', '-') + ".png");
+                "reference-" + signature.Split('(')[0].Replace('.', '-') + "-" + width + ".png");
             SavePaintedReference(window, browser, screenshot);
+            var figures = browser.Document.Images.Cast<HtmlElement>()
+                .Where(image => image.GetAttribute("className") == "reference-plot").ToArray();
+            if (requiresDiagram)
+                NUnit.Framework.Assert.That(figures.Length, Is.EqualTo(1),
+                    "This shipped article must retain its explanatory diagram through the native sanitizer.");
+            foreach (var figure in figures)
+            {
+                var authored = XElement.Parse(entry.Description).Descendants("img")
+                    .Single(image => (string)image.Attribute("class") == "reference-plot");
+                var authoredWidth = (int)authored.Attribute("width");
+                var authoredHeight = (int)authored.Attribute("height");
+                dynamic rendered = figure.DomElement;
+                NUnit.Framework.Assert.That((int)rendered.naturalWidth, Is.EqualTo(authoredWidth * 3));
+                NUnit.Framework.Assert.That((int)rendered.naturalHeight, Is.EqualTo(authoredHeight * 3));
+                figure.ScrollIntoView(true);
+                var painted = CaptureDocumentPaint(window, browser, new[] { figure },
+                    System.IO.Path.ChangeExtension(screenshot, null) + "-diagram.png");
+                var bounds = ViewportBounds(figure);
+                NUnit.Framework.Assert.That(browser.ClientRectangle.Contains(bounds), Is.True,
+                    "The whole diagram must fit within the native reading surface, including at a narrow width.");
+                NUnit.Framework.Assert.That(bounds.Width / (double)bounds.Height,
+                    Is.EqualTo(authoredWidth / (double)authoredHeight).Within(0.015),
+                    "Fitting a diagram must preserve its proportions.");
+                NUnit.Framework.Assert.That(painted, Is.True,
+                    "The offline diagram must decode and paint in the native HTML control.");
+            }
             window.Close();
         }
 
@@ -108,6 +139,9 @@ namespace Computator.NET.Desktop.Tests
                 $"The reference DOM loaded, but its desktop pixels were not ready (article={pagePainted}, equation={equationPainted}). Inspect the attached frames.");
         }
 
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags);
+
         private static bool CaptureDocumentPaint(Form window, WebBrowser browser, HtmlElement[] visibleContent, string screenshot)
         {
             var clock = Stopwatch.StartNew();
@@ -118,7 +152,23 @@ namespace Computator.NET.Desktop.Tests
             {
                 window.Refresh();
                 Application.DoEvents();
-                graphics.CopyFromScreen(window.Location, Point.Empty, window.Size);
+                try
+                {
+                    graphics.CopyFromScreen(window.Location, Point.Empty, window.Size);
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    var hdc = graphics.GetHdc();
+                    try
+                    {
+                        if (!PrintWindow(window.Handle, hdc, 2))
+                            PrintWindow(window.Handle, hdc, 0);
+                    }
+                    finally
+                    {
+                        graphics.ReleaseHdc(hdc);
+                    }
+                }
                 painted = visibleContent.All(element => ContainsPageText(bitmap, InScreenshot(element, browser, window)));
                 if (!painted) Thread.Sleep(20);
             } while (!painted && clock.Elapsed < TimeSpan.FromSeconds(5));

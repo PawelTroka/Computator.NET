@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "cause": "The first collection was interrupted by filesystem disk exhaustion (ENOSPC).",
+  "supervisorExitCode": 2,
+  "completed": false,
+  "retainedCompletePairs": 17,
+  "retainedSuccessfulInvocations": 35,
+  "postRunArtifactVerificationPresent": false,
+  "incompleteRawSha256": "f411879afebd43918d657b0292d521a5d5d2744609cd44022eb6b40a7fc515c2",
+  "use": "Not used for inference; never spliced into the separate complete 20-pair collection. The original incomplete raw record remains unchanged in the retained local evidence.",
+  "separateCompleteRawSha256": "85857f175b461e56d4e4e5c529423590730a71c8ac9a04980ac128264e9da74d"
+}

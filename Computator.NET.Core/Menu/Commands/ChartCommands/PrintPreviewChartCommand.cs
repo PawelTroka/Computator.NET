@@ -17,7 +17,7 @@ namespace Computator.NET.Core.Menu.Commands.ChartCommands
 
         public override void Execute()
         {
-            currentChart.Print();
+            currentChart.PrintPreview();
         }
     }
 }

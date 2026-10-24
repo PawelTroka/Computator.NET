@@ -137,7 +137,7 @@ namespace Computator.NET.Core.Evaluation
         // particular, do not interpret a comma as a thousands/decimal separator.
         public static double FromMathString(this string mathString)
         {
-            System.ArgumentNullException.ThrowIfNull(mathString);
+            if (mathString == null) throw new System.ArgumentNullException(nameof(mathString));
             var text = mathString.Trim();
             var dot = text.IndexOf(Computator.NET.DataTypes.Text.SpecialSymbols.DotSymbol);
             if (dot < 0)

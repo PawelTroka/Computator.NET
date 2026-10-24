@@ -113,6 +113,102 @@ for showing redundant signatures.
 
 ## Content boundaries
 
+### Definition placement and desktop reading space
+
+An article opens with its summary, then its definition or convention, argument
+guidance and implementation warnings. Longer teaching notes and examples follow.
+This keeps the formula easy to find without separating it from its domain or
+presenting it before the introductory context. Supplementary family relations,
+such as an underlying Bessel equation or an illustrative Gabor model, retain
+their labels and appear after the explanatory notes. They do not replace the
+individual overload's definition.
+
+The eight optimization benchmark families explicitly mark their existing TeX as
+the same mathematical definition as the text formula. This removes the duplicate
+plain-text definition in Ackley and those seven related families. Bohachevsky's
+formula is labelled **Standard benchmark definition**, with its pinned-library
+offset warning next to it. The existing equation assets are reused unchanged.
+An equation elsewhere in the enrichment catalogue is not automatically treated
+as a replacement definition.
+
+The PointwiseMultiply and PointwiseDivide teaching notes also describe the
+corrected operand fold from #185. Their previous notes still claimed the first
+operand was applied twice, contradicting the implementation and argument notes.
+Each operand now contributes once; a single argument returns an independent copy.
+
+The desktop popup starts at 660 × 540 logical pixels, autocomplete allows up to
+420 logical pixels of height, and the separate reader starts at 900 × 760 logical
+pixels. Defaults are scaled for display density and limited to the monitor's
+working area. Long documents and wide equations scroll within the popup instead
+of resizing it from document dimensions. The separate reader continues to retain
+the user's chosen size across article changes and reopening.
+
+### Scientific benchmark diagrams (#224)
+
+Ackley, Rastrigin, Bohachevsky1, Himmelblau, Matyas, Rosenbrock, dropWave and
+sixHumpCamel now have original, labelled two-coordinate diagrams. Eight images
+serve nine lookup entries, including the two Rosenbrock signatures. Each image
+pairs sampled level curves with a marked path and its evaluated objective values.
+Minima and axis values are shown explicitly; captions explain what a slice can
+and cannot establish about a surface. Matyas follows its shallow diagonal and
+Rosenbrock its curved valley. Himmelblau marks all four global minimizers; the
+six-hump camel plot marks both symmetry-related minima and discloses the rounded
+slice coordinate. The Bohachevsky drawing follows the actual returned value -0.7
+at the origin, consistent with the existing implementation warning.
+
+Ackley, Rastrigin and sixHumpCamel also gain executable worked examples,
+discovered by the existing runtime example test. All prior article text,
+formulas, examples, argument guidance and qualifications are retained.
+
+`build/reference/plots.cjs` samples the mathematical formulas and draws the
+geometry, including contour interpolation. It uses the existing pinned
+MathJax/resvg development dependencies to turn axis-label glyphs and paths into
+PNG images. No new dependency, operating-system font or image-generation model
+is used. The function conventions are checked against the
+[pinned Math.NET implementation](https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/SpecialFunctions/TestFunctions.cs).
+The diagrams are numerical illustrations, not proofs of global optimality or
+runtime optimizer results. Tests independently check analytic values, minima,
+the valley identities and contour geometry on a circle and saddle.
+
+The eight 600 × 374 diagrams have 3× pixel resolution. Their SVG-source hashes
+name the PNG files in `Static/reference-figures`; the manifest records image
+hashes, dimensions, axis ranges, contour values, minima, captions and text
+alternatives. Both `Reference-Generate` and `Reference-Validate` run their
+deterministic generation and geometry tests. Ordinary builds only copy the
+committed images. The desktop renderer and web sanitizer accept only the exact
+`reference-plot` class with hashed `reference-figures/*.png` paths, bounded sizes
+and a nonempty alternative; the directory and class must agree. They still
+reject remote, data, SVG, traversal and active-attribute input. All previous
+equation and inline-math source identities remain unchanged.
+
+### Unit-circle projections and normal probability
+
+Two additional diagrams reuse the same offline figure pipeline:
+
+| Diagram | Exact reference entries | Interpretation |
+| --- | --- | --- |
+| Unit circle | `sin(x)`, `sin(z)`, `cos(x)`, `cos(z)` | At the real angle θ = π/4, cosine is the horizontal projection and sine the vertical projection of a unit radius; both equal √2/2. The caption explicitly limits this picture to real inputs. |
+| Standard normal | `Normal.PDF(mean,stddev,x)`, `Normal.CDF(mean,stddev,x)` | For μ = 0 and σ = 1, curve height is density and accumulated area is probability. The shaded left tail through x = 1 has probability about 0.8413; the tails continue beyond the plotted interval. |
+
+These are supplemental examples. They follow the existing definitions, argument
+conventions and equations, keeping those sections in their original order. The
+complex trigonometric articles retain their complex-domain explanations. Normal
+inverse-CDF and other distributions do not inherit a picture with different
+parameters or a different domain.
+
+The two new 600 × 374 figures use the existing 3× PNG rendering, glyph outlines,
+source hashes, manifest, asset allowlist and packaging. No extra plotting library
+or runtime renderer is required. Together with the benchmark figures, the shared
+manifest contains ten diagrams serving fifteen articles. The eight benchmark
+images and their metadata remain unchanged.
+
+The existing `Reference-Generate` and `Reference-Validate` targets include these
+figures. Mathematical checks cover the trigonometric projections and normal
+density/area separately from the rendering checks. Browser tests inspect actual
+shipped articles in both Ace editors at 360px and 1280px, including image integrity,
+alternatives, aspect ratio, source-link scrolling and deferred image requests.
+Native checks decode, size and capture the diagrams in the Windows HTML engine.
+
 All 1,220 existing entries gain explanatory guidance, with subject-specific
 interpretations and explicit numerical/physical caveats. Display equations appear
 in 1,172 entries; together with inline mathematics, 1,173 entries include typeset

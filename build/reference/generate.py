@@ -20,11 +20,35 @@ from common import InlineMath, Prose
 from functools import lru_cache
 
 ASSETS=Path(__file__).resolve().parents[2]/"Computator.NET.Core/Static/reference-equations"
+FIGURES=Path(__file__).resolve().parents[2]/"Computator.NET.Core/Static/reference-figures"
 EQUATIONS={}
 COLLECT_EQUATIONS=False
 @lru_cache(maxsize=1)
 def equation_manifest():
     return json.loads((ASSETS/"manifest.json").read_text(encoding="utf-8"))["equations"]
+
+@lru_cache(maxsize=1)
+def figure_manifest():
+    return json.loads((FIGURES/"manifest.json").read_text(encoding="utf-8"))["figures"]
+
+def figure_html(item):
+    if COLLECT_EQUATIONS:return ''
+    signature,kind=item['signature'],item['type']
+    name=signature.split('(')[0]
+    if kind=='SpecialFunctions' and name in special.TESTS:
+        heading='Reading the landscape'
+    elif kind=='ElementaryFunctions' and signature in ('sin(x)','sin(z)','cos(x)','cos(z)'):
+        name,heading='UnitCircle','Reading sine and cosine'
+    elif kind=='Normal' and signature in ('Normal.PDF(mean,stddev,x)','Normal.CDF(mean,stddev,x)'):
+        name,heading='StandardNormal','Density and accumulated probability'
+    else:return ''
+    matches=[(key,asset) for key,asset in figure_manifest().items() if asset['name']==name]
+    if len(matches)!=1:raise ValueError('Expected one reviewed diagram for '+name)
+    key,asset=matches[0]
+    return ('<div class="reference-figure"><p><strong>'+esc(heading)+'</strong></p>'+
+            '<img class="reference-plot" src="reference-figures/'+key+'.png" alt="'+esc(asset['alt'])+
+            '" width="'+str(asset['width'])+'" height="'+str(asset['height'])+'" />'+
+            '<p>'+esc(asset['caption'])+'</p></div>')
 
 def equation_html(equation):
     key=hashlib.sha256(equation.tex.encode("utf-8")).hexdigest()
@@ -109,9 +133,15 @@ def articles(inventory):
             # Do not repeat a typed signature in a second section heading.
             if len(authored)>1:chunks.append('<p class="reference-variant"><strong>'+esc(article.title)+'</strong></p>')
             chunks.append('<p class="reference-summary">'+prose_html(article.definition)+'</p>')
-            for paragraph in extra.paragraphs:
-                chunks.append('<p class="reference-explanation">'+prose_html(paragraph)+'</p>')
             for field,label in SECTIONS:
+                # Introduce the function, then give its definition together with
+                # the applicable arguments and implementation caveats. Longer
+                # teaching notes follow this quick reference. Supplementary
+                # family equations still follow those notes; they must not be
+                # promoted into definitions of an individual overload.
+                if field=='example':
+                    for paragraph in extra.paragraphs:
+                        chunks.append('<p class="reference-explanation">'+prose_html(paragraph)+'</p>')
                 value=getattr(article,field)
                 if field=='formula' and extra.replaces_formula:
                     for equation in extra.equations:chunks.append(equation_html(equation))
@@ -123,6 +153,8 @@ def articles(inventory):
                     chunks.append('<p class="reference-'+field+'"><strong>'+label+':</strong> '+value+'</p>')
             if not extra.replaces_formula:
                 for equation in extra.equations:chunks.append(equation_html(equation))
+            figure=figure_html(selected)
+            if figure:chunks.append(figure)
             for example in extra.examples:
                 chunks.append('<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>'+esc(example.code)+'</code></pre>'+
                     '<p><strong>Result:</strong> '+esc(example.result)+'</p><p>'+prose_html(example.explanation)+'</p></div>')
@@ -144,9 +176,11 @@ def validate_fragment(fragment,signature='fragment'):
         if any(name not in allowed for name in node.attrib):raise ValueError('Unsupported attribute in '+signature)
         if node.tag=='img':
             src=node.get('src','')
-            if not re.fullmatch(r'reference-equations/[a-f0-9]{64}\.png',src):raise ValueError('Nonlocal equation image: '+signature)
+            plot=node.get('class')=='reference-plot'
+            directory='reference-figures' if plot else 'reference-equations'
+            if not re.fullmatch(directory+r'/[a-f0-9]{64}\.png',src):raise ValueError('Nonlocal reference image: '+signature)
             inline=node.get('class')=='reference-math-inline'
-            if node.get('class') not in ('reference-math','reference-math-inline') or not node.get('alt','').strip():raise ValueError('Missing equation alternative: '+signature)
+            if node.get('class') not in ('reference-math','reference-math-inline','reference-plot') or not node.get('alt','').strip():raise ValueError('Missing image alternative: '+signature)
             for dimension,maximum in [('width',320 if inline else 2400),('height',100 if inline else 800)]:
                 if not re.fullmatch(r'[1-9][0-9]{0,3}',node.get(dimension,'')) or int(node.get(dimension))>maximum:raise ValueError('Invalid image dimensions: '+signature)
             if inline:
@@ -199,10 +233,12 @@ def write_preview(entries,path):
         description=ET.tostring(fragment,encoding='unicode')
         sections.append('<section id="entry-'+str(index)+'" data-signature="'+esc(item['signature'])+'"><h2>'+esc(item['title'])+'</h2>'+description+'</section>')
     text='''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Computator.NET function reference</title><style>body{font:16px/1.5 system-ui,sans-serif;margin:0 auto;padding:2rem;max-width:64rem;color:#24262b;background:#fafafa}h1{font-size:2rem}h2{font-size:1.25rem}section{padding:1.2rem;margin:1.2rem 0;border:1px solid #ddd;border-radius:8px;background:white}code{font-family:Consolas,monospace;overflow-wrap:anywhere}.reference-note{border-left:3px solid #b07934;padding-left:.8rem}.reference-source{font-size:.88rem}a{color:#305c85}p{margin:.7rem 0}</style><h1>Computator.NET function and constant reference</h1><p>Offline editorial preview. The application uses the same HTML fragments from functions.xml. No network resources are required; source links are optional reading.</p>'''+''.join(sections)+'</html>'
-    text=text.replace('</style>', '.reference-equation{overflow-x:auto;padding:12px;background:white}.reference-math{display:block;max-width:none}.reference-math-inline{display:inline-block;max-width:none}.reference-math-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.reference-worked-example{border-left:3px solid #718595;padding:0 16px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>')
+    text=text.replace('</style>', '.reference-equation{overflow-x:auto;padding:12px;background:white}.reference-math{display:block;max-width:none}.reference-math-inline{display:inline-block;max-width:none}.reference-math-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.reference-figure{margin:16px 0}.reference-plot{display:block;max-width:100%;height:auto;background:white}.reference-worked-example{border-left:3px solid #718595;padding:0 16px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>')
     path.parent.mkdir(parents=True,exist_ok=True);path.write_text(text,encoding='utf-8')
     import shutil
     shutil.copytree(ASSETS,path.parent/'reference-equations',dirs_exist_ok=True)
+    if any('reference-figures/' in item['description'] for item in entries):
+        shutil.copytree(FIGURES,path.parent/'reference-figures',dirs_exist_ok=True)
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -234,6 +270,7 @@ def main():
             'xmlSha256':hashlib.sha256(data).hexdigest(),
             'entriesWithTypesetMath':sum('reference-math' in e['description'] for e in entries),
             'entriesWithInlineMath':sum('reference-math-inline' in e['description'] for e in entries),
+            'entriesWithDiagrams':sum('reference-plot' in e['description'] for e in entries),
             'entriesWithTeachingNotes':sum('reference-explanation' in e['description'] for e in entries),
             'entriesWithWorkedExamples':sum('reference-worked-example' in e['description'] for e in entries),
             'uniqueTypesetEquations':len(EQUATIONS)}

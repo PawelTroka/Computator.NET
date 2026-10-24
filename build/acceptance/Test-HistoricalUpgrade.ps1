@@ -1,4 +1,4 @@
-﻿# Windows PowerShell 5.1; keep the UTF-8 BOM for Unicode fixtures.
+# Windows PowerShell 5.1; keep the UTF-8 BOM for Unicode fixtures.
 # No dotnet, compiler, package manager or developer SDK is used here.
 [CmdletBinding()]
 param(
@@ -187,7 +187,7 @@ try {
             }
         } finally { $hive.Dispose() }
     }
-    $dotnet = Get-Command dotnet.exe -ErrorAction SilentlyContinue
+    $dotnet = Get-Command dotnet.exe -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($dotnet) { $runtimeRoots += Split-Path -Parent $dotnet.Source }
     $present = @($runtimeRoots | Sort-Object -Unique | Where-Object { (Test-Path (Join-Path $_ 'sdk')) -or (Test-Path (Join-Path $_ 'shared')) })
     $report.modernRuntimeLocations = $present

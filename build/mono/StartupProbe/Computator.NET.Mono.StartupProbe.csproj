@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\ModernDesktop.props" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Computator.NET.Mono.StartupProbe</AssemblyName>
+  </PropertyGroup>
+  <!-- Deliberately no application project/package references. The real executable
+       must load its dependencies from its own build output. -->
+  <Target Name="RequireMonoCompatibilityTarget" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(ComputatorMono)' != 'true'" Text="Build the Mono startup probe with -p:ComputatorMono=true." />
+  </Target>
+</Project>

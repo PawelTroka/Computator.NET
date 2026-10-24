@@ -14,11 +14,24 @@ namespace Computator.NET.Core.Natives
     {
         private static readonly object Gate = new object();
         private static readonly gsl_error_handler_t UnmanagedHandler = HandleUnmanagedError;
+#if __MonoCS__
+        private static bool _initialized;
+#else
         private static IntPtr _library;
+#endif
         public static void Initialize()
         {
             lock (Gate)
             {
+#if __MonoCS__
+                if (!_initialized)
+                {
+                    // Use Mono's native loader and the system GSL installation.
+                    // The shared GslDllName is also used by generated programs, so
+                    // their P/Invoke calls use the same library and error handler.
+                    if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("COMPUTATOR_GSL_DIRECTORY")))
+                        throw new PlatformNotSupportedException("COMPUTATOR_GSL_DIRECTORY selects a Windows GSL package. Mono uses the system GSL installation.");
+#else
                 if (_library == IntPtr.Zero)
                 {
                     var candidate = Environment.GetEnvironmentVariable("COMPUTATOR_GSL_DIRECTORY");
@@ -41,12 +54,16 @@ namespace Computator.NET.Core.Natives
                         _library = NativeLibrary.Load(path);
                     }
                     NativeLibrary.SetDllImportResolver(typeof(GSLInitializer).Assembly, Resolve);
+#endif
                     // Install exactly once; do not race process-wide native handler
                     // changes when requests initialize their own evaluators.
                     NativeMethods.gsl_set_error_handler(UnmanagedHandler);
                     // The settings editor updates the singleton in place. Keep
                     // its mode live without replacing the native callback.
                     Settings.Default.PropertyChanged += OnSettingsChanged;
+#if __MonoCS__
+                    _initialized = true;
+#endif
                 }
                 UpdateErrorMode();
             }
@@ -58,8 +75,10 @@ namespace Computator.NET.Core.Natives
         }
         private static void UpdateErrorMode() =>
             GslErrorBoundary.ThrowOnError = Settings.Default.CalculationsErrors != CalculationsErrors.ReturnNAN;
+#if !__MonoCS__
         private static IntPtr Resolve(string name, Assembly assembly, DllImportSearchPath? searchPath) =>
             string.Equals(name, GslConfig.GslDllName, StringComparison.OrdinalIgnoreCase) ? _library : IntPtr.Zero;
+#endif
         private static void HandleUnmanagedError(string reason, string file, int line, int status) =>
             GslErrorBoundary.Record(reason, status);
     }

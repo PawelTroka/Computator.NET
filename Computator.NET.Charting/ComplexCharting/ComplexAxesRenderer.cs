@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 
 namespace Computator.NET.Charting.ComplexCharting
 {
@@ -58,6 +60,8 @@ namespace Computator.NET.Charting.ComplexCharting
                         }
                         var haloWidth = Math.Min(layout.StrokeWidth, 1.5f * layout.DpiScale);
                         DrawAxes(graphics, layout, axesColor, haloWidth);
+                        DrawTicks(graphics, layout, xMin, xMax, yMin, yMax,
+                            sourceFont, axesColor, labelsColor, haloWidth);
                         DrawLabel(graphics, xPath, layout.XLabelBounds, labelsColor, haloWidth);
                         DrawLabel(graphics, yPath, layout.YLabelBounds, labelsColor, haloWidth);
                     }
@@ -68,6 +72,62 @@ namespace Computator.NET.Charting.ComplexCharting
                 graphics.Restore(state);
             }
             return layout;
+        }
+
+        private static void DrawTicks(Graphics graphics, ComplexAxesLayout layout,
+            double xMin, double xMax, double yMin, double yMax, Font sourceFont,
+            Color axesColor, Color labelsColor, float haloWidth)
+        {
+            // Numeric labels stay subordinate to coordinate names and upright.
+            // GetHeight accounts for DPI exactly once, as it does for the names.
+            using var font = new Font(sourceFont.FontFamily,
+                sourceFont.Size * Math.Min(layout.FontScale, 1.3f) * 0.75f,
+                sourceFont.Style, sourceFont.Unit, sourceFont.GdiCharSet);
+            using var format = (StringFormat)StringFormat.GenericTypographic.Clone();
+            format.FormatFlags |= StringFormatFlags.NoWrap;
+            var emSize = font.GetHeight(graphics.DpiY) * font.FontFamily.GetEmHeight(font.Style) /
+                font.FontFamily.GetLineSpacing(font.Style);
+            var paths = new Dictionary<string, GraphicsPath>();
+            GraphicsPath GetPath(string label)
+            {
+                if (!paths.TryGetValue(label, out var path))
+                {
+                    path = LabelPath(label, font, emSize, format);
+                    paths.Add(label, path);
+                }
+                return path;
+            }
+            try
+            {
+                layout.Ticks = ComplexTicksLayout.Create(layout, xMin, xMax, yMin, yMax,
+                    label => PathSize(GetPath(label)), CultureInfo.CurrentCulture);
+                var minorWidth = layout.StrokeWidth * 0.6f;
+                DrawMarks(graphics, layout.Ticks.MinorTicks, axesColor, minorWidth, haloWidth * 0.6f);
+                DrawMarks(graphics, layout.Ticks.MajorTicks, axesColor, layout.StrokeWidth, haloWidth);
+                foreach (var mark in layout.Ticks.MajorTicks)
+                    if (!mark.LabelBounds.IsEmpty)
+                        DrawLabel(graphics, GetPath(mark.Tick.Label), mark.LabelBounds, labelsColor, haloWidth);
+            }
+            finally
+            {
+                foreach (var path in paths.Values)
+                    path.Dispose();
+            }
+        }
+
+        private static void DrawMarks(Graphics graphics, IReadOnlyList<ComplexTicksLayout.Mark> marks,
+            Color color, float width, float haloWidth)
+        {
+            using var halo = new Pen(ContrastColor(color), width + haloWidth);
+            using var pen = new Pen(color, width);
+            halo.StartCap = halo.EndCap = pen.StartCap = pen.EndCap = LineCap.Round;
+            foreach (var mark in marks)
+            {
+                if (!mark.DrawMark)
+                    continue;
+                graphics.DrawLine(halo, mark.Start, mark.End);
+                graphics.DrawLine(pen, mark.Start, mark.End);
+            }
         }
 
         private static GraphicsPath LabelPath(string text, Font font, float emSize, StringFormat format)

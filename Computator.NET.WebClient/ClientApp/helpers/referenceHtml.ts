@@ -4,7 +4,7 @@ const elements = new Set(['DIV', 'P', 'BR', 'PRE', 'UL', 'LI', 'CODE', 'STRONG',
 const excluded = new Set(['SCRIPT', 'STYLE', 'TEMPLATE', 'IFRAME', 'OBJECT', 'EMBED', 'SVG', 'MATH', 'NOSCRIPT', 'NOFRAMES']);
 const classes = new Set(['function-reference', 'reference-arguments', 'reference-example', 'reference-formula',
   'reference-note', 'reference-source', 'reference-summary',
-  'reference-explanation', 'reference-equation', 'reference-worked-example', 'reference-variant']);
+  'reference-explanation', 'reference-equation', 'reference-worked-example', 'reference-variant', 'reference-figure']);
 
 export function referenceHtml(title: string, fragment: unknown, _displayedSignature?: string): string {
   const template = document.createElement('template');
@@ -36,16 +36,18 @@ export function referenceHtml(title: string, fragment: unknown, _displayedSignat
       const alt = element.getAttribute('alt') ?? '';
       const imageClass = element.getAttribute('class');
       const inline = imageClass === 'reference-math-inline';
+      const plot = imageClass === 'reference-plot';
+      const sourcePattern = plot ? /^reference-figures\/[a-f0-9]{64}\.png$/ : /^reference-equations\/[a-f0-9]{64}\.png$/;
       const depthText = element.getAttribute('data-depth') ?? '';
       const depth = Number(depthText);
-      if (!/^reference-equations\/[a-f0-9]{64}\.png$/.test(src) ||
-          (!inline && imageClass !== 'reference-math') || !alt.trim() ||
+      if (!sourcePattern.test(src) ||
+          (!inline && !plot && imageClass !== 'reference-math') || !alt.trim() ||
           !/^[1-9]\d{0,3}$/.test(width) || Number(width) > (inline ? 320 : 2400) ||
           !/^[1-9]\d{0,2}$/.test(height) || Number(height) > (inline ? 100 : 800) ||
           (inline ? !/^(?:0|-?[1-9][0-9]{0,3})$/.test(depthText) || depth < -1000 || depth >= Number(height) * 50
             : element.hasAttribute('data-depth'))) return;
       const image = inert.createElement('img');
-      image.className = inline ? 'reference-math-inline' : 'reference-math'; image.alt = alt;
+      image.className = inline ? 'reference-math-inline' : plot ? 'reference-plot' : 'reference-math'; image.alt = alt;
       image.width = Number(width); image.height = Number(height);
       image.src = '/' + src;
       if (inline) {

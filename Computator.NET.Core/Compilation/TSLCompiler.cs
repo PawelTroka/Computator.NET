@@ -13,8 +13,12 @@ namespace Computator.NET.Core.Compilation
     public interface ITslCompiler
     {
         string TransformToCSharp(string tslCode);
+#if NETFRAMEWORK
+        string TransformToCSharp(string tslCode, string customFunctionsCode, bool deferSymbolicFunctionPowers);
+#else
         string TransformToCSharp(string tslCode, string customFunctionsCode, bool deferSymbolicFunctionPowers) =>
             TransformToCSharp(tslCode);
+#endif
     }
 
     public class TslCompiler : ITslCompiler
@@ -151,6 +155,9 @@ namespace Computator.NET.Core.Compilation
             var protectedCode = source.WithChanges(ordered).ToString();
             var result = TslHandlers.Aggregate(protectedCode, (current, handler) =>
                 handler is PowHandler powers ? powers.Replace(current, deferSymbolicFunctionPowers) : handler.Replace(current));
+            // The per-call placeholder prefix makes the restoration pattern unique.
+            // With no protected tokens, rebuilding that regex cannot change the result.
+            if (literals.Count == 0) return result;
             return Regex.Replace(result, "(@?)" + prefix + @"(\d+)__", match =>
             {
                 var literal = literals[int.Parse(match.Groups[2].Value)];
