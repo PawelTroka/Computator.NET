@@ -1,9 +1,11 @@
+using System;
+using System.IO;
 using System.Windows.Forms;
 using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Model;
 using Computator.NET.Core.Properties;
-using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Configuration;
+using Computator.NET.DataTypes.Events;
 using Computator.NET.Localization.Menu;
 
 namespace Computator.NET.Core.Menu.Commands.FileCommands
@@ -54,28 +56,16 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
             if (!_openFileDialog.Show())
                 return;
 
+            // Match shell activation: the selected document determines its editor,
+            // regardless of the tool that was active when the dialog opened.
+            var filename = _openFileDialog.FileName;
+            var isCustomFunctions = string.Equals(Path.GetExtension(filename), ".tslf",
+                StringComparison.OrdinalIgnoreCase);
+            var editor = isCustomFunctions ? customFunctionsCodeEditor : scriptingCodeEditor;
+            editor.NewDocument(filename);
 
-            switch ((int) _sharedViewState.CurrentView)
-            {
-                case 0:
-
-                    //mainFormView.SendStringAsKey("^S");
-                    break;
-
-                case 4:
-                    scriptingCodeEditor.NewDocument(_openFileDialog.FileName);
-                    break;
-
-                case 5:
-                    customFunctionsCodeEditor.NewDocument(_openFileDialog.FileName);
-                    break;
-
-                default:
-                    //mainFormView.SendStringAsKey("^S");
-                    break;
-            }
-
-            //mainFormView.SendStringAsKey("^S");
+            // A failed open must leave the previous tool active.
+            _sharedViewState.CurrentView = isCustomFunctions ? ViewName.CustomFunctions : ViewName.Scripting;
         }
     }
 }
