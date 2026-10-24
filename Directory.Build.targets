@@ -1,4 +1,5 @@
 <Project>
+  <Import Project="$(MSBuildThisFileDirectory)build/ProjectTree.targets" />
   <!-- Compare the three derived attributes without requiring Python in an IDE.
        SDK-generated portable assemblies use the same Version.props properties. -->
   <Target Name="CheckComputatorVersion" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true'">
