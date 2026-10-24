@@ -34,7 +34,8 @@ namespace Computator.NET.Desktop.Tests
             var chart = DefaultSurface();
             NUnit.Framework.Assert.That(chart.Scale, Is.EqualTo(0.5));
             NUnit.Framework.Assert.That(chart.EqualAxes, Is.True);
-            NUnit.Framework.Assert.That(chart.AxisLabels.Color, Is.EqualTo(Colors.Goldenrod));
+            NUnit.Framework.Assert.That(chart.AxisLabels.Color, Is.EqualTo(Color.FromRgb(51, 65, 85)));
+            NUnit.Framework.Assert.That(chart.AxesColor, Is.EqualTo(Color.FromRgb(71, 85, 105)));
             NUnit.Framework.Assert.That(chart.AxisLabels.Annotations.Labels.Count(label => label.Value.HasValue),
                 Is.GreaterThanOrEqualTo(3));
             NUnit.Framework.Assert.That(chart.AxisLabels.Annotations.TickMarks.Any(tick => !tick.IsMajor), Is.True);
@@ -42,7 +43,7 @@ namespace Computator.NET.Desktop.Tests
         }
 
         [Test]
-        public void NumericAxesAndTheirArrowBoundsMatchTheActualMeshVertices()
+        public void AxisDescriptionsRetainTheirDataCoordinatesAndCompatibilityMeshGeometry()
         {
             var chart = Surface(800, 600);
             var data = (UniformSurfaceChart3D)Data(chart);
@@ -121,7 +122,8 @@ namespace Computator.NET.Desktop.Tests
                 NUnit.Framework.Assert.That((tick.Position - expected).Length, Is.LessThan(0.00001));
                 NUnit.Framework.Assert.That(tick.Value, Is.InRange(axis.Minimum, axis.Maximum));
                 NUnit.Framework.Assert.That((tick.End - tick.Start).Length,
-                    Is.EqualTo(tick.IsMajor ? 8 : 4).Within(0.00001));
+                    Is.InRange(0.00001, (tick.IsMajor ? 8 : 4) + 0.00001),
+                    "A foreground triangle may clip a tick, but must not enlarge it.");
                 NUnit.Framework.Assert.That(tick.StrokeWidth, Is.EqualTo(tick.IsMajor ? 1.4 : 0.8));
             }
             AssertLabelsFit(annotations, viewport.RenderSize);
@@ -248,11 +250,15 @@ namespace Computator.NET.Desktop.Tests
             foreach (var label in numeric)
             {
                 var ordinaryInk = CountOpaque(normal, label.Bounds, 1);
-                var scaledInk = CountOpaque(high, label.Bounds, 2);
                 NUnit.Framework.Assert.That(ordinaryInk, Is.GreaterThan(5), label.Text);
                 NUnit.Framework.Assert.That(CountDark(normal, label.Bounds), Is.GreaterThan(5),
                     "The configured black text must remain visible inside its contrasting halo: " + label.Text);
-                NUnit.Framework.Assert.That(scaledInk / (double)ordinaryInk, Is.InRange(2.5, 5.5), label.Text);
+                // Hinted glyphs can move many edge pixels across an arbitrary
+                // alpha threshold at a new DPI. Integrating alpha preserves
+                // their fractional coverage while still detecting double scale.
+                var ordinaryCoverage = CountCoverage(normal, label.Bounds, 1);
+                var scaledCoverage = CountCoverage(high, label.Bounds, 2);
+                NUnit.Framework.Assert.That(scaledCoverage / ordinaryCoverage, Is.InRange(2.5, 5.5), label.Text);
             }
         }
 
@@ -337,7 +343,21 @@ namespace Computator.NET.Desktop.Tests
                 new VisualCase("mixed-ranges-normalized", 1000, 750, 96, -2e-6, 2e-6, false, -2e6, 2e6, true),
                 new VisualCase("mixed-ranges-average", 1000, 750, 96, -2e-6, 2e-6, false, -2e6, 2e6),
                 new VisualCase("dpi-144", 1200, 900, 144, -5, 5),
-                new VisualCase("dpi-192", 1600, 1200, 192, -5, 5)
+                new VisualCase("dpi-192", 1600, 1200, 192, -5, 5),
+                new VisualCase("occlusion-back-view", 800, 600, 96, -5, 5,
+                    SurfaceShape: "plane", AdditionalYaw: 140, AdditionalPitch: 55),
+                new VisualCase("saddle-rotated", 1000, 750, 96, -3, 3,
+                    SurfaceShape: "saddle", AdditionalYaw: 85, AdditionalPitch: 30),
+                new VisualCase("waves-zoomed", 1000, 750, 96, -3, 3,
+                    SurfaceShape: "waves", AdditionalYaw: 100, AdditionalPitch: 50, ZoomSteps: 1),
+                new VisualCase("waves-occluded", 1000, 750, 96, -3, 3,
+                    SurfaceShape: "waves", AdditionalYaw: -60, AdditionalPitch: 50),
+                new VisualCase("plane-hidden-y-axis", 800, 600, 96, -5, 5,
+                    SurfaceShape: "plane", AdditionalYaw: -72, AdditionalPitch: 36),
+                new VisualCase("flat-rotated", 800, 600, 96, -3, 3,
+                    SurfaceShape: "flat", AdditionalYaw: 95, AdditionalPitch: 40),
+                new VisualCase("occlusion-dpi-192", 1600, 1200, 192, -3, 3,
+                    SurfaceShape: "waves", AdditionalYaw: -60, AdditionalPitch: 50)
             };
             var images = new List<object>();
             foreach (var item in cases)
@@ -345,7 +365,12 @@ namespace Computator.NET.Desktop.Tests
                 var chart = item.DefaultSettings ? DefaultSurface() : item.YMaximum.HasValue ?
                     MixedSurface(item.Width * 96 / item.Dpi, item.Height * 96 / item.Dpi,
                         item.Maximum / 2, item.YMaximum.Value / 2, item.NormalizeCoordinates) :
-                    Surface(item.Width * 96 / item.Dpi, item.Height * 96 / item.Dpi, item.Minimum, item.Maximum);
+                    Surface(item.Width * 96 / item.Dpi, item.Height * 96 / item.Dpi, item.Minimum, item.Maximum,
+                        EvidenceFunction(item.SurfaceShape));
+                if (item.AdditionalYaw != 0 || item.AdditionalPitch != 0)
+                    RotateBy(chart, item.AdditionalYaw, item.AdditionalPitch);
+                for (var zoom = 0; zoom < item.ZoomSteps; zoom++)
+                    chart.OnViewportMouseWheel(chart, new MouseWheelEventArgs(Mouse.PrimaryDevice, 0, 120));
                 var bitmap = chart.RenderImage(item.Width, item.Height, item.Dpi, out var exportedLabels);
                 var path = Path.Combine(destination, item.Name + ".png");
                 Save(bitmap, path);
@@ -353,7 +378,12 @@ namespace Computator.NET.Desktop.Tests
                 {
                     item.Name, item.Width, item.Height, item.Dpi, item.Minimum, item.Maximum, item.DefaultSettings,
                     yMinimum = item.YMinimum ?? item.Minimum, yMaximum = item.YMaximum ?? item.Maximum,
-                    function = item.NormalizeCoordinates ? "x / xUnit + y / yUnit" : "(x + y) / 2",
+                    function = item.NormalizeCoordinates ? "x / xUnit + y / yUnit" : item.SurfaceShape switch
+                    {
+                        "saddle" => "(x*x - y*y) / 3", "waves" => "sin(x) * cos(y)",
+                        "flat" => "0", _ => "(x + y) / 2"
+                    },
+                    item.AdditionalYaw, item.AdditionalPitch, item.ZoomSteps,
                     xUnit = item.NormalizeCoordinates ? item.Maximum / 2 : (double?)null,
                     yUnit = item.NormalizeCoordinates ? item.YMaximum / 2 : null,
                     chart.Scale, chart.EqualAxes, labelColor = chart.AxisLabels.Color.ToString(),
@@ -361,7 +391,8 @@ namespace Computator.NET.Desktop.Tests
                     labels = exportedLabels.Select(label => new
                     {
                         label.Axis, label.Value, label.Text,
-                        x = label.Bounds.X, y = label.Bounds.Y, width = label.Bounds.Width, height = label.Bounds.Height
+                        x = label.Bounds.X, y = label.Bounds.Y, width = label.Bounds.Width, height = label.Bounds.Height,
+                        label.Depth
                     }).ToArray()
                 });
                 TestContext.AddTestAttachment(path, "Production WPF 3D scene and numerical axis annotations");
@@ -370,20 +401,22 @@ namespace Computator.NET.Desktop.Tests
             File.WriteAllText(manifest, JsonSerializer.Serialize(new
             {
                 testedCommit = Environment.GetEnvironmentVariable("GITHUB_SHA") ?? "local working tree",
-                renderer = "Production WPF mesh, TransformMatrix and measured glyph geometry",
+                renderer = "Production WPF mesh, depth-clipped vector axes and native upright text",
                 dpiScope = "RenderTargetBitmap DPI; does not simulate a physical monitor transition",
                 culture = CultureInfo.CurrentCulture.Name,
                 fontFamily = "Arial", fontSizeDips = 22, tickFontSizeDips = 13.2,
                 sourceHashes = new[]
                 {
                     "Computator.NET.Charting/Axes/AxisTickGenerator.cs",
+                    "Computator.NET.Charting/Axes/ProjectedMeshOcclusion.cs",
                     "Computator.NET.Charting/Chart3D/Chart3D/Chart3DAxis.cs",
                     "Computator.NET.Charting/Chart3D/Chart3D/Chart3DAxisAnnotations.cs",
                     "Computator.NET.Charting/Chart3D/Chart3D/AxisLabels.cs",
                     "Computator.NET.Charting/Chart3D/Chart3D/Chart3D.cs",
                     "Computator.NET.Charting/Chart3D/Chart3D/TransformMatrix.cs",
                     "Computator.NET.Charting/Chart3D/UI/Chart3DControl.xaml.cs",
-                    "Computator.NET.Desktop.Tests/Chart3DAxisRenderingTests.cs"
+                    "Computator.NET.Desktop.Tests/Chart3DAxisRenderingTests.cs",
+                    "Computator.NET.Desktop.Tests/Chart3DAxisOcclusionTests.cs"
                 }.Select(path => new
                 {
                     path, sha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(Path.Combine(RepositoryRoot(), path))))
@@ -404,7 +437,7 @@ namespace Computator.NET.Desktop.Tests
 
         private static Chart3DControl DefaultSurface()
         {
-            // Keep production Scale=0.5, EqualAxes=true, and Goldenrod labels.
+            // Keep production Scale=0.5, EqualAxes=true, and default slate labels.
             // Quality changes only the surface sample count, not its axes.
             var chart = new Chart3DControl { Quality = 0, Background = Brushes.White };
             Arrange(chart, 800, 600);
@@ -456,6 +489,25 @@ namespace Computator.NET.Desktop.Tests
             chart.UpdateLayout();
         }
 
+        private static Func<double, double, double> EvidenceFunction(string shape) => shape switch
+        {
+            "saddle" => (x, y) => (x * x - y * y) / 3,
+            "waves" => (x, y) => Math.Sin(x) * Math.Cos(y),
+            "flat" => (x, y) => 0,
+            _ => (x, y) => (x + y) / 2
+        };
+
+        private static void RotateBy(Chart3DControl chart, double yaw, double pitch)
+        {
+            var viewport = Viewport(chart);
+            chart.m_transformMatrix.OnLBtnDown(new Point());
+            chart.m_transformMatrix.OnMouseMove(new Point(viewport.ActualWidth * yaw / 180,
+                viewport.ActualHeight * pitch / 180), viewport);
+            chart.m_transformMatrix.OnLBtnUp();
+            chart.RescaleProjectionMatrix();
+            chart.UpdateLayout();
+        }
+
         private static Viewport3D Viewport(Chart3DControl chart) => (Viewport3D)chart.FindName("mainViewport");
         private static ChartData Data(Chart3DControl chart) =>
             (ChartData)typeof(Chart3DControl).GetField("m_3dChart", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(chart);
@@ -501,6 +553,18 @@ namespace Computator.NET.Desktop.Tests
 
         private static string Digest(BitmapSource bitmap) => Convert.ToHexString(SHA256.HashData(Pixels(bitmap)));
 
+        private static double CountCoverage(BitmapSource bitmap, Rect rectangle, double scale)
+        {
+            var bytes = Pixels(bitmap);
+            var coverage = 0.0;
+            for (var y = Math.Max(0, (int)Math.Floor(rectangle.Top * scale));
+                y < Math.Min(bitmap.PixelHeight, Math.Ceiling(rectangle.Bottom * scale)); y++)
+                for (var x = Math.Max(0, (int)Math.Floor(rectangle.Left * scale));
+                    x < Math.Min(bitmap.PixelWidth, Math.Ceiling(rectangle.Right * scale)); x++)
+                    coverage += bytes[(y * bitmap.PixelWidth + x) * 4 + 3] / 255.0;
+            return coverage;
+        }
+
         private static int CountDark(BitmapSource bitmap, Rect rectangle)
         {
             var bytes = Pixels(bitmap);
@@ -545,6 +609,7 @@ namespace Computator.NET.Desktop.Tests
 
         private sealed record VisualCase(string Name, int Width, int Height, int Dpi, double Minimum, double Maximum,
             bool DefaultSettings = false, double? YMinimum = null, double? YMaximum = null,
-            bool NormalizeCoordinates = false);
+            bool NormalizeCoordinates = false, string SurfaceShape = "plane",
+            double AdditionalYaw = 0, double AdditionalPitch = 0, int ZoomSteps = 0);
     }
 }

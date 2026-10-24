@@ -56,7 +56,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         }
 
         // convert the uniform surface chart to a array of Mesh3D (only one element)
-        public ArrayList GetMeshes()
+        public ArrayList GetMeshes(bool includeAxes = true)
         {
             var meshes = new ArrayList();
             var surfaceMesh = new ColorMesh3D();
@@ -92,7 +92,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
                 }
             }
             meshes.Add(surfaceMesh);
-            AddAxesMeshes(meshes);
+            if (includeAxes) AddAxesMeshes(meshes);
             return meshes;
         }
     }

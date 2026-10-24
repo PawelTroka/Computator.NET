@@ -28,6 +28,9 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
         private bool _drawAxes;
         private bool _hasPositions;
         private Color _axesColor;
+        private MeshGeometry3D _geometry;
+        private double? _pixelsPerDip;
+        private bool _occludeBackFaces = true;
         private Point _x;
         public Point3D X3D;
         private Point _y;
@@ -43,7 +46,7 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
             _activeX = _activeZ = _activeY = _activeLabels = true;
             _offset.X = 5;
             _offset.Y = 5;
-            _color = Colors.Goldenrod; //= Colors.Blue;
+            _color = Color.FromRgb(51, 65, 85);
             _fontSize = 22;
             _fontFamily = new FontFamily("Arial");
             _fontStyle = FontStyles.Normal;
@@ -150,18 +153,26 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
             _z = z;
             _hasPositions = true;
             _axes = null;
+            _transform = null;
+            _viewport = null;
+            _geometry = null;
+            _pixelsPerDip = null;
             _drawAxes = false;
             Draw();
         }
 
         internal void Reload(IReadOnlyList<Chart3DAxis> axes, TransformMatrix transform,
-            Viewport3D viewport, bool drawAxes, Color axesColor)
+            Viewport3D viewport, bool drawAxes, Color axesColor, MeshGeometry3D geometry = null,
+            double? pixelsPerDip = null, bool occludeBackFaces = true)
         {
             _axes = axes;
             _transform = transform;
             _viewport = viewport;
             _drawAxes = drawAxes;
             _axesColor = axesColor;
+            _geometry = geometry;
+            _pixelsPerDip = pixelsPerDip;
+            _occludeBackFaces = occludeBackFaces;
             X3D = axes[0].LabelAnchor;
             Y3D = axes[1].LabelAnchor;
             Z3D = axes[2].LabelAnchor;
@@ -221,7 +232,8 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
             _annotations.Update(_axes, _transform, _viewport, _canvas.RenderSize,
                 new[] { _labelX, _labelY, _labelZ }, new[] { _x, _y, _z },
                 new[] { _activeX, _activeY, _activeZ }, _activeLabels, _drawAxes, _offset,
-                _fontFamily, _fontSize, _fontStyle, _fontWeight, _color, _axesColor);
+                _fontFamily, _fontSize, _fontStyle, _fontWeight, _color, _axesColor,
+                _geometry, _pixelsPerDip, _occludeBackFaces);
         }
 
         public void Remove()
@@ -232,6 +244,8 @@ namespace Computator.NET.Charting.Chart3D.Chart3D
             _axes = null;
             _transform = null;
             _viewport = null;
+            _geometry = null;
+            _pixelsPerDip = null;
         }
     }
 }
