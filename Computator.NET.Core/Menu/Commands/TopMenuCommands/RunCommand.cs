@@ -19,7 +19,7 @@ namespace Computator.NET.Core.Menu.Commands.TopMenuCommands
 
         public override void Execute()
         {
-            _sharedViewState.CurrentAction.Invoke(this, new EventArgs());
+            _sharedViewState.CurrentAction?.Invoke(this, EventArgs.Empty);
         }
     }
 }
