@@ -123,11 +123,14 @@ internal static partial class Program
             {
                 var count = method.Value.Method.Name == "rombergMethod" ? 8 : 1024;
                 var actual = method.Value(x => constant.Evaluate(x), 0, 1, count);
-                if (method.Value.Method.Name == "monteCarloMethod" && actual == 1)
-                    throw new KnownLimitationException("Existing Accord.Math 3.8.0 defect, reproduced on Mono/net462 and .NET 10/netstandard2.0: integral of constant 2 over [0,1] with 1024 samples returned 1; mathematically expected 2. The shared estimator is unchanged by the Mono restoration. This is not a successful numerical acceptance result.");
                 Near(actual, 2, 1e-8);
             });
         }
+        Run("desktop-generated-monte-carlo", () =>
+        {
+            var generated = evaluator.Evaluate("Integral.monteCarloMethod(t => 2.0, 0, 1, 1024)", "", CalculationsMode.Real);
+            Near(generated.Evaluate(0.0), 2, 0);
+        });
         var linear = evaluator.Evaluate("x", "", CalculationsMode.Real);
         foreach (var method in NumericalMethodsInfo.Instance.DerrivationMethods)
         {
