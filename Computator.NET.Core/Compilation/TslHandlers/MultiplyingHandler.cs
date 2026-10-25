@@ -30,7 +30,10 @@ namespace Computator.NET.Core.Compilation.TslHandlers
                 RegexOptions.Compiled),
 
             //example: (2+cos(x))x
-            new Regex($@"((?:(?!for\b|foreach\b|while\b|using\b|if\b)\b{CallableIdentifier})|^)(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))\s*(\(|{Groups.IdentifierOrNumber})", RegexOptions.Compiled|RegexOptions.Multiline)
+            // Statement headers are not calls: lock/fixed may precede an
+            // unbraced body, and a catch declaration may precede a when filter.
+            // An @-escaped keyword still names an ordinary callable.
+            new Regex($@"((?:(?<=@)|(?!(?:for|foreach|while|using|if|lock|fixed|catch)\b))\b{CallableIdentifier}|^)(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))\s*(\(|{Groups.IdentifierOrNumber})", RegexOptions.Compiled|RegexOptions.Multiline)
         };
         
 
