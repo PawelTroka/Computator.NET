@@ -1,1 +1,3 @@
-Task("Worker-Validate").IsDependentOn("ApiTests").IsDependentOn("Web-CustomFunctions");
+Task("Worker-Validate")
+    .Description("Windows: validate API worker and real custom-function browser workflows.")
+    .IsDependentOn("ApiTests").IsDependentOn("Web-CustomFunctions");

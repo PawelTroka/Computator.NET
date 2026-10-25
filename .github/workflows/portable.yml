@@ -21,9 +21,18 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+      - name: Build wrapper contracts without SDK or package restore
+        shell: pwsh
+        run: python -m unittest discover -s build/ci -p test_build_wrappers.py
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           global-json-file: global.json
+      - name: Cake dry run does not prepare build outputs or Windows fixtures
+        shell: pwsh
+        run: |
+          dotnet tool restore
+          if ($LASTEXITCODE -ne 0) { throw 'Cake tool restore failed.' }
+          python -m unittest discover -s build/ci -p test_cake_discovery.py
       - name: Build and execute on the actual host runtime
         shell: pwsh
         run: |

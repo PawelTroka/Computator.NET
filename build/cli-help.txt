@@ -1,0 +1,67 @@
+Computator.NET build and test guide
+
+One Cake graph, one developer solution: Computator.NET.slnx.
+This help is available offline, without the .NET SDK, Cake, Node or a package restore.
+
+USAGE
+  PowerShell: ./build.ps1 -Target <name> -Configuration Debug
+  Bash:       ./build.sh --target=<name> --configuration=Debug
+
+  Configuration defaults to Release (or configuration/build_config environment).
+  With no target, Default runs the Windows Core and Desktop unit-test suites.
+  On Linux/macOS, select Portable-Validate or Web-Validate explicitly.
+  Unrecognized wrapper arguments pass through to Cake unchanged.
+
+DISCOVER BEFORE RUNNING
+  ./build.ps1 -Help                 ./build.sh --help
+  ./build.ps1 --description         ./build.sh --description
+  ./build.ps1 -Target Build --tree  ./build.sh --target=Build --tree
+  ./build.ps1 -Target Build --dryrun
+  ./build.sh --target=Build --dryrun
+
+  --description lists the actual registered tasks and what each does.
+  --tree and --dryrun inspect the graph without executing its tasks.
+  These Cake discovery commands require the SDK and restore the pinned Cake tool.
+
+EVERYDAY TARGETS
+  Build               Windows: restore and build the complete solution.
+  CoreTests           Windows: build, then run the core unit-test suite.
+  DesktopTests        Windows: build, then run the desktop workflow suite.
+  ApiTests            Windows: build, then run the API integration suite.
+  AllTests            Windows: all four desktop/core/API suites.
+  SelectedTests       Windows: choose a complete suite with --suite=<project>.
+  Portable-Build      Any OS: build the managed engine tests and portable CLI.
+  Portable-Test       Any OS: build and test the managed engine subset.
+  Portable-Validate   Any OS: engine tests, publish CLI, exercise its process API.
+  Web-Build           Any OS: locked npm install, audit, TypeScript and Vite build.
+  Web-Validate        Any OS: publish frontend and run Chromium/Firefox tests.
+  Web-IDE-Validate    Windows: exercise actual source-host IDE startup.
+  Web-E2E             Windows: exercise the real frontend and mathematical API.
+  Solution-Validate   Windows: validate and build the complete developer solution.
+  Clean               Remove generated application/build/test output.
+
+  WebTests is a historical alias for ApiTests. Use Web-Tests or Web-Validate
+  for frontend browser tests. Portable support is the managed subset; the full
+  chart-backed API and .NET desktop still require Windows.
+
+SELECT ONE WINDOWS SUITE
+  ./build.ps1 -Target SelectedTests --suite=Computator.NET.Core.Tests
+  ./build.sh --target=SelectedTests --suite=Computator.NET.Core.Tests
+
+  Suite values: All (default), Computator.NET.Core.Tests,
+  Computator.NET.Desktop.Tests, Computator.NET.Core.IntegrationTests,
+  Computator.NET.WebApi.IntegrationTests. Release guards require complete suites.
+  For a focused local dotnet test --filter run, see docs/BUILD.md.
+
+PREREQUISITES AND OUTPUT
+  SDK: global.json. Cake: .config/dotnet-tools.json (restored automatically).
+  Test/validation scripts use PowerShell 7 (pwsh), including on Linux/macOS.
+  Frontend tools: .nvmrc and Computator.NET.WebClient/package.json.
+  Install the exact Node/npm versions before running frontend targets.
+  Native, installer and release targets have additional prerequisites:
+  use --description and docs/BUILD.md to select the appropriate lane.
+
+  Results: TestResults/  Build/publish outputs: artifacts/  ZIP packages: publish/
+  Build details and troubleshooting: docs/BUILD.md
+  Portable engine and CLI: docs/followups/PORTABLE-ENGINE.md
+  Installer acceptance: docs/CLEAN-MACHINE-ACCEPTANCE.md

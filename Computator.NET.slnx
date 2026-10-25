@@ -51,6 +51,9 @@
     <File Path="build.ps1" />
     <File Path="build.cmd" />
     <File Path="build.sh" />
+    <File Path="build/cli-help.txt" />
+    <File Path="build/ci/test_build_wrappers.py" />
+    <File Path="build/ci/test_cake_discovery.py" />
     <File Path=".config/dotnet-tools.json" />
   </Folder>
   <Folder Name="/Build/Acceptance/">
