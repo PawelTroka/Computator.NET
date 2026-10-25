@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
+type Eye = { x: number; y: number; z: number };
+const initialEye: Eye = { x: 1.55, y: 1.55, z: 1.2 };
+
 // The sample grid is produced by the same server-side expression evaluator used
 // for numerical calculations. Plotly never parses or evaluates user definitions.
 export type SurfaceGrid = {
@@ -35,14 +38,42 @@ export function isSurfaceGrid(value: unknown): value is SurfaceGrid {
 
 export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expression: string }) {
   const host = useRef<HTMLDivElement>(null);
+  const cameraEye = useRef<Eye>({ ...initialEye });
   const plotly = useRef<(typeof import('plotly.js-gl3d-dist-min'))['default'] | null>(null);
   const [ready, setReady] = useState(false), [exporting, setExporting] = useState(false);
   const [error, setError] = useState('');
+
+  // Explicit camera controls remain operable with keyboard/touch and on
+  // devices whose browser/WebGL implementation does not forward drag or wheel
+  // gestures reliably. The actual Plotly camera is updated, not an overlay.
+  function setEye(next: Eye) {
+    const div = host.current;
+    if (!div || !plotly.current) return;
+    cameraEye.current = next;
+    void plotly.current.relayout(div, { 'scene.camera': { eye: next } })
+      .then(() => { div.dataset.camera = JSON.stringify({ eye: next }); })
+      .catch(reason => setError(reason instanceof Error ? reason.message : 'Camera update failed.'));
+  }
+  function rotate(angle: number) {
+    const { x, y, z } = cameraEye.current;
+    setEye({ x: x * Math.cos(angle) - y * Math.sin(angle),
+      y: x * Math.sin(angle) + y * Math.cos(angle), z });
+  }
+  function zoom(scale: number) {
+    const { x, y, z } = cameraEye.current;
+    const radius = Math.hypot(x, y, z);
+    const factor = Math.max(0.25, Math.min(15, radius * scale)) / radius;
+    setEye({ x: x * factor, y: y * factor, z: z * factor });
+  }
+
   useEffect(() => {
     const div = host.current;
     if (!div) return;
     let disposed = false;
+    cameraEye.current = { ...initialEye };
+    delete div.dataset.camera;
     setReady(false); setError('');
+    let wheelHandler: ((event: WheelEvent) => void) | undefined;
     let resize: ResizeObserver | null = null;
     const start = async () => {
       try {
@@ -66,16 +97,28 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
           scene: {
             xaxis: axis('x'), yaxis: axis('y'), zaxis: axis('f(x,y)'),
             aspectmode: 'auto', dragmode: 'turntable',
-            camera: { eye: { x: 1.55, y: 1.55, z: 1.2 } }
+            camera: { eye: { ...initialEye } }
           }
-        }, { responsive: true, scrollZoom: true, displaylogo: false,
+        }, { responsive: true, scrollZoom: false, displaylogo: false,
           modeBarButtonsToRemove: ['sendDataToCloud'] });
         if (disposed) { Plotly.purge(div); return; }
         // A real Plotly camera update is observable for browser interaction tests.
         const graph = div as HTMLDivElement & { on?: (name: string, listener: (value: Record<string, unknown>) => void) => void };
         graph.on?.('plotly_relayout', event => {
-          if (event['scene.camera']) div.dataset.camera = JSON.stringify(event['scene.camera']);
+          const camera = event['scene.camera'] as { eye?: Eye } | undefined;
+          if (camera?.eye && [camera.eye.x, camera.eye.y, camera.eye.z].every(Number.isFinite)) {
+            cameraEye.current = { ...camera.eye };
+            div.dataset.camera = JSON.stringify(camera);
+          }
         });
+        // Native non-passive listener avoids the browser scrolling the whole
+        // page; Plotly's gl3d built-in scroll handling differs across engines.
+        wheelHandler = event => {
+          if (!event.deltaY) return;
+          event.preventDefault();
+          zoom(event.deltaY < 0 ? 0.85 : 1.15);
+        };
+        div.addEventListener('wheel', wheelHandler, { passive: false });
         resize = new ResizeObserver(() => { void Plotly.Plots.resize(div); });
         resize.observe(div);
         setReady(true);
@@ -87,6 +130,7 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
     return () => {
       disposed = true;
       resize?.disconnect();
+      if (wheelHandler) div.removeEventListener('wheel', wheelHandler);
       if (plotly.current) plotly.current.purge(div);
       plotly.current = null;
     };
@@ -116,6 +160,18 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
         : error ? '3D rendering failed.' : 'Preparing interactive 3D view…'}
     </p>
     {error && <p className="text-danger" role="alert">{error}</p>}
+    <div className="d-flex flex-wrap gap-2 mb-2" role="group" aria-label="3D camera controls">
+      <button type="button" className="btn btn-outline-secondary" disabled={!ready}
+        onClick={() => rotate(-Math.PI / 12)}>Rotate left</button>
+      <button type="button" className="btn btn-outline-secondary" disabled={!ready}
+        onClick={() => rotate(Math.PI / 12)}>Rotate right</button>
+      <button type="button" className="btn btn-outline-secondary" disabled={!ready}
+        onClick={() => zoom(0.8)}>Zoom in</button>
+      <button type="button" className="btn btn-outline-secondary" disabled={!ready}
+        onClick={() => zoom(1.25)}>Zoom out</button>
+      <button type="button" className="btn btn-outline-secondary" disabled={!ready}
+        onClick={() => setEye({ ...initialEye })}>Reset view</button>
+    </div>
     <button type="button" className="btn btn-outline-secondary" onClick={() => { void download(); }}
       disabled={!ready || exporting}>{exporting ? 'Exporting…' : 'Download PNG'}</button>
     <p className="text-muted small">Non-finite samples are omitted: {grid.missingSamples} of {grid.x.length * grid.y.length}.</p>

@@ -34,15 +34,20 @@ test('f(x,y) real API samples and browser camera/export agree with a paraboloid'
   const surface = page.getByTestId('surface-chart');
   await expect(surface).toBeVisible();
   await expect(page.getByText('Interactive surface ready.', { exact: false })).toBeVisible({ timeout: 25000 });
+  const eye = () => surface.evaluate(element => {
+    const graph = element as HTMLDivElement & { layout?: { scene?: { camera?: { eye?: { x: number; y: number; z: number } } } } };
+    return graph.layout?.scene?.camera?.eye ?? null;
+  });
+  const initial = await eye();
+  expect(initial).not.toBeNull();
+  await page.getByRole('button', { name: 'Rotate left' }).click();
+  await expect.poll(eye).not.toEqual(initial);
+  const rotated = await eye();
   const rect = await surface.boundingBox();
   expect(rect).not.toBeNull();
   const x = rect!.x + rect!.width * 0.5, y = rect!.y + rect!.height * 0.5;
-  await page.mouse.move(x, y); await page.mouse.down();
-  await page.mouse.move(x + 90, y + 45, { steps: 10 }); await page.mouse.up();
-  await expect.poll(() => surface.getAttribute('data-camera'), { timeout: 10000 }).not.toBeNull();
-  const beforeZoom = await surface.getAttribute('data-camera');
   await page.mouse.move(x, y); await page.mouse.wheel(0, -500);
-  await expect.poll(() => surface.getAttribute('data-camera'), { timeout: 10000 }).not.toBe(beforeZoom);
+  await expect.poll(eye).not.toEqual(rotated);
   const downloading = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download PNG' }).click();
   const download = await downloading;

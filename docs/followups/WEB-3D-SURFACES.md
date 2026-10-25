@@ -26,8 +26,8 @@ request-local and are never cached or forwarded to an external host. Completely
 non-finite surfaces are rejected with HTTP 422 rather than displayed as zeroes.
 
 For Fxy, the browser lazily loads the pinned, bundled `plotly.js-gl3d-dist-min`
-package for GPU WebGL rendering. It supports interactive turntable rotation,
-mouse-wheel/touch zoom, shading and occlusion, numeric x/y/f(x,y) axes, holes
+package for GPU WebGL rendering. It supports interactive turntable rotation, keyboard-accessible camera controls,
+consistent wheel zoom and touch zoom, shading and occlusion, numeric x/y/f(x,y) axes, holes
 at undefined points, tooltips, responsive resize without reevaluation, and PNG
 export of the composed view. In environments without functional WebGL, the
 application reports a rendering error instead of claiming to draw a surface.

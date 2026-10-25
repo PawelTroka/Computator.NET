@@ -100,7 +100,7 @@ namespace Computator.NET.WebApi.IntegrationTests
         [Test]
         public async Task AllSingularSurfaceIsRejectedWithoutCorruptingSubsequentRequests()
         {
-            using var response = await _client.PostAsJsonAsync("/api/v2/chart", new { expression = "1/(x-x)", gridSize = 9 });
+            using var response = await _client.PostAsJsonAsync("/api/v2/chart", new { expression = "1/(y-y)", gridSize = 9 });
             NUnit.Framework.Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.UnprocessableEntity));
             await Surface(new { expression = "x+y", gridSize = 9 });
         }

@@ -4,6 +4,7 @@ declare module 'plotly.js-gl3d-dist-min' {
   interface PlotlyGl3d {
     newPlot(node: HTMLElement, traces: unknown[], layout: unknown, config?: unknown): Promise<unknown>;
     purge(node: HTMLElement): void;
+    relayout(node: HTMLElement, update: Record<string, unknown>): Promise<unknown>;
     toImage(node: HTMLElement, options: { format: 'png'; width: number; height: number; scale: number }): Promise<string>;
     Plots: { resize(node: HTMLElement): void | Promise<void> };
   }

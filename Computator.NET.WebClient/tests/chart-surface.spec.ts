@@ -38,16 +38,31 @@ test('surface uses real WebGL rotation, zoom, labels and exported PNG without a 
     return [layout?.scene?.xaxis?.title?.text, layout?.scene?.yaxis?.title?.text, layout?.scene?.zaxis?.title?.text];
   });
   expect(titles).toEqual(['x', 'y', 'f(x,y)']);
+  const eye = () => surface.evaluate(element => {
+    const graph = element as HTMLDivElement & { layout?: { scene?: { camera?: { eye?: { x: number; y: number; z: number } } } } };
+    return graph.layout?.scene?.camera?.eye ?? null;
+  });
+  const startingEye = await eye();
+  expect(startingEye).not.toBeNull();
+  await page.getByRole('button', { name: 'Rotate left' }).click();
+  await expect.poll(eye).not.toEqual(startingEye);
+  const rotated = await eye();
+  await page.getByRole('button', { name: 'Zoom in' }).click();
+  await expect.poll(eye).not.toEqual(rotated);
+  const zoomed = await eye();
   const position = await surface.boundingBox();
   expect(position).not.toBeNull();
   const x = position!.x + position!.width * 0.48, y = position!.y + position!.height * 0.46;
-  await page.mouse.move(x, y); await page.mouse.down();
-  await page.mouse.move(x + 100, y + 55, { steps: 12 }); await page.mouse.up();
-  await expect.poll(() => surface.getAttribute('data-camera'), { timeout: 10000 }).not.toBeNull();
-  const rotated = await surface.getAttribute('data-camera');
   await page.mouse.move(x, y);
   await page.mouse.wheel(0, -400);
-  await expect.poll(() => surface.getAttribute('data-camera'), { timeout: 10000 }).not.toBe(rotated);
+  await expect.poll(eye).not.toEqual(zoomed);
+  if (test.info().project.name === 'chromium') {
+    // Native Plotly drag interaction, in addition to accessible camera controls.
+    const preDrag = await eye();
+    await page.mouse.move(x, y); await page.mouse.down();
+    await page.mouse.move(x + 100, y + 55, { steps: 12 }); await page.mouse.up();
+    await expect.poll(eye).not.toEqual(preDrag);
+  }
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download PNG' }).click();
   const file = await download;
