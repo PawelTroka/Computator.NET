@@ -42,6 +42,7 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
     const div = host.current;
     if (!div) return;
     let disposed = false;
+    setReady(false); setError('');
     let resize: ResizeObserver | null = null;
     const start = async () => {
       try {

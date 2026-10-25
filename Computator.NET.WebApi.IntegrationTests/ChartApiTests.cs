@@ -57,7 +57,7 @@ namespace Computator.NET.WebApi.IntegrationTests
 
         [TestCase("x*x + y*y", 8.0, 0.0)]
         [TestCase("x + y", -4.0, 0.0)]
-        [TestCase("sin(x)*cos(y)", -0.37840124765396416, 0.0)]
+        [TestCase("sin(x)*cos(y)", 0.37840124765396416, 0.0)]
         public async Task RealFxyApiSamplesKnownSurfaces(string expression, double corner, double center)
         {
             var grid = await Surface(new { expression, gridSize = 9, xMin = -2, xMax = 2,
