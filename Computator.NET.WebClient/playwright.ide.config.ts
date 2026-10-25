@@ -1,4 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
+// The runner already has its pinned Node executable. Source hosts must see
+// the tools inherited by the original IDE, including on restart.
+if (process.env.COMPUTATOR_IDE_PATH) process.env.PATH = process.env.COMPUTATOR_IDE_PATH;
 export default defineConfig({
   testDir: './ide-e2e',
   outputDir: 'test-results/ide',
