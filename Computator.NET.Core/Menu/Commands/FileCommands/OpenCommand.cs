@@ -59,6 +59,12 @@ namespace Computator.NET.Core.Menu.Commands.FileCommands
             // Match shell activation: the selected document determines its editor,
             // regardless of the tool that was active when the dialog opened.
             var filename = _openFileDialog.FileName;
+            // The chooser normally rejects missing files, but a selected file
+            // may disappear before its editor opens. Do not create a blank tab
+            // masquerading as the document that the user selected.
+            if (!File.Exists(filename))
+                throw new FileNotFoundException("The selected document is no longer available.", filename);
+
             var isCustomFunctions = string.Equals(Path.GetExtension(filename), ".tslf",
                 StringComparison.OrdinalIgnoreCase);
             var editor = isCustomFunctions ? customFunctionsCodeEditor : scriptingCodeEditor;

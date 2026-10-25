@@ -14,6 +14,23 @@ namespace Computator.NET.Core.Tests.MenuTests
     [TestFixture]
     public class OpenDocumentCommandTests
     {
+        private static readonly string FixtureDirectory = Path.Combine(
+            Path.GetTempPath(), "Computator-OpenCommand-" + Guid.NewGuid().ToString("N"));
+
+        [OneTimeTearDown]
+        public void RemoveFixtureFiles()
+        {
+            if (Directory.Exists(FixtureDirectory)) Directory.Delete(FixtureDirectory, true);
+        }
+
+        private static string ExistingFile(string name)
+        {
+            var path = Path.Combine(FixtureDirectory, name.Replace('/', Path.DirectorySeparatorChar));
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            File.WriteAllText(path, "test document");
+            return path;
+        }
+
         private static IEnumerable<TestCaseData> AcceptedDocuments()
         {
             foreach (ViewName view in Enum.GetValues(typeof(ViewName)))
@@ -38,6 +55,7 @@ namespace Computator.NET.Core.Tests.MenuTests
         public void AcceptedFileOpensInItsOwnEditorBeforeActivatingThatView(
             ViewName previousView, string filename, ViewName expectedView)
         {
+            filename = ExistingFile(filename);
             var state = State(previousView);
             var scripting = new Mock<ICanFileEdit>(MockBehavior.Strict);
             var customFunctions = new Mock<ICanFileEdit>(MockBehavior.Strict);
@@ -86,6 +104,7 @@ namespace Computator.NET.Core.Tests.MenuTests
         public void FailedOpenLeavesThePreviousViewActive(
             ViewName previousView, string filename, ViewName expectedView)
         {
+            filename = ExistingFile(filename);
             var state = State(previousView);
             var scripting = new Mock<ICanFileEdit>(MockBehavior.Strict);
             var customFunctions = new Mock<ICanFileEdit>(MockBehavior.Strict);
@@ -108,14 +127,16 @@ namespace Computator.NET.Core.Tests.MenuTests
         [Test]
         public void ReusedCommandRoutesEachNewSelectionIndependentlyOfThePreviousTool()
         {
+            var plot = ExistingFile("plot.tsl");
+            var helpers = ExistingFile("helpers.tslf");
             var state = State(ViewName.Charting);
             var scripting = new Mock<ICanFileEdit>(MockBehavior.Strict);
             var customFunctions = new Mock<ICanFileEdit>(MockBehavior.Strict);
-            scripting.Setup(editor => editor.NewDocument("plot.tsl"));
-            customFunctions.Setup(editor => editor.NewDocument("helpers.tslf"));
+            scripting.Setup(editor => editor.NewDocument(plot));
+            customFunctions.Setup(editor => editor.NewDocument(helpers));
             var dialog = Dialog(null, accepted: true);
             dialog.SetupSequence(value => value.FileName)
-                .Returns("helpers.tslf").Returns("plot.tsl").Returns("helpers.tslf");
+                .Returns(helpers).Returns(plot).Returns(helpers);
             var command = new OpenCommand(scripting.Object, customFunctions.Object, state.Object, dialog.Object);
 
             command.Execute();
@@ -125,8 +146,8 @@ namespace Computator.NET.Core.Tests.MenuTests
             command.Execute();
             NUnit.Framework.Assert.That(state.Object.CurrentView, Is.EqualTo(ViewName.CustomFunctions));
 
-            scripting.Verify(editor => editor.NewDocument("plot.tsl"), Times.Once());
-            customFunctions.Verify(editor => editor.NewDocument("helpers.tslf"), Times.Exactly(2));
+            scripting.Verify(editor => editor.NewDocument(plot), Times.Once());
+            customFunctions.Verify(editor => editor.NewDocument(helpers), Times.Exactly(2));
             scripting.VerifyNoOtherCalls();
             customFunctions.VerifyNoOtherCalls();
         }
@@ -135,6 +156,7 @@ namespace Computator.NET.Core.Tests.MenuTests
         [TestCase("script without extension")]
         public void OtherExplicitlyChosenFilesUseTheScriptEditor(string filename)
         {
+            filename = ExistingFile(filename);
             var state = State(ViewName.CustomFunctions);
             var scripting = new Mock<ICanFileEdit>(MockBehavior.Strict);
             var customFunctions = new Mock<ICanFileEdit>(MockBehavior.Strict);
@@ -146,6 +168,26 @@ namespace Computator.NET.Core.Tests.MenuTests
 
             NUnit.Framework.Assert.That(state.Object.CurrentView, Is.EqualTo(ViewName.Scripting));
             scripting.Verify(editor => editor.NewDocument(filename), Times.Once());
+            scripting.VerifyNoOtherCalls();
+            customFunctions.VerifyNoOtherCalls();
+        }
+
+        [TestCase(ViewName.Charting, ".tsl")]
+        [TestCase(ViewName.CustomFunctions, ".tslf")]
+        public void AFileRemovedAfterSelectionDoesNotOpenABlankEditorOrChangeTheView(
+            ViewName previousView, string extension)
+        {
+            var missing = Path.Combine(FixtureDirectory, Guid.NewGuid().ToString("N") + extension);
+            var state = State(previousView);
+            var scripting = new Mock<ICanFileEdit>(MockBehavior.Strict);
+            var customFunctions = new Mock<ICanFileEdit>(MockBehavior.Strict);
+            var dialog = Dialog(missing, accepted: true);
+            var command = new OpenCommand(scripting.Object, customFunctions.Object, state.Object, dialog.Object);
+
+            var failure = NUnit.Framework.Assert.Throws<FileNotFoundException>(() => command.Execute());
+
+            NUnit.Framework.Assert.That(failure.FileName, Is.EqualTo(missing));
+            NUnit.Framework.Assert.That(state.Object.CurrentView, Is.EqualTo(previousView));
             scripting.VerifyNoOtherCalls();
             customFunctions.VerifyNoOtherCalls();
         }
