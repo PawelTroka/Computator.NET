@@ -207,7 +207,9 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arccot(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            // Avoid cancellation for large positive inputs while retaining the
+            // established real branch between zero and pi.
+            return System.Math.Atan2(1.0, x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -215,7 +217,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcctg(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            return arccot(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -1416,7 +1418,9 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arccot(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            // Avoid cancellation for large positive inputs while retaining the
+            // established real branch between zero and pi.
+            return System.Math.Atan2(1.0, x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1424,7 +1428,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcctg(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            return arccot(x);
         }
 
         /*Angielska nazwa funkcji""),
