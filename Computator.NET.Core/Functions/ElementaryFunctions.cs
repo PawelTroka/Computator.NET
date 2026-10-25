@@ -259,7 +259,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcosh(double x)
         {
-            return System.Math.Log(x + System.Math.Sqrt(x + 1)*System.Math.Sqrt(x - 1));
+            return RuntimeMath.Acosh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -329,7 +329,14 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arsech(double x)
         {
-            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/x + 1)*System.Math.Sqrt(1.0/x - 1));
+            // Near one, forming 1/x first loses the distance from the endpoint.
+            if (x >= 0.5 && x <= 1.0)
+                return RuntimeMath.Asinh(System.Math.Sqrt((1.0 - x)*(1.0 + x))/x);
+            // Split the logarithm so even subnormal inputs need no reciprocal.
+            if (x > 0.0 && x < 0.5)
+                return System.Math.Log(1.0 + System.Math.Sqrt((1.0 - x)*(1.0 + x))) - System.Math.Log(x);
+            // Preserve the real-domain and signed-zero endpoint behavior.
+            return arcosh(1.0/x);
         }
 
         #endregion
@@ -1461,7 +1468,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcosh(double x)
         {
-            return System.Math.Log(x + System.Math.Sqrt(x + 1)*System.Math.Sqrt(x - 1));
+            return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Acosh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1531,7 +1538,14 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arsech(double x)
         {
-            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/x + 1)*System.Math.Sqrt(1.0/x - 1));
+            // Near one, forming 1/x first loses the distance from the endpoint.
+            if (x >= 0.5 && x <= 1.0)
+                return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Asinh(System.Math.Sqrt((1.0 - x)*(1.0 + x))/x);
+            // Split the logarithm so even subnormal inputs need no reciprocal.
+            if (x > 0.0 && x < 0.5)
+                return System.Math.Log(1.0 + System.Math.Sqrt((1.0 - x)*(1.0 + x))) - System.Math.Log(x);
+            // Preserve the real-domain and signed-zero endpoint behavior.
+            return arcosh(1.0/x);
         }
 
         #endregion
