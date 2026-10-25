@@ -26,6 +26,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | [Numerical reference integration](NUMERICAL-REFERENCE-INTEGRATION.md) | Integration evidence and remaining reference scope |
 | [Complex chart presentation](followups/COMPLEX-CHART-PRESENTATION.md) | Complex axes, ticks and rendering checks |
 | [Numerical chart axes](followups/NUMERICAL-CHART-AXES.md) | Axis layout, labels and chart acceptance |
+| [3D axis presentation](followups/THREE-DIMENSIONAL-AXIS-PRESENTATION.md) | Surface occlusion, labels, DPI and export evidence |
 
 ## Application behavior and architecture
 

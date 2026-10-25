@@ -254,6 +254,7 @@
     <File Path="docs/WEB-DEVELOPMENT.md" />
   </Folder>
   <Folder Name="/Documentation/Evidence/">
+    <File Path="docs/followups/images/issue-255/evidence.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16.json" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16/README.md" />
     <File Path="docs/evidence/historical-upgrade-2026-10-16/ROLLBACK-DIAGNOSTIC.md" />
@@ -308,6 +309,7 @@
     <File Path="docs/followups/PORTABLE-SCIENCE.md" />
     <File Path="docs/followups/REAL-PROFILE-ACCEPTANCE.md" />
     <File Path="docs/followups/SIGNED-MSIX-ACCEPTANCE.md" />
+    <File Path="docs/followups/THREE-DIMENSIONAL-AXIS-PRESENTATION.md" />
     <File Path="docs/followups/TRAVIS.md" />
     <File Path="docs/followups/WEB-CUSTOM-FUNCTIONS.md" />
     <File Path="docs/followups/WEB-E2E.md" />
