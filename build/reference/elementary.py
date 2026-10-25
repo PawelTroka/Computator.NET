@@ -32,7 +32,7 @@ INVERSE={
  'arcosh':('Inverse hyperbolic cosine','The nonnegative real inverse of hyperbolic cosine.','arcosh(t) = ln(t + sqrt(t+1)·sqrt(t−1))','Real domain t≥1; nonnegative result.','arcosh(1) = 0'),
  'artanh':('Inverse hyperbolic tangent','The inverse of hyperbolic tangent.','artanh(t) = ½ ln((1+t)/(1−t))','Finite real values require −1<t<1. The endpoints are logarithmic singularities.','artanh(0) = 0'),
  'arcoth':('Inverse hyperbolic cotangent','The application’s logarithmic inverse-cotangent-hyperbolic convention.','arcoth(t) = ½ ln((t+1)/(t−1))','Finite real domain |t|>1. The spelling arctgh is an alias for this function, NOT for artanh.','arcoth(2) ≈ 0.5493061443'),
- 'arcsch':('Inverse hyperbolic cosecant','Inverse hyperbolic sine of the reciprocal argument.','arcsch(t) = ln(1/t + sqrt(1/t²+1))','Real t≠0. Direct reciprocals and subtraction can overflow or cancel near extreme inputs.','arcsch(1) ≈ 0.8813735870'),
+ 'arcsch':('Inverse hyperbolic cosecant','Inverse hyperbolic sine of the reciprocal argument.','arcsch(t) = ln(1/t + sqrt(1/t²+1))','Real t≠0. The real implementation is odd and remains finite for every nonzero finite double. Signed zero returns signed infinity; infinite arguments return signed zero.','arcsch(1) ≈ 0.8813735870'),
  'arsech':('Inverse hyperbolic secant','The inverse hyperbolic cosine of the reciprocal argument.','arsech(t) = ln(1/t + sqrt(1/t+1)·sqrt(1/t−1))','Finite real domain 0<t≤1.','arsech(1) = 0'),
 }
 OTHER={
@@ -105,7 +105,12 @@ def _describe(item, values):
           'exp':('Exponential','Raises Euler’s number to a real or complex power.','exp(x+i·y)=exp(x)·(cos(y)+i·sin(y)).','Finite real or complex argument; large real parts can overflow or underflow.','exp(0) = 1'),
           'pow':('Power','Raises the first argument to the second. The real and complex overloads share this completion signature.','pow(x,y)=xʸ; for nonzero complex x, exp(y·Log(x)).','Real negative bases with nonintegral exponents can produce NaN. The complex overload selects a branch, not all possible powers.','pow(2,3) = 8'),
           'sqrt':('Square root','Selects the nonnegative real square root, or the principal complex square root.','sqrt(t)²=t.','The real-input wrapper promotes negative x to a complex result; its return type is dynamic. Complex input returns the principal root.','sqrt(-1) = i'),
-          'root':('Root by reciprocal exponent',P('Computes a power with exponent ', M('1/n', '1/n'), '; it does not enumerate all roots.'),'root(t,n)=pow(t,1/n).','Use n≠0. Negative real t is promoted to a complex power when its reciprocal exponent is nonintegral. Thus an odd real n does not guarantee the negative real root.','root(8,3) ≈ 2')
+          'root':('Root by reciprocal exponent',P('Computes a power with exponent ', M('1/n', '1/n'), '; it does not enumerate all roots.'),'root(t,n)=pow(t,1/n).','Use n≠0. Complex arguments use the principal complex power; an odd real n does not select the negative real root for a complex argument.','root(8,3) ≈ 2')
         }[name]
+        if name=='root' and not complex_input:
+            title='Root of a real number'
+            formula='root(x,n) = −pow(−x,1/n) for x<0 and odd integer n.'
+            domain='Use n≠0. For negative real x and finite nonzero integer n, odd n selects the negative real root and even n selects the principal complex power. Negative integer indices return reciprocal roots. Other real indices retain the reciprocal-exponent convention and can produce NaN.'
+            example='root(-8,3) ≈ -2; root(-8,-3) ≈ -0.5'
         return A(title,definition,formula,domain,alias,example,DLMF+'4.2')
     raise KeyError('Undocumented elementary function '+signature)

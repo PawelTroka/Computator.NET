@@ -44,13 +44,13 @@ def describe(item,values):
 def integral(name,args):
     data={
       'rectangleMethod':('Composite midpoint rule','Approximates area by equal-width rectangles evaluated at their midpoints.', 'h·Σⱼ₌₀ᴺ⁻¹ f(a+(j+1/2)h), h=(b−a)/N.',
-                         'N is the number of panels. For smooth f, error is generally of order h².'),
+                         'N must be a finite positive integer no larger than 2,147,483,647. Invalid counts throw ArgumentOutOfRangeException before evaluating fx. For smooth f, error is generally of order h².'),
       'trapezoidalMethod':('Composite trapezoidal rule','Approximates the integral by straight-line interpolation on each panel.',
                            'h·[f(a)/2+Σⱼ₌₁ᴺ⁻¹ f(a+jh)+f(b)/2], h=(b−a)/N.',
-                           'N is the number of panels; smooth-function error is generally of order h².'),
+                           'N must be a finite positive integer no larger than 2,147,483,647. Invalid counts throw ArgumentOutOfRangeException before evaluating fx. Smooth-function error is generally of order h².'),
       'simpsonMethod':('Composite Simpson rule','Integrates piecewise quadratic interpolation on pairs of equal-width panels.',
                        'h/3·[f(a)+4f(a+h)+2f(a+2h)+…+4f(b−h)+f(b)].',
-                       'Use a positive even integer N. This wrapper increments odd N by 1; it does not interpret fractional N consistently. Smooth-function error is generally of order h⁴.'),
+                       'Use a finite positive integer N no larger than 2,147,483,646. This wrapper increments odd integers by 1 to obtain an even panel count. Invalid counts throw ArgumentOutOfRangeException before evaluating fx. Smooth-function error is generally of order h⁴.'),
       'monteCarloMethod':('Monte Carlo quadrature','Estimates a one-dimensional integral by random sampling over its interval.',
                          'Integral estimate ≈ (b−a)·sample mean of f(U), U uniform on [a,b].',
                          'N is the sample count, cast to an integer. Sampling error is stochastic, usually proportional to 1/sqrt(N), not a guaranteed deterministic tolerance.'),
@@ -97,8 +97,8 @@ def derivative(name,args):
     }
     t,f=data[name]
     return A(t,'A finite-difference derivative estimate, recursively extended to higher orders.',f+' for order=1.',
-             'Nonnegative integer order; order zero returns fx(x). '+('Step begins at sqrt(eps)·x and uses the actual representable difference; at zero a fixed tiny fallback is used.' if name=='stableFiniteDifferenceFormula' else 'Step h=x·eps; when it is zero the wrapper substitutes 1e−25.'),
-             'eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the relative step recalculated at each evaluation point. Prefer the Math.NET derivative entry when appropriate.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Derivative.cs',category='Numerical differentiation')
+             'Nonnegative integer order; order zero returns fx(x). '+('The step magnitude begins at sqrt(eps)·max(1,|x|) and uses the actual representable difference.' if name=='stableFiniteDifferenceFormula' else 'Step magnitude is eps·max(1,|x|).'),
+             'For finite x and positive eps, the signed step h is positive when x≥0 and negative when x<0; centered rules still sample both sides. The unit scale near zero prevents the default step from collapsing with x. eps is a step-size parameter, not a guaranteed result error. Extremely small steps lose subtraction accuracy. Recursive higher-order calls retain the chosen eps at every level, with the absolute-or-relative step recalculated at each evaluation point. Choose an appropriate step for the function scale, domain and derivative order; repeated subtraction can still lose accuracy. Prefer the Math.NET derivative entry when appropriate.',url=SOURCE+'Computator.NET.Core/NumericalCalculations/Derivative.cs',category='Numerical differentiation')
 
 def root(name,args):
     data={
@@ -111,7 +111,7 @@ def root(name,args):
       'secantNewtonRaphsonMethod':('Bounded secant convenience wrapper','Uses Math.NET’s secant method without an analytic derivative.',
                                   'Use a<b. Two distinct interior starting guesses are chosen near the midpoint and one-third point, and [a,b] is supplied as the interval. Intervals too narrow for two interior floating-point values return NaN, as does failure to converge. A sign-changing interval alone does not guarantee secant convergence. Despite the name no exact derivative is used.'),
       'BroydenMethod':('One-variable Broyden wrapper','Applies the multidimensional Broyden solver to a one-element system.',
-                       'Only the midpoint (a+b)/2 is used as the starting guess; a,b are NOT enforced bounds or a guaranteed bracket. TryFindRoot failure returns NaN.')
+                       'Only the midpoint of a,b is used as the starting guess; finite endpoints produce a finite midpoint even when their sum would overflow. The endpoints are NOT enforced bounds or a guaranteed bracket. TryFindRoot failure returns NaN.')
     }
     if name=='findRoot':
         return A('Select a numerical root method',P('Dispatches a real equation ',M(r'\operatorname{fx}(x)=0','fx(x)=0'),' to a named root-finding algorithm.'),

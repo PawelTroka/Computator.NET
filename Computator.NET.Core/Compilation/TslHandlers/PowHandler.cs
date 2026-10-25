@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Computator.NET.DataTypes.Text;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Computator.NET.Core.Compilation.TslHandlers
 {
@@ -58,6 +62,12 @@ namespace Computator.NET.Core.Compilation.TslHandlers
         private static readonly Regex VariableRaisedToAnyPowerRegex = new Regex(
             $@"({Groups.Identifier}){Groups.PowerCatchingGroup}", RegexOptions.Compiled);
 
+        private static readonly Regex PostfixPowerRegex = new Regex(
+            Groups.PowerCatchingGroup, RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+        private static readonly Regex MemberAccessRegex = new Regex(
+            @"\.\s*" + Identifier, RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
         public string Replace(string input) => Replace(input, false);
 
         internal string Replace(string input, bool deferSymbolicFunctionPowers)
@@ -68,11 +78,64 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             {
                 previous = result;
                 result = ReplacePrefixPowers(result, deferSymbolicFunctionPowers);
+                result = ReplaceAccessPowers(result);
                 result = ExpressionInParenthesesRaisedToAnyPowerRegex.Replace(result, ReplaceParenthesizedPower);
             } while (result != previous);
 
             result = NumberRaisedToAnyPowerRegex.Replace(result, ReplaceMatchWithPow);
             return VariableRaisedToAnyPowerRegex.Replace(result, ReplaceMatchWithPow);
+        }
+
+        private static string ReplaceAccessPowers(string source)
+        {
+            if (source.IndexOf('[') < 0 && (source.IndexOf('.') < 0 || !MemberAccessRegex.IsMatch(source)))
+                return source;
+            var powers = PostfixPowerRegex.Matches(source).Cast<Match>().ToArray();
+            if (powers.Length == 0) return source;
+
+            // Ask the existing C# parser where complete member/index operands
+            // begin. Mask only superscripts, keeping positions and line breaks;
+            // the original operand is copied verbatim into the pow call below.
+            // A trailing identifier regex would turn z.Real² into z.pow(Real,2)
+            // and cannot capture a matrix entry or a receiver such as Next().
+            var syntax = source.ToCharArray();
+            var operandEnds = new HashSet<int>();
+            foreach (var power in powers)
+            {
+                var end = power.Groups[1].Index;
+                while (end > 0 && char.IsWhiteSpace(source[end - 1])) end--;
+                operandEnds.Add(end);
+                for (var index = power.Groups[1].Index; index < power.Groups[1].Index + power.Groups[1].Length; index++)
+                    if (!char.IsWhiteSpace(syntax[index])) syntax[index] = ' ';
+            }
+            var operands = CSharpSyntaxTree.ParseText(new string(syntax),
+                    new CSharpParseOptions(LanguageVersion.CSharp14)).GetRoot()
+                .DescendantNodes().OfType<ExpressionSyntax>()
+                .Where(expression => operandEnds.Contains(expression.Span.End))
+                .Where(expression => expression is MemberAccessExpressionSyntax or ElementAccessExpressionSyntax
+                    || (expression is InvocationExpressionSyntax call
+                        && call.Expression is MemberAccessExpressionSyntax or ElementAccessExpressionSyntax))
+                .GroupBy(expression => expression.Span.End)
+                .Select(group => group.OrderBy(expression => expression.Span.Start).First())
+                .Where(expression => !expression.DescendantTokens().Any(token => token.IsMissing))
+                .ToDictionary(expression => expression.Span.End);
+
+            var changes = new List<TextChange>();
+            var previousEnd = 0;
+            foreach (var power in powers)
+            {
+                var exponent = power.Groups[1];
+                var end = exponent.Index;
+                while (end > 0 && char.IsWhiteSpace(source[end - 1])) end--;
+                if (!operands.TryGetValue(end, out var operand) || operand.Span.Start < previousEnd) continue;
+                var span = TextSpan.FromBounds(operand.Span.Start, exponent.Index + exponent.Length);
+                changes.Add(new TextChange(span, "pow(" + source.Substring(operand.Span.Start, operand.Span.Length) +
+                    "," + SpecialSymbols.SuperscriptsToAscii(exponent.Value) + ")"));
+                previousEnd = span.End;
+            }
+            // Nested accesses are rewritten inside out by the existing outer
+            // loop. Each operand and exponent appears once, preserving effects.
+            return changes.Count == 0 ? source : SourceText.From(source).WithChanges(changes).ToString();
         }
 
         private static string ReplacePrefixPowers(string source, bool deferSymbolicFunctionPowers)

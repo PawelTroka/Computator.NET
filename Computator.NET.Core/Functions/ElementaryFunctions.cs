@@ -147,6 +147,15 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double sech(double x)
         {
+            var magnitude = System.Math.Abs(x);
+            if (magnitude > 710)
+            {
+                // cosh can overflow while its reciprocal is still representable.
+                // The exp(-2*|x|) denominator correction is negligible here.
+                // Double before multiplying so the final subnormals round once.
+                var tail = System.Math.Exp(-magnitude / 2);
+                return (2 * tail) * tail;
+            }
             return 1.0/System.Math.Cosh(x);
         }
 
@@ -155,6 +164,15 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double csch(double x)
         {
+            var magnitude = System.Math.Abs(x);
+            if (magnitude > 710)
+            {
+                // Avoid sinh overflow and preserve the final subnormal values.
+                // exp(-2*|x|) cannot affect the rounded denominator in this range.
+                var tail = System.Math.Exp(-magnitude / 2);
+                var value = (2 * tail) * tail;
+                return x < 0 ? -value : value;
+            }
             return 1.0/System.Math.Sinh(x);
         }
 
@@ -163,7 +181,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double cosech(double x)
         {
-            return 1.0/System.Math.Sinh(x);
+            return csch(x);
         }
 
         #endregion
@@ -207,7 +225,9 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arccot(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            // Avoid cancellation for large positive inputs while retaining the
+            // established real branch between zero and pi.
+            return System.Math.Atan2(1.0, x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -215,7 +235,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcctg(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            return arccot(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -259,7 +279,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcosh(double x)
         {
-            return System.Math.Log(x + System.Math.Sqrt(x + 1)*System.Math.Sqrt(x - 1));
+            return RuntimeMath.Acosh(x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -303,7 +323,17 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arcsch(double x)
         {
-            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/(x*x) + 1));
+            if (double.IsNaN(x)) return x;
+            if (double.IsInfinity(x)) return 1.0/x;
+            var magnitude = System.Math.Abs(x);
+            if (magnitude == 0.0)
+                return RuntimeMath.CopySign(double.PositiveInfinity, x);
+            // asinh(1/x) avoids cancellation for negative or large x. For tiny
+            // x, avoid overflowing the reciprocal: the omitted correction to
+            // log(2)-log(|x|) is O(x*x), far below double precision here.
+            if (magnitude < 1e-150)
+                return RuntimeMath.CopySign(System.Math.Log(2.0) - System.Math.Log(magnitude), x);
+            return RuntimeMath.Asinh(1.0/x);
         }
 
         /*Angielska nazwa funkcji"),
@@ -319,7 +349,14 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double arsech(double x)
         {
-            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/x + 1)*System.Math.Sqrt(1.0/x - 1));
+            // Near one, forming 1/x first loses the distance from the endpoint.
+            if (x >= 0.5 && x <= 1.0)
+                return RuntimeMath.Asinh(System.Math.Sqrt((1.0 - x)*(1.0 + x))/x);
+            // Split the logarithm so even subnormal inputs need no reciprocal.
+            if (x > 0.0 && x < 0.5)
+                return System.Math.Log(1.0 + System.Math.Sqrt((1.0 - x)*(1.0 + x))) - System.Math.Log(x);
+            // Preserve the real-domain and signed-zero endpoint behavior.
+            return arcosh(1.0/x);
         }
 
         #endregion
@@ -381,7 +418,16 @@ namespace Computator.NET.Core.Functions
 
         public static dynamic root(double x, double n)
         {
-            //n-based root
+            // Classify an integer index before taking its reciprocal: signed
+            // remainders and reciprocal rounding can otherwise change parity.
+            if (x < 0 && n != 0 && n % 1 == 0)
+            {
+                if (n % 2 == 0)
+                    return System.Numerics.Complex.Pow(x, 1.0/n);
+                return -System.Math.Pow(-x, 1.0/n);
+            }
+
+            // Preserve the existing convention for other real indices.
             return dpow(x, 1.0/n);
         }
 
@@ -1330,6 +1376,15 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double sech(double x)
         {
+            var magnitude = System.Math.Abs(x);
+            if (magnitude > 710)
+            {
+                // cosh can overflow while its reciprocal is still representable.
+                // The exp(-2*|x|) denominator correction is negligible here.
+                // Double before multiplying so the final subnormals round once.
+                var tail = System.Math.Exp(-magnitude / 2);
+                return (2 * tail) * tail;
+            }
             return 1.0/System.Math.Cosh(x);
         }
 
@@ -1338,6 +1393,15 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double csch(double x)
         {
+            var magnitude = System.Math.Abs(x);
+            if (magnitude > 710)
+            {
+                // Avoid sinh overflow and preserve the final subnormal values.
+                // exp(-2*|x|) cannot affect the rounded denominator in this range.
+                var tail = System.Math.Exp(-magnitude / 2);
+                var value = (2 * tail) * tail;
+                return x < 0 ? -value : value;
+            }
             return 1.0/System.Math.Sinh(x);
         }
 
@@ -1346,7 +1410,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double cosech(double x)
         {
-            return 1.0/System.Math.Sinh(x);
+            return csch(x);
         }
 
         #endregion
@@ -1390,7 +1454,9 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arccot(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            // Avoid cancellation for large positive inputs while retaining the
+            // established real branch between zero and pi.
+            return System.Math.Atan2(1.0, x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1398,7 +1464,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcctg(double x)
         {
-            return System.Math.PI/2 - System.Math.Atan(x);
+            return arccot(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1442,7 +1508,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcosh(double x)
         {
-            return System.Math.Log(x + System.Math.Sqrt(x + 1)*System.Math.Sqrt(x - 1));
+            return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Acosh(x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1486,7 +1552,17 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arcsch(double x)
         {
-            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/(x*x) + 1));
+            if (double.IsNaN(x)) return x;
+            if (double.IsInfinity(x)) return 1.0/x;
+            var magnitude = System.Math.Abs(x);
+            if (magnitude == 0.0)
+                return Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(double.PositiveInfinity, x);
+            // asinh(1/x) avoids cancellation for negative or large x. For tiny
+            // x, avoid overflowing the reciprocal: the omitted correction to
+            // log(2)-log(|x|) is O(x*x), far below double precision here.
+            if (magnitude < 1e-150)
+                return Computator.NET.Core.Compatibility.FrameworkElementaryMath.CopySign(System.Math.Log(2.0) - System.Math.Log(magnitude), x);
+            return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Asinh(1.0/x);
         }
 
         /*Angielska nazwa funkcji""),
@@ -1502,7 +1578,14 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double arsech(double x)
         {
-            return System.Math.Log(1.0/x + System.Math.Sqrt(1.0/x + 1)*System.Math.Sqrt(1.0/x - 1));
+            // Near one, forming 1/x first loses the distance from the endpoint.
+            if (x >= 0.5 && x <= 1.0)
+                return Computator.NET.Core.Compatibility.FrameworkElementaryMath.Asinh(System.Math.Sqrt((1.0 - x)*(1.0 + x))/x);
+            // Split the logarithm so even subnormal inputs need no reciprocal.
+            if (x > 0.0 && x < 0.5)
+                return System.Math.Log(1.0 + System.Math.Sqrt((1.0 - x)*(1.0 + x))) - System.Math.Log(x);
+            // Preserve the real-domain and signed-zero endpoint behavior.
+            return arcosh(1.0/x);
         }
 
         #endregion
@@ -1564,7 +1647,16 @@ namespace Computator.NET.Core.Functions
 
         public static dynamic root(double x, double n)
         {
-            //n-based root
+            // Classify an integer index before taking its reciprocal: signed
+            // remainders and reciprocal rounding can otherwise change parity.
+            if (x < 0 && n != 0 && n % 1 == 0)
+            {
+                if (n % 2 == 0)
+                    return System.Numerics.Complex.Pow(x, 1.0/n);
+                return -System.Math.Pow(-x, 1.0/n);
+            }
+
+            // Preserve the existing convention for other real indices.
             return dpow(x, 1.0/n);
         }
 

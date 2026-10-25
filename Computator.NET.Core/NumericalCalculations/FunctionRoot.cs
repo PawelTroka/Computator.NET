@@ -58,7 +58,11 @@ namespace Computator.NET.Core.NumericalCalculations
                 return results;
             });
 
-            return MathNet.Numerics.RootFinding.Broyden.TryFindRoot(function, new[] { (b + a) / 2 }, errorMax, (int)N, out root) ? root[0] : double.NaN;
+            // Keep the direct sum for cancellation and subnormal precision.
+            // If it overflows, halving these large operands first is exact.
+            var sum = a + b;
+            var initialGuess = double.IsInfinity(sum) ? a / 2 + b / 2 : sum / 2;
+            return MathNet.Numerics.RootFinding.Broyden.TryFindRoot(function, new[] { initialGuess }, errorMax, (int)N, out root) ? root[0] : double.NaN;
         }
 
         /*public static double BroydenMethod(Func<double, double, double> fxy, double a, double b, double errorMax = ERROR_MAX_MIN, uint N = ITERATIONS_MAX)
@@ -181,7 +185,11 @@ namespace Computator.NET.Core.NumericalCalculations
                 return results;
             });
 
-            return MathNet.Numerics.RootFinding.Broyden.TryFindRoot(function, new[] { (b + a) / 2 }, errorMax, (int)N, out root) ? root[0] : double.NaN;
+            // Keep the direct sum for cancellation and subnormal precision.
+            // If it overflows, halving these large operands first is exact.
+            var sum = a + b;
+            var initialGuess = double.IsInfinity(sum) ? a / 2 + b / 2 : sum / 2;
+            return MathNet.Numerics.RootFinding.Broyden.TryFindRoot(function, new[] { initialGuess }, errorMax, (int)N, out root) ? root[0] : double.NaN;
         }
 
         /*public static double BroydenMethod(Func<double, double, double> fxy, double a, double b, double errorMax = ERROR_MAX_MIN, uint N = ITERATIONS_MAX)
