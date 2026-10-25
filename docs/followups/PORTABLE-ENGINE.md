@@ -1,25 +1,91 @@
-# Mac/Linux foundation: extract the language, then the rest of the engine
+# Portable engine and scientific CLI
 
-This PR is the first portable **production-code extraction**, not a claim that WinForms/WPF now run on Mac or that the whole scientific engine is finished. `Computator.NET.Engine` targets plain `net10.0` with no desktop UI, Windows drawing, GSL or old Mono dependencies. The existing TSL compiler, all of its handlers, mathematical notation and constants are compiled once into this assembly. Windows Core/DataTypes reference it and forward the old public type identities. Source files remain linked from their existing locations, avoiding a copied language implementation that would drift from the desktop.
+[Overview](../../README.md) · [Documentation](../README.md) · [Developer setup](../DEVELOPING.md) · [Scientific service details](PORTABLE-SCIENCE.md)
 
-A separate `Computator.NET.Portable.slnx` builds the engine, CLI and portable regression suite without restoring the Windows application graph. The original TSL syntax tests are linked unchanged into the portable suite, alongside actual execution/diagnostic/concurrency tests. The existing Windows suites remain mandatory to detect extraction regressions. `Portable-Validate` runs the tests and launches the published CLI on real Windows/Linux/macOS runners.
+`Computator.NET.Engine` and `Computator.NET.Cli` run on modern .NET on Windows, Linux and macOS. They share the production TSL compiler, mathematical notation, constants and managed matrix/numerical implementations with the Windows application. They do not require WinForms, WPF, Windows drawing or native GSL.
 
-Examples:
+Open the single **[Computator.NET.slnx](../../Computator.NET.slnx)** to browse all projects. Portable Cake targets build the portable project graph directly, so they do not restore the Windows application graph. No separate portable solution is required or maintained. The [Engine project file](../../Computator.NET.Engine/Computator.NET.Engine.csproj) records which original Core/DataTypes files are linked into the shared assembly.
+
+## Build and run
+
+Install the SDK selected by [global.json](../../global.json). From the repository root, a direct development run is:
+
+```sh
+dotnet run --project Computator.NET.Cli -- --help
+dotnet run --project Computator.NET.Cli -- calculate --expression '2x+3' --x 7
+```
+
+To run engine tests, publish the CLI and check its process/JSON contracts, use Cake with PowerShell 7 available:
 
 ```sh
 ./build.sh --target=Portable-Validate
+# PowerShell equivalent: ./build.ps1 -Target Portable-Validate
+
 dotnet artifacts/portable/computator.dll calculate --expression '2x+3' --x 7
+dotnet artifacts/portable/computator.dll integrate --expression 'x*x' --a 0 --b 3 --steps 100
+dotnet artifacts/portable/computator.dll differentiate --expression 'x*x' --x 3
+dotnet artifacts/portable/computator.dll root --expression 'x*x-2' --a 0 --b 2 --tolerance 1e-10
+```
+
+Expected results are `17`, approximately `9`, approximately `6` and approximately `1.41421356237`. Numerical results retain their floating-point representation: the integral example returns `{"result":"8.999999999999998"}`. Each successful published-CLI calculation writes one JSON object with a string result. `dotnet run` may also show SDK build messages; use the published DLL when consuming the CLI as a JSON process.
+
+`Portable-Test` stops after the guarded engine test run; `Portable-Validate` adds publication and CLI process checks. The original syntax regressions and production-code tests run through the portable suite. Windows tests remain relevant when changing shared code used by the desktop.
+
+## Command reference
+
+| Command | Required input | Optional input / defaults |
+| --- | --- | --- |
+| `calculate` | `--expression <TSL>` | `--x 0`, `--y 0` |
+| `complex` | `--expression <TSL>` using `z` | `--real 0`, `--imaginary 0` |
+| `script` | `--file <file.tsl>` | Use `write(...)` to produce result text |
+| `integrate` | `--expression <TSL> --a <number> --b <number>` | `--steps 10000`; Simpson's method requires an even count from 2 to 1,000,000 |
+| `differentiate` | `--expression <TSL> --x <number>` | `--order 1`; supported orders 1 through 10 |
+| `root` | `--expression <TSL> --a <number> --b <number>` | `--tolerance 1e-8`, `--iterations 10000`; Brent's method requires a root bracket |
+
+Every command accepts `--functions <file.tslf>`. Numeric options use an invariant decimal point and must be finite. Integration and root bounds must satisfy `a < b`; root tolerance must be greater than 0 and at most 1, with 1 through 1,000,000 iterations. Invalid, duplicated, incomplete or command-inapplicable options are rejected. Use `--help` for the CLI's authoritative option summary; [Program.cs](../../Computator.NET.Cli/Program.cs) and [PortableEngine.Science.cs](../../Computator.NET.Engine/PortableEngine.Science.cs) define these contracts.
+
+### Custom functions and scripts
+
+Save this UTF-8 definition as `functions.tslf`:
+
+```csharp
+static real Probe(real x) { return x/2; }
+```
+
+Save this as `example.tsl`:
+
+```csharp
+write(Probe(6));
+```
+
+Then run:
+
+```sh
 dotnet artifacts/portable/computator.dll calculate --expression 'Probe(6)' --functions functions.tslf
 dotnet artifacts/portable/computator.dll script --file example.tsl --functions functions.tslf
 ```
 
-The CLI accepts UTF-8 documents, invariant numeric arguments, emits JSON results or document-relative compiler diagnostics, and uses nonzero exit status for invalid code. Generated assemblies use unique identities and collectible load contexts; no process-global cache stores another caller's function definitions. All code remains fully trusted. Collectible assemblies and output/source limits are **not a sandbox** and do not impose a computation timeout or filesystem/network isolation.
+Both return `{"result":"3"}`. Files accept an optional UTF-8 BOM and are bounded during reading to 256 KiB and 65,536 characters. Convert older UTF-16 or non-UTF-8 files explicitly. Quote paths containing spaces.
 
-### Supported first slice
+### Results and failures
 
-Real/two-variable and complex arithmetic, existing TSL rewrite syntax, scalar BCL functions (sin/cos/tan/sqrt/exp/ln/log/abs/pow/floor/ceil/round), mathematical constants, custom definitions and managed scripts with a supplied output callback. Scalar spelling adapters delegate to .NET's functions rather than introducing a new numerical algorithm.
+| Exit code | Stream | Meaning |
+| --- | --- | --- |
+| `0` | stdout | A JSON object with a string `result`; help is human-readable text instead |
+| `1` | stderr | JSON error for invalid input, file access or an execution failure |
+| `2` | stderr | JSON compilation error with document-relative diagnostic file/line/column information |
 
-### Boolean operators and absolute values
+Use TSL `write(...)` for script result text. Ordinary managed Console writes are suppressed during execution and shutdown to preserve the JSON protocol. [Published CLI checks](../../build/portable/Test-Cli.ps1) exercise this behavior, numerical answers, UTF-8 documents, custom functions and recovery after errors.
+
+## Supported capabilities and boundaries
+
+The portable surface includes real/two-variable and complex arithmetic, TSL notation, mathematical constants, custom definitions, managed scripts, the imported matrix functions, and the shared integration/differentiation/root services. The scalar adapters (`sin`, `cos`, `tan`, `sqrt`, `exp`, `ln`, `log`, `abs`, `pow`, `floor`, `ceil`, `round`) delegate to .NET's functions. [ScalarFunctions.cs](../../Computator.NET.Engine/ScalarFunctions.cs) defines available scalar spellings; [portable science](PORTABLE-SCIENCE.md) explains shared numerical implementations.
+
+The full native GSL/special-function catalog, interactive input dialogs, desktop settings/fonts and chart rendering remain outside this portable surface. An unavailable function produces a compiler diagnostic. The frontend running on macOS/Linux with a Windows API is a separate deployment path. The [reduced Mono desktop](../MONO-DESKTOP.md) is also a separate explicit compatibility target, built from the current shared sources.
+
+All executed code remains trusted, in-process code with the user's permissions. Work budgets and collectible load contexts are **not a sandbox, wall-clock timeout or filesystem/network isolation**. Generated assemblies use unique identities and request unloading when released; dynamic-binder caches can still retain programs until process exit. See [program lifetime](../PROGRAM-LIFETIME.md) for that boundary.
+
+## Boolean operators and absolute values
 
 Conditions, scripts and custom functions support short-circuit logical OR chains such as `true || false || false` and `|x| > 0 || |y| > 0 || |x+y| > 0`. Later operands are evaluated only when the earlier operands are false. Single bars still denote absolute values; nested `||x||` and the supported adjacent expression `|x||y|` retain their mathematical meanings.
 
@@ -27,10 +93,4 @@ Double bars can be ambiguous when an absolute value sits between other expressio
 
 Whole arithmetic operands retain established nested-absolute-value forms, including `x||y||+z`, `x||y||*z` and `x||y||+z+1`. Grouping or a function argument keeps an inner mathematical expression separate from the surrounding Boolean chain, as in `(x||y||+z)>1 || a || b` or `abs(x||y||+z)>1 || a || b`. Prefer explicit multiplication and `abs(...)` when combining this notation with Boolean conditions. The parser classifies syntax before compiling types; it does not infer whether an arbitrary variable or function returns a Boolean or a number.
 
-### Explicit remaining extraction
-
-The existing full special-function/GSL catalog, matrix/numerical-method service, interactive `read` dialogs, settings/font/UI dependencies, and renderer are still in Windows Core. An unsupported name is a compiler diagnostic; no fabricated result or silent fallback pretends it exists. A browser opening on Mac while calling a Windows server is still remote access, not an offline Mac engine. Combine accepted GSL runtime assets from #143 with an explicit portable interop service before expanding native functions.
-
-The next architectural steps are to move the existing mathematical services behind headless interfaces, retain common acceptance fixtures on all OSs, and then build an Avalonia/local-web prototype for notation editing, complex/3D plots and document workflows. This PR does not introduce a second full UI or replace the accepted Windows client prematurely. Mac architecture support is whatever actual CI reports; native ARM64 app packaging/signing/notarization are separate work.
-
-The historical standalone Mono release/build sources remain archival; new support targets modern .NET, not an attempt to run the Windows desktop graph under old Mono. Framework-generated fixture writing in Windows CI remains only a legacy-input test utility. No release, package signing or platform support claim is made merely because a project compiles.
+The [portable CI workflow](../../.github/workflows/portable.yml) identifies the actual tested operating systems/runners. Complete desktop parity, native architecture packaging and signing remain separate work from this managed CLI.
