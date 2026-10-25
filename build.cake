@@ -15,7 +15,7 @@ var framework = XDocument.Load("build/ModernDesktop.props").Descendants("TargetF
 var modernRuntime = framework.StartsWith("net10.", StringComparison.Ordinal);
 var suites = new Dictionary<string, int>
 {
-    { "Computator.NET.Core.Tests", modernRuntime ? 2071 : 225 },
+    { "Computator.NET.Core.Tests", modernRuntime ? 2118 : 225 },
     { "Computator.NET.Core.IntegrationTests", 947 },
     { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 130 : 52 },
     { "Computator.NET.Desktop.Tests", modernRuntime ? 551 : 9 }
