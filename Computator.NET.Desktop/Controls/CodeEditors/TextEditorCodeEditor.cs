@@ -20,6 +20,16 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         private ISharedViewState _sharedViewState;
         private readonly Dictionary<string, IDocument>
             _documents;
+        private readonly HashSet<IDocument> _highlightedDocuments = new HashSet<IDocument>();
+
+        private sealed class CompilationErrorMarker : TextMarker
+        {
+            public CompilationErrorMarker(int offset, int length, string message)
+                : base(offset, length, TextMarkerType.SolidBlock, Color.MistyRose)
+            {
+                ToolTip = message;
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         
@@ -127,6 +137,7 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
                 return;
 
             var doc = _documents[filename];
+            ClearHighlightedErrors(doc);
             _documents.Remove(filename);
             //this.ReleaseDocument(doc);
             if (_documents.Count > 0)
@@ -135,12 +146,31 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void HighlightErrors(IEnumerable<CompilerError> errors)
         {
-            //TODO: implement
-            // _offsetColorizer.LinesWithErrors.Clear();
-            foreach (var error in errors)
+            ClearHighlightedErrors();
+            if (errors == null)
+                return;
+
+            var document = Document;
+            var errorsByLine = errors
+                .Where(error => error != null && error.Line > 0 && error.Line <= document.TotalNumberOfLines)
+                .GroupBy(error => error.Line)
+                .ToArray();
+            foreach (var lineErrors in errorsByLine)
             {
-                // _offsetColorizer.LinesWithErrors.Add(error.Line);
+                // Compiler diagnostics use one-based lines; the editor uses zero-based lines.
+                var line = document.GetLineSegment(lineErrors.Key - 1);
+                if (line.Length == 0)
+                    continue;
+
+                var message = string.Join(Environment.NewLine, lineErrors.Select(error =>
+                    string.IsNullOrEmpty(error.ErrorNumber) ? error.ErrorText : error.ErrorNumber + ": " + error.ErrorText)
+                    .Distinct());
+                document.MarkerStrategy.AddMarker(new CompilationErrorMarker(line.Offset, line.Length, message));
+                if (_highlightedDocuments.Add(document))
+                    document.DocumentChanged += ClearStaleErrorHighlights;
             }
+
+            ActiveTextAreaControl.TextArea.Invalidate();
         }
 
         public IEnumerable<string> Documents
@@ -176,9 +206,34 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
 
         public void ClearHighlightedErrors()
         {
-            //TODO: implement
-            //  _offsetColorizer.LinesWithErrors.Clear();
-            //  TextArea.TextView.Redraw();
+            ClearHighlightedErrors(Document);
+        }
+
+        private void ClearStaleErrorHighlights(object sender, DocumentEventArgs e)
+        {
+            // A diagnostic describes the source that was compiled, not a subsequently edited buffer.
+            ClearHighlightedErrors((IDocument)sender);
+        }
+
+        private void ClearHighlightedErrors(IDocument document, bool redraw = true)
+        {
+            if (!_highlightedDocuments.Remove(document))
+                return;
+
+            document.DocumentChanged -= ClearStaleErrorHighlights;
+            // Search results and other editor adornments belong to their own features.
+            document.MarkerStrategy.RemoveAll(marker => marker is CompilationErrorMarker);
+            if (redraw && ReferenceEquals(Document, document) && !IsDisposed && !Disposing)
+                ActiveTextAreaControl.TextArea.Invalidate();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                foreach (var document in _highlightedDocuments.ToArray())
+                    ClearHighlightedErrors(document, false);
+
+            base.Dispose(disposing);
         }
 
     }

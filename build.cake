@@ -2,6 +2,7 @@
 // Original target names and Task/IsDependentOn/Does pattern are retained.
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+#load "./build/frontend-toolchain.cake"
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", EnvironmentVariable("configuration") ?? EnvironmentVariable("build_config") ?? "Release");
@@ -14,16 +15,17 @@ var framework = XDocument.Load("build/ModernDesktop.props").Descendants("TargetF
 var modernRuntime = framework.StartsWith("net10.", StringComparison.Ordinal);
 var suites = new Dictionary<string, int>
 {
-    { "Computator.NET.Core.Tests", modernRuntime ? 804 : 225 },
+    { "Computator.NET.Core.Tests", modernRuntime ? 2118 : 225 },
     { "Computator.NET.Core.IntegrationTests", 947 },
-    { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 117 : 52 },
-    { "Computator.NET.Desktop.Tests", modernRuntime ? 263 : 9 }
+    { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 130 : 52 },
+    { "Computator.NET.Desktop.Tests", modernRuntime ? 557 : 9 }
 };
 if (configuration != "Debug" && configuration != "Release") throw new Exception("Configuration must be Debug or Release.");
 if (suite != "All" && !suites.ContainsKey(suite)) throw new Exception("Unknown test suite: " + suite);
 string temporaryProfile = null;
 var previousDataDirectory = EnvironmentVariable("COMPUTATOR_DATA_DIRECTORY");
 var previousFixture = EnvironmentVariable("COMPUTATOR_LEGACY_FIXTURE");
+string frontendCommandPrefix = null;
 
 void CheckedProcess(string executable, ProcessSettings settings)
 {
@@ -35,8 +37,30 @@ void PowerShell(string script, string arguments = "", string executable = "pwsh"
     var args = new ProcessArgumentBuilder().Append("-NoProfile").Append("-File").AppendQuoted(script).Append(arguments);
     CheckedProcess(executable, new ProcessSettings { Arguments = args });
 }
+string FrontendCommandPrefix()
+{
+    if (frontendCommandPrefix != null) return frontendCommandPrefix;
+    var node = System.IO.File.ReadAllText(".nvmrc").Trim();
+    var npm = Regex.Match(System.IO.File.ReadAllText(webDirectory + "/package.json"),
+        "\"packageManager\"\\s*:\\s*\"npm@(?<version>[0-9]+\\.[0-9]+\\.[0-9]+)\"").Groups["version"].Value;
+    var installedNode = FrontendToolVersion("node", webDirectory);
+    var installedNpm = FrontendToolVersion("npm", webDirectory);
+    var prefix = SelectFrontendCommandPrefix(node, npm, installedNode, installedNpm);
+    if (prefix.Length != 0)
+        Information("Using pinned Node {0} and npm {1} from npm's local tool cache (PATH has Node {2}, npm {3}).", node, npm, installedNode, installedNpm);
+    // npm exec adds both exact-version tools to the child PATH. Lifecycle scripts,
+    // Vite and nested IDE builds therefore use the same Node/npm without a global
+    // install, a relaxed engine policy or changes to the application lockfile.
+    return frontendCommandPrefix = prefix;
+}
 void NodeCommand(string executable, string arguments, IDictionary<string, string> environment = null)
 {
+    var prefix = FrontendCommandPrefix();
+    if (prefix.Length != 0)
+    {
+        arguments = prefix + executable + " " + arguments;
+        executable = "npm";
+    }
     // Windows npm/npx launchers are command scripts. Arguments are repository-owned.
     CheckedProcess(IsRunningOnWindows() ? "cmd.exe" : executable, new ProcessSettings
     {
@@ -129,6 +153,14 @@ void PackagePayload(string directory, string fileName, string requiredEntry)
 
 Setup(context =>
 {
+    // Source/IDE metadata checks need neither output directories nor the legacy
+    // Framework fixture compiler (including on a Windows workstation).
+    if (string.Equals(target, "Solution-Check", StringComparison.OrdinalIgnoreCase)) return;
+    // Cake 6.3 invokes Setup during dry runs but consumes the runner switches
+    // before IsDryRun() can see them. Also inspect the exact supported switches
+    // so direct `dotnet cake ... --dryrun` never prepares output or test fixtures.
+    if (IsDryRun() || System.Environment.GetCommandLineArgs().Any(argument =>
+        argument == "--dryrun" || argument == "--noop" || argument == "--whatif")) return;
     EnsureDirectoryExists("artifacts");
     EnsureDirectoryExists("TestResults");
     if (IsRunningOnWindows())
@@ -158,56 +190,96 @@ Teardown(context =>
 //////////////////////////////////////////////////////////////////////
 // DESKTOP / API (original target names)
 //////////////////////////////////////////////////////////////////////
-Task("Clean").Does(() =>
+Task("Clean")
+    .Description("Remove generated application, artifact, test and ZIP output.")
+    .Does(() =>
 {
     foreach (var directory in GetDirectories("Computator.NET*/bin").Concat(GetDirectories("Computator.NET*/obj")))
         DeleteDirectory(directory, new DeleteDirectorySettings { Recursive = true });
     CleanDirectories(new[] { new DirectoryPath("artifacts"), new DirectoryPath("TestResults"), new DirectoryPath("publish") });
 });
-Task("Restore").Does(() =>
+Task("Restore")
+    .Description("Windows: validate the solution inventory and restore all supported projects.")
+    .Does(() =>
 {
     if (!IsRunningOnWindows()) throw new Exception("Full solution builds require Windows. Use --target=Portable-Validate or --target=Web-Validate on other platforms.");
     PowerShell("build/Assert-Solution.ps1");
     PowerShell("build/Test-ResultGuard.ps1");
     DotNetRestore(solution, RestoreSettings());
 });
-Task("Build").IsDependentOn("Restore").Does(() =>
+Task("Build")
+    .Description("Windows: restore and build the complete solution; write artifacts/build.binlog.")
+    .IsDependentOn("Restore").Does(() =>
     DotNetBuild(solution, new DotNetBuildSettings
     {
         Configuration = configuration, NoRestore = true,
         ArgumentCustomization = a => a.Append("-bl:artifacts/build.binlog")
     }));
-Task("CoreTests").IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Core.Tests"));
-Task("DesktopTests").IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Desktop.Tests"));
-Task("CoreIntegrationTests").IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Core.IntegrationTests"));
-Task("ApiTests").IsDependentOn("Build").Does(() => RunSuite("Computator.NET.WebApi.IntegrationTests"));
-Task("UnitTests").IsDependentOn("CoreTests").IsDependentOn("DesktopTests");
-Task("IntegrationTests").IsDependentOn("CoreIntegrationTests").IsDependentOn("ApiTests");
-Task("AllTests").IsDependentOn("UnitTests").IsDependentOn("IntegrationTests");
-Task("WebTests").IsDependentOn("ApiTests");
-Task("SelectedTests").IsDependentOn("Build").Does(() =>
+Task("CoreTests")
+    .Description("Windows: build and run the core unit-test suite with discovery guards.")
+    .IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Core.Tests"));
+Task("DesktopTests")
+    .Description("Windows: build and run the native desktop workflow suite.")
+    .IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Desktop.Tests"));
+Task("CoreIntegrationTests")
+    .Description("Windows: build and run the mathematical/native integration suite.")
+    .IsDependentOn("Build").Does(() => RunSuite("Computator.NET.Core.IntegrationTests"));
+Task("ApiTests")
+    .Description("Windows: build and run the mathematical API integration suite.")
+    .IsDependentOn("Build").Does(() => RunSuite("Computator.NET.WebApi.IntegrationTests"));
+Task("UnitTests")
+    .Description("Windows: run CoreTests and DesktopTests (the default developer target).")
+    .IsDependentOn("CoreTests").IsDependentOn("DesktopTests");
+Task("IntegrationTests")
+    .Description("Windows: run core/native and API integration suites.")
+    .IsDependentOn("CoreIntegrationTests").IsDependentOn("ApiTests");
+Task("AllTests")
+    .Description("Windows: build and run all four complete desktop/core/API suites.")
+    .IsDependentOn("UnitTests").IsDependentOn("IntegrationTests");
+Task("WebTests")
+    .Description("Historical alias for ApiTests; use Web-Tests for frontend browser tests.")
+    .IsDependentOn("ApiTests");
+Task("SelectedTests")
+    .Description("Windows: run --suite=<project> or all four suites; complete-suite guards apply.")
+    .IsDependentOn("Build").Does(() =>
 {
     foreach (var project in suite == "All" ? suites.Keys.ToArray() : new[] { suite }) RunSuite(project);
 });
-Task("Publish-Desktop").IsDependentOn("Build").IsDependentOn("Native-GSL").Does(PublishDesktop);
-Task("Publish-Api").IsDependentOn("Build").IsDependentOn("Native-GSL").Does(PublishApi);
-var ci = Task("CI").IsDependentOn("SelectedTests");
+Task("Publish-Desktop")
+    .Description("Windows: publish and smoke-test the desktop payload with native GSL.")
+    .IsDependentOn("Build").IsDependentOn("Native-GSL").Does(PublishDesktop);
+Task("Publish-Api")
+    .Description("Windows: publish and smoke-test the mathematical API with native GSL.")
+    .IsDependentOn("Build").IsDependentOn("Native-GSL").Does(PublishApi);
+var ci = Task("CI")
+    .Description("Windows: validate the selected suite and its applicable published payloads.")
+    .IsDependentOn("SelectedTests");
 if (suite == "All" || suite == "Computator.NET.Desktop.Tests") ci.IsDependentOn("Publish-Desktop");
 if (suite == "All" || suite == "Computator.NET.WebApi.IntegrationTests") ci.IsDependentOn("Publish-Api");
 
 //////////////////////////////////////////////////////////////////////
 // FRONTEND: npm is a tool, Cake owns the task graph
 //////////////////////////////////////////////////////////////////////
-Task("Web-Restore").Does(() =>
+Task("Web-Restore")
+    .Description("Install locked frontend dependencies with npm ci and audit them.")
+    .Does(() =>
 {
     NodeCommand("npm", "ci");
     NodeCommand("npm", "audit --audit-level=low");
 });
-Task("Web-Build").IsDependentOn("Web-Restore").Does(() => NodeCommand("npm", "run build"));
-Task("Web-Publish").IsDependentOn("Web-Restore").Does(() => PublishWeb("artifacts/webclient"));
-Task("Web-Browsers").IsDependentOn("Web-Restore").Does(() =>
+Task("Web-Build")
+    .Description("Restore frontend dependencies, type-check TypeScript and build Vite assets.")
+    .IsDependentOn("Web-Restore").Does(() => NodeCommand("npm", "run build"));
+Task("Web-Publish")
+    .Description("Build and publish the frontend host to artifacts/webclient.")
+    .IsDependentOn("Web-Restore").Does(() => PublishWeb("artifacts/webclient"));
+Task("Web-Browsers")
+    .Description("Restore frontend tools and install Playwright Chromium/Firefox browsers.")
+    .IsDependentOn("Web-Restore").Does(() =>
     NodeCommand("npx", "playwright install " + (IsRunningOnWindows() ? "" : "--with-deps ") + "chromium firefox"));
-Task("Web-Tests").IsDependentOn("Web-Publish").IsDependentOn("Web-Browsers").Does(() =>
+Task("Web-Tests")
+    .Description("Publish the frontend and run Chromium/Firefox UI tests with API fixtures.")
+    .IsDependentOn("Web-Publish").IsDependentOn("Web-Browsers").Does(() =>
 {
     var directory = MakeAbsolute(Directory("artifacts/webclient")).FullPath;
     NodeCommand("npm", "test", new Dictionary<string, string>
@@ -215,12 +287,16 @@ Task("Web-Tests").IsDependentOn("Web-Publish").IsDependentOn("Web-Browsers").Doe
         { "PLAYWRIGHT_SERVER_COMMAND", "dotnet \"" + directory + "/Computator.NET.WebClient.dll\" --contentRoot \"" + directory + "\" --urls http://127.0.0.1:4173" }
     });
 });
-Task("Web-Validate").IsDependentOn("Web-Tests");
+Task("Web-Validate")
+    .Description("Validate the published frontend through the Web-Tests browser suite.")
+    .IsDependentOn("Web-Tests");
 
 //////////////////////////////////////////////////////////////////////
 // PORTABLE PACKAGING / COVERAGE
 //////////////////////////////////////////////////////////////////////
-Task("Package").IsDependentOn("Publish-Desktop").IsDependentOn("Publish-Api").IsDependentOn("Web-Publish").Does(() =>
+Task("Package")
+    .Description("Windows: publish and package desktop, API and frontend ZIP payloads.")
+    .IsDependentOn("Publish-Desktop").IsDependentOn("Publish-Api").IsDependentOn("Web-Publish").Does(() =>
 {
     EnsureDirectoryExists("publish");
     var declaration = Regex.Match(System.IO.File.ReadAllText("SharedAssemblyInfo.cs"),
@@ -231,23 +307,39 @@ Task("Package").IsDependentOn("Publish-Desktop").IsDependentOn("Publish-Api").Is
     PackagePayload("artifacts/api", "publish/Computator.NET.WebApi.v" + version + "." + framework + ".zip", "Static/functions.xml");
     PackagePayload("artifacts/webclient", "publish/Computator.NET.WebClient.v" + version + ".net10.0.zip", "dist/index.html");
 });
-Task("Validate").IsDependentOn("AllTests").IsDependentOn("Web-Tests").IsDependentOn("Package");
-Task("Publish").IsDependentOn("Validate");
-Task("Calculate-Coverage").IsDependentOn("SelectedTests").Does(() =>
+Task("Validate")
+    .Description("Windows: all application suites, frontend browser tests and ZIP packaging.")
+    .IsDependentOn("AllTests").IsDependentOn("Web-Tests").IsDependentOn("Package");
+Task("Publish")
+    .Description("Windows: validate and prepare local ZIP packages; does not publish a release.")
+    .IsDependentOn("Validate");
+Task("Calculate-Coverage")
+    .Description("Windows: run complete selected suites and require fresh Cobertura reports.")
+    .IsDependentOn("SelectedTests").Does(() =>
 {
     if (!GetFiles("TestResults/**/*.cobertura.xml").Any()) throw new Exception("No Cobertura coverage reports were produced.");
 });
-Task("Upload-Coverage").IsDependentOn("Calculate-Coverage").Does(() =>
+Task("Upload-Coverage")
+    .Description("AppVeyor: run coverage and upload reports as build artifacts.")
+    .IsDependentOn("Calculate-Coverage").Does(() =>
 {
     if (!AppVeyor.IsRunningOnAppVeyor)
         throw new Exception("Coverage is in TestResults. GitHub uploads artifacts; external Coveralls/Codecov publication requires configured credentials.");
     foreach (var report in GetFiles("TestResults/**/*.cobertura.xml")) AppVeyor.UploadArtifact(report);
 });
 if (!FileExists("build/followups/installer.cake"))
-    Task("Build-Installer").Does(() => { throw new Exception("The MSI migration module is not present. Use --target=Publish for portable ZIPs."); });
+    Task("Build-Installer")
+        .Description("Windows: build unsigned MSI/EXE; requires explicit WiX terms.")
+        .Does(() => { throw new Exception("The MSI migration module is not present. Use --target=Publish for portable ZIPs."); });
 if (!FileExists("build/followups/msix.cake"))
-    Task("Build-Uwp").Does(() => { throw new Exception("The MSIX migration module is not present. Use --target=Publish for portable ZIPs."); });
-Task("Install-Linux").Does(() => { throw new Exception("Machine-wide installation is not provided. Use Mono-Build / Mono-Validate for the reduced desktop; see docs/MONO-DESKTOP.md."); });
-Task("Default").IsDependentOn("UnitTests");
+    Task("Build-Uwp")
+        .Description("Historical alias for Build-MSIX; creates the unsigned desktop MSIX.")
+        .Does(() => { throw new Exception("The MSIX migration module is not present. Use --target=Publish for portable ZIPs."); });
+Task("Install-Linux")
+    .Description("Unsupported machine-wide install; use the explicit Mono-Build/Mono-Validate lane.")
+    .Does(() => { throw new Exception("Machine-wide installation is not provided. Use Mono-Build / Mono-Validate for the reduced desktop; see docs/MONO-DESKTOP.md."); });
+Task("Default")
+    .Description("Windows: build the solution and run CoreTests plus DesktopTests.")
+    .IsDependentOn("UnitTests");
 #load "./build/followups/*.cake"
 RunTarget(target);

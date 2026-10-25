@@ -9,6 +9,10 @@ jobs:
   clean-start:
     runs-on: windows-2025
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain: [pinned, issue-257]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -17,14 +21,23 @@ jobs:
         with:
           global-json-file: global.json
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        if: matrix.toolchain == 'pinned'
         with:
           node-version-file: .nvmrc
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        if: matrix.toolchain == 'issue-257'
+        with:
+          node-version: '24.11.1'
+      - name: Reproduce the existing developer toolchain from issue 257
+        if: matrix.toolchain == 'issue-257'
+        shell: pwsh
+        run: npm install --global npm@11.7.0
       - name: Cake verifies fresh IDE-style startup and live API connection
         shell: pwsh
         run: ./build.ps1 -Target Web-IDE-Validate
       - if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
-          name: ide-startup-results
+          name: ide-startup-results-${{ matrix.toolchain }}
           path: Computator.NET.WebClient/test-results/**
           retention-days: 7

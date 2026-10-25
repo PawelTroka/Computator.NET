@@ -1,6 +1,14 @@
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 foreach ($file in Get-ChildItem -LiteralPath $PSScriptRoot -Filter '*.ps1') {
+    # WinPS 5.1 decodes BOM-less files using the ANSI code page. A corrupted
+    # Unicode string can still parse successfully while changing call arguments.
+    $bytes = [IO.File]::ReadAllBytes($file.FullName)
+    $source = (New-Object Text.UTF8Encoding($false, $true)).GetString($bytes)
+    $hasUtf8Bom = $bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF
+    if ($source -match '[^\u0000-\u007F]' -and !$hasUtf8Bom) {
+        throw "Non-ASCII acceptance script requires a UTF-8 BOM for Windows PowerShell 5.1: $($file.Name)"
+    }
     $tokens = $null; $errors = $null
     [Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$errors) | Out-Null
     if ($errors.Count) { throw "PowerShell parse errors in $($file.Name): $errors" }

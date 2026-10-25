@@ -5,10 +5,19 @@
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile><NuGetAudit>true</NuGetAudit><NuGetAuditMode>all</NuGetAuditMode>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Test the desktop random-range source and complete emitted fragment on
+         every OS without adding this catalog to the portable engine API. -->
+    <Compile Include="../Computator.NET.Core/Functions/StatisticsFunctions.cs" Link="Parity/StatisticsFunctions.cs" />
+    <Compile Include="../Computator.NET.Core/Compatibility/FrameworkRandom.cs" Link="Parity/FrameworkRandom.cs" />
+    <Compile Include="../Computator.NET.Core.Tests/FunctionsTests/FloatingRandomRangeTests.cs" Link="Parity/FloatingRandomRangeTests.cs" />
+    <!-- Exercise the editor's lexical block detection on every supported OS. -->
+    <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/AvalonEdit/BraceFoldingRanges.cs" Link="Editors/BraceFoldingRanges.cs" />
     <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexTicksLayout.cs" Link="Charting/ComplexTicksLayout.cs" />
     <Compile Include="../Computator.NET.Charting/Axes/AxisTickGenerator.cs" Link="Charting/AxisTickGenerator.cs" />
+    <Compile Include="../Computator.NET.Charting/Axes/ProjectedMeshOcclusion.cs" Link="Charting/ProjectedMeshOcclusion.cs" />
+    <Compile Include="../Computator.NET.Desktop.Tests/ProjectedMeshOcclusionTests.cs" Link="Charting/ProjectedMeshOcclusionTests.cs" />
     <Compile Include="../Computator.NET.Desktop.Tests/AxisTickGeneratorTests.cs" Link="Charting/AxisTickGeneratorTests.cs" />
     <Compile Include="../Computator.NET.Desktop.Tests/ComplexTickRenderingTests.cs" Link="Charting/ComplexTickRenderingTests.cs" />
     <Compile Include="../Computator.NET.Desktop.Tests/ComplexChartRenderingTests.cs" Link="Charting/ComplexChartRenderingTests.cs" />

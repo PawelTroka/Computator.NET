@@ -33,13 +33,17 @@ void MaterializeReference(bool check)
     CheckedProcess("python", new ProcessSettings { Arguments = "-m unittest discover -s build/reference -p test_*.py" });
     CheckedProcess("python", new ProcessSettings { Arguments = "build/reference/generate.py --inventory artifacts/reference/inventory.json --output Computator.NET.Core/Static/functions.xml --preview artifacts/reference/preview.html --report artifacts/reference/coverage.json" + (check ? " --check" : "") });
 }
-Task("Reference-Generate").IsDependentOn("Build").IsDependentOn("Web-Restore").Does(() =>
+Task("Reference-Generate")
+    .Description("Windows: export the runtime catalogue and regenerate committed reference assets.")
+    .IsDependentOn("Build").IsDependentOn("Web-Restore").Does(() =>
 {
     ReferenceTest("FullyQualifiedName~FunctionReferenceCoverageTests.ExportRuntimeCatalogForReview", "reference-inventory.trx", 1);
     MaterializeReference(false);
 });
-Task("Reference-Validate").IsDependentOn("Build").IsDependentOn("Web-Restore").Does(() =>
+Task("Reference-Validate")
+    .Description("Windows: test the reference catalogue and verify committed text/equations/figures.")
+    .IsDependentOn("Build").IsDependentOn("Web-Restore").Does(() =>
 {
-    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx", 153);
+    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx", 166);
     MaterializeReference(true);
 });

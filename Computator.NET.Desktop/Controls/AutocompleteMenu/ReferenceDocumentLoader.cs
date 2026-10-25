@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 
 namespace Computator.NET.Desktop.Controls.AutocompleteMenu
@@ -11,6 +12,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         private bool loading;
         private string pendingDocument;
         private readonly Timer loader = new Timer { Interval = 20 };
+
+        public event EventHandler DocumentReady;
 
         public ReferenceDocumentLoader(WebBrowser browser)
         {
@@ -51,8 +54,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         private void DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            if (browser.ReadyState != WebBrowserReadyState.Complete || e.Url != browser.Url) return;
             loading = false;
             QueuePendingDocument();
+            // A completed navigation can belong to an earlier selection. Only
+            // size the tooltip once the newest queued document is ready.
+            if (pendingDocument == null) DocumentReady?.Invoke(this, EventArgs.Empty);
         }
     }
 }

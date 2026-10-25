@@ -98,6 +98,7 @@ internal static partial class Program
         Run("native-gsl-generated-import-and-error-recovery", NativeGsl);
         Run("mono-function-reference-readable-text", FunctionReference);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
+        Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
         Run("real-chart-samples-and-png-rendering", RealChart);
@@ -267,6 +268,29 @@ internal static partial class Program
         }
     }
 
+    private static void UnshownEditorDocuments()
+    {
+        var bootstrapper = new WinFormsBootstrapper();
+        using (bootstrapper.Container)
+        using (var editor = new CodeEditorControlWrapper(bootstrapper.Create<TextEditorCodeEditor>()))
+        {
+            // Mono can select an inserted tab before its parent is visible
+            // without raising SelectedIndexChanged. Every displayed tab must
+            // still own a buffer, including blank tabs left in the background.
+            var first = editor.CurrentFileName;
+            Check(editor.ContainsDocument(first), "The initial untitled tab has no backing document before Show.");
+            editor.NewDocument();
+            var second = editor.CurrentFileName;
+            Check(second != first && editor.ContainsDocument(second), "A new untitled tab has no backing document before Show.");
+            Check(editor.ConfirmCloseDocuments(), "Clean untitled tabs unexpectedly prevented close approval.");
+            editor.Text = "write(144);";
+            editor.SwitchTab(first);
+            Equal(editor.Text, string.Empty);
+            editor.SwitchTab(second);
+            Equal(editor.Text, "write(144);");
+        }
+    }
+
     private static void DesktopWorkflow()
     {
         GSLInitializer.Initialize();
@@ -322,9 +346,16 @@ internal static partial class Program
                     custom.CustomFunctionsEditor.NewDocument(path);
                     custom.CustomFunctionsEditor.SwitchTab(path);
                     Equal(custom.CustomFunctionsEditor.Text, "static real Probe(real x) { return x+73; }");
+                    // This acceptance workflow intentionally edited the named
+                    // script above. Save it explicitly before normal shutdown;
+                    // an unattended test must not discard a real dirty buffer.
+                    state.CurrentView = ViewName.Scripting;
+                    bootstrapper.Create<SaveCommand>().Execute();
+                    Equal(File.ReadAllText(scripting.CodeEditorView.CurrentFileName), scripting.CodeEditorView.Text);
                     Capture(window, "desktop-workflow.png");
                     window.Close();
                     Application.DoEvents();
+                    Check(window.IsDisposed, "The saved desktop workflow did not close normally.");
                 }
             }
         }

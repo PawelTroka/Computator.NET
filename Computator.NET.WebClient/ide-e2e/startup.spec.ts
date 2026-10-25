@@ -46,7 +46,7 @@ test('an IDE restart replaces assets built for another API profile', async ({ pa
     cwd: process.cwd(), env: { ...process.env, VITE_API_BASE_URL: '/api' }, timeout: 60_000
   });
   const host = spawn('dotnet', [path.resolve('bin/Release/net10.0/Computator.NET.WebClient.dll'),
-    '--contentRoot', process.cwd(), '--urls', 'http://localhost:63784'], {
+    '--contentRoot', process.cwd(), '--urls', 'http://localhost:5082'], {
     cwd: process.cwd(), windowsHide: true,
     env: { ...process.env, ASPNETCORE_ENVIRONMENT: 'Development', DOTNET_ENVIRONMENT: 'Development' }
   });
@@ -57,16 +57,16 @@ test('an IDE restart replaces assets built for another API profile', async ({ pa
   try {
     await expect.poll(async () => {
       if (host.exitCode !== null) throw new Error(`Source host exited: ${output}`);
-      try { return (await request.get('http://localhost:63784', { timeout: 1000 })).status(); }
+      try { return (await request.get('http://localhost:5082', { timeout: 1000 })).status(); }
       catch { return 0; }
     }, { timeout: 240_000, intervals: [500] }).toBe(200);
-    await page.goto('http://localhost:63784/calculate');
+    await page.goto('http://localhost:5082/calculate');
     await page.locator('#expressionTextArea textarea').fill('40+2');
     const calculation = page.waitForResponse(response => response.url().endsWith('/api/v2/execute') &&
       response.request().method() === 'POST', { timeout: 30_000 });
     await page.getByRole('button', { name: 'Calculate!' }).click();
     const reply = await calculation;
-    expect(reply.url()).toContain('localhost:60996/');
+    expect(reply.url()).toContain('localhost:5080/');
     expect(reply.ok(), await reply.text()).toBe(true);
     await expect(page.getByRole('status')).toHaveText('42');
   } finally {

@@ -7,7 +7,7 @@ const test = base.extend<{ errors: string[] }>({
 });
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jL1sAAAAASUVORK5CYII=', 'base64');
 test.beforeEach(async ({ page }) => {
-  await page.route('http://localhost:60996/api/**', async route => {
+  await page.route('http://localhost:5080/api/**', async route => {
     const path = new URL(route.request().url()).pathname;
     const headers = { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'GET, POST, OPTIONS', 'access-control-allow-headers': 'content-type' };
     if (route.request().method() === 'OPTIONS') return route.fulfill({ headers, status: 204 });

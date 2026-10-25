@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Computator.NET.Desktop.Services;
 using Computator.NET.Localization;
@@ -9,6 +11,7 @@ namespace Computator.NET.Desktop.Controls
 {
     public class DocumentsTabControl : TabControl
     {
+        public event EventHandler<DocumentTabsClosingEventArgs> DocumentsClosing;
         private TabPage addTabPage;
         private ToolStripMenuItem cloneTabToolStripMenuItem;
         private ToolStripMenuItem closeOtherTabsToolStripMenuItem;
@@ -219,7 +222,7 @@ namespace Computator.NET.Desktop.Controls
             {
                 while (TabPages.ContainsKey(Strings.AddTab_NewFile + id)) id++;
                 tabPage.Text = Strings.AddTab_NewFile + id;
-                tabPage.ImageIndex = 1;
+                tabPage.ImageIndex = 0;
                 tabPage.Name = Strings.AddTab_NewFile + id;
             }
             else
@@ -236,36 +239,37 @@ namespace Computator.NET.Desktop.Controls
 
         private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TabPages.Remove(SelectedTab);
+            TryCloseTabs(new[] { SelectedTab });
         }
 
         private void closeOtherTabsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var selectedTab = SelectedTab;
-            for (var i = TabPages.Count - 1; i >= 0; i--)
-            {
-                if (TabPages[i] != selectedTab && TabPages[i] != addTabPage)
-                    TabPages.RemoveAt(i);
-            }
-            // Documents.Remove(this.SelectedTab.Text);
-
-            //this.TabPages.();
+            TryCloseTabs(TabPages.Cast<TabPage>().Where(tab => tab != SelectedTab));
         }
 
         private void closeTabsToTheRightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (var i = SelectedIndex + 1; TabPages[i] != SelectedTab && TabPages[i] != addTabPage;)
-            {
-                TabPages.RemoveAt(i);
-            }
+            TryCloseTabs(TabPages.Cast<TabPage>().Skip(SelectedIndex + 1));
         }
 
         private void closeTabsToTheLeftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (var i = 0; TabPages[i] != SelectedTab && TabPages[i] != addTabPage;)
-            {
-                TabPages.RemoveAt(i);
-            }
+            TryCloseTabs(TabPages.Cast<TabPage>().Take(SelectedIndex));
+        }
+
+        public bool TryCloseTabs(IEnumerable<TabPage> tabs)
+        {
+            var documents = tabs.Where(tab => tab != null && tab != addTabPage && TabPages.Contains(tab))
+                .Distinct().ToArray();
+            var request = new DocumentTabsClosingEventArgs(documents);
+            DocumentsClosing?.Invoke(this, request);
+            if (request.Cancel) return false;
+
+            // Approve the complete group before removing any buffer. A later
+            // Cancel must not discard an earlier "Don't save" document.
+            foreach (var document in documents)
+                TabPages.Remove(document);
+            return true;
         }
 
         private void newTabToolStripMenuItem_Click(object sender, EventArgs e)
@@ -283,6 +287,16 @@ namespace Computator.NET.Desktop.Controls
             {
                 AddTab();
             }
+        }
+    }
+
+    public sealed class DocumentTabsClosingEventArgs : CancelEventArgs
+    {
+        public IReadOnlyList<TabPage> Documents { get; }
+
+        public DocumentTabsClosingEventArgs(IReadOnlyList<TabPage> documents)
+        {
+            Documents = documents;
         }
     }
 }

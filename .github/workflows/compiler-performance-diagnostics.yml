@@ -45,7 +45,7 @@ jobs:
         run: |
           '## Compiler attribution diagnostics' | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
           'These instrumented runs do not supply cross-version benchmark observations. Sampled .NET thread stacks include off-CPU time. Phase records use exact generated sources in separate diagnostic hosts and preserve all 33 compilations and correctness checks.' | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: always()
         with:
           name: compiler-performance-attribution

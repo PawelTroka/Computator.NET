@@ -18,7 +18,20 @@ namespace Computator.NET.Core.Functions
 
         public static double random(double x, double y)
         {
-            return x + (y - x)*m_random.NextDouble();
+            return InterpolateRandomRange(x, y, m_random.NextDouble());
+        }
+
+        private static double InterpolateRandomRange(double start, double end, double fraction)
+        {
+            var width = end - start;
+            if (double.IsInfinity(width) && !double.IsInfinity(start) && !double.IsInfinity(end))
+            {
+                // A finite interval can have an unrepresentable width. Its
+                // endpoints then have opposite signs, so weighted endpoints
+                // stay finite without changing the interpolation factor.
+                return (1.0 - fraction)*start + fraction*end;
+            }
+            return start + width*fraction;
         }
 
         public static double random(int x)
@@ -44,7 +57,10 @@ namespace Computator.NET.Core.Functions
 
         public static System.Numerics.Complex random(System.Numerics.Complex z1, System.Numerics.Complex z2)
         {
-            return z1 + (z2 - z1)*m_random.NextDouble();
+            var fraction = m_random.NextDouble();
+            return new System.Numerics.Complex(
+                InterpolateRandomRange(z1.Real, z2.Real, fraction),
+                InterpolateRandomRange(z1.Imaginary, z2.Imaginary, fraction));
         }
 
         public static System.Numerics.Complex random(System.Numerics.Complex z)
@@ -63,7 +79,20 @@ namespace Computator.NET.Core.Functions
 
         public static double random(double x, double y)
         {
-            return x + (y - x)*m_random.NextDouble();
+            return InterpolateRandomRange(x, y, m_random.NextDouble());
+        }
+
+        private static double InterpolateRandomRange(double start, double end, double fraction)
+        {
+            var width = end - start;
+            if (double.IsInfinity(width) && !double.IsInfinity(start) && !double.IsInfinity(end))
+            {
+                // A finite interval can have an unrepresentable width. Its
+                // endpoints then have opposite signs, so weighted endpoints
+                // stay finite without changing the interpolation factor.
+                return (1.0 - fraction)*start + fraction*end;
+            }
+            return start + width*fraction;
         }
 
         public static double random(int x)
@@ -87,7 +116,10 @@ namespace Computator.NET.Core.Functions
 
         public static System.Numerics.Complex random(System.Numerics.Complex z1, System.Numerics.Complex z2)
         {
-            return z1 + (z2 - z1)*m_random.NextDouble();
+            var fraction = m_random.NextDouble();
+            return new System.Numerics.Complex(
+                InterpolateRandomRange(z1.Real, z2.Real, fraction),
+                InterpolateRandomRange(z1.Imaginary, z2.Imaginary, fraction));
         }
 
         public static System.Numerics.Complex random(System.Numerics.Complex z)

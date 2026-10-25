@@ -44,8 +44,6 @@ namespace Computator.NET.Core.Menu.Commands.EditCommands
                 else
                     _applicationManager.SendStringAsKey("^Z");
             }
-
-            _applicationManager.SendStringAsKey("^Z");
         }
     }
 }

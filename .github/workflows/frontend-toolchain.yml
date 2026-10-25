@@ -1,0 +1,48 @@
+name: Frontend toolchain regression
+on:
+  pull_request:
+  push:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+        toolchain: [pinned, issue-257]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        if: matrix.toolchain == 'pinned'
+        with:
+          node-version-file: .nvmrc
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        if: matrix.toolchain == 'issue-257'
+        with:
+          node-version: '24.11.1'
+      - name: Test the actual Cake helpers and asynchronous output capture
+        shell: pwsh
+        env:
+          TOOLCHAIN_CASE: ${{ matrix.toolchain }}
+        run: |
+          $expectedNode = (Get-Content .nvmrc -Raw).Trim()
+          $expectedNpm = (Get-Content Computator.NET.WebClient/package.json -Raw | ConvertFrom-Json).packageManager.Split('@')[1]
+          if ($env:TOOLCHAIN_CASE -eq 'issue-257') {
+            $expectedNode = '24.11.1'
+            $expectedNpm = '11.7.0'
+          }
+          npm install --global "npm@$expectedNpm"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet tool restore
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet cake build/ci/test_frontend_toolchain.cake "--expected-node=$expectedNode" "--expected-npm=$expectedNpm"
+          exit $LASTEXITCODE

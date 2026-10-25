@@ -17,6 +17,12 @@
     <Compile Include="../Shared/OwnedProcessJob.cs" Link="Hosting/OwnedProcessJob.cs" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
     <Content Remove="ClientApp/**;wwwroot/**;package*.json;tsconfig.json;tests/**" />
+    <!-- The Web SDK removes its default Content items from None before the
+         removal above. Include them again so Rider/VS can see the source inputs;
+         only Vite's dist output belongs in the published application. -->
+    <None Include="package*.json;tsconfig.json;wwwroot/**" Exclude="@(None)"
+          CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+    <None Update="package-lock.json" DependentUpon="package.json" />
     <None Update="package*.json;tsconfig.json;vite.config.ts;playwright.config.ts;tests/**;ClientApp/**;wwwroot/**" CopyToPublishDirectory="Never" />
   </ItemGroup>
   <Target Name="PublishFrontend" AfterTargets="ComputeFilesToPublish">

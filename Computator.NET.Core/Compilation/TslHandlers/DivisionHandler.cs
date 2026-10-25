@@ -18,7 +18,7 @@ namespace Computator.NET.Core.Compilation.TslHandlers
         private const string UnarySigns = @"(?:(?:\+(?!\+)|-(?!-))\s*)*";
 
         private static readonly Regex DivisionByIntegerRegex =
-            new Regex(@"[\/]\s*(" + UnarySigns + @")(\d+)([^\.\d]|$)", RegexOptions.Compiled);
+            new Regex(@"[\/]\s*(" + UnarySigns + @")(" + Groups.DecimalDigits + @")([^\.\d_]|$)", RegexOptions.Compiled);
 
         private static readonly Regex DivisionByParenthesisRegex =
             new Regex(@"[\/]\s*(" + UnarySigns + @")(\((?:[^()]|(?<open>\()|(?<-open>\)))+(?(open)(?!))\))", RegexOptions.Compiled);

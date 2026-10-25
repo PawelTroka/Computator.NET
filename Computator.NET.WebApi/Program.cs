@@ -20,8 +20,11 @@ namespace Computator.NET.WebApi
         public static WebApplication BuildApplication(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            // Keep the development listener outside the default Windows dynamic
+            // port range, where reservations can reject binding with WSAEACCES.
+            // An explicit command-line/configuration URL always takes precedence.
             if (string.IsNullOrWhiteSpace(builder.Configuration[WebHostDefaults.ServerUrlsKey]))
-                builder.WebHost.UseUrls("http://localhost:60996");
+                builder.WebHost.UseUrls("http://localhost:5080");
             var startup = new Startup(builder.Configuration);
             startup.ConfigureServices(builder.Services);
             var app = builder.Build();

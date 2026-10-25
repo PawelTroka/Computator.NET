@@ -1,4 +1,6 @@
-Task("Clean-Machine-Harness-Validate").Does(() =>
+Task("Clean-Machine-Harness-Validate")
+    .Description("Test installer acceptance harness contracts without installing the product.")
+    .Does(() =>
 {
     foreach (var script in new[] { "build/acceptance/Test-Harness.ps1", "build/acceptance/Test-HistoricalContracts.ps1", "build/acceptance/Test-MsiInterop.ps1" })
     {
@@ -6,7 +8,9 @@ Task("Clean-Machine-Harness-Validate").Does(() =>
         if (IsRunningOnWindows()) WindowsAcceptancePowerShell(new ProcessArgumentBuilder().Append("-NoProfile -File").AppendQuoted(script));
     }
 });
-Task("Clean-Machine-Prepare").IsDependentOn("Clean-Machine-Harness-Validate").Does(() =>
+Task("Clean-Machine-Prepare")
+    .Description("Prepare and hash a candidate bundle for disposable-machine acceptance.")
+    .IsDependentOn("Clean-Machine-Harness-Validate").Does(() =>
 {
     var msi = Argument("msi", "artifacts/installer/output/Computator.NET.msi");
     var inventory = Argument("inventory", "artifacts/installer/output/payload.xml");
@@ -19,7 +23,9 @@ Task("Clean-Machine-Prepare").IsDependentOn("Clean-Machine-Harness-Validate").Do
         (string.IsNullOrWhiteSpace(bundle) ? "" : " -CandidateBundlePath \"" + bundle + "\"") +
         (string.IsNullOrWhiteSpace(historicalBundle) ? "" : " -HistoricalBundlePath \"" + historicalBundle + "\""));
 });
-Task("Clean-Machine-Verify").Does(() =>
+Task("Clean-Machine-Verify")
+    .Description("Verify supplied clean-machine results against exact candidate MSI/EXE hashes.")
+    .Does(() =>
 {
     var result = Argument("acceptance-result", "");
     var hash = Argument("candidate-sha256", "");

@@ -1,4 +1,4 @@
-# Windows PowerShell 5.1; keep the UTF-8 BOM for Unicode fixtures.
+﻿# Windows PowerShell 5.1; keep the UTF-8 BOM for Unicode fixtures.
 # No dotnet, compiler, package manager or developer SDK is used here.
 [CmdletBinding()]
 param(

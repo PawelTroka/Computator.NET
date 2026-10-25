@@ -276,7 +276,7 @@ class ReleaseTests(unittest.TestCase):
 
     def test_release_cannot_omit_or_reuse_reference_validation(self):
         reference = self.reference_candidate()
-        self.assertEqual(required_reports(self.root)['TestResults/reference.trx'], 153)
+        self.assertEqual(required_reports(self.root)['TestResults/reference.trx'], 166)
         for state in ('missing', 'stale', 'incomplete'):
             with self.subTest(state=state):
                 if state == 'missing':
@@ -293,7 +293,7 @@ class ReleaseTests(unittest.TestCase):
         self.reference_candidate()
         finish(self.root)
         manifest = json.loads((self.root / 'artifacts/release-evidence/manifest.json').read_text())
-        self.assertEqual(manifest['reports']['TestResults/reference.trx']['passed'], 153)
+        self.assertEqual(manifest['reports']['TestResults/reference.trx']['passed'], 166)
         for filename in ('inventory.json', 'coverage.json', 'preview.html'):
             relative = 'artifacts/reference/' + filename
             self.assertEqual(manifest['artifacts'][relative]['sha256'], digest(self.root / relative))

@@ -1,8 +1,12 @@
 // Deployment profile is explicit in this graph, not inferred from the outer
 // target name. An aggregate target gets the same relative-API production assets.
-Task("Local-Web-Assets").IsDependentOn("Web-Restore").Does(() =>
+Task("Local-Web-Assets")
+    .Description("Build frontend assets using the protected relative /api deployment profile.")
+    .IsDependentOn("Web-Restore").Does(() =>
     NodeCommand("npm", "run build", new Dictionary<string, string> { { "VITE_API_BASE_URL", "/api" } }));
-Task("Local-Web-Stage").IsDependentOn("Build").IsDependentOn("Native-GSL").IsDependentOn("Local-Web-Assets").Does(() =>
+Task("Local-Web-Stage")
+    .Description("Windows: stage and smoke-test the self-contained local frontend/API package.")
+    .IsDependentOn("Build").IsDependentOn("Native-GSL").IsDependentOn("Local-Web-Assets").Does(() =>
 {
     if (!IsRunningOnWindows()) throw new Exception("The chart-backed local package currently supports Windows x64.");
     CleanDirectory("artifacts/local-web");
@@ -25,15 +29,21 @@ Task("Local-Web-Stage").IsDependentOn("Build").IsDependentOn("Native-GSL").IsDep
     System.IO.File.WriteAllText("artifacts/local-web/Start-Computator.cmd", "@echo off\r\ncd /d \"%~dp0webclient\"\r\nComputator.NET.WebClient.exe\r\n");
     System.IO.File.WriteAllText("artifacts/local-web/README.txt", "Run Start-Computator.cmd. Both hosts are local and the API token is generated automatically. Closing the launcher stops its owned API. This runs trusted code with your permissions; it is not a sandbox or a public server. No SDK or Node installation is required by this self-contained package.\r\n");
 });
-Task("Local-Web-Archive").IsDependentOn("Local-Web-Stage").Does(() =>
+Task("Local-Web-Archive")
+    .Description("Windows: create and extract the candidate local-web ZIP for acceptance.")
+    .IsDependentOn("Local-Web-Stage").Does(() =>
 {
     EnsureDirectoryExists("publish");
     PackagePayload("artifacts/local-web", "publish/Computator.NET.LocalWeb.win-x64.zip", "Start-Computator.cmd");
     PowerShell("build/local-web/Expand-Candidate.ps1");
 });
-Task("Local-Web-Validate").IsDependentOn("Local-Web-Archive").IsDependentOn("Web-Browsers").Does(() =>
+Task("Local-Web-Validate")
+    .Description("Windows: validate the extracted local package and owned-process shutdown.")
+    .IsDependentOn("Local-Web-Archive").IsDependentOn("Web-Browsers").Does(() =>
 {
     NodeCommand("npx", "playwright test --config playwright.local-package.config.ts");
     PowerShell("build/local-web/Assert-Stopped.ps1");
 });
-Task("Local-Web-Package").IsDependentOn("Local-Web-Validate");
+Task("Local-Web-Package")
+    .Description("Windows: build the local-web ZIP and require extracted-package acceptance.")
+    .IsDependentOn("Local-Web-Validate");
