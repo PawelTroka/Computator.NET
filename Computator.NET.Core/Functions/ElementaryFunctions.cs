@@ -147,6 +147,15 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double sech(double x)
         {
+            var magnitude = System.Math.Abs(x);
+            if (magnitude > 710)
+            {
+                // cosh can overflow while its reciprocal is still representable.
+                // The exp(-2*|x|) denominator correction is negligible here.
+                // Double before multiplying so the final subnormals round once.
+                var tail = System.Math.Exp(-magnitude / 2);
+                return (2 * tail) * tail;
+            }
             return 1.0/System.Math.Cosh(x);
         }
 
@@ -155,6 +164,15 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double csch(double x)
         {
+            var magnitude = System.Math.Abs(x);
+            if (magnitude > 710)
+            {
+                // Avoid sinh overflow and preserve the final subnormal values.
+                // exp(-2*|x|) cannot affect the rounded denominator in this range.
+                var tail = System.Math.Exp(-magnitude / 2);
+                var value = (2 * tail) * tail;
+                return x < 0 ? -value : value;
+            }
             return 1.0/System.Math.Sinh(x);
         }
 
@@ -163,7 +181,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description("angielski opis funkcji*/
         public static double cosech(double x)
         {
-            return 1.0/System.Math.Sinh(x);
+            return csch(x);
         }
 
         #endregion
@@ -1358,6 +1376,15 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double sech(double x)
         {
+            var magnitude = System.Math.Abs(x);
+            if (magnitude > 710)
+            {
+                // cosh can overflow while its reciprocal is still representable.
+                // The exp(-2*|x|) denominator correction is negligible here.
+                // Double before multiplying so the final subnormals round once.
+                var tail = System.Math.Exp(-magnitude / 2);
+                return (2 * tail) * tail;
+            }
             return 1.0/System.Math.Cosh(x);
         }
 
@@ -1366,6 +1393,15 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double csch(double x)
         {
+            var magnitude = System.Math.Abs(x);
+            if (magnitude > 710)
+            {
+                // Avoid sinh overflow and preserve the final subnormal values.
+                // exp(-2*|x|) cannot affect the rounded denominator in this range.
+                var tail = System.Math.Exp(-magnitude / 2);
+                var value = (2 * tail) * tail;
+                return x < 0 ? -value : value;
+            }
             return 1.0/System.Math.Sinh(x);
         }
 
@@ -1374,7 +1410,7 @@ namespace Computator.NET.Core.Functions
          System.ComponentModel.Description(""angielski opis funkcji*/
         public static double cosech(double x)
         {
-            return 1.0/System.Math.Sinh(x);
+            return csch(x);
         }
 
         #endregion
