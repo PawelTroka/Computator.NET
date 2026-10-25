@@ -23,10 +23,24 @@ test('surface uses real WebGL rotation, zoom, labels and exported PNG without a 
     return route.fulfill({ json: grid, headers });
   });
   await page.goto('/'); await edit(page, 'x*x+y*y');
+  const hasWebGL = await page.evaluate(() => {
+    try {
+      const probe = document.createElement('canvas');
+      return Boolean(probe.getContext('webgl') || probe.getContext('webgl2'));
+    } catch { return false; }
+  });
   const before = page.waitForRequest('**/api/v2/chart');
   await page.getByRole('button', { name: 'Draw chart!' }).click(); await before;
   const surface = page.getByTestId('surface-chart');
   await expect(surface).toBeVisible();
+  if (!hasWebGL) {
+    // Software-only headless Firefox (not a production Firefox installation)
+    // must fail visibly, never claim a working 3D scene or PNG export.
+    await expect(page.getByRole('alert')).toContainText('WebGL is unavailable.');
+    await expect(page.getByRole('button', { name: 'Download PNG' })).toBeDisabled();
+    expect(requests).toHaveLength(1);
+    return;
+  }
   await expect(page.getByText('Interactive surface ready.', { exact: false })).toBeVisible({ timeout: 20000 });
   await expect.poll(() => surface.locator('canvas').count()).toBeGreaterThan(0);
   expect(requests).toHaveLength(1);

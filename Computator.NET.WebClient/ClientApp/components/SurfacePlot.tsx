@@ -77,6 +77,12 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
     let resize: ResizeObserver | null = null;
     const start = async () => {
       try {
+        // Plotly can resolve newPlot while showing a noninteractive "WebGL is
+        // not supported" placeholder. Do not mark that state as successful or
+        // offer a PNG export that will fail with a missing graphics context.
+        const probe = document.createElement('canvas');
+        const context = probe.getContext('webgl') || probe.getContext('webgl2');
+        if (!context) throw new Error('WebGL is unavailable. Enable graphics acceleration or use a WebGL-capable browser for interactive 3D surfaces.');
         // Load the offline, pinned WebGL surface bundle only for f(x,y).
         const { default: Plotly } = await import('plotly.js-gl3d-dist-min');
         if (disposed) return;

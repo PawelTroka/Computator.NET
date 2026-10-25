@@ -32,6 +32,11 @@ at undefined points, tooltips, responsive resize without reevaluation, and PNG
 export of the composed view. In environments without functional WebGL, the
 application reports a rendering error instead of claiming to draw a surface.
 The client validates array shape/counts before passing data to Plotly.
+A functional WebGL context is a prerequisite: if disabled or unavailable
+(e.g. a software-only headless Firefox runner), the app displays a clear
+rendering error and disables image export instead of showing a fake 3D
+success state. Windows Chromium and Firefox real-API E2E verify interactive
+camera changes and PNG export when WebGL is available.
 
 Alternatives considered: server-side WinForms/WPF screenshots would still be
 noninteractive and Windows-only; a custom Three.js scene would require separate
