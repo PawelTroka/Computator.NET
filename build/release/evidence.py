@@ -13,13 +13,13 @@ import xml.etree.ElementTree as ET
 from versioning import check
 
 REPORTS = {
-    'TestResults/Computator.NET.Core.Tests.trx': 804,
+    'TestResults/Computator.NET.Core.Tests.trx': 2071,
     'TestResults/Computator.NET.Core.IntegrationTests.trx': 947,
-    'TestResults/Computator.NET.Desktop.Tests.trx': 263,
-    'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 117,
-    'TestResults/portable.trx': 605,
-    'TestResults/reference.trx': 153,
-    'Computator.NET.WebClient/test-results/results.xml': 172,
+    'TestResults/Computator.NET.Desktop.Tests.trx': 551,
+    'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 130,
+    'TestResults/portable.trx': 1438,
+    'TestResults/reference.trx': 166,
+    'Computator.NET.WebClient/test-results/results.xml': 242,
     'Computator.NET.WebClient/test-results/e2e.xml': 10,
     'Computator.NET.WebClient/test-results/custom-functions.xml': 26,
 }

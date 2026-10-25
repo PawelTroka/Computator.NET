@@ -44,6 +44,6 @@ Task("Reference-Validate")
     .Description("Windows: test the reference catalogue and verify committed text/equations/figures.")
     .IsDependentOn("Build").IsDependentOn("Web-Restore").Does(() =>
 {
-    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx", 153);
+    ReferenceTest("FullyQualifiedName~AutocompletionTests.FunctionReference", "reference.trx", 166);
     MaterializeReference(true);
 });

@@ -25,7 +25,7 @@ Task("Portable-Test")
         Configuration = configuration, NoBuild = true, NoRestore = true, ResultsDirectory = "TestResults",
         Loggers = new[] { "trx;LogFileName=portable.trx" }
     });
-    PowerShell("build/Assert-TestResults.ps1", "-Path " + report + " -MinimumTests 605");
+    PowerShell("build/Assert-TestResults.ps1", "-Path " + report + " -MinimumTests 1438");
 });
 Task("Portable-Publish")
     .Description("Any OS: test, publish and exercise the portable CLI process interface.")
