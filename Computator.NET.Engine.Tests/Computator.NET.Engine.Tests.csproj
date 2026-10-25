@@ -5,6 +5,8 @@
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile><NuGetAudit>true</NuGetAudit><NuGetAuditMode>all</NuGetAuditMode>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Exercise the editor's lexical block detection on every supported OS. -->
+    <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/AvalonEdit/BraceFoldingRanges.cs" Link="Editors/BraceFoldingRanges.cs" />
     <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexTicksLayout.cs" Link="Charting/ComplexTicksLayout.cs" />
