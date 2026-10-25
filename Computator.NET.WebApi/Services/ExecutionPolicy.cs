@@ -15,6 +15,7 @@ namespace Computator.NET.WebApi.Services
         public const int MaximumOutputCharacters = 65536;
         public const int MaximumDimension = 4096;
         public const long MaximumPixels = 4194304;
+        public const int MaximumSurfaceGridSize = 129;
         public const uint MaximumIterations = 1000000;
         public const uint MaximumDerivativeOrder = 10;
 
@@ -31,7 +32,12 @@ namespace Computator.NET.WebApi.Services
             Source(errors, "expression", request.Expression, false);
             Source(errors, "customFunctions", request.CustomFunctions, true);
             if (!ValidNumbers(request)) errors["parameters"] = new[] { "Numeric parameters must be finite and within the documented iteration/order/error limits." };
-            if (chart) Chart(errors, request.Width, request.Height, request.XMin, request.XMax, request.YMin, request.YMax);
+            if (chart)
+            {
+                Chart(errors, request.Width, request.Height, request.XMin, request.XMax, request.YMin, request.YMax);
+                if (request.GridSize < 9 || request.GridSize > MaximumSurfaceGridSize)
+                    errors["gridSize"] = new[] { $"Surface sampling requires 9–{MaximumSurfaceGridSize} points per axis." };
+            }
             else
             {
                 if (!new[] { "calculate", "script", "integral", "derivative", "function-root" }.Contains(request.Operation))

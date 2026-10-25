@@ -9,6 +9,7 @@ using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Functions;
 using Computator.NET.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -74,7 +75,19 @@ namespace Computator.NET.WebApi.Controllers
             try
             {
                 var mode = _mode.DetermineMode(request.Expression, request.CustomFunctions);
-                if (mode == CalculationsMode.Fxy) return UnprocessableEntity(new ProblemDetails { Title = "Server-side 3D rendering is not implemented." });
+                if (mode == CalculationsMode.Fxy)
+                {
+                    // Preserve the PNG contract for existing real/complex charts.
+                    // Surface samples are numerical data, not server-side bitmap rendering.
+                    var surfaceFunction = new ExpressionsEvaluator().Evaluate(request.Expression, request.CustomFunctions, mode);
+                    if (surfaceFunction.FunctionType != FunctionType.Real3D)
+                        return UnprocessableEntity(new ProblemDetails { Title = "Implicit 3D equations are not supported as height surfaces." });
+                    var surface = SurfaceSampler.Sample(surfaceFunction, request.XMin, request.XMax,
+                        request.YMin, request.YMax, request.GridSize, HttpContext?.RequestAborted ?? CancellationToken.None);
+                    if (surface.FiniteSamples < 3)
+                        return UnprocessableEntity(new ProblemDetails { Title = "The selected domain contains too few finite surface samples." });
+                    return Ok(surface);
+                }
                 var function = new ExpressionsEvaluator().Evaluate(request.Expression, request.CustomFunctions, mode);
                 chart = _charts.Create(mode); chart.AddFunction(function);
                 chart.XMin = request.XMin; chart.XMax = request.XMax;
@@ -107,6 +120,7 @@ namespace Computator.NET.WebApi.Controllers
         public double Epsilon { get; set; } = 1e-6;
         public int Width { get; set; } = 600;
         public int Height { get; set; } = 400;
+        public int GridSize { get; set; } = 65;
         public double XMin { get; set; } = -5;
         public double XMax { get; set; } = 5;
         public double YMin { get; set; } = -5;
