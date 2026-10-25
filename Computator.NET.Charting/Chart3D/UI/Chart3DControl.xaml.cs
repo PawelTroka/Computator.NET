@@ -40,7 +40,7 @@ namespace Computator.NET.Charting.Chart3D.UI
 
         private readonly ImagePrinter imagePrinter = new ImagePrinter();
         private readonly Random random = new Random();
-        private Color _axesColor = Colors.MediumSlateBlue;
+        private Color _axesColor = Color.FromRgb(71, 85, 105);
         private double _dotSize = 0.02;
         private bool _equalAxes = true;
         private double _scale = 0.5;
@@ -419,14 +419,25 @@ namespace Computator.NET.Charting.Chart3D.UI
             output.Arrange(new Rect(new Point(), logicalSize));
             output.UpdateLayout();
             var labels = axisLabels.CopyTo(canvas);
-            if (m_3dChart != null && m_3dChart.GetDataNo() > 0)
-                labels.Reload(m_3dChart.GetAxes(), m_transformMatrix, viewport, VisibilityAxes, AxesColor);
-            output.UpdateLayout();
+            try
+            {
+                if (m_3dChart != null && m_3dChart.GetDataNo() > 0)
+                    labels.Reload(m_3dChart.GetAxes(), m_transformMatrix, viewport, VisibilityAxes, AxesColor,
+                        Model3D.GetGeometry(mainViewport, m_nChartModelIndex), dpi / 96,
+                        m_3dChart is UniformSurfaceChart3D);
+                output.UpdateLayout();
 
-            var bitmap = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
-            bitmap.Render(output);
-            renderedLabels = labels.Annotations.Labels.ToArray();
-            return bitmap;
+                var bitmap = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
+                bitmap.Render(output);
+                renderedLabels = labels.Annotations.Labels.ToArray();
+                return bitmap;
+            }
+            finally
+            {
+                // The export shares the scene mesh, so release its Changed
+                // subscription and depth index even if rendering fails.
+                labels.Remove();
+            }
         }
 
         public void Redraw()
@@ -629,9 +640,9 @@ namespace Computator.NET.Charting.Chart3D.UI
 
             ArrayList meshs = null;
             if (mode == Chart3DMode.Points)
-                meshs = ((ScatterChart3D) m_3dChart).GetMeshes();
+                meshs = ((ScatterChart3D) m_3dChart).GetMeshes(includeAxes: false);
             else if (mode == Chart3DMode.Surface)
-                meshs = ((UniformSurfaceChart3D) m_3dChart).GetMeshes();
+                meshs = ((UniformSurfaceChart3D) m_3dChart).GetMeshes(includeAxes: false);
 
             m_nChartModelIndex = new Model3D().UpdateModel(meshs,
                 m_3dChart is UniformSurfaceChart3D ? _backMaterial : null, m_nChartModelIndex, mainViewport);
@@ -758,7 +769,9 @@ namespace Computator.NET.Charting.Chart3D.UI
             group1.Children.Add(new MatrixTransform3D(m_transformMatrix.m_totalMatrix));
 
             if (m_3dChart != null && m_3dChart.GetDataNo() > 0)
-                axisLabels.Reload(m_3dChart.GetAxes(), m_transformMatrix, mainViewport, VisibilityAxes, AxesColor);
+                axisLabels.Reload(m_3dChart.GetAxes(), m_transformMatrix, mainViewport, VisibilityAxes, AxesColor,
+                    Model3D.GetGeometry(mainViewport, m_nChartModelIndex),
+                    occludeBackFaces: m_3dChart is UniformSurfaceChart3D);
             else
                 axisLabels.Remove();
         }
