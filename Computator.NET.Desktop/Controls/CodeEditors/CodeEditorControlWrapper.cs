@@ -230,6 +230,10 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             if (string.IsNullOrEmpty(filename))
             {
                 tabControl.AddTab();
+                // Mono can select an inserted tab before this control is shown
+                // without raising SelectedIndexChanged. Materialize its buffer
+                // now so background blank tabs also participate in safe close.
+                TabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
                 return;
             }
 
