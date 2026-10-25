@@ -43,11 +43,9 @@ namespace Computator.NET.Core.Menu.Commands.EditCommands
             {
                 if (customFunctionsCodeEditor.Focused)
                     customFunctionsCodeEditor.SelectAll();
-                //  else
-                _applicationManager.SendStringAsKey("^A");
+                else
+                    _applicationManager.SendStringAsKey("^A");
             }
-
-            _applicationManager.SendStringAsKey("^A");
         }
     }
 }

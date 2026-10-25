@@ -48,8 +48,6 @@ namespace Computator.NET.Core.Menu.Commands.EditCommands
                 else
                     _applicationManager.SendStringAsKey("^Y");
             }
-
-            _applicationManager.SendStringAsKey("^Y");
         }
     }
 }
