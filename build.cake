@@ -2,6 +2,7 @@
 // Original target names and Task/IsDependentOn/Does pattern are retained.
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+#load "./build/frontend-toolchain.cake"
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", EnvironmentVariable("configuration") ?? EnvironmentVariable("build_config") ?? "Release");
@@ -24,6 +25,7 @@ if (suite != "All" && !suites.ContainsKey(suite)) throw new Exception("Unknown t
 string temporaryProfile = null;
 var previousDataDirectory = EnvironmentVariable("COMPUTATOR_DATA_DIRECTORY");
 var previousFixture = EnvironmentVariable("COMPUTATOR_LEGACY_FIXTURE");
+string frontendCommandPrefix = null;
 
 void CheckedProcess(string executable, ProcessSettings settings)
 {
@@ -35,8 +37,30 @@ void PowerShell(string script, string arguments = "", string executable = "pwsh"
     var args = new ProcessArgumentBuilder().Append("-NoProfile").Append("-File").AppendQuoted(script).Append(arguments);
     CheckedProcess(executable, new ProcessSettings { Arguments = args });
 }
+string FrontendCommandPrefix()
+{
+    if (frontendCommandPrefix != null) return frontendCommandPrefix;
+    var node = System.IO.File.ReadAllText(".nvmrc").Trim();
+    var npm = Regex.Match(System.IO.File.ReadAllText(webDirectory + "/package.json"),
+        "\"packageManager\"\\s*:\\s*\"npm@(?<version>[0-9]+\\.[0-9]+\\.[0-9]+)\"").Groups["version"].Value;
+    var installedNode = FrontendToolVersion("node", webDirectory);
+    var installedNpm = FrontendToolVersion("npm", webDirectory);
+    var prefix = SelectFrontendCommandPrefix(node, npm, installedNode, installedNpm);
+    if (prefix.Length != 0)
+        Information("Using pinned Node {0} and npm {1} from npm's local tool cache (PATH has Node {2}, npm {3}).", node, npm, installedNode, installedNpm);
+    // npm exec adds both exact-version tools to the child PATH. Lifecycle scripts,
+    // Vite and nested IDE builds therefore use the same Node/npm without a global
+    // install, a relaxed engine policy or changes to the application lockfile.
+    return frontendCommandPrefix = prefix;
+}
 void NodeCommand(string executable, string arguments, IDictionary<string, string> environment = null)
 {
+    var prefix = FrontendCommandPrefix();
+    if (prefix.Length != 0)
+    {
+        arguments = prefix + executable + " " + arguments;
+        executable = "npm";
+    }
     // Windows npm/npx launchers are command scripts. Arguments are repository-owned.
     CheckedProcess(IsRunningOnWindows() ? "cmd.exe" : executable, new ProcessSettings
     {

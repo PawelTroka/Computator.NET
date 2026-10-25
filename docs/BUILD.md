@@ -27,6 +27,14 @@ dotnet cake build.cake --target=Build
 dotnet cake build.cake --showdescription
 ```
 
+### Frontend tools when launching from an IDE
+
+The development WebClient automatically invokes Cake `Web-Build` when its frontend assets are missing or stale. Cake checks the Node and npm versions inherited from the IDE before any frontend command. If they differ from `.nvmrc` and `packageManager`, it uses `npm exec` to run the exact pinned versions from npm's local tool cache. This also applies to frontend builds, publishing and browser tests started directly through Cake. The first such build needs registry access; later builds reuse the cache. Global Node/npm installations and the application lockfile are not changed, and `engine-strict=true`, `npm ci` and the audit remain enabled.
+
+Automatic selection requires an installed Node from the repository's selected major version or newer (currently Node 24+) and npm 7 or newer. Earlier Node majors may not be able to install the pinned npm before the new Node runs, so they receive an actionable prerequisite error. If Node/npm are missing, too old, or the machine cannot access the registry, install the versions recorded in `.nvmrc` and `Computator.NET.WebClient/package.json`, restart the IDE so it inherits the updated `PATH`, and retry. Direct `npm ci` / `npm run dev` commands still use the tools on your shell's `PATH`; the automatic selection belongs to Cake. For example, Node 24.11.1 with npm 11.7.0 can start the source WebClient through Cake without globally upgrading either tool.
+
+## Cake targets
+
 | Target | Dependencies and result |
 | --- | --- |
 | `Clean`, `Restore`, `Build` | Clean generated output only; audited restore; Release/Debug solution compilation. Restore does not unexpectedly delete the previous build. |

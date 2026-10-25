@@ -58,10 +58,10 @@ npm run dev
 Start the mathematical API separately **on Windows**:
 
 ```powershell
-dotnet run --project Computator.NET.WebApi -- --urls http://localhost:60996
+dotnet run --project Computator.NET.WebApi -- --urls http://localhost:5080
 ```
 
-The Vite UI runs at `http://127.0.0.1:5173`; its compatibility API default is `http://localhost:60996/api`. For the protected local deployment, build with `VITE_API_BASE_URL=/api` and configure the server-side token and fixed loopback backend described in [WEB-E2E.md](docs/followups/WEB-E2E.md). Direct `dotnet publish` of the frontend host also delegates frontend compilation to Cake.
+The Vite UI runs at `http://127.0.0.1:5173`; its compatibility API default is `http://localhost:5080/api`. For the protected local deployment, build with `VITE_API_BASE_URL=/api` and configure the server-side token and fixed loopback backend described in [WEB-E2E.md](docs/followups/WEB-E2E.md). Direct `dotnet publish` of the frontend host also delegates frontend compilation to Cake.
 
 Web custom functions now support unsaved edits, explicit tab-session saves and UTF-8 `.tslf` import/export. JSON execution requests carry definitions separately for each request. The real browser suites cover calculation, scripts, numerical integration and chart images against the actual API. Symbolic calculation and server-side 3D rendering remain unfinished.
 
