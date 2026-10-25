@@ -33,4 +33,4 @@ For rapid frontend iteration, `npm run dev` still provides Vite's development se
 
 `./build.ps1 -Target Web-IDE-Validate` deletes the repository-owned generated dist directory, launches both real projects as source applications, checks deep routes/assets and verifies changing calculation results. It also replaces dist with a relative-API build, then starts a second source frontend on the existing development origin localhost:5082 and verifies that startup restores the direct-API profile. Ports 5080, 5081 and 5082 must be free. It is separate from the published-host suites so a successful publish cannot hide a broken IDE launch. Interactive IDE debugging remains a manual acceptance check.
 
-The IDE profiles use the trusted-local direct development API mode. The packaged local workspace uses the protected proxy and a private session token; neither mode is a public execution sandbox.
+Source development uses the explicit trusted-local Development API mode. The implemented [protected local package](LOCAL-WEB-PACKAGE.md) provides a separate self-contained launcher, private backend token and owned API process. Neither mode is a public execution sandbox.

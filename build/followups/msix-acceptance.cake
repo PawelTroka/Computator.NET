@@ -1,5 +1,9 @@
-Task("MSIX-Activation-Contracts").Does(() => PowerShell("build/msix/Test-ActivationContracts.ps1"));
-Task("MSIX-Signed-Acceptance").IsDependentOn("MSIX-Activation-Contracts").Does(() =>
+Task("MSIX-Activation-Contracts")
+    .Description("Validate MSIX activation and launch contracts without installing a package.")
+    .Does(() => PowerShell("build/msix/Test-ActivationContracts.ps1"));
+Task("MSIX-Signed-Acceptance")
+    .Description("Disposable Windows: install and test an explicitly supplied signed MSIX.")
+    .IsDependentOn("MSIX-Activation-Contracts").Does(() =>
 {
     var package = Argument("signed-package", "");
     var signer = Argument("signer-thumbprint", "");

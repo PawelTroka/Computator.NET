@@ -1,0 +1,329 @@
+{
+  "issue": "https://github.com/PawelTroka/Computator.NET/issues/255",
+  "pullRequest": "https://github.com/PawelTroka/Computator.NET/pull/263",
+  "capture": "Native Windows WPF production renderer, copied without resizing or retouching.",
+  "scope": "RenderTargetBitmap DPI; physical multi-monitor transitions were not simulated.",
+  "comparison": "Default-settings and dpi-192 retain the baseline scene recipes; dpi-192 explicitly sets black text in both revisions.",
+  "baseline": {
+    "sourceCommit": "b6b33b13d1e15ec56cbff5f66f1bb0d750854a5b",
+    "testedCommit": "b6b33b13d1e15ec56cbff5f66f1bb0d750854a5b",
+    "tree": "42f52a0c340bb5313df7fde2f5ab895829ee5beb",
+    "workflowRun": 40043303079,
+    "desktopJob": 120719128219,
+    "artifact": 12540865126,
+    "artifactZipSha256": "606257e9b632d5268048fc2e925e70b26dfa5ceb8fed1111dffd76588aeb773b",
+    "desktopTests": {
+      "total": 418,
+      "passed": 418,
+      "failed": 0,
+      "skipped": 0
+    },
+    "verifiedImageCount": 12,
+    "sourceHashes": [
+      {
+        "path": "Computator.NET.Charting/Axes/AxisTickGenerator.cs",
+        "capturedSha256": "9560c71107d52c7dc8f3bc3da68d4d807cd31e70f38df54c6e6b4e7f4c705e9f",
+        "repositoryBlobSha256": "aad9161a958256b67c523076c5a00fccd7dc3f81578563b2718070c7b07a9528",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/Chart3DAxis.cs",
+        "capturedSha256": "47ecbe45e6c6e26a026b62ce79036e2873035251391270cfa7994728ab7df0e8",
+        "repositoryBlobSha256": "6972f9a4f90708affdb5f205439db6595c44981d6bd58b8cfc62aab94412f064",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/Chart3DAxisAnnotations.cs",
+        "capturedSha256": "cbd25b70f4b0be66d6295cec6d5f7d5161908a6f6507d6368edf5265125ce585",
+        "repositoryBlobSha256": "e018633bc1658942f95f7a6b7769e95f6ee4a4f536c66002e3ee85f5b4ce5f7a",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/AxisLabels.cs",
+        "capturedSha256": "ff46fb6fc86fa2455e052a0229258e6ccf2e4eca2d862823ccb97784aeee2e01",
+        "repositoryBlobSha256": "2d477e3edcc067b946e4aa72c14d7b9c69a4cb8284a50295d20346b6cc7b1418",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/Chart3D.cs",
+        "capturedSha256": "93296865231ee526e396443393300857f6a4b16a287c2166b41ca032dbe653c2",
+        "repositoryBlobSha256": "66a86d3dbba7630828f2621d11461527d4157f4fe6307355cd1a29a2be46e709",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/TransformMatrix.cs",
+        "capturedSha256": "12dc977af09ed2f9ea981b0e89d7bd0aee4a9bd0b4fd9e460563164cb18c4278",
+        "repositoryBlobSha256": "8cf6f4361f6b96f4435f62f7855407938bbbfe95f9b42870decd0ceaf9dddadb",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/UI/Chart3DControl.xaml.cs",
+        "capturedSha256": "3fc9664d6a9fbaaa2b84a002d41847ed729285712238ecf20ec9900e0cf5fc6b",
+        "repositoryBlobSha256": "e86f6af4622016b34ebf071d041861b278e95524462a1e40095799fbcb0a01f8",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Desktop.Tests/Chart3DAxisRenderingTests.cs",
+        "capturedSha256": "5cc361e179244556992461612ff9bbf6aae0b7a0a26e292a8beb95beadcf5ec0",
+        "repositoryBlobSha256": "17186b855262df40a1af3423d8e732c3434ce449dd119c8d244c8727290d9660",
+        "matchingRepresentation": "CRLF checkout"
+      }
+    ],
+    "images": [
+      {
+        "file": "before-default.png",
+        "artifactFile": "default-settings.png",
+        "sha256": "ab7631be4cdf6bda5d8cdb7c01162b02135ad6e90c5a983df65dd711c76ed570",
+        "scene": {
+          "Name": "default-settings",
+          "Width": 800,
+          "Height": 600,
+          "Dpi": 96,
+          "Minimum": -5,
+          "Maximum": 5,
+          "DefaultSettings": true,
+          "yMinimum": -5,
+          "yMaximum": 5,
+          "function": "(x + y) / 2",
+          "xUnit": null,
+          "yUnit": null,
+          "Scale": 0.5,
+          "EqualAxes": true,
+          "labelColor": "#FFDAA520"
+        }
+      },
+      {
+        "file": "before-dpi-192.png",
+        "artifactFile": "dpi-192.png",
+        "sha256": "3a835c36c72c7ab30b950d07f3d8d4086b0c8bfe3f21bbfabb867b8bbb8f6f41",
+        "scene": {
+          "Name": "dpi-192",
+          "Width": 1600,
+          "Height": 1200,
+          "Dpi": 192,
+          "Minimum": -5,
+          "Maximum": 5,
+          "DefaultSettings": false,
+          "yMinimum": -5,
+          "yMaximum": 5,
+          "function": "(x + y) / 2",
+          "xUnit": null,
+          "yUnit": null,
+          "Scale": 0.3375,
+          "EqualAxes": false,
+          "labelColor": "#FF000000"
+        }
+      }
+    ],
+    "nativeManifestSha256": "765be44a2d559d4fc817a81135b4bf2268a5aca69479c3d6cba080c48478c3e9"
+  },
+  "candidate": {
+    "sourceCommit": "b39ae29cac877f5eb7f3ddb0bb5fa904ca504cdc",
+    "testedCommit": "1ee2f00821c8b3162a293f680ebdb91fcea96e14",
+    "tree": "dd1fe2bf548124192e0911a1f1caf35e8bf2d67f",
+    "testMergeParents": [
+      "b6b33b13d1e15ec56cbff5f66f1bb0d750854a5b",
+      "b39ae29cac877f5eb7f3ddb0bb5fa904ca504cdc"
+    ],
+    "workflowRun": 40098522959,
+    "desktopJob": 120885710574,
+    "artifact": 12561569494,
+    "artifactZipSha256": "71650d10cc79db53cdf6d66516ac2c3b9954b91bec0a6515fa788b09bf017565",
+    "desktopTests": {
+      "total": 468,
+      "executed": 468,
+      "passed": 468,
+      "failed": 0,
+      "error": 0,
+      "timeout": 0,
+      "aborted": 0,
+      "inconclusive": 0,
+      "passedButRunAborted": 0,
+      "notRunnable": 0,
+      "notExecuted": 0,
+      "disconnected": 0,
+      "warning": 0,
+      "completed": 0,
+      "inProgress": 0,
+      "pending": 0
+    },
+    "axisRelatedCases": {
+      "existingWpf": 21,
+      "newWpf": 19,
+      "analyticalGeometry": 31
+    },
+    "portableEngineTests": {
+      "total": 882,
+      "passed": 882,
+      "failed": 0,
+      "skipped": 0
+    },
+    "verifiedImageCount": 19,
+    "sourceHashes": [
+      {
+        "path": "Computator.NET.Charting/Axes/AxisTickGenerator.cs",
+        "capturedSha256": "9560c71107d52c7dc8f3bc3da68d4d807cd31e70f38df54c6e6b4e7f4c705e9f",
+        "repositoryBlobSha256": "aad9161a958256b67c523076c5a00fccd7dc3f81578563b2718070c7b07a9528",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Axes/ProjectedMeshOcclusion.cs",
+        "capturedSha256": "12c82baaa5943e9c81e877f5d460dec2f92df98b6aa24239daf64ec65d4314e8",
+        "repositoryBlobSha256": "bed7395d631cd8e83e16b5daa8f1fb77a60c659485092dfebf427fbb30e7ec4a",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/Chart3DAxis.cs",
+        "capturedSha256": "47ecbe45e6c6e26a026b62ce79036e2873035251391270cfa7994728ab7df0e8",
+        "repositoryBlobSha256": "6972f9a4f90708affdb5f205439db6595c44981d6bd58b8cfc62aab94412f064",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/Chart3DAxisAnnotations.cs",
+        "capturedSha256": "269a294516d247f285fa00ab735b867037e77f84cc45cddb288f1e0719cc86e9",
+        "repositoryBlobSha256": "55ece2cf0e062478ef819e46f1215c423d62aedc05895a38105defe438f5d85c",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/AxisLabels.cs",
+        "capturedSha256": "b9e60b686faf54765b9a2673cac3359458b907c5540f33fbe662a5c999adf135",
+        "repositoryBlobSha256": "30f9a0d5318a5d1b08a671626d907411702db029d373e8e574661f4e2dee5b16",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/Chart3D.cs",
+        "capturedSha256": "93296865231ee526e396443393300857f6a4b16a287c2166b41ca032dbe653c2",
+        "repositoryBlobSha256": "66a86d3dbba7630828f2621d11461527d4157f4fe6307355cd1a29a2be46e709",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/Chart3D/TransformMatrix.cs",
+        "capturedSha256": "12dc977af09ed2f9ea981b0e89d7bd0aee4a9bd0b4fd9e460563164cb18c4278",
+        "repositoryBlobSha256": "8cf6f4361f6b96f4435f62f7855407938bbbfe95f9b42870decd0ceaf9dddadb",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Charting/Chart3D/UI/Chart3DControl.xaml.cs",
+        "capturedSha256": "e862ace6288389588b3538f7ff81addc180f790d24611d3e918a1bd8f92704b2",
+        "repositoryBlobSha256": "e6ca046fb732b434f97bd15bfe64a70862504b82c4b8e35b7ce6f41c7e7c378d",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Desktop.Tests/Chart3DAxisRenderingTests.cs",
+        "capturedSha256": "5157a79752c1cc9cb028b01ffb01b529ba846e1e60cd164965c4745c9493bc32",
+        "repositoryBlobSha256": "83f2ae36804fe5cb9144f3542a5169d09d24aed86e403356cd7643d6277f30a7",
+        "matchingRepresentation": "CRLF checkout"
+      },
+      {
+        "path": "Computator.NET.Desktop.Tests/Chart3DAxisOcclusionTests.cs",
+        "capturedSha256": "56c55218563f6ff55771c85cae8bec2125eb0352910480391d95f9c24126440e",
+        "repositoryBlobSha256": "aed3a8ba30399011d7feb6b0c0dedc52f6a489de84e19a4975b2d9fc2b27fd55",
+        "matchingRepresentation": "CRLF checkout"
+      }
+    ],
+    "images": [
+      {
+        "file": "after-default.png",
+        "artifactFile": "default-settings.png",
+        "sha256": "32bf97af4323c2c88f2fc8cb7b7ee963ecf3ad88c85652c2547451bd21be5c38",
+        "scene": {
+          "Name": "default-settings",
+          "Width": 800,
+          "Height": 600,
+          "Dpi": 96,
+          "Minimum": -5,
+          "Maximum": 5,
+          "DefaultSettings": true,
+          "yMinimum": -5,
+          "yMaximum": 5,
+          "function": "(x + y) / 2",
+          "AdditionalYaw": 0,
+          "AdditionalPitch": 0,
+          "ZoomSteps": 0,
+          "xUnit": null,
+          "yUnit": null,
+          "Scale": 0.5,
+          "EqualAxes": true,
+          "labelColor": "#FF334155"
+        }
+      },
+      {
+        "file": "after-dpi-192.png",
+        "artifactFile": "dpi-192.png",
+        "sha256": "880f4ff60afc59c802e0ae7df9594529dae69e45c75d14cfd5586c4a9eaa2a2c",
+        "scene": {
+          "Name": "dpi-192",
+          "Width": 1600,
+          "Height": 1200,
+          "Dpi": 192,
+          "Minimum": -5,
+          "Maximum": 5,
+          "DefaultSettings": false,
+          "yMinimum": -5,
+          "yMaximum": 5,
+          "function": "(x + y) / 2",
+          "AdditionalYaw": 0,
+          "AdditionalPitch": 0,
+          "ZoomSteps": 0,
+          "xUnit": null,
+          "yUnit": null,
+          "Scale": 0.3375,
+          "EqualAxes": false,
+          "labelColor": "#FF000000"
+        }
+      },
+      {
+        "file": "after-waves-occluded.png",
+        "artifactFile": "waves-occluded.png",
+        "sha256": "936194ed30686c8aaa9951001f777cd87e9f0ba68382f143212ec174debe4bad",
+        "scene": {
+          "Name": "waves-occluded",
+          "Width": 1000,
+          "Height": 750,
+          "Dpi": 96,
+          "Minimum": -3,
+          "Maximum": 3,
+          "DefaultSettings": false,
+          "yMinimum": -3,
+          "yMaximum": 3,
+          "function": "sin(x) * cos(y)",
+          "AdditionalYaw": -60,
+          "AdditionalPitch": 50,
+          "ZoomSteps": 0,
+          "xUnit": null,
+          "yUnit": null,
+          "Scale": 0.3375,
+          "EqualAxes": false,
+          "labelColor": "#FF000000"
+        }
+      },
+      {
+        "file": "after-plane-occluded.png",
+        "artifactFile": "plane-hidden-y-axis.png",
+        "sha256": "2ecf68161c6cc48a12ae45860c6e3fab3d7c7170afe7f7e4589617ef5e9f9700",
+        "scene": {
+          "Name": "plane-hidden-y-axis",
+          "Width": 800,
+          "Height": 600,
+          "Dpi": 96,
+          "Minimum": -5,
+          "Maximum": 5,
+          "DefaultSettings": false,
+          "yMinimum": -5,
+          "yMaximum": 5,
+          "function": "(x + y) / 2",
+          "AdditionalYaw": -72,
+          "AdditionalPitch": 36,
+          "ZoomSteps": 0,
+          "xUnit": null,
+          "yUnit": null,
+          "Scale": 0.3375,
+          "EqualAxes": false,
+          "labelColor": "#FF000000"
+        }
+      }
+    ],
+    "nativeManifestSha256": "2d171a528e635ed1e0e3d367b428d82a994ff649651a4990d1c2b6d7d8e103d1",
+    "nativeTrxSha256": "e2fa12bdb16fb470741e23c55f0533bf9cb9a8f35c93dc0dfbdb605b2268c1f4"
+  }
+}

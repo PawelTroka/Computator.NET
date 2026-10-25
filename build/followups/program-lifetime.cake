@@ -1,4 +1,6 @@
-Task("Program-Lifetime-Validate").IsDependentOn("Build").Does(() =>
+Task("Program-Lifetime-Validate")
+    .Description("Windows: build and run focused compiled-program lifetime regression tests.")
+    .IsDependentOn("Build").Does(() =>
 {
     var report = "TestResults/program-lifetime.trx";
     if (FileExists(report)) DeleteFile(report);

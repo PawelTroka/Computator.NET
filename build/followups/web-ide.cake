@@ -1,4 +1,6 @@
-Task("Web-IDE-Validate").IsDependentOn("Build").IsDependentOn("Web-Browsers").Does(() =>
+Task("Web-IDE-Validate")
+    .Description("Windows: test fresh source-host startup with the actual mathematical API.")
+    .IsDependentOn("Build").IsDependentOn("Web-Browsers").Does(() =>
 {
     if (!IsRunningOnWindows()) throw new Exception("This developer workflow starts the real Windows mathematical API.");
     // A published/previously built dist must not conceal the reported fresh-clone 404.
