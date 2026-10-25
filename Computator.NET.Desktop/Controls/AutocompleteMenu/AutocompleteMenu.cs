@@ -344,6 +344,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         {
             if (disposing)
             {
+                UnsubscribeForm();
                 _timer.Dispose();
                 Host.Dispose();
             }
@@ -448,7 +449,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             {
                 if (_myForm == form)
                     return;
-                UnsubscribeForm(wrapper);
+                UnsubscribeForm();
             }
 
             _myForm = form;
@@ -459,15 +460,16 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             form.LostFocus += Form_LocationChanged;
         }
 
-        private void UnsubscribeForm(ITextBoxWrapper wrapper)
+        private void UnsubscribeForm()
         {
-            var form = wrapper?.TargetControl?.FindForm();
+            var form = _myForm;
             if (form == null) return;
 
             form.LocationChanged -= Form_LocationChanged;
             form.ResizeBegin -= Form_LocationChanged;
             form.FormClosing -= Form_FormClosing;
             form.LostFocus -= Form_LocationChanged;
+            _myForm = null;
         }
 
         private void Form_FormClosing(object sender, FormClosingEventArgs e)
@@ -501,6 +503,8 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         private void Control_KeyDown(object sender, KeyEventArgs e)
         {
             TargetControlWrapper = FindWrapper(sender as Control);
+            // Editors can bind before their containing window has been created.
+            SubscribeForm(TargetControlWrapper);
 
             var backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
 
@@ -585,6 +589,17 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         internal void ShowAutocomplete(bool forced)
         {
+            SubscribeForm(TargetControlWrapper);
+            var target = TargetControlWrapper?.TargetControl;
+            // A delayed timer can run inside a modal message loop after the
+            // editor lost focus. It must not reopen a topmost popup/help window.
+            if (target == null || target.IsDisposed || !target.Visible || !target.Enabled ||
+                (!target.ContainsFocus && !Host.ContainsFocus))
+            {
+                Close();
+                return;
+            }
+
             if (forced)
                 _forcedOpened = true;
 
@@ -746,6 +761,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public void Close()
         {
+            _timer.Stop();
             (Host.ListView as AutocompleteListView).CloseToolTip();
             Host.Close();
             _forcedOpened = false;
