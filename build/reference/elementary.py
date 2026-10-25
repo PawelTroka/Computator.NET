@@ -105,7 +105,12 @@ def _describe(item, values):
           'exp':('Exponential','Raises Euler’s number to a real or complex power.','exp(x+i·y)=exp(x)·(cos(y)+i·sin(y)).','Finite real or complex argument; large real parts can overflow or underflow.','exp(0) = 1'),
           'pow':('Power','Raises the first argument to the second. The real and complex overloads share this completion signature.','pow(x,y)=xʸ; for nonzero complex x, exp(y·Log(x)).','Real negative bases with nonintegral exponents can produce NaN. The complex overload selects a branch, not all possible powers.','pow(2,3) = 8'),
           'sqrt':('Square root','Selects the nonnegative real square root, or the principal complex square root.','sqrt(t)²=t.','The real-input wrapper promotes negative x to a complex result; its return type is dynamic. Complex input returns the principal root.','sqrt(-1) = i'),
-          'root':('Root by reciprocal exponent',P('Computes a power with exponent ', M('1/n', '1/n'), '; it does not enumerate all roots.'),'root(t,n)=pow(t,1/n).','Use n≠0. Negative real t is promoted to a complex power when its reciprocal exponent is nonintegral. Thus an odd real n does not guarantee the negative real root.','root(8,3) ≈ 2')
+          'root':('Root by reciprocal exponent',P('Computes a power with exponent ', M('1/n', '1/n'), '; it does not enumerate all roots.'),'root(t,n)=pow(t,1/n).','Use n≠0. Complex arguments use the principal complex power; an odd real n does not select the negative real root for a complex argument.','root(8,3) ≈ 2')
         }[name]
+        if name=='root' and not complex_input:
+            title='Root of a real number'
+            formula='root(x,n) = −pow(−x,1/n) for x<0 and odd integer n.'
+            domain='Use n≠0. For negative real x and finite nonzero integer n, odd n selects the negative real root and even n selects the principal complex power. Negative integer indices return reciprocal roots. Other real indices retain the reciprocal-exponent convention and can produce NaN.'
+            example='root(-8,3) ≈ -2; root(-8,-3) ≈ -0.5'
         return A(title,definition,formula,domain,alias,example,DLMF+'4.2')
     raise KeyError('Undocumented elementary function '+signature)

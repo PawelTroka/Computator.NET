@@ -19401,17 +19401,17 @@
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/StatisticsFunctions.cs</Url>
   </FunctionInfo>
   <FunctionInfo Signature="root(x,n)">
-    <Title>Root by reciprocal exponent</Title>
+    <Title>Root of a real number</Title>
     <Type>ElementaryFunctions</Type>
     <Category>Root functions</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>T root(real x, real n)</code></p>
 <p class="reference-summary">Computes a power with exponent <img class="reference-math-inline" src="reference-equations/bdab1563ee8cc49440d829a1118bac55db9a1b51a8e5b46e32649e49f859882c.png" alt="1/n" width="33" height="21" data-depth="275" />; it does not enumerate all roots.</p>
-<p class="reference-formula"><strong>Definition / convention:</strong> <code>root(t,n)=pow(t,1/n).</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Use n≠0. Negative real t is promoted to a complex power when its reciprocal exponent is nonintegral. Thus an odd real n does not guarantee the negative real root.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>root(x,n) = −pow(−x,1/n) for x&lt;0 and odd integer n.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Use n≠0. For negative real x and finite nonzero integer n, odd n selects the negative real root and even n selects the principal complex power. Negative integer indices return reciprocal roots. Other real indices retain the reciprocal-exponent convention and can produce NaN.</p>
 <p class="reference-explanation">An n-th root solves a power equation; a complex nonzero number has n distinct roots for positive integer n. This helper selects the branch described in the argument guidance, not all roots at once. Use the original convention to decide what negative real inputs mean.</p>
-<p class="reference-example"><strong>Example:</strong> root(8,3) ≈ 2</p>
-<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/5f8c1ea5855526d3187b1ffc644a3ae64c5b3e64b57c702491b65b39417ea6c4.png" alt="root(t,n)=pow(t,1/n)." width="69" height="23" /></p>
+<p class="reference-example"><strong>Example:</strong> root(-8,3) ≈ -2; root(-8,-3) ≈ -0.5</p>
+<p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/5f8c1ea5855526d3187b1ffc644a3ae64c5b3e64b57c702491b65b39417ea6c4.png" alt="root(x,n) = −pow(−x,1/n) for x&lt;0 and odd integer n." width="69" height="23" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://dlmf.nist.gov/4.2">dlmf.nist.gov</a></p>
 </div>]]></Description>
     <Url>https://dlmf.nist.gov/4.2</Url>
@@ -19424,7 +19424,7 @@
 <p class="reference-signature"><code>complex root(complex z, complex n)</code></p>
 <p class="reference-summary">Computes a power with exponent <img class="reference-math-inline" src="reference-equations/bdab1563ee8cc49440d829a1118bac55db9a1b51a8e5b46e32649e49f859882c.png" alt="1/n" width="33" height="21" data-depth="275" />; it does not enumerate all roots.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>root(t,n)=pow(t,1/n).</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> Use n≠0. Negative real t is promoted to a complex power when its reciprocal exponent is nonintegral. Thus an odd real n does not guarantee the negative real root.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Use n≠0. Complex arguments use the principal complex power; an odd real n does not select the negative real root for a complex argument.</p>
 <p class="reference-explanation">An n-th root solves a power equation; a complex nonzero number has n distinct roots for positive integer n. This helper selects the branch described in the argument guidance, not all roots at once. Use the original convention to decide what negative real inputs mean.</p>
 <p class="reference-example"><strong>Example:</strong> root(8,3) ≈ 2</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/5f8c1ea5855526d3187b1ffc644a3ae64c5b3e64b57c702491b65b39417ea6c4.png" alt="root(t,n)=pow(t,1/n)." width="69" height="23" /></p>
