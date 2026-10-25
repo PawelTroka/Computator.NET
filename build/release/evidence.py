@@ -15,7 +15,7 @@ from versioning import check
 REPORTS = {
     'TestResults/Computator.NET.Core.Tests.trx': 2118,
     'TestResults/Computator.NET.Core.IntegrationTests.trx': 947,
-    'TestResults/Computator.NET.Desktop.Tests.trx': 551,
+    'TestResults/Computator.NET.Desktop.Tests.trx': 557,
     'TestResults/Computator.NET.WebApi.IntegrationTests.trx': 130,
     'TestResults/portable.trx': 1438,
     'TestResults/reference.trx': 166,

@@ -18,7 +18,7 @@ var suites = new Dictionary<string, int>
     { "Computator.NET.Core.Tests", modernRuntime ? 2118 : 225 },
     { "Computator.NET.Core.IntegrationTests", 947 },
     { "Computator.NET.WebApi.IntegrationTests", modernRuntime ? 130 : 52 },
-    { "Computator.NET.Desktop.Tests", modernRuntime ? 551 : 9 }
+    { "Computator.NET.Desktop.Tests", modernRuntime ? 557 : 9 }
 };
 if (configuration != "Debug" && configuration != "Release") throw new Exception("Configuration must be Debug or Release.");
 if (suite != "All" && !suites.ContainsKey(suite)) throw new Exception("Unknown test suite: " + suite);
