@@ -67,8 +67,6 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         }
 
 #if __MonoCS__
-        protected override bool ShowWithoutActivation => true;
-
         private void ShowMonoReference(Control owner)
         {
             if (!owner.IsHandleCreated || !owner.Visible) return;
