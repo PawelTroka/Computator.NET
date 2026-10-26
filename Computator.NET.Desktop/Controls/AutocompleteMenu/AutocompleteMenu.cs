@@ -60,7 +60,13 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             Enabled = true;
             AppearInterval = 500;
             _timer.Tick += Timer_Tick;
+#if __MonoCS__
+            // On Mono a 2,000-pixel completion menu obscures the editor and
+            // leaves no room for its function reference. Size to the items.
+            var preferred = new Size(580, 360).DpiScale();
+#else
             var preferred = new Size(2000, 420).DpiScale();
+#endif
             var available = Screen.FromControl(Host).WorkingArea.Size;
             MaximumSize = new Size(Math.Min(preferred.Width, Math.Max(1, available.Width - 4)),
                 Math.Min(preferred.Height, Math.Max(1, available.Height - 4)));
@@ -577,6 +583,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         private void Control_LostFocus(object sender, EventArgs e)
         {
+#if __MonoCS__
+            // Mono raises TextBox.LostFocus before the clicked dropdown child
+            // receives its mouse event. Keep the pending click alive.
+            if (Host.Visible && (Host.ContainsFocus || Host.Bounds.Contains(Control.MousePosition)))
+                return;
+#endif
             if (!Host.Focused) Close();
         }
 
@@ -657,7 +669,13 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                     point = TargetControlWrapper.GetPositionFromCharIndex(Fragment.Start);
                     point.Offset(2, TargetControlWrapper.TargetControl.Font.Height + 2);
                     //
+#if __MonoCS__
+                    point = GetMonoMenuPosition(point);
+#endif
                     Host.Show(TargetControlWrapper.TargetControl, point);
+#if __MonoCS__
+                    ShowMonoSelectedReference();
+#endif
                     if (CaptureFocus)
                     {
                         (Host.ListView as Control).Focus();
@@ -666,8 +684,65 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 }
             }
             else
+            {
+#if __MonoCS__
+                // The number of matches, and hence the popup size, can change
+                // on every keystroke. Clamp it again after each reflow.
+                var point = TargetControlWrapper.GetPositionFromCharIndex(Fragment.Start);
+                point.Offset(2, TargetControlWrapper.TargetControl.Font.Height + 2);
+                Host.Location = TargetControlWrapper.TargetControl.PointToScreen(GetMonoMenuPosition(point));
+                ShowMonoSelectedReference();
+#endif
                 (Host.ListView as Control).Invalidate();
+            }
         }
+#if __MonoCS__
+        private void SizeMonoList()
+        {
+            var list = (AutocompleteListView)Host.ListView;
+            var area = Screen.FromControl(TargetControlWrapper.TargetControl).WorkingArea;
+            var maximumWidth = Math.Max(1, Math.Min(MaximumSize.Width, area.Width - 8));
+            var measuredWidth = new Size(240, 0).DpiScale().Width;
+            // Measure a bounded sample; measuring thousands of suggestions
+            // for every character would make the editor feel unresponsive.
+            var count = Math.Min(VisibleItems.Count, 64);
+            for (var i = 0; i < count; i++)
+                measuredWidth = Math.Max(measuredWidth,
+                    TextRenderer.MeasureText(VisibleItems[i].MenuText ?? "", list.Font,
+                        new Size(4000, list.ItemHeight), TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix).Width
+                    + LeftPadding + SystemInformation.VerticalScrollBarWidth + 8);
+            if (SelectedItemIndex >= count && SelectedItemIndex < VisibleItems.Count)
+                measuredWidth = Math.Max(measuredWidth,
+                    TextRenderer.MeasureText(VisibleItems[SelectedItemIndex].MenuText ?? "", list.Font,
+                        new Size(4000, list.ItemHeight), TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix).Width
+                    + LeftPadding + SystemInformation.VerticalScrollBarWidth + 8);
+            var height = Math.Min(MaximumSize.Height, Math.Max(list.ItemHeight + 1,
+                VisibleItems.Count * list.ItemHeight + 1));
+            list.Size = new Size(Math.Min(maximumWidth, measuredWidth), height);
+            list.AutoScrollMinSize = new Size(0, VisibleItems.Count * list.ItemHeight + 1);
+        }
+
+        private Point GetMonoMenuPosition(Point requestedClientPoint)
+        {
+            var control = TargetControlWrapper.TargetControl;
+            var caret = control.PointToScreen(requestedClientPoint);
+            var area = Screen.FromPoint(caret).WorkingArea;
+            var x = Math.Max(area.Left + 2, Math.Min(caret.X, area.Right - Host.Width - 2));
+            var above = caret.Y - control.Font.Height - Host.Height - 4;
+            var y = caret.Y + Host.Height <= area.Bottom - 2
+                ? caret.Y
+                : above >= area.Top + 2 ? above : area.Bottom - Host.Height - 2;
+            y = Math.Max(area.Top + 2, Math.Min(y, area.Bottom - Host.Height - 2));
+            return control.PointToClient(new Point(x, y));
+        }
+
+        private void ShowMonoSelectedReference()
+        {
+            if (SelectedItemIndex < 0 || SelectedItemIndex >= VisibleItems.Count || !Host.Visible)
+                return;
+            ((AutocompleteListView)Host.ListView).ShowToolTip(VisibleItems[SelectedItemIndex]);
+        }
+#endif
         private readonly ISharedViewState _sharedViewState;
 
         private void BuildAutocompleteList(bool forced)
@@ -717,6 +792,9 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                 SelectedItemIndex = 0;
 
             Host.ListView.HighlightedItemIndex = -1;
+#if __MonoCS__
+            SizeMonoList();
+#endif
             Host.CalcSize();
         }
 
@@ -894,7 +972,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
         public bool ProcessKey(char c, Keys keyModifiers)
         {
+#if __MonoCS__
+            var list = (AutocompleteListView)Host.ListView;
+            var page = Math.Max(1, list.ClientSize.Height / Math.Max(1, list.ItemHeight));
+#else
             var page = Host.Height/(Font.Height + 4);
+#endif
             if (keyModifiers == Keys.None)
                 switch ((Keys) c)
                 {

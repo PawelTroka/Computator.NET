@@ -21,7 +21,7 @@ On Ubuntu 24.04, install the GUI and native runtime prerequisites:
 ```sh
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
-  mono-devel libgdiplus libgsl-dev fonts-dejavu-core xvfb xauth
+  mono-devel libgdiplus libgsl-dev fonts-dejavu-core xvfb xauth xdotool
 ```
 
 `libgsl-dev` supplies the unversioned library name used by Mono's P/Invoke loader.

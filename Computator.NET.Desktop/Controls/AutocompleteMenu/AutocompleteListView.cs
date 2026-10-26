@@ -48,7 +48,12 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             formTip = new WebBrowserForm();
             Colors = new Colors();
             AutoScaleMode=AutoScaleMode.Font;
+#if __MonoCS__
+            AutoSize = false;
+            AutoScroll = true;
+#else
             AutoSize = true;
+#endif
         }
 
 
@@ -113,6 +118,7 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             {
                 visibleItems = value;
                 SelectedItemIndex = -1;
+                oldItemCount = -1;
                 AdjustScroll();
                 Invalidate();
             }
@@ -134,7 +140,15 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
                 if (item != null)
                 {
+#if __MonoCS__
+                    // Filtering selects an item before the menu has been placed.
+                    // Showing the help at that point can steal focus or put it
+                    // at an unrelated screen origin on Mono.
+                    if (Parent is AutocompleteMenuHost host && host.Visible)
+                        ShowToolTip(item);
+#else
                     ShowToolTip(item);
+#endif
                     ScrollToSelected();
                 }
 
@@ -338,9 +352,17 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
 
             if (e.Button == MouseButtons.Left)
             {
-                SelectedItemIndex = PointToItemIndex(e.Location);
+                var index = PointToItemIndex(e.Location);
+                if (index < 0 || VisibleItems == null || index >= VisibleItems.Count)
+                    return;
+                SelectedItemIndex = index;
                 ScrollToSelected();
                 Invalidate();
+#if __MonoCS__
+                // A Mono popup can lose its focus between two clicks, so the
+                // usual Windows double-click-to-accept isn't dependable.
+                OnItemSelected();
+#endif
             }
         }
 
@@ -364,9 +386,11 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);
+#if !__MonoCS__
             SelectedItemIndex = PointToItemIndex(e.Location);
             Invalidate();
             OnItemSelected();
+#endif
         }
 
         private void OnItemSelected()
