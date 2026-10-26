@@ -36,6 +36,7 @@ namespace Computator.NET.Charting.ComplexCharting
         //  private Task RedrawTask;
         private  ComplexPoint[,] _pointsValues;
         private bool _redrawing = false;
+        public string LastRenderError { get; private set; }
         private long _redrawVersion;
         private Function function;
         private Bitmap image = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
@@ -352,6 +353,7 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void AddFunction(Function Fz)
         {
+            LastRenderError = null;
             function = Fz;
             Title = Fz.Name;
             Redraw();
@@ -451,6 +453,7 @@ namespace Computator.NET.Charting.ComplexCharting
 
         public void ClearAll()
         {
+            LastRenderError = null;
             ++_redrawVersion;
             function = null;
             _pointsValues = null;
@@ -498,9 +501,18 @@ namespace Computator.NET.Charting.ComplexCharting
                     }
                     catch (Exception) when (function == null || IsDisposed || version != _redrawVersion)
                     {
-                        // A discarded evaluation must not show an error after a new
-                        // plot, clear or close. Current evaluation errors still propagate.
+                        // Superseded evaluations should never report an error.
                         continue;
+                    }
+                    catch (Exception exception)
+                    {
+                        // A failed background evaluation must not tear down the
+                        // WinForms UI via this async-void event-path method.
+                        // Keep the control usable and show a visible diagnostic.
+                        Logger.Error(exception, "Complex chart asynchronous redraw failed.");
+                        LastRenderError = exception.Message;
+                        Invalidate();
+                        break;
                     }
                     if (function == null || IsDisposed || version != _redrawVersion)
                     {
@@ -526,6 +538,15 @@ namespace Computator.NET.Charting.ComplexCharting
         protected override void OnPaint(PaintEventArgs pe)
         {
             PaintOn(pe.Graphics, ClientRectangle, image);
+            if (!string.IsNullOrWhiteSpace(LastRenderError))
+            {
+                var bounds = Rectangle.Inflate(ClientRectangle, -12, -12);
+                if (bounds.Width > 0 && bounds.Height > 0)
+                    TextRenderer.DrawText(pe.Graphics, "Complex chart rendering failed: " + LastRenderError,
+                        Font, new Rectangle(bounds.Left, bounds.Top, bounds.Width, Math.Min(90, bounds.Height)),
+                        Color.DarkRed, BackColor,
+                        TextFormatFlags.WordBreak | TextFormatFlags.Left | TextFormatFlags.Top);
+            }
         }
 
 
