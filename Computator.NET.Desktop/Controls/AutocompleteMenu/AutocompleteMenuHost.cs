@@ -14,7 +14,13 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         public AutocompleteMenuHost(AutocompleteMenu menu)
         {
             AutoClose = false;
+#if __MonoCS__
+            // WinForms/Mono's autosizing can override the list's measured
+            // dimensions and restore a screen-wide popup.
+            AutoSize = false;
+#else
             AutoSize = true;
+#endif
             
             Margin = Padding.Empty;
             Padding = Padding.Empty;
@@ -74,6 +80,17 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
             }
         }
 
+#if __MonoCS__
+        protected override bool ShowWithoutActivation => true;
+
+        private bool KeepMonoPopup()
+        {
+            var target = Menu.TargetControlWrapper?.TargetControl;
+            return (target != null && target.ContainsFocus) ||
+                   ContainsFocus || Bounds.Contains(Control.MousePosition);
+        }
+#endif
+
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             using (var brush = new SolidBrush(listView.Colors.BackColor))
@@ -89,12 +106,18 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);
+#if __MonoCS__
+            if (KeepMonoPopup()) return;
+#endif
             if (!(ListView as Control).Focused)
                 Close();
         }
 
         private void ListView_LostFocus(object sender, EventArgs e)
         {
+#if __MonoCS__
+            if (KeepMonoPopup()) return;
+#endif
             if (!Focused)
                 Close();
         }
