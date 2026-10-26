@@ -28,6 +28,8 @@ internal static partial class Program
         chart.Quality = 50; // Reproduce the production default sampling quality.
         Application.DoEvents();
         Console.WriteLine("Complex UI initial: " + DescribeComplexLayout(chart));
+        Check(chart.Parent.Controls.GetChildIndex(chart) == 0,
+            "Active complex chart is underneath another chart window in Mono/X11.");
         Check(window.Visible && chart.Visible && chart.IsHandleCreated && chart.Width > 200 && chart.Height > 150,
             "Complex plot does not have a visible, sized, native X11 control: " + DescribeComplexLayout(chart));
 
