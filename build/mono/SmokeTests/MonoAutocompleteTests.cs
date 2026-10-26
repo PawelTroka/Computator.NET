@@ -77,6 +77,7 @@ internal static partial class Program
                 Check(reference.Text.Contains("Sine reference") && reference.ReadOnly,
                     "The native text reference is missing or editable.");
                 Check(input.ContainsFocus, "Opening autocomplete moved keyboard focus away from the editor.");
+                InspectX11WindowStack(window, input, host, list, help);
                 CaptureAutocompleteX11(window, host, help, "autocomplete-after.png");
 
                 // Keyboard selection and insertion through the real X11 input
@@ -233,6 +234,35 @@ internal static partial class Program
         {
             Application.DoEvents();
             Thread.Sleep(12);
+        }
+    }
+
+    private static void InspectX11WindowStack(Form window, Control input, ToolStripDropDown menu,
+        Control list, ToolStripDropDown reference)
+    {
+        var details = "window=" + window.Bounds + " input=" + input.RectangleToScreen(input.ClientRectangle)
+            + " menu=" + menu.Bounds + " list=" + list.RectangleToScreen(list.ClientRectangle)
+            + " reference=" + reference.Bounds
+            + " visible(menu,ref)=" + menu.Visible + "," + reference.Visible
+            + " parent=" + list.Parent?.GetType().FullName + Environment.NewLine;
+        using (var process = Process.Start(new ProcessStartInfo("xwininfo", "-root -tree")
+        {
+            UseShellExecute = false, RedirectStandardOutput = true,
+            RedirectStandardError = true, CreateNoWindow = true
+        }))
+        {
+            details += process.StandardOutput.ReadToEnd() + Environment.NewLine
+                + process.StandardError.ReadToEnd();
+            Check(process.WaitForExit(6000), "xwininfo hung during native window inspection.");
+        }
+        File.WriteAllText(Path.Combine(outputDirectory, "autocomplete-x11-windows.log"), details);
+        Console.WriteLine(details);
+        var screen = Screen.FromControl(window).Bounds;
+        using (var bitmap = new Bitmap(screen.Width, screen.Height))
+        {
+            using (var graphics = Graphics.FromImage(bitmap))
+                graphics.CopyFromScreen(screen.Location, Point.Empty, screen.Size);
+            bitmap.Save(Path.Combine(outputDirectory, "autocomplete-entire-x11-screen.png"), ImageFormat.Png);
         }
     }
 
