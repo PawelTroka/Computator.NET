@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 internal static class Program
@@ -89,7 +90,8 @@ public sealed class StartupRunner : MarshalByRefObject
                                 Console.WriteLine("Production complex chart: visible=" + chart.Visible +
                                     " bounds=" + chart.Bounds + " colored-pixels=" + colorPixels);
                                 if (colorPixels <= 200)
-                                    throw new InvalidOperationException("Production executable did not paint z² after its real Draw action.");
+                                    throw new InvalidOperationException("Production executable did not paint z² after its real X11 Draw action; " +
+                                        DescribeComplexFunctionState(chart));
                                 shown = true;
                                 timer.Stop();
                                 form.Close();
@@ -118,9 +120,10 @@ public sealed class StartupRunner : MarshalByRefObject
                             throw new InvalidOperationException("The real application window did not paint its control tree (" + colors.Count + " sampled colors).");
                         bitmap.Save(Path.Combine(outputDirectory, "startup.png"), ImageFormat.Png);
                     }
-                    BeginProductionComplexPlot(form, outputDirectory);
+                    // Mark the transition before pumping nested X11 events during the click.
                     complexRequested = true;
                     complexStartedAt = watch.Elapsed.TotalSeconds;
+                    BeginProductionComplexPlot(form, outputDirectory);
                 }
                 catch (Exception error)
                 {
@@ -171,8 +174,59 @@ public sealed class StartupRunner : MarshalByRefObject
         using (var before = CaptureX11Pixels(chart))
             before.Save(Path.Combine(outputDirectory, "production-complex-before.png"), ImageFormat.Png);
         expression.Text = "z²";
-        draw.PerformClick();
-        Console.WriteLine("Production executable complex UI Draw was clicked; bounds=" + chart.Bounds);
+        var clickCount = 0;
+        draw.Click += (sender, args) => clickCount++;
+        // Button.PerformClick() is not a substitute for a native Mono/X11
+        // pointer action. The previous probe could remain blank even though
+        // the bootstrapped desktop's XTEST Draw action painted successfully.
+        ClickProductionDrawOnX11(draw);
+        if (clickCount != 1)
+            throw new InvalidOperationException("X11 Draw did not reach the production button Click event; count=" + clickCount);
+        Console.WriteLine("Production executable real X11 Draw clicked once; bounds=" + chart.Bounds +
+            "; expression=" + expression.Text + "; " + DescribeComplexFunctionState(chart));
+    }
+
+    private static string DescribeComplexFunctionState(Control chart)
+    {
+        var function = chart.GetType().GetField("function", BindingFlags.Instance | BindingFlags.NonPublic);
+        var error = chart.GetType().GetProperty("LastRenderError", BindingFlags.Instance | BindingFlags.Public);
+        return "function-assigned=" + (function != null && function.GetValue(chart) != null) +
+            "; async-error=" + (error == null ? "(unavailable)" : (error.GetValue(chart, null) ?? "(none)"));
+    }
+
+    [DllImport("libX11.so.6")]
+    private static extern IntPtr XOpenDisplay(IntPtr displayName);
+    [DllImport("libX11.so.6")]
+    private static extern int XCloseDisplay(IntPtr display);
+    [DllImport("libX11.so.6")]
+    private static extern int XSync(IntPtr display, int discard);
+    [DllImport("libXtst.so.6")]
+    private static extern int XTestFakeMotionEvent(IntPtr display, int screen, int x, int y, ulong delay);
+    [DllImport("libXtst.so.6")]
+    private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int press, ulong delay);
+
+    private static void ClickProductionDrawOnX11(Button draw)
+    {
+        var center = draw.PointToScreen(new Point(draw.Width / 2, draw.Height / 2));
+        var display = XOpenDisplay(IntPtr.Zero);
+        if (display == IntPtr.Zero)
+            throw new InvalidOperationException("Cannot open X11 display for production Draw acceptance.");
+        try
+        {
+            if (XTestFakeMotionEvent(display, 0, center.X, center.Y, 0) == 0)
+                throw new InvalidOperationException("Cannot position native pointer over production Draw.");
+            XSync(display, 0);
+            Application.DoEvents();
+            if (XTestFakeButtonEvent(display, 1, 1, 0) == 0)
+                throw new InvalidOperationException("Native X11 Draw press failed.");
+            XSync(display, 0);
+            Application.DoEvents();
+            if (XTestFakeButtonEvent(display, 1, 0, 0) == 0)
+                throw new InvalidOperationException("Native X11 Draw release failed.");
+            XSync(display, 0);
+            Application.DoEvents();
+        }
+        finally { XCloseDisplay(display); }
     }
 
     private static Bitmap CaptureX11Pixels(Control control)
