@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Computator.NET.Charting.Chart3D.UI;
 using Computator.NET.Charting.ComplexCharting;
@@ -6,11 +7,17 @@ using Computator.NET.Charting.RealCharting;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+#if __MonoCS__
+using Computator.NET.DataTypes.Events;
+#endif
 
 namespace Computator.NET.Desktop.Views
 {
     public partial class ChartingView : UserControl, IChartingView
     {
+#if __MonoCS__
+        private readonly Action<CalculationsModeChangedEvent> _showMonoChart;
+#endif
         public ChartingView(ChartAreaValuesView chartAreaValuesView, Chart2D chart2D, ComplexChart complexChart, Chart3DControl chart3D) : this()
         {
             chartAreaValuesView.Dock = DockStyle.Right;
@@ -40,6 +47,26 @@ namespace Computator.NET.Desktop.Views
 #endif
                 (Control) chartAreaValuesView,
             });
+#if __MonoCS__
+            // All three chart controls are docked Fill in the same panel.
+            // Hiding a sibling does not reliably lower its native X11 window
+            // on every Mono/WinForms backend. Select the active chart's actual
+            // z-order as well as its Visible flag (set by the presenter).
+            _showMonoChart = mode =>
+            {
+                IChart active;
+                if (!Charts.TryGetValue(mode.CalculationsMode, out active))
+                    return;
+                var control = active as Control;
+                if (control == null || control.IsDisposed)
+                    return;
+                control.BringToFront();
+                control.Invalidate();
+            };
+            EventAggregator.Instance.Subscribe(_showMonoChart);
+            Disposed += (sender, args) =>
+                EventAggregator.Instance.Unsubscribe(_showMonoChart);
+#endif
         }
 
         private ChartingView()
