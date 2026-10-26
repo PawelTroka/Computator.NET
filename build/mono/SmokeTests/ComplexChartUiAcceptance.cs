@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Computator.NET.Charting.ComplexCharting;
@@ -24,7 +25,7 @@ internal static partial class Program
         EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(CalculationsMode.Complex));
         var view = bootstrapper.Create<ChartingView>();
         var chart = (ComplexChart)view.ComplexChart;
-        chart.Quality = 25; // Keep interactive acceptance quick on hosted Mono.
+        chart.Quality = 50; // Reproduce the production default sampling quality.
         Application.DoEvents();
         Console.WriteLine("Complex UI initial: " + DescribeComplexLayout(chart));
         Check(window.Visible && chart.Visible && chart.IsHandleCreated && chart.Width > 200 && chart.Height > 150,
@@ -36,7 +37,11 @@ internal static partial class Program
         bootstrapper.Create<ITextProvider>().Text = "z²";
         var draw = Find(window, "addToChartButton") as Button;
         Check(draw != null && draw.Visible && draw.Enabled, "Real desktop Draw button is not available.");
-        draw.PerformClick();
+        var paintCalls = 0;
+        chart.Paint += (sender, args) => paintCalls++;
+        for (var attempt = 0; attempt < 5; attempt++)
+            ClickActualX11Button(draw); // Real pointer/button events, as in production.
+        Console.WriteLine("X11 Draw clicks delivered (five attempted), initial chart paints: " + paintCalls);
 
         // The production chart uses async sampling. Pump the real message loop
         // until its background calculation and native invalidation have completed.
@@ -56,7 +61,7 @@ internal static partial class Program
         {
             last.Save(System.IO.Path.Combine(outputDirectory, "complex-visible-after.png"), ImageFormat.Png);
             Console.WriteLine("Complex UI after draw: " + DescribeComplexLayout(chart) +
-                "; colored pixels: " + colored + "; elapsed: " + timer.Elapsed);
+                "; colored pixels: " + colored + "; elapsed: " + timer.Elapsed + "; chart paint calls: " + paintCalls);
             Check(colored > 200,
                 "z² was not painted in the actual Linux/X11 window despite clicking Draw; " +
                 "on-screen domain color pixels: " + colored);
@@ -105,4 +110,36 @@ internal static partial class Program
         }
         return count;
     }
+    [DllImport("libX11.so.6")]
+    private static extern IntPtr XOpenDisplay(IntPtr displayName);
+    [DllImport("libX11.so.6")]
+    private static extern int XCloseDisplay(IntPtr display);
+    [DllImport("libX11.so.6")]
+    private static extern int XSync(IntPtr display, int discard);
+    [DllImport("libXtst.so.6")]
+    private static extern int XTestFakeMotionEvent(IntPtr display, int screen, int x, int y, ulong delay);
+    [DllImport("libXtst.so.6")]
+    private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int press, ulong delay);
+
+    private static void ClickActualX11Button(Control button)
+    {
+        var center = button.PointToScreen(new Point(button.Width / 2, button.Height / 2));
+        var display = XOpenDisplay(IntPtr.Zero);
+        Check(display != IntPtr.Zero, "Cannot open native X11 display for Draw mouse input.");
+        try
+        {
+            Check(XTestFakeMotionEvent(display, 0, center.X, center.Y, 0) != 0,
+                "Native mouse motion to Draw button failed.");
+            XSync(display, 0);
+            Application.DoEvents();
+            Check(XTestFakeButtonEvent(display, 1, 1, 0) != 0, "X11 Draw mouse press failed.");
+            XSync(display, 0);
+            Application.DoEvents();
+            Check(XTestFakeButtonEvent(display, 1, 0, 0) != 0, "X11 Draw mouse release failed.");
+            XSync(display, 0);
+            Application.DoEvents();
+        }
+        finally { XCloseDisplay(display); }
+    }
+
 }
