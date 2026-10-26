@@ -58,6 +58,14 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
                     AutoSize = false,
                     AutoToolTip = false
                 };
+#if __MonoCS__
+                // Mono's ToolStripControlHost can center a shrunken list in
+                // its previous (screen-sized) hosting rectangle, leaving the
+                // actual X11 child window completely outside the popup.
+                // Top-left alignment keeps native hit testing and painting
+                // inside the visible ToolStripDropDown on every reflow.
+                Host.ControlAlign = ContentAlignment.TopLeft;
+#endif
 
                 (ListView as Control).MaximumSize = Menu.MaximumSize;
                 (ListView as Control).Size = Menu.MaximumSize;
