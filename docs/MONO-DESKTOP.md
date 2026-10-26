@@ -21,11 +21,11 @@ On Ubuntu 24.04, install the GUI and native runtime prerequisites:
 ```sh
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
-  mono-devel libgdiplus libgsl-dev fonts-dejavu-core xvfb xauth
+  mono-devel libgdiplus libgsl-dev libxtst6 fonts-dejavu-core xvfb xauth
 ```
 
 `libgsl-dev` supplies the unversioned library name used by Mono's P/Invoke loader.
-`libgdiplus` is used by Framework Mono's System.Drawing implementation. Xvfb and
+`libgdiplus` is used by Framework Mono's System.Drawing implementation. `libxtst6` supplies the XTEST input extension client used by the real-pointer 3D GUI acceptance. Xvfb and
 xauth are needed for headless acceptance; normal interactive use requires an X11
 display, or an XWayland display on a Wayland desktop.
 
@@ -268,7 +268,7 @@ syntax, native GSL calls and recovery, compatibility math edge cases, JSON and
 trusted NRBF migration, Unix document safety, visible editor/numerical workflows,
 2D and complex PNG rendering, plus numerical 3D surfaces, custom functions,
 missing samples, mode switching, clearing, exports and an actual visible X11
-WinForms chart before/after keyboard rotation. The 3D acceptance retains
+WinForms chart before/after a real XTEST pointer drag. The 3D acceptance retains
 `mono-3d-visible-before.png`, `mono-3d-visible-rotated.png`,
 `mono-3d-paraboloid.png`, `mono-3d-export.png` and `mono-3d-points.png`.
 Its on-screen captures use actual X11 pixels; a successful offscreen render or blank `DrawToBitmap` capture is
