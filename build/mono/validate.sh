@@ -56,6 +56,9 @@ mono "$validation_temp/LegacyFixture.exe" "$validation_temp/legacy-settings.dat"
 rm -f -- "$results/mono-results.xml" "$results/startup.png" "$results/desktop-workflow.png" \
     "$results/real-chart.png" "$results/complex-chart.png" "$results/unsupported-3d.png" "$results/function-reference.png" \
     "$results/calculator-inputs.png" "$results/numerical-inputs.png"
+# Do not mistake screenshots from a previous acceptance run for current evidence.
+rm -f -- "$results/production-complex-before.png" "$results/production-complex-after.png" \
+    "$results/complex-visible-before.png" "$results/complex-visible-after.png"
 status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" \
 XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache" \
