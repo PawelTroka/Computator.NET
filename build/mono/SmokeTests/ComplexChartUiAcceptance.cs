@@ -19,7 +19,7 @@ internal static partial class Program
     // Run inside the *actual* bootstrapped desktop window, not a detached chart
     // created for GetImage(). Capture the X11 screen itself, not DrawToBitmap.
     private static void VerifyMonoComplexChartVisible(MainView window,
-        WinFormsBootstrapper bootstrapper, ISharedViewState state)
+        WinFormsBootstrapper bootstrapper, ISharedViewState state, RecordingErrors errors)
     {
         state.CurrentView = ViewName.Charting;
         EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(CalculationsMode.Complex));
@@ -72,8 +72,128 @@ internal static partial class Program
 
         using (var export = chart.GetImage(320, 220))
             AssertImageHasVariation(export, 40);
+
+        // Switch expression and require the live native screen to change,
+        // rather than merely inspecting GetImage() again.
+        using (var zSquared = ScreenshotComplexControl(chart, null))
+        {
+            bootstrapper.Create<ITextProvider>().Text = "z³";
+            ClickActualX11Button(draw);
+            using (var zCubed = WaitForComplexPixels(chart, "complex-visible-z-cubed.png",
+                image => DifferentComplexPixels(zSquared, image) > 600, 25))
+                Check(CountDomainColorPixels(zCubed) > 200, "Changing expression hid the complex domain colors.");
+        }
+
+        // Real -> 3D -> Complex must make the selected native child frontmost,
+        // including the separate Mono 3D implementation introduced by #296.
+        foreach (var mode in new[] { CalculationsMode.Real, CalculationsMode.Fxy, CalculationsMode.Complex })
+        {
+            EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(mode));
+            Application.DoEvents();
+            Check(chart.Visible == (mode == CalculationsMode.Complex),
+                "Complex chart visibility did not follow calculation mode " + mode);
+            if (mode == CalculationsMode.Complex)
+                Check(chart.Parent.Controls.GetChildIndex(chart) == 0,
+                    "Switching back to Complex left it behind an X11 sibling.");
+        }
+        chart.Refresh();
+        Application.DoEvents();
+        using (var returning = ScreenshotComplexControl(chart, null))
+            Check(CountDomainColorPixels(returning) > 200, "Complex chart disappeared after mode switching.");
+
+        var normalSize = window.ClientSize;
+        try
+        {
+            window.ClientSize = new Size(normalSize.Width - 100, normalSize.Height - 75);
+            Application.DoEvents();
+            Check(chart.Width > 200 && chart.Height > 150 && draw.Visible,
+                "Resizing clipped the active complex plot or its Draw button.");
+            using (var resized = WaitForComplexPixels(chart, "complex-visible-resized.png",
+                image => CountDomainColorPixels(image) > 200, 15))
+                AssertImageHasVariation(resized, 50);
+        }
+        finally { window.ClientSize = normalSize; Application.DoEvents(); }
+
+        var clear = Find(window, "clearChartButton") as Button;
+        Check(clear != null && clear.Visible, "Desktop Clear button is not available.");
+        clear.PerformClick();
+        Application.DoEvents();
+        using (var cleared = ScreenshotComplexControl(chart, "complex-visible-cleared.png"))
+            Check(CountDomainColorPixels(cleared) == 0, "Clear left stale colors on the visible chart.");
+
+        // A compilation error must be reported through the normal error handler,
+        // must not repaint old colors, and must not prevent a later valid Draw.
+        var errorsBefore = errors.Messages.Count;
+        bootstrapper.Create<ITextProvider>().Text = "MissingMonoFunction(z)";
+        ClickActualX11Button(draw);
+        Check(errors.Messages.Count > errorsBefore, "Invalid complex expression was not reported.");
+        using (var invalid = ScreenshotComplexControl(chart, null))
+            Check(CountDomainColorPixels(invalid) == 0, "Invalid Draw repainted stale domain colors.");
+        errors.Messages.Clear();
+
+        // Clear while an asynchronous drawing is being scheduled: obsolete
+        // samples must never appear later, including during rapid user input.
+        bootstrapper.Create<ITextProvider>().Text = "z⁴";
+        ClickActualX11Button(draw);
+        clear.PerformClick();
+        PumpComplexUiFor(TimeSpan.FromMilliseconds(600));
+        using (var stale = ScreenshotComplexControl(chart, null))
+            Check(CountDomainColorPixels(stale) == 0, "An obsolete async render repainted after Clear.");
+
+        bootstrapper.Create<ITextProvider>().Text = "z²";
+        ClickActualX11Button(draw);
+        using (var recovered = WaitForComplexPixels(chart, "complex-visible-recovered.png",
+            image => CountDomainColorPixels(image) > 200, 25))
+            AssertImageHasVariation(recovered, 50);
         // Restore the original application mode for existing desktop workflow checks.
         EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(CalculationsMode.Real));
+    }
+
+
+    private static Bitmap WaitForComplexPixels(Control control, string filename,
+        Func<Bitmap, bool> accepted, int timeoutSeconds)
+    {
+        var watch = Stopwatch.StartNew();
+        Bitmap latest = null;
+        while (watch.Elapsed < TimeSpan.FromSeconds(timeoutSeconds))
+        {
+            Application.DoEvents();
+            if (latest != null) latest.Dispose();
+            latest = ScreenshotComplexControl(control, null);
+            if (accepted(latest)) break;
+            Thread.Sleep(75);
+        }
+        try
+        {
+            latest.Save(System.IO.Path.Combine(outputDirectory, filename), ImageFormat.Png);
+            Check(accepted(latest),
+                "Visible X11 complex chart did not reach " + filename + " after " + watch.Elapsed);
+            var result = latest;
+            latest = null;
+            return result;
+        }
+        finally { if (latest != null) latest.Dispose(); }
+    }
+
+    private static int DifferentComplexPixels(Bitmap first, Bitmap second)
+    {
+        Check(first.Size == second.Size, "Expression switch unexpectedly resized the chart.");
+        var changed = 0;
+        for (var x = 10; x < first.Width - 10; x += 5)
+            for (var y = 10; y < first.Height - 10; y += 5)
+                if (first.GetPixel(x, y).ToArgb() != second.GetPixel(x, y).ToArgb())
+                    changed++;
+        return changed;
+    }
+
+    private static void PumpComplexUiFor(TimeSpan duration)
+    {
+        var watch = Stopwatch.StartNew();
+        while (watch.Elapsed < duration)
+        {
+            Application.DoEvents();
+            Thread.Sleep(35);
+        }
     }
 
     private static string DescribeComplexLayout(ComplexChart chart)
