@@ -97,6 +97,7 @@ internal static partial class Program
         Run("desktop-numerical-method-catalog", NumericalMethodCatalog);
         Run("native-gsl-generated-import-and-error-recovery", NativeGsl);
         Run("mono-function-reference-readable-text", FunctionReference);
+        Run("mono-autocomplete-real-x11-layout-and-selection", AutocompleteRealX11);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
