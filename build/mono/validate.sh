@@ -55,7 +55,7 @@ mono "$validation_temp/LegacyFixture.exe" "$validation_temp/legacy-settings.dat"
 # A failed or timed-out run must not expose an old passing report/screenshot.
 rm -f -- "$results/mono-results.xml" "$results/startup.png" "$results/desktop-workflow.png" \
     "$results/real-chart.png" "$results/complex-chart.png" "$results/unsupported-3d.png" "$results/function-reference.png" \
-    "$results/calculator-inputs.png" "$results/numerical-inputs.png"
+    "$results/calculator-inputs.png" "$results/numerical-inputs.png" "$results/autocomplete-after.png"
 status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" \
 XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache" \
