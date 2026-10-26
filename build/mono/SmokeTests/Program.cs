@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -438,9 +439,9 @@ internal static partial class Program
             {
                 AssertImageHasVariation(before, 60);
                 var startAngle = chart.YawDegrees;
-                SendKeys.SendWait("{RIGHT}");
+                DragOnRealX11(chart, 90, 25);
                 Application.DoEvents();
-                Check(Math.Abs(chart.YawDegrees - startAngle) > 1, "Focused real WinForms keyboard input did not rotate the 3D camera.");
+                Check(Math.Abs(chart.YawDegrees - startAngle) > 1, "XTEST pointer drag did not rotate the live 3D camera.");
                 chart.Refresh();
                 Application.DoEvents();
                 using (var after = CaptureVisibleChart(chart, "mono-3d-visible-rotated.png"))
@@ -519,8 +520,52 @@ internal static partial class Program
             chart.AddFunction(new ExpressionsEvaluator().Evaluate("x*y", "", CalculationsMode.Fxy));
             Check(chart.FiniteSurfaceSamples == 33 * 33, "A singular plot must not poison subsequent redraws.");
             Expect<NotSupportedException>(() =>
-                chart.AddFunction(new ExpressionsEvaluator().Evaluate("x+y", "", CalculationsMode.Real)));
+                chart.AddFunction(new ExpressionsEvaluator().Evaluate("x²", "", CalculationsMode.Real)));
         }
+    }
+
+    // SendKeys.SendWait does not reliably dispatch focused key events on Mono.
+    // Drive actual X11 pointer/button events through XTEST and observe the live
+    // WinForms viewer's camera as well as screen pixels, not a synthetic handler.
+    [DllImport("libX11.so.6")]
+    private static extern IntPtr XOpenDisplay(IntPtr displayName);
+    [DllImport("libX11.so.6")]
+    private static extern int XCloseDisplay(IntPtr display);
+    [DllImport("libX11.so.6")]
+    private static extern int XSync(IntPtr display, int discard);
+    [DllImport("libXtst.so.6")]
+    private static extern int XTestFakeMotionEvent(IntPtr display, int screen, int x, int y, ulong delay);
+    [DllImport("libXtst.so.6")]
+    private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int press, ulong delay);
+
+    private static void DragOnRealX11(Control control, int dx, int dy)
+    {
+        var origin = control.PointToScreen(new Point(control.ClientSize.Width / 2, control.ClientSize.Height / 2));
+        var display = XOpenDisplay(IntPtr.Zero);
+        Check(display != IntPtr.Zero, "X11 display is required for native interactive chart acceptance.");
+        try
+        {
+            Check(XTestFakeMotionEvent(display, 0, origin.X, origin.Y, 0) != 0,
+                "XTEST could not move the pointer into the chart.");
+            XSync(display, 0);
+            Application.DoEvents();
+            Check(XTestFakeButtonEvent(display, 1, 1, 0) != 0,
+                "XTEST could not press the left mouse button.");
+            XSync(display, 0);
+            Application.DoEvents();
+            for (var i = 1; i <= 6; i++)
+            {
+                Check(XTestFakeMotionEvent(display, 0, origin.X + dx * i / 6,
+                    origin.Y + dy * i / 6, 0) != 0, "XTEST drag was rejected.");
+                XSync(display, 0);
+                Application.DoEvents();
+            }
+            Check(XTestFakeButtonEvent(display, 1, 0, 0) != 0,
+                "XTEST could not release the left mouse button.");
+            XSync(display, 0);
+            Application.DoEvents();
+        }
+        finally { XCloseDisplay(display); }
     }
 
     private static Bitmap CaptureVisibleChart(Control control, string name)
