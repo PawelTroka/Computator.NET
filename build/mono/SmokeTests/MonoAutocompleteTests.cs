@@ -56,9 +56,17 @@ internal static partial class Program
                 window.Activate();
                 input.Focus();
                 PumpX11();
+                // xvfb-run does not launch a window manager. Set the real X11
+                // input focus explicitly; Form.Activate alone is insufficient.
+                Xdotool("search --onlyvisible --name Mono.completion.X11.acceptance windowfocus --sync");
+                input.Focus();
+                PumpX11();
 
                 TypeX11("si");
-                WaitForX11(() => menu.Visible, "Typing did not open the Mono autocomplete dropdown.");
+                WaitForX11(() => menu.Visible, "Typing did not open the Mono autocomplete dropdown."
+                    + " text='" + input.Text + "', focus=" + input.Focused
+                    + ", containsFocus=" + input.ContainsFocus
+                    + ", matches=" + menu.VisibleItems.Count + ", windowFocus=" + window.ContainsFocus);
                 Check(input.Text == "si", "Native X11 keystrokes were not received by the editor.");
                 Check(menu.VisibleItems.Count == 3, "Completion filtering lost the matching expressions.");
                 Check(host.Width >= 200 && host.Width < 660, "The Mono dropdown is empty or oversized: " + host.Bounds);
