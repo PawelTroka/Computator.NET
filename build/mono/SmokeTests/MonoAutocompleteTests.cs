@@ -255,6 +255,20 @@ internal static partial class Program
                 + process.StandardError.ReadToEnd();
             Check(process.WaitForExit(6000), "xwininfo hung during native window inspection.");
         }
+        foreach (var popup in new[] { menu, reference })
+        {
+            var nativeId = "0x" + popup.Handle.ToInt64().ToString("x");
+            using (var inspect = Process.Start(new ProcessStartInfo("xwininfo", "-id " + nativeId)
+            {
+                UseShellExecute = false, RedirectStandardOutput = true,
+                RedirectStandardError = true, CreateNoWindow = true
+            }))
+            {
+                details += nativeId + Environment.NewLine + inspect.StandardOutput.ReadToEnd()
+                    + Environment.NewLine + inspect.StandardError.ReadToEnd();
+                Check(inspect.WaitForExit(6000), "Native X11 map-state query hung.");
+            }
+        }
         File.WriteAllText(Path.Combine(outputDirectory, "autocomplete-x11-windows.log"), details);
         Console.WriteLine(details);
         var screen = Screen.FromControl(window).Bounds;
