@@ -190,8 +190,24 @@ public sealed class StartupRunner : MarshalByRefObject
     {
         var function = chart.GetType().GetField("function", BindingFlags.Instance | BindingFlags.NonPublic);
         var error = chart.GetType().GetProperty("LastRenderError", BindingFlags.Instance | BindingFlags.Public);
+        var type = chart.GetType();
+        var redrawing = type.GetField("_redrawing", BindingFlags.Instance | BindingFlags.NonPublic);
+        var points = type.GetField("_pointsValues", BindingFlags.Instance | BindingFlags.NonPublic);
+        var cache = type.GetField("image", BindingFlags.Instance | BindingFlags.NonPublic);
+        var version = type.GetField("_redrawVersion", BindingFlags.Instance | BindingFlags.NonPublic);
+        var quality = type.GetField("quality", BindingFlags.Instance | BindingFlags.NonPublic);
+        var sampled = points == null ? null : points.GetValue(chart) as Array;
+        var cached = cache == null ? null : cache.GetValue(chart) as Bitmap;
         return "function-assigned=" + (function != null && function.GetValue(chart) != null) +
-            "; async-error=" + (error == null ? "(unavailable)" : (error.GetValue(chart, null) ?? "(none)"));
+            "; async-error=" + (error == null ? "(unavailable)" : (error.GetValue(chart, null) ?? "(none)")) +
+            "; redraw-active=" + (redrawing == null ? "(unavailable)" : redrawing.GetValue(chart).ToString()) +
+            "; redraw-version=" + (version == null ? "(unavailable)" : version.GetValue(chart).ToString()) +
+            "; sample-quality=" + (quality == null ? "(unavailable)" : quality.GetValue(chart).ToString()) +
+            "; sampled-grid=" + (sampled == null ? "(none)" : sampled.GetLength(0) + "x" + sampled.GetLength(1)) +
+            "; cached-image=" + (cached == null ? "(none)" : cached.Width + "x" + cached.Height) +
+            "; cached-colored-pixels=" + (cached == null ? -1 : CountDomainColorPixels(cached)) +
+            "; current-sync-context=" + (System.Threading.SynchronizationContext.Current == null
+                ? "(none)" : System.Threading.SynchronizationContext.Current.GetType().FullName);
     }
 
     [DllImport("libX11.so.6")]
