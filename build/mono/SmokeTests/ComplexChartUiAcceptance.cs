@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -11,6 +12,7 @@ using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Model;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Events;
+using Computator.NET.DataTypes.Functions;
 using Computator.NET.Desktop.Bootstrapping;
 using Computator.NET.Desktop.Views;
 
@@ -145,6 +147,41 @@ internal static partial class Program
         using (var recovered = WaitForComplexPixels(chart, "complex-visible-recovered.png",
             image => CountDomainColorPixels(image) > 200, 25))
             AssertImageHasVariation(recovered, 50);
+
+        // The plotting delegate itself may throw only on the worker task,
+        // after the Draw handler returned. Confirm the async-void continuation
+        // cannot terminate the running desktop or permanently poison redraws.
+        var failingFunction = new Function(
+            new Func<Complex, Complex>(z =>
+            {
+                throw new InvalidOperationException("Intentional complex rendering failure");
+            }),
+            FunctionType.Complex) { Name = "Intentional complex rendering failure" };
+        chart.AddFunction(failingFunction);
+        var failureWatch = Stopwatch.StartNew();
+        while (failureWatch.Elapsed < TimeSpan.FromSeconds(10) &&
+               string.IsNullOrWhiteSpace(chart.LastRenderError))
+        {
+            Application.DoEvents();
+            Thread.Sleep(40);
+        }
+        Check(chart.LastRenderError != null &&
+            chart.LastRenderError.Contains("Intentional complex rendering failure"),
+            "Asynchronous evaluation did not deliver an observable UI error.");
+        Application.DoEvents();
+        using (var failure = ScreenshotComplexControl(chart, "complex-visible-render-failure.png"))
+            Check(failure.Width > 200 && failure.Height > 150,
+                "Failed complex render destroyed the native window.");
+
+        chart.ClearAll();
+        bootstrapper.Create<ITextProvider>().Text = "z²";
+        ClickActualX11Button(draw);
+        using (var repaired = WaitForComplexPixels(chart, "complex-visible-after-render-failure.png",
+            image => CountDomainColorPixels(image) > 200, 25))
+            AssertImageHasVariation(repaired, 50);
+        Check(string.IsNullOrEmpty(chart.LastRenderError),
+            "A successful redraw did not clear the earlier asynchronous error.");
+
         // Restore the original application mode for existing desktop workflow checks.
         EventAggregator.Instance.Publish(new CalculationsModeChangedEvent(CalculationsMode.Real));
     }
