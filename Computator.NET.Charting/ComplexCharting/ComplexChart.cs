@@ -504,16 +504,19 @@ namespace Computator.NET.Charting.ComplexCharting
                         // Superseded evaluations should never report an error.
                         continue;
                     }
+#if __MonoCS__
                     catch (Exception exception)
                     {
-                        // A failed background evaluation must not tear down the
-                        // WinForms UI via this async-void event-path method.
-                        // Keep the control usable and show a visible diagnostic.
+                        // Mono: keep async-void errors inside the chart to avoid
+                        // killing the production message loop. The diagnostic is
+                        // painted on screen and a later Draw can recover.
+                        // Windows retains its established ThreadException route.
                         Logger.Error(exception, "Complex chart asynchronous redraw failed.");
                         LastRenderError = exception.Message;
                         Invalidate();
                         break;
                     }
+#endif
                     if (function == null || IsDisposed || version != _redrawVersion)
                     {
                         samples.Bitmap.Dispose();
