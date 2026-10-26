@@ -287,15 +287,64 @@ internal static partial class Program
         rect.Inflate(8, 8);
         rect.Intersect(Screen.FromControl(window).Bounds);
         Check(rect.Width > 0 && rect.Height > 0, "No visible autocomplete area to capture.");
+        // Mapped X11 windows and WinForms Visible are not sufficient: on a
+        // headless Mono runner a popup can be mapped but not yet *painted*.
+        // The original screenshot check could pass on the form's own colors
+        // while the actual menu and reference remained invisible on screen.
+        var watch = Stopwatch.StartNew();
+        var menuPainted = false;
+        var helpPainted = false;
         using (var image = new Bitmap(rect.Width, rect.Height))
         {
-            using (var graphics = Graphics.FromImage(image))
-                graphics.CopyFromScreen(rect.Location, Point.Empty, rect.Size);
-            // WinForms suggestion controls use a deliberately restrained,
-            // mostly monochrome palette. A chart's 20-color threshold would
-            // reject a perfectly valid desktop capture on headless Xvfb.
-            AssertImageHasVariation(image, 4);
+            do
+            {
+                Application.DoEvents();
+                using (var graphics = Graphics.FromImage(image))
+                    graphics.CopyFromScreen(rect.Location, Point.Empty, rect.Size);
+                menuPainted = HasNativePopupPixels(image, rect.Location, menu.Bounds);
+                helpPainted = HasNativePopupPixels(image, rect.Location, reference.Bounds);
+                if (menuPainted && helpPainted)
+                    break;
+                // Request another actual WinForms/X11 paint. Never draw an
+                // artificial popup onto the screenshot to satisfy acceptance.
+                menu.Invalidate(true);
+                reference.Invalidate(true);
+                menu.Refresh();
+                reference.Refresh();
+                PumpX11();
+            }
+            while (watch.Elapsed < TimeSpan.FromSeconds(5));
+
             image.Save(Path.Combine(outputDirectory, name), ImageFormat.Png);
         }
+        Check(menuPainted && helpPainted,
+            "The Mono autocomplete windows are mapped but their real X11 pixels are missing: "
+            + "completion painted=" + menuPainted + ", help painted=" + helpPainted
+            + ". See " + name + " for the captured failure.");
+    }
+
+    private static bool HasNativePopupPixels(Bitmap capture, Point origin, Rectangle popupBounds)
+    {
+        var region = Rectangle.Intersect(
+            new Rectangle(popupBounds.X - origin.X, popupBounds.Y - origin.Y,
+                popupBounds.Width, popupBounds.Height),
+            new Rectangle(Point.Empty, capture.Size));
+        if (region.Width < 20 || region.Height < 20)
+            return false;
+        // The shipped Mono completion and read-only reference controls have
+        // white item/text surfaces. Sample native screen pixels *inside* each
+        // popup rather than counting the parent window's unrelated colors.
+        // The Xvfb form background is beige and the X11 root is black;
+        // neither can satisfy the white-surface threshold.
+        var light = 0;
+        var total = 0;
+        for (var y = region.Top + 4; y < region.Bottom - 4; y += 4)
+            for (var x = region.Left + 4; x < region.Right - 4; x += 4)
+            {
+                var pixel = capture.GetPixel(x, y);
+                if (pixel.R >= 245 && pixel.G >= 245 && pixel.B >= 245) light++;
+                total++;
+            }
+        return total > 0 && light * 4 > total;
     }
 }
