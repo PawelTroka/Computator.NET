@@ -81,8 +81,6 @@ namespace Computator.NET.Desktop.Controls.AutocompleteMenu
         }
 
 #if __MonoCS__
-        protected override bool ShowWithoutActivation => true;
-
         private bool KeepMonoPopup()
         {
             var target = Menu.TargetControlWrapper?.TargetControl;
