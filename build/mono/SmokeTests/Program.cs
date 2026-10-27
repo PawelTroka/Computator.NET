@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -103,7 +104,8 @@ internal static partial class Program
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
         Run("real-chart-samples-and-png-rendering", RealChart);
         Run("complex-chart-png-and-domain-colors", ComplexChart);
-        Run("unsupported-3d-is-explicit", Unsupported3D);
+        Run("native-mono-3d-surface-and-visible-x11-interaction", Native3D);
+        Run("native-mono-3d-singularities-custom-functions-and-points", Native3DEdges);
         WriteResults();
         var failed = Results.Count(result => result.Failure != null);
         var skipped = Results.Count(result => result.SkippedReason != null);
@@ -401,19 +403,210 @@ internal static partial class Program
         }
     }
 
-    private static void Unsupported3D()
+    private static void Native3D()
     {
-        using (var chart = new Chart3DControl { Width = 600, Height = 200 })
+        using (var chart = new Chart3DControl { Width = 700, Height = 480, Quality = 20 })
+        using (var window = new Form
         {
-            Check(chart is Control, "Mono 3D placeholder must be WinForms.");
-            var function = new ExpressionsEvaluator().Evaluate("x+y", "", CalculationsMode.Fxy);
-            Expect<PlatformNotSupportedException>(() => chart.AddFunction(function));
-            Expect<PlatformNotSupportedException>(() => chart.GetImage(640, 400));
-            var exportPath = Path.Combine(outputDirectory, "unsupported-3d-must-not-exist.png");
-            Expect<PlatformNotSupportedException>(() => chart.SaveImage(exportPath, ImageFormat.Png));
-            Check(!File.Exists(exportPath), "Unsupported 3D must not report a successful blank export.");
-            Capture(chart, "unsupported-3d.png");
+            ClientSize = new Size(700, 480),
+            StartPosition = FormStartPosition.Manual,
+            Location = new Point(120, 100),
+            Text = "Mono native 3D acceptance"
+        })
+        {
+            Check(chart is Control, "Mono chart must be a real WinForms control.");
+            chart.SetChartAreaValues(-2, 2, -2, 2);
+            chart.AddFunction(new ExpressionsEvaluator().Evaluate("x²+y²", "", CalculationsMode.Fxy));
+            Check(chart.FiniteSurfaceSamples == 33 * 33, "Paraboloid must be evaluated on the expected bounded grid.");
+            using (var export = chart.GetImage(700, 480))
+            {
+                Check(export.Width == 700 && export.Height == 480, "3D export must match requested dimensions.");
+                AssertImageHasVariation(export, 60);
+                export.Save(Path.Combine(outputDirectory, "mono-3d-paraboloid.png"), ImageFormat.Png);
+            }
+
+            window.Controls.Add(chart);
+            window.Show();
+            window.Activate();
+            Application.DoEvents();
+            Check(chart.Visible && chart.IsHandleCreated && chart.Focus(), "3D chart must have a visible, focusable X11 window.");
+            chart.Refresh();
+            Application.DoEvents();
+
+            // Xvfb screenshots use actual on-screen pixels, NOT DrawToBitmap
+            // or the offscreen export. This catches invisible WinForms children.
+            using (var before = CaptureVisibleChart(chart, "mono-3d-visible-before.png"))
+            {
+                AssertImageHasVariation(before, 60);
+                var startAngle = chart.YawDegrees;
+                DragOnRealX11(chart, 90, 25);
+                Application.DoEvents();
+                Check(Math.Abs(chart.YawDegrees - startAngle) > 1, "XTEST pointer drag did not rotate the live 3D camera.");
+                chart.Refresh();
+                Application.DoEvents();
+                using (var after = CaptureVisibleChart(chart, "mono-3d-visible-rotated.png"))
+                {
+                    AssertImageHasVariation(after, 60);
+                    Check(DifferentPixels(before, after) > 200,
+                        "Visible X11 chart pixels did not change after the rotation input.");
+                }
+            }
+
+            // Export must retain an actual right-button pan, not silently reset
+            // the camera to its unpanned center.
+            using (var beforePanExport = new Bitmap(chart.GetImage(700, 480)))
+            using (var beforePanScreen = CaptureVisibleChart(chart, "mono-3d-visible-prepan.png"))
+            {
+                DragOnRealX11(chart, 80, 36, 3);
+                chart.Refresh();
+                Application.DoEvents();
+                using (var afterPanScreen = CaptureVisibleChart(chart, "mono-3d-visible-panned.png"))
+                using (var afterPanExport = new Bitmap(chart.GetImage(700, 480)))
+                {
+                    Check(DifferentPixels(beforePanScreen, afterPanScreen) > 200,
+                        "XTEST right-button drag did not pan the native on-screen chart.");
+                    Check(DifferentPixels(beforePanExport, afterPanExport) > 200,
+                        "Export discarded the native 3D chart's current pan position.");
+                    afterPanExport.Save(Path.Combine(outputDirectory, "mono-3d-panned-export.png"), ImageFormat.Png);
+                }
+            }
+
+            var exportPath = Path.Combine(outputDirectory, "mono-3d-export.png");
+            chart.SaveImage(exportPath, ImageFormat.Png);
+            Check(File.Exists(exportPath) && new FileInfo(exportPath).Length > 4000,
+                "Native 3D PNG export did not write chart pixels.");
+            using (var image = Image.FromFile(exportPath))
+                AssertImageHasVariation(image, 60);
+
+            Expect<ArgumentOutOfRangeException>(() => chart.GetImage(5000, 300));
+            Expect<ArgumentException>(() => chart.SetChartAreaValues(2, -2, -1, 1));
+            window.Close();
+            Application.DoEvents();
         }
+    }
+
+    private static void Native3DEdges()
+    {
+        using (var chart = new Chart3DControl { Width = 640, Height = 440, Quality = 20 })
+        {
+            chart.SetChartAreaValues(-2, 2, -2, 2);
+            var evaluator = new ExpressionsEvaluator();
+            var function = evaluator.Evaluate("x+y", "", CalculationsMode.Fxy);
+            chart.AddFunction(function);
+            Check(chart.FiniteSurfaceSamples == 33 * 33, "Plane samples were not retained.");
+            var custom = evaluator.Evaluate("MonoSurface(x,y)",
+                "static real MonoSurface(real x, real y) { return x*x + y*y + 1; }",
+                CalculationsMode.Fxy);
+            chart.AddFunction(custom);
+            Check(chart.FiniteSurfaceSamples == 2 * 33 * 33,
+                "Explicit unsaved custom f(x,y) function was not evaluated.");
+            chart.Quality = 0;
+            Check(chart.FiniteSurfaceSamples == 2 * 17 * 17, "Quality did not resample existing functions.");
+            chart.Quality = 20;
+            chart.SetChartAreaValues(-1, 1, -1, 1);
+            Check(chart.FiniteSurfaceSamples == 2 * 33 * 33, "Bounds update lost chart functions.");
+            chart.AddPoints(new[]
+            {
+                new Computator.NET.DataTypes.Charts.Point3D(-1, -1, 1),
+                new Computator.NET.DataTypes.Charts.Point3D(0, 0, 0),
+                new Computator.NET.DataTypes.Charts.Point3D(1, 1, 1)
+            });
+            Check(chart.Mode == Computator.NET.DataTypes.Charts.Chart3DMode.Points,
+                "Adding point series should enter the points chart mode.");
+            using (var image = chart.GetImage(640, 440))
+            {
+                AssertImageHasVariation(image, 40);
+                image.Save(Path.Combine(outputDirectory, "mono-3d-points.png"), ImageFormat.Png);
+            }
+            chart.ClearAll();
+            Check(chart.FiniteSurfaceSamples == 0, "ClearAll must release sampled surfaces.");
+        }
+
+        using (var chart = new Chart3DControl { Width = 640, Height = 440, Quality = 20 })
+        {
+            chart.SetChartAreaValues(-2, 2, -2, 2);
+            chart.AddFunction(new ExpressionsEvaluator().Evaluate("1/(x-y)", "", CalculationsMode.Fxy));
+            Check(chart.FiniteSurfaceSamples > 0 && chart.FiniteSurfaceSamples < 33 * 33,
+                "Undefined diagonal must become holes, not zero-height vertices.");
+            using (var image = chart.GetImage(640, 440))
+                AssertImageHasVariation(image, 30);
+            chart.ClearAll();
+            chart.AddFunction(new ExpressionsEvaluator().Evaluate("1/(y-y)", "", CalculationsMode.Fxy));
+            Check(chart.FiniteSurfaceSamples == 0, "Entirely undefined surface cannot invent finite values.");
+            using (var image = chart.GetImage(640, 440))
+                AssertImageHasVariation(image, 8);
+            chart.ClearAll();
+            chart.AddFunction(new ExpressionsEvaluator().Evaluate("x*y", "", CalculationsMode.Fxy));
+            Check(chart.FiniteSurfaceSamples == 33 * 33, "A singular plot must not poison subsequent redraws.");
+            Expect<NotSupportedException>(() =>
+                chart.AddFunction(new ExpressionsEvaluator().Evaluate("x²", "", CalculationsMode.Real)));
+        }
+    }
+
+    // SendKeys.SendWait does not reliably dispatch focused key events on Mono.
+    // Drive actual X11 pointer/button events through XTEST and observe the live
+    // WinForms viewer's camera as well as screen pixels, not a synthetic handler.
+    [DllImport("libX11.so.6")]
+    private static extern IntPtr XOpenDisplay(IntPtr displayName);
+    [DllImport("libX11.so.6")]
+    private static extern int XCloseDisplay(IntPtr display);
+    [DllImport("libX11.so.6")]
+    private static extern int XSync(IntPtr display, int discard);
+    [DllImport("libXtst.so.6")]
+    private static extern int XTestFakeMotionEvent(IntPtr display, int screen, int x, int y, ulong delay);
+    [DllImport("libXtst.so.6")]
+    private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int press, ulong delay);
+
+    private static void DragOnRealX11(Control control, int dx, int dy, uint button = 1)
+    {
+        var origin = control.PointToScreen(new Point(control.ClientSize.Width / 2, control.ClientSize.Height / 2));
+        var display = XOpenDisplay(IntPtr.Zero);
+        Check(display != IntPtr.Zero, "X11 display is required for native interactive chart acceptance.");
+        try
+        {
+            Check(XTestFakeMotionEvent(display, 0, origin.X, origin.Y, 0) != 0,
+                "XTEST could not move the pointer into the chart.");
+            XSync(display, 0);
+            Application.DoEvents();
+            Check(XTestFakeButtonEvent(display, button, 1, 0) != 0,
+                "XTEST could not press the requested mouse button.");
+            XSync(display, 0);
+            Application.DoEvents();
+            for (var i = 1; i <= 6; i++)
+            {
+                Check(XTestFakeMotionEvent(display, 0, origin.X + dx * i / 6,
+                    origin.Y + dy * i / 6, 0) != 0, "XTEST drag was rejected.");
+                XSync(display, 0);
+                Application.DoEvents();
+            }
+            Check(XTestFakeButtonEvent(display, button, 0, 0) != 0,
+                "XTEST could not release the requested mouse button.");
+            XSync(display, 0);
+            Application.DoEvents();
+        }
+        finally { XCloseDisplay(display); }
+    }
+
+    private static Bitmap CaptureVisibleChart(Control control, string name)
+    {
+        var rectangle = control.RectangleToScreen(control.ClientRectangle);
+        Check(rectangle.Width > 100 && rectangle.Height > 100 && control.Visible,
+            "3D chart is not a usable visible native control.");
+        var screenshot = new Bitmap(rectangle.Width, rectangle.Height);
+        using (var graphics = Graphics.FromImage(screenshot))
+            graphics.CopyFromScreen(rectangle.Location, Point.Empty, rectangle.Size);
+        screenshot.Save(Path.Combine(outputDirectory, name), ImageFormat.Png);
+        return screenshot;
+    }
+
+    private static int DifferentPixels(Bitmap before, Bitmap after)
+    {
+        Check(before.Size == after.Size, "Rotation changed native chart dimensions.");
+        var changed = 0;
+        for (var x = 0; x < before.Width; x += 3)
+            for (var y = 0; y < before.Height; y += 3)
+                if (before.GetPixel(x, y).ToArgb() != after.GetPixel(x, y).ToArgb()) changed++;
+        return changed;
     }
 
     private static void Capture(Control control, string name)
