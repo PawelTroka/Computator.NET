@@ -321,6 +321,7 @@ internal static partial class Program
                     Same(custom.FindForm(), window, "Custom-function editor must be the displayed editor.");
                     Same(scripting.FindForm(), window, "Scripting editor must be displayed in MainView.");
                     VerifyNestedScriptTree(scripting, directory);
+                    VerifyMonoComplexChartVisible(window, bootstrapper, state, errors);
                     var path = Path.Combine(directory, "visible-functions.tslf");
                     File.WriteAllText(path, "static real Probe(real x) { return x+42; }");
                     custom.CustomFunctionsEditor.NewDocument(path);

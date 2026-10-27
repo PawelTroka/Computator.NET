@@ -23,7 +23,7 @@ jobs:
       - name: Install the actual Mono and X11 runtime
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends mono-devel xvfb xauth libgdiplus libgsl-dev fonts-dejavu-core
+          sudo apt-get install -y --no-install-recommends mono-devel xvfb xauth libxtst6 libgdiplus libgsl-dev fonts-dejavu-core
       - name: Build the opt-in Framework graph and run desktop acceptance
         run: ./build.sh --target=Mono-Validate
       - name: Retain runtime evidence even on failure
