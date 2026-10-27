@@ -452,6 +452,25 @@ internal static partial class Program
                 }
             }
 
+            // Export must retain an actual right-button pan, not silently reset
+            // the camera to its unpanned center.
+            using (var beforePanExport = new Bitmap(chart.GetImage(700, 480)))
+            using (var beforePanScreen = CaptureVisibleChart(chart, "mono-3d-visible-prepan.png"))
+            {
+                DragOnRealX11(chart, 80, 36, 3);
+                chart.Refresh();
+                Application.DoEvents();
+                using (var afterPanScreen = CaptureVisibleChart(chart, "mono-3d-visible-panned.png"))
+                using (var afterPanExport = new Bitmap(chart.GetImage(700, 480)))
+                {
+                    Check(DifferentPixels(beforePanScreen, afterPanScreen) > 200,
+                        "XTEST right-button drag did not pan the native on-screen chart.");
+                    Check(DifferentPixels(beforePanExport, afterPanExport) > 200,
+                        "Export discarded the native 3D chart's current pan position.");
+                    afterPanExport.Save(Path.Combine(outputDirectory, "mono-3d-panned-export.png"), ImageFormat.Png);
+                }
+            }
+
             var exportPath = Path.Combine(outputDirectory, "mono-3d-export.png");
             chart.SaveImage(exportPath, ImageFormat.Png);
             Check(File.Exists(exportPath) && new FileInfo(exportPath).Length > 4000,
@@ -538,7 +557,7 @@ internal static partial class Program
     [DllImport("libXtst.so.6")]
     private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int press, ulong delay);
 
-    private static void DragOnRealX11(Control control, int dx, int dy)
+    private static void DragOnRealX11(Control control, int dx, int dy, uint button = 1)
     {
         var origin = control.PointToScreen(new Point(control.ClientSize.Width / 2, control.ClientSize.Height / 2));
         var display = XOpenDisplay(IntPtr.Zero);
@@ -549,8 +568,8 @@ internal static partial class Program
                 "XTEST could not move the pointer into the chart.");
             XSync(display, 0);
             Application.DoEvents();
-            Check(XTestFakeButtonEvent(display, 1, 1, 0) != 0,
-                "XTEST could not press the left mouse button.");
+            Check(XTestFakeButtonEvent(display, button, 1, 0) != 0,
+                "XTEST could not press the requested mouse button.");
             XSync(display, 0);
             Application.DoEvents();
             for (var i = 1; i <= 6; i++)
@@ -560,8 +579,8 @@ internal static partial class Program
                 XSync(display, 0);
                 Application.DoEvents();
             }
-            Check(XTestFakeButtonEvent(display, 1, 0, 0) != 0,
-                "XTEST could not release the left mouse button.");
+            Check(XTestFakeButtonEvent(display, button, 0, 0) != 0,
+                "XTEST could not release the requested mouse button.");
             XSync(display, 0);
             Application.DoEvents();
         }
