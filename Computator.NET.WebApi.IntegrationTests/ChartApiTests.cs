@@ -75,6 +75,43 @@ namespace Computator.NET.WebApi.IntegrationTests
             NUnit.Framework.Assert.That((double)grid["z"][4][4], Is.EqualTo(center).Within(1e-9));
         }
 
+
+        [Test]
+        public async Task Common33GridReferenceContractMatchesNativeMonoFixtures()
+        {
+            // Quality=20 in the native Mono viewer uses the same 33x33 grid.
+            var paraboloid = await Surface(new { expression = "x*x+y*y",
+                gridSize = 33, xMin = -2, xMax = 2, yMin = -2, yMax = 2 });
+            NUnit.Framework.Assert.That((int)paraboloid["finiteSamples"], Is.EqualTo(1089));
+            NUnit.Framework.Assert.That((int)paraboloid["missingSamples"], Is.Zero);
+            for (var i = 0; i < 33; i++)
+            {
+                var coordinate = -2 + i / 8.0;
+                NUnit.Framework.Assert.That((double)paraboloid["x"][i], Is.EqualTo(coordinate).Within(1e-12));
+                NUnit.Framework.Assert.That((double)paraboloid["y"][i], Is.EqualTo(coordinate).Within(1e-12));
+                for (var j = 0; j < 33; j++)
+                {
+                    var x = -2 + j / 8.0;
+                    NUnit.Framework.Assert.That((double)paraboloid["z"][i][j],
+                        Is.EqualTo(x*x + coordinate*coordinate).Within(1e-12));
+                }
+            }
+
+            var wave = await Surface(new { expression = "sin(x)*cos(y)",
+                gridSize = 33, xMin = -2, xMax = 2, yMin = -2, yMax = 2 });
+            NUnit.Framework.Assert.That((int)wave["finiteSamples"], Is.EqualTo(1089));
+            NUnit.Framework.Assert.That((double)wave["z"][0][0],
+                Is.EqualTo(Math.Sin(-2) * Math.Cos(-2)).Within(1e-12));
+            NUnit.Framework.Assert.That((double)wave["z"][16][16], Is.Zero.Within(1e-12));
+
+            var singular = await Surface(new { expression = "1/(x-y)",
+                gridSize = 33, xMin = -2, xMax = 2, yMin = -2, yMax = 2 });
+            NUnit.Framework.Assert.That((int)singular["finiteSamples"], Is.EqualTo(1056));
+            NUnit.Framework.Assert.That((int)singular["missingSamples"], Is.EqualTo(33));
+            for (var i = 0; i < 33; i++)
+                NUnit.Framework.Assert.That(singular["z"][i][i].Type, Is.EqualTo(JTokenType.Null));
+        }
+
         [Test]
         public async Task UnsavedTwoArgumentCustomFunctionsStayRequestLocal()
         {

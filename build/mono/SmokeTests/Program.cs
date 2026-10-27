@@ -106,6 +106,7 @@ internal static partial class Program
         Run("complex-chart-png-and-domain-colors", ComplexChart);
         Run("native-mono-3d-surface-and-visible-x11-interaction", Native3D);
         Run("native-mono-3d-singularities-custom-functions-and-points", Native3DEdges);
+        Run("native-mono-3d-common-grid-parity-contract", Native3DCommonGridContract);
         WriteResults();
         var failed = Results.Count(result => result.Failure != null);
         var skipped = Results.Count(result => result.SkippedReason != null);
@@ -452,6 +453,25 @@ internal static partial class Program
                 }
             }
 
+            // Export must retain an actual right-button pan, not silently reset
+            // the camera to its unpanned center.
+            using (var beforePanExport = new Bitmap(chart.GetImage(700, 480)))
+            using (var beforePanScreen = CaptureVisibleChart(chart, "mono-3d-visible-prepan.png"))
+            {
+                DragOnRealX11(chart, 80, 36, 3);
+                chart.Refresh();
+                Application.DoEvents();
+                using (var afterPanScreen = CaptureVisibleChart(chart, "mono-3d-visible-panned.png"))
+                using (var afterPanExport = new Bitmap(chart.GetImage(700, 480)))
+                {
+                    Check(DifferentPixels(beforePanScreen, afterPanScreen) > 200,
+                        "XTEST right-button drag did not pan the native on-screen chart.");
+                    Check(DifferentPixels(beforePanExport, afterPanExport) > 200,
+                        "Export discarded the native 3D chart's current pan position.");
+                    afterPanExport.Save(Path.Combine(outputDirectory, "mono-3d-panned-export.png"), ImageFormat.Png);
+                }
+            }
+
             var exportPath = Path.Combine(outputDirectory, "mono-3d-export.png");
             chart.SaveImage(exportPath, ImageFormat.Png);
             Check(File.Exists(exportPath) && new FileInfo(exportPath).Length > 4000,
@@ -463,6 +483,58 @@ internal static partial class Program
             Expect<ArgumentException>(() => chart.SetChartAreaValues(2, -2, -1, 1));
             window.Close();
             Application.DoEvents();
+        }
+    }
+
+
+    private static void Native3DCommonGridContract()
+    {
+        // Same 33x33 [-2,2] golden grid as WebApi.IntegrationTests/ChartApiTests.
+        // Record the actual coordinates passed by the native sampler, not just
+        // the public finite-sample counter or a separately rendered picture.
+        const int gridSize = 33;
+        var evaluations = new List<Tuple<double, double, double>>();
+        using (var chart = new Chart3DControl { Width = 640, Height = 440, Quality = 20 })
+        {
+            chart.SetChartAreaValues(-2, 2, -2, 2);
+            var paraboloid = new Computator.NET.DataTypes.Functions.Function(
+                new Func<double, double, double>((x, y) =>
+                {
+                    var height = x*x + y*y;
+                    evaluations.Add(Tuple.Create(x, y, height));
+                    return height;
+                }), Computator.NET.DataTypes.Functions.FunctionType.Real3D);
+            chart.AddFunction(paraboloid);
+            Check(chart.FiniteSurfaceSamples == gridSize * gridSize,
+                "Native common-grid paraboloid must have 1,089 finite samples.");
+            Check(evaluations.Count == gridSize * gridSize,
+                "Native common-grid paraboloid did not evaluate each vertex exactly once.");
+            for (var row = 0; row < gridSize; row++)
+                for (var column = 0; column < gridSize; column++)
+                {
+                    var actual = evaluations[row * gridSize + column];
+                    var expectedX = -2 + column / 8.0;
+                    var expectedY = -2 + row / 8.0;
+                    Near(actual.Item1, expectedX, 1e-12);
+                    Near(actual.Item2, expectedY, 1e-12);
+                    Near(actual.Item3, expectedX*expectedX + expectedY*expectedY, 1e-12);
+                }
+        }
+
+        using (var chart = new Chart3DControl { Width = 640, Height = 440, Quality = 20 })
+        {
+            chart.SetChartAreaValues(-2, 2, -2, 2);
+            var evaluator = new ExpressionsEvaluator();
+            var wave = evaluator.Evaluate("sin(x)*cos(y)", "", CalculationsMode.Fxy);
+            chart.AddFunction(wave);
+            Check(chart.FiniteSurfaceSamples == gridSize * gridSize,
+                "Shared sin/cos evaluator unexpectedly produced invalid sample values.");
+            Near(wave.Evaluate(-2, -2), Math.Sin(-2) * Math.Cos(-2), 1e-12);
+            Near(wave.Evaluate(0, 0), 0, 1e-12);
+            chart.ClearAll();
+            chart.AddFunction(evaluator.Evaluate("1/(x-y)", "", CalculationsMode.Fxy));
+            Check(chart.FiniteSurfaceSamples == gridSize * gridSize - gridSize,
+                "Exactly 33 singular diagonal points must be omitted, matching Web JSON null holes.");
         }
     }
 
@@ -538,7 +610,7 @@ internal static partial class Program
     [DllImport("libXtst.so.6")]
     private static extern int XTestFakeButtonEvent(IntPtr display, uint button, int press, ulong delay);
 
-    private static void DragOnRealX11(Control control, int dx, int dy)
+    private static void DragOnRealX11(Control control, int dx, int dy, uint button = 1)
     {
         var origin = control.PointToScreen(new Point(control.ClientSize.Width / 2, control.ClientSize.Height / 2));
         var display = XOpenDisplay(IntPtr.Zero);
@@ -549,8 +621,8 @@ internal static partial class Program
                 "XTEST could not move the pointer into the chart.");
             XSync(display, 0);
             Application.DoEvents();
-            Check(XTestFakeButtonEvent(display, 1, 1, 0) != 0,
-                "XTEST could not press the left mouse button.");
+            Check(XTestFakeButtonEvent(display, button, 1, 0) != 0,
+                "XTEST could not press the requested mouse button.");
             XSync(display, 0);
             Application.DoEvents();
             for (var i = 1; i <= 6; i++)
@@ -560,8 +632,8 @@ internal static partial class Program
                 XSync(display, 0);
                 Application.DoEvents();
             }
-            Check(XTestFakeButtonEvent(display, 1, 0, 0) != 0,
-                "XTEST could not release the left mouse button.");
+            Check(XTestFakeButtonEvent(display, button, 0, 0) != 0,
+                "XTEST could not release the requested mouse button.");
             XSync(display, 0);
             Application.DoEvents();
         }

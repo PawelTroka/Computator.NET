@@ -301,10 +301,14 @@ namespace Computator.NET.Charting.Chart3D.UI
             try
             {
                 image.SetResolution(96, 96);
+                // Preserve the user's camera composition when exporting. Pan is
+                // specified in live control pixels, so scale it for another output size.
+                var panX = ClientSize.Width > 0 ? _panX * width / ClientSize.Width : _panX;
+                var panY = ClientSize.Height > 0 ? _panY * height / ClientSize.Height : _panY;
                 using (var graphics = Graphics.FromImage(image))
                     MonoSceneRenderer.Draw(graphics, new Rectangle(0, 0, width, height),
                         Font, _surfaces, _points, _mode, _xMin, _xMax, _yMin, _yMax,
-                        _equalAxes, _yaw, _tilt, _zoom, 0, 0);
+                        _equalAxes, _yaw, _tilt, _zoom, panX, panY);
                 return image;
             }
             catch { image.Dispose(); throw; }

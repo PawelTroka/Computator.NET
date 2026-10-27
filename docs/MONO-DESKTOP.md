@@ -176,6 +176,8 @@ embedded browser. 3D charts are interactive on X11: **left-drag** rotates,
 **mouse wheel** zooms, **right-drag** pans, **arrow keys** rotate, **+/-** zoom
 and **Home** resets the camera. The plot includes labeled x/y/z numeric axes.
 Camera changes and resize render cached samples without recompilation.
+Both visible painting and PNG export preserve rotation, zoom and right-drag pan;
+when exporting at another size, the pan offsets are scaled with the output viewport.
 
 Sampling is synchronous and capped at **17–97 vertices per axis** (Quality 0–100),
 **eight functions per chart**, **20,000 points per series** and **40,000 points total**.
