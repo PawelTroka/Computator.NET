@@ -196,12 +196,18 @@ public sealed class StartupRunner : MarshalByRefObject
         var cache = type.GetField("image", BindingFlags.Instance | BindingFlags.NonPublic);
         var version = type.GetField("_redrawVersion", BindingFlags.Instance | BindingFlags.NonPublic);
         var quality = type.GetField("quality", BindingFlags.Instance | BindingFlags.NonPublic);
+        var monoTask = type.GetField("_monoRenderTask", BindingFlags.Instance | BindingFlags.NonPublic);
+        var monoTimer = type.GetField("_monoRenderTimer", BindingFlags.Instance | BindingFlags.NonPublic);
+        var pending = monoTask == null ? null : monoTask.GetValue(chart) as System.Threading.Tasks.Task;
+        var polling = monoTimer == null ? null : monoTimer.GetValue(chart) as System.Windows.Forms.Timer;
         var sampled = points == null ? null : points.GetValue(chart) as Array;
         var cached = cache == null ? null : cache.GetValue(chart) as Bitmap;
         return "function-assigned=" + (function != null && function.GetValue(chart) != null) +
             "; async-error=" + (error == null ? "(unavailable)" : (error.GetValue(chart, null) ?? "(none)")) +
             "; redraw-active=" + (redrawing == null ? "(unavailable)" : redrawing.GetValue(chart).ToString()) +
             "; redraw-version=" + (version == null ? "(unavailable)" : version.GetValue(chart).ToString()) +
+            "; mono-task-status=" + (pending == null ? "(none)" : pending.Status.ToString()) +
+            "; mono-timer-enabled=" + (polling == null ? "(none)" : polling.Enabled.ToString()) +
             "; sample-quality=" + (quality == null ? "(unavailable)" : quality.GetValue(chart).ToString()) +
             "; sampled-grid=" + (sampled == null ? "(none)" : sampled.GetLength(0) + "x" + sampled.GetLength(1)) +
             "; cached-image=" + (cached == null ? "(none)" : cached.Width + "x" + cached.Height) +
