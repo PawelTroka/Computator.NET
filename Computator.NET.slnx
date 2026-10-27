@@ -316,6 +316,7 @@
     <File Path="docs/followups/TRAVIS.md" />
     <File Path="docs/followups/WEB-CUSTOM-FUNCTIONS.md" />
     <File Path="docs/followups/WEB-E2E.md" />
+    <File Path="docs/followups/WEB-3D-SURFACES.md" />
   </Folder>
   <Folder Name="/Historical sources (not build targets)/">
     <File Path="Computator.NET.Desktop.UITests/Computator.NET.Desktop.UITests.csproj" />

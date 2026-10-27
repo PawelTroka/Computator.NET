@@ -5,9 +5,4 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $skips = @()
-if ($Suite -eq 'Computator.NET.WebApi.IntegrationTests') {
-    $skips = @(
-        'Computator.NET.WebApi.IntegrationTests.ChartApiTests.ReturnsHttpOkForChart3D'
-    )
-}
 & (Join-Path $PSScriptRoot 'Assert-TestResults.ps1') -Path (Join-Path $PSScriptRoot "../TestResults/$Suite.trx") -MinimumTests $MinimumTests -AllowedSkippedTests $skips
