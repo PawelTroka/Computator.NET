@@ -21,11 +21,11 @@ On Ubuntu 24.04, install the GUI and native runtime prerequisites:
 ```sh
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
-  mono-devel libgdiplus libgsl-dev fonts-dejavu-core xvfb xauth
+  mono-devel libgdiplus libgsl-dev libxtst6 fonts-dejavu-core xvfb xauth
 ```
 
 `libgsl-dev` supplies the unversioned library name used by Mono's P/Invoke loader.
-`libgdiplus` is used by Framework Mono's System.Drawing implementation. Xvfb and
+`libgdiplus` is used by Framework Mono's System.Drawing implementation. `libxtst6` supplies the XTEST input extension client used by the real-pointer 3D GUI acceptance. Xvfb and
 xauth are needed for headless acceptance; normal interactive use requires an X11
 display, or an XWayland display on a Wayland desktop.
 
@@ -97,7 +97,7 @@ ordinary Windows build.
 | UI | Framework Mono WinForms/System.Drawing | Microsoft WinForms and WPF |
 | 2D charts | Existing `libraries/net46/DataVisualizationX.dll` | Existing WinForms.DataVisualization package |
 | Complex charts | Existing managed sampling, domain coloring and System.Drawing renderer | Same chart source |
-| 3D charts | Visible unsupported control; chart generation/export operations reject the request | Existing WPF implementation |
+| 3D charts | Bounded WinForms/System.Drawing software surface and point renderer with camera input, axes and PNG export | Existing WPF implementation |
 | Code editor | Existing TROKA/ICSharpCode TextEditor | Existing Scintilla, AvalonEdit and TextEditor options |
 | Function reference | Readable text from the existing reference, including equation alternative text | Existing HTML reference rendering |
 | Native GSL | Host's `libgsl` via Mono P/Invoke | Existing validated Windows loader and package/fallback policy |
@@ -170,9 +170,31 @@ numerical method or input as correct.
 
 ### Desktop behavior
 
-The unsupported 3D panel remains visible when that mode is selected. It does not
-silently return an empty image or pretend that a WPF chart was rendered. Real
-two-variable calculations remain separate from the unavailable 3D visualization.
+Native Mono 3D uses the existing explicit real f(x,y) evaluator and presents a
+WinForms software-rendered surface. It does not load WPF or require a GPU or
+embedded browser. 3D charts are interactive on X11: **left-drag** rotates,
+**mouse wheel** zooms, **right-drag** pans, **arrow keys** rotate, **+/-** zoom
+and **Home** resets the camera. The plot includes labeled x/y/z numeric axes.
+Camera changes and resize render cached samples without recompilation.
+
+Sampling is synchronous and capped at **17–97 vertices per axis** (Quality 0–100),
+**eight functions per chart**, **20,000 points per series** and **40,000 points total**.
+The chart supports finite explicit real height surfaces, including compiled
+user-defined two-argument functions, color-coded depth-sorted triangulation,
+missing-value holes, point series, image export and normal edit/plot/print menus.
+Invalid bounds and oversized exports fail explicitly rather than allocating
+unbounded images. All-nonfinite surfaces display a diagnostic rather than a
+misleading zero-height mesh. Sampling executes trusted local TSL without process
+isolation; slow user functions can still block the UI while being sampled.
+
+Limitations: this renderer uses a painter's algorithm, not a hardware z-buffer.
+Overlapping/intersecting surfaces can have incorrect triangle ordering; performance
+is limited compared with WebGL/WPF for dense meshes. Implicit F(x,y,z)=0 surfaces,
+lighting, surface mouse picking and true hardware acceleration are not supported.
+This is **native Linux/Mono** only; the separately developed WebGL browser viewer
+in [PR #294](https://github.com/PawelTroka/Computator.NET/pull/294) is not reused
+or bundled. The complex-chart defect [#295](https://github.com/PawelTroka/Computator.NET/issues/295)
+remains a separate workstream.
 
 Only TextEditor is offered on Mono. Its settings value remains `2`, matching the
 Windows edition. Known historical/default editor values are normalized to the
@@ -244,8 +266,12 @@ The restoration was built and exercised on Ubuntu 24.04.3 x64 with .NET SDK
 The suite also exercises expressions, scripts, custom functions, current C#
 syntax, native GSL calls and recovery, compatibility math edge cases, JSON and
 trusted NRBF migration, Unix document safety, visible editor/numerical workflows,
-2D and complex PNG rendering, and explicit 3D rejection. Its window images use
-actual X11 screen pixels; a successful build or a blank `DrawToBitmap` capture is
+2D and complex PNG rendering, plus numerical 3D surfaces, custom functions,
+missing samples, mode switching, clearing, exports and an actual visible X11
+WinForms chart before/after a real XTEST pointer drag. The 3D acceptance retains
+`mono-3d-visible-before.png`, `mono-3d-visible-rotated.png`,
+`mono-3d-paraboloid.png`, `mono-3d-export.png` and `mono-3d-points.png`.
+Its on-screen captures use actual X11 pixels; a successful offscreen render or blank `DrawToBitmap` capture is
 not used as evidence of usable UI.
 
 A clean hosted run also exposed an assembly-discovery ordering bug: filename
