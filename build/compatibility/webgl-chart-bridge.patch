@@ -79,3 +79,25 @@
        <h2 className="h6">Chart area values:</h2><ul className="list-group">
          <li className="list-group-item"><NumericInput label="X" subscriptLabel="MIN" value={xMin} onValueChanged={setXMin} /></li>
          <li className="list-group-item"><NumericInput label="X" subscriptLabel="MAX" value={xMax} onValueChanged={setXMax} /></li>
+diff --git a/Computator.NET.WebClient/ClientApp/components/SurfacePlot.tsx b/Computator.NET.WebClient/ClientApp/components/SurfacePlot.tsx
+index aed194ccab31190030174d1cdaa3c026513fd82f..d94b9f057f7db36c2198a0592a60d6ac662461be 100644
+--- a/Computator.NET.WebClient/ClientApp/components/SurfacePlot.tsx
++++ b/Computator.NET.WebClient/ClientApp/components/SurfacePlot.tsx
+@@ -125,7 +125,16 @@ export function SurfacePlot({ grid, expression }: { grid: SurfaceGrid; expressio
+           zoom(event.deltaY < 0 ? 0.85 : 1.15);
+         };
+         div.addEventListener('wheel', wheelHandler, { passive: false });
+-        resize = new ResizeObserver(() => { void Plotly.Plots.resize(div); });
++        resize = new ResizeObserver(async () => {
++          // A queued observer may run after React removes the surface, before
++          // passive effect cleanup. Plotly rejects hidden/detached resize work.
++          if (disposed || !div.isConnected || !div.clientWidth || !div.clientHeight) return;
++          try { await Plotly.Plots.resize(div); }
++          catch (reason) {
++            if (disposed || !div.isConnected) return;
++            setError(reason instanceof Error ? reason.message : '3D resizing failed.');
++          }
++        });
+         resize.observe(div);
+         setReady(true);
+       } catch (reason) {

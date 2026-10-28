@@ -101,14 +101,14 @@ test('real API switches real → WebGL → real → complex on one page with wor
   await page.goto('/');
   const canvas = page.getByTestId('chart-2d'), surface = page.getByTestId('surface-chart');
 
-  const first = await draw(page, 'x*x') as Curve;
+  const first = await draw(page, 'x²') as Curve;
   expect(first.kind).toBe('curve'); expect(first.missingSamples).toBe(0);
   for (const index of [0, Math.floor(first.x.length / 2), first.x.length - 1])
     expect(first.y[index]).toBeCloseTo(first.x[index] ** 2, 9);
   await ready2D(page, 'real'); expect((await canvasPixels(canvas)).colored).toBeGreaterThan(100);
   const initialBounds = await bounds(canvas);
   await capture(canvas, 'switch-01-real-before');
-  const zoomRequest = responseFor(page, 'x*x');
+  const zoomRequest = responseFor(page, 'x²');
   await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
   const zoomResponse = await zoomRequest, zoomedCurve = await successful(zoomResponse) as Curve;
   await ready2D(page, 'real');
@@ -119,7 +119,7 @@ test('real API switches real → WebGL → real → complex on one page with wor
   await capture(canvas, 'switch-02-real-zoomed');
 
   await page.getByLabel('3D surface quality', { exact: true }).selectOption('33');
-  const grid = await draw(page, 'x*x+y*y') as Surface;
+  const grid = await draw(page, 'x²+y²') as Surface;
   expect(grid.kind).toBe('surface'); expect(grid.finiteSamples).toBe(33 * 33); expect(grid.missingSamples).toBe(0);
   for (const [row, column] of [[0, 0], [16, 16], [32, 32]])
     expect(grid.z[row][column]).toBeCloseTo(grid.x[column] ** 2 + grid.y[row] ** 2, 9);
@@ -165,7 +165,7 @@ test('real API switches real → WebGL → real → complex on one page with wor
   expect((await canvasPixels(canvas)).colored).toBeGreaterThan(100);
   await capture(canvas, 'switch-06-real-returned-zoomed'); await exportPng(page, 'switch-07-real-export');
 
-  const complex = await draw(page, 'z*z') as ComplexGrid;
+  const complex = await draw(page, 'z²') as ComplexGrid;
   expect(complex.kind).toBe('complex');
   expect(complex.real[0][0]).toBeCloseTo(complex.x[0] ** 2 - complex.y[0] ** 2, 9);
   expect(complex.imaginary[0][0]).toBeCloseTo(2 * complex.x[0] * complex.y[0], 9);
@@ -178,7 +178,7 @@ test('real API switches real → WebGL → real → complex on one page with wor
   await page.getByLabel('Color assignment', { exact: true }).selectOption('lighter');
   await expect.poll(async () => (await canvasPixels(canvas)).hash).not.toBe(darker.hash);
   expect(expressions).toHaveLength(displayRequestCount);
-  const complexBounds = await bounds(canvas), panRequest = responseFor(page, 'z*z');
+  const complexBounds = await bounds(canvas), panRequest = responseFor(page, 'z²');
   await page.getByRole('button', { name: 'Pan right', exact: true }).click();
   const panResponse = await panRequest, panned = await successful(panResponse) as ComplexGrid;
   await ready2D(page, 'complex');
@@ -189,6 +189,6 @@ test('real API switches real → WebGL → real → complex on one page with wor
   expect(panned.real[0][0]).toBeCloseTo(panned.x[0] ** 2 - panned.y[0] ** 2, 9);
   await expect(page.getByLabel('Color assignment', { exact: true })).toHaveValue('lighter');
   await capture(canvas, 'switch-09-complex-panned'); await exportPng(page, 'switch-10-complex-export');
-  expect(expressions).toEqual(['x*x', 'x*x', 'x*x+y*y', 'sin(x)', 'sin(x)', 'z*z', 'z*z']);
+  expect(expressions).toEqual(['x²', 'x²', 'x²+y²', 'sin(x)', 'sin(x)', 'z²', 'z²']);
   expect(scriptErrors).toEqual([]);
 });

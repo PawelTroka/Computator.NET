@@ -2,8 +2,9 @@
 """Prepare the reviewed PR #294 + browser 2D combination for disposable CI.
 
 This deliberately targets one immutable WebGL implementation and one reviewed
-Chart.tsx bridge. It changes the checkout and index only: no commits, branch
-updates, merges or pushes. Source drift requires an explicitly reviewed bridge.
+chart-dispatch and renderer-lifecycle bridge. It changes the checkout and index
+only: no commits, branch updates, merges or pushes. Source drift requires an
+explicitly reviewed bridge.
 """
 
 from __future__ import annotations
