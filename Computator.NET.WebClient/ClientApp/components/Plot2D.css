@@ -1,0 +1,11 @@
+.plot2d { margin: 0 0 1rem; }
+.plot2d-canvas { display: block; width: 100%; background: #fff; border: 1px solid var(--workspace-line); border-radius: 6px; touch-action: none; cursor: grab; }
+.plot2d-canvas[data-dragging="true"] { cursor: grabbing; }
+.plot2d-toolbar { display: flex; flex-wrap: wrap; gap: .4rem; margin: .75rem 0; }
+.plot2d-toolbar .btn { font-size: .8rem; padding: .4rem .6rem; }
+.plot2d-options { display: flex; flex-wrap: wrap; align-items: end; gap: .75rem; margin: .75rem 0; }
+.plot2d-options label { display: block; font-size: .85rem; }
+.plot2d-options .form-select, .plot2d-options .form-control { max-width: 15rem; font-size: .85rem; }
+.plot2d-options .form-check-label { display: inline; }
+.plot2d-readout { font: .8rem/1.5 ui-monospace, Consolas, monospace; min-height: 1.5em; color: var(--workspace-muted); overflow-wrap: anywhere; }
+.plot2d-hint { margin: .5rem 0; font-size: .8rem; color: var(--workspace-muted); }

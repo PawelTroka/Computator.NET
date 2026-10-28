@@ -20,17 +20,18 @@ test('cancel an actual chart computation and render/download the next plot', asy
   const actual = await response;
   expect(actual.request().postDataJSON().expression).toBe('x');
   expect(actual.ok()).toBeTruthy();
-  expect(actual.headers()['content-type']).toContain('image/png');
-  const chart = page.getByRole('img', { name: 'x', exact: true });
+  expect(actual.headers()['content-type']).toContain('application/json');
+  const samples = await actual.json();
+  expect(samples.kind).toBe('curve');
+  expect(samples.y).toEqual(samples.x);
+  const chart = page.getByTestId('chart-2d');
   await expect(chart).toBeVisible();
-  // Read the displayed blob: Chromium can report an empty response.body()
-  // after the preceding request is aborted, despite receiving the PNG.
-  const bytes = Buffer.from(await chart.evaluate(async (image: HTMLImageElement) => {
-    await image.decode();
-    if (image.naturalWidth <= 100) throw new Error('The chart image did not render.');
-    return Array.from(new Uint8Array(await (await fetch(image.src)).arrayBuffer()));
+  await expect(page.getByRole('status')).toHaveText('Chart ready.');
+  const bytes = Buffer.from(await chart.evaluate(async (canvas: HTMLCanvasElement) => {
+    if (canvas.width <= 100) throw new Error('The chart did not render.');
+    return Array.from(new Uint8Array(await (await fetch(canvas.toDataURL('image/png'))).arrayBuffer()));
   }));
   expect(bytes.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
-  const pending = page.waitForEvent('download'); await page.getByRole('link', { name: 'Download PNG' }).click();
+  const pending = page.waitForEvent('download'); await page.getByRole('button', { name: 'Download PNG' }).click();
   expect(await readFile((await (await pending).path())!)).toEqual(bytes);
 });
