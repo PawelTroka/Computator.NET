@@ -64,6 +64,9 @@ def main() -> None:
     bridge = ROOT / BRIDGE
     if not bridge.is_file():
         raise RuntimeError(f"The reviewed bridge is missing: {BRIDGE}")
+    # Git for Windows can check out the patch with CRLF. Apply and identify the
+    # same canonical LF bytes on every platform, independent of checkout style.
+    bridge_bytes = bridge.read_text(encoding="utf-8").encode("utf-8")
     switching_source, switching_target = ROOT / SWITCHING_TEST, ROOT / SWITCHING_TARGET
     if not switching_source.is_file() or switching_target.exists():
         raise RuntimeError("The dedicated renderer-switching test source is missing or its destination already exists.")
@@ -75,7 +78,7 @@ def main() -> None:
         raise RuntimeError("The immutable WebGL source diff is empty.")
     git("apply", "--3way", "--index", "--exclude=" + CHART,
         "--exclude=Computator.NET.slnx", input_bytes=patch)
-    git("apply", "--index", input_bytes=bridge.read_bytes())
+    git("apply", "--index", input_bytes=bridge_bytes)
     # The switching scenario is meaningful only in this combined candidate;
     # standalone 2D CI must not add an expected missing-3D skip.
     switching_target.write_bytes(switching_source.read_bytes())
@@ -101,7 +104,7 @@ def main() -> None:
         "webgl_294_base": BASE,
         "prepared_tree": text("write-tree"),
         "chart_bridge_source_blob": CHART_SOURCE,
-        "chart_bridge_sha256": hashlib.sha256(bridge.read_bytes()).hexdigest(),
+        "chart_bridge_sha256": hashlib.sha256(bridge_bytes).hexdigest(),
         "staged_files": text("diff", "--cached", "--name-only").splitlines(),
     }
     output = ROOT / "artifacts/compatibility/webgl-294.json"
