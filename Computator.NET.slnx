@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Applications/">
     <Project Path="Computator.NET.Cli/Computator.NET.Cli.csproj" />
+    <Project Path="Computator.NET.PortableWeb/Computator.NET.PortableWeb.csproj" />
     <Project Path="Computator.NET.WebApi/Computator.NET.WebApi.csproj" />
     <Project Path="Computator.NET.WebClient/Computator.NET.WebClient.csproj" />
   </Folder>
@@ -88,6 +89,7 @@
     <File Path=".github/workflows/msix.yml" />
     <File Path=".github/workflows/native-gsl.yml" />
     <File Path=".github/workflows/portable.yml" />
+    <File Path=".github/workflows/portable-local-web.yml" />
     <File Path=".github/workflows/reference-validation.yml" />
     <File Path=".github/workflows/release-evidence.yml" />
     <File Path=".github/workflows/solution.yml" />
@@ -147,6 +149,13 @@
     <File Path="build/native/triplets/computator-osx-arm64.cmake" />
     <File Path="build/native/triplets/computator-osx-x64.cmake" />
     <File Path="build/native/triplets/computator-win-x64.cmake" />
+  </Folder>
+  <Folder Name="/Build/macOS application investigation/">
+    <File Path="build/macos/probe-xquartz.sh" />
+    <File Path="build/macos/XQuartzProbe.cs" />
+    <File Path="build/portable-web/build.sh" />
+    <File Path="build/portable-web/run.sh" />
+    <File Path="build/portable-web/smoke.py" />
   </Folder>
   <Folder Name="/Build/Packaging/">
     <File Path="build/installer/Test-InstalledProduct.ps1" />
@@ -254,6 +263,7 @@
     <File Path="docs/BUILD.md" />
     <File Path="docs/DEVELOPING.md" />
     <File Path="docs/MONO-DESKTOP.md" />
+    <File Path="docs/MACOS-APPLICATION.md" />
     <File Path="docs/WEB-DEVELOPMENT.md" />
   </Folder>
   <Folder Name="/Documentation/Evidence/">

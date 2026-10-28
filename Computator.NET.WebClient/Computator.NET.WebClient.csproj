@@ -10,7 +10,7 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditMode>all</NuGetAuditMode>
-    <DefaultItemExcludes>$(DefaultItemExcludes);node_modules/**;dist/**;playwright-report/**;test-results/**</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);node_modules/**;dist/**;dist-portable/**;playwright-report/**;test-results/**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../SharedAssemblyInfo.cs" Link="Properties/SharedAssemblyInfo.cs" />
