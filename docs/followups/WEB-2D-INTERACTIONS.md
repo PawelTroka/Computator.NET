@@ -10,6 +10,7 @@ It does not establish complete cross-platform feature parity or change API hosti
 - **Add function** accumulates up to eight explicit real functions on the same numerical axes. Each function retains the custom-function source submitted with it. Visibility and removal controls operate on individual functions.
 - Wheel zoom is anchored to the pointer. Pointer dragging pans; two-pointer gestures pan and zoom. Buttons and a focused chart's arrow, `+`, `-`, and `Home` keys provide alternatives. **Reset view** restores the initial draw bounds; **Apply bounds** resamples the submitted functions at explicitly entered bounds.
 - Navigation requests fresh mathematical samples, including newly exposed coordinates. Rapid gestures coalesce for 180 ms. Cached samples provide a coordinate-correct preview while the new viewport is evaluated.
+- Existing functions with no defined values in a new viewport remain as labelled empty layers. For example, a hidden `sqrt(x)` no longer blocks another curve when panning entirely into negative x. New Draw/Add operations still reject an entirely undefined initial domain.
 - Complex charts display one domain-color field, as the desktop does. They support **None**, **Logarithmic**, and **Linear** contours, contour spacing, magnitude color direction, axes visibility, and nearest-sample values under the pointer. Color and contour changes repaint the cached numerical grid without compiling or executing the expression again.
 - **Download PNG** exports the displayed canvas, including its current viewport, visible functions, axes, and legend. Export is disabled while a navigation request is pending. The legacy PNG fallback keeps its existing image download.
 - Cancellation invalidates the active batch, aborts the shared request signal, restores the last committed viewport, and prevents late results from changing the chart. Clearing or leaving the page also cancels outstanding work.
@@ -58,7 +59,7 @@ Explicit real responses use `kind: "curve"`, ascending `x`, nullable `y`, `finit
 | Bounds | Finite increasing intervals with finite positive spans and representable, strictly increasing sample coordinates |
 | Request/worker limits | Existing source, request-size, image-dimension, queue, deadline, and output limits remain in force |
 
-Non-finite results and arithmetic singularities become holes. Other evaluation exceptions remain failures. A domain containing no finite samples returns HTTP 422. Invalid sampling counts and invalid spans are rejected before worker allocation/compilation. Direct samplers accept cancellation tokens; isolated workers still terminate an uncooperative user function that never returns.
+Non-finite results and arithmetic singularities become holes. Other evaluation exceptions remain failures. A domain containing no finite samples returns HTTP 422 by default. The optional `allowEmpty2D: true` permits a well-formed zero-finite response; the browser uses it only when refreshing an already committed layer, so undefined portions of a domain do not trap navigation or block other overlays. Initial Draw/Add requests keep the default rejection, and the browser's empty-response acceptance is explicitly tied to this request flag. Invalid sampling counts and invalid spans are rejected before worker allocation/compilation. Direct samplers accept cancellation tokens; isolated workers still terminate an uncooperative user function that never returns.
 
 For real curves, bounded midpoint probing distinguishes a smooth steep line from common unresolved jumps or poles between base samples. Valid endpoints are retained and a null point breaks the suspect interval. This is a finite-resolution heuristic, not a proof of continuity: narrow spikes, fast oscillations, and closely spaced singularities can still alias. Zooming obtains fresh samples. The current UI uses a fixed bounded sampling density, not an arbitrary-precision adaptive mathematical plotter.
 
@@ -79,6 +80,10 @@ The comparison target is PR #294 head `9fc1b7949fab5dab4cd3ce04cfef2bf944511b01`
 - Both implementations share `Chart.tsx`; combining the branches requires reconciling that UI dispatch so numeric 2D data, surface data, and legacy PNG fallback are all accepted. It is not claimed to be a conflict-free merge.
 - In an integrated version, `SurfacePlot` must retain its lazy loading, 33/65/97 quality selector, cached resize, camera controls, WebGL support reporting, and composed PNG export.
 - Compatibility evidence is recorded below against exact source heads. No original PR or master is merged by this validation.
+
+The temporary `web-chart-compatibility.yml` workflow is scoped to this draft workstream or an explicit dispatch. It runs `build/compatibility/apply-webgl-294.py` in a disposable checkout. That script checks the reviewed 2D chart source fingerprint, applies the immutable #294 diff and the reviewed UI bridge, preserves both documentation entries, and stages a dedicated same-page renderer-switching test. It changes neither HEAD nor branch refs. It records the two source commits and prepared tree before running the real Windows API/browser suite. Source drift fails preparation and requires review of the bridge.
+
+The extra acceptance scenario switches real → WebGL → real → complex on one page, checks independently expected numbers, camera/viewport changes and old-renderer disposal, and exports nonblank PNGs. Successful screenshots and exports are retained with the existing CI diagnostics. This is a reproducible compatibility experiment, not an instruction to merge either draft PR.
 
 ## Verification
 
@@ -104,7 +109,13 @@ On Windows, `./build.ps1 -Target Web-E2E` and `./build.ps1 -Target Web-CustomFun
 
 - Production frontend typecheck/build: passed locally, Node 24.22.1 and npm 11.19.0 (repository Node pin is 24.21.0).
 - API/test Release cross-compilation: passed on Linux with .NET SDK 10.0.402 and `EnableWindowsTargeting=true`; zero compilation errors. This establishes compilation, not Windows runtime behavior.
-- Browser execution, Windows API execution, and combined WebGL checkout: pending at the initial draft commit. Final results and exact validation references will be added after execution.
+- Initial implementation's full local Chromium/Firefox fixture suite: **258 passed, 0 failed, 2 existing published-host-only skips**. Local Vite preview cannot run the pre-existing ASP.NET fallback-routing assertion; published-host CI must exercise it.
+- Final rebuilt standalone chart suite at that checkpoint: **28/28 passed, no skips or retries** (18 new interaction cases and 10 existing PNG lifecycle cases). Includes wheel/drag/keyboard, native Chromium two-finger pinch, plot-interior pixel checks, cancellation, malformed payloads, and successful PNG evidence retained on disk. Chromium 156.0.8078.4 and Firefox 157.0 match the pinned Playwright 1.64.1 revisions.
+- A temporary portable harness linked the actual C# sampler and function classes: **13/13 checks passed**. This is sampler execution evidence, not HTTP/worker or Windows integration evidence.
+- Combined API/test Release cross-compilation with exact #294 head: passed, zero errors. The API dispatch and policy combined cleanly; `Chart.tsx` and the solution documentation inventory required explicit reconciliation.
+- Combined focused browser suite after the partial-domain correction: **38/38 passed, no skips or retries**, including the new 2D tests, retained PNG lifecycle checks, and #294 surface checks. Chromium exercised actual WebGL rotation/zoom/export; headless Firefox exercised the explicitly unavailable-WebGL path. The Windows compatibility gate requires actual WebGL in both browsers.
+- Initial PR head `dbdf401975cef2bcabb696244048009c6b069bd3` also passed [real Windows browser/API acceptance, 16/16](https://github.com/PawelTroka/Computator.NET/actions/runs/40728642768) and [API regression, 150 passed with the existing 3D skip](https://github.com/PawelTroka/Computator.NET/actions/runs/40728642681). These are historical checkpoint results; the later partial-domain cases and combined renderer-switching gate need their own new-head results.
+- Windows runtime results and subsequent combined-browser validation are recorded in [draft PR #301](https://github.com/PawelTroka/Computator.NET/pull/301) and its linked CI runs. Pending/running workflows are not represented as passes; use the reported source SHA/tree when assessing evidence.
 
 ## Remaining desktop/browser differences
 

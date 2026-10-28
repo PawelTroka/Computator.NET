@@ -1,0 +1,81 @@
+--- a/Computator.NET.WebClient/ClientApp/components/Chart.tsx
++++ b/Computator.NET.WebClient/ClientApp/components/Chart.tsx
+@@ -6,11 +6,13 @@
+ import { NumericInput } from './NumericInput';
+ import { Plot2D } from './Plot2D';
+ import { isChart2DData, validBounds, type Bounds, type PlotLayer } from './Chart2DData';
++import { SurfacePlot, isSurfaceGrid, type SurfaceGrid } from './SurfacePlot';
+
+ type Definition = { id: string; expression: string; customFunctions: string; color: string; visible: boolean };
+ type SampledLayer = PlotLayer & { customFunctions: string };
+ type Plot = Definition & Bounds;
+ type RenderedPlot = { kind: 'image'; url: string; expression: string }
++  | { kind: 'surface'; grid: SurfaceGrid; expression: string }
+   | { kind: 'data'; layers: SampledLayer[]; bounds: Bounds; home: Bounds };
+ type RenderRequest = { definitions: Definition[]; bounds: Bounds; home: Bounds; operation: 'draw' | 'add' | 'navigate' | 'resize' };
+ const colors = ['#1769c2', '#c0392b', '#16814a', '#8e44ad', '#b36b00', '#087f8c', '#c23679', '#555e68'];
+@@ -19,6 +21,7 @@
+ export function Chart() {
+   const { expression, setExpression, xMin, setXMin, xMax, setXMax, yMin, setYMin, yMax, setYMax } = useChartDraft();
+   const [rendered, setRendered] = useState<RenderedPlot>();
++  const [gridSize, setGridSize] = useState(65);
+   const [viewport, setViewport] = useState<Bounds>({ xMin, xMax, yMin, yMax });
+   const [error, setError] = useState(''), [pending, setPending] = useState(false), [status, setStatus] = useState('');
+   const container = useRef<HTMLDivElement>(null);
+@@ -69,7 +72,7 @@
+         const response = await fetch(`${WEB_API_BASE_URL}/v2/chart`, {
+           method: 'POST', headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({ expression: plot.expression, customFunctions: plot.customFunctions, allowEmpty2D,
+-            ...request.bounds, width, height, interactive2D: true, curveSamples: 1025, complexGridSize: 257 }),
++            ...request.bounds, width, height, interactive2D: true, curveSamples: 1025, complexGridSize: 257, gridSize }),
+           signal: controller.signal
+         });
+         if (!response.ok) {
+@@ -87,6 +90,16 @@
+         if (contentType.includes('application/json')) {
+           const data: unknown = await response.json();
+           if (active.current !== controller || controller.signal.aborted) return;
++          if (isSurfaceGrid(data)) {
++            if (request.definitions.length !== 1 || request.operation === 'add')
++              throw new Error('Overlays support explicit real functions. Use Draw chart! for a 3D surface.');
++            releaseImage();
++            publish({ kind: 'surface', grid: data, expression: definition.expression });
++            setStatus('3D surface samples ready.');
++            return;
++          }
++          if (data && typeof data === 'object' && 'kind' in data && data.kind === 'surface')
++            throw new Error('Invalid 3D surface response.');
+           if (!isChart2DData(data, allowEmpty2D) || data.x[0] !== request.bounds.xMin || data.x.at(-1) !== request.bounds.xMax ||
+               (data.kind === 'complex' && (data.y[0] !== request.bounds.yMin || data.y.at(-1) !== request.bounds.yMax)))
+             throw new Error('Invalid interactive chart response.');
+@@ -124,7 +137,7 @@
+     } finally {
+       if (active.current === controller) { active.current = null; setPending(false); }
+     }
+-  }, [invalidate, publish, releaseImage, updateDraftBounds]);
++  }, [invalidate, publish, releaseImage, updateDraftBounds, gridSize]);
+
+   function draw(add = false) {
+     if (!expression.trim()) return;
+@@ -198,6 +211,7 @@
+         <p className="text-muted small">This expression uses the server image renderer. Adjust the chart area and draw again to change its view.</p></figure>
+         : rendered?.kind === 'data' ? <Plot2D layers={rendered.layers} bounds={viewport} pending={pending}
+           onBoundsChange={navigate} onReset={() => navigate(rendered.home, true)} />
++        : rendered?.kind === 'surface' ? <SurfacePlot grid={rendered.grid} expression={rendered.expression} />
+         : <p>Enter an expression and choose Draw chart.</p>}
+     </div><div className="col-md-3">
+       <div className="d-flex flex-wrap gap-2 mb-3">
+@@ -221,6 +235,13 @@
+         </li>)}</ul>
+         {canOverlay && <p className="small text-muted mt-2">Up to eight real functions. Each keeps the custom definitions submitted with it.</p>}
+       </section>}
++      <label className="form-label" htmlFor="surface-grid-size">3D surface quality</label>
++      <select className="form-select mb-3" id="surface-grid-size" value={gridSize}
++        onChange={event => setGridSize(Number(event.target.value))}>
++        <option value={33}>Fast (33 × 33)</option>
++        <option value={65}>Balanced (65 × 65)</option>
++        <option value={97}>Detailed (97 × 97)</option>
++      </select>
+       <h2 className="h6">Chart area values:</h2><ul className="list-group">
+         <li className="list-group-item"><NumericInput label="X" subscriptLabel="MIN" value={xMin} onValueChanged={setXMin} /></li>
+         <li className="list-group-item"><NumericInput label="X" subscriptLabel="MAX" value={xMax} onValueChanged={setXMax} /></li>

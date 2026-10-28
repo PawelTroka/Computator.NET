@@ -1,5 +1,5 @@
 import { test, expect, type Locator, type Page, type Response } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 
 // These tests run through the published Windows API and same-origin web host.
 // Expressions and unsaved definitions are evaluated by the production worker;
@@ -9,6 +9,14 @@ type Curve = { kind: string; x: number[]; y: (number | null)[]; finiteSamples: n
 type ComplexGrid = { kind: string; x: number[]; y: number[];
   real: (number | null)[][]; imaginary: (number | null)[][]; finiteSamples: number; missingSamples: number };
 const definition = 'static real BrowserCurveProbe(real x) { return x*x + 1; }';
+
+async function evidence(name: string, bytes: Buffer) {
+  // Keep successful-run screenshots in the uploaded test-results artifact;
+  // body-only attachments are discarded by this suite's JUnit reporter.
+  const path = test.info().outputPath(name + '.png');
+  await writeFile(path, bytes);
+  await test.info().attach(name, { path, contentType: 'image/png' });
+}
 
 async function edit(page: Page, code: string, editor = 'expressionTextArea') {
   const input = page.locator(`#${editor} textarea`);
@@ -45,7 +53,10 @@ async function pixels(canvas: Locator) {
     const data = element.getContext('2d')!.getImageData(0, 0, element.width, element.height).data;
     let colored = 0, hash = 2166136261;
     for (let index = 0; index < data.length; index += 4) {
-      if (Math.max(data[index], data[index + 1], data[index + 2]) -
+      const x = (index / 4) % element.width, y = Math.floor(index / 4 / element.width);
+      if (x > element.width * 0.15 && x < element.width * 0.85 &&
+          y > element.height * 0.1 && y < element.height * 0.7 &&
+          Math.max(data[index], data[index + 1], data[index + 2]) -
           Math.min(data[index], data[index + 1], data[index + 2]) > 35) colored++;
       hash = Math.imul(hash ^ data[index], 16777619);
       hash = Math.imul(hash ^ data[index + 1], 16777619);
@@ -54,7 +65,7 @@ async function pixels(canvas: Locator) {
     return { colored, hash };
   });
 }
-async function exportPng(page: Page, evidence: string) {
+async function exportPng(page: Page, name: string) {
   const pending = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download PNG', exact: true }).click();
   const download = await pending;
@@ -73,13 +84,17 @@ async function exportPng(page: Page, evidence: string) {
     const context = canvas.getContext('2d')!; context.drawImage(image, 0, 0);
     const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
     let count = 0;
-    for (let index = 0; index < pixels.length; index += 4)
-      if (Math.max(pixels[index], pixels[index + 1], pixels[index + 2]) -
+    for (let index = 0; index < pixels.length; index += 4) {
+      const x = (index / 4) % canvas.width, y = Math.floor(index / 4 / canvas.width);
+      if (x > canvas.width * 0.15 && x < canvas.width * 0.85 &&
+          y > canvas.height * 0.1 && y < canvas.height * 0.7 &&
+          Math.max(pixels[index], pixels[index + 1], pixels[index + 2]) -
           Math.min(pixels[index], pixels[index + 1], pixels[index + 2]) > 35) count++;
+    }
     return count;
   }, 'data:image/png;base64,' + bytes.toString('base64'));
   expect(colored).toBeGreaterThan(100);
-  await test.info().attach(evidence, { body: bytes, contentType: 'image/png' });
+  await evidence(name, bytes);
   return bytes;
 }
 
@@ -101,7 +116,7 @@ test('real API custom-function overlays are resampled by wheel zoom and pointer 
   await expect(canvas).toHaveAttribute('data-series-count', '2');
   expect((await pixels(canvas)).colored).toBeGreaterThan(100);
   const original = await bounds(canvas), originalImage = await pixels(canvas);
-  await test.info().attach('real-api-overlays-before', { body: await canvas.screenshot(), contentType: 'image/png' });
+  await evidence('real-api-overlays-before', await canvas.screenshot());
 
   await edit(page, 'UnsubmittedInvalidExpression(');
   const zoomRequests = [chartResponse(page, 'BrowserCurveProbe(x)'), chartResponse(page, 'cos(x)')];
@@ -132,7 +147,7 @@ test('real API custom-function overlays are resampled by wheel zoom and pointer 
   expect(panned.xMin).toBeLessThan(zoomed.xMin);
   expect(panned.yMin).toBeGreaterThan(zoomed.yMin);
   expect(panned.xMax - panned.xMin).toBeCloseTo(zoomed.xMax - zoomed.xMin, 9);
-  await test.info().attach('real-api-overlays-panned', { body: await canvas.screenshot(), contentType: 'image/png' });
+  await evidence('real-api-overlays-panned', await canvas.screenshot());
   await exportPng(page, 'real-api-overlays-export');
 });
 
@@ -172,7 +187,7 @@ test('real complex samples support cached display controls and numerical navigat
   const displayedPng = await exportPng(page, 'real-api-complex-linear-export');
   expect(displayedPng.equals(initialPng)).toBe(false);
   expect(chartRequests).toBe(count);
-  await test.info().attach('real-api-complex-selected', { body: await canvas.screenshot(), contentType: 'image/png' });
+  await evidence('real-api-complex-selected', await canvas.screenshot());
 
   const before = await bounds(canvas), pending = chartResponse(page, 'z²');
   await page.getByRole('button', { name: 'Zoom in', exact: true }).click();

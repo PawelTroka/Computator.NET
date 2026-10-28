@@ -1,14 +1,20 @@
 import { test, expect, type Locator, type Page } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 
 type Bounds = { xMin: number; xMax: number; yMin: number; yMax: number };
 type ChartRequest = Bounds & {
   expression: string; customFunctions: string; interactive2D: boolean;
-  curveSamples?: number; complexGridSize?: number;
+  curveSamples?: number; complexGridSize?: number; allowEmpty2D?: boolean;
 };
 const headers = { 'access-control-allow-origin': '*' };
 const definition = 'static real Probe(real x) { return x*x + 1; }';
 const originalBounds: Bounds = { xMin: -5, xMax: 5, yMin: -5, yMax: 5 };
+
+async function evidence(name: string, bytes: Buffer) {
+  const path = test.info().outputPath(name + '.png');
+  await writeFile(path, bytes);
+  await test.info().attach(name, { path, contentType: 'image/png' });
+}
 
 // Fixture values depend on the requested mathematical domain. A gesture that
 // merely stretches the old pixels cannot satisfy the request/bounds assertions.
@@ -19,8 +25,10 @@ function curve(request: ChartRequest) {
   const source = request.expression.replaceAll('·', '*');
   const y = x.map(value => source.includes('Probe') ? value * value + 1
     : source === 'cos(x)' ? Math.cos(value) : source === '-x' ? -value
-      : source === 'x+1' ? value + 1 : source === 'x²' ? value * value : value);
-  return { kind: 'curve', x, y, finiteSamples: count, missingSamples: 0 };
+      : source === 'sqrt(x)' ? value < 0 ? null : Math.sqrt(value)
+        : source === 'x+1' ? value + 1 : source === 'x²' ? value * value : value);
+  const finiteSamples = y.filter(value => value !== null).length;
+  return { kind: 'curve', x, y, finiteSamples, missingSamples: count - finiteSamples };
 }
 function complex(request: ChartRequest) {
   const count = request.complexGridSize ?? 65;
@@ -53,7 +61,12 @@ async function pixels(canvas: Locator) {
     const data = element.getContext('2d')!.getImageData(0, 0, element.width, element.height).data;
     let colored = 0, hash = 2166136261;
     for (let index = 0; index < data.length; index += 4) {
-      if (Math.max(data[index], data[index + 1], data[index + 2]) -
+      const x = (index / 4) % element.width, y = Math.floor(index / 4 / element.width);
+      // Count colors inside the plotting region, excluding the legend. A chart
+      // that draws a colored label but no mathematical curve must fail.
+      if (x > element.width * 0.15 && x < element.width * 0.85 &&
+          y > element.height * 0.1 && y < element.height * 0.7 &&
+          Math.max(data[index], data[index + 1], data[index + 2]) -
           Math.min(data[index], data[index + 1], data[index + 2]) > 35) colored++;
       hash = Math.imul(hash ^ data[index], 16777619);
       hash = Math.imul(hash ^ data[index + 1], 16777619);
@@ -97,13 +110,16 @@ test('wheel and pointer pan resample every overlay with submitted definitions an
   await expect(canvas).toHaveAttribute('data-series-count', '2');
   expect(await bounds(canvas)).toEqual(originalBounds);
   expect((await pixels(canvas)).colored).toBeGreaterThan(100);
-  await test.info().attach('real-overlays-before-zoom', { body: await canvas.screenshot(), contentType: 'image/png' });
+  await evidence('real-overlays-before-zoom', await canvas.screenshot());
 
   // Unsubmitted editor/bounds changes must not leak into gesture requests.
   await edit(page, 'ThisIsNotSubmitted(');
   await page.getByRole('spinbutton', { name: 'XMIN', exact: true }).fill('-88');
   await page.getByRole('spinbutton', { name: 'YMIN', exact: true }).fill('-99');
   const beforeWheel = requests.length, beforePixels = await pixels(canvas);
+  // Range inputs can scroll the page (the combined 3D sidebar is taller).
+  // Aim each native gesture at the current visible canvas, not a stale box.
+  await canvas.scrollIntoViewIfNeeded();
   const rect = (await canvas.boundingBox())!;
   await page.mouse.move(rect.x + rect.width * 0.55, rect.y + rect.height * 0.45);
   await page.mouse.wheel(0, -400);
@@ -121,9 +137,13 @@ test('wheel and pointer pan resample every overlay with submitted definitions an
   }
 
   const beforePan = requests.length;
-  await page.mouse.move(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5);
+  await canvas.scrollIntoViewIfNeeded();
+  const panRect = (await canvas.boundingBox())!;
+  const scrollBeforePan = await page.evaluate(() => window.scrollY);
+  await page.mouse.move(panRect.x + panRect.width * 0.5, panRect.y + panRect.height * 0.5);
   await page.mouse.down();
-  await page.mouse.move(rect.x + rect.width * 0.64, rect.y + rect.height * 0.59, { steps: 8 });
+  expect(await page.evaluate(() => window.scrollY)).toBe(scrollBeforePan);
+  await page.mouse.move(panRect.x + panRect.width * 0.64, panRect.y + panRect.height * 0.59, { steps: 8 });
   await page.mouse.up();
   await expect.poll(() => requests.length).toBeGreaterThanOrEqual(beforePan + 2);
   await ready(page);
@@ -133,9 +153,9 @@ test('wheel and pointer pan resample every overlay with submitted definitions an
   expect(panned.xMax - panned.xMin).toBeCloseTo(zoomed.xMax - zoomed.xMin, 9);
   expect(panned.yMax - panned.yMin).toBeCloseTo(zoomed.yMax - zoomed.yMin, 9);
   for (const request of requests.slice(beforePan)) expect(request.customFunctions).toBe(definition);
-  await test.info().attach('real-overlays-after-pan', { body: await canvas.screenshot(), contentType: 'image/png' });
+  await evidence('real-overlays-after-pan', await canvas.screenshot());
   const exporting = await png(page);
-  await test.info().attach('real-overlays-export', { body: exporting, contentType: 'image/png' });
+  await evidence('real-overlays-export', exporting);
 
   await page.getByRole('button', { name: 'Reset view', exact: true }).click();
   await expect.poll(() => bounds(canvas)).toEqual(originalBounds);
@@ -177,6 +197,52 @@ test('visibility, removal and clear operate on distinct real function layers', a
   expect(requests).toHaveLength(clearedCount);
   await draw(page, 'x+1');
   await expect(canvas).toHaveAttribute('data-series-count', '1');
+});
+
+test('a hidden domain-limited function does not block navigation of another curve and recovers on reset', async ({ page }) => {
+  const requests: ChartRequest[] = [];
+  await page.route('**/api/v2/chart', route => {
+    const request = route.request().postDataJSON() as ChartRequest;
+    requests.push(request);
+    const data = curve(request);
+    // Match the API contract: a fresh all-undefined plot is rejected, while an
+    // explicitly permitted resample may contain a hole across its entire view.
+    if (data.finiteSamples === 0 && !request.allowEmpty2D)
+      return route.fulfill({ headers, status: 422, json: { title: 'The domain contains no finite curve samples.' } });
+    return route.fulfill({ headers, json: data });
+  });
+  await page.goto('/'); await draw(page, 'x'); await draw(page, 'sqrt(x)', true);
+  const canvas = page.getByTestId('chart-2d');
+  const sqrt = page.getByRole('checkbox', { name: 'Show sqrt(x)', exact: true });
+  expect(requests.find(request => request.expression === 'sqrt(x)')?.allowEmpty2D ?? false).toBe(false);
+  await sqrt.uncheck();
+  await expect(canvas).toHaveAttribute('data-series-count', '1');
+  const before = requests.length;
+  await page.getByRole('spinbutton', { name: 'XMIN', exact: true }).fill('-5');
+  await page.getByRole('spinbutton', { name: 'XMAX', exact: true }).fill('-1');
+  await page.getByRole('button', { name: 'Apply bounds', exact: true }).click();
+  await expect.poll(() => requests.length).toBe(before + 2); await ready(page);
+  expect(await bounds(canvas)).toEqual({ ...originalBounds, xMax: -1 });
+  const resamples = requests.slice(before);
+  expect(resamples.map(request => request.expression).sort()).toEqual(['sqrt(x)', 'x']);
+  for (const request of resamples) expect(request.allowEmpty2D).toBe(true);
+  expect(curve(resamples.find(request => request.expression === 'sqrt(x)')!).finiteSamples).toBe(0);
+  await expect(sqrt).not.toBeChecked();
+  await expect(page.getByRole('checkbox', { name: 'Show x', exact: true })).toBeChecked();
+  await expect(canvas).toHaveAttribute('data-series-count', '1');
+  await expect(page.getByText('No finite samples in this view.', { exact: true })).toBeVisible();
+  expect((await pixels(canvas)).colored).toBeGreaterThan(100);
+
+  const beforeReset = requests.length;
+  await page.getByRole('button', { name: 'Reset view', exact: true }).click();
+  await expect.poll(() => requests.length).toBe(beforeReset + 2); await ready(page);
+  expect(await bounds(canvas)).toEqual(originalBounds);
+  const recovered = requests.slice(beforeReset).find(request => request.expression === 'sqrt(x)')!;
+  expect(curve(recovered).finiteSamples).toBeGreaterThan(0);
+  await sqrt.check();
+  await expect(canvas).toHaveAttribute('data-series-count', '2');
+  await expect(page.getByText('No finite samples in this view.', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('alert')).toHaveCount(0);
 });
 
 test('keyboard navigation updates coordinates and Chromium touch pinch resamples its domain', async ({ page, context, browserName }) => {
@@ -244,8 +310,8 @@ test('complex color, contour and axes controls redraw cached values and export t
   const selectedPng = await png(page);
   expect(selectedPng.equals(darkerPng)).toBe(false);
   expect(requests).toHaveLength(count);
-  await test.info().attach('complex-selected-display', { body: await canvas.screenshot(), contentType: 'image/png' });
-  await test.info().attach('complex-selected-export', { body: selectedPng, contentType: 'image/png' });
+  await evidence('complex-selected-display', await canvas.screenshot());
+  await evidence('complex-selected-export', selectedPng);
   await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
   await expect.poll(() => requests.length).toBe(count + 1);
   await ready(page);

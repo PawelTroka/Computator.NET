@@ -59,11 +59,16 @@ export function Chart() {
       const layers: SampledLayer[] = [];
       // A bounded, sequential batch preserves each submitted definition snapshot,
       // does not exhaust the shared worker queue, and publishes all layers atomically.
-      for (const definition of request.definitions) {
+      for (let index = 0; index < request.definitions.length; index++) {
+        const definition = request.definitions[index];
+        // A previously valid curve may have no defined points in the new view.
+        // Keep it as an empty layer; a new Draw/Add still reports invalid domains.
+        const allowEmpty2D = request.operation === 'navigate' ||
+          (request.operation === 'add' && index < request.definitions.length - 1);
         const plot = { ...definition, ...request.bounds };
         const response = await fetch(`${WEB_API_BASE_URL}/v2/chart`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ expression: plot.expression, customFunctions: plot.customFunctions,
+          body: JSON.stringify({ expression: plot.expression, customFunctions: plot.customFunctions, allowEmpty2D,
             ...request.bounds, width, height, interactive2D: true, curveSamples: 1025, complexGridSize: 257 }),
           signal: controller.signal
         });
@@ -82,7 +87,7 @@ export function Chart() {
         if (contentType.includes('application/json')) {
           const data: unknown = await response.json();
           if (active.current !== controller || controller.signal.aborted) return;
-          if (!isChart2DData(data) || data.x[0] !== request.bounds.xMin || data.x.at(-1) !== request.bounds.xMax ||
+          if (!isChart2DData(data, allowEmpty2D) || data.x[0] !== request.bounds.xMin || data.x.at(-1) !== request.bounds.xMax ||
               (data.kind === 'complex' && (data.y[0] !== request.bounds.yMin || data.y.at(-1) !== request.bounds.yMax)))
             throw new Error('Invalid interactive chart response.');
           if (request.definitions.length > 1 && data.kind !== 'curve')
@@ -210,6 +215,7 @@ export function Chart() {
             disabled={pending} aria-label={`Show ${layer.expression}`} onChange={event => changeLayer(layer.id, event.target.checked)} />
             <span aria-hidden="true" style={{ background: layer.color, width: 16, height: 4, flexShrink: 0 }} />
             <code style={{ overflowWrap: 'anywhere' }}>{layer.expression}</code></label>
+          {layer.data.finiteSamples === 0 && <p className="small text-muted mb-0">No finite samples in this view.</p>}
           <button type="button" className="btn btn-sm btn-outline-secondary mt-2" aria-label={`Remove ${layer.expression}`}
             disabled={pending} onClick={() => changeLayer(layer.id)}>Remove</button>
         </li>)}</ul>

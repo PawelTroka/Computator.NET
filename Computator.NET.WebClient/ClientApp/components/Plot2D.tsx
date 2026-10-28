@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
-import { panBounds, zoomBounds, type Bounds, type ComplexData, type PlotLayer } from './Chart2DData';
+import { formatChartNumber as format, panBounds, zoomBounds, type Bounds, type ComplexData, type PlotLayer } from './Chart2DData';
 import './Plot2D.css';
 
 type Contours = 'none' | 'logarithmic' | 'linear';
@@ -17,12 +17,6 @@ type Gesture = { bounds: Bounds; points: Map<number, Position> };
 function plotArea(size: Size, layers: PlotLayer[]): PlotArea {
   return { left: 70, top: 22, width: Math.max(80, size.width - 92),
     height: Math.max(100, size.height - 80 - Math.max(1, layers.filter(layer => layer.visible).length) * 20) };
-}
-
-function format(value: number): string {
-  if (value === 0) return '0';
-  const absolute = Math.abs(value);
-  return absolute >= 1e5 || absolute < 1e-3 ? value.toExponential(3) : Number(value.toPrecision(5)).toString();
 }
 
 function ticks(minimum: number, maximum: number): number[] {
@@ -174,9 +168,22 @@ function paint(canvas: HTMLCanvasElement, size: Size, bounds: Bounds, layers: Pl
   const complex = layers.some(layer => layer.data.kind === 'complex');
   if (display.axes) {
     context.textAlign = 'center'; context.textBaseline = 'top';
-    for (const x of ticks(bounds.xMin, bounds.xMax)) context.fillText(format(x), px(x), area.top + area.height + 8, Math.max(45, area.width / 5));
+    const xTicks = ticks(bounds.xMin, bounds.xMax), positions = xTicks.map(px);
+    const spacing = positions.length > 1
+      ? Math.min(...positions.slice(1).map((position, index) => position - positions[index])) : area.width;
+    const edgeSpace = Math.min(area.left, size.width - area.left - area.width);
+    // Keep full edge labels inside the bitmap. Account for their inward shift
+    // when capping width so neighboring long labels do not overlap after clamping.
+    const labelWidth = Math.max(1, Math.min(Math.max(45, area.width / 5), spacing - 8,
+      (spacing + edgeSpace - 8) * 2 / 3));
+    xTicks.forEach((x, index) => {
+      const label = format(x, bounds.xMax - bounds.xMin);
+      const halfWidth = Math.min(labelWidth, context.measureText(label).width) / 2;
+      const position = Math.max(4 + halfWidth, Math.min(size.width - 4 - halfWidth, positions[index]));
+      context.fillText(label, position, area.top + area.height + 8, labelWidth);
+    });
     context.textAlign = 'right'; context.textBaseline = 'middle';
-    for (const y of ticks(bounds.yMin, bounds.yMax)) context.fillText(format(y), area.left - 8, py(y), 58);
+    for (const y of ticks(bounds.yMin, bounds.yMax)) context.fillText(format(y, bounds.yMax - bounds.yMin), area.left - 8, py(y), 58);
     context.textAlign = 'center'; context.textBaseline = 'top';
     context.fillText(complex ? 'Re(z)' : 'x', area.left + area.width / 2, area.top + area.height + 29);
     context.save(); context.translate(12, area.top + area.height / 2); context.rotate(-Math.PI / 2);
@@ -206,6 +213,8 @@ export function Plot2D({ layers, bounds, pending, onBoundsChange, onReset }: Pro
   const latest = useRef({ bounds, onBoundsChange, onReset, size, layers });
   latest.current = { bounds, onBoundsChange, onReset, size, layers };
   const complex = layers.some(layer => layer.data.kind === 'complex');
+  const visibleLayers = layers.filter(layer => layer.visible);
+  const emptyView = visibleLayers.length > 0 && visibleLayers.every(layer => layer.data.finiteSamples === 0);
   const step = Number(stepText);
   const validStep = stepText.trim() !== '' && Number.isFinite(step) && step > (display.contours === 'logarithmic' ? 1 : 0);
   const fields = useMemo(() => new Map(layers.filter(layer => layer.data.kind === 'complex')
@@ -268,7 +277,9 @@ export function Plot2D({ layers, bounds, pending, onBoundsChange, onReset }: Pro
     if (event.button !== 0 && event.button !== 1) return;
     const point = localPosition(event.clientX, event.clientY);
     if (!inside(point)) return;
-    event.preventDefault(); event.currentTarget.focus(); event.currentTarget.setPointerCapture(event.pointerId);
+    // Focusing a partly visible canvas must not scroll it away from the pointer
+    // halfway through a drag, particularly beside a taller chart sidebar.
+    event.preventDefault(); event.currentTarget.focus({ preventScroll: true }); event.currentTarget.setPointerCapture(event.pointerId);
     points.current.set(event.pointerId, point); beginGesture(); setDragging(true); setReadout('');
   }
   function pointerMove(event: PointerEvent<HTMLCanvasElement>) {
@@ -298,7 +309,8 @@ export function Plot2D({ layers, bounds, pending, onBoundsChange, onReset }: Pro
     const current = latest.current, area = plotArea(current.size, current.layers);
     const x = current.bounds.xMin + (point.x - area.left) / area.width * (current.bounds.xMax - current.bounds.xMin);
     const y = current.bounds.yMax - (point.y - area.top) / area.height * (current.bounds.yMax - current.bounds.yMin);
-    let text = complex ? `Re(z): ${format(x)}   Im(z): ${format(y)}` : `x: ${format(x)}   y: ${format(y)}`;
+    const xText = format(x, current.bounds.xMax - current.bounds.xMin), yText = format(y, current.bounds.yMax - current.bounds.yMin);
+    let text = complex ? `Re(z): ${xText}   Im(z): ${yText}` : `x: ${xText}   y: ${yText}`;
     const layer = current.layers.find(item => item.visible && item.data.kind === 'complex');
     if (layer?.data.kind === 'complex' && x >= layer.bounds.xMin && x <= layer.bounds.xMax && y >= layer.bounds.yMin && y <= layer.bounds.yMax) {
       const column = Math.round((x - layer.bounds.xMin) / (layer.bounds.xMax - layer.bounds.xMin) * (layer.data.x.length - 1));
@@ -363,7 +375,9 @@ export function Plot2D({ layers, bounds, pending, onBoundsChange, onReset }: Pro
       </canvas>
     </div>
     <figcaption className="plot2d-hint" id={`${id}-instructions`}>Drag to pan; use the mouse wheel or pinch to zoom. Keyboard: arrows to pan, +/− to zoom, Home to reset.</figcaption>
-    <div className="plot2d-readout">{readout || (pending ? 'Updating samples for this view…' : 'Move over the chart to inspect coordinates.')}</div>
+    <div className="plot2d-readout">{pending ? 'Updating samples for this view…'
+      : emptyView ? `${readout ? readout + '. ' : ''}No finite samples in this view. Pan, zoom, or reset to find a defined part of the function.`
+      : readout || 'Move over the chart to inspect coordinates.'}</div>
     <div className="plot2d-toolbar" role="group" aria-label="2D chart controls">
       <button type="button" className="btn btn-outline-secondary" onClick={() => onBoundsChange(zoomBounds(bounds, 0.8))}>Zoom in</button>
       <button type="button" className="btn btn-outline-secondary" onClick={() => onBoundsChange(zoomBounds(bounds, 1.25))}>Zoom out</button>

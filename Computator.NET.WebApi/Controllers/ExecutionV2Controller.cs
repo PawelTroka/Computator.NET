@@ -84,14 +84,14 @@ namespace Computator.NET.WebApi.Controllers
                 {
                     var curve = Chart2DSampler.SampleCurve(function, request.XMin, request.XMax,
                         request.YMin, request.YMax, request.CurveSamples, HttpContext?.RequestAborted ?? CancellationToken.None);
-                    if (curve.FiniteSamples == 0) return UnprocessableEntity(new ProblemDetails { Title = "No finite curve samples in this chart area." });
+                    if (curve.FiniteSamples == 0 && !request.AllowEmpty2D) return UnprocessableEntity(new ProblemDetails { Title = "No finite curve samples in this chart area." });
                     return Ok(curve);
                 }
                 if (request.Interactive2D && function.FunctionType == FunctionType.Complex)
                 {
                     var grid = Chart2DSampler.SampleComplex(function, request.XMin, request.XMax,
                         request.YMin, request.YMax, request.ComplexGridSize, HttpContext?.RequestAborted ?? CancellationToken.None);
-                    if (grid.FiniteSamples == 0) return UnprocessableEntity(new ProblemDetails { Title = "No finite complex samples in this chart area." });
+                    if (grid.FiniteSamples == 0 && !request.AllowEmpty2D) return UnprocessableEntity(new ProblemDetails { Title = "No finite complex samples in this chart area." });
                     return Ok(grid);
                 }
                 chart = _charts.Create(mode); chart.AddFunction(function);
@@ -130,6 +130,9 @@ namespace Computator.NET.WebApi.Controllers
         public double YMin { get; set; } = -5;
         public double YMax { get; set; } = 5;
         public bool Interactive2D { get; set; }
+        // Existing layers may have no defined values after viewport navigation.
+        // Initial Draw requests still reject an entirely undefined chart by default.
+        public bool AllowEmpty2D { get; set; }
         public int CurveSamples { get; set; } = 1025;
         public int ComplexGridSize { get; set; } = 257;
         public bool ValidNumbers() => ExecutionPolicy.ValidNumbers(this);

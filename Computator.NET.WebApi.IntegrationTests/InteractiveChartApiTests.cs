@@ -130,6 +130,38 @@ namespace Computator.NET.WebApi.IntegrationTests
             NUnit.Framework.Assert.That((string)(await Samples(Request("x")))["kind"], Is.EqualTo("curve"));
         }
 
+        [TestCase("sqrt(x)", "curve")]
+        [TestCase("z/(z-z)", "complex")]
+        public async Task ExistingLayersCanBeResampledIntoAnEntirelyUndefinedViewport(string expression, string kind)
+        {
+            var request = Request(expression);
+            request.XMin = -4; request.XMax = -1;
+            using (var initial = await Post(request))
+                NUnit.Framework.Assert.That(initial.StatusCode, Is.EqualTo(HttpStatusCode.UnprocessableEntity),
+                    "Initial Draw must still reject an entirely undefined chart by default.");
+
+            request.AllowEmpty2D = true;
+            var samples = await Samples(request);
+            NUnit.Framework.Assert.That((string)samples["kind"], Is.EqualTo(kind));
+            NUnit.Framework.Assert.That((int)samples["finiteSamples"], Is.Zero);
+            NUnit.Framework.Assert.That((int)samples["missingSamples"], Is.EqualTo(kind == "curve" ? 65 : 81));
+            NUnit.Framework.Assert.That((double)samples["x"][0], Is.EqualTo(-4));
+            NUnit.Framework.Assert.That((double)samples["x"].Last(), Is.EqualTo(-1));
+            if (kind == "curve")
+                NUnit.Framework.Assert.That(samples["y"].All(value => value.Type == JTokenType.Null), Is.True);
+            else
+            {
+                NUnit.Framework.Assert.That(samples["real"].Count(), Is.EqualTo(9));
+                NUnit.Framework.Assert.That(samples["imaginary"].Count(), Is.EqualTo(9));
+                foreach (var component in new[] { "real", "imaginary" })
+                foreach (var row in samples[component])
+                {
+                    NUnit.Framework.Assert.That(row.Count(), Is.EqualTo(9));
+                    NUnit.Framework.Assert.That(row.All(value => value.Type == JTokenType.Null), Is.True);
+                }
+            }
+        }
+
         [Test]
         public async Task InteractiveDefinitionsRemainRequestLocalForBothFunctionKinds()
         {

@@ -37,17 +37,32 @@ export function panBounds(bounds: Bounds, dx: number, dy: number): Bounds {
   return validBounds(next) ? next : bounds;
 }
 
+/** Retain enough digits to distinguish positions within a zoomed coordinate span. */
+export function formatChartNumber(value: number, span?: number): string {
+  if (value === 0) return '0';
+  if (!Number.isFinite(value)) return String(value);
+  const absolute = Math.abs(value);
+  // Subtract logarithms instead of dividing value/span: valid finite intervals
+  // can be extremely small beside a large offset. Seventeen digits round-trip a double.
+  const precision = span !== undefined && Number.isFinite(span) && span > 0
+    ? Math.max(5, Math.min(17, Math.floor(Math.log10(absolute)) - Math.floor(Math.log10(span)) + 3)) : 5;
+  const rounded = Number(value.toPrecision(precision));
+  if (!Number.isFinite(rounded)) return value.toString();
+  return absolute < 1e-3 || (absolute >= 1e5 && precision <= 6)
+    ? rounded.toExponential() : rounded.toString();
+}
+
 function isAxis(value: unknown, minimum: number, maximum: number): value is number[] {
   return Array.isArray(value) && value.length >= minimum && value.length <= maximum &&
     value.every((item: unknown, index: number) => typeof item === 'number' && Number.isFinite(item) &&
       (index === 0 || item > value[index - 1]));
 }
 
-export function isChart2DData(value: unknown): value is Chart2DData {
+export function isChart2DData(value: unknown, allowEmpty = false): value is Chart2DData {
   if (!value || typeof value !== 'object') return false;
   const data = value as Record<string, unknown>;
   if (!Number.isInteger(data.finiteSamples) || !Number.isInteger(data.missingSamples) ||
-      (data.finiteSamples as number) <= 0 || (data.missingSamples as number) < 0) return false;
+      (data.finiteSamples as number) < (allowEmpty ? 0 : 1) || (data.missingSamples as number) < 0) return false;
   let finite = 0, total = 0;
   if (data.kind === 'curve') {
     if (!isAxis(data.x, 33, 8193) || !Array.isArray(data.y) || data.y.length !== data.x.length) return false;
