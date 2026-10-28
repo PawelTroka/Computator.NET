@@ -127,7 +127,12 @@ test('unsupported charts and compilation failures are visible and corrected inpu
   await expect(page.getByRole('alert')).toHaveText((await chart.json()).detail);
   await page.screenshot({ path: test.info().outputPath('portable-chart-unavailable.png'), fullPage: true });
   await page.getByRole('link', { name: 'Calculate', exact: true }).click();
+  // Both routes use the same Ace DOM ID. The URL can change before React
+  // replaces the Chart editor, so wait for the destination screen before typing.
+  await expect(page.getByRole('heading', { name: 'Calculate', exact: true })).toBeVisible();
   await replaceCode(page, 'expressionTextArea', 'missing(2)');
+  await expect(page.locator('#expressionTextArea .ace_content')).toContainText('missing(2)');
+  await expect(page.getByRole('button', { name: 'Calculate!', exact: true })).toBeEnabled();
   const invalid = page.waitForResponse(response => response.url().endsWith('/api/v2/execute'));
   await page.getByRole('button', { name: 'Calculate!', exact: true }).click();
   expect((await invalid).status()).toBe(400);
