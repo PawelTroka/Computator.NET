@@ -9,6 +9,7 @@ using Computator.NET.Core.Evaluation;
 using Computator.NET.Core.NumericalCalculations;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Charts;
+using Computator.NET.DataTypes.Functions;
 using Computator.NET.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -76,6 +77,23 @@ namespace Computator.NET.WebApi.Controllers
                 var mode = _mode.DetermineMode(request.Expression, request.CustomFunctions);
                 if (mode == CalculationsMode.Fxy) return UnprocessableEntity(new ProblemDetails { Title = "Server-side 3D rendering is not implemented." });
                 var function = new ExpressionsEvaluator().Evaluate(request.Expression, request.CustomFunctions, mode);
+                // Opt-in numeric data retains the existing expression/custom-function
+                // compiler and isolated-worker lifetime. Legacy callers and implicit
+                // charts still receive their established PNG representation.
+                if (request.Interactive2D && function.FunctionType == FunctionType.Real2D)
+                {
+                    var curve = Chart2DSampler.SampleCurve(function, request.XMin, request.XMax,
+                        request.YMin, request.YMax, request.CurveSamples, HttpContext?.RequestAborted ?? CancellationToken.None);
+                    if (curve.FiniteSamples == 0 && !request.AllowEmpty2D) return UnprocessableEntity(new ProblemDetails { Title = "No finite curve samples in this chart area." });
+                    return Ok(curve);
+                }
+                if (request.Interactive2D && function.FunctionType == FunctionType.Complex)
+                {
+                    var grid = Chart2DSampler.SampleComplex(function, request.XMin, request.XMax,
+                        request.YMin, request.YMax, request.ComplexGridSize, HttpContext?.RequestAborted ?? CancellationToken.None);
+                    if (grid.FiniteSamples == 0 && !request.AllowEmpty2D) return UnprocessableEntity(new ProblemDetails { Title = "No finite complex samples in this chart area." });
+                    return Ok(grid);
+                }
                 chart = _charts.Create(mode); chart.AddFunction(function);
                 chart.XMin = request.XMin; chart.XMax = request.XMax;
                 chart.YMin = request.YMin; chart.YMax = request.YMax; chart.Visible = true;
@@ -111,6 +129,12 @@ namespace Computator.NET.WebApi.Controllers
         public double XMax { get; set; } = 5;
         public double YMin { get; set; } = -5;
         public double YMax { get; set; } = 5;
+        public bool Interactive2D { get; set; }
+        // Existing layers may have no defined values after viewport navigation.
+        // Initial Draw requests still reject an entirely undefined chart by default.
+        public bool AllowEmpty2D { get; set; }
+        public int CurveSamples { get; set; } = 1025;
+        public int ComplexGridSize { get; set; } = 257;
         public bool ValidNumbers() => ExecutionPolicy.ValidNumbers(this);
     }
 }
