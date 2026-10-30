@@ -4378,6 +4378,23 @@
 </div>]]></Description>
     <Url>https://physics.nist.gov/cuu/Constants/</Url>
   </FunctionInfo>
+  <FunctionInfo Signature="DifferentialEquation.rungeKutta4(derivative,y0,start,end,samples)">
+    <Title>Fourth-order Runge–Kutta initial-value solver</Title>
+    <Type>DifferentialEquation</Type>
+    <Category>Ordinary differential equations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Double[] DifferentialEquation.rungeKutta4(function derivative, real y0, real start, real end, integer samples)</code><br /><code>Vector`1[] DifferentialEquation.rungeKutta4(function derivative, Vector`1 y0, real start, real end, integer samples)</code></p>
+<p class="reference-summary">Approximates a real scalar differential equation or a coupled first-order system from its initial state.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>y′(t)=derivative(t,y), y(start)=y0; h=(end−start)/(samples−1). Classical RK4 combines slopes at t, t+h/2, t+h/2 and t+h.</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Scalar y0 returns a real array. A real Math.NET vector y0 returns an array of state vectors of the same dimension. samples includes the initial and final states: default 101, accepted range 2 through 1,000,001. Index i corresponds to start+i·h, subject to floating-point rounding. Reverse intervals are supported.</p>
+<p class="reference-note"><strong>Important:</strong> Use finite initial states, bounds, derivatives and intermediate states. A nonzero interval needs a finite, representable half-step. Equal bounds return independent copies of the initial state without evaluating the derivative. Invalid inputs or wrong-sized system derivatives throw; nonfinite arithmetic throws ArithmeticException. Callback exceptions propagate. This fixed-step method has no adaptive error estimate, stiff-system handling or event detection. Refine the grid and check convergence. Vector callbacks receive copies; returned states and reused derivative buffers do not alias. Memory grows with samples times state dimension.</p>
+<p class="reference-explanation">An initial-value problem needs both a rate equation and a starting state. For y′=2t with y(0)=3, integration gives y(t)=3+t², so the value at t=2 is seven. The returned array stores the evolving state, not derivative values.</p>
+<p class="reference-explanation">For a second-order equation, introduce a velocity component: y′=v and v′=−y describe a unit-frequency oscillator. Return a vector containing both derivatives in the same order as the state vector. More samples improve ordinary smooth non-stiff problems, but cannot guarantee stability or accuracy for every equation.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>DifferentialEquation.rungeKutta4((t,u) =&gt; 2*t,3.0,0.0,2.0,21)[20]</code></pre><p><strong>Result:</strong> approximately 7</p><p>There are twenty steps and twenty-one stored states. The last element approximates y(2)=3+2².</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/OdeSolvers/RungeKutta.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/OdeSolvers/RungeKutta.cs</Url>
+  </FunctionInfo>
   <FunctionInfo Signature="DiracDelta(x)">
     <Title>Dirac-delta point helper</Title>
     <Type>ElementaryFunctions</Type>
