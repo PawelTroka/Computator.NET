@@ -57,7 +57,11 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         private static readonly Regex NumberRaisedToAnyPowerRegex = new Regex(
-            $@"(\d+\.?\d*){Groups.PowerCatchingGroup}", RegexOptions.Compiled);
+            // A numeric base has the same complete spelling as an implicit
+            // coefficient: digit separators, leading dot and scientific exponent.
+            // Never start inside an identifier (value2) or another decimal.
+            $@"(?<![\p{{L}}\p{{Nl}}\p{{Mn}}\p{{Mc}}\p{{Nd}}\p{{Pc}}\p{{Cf}}.])({Groups.DecimalLiteral}){Groups.PowerCatchingGroup}",
+            RegexOptions.Compiled);
 
         private static readonly Regex VariableRaisedToAnyPowerRegex = new Regex(
             $@"({Groups.Identifier}){Groups.PowerCatchingGroup}", RegexOptions.Compiled);
