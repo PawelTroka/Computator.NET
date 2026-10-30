@@ -4,19 +4,22 @@ on:
     branches: ['perf/issue-191-roslyn-compilation-reuse']
     paths:
       - 'Computator.NET.Core/Compilation/NativeCompiler.cs'
-      - 'Computator.NET.Core/Compilation/BuiltinFacadePolicy.cs'
-      - 'Computator.NET.Core/Evaluation/ExpressionsEvaluator.cs'
-      - 'Computator.NET.Core/Evaluation/ScriptEvaluator.cs'
-      - 'Computator.NET.Core.Tests/**'
-      - 'build/PrecompiledTslBuiltins.targets'
+      - 'Computator.NET.Core.Tests/CompilationTests/MetadataReferenceSnapshotTests.cs'
+      - 'Computator.NET.Core.Tests/CompilationTests/RoslynMigrationTests.cs'
+      - 'Computator.NET.Core.Tests/CompilationTests/ProgramLifetimeTests.cs'
       - 'build/performance/CompilerComparison*'
       - 'build/performance/Prepare-CompilerComparison.ps1'
       - 'build/performance/compiler_comparison_manifest.py'
+      - 'build/performance/test_compiler_comparison.py'
+      - 'build/performance/CompilationDiagnostics.cs.txt'
       - 'build/performance/inspect_compilation.py'
       - '.github/workflows/compiler-compilation-reuse.yml'
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   comparison:
     strategy:

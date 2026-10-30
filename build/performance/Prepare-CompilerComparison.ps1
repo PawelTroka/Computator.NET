@@ -238,6 +238,47 @@ foreach ($file in @(Get-ChildItem -LiteralPath $payloads.baseline -Recurse -File
     if ((Get-SHA256 $file.FullName) -ne (Get-SHA256 (Join-Path $payloads.candidate $relative))) { throw "Third-party dependency binary differs: $relative" }
 }
 
+function Get-PublicationImage([string]$Path) {
+    $stream = [IO.File]::OpenRead($Path)
+    $pe = [System.Reflection.PortableExecutable.PEReader]::new($stream)
+    try {
+        if (!$pe.HasMetadata -or $null -eq $pe.PEHeaders.CorHeader) { throw "Not a managed assembly: $Path" }
+        $entry = $pe.PEHeaders.CorHeader.ManagedNativeHeaderDirectory
+        [uint32]$signature = 0
+        if ($entry.Size -ge 4 -and $entry.RelativeVirtualAddress -gt 0) {
+            $reader = $pe.GetSectionData($entry.RelativeVirtualAddress).GetReader(0, 4)
+            $signature = $reader.ReadUInt32()
+        }
+        @{
+            path = [IO.Path]::GetFullPath($Path); sha256 = (Get-SHA256 $Path);
+            bytes = $stream.Length; metadataBytes = $pe.PEHeaders.MetadataSize;
+            managedNativeHeaderBytes = $entry.Size; readyToRun = ($signature -eq 0x00525452);
+            signature = $signature
+        }
+    } finally { $pe.Dispose(); $stream.Dispose() }
+}
+
+# The common driver is deliberately IL-only. The product and Roslyn retain their
+# shipped non-composite ReadyToRun policy, verified from their actual PE headers.
+Add-Type -AssemblyName System.Reflection.Metadata
+$publicationImages = @()
+foreach ($label in @('baseline', 'candidate')) {
+    foreach ($name in @('Computator.Performance.Worker.dll', 'Computator.NET.Core.dll',
+        'Computator.NET.Engine.dll', 'Microsoft.CodeAnalysis.dll', 'Microsoft.CodeAnalysis.CSharp.dll')) {
+        $image = Get-PublicationImage (Join-Path $payloads[$label] $name)
+        if ($name -eq 'Computator.Performance.Worker.dll') {
+            if ($image.managedNativeHeaderBytes -ne 0) { throw "Common driver unexpectedly has a native header: $label" }
+        } elseif (!$image.readyToRun) {
+            throw "Required product/compiler assembly is not ReadyToRun: $label/$name"
+        }
+        $publicationImages += @{ product = $label; assembly = $name; image = $image }
+    }
+}
+Write-Json @{
+    policy = 'Same IL-only driver bytes; both product payloads and Roslyn use non-composite ReadyToRun.';
+    images = $publicationImages
+} (Join-Path $audit 'publication-images.json')
+
 function Get-Artifact([string]$Path, [string]$Role = '') {
     $item = @{ path = [IO.Path]::GetFullPath($Path); sha256 = (Get-SHA256 $Path) }
     if ($Role) { $item.role = $Role }

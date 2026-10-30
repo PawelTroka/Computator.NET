@@ -14,6 +14,9 @@
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
   </PropertyGroup>
   <ItemGroup>
+    <!-- The byte-identical observer is IL-only in both products. Crossgen never
+         bakes one product's dependency assumptions into the shared worker. -->
+    <PublishReadyToRunExclude Include="Computator.Performance.Worker.dll" />
     <!-- One common driver uses the unchanged historical workload/oracle source. -->
     <Compile Include="Worker.cs;DesktopStartup.cs;DirectExpressionEntryPoint.cs;CompilerComparisonEntryPoint.cs" />
     <ProjectReference Include="$(ProductSourceDirectory)/Computator.NET.Core/Computator.NET.Core.csproj" />
