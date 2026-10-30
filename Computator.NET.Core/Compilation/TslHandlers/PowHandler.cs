@@ -56,8 +56,12 @@ namespace Computator.NET.Core.Compilation.TslHandlers
             @"(?:(?<function>" + QualifiedIdentifier + @")(?<gap>\s*))?(" + Parentheses + ")" + Groups.PowerCatchingGroup,
             RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
+        // Reuse the coefficient grammar so scientific notation, digit separators
+        // and leading decimal points form one power operand. Never start inside
+        // an identifier: the digits in x1² belong to x1, not a separate number.
         private static readonly Regex NumberRaisedToAnyPowerRegex = new Regex(
-            $@"(\d+\.?\d*){Groups.PowerCatchingGroup}", RegexOptions.Compiled);
+            $@"(?<![\p{{L}}\p{{Nl}}\p{{Mn}}\p{{Mc}}\p{{Nd}}\p{{Pc}}\p{{Cf}}.])({Groups.DecimalLiteral}){Groups.PowerCatchingGroup}",
+            RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         private static readonly Regex VariableRaisedToAnyPowerRegex = new Regex(
             $@"({Groups.Identifier}){Groups.PowerCatchingGroup}", RegexOptions.Compiled);
