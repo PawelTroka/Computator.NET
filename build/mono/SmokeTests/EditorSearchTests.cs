@@ -155,6 +155,22 @@ internal static partial class Program
                 Equal(scripts.Text, string.Empty);
                 Check(Find(scriptDialog, "searchScope").Text.EndsWith("empty.tsl", StringComparison.Ordinal),
                     "Reopening search must use the new empty document's scope.");
+
+                // Whole-word replacement must not separate an enclosing combining
+                // mark from its base letter, on the native Mono editor too.
+                var combining = Path.Combine(directory, "combining.tsl");
+                File.WriteAllText(combining, "x\u20DD x x\u20E3");
+                scripts.NewDocument(combining);
+                SelectSearchText(native, 0, 0);
+                Find(scriptDialog, "findText").Text = "x";
+                Find(scriptDialog, "replacementText").Text = "y";
+                ((CheckBox)Find(scriptDialog, "wholeWord")).Checked = true;
+                SearchClick(scriptDialog, "findNext");
+                AssertSearchSelection(native, 3, "x");
+                SearchClick(scriptDialog, "replaceAll");
+                Equal(scripts.Text, "x\u20DD y x\u20E3");
+                scripts.Undo();
+                Equal(scripts.Text, "x\u20DD x x\u20E3");
                 scripts.SwitchTab(path);
 
                 state.CurrentView = ViewName.CustomFunctions;

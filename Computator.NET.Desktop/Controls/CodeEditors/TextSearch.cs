@@ -85,7 +85,8 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
             var category = char.GetUnicodeCategory(text, index);
             return char.IsLetterOrDigit(text, index) ||
                 category == UnicodeCategory.ConnectorPunctuation ||
-                category == UnicodeCategory.NonSpacingMark || category == UnicodeCategory.SpacingCombiningMark;
+                category == UnicodeCategory.NonSpacingMark || category == UnicodeCategory.SpacingCombiningMark ||
+                category == UnicodeCategory.EnclosingMark;
         }
     }
 }

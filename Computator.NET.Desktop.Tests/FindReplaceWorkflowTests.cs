@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -120,9 +121,65 @@ namespace Computator.NET.Desktop.Tests
         [TestCase(CodeEditorType.Scintilla)]
         [TestCase(CodeEditorType.AvalonEdit)]
         [TestCase(CodeEditorType.TextEditor)]
+        [SetCulture("de-DE"), SetUICulture("de-DE")]
+        public void GermanResourcesLoadInTheNativeFindReplaceWorkflow(CodeEditorType kind) =>
+            AssertLocalizedFindReplaceWorkflow(kind, "de-DE");
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
+        [SetCulture("cs-CZ"), SetUICulture("cs-CZ")]
+        public void CzechResourcesLoadInTheNativeFindReplaceWorkflow(CodeEditorType kind) =>
+            AssertLocalizedFindReplaceWorkflow(kind, "cs-CZ");
+
+        private void AssertLocalizedFindReplaceWorkflow(CodeEditorType kind, string culture)
+        {
+            NUnit.Framework.Assert.That(CultureInfo.CurrentUICulture.Name, Is.EqualTo(culture));
+            var german = culture == "de-DE";
+            const string original = "größer žluťoučký größer";
+            const string filename = "größer-žluťoučký.tsl";
+            var path = OpenScript(kind, filename, original);
+            var target = Target(_scripts);
+            target.Select(0, 0);
+            NUnit.Framework.Assert.That(_findMenu.Text, Is.EqualTo(german ? "&Suchen…" : "&Najít…"));
+            NUnit.Framework.Assert.That(_replaceMenu.Text, Is.EqualTo(german ? "&Ersetzen…" : "Na&hradit…"));
+            _replaceMenu.PerformClick();
+            var dialog = Dialog();
+            NUnit.Framework.Assert.That(dialog.Text, Is.EqualTo(german ? "Suchen und ersetzen" : "Najít a nahradit"));
+            NUnit.Framework.Assert.That(Field<Label>(dialog, "searchScope").Text,
+                Is.EqualTo((german ? "Aktuelles Dokument: " : "Aktuální dokument: ") + filename));
+            NUnit.Framework.Assert.That(Field<CheckBox>(dialog, "wholeWord").Text,
+                Is.EqualTo(german ? "Ganzes Wort" : "Celé slovo"));
+            NUnit.Framework.Assert.That(Field<Button>(dialog, "replaceAll").Text,
+                Is.EqualTo(german ? "Alle ersetzen" : "Nahradit vše"));
+
+            Field<TextBox>(dialog, "findText").Text = "größer";
+            Field<TextBox>(dialog, "replacementText").Text = "příliš";
+            Click(dialog, "replaceAll");
+            NUnit.Framework.Assert.That(_scripts.Text, Is.EqualTo("příliš žluťoučký příliš"));
+            AssertSelection(target, 0, "příliš");
+            NUnit.Framework.Assert.That(Field<Label>(dialog, "searchStatus").Text,
+                Is.EqualTo(german ? "2 Vorkommen ersetzt." : "Počet nahrazených výskytů: 2."));
+            SaveScreenshot(dialog, "find-replace-" + culture + "-" + kind + ".png");
+            _scripts.Undo();
+            NUnit.Framework.Assert.That(_scripts.Text, Is.EqualTo(original));
+            NUnit.Framework.Assert.That(File.ReadAllText(path), Is.EqualTo(original));
+
+            SetReadOnly(Native(_scripts), true);
+            dialog.RefreshScope();
+            NUnit.Framework.Assert.That(Field<Label>(dialog, "searchStatus").Text,
+                Is.EqualTo(german ? "Dieses Dokument ist schreibgeschützt." : "Tento dokument je jen pro čtení."));
+            NUnit.Framework.Assert.That(Field<Button>(dialog, "replaceAll").Enabled, Is.False);
+            NUnit.Framework.Assert.That(Field<Button>(dialog, "replaceCurrent").Enabled, Is.False);
+        }
+
+        [TestCase(CodeEditorType.Scintilla)]
+        [TestCase(CodeEditorType.AvalonEdit)]
+        [TestCase(CodeEditorType.TextEditor)]
         public void WholeWordNavigationWrapsAndReplaceCurrentUsesUtf16Selection(CodeEditorType kind)
         {
-            OpenScript(kind, "unicode.tsl", "😀x x2 x_ x 😀");
+            const string original = "😀x x2 x_ x 😀 x\u20DD";
+            OpenScript(kind, "unicode.tsl", original);
             var target = Target(_scripts);
             target.Select(0, 0);
             _replaceMenu.PerformClick();
@@ -139,10 +196,10 @@ namespace Computator.NET.Desktop.Tests
             AssertSelection(target, 10, "x");
             Field<TextBox>(dialog, "replacementText").Text = "ββ";
             Click(dialog, "replaceCurrent");
-            NUnit.Framework.Assert.That(_scripts.Text, Is.EqualTo("😀x x2 x_ ββ 😀"));
+            NUnit.Framework.Assert.That(_scripts.Text, Is.EqualTo("😀x x2 x_ ββ 😀 x\u20DD"));
             AssertSelection(target, 2, "x");
             _scripts.Undo();
-            NUnit.Framework.Assert.That(_scripts.Text, Is.EqualTo("😀x x2 x_ x 😀"));
+            NUnit.Framework.Assert.That(_scripts.Text, Is.EqualTo(original));
             Field<TextBox>(dialog, "findText").Text = "absent";
             var previousStart = target.SelectionStart;
             var previousLength = target.SelectionLength;

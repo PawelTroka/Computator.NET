@@ -49,6 +49,8 @@ public class TextSearchTests
     [TestCase("x_y", false)]
     [TestCase("x\u0301", false)]
     [TestCase("\u0301x", false)]
+    [TestCase("x\u20DD", false)]
+    [TestCase("\u20DDx", false)]
     public void WholeWordUsesUnicodeCharactersAtBothBoundaries(string text, bool expected)
     {
         var matches = TextSearch.FindAll(text, "x", true, true);
@@ -67,6 +69,16 @@ public class TextSearchTests
         NUnit.Framework.Assert.That(TextSearch.Find(text, "x", 6, true, true, true), Is.EqualTo(21));
         NUnit.Framework.Assert.That(TextSearch.Find("xx", "x", 0, false, true, true), Is.EqualTo(-1));
         NUnit.Framework.Assert.That(TextSearch.Find("xx", "x", 0, true, true, true), Is.EqualTo(-1));
+    }
+
+    [Test]
+    public void WholeWordSearchDoesNotSplitEnclosingCombiningMarks()
+    {
+        const string text = "x\u20DD x x\u20E3";
+        NUnit.Framework.Assert.That(TextSearch.FindAll(text, "x", true, true), Is.EqualTo(new[] { 3 }));
+        NUnit.Framework.Assert.That(TextSearch.FindAll(text, "x", true, false), Is.EqualTo(new[] { 0, 3, 5 }));
+        NUnit.Framework.Assert.That(TextSearch.Find(text, "x", 0, false, true, true), Is.EqualTo(3));
+        NUnit.Framework.Assert.That(TextSearch.Find(text, "x", text.Length, true, true, true), Is.EqualTo(3));
     }
 
     [Test, SetCulture("tr-TR")]
