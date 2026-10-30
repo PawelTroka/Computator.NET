@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Supplemental numerical/compilation reproducibility evidence for independent Computator.NET PRs 304-310; no binaries included.",
+  "repository": "https://github.com/PawelTroka/Computator.NET",
+  "validationPr": "https://github.com/PawelTroka/Computator.NET/pull/312",
+  "baseCommit": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+  "latestCandidate": {
+    "headCommit": "76bb146dc2f305c48c80013f3089e66a794d5c35",
+    "mergeCommit": "897de969c2345ba4f3a12c87959f789f4c584143",
+    "tree": "270b1fb34463fbb6dde9d9748470e327f49415d6",
+    "inputHeads": {
+      "304": "ceedea70c873ae4e6ac6072f739541ecdcc0d502",
+      "305": "d626208fb632834502d4153ec157cc3eec836e95",
+      "306": "3b83f4d88541e2cf497abedbb709ac05dc662945",
+      "307": "05fca5a6bb6f2f7a534825d026b48eb9786a02ce",
+      "308": "0b5c9930d59a4371d62061e27016dc150f4ae608",
+      "309": "0ea6da7f804c06b502b174d38a005e9bfcb5de45",
+      "310": "7a944e5ba581c95a75a61efe4049804a2c66839e"
+    }
+  },
+  "dotnetObservation": {
+    "executedLocalCommit": "8b03bf130031c5a91dbfb80fe26a45a4a2173f64",
+    "matchingPublishedCommit": "189d28c0ec7acbf77d380f14f95ef450e7bfbd84",
+    "tree": "58b013e7e3f81ec62858a481860b73de0a88a7ff",
+    "inputHeads": {
+      "304": "ceedea70c873ae4e6ac6072f739541ecdcc0d502",
+      "305": "d626208fb632834502d4153ec157cc3eec836e95",
+      "306": "4108c8932a3bbf84e9fb006aa181073d71aef6a9",
+      "307": "05fca5a6bb6f2f7a534825d026b48eb9786a02ce",
+      "308": "0b5c9930d59a4371d62061e27016dc150f4ae608",
+      "309": "0ea6da7f804c06b502b174d38a005e9bfcb5de45",
+      "310": "7a944e5ba581c95a75a61efe4049804a2c66839e"
+    },
+    "runtime": "Linux x64 .NET 10",
+    "sdk": "10.0.403",
+    "counts": {
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0
+    },
+    "coverage": "15 cases in each of host-reference and complete emitted-numerics modes, through actual TSL compilation.",
+    "recordedAtUtc": "2026-10-30T18:21:56.328092+00:00",
+    "originalTrxSha256": "2a39413a01ace3aea44c4d8793bcf601241e3ff580be3477399f0fd33fe5972c"
+  },
+  "monoObservation": {
+    "snapshotCheckoutCommit": "897de969c2345ba4f3a12c87959f789f4c584143",
+    "snapshotCheckoutTree": "270b1fb34463fbb6dde9d9748470e327f49415d6",
+    "runtime": "Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)",
+    "counts": {
+      "passed": 116,
+      "failed": 0,
+      "skipped": 0
+    },
+    "coverage": {
+      "secantChecks": 16,
+      "trapezoidalChecks": 16,
+      "compiledTslAndEuclidChecks": 10,
+      "debyeChecksAcrossFourSurfaces": 68,
+      "runtimeLoadCompileChecks": 6
+    },
+    "provenanceQualification": "Executed already-built net48 binaries copied before parallel rebuilds. Checkout-at-snapshot is not a fresh-build commit claim. Their production source is equivalent to the final candidate: only solution inventory differs from the previously built tree.",
+    "previousProductionTree": "58b013e7e3f81ec62858a481860b73de0a88a7ff",
+    "changedPathsSincePreviousProductionTree": [
+      "Computator.NET.slnx"
+    ],
+    "binarySha256": {
+      "DataVisualizationX.dll": "8f0cfaaeaef3745a87df986d1322a6ec6fcc9719c4a2cae2b146f92ed3663b99",
+      "Microsoft.Bcl.AsyncInterfaces.dll": "8f736f71c6874dc5e4e45d2e1873429db1f30171b6548a75e8f293f0b7bb7c8a",
+      "Computator.NET.Engine.dll": "4f481d735907a53be547719d329e9e5ef9f3bed93f22c0976c73a13c89979340",
+      "System.Text.Encodings.Web.dll": "1f1a14b534de4eab8938470d35baa8f1665fe0b1a27f0dcaa2365c3a0b94ea1c",
+      "System.Resources.Extensions.dll": "f5b150e520072224e758eda0abe7178d73cee8b6b18fa96b2ce9ff9fdb66c089",
+      "System.Reflection.Metadata.dll": "d7cf052780bb4da746c45d21cedb1d9f4fea10c5f8935727895bc67d93330ec4",
+      "Computator.NET.Localization.dll": "5b8798eaa8feb912c41be281a4676ee2367ef0136267e298a2d378cba7048aaa",
+      "System.IO.Pipelines.dll": "b1925334dd955b477f274e82e4db4803a9e7be5a0955b38427a329a2b6eef50c",
+      "System.Text.Encoding.CodePages.dll": "b77ee852824a6e8098fbade000beb42ce9df32fa4189a00d5e7f472f6c6a5030",
+      "System.Text.Json.dll": "815495a76781b84d143478c969beec46dd60455657bfea098b236cc38c083bf2",
+      "MathNet.Numerics.dll": "4c9803a4b0673b93a99a2237e35543be2f6741fbd54b0ff045cf92e877be09d4",
+      "System.Collections.Immutable.dll": "4e0b1bbb7237f94f090dc866d66500972fdf0ee416ec8401e192238346005954",
+      "Accord.Math.Core.dll": "777da4849d8f7897a13818eb9fab05b2ecb80de848b3019aafefd34b28f791a8",
+      "Meta.Numerics.dll": "48c6d33615cc868999b86eae3f9ed97b908a28a965de24a10774b4c81a86e284",
+      "Computator.NET.Desktop.dll": "82d2265da8d68922806689758436f06b9827760f0d43a4c840d45df27a49363d",
+      "Guards.dll": "cb616cdf0aa2c43aa7c22509ae9291675b4dedbf048e532edbdb4fe881654426",
+      "System.Formats.Nrbf.dll": "7692be2fb6e39f7acf328cd941bd5901670e1be5bf4704818d7239da4ddb70c5",
+      "NLog.dll": "e9d7d102670d91afcaca994b1c1416c11cf3ec4c5e1cd691109ad261f294a81d",
+      "Unity.Container.dll": "033ffdf50a855fd3b42e8950a4707edb2ed0820e37d2c9ee9456af41d22aeb7e",
+      "Accord.Math.dll": "1b1c40f63b7b98e82878ce8656390c12d9a2ed72ca451d6e7adcb46555cccbf2",
+      "System.Runtime.CompilerServices.Unsafe.dll": "08cbd7278b66f1e68425a82d4b97181a4130d93e3dd91831407aba7212ccdacf",
+      "Microsoft.CodeAnalysis.CSharp.dll": "d3738d2d0d6297f57c986ff985f67c46efdc02c6b7038355cfc620db707062a3",
+      "Microsoft.Bcl.HashCode.dll": "3a4e851ee5fc0f6182aa5a3d65dc56fcd6979b65334b5c3b92fbdc791457c0ab",
+      "System.Buffers.dll": "2d78d770c9cb997199154ae8c018b9f1d1efbc86729f7264dde6dbad2a12cac3",
+      "System.Threading.Tasks.Extensions.dll": "af4e13ef418fd89b432de20cd1dfb7fa10a7179c8dd049c9856316e50c5949ca",
+      "TROKA.Software.SimpleCodeEditor.dll": "df0004f6160054e4509f558dfc10571345bc97af57ec332fe3ae738010fe593c",
+      "Accord.dll": "d36c225a84415c01bc2a8e84096590a7206dfc3d36173e3c7b6a62a04c0a33a9",
+      "System.Numerics.Vectors.dll": "20c2fa81b8c70d651099d762954f285fd4f942e63b2d7217c145dab8d4b2f4c9",
+      "System.Memory.dll": "d5e8e4866f9cfa66f7765660f84b210198893e55335487afe5ebda342c0e913d",
+      "Computator.NET.Charting.dll": "7e059ca704b32e75f300e3dbe285b431d25b27fc5cbd5d441362c53463e8a39d",
+      "Computator.NET.Core.dll": "ed3027bdcb48ea45145995313d6ce4728169beb6128c03868a7c0cdce0d42417",
+      "Computator.NET.DataTypes.dll": "0a968c9f613f3fc09dd98ab69eb2ce44476ef41873b8ea4a7e4fb8882cb5bfd9",
+      "Microsoft.CodeAnalysis.dll": "163529561bc8aa19b22067764a74fbf5432954ce1158d1988a6ef1b0f5a87a94",
+      "Unity.Abstractions.dll": "788f516054fa47046514fab1ba81b712fb441814e9745fb46c09d29f6de8a464"
+    },
+    "systemGsl": {
+      "path": "/usr/lib/x86_64-linux-gnu/libgsl.so.27.0.0",
+      "sha256": "99a902f1c0df5c709ba20cb64f014eda51b978305c2923d9397f0b1b902eda18"
+    },
+    "recordedAtUtc": "2026-10-30T18:35:51.561483+00:00"
+  },
+  "fixtureSha256": {
+    "SevenPrCrossFeatureTests.cs": "29fbe854730a6997c1dedf336ab154d397f9c78ccb36e43a4557c54d0364aa79",
+    "MonoNumericalProbe.cs": "5ab991e3b76c5f9c24eb8a2ecf62fdc815e5552be0dd68c10b0e20e482811c32"
+  },
+  "prerequisites": {
+    "common": [
+      "Bash",
+      "Git with the recorded commits fetched",
+      "Python 3",
+      "dotnet SDK 10.0.403",
+      "access to restore pinned NuGet packages"
+    ],
+    "mono": [
+      "Linux x64",
+      "Mono runtime and mcs (recorded: 6.8.0.105)",
+      "xvfb-run and xauth",
+      "system GSL including libgsl.so (libgsl-dev)",
+      "libgdiplus",
+      "DejaVu fonts"
+    ]
+  },
+  "packagingValidation": {
+    "shellSyntax": "bash -n reproduce.sh passed",
+    "fixtureHashes": "match the originally executed supplemental source files",
+    "dotnetScriptReplay": {
+      "input": {
+        "mode": "dotnet",
+        "commit": "189d28c0ec7acbf77d380f14f95ef450e7bfbd84",
+        "tree": "58b013e7e3f81ec62858a481860b73de0a88a7ff",
+        "sdk": "10.0.403"
+      },
+      "result": {
+        "passed": 30,
+        "failed": 0,
+        "skipped": 0,
+        "expected": 30
+      },
+      "temporaryWorktreeRemoved": true
+    },
+    "monoScript": "fresh-build wrapper reviewed; harness compilation and native execution already passed in the recorded 116-check observation",
+    "debyeOracleVerification": {
+      "passed": 6,
+      "failed": 0,
+      "method": "exact Fraction Bernoulli series, 60 and 80 terms, differences below 1e-48 and identical binary64 rounding"
+    }
+  }
+}

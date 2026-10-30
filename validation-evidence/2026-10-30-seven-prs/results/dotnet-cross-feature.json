@@ -1,0 +1,159 @@
+{
+  "counts": {
+    "passed": 30,
+    "failed": 0,
+    "skipped": 0
+  },
+  "tests": [
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "CombinedMathAndScriptFormattingStayCorrectUnderLocalizedCultures(\"cs-CZ\")",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "CombinedMathAndScriptFormattingStayCorrectUnderLocalizedCultures(\"de-DE\")",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "DigitSuffixedLambdaNameKeepsNonlinearRoot",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "EuclidInt64PowerAndPostfixPowerPermitExtrapolation",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "EuclidSetsLinearIntegralCoefficientBoundAndPanels",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "EuclidSuppliesOddSubnormalWidthToFiniteEndpointSum",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "LargeScientificPowerRemainsAFiniteRoot",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "LeadingDotPowerAndEuclidInsideSecant",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "ScientificLiteralPowerIntegratesAsAConstant",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "ScientificPowerInsideSecant",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "ScientificPowerUsesSafeOverflowingEndpointAverage",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "ScriptCombinesOutArgumentsDigitSuffixedPowersRootAndIntegral",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "SecantFindsKnownRootOfIntegratedLinearFunction",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "SeparatedNumericPowerInsideSecant",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(False)",
+      "test": "TinyScientificPowerSurvivesExtremeGuesses",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "CombinedMathAndScriptFormattingStayCorrectUnderLocalizedCultures(\"cs-CZ\")",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "CombinedMathAndScriptFormattingStayCorrectUnderLocalizedCultures(\"de-DE\")",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "DigitSuffixedLambdaNameKeepsNonlinearRoot",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "EuclidInt64PowerAndPostfixPowerPermitExtrapolation",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "EuclidSetsLinearIntegralCoefficientBoundAndPanels",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "EuclidSuppliesOddSubnormalWidthToFiniteEndpointSum",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "LargeScientificPowerRemainsAFiniteRoot",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "LeadingDotPowerAndEuclidInsideSecant",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "ScientificLiteralPowerIntegratesAsAConstant",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "ScientificPowerInsideSecant",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "ScientificPowerUsesSafeOverflowingEndpointAverage",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "ScriptCombinesOutArgumentsDigitSuffixedPowersRootAndIntegral",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "SecantFindsKnownRootOfIntegratedLinearFunction",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "SeparatedNumericPowerInsideSecant",
+      "result": "Passed"
+    },
+    {
+      "fixture": "Computator.NET.Engine.Tests.SevenPrCrossFeatureTests(True)",
+      "test": "TinyScientificPowerSurvivesExtremeGuesses",
+      "result": "Passed"
+    }
+  ]
+}
