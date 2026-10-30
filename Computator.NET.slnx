@@ -245,6 +245,7 @@
     <File Path="docs/FUNCTION-POWERS.md" />
     <File Path="docs/FUNCTION-REFERENCE.md" />
     <File Path="docs/NUMERICAL-REFERENCE-INTEGRATION.md" />
+    <File Path="docs/POLYNOMIALS.md" />
     <File Path="docs/PROGRAM-LIFETIME.md" />
     <File Path="docs/REFERENCE-EQUATIONS.md" />
     <File Path="docs/SHARED-EXECUTION-POLICY.md" />
@@ -340,6 +341,7 @@
     <File Path="build/reference/mathematical.py" />
     <File Path="build/reference/physical.py" />
     <File Path="build/reference/plots.cjs" />
+    <File Path="build/reference/polynomials.py" />
     <File Path="build/reference/scientific.py" />
     <File Path="build/reference/scientific_matrices.py" />
     <File Path="build/reference/scientific_scripting.py" />
@@ -351,6 +353,7 @@
     <File Path="build/reference/test_inline_math.py" />
     <File Path="build/reference/test_numerical_integration.py" />
     <File Path="build/reference/test_physical.py" />
+    <File Path="build/reference/test_polynomials.py" />
     <File Path="build/reference/test_rich_content.py" />
     <File Path="build/reference/typeset.cjs" />
   </Folder>

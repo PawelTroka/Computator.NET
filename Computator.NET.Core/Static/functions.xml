@@ -13179,6 +13179,217 @@
 </div>]]></Description>
     <Url>https://oeis.org/search?q=Polya%20random%20walk%20constant</Url>
   </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Add(a,b)">
+    <Title>Add polynomials or a constant</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Add(Polynomial a, Polynomial b)</code><br /><code>Polynomial Polynomial.Add(Polynomial a, real b)</code></p>
+<p class="reference-summary">Add two polynomials, or add a real constant to a polynomial.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>(a + b)(x) = a(x) + b(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> a is a Polynomial; b is either another Polynomial or a real scalar. The scalar changes only the constant coefficient. The + operator provides the same arithmetic.</p>
+<p class="reference-note"><strong>Important:</strong> Neither operand is changed. With polynomial operands, missing higher coefficients are treated as zero; cancellation can reduce the degree.</p>
+<p class="reference-explanation">Adding a constant shifts the graph vertically; adding a polynomial combines coefficients of equal powers. Polynomial objects are reusable after addition.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Add(new Polynomial(1,2), new Polynomial(3,-1)).Evaluate(2)</code></pre><p><strong>Result:</strong> 6</p><p>The sum is (1+2x)+(3−x)=4+x.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Divide(a,k)">
+    <Title>Divide a polynomial by a scalar</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Divide(Polynomial a, real k)</code></p>
+<p class="reference-summary">Divide each polynomial coefficient by a real scalar.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>(a / k)(x) = a(x) / k</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> a is a Polynomial and k is the scalar divisor. The a/k operator is equivalent. Use DivideRemainder for a polynomial divisor.</p>
+<p class="reference-note"><strong>Important:</strong> Choose a finite nonzero divisor for ordinary arithmetic. Zero scalar division follows floating-point coefficient division and can yield infinity or NaN; this routine does not implement rational functions.</p>
+<p class="reference-explanation">To normalize a nonzero polynomial to leading coefficient one, divide by its leading coefficient. This keeps its roots, subject to rounding; a tiny leading coefficient can amplify other coefficients.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Divide(new Polynomial(1,2),2.0).Evaluate(2)</code></pre><p><strong>Result:</strong> 2.5</p><p>The result is 0.5+x.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.DivideRemainder(a,b)">
+    <Title>Polynomial quotient and remainder</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>(Polynomial, Polynomial) Polynomial.DivideRemainder(Polynomial a, Polynomial b)</code></p>
+<p class="reference-summary">Perform Euclidean long division and return both polynomial parts of the result.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>a = q b + r; degree(r) &lt; degree(b), unless r = 0</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> a is the dividend and b is the nonzero polynomial divisor. The returned tuple exposes the quotient as Item1 and remainder as Item2; floating-point arithmetic may leave small residual coefficients.</p>
+<p class="reference-note"><strong>Important:</strong> A zero polynomial divisor throws DivideByZeroException. The operation does not mutate either input, but some short-circuit results share an input object: when the dividend degree is smaller, the remainder is a itself. Clone() before modifying result coefficients if independence is required.</p>
+<p class="reference-explanation">Reconstructing quotient*divisor+remainder checks the direction of the division. A nonzero remainder explains why the rational expression is not generally itself a polynomial.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>var parts = Polynomial.DivideRemainder(new Polynomial(1,0,1),new Polynomial(1,1));
+write(parts.Item1.Evaluate(3));
+write(parts.Item2.Evaluate(3));</code></pre><p><strong>Result:</strong> Quotient value 2 and remainder value 2, printed consecutively.</p><p>x²+1=(x−1)(x+1)+2. Item1 is x−1 and Item2 is the constant two.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Evaluate(z,coefficients1,coefficients2, ...)">
+    <Title>Evaluate a polynomial from its coefficients</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>complex Polynomial.Evaluate(complex z, complex coefficients1, complex coefficients2,  ...)</code><br /><code>complex Polynomial.Evaluate(complex z, real coefficients1, real coefficients2,  ...)</code><br /><code>real Polynomial.Evaluate(real z, real coefficients1, real coefficients2,  ...)</code></p>
+<p class="reference-summary">Compute the polynomial value directly using Horner evaluation without constructing a polynomial object.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>p(z) = c[0] + c[1] z + c[2] z² + …</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> The first argument is the evaluation point, followed by a coefficient array or individual coefficients in ascending exponent order. Overloads accept a real point with real coefficients, a complex point with real coefficients, or a complex point with complex coefficients.</p>
+<p class="reference-note"><strong>Important:</strong> An empty coefficient array evaluates to zero; a null array throws ArgumentNullException. The Polynomial object itself stores real coefficients; use this static overload to evaluate complex coefficients. Floating-point rounding and cancellation still apply.</p>
+<p class="reference-explanation">Horner evaluation starts at the highest coefficient and repeatedly multiplies by the point before adding the next coefficient. Coefficients remain ordered from constant term upward in the input, despite this reverse traversal.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Evaluate(2,1,-3,2)</code></pre><p><strong>Result:</strong> 3</p><p>The polynomial is 1−3x+2x²; at x=2 it gives 1−6+8.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Fit(x,y,order,method)">
+    <Title>Least-squares polynomial fit</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Fit(Double[] x, Double[] y, integer order, DirectRegressionMethod method)</code></p>
+<p class="reference-summary">Fit a polynomial of the requested order to paired observations by minimizing squared residuals.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>minimize Σᵢ (p(x[i]) − y[i])²</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> x and y are equally sized real arrays; order is the nonnegative integer degree. The optional DirectRegressionMethod selects QR, Svd or NormalEquations, and defaults to QR. The returned coefficients use ascending exponent order.</p>
+<p class="reference-note"><strong>Important:</strong> Provide enough independent observations to determine order+1 coefficients. Repeated abscissas, high orders and badly scaled x can make the problem rank deficient or ill conditioned. A fit is not necessarily an interpolant, and extrapolation can be unstable.</p>
+<p class="reference-explanation">Order selects model complexity; it is not the number of samples. Centering and scaling the x coordinates before fitting can improve conditioning, but evaluation must then use the same transformed coordinate.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>var p = Polynomial.Fit(new real[]{-2,-1,0,1,2}, new real[]{15,6,1,0,3}, 2);
+write(p.Evaluate(2));</code></pre><p><strong>Result:</strong> Approximately 3</p><p>These exact samples follow 1−3x+2x², so the fitted coefficients are approximately 1, −3 and 2.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Multiply(a,b)">
+    <Title>Multiply polynomials</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Multiply(Polynomial a, Polynomial b)</code></p>
+<p class="reference-summary">Form the ordinary polynomial product by convolving the coefficient arrays.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>(a b)(x) = a(x) b(x); c[k] = Σᵢ a[i] b[k−i]</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Both a and b are Polynomial values. The * operator performs the same product. For nonzero operands, the degree normally equals the sum of the input degrees.</p>
+<p class="reference-note"><strong>Important:</strong> This is polynomial multiplication, not coefficientwise multiplication. Neither input is changed; floating-point overflow, underflow or cancellation can affect coefficients.</p>
+<p class="reference-explanation">Convolution combines every pair of terms whose exponents add to the output exponent. Multiplying linear factors is a convenient way to construct a polynomial with known roots.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Multiply(new Polynomial(-1,1), new Polynomial(-2,1)).Evaluate(3)</code></pre><p><strong>Result:</strong> 2</p><p>The product is (x−1)(x−2)=2−3x+x², which has value 2 at x=3.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Multiply(a,k)">
+    <Title>Scale a polynomial</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Multiply(Polynomial a, real k)</code></p>
+<p class="reference-summary">Multiply every coefficient by the same real scalar.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>(k a)(x) = k a(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> a is a Polynomial and k is a real scalar. Either a*k or k*a provides the operator form.</p>
+<p class="reference-note"><strong>Important:</strong> The input is unchanged. Scaling a finite polynomial by zero produces the zero polynomial; a large factor can overflow coefficients.</p>
+<p class="reference-explanation">A finite nonzero scale preserves roots while changing the graph height. Multiplying both numerator and denominator by the same scale can be useful when inspecting coefficients.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Multiply(new Polynomial(1,2),3.0).Evaluate(2)</code></pre><p><strong>Result:</strong> 15</p><p>The value 1+2·2=5 is multiplied by three.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Negate(a)">
+    <Title>Negate a polynomial</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Negate(Polynomial a)</code></p>
+<p class="reference-summary">Return the additive inverse by changing every coefficient sign.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>(−a)(x) = −a(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> a is a Polynomial. The unary - operator is equivalent.</p>
+<p class="reference-note"><strong>Important:</strong> The input coefficients are not changed. Negation keeps the nonzero degree and maps the zero polynomial to zero.</p>
+<p class="reference-explanation">Negation reflects the polynomial graph through the horizontal axis. For finite coefficients it preserves every root.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Negate(new Polynomial(1,2)).Evaluate(2)</code></pre><p><strong>Result:</strong> -5</p><p>The input value is 5; the negated value is −5.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.PointwiseDivide(a,b)">
+    <Title>Divide corresponding coefficients</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.PointwiseDivide(Polynomial a, Polynomial b)</code></p>
+<p class="reference-summary">Divide coefficients of the dividend by coefficients of the divisor at the same exponent.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>c[k] = a[k] / b[k]</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> a and b are Polynomial values. The output extends through the degree of a. Missing divisor coefficients are treated as zero, and neither input is changed.</p>
+<p class="reference-note"><strong>Important:</strong> Zero divisor coefficients follow floating-point division and can produce infinity or NaN. This is not long division and does not represent a(x)/b(x); use DivideRemainder for polynomial quotient and remainder.</p>
+<p class="reference-explanation">Check divisor coefficients individually. A divisor polynomial can be nonzero as a whole while still containing a zero coefficient that causes a nonfinite coefficientwise quotient.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.PointwiseDivide(new Polynomial(1,2),new Polynomial(3,-1)).Evaluate(2)</code></pre><p><strong>Result:</strong> Approximately -3.6666666666666665</p><p>The coefficients are [1/3,−2], giving 1/3−2x.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.PointwiseMultiply(a,b)">
+    <Title>Multiply corresponding coefficients</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.PointwiseMultiply(Polynomial a, Polynomial b)</code></p>
+<p class="reference-summary">Multiply coefficient pairs with the same exponent, without forming the ordinary polynomial product.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>c[k] = a[k] b[k]</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> a and b are Polynomial values. The output extends only through the smaller input degree; neither input is changed.</p>
+<p class="reference-note"><strong>Important:</strong> The output evaluated at x generally differs from a(x)*b(x). Use Polynomial.Multiply or a*b for that identity.</p>
+<p class="reference-explanation">Coefficientwise operations work on the stored representation. For example, multiplying two linear coefficient arrays this way cannot create the quadratic cross terms of a polynomial product.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.PointwiseMultiply(new Polynomial(1,2),new Polynomial(3,-1)).Evaluate(2)</code></pre><p><strong>Result:</strong> -1</p><p>The coefficients become [3,−2], giving 3−2x, rather than the ordinary product 3+5x−2x².</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Subtract(a,b)">
+    <Title>Subtract a polynomial or constant</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Subtract(Polynomial a, Polynomial b)</code><br /><code>Polynomial Polynomial.Subtract(Polynomial a, real b)</code></p>
+<p class="reference-summary">Subtract a polynomial or a real constant from a polynomial.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>(a − b)(x) = a(x) − b(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> a is a Polynomial; b is a Polynomial or a real scalar. Subtracting a scalar changes only the constant coefficient. The - operator provides the same arithmetic.</p>
+<p class="reference-note"><strong>Important:</strong> Operand order matters. Neither operand is changed; cancellation can reduce the resulting degree.</p>
+<p class="reference-explanation">Subtracting expressions is useful for finding their intersections: roots of a-b are points where both polynomials have the same value.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Subtract(new Polynomial(1,2), new Polynomial(3,-1)).Evaluate(2)</code></pre><p><strong>Result:</strong> 4</p><p>The difference is (1+2x)−(3−x)=−2+3x.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Subtract(b,a)">
+    <Title>Subtract a polynomial from a constant</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Subtract(real b, Polynomial a)</code></p>
+<p class="reference-summary">Subtract the entire polynomial from a real constant, reversing all nonconstant coefficient signs.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>(b − a)(x) = b − a(x)</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> b is the real constant and a is the Polynomial. This overload follows the displayed argument order; b - a is its operator equivalent.</p>
+<p class="reference-note"><strong>Important:</strong> This differs from a - b. The constant coefficient becomes b-a.Coefficients[0], while all higher coefficients are negated; a is unchanged.</p>
+<p class="reference-explanation">The reversed scalar overload supports equations such as target-p(x). Negating only the constant term would leave the wrong polynomial.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Subtract(3.0,new Polynomial(1,2)).Evaluate(2)</code></pre><p><strong>Result:</strong> -2</p><p>At x=2, the result is 3−(1+4).</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="Polynomial.Zero">
+    <Title>Zero polynomial</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>Polynomial Polynomial.Zero</code></p>
+<p class="reference-summary">Obtain a zero polynomial, the additive identity for polynomial arithmetic.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>0(x) = 0; Degree = −1</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> This property takes no arguments and returns a new polynomial with an empty coefficient array. Its evaluation is zero for ordinary finite arguments.</p>
+<p class="reference-note"><strong>Important:</strong> Roots() returns an empty complex array for both zero and nonzero constant polynomials. For zero this is an API convention: mathematically every input is a root, not an absence of roots.</p>
+<p class="reference-explanation">Use zero to start an accumulated sum of polynomials. Its degree sentinel lets the library distinguish an identically zero expression from an ordinary constant of degree zero.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>Polynomial.Zero.Evaluate(5)</code></pre><p><strong>Result:</strong> 0</p><p>The empty coefficient array denotes the additive identity.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
+  </FunctionInfo>
   <FunctionInfo Signature="PowerTowerOfI">
     <Title>Principal infinite power tower of i</Title>
     <Type>MathematicalConstants</Type>
@@ -18867,6 +19078,23 @@
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs</Url>
+  </FunctionInfo>
+  <FunctionInfo Signature="new Polynomial(coefficients)">
+    <Title>Construct a coefficient polynomial</Title>
+    <Type>Polynomial</Type>
+    <Category>Polynomial operations</Category>
+    <Description><![CDATA[<div class="function-reference">
+<p class="reference-signature"><code>new Polynomial(real[] coefficients)</code></p>
+<p class="reference-summary">Create a real-coefficient polynomial for arithmetic, calculus, evaluation and numerical complex roots.</p>
+<p class="reference-formula"><strong>Definition / convention:</strong> <code>p(x) = c[0] + c[1] x + c[2] x² + …</code></p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> Pass a real array or several real coefficients in ascending exponent order. Coefficients exposes the mutable array; Degree ignores trailing zero coefficients and is −1 for the zero polynomial.</p>
+<p class="reference-note"><strong>Important:</strong> A single integer selects the array-length constructor: new Polynomial(3) creates a zero polynomial with three coefficient slots. Use new Polynomial(3.0) for the constant three. The array constructor shares the supplied array; call Clone() when independent storage is needed.</p>
+<p class="reference-explanation">For a reusable object p, p.Evaluate(x) evaluates it; p.Differentiate() returns its derivative and p.Integrate() chooses antiderivative constant zero. p.Roots() returns numerical complex roots in unspecified order. General roots use companion-matrix eigenvalues; repeated or poorly conditioned roots may lose accuracy.</p>
+<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>var p = new Polynomial(-6,11,-6,1);
+var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots approximately 1, 2 and 3, in unspecified order.</p><p>The coefficients describe (x−1)(x−2)(x−3). Check p.Evaluate(root) and the scale of the coefficients when assessing residuals.</p></div>
+<p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
+</div>]]></Description>
+    <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
   </FunctionInfo>
   <FunctionInfo Signature="nwd(a,b)">
     <Title>Greatest common divisor</Title>
