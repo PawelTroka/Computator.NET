@@ -66,6 +66,42 @@ namespace Computator.NET.Core.Tests
     {
         [TestCase(false)]
         [TestCase(true)]
+        public void TypedCaptionsDistinguishEveryEuclidOverload(bool scripting)
+        {
+            var settings = Settings.Default;
+            var oldReturnExpression = settings.ShowReturnTypeInExpression;
+            var oldParametersExpression = settings.ShowParametersTypeInExpression;
+            var oldReturnScripting = settings.ShowReturnTypeInScripting;
+            var oldParametersScripting = settings.ShowParametersTypeInScripting;
+            try
+            {
+                settings.ShowReturnTypeInExpression = settings.ShowReturnTypeInScripting = true;
+                settings.ShowParametersTypeInExpression = settings.ShowParametersTypeInScripting = true;
+                var items = new AutocompleteReflectionSource().GetFunctionsNamesWithDescription(
+                    typeof(MathNet.Numerics.Euclid), fullName: true);
+                items.ForEach(item => item.IsScripting = scripting);
+                NUnit.Framework.Assert.That(items.Count, Is.EqualTo(37));
+                NUnit.Framework.Assert.That(items.Select(item => item.MenuText), Is.Unique);
+                NUnit.Framework.Assert.That(items.Select(item => item.MenuText), Does.Contain(
+                    "int Euclid.PowerOfTwo(int exponent)"));
+                NUnit.Framework.Assert.That(items.Select(item => item.MenuText), Does.Contain(
+                    "integer Euclid.PowerOfTwo(integer exponent)"));
+                NUnit.Framework.Assert.That(items.Select(item => item.MenuText), Does.Contain(
+                    "integer Euclid.GreatestCommonDivisor(IList<integer> integers)"));
+                NUnit.Framework.Assert.That(items.Select(item => item.MenuText), Does.Contain(
+                    "BigInteger Euclid.GreatestCommonDivisor(IList<BigInteger> integers)"));
+            }
+            finally
+            {
+                settings.ShowReturnTypeInExpression = oldReturnExpression;
+                settings.ShowParametersTypeInExpression = oldParametersExpression;
+                settings.ShowReturnTypeInScripting = oldReturnScripting;
+                settings.ShowParametersTypeInScripting = oldParametersScripting;
+            }
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
         public void ExtendedGcdCompletionInsertsExecutableOutputArguments(bool arbitraryPrecision)
         {
             var settings = Settings.Default;

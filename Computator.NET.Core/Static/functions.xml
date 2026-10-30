@@ -5719,7 +5719,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>integer Euclid.CeilingToPowerOfTwo(integer number)</code></p>
+<p class="reference-signature"><code>int Euclid.CeilingToPowerOfTwo(int number)</code><br /><code>integer Euclid.CeilingToPowerOfTwo(integer number)</code></p>
 <p class="reference-summary">Finds the smallest representable power of two at least as large as a positive integer.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>For number&gt;0, result=2^ceil(log2(number)).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Positive int up to 2^30 or positive integer (64-bit) up to 2^62.</p>
@@ -5781,7 +5781,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>BigInteger Euclid.GreatestCommonDivisor(IList`1 integers)</code><br /><code>integer Euclid.GreatestCommonDivisor(IList`1 integers)</code></p>
+<p class="reference-signature"><code>BigInteger Euclid.GreatestCommonDivisor(IList&lt;BigInteger&gt; integers)</code><br /><code>integer Euclid.GreatestCommonDivisor(IList&lt;integer&gt; integers)</code></p>
 <p class="reference-variant"><strong>Greatest common divisor of integers</strong></p>
 <p class="reference-summary">Finds the nonnegative common factor that divides every supplied integer.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>gcd(84,30)=6; gcd(a,b)=gcd(b,a remainder b).</code></p>
@@ -5829,7 +5829,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>bool Euclid.IsEven(integer number)</code></p>
+<p class="reference-signature"><code>bool Euclid.IsEven(int number)</code><br /><code>bool Euclid.IsEven(integer number)</code></p>
 <p class="reference-summary">Tests whether an integer is divisible by two.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>number=2*k for some integer k.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Signed 32-bit or 64-bit integer.</p>
@@ -5845,7 +5845,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>bool Euclid.IsOdd(integer number)</code></p>
+<p class="reference-signature"><code>bool Euclid.IsOdd(int number)</code><br /><code>bool Euclid.IsOdd(integer number)</code></p>
 <p class="reference-summary">Tests whether an integer has an odd remainder on division by two.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>number=2*k+1 for some integer k.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Signed 32-bit or 64-bit integer.</p>
@@ -5861,7 +5861,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>bool Euclid.IsPerfectSquare(integer number)</code></p>
+<p class="reference-signature"><code>bool Euclid.IsPerfectSquare(int number)</code><br /><code>bool Euclid.IsPerfectSquare(integer number)</code></p>
 <p class="reference-summary">Tests whether a nonnegative integer is the square of an integer.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>number=k*k for some integer k.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Signed 32-bit or 64-bit integer.</p>
@@ -5877,7 +5877,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>bool Euclid.IsPowerOfTwo(integer number)</code></p>
+<p class="reference-signature"><code>bool Euclid.IsPowerOfTwo(int number)</code><br /><code>bool Euclid.IsPowerOfTwo(integer number)</code></p>
 <p class="reference-summary">Tests whether a positive integer contains exactly one set binary bit.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>number=2^k for an integer k&gt;=0.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Signed 32-bit or 64-bit integer.</p>
@@ -5917,7 +5917,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>BigInteger Euclid.LeastCommonMultiple(IList`1 integers)</code><br /><code>integer Euclid.LeastCommonMultiple(IList`1 integers)</code></p>
+<p class="reference-signature"><code>BigInteger Euclid.LeastCommonMultiple(IList&lt;BigInteger&gt; integers)</code><br /><code>integer Euclid.LeastCommonMultiple(IList&lt;integer&gt; integers)</code></p>
 <p class="reference-variant"><strong>Least common multiple of integers</strong></p>
 <p class="reference-summary">Finds the smallest positive common multiple of nonzero integers, with zero returned when any operand is zero.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>lcm(a,b)=|a/gcd(a,b) times b| for nonzero a,b.</code></p>
@@ -5965,7 +5965,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>integer Euclid.Log2(integer number)</code></p>
+<p class="reference-signature"><code>int Euclid.Log2(int number)</code></p>
 <p class="reference-summary">Returns the position of the highest set bit of a positive 32-bit integer.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>For number&gt;0, result=floor(log2(number)).</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> A positive int (32-bit integer); this method has no 64-bit overload.</p>
@@ -5981,7 +5981,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>BigInteger Euclid.Modulus(BigInteger dividend, BigInteger divisor)</code><br /><code>Single Euclid.Modulus(Single dividend, Single divisor)</code><br /><code>integer Euclid.Modulus(integer dividend, integer divisor)</code><br /><code>real Euclid.Modulus(real dividend, real divisor)</code></p>
+<p class="reference-signature"><code>BigInteger Euclid.Modulus(BigInteger dividend, BigInteger divisor)</code><br /><code>Single Euclid.Modulus(Single dividend, Single divisor)</code><br /><code>int Euclid.Modulus(int dividend, int divisor)</code><br /><code>integer Euclid.Modulus(integer dividend, integer divisor)</code><br /><code>real Euclid.Modulus(real dividend, real divisor)</code></p>
 <p class="reference-summary">Returns the residue using the divisor-sign convention.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>Modulus(-7,3)=2; Modulus(7,-3)=-2.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> dividend and a nonzero divisor of matching supported numeric types; overloads accept int, integer, real, Single and BigInteger.</p>
@@ -5997,7 +5997,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>integer Euclid.PowerOfTwo(integer exponent)</code></p>
+<p class="reference-signature"><code>int Euclid.PowerOfTwo(int exponent)</code><br /><code>integer Euclid.PowerOfTwo(integer exponent)</code></p>
 <p class="reference-summary">Returns a representable positive integer power of two.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>result=2^exponent.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> The int overload accepts exponents 0..30; the integer (64-bit) overload accepts 0..62.</p>
@@ -6013,7 +6013,7 @@
     <Type>Euclid</Type>
     <Category>Integer arithmetic</Category>
     <Description><![CDATA[<div class="function-reference">
-<p class="reference-signature"><code>BigInteger Euclid.Remainder(BigInteger dividend, BigInteger divisor)</code><br /><code>Single Euclid.Remainder(Single dividend, Single divisor)</code><br /><code>integer Euclid.Remainder(integer dividend, integer divisor)</code><br /><code>real Euclid.Remainder(real dividend, real divisor)</code></p>
+<p class="reference-signature"><code>BigInteger Euclid.Remainder(BigInteger dividend, BigInteger divisor)</code><br /><code>Single Euclid.Remainder(Single dividend, Single divisor)</code><br /><code>int Euclid.Remainder(int dividend, int divisor)</code><br /><code>integer Euclid.Remainder(integer dividend, integer divisor)</code><br /><code>real Euclid.Remainder(real dividend, real divisor)</code></p>
 <p class="reference-summary">Returns the same remainder as the % operator.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>Remainder(-7,3)=-1; Remainder(7,-3)=1.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> dividend and a nonzero divisor of matching supported numeric types; overloads accept int, integer, real, Single and BigInteger.</p>
