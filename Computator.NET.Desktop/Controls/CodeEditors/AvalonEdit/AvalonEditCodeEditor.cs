@@ -60,6 +60,16 @@ namespace Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit
         private SearchPanel searchPanel;
         private readonly OffsetColorizer _offsetColorizer = new OffsetColorizer();
 
+        internal bool IsAdvancedSearchOpen => !searchPanel.IsClosed;
+
+        internal void CloseAdvancedSearch() => searchPanel.Close();
+
+        internal void ShowAdvancedSearch()
+        {
+            searchPanel.Open();
+            searchPanel.Reactivate();
+        }
+
         public AvalonEditCodeEditor(ISharedViewState sharedViewState, IAutocompleteProvider autocompleteProvider)
         {
             _sharedViewState = sharedViewState;

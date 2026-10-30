@@ -14,7 +14,7 @@ from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
-import elementary, physical, mathematical, special, scientific, distributions
+import elementary, physical, mathematical, special, scientific, distributions, euclid
 from enrichment import enrich
 from common import InlineMath, Prose
 from functools import lru_cache
@@ -86,7 +86,7 @@ def inline_style(image):
     return 'width:'+em(int(image.get('width'))/20)+';height:'+em(int(image.get('height'))/20)+';vertical-align:'+em(-int(image.get('data-depth'))/1000)+';'
 
 MAPPINGS={'ElementaryFunctions':elementary,'PhysicalConstants':physical,
-          'MathematicalConstants':mathematical,'SpecialFunctions':special}
+          'MathematicalConstants':mathematical,'SpecialFunctions':special,'Euclid':euclid}
 SCIENCE={'MatrixFunctions','ScriptingFunctions','StatisticsFunctions','Integral','Derivative',
          'FunctionRoot','MathematicalTransformations'}
 ALLOWED_TAGS={'div','p','strong','b','code','pre','br','a','ul','li','sup','sub','img'}

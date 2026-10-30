@@ -27,7 +27,8 @@ namespace Computator.NET.Core.Compilation
         using real = System.Double;
         using complex = System.Numerics.Complex;
         using natural = System.UInt64;
-        using integer = System.Int64;";
+        using integer = System.Int64;
+        using Euclid = MathNet.Numerics.Euclid;";
 
         public static readonly string[] Keywords =
         {

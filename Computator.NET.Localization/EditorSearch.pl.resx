@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="FindTitle" xml:space="preserve"><value>Znajdź</value></data>
+  <data name="ReplaceTitle" xml:space="preserve"><value>Znajdź i zamień</value></data>
+  <data name="FindMenu" xml:space="preserve"><value>&amp;Znajdź…</value></data>
+  <data name="ReplaceMenu" xml:space="preserve"><value>Za&amp;mień…</value></data>
+  <data name="FindLabel" xml:space="preserve"><value>Znajdź:</value></data>
+  <data name="ReplaceLabel" xml:space="preserve"><value>Zamień na:</value></data>
+  <data name="Next" xml:space="preserve"><value>Znajdź następny</value></data>
+  <data name="Previous" xml:space="preserve"><value>Znajdź poprzedni</value></data>
+  <data name="Replace" xml:space="preserve"><value>Zamień</value></data>
+  <data name="ReplaceAll" xml:space="preserve"><value>Zamień wszystkie</value></data>
+  <data name="MatchCase" xml:space="preserve"><value>Uwzględnij wielkość liter</value></data>
+  <data name="WholeWord" xml:space="preserve"><value>Całe słowo</value></data>
+  <data name="Close" xml:space="preserve"><value>Zamknij</value></data>
+  <data name="Document" xml:space="preserve"><value>Bieżący dokument: {0}</value></data>
+  <data name="NoMatch" xml:space="preserve"><value>Nie znaleziono dopasowań.</value></data>
+  <data name="Found" xml:space="preserve"><value>Zaznaczono dopasowanie. Wyszukiwanie obejmuje cały dokument.</value></data>
+  <data name="Replaced" xml:space="preserve"><value>Liczba zamienionych wystąpień: {0}.</value></data>
+  <data name="EnterSearch" xml:space="preserve"><value>Wpisz szukany tekst. Znaki są traktowane dosłownie.</value></data>
+  <data name="ReadOnly" xml:space="preserve"><value>Ten dokument jest tylko do odczytu.</value></data>
+  <data name="AdvancedSearch" xml:space="preserve"><value>Wyszukiwanie zaawansowane…</value></data>
+</root>

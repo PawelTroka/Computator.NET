@@ -79,7 +79,14 @@ Use TSL `write(...)` for script result text. Ordinary managed Console writes are
 
 ## Supported capabilities and boundaries
 
-The portable surface includes real/two-variable and complex arithmetic, TSL notation, mathematical constants, custom definitions, managed scripts, the imported matrix functions, and the shared integration/differentiation/root services. The scalar adapters (`sin`, `cos`, `tan`, `sqrt`, `exp`, `ln`, `log`, `abs`, `pow`, `floor`, `ceil`, `round`) delegate to .NET's functions. [ScalarFunctions.cs](../../Computator.NET.Engine/ScalarFunctions.cs) defines available scalar spellings; [portable science](PORTABLE-SCIENCE.md) explains shared numerical implementations.
+The portable surface includes real/two-variable and complex arithmetic, TSL notation, mathematical constants, custom definitions, managed scripts, the imported matrix functions, qualified `Euclid.*` integer utilities, and the shared integration/differentiation/root services. The scalar adapters (`sin`, `cos`, `tan`, `sqrt`, `exp`, `ln`, `log`, `abs`, `pow`, `floor`, `ceil`, `round`) delegate to .NET's functions. [ScalarFunctions.cs](../../Computator.NET.Engine/ScalarFunctions.cs) defines available scalar spellings; [portable science](PORTABLE-SCIENCE.md) explains shared numerical implementations.
+
+`Euclid.GreatestCommonDivisor(-84,30)` returns `6`, and
+`Euclid.Modulus(-7,3)` returns `2`. These qualified calls use the existing pinned
+Math.NET library, including its `System.Numerics.BigInteger` overloads and error
+contracts. See [integer utilities and edge cases](../FUNCTION-REFERENCE.md#qualified-integer-utilities)
+for script examples, exact-integer output and the distinction between `int` and
+64-bit `integer` overloads.
 
 The full native GSL/special-function catalog, interactive input dialogs, desktop settings/fonts and chart rendering remain outside this portable surface. An unavailable function produces a compiler diagnostic. The frontend running on macOS/Linux with a Windows API is a separate deployment path. The [reduced Mono desktop](../MONO-DESKTOP.md) is also a separate explicit compatibility target, built from the current shared sources.
 

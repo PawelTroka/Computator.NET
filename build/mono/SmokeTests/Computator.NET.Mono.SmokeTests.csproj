@@ -7,6 +7,11 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\validation\LocalizationResourceContract.cs" Link="LocalizationResourceContract.cs" />
+    <None Include="..\..\..\Computator.NET.Localization\**\*.resx"
+          Exclude="..\..\..\Computator.NET.Localization\**\*.pl.resx"
+          Link="Localization/%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
     <Reference Include="DataVisualizationX">
       <HintPath>..\..\..\libraries\net46\DataVisualizationX.dll</HintPath>
       <Private>true</Private>
