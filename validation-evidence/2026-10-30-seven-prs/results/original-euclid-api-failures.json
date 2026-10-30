@@ -1,0 +1,56 @@
+{
+  "repository": "PawelTroka/Computator.NET",
+  "pr": 309,
+  "originalHead": "64cd6843d805214a0f346e0a27abc40f9fc19616",
+  "correctedHead": "0ea6da7f804c06b502b174d38a005e9bfcb5de45",
+  "failures": [
+    {
+      "run": 40979466103,
+      "job": 123815597956,
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/40979466103/job/123815597956",
+      "checkedMerge": "3ba47f734ff7ba9710aca6db1d78b312d45793c6",
+      "excerpt": [
+        "2026-10-30T01:01:16.1453951Z      Duplicate autocomplete entries (including their signatures and metadata)",
+        "2026-10-30T01:01:16.1454901Z Assert.That(UniqueEntryCount(tokens), Is.EqualTo(tokens.Count))",
+        "2026-10-30T01:01:16.1455514Z   Expected: 983",
+        "2026-10-30T01:01:16.1455835Z   But was:  979",
+        "2026-10-30T01:01:16.1553059Z      Duplicate autocomplete entries (including their signatures and metadata)",
+        "2026-10-30T01:01:16.1553975Z Assert.That(UniqueEntryCount(tokens), Is.EqualTo(tokens.Count))",
+        "2026-10-30T01:01:16.1554589Z   Expected: 1331",
+        "2026-10-30T01:01:16.1554903Z   But was:  1323"
+      ]
+    },
+    {
+      "run": 40979466154,
+      "job": 123815597692,
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/40979466154/job/123815597692",
+      "checkedMerge": "3ba47f734ff7ba9710aca6db1d78b312d45793c6",
+      "excerpt": [
+        "2026-10-30T00:53:55.9568541Z      Duplicate autocomplete entries (including their signatures and metadata)",
+        "2026-10-30T00:53:55.9569744Z Assert.That(UniqueEntryCount(tokens), Is.EqualTo(tokens.Count))",
+        "2026-10-30T00:53:55.9570575Z   Expected: 983",
+        "2026-10-30T00:53:55.9571083Z   But was:  979",
+        "2026-10-30T00:53:55.9709606Z      Duplicate autocomplete entries (including their signatures and metadata)",
+        "2026-10-30T00:53:55.9711364Z Assert.That(UniqueEntryCount(tokens), Is.EqualTo(tokens.Count))",
+        "2026-10-30T00:53:55.9712219Z   Expected: 1331",
+        "2026-10-30T00:53:55.9712771Z   But was:  1323"
+      ]
+    },
+    {
+      "run": 40979466211,
+      "job": 123815597938,
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/40979466211/job/123815597938",
+      "checkedMerge": "3ba47f734ff7ba9710aca6db1d78b312d45793c6",
+      "excerpt": [
+        "2026-10-30T01:08:01.1070178Z      Duplicate autocomplete entries (including their signatures and metadata)",
+        "2026-10-30T01:08:01.1071475Z Assert.That(UniqueEntryCount(tokens), Is.EqualTo(tokens.Count))",
+        "2026-10-30T01:08:01.1072342Z   Expected: 983",
+        "2026-10-30T01:08:01.1073492Z   But was:  979",
+        "2026-10-30T01:08:01.1205122Z      Duplicate autocomplete entries (including their signatures and metadata)",
+        "2026-10-30T01:08:01.1206404Z Assert.That(UniqueEntryCount(tokens), Is.EqualTo(tokens.Count))",
+        "2026-10-30T01:08:01.1207061Z   Expected: 1331",
+        "2026-10-30T01:08:01.1207387Z   But was:  1323"
+      ]
+    }
+  ]
+}

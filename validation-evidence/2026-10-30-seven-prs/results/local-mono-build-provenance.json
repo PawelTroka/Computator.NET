@@ -1,0 +1,21 @@
+{
+  "commit": "d6216f19fcc89484c284bd172562c75ed23ad74b",
+  "tree": "58b013e7e3f81ec62858a481860b73de0a88a7ff",
+  "runtime": "Mono 6.8.0.105 on Ubuntu24.04 x86_64 with Xvfb",
+  "results": {
+    "name": "Computator.NET.Mono.Acceptance",
+    "tests": "46",
+    "failures": "0",
+    "skipped": "0"
+  },
+  "resourcesPerLanguage": 338,
+  "evidence": {
+    "runtime.log": "f76a84fcd5a5046a33da0c2b7dd03cb00b341d04155e9f486658fbf4eb1b41cd",
+    "build.log": "3c318fd754268f37e5361e3d14680951a304521c3806dbd2eb2bed3d1f426035",
+    "startup.log": "874cbb628679105104970040e99485d305340e561f4a2571cc5950f1826f2c06",
+    "smoke.log": "b5344d0bd5ac39a955b9bcdd2c4f3ddb6dca76c82387f6a220c17f086a1a462c",
+    "mono-results.xml": "bf95e357dacbcf56c170e2f5e57a67460aa29164b27b97279de4ae420e3adc1d",
+    "find-replace.png": "8bc4698c8f9e29da6e28795b913fd39194418f2259aea44a14a14bc1d1528d1e",
+    "find-replace-dialog.png": "1c1e425cc599de90e9587ce80116c7277a2c23d2fdbc438546d4be7c682cc043"
+  }
+}
