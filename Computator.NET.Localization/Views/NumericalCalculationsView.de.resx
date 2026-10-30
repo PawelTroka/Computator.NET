@@ -124,10 +124,10 @@
     <value>Verfahren</value>
   </data>
   <data name="numericalOperationButton.Text" xml:space="preserve">
-    <value>berechnen</value>
+    <value>Berechnen</value>
   </data>
   <data name="operation.HeaderText" xml:space="preserve">
-    <value>Betrieb</value>
+    <value>Operation</value>
   </data>
   <data name="parameters.HeaderText" xml:space="preserve">
     <value>Parameter</value>
@@ -142,9 +142,18 @@
     <value>Verfahren:</value>
   </data>
   <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Die Ableitung der Funktion an</value>
+    <value>Ableitung n-ter Ordnung an der Stelle x</value>
   </data>
   <data name="function.HeaderText" xml:space="preserve">
     <value>Funktion</value>
+  </data>
+  <data name="intervalGroupBox.Text" xml:space="preserve">
+    <value>Intervall</value>
+  </data>
+  <data name="maxErrorGroupBox.Text" xml:space="preserve">
+    <value>Max. Fehler:</value>
+  </data>
+  <data name="stepsGroupBox.Text" xml:space="preserve">
+    <value>Schrittzahl:</value>
   </data>
 </root>

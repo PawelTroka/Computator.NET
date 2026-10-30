@@ -4,5 +4,10 @@
   <ItemGroup>
     <Using Include="Computator.NET.DataTypes.Events" />
     <ProjectReference Include="..\Computator.NET.Desktop\Computator.NET.Desktop.csproj" />
+    <Compile Include="..\build\validation\LocalizationResourceContract.cs" Link="LocalizationResourceContract.cs" />
+    <None Include="..\Computator.NET.Localization\**\*.resx"
+          Exclude="..\Computator.NET.Localization\**\*.pl.resx"
+          Link="Localization/%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

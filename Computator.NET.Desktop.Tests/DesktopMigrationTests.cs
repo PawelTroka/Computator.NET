@@ -33,7 +33,7 @@ namespace Computator.NET.Desktop.Tests
         }
 
         [TestCase("pl", "Błąd składni")]
-        [TestCase("de", "Syntax Fehler")]
+        [TestCase("de", "Syntaxfehler")]
         [TestCase("cs", "Chyba syntaxe")]
         public void SatelliteResourcesKeepTheirOriginalNames(string culture, string expected)
         {
