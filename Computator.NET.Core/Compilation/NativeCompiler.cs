@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
 using System.Text;
 using Computator.NET.Localization;
@@ -35,7 +36,7 @@ namespace Computator.NET.Core.Compilation
         private static readonly Lazy<PortableExecutableReference[]> SharedRuntimeMetadata =
             new Lazy<PortableExecutableReference[]>(() =>
                 SharedDefaultReferencePaths.Value
-                    .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file)))
+                    .Select(path => ReferenceCache.GetOrAdd(path, CreateReferenceSnapshot))
                     .ToArray());
         private static readonly CSharpCompilationOptions SharedCompilationOptions =
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
@@ -91,7 +92,7 @@ namespace Computator.NET.Core.Compilation
                 : SharedRuntimeMetadata.Value.Concat(references.Select(ResolveReference)
                     .Where(path => !defaultPaths.Contains(path))
                     .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .Select(path => ReferenceCache.GetOrAdd(path, file => MetadataReference.CreateFromFile(file))));
+                    .Select(path => ReferenceCache.GetOrAdd(path, CreateReferenceSnapshot)));
             var tree = CSharpSyntaxTree.ParseText(input,
                 SharedParseOptions, encoding: Encoding.UTF8);
             return CSharpCompilation.Create("Computator.TSL." + Guid.NewGuid().ToString("N"),
@@ -104,6 +105,44 @@ namespace Computator.NET.Core.Compilation
             if (string.IsNullOrWhiteSpace(dllPath))
                 throw new ArgumentException("An assembly name or path is required.", nameof(dllPath));
             lock (_referenceLock) _references.Add(dllPath);
+        }
+
+        private static PortableExecutableReference CreateReferenceSnapshot(string path)
+        {
+            // CreateFromFile eagerly copies the entire PE image, including its
+            // IL/ReadyToRun code. Compilation needs the metadata, not executable
+            // sections. Prefetching only that metadata also closes the file,
+            // retaining the existing unlocked, process-lifetime snapshot policy.
+            ModuleMetadata module = null;
+            try
+            {
+                using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    module = ModuleMetadata.CreateFromStream(stream, PEStreamOptions.PrefetchMetadata);
+
+                if (module.GetModuleNames().Length == 0)
+                {
+                    // The reference owns the AssemblyMetadata, which owns its
+                    // module. Do not dispose a snapshot still used by the cache
+                    // or by a concurrent compilation.
+                    var reference = AssemblyMetadata.Create(module).GetReference(filePath: path);
+                    module = null;
+                    return reference;
+                }
+            }
+            catch (BadImageFormatException)
+            {
+                // Preserve Roslyn's existing malformed-reference diagnostics.
+                // The original factory can defer validation until compilation.
+            }
+            finally
+            {
+                module?.Dispose();
+            }
+
+            // Multi-module assemblies need Roslyn's path-based lazy discovery
+            // of adjacent netmodules. A single-module snapshot must not silently
+            // remove those exported types or change missing-module diagnostics.
+            return MetadataReference.CreateFromFile(path);
         }
 
         private static string[] FindRuntimeReferences()

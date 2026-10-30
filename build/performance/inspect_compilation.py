@@ -39,6 +39,7 @@ def main() -> int:
     parser.add_argument('--input', required=True, type=Path, help='Prepared/authenticated comparison input directory')
     parser.add_argument('--output', required=True, type=Path, help='Absent or empty isolated output directory')
     parser.add_argument('--dotnet', default='dotnet', help='SDK executable; repository global.json is retained')
+    parser.add_argument('--modern-baseline', action='store_true', help='Both pinned payloads are .NET 10; preserve the default historical diagnostic otherwise')
     args = parser.parse_args()
     require(os.name == 'nt', 'This diagnostic requires the Windows comparison host.')
     input_root, output = args.input.resolve(), args.output.resolve()
@@ -95,7 +96,8 @@ def main() -> int:
         return result['stdout']
 
     records['dotnetInfo'] = invoke('dotnet-info', [dotnet, '--info'], output)
-    for version, framework in (('baseline', 'net461'), ('candidate', 'net10.0-windows')):
+    for version, framework in (('baseline', 'net10.0-windows' if args.modern_baseline else 'net461'), ('candidate', 'net10.0-windows')):
+        modern = version == 'candidate' or args.modern_baseline
         payload = Path(manifest[version]['cwd'])
         version_output = output / version
         version_output.mkdir()
@@ -103,14 +105,14 @@ def main() -> int:
         project_dir.mkdir()
         shutil.copyfile(source_template, project_dir / 'CompilationDiagnostics.cs')
         references = [payload / 'Computator.NET.Core.dll', payload / 'Computator.NET.DataTypes.dll']
-        if version == 'candidate':
+        if modern:
             references += [payload / 'Computator.NET.Engine.dll', payload / 'Microsoft.CodeAnalysis.dll', payload / 'Microsoft.CodeAnalysis.CSharp.dll']
         for reference in references:
             require(reference.is_file(), 'Required actual product reference missing: ' + str(reference))
         items = ''.join('<Reference Include="' + escape(reference.stem) + '"><HintPath>' + escape(str(reference)) + '</HintPath><Private>false</Private></Reference>' for reference in references)
-        if version == 'baseline':
+        if not modern:
             items += '<Reference Include="System.Numerics"/><Reference Include="Microsoft.CSharp"/>'
-        properties = '<DefineConstants>MODERN_COMPILER</DefineConstants>' if version == 'candidate' else ''
+        properties = '<DefineConstants>MODERN_COMPILER</DefineConstants>' if modern else ''
         project = '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>' + framework + '</TargetFramework><OutputType>Exe</OutputType><AssemblyName>Compilation.Diagnostics</AssemblyName><LangVersion>7.3</LangVersion><Nullable>disable</Nullable><ImplicitUsings>disable</ImplicitUsings><UseWindowsForms>true</UseWindowsForms><UseWPF>true</UseWPF><EnableWindowsTargeting>true</EnableWindowsTargeting><PlatformTarget>x64</PlatformTarget><Prefer32Bit>false</Prefer32Bit><Optimize>true</Optimize><DebugType>portable</DebugType><EnableDefaultCompileItems>false</EnableDefaultCompileItems><RestorePackagesWithLockFile>false</RestorePackagesWithLockFile><NuGetAudit>false</NuGetAudit>' + properties + '</PropertyGroup><ItemGroup><Compile Include="CompilationDiagnostics.cs"/>' + items + '</ItemGroup></Project>\n'
         project_path = project_dir / 'Diagnostic.csproj'
         project_path.write_text(project, encoding='utf-8')
@@ -119,7 +121,7 @@ def main() -> int:
         # Restore every shipped/product dependency exactly. Only the independently
         # named diagnostic host is new; the original common Worker remains intact.
         shutil.copytree(payload, host, dirs_exist_ok=True)
-        if version == 'baseline':
+        if not modern:
             shutil.copyfile(payload / 'Computator.Performance.Worker.exe.config', host / 'Compilation.Diagnostics.exe.config')
         else:
             for extension in ('deps.json', 'runtimeconfig.json'):
@@ -144,17 +146,21 @@ def main() -> int:
                 require(record['runtime'].startswith(expected['runtimePrefix']), 'Captured runtime prefix differs.')
             require(record['fullSource']['sha256'] == sha(capture_dir / 'fullsource.cs.txt'), 'Captured source bytes differ.')
             records['captures'][version][scenario] = record
-            if version == 'candidate':
+            if modern:
                 # A fresh child starts after capture; all compiler phases and its
                 # first-native-compile costs are measured in this fresh process.
-                phase = invoke('candidate-' + scenario + '-phases', command + ['phases', scenario, str(capture_dir / 'fullsource.cs.txt')], host, extra, timeout=240, worker=True)
+                phase = invoke(version + '-' + scenario + '-phases', command + ['phases', scenario, str(capture_dir / 'fullsource.cs.txt')], host, extra, timeout=240, worker=True)
                 require(all(phase[key] == record[key] for key in ('coreVersion', 'coreSha256', 'runtime', 'bitness')), 'Phase process identity differs from its capture.')
                 require(phase['fullSource']['sha256'] == record['fullSource']['sha256'], 'Phase source differs from the public evaluator capture.')
                 require(len(phase['phases']) == 33 and all(row['correctness'] for row in phase['phases']), 'Incomplete phase trace.')
-                records['phases'][scenario] = phase
+                if args.modern_baseline:
+                    records['phases'].setdefault(version, {})[scenario] = phase
+                else:
+                    records['phases'][scenario] = phase
             write_json(output / 'compilation-diagnostics.json', records)
         verify()
     records['candidateAndHistoricalArtifactsVerifiedBeforeAndAfter'] = True
+    records['modernBaseline'] = args.modern_baseline
     write_json(output / 'compilation-diagnostics.json', records)
     print('Captured exact generated sources and 33 native compile phase observations:', output)
     return 0

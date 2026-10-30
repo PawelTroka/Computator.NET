@@ -1,0 +1,125 @@
+name: Current compiler latency and memory comparison
+on:
+  push:
+    branches: ['perf/issue-191-roslyn-compilation-reuse']
+    paths:
+      - 'Computator.NET.Core/Compilation/NativeCompiler.cs'
+      - 'Computator.NET.Core/Compilation/BuiltinFacadePolicy.cs'
+      - 'Computator.NET.Core/Evaluation/ExpressionsEvaluator.cs'
+      - 'Computator.NET.Core/Evaluation/ScriptEvaluator.cs'
+      - 'Computator.NET.Core.Tests/**'
+      - 'build/PrecompiledTslBuiltins.targets'
+      - 'build/performance/CompilerComparison*'
+      - 'build/performance/Prepare-CompilerComparison.ps1'
+      - 'build/performance/compiler_comparison_manifest.py'
+      - 'build/performance/inspect_compilation.py'
+      - '.github/workflows/compiler-compilation-reuse.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  comparison:
+    strategy:
+      fail-fast: false
+      matrix:
+        session: [1, 2]
+    runs-on: windows-2025
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: candidate
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c
+          path: baseline
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: candidate/global.json
+      - name: Correctness and lifetime regression gate
+        working-directory: candidate
+        shell: pwsh
+        run: |
+          dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj -c Release --logger 'trx;LogFileName=core.trx' --results-directory artifacts/compiler-tests
+          if ($LASTEXITCODE -ne 0) { throw 'Core correctness failed; no benchmark of invalid product.' }
+          [xml]$trx = Get-Content artifacts/compiler-tests/core.trx -Raw
+          $counts = $trx.TestRun.ResultSummary.Counters
+          if ([int]$counts.executed -lt 800 -or [int]$counts.failed -ne 0 -or [int]$counts.executed -ne [int]$counts.passed) { throw 'Core test completeness failed.' }
+          python -m unittest discover -s build/performance -p 'test_*.py' -v
+          if ($LASTEXITCODE -ne 0) { throw 'Performance contract tests failed.' }
+      - name: Publish two exact products and screen every common workload
+        shell: pwsh
+        run: |
+          ./candidate/build/performance/Prepare-CompilerComparison.ps1 -BaselineSourceDirectory "$env:GITHUB_WORKSPACE/baseline" -CandidateSourceDirectory "$env:GITHUB_WORKSPACE/candidate" -ExpectedCandidateCommit '${{ github.sha }}' -OutputDirectory "$env:GITHUB_WORKSPACE/compiler-input"
+      - name: Twenty sequential AB/BA process pairs on this runner
+        working-directory: candidate
+        shell: pwsh
+        run: |
+          python build/performance/compare.py run --manifest ../compiler-input/manifest.json --output ../compiler-results --pairs 20 --timeout 120 --bootstrap 50000 --seed 191
+          if ($LASTEXITCODE -ne 0) { throw 'Comparison invalid; retain failed observations.' }
+          python build/performance/compiler_comparison_manifest.py --raw ../compiler-results/raw.json --memory-output ../compiler-results/memory.json
+          if ($LASTEXITCODE -ne 0) { throw 'Fixed memory diagnostic incomplete or invalid.' }
+      - name: Publish complete statistics and memory evidence
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path compiler-results/report.md) {
+            Get-Content compiler-results/report.md
+            Get-Content compiler-results/report.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+          }
+          if (Test-Path compiler-results/memory.json) { Get-Content compiler-results/memory.json }
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: current-compiler-session-${{ matrix.session }}
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            candidate/artifacts/compiler-tests/
+            compiler-input/*.json
+            compiler-input/audit/
+            compiler-input/preparation-logs/
+            compiler-input/conditioning/
+            compiler-results/
+  attribution:
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: candidate
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c
+          path: baseline
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          global-json-file: candidate/global.json
+      - name: Prepare the same exact-commit modern payloads
+        shell: pwsh
+        run: ./candidate/build/performance/Prepare-CompilerComparison.ps1 -BaselineSourceDirectory "$env:GITHUB_WORKSPACE/baseline" -CandidateSourceDirectory "$env:GITHUB_WORKSPACE/candidate" -ExpectedCandidateCommit '${{ github.sha }}' -OutputDirectory "$env:GITHUB_WORKSPACE/compiler-input"
+      - name: Reuse actual-source phase attribution for both modern products
+        working-directory: candidate
+        shell: pwsh
+        run: |
+          python build/performance/inspect_compilation.py --modern-baseline --input ../compiler-input --output ../compiler-phases
+          if ($LASTEXITCODE -ne 0) { throw 'Compiler attribution failed; retain raw logs.' }
+          Get-Content ../compiler-phases/compilation-diagnostics.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: current-compiler-phase-attribution
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            compiler-input/*.json
+            compiler-input/audit/
+            compiler-input/preparation-logs/
+            compiler-input/conditioning/
+            compiler-phases/*.json
+            compiler-phases/logs/
+            compiler-phases/*/*-source/

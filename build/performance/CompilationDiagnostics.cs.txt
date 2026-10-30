@@ -117,6 +117,7 @@ internal static class CompilationDiagnostics
         var compilation = (CSharpCompilation)create.Invoke(compiler, new object[] { full });
         Result["references"] = compilation.References.Select(reference => reference.Display).ToArray();
         Result["referenceCount"] = compilation.References.Count();
+        Result["referenceFootprint"] = ReferenceFootprint(compilation);
         Result["symbolicPowerCandidates"] = FunctionPowerResolver.HasCandidates(compilation.SyntaxTrees.Single().GetRoot());
 #else
         var parameters = (System.CodeDom.Compiler.CompilerParameters)typeof(NativeCompiler)
@@ -177,6 +178,32 @@ internal static class CompilationDiagnostics
             rows.Add(row);
         }
         Result["phases"] = rows;
+        // Inspect PE headers only after all timed observations. This accounts
+        // for the native reference cache; managed allocations do not include it.
+        Result["referenceFootprint"] = ReferenceFootprint((CSharpCompilation)create.Invoke(compiler, new object[] { source }));
+    }
+
+    private static object ReferenceFootprint(CSharpCompilation compilation)
+    {
+        long files = 0, metadata = 0;
+        var references = new List<object>();
+        foreach (var reference in compilation.References)
+        {
+            var path = reference.Display;
+            if (string.IsNullOrEmpty(path) || !File.Exists(path)) continue;
+            using (var stream = File.OpenRead(path))
+            using (var pe = new System.Reflection.PortableExecutable.PEReader(stream))
+            {
+                files += stream.Length;
+                metadata += pe.PEHeaders.MetadataSize;
+                references.Add(new { path, fileBytes = stream.Length, metadataBytes = pe.PEHeaders.MetadataSize });
+            }
+        }
+        return new Dictionary<string, object>
+        {
+            { "scope", "Actual reference PE file bytes versus metadata bytes; recorded after timing. Not process-memory or allocation measurements." },
+            { "fileBytes", files }, { "metadataBytes", metadata }, { "referenceCount", references.Count }
+        };
     }
 #endif
 
