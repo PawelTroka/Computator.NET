@@ -88,7 +88,7 @@ def inline_style(image):
 MAPPINGS={'ElementaryFunctions':elementary,'PhysicalConstants':physical,
           'MathematicalConstants':mathematical,'SpecialFunctions':special}
 SCIENCE={'MatrixFunctions','ScriptingFunctions','StatisticsFunctions','Integral','Derivative',
-         'FunctionRoot','MathematicalTransformations'}
+         'FunctionRoot','MathematicalTransformations','DifferentialEquation'}
 ALLOWED_TAGS={'div','p','strong','b','code','pre','br','a','ul','li','sup','sub','img'}
 SECTIONS=(('formula','Definition / convention'),('arguments','Arguments / value'),
           ('note','Important'),('example','Example'))

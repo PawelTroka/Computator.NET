@@ -12,6 +12,7 @@ def describe(item,values):
     if kind=='Integral':return integral(name,args)
     if kind=='Derivative':return derivative(name,args)
     if kind=='FunctionRoot':return root(name,args)
+    if kind=='DifferentialEquation':return differential_equation(name,args)
     if kind=='MatrixFunctions':return matrix(name,args,sig)
     if kind=='ScriptingFunctions':return scripting(name,args,sig)
     if kind=='MathematicalTransformations':
@@ -40,6 +41,18 @@ def describe(item,values):
         t,d,f,n=table[name if name=='rnd' else args]
         return A(t,d,f,'The generator changes state on each sample; repeated calls need not agree.',n,url=SOURCE+'Computator.NET.Core/Functions/StatisticsFunctions.cs',category='Random sampling')
     raise KeyError(kind+':'+sig)
+
+def differential_equation(name,args):
+    if name!='rungeKutta4' or args!='derivative,y0,start,end,samples':
+        raise KeyError('DifferentialEquation '+name+'('+args+')')
+    return A('Fourth-order Runge–Kutta initial-value solver',
+             'Approximates a real scalar differential equation or a coupled first-order system from its initial state.',
+             'y′(t)=derivative(t,y), y(start)=y0; h=(end−start)/(samples−1). Classical RK4 combines slopes at t, t+h/2, t+h/2 and t+h.',
+             'Scalar y0 returns a real array. A real Math.NET vector y0 returns an array of state vectors of the same dimension. samples includes the initial and final states: default 101, accepted range 2 through 1,000,001. Index i corresponds to start+i·h, subject to floating-point rounding. Reverse intervals are supported.',
+             'Use finite initial states, bounds, derivatives and intermediate states. A nonzero interval needs a finite, representable half-step. Equal bounds return independent copies of the initial state without evaluating the derivative. Invalid inputs or wrong-sized system derivatives throw; nonfinite arithmetic throws ArithmeticException. Callback exceptions propagate. This fixed-step method has no adaptive error estimate, stiff-system handling or event detection. Refine the grid and check convergence. Vector callbacks receive copies; returned states and reused derivative buffers do not alias. Memory grows with samples times state dimension.',
+             'DifferentialEquation.rungeKutta4((t,u) => 2*t,3.0,0.0,2.0,21)[20] gives approximately 7.',
+             url='https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/OdeSolvers/RungeKutta.cs',
+             category='Ordinary differential equations')
 
 def integral(name,args):
     data={

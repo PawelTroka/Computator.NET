@@ -132,6 +132,12 @@ def extra_enrichment(item,article,name):
           'integrate':'The method name selects a numerical approximation, not a symbolic antiderivative. Choose a rule suited to smoothness, endpoints and oscillation, then check stability under a tighter work budget.'}
         return Enrichment((Equation(r'I=\int_a^b f(x)\,dx', 'Signed area from a to b under f(x).','Quantity being approximated'),),(methods[base],
             'Integration returns signed area: values below the axis contribute negatively. Splitting at known singularities or discontinuities is often more informative than only increasing the number of samples.'),(),False)
+    if kind=='DifferentialEquation':
+        return Enrichment((),(
+            'An initial-value problem needs both a rate equation and a starting state. For y′=2t with y(0)=3, integration gives y(t)=3+t², so the value at t=2 is seven. The returned array stores the evolving state, not derivative values.',
+            'For a second-order equation, introduce a velocity component: y′=v and v′=−y describe a unit-frequency oscillator. Return a vector containing both derivatives in the same order as the state vector. More samples improve ordinary smooth non-stiff problems, but cannot guarantee stability or accuracy for every equation.'),
+            (WorkedExample('DifferentialEquation.rungeKutta4((t,u) => 2*t,3.0,0.0,2.0,21)[20]',
+                           'approximately 7','There are twenty steps and twenty-one stored states. The last element approximates y(2)=3+2².'),),False)
     if kind=='Derivative':
         return Enrichment((Equation(r'f^{(n)}(x)=\frac{d^n f}{dx^n}', 'Derivative of order n with respect to x.','Quantity being approximated'),),(
             'Numerical differentiation estimates local change from nearby function values. A smaller step reduces truncation error only until floating-point subtraction and evaluation noise begin to dominate; the smallest possible step is not generally best.',

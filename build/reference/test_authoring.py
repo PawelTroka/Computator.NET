@@ -83,4 +83,58 @@ class AuthoringTests(unittest.TestCase):
                 self.assertIn('<strong>Result:</strong> 105',text)
                 self.assertIn('<img class="reference-math"',text)
 
+    def ode_inventory(self):
+        return {'items':[
+            {'signature':'DifferentialEquation.rungeKutta4(derivative,y0,start,end,samples)',
+             'menu':'Double[] DifferentialEquation.rungeKutta4(function derivative, real y0, real start, real end, integer samples)',
+             'type':'DifferentialEquation'},
+            {'signature':'DifferentialEquation.rungeKutta4(derivative,y0,start,end,samples)',
+             'menu':'Vector`1[] DifferentialEquation.rungeKutta4(function derivative, Vector`1 y0, real start, real end, integer samples)',
+             'type':'DifferentialEquation'}], 'constants':[]}
+
+    def test_ode_overloads_share_an_article_with_both_typed_signatures(self):
+        inventory=self.ode_inventory()
+        entries=articles(inventory)
+        self.assertEqual(len(entries),1)
+        article=entries[0]
+        self.assertEqual(article['category'],'Ordinary differential equations')
+        for item in inventory['items']:
+            self.assertIn('<code>'+item['menu']+'</code>',article['description'])
+        self.assertIn('/v5.0.0/src/Numerics/OdeSolvers/RungeKutta.cs',article['url'])
+
+    def test_unknown_ode_methods_and_signatures_fail_authoring(self):
+        for signature in ('DifferentialEquation.adaptive(derivative,y0,start,end,samples)',
+                          'DifferentialEquation.rungeKutta4(derivative,y0,start,end,tolerance)'):
+            with self.subTest(signature=signature):
+                inventory=self.ode_inventory()
+                inventory['items']=inventory['items'][:1]
+                inventory['items'][0]['signature']=signature
+                with self.assertRaises(KeyError): articles(inventory)
+
+    def test_ode_article_explains_grid_and_zero_interval_contract(self):
+        text=articles(self.ode_inventory())[0]['description']
+        for contract in ('samples includes the initial and final states',
+                         'default 101, accepted range 2 through 1,000,001',
+                         'Reverse intervals are supported',
+                         'Equal bounds return independent copies of the initial state without evaluating the derivative',
+                         'finite, representable half-step'):
+            self.assertIn(contract,text)
+
+    def test_ode_article_explains_ownership_and_numerical_limits(self):
+        text=articles(self.ode_inventory())[0]['description']
+        for contract in ('Vector callbacks receive copies',
+                         'returned states and reused derivative buffers do not alias',
+                         'no adaptive error estimate, stiff-system handling or event detection',
+                         'Refine the grid and check convergence',
+                         'Memory grows with samples times state dimension',
+                         'nonfinite arithmetic throws ArithmeticException'):
+            self.assertIn(contract,text)
+
+    def test_ode_article_teaches_a_reproducible_scalar_example(self):
+        text=articles(self.ode_inventory())[0]['description']
+        self.assertIn('<pre><code>DifferentialEquation.rungeKutta4((t,u) =&gt; 2*t,3.0,0.0,2.0,21)[20]</code></pre>',text)
+        self.assertIn('<strong>Result:</strong> approximately 7',text)
+        self.assertIn('twenty steps and twenty-one stored states',text)
+        self.assertIn('The returned array stores the evolving state, not derivative values',text)
+
 if __name__=='__main__':unittest.main()

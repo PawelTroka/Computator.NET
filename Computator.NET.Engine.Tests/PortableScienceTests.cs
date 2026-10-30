@@ -9,7 +9,7 @@ public class PortableScienceTests
     [Test]
     public void DesktopScientificTypesAreOwnedByThePortableAssembly()
     {
-        foreach (var type in new[] { typeof(MatrixFunctions), typeof(Integral), typeof(Derivative), typeof(FunctionRoot) })
+        foreach (var type in new[] { typeof(MatrixFunctions), typeof(Integral), typeof(Derivative), typeof(FunctionRoot), typeof(DifferentialEquation) })
             NUnit.Framework.Assert.That(type.Assembly, Is.SameAs(typeof(PortableEngine).Assembly));
     }
     [Test]
