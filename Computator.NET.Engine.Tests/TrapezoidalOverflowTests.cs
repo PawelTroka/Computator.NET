@@ -88,6 +88,25 @@ public class TrapezoidalOverflowTests(bool generatedSource)
             Is.EqualTo(Math.ScaleB(1, -51)));
     }
 
+    [TestCase(1)]
+    [TestCase(3)]
+    [TestCase(5)]
+    public void AFiniteEndpointSumRetainsTheSubnormalPanelWidth(int widthUnits)
+    {
+        // Here the endpoint sum is finite. Halving a subnormal width first
+        // either erases it or rounds an odd number of representable steps.
+        var constant = Math.ScaleB(1, 1022);
+        var width = widthUnits * double.Epsilon;
+        var expected = widthUnits * Math.ScaleB(1, -52);
+        foreach (var sign in new[] { -1.0, 1.0 })
+        {
+            NUnit.Framework.Assert.That(_integrate(_ => sign * constant, 0, width, 1),
+                Is.EqualTo(sign * expected));
+            NUnit.Framework.Assert.That(_integrate(_ => sign * constant, width, 0, 1),
+                Is.EqualTo(-sign * expected));
+        }
+    }
+
     [Test]
     public void TinyEndpointValuesAreNotHalvedBeforeAddingThem()
     {

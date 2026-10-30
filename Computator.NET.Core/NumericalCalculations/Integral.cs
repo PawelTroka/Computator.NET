@@ -106,6 +106,10 @@ namespace Computator.NET.Core.NumericalCalculations
                 // large values is safe; keep the ordinary path for subnormals.
                 if (double.IsInfinity(sum) && !double.IsInfinity(y2) && !double.IsInfinity(y1))
                     s += h*(y2/2 + y1/2);
+                else if (System.Math.Abs(h) < 2.2250738585072014e-308 && !double.IsInfinity(sum))
+                    // Halving a subnormal width can erase or round it before
+                    // a large finite sum produces a representable panel area.
+                    s += h*(sum/2);
                 else
                     s += 0.5*h*sum;
             }
@@ -213,6 +217,10 @@ namespace Computator.NET.Core.NumericalCalculations
                 // large values is safe; keep the ordinary path for subnormals.
                 if (double.IsInfinity(sum) && !double.IsInfinity(y2) && !double.IsInfinity(y1))
                     s += h*(y2/2 + y1/2);
+                else if (System.Math.Abs(h) < 2.2250738585072014e-308 && !double.IsInfinity(sum))
+                    // Halving a subnormal width can erase or round it before
+                    // a large finite sum produces a representable panel area.
+                    s += h*(sum/2);
                 else
                     s += 0.5*h*sum;
             }
