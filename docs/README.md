@@ -36,7 +36,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | [Shared execution policy](SHARED-EXECUTION-POLICY.md) | Input and output limits across web execution routes |
 | [Execution workers](followups/EXECUTION-WORKERS.md) | Cancellation, process ownership and recovery boundaries |
 | [Generated-program lifetime](PROGRAM-LIFETIME.md) | Collectible code and remaining dynamic-binder retention |
-| [Desktop document safety](followups/EDITOR-DOCUMENT-SAFETY.md) | Editor document identity, persistence and interactions |
+| [Desktop document safety](followups/EDITOR-DOCUMENT-SAFETY.md) | Editor document identity, persistence, printing and interactions |
 | [Web custom functions](followups/WEB-CUSTOM-FUNCTIONS.md) | Editing, session saves, import/export and request-local definitions |
 | [Web interface](WEB-UI.md) | Web shell and editor design decisions |
 | [Real browser-to-API tests](followups/WEB-E2E.md) | Protected local proxy and actual mathematical execution |
