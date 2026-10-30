@@ -128,6 +128,7 @@
     <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
     <File Path="build/mono/SmokeTests/EditorSearchTests.cs" />
     <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
+    <File Path="build/mono/SmokeTests/LocalizationTests.cs" />
     <File Path="build/mono/SmokeTests/Program.cs" />
     <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
     <File Path="build/mono/StartupProbe/Program.cs" />
@@ -216,6 +217,7 @@
     <File Path="build/WindowsAssemblyInfo.cs" />
     <File Path="build/fixtures/LegacySettings.cs" />
     <File Path="build/portable/Test-Cli.ps1" />
+    <File Path="build/validation/LocalizationResourceContract.cs" />
   </Folder>
   <Folder Name="/Build/Workstreams/">
     <File Path="build/followups/appveyor.cake" />
