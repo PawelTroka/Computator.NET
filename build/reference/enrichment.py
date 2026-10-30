@@ -285,6 +285,9 @@ def value_tex(value):
 
 def enrich(item, article, values):
     kind=item['type']; signature=item['signature']; name=signature.split('(')[0]
+    if kind == 'Polynomial':
+        import polynomials
+        return polynomials.enrich(item)
     if kind in distributions.FAMILIES:
         op=name.split('.')[-1]; notes=[MODEL_LESSONS[kind]]
         if op=='CDF':

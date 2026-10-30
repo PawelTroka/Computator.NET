@@ -19,6 +19,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 
 | Guide | What it covers |
 | --- | --- |
+| [Coefficient polynomials](POLYNOMIALS.md) | Arithmetic, calculus, fitting, evaluation and general complex roots |
 | [Function powers](FUNCTION-POWERS.md) | Mathematical power notation, disambiguation and compiler behavior |
 | [Shared portable scientific services](followups/PORTABLE-SCIENCE.md) | Shared matrix/numerical implementations and strict CLI input contracts |
 | [Built-in function reference](FUNCTION-REFERENCE.md) | Authoring, generation, article identities and validation |
