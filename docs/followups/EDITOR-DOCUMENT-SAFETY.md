@@ -75,6 +75,51 @@ that unsaved-close prompting has been implemented.
 
 ## Automated validation
 
+### Printing and previewing code
+
+In Scripting and Custom functions, **File → Print** (`Ctrl+P`) and **File → Print
+preview** use the selected editor buffer, including unsaved and untitled content.
+They print the whole document; a text selection does not limit the job. Empty
+buffers do not open a dialog or submit a blank page. Cancelling a dialog, previewing
+or printing does not save the file, change its dirty indicator, or alter selection.
+The snapshot is fixed before the dialog opens, so subsequent edits or tab changes
+cannot change an in-progress preview/job. Disk files are never reread for printing.
+
+All three Windows editor implementations share the same plain-text renderer.
+It uses the configured editor font family at 10 points, expands tabs at four-column
+stops, wraps using measured text widths, and preserves Unicode text elements when
+wrapping. Each page has a document-name header and page-number footer. The body
+fits within both the configured margins and the printer's actual printable area,
+including asymmetric hard margins. Syntax colors, selection-only printing, page
+ranges and a page-setup UI are not part of this feature. Print/preview for charts
+and the existing keyboard fallback in other views retain their current behavior.
+
+The native dialogs and printer driver are platform prerequisites. On Windows,
+configure an available printer (a PDF printer is sufficient for acceptance).
+The reduced Mono/TextEditor build also requires a working native printing stack,
+including the platform's System.Drawing/libgdiplus and CUPS support. A build alone
+does not prove that those native services or a usable printer are installed.
+Invalid printer settings and unusable paper/margin combinations are reported as
+print errors; the source document remains unchanged.
+
+`EditorPrintingCommandTests` exercises workspace dispatch, chart behavior and the
+existing fallback. `CodePrintPaginationTests` runs the production paginator and
+hard-margin geometry on every OS. `EditorPrintingWorkflowTests` uses the real
+Scintilla, AvalonEdit and TextEditor buffers on Windows, substitutes only the
+modal print-dialog boundary, and checks snapshot, selection and file preservation.
+Its bitmap tests exercise the production renderer and attach a first-page PNG;
+these do not submit a job to a physical printer or automate the native dialogs.
+
+Before release, repeat Print and Print preview in both editor views for all three
+editor types: choose a PDF printer, cancel a job, print unsaved/untitled Unicode
+text, and inspect a long wrapped multi-page document. Confirm headers, page
+numbers and all four edges with both ordinary margins and printer hard margins
+larger than the chosen user margins. Preview followed by printing must restart
+at page 1. An empty buffer must submit no job. Record the native Windows result
+separately from portable tests or a cross-build.
+
+### Document persistence
+
 The desktop fixtures instantiate the real WinForms/WPF/Scintilla editors on an
 STA thread. They exercise tab events, context menu commands, the production
 Save/Save As methods, and real filesystem reads/writes. The modal filename chooser

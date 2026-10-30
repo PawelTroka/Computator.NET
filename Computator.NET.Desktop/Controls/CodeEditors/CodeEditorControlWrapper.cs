@@ -2,6 +2,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 #if !__MonoCS__
@@ -12,6 +13,7 @@ using Computator.NET.Core.Abstract.Controls;
 using Computator.NET.Core.Properties;
 using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.SettingsTypes;
+using Computator.NET.Desktop.Controls.CodeEditors.Printing;
 #if !__MonoCS__
 using Computator.NET.Desktop.Controls.CodeEditors.AvalonEdit;
 #endif
@@ -506,6 +508,71 @@ namespace Computator.NET.Desktop.Controls.CodeEditors
         public void SelectAll()
         {
             CurrentCodeEditor.SelectAll();
+        }
+
+        public void Print()
+        {
+            PrintDocument(false);
+        }
+
+        public void PrintPreview()
+        {
+            PrintDocument(true);
+        }
+
+        private void PrintDocument(bool preview)
+        {
+            // Snapshot the selected buffer, including unsaved edits, before a
+            // modal dialog. Never reread disk or print a previous/background tab.
+            var selected = tabControl.SelectedTab;
+            if (!IsDocumentTab(selected) || selected != _activeTab ||
+                !CurrentCodeEditor.ContainsDocument(selected.Text)) return;
+            var text = Text;
+            if (string.IsNullOrEmpty(text)) return;
+            var name = Path.GetFileName(selected.Text);
+            using (var document = new CodePrintDocument(name, text, Settings.Default.ScriptingFont))
+            {
+                document.PrintFailed += ShowPrintError;
+                try { ShowPrintDialog(document, preview); }
+                catch (Exception exception) when (CodePrintDocument.IsPrintError(exception))
+                {
+                    document.ReportError(exception);
+                }
+            }
+        }
+
+        protected virtual void ShowPrintDialog(PrintDocument document, bool preview)
+        {
+            if (preview)
+            {
+                if (!document.PrinterSettings.IsValid)
+                    throw new InvalidPrinterException(document.PrinterSettings);
+                using (var dialog = new PrintPreviewDialog
+                {
+                    Document = document,
+                    UseAntiAlias = true,
+                    Width = 1000,
+                    Height = 800
+                }) dialog.ShowDialog(this);
+            }
+            else
+            {
+                using (var dialog = new PrintDialog
+                {
+                    Document = document,
+                    UseEXDialog = true,
+                    AllowSelection = false,
+                    AllowSomePages = false
+                })
+                    if (dialog.ShowDialog(this) == DialogResult.OK) document.Print();
+            }
+        }
+
+        protected virtual void ShowPrintError(string message)
+        {
+            System.Windows.Forms.MessageBox.Show(this, message,
+                Computator.NET.Localization.Menu.MenuStrings.printToolStripButton_Text,
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         public void Save()

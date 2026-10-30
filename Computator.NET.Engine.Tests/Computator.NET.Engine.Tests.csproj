@@ -12,6 +12,10 @@
     <Compile Include="../Computator.NET.Core.Tests/FunctionsTests/FloatingRandomRangeTests.cs" Link="Parity/FloatingRandomRangeTests.cs" />
     <!-- Exercise the editor's lexical block detection on every supported OS. -->
     <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/AvalonEdit/BraceFoldingRanges.cs" Link="Editors/BraceFoldingRanges.cs" />
+    <!-- Printer-independent production pagination and hard-margin geometry. -->
+    <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/Printing/CodePrintLayoutException.cs" Link="Editors/CodePrintLayoutException.cs" />
+    <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/Printing/CodePrintPaginator.cs" Link="Editors/CodePrintPaginator.cs" />
+    <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/Printing/CodePrintPageLayout.cs" Link="Editors/CodePrintPageLayout.cs" />
     <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexTicksLayout.cs" Link="Charting/ComplexTicksLayout.cs" />
