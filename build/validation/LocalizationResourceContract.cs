@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Computator.NET.TestSupport
@@ -56,10 +57,17 @@ namespace Computator.NET.TestSupport
             return checkedStrings;
         }
 
-        private static Dictionary<string, string> ReadStrings(string path) =>
-            XDocument.Load(path).Root.Elements("data")
-                .Where(element => element.Attribute("type") == null && element.Attribute("mimetype") == null)
-                .ToDictionary(element => (string)element.Attribute("name"), element => (string)element.Element("value") ?? "");
+        private static Dictionary<string, string> ReadStrings(string path)
+        {
+            // The resource compiler preserves literal CRLF in values. Match its
+            // reader instead of normalizing compiled strings: explicit CR/LF
+            // entities, whitespace and every translated character stay exact.
+            using (var reader = new XmlTextReader(path)
+                { Normalization = false, DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null })
+                return XDocument.Load(reader, LoadOptions.PreserveWhitespace).Root.Elements("data")
+                    .Where(element => element.Attribute("type") == null && element.Attribute("mimetype") == null)
+                    .ToDictionary(element => (string)element.Attribute("name"), element => (string)element.Element("value") ?? "");
+        }
 
         private static void Require(bool condition, string message)
         {
