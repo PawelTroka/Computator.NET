@@ -335,6 +335,7 @@
     <File Path="build/reference/elementary.py" />
     <File Path="build/reference/enrichment.py" />
     <File Path="build/reference/enrichment_more.py" />
+    <File Path="build/reference/euclid.py" />
     <File Path="build/reference/fixtures/legacy-subject-categories.json" />
     <File Path="build/reference/generate.py" />
     <File Path="build/reference/mathematical.py" />
@@ -348,6 +349,7 @@
     <File Path="build/reference/test-plots.cjs" />
     <File Path="build/reference/test_authoring.py" />
     <File Path="build/reference/test_categories.py" />
+    <File Path="build/reference/test_euclid.py" />
     <File Path="build/reference/test_inline_math.py" />
     <File Path="build/reference/test_numerical_integration.py" />
     <File Path="build/reference/test_physical.py" />
