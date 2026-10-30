@@ -27,6 +27,7 @@
     <_TslBuiltinSource Include="$(MSBuildThisFileDirectory)../Computator.NET.Core/Functions/MatrixFunctions.cs" Kind="MatrixFunctions" />
     <_TslBuiltinSource Include="$(MSBuildThisFileDirectory)../Computator.NET.Core/Evaluation/NumericalExtensions.cs" Kind="NumericalExtensions" />
     <_TslBuiltinSource Include="$(MSBuildThisFileDirectory)../Computator.NET.Core/Functions/ReadForm.cs" Kind="ReadForm" />
+    <_TslBuiltinSource Include="$(MSBuildThisFileDirectory)../Computator.NET.Core/Functions/ScriptingFunctions.cs" Kind="ScriptingFunctions" />
     <_TslBuiltinSource Include="$(MSBuildThisFileDirectory)../Computator.NET.Core/Evaluation/ScriptingExtensionObjects.cs" Kind="ScriptingExtensionObjects" />
   </ItemGroup>
   <Target Name="GenerateTslBuiltinFacade" Inputs="@(_TslBuiltinSource);$(MSBuildThisFileFullPath);$(MSBuildThisFileDirectory)GeneratePrecompiledTslBuiltins.cs" Outputs="$(IntermediateOutputPath)PrecompiledTslBuiltins.g.cs">

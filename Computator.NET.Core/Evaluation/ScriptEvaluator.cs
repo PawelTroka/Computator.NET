@@ -3,6 +3,7 @@ using Computator.NET.Core.Compilation.Builtins;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.Functions;
+using Computator.NET.DataTypes.SettingsTypes;
 using Computator.NET.DataTypes.Utility;
 
 namespace Computator.NET.Core.Evaluation
@@ -16,13 +17,37 @@ namespace Computator.NET.Core.Evaluation
     {
         private readonly string _additionalObjectsCodeCopy;
         private string _numericalOutputNotation;
+        private NumericalOutputNotationType _numericalOutputNotationValue;
+        private static readonly string MathematicalScriptSignature = PrecompiledScriptFormatting.MathematicalFunctions + ScriptEntryPoint;
+        private static readonly string EngineeringScriptSignature = PrecompiledScriptFormatting.EngineeringFunctions + ScriptEntryPoint;
+
+        private bool CanUseScriptHelpers(bool usingPrecompiledBuiltins) =>
+            usingPrecompiledBuiltins && GetType() == typeof(ScriptEvaluator) && FunctionType == FunctionType.Scripting;
+
+        protected override string GetScriptFunctionSignature(bool usingPrecompiledBuiltins)
+        {
+            if (CanUseScriptHelpers(usingPrecompiledBuiltins) && ScriptFormattingCompatible)
+            {
+                if (_numericalOutputNotationValue == NumericalOutputNotationType.MathematicalNotation)
+                    return MathematicalScriptSignature;
+                if (_numericalOutputNotationValue == NumericalOutputNotationType.EngineeringNotation)
+                    return EngineeringScriptSignature;
+            }
+            return base.GetScriptFunctionSignature(usingPrecompiledBuiltins);
+        }
 
         protected override string GetAdditionalObjectsCode(bool usingPrecompiledBuiltins)
         {
-            if (usingPrecompiledBuiltins && GetType() == typeof(ScriptEvaluator) &&
-                FunctionType == FunctionType.Scripting)
-                return (NumericalExtensions.ToCode + PrecompiledScriptObjects.ToCode).Replace(
+            if (CanUseScriptHelpers(usingPrecompiledBuiltins))
+            {
+                var objects = ScriptFormattingCompatible && _numericalOutputNotationValue == NumericalOutputNotationType.MathematicalNotation
+                    ? PrecompiledScriptObjects.MathematicalObjects
+                    : ScriptFormattingCompatible && _numericalOutputNotationValue == NumericalOutputNotationType.EngineeringNotation
+                        ? PrecompiledScriptObjects.EngineeringObjects
+                        : PrecompiledScriptObjects.ToCode;
+                return (NumericalExtensions.ToCode + objects).Replace(
                     @"Properties.Settings.Default.NumericalOutputNotation", _numericalOutputNotation);
+            }
             return base.GetAdditionalObjectsCode(usingPrecompiledBuiltins);
         }
 
@@ -83,8 +108,9 @@ namespace Computator.NET.Core.Evaluation
                     ? customFunctionsCode
                     : "";
 
+            _numericalOutputNotationValue = Settings.Default.NumericalOutputNotation;
             _numericalOutputNotation = "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." +
-                Settings.Default.NumericalOutputNotation;
+                _numericalOutputNotationValue;
             AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
                 @"Properties.Settings.Default.NumericalOutputNotation", _numericalOutputNotation);
 

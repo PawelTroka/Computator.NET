@@ -126,3 +126,11 @@ python build/performance/inspect_compilation.py --input artifacts/performance-in
 ```
 
 The pinned Microsoft dotnet-trace tool preserves native traces and Speedscope conversions for the existing real/script workers. Sampled thread stacks are not precise on-CPU percentages. The separate source/phase host captures actual generated programs from both versions and checks the first modern compilation and 32 repeats against numerical/script oracles. It records parsing/reference setup, symbolic-power resolution, emission, loading and delegate binding. Generated diagnostic projects live only under the output directory; no diagnostic project joins the product build.
+
+## Current compiler latency and memory comparison
+
+[`Prepare-CompilerComparison.ps1`](Prepare-CompilerComparison.ps1) compares an unchanged current .NET 10 commit with a focused compiler candidate. It reuses the original `Worker.cs`, `compare.py` and compiler-phase diagnostic, with an additive entry point for explicit Roslyn controls and fixed-count memory observations. The historical preparation mode and its published evidence remain unchanged.
+
+See [the current-compiler experiment](../../docs/performance/issue-191/metadata-snapshots.md) for exact commits, supported product changes, correctness gates, reproduction commands and results. Both modern products use the same byte-identical IL-only driver and retain their own verified ReadyToRun product assemblies. Two independent Windows sessions each collect 20 sequential AB/BA process pairs across nine scenarios. First compilation, bounded-warm recompilation, changed custom definitions, cached execution and 33-edit memory diagnostics have separate endpoints.
+
+Use `inspect_compilation.py --modern-baseline` only with that prepared modern-comparison input. Run the instrumented phase diagnostic on a separate host or after primary measurements. Its source, reference and phase observations explain potential costs; they do not replace the paired latency evidence.

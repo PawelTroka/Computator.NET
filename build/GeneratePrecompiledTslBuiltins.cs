@@ -142,7 +142,7 @@ public sealed class GeneratePrecompiledTslBuiltins : Microsoft.Build.Utilities.T
         var typeDeducerBase = helperBase(scriptObjects[0], "PrecompiledScriptTypeDeducer");
         var fileBase = helperBase(scriptObjects[1], "PrecompiledScriptFile");
         var readFormBase = helperBase(readForms[0], "PrecompiledScriptReadForm");
-        string compactScriptObjects = @"
+        string compactScriptObjectTypes = @"
  public sealed class ReadForm : global::Computator.NET.Core.Compilation.Builtins.PrecompiledScriptReadForm {
      public ReadForm(string str) : base(str) { }
  }
@@ -150,7 +150,86 @@ public sealed class GeneratePrecompiledTslBuiltins : Microsoft.Build.Utilities.T
  public class File : global::Computator.NET.Core.Compilation.Builtins.PrecompiledScriptFile {
      public File(string path) : base(path) { }
  }
-" + scriptObjects[2].ToFullString();
+";
+        string compactScriptObjects = compactScriptObjectTypes + scriptObjects[2].ToFullString();
+
+        // Formatting is fixed source too, but its notation is a snapshot taken
+        // for each compiled program. Build two literal-specialized variants so
+        // the four matrix/vector lambdas do not capture a runtime notation value.
+        // Keep every program-owned method/constant/overload group in the script;
+        // only these original formatting bodies are replaced by forwarding calls.
+        var extensionClass = scriptObjects[2];
+        var formattingMethods = extensionClass.Members.OfType<MethodDeclarationSyntax>()
+            .Where(method => method.Identifier.ValueText == "ToMathString").ToArray();
+        string[] formattingParameterTypes = { "System.Numerics.Complex", "double", "decimal", "string" };
+        if (extensionClass.Members.Count != 10 || extensionClass.Members.Any(member => !(member is MethodDeclarationSyntax)) ||
+            formattingMethods.Length != 4 || formattingMethods.Any(method => method.ParameterList.Parameters.Count != 1) ||
+            !formattingMethods.Select(method => method.ParameterList.Parameters.Single().Type.ToString()).SequenceEqual(formattingParameterTypes) ||
+            formattingMethods.Any(method => method.ReturnType.ToString() != "string" || method.TypeParameterList != null ||
+                method.Body == null || method.Modifiers.Count != 2 || !method.Modifiers.Any(SyntaxKind.PublicKeyword) ||
+                !method.Modifiers.Any(SyntaxKind.StaticKeyword) || method.ParameterList.Parameters[0].Modifiers.Count != 1 ||
+                !method.ParameterList.Parameters[0].Modifiers.Any(SyntaxKind.ThisKeyword)))
+            throw new InvalidOperationException("Review the four stateless script formatting extension overloads.");
+        const string notationSetting = "Properties.Settings.Default.NumericalOutputNotation";
+        if (Regex.Matches(string.Join("\0", formattingMethods.Select(method => method.ToString())),
+            Regex.Escape(notationSetting)).Count != 2)
+            throw new InvalidOperationException("Review the two script notation substitutions.");
+
+        var functionClasses = parseClasses("class __FormattingSource {" + fragments["ScriptingFunctions"] + "}");
+        if (functionClasses.Length != 1) throw new InvalidOperationException("Review script function declarations.");
+        var functionClass = functionClasses[0];
+        var objectFormatters = functionClass.Members.OfType<MethodDeclarationSyntax>()
+            .Where(method => method.Identifier.ValueText == "objectToString").ToArray();
+        if (objectFormatters.Length != 1) throw new InvalidOperationException("Review script object formatting overloads.");
+        var objectFormatter = objectFormatters[0];
+        if (objectFormatter.ReturnType.ToString() != "string" || objectFormatter.TypeParameterList != null ||
+            objectFormatter.Body == null || objectFormatter.Modifiers.Count != 2 ||
+            !objectFormatter.Modifiers.Any(SyntaxKind.PrivateKeyword) || !objectFormatter.Modifiers.Any(SyntaxKind.StaticKeyword) ||
+            objectFormatter.ParameterList.Parameters.Count != 1 ||
+            objectFormatter.ParameterList.Parameters[0].Type.ToString() != "object" ||
+            objectFormatter.ParameterList.Parameters[0].Identifier.ValueText != "o" ||
+            objectFormatter.ParameterList.Parameters[0].Modifiers.Count != 0 ||
+            objectFormatter.Body.DescendantNodes().OfType<IdentifierNameSyntax>().Any(identifier =>
+                new[] { "objectToString", "CONSOLE_OUTPUT", "_chartFactory", "FunctionsCreator" }.Contains(identifier.Identifier.ValueText)))
+            throw new InvalidOperationException("Review script object formatting signature and program-state dependencies.");
+        string[] formatConstants = { "maxWidth", "maxPerColumnOrRow" };
+        string[] formatConstantValues = { "80", "999999" };
+        var constantFields = functionClass.Members.OfType<FieldDeclarationSyntax>()
+            .Where(field => field.Declaration.Variables.Any(variable => formatConstants.Contains(variable.Identifier.ValueText))).ToArray();
+        if (constantFields.Length != 2 || constantFields.Where((field, index) =>
+                field.Declaration.Type.ToString() != "int" || !field.Modifiers.Any(SyntaxKind.ConstKeyword) ||
+                field.Declaration.Variables.Count != 1 ||
+                field.Declaration.Variables[0].Identifier.ValueText != formatConstants[index] ||
+                field.Declaration.Variables[0].Initializer == null ||
+                field.Declaration.Variables[0].Initializer.Value.ToString() != formatConstantValues[index]).Any())
+            throw new InvalidOperationException("Review immutable script formatting constants.");
+        Func<ClassDeclarationSyntax, string> classContents = type => type.OpenBraceToken.TrailingTrivia.ToFullString() +
+            string.Concat(type.Members.Select(member => member.ToFullString())) + type.CloseBraceToken.LeadingTrivia.ToFullString();
+        if (classContents(functionClass) != fragments["ScriptingFunctions"])
+            throw new InvalidOperationException("Script function extraction must preserve every source character.");
+        Func<MethodDeclarationSyntax, string, MethodDeclarationSyntax> forward = (method, target) => method.WithBody(
+            ((BlockSyntax)SyntaxFactory.ParseStatement("{ return " + target + "(" +
+                method.ParameterList.Parameters[0].Identifier.Text + "); }" )).WithTriviaFrom(method.Body));
+        var variantObjects = new Dictionary<string, string>();
+        var variantFunctions = new Dictionary<string, string>();
+        var variantSources = new Dictionary<string, string>();
+        foreach (string notation in new[] { "MathematicalNotation", "EngineeringNotation" })
+        {
+            string target = "global::Computator.NET.Core.Compilation.Builtins." + notation;
+            var wrapperClass = extensionClass.ReplaceNodes(formattingMethods,
+                (original, rewritten) => forward(rewritten, target + ".ScriptingExtensions.ToMathString"));
+            variantObjects.Add(notation, compactScriptObjectTypes + wrapperClass.ToFullString());
+            variantFunctions.Add(notation, classContents(functionClass.ReplaceNode(objectFormatter,
+                forward(objectFormatter, target + ".ScriptFormatting.ObjectToString"))));
+            var publicFormatter = objectFormatter.WithIdentifier(SyntaxFactory.Identifier("ObjectToString").WithTriviaFrom(objectFormatter.Identifier))
+                .WithModifiers(SyntaxFactory.TokenList(objectFormatter.Modifiers.Select(token => token.IsKind(SyntaxKind.PrivateKeyword)
+                    ? SyntaxFactory.Token(SyntaxKind.PublicKeyword).WithTriviaFrom(token) : token)));
+            string sharedExtensions = extensionClass.WithMembers(SyntaxFactory.List<MemberDeclarationSyntax>(formattingMethods))
+                .ToFullString().Replace(notationSetting, "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." + notation);
+            variantSources.Add(notation, "namespace " + notation + " {\n" + sharedExtensions +
+                "\npublic static class ScriptFormatting {\n" + string.Concat(constantFields.Select(field => field.ToFullString())) +
+                publicFormatter.ToFullString() + "\n}\n}\n");
+        }
         var generated = new StringBuilder();
         generated.AppendLine("// <auto-generated />");
         generated.AppendLine("#nullable disable");
@@ -176,9 +255,20 @@ public sealed class GeneratePrecompiledTslBuiltins : Microsoft.Build.Utilities.T
         generated.AppendLine(typeDeducerBase.ToFullString());
         generated.AppendLine(fileBase.ToFullString());
         generated.AppendLine(readFormBase.ToFullString());
+        generated.AppendLine("#pragma warning disable CS0162 // Literal notation snapshots intentionally retain the original switch bodies.");
+        foreach (string notation in new[] { "MathematicalNotation", "EngineeringNotation" })
+            generated.AppendLine(variantSources[notation]);
+        generated.AppendLine("#pragma warning restore CS0162");
         generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
         generated.AppendLine("public static class PrecompiledScriptObjects {");
         generated.AppendLine("public const string ToCode = @\"" + compactScriptObjects.Replace("\"", "\"\"") + "\";");
+        generated.AppendLine("public const string MathematicalObjects = @\"" + variantObjects["MathematicalNotation"].Replace("\"", "\"\"") + "\";");
+        generated.AppendLine("public const string EngineeringObjects = @\"" + variantObjects["EngineeringNotation"].Replace("\"", "\"\"") + "\";");
+        generated.AppendLine("}");
+        generated.AppendLine("[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]");
+        generated.AppendLine("public static class PrecompiledScriptFormatting {");
+        generated.AppendLine("public const string MathematicalFunctions = @\"" + variantFunctions["MathematicalNotation"].Replace("\"", "\"\"") + "\";");
+        generated.AppendLine("public const string EngineeringFunctions = @\"" + variantFunctions["EngineeringNotation"].Replace("\"", "\"\"") + "\";");
         generated.AppendLine("}");
         generated.AppendLine("public static class PrecompiledBuiltinSourceHashes {");
         generated.AppendLine("public const string Expression = \"" + hash(string.Join("\0", common)) + "\";");
@@ -189,6 +279,9 @@ public sealed class GeneratePrecompiledTslBuiltins : Microsoft.Build.Utilities.T
         generated.AppendLine("public const string ScriptTypeDeducer = \"" + hash(scriptObjects[0].ToString()) + "\";");
         generated.AppendLine("public const string ScriptFile = \"" + hash(scriptObjects[1].ToString()) + "\";");
         generated.AppendLine("public const string ScriptReadForm = \"" + hash(readForms[0].ToString()) + "\";");
+        generated.AppendLine("public const string ScriptFunctions = \"" + hash(fragments["ScriptingFunctions"]) + "\";");
+        generated.AppendLine("public const string ScriptObjectFormatting = \"" + hash(objectFormatter.ToString()) + "\";");
+        generated.AppendLine("public const string ScriptExtensionsFormatting = \"" + hash(string.Join("\0", formattingMethods.Select(method => method.ToString()))) + "\";");
         generated.AppendLine("} }");
         Directory.CreateDirectory(Path.GetDirectoryName(OutputFile));
         string text = generated.ToString();

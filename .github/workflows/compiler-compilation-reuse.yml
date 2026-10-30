@@ -14,6 +14,7 @@ on:
       - 'Computator.NET.Core.Tests/CompilationTests/RoslynMigrationTests.cs'
       - 'Computator.NET.Core.Tests/CompilationTests/ProgramLifetimeTests.cs'
       - 'Computator.NET.Core.Tests/PrecompiledScriptHelperTests.cs'
+      - 'Computator.NET.Core.Tests/PrecompiledScriptFormattingTests.cs'
       - 'build/performance/CompilerComparison*'
       - 'build/performance/Prepare-CompilerComparison.ps1'
       - 'build/performance/compiler_comparison_manifest.py'
@@ -67,7 +68,8 @@ jobs:
           # The suite floor alone does not establish discovery of these new cases.
           foreach ($fixture in @(
             @{ name = 'Computator.NET.Core.Tests.CompilationTests.MetadataReferenceSnapshotTests'; count = 6 },
-            @{ name = 'Computator.NET.Core.Tests.PrecompiledScriptHelperTests'; count = 13 }
+            @{ name = 'Computator.NET.Core.Tests.PrecompiledScriptHelperTests'; count = 13 },
+            @{ name = 'Computator.NET.Core.Tests.PrecompiledScriptFormattingTests'; count = 13 }
           )) {
             $definitions = @($trx.TestRun.TestDefinitions.UnitTest | Where-Object { $_.TestMethod.className -eq $fixture.name })
             if ($definitions.Count -ne $fixture.count) { throw "New fixture discovery failed: $($fixture.name)" }

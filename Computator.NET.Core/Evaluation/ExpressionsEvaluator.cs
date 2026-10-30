@@ -25,11 +25,12 @@ namespace Computator.NET.Core.Evaluation
 
     public class ExpressionsEvaluator : IExpressionsEvaluator
     {
-        private const string PrecompiledLambdaScript = ScriptingFunctions.ToCode + @"
+        protected const string ScriptEntryPoint = @"
             public static void CustomFunction(System.Action<string> CONSOLE_OUTPUT_CALLBACK)
             {
                 CONSOLE_OUTPUT = CONSOLE_OUTPUT_CALLBACK;
             ";
+        private const string PrecompiledLambdaScript = ScriptingFunctions.ToCode + ScriptEntryPoint;
         private const string LambdaScript = MatrixFunctions.ToCode + PrecompiledLambdaScript;
         private const string LambdaX = @"           
             public static double CustomFunction(double x)
@@ -87,6 +88,9 @@ namespace Computator.NET.Core.Evaluation
         // has passed the compatibility policy. Specialized evaluators keep their
         // existing AdditionalObjectsCode unless they explicitly override this hook.
         protected virtual string GetAdditionalObjectsCode(bool usingPrecompiledBuiltins) => AdditionalObjectsCode;
+        protected virtual string GetScriptFunctionSignature(bool usingPrecompiledBuiltins) =>
+            usingPrecompiledBuiltins ? PrecompiledLambdaScript : LambdaScript;
+        protected bool ScriptFormattingCompatible { get; private set; }
         private string _beginCode;
         private bool _usingPrecompiledBuiltins;
         private readonly TslCompiler _tslCompiler;
@@ -116,7 +120,10 @@ namespace Computator.NET.Core.Evaluation
 
         private string SelectBegin(string customCode, string mainCode, bool scripting)
         {
-            if (!UsePrecompiledBuiltins || !BuiltinFacadePolicy.CanUse(customCode, mainCode, scripting)) return Begin;
+            ScriptFormattingCompatible = false;
+            if (!UsePrecompiledBuiltins || !BuiltinFacadePolicy.CanUse(customCode, mainCode, scripting,
+                out var scriptFormattingCompatible)) return Begin;
+            ScriptFormattingCompatible = scriptFormattingCompatible;
             return scripting ? PrecompiledScriptBegin : PrecompiledBegin;
         }
 
@@ -195,7 +202,7 @@ namespace Computator.NET.Core.Evaluation
                     break;
                 case FunctionType.Scripting:
                     _delegateType = typeof(Action<Action<string>>);
-                    _functionSignature = _usingPrecompiledBuiltins ? PrecompiledLambdaScript : LambdaScript;
+                    _functionSignature = GetScriptFunctionSignature(_usingPrecompiledBuiltins);
                     break;
             }
             _functionSignature += InitCodeAfterFunctionSignature;

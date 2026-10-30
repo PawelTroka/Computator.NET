@@ -75,8 +75,9 @@ namespace Computator.NET.Core.Compilation
                 .All(HasShareableState);
         }
 
-        internal static bool CanUse(string customCode, string mainCode, bool scripting)
+        internal static bool CanUse(string customCode, string mainCode, bool scripting, out bool scriptFormattingCompatible)
         {
+            scriptFormattingCompatible = false;
             if (scripting ? !ScriptStateShareable.Value || !ScriptPreludeCompatible.Value : !ExpressionStateShareable.Value)
                 return false;
             var root = CSharpSyntaxTree.ParseText("class __Guard { " + customCode +
@@ -84,7 +85,8 @@ namespace Computator.NET.Core.Compilation
             if (root.ContainsDiagnostics || root.ContainsDirectives) return false;
             var names = scripting ? ScriptNames.Value : ExpressionNames.Value;
             var privateNames = scripting ? PrivateScriptNames.Value : PrivateExpressionNames.Value;
-            if (DeclaredNames(root).Any(names.Contains)) return false;
+            var declaredNames = DeclaredNames(root).ToArray();
+            if (declaredNames.Any(names.Contains)) return false;
             if (root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>().Count() != 1) return false;
             foreach (var token in root.DescendantTokens())
             {
@@ -101,6 +103,11 @@ namespace Computator.NET.Core.Compilation
                     (name.Parent is MemberAccessExpressionSyntax || name.Parent is MemberBindingExpressionSyntax))
                     return false;
             }
+            // Reuse this parsed tree for the narrower formatting decision. These
+            // custom declarations can change diagnostics inside objectToString;
+            // retain that original body without changing math/helper eligibility.
+            scriptFormattingCompatible = scripting && !declaredNames.Any(name =>
+                name == "maxWidth" || name == "maxPerColumnOrRow" || name == "System");
             return true;
         }
 
