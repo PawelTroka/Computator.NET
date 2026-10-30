@@ -81,6 +81,8 @@ internal static partial class Program
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
 
         Run("mono-runtime-and-shared-source-graph", RuntimeAndSharedGraph);
+        Run("compiled-german-ui-resources-and-regional-fallback", () => CompiledUiTranslations("de", "de-DE"));
+        Run("compiled-czech-ui-resources-and-regional-fallback", () => CompiledUiTranslations("cs", "cs-CZ"));
         Run("runtime-factory-ignores-debug-sidecars", RuntimeFactorySidecars);
         Run("roslyn-dynamic-and-numerical-packages", ModernCompilerAndPackages);
         Run("portable-real-notation-and-complex-evaluation", PortableExpressions);
@@ -100,6 +102,7 @@ internal static partial class Program
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
+        Run("desktop-literal-find-and-replace", DesktopFindReplace);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
         Run("real-chart-samples-and-png-rendering", RealChart);
         Run("complex-chart-png-and-domain-colors", ComplexChart);

@@ -118,24 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="chartingTabPage.Text" xml:space="preserve">
-    <value>Tabelle</value>
+    <value>Diagramm</value>
   </data>
   <data name="calculationsTabPage.Text" xml:space="preserve">
     <value>Rechner</value>
   </data>
   <data name="numericalCalculationsTabPage.Text" xml:space="preserve">
-    <value>numerischen Berechnungen</value>
+    <value>Numerische Berechnungen</value>
   </data>
   <data name="symbolicOperationButton.Text" xml:space="preserve">
-    <value>berechnen</value>
+    <value>Berechnen</value>
   </data>
   <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
-    <value>symbolische Berechnungen</value>
+    <value>Symbolische Berechnungen</value>
   </data>
   <data name="scriptingTabPage.Text" xml:space="preserve">
     <value>Skript</value>
   </data>
   <data name="customFunctionsTabPage.Text" xml:space="preserve">
-    <value>Custom-Funktionen</value>
+    <value>Benutzerdefinierte Funktionen</value>
   </data>
 </root>

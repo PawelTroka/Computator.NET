@@ -12,6 +12,8 @@
     <Compile Include="../Computator.NET.Core.Tests/FunctionsTests/FloatingRandomRangeTests.cs" Link="Parity/FloatingRandomRangeTests.cs" />
     <!-- Exercise the editor's lexical block detection on every supported OS. -->
     <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/AvalonEdit/BraceFoldingRanges.cs" Link="Editors/BraceFoldingRanges.cs" />
+    <!-- Literal editor searches use the same UTF-16 offsets on every platform. -->
+    <Compile Include="../Computator.NET.Desktop/Controls/CodeEditors/TextSearch.cs" Link="Editors/TextSearch.cs" />
     <!-- Exercise the screen/export axis geometry without requiring WinForms. -->
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexAxesLayout.cs" Link="Charting/ComplexAxesLayout.cs" />
     <Compile Include="../Computator.NET.Charting/ComplexCharting/ComplexTicksLayout.cs" Link="Charting/ComplexTicksLayout.cs" />
@@ -21,6 +23,12 @@
     <Compile Include="../Computator.NET.Desktop.Tests/AxisTickGeneratorTests.cs" Link="Charting/AxisTickGeneratorTests.cs" />
     <Compile Include="../Computator.NET.Desktop.Tests/ComplexTickRenderingTests.cs" Link="Charting/ComplexTickRenderingTests.cs" />
     <Compile Include="../Computator.NET.Desktop.Tests/ComplexChartRenderingTests.cs" Link="Charting/ComplexChartRenderingTests.cs" />
+    <!-- Inspect explicit translations on every OS: ResourceManager's fallback
+         would otherwise hide missing satellite keys. Do not load WinForms. -->
+    <None Include="../Computator.NET.Localization/**/*.resx"
+          Exclude="../Computator.NET.Localization/**/*.pl.resx"
+          Link="Localization/%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Computator.NET.Engine/Computator.NET.Engine.csproj" />
