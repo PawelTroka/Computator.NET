@@ -121,7 +121,7 @@
     <value>Konsolenausgabe:</value>
   </data>
   <data name="processButton.Text" xml:space="preserve">
-    <value>Führen Sie das Skript</value>
+    <value>Skript ausführen</value>
   </data>
   <data name="openScriptingDirectoryButton.Text" xml:space="preserve">
     <value>öffnen Sie das Skript</value>

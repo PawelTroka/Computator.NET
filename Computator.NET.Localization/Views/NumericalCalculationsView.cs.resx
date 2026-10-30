@@ -124,7 +124,7 @@
     <value>Metoda</value>
   </data>
   <data name="numericalOperationButton.Text" xml:space="preserve">
-    <value>Spočítat</value>
+    <value>Vypočítat</value>
   </data>
   <data name="operation.HeaderText" xml:space="preserve">
     <value>Operace</value>
@@ -142,9 +142,18 @@
     <value>Metoda:</value>
   </data>
   <data name="derivativeAtPointGroupBox.Text" xml:space="preserve">
-    <value>Derivace funkce v bodě</value>
+    <value>Derivace řádu n v bodě x</value>
   </data>
   <data name="function.HeaderText" xml:space="preserve">
     <value>Funkce</value>
+  </data>
+  <data name="intervalGroupBox.Text" xml:space="preserve">
+    <value>Interval</value>
+  </data>
+  <data name="maxErrorGroupBox.Text" xml:space="preserve">
+    <value>Max. chyba:</value>
+  </data>
+  <data name="stepsGroupBox.Text" xml:space="preserve">
+    <value>Počet kroků:</value>
   </data>
 </root>

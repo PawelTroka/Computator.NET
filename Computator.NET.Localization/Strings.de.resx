@@ -121,43 +121,43 @@
     <value>Ausdruck sollte nicht leer sein!</value>
   </data>
   <data name="AddToChart" xml:space="preserve">
-    <value>Ansicht hinzufügen</value>
+    <value>Zum Diagramm hinzufügen</value>
   </data>
   <data name="DrawChart" xml:space="preserve">
-    <value>zeichnen Sie Diagramm</value>
+    <value>Diagramm zeichnen</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Fehler</value>
   </data>
   <data name="GivenΕIsNotValidΕShouldBeSmallPositiveNumber" xml:space="preserve">
-    <value>Angesichts ε ist nicht gültig. ε sollten kleine positive Zahl sein.</value>
+    <value>Der angegebene Wert für ε ist ungültig. ε muss eine kleine positive Zahl sein.</value>
   </data>
   <data name="GivenΕIsNotValid" xml:space="preserve">
-    <value>Angesichts ε ist nicht gültig.</value>
+    <value>Der angegebene Wert für ε ist ungültig.</value>
   </data>
   <data name="ConsoleOutput" xml:space="preserve">
     <value>Konsolenausgabe:</value>
   </data>
   <data name="Features" xml:space="preserve">
-    <value>Eigenschaften:</value>
+    <value>Funktionsumfang:</value>
   </data>
   <data name="PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk" xml:space="preserve">
-    <value>Bitte melden Sie alle Bugs zu Paweł Troka - ptroka@fizyka.dk</value>
+    <value>Bitte melden Sie Fehler an Paweł Troka – pawel.troka@outlook.com.</value>
   </data>
   <data name="BugReporting" xml:space="preserve">
     <value>Melden von Fehlern</value>
   </data>
   <data name="Chart" xml:space="preserve">
-    <value>Tabelle</value>
+    <value>Diagramm</value>
   </data>
   <data name="ItSFeaturesInclude" xml:space="preserve">
-    <value>Es ist Features sind:</value>
+    <value>Zu den Funktionen gehören:</value>
   </data>
   <data name="Source_" xml:space="preserve">
     <value>Quelle :</value>
   </data>
   <data name="ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression" xml:space="preserve">
-    <value>Fehler in der Expression -Syntax. Eine der verwendeten Funktionen nicht vorhanden / ist mit angegebenen Argumenten nicht kompatibel , oder Sie gerade einen Fehler gemacht schriftlich Ausdruck .</value>
+    <value>Syntaxfehler im Ausdruck. Eine verwendete Funktion existiert nicht, unterstützt die angegebenen Argumente nicht oder der Ausdruck enthält einen Schreibfehler.</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Details:</value>
@@ -166,23 +166,23 @@
     <value>Mehr Details :</value>
   </data>
   <data name="NoFunctionToInvoke" xml:space="preserve">
-    <value>Keine Funktion , die aufgerufen werden</value>
+    <value>Keine aufrufbare Funktion vorhanden</value>
   </data>
   <data name="featuresInclude" xml:space="preserve">
-    <value>- Reelle und komplexe Funktionen Charts
- - Reelle und komplexe Rechner
- - Real -Funktionen numerische Berechnungen einschließlich verschiedener Methoden
- - Über 107 Grundfunktionen
- - Über 141 Sonderfunktionen
- - Über 21 Matrix -Funktionen und Operationen
- - Skriptsprache mit der Macht, einfach Berechnungen einschließlich Matrizen
- - Sie können Ihre eigenen benutzerdefinierten Funktionen mit Skriptsprache erklären</value>
+    <value>- Diagramme reeller und komplexer Funktionen
+- Rechner für reelle und komplexe Zahlen
+- Numerische Berechnungen für reelle Funktionen mit verschiedenen Verfahren
+- Über 107 elementare Funktionen
+- Über 141 spezielle Funktionen
+- Über 21 Matrixfunktionen und -operationen
+- Skriptsprache für einfache Berechnungen einschließlich Matrizen
+- Eigene Funktionen lassen sich in der Skriptsprache definieren</value>
   </data>
   <data name="MemoryAllocationSpeedTestCancelledByUser" xml:space="preserve">
-    <value>Speicherzuweisung Speed-Test wurde vom Benutzer abgebrochen</value>
+    <value>Der Test der Speicherzuweisung wurde vom Benutzer abgebrochen.</value>
   </data>
   <data name="MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult" xml:space="preserve">
-    <value>Speicherzuweisung Speed-Test erfolgreich durchgeführt , überprüfen Sie Ihre Punkte führen</value>
+    <value>Der Test der Speicherzuweisung wurde erfolgreich abgeschlossen. Prüfen Sie Ihre Punktzahl.</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Fertig !</value>
@@ -194,22 +194,22 @@
     <value>Punkte!</value>
   </data>
   <data name="Canceled" xml:space="preserve">
-    <value>Abgesagt!</value>
+    <value>Abgebrochen!</value>
   </data>
   <data name="MathFunctionsCalculationSpeedTestDoneSuccesfullyCheckOutYourPointsResults" xml:space="preserve">
-    <value>Mathematische Funktionen Berechnung Geschwindigkeitstest erfolgreich durchgeführt ! Überprüfen Sie Ihre Punkte Ergebnisse!</value>
+    <value>Der Geschwindigkeitstest mathematischer Berechnungen wurde erfolgreich abgeschlossen. Prüfen Sie Ihre Punktzahl!</value>
   </data>
   <data name="MathFunctionsCalculationSpeedTestCancelledByUser" xml:space="preserve">
-    <value>Mathematische Funktionen Berechnung Geschwindigkeitstest vom Benutzer abgebrochen.</value>
+    <value>Der Geschwindigkeitstest mathematischer Berechnungen wurde vom Benutzer abgebrochen.</value>
   </data>
   <data name="librariesUsed" xml:space="preserve">
-    <value>verwendeten Bibliotheken</value>
+    <value>Verwendete Bibliotheken</value>
   </data>
   <data name="betaTesters" xml:space="preserve">
-    <value>beta-Tester</value>
+    <value>Betatester</value>
   </data>
   <data name="otherContributors" xml:space="preserve">
-    <value>anderen Mitwirkenden</value>
+    <value>Weitere Mitwirkende</value>
   </data>
   <data name="translators" xml:space="preserve">
     <value>Übersetzer</value>
@@ -221,9 +221,214 @@
     <value>| X / Y - Verhältnis = {0} |</value>
   </data>
   <data name="Close_tabs_to_the_right" xml:space="preserve">
-    <value>Tabs schließen nach rechts</value>
+    <value>Tabs rechts schließen</value>
   </data>
   <data name="Syntax_error" xml:space="preserve">
-    <value>Syntax Fehler</value>
+    <value>Syntaxfehler</value>
+  </data>
+  <data name="Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_" xml:space="preserve">
+    <value>Numerische Berechnungen unterstützen derzeit nur den reellen Modus. Weitere Modi folgen in künftigen Versionen!</value>
+  </data>
+  <data name="Check__Real___f_x___mode" xml:space="preserve">
+    <value>- Wählen Sie den Modus „Real : f(x)“.</value>
+  </data>
+  <data name="Warning_" xml:space="preserve">
+    <value>Warnung!</value>
+  </data>
+  <data name="You_dont_have_any_logs_yet_" xml:space="preserve">
+    <value>Es sind noch keine Protokolle vorhanden.</value>
+  </data>
+  <data name="Changelog" xml:space="preserve">
+    <value>Änderungsprotokoll</value>
+  </data>
+  <data name="Directory_tree_New_file" xml:space="preserve">
+    <value>Neue Datei</value>
+  </data>
+  <data name="Rename_file" xml:space="preserve">
+    <value>Datei umbenennen</value>
+  </data>
+  <data name="Delete_file" xml:space="preserve">
+    <value>Datei löschen</value>
+  </data>
+  <data name="Label_Edit_error" xml:space="preserve">
+    <value>Fehler beim Ändern der Bezeichnung</value>
+  </data>
+  <data name="InvalidLabel" xml:space="preserve">
+    <value>Ungültige Bezeichnung.
+</value>
+  </data>
+  <data name="The_label_cannot_be_blank" xml:space="preserve">
+    <value>Die Bezeichnung darf nicht leer sein.</value>
+  </data>
+  <data name="The_invalid_characters_are" xml:space="preserve">
+    <value>Unzulässige Zeichen: '@', '.', ',', '!'</value>
+  </data>
+  <data name="Program_Application_ThreadException_Unhandled_Thread_Exception" xml:space="preserve">
+    <value>Unbehandelte Ausnahme im Thread</value>
+  </data>
+  <data name="Unhandled_UI_Exception" xml:space="preserve">
+    <value>Unbehandelte Ausnahme in der Benutzeroberfläche</value>
+  </data>
+  <data name="Number_of_steps_should_be_small__default_is_6" xml:space="preserve">
+    <value>Die Schrittzahl sollte klein sein; der Standardwert ist 6.</value>
+  </data>
+  <data name="Functions_and_Constants_Details" xml:space="preserve">
+    <value>Details zu Funktionen und Konstanten</value>
+  </data>
+  <data name="New_tab" xml:space="preserve">
+    <value>Neuer Tab</value>
+  </data>
+  <data name="Clone_tab" xml:space="preserve">
+    <value>Tab duplizieren</value>
+  </data>
+  <data name="Close_tab" xml:space="preserve">
+    <value>Tab schließen</value>
+  </data>
+  <data name="Close_other_tabs" xml:space="preserve">
+    <value>Andere Tabs schließen</value>
+  </data>
+  <data name="Close_tabs_to_the_left" xml:space="preserve">
+    <value>Tabs links schließen</value>
+  </data>
+  <data name="Image_Filter" xml:space="preserve">
+    <value>PNG-Bild (.png)|*.png|GIF-Bild (.gif)|*.gif|JPEG-Bild (.jpeg)|*.jpeg|Bitmap-Bild (.bmp)|*.bmp|TIFF-Bild (.tiff)|*.tiff|WMF-Bild (.wmf)|*.wmf</value>
+  </data>
+  <data name="AddTab_NewFile" xml:space="preserve">
+    <value>NeueDatei</value>
+  </data>
+  <data name="GlobalConfig_others_standard_algorithm_for_complex_domain_coloring" xml:space="preserve">
+    <value>Standardalgorithmus zur Farbcodierung komplexer Funktionswerte</value>
+  </data>
+  <data name="GlobalConfig_others_Chart3D_classes_are_based_on_code_from_High_performance_WPF_3D_Chart_rev_6_application_on" xml:space="preserve">
+    <value>Die Chart3D-Klassen basieren auf dem Code der Anwendung „High performance WPF 3D Chart rev.6“ unter folgender Lizenz:</value>
+  </data>
+  <data name="GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_" xml:space="preserve">
+    <value>Computator.NET ist eine schnelle und einfach zu bedienende Software für numerische Berechnungen mit umfangreichen Funktionen.</value>
+  </data>
+  <data name="Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
+    <value>Melden Sie Fehler am besten auf der Projektseite über den folgenden Link.</value>
+  </data>
+  <data name="Internal_errors" xml:space="preserve">
+    <value>Interne Fehler</value>
+  </data>
+  <data name="Custom_functions_errors" xml:space="preserve">
+    <value>Fehler in benutzerdefinierten Funktionen</value>
+  </data>
+  <data name="Expression_errors" xml:space="preserve">
+    <value>Fehler in Ausdrücken</value>
+  </data>
+  <data name="Script_errors" xml:space="preserve">
+    <value>Skriptfehler</value>
+  </data>
+  <data name="NativeCompiler_Line" xml:space="preserve">
+    <value>Zeile</value>
+  </data>
+  <data name="NativeCompiler_Column" xml:space="preserve">
+    <value>Spalte</value>
+  </data>
+  <data name="NativeCompiler_warning" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
+  <data name="NativeCompiler_error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="Exception_during_startup" xml:space="preserve">
+    <value>Ausnahme beim Start</value>
+  </data>
+  <data name="Program_CurrentDomain_UnhandledException_Try_installing_font_" xml:space="preserve">
+    <value>Versuchen Sie, die Schriftart zu installieren!</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>Ausnahme</value>
+  </data>
+  <data name="Exception_occcured_in" xml:space="preserve">
+    <value>Ausnahme aufgetreten in</value>
+  </data>
+  <data name="at_line" xml:space="preserve">
+    <value>in Zeile</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Ursache</value>
+  </data>
+  <data name="Error_code" xml:space="preserve">
+    <value>Fehlercode</value>
+  </data>
+  <data name="trapezoidal_method" xml:space="preserve">
+    <value>Trapezregel</value>
+  </data>
+  <data name="rectangle_method" xml:space="preserve">
+    <value>Rechteckregel</value>
+  </data>
+  <data name="Simpson_s_method" xml:space="preserve">
+    <value>Simpsonregel</value>
+  </data>
+  <data name="double_exponential_transformation" xml:space="preserve">
+    <value>Doppelt exponentielle Transformation</value>
+  </data>
+  <data name="Monte_Carlo_method" xml:space="preserve">
+    <value>Monte-Carlo-Methode</value>
+  </data>
+  <data name="Romberg_s_method" xml:space="preserve">
+    <value>Romberg-Verfahren</value>
+  </data>
+  <data name="Integral" xml:space="preserve">
+    <value>Integral</value>
+  </data>
+  <data name="Derivative" xml:space="preserve">
+    <value>Ableitung</value>
+  </data>
+  <data name="Function_root" xml:space="preserve">
+    <value>Nullstelle</value>
+  </data>
+  <data name="centered_order_point_method" xml:space="preserve">
+    <value>Zentrierte Ableitung n-ter Ordnung</value>
+  </data>
+  <data name="finite_difference_formula" xml:space="preserve">
+    <value>Finite-Differenzen-Formel</value>
+  </data>
+  <data name="two_point_finite_difference_formula" xml:space="preserve">
+    <value>Zweipunkt-Differenzenformel</value>
+  </data>
+  <data name="stable_finite_difference_formula" xml:space="preserve">
+    <value>Stabile Differenzenformel</value>
+  </data>
+  <data name="centered_five_point_method" xml:space="preserve">
+    <value>Zentriertes Fünfpunktverfahren</value>
+  </data>
+  <data name="bisection_method" xml:space="preserve">
+    <value>Bisektionsverfahren</value>
+  </data>
+  <data name="secant_method" xml:space="preserve">
+    <value>Sekantenverfahren</value>
+  </data>
+  <data name="Brent_s_method" xml:space="preserve">
+    <value>Brent-Verfahren</value>
+  </data>
+  <data name="Broyden_s_method" xml:space="preserve">
+    <value>Broyden-Verfahren</value>
+  </data>
+  <data name="secant_Newton_Raphson_method" xml:space="preserve">
+    <value>Sekantenverfahren nach Newton-Raphson</value>
+  </data>
+  <data name="non_adaptive_Gauss_Kronrod_method" xml:space="preserve">
+    <value>Nichtadaptives Gauß-Kronrod-Verfahren</value>
+  </data>
+  <data name="infinity_adaptive_Gauss_Kronrod_method" xml:space="preserve">
+    <value>Adaptives Gauß-Kronrod (unendliche Grenzen)</value>
+  </data>
+  <data name="Chart3D_is_not_supported_on_Mono" xml:space="preserve">
+    <value>Chart3D wird unter Mono nicht unterstützt.</value>
+  </data>
+  <data name="NeedsToBeGreaterThan" xml:space="preserve">
+    <value>muss größer sein als</value>
+  </data>
+  <data name="NeedsToBeLessThan" xml:space="preserve">
+    <value>muss kleiner sein als</value>
+  </data>
+  <data name="Min_value_needs_to_be_less_than_Max_value" xml:space="preserve">
+    <value>Der Minimalwert muss kleiner als der Maximalwert sein.</value>
+  </data>
+  <data name="CheckChartAreaValues" xml:space="preserve">
+    <value>Werte des Diagrammbereichs prüfen</value>
   </data>
 </root>
