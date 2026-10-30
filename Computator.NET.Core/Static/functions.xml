@@ -3962,7 +3962,7 @@
 <p class="reference-summary">A thermal integral used in lattice heat-capacity and related statistical-physics models.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>Dₙ(x)=n/xⁿ ∫₀ˣ tⁿ/(exp(t)−1) dt; Dₙ(0)=1 for n&gt;0.</code></p>
 <p class="reference-arguments"><strong>Arguments / value:</strong> Use integer n=1,…,6 and x≥0 for the supported normalized functions.</p>
-<p class="reference-note"><strong>Important:</strong> Legacy behavior outside these orders is NOT the same definition: n=0 returns 0, and for other n with x&gt;9 the wrapper returns Γ(n+1)ζ(n+1), omitting n/xⁿ. Do not use that fallback as a normalized higher-order Debye function.</p>
+<p class="reference-note"><strong>Important:</strong> Orders outside 1–6, including n=0, return NaN. Higher orders are not implemented; the unnormalized infinite-limit integral Γ(n+1)ζ(n+1) is not a substitute for Dₙ(x).</p>
 <p class="reference-explanation">The normalization removes the leading small-x power so the mathematical limit at zero is one. Debye functions appear when summing thermal mode contributions; the order is part of the model, not a derivative count.</p>
 <p class="reference-example"><strong>Example:</strong> Debye(1,0) = 1</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/d51b5e0567d0ee4a28996e7436ac811c569315b87e32e7e1ccca4f86055addc2.png" alt="Dₙ(x)=n/xⁿ ∫₀ˣ tⁿ/(exp(t)−1) dt; Dₙ(0)=1 for n&gt;0." width="237" height="55" /></p>
