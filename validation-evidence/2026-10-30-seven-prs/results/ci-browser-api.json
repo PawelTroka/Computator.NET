@@ -1,0 +1,21 @@
+{
+  "description": "Final real browser-to-mathematical-API workflow",
+  "merge": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "run_id": 41113922843,
+  "job_id": 124263105634,
+  "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922843/job/124263105634",
+  "counts": {
+    "playwright_passed": 10
+  },
+  "documented_skip": null,
+  "excerpts": [
+    "2026-10-30T19:35:42.7949004Z Microsoft Windows Server 2025",
+    "2026-10-30T19:35:54.2262257Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+    "2026-10-30T19:41:18.8035451Z   10 passed (48.8s)",
+    "2026-10-30T19:41:19.6816201Z SHA256 digest of uploaded artifact is 645635ead6bdf0acf438d40e680db279b4144ab16041588603d940d30538f3ff",
+    "2026-10-30T19:41:20.1245686Z Artifact real-stack-results successfully finalized. Artifact ID 13005104306",
+    "2026-10-30T19:41:20.1246570Z Artifact real-stack-results has been successfully uploaded! Final size is 2762038 bytes. Artifact ID is 13005104306"
+  ],
+  "note": "Synthetic result-guard self-tests are not product-suite results. The latter are counted above; a separate dependency checkout in the log does not change the recorded product source identity."
+}

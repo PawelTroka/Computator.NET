@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "candidate": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "checkout": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "workflow": "GSL source and ABI validation",
+  "run": 41113922944,
+  "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922944",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 124263104688,
+      "name": "native (macos-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922944/job/124263104688",
+      "logBytes": 39876,
+      "excerpts": [
+        "2026-10-30T19:20:15.8094200Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+        "2026-10-30T19:20:15.8603980Z a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+        "2026-10-30T19:21:28.9364710Z 100% tests passed out of 1",
+        "2026-10-30T19:21:33.2192460Z Managed ABI probe passed on osx-arm64, GSL 2.8.",
+        "2026-10-30T19:21:37.0522040Z Artifact gsl-macos-latest successfully finalized. Artifact ID 13004727497"
+      ]
+    },
+    {
+      "id": 124263105024,
+      "name": "native (windows-2025)",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922944/job/124263105024",
+      "logBytes": 430921,
+      "excerpts": [
+        "2026-10-30T19:20:15.8425700Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+        "2026-10-30T19:20:15.9434656Z a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+        "2026-10-30T19:22:34.7104134Z 100% tests passed out of 1",
+        "2026-10-30T19:22:42.6542964Z Managed ABI probe passed on win-x64, GSL 2.8.",
+        "2026-10-30T19:23:49.9502154Z Build succeeded.",
+        "2026-10-30T19:23:49.9742140Z     21 Warning(s)",
+        "2026-10-30T19:23:49.9742530Z     0 Error(s)",
+        "2026-10-30T19:27:06.3802031Z Total tests: 947",
+        "2026-10-30T19:27:06.3802346Z      Passed: 947",
+        "2026-10-30T19:27:07.1476148Z Verified 947 test results: 947 passed, 0 documented skips.",
+        "2026-10-30T19:27:14.3110504Z Verified 338 compiled de UI strings and de-DE regional fallbacks.",
+        "2026-10-30T19:27:14.3414713Z Verified 338 compiled cs UI strings and cs-CZ regional fallbacks.",
+        "2026-10-30T19:27:14.4233312Z   Passed EveryUiStringLoadsFromItsCompiledSatelliteAndRegionalFallback(\"de\",\"de-DE\") [60 ms]",
+        "2026-10-30T19:27:14.4236510Z   Passed EveryUiStringLoadsFromItsCompiledSatelliteAndRegionalFallback(\"cs\",\"cs-CZ\") [31 ms]",
+        "2026-10-30T19:28:26.7641220Z   Passed CzechResourcesLoadInTheNativeFindReplaceWorkflow(Scintilla) [1 s]",
+        "2026-10-30T19:28:28.6463819Z   Passed CzechResourcesLoadInTheNativeFindReplaceWorkflow(AvalonEdit) [1 s]",
+        "2026-10-30T19:28:30.6085974Z   Passed CzechResourcesLoadInTheNativeFindReplaceWorkflow(TextEditor) [1 s]",
+        "2026-10-30T19:28:32.4563961Z   Passed GermanResourcesLoadInTheNativeFindReplaceWorkflow(Scintilla) [1 s]",
+        "2026-10-30T19:28:34.7033832Z   Passed GermanResourcesLoadInTheNativeFindReplaceWorkflow(AvalonEdit) [2 s]",
+        "2026-10-30T19:28:36.8179861Z   Passed GermanResourcesLoadInTheNativeFindReplaceWorkflow(TextEditor) [2 s]",
+        "2026-10-30T19:28:50.4308184Z   Passed NativeKeyboardOpensBothModesAndNavigatesExistingSearch(Scintilla) [1 s]",
+        "2026-10-30T19:28:52.4760875Z   Passed NativeKeyboardOpensBothModesAndNavigatesExistingSearch(AvalonEdit) [2 s]",
+        "2026-10-30T19:28:54.4566630Z   Passed NativeKeyboardOpensBothModesAndNavigatesExistingSearch(TextEditor) [1 s]",
+        "2026-10-30T19:29:08.9083547Z   Passed WholeWordNavigationWrapsAndReplaceCurrentUsesUtf16Selection(Scintilla) [1 s]",
+        "2026-10-30T19:29:10.7212861Z   Passed WholeWordNavigationWrapsAndReplaceCurrentUsesUtf16Selection(AvalonEdit) [1 s]",
+        "2026-10-30T19:29:12.5162547Z   Passed WholeWordNavigationWrapsAndReplaceCurrentUsesUtf16Selection(TextEditor) [1 s]",
+        "2026-10-30T19:30:11.9320283Z Total tests: 588",
+        "2026-10-30T19:30:11.9320569Z      Passed: 588",
+        "2026-10-30T19:30:12.8609906Z Verified 588 test results: 588 passed, 0 documented skips.",
+        "2026-10-30T19:30:20.3245869Z Artifact gsl-windows-2025 successfully finalized. Artifact ID 13006290983"
+      ]
+    },
+    {
+      "id": 124263105077,
+      "name": "native (ubuntu-24.04)",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922944/job/124263105077",
+      "logBytes": 35895,
+      "excerpts": [
+        "2026-10-30T19:20:24.7371133Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+        "2026-10-30T19:20:24.7535842Z a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+        "2026-10-30T19:21:20.2981370Z 100% tests passed out of 1",
+        "2026-10-30T19:21:28.6107553Z Managed ABI probe passed on linux-x64, GSL 2.8.",
+        "2026-10-30T19:21:36.1667016Z Artifact gsl-ubuntu-24.04 successfully finalized. Artifact ID 13005067084"
+      ]
+    }
+  ],
+  "summary": {
+    "nativeAndManagedAbi": [
+      "osx-arm64",
+      "win-x64",
+      "linux-x64"
+    ],
+    "gslVersion": "2.8",
+    "nativeCTestPerPlatform": {
+      "passed": 1,
+      "failed": 0
+    },
+    "windowsCoreIntegration": {
+      "passed": 947,
+      "failed": 0,
+      "documentedSkips": 0
+    },
+    "windowsDesktop": {
+      "passed": 588,
+      "failed": 0,
+      "documentedSkips": 0
+    },
+    "resourcesPerLanguage": {
+      "de": 338,
+      "cs": 338
+    },
+    "localizedNativeFindReplaceCases": 6,
+    "buildWarnings": 21,
+    "buildErrors": 0
+  },
+  "note": "Build warnings are recorded, not treated as zero-warning compilation. This GSL workflow also runs the actual native Windows integration and desktop suites; a separate dedicated Windows workflow is collected independently."
+}

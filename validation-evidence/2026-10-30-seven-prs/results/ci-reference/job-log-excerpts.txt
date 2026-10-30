@@ -1,0 +1,19 @@
+2026-10-30T19:35:46.0641692Z Microsoft Windows Server 2025
+2026-10-30T19:35:59.0715902Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c
+2026-10-30T19:38:25.2812311Z     21 Warning(s)
+2026-10-30T19:38:25.2812597Z     0 Error(s)
+2026-10-30T19:38:47.6981847Z Passed!  - Failed:     0, Passed:   166, Skipped:     0, Total:   166, Duration: 6 s - Computator.NET.Core.Tests.dll (net10.0)
+2026-10-30T19:38:48.3789055Z Verified 166 test results: 166 passed, 0 documented skips.
+2026-10-30T19:38:52.9719024Z Verified 765 offline TeX equations.
+2026-10-30T19:38:54.2891041Z Verified 10 offline reference diagrams.
+2026-10-30T19:38:54.4448154Z ℹ tests 10
+2026-10-30T19:38:54.4448868Z ℹ pass 10
+2026-10-30T19:38:54.4449591Z ℹ fail 0
+2026-10-30T19:38:54.4450123Z ℹ skipped 0
+2026-10-30T19:38:56.1149588Z Ran 63 tests in 0.093s
+2026-10-30T19:38:56.1150134Z OK
+2026-10-30T19:38:56.7895372Z   "entries": 1236,
+2026-10-30T19:38:56.7895651Z   "completionItems": 1331,
+2026-10-30T19:38:56.7895972Z   "excludedKeywords": 65,
+2026-10-30T19:38:56.7906632Z   "xmlSha256": "3c9c77e4b192b5d94eeeb75437a4475295059380a146e31674c473c80e2415a5",
+2026-10-30T19:38:56.7908133Z   "uniqueTypesetEquations": 765

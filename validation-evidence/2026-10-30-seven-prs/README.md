@@ -1,6 +1,10 @@
-# Seven-PR numerical integration evidence
+# Seven-PR integration evidence
 
-This source-only bundle records **30 supplemental .NET checks** and **116 native Mono checks** for Computator.NET PRs **#304–#310**, with source and reproduction commands. Every recorded check passed; neither run skipped a case. It supplements the repository's full suites and the native desktop workflows tracked in [temporary validation PR #312](https://github.com/PawelTroka/Computator.NET/pull/312).
+The main findings, repaired defects, exact final candidate and native-platform validation are recorded in [integration-report.md](integration-report.md). The `results/` directory contains compact CI evidence, resource-reader regressions, runtime records and selected desktop screenshots. Each result retains the identity of the commit or binary snapshot actually tested.
+
+## Supplemental numerical evidence
+
+This bundle records **30 supplemental .NET checks** and **116 native Mono checks** for Computator.NET PRs **#304–#310**, with source and reproduction commands. Every recorded check passed; neither run skipped a case. It supplements the repository's full suites and the native desktop workflows tracked in [temporary validation PR #312](https://github.com/PawelTroka/Computator.NET/pull/312).
 
 ## Exact inputs
 
@@ -75,4 +79,4 @@ The essential .NET command is `dotnet test Computator.NET.Engine.Tests/Computato
 - `results/`: compact named outcomes, candidate comparisons and supporting integration evidence. Each observation retains its own commit identity.
 - `SHA256SUMS`: hashes of this bundle's files.
 
-No compiled DLLs, build outputs or large diagnostic logs are included. This bundle reports numerical and compilation evidence; native Windows Find/Replace and GUI/resource acceptance remain separately reported workflow results.
+No compiled DLLs or large diagnostic archives are included. Native Windows Find/Replace and GUI/resource acceptance are reported with their own workflow identities in the integration report and supporting result files.

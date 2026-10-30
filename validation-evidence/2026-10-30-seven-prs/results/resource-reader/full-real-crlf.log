@@ -1,0 +1,3 @@
+PASS de: 338 exact strings and regional fallback
+PASS cs: 338 exact strings and regional fallback
+Contract failures: 0

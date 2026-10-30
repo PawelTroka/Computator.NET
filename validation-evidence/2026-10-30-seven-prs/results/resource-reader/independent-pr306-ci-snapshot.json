@@ -1,0 +1,158 @@
+{
+  "repository": "PawelTroka/Computator.NET",
+  "pr": 306,
+  "head": "a8a78e93b37ba516849a5e1cf470286e7cc15c63",
+  "observedAt": "2026-10-30T19:45:08Z",
+  "counts": {
+    "success": 21
+  },
+  "workflowRuns": [
+    {
+      "id": 41113836138,
+      "name": "Frontend toolchain regression",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113836138"
+    },
+    {
+      "id": 41113833522,
+      "name": "Clean-machine acceptance harness (not an installation run)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833522"
+    },
+    {
+      "id": 41113833542,
+      "name": "Complete mathematical reference",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833542"
+    },
+    {
+      "id": 41113833844,
+      "name": "Real browser to mathematical API",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833844"
+    },
+    {
+      "id": 41113833422,
+      "name": "Mono desktop compatibility",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833422"
+    },
+    {
+      "id": 41113833471,
+      "name": "MSIX activation contracts (no signing or installation)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833471"
+    },
+    {
+      "id": 41113833677,
+      "name": "Portable .NET engine and CLI",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833677"
+    },
+    {
+      "id": 41113833418,
+      "name": "AppVeyor scripts mirror (not an AppVeyor run)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833418"
+    },
+    {
+      "id": 41113833407,
+      "name": "Cake web validation",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833407"
+    },
+    {
+      "id": 41113833440,
+      "name": "Protected local application package",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833440"
+    },
+    {
+      "id": 41113833510,
+      "name": "GSL packaged default and managed error boundaries",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833510"
+    },
+    {
+      "id": 41113833716,
+      "name": "Real web custom functions",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833716"
+    },
+    {
+      "id": 41113833736,
+      "name": "WixSharp installer migration",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833736"
+    },
+    {
+      "id": 41113833388,
+      "name": "MSIX desktop packaging",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833388"
+    },
+    {
+      "id": 41113833430,
+      "name": "Web IDE startup",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833430"
+    },
+    {
+      "id": 41113833468,
+      "name": "Release identity and candidate evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833468"
+    },
+    {
+      "id": 41113833455,
+      "name": "GSL source and ABI validation",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833455"
+    },
+    {
+      "id": 41113833420,
+      "name": "Complete developer solution",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833420"
+    },
+    {
+      "id": 41113833560,
+      "name": "Cake Windows validation",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833560"
+    },
+    {
+      "id": 41113833367,
+      "name": "Cake packaging and coverage",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833367"
+    },
+    {
+      "id": 41113833374,
+      "name": "Travis scripts mirror (not a Travis run)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833374"
+    }
+  ]
+}

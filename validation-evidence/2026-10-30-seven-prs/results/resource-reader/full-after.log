@@ -1,0 +1,5 @@
+de: compiled len=407, CR=7, LF=7; normal XML len=400; preserved exact match=True
+PASS de: 349 exact strings and regional fallback
+cs: compiled len=362, CR=7, LF=7; normal XML len=355; preserved exact match=True
+PASS cs: 349 exact strings and regional fallback
+Contract failures: 0

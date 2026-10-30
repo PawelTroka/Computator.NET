@@ -2,9 +2,11 @@
 
 ## Status
 
-**Validation in progress.** The refreshed exact merge passes 1,666 portable Engine tests and 46 native Mono desktop scenarios after rebuilding with the resource-reader correction. Native Windows and repository CI completion are still required. This document will be updated with the exact workflow outcomes before the temporary validation PR is closed.
+**Validation passed for the exact commits below.** All **21 combined workflows completed successfully**, and all seven current independent PR heads each have **21 successful workflows**. The final merge passes 1,666 portable Engine tests on each of Windows, Linux and macOS, 2,255 Core tests, 588 native Windows desktop tests, and 46 native Mono desktop scenarios. Native GUI execution, German/Czech satellite loading, full-solution builds, mathematical-reference validation and the complete unsigned release-evidence sequence all passed. No unresolved reproducible integration defect was found in this tested matrix after the repairs described below.
 
 No contribution PR has been merged or retargeted. The seven original PRs remain independent drafts against master. Fixes were appended to their existing branches without force pushes, preserving review history.
+
+Temporary validation **PR #312 was closed without merging at 20:00:04 UTC on October 30, 2026**. The final state and CI snapshots were recorded at 20:00 UTC in `results/pull-request-state.json`, `results/ci-workflows.json` and `results/ci-independent-prs.json`. Master remains `fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c`. The isolated integration and evidence branches remain available for review and reproduction.
 
 ## Reproducible candidate
 
@@ -27,7 +29,7 @@ The temporary draft [PR #312](https://github.com/PawelTroka/Computator.NET/pull/
 | [#309](https://github.com/PawelTroka/Computator.NET/pull/309) | Euclid utilities, completion and reference | `0ea6da7f804c06b502b174d38a005e9bfcb5de45` |
 | [#310](https://github.com/PawelTroka/Computator.NET/pull/310) | Desktop Find/Replace | `7a944e5ba581c95a75a61efe4049804a2c66839e` |
 
-The source-only evidence branch descends from the exact CI merge, retaining that commit for reproduction. Evidence files are outside the tested candidate and the seven contribution branches.
+The evidence branch descends from the exact CI merge, retaining that commit for reproduction. Evidence files are outside the tested candidate and the seven contribution branches.
 
 ## Reproduced defects and repairs
 
@@ -55,9 +57,11 @@ The appended #310 fix includes enclosing marks in word boundaries. All three new
 
 The original #306 translations did not exhibit a reproduced production defect. Validation was strengthened to test compiled resource loading rather than only source XML. A shared contract requires exact German and Czech satellite assemblies, checks every translated value against its source resource, and verifies fallback from `de-DE` to `de` and from `cs-CZ` to `cs`.
 
+The portable localization tests also pass the complete source-resource contract: every neutral key has a German/Czech value, nonempty source strings have nonempty localized values, composite-format parameters are preserved and parse correctly, invariant values remain unchanged, menu mnemonic counts and file-filter patterns are preserved, and contact addresses match the neutral resources.
+
 On the combined candidate this covers 16 resource sets and 338 UI strings per language, including the Find/Replace resources introduced by #310. The independent localization PR has 15 sets and 318 strings per language.
 
-Six parameterized Windows test cases are defined to exercise the German and Czech Find/Replace dialogs with each of Scintilla, AvalonEdit and TextEditor; their native execution remains pending. They check translated menus, dialog title, document scope, whole-word controls, replacement button, result count and read-only message. They also perform Unicode replacement, inspect selection, undo the operation and confirm that the disk file was not implicitly saved.
+Six parameterized Windows test cases passed natively on the final merge, exercising the German and Czech Find/Replace dialogs with each of Scintilla, AvalonEdit and TextEditor. They check translated menus, dialog title, document scope, whole-word controls, replacement button, result count and read-only message. They also perform Unicode replacement, inspect selection, undo the operation and confirm that the disk file was not implicitly saved.
 
 The complete native Windows Find/Replace fixture contains 29 cases. Its wider coverage includes menu and keyboard routing, both editable workspaces, wrapping, UTF-16 selection, literal replacement text, single-step undo/redo, preservation of other dirty tabs, read-only enforcement, document changes and disposal. Native Mono exercises the supported reduced desktop's TextEditor path.
 
@@ -85,14 +89,67 @@ The 116-check Mono probe covers extreme secant arithmetic, finite and subnormal 
 
 ## Final CI evidence
 
+All product-suite observations in this section checked out the final CI merge `a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290`. Counts repeated by separate workflows are confirmations of the same suites, not additional unique tests.
+
+| Validation area | Observed result | Primary evidence |
+| --- | --- | --- |
+| Portable Engine and published CLI | 1,666 passed, zero failures/skips, plus 39 CLI process checks on **each** of Windows x64, Linux x64 and macOS arm64 | [Portable workflow](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922645) |
+| Native Windows Core | 2,255 passed, zero failures/skips; includes 100 Debye cases across four implementations | [Core job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263106184) |
+| Native Windows Core integration | 947 passed, zero failures/skips | [GSL/ABI Windows job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922944/job/124263105024) |
+| Native Windows Desktop | 588 passed, zero failures/skips; 29 Find/Replace cases and two exact resource cases; production startup and normal shutdown | [Desktop job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263105725) |
+| Native Mono desktop | 46 passed, zero failures/skips; supported TextEditor workflow and production startup/rendering/graceful close | [Mono job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922547/job/124263098930) |
+| Mathematical reference | 166 reference tests, 63 Python authoring tests, 10 Node plot-geometry tests; 765 TeX equations, 10 rendered diagrams, 1,236 catalog entries and 1,331 completion items verified | [Reference job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922917/job/124263106241) |
+| API and real browser workflows | 129 API cases passed, one documented 3D-chart skip; 26 custom-function browser cases and 10 browser/API cases passed | [Custom functions](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922554/job/124263099462), [browser/API](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922843/job/124263105634) |
+| Complete solution | Debug and Release both build with zero errors and 21 warnings; solution inventory and IDE contracts passed | [Solution workflow](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922609) |
+
+The API skip is the existing `ReturnsHttpOkForChart3D` case: server-side 3D chart rendering is not implemented. It is not a new failure or a silent omission. Synthetic result-guard self-tests also exercise deliberately skipped and rejected fixtures; these are harness checks and are not counted as product-suite results above.
+
+The dedicated [native Windows Desktop job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263105725) passed **588/588 tests**, including **29 Find/Replace cases** and the **two exact satellite cases**. The downloaded TRX independently confirms all 588 result rows passed, with no failures or unexecuted cases. The production executable passed splash/startup, main-window and normal-shutdown acceptance; its result records `normalShutdown=true` and `forcedTermination=false`.
+
+The diagnostic artifact is `13005448240`, independently verified at SHA-256 `1e1bac5197e4c613b575b11c42b13e30e0cc515d44a7afb022461d98be4bb1f6`. Six preserved screenshots show the combined German/Czech main UI and Find/Replace dialogs in all three supported Windows editors. Their labels and Unicode text are legible with no visible dialog clipping at the captured CI display size. Capturing a screenshot activates the dialog and refreshes its status hint; replacement-count correctness is established by the passing assertion before capture, rather than by the hint shown in the PNG.
+
+![German Find/Replace with Scintilla](results/ci-windows/find-replace-de-DE-Scintilla.png)
+
+![Czech Find/Replace with AvalonEdit](results/ci-windows/find-replace-cs-CZ-AvalonEdit.png)
+
+The [Windows GSL/ABI job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922944/job/124263105024) checked out exact merge `a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290` and passed **588/588 native Desktop tests** and **947/947 Core integration tests** on Windows Server 2025. Its log explicitly records all six German/Czech editor cases and both exact satellite tests, each covering 338 compiled strings plus regional fallback. The GSL source/ABI workflow also passed its native ABI probe on Windows x64, Linux x64 and macOS arm64.
+
+The [packaging/coverage job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922737/job/124263735734) passed **2,255/2,255 Core tests**. Its independently parsed TRX confirms **100/100 Debye cases**, with 25 passing cases on each of the host, generated, precompiled-expression and precompiled-script implementations. These check supported orders, normalized values, zero limits, real-domain restrictions and explicit unsupported-order behavior. The final portable suite separately includes 36 numeric-literal translation cases, 90 secant arithmetic cases, 28 trapezoidal overflow/subnormal cases, 34 Euclid cases and 39 text-search cases; these are subsets of the reported full suites, not additional totals.
+
 The [native Mono CI job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922547/job/124263098930) checked out exact merge `a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290` and passed **46/46 cases, with zero failures or skips**. Its runtime log confirms all 338 German and 338 Czech compiled values and regional fallbacks, the supported TextEditor Find/Replace workflow, and production startup/rendering/graceful shutdown. Artifact `13004847536` has SHA-256 `280ea7d1c3d5c9b24a11b66521681ef6519f05c0145a1d806fd07ae18e5b69bb`. The artifact XML independently contains 46 successful testcase nodes. The screenshots use the English-default Mono UI; German/Czech resource loading is established by the exact runtime assertions.
 
-Native Windows, portable host matrices, reference determinism and remaining repository workflows are still pending. Queued or running checks are not passing evidence.
+The [final release-evidence job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922938/job/124263100271) also passed, completing the last of the 21 workflows. It verified 27 release-identity contracts and wrote commit-bound evidence for ten test reports and 19 candidate files. Its 242 published-frontend cases use intercepted API fixtures across Chromium and Firefox; the separately reported ten real browser/API cases, 26 custom-function cases and six protected local-web-package cases exercise real-stack behavior. The unsigned MSIX check round-tripped 1,422 files unchanged. These checks establish the tested unsigned candidate and preserve the signing/installation limits below.
+
+All 21 combined runs and all 147 successful runs across the seven independent heads are listed with their exact run URLs in the CI snapshot files. There are no pending or failed workflows for the recorded current heads. Earlier failed or canceled runs belong to superseded revisions and are not substituted for final-commit results.
 
 ## Scope and limits
 
+### Reproduce the principal suites
+
+Use a separate checkout of the recorded CI merge, with the repository-pinned .NET SDK 10.0.403 and the prerequisites in its checked-in workflow files. The portable Engine command used for the local final-commit run is:
+
+```bash
+dotnet test Computator.NET.Engine.Tests/Computator.NET.Engine.Tests.csproj -c Release -m:1 -nr:false -p:UseSharedCompilation=false
+```
+
+On native Windows, the dedicated desktop job executes this PowerShell command:
+
+```powershell
+./build.ps1 -Target CI '--suite=Computator.NET.Desktop.Tests'
+```
+
+The same `CI` target selects `Computator.NET.Core.Tests`, `Computator.NET.Core.IntegrationTests` or `Computator.NET.WebApi.IntegrationTests` through the `--suite` argument. Native Mono acceptance uses the checked-in Linux harness, with Mono, Xvfb, libgdiplus and GSL installed:
+
+```bash
+COMPUTATOR_DOTNET=/path/to/dotnet bash build/mono/validate.sh Release
+```
+
+The source and exact commands for the supplemental 30/116 checks are provided separately in `reproduce.sh`; their historical observation identities remain explicit.
+
+### Interpretation
+
 - Validation applies to the exact seven contribution heads and base listed above. Later edits or a changed master require an appropriate new integration check.
-- Cross-building Desktop.Tests on Linux does not establish native Windows GUI behavior. That remains a required final CI gate.
+- Native Windows behavior is established by execution on Windows Server 2025 x64. A Linux cross-build alone would not establish GUI behavior, and these results are not a claim of testing every supported Windows release or display configuration.
 - Native Mono coverage is the supported reduced TextEditor desktop, not Scintilla or AvalonEdit on Mono.
 - Debye orders 1 through 6 are supported; unsupported orders return NaN. This work does not implement higher orders.
 - Workflow names explicitly distinguish script mirrors, activation contracts and clean-machine harness validation from actual external-service runs or installation acceptance. Their success must not be described as installation certification.

@@ -1,0 +1,32 @@
+{
+  "description": "Final real web custom-function workflow",
+  "merge": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "run_id": 41113922554,
+  "job_id": 124263099462,
+  "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922554/job/124263099462",
+  "counts": {
+    "api_total": 130,
+    "api_passed": 129,
+    "api_failed": 0,
+    "api_skipped": 1,
+    "playwright_passed": 26
+  },
+  "documented_skip": "ReturnsHttpOkForChart3D: Chart3D does not support server-side rendering yet",
+  "excerpts": [
+    "2026-10-30T19:31:15.6333927Z Microsoft Windows Server 2025",
+    "2026-10-30T19:31:28.6948115Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+    "2026-10-30T19:33:40.9852968Z   Passed ReturnsCorrectEntries(\"expression\") [660 ms]",
+    "2026-10-30T19:33:40.9982854Z   Passed ReturnsCorrectEntries(\"scripting\") [192 ms]",
+    "2026-10-30T19:33:46.2493984Z ReturnsHttpOkForChart3D: Chart3D does not support server-side rendering yet",
+    "2026-10-30T19:33:46.7985899Z   Skipped ReturnsHttpOkForChart3D [< 1 ms]",
+    "2026-10-30T19:36:51.1162263Z Total tests: 130",
+    "2026-10-30T19:36:51.1162679Z      Passed: 129",
+    "2026-10-30T19:36:51.1163068Z     Skipped: 1",
+    "2026-10-30T19:41:58.6727076Z   26 passed (2.4m)",
+    "2026-10-30T19:42:00.3813312Z SHA256 digest of uploaded artifact is 284f9f25c738159a5937d5ddd3c9688560b4eed6d8d66cd51b3c90ffc5f444dc",
+    "2026-10-30T19:42:00.9898154Z Artifact custom-function-results successfully finalized. Artifact ID 13007170285",
+    "2026-10-30T19:42:00.9899380Z Artifact custom-function-results has been successfully uploaded! Final size is 3758047 bytes. Artifact ID is 13007170285"
+  ],
+  "note": "Synthetic result-guard self-tests are not product-suite results. The latter are counted above; a separate dependency checkout in the log does not change the recorded product source identity."
+}

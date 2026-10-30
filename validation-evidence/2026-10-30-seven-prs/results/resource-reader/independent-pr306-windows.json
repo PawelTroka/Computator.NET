@@ -1,0 +1,64 @@
+{
+  "repository": "PawelTroka/Computator.NET",
+  "pr": 306,
+  "head": "a8a78e93b37ba516849a5e1cf470286e7cc15c63",
+  "ciMerge": "f8057a20a74698f3d1885161046929b9d4f1b0b1",
+  "base": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+  "workflowRun": 41113833510,
+  "job": 124262791179,
+  "jobUrl": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833510/job/124262791179",
+  "platform": "Microsoft Windows Server 2025",
+  "conclusion": "success",
+  "desktop": {
+    "passed": 559,
+    "total": 559
+  },
+  "coreIntegration": {
+    "passed": 947,
+    "total": 947
+  },
+  "resourceCases": 2,
+  "stringsPerLanguage": 318,
+  "cultures": [
+    "de",
+    "cs"
+  ],
+  "regionalFallbacks": [
+    "de-DE",
+    "cs-CZ"
+  ],
+  "logExcerpts": [
+    "2026-10-30T19:17:03.7769589Z Microsoft Windows Server 2025",
+    "2026-10-30T19:17:13.4120050Z HEAD is now at f8057a2 Merge a8a78e93b37ba516849a5e1cf470286e7cc15c63 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+    "2026-10-30T19:22:23.7618642Z Test Run Successful.",
+    "2026-10-30T19:22:23.7618808Z Total tests: 947",
+    "2026-10-30T19:22:23.7618970Z      Passed: 947",
+    "2026-10-30T19:22:28.6202269Z Verified 318 compiled de UI strings and de-DE regional fallbacks.",
+    "2026-10-30T19:22:28.6378489Z Verified 318 compiled cs UI strings and cs-CZ regional fallbacks.",
+    "2026-10-30T19:22:28.6527290Z   Passed EveryUiStringLoadsFromItsCompiledSatelliteAndRegionalFallback(\"de\",\"de-DE\") [38 ms]",
+    "2026-10-30T19:22:28.6527980Z   Passed EveryUiStringLoadsFromItsCompiledSatelliteAndRegionalFallback(\"cs\",\"cs-CZ\") [18 ms]",
+    "2026-10-30T19:23:36.1646577Z Test Run Successful.",
+    "2026-10-30T19:23:36.1646829Z Total tests: 559",
+    "2026-10-30T19:23:36.1647003Z      Passed: 559"
+  ],
+  "dedicatedDesktopValidation": {
+    "runId": 41113833560,
+    "jobId": 124263299084,
+    "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113833560/job/124263299084",
+    "conclusion": "success",
+    "ciMerge": "f8057a20a74698f3d1885161046929b9d4f1b0b1",
+    "desktopTests": 559,
+    "passed": 559,
+    "productionStartupAndNormalShutdown": true,
+    "logExcerpts": [
+      "2026-10-30T19:34:25.7733339Z HEAD is now at f8057a2 Merge a8a78e93b37ba516849a5e1cf470286e7cc15c63 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "2026-10-30T19:36:42.0405136Z Verified 318 compiled de UI strings and de-DE regional fallbacks.",
+      "2026-10-30T19:36:42.0686872Z Verified 318 compiled cs UI strings and cs-CZ regional fallbacks.",
+      "2026-10-30T19:36:42.1052448Z   Passed EveryUiStringLoadsFromItsCompiledSatelliteAndRegionalFallback(\"de\",\"de-DE\") [32 ms]",
+      "2026-10-30T19:36:42.1055289Z   Passed EveryUiStringLoadsFromItsCompiledSatelliteAndRegionalFallback(\"cs\",\"cs-CZ\") [29 ms]",
+      "2026-10-30T19:38:24.1399364Z Total tests: 559",
+      "2026-10-30T19:38:24.1399651Z      Passed: 559",
+      "2026-10-30T19:40:26.2494396Z Published NET 10 desktop passed: real executable, splash/startup, main window and normal shutdown."
+    ]
+  }
+}

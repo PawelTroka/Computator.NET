@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "candidate": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "checkout": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "workflow": "Complete developer solution",
+  "run": 41113922609,
+  "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922609",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 124263099391,
+      "name": "solution (Release)",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922609/job/124263099391",
+      "logBytes": 54101,
+      "excerpts": [
+        "2026-10-30T19:32:34.7778495Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+        "2026-10-30T19:32:34.8704109Z a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+        "2026-10-30T19:33:20.5191522Z Solution guard tests passed: valid grouped solution and seven rejection scenarios.",
+        "2026-10-30T19:33:25.0508277Z IDE item contracts passed: six evaluated projects, designer parents and five visible frontend inputs.",
+        "2026-10-30T19:33:26.2381409Z Result guard self-tests passed: valid runs, permitted skips and eight rejection scenarios.",
+        "2026-10-30T19:34:14.7989321Z Build succeeded.",
+        "2026-10-30T19:34:14.8071095Z     21 Warning(s)",
+        "2026-10-30T19:34:14.8071818Z     0 Error(s)",
+        "2026-10-30T19:34:15.1455443Z   Solution-Validate                    00:00:00.0006715           Succeeded     "
+      ]
+    },
+    {
+      "id": 124263099802,
+      "name": "solution (Debug)",
+      "conclusion": "success",
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922609/job/124263099802",
+      "logBytes": 54353,
+      "excerpts": [
+        "2026-10-30T19:37:32.0054332Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+        "2026-10-30T19:37:32.1231230Z a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+        "2026-10-30T19:38:37.9224017Z Solution guard tests passed: valid grouped solution and seven rejection scenarios.",
+        "2026-10-30T19:38:43.9632625Z IDE item contracts passed: six evaluated projects, designer parents and five visible frontend inputs.",
+        "2026-10-30T19:38:45.2180462Z Result guard self-tests passed: valid runs, permitted skips and eight rejection scenarios.",
+        "2026-10-30T19:39:40.8340748Z Build succeeded.",
+        "2026-10-30T19:39:40.8469912Z     21 Warning(s)",
+        "2026-10-30T19:39:40.8470164Z     0 Error(s)",
+        "2026-10-30T19:39:41.4215433Z   Solution-Validate                    00:00:00.0008871           Succeeded     "
+      ]
+    }
+  ],
+  "summary": {
+    "configurations": [
+      "Debug",
+      "Release"
+    ],
+    "solutionListedProjects": 19,
+    "buildErrorsPerConfiguration": 0,
+    "buildWarningsPerConfiguration": 21,
+    "solutionGuardRejectionScenarios": 7,
+    "ideEvaluatedProjects": 6,
+    "visibleFrontendInputs": 5,
+    "resultGuardRejectionScenarios": 8
+  },
+  "notes": [
+    "The log's one-case pass/skip counters are intentional synthetic result-guard self-tests, not product-suite results.",
+    "Both complete solution builds succeeded with 21 warnings each; zero-error does not mean zero-warning."
+  ]
+}

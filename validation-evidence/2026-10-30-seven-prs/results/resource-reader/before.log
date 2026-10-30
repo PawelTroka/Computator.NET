@@ -1,0 +1,5 @@
+de: compiled len=407, CR=7, LF=7; normal XML len=400; preserved exact match=True
+FAIL Compiled satellite differs from source: LocalizationNewlineFixture.Strings/de/featuresInclude
+cs: compiled len=362, CR=7, LF=7; normal XML len=355; preserved exact match=True
+FAIL Compiled satellite differs from source: LocalizationNewlineFixture.Strings/cs/featuresInclude
+Contract failures: 2

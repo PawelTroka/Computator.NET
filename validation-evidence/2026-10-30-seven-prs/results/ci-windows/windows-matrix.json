@@ -1,0 +1,79 @@
+{
+  "head": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "checkout": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "workflow": "Cake Windows validation",
+  "run_id": 41113923142,
+  "run_url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142",
+  "os": "Microsoft Windows Server 2025",
+  "all_four_jobs_success": true,
+  "jobs": [
+    {
+      "suite": "Computator.NET.Desktop.Tests",
+      "job_id": 124263105725,
+      "job_url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263105725",
+      "status": "completed",
+      "conclusion": "success",
+      "total_tests": 588,
+      "passed": 588,
+      "failed": 0,
+      "skipped": 0,
+      "log_sha256": "2e6aa339ed3d08dd700b55b16d5eb057c104878ef6b43229af8059bcb7c703a1",
+      "count_source": "Full job log; independently checked TRX as well"
+    },
+    {
+      "suite": "Computator.NET.Core.Tests",
+      "job_id": 124263106184,
+      "job_url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263106184",
+      "status": "completed",
+      "conclusion": "success",
+      "total_tests": 2255,
+      "passed": 2255,
+      "failed": 0,
+      "skipped": 0,
+      "log_sha256": "8285ae6fb226f8d99fffd2777fb95293c687f537a0c846489588a546f46c79b1",
+      "count_source": "Full job log; independently checked TRX as well"
+    },
+    {
+      "suite": "Computator.NET.Core.IntegrationTests",
+      "job_id": 124263106435,
+      "job_url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263106435",
+      "status": "completed",
+      "conclusion": "success",
+      "total_tests": 947,
+      "passed": 947,
+      "failed": 0,
+      "skipped": 0,
+      "log_sha256": "57a197accd9abbe37974cda9fc49847669cd44e90eb4db54e89276ff72dac600",
+      "count_source": "Full job log"
+    },
+    {
+      "suite": "Computator.NET.WebApi.IntegrationTests",
+      "job_id": 124263106384,
+      "job_url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263106384",
+      "status": "completed",
+      "conclusion": "success",
+      "total_tests": 130,
+      "passed": 129,
+      "failed": 0,
+      "skipped": 1,
+      "log_sha256": "5aa3a1c2c93c0e3f2a6e9b4868dfd0bab27f950fd4e83adba88c13e68931829c",
+      "count_source": "Full job log"
+    }
+  ],
+  "documented_skip": {
+    "suite": "Computator.NET.WebApi.IntegrationTests",
+    "case": "ReturnsHttpOkForChart3D",
+    "reason": "Chart3D does not support server-side rendering yet"
+  },
+  "euclid_api_regressions": [
+    {
+      "case": "ReturnsCorrectEntries(\"expression\")",
+      "outcome": "Passed"
+    },
+    {
+      "case": "ReturnsCorrectEntries(\"scripting\")",
+      "outcome": "Passed"
+    }
+  ]
+}

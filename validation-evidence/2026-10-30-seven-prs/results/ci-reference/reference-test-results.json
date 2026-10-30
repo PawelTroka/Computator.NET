@@ -1,0 +1,832 @@
+[
+  {
+    "testName": "Reference worked example: ln(e)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0056220"
+  },
+  {
+    "testName": "Reference worked example: HydrogenicR(1,0,1,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0060490"
+  },
+  {
+    "testName": "Reference worked example: Logistic(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0084400"
+  },
+  {
+    "testName": "Reference worked example: Laplace.CDF(0,1,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0061269"
+  },
+  {
+    "testName": "Reference worked example: BoltzmannConstant*300",
+    "outcome": "Passed",
+    "duration": "00:00:00.0067480"
+  },
+  {
+    "testName": "Reference worked example: erf(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0068090"
+  },
+  {
+    "testName": "Reference worked example: sixHumpCamel(0.089842,-0.712656)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0051940"
+  },
+  {
+    "testName": "Reference worked example: Poisson.PMF(2,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0064740"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"Heaviside(0)\",0.5d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000880"
+  },
+  {
+    "testName": "DesktopDiagramReadsRequireTheLocalFigureClassAndBoundedMetadata(\"width\",\"2401\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0389950"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"sin(x)\",\"Trigonometric functions\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0800220"
+  },
+  {
+    "testName": "BetaDistributionExampleAvoidsTheDemonstratedNameCollision",
+    "outcome": "Passed",
+    "duration": "00:00:01.9501620"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"ModifiedSphericalBesselKn(0,1)\",1.5707963267948966d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0002370"
+  },
+  {
+    "testName": "Reference worked example: NegativeBinomial.PMF(1,0.5,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0060120"
+  },
+  {
+    "testName": "Reference worked example: gamma(5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0052880"
+  },
+  {
+    "testName": "DescriptionsNeverRepeatSignaturesRegardlessOfCaption(\"REAL Probe(real x)\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0001380"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"EllipticK(0)\",1.5707963267948966d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0003669"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"Beta(1,1)\",1.0d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0009390"
+  },
+  {
+    "testName": "Reference worked example: PlanckConstant*5e14",
+    "outcome": "Passed",
+    "duration": "00:00:00.0069350"
+  },
+  {
+    "testName": "Reference worked example: Logit(0.5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0062270"
+  },
+  {
+    "testName": "ConstantSubjectsPreserveTheIndependentRuntimeAttributeMetadata(Computator.NET.Core.Constants.PhysicalConstants)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0408300"
+  },
+  {
+    "testName": "Reference worked example: Normal.CDF(0,1,1)-Normal.CDF(0,1,-1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0071970"
+  },
+  {
+    "testName": "Reference worked example: erf(1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0130040"
+  },
+  {
+    "testName": "DesktopDiagramReadsRequireTheLocalFigureClassAndBoundedMetadata(\"height\",\"801\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0377650"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"class\",\"reference-math-inline extra\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0378900"
+  },
+  {
+    "testName": "DescriptionsNeverRepeatSignaturesRegardlessOfCaption(\"   \")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000830"
+  },
+  {
+    "testName": "Reference worked example: Categorical.PMF(new double[]{1,3},1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0206360"
+  },
+  {
+    "testName": "CategoricalQuantileWarningDistinguishesTheLowerQuantileFromATiedBinarySearch",
+    "outcome": "Passed",
+    "duration": "00:00:00.0790080"
+  },
+  {
+    "testName": "Reference worked example: LogNormal.CDF(0,1,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0061710"
+  },
+  {
+    "testName": "Reference worked example: dropWave(0,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0062400"
+  },
+  {
+    "testName": "Reference worked example: sgn(-4)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0056039"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"i\",\"Complex mathematical constants\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0494120"
+  },
+  {
+    "testName": "Reference worked example: KroneckerDelta(2,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0054780"
+  },
+  {
+    "testName": "Reference worked example: DiscreteUniform.PMF(1,6,6)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0071280"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"Normal.CDF(0,1,0)\",0.5d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0001010"
+  },
+  {
+    "testName": "DesktopEquationReadsRejectNoncataloguePaths(\"https://example.invalid/a.png\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0004140"
+  },
+  {
+    "testName": "Reference worked example: polyGamma(1,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0057000"
+  },
+  {
+    "testName": "Reference worked example: ChiSquared.CDF(2,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0074140"
+  },
+  {
+    "testName": "Reference worked example: gcd(12,18)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0053710"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"BesselJ0(0)\",1.0d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0011570"
+  },
+  {
+    "testName": "DesktopDiagramReadsRequireTheLocalFigureClassAndBoundedMetadata(\"class\",\"reference-math\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0409920"
+  },
+  {
+    "testName": "Reference worked example: logGamma(5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0055160"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"sinc(0)\",1.0d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0006950"
+  },
+  {
+    "testName": "Reference worked example: Gamma.PDF(1,2,0.5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0079040"
+  },
+  {
+    "testName": "ConstantsDescribeTheActualStoredValuesRatherThanSilentlySubstitutingNewOnes",
+    "outcome": "Passed",
+    "duration": "00:00:00.0610410"
+  },
+  {
+    "testName": "Reference worked example: lcm(4,6)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0058070"
+  },
+  {
+    "testName": "Reference worked example: Ai(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0149630"
+  },
+  {
+    "testName": "DesktopDiagramReadsRequireTheLocalFigureClassAndBoundedMetadata(\"src\",\"reference-figures/../settings.json\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0428140"
+  },
+  {
+    "testName": "StandaloneShippedDescriptionsStartWithContentNotSignatures(\"ElementaryCharge\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0441480"
+  },
+  {
+    "testName": "Reference worked example: exp(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0005350"
+  },
+  {
+    "testName": "MatrixNormalSamplingWarningDistinguishesInverseColumnScalingFromTheCovarianceDefinition",
+    "outcome": "Passed",
+    "duration": "00:00:00.0611520"
+  },
+  {
+    "testName": "DesktopDiagramReadsRequireTheLocalFigureClassAndBoundedMetadata(\"alt\",\"\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0386590"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"data-depth\",\"\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0462360"
+  },
+  {
+    "testName": "Reference worked example: Matyas(0,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0056380"
+  },
+  {
+    "testName": "Reference worked example: sinc(PI)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0054230"
+  },
+  {
+    "testName": "Reference worked example: TaylorCoeff(3,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0071510"
+  },
+  {
+    "testName": "Reference worked example: Binomial.PMF(0.5,4,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0089160"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"data-depth\",\"01\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0383470"
+  },
+  {
+    "testName": "DesktopDiagramReadsRequireTheLocalFigureClassAndBoundedMetadata(\"data-depth\",\"0\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0375270"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"BetaNorm(0.5,1,1)\",0.5d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0013360"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"TaylorCoeff(3,2)\",1.3333333333333333d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0007390"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"gamma(5)\",24.0d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0016110"
+  },
+  {
+    "testName": "Reference worked example: GoldenRatio*GoldenRatio-GoldenRatio",
+    "outcome": "Passed",
+    "duration": "00:00:00.0122170"
+  },
+  {
+    "testName": "Reference worked example: erfc(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0060219"
+  },
+  {
+    "testName": "EveryReferenceHasASubjectRatherThanAnImplementationTypeName",
+    "outcome": "Passed",
+    "duration": "00:00:00.0389810"
+  },
+  {
+    "testName": "Reference worked example: sqrt(9)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0766580"
+  },
+  {
+    "testName": "Reference worked example: Rosenbrock(1,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0076220"
+  },
+  {
+    "testName": "Reference worked example: DoubleFactorial(7)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0138410"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"height\",\"101\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0406730"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"data-depth\",\"NaN\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0435520"
+  },
+  {
+    "testName": "CatalogueHasTeachingContentAndNoRepeatedSyntaxHeadings",
+    "outcome": "Passed",
+    "duration": "00:00:00.0878440"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"data-depth\",\"5000\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0381089"
+  },
+  {
+    "testName": "Reference worked example: inverseErfc(1.5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0057770"
+  },
+  {
+    "testName": "DesktopEquationReadsRejectNoncataloguePaths(\"data:image/svg+xml,unsafe\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000290"
+  },
+  {
+    "testName": "Reference worked example: Variations(5,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0063430"
+  },
+  {
+    "testName": "Reference worked example: exp(-1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0083000"
+  },
+  {
+    "testName": "Reference worked example: HurwitzZeta(2,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0059100"
+  },
+  {
+    "testName": "DesktopEquationReadsRejectNoncataloguePaths(\"reference-equations/not-a-hash.png\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000180"
+  },
+  {
+    "testName": "Reference worked example: erfQ(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0069800"
+  },
+  {
+    "testName": "DescriptionsNeverRepeatSignaturesRegardlessOfCaption(\"real Probe(real x)\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000610"
+  },
+  {
+    "testName": "Reference worked example: Combinations(5,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0060030"
+  },
+  {
+    "testName": "Reference worked example: CombinationsWithRepetition(3,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0053720"
+  },
+  {
+    "testName": "DescriptionsNeverRepeatSignaturesRegardlessOfCaption(\"\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0004620"
+  },
+  {
+    "testName": "StandaloneShippedDescriptionsStartWithContentNotSignatures(\"gamma(x)\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0466990"
+  },
+  {
+    "testName": "EasilyConfusedConventionsHaveExplicitWarnings",
+    "outcome": "Passed",
+    "duration": "00:00:00.0396660"
+  },
+  {
+    "testName": "Reference worked example: MathNet.Numerics.Distributions.Beta.PDF(2,2,0.5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0068070"
+  },
+  {
+    "testName": "EveryNonKeywordHasAnExactReferenceAndThereAreNoOrphanEntries",
+    "outcome": "Passed",
+    "duration": "00:00:00.0610800"
+  },
+  {
+    "testName": "Reference worked example: SpeedOfLightInVacuum*1e-9",
+    "outcome": "Passed",
+    "duration": "00:00:00.0064450"
+  },
+  {
+    "testName": "Reference worked example: 2*PI*3",
+    "outcome": "Passed",
+    "duration": "00:00:00.0656000"
+  },
+  {
+    "testName": "Reference worked example: gamma(0.5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0056380"
+  },
+  {
+    "testName": "Reference worked example: DirichletEta(1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0081210"
+  },
+  {
+    "testName": "DesktopDiagramReadsRequireTheLocalFigureClassAndBoundedMetadata(\"src\",\"https://example.invalid/figure.png\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0381500"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"NegativeBinomial.PMF(1,0.5,0)\",0.5d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0003360"
+  },
+  {
+    "testName": "Reference worked example: Ackley(0,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0227050"
+  },
+  {
+    "testName": "Reference worked example: StudentT.CDF(0,1,3,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0076910"
+  },
+  {
+    "testName": "Reference worked example: gammaQ(1,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0055590"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"PI\",\"Basic math constants\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0479770"
+  },
+  {
+    "testName": "DescriptionsNeverRepeatSignaturesRegardlessOfCaption(null)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0026150"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"c\",\"Universal\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0508679"
+  },
+  {
+    "testName": "Reference worked example: psi(1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0056150"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"Beta(0.5,1,1)\",0.5d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0005620"
+  },
+  {
+    "testName": "Reference worked example: Weibull.CDF(1,2,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0087309"
+  },
+  {
+    "testName": "Reference worked example: log10(1000)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0005019"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"\u0393(z)\",\"Gamma and related functions\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0504659"
+  },
+  {
+    "testName": "Reference worked example: Si(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0065900"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"Poisson.PMF(1,0)\",0.3678794411714423d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0002000"
+  },
+  {
+    "testName": "Reference worked example: gamma(1,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0055520"
+  },
+  {
+    "testName": "BohachevskyReferenceSeparatesStandardDefinitionFromPinnedImplementation",
+    "outcome": "Passed",
+    "duration": "00:00:00.0450970"
+  },
+  {
+    "testName": "Reference worked example: cos(60*PI/180)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0210130"
+  },
+  {
+    "testName": "Reference worked example: Beta(2,3)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0058580"
+  },
+  {
+    "testName": "Reference worked example: RiemannZeta(2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0117890"
+  },
+  {
+    "testName": "Reference worked example: Euler\u03c6(9)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0086840"
+  },
+  {
+    "testName": "LegacySignatureHeadingsAndExtraClassesDoNotLeakIntoDescriptions",
+    "outcome": "Passed",
+    "duration": "00:00:00.0003490"
+  },
+  {
+    "testName": "DescriptionsNeverRepeatSignaturesRegardlessOfCaption(\"Probe(x)\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000810"
+  },
+  {
+    "testName": "Reference worked example: Rayleigh.CDF(1,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0070220"
+  },
+  {
+    "testName": "Reference worked example: Pareto.CDF(1,2,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0060100"
+  },
+  {
+    "testName": "Reference worked example: ContinuousUniform.PDF(0,0.5,0.25)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0062130"
+  },
+  {
+    "testName": "Reference worked example: Heaviside(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0066790"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"data-depth\",\"+1\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0431040"
+  },
+  {
+    "testName": "EveryDiagramIsPackagedWithMatchingHashDimensionsAndAnExplanation",
+    "outcome": "Passed",
+    "duration": "00:00:00.1917550"
+  },
+  {
+    "testName": "Reference worked example: -ElementaryCharge",
+    "outcome": "Passed",
+    "duration": "00:00:00.0501580"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"data-depth\",\"-1001\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0410240"
+  },
+  {
+    "testName": "AllDescriptionsAreSelfContainedStructuredHtmlWithoutPlaceholders",
+    "outcome": "Passed",
+    "duration": "00:00:00.2492040"
+  },
+  {
+    "testName": "Reference worked example: pow(2,5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0053550"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"ElementaryCharge\",\"Electromagnetic constants\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0465100"
+  },
+  {
+    "testName": "IncompleteBetaReferenceDescribesTheCorrectedPublicContract",
+    "outcome": "Passed",
+    "duration": "00:00:00.0409949"
+  },
+  {
+    "testName": "Reference worked example: Rastrigin(1,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0064310"
+  },
+  {
+    "testName": "Reference worked example: Permutations(4)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0053090"
+  },
+  {
+    "testName": "EveryShippedEquationMatchesItsTexIdentityHashAndPixelSize",
+    "outcome": "Passed",
+    "duration": "00:00:00.6245470"
+  },
+  {
+    "testName": "LevyEvaluationWarningIdentifiesTheBoundaryAndOutsideSupportDifferences",
+    "outcome": "Passed",
+    "duration": "00:00:00.1192670"
+  },
+  {
+    "testName": "DesktopInlineMathReconstructsNumericLayoutWithoutTrustingSourceStyles",
+    "outcome": "Passed",
+    "duration": "00:00:00.0817080"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"BesselJ0(x)\",\"Bessel functions\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0518360"
+  },
+  {
+    "testName": "BothExpressionAndScriptingCompletionsAttachTheRenderedReference",
+    "outcome": "Passed",
+    "duration": "00:00:00.0554870"
+  },
+  {
+    "testName": "Reference worked example: Cauchy.CDF(0,1,0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0070020"
+  },
+  {
+    "testName": "Reference worked example: inverseErf(-0.5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0060910"
+  },
+  {
+    "testName": "DescriptionsNeverRepeatSignaturesRegardlessOfCaption(\"real   Probe(real x)\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000690"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"alt\",\"\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0378930"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"FermiDiracF0(0)\",0.6931471805599453d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0001770"
+  },
+  {
+    "testName": "ConstantSubjectsPreserveTheIndependentRuntimeAttributeMetadata(Computator.NET.Core.Constants.MathematicalConstants)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0401380"
+  },
+  {
+    "testName": "Reference worked example: Geometric.PMF(0.5,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0068890"
+  },
+  {
+    "testName": "EveryTypedOverloadIsPresentInItsSharedLookupEntry",
+    "outcome": "Passed",
+    "duration": "00:00:00.1120000"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"Gamma.PDF(1,2,0.5)\",0.7357588823428847d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0001720"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"width\",\"321\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0379370"
+  },
+  {
+    "testName": "Reference worked example: BetaNorm(0.5,1,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0177220"
+  },
+  {
+    "testName": "Reference worked example: sinc(0)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0051760"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"gamma(x)\",\"Gamma and related functions\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0520170"
+  },
+  {
+    "testName": "Reference worked example: Exponential.CDF(2,0.5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0083640"
+  },
+  {
+    "testName": "Reference worked example: Himmelblau(3,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0057310"
+  },
+  {
+    "testName": "Reference worked example: factorial(5)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0065480"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"Geometric.PMF(0.5,1)\",0.5d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000970"
+  },
+  {
+    "testName": "Reference worked example: Beta(0.5,1,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0070490"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"sinc(1)\",0.8414709848078965d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0003089"
+  },
+  {
+    "testName": "Reference worked example: VariationsWithRepetition(3,2)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0071540"
+  },
+  {
+    "testName": "Reference worked example: Bernoulli.PMF(0.25,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0092750"
+  },
+  {
+    "testName": "Reference worked example: gammaP(1,1)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0060080"
+  },
+  {
+    "testName": "DesktopInlineMathRejectsUnboundedOrMalformedMetadata(\"data-depth\",\"1;position:fixed\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0378160"
+  },
+  {
+    "testName": "ExportRuntimeCatalogForReview",
+    "outcome": "Passed",
+    "duration": "00:00:00.0233150"
+  },
+  {
+    "testName": "DesktopEquationReadsRejectNoncataloguePaths(\"reference-equations/../settings.json\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0002570"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"Normal.PDF(0,1,0)\",0.3989422804014327d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0000860"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"gamma(1,2)\",0.1353352832366127d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0012420"
+  },
+  {
+    "testName": "Reference worked example: sin(30*PI/180)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0058750"
+  },
+  {
+    "testName": "StandaloneShippedDescriptionsStartWithContentNotSignatures(\"ConicalP(\u03bc,\u03bb,x)\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0446510"
+  },
+  {
+    "testName": "Reference worked example: Bohachevsky1(0,0)+0.7",
+    "outcome": "Passed",
+    "duration": "00:00:00.0094250"
+  },
+  {
+    "testName": "Reference worked example: log2(8)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0057190"
+  },
+  {
+    "testName": "DocumentedExampleAgreesWithTheActualImplementation(\"\u03b2(0.5,1,1)\",0.5d)",
+    "outcome": "Passed",
+    "duration": "00:00:00.0001090"
+  },
+  {
+    "testName": "BothCompletionModesExposeTheRestoredSubject(\"ln(x)\",\"Logarithms\")",
+    "outcome": "Passed",
+    "duration": "00:00:00.0499560"
+  }
+]

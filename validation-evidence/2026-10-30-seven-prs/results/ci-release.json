@@ -1,0 +1,131 @@
+{
+  "repository": "PawelTroka/Computator.NET",
+  "integrationHead": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "ciMerge": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "sourceTree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "base": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+  "workflow": "Release identity and candidate evidence",
+  "runId": 41113922938,
+  "jobId": 124263100271,
+  "jobUrl": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922938/job/124263100271",
+  "conclusion": "success",
+  "platform": "Windows Server 2025",
+  "startedAt": "2026-10-30T19:24:58Z",
+  "evidenceCompletedAt": "2026-10-30T19:59:02Z",
+  "verification": {
+    "releaseIdentityContractTests": {
+      "passed": 27,
+      "failed": 0
+    },
+    "core": {
+      "passed": 2255,
+      "total": 2255,
+      "documentedSkips": 0
+    },
+    "desktop": {
+      "passed": 588,
+      "total": 588,
+      "documentedSkips": 0
+    },
+    "coreIntegration": {
+      "passed": 947,
+      "total": 947,
+      "documentedSkips": 0
+    },
+    "webApiIntegration": {
+      "passed": 129,
+      "total": 130,
+      "documentedSkips": 1,
+      "skip": "ReturnsHttpOkForChart3D",
+      "note": "This suite ran twice within Release-Verify; these are suite counts, not an aggregate."
+    },
+    "reference": {
+      "passed": 166,
+      "total": 166,
+      "documentedSkips": 0,
+      "authoringTests": 63,
+      "offlineTexEquations": 765,
+      "offlineDiagrams": 10
+    },
+    "frontendWithApiFixtures": {
+      "passed": 242,
+      "failed": 0,
+      "browsers": [
+        "Chromium",
+        "Firefox"
+      ],
+      "scope": "Published frontend UI suite with intercepted API fixture responses; not 242 real-server API checks."
+    },
+    "realBrowserToApi": {
+      "passed": 10,
+      "failed": 0
+    },
+    "realWebCustomFunctions": {
+      "passed": 26,
+      "failed": 0
+    },
+    "protectedLocalWebPackage": {
+      "passed": 6,
+      "failed": 0
+    },
+    "portableEngine": {
+      "passed": 1666,
+      "total": 1666,
+      "documentedSkips": 0
+    },
+    "publishedPortableCliProcessChecks": {
+      "passed": 39
+    },
+    "desktopPublishedExecutable": "Real executable, splash/startup, main window and normal shutdown passed.",
+    "unsignedMsix": {
+      "roundTrippedFiles": 1422
+    },
+    "commitBoundEvidence": {
+      "testReports": 10,
+      "candidateFiles": 19,
+      "actualCompletionLog": "2026-10-30T19:59:02.0869277Z Wrote commit-bound evidence for 10 test reports and 19 candidate files."
+    }
+  },
+  "scope": {
+    "signed": false,
+    "published": false,
+    "description": "Windows candidate verification on this host; not cross-OS, clean-machine, signed-install or Store certification.",
+    "separateMatricesRequired": [
+      "native OS/GSL matrix",
+      "portable OS matrix"
+    ],
+    "note": "The release target verifies fresh commit-bound reports and package hashes. It does not install or sign the MSIX/MSI or publish a release."
+  },
+  "artifact": {
+    "id": 13007691433,
+    "name": "release-candidate-evidence",
+    "bytes": 20299631,
+    "sha256": "e0ebff6cbba0c953c010816ae196b3c2ac6981ebda0e2214d93bbd04469ca4d7",
+    "expiresAt": "2026-11-13T19:59:03Z",
+    "digestSource": "GitHub artifact metadata",
+    "locallyDownloaded": false
+  },
+  "evidenceSource": "Completed job log, job/ artifact metadata, and checked-in build/release/evidence.py and build/followups/release.cake. No redundant full release payload was downloaded locally.",
+  "logExcerpts": [
+    "2026-10-30T19:24:59.8915136Z Microsoft Windows Server 2025",
+    "2026-10-30T19:25:14.2861434Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+    "2026-10-30T19:26:18.8049586Z Ran 27 tests in 1.811s",
+    "2026-10-30T19:28:03.9315270Z Verified 166 test results: 166 passed, 0 documented skips.",
+    "2026-10-30T19:29:14.8145838Z Verified 2255 test results: 2255 passed, 0 documented skips.",
+    "2026-10-30T19:32:07.2868146Z Verified 588 test results: 588 passed, 0 documented skips.",
+    "2026-10-30T19:35:48.8274225Z Verified 947 test results: 947 passed, 0 documented skips.",
+    "2026-10-30T19:38:51.2943373Z Verified 130 test results: 129 passed, 1 documented skips.",
+    "2026-10-30T19:42:14.4474229Z   242 passed (2.6m)",
+    "2026-10-30T19:43:56.9328196Z Published NET 10 desktop passed: real executable, splash/startup, main window and normal shutdown.",
+    "2026-10-30T19:46:51.9611734Z   10 passed (39.5s)",
+    "2026-10-30T19:50:12.4737901Z Verified 130 test results: 129 passed, 1 documented skips.",
+    "2026-10-30T19:53:16.7092552Z   26 passed (2.3m)",
+    "2026-10-30T19:53:45.6551136Z Verified 1666 test results: 1666 passed, 0 documented skips.",
+    "2026-10-30T19:54:23.3921038Z Published portable CLI passed 39 process checks: numerical commands, documents, strict options, Console isolation, errors and recovery.",
+    "2026-10-30T19:55:56.5101997Z Published NET 10 desktop passed: real executable, splash/startup, main window and normal shutdown.",
+    "2026-10-30T19:56:45.9079936Z Published NET 10 desktop passed: real executable, splash/startup, main window and normal shutdown.",
+    "2026-10-30T19:57:06.7492698Z Validated unsigned MSIX: D:\\a\\Computator.NET\\Computator.NET\\artifacts\\msix\\Computator.NET.3.0.0.0.win-x64.msix (1422 files round-tripped without changes).",
+    "2026-10-30T19:58:56.6544279Z   6 passed (21.5s)",
+    "2026-10-30T19:59:02.0869277Z Wrote commit-bound evidence for 10 test reports and 19 candidate files."
+  ]
+}

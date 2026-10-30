@@ -1,0 +1,44 @@
+[
+  {
+    "case": "explicit-cr-entity",
+    "rejected": true,
+    "exit": 1,
+    "log": "explicit-cr-entity-final.log"
+  },
+  {
+    "case": "literal-cr",
+    "rejected": true,
+    "exit": 1,
+    "log": "literal-cr-final.log"
+  },
+  {
+    "case": "unicode-translation",
+    "rejected": true,
+    "exit": 1,
+    "log": "unicode-translation-final.log"
+  },
+  {
+    "case": "leading-space",
+    "rejected": true,
+    "exit": 1,
+    "log": "leading-space-final.log"
+  },
+  {
+    "case": "whitespace-only",
+    "rejected": true,
+    "exit": 1,
+    "log": "whitespace-only-final.log"
+  },
+  {
+    "case": "cr-only-entity",
+    "rejected": true,
+    "exit": 1,
+    "log": "cr-only-entity-final.log"
+  },
+  {
+    "case": "dtd-prohibited",
+    "rejected": true,
+    "exit": 1,
+    "log": "dtd-prohibited.log"
+  }
+]

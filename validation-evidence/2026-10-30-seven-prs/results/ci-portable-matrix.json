@@ -1,0 +1,81 @@
+{
+  "merge": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "run_id": 41113922645,
+  "workflow_conclusion": "success",
+  "jobs": [
+    {
+      "platform": "Windows Server 2025 / win-x64",
+      "job_id": 124263104211,
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922645/job/124263104211",
+      "engine": {
+        "total": 1666,
+        "passed": 1666,
+        "failed": 0,
+        "skipped": 0
+      },
+      "cli_process_checks_passed": 39,
+      "excerpts": [
+        "2026-10-30T19:38:29.5450483Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+        "2026-10-30T19:39:43.4081990Z  Version:           10.0.403",
+        "2026-10-30T19:39:45.0796924Z  OS Version:  10.0.26100",
+        "2026-10-30T19:39:45.0867396Z  RID:         win-x64",
+        "2026-10-30T19:39:45.3147918Z    Manifest Version:    10.0.110/10.0.100",
+        "2026-10-30T19:39:45.3162094Z    Manifest Version:    10.0.113/10.0.100",
+        "2026-10-30T19:39:46.2589835Z   Version:      10.0.14",
+        "2026-10-30T19:40:35.6111517Z Passed!  - Failed:     0, Passed:  1666, Skipped:     0, Total:  1666, Duration: 13 s - Computator.NET.Engine.Tests.dll (net10.0)",
+        "2026-10-30T19:41:11.4394107Z Published portable CLI passed 39 process checks: numerical commands, documents, strict options, Console isolation, errors and recovery.",
+        "2026-10-30T19:41:13.8994524Z SHA256 digest of uploaded artifact is bead929012073a892b826875b964ee92fc6cdb2d99c0b733845d195c682446dd",
+        "2026-10-30T19:41:14.4224766Z Artifact portable-windows-2025 successfully finalized. Artifact ID 13007015879",
+        "2026-10-30T19:41:14.4226555Z Artifact portable-windows-2025 has been successfully uploaded! Final size is 7479985 bytes. Artifact ID is 13007015879"
+      ]
+    },
+    {
+      "platform": "Ubuntu 24.04 / linux-x64",
+      "job_id": 124263104613,
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922645/job/124263104613",
+      "engine": {
+        "total": 1666,
+        "passed": 1666,
+        "failed": 0,
+        "skipped": 0
+      },
+      "cli_process_checks_passed": 39,
+      "excerpts": [
+        "2026-10-30T19:24:44.3806995Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+        "2026-10-30T19:25:24.0068857Z  Version:           10.0.403",
+        "2026-10-30T19:25:24.5837801Z  RID:         linux-x64",
+        "2026-10-30T19:25:24.9407222Z   Version:      10.0.14",
+        "2026-10-30T19:26:00.8409773Z Passed!  - Failed:     0, Passed:  1666, Skipped:     0, Total:  1666, Duration: 13 s - Computator.NET.Engine.Tests.dll (net10.0)",
+        "2026-10-30T19:26:31.8964549Z Published portable CLI passed 39 process checks: numerical commands, documents, strict options, Console isolation, errors and recovery.",
+        "2026-10-30T19:26:33.6547187Z SHA256 digest of uploaded artifact is 376789f58db9b8c5cfe1c53d65b90657fbea2dee8ab40a8ebfc3cbe69873c21c",
+        "2026-10-30T19:26:34.1623486Z Artifact portable-ubuntu-24.04 successfully finalized. Artifact ID 13006325521",
+        "2026-10-30T19:26:34.1624295Z Artifact portable-ubuntu-24.04 has been successfully uploaded! Final size is 7442360 bytes. Artifact ID is 13006325521"
+      ]
+    },
+    {
+      "platform": "macOS 26 / osx-arm64",
+      "job_id": 124263104673,
+      "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922645/job/124263104673",
+      "engine": {
+        "total": 1666,
+        "passed": 1666,
+        "failed": 0,
+        "skipped": 0
+      },
+      "cli_process_checks_passed": 39,
+      "excerpts": [
+        "2026-10-30T19:22:44.7144490Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+        "2026-10-30T19:23:08.3778920Z  Version:           10.0.403",
+        "2026-10-30T19:23:08.5705070Z  RID:         osx-arm64",
+        "2026-10-30T19:23:08.6800830Z   Version:      10.0.14",
+        "2026-10-30T19:23:49.0954810Z Passed!  - Failed:     0, Passed:  1666, Skipped:     0, Total:  1666, Duration: 24 s - Computator.NET.Engine.Tests.dll (net10.0)",
+        "2026-10-30T19:24:25.2442030Z Published portable CLI passed 39 process checks: numerical commands, documents, strict options, Console isolation, errors and recovery.",
+        "2026-10-30T19:24:27.8104980Z SHA256 digest of uploaded artifact is 662438a516ea4a2fd17691fae24950b8215d0bc2d1d589d44b31cb8e7f80f79d",
+        "2026-10-30T19:24:28.2699700Z Artifact portable-macos-latest successfully finalized. Artifact ID 13003579915",
+        "2026-10-30T19:24:28.2700810Z Artifact portable-macos-latest has been successfully uploaded! Final size is 7440374 bytes. Artifact ID is 13003579915"
+      ]
+    }
+  ],
+  "note": "The 1666 Engine cases are the same suite executed on each platform. The 39 published-CLI process checks are separately executed per platform."
+}

@@ -1,0 +1,77 @@
+{
+  "repository": "PawelTroka/Computator.NET",
+  "integrationHead": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "ciMerge": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "sourceTree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "base": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+  "runId": 41113922917,
+  "jobId": 124263106241,
+  "jobUrl": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922917/job/124263106241",
+  "conclusion": "success",
+  "platform": "Windows Server 2025",
+  "configuration": "Release",
+  "referenceTestCounters": {
+    "total": 166,
+    "executed": 166,
+    "passed": 166,
+    "failed": 0,
+    "error": 0,
+    "timeout": 0,
+    "aborted": 0,
+    "inconclusive": 0,
+    "passedButRunAborted": 0,
+    "notRunnable": 0,
+    "notExecuted": 0,
+    "disconnected": 0,
+    "warning": 0,
+    "completed": 0,
+    "inProgress": 0,
+    "pending": 0
+  },
+  "referenceResultsCount": 166,
+  "authoringTests": {
+    "passed": 63,
+    "failed": 0
+  },
+  "verifiedOfflineTexEquations": 765,
+  "verifiedOfflineDiagrams": 10,
+  "catalogEntries": 1236,
+  "completionItems": 1331,
+  "distinctCompletionMenus": 1331,
+  "excludedKeywords": 65,
+  "euclid": {
+    "completionItems": 37,
+    "distinctMenus": 37,
+    "lookupSignatures": 16
+  },
+  "artifact": {
+    "id": 13005303660,
+    "name": "function-reference-evidence",
+    "bytes": 8959197,
+    "sha256": "407cdc0881e480b4ebfd71623bcdc38b3f2aa083bfb7fa64b2645b4658f093f5",
+    "expiresAt": "2026-11-06T19:38:57Z"
+  },
+  "sourceFiles": [
+    {
+      "path": "TestResults/reference.trx",
+      "bytes": 232718,
+      "sha256": "7344c86b37d7356ccef68653aae14b87f0f9a6f4a9712691b603b0c670962c64"
+    },
+    {
+      "path": "artifacts/reference/inventory.json",
+      "bytes": 342682,
+      "sha256": "1ec16cbf18e9ee4539d555b1be7bc88de9ede7c3530775ed9110f98a16c3788f"
+    },
+    {
+      "path": "artifacts/reference/coverage.json",
+      "bytes": 1513,
+      "sha256": "8d6e30316b181f3f3f37d5c2b188127611787de1e5e2c258cc3195b7b205b3ca"
+    }
+  ],
+  "scope": "Counters and item details are extracted from downloaded, digest-verified artifacts; the full ZIP and TRX remain in the local reference-final directory. This compact bundle preserves test names/outcomes, Euclid overloads, coverage and source hashes rather than the generated preview and hundreds of rendered images.",
+  "plotGeometryTests": {
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0
+  }
+}

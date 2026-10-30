@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "startedUtc": "2026-10-30T19:36:00.6220206Z",
+  "completedUtc": "2026-10-30T19:36:05.1188335Z",
+  "executableSha256": "4D37C0F382A2BA52751EF4396F0AE42FDE4E3DB765649311988C8EE1E165ECC2",
+  "processId": 2924,
+  "processStartedUtc": "2026-10-30T19:36:00.6982493Z",
+  "passed": true,
+  "normalShutdown": true,
+  "closeRequested": true,
+  "forcedTermination": false,
+  "failure": null,
+  "startupTimeoutMs": 60000,
+  "idleTimeoutMs": 10000,
+  "shutdownTimeoutMs": 10000,
+  "samples": [
+    {
+      "label": "started",
+      "phase": "startup",
+      "elapsedMs": 92,
+      "hasExited": false,
+      "mainWindowHandle": 0,
+      "privateBytes": 2039808,
+      "workingSetBytes": 8953856,
+      "cpuMs": 15.625,
+      "threadCount": 4,
+      "threads": [
+        {
+          "id": 1828,
+          "state": "Running"
+        },
+        {
+          "id": 1720,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 8704,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 8992,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        }
+      ]
+    },
+    {
+      "label": "main-window",
+      "phase": "startup",
+      "elapsedMs": 3979,
+      "hasExited": false,
+      "mainWindowHandle": 262470,
+      "privateBytes": 93343744,
+      "workingSetBytes": 201486336,
+      "cpuMs": 4812.5,
+      "threadCount": 25,
+      "threads": [
+        {
+          "id": 1828,
+          "state": "Running"
+        },
+        {
+          "id": 1720,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 8704,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 8992,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 3724,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 6524,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2232,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 8672,
+          "state": "Wait",
+          "waitReason": "ExecutionDelay"
+        },
+        {
+          "id": 4756,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2952,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2816,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 7708,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2984,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 4072,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 1672,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 7880,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 3184,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 880,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 4044,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2412,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 7092,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 2532,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 7644,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 7068,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 1696,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        }
+      ]
+    },
+    {
+      "label": "input-idle",
+      "phase": "input-idle",
+      "elapsedMs": 3986,
+      "hasExited": false,
+      "mainWindowHandle": 262470,
+      "privateBytes": 93343744,
+      "workingSetBytes": 201572352,
+      "cpuMs": 4812.5,
+      "threadCount": 25,
+      "threads": [
+        {
+          "id": 1828,
+          "state": "Running"
+        },
+        {
+          "id": 1720,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 8704,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 8992,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 3724,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 6524,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2232,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 8672,
+          "state": "Wait",
+          "waitReason": "ExecutionDelay"
+        },
+        {
+          "id": 4756,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2952,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2816,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 7708,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2984,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 4072,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 1672,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 7880,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 3184,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 880,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 4044,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 2412,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 7092,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 2532,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 7644,
+          "state": "Wait",
+          "waitReason": "UserRequest"
+        },
+        {
+          "id": 7068,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        },
+        {
+          "id": 1696,
+          "state": "Wait",
+          "waitReason": "EventPairLow"
+        }
+      ]
+    },
+    {
+      "label": "normal-exit",
+      "phase": "shutdown",
+      "elapsedMs": 4457,
+      "hasExited": true,
+      "exitCode": 0
+    },
+    {
+      "label": "after-cleanup",
+      "phase": "shutdown",
+      "elapsedMs": 4458,
+      "hasExited": true,
+      "exitCode": 0
+    }
+  ],
+  "cleanupErrors": []
+}

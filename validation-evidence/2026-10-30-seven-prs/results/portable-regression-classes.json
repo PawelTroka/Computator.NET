@@ -1,0 +1,17 @@
+{
+  "source_merge": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "source_tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "trx_sha256": "a66a1aa9a06381acba87f528910208e1c383533bcb6842c35ad737a53844a7ef",
+  "all_tests": 1666,
+  "selected_class_counts": {
+    "Computator.NET.Engine.Tests.EuclidTests": 34,
+    "Computator.NET.Engine.Tests.LocalizationResourceTests": 2,
+    "Computator.NET.Engine.Tests.NumericLiteralTranslationTests": 36,
+    "Computator.NET.Engine.Tests.SecantArithmeticTests(False)": 45,
+    "Computator.NET.Engine.Tests.SecantArithmeticTests(True)": 45,
+    "Computator.NET.Engine.Tests.TextSearchTests": 39,
+    "Computator.NET.Engine.Tests.TrapezoidalOverflowTests(False)": 14,
+    "Computator.NET.Engine.Tests.TrapezoidalOverflowTests(True)": 14
+  },
+  "note": "Class counts are subsets of the 1666 final local portable tests, not additional tests. Debye lives in Core.Tests and is covered separately by native Windows and supplemental Mono evidence."
+}

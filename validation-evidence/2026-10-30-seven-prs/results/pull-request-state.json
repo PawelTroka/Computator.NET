@@ -1,0 +1,103 @@
+{
+  "recorded_at_utc": "2026-10-30 20:00:05 UTC",
+  "master": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+  "prs": [
+    {
+      "pr": 304,
+      "url": "https://github.com/PawelTroka/Computator.NET/pull/304",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "base_sha": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "head": "fix/complete-numeric-power-operands-20261030",
+      "head_sha": "ceedea70c873ae4e6ac6072f739541ecdcc0d502",
+      "merge_commit_sha": "3ba2fdb1344a2b9694976a043d74472b5c8bb858"
+    },
+    {
+      "pr": 305,
+      "url": "https://github.com/PawelTroka/Computator.NET/pull/305",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "base_sha": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "head": "codex/secant-finite-arithmetic-20261030",
+      "head_sha": "d626208fb632834502d4153ec157cc3eec836e95",
+      "merge_commit_sha": "0d3c1e330812120b3cf4ab7c776a65023a57d235"
+    },
+    {
+      "pr": 306,
+      "url": "https://github.com/PawelTroka/Computator.NET/pull/306",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "base_sha": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "head": "codex/german-czech-translations-40-20261030",
+      "head_sha": "a8a78e93b37ba516849a5e1cf470286e7cc15c63",
+      "merge_commit_sha": "f8057a20a74698f3d1885161046929b9d4f1b0b1"
+    },
+    {
+      "pr": 307,
+      "url": "https://github.com/PawelTroka/Computator.NET/pull/307",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "base_sha": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "head": "fix/debye-supported-orders-20261030",
+      "head_sha": "05fca5a6bb6f2f7a534825d026b48eb9786a02ce",
+      "merge_commit_sha": "29d994867faad9eeb304790e9abad1818ff4a2fd"
+    },
+    {
+      "pr": 308,
+      "url": "https://github.com/PawelTroka/Computator.NET/pull/308",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "base_sha": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "head": "fix/trapezoidal-endpoint-overflow-20261030",
+      "head_sha": "0b5c9930d59a4371d62061e27016dc150f4ae608",
+      "merge_commit_sha": "aa9b25d8518ad0a5f441b941f6889b1acd1762ef"
+    },
+    {
+      "pr": 309,
+      "url": "https://github.com/PawelTroka/Computator.NET/pull/309",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "base_sha": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "head": "feature/euclid-utilities-125-20261030",
+      "head_sha": "0ea6da7f804c06b502b174d38a005e9bfcb5de45",
+      "merge_commit_sha": "535c618e6ec3d714397a8dfe5a7868b9b0ed16c4"
+    },
+    {
+      "pr": 310,
+      "url": "https://github.com/PawelTroka/Computator.NET/pull/310",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "base_sha": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "head": "feature/editor-find-replace-80-20261030",
+      "head_sha": "7a944e5ba581c95a75a61efe4049804a2c66839e",
+      "merge_commit_sha": "7b0719631ffa02ed9c05d3bebec35a1a4317131d"
+    },
+    {
+      "pr": 312,
+      "url": "https://github.com/PawelTroka/Computator.NET/pull/312",
+      "state": "closed",
+      "draft": true,
+      "merged": false,
+      "base": "validation/seven-pr-base-20261030",
+      "base_sha": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "head": "validation/seven-pr-integration-20261030",
+      "head_sha": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+      "merge_commit_sha": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+      "closed_at": "2026-10-30T20:00:04Z"
+    }
+  ]
+}

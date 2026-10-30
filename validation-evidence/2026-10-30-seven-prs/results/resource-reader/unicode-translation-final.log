@@ -1,0 +1,3 @@
+FAIL InvalidOperationException: Compiled satellite differs from source: LocalizationNewlineFixture.Semantics/de/Unicode
+PASS cs: 349 exact strings and regional fallback
+Contract failures: 1

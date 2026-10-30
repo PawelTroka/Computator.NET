@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "candidate": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "checkout": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "workflow": "Cake packaging and coverage",
+  "run": 41113922737,
+  "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922737",
+  "conclusion": "success",
+  "job": {
+    "id": 124263735734,
+    "conclusion": "success",
+    "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922737/job/124263735734",
+    "logBytes": 466908,
+    "excerpts": [
+      "2026-10-30T19:24:40.7326980Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "2026-10-30T19:24:40.8600286Z a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+      "2026-10-30T19:27:43.5964845Z Build succeeded.",
+      "2026-10-30T19:27:43.6132556Z     21 Warning(s)",
+      "2026-10-30T19:27:43.6133059Z     0 Error(s)",
+      "2026-10-30T19:30:48.2363973Z Published GSL 2.8 resolver and 4 numerical checks passed: D:\\a\\Computator.NET\\Computator.NET\\TestResults\\packaged-gsl\\ba7b3d23bcf24bc9a8086c585bed00af\\result.json",
+      "2026-10-30T19:31:04.6662216Z Published NET 10 desktop passed: real executable, splash/startup, main window and normal shutdown.",
+      "2026-10-30T19:31:10.1719285Z Published GSL 2.8 resolver and 4 numerical checks passed: D:\\a\\Computator.NET\\Computator.NET\\TestResults\\packaged-gsl\\e398933e911542d895e6df080e4b555c\\result.json",
+      "2026-10-30T19:31:32.9090487Z Published API passed: token protection, real calculation/script, packaged GSL 2.8 worker, PNG, BMP and OpenAPI.",
+      "2026-10-30T19:34:20.3486272Z   Package                            00:00:04.5739700            Succeeded      ",
+      "2026-10-30T19:34:37.1757629Z Build succeeded.",
+      "2026-10-30T19:34:37.1781250Z     3 Warning(s)",
+      "2026-10-30T19:34:37.1783118Z     0 Error(s)",
+      "2026-10-30T19:35:26.0170588Z Total tests: 2255",
+      "2026-10-30T19:35:26.0170885Z      Passed: 2255",
+      "2026-10-30T19:35:26.6765397Z   D:\\a\\Computator.NET\\Computator.NET\\TestResults\\bc02f08d-e2a8-47f7-bdaf-bd734c43c798\\runneradmin_runnervmhao91_2026-10-30.19_35_25.cobertura.xml",
+      "2026-10-30T19:35:27.6507236Z Verified 2255 test results: 2255 passed, 0 documented skips.",
+      "2026-10-30T19:35:27.7300779Z   Calculate-Coverage                    00:00:00.0043463          Succeeded     ",
+      "2026-10-30T19:35:28.0958679Z With the provided path, there will be 3 files uploaded",
+      "2026-10-30T19:35:32.6497049Z SHA256 digest of uploaded artifact is 5dbdd995f1a32b9c3f24f4dc303527a62a09111b921a02aea48e7dcb26595e0a",
+      "2026-10-30T19:35:33.2675382Z Artifact cake-portable-packages successfully finalized. Artifact ID 13005522957",
+      "2026-10-30T19:35:35.2656319Z SHA256 digest of uploaded artifact is 771cae689be3296feb3eae839d413252bce07e7ee10e0f22aa811dfa7d1cca77",
+      "2026-10-30T19:35:35.9108495Z Artifact cake-packaging-diagnostics successfully finalized. Artifact ID 13005373142"
+    ]
+  },
+  "summary": {
+    "portableZipPayloads": 3,
+    "coreTests": {
+      "passed": 2255,
+      "failed": 0,
+      "documentedSkips": 0
+    },
+    "newCoberturaReportCreated": true,
+    "publishedGsl": {
+      "version": "2.8",
+      "numericalChecksPerPublishedPayload": 4,
+      "payloads": 2
+    },
+    "productionWindowsStartup": {
+      "realExecutable": true,
+      "splashAndStartup": true,
+      "mainWindow": true,
+      "normalShutdown": true
+    },
+    "publishedApiContracts": [
+      "token protection",
+      "real calculation",
+      "real script",
+      "packaged GSL 2.8 worker",
+      "PNG",
+      "BMP",
+      "OpenAPI"
+    ],
+    "buildResults": [
+      {
+        "warnings": 21,
+        "errors": 0
+      },
+      {
+        "warnings": 3,
+        "errors": 0
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 13005522957,
+      "name": "cake-portable-packages",
+      "bytes": 98525599,
+      "sha256": "5dbdd995f1a32b9c3f24f4dc303527a62a09111b921a02aea48e7dcb26595e0a"
+    },
+    {
+      "id": 13005373142,
+      "name": "cake-packaging-diagnostics",
+      "bytes": 3382073,
+      "sha256": "771cae689be3296feb3eae839d413252bce07e7ee10e0f22aa811dfa7d1cca77",
+      "downloadHashIndependentlyVerified": true,
+      "coreTrxVerified": {
+        "passed": 2255,
+        "failed": 0,
+        "skipped": 0,
+        "debyeCases": 100
+      }
+    }
+  ],
+  "notes": [
+    "Portable package artifact size/hash comes from the GitHub upload log. The diagnostics artifact was downloaded and its SHA-256 independently verified; Core TRX counters and the 100 Debye cases were independently parsed.",
+    "The log also contains synthetic one-case result-guard fixtures, including an intentional permitted skip. These are not product-suite skips.",
+    "This checks build/package contracts and actual staged app/API execution; it is not installation certification."
+  ]
+}

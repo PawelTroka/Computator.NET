@@ -1,0 +1,261 @@
+[
+  {
+    "signature": "Euclid.CeilingToPowerOfTwo(number)",
+    "menu": "integer Euclid.CeilingToPowerOfTwo(integer number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.CeilingToPowerOfTwo(number)",
+    "menu": "int Euclid.CeilingToPowerOfTwo(int number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.ExtendedGreatestCommonDivisor(a,b,out x,out y)",
+    "menu": "BigInteger Euclid.ExtendedGreatestCommonDivisor(BigInteger a, BigInteger b, out BigInteger x, out BigInteger y)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.ExtendedGreatestCommonDivisor(a,b,out x,out y)",
+    "menu": "integer Euclid.ExtendedGreatestCommonDivisor(integer a, integer b, out integer x, out integer y)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.GreatestCommonDivisor(a,b)",
+    "menu": "integer Euclid.GreatestCommonDivisor(integer a, integer b)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.GreatestCommonDivisor(a,b)",
+    "menu": "BigInteger Euclid.GreatestCommonDivisor(BigInteger a, BigInteger b)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.GreatestCommonDivisor(integers)",
+    "menu": "BigInteger Euclid.GreatestCommonDivisor(IList<BigInteger> integers)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.GreatestCommonDivisor(integers)",
+    "menu": "integer Euclid.GreatestCommonDivisor(IList<integer> integers)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.GreatestCommonDivisor(integers1,integers2, ...)",
+    "menu": "integer Euclid.GreatestCommonDivisor(integer integers1, integer integers2,  ...)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.GreatestCommonDivisor(integers1,integers2, ...)",
+    "menu": "BigInteger Euclid.GreatestCommonDivisor(BigInteger integers1, BigInteger integers2,  ...)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.IsEven(number)",
+    "menu": "bool Euclid.IsEven(int number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.IsEven(number)",
+    "menu": "bool Euclid.IsEven(integer number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.IsOdd(number)",
+    "menu": "bool Euclid.IsOdd(int number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.IsOdd(number)",
+    "menu": "bool Euclid.IsOdd(integer number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.IsPerfectSquare(number)",
+    "menu": "bool Euclid.IsPerfectSquare(int number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.IsPerfectSquare(number)",
+    "menu": "bool Euclid.IsPerfectSquare(integer number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.IsPowerOfTwo(number)",
+    "menu": "bool Euclid.IsPowerOfTwo(integer number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.IsPowerOfTwo(number)",
+    "menu": "bool Euclid.IsPowerOfTwo(int number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.LeastCommonMultiple(a,b)",
+    "menu": "BigInteger Euclid.LeastCommonMultiple(BigInteger a, BigInteger b)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.LeastCommonMultiple(a,b)",
+    "menu": "integer Euclid.LeastCommonMultiple(integer a, integer b)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.LeastCommonMultiple(integers)",
+    "menu": "BigInteger Euclid.LeastCommonMultiple(IList<BigInteger> integers)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.LeastCommonMultiple(integers)",
+    "menu": "integer Euclid.LeastCommonMultiple(IList<integer> integers)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.LeastCommonMultiple(integers1,integers2, ...)",
+    "menu": "integer Euclid.LeastCommonMultiple(integer integers1, integer integers2,  ...)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.LeastCommonMultiple(integers1,integers2, ...)",
+    "menu": "BigInteger Euclid.LeastCommonMultiple(BigInteger integers1, BigInteger integers2,  ...)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Log2(number)",
+    "menu": "int Euclid.Log2(int number)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Modulus(dividend,divisor)",
+    "menu": "BigInteger Euclid.Modulus(BigInteger dividend, BigInteger divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Modulus(dividend,divisor)",
+    "menu": "integer Euclid.Modulus(integer dividend, integer divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Modulus(dividend,divisor)",
+    "menu": "real Euclid.Modulus(real dividend, real divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Modulus(dividend,divisor)",
+    "menu": "int Euclid.Modulus(int dividend, int divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Modulus(dividend,divisor)",
+    "menu": "Single Euclid.Modulus(Single dividend, Single divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.PowerOfTwo(exponent)",
+    "menu": "int Euclid.PowerOfTwo(int exponent)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.PowerOfTwo(exponent)",
+    "menu": "integer Euclid.PowerOfTwo(integer exponent)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Remainder(dividend,divisor)",
+    "menu": "integer Euclid.Remainder(integer dividend, integer divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Remainder(dividend,divisor)",
+    "menu": "Single Euclid.Remainder(Single dividend, Single divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Remainder(dividend,divisor)",
+    "menu": "BigInteger Euclid.Remainder(BigInteger dividend, BigInteger divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Remainder(dividend,divisor)",
+    "menu": "real Euclid.Remainder(real dividend, real divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  },
+  {
+    "signature": "Euclid.Remainder(dividend,divisor)",
+    "menu": "int Euclid.Remainder(int dividend, int divisor)",
+    "type": "Euclid",
+    "title": "",
+    "category": " "
+  }
+]

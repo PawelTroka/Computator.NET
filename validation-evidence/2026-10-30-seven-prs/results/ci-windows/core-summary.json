@@ -1,0 +1,569 @@
+{
+  "scope": "Final native Windows Core.Tests",
+  "head": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "checkout": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "run_id": 41113923142,
+  "job_id": 124263106184,
+  "job_url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263106184",
+  "tests": {
+    "total": 2255,
+    "executed": 2255,
+    "passed": 2255,
+    "failed": 0,
+    "error": 0,
+    "timeout": 0,
+    "aborted": 0,
+    "inconclusive": 0,
+    "passedButRunAborted": 0,
+    "notRunnable": 0,
+    "notExecuted": 0,
+    "disconnected": 0,
+    "warning": 0,
+    "completed": 0,
+    "inProgress": 0,
+    "pending": 0
+  },
+  "result_rows": 2255,
+  "all_result_rows_passed": true,
+  "debye_cases": [
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(2,0.7078784756278292d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,9.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(3,0.6744155640778147d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(-1,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(2)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(int.MinValue,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(1)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(6)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(0,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(1,0.7775046341122482d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(6,0.6331114258349511d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(8,100.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(int.MinValue,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(1)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,9.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,9.000000000000002d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(int.MaxValue,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(1)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(4,0.6548740688867369d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(1,0.7775046341122482d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(4,0.6548740688867369d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(3,0.6744155640778147d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,9.000000000000002d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(5)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,double.NaN)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(6)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(3,0.6744155640778147d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,double.NaN)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(4)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(8,100.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(-1,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(6,0.6331114258349511d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(0,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(5,0.6421002580217791d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(5)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(6,0.6331114258349511d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(6,0.6331114258349511d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(-1,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,9.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(0,0.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(int.MinValue,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(3)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(3)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,0.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(5,0.6421002580217791d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,-1.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(0,0.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,double.PositiveInfinity)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,double.PositiveInfinity)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(2,0.7078784756278292d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(4)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(5)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,9.000000000000002d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(0,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,0.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(0,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(int.MinValue,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(8,100.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(2)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(5,0.6421002580217791d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(1,0.7775046341122482d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,double.PositiveInfinity)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(5,0.6421002580217791d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,double.NaN)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(2,0.7078784756278292d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(4)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,9.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(1)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(1,0.7775046341122482d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(int.MaxValue,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(4)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(0,0.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(2,0.7078784756278292d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(int.MaxValue,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,9.000000000000002d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,double.PositiveInfinity)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(0,0.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(3)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(6)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,0.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(4,0.6548740688867369d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,-1.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(3)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,-1.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(5)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(8,100.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(2)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(2)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(3,0.6744155640778147d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersStillMatchIndependentNormalizedValues(4,0.6548740688867369d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,double.NaN)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(int.MaxValue,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,-1.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(-1,10.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    },
+    {
+      "name": "UnsupportedOrdersDoNotReturnAnUnrelatedIntegral(7,0.0d)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")"
+    },
+    {
+      "name": "ImplementedOrdersKeepTheNormalizedZeroLimitAndRealDomain(6)",
+      "outcome": "Passed",
+      "fixture": "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")"
+    }
+  ],
+  "artifact": {
+    "id": 13007420073,
+    "name": "diagnostics-Computator.NET.Core.Tests",
+    "size_in_bytes": 3261081,
+    "sha256": "e1721c93d835a76fcef0e48696efc54f8e8668718e5043a274dcea3106b77ba1",
+    "expires_at": "2026-11-06T19:41:50Z"
+  },
+  "source_sha256": "3b43bc81d27de480211c77e64a6b3bed142f84dabde80207723df9df51064cb5",
+  "diagnostic_files": {
+    "Core.Tests.trx": {
+      "sha256": "d54ee4e7fa76553fa034598723bec411de8bf038109e20a0b9b16f8b90837f9a",
+      "bytes": 3171552
+    },
+    "core-job.log": {
+      "sha256": "8285ae6fb226f8d99fffd2777fb95293c687f537a0c846489588a546f46c79b1",
+      "bytes": 322840
+    }
+  },
+  "debye_surface_counts": {
+    "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"generated\")": 25,
+    "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"host\")": 25,
+    "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled expression\")": 25,
+    "Computator.NET.Core.Tests.FunctionsTests.DebyeOrderTests(\"precompiled script\")": 25
+  },
+  "euclid_completion_cases": [
+    {
+      "name": "TypedCaptionsDistinguishEveryEuclidOverload(True)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "TypedCaptionsDistinguishEveryEuclidOverload(False)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "EveryPinnedEuclidOverloadHasQualifiedCompletionAndAuthoredHelp",
+      "outcome": "Passed"
+    }
+  ]
+}

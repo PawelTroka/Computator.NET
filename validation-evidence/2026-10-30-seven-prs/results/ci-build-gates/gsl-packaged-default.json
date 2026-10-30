@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "candidate": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "checkout": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "workflow": "GSL packaged default and managed error boundaries",
+  "run": 41113922619,
+  "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922619",
+  "conclusion": "success",
+  "job": {
+    "id": 124263099489,
+    "name": "package",
+    "conclusion": "success",
+    "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922619/job/124263099489",
+    "logBytes": 438135,
+    "excerpts": [
+      "2026-10-30T19:28:13.6778285Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+      "2026-10-30T19:28:13.7941099Z a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+      "2026-10-30T19:30:28.8777233Z 100% tests passed out of 1",
+      "2026-10-30T19:30:36.6824595Z Managed ABI probe passed on win-x64, GSL 2.8.",
+      "2026-10-30T19:31:36.3891925Z Build succeeded.",
+      "2026-10-30T19:31:36.4077995Z     21 Warning(s)",
+      "2026-10-30T19:31:36.4078299Z     0 Error(s)",
+      "2026-10-30T19:35:29.6705068Z Total tests: 947",
+      "2026-10-30T19:35:29.6705390Z      Passed: 947",
+      "2026-10-30T19:35:30.6027378Z Verified 947 test results: 947 passed, 0 documented skips.",
+      "2026-10-30T19:35:36.9791702Z   Passed GeneratedNativeImportsUseTheSameErrorBoundaryAndRecover(False) [3 s]",
+      "2026-10-30T19:35:38.4929052Z   Passed GeneratedNativeImportsUseTheSameErrorBoundaryAndRecover(True) [725 ms]",
+      "2026-10-30T19:35:38.4930352Z   Passed NativeDomainErrorReturnsThroughTheBoundaryAndTheNextCallRecovers(False) [1 ms]",
+      "2026-10-30T19:35:38.4931805Z   Passed NativeDomainErrorReturnsThroughTheBoundaryAndTheNextCallRecovers(True) [< 1 ms]",
+      "2026-10-30T19:35:38.5026451Z Verified 338 compiled de UI strings and de-DE regional fallbacks.",
+      "2026-10-30T19:35:38.5358511Z Verified 338 compiled cs UI strings and cs-CZ regional fallbacks.",
+      "2026-10-30T19:38:21.7582217Z Total tests: 588",
+      "2026-10-30T19:38:21.7582650Z      Passed: 588",
+      "2026-10-30T19:38:22.6800738Z Verified 588 test results: 588 passed, 0 documented skips.",
+      "2026-10-30T19:39:32.5729503Z Published GSL 2.8 resolver and 4 numerical checks passed: D:\\a\\Computator.NET\\Computator.NET\\TestResults\\packaged-gsl\\eed3655aa0d94ca78fc3a32f3b0e36f5\\result.json",
+      "2026-10-30T19:39:37.8701629Z Published NET 10 desktop passed: real executable, splash/startup, main window and normal shutdown.",
+      "2026-10-30T19:39:42.3675882Z SHA256 digest of uploaded artifact is 611af0bf5b3f2ee01b68ffa2826e4c24476760a7aea4d1a6a82e53d75b717abc",
+      "2026-10-30T19:39:42.8325081Z Artifact gsl-distribution-results successfully finalized. Artifact ID 13005258952"
+    ]
+  },
+  "summary": {
+    "runtime": "win-x64",
+    "gslVersion": "2.8",
+    "nativeCTest": {
+      "passed": 1,
+      "failed": 0
+    },
+    "managedAbiPassed": true,
+    "coreIntegration": {
+      "passed": 947,
+      "failed": 0,
+      "documentedSkips": 0
+    },
+    "desktop": {
+      "passed": 588,
+      "failed": 0,
+      "documentedSkips": 0
+    },
+    "resourceStringsPerLanguage": {
+      "de": 338,
+      "cs": 338
+    },
+    "nativeDomainErrorAndRecoveryCases": 2,
+    "generatedNativeImportErrorAndRecoveryCases": 2,
+    "stagedGslNumericalChecks": 4,
+    "productionStartupAndNormalShutdown": true,
+    "buildWarnings": 21,
+    "buildErrors": 0
+  },
+  "artifact": {
+    "id": 13005258952,
+    "name": "gsl-distribution-results",
+    "bytes": 98886671,
+    "sha256": "611af0bf5b3f2ee01b68ffa2826e4c24476760a7aea4d1a6a82e53d75b717abc",
+    "digestSource": "GitHub upload log; not independently downloaded by this collection"
+  },
+  "note": "This validates the staged application and managed/native error boundaries on Windows; it is not an installer execution."
+}

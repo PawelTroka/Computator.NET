@@ -1,0 +1,234 @@
+{
+  "scope": "Final complete integration of PRs #304–#310; native Windows execution",
+  "head": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "checkout": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "run_id": 41113923142,
+  "job_id": 124263105725,
+  "job_url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113923142/job/124263105725",
+  "os": "Microsoft Windows Server 2025",
+  "tests": {
+    "total": 588,
+    "executed": 588,
+    "passed": 588,
+    "failed": 0,
+    "error": 0,
+    "timeout": 0,
+    "aborted": 0,
+    "inconclusive": 0,
+    "passedButRunAborted": 0,
+    "notRunnable": 0,
+    "notExecuted": 0,
+    "disconnected": 0,
+    "warning": 0,
+    "completed": 0,
+    "inProgress": 0,
+    "pending": 0
+  },
+  "result_rows": 588,
+  "all_result_rows_passed": true,
+  "find_replace_cases": [
+    {
+      "name": "MenuRoutesOnlyTheTwoVisibleDocumentWorkspaces(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "LiteralReplaceAllIsOneUndoAndPreservesTheOtherDirtyTab(AvalonEdit)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "NativeKeyboardOpensBothModesAndNavigatesExistingSearch(AvalonEdit)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "MenuRoutesOnlyTheTwoVisibleDocumentWorkspaces(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "LiteralReplaceAllIsOneUndoAndPreservesTheOtherDirtyTab(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "OpenDialogTracksActiveTabAndEditorChangesWithoutEditingInactiveBuffers",
+      "outcome": "Passed"
+    },
+    {
+      "name": "ReopeningSearchAfterSwitchingToAShorterDocumentCannotReuseItsOldSelection(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "GermanResourcesLoadInTheNativeFindReplaceWorkflow(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "WholeWordNavigationWrapsAndReplaceCurrentUsesUtf16Selection(AvalonEdit)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "ReopeningSearchAfterSwitchingToAShorterDocumentCannotReuseItsOldSelection(AvalonEdit)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "CzechResourcesLoadInTheNativeFindReplaceWorkflow(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "AvalonAdvancedSearchRemainsAvailableWithItsNativeRegexAndF3",
+      "outcome": "Passed"
+    },
+    {
+      "name": "WholeWordNavigationWrapsAndReplaceCurrentUsesUtf16Selection(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "ReadOnlyChangesAfterOpeningCannotBeBypassedByReplacement(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "NativeKeyboardOpensBothModesAndNavigatesExistingSearch(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "MenuRoutesOnlyTheTwoVisibleDocumentWorkspaces(AvalonEdit)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "CzechResourcesLoadInTheNativeFindReplaceWorkflow(AvalonEdit)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "WorkspaceVisibilityAndDisposalCannotLeaveAnOrphanedSearchWindow(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "LiteralReplaceAllIsOneUndoAndPreservesTheOtherDirtyTab(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "CzechResourcesLoadInTheNativeFindReplaceWorkflow(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "WorkspaceVisibilityAndDisposalCannotLeaveAnOrphanedSearchWindow(AvalonEdit)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "GermanResourcesLoadInTheNativeFindReplaceWorkflow(AvalonEdit)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "WorkspaceVisibilityAndDisposalCannotLeaveAnOrphanedSearchWindow(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "NativeKeyboardOpensBothModesAndNavigatesExistingSearch(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "GermanResourcesLoadInTheNativeFindReplaceWorkflow(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "WholeWordNavigationWrapsAndReplaceCurrentUsesUtf16Selection(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "ReadOnlyChangesAfterOpeningCannotBeBypassedByReplacement(Scintilla)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "ReopeningSearchAfterSwitchingToAShorterDocumentCannotReuseItsOldSelection(TextEditor)",
+      "outcome": "Passed"
+    },
+    {
+      "name": "ReadOnlyChangesAfterOpeningCannotBeBypassedByReplacement(AvalonEdit)",
+      "outcome": "Passed"
+    }
+  ],
+  "localization_cases": [
+    {
+      "name": "EveryUiStringLoadsFromItsCompiledSatelliteAndRegionalFallback(\"de\",\"de-DE\")",
+      "outcome": "Passed",
+      "output": "Verified 338 compiled de UI strings and de-DE regional fallbacks."
+    },
+    {
+      "name": "EveryUiStringLoadsFromItsCompiledSatelliteAndRegionalFallback(\"cs\",\"cs-CZ\")",
+      "outcome": "Passed",
+      "output": "Verified 338 compiled cs UI strings and cs-CZ regional fallbacks."
+    }
+  ],
+  "artifact": {
+    "id": 13005448240,
+    "name": "diagnostics-Computator.NET.Desktop.Tests",
+    "size_in_bytes": 101442129,
+    "sha256": "1e1bac5197e4c613b575b11c42b13e30e0cc515d44a7afb022461d98be4bb1f6",
+    "expires_at": "2026-11-06T19:36:10Z"
+  },
+  "diagnostic_files": {
+    "Desktop.Tests.trx": {
+      "sha256": "268b3346e62be252fb75863117cc6a4dfb120dea17f318ba0522491842549509",
+      "bytes": 830276
+    },
+    "desktop-job.log": {
+      "sha256": "2e6aa339ed3d08dd700b55b16d5eb057c104878ef6b43229af8059bcb7c703a1",
+      "bytes": 148032
+    },
+    "startup-result.json": {
+      "sha256": "8dc480ef9d62ac67b64d926e2d664e9a7d2694cd69f480ff6891d58ad27a55f7",
+      "bytes": 7786
+    },
+    "find-replace-cs-CZ-AvalonEdit.png": {
+      "sha256": "f979c20bee299f22c6e5ded4090d63e2d2766491784301e61bf8f54a9580ab0a",
+      "bytes": 69306
+    },
+    "find-replace-cs-CZ-Scintilla.png": {
+      "sha256": "79fc021f4d221b15d114fa373b2bf3003621410b214c3a7b13801e2316b34f8c",
+      "bytes": 71192
+    },
+    "find-replace-cs-CZ-TextEditor.png": {
+      "sha256": "8bacb88c3e254b795436b97c2a7d96742ff4502467c719bc7a77134cff103f29",
+      "bytes": 68428
+    },
+    "find-replace-de-DE-AvalonEdit.png": {
+      "sha256": "d9a81a422e36b537e0ccdb038afbf2bf86e538efe4e2b30f9fb4652bc3089cd0",
+      "bytes": 69787
+    },
+    "find-replace-de-DE-Scintilla.png": {
+      "sha256": "169329d7425e3b4bfd116089aad377ae647776c5d743be5de421b82132cfeaef",
+      "bytes": 71763
+    },
+    "find-replace-de-DE-TextEditor.png": {
+      "sha256": "ed4c60246e96c07ca757d064aad1bdd80acaca6ae7d35bd5685fed845995d900",
+      "bytes": 68962
+    }
+  },
+  "source_sha256": {
+    "Computator.NET.Desktop.Tests/FindReplaceWorkflowTests.cs": "7c87874b86a99d4d35d6132007059309aba9069607a30e4f76b257857008d5c7",
+    "Computator.NET.Desktop.Tests/LocalizationSatelliteTests.cs": "1f29cba2ec63bce56b1bfc40f4a5c16c694e525495ef006e2508d03351725abc",
+    "build/validation/LocalizationResourceContract.cs": "c02e7958a3db54684396278bca52cb57747dd641830421a8504ed0f34ea249ef",
+    "build/Test-PublishedNet10Desktop.ps1": "4f2a7586a6aa067f1f541b10af1b80eb1d30b2baefacb5f0b2d28119bb1afb45"
+  },
+  "native_startup_and_normal_shutdown": true,
+  "startup_summary": {
+    "passed": true,
+    "normalShutdown": true,
+    "closeRequested": true,
+    "forcedTermination": false,
+    "failure": null,
+    "executableSha256": "4D37C0F382A2BA52751EF4396F0AE42FDE4E3DB765649311988C8EE1E165ECC2"
+  },
+  "startup_hash_scope": "The recorded executable SHA256 fingerprints the published executable file; it is not a hash of every deployed assembly. Source identity is established by the job checkout and final tree.",
+  "visualReview": {
+    "imagesReviewed": [
+      "find-replace-cs-CZ-AvalonEdit.png",
+      "find-replace-cs-CZ-Scintilla.png",
+      "find-replace-cs-CZ-TextEditor.png",
+      "find-replace-de-DE-AvalonEdit.png",
+      "find-replace-de-DE-Scintilla.png",
+      "find-replace-de-DE-TextEditor.png"
+    ],
+    "result": "All six final combined German/Czech screenshots visually inspected. Main application menus, workspace tabs and script actions are localized. Dialog titles, scope labels, Unicode filename and search/replacement strings, checkbox labels, buttons and hint text are legible with no visible dialog clipping at the captured CI display size. AvalonEdit advanced search buttons are visible.",
+    "statusNote": "Screenshots show the localized EnterSearch hint because activation for screenshot capture refreshes the dialog status. Replacement-count correctness is established by the passing native assertion before capture, not by the hint shown in the PNG.",
+    "limits": "These captures cover the CI display size, three supported native Windows editors and the two cultures. They do not establish behavior at other DPI settings or every localized application screen."
+  }
+}

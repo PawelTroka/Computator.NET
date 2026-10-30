@@ -1,0 +1,3 @@
+FAIL XmlException: DTD is prohibited in this XML document.
+PASS cs: 349 exact strings and regional fallback
+Contract failures: 1
