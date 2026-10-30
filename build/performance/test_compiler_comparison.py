@@ -1,9 +1,19 @@
 """Contract checks for additive compiler diagnostics; no timing assertions."""
 import unittest
-from compiler_comparison_manifest import memory_summary, scenarios
+from compiler_comparison_manifest import memory_summary, scenarios, validate_package_pin_refactor
 
 
 class CompilerComparisonContracts(unittest.TestCase):
+    def test_package_property_refactor_preserves_literal_and_all_other_pins(self):
+        before = '<Project><ItemGroup><PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0"/><PackageVersion Include="Example" Version="1.0"/></ItemGroup></Project>'
+        after = before.replace('<Project>', '<Project><PropertyGroup><ComputatorRoslynPackageVersion>5.9.0</ComputatorRoslynPackageVersion></PropertyGroup>').replace('Version="5.9.0"', 'Version="$(ComputatorRoslynPackageVersion)"')
+        self.assertTrue(validate_package_pin_refactor(before, after)['allOtherPackageDeclarationsUnchanged'])
+        for modified in (after.replace('>5.9.0<', '>5.10.0<'), after.replace('Version="1.0"', 'Version="2.0"'),
+                         after.replace('<PropertyGroup>', '<PropertyGroup Condition="false">'),
+                         after.replace('Include="Example"', 'Include="Different"')):
+            with self.subTest(modified=modified), self.assertRaises(ValueError):
+                validate_package_pin_refactor(before, modified)
+
     def test_forced_roslyn_workloads_use_identical_original_operation_counts(self):
         definitions = scenarios()
         for name in ('real', 'complex', 'surface'):

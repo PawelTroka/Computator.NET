@@ -1,4 +1,4 @@
-# Current compiler metadata snapshots
+# Current Roslyn compilation latency and reference memory
 
 This experiment addresses the remaining compiler costs in [issue #191](https://github.com/PawelTroka/Computator.NET/issues/191). Its unchanged baseline is **`fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c`**. That baseline already contains precompiled mathematical helpers, ReadyToRun publishing, the bounded direct numeric compiler, and cached metadata-reference objects/options. Those optimizations are not attributed to this change.
 
@@ -6,13 +6,17 @@ The [original historical comparison](README.md), its authenticated v2.3.2 binary
 
 ## Change under measurement
 
-The full Roslyn path currently creates cached references by copying complete PE images. ReadyToRun code makes those files larger, although Roslyn needs their metadata to bind a new program. The proposed change snapshots metadata for ordinary single-module references and retains the existing complete-image behavior for assemblies with linked modules.
+The full Roslyn path creates cached references by copying complete PE images. ReadyToRun code makes those files larger, although Roslyn needs their metadata to bind a new program. The first change snapshots metadata for ordinary single-module references and retains the existing complete-image behavior for assemblies with linked modules and malformed-image diagnostics.
+
+The initial Windows attribution also established that script emission dominates repeated compilation. The second change builds the exact existing `TypeDeducer`, `File`, and `ReadForm` helper implementations once. Each eligible generated script still declares its own helper types, with its own constructors, deriving from those implementations. The existing build generator uses syntax nodes and audited source hashes; mathematical and I/O algorithms are not copied into a new implementation.
+
+All of `ScriptingFunctions.ToCode` stays program-local, including its callback field, chart factory, initialization and overload groups. Numerical/formatting extensions stay in each program and retain their compilation-time notation snapshot. Only the exact shipped `ScriptEvaluator` uses compact helpers, after the existing compatibility policy has accepted the translated program. Specialized evaluators, custom nested types, recognized reflection and private helper-member access retain the original generated definitions. As with the existing mathematical facade, this does not promise transparency to arbitrary external reflection into implementation details; the compact helpers have different reflected base/declaring types.
 
 The reference set, C# language version, Release compiler options, numerical implementation, generated program identities, collectible loading and custom-reference scope remain unchanged. The existing cache still owns immutable reference snapshots; this is not a cache of user programs or results. A changed definition must still produce a new program with the new result.
 
 ## Two exact products and one common driver
 
-[`Prepare-CompilerComparison.ps1`](../../../build/performance/Prepare-CompilerComparison.ps1) requires separate clean baseline and candidate checkouts and an exact candidate commit. It hashes tracked source files and permits only `NativeCompiler.cs` as a product change. Tests, documentation and the additive diagnostic harness are recorded separately. Shared SDK selectors, package pins, original workload source and build configuration must match.
+[`Prepare-CompilerComparison.ps1`](../../../build/performance/Prepare-CompilerComparison.ps1) requires separate clean baseline and candidate checkouts and an exact candidate commit. It hashes tracked source files and permits only the reference loader, helper compatibility policy, two evaluator files and built-in generator as product changes. The generator's existing inline task moves to a C# source file so MSBuild does not interpret its C# escapes as paths. The existing Roslyn `5.9.0` package pin becomes a shared property for the build task and compiler; the source audit validates that exact refactor and rejects any effective package-version change. Tests, documentation and the additive diagnostic harness are recorded separately. Shared SDK selectors, effective package pins, original workload source and other build configuration must match.
 
 Both product payloads are published Release, framework-dependent, win-x64 with non-composite ReadyToRun. The common driver is deliberately **IL-only** and copied byte-for-byte into both products. This avoids baking either product's dependency assumptions into a shared native driver. The preparer verifies the actual PE headers: no native header in the worker, and ReadyToRun signatures in Core, Engine, Microsoft.CodeAnalysis and Microsoft.CodeAnalysis.CSharp. It records the image hashes and sizes in `audit/publication-images.json`.
 

@@ -1,4 +1,7 @@
 <Project>
+  <PropertyGroup>
+    <ComputatorRoslynPackageVersion>5.9.0</ComputatorRoslynPackageVersion>
+  </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Accord.Math" Version="3.8.0" />
     <PackageVersion Include="AvalonEdit" Version="6.3.1.120" />
@@ -10,7 +13,7 @@
     <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="3.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.13" />
     <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.13" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="$(ComputatorRoslynPackageVersion)" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <PackageVersion Include="Moq" Version="4.21.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />

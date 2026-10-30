@@ -4,9 +4,16 @@ on:
     branches: ['perf/issue-191-roslyn-compilation-reuse']
     paths:
       - 'Computator.NET.Core/Compilation/NativeCompiler.cs'
+      - 'Computator.NET.Core/Compilation/BuiltinFacadePolicy.cs'
+      - 'Computator.NET.Core/Evaluation/ExpressionsEvaluator.cs'
+      - 'Computator.NET.Core/Evaluation/ScriptEvaluator.cs'
+      - 'build/PrecompiledTslBuiltins.targets'
+      - 'build/GeneratePrecompiledTslBuiltins.cs'
+      - 'Directory.Packages.props'
       - 'Computator.NET.Core.Tests/CompilationTests/MetadataReferenceSnapshotTests.cs'
       - 'Computator.NET.Core.Tests/CompilationTests/RoslynMigrationTests.cs'
       - 'Computator.NET.Core.Tests/CompilationTests/ProgramLifetimeTests.cs'
+      - 'Computator.NET.Core.Tests/PrecompiledScriptHelperTests.cs'
       - 'build/performance/CompilerComparison*'
       - 'build/performance/Prepare-CompilerComparison.ps1'
       - 'build/performance/compiler_comparison_manifest.py'
@@ -45,11 +52,29 @@ jobs:
         working-directory: candidate
         shell: pwsh
         run: |
+          # Match build.cake Setup (the Validate-Net10.ps1 entry point delegates
+          # to Cake): use the actual Framework writer under Windows PowerShell.
+          $env:COMPUTATOR_DATA_DIRECTORY = Join-Path $env:RUNNER_TEMP ('compiler-tests-' + [Guid]::NewGuid().ToString('N'))
+          $env:COMPUTATOR_LEGACY_FIXTURE = [IO.Path]::GetFullPath('artifacts/compiler-tests/legacy-settings.dat')
+          powershell.exe -NoProfile -File build/Generate-LegacySettingsFixture.ps1 -OutputPath $env:COMPUTATOR_LEGACY_FIXTURE
+          if ($LASTEXITCODE -ne 0 -or !(Test-Path -LiteralPath $env:COMPUTATOR_LEGACY_FIXTURE)) { throw 'Genuine Framework settings fixture generation failed.' }
           dotnet test Computator.NET.Core.Tests/Computator.NET.Core.Tests.csproj -c Release --logger 'trx;LogFileName=core.trx' --results-directory artifacts/compiler-tests
           if ($LASTEXITCODE -ne 0) { throw 'Core correctness failed; no benchmark of invalid product.' }
           [xml]$trx = Get-Content artifacts/compiler-tests/core.trx -Raw
           $counts = $trx.TestRun.ResultSummary.Counters
-          if ([int]$counts.executed -lt 800 -or [int]$counts.failed -ne 0 -or [int]$counts.executed -ne [int]$counts.passed) { throw 'Core test completeness failed.' }
+          # Retain the existing .NET 10 Core suite completeness floor in build.cake.
+          if ([int]$counts.executed -lt 2118 -or [int]$counts.failed -ne 0 -or [int]$counts.executed -ne [int]$counts.passed) { throw 'Core test completeness failed.' }
+          # The suite floor alone does not establish discovery of these new cases.
+          foreach ($fixture in @(
+            @{ name = 'Computator.NET.Core.Tests.CompilationTests.MetadataReferenceSnapshotTests'; count = 6 },
+            @{ name = 'Computator.NET.Core.Tests.PrecompiledScriptHelperTests'; count = 13 }
+          )) {
+            $definitions = @($trx.TestRun.TestDefinitions.UnitTest | Where-Object { $_.TestMethod.className -eq $fixture.name })
+            if ($definitions.Count -ne $fixture.count) { throw "New fixture discovery failed: $($fixture.name)" }
+            $ids = @($definitions | ForEach-Object { $_.id })
+            $results = @($trx.TestRun.Results.UnitTestResult | Where-Object { $_.testId -in $ids })
+            if ($results.Count -ne $fixture.count -or @($results | Where-Object { $_.outcome -ne 'Passed' }).Count -ne 0) { throw "New fixture execution failed: $($fixture.name)" }
+          }
           python -m unittest discover -s build/performance -p 'test_*.py' -v
           if ($LASTEXITCODE -ne 0) { throw 'Performance contract tests failed.' }
       - name: Publish two exact products and screen every common workload

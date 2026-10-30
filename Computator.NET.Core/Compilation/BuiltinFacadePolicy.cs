@@ -29,6 +29,8 @@ namespace Computator.NET.Core.Compilation
             () => Names(true, typeof(PrecompiledExpressionSurface), typeof(PrecompiledExpressionBuiltins<>)));
         private static readonly Lazy<HashSet<string>> PrivateScriptNames = new Lazy<HashSet<string>>(
             () => Names(true, typeof(PrecompiledScriptMathSurface), typeof(PrecompiledScriptMathBuiltins<>)));
+        private static readonly Lazy<HashSet<string>> PrivateScriptObjectNames = new Lazy<HashSet<string>>(
+            () => Names(true, typeof(PrecompiledScriptTypeDeducer), typeof(PrecompiledScriptFile), typeof(PrecompiledScriptReadForm)));
         private static readonly Lazy<bool> ExpressionStateShareable = new Lazy<bool>(() =>
             HasShareableState(typeof(PrecompiledExpressionSurface)));
         private static readonly Lazy<bool> ScriptStateShareable = new Lazy<bool>(() =>
@@ -90,6 +92,13 @@ namespace Computator.NET.Core.Compilation
                     token.IsKind(SyntaxKind.ThisKeyword)) return false;
                 if (token.IsKind(SyntaxKind.IdentifierToken) &&
                     (privateNames.Contains(token.ValueText) || IntrospectionNames.Contains(token.ValueText) || token.ValueText == "dynamic"))
+                    return false;
+                // Preserve diagnostics for access to private helper members as
+                // well as reflection. A local named "path" is still ordinary
+                // user code; only member access can observe the helper owner.
+                if (scripting && token.IsKind(SyntaxKind.IdentifierToken) &&
+                    PrivateScriptObjectNames.Value.Contains(token.ValueText) && token.Parent is SimpleNameSyntax name &&
+                    (name.Parent is MemberAccessExpressionSyntax || name.Parent is MemberBindingExpressionSyntax))
                     return false;
             }
             return true;

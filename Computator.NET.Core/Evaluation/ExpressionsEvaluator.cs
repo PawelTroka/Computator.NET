@@ -83,6 +83,10 @@ namespace Computator.NET.Core.Evaluation
         // Subclasses can replace NativeCompiler or add references even when the
         // source preamble is empty. Preserve that contract unless they opt in.
         protected virtual bool UseDirectExpressions => GetType() == typeof(ExpressionsEvaluator);
+        // Select support declarations only after the complete translated program
+        // has passed the compatibility policy. Specialized evaluators keep their
+        // existing AdditionalObjectsCode unless they explicitly override this hook.
+        protected virtual string GetAdditionalObjectsCode(bool usingPrecompiledBuiltins) => AdditionalObjectsCode;
         private string _beginCode;
         private bool _usingPrecompiledBuiltins;
         private readonly TslCompiler _tslCompiler;
@@ -242,7 +246,7 @@ namespace Computator.NET.Core.Evaluation
             codeBuilder.Append(_customFunctionsCSharpCode);
             codeBuilder.Append(_functionSignature);
             codeBuilder.Append(MainCSharpCode);
-            codeBuilder.Append(End.Replace("///*{additional_objects}*///", AdditionalObjectsCode));
+            codeBuilder.Append(End.Replace("///*{additional_objects}*///", GetAdditionalObjectsCode(_usingPrecompiledBuiltins)));
             return codeBuilder.ToString();
         }
     }

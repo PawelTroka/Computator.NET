@@ -239,9 +239,19 @@ internal static class CompilationDiagnostics
     {
         var types = assembly.GetTypes();
         var creator = assembly.GetType("FunctionsCreatorNS.FunctionsCreator");
+        const BindingFlags declared = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        var typeDetails = types.OrderBy(type => type.FullName).Select(type => new Dictionary<string, object>
+        {
+            { "name", type.FullName }, { "baseType", type.BaseType == null ? null : type.BaseType.FullName },
+            { "declaredMethods", type.GetMethods(declared).Length },
+            { "declaredConstructors", type.GetConstructors(declared).Length },
+            { "declaredFields", type.GetFields(declared).Length }
+        }).ToArray();
         return new Dictionary<string, object> { { "typeCount", types.Length },
             { "publicStaticFunctions", creator.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).Length },
-            { "allDeclaredMethods", types.Sum(type => type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly).Length) } };
+            { "allDeclaredMethods", types.Sum(type => type.GetMethods(declared).Length) },
+            { "allDeclaredConstructors", types.Sum(type => type.GetConstructors(declared).Length) },
+            { "declaredTypeDetails", typeDetails } };
     }
     private static string Hash(byte[] bytes)
     {

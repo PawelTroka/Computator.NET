@@ -25,8 +25,14 @@ $baselineCommit = 'fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c'
 $ExpectedCandidateCommit = $ExpectedCandidateCommit.ToLowerInvariant()
 # A harness-only commit may establish current attribution before product edits.
 $productPaths = @(
-    'Computator.NET.Core/Compilation/NativeCompiler.cs'
+    'Computator.NET.Core/Compilation/NativeCompiler.cs',
+    'Computator.NET.Core/Compilation/BuiltinFacadePolicy.cs',
+    'Computator.NET.Core/Evaluation/ExpressionsEvaluator.cs',
+    'Computator.NET.Core/Evaluation/ScriptEvaluator.cs',
+    'build/PrecompiledTslBuiltins.targets',
+    'build/GeneratePrecompiledTslBuiltins.cs'
 )
+$packagePinsPath = 'Directory.Packages.props'
 $git = (Get-Command git -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
 $dotnet = (Get-Command dotnet -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
 $python = (Get-Command python -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
@@ -118,21 +124,40 @@ $logs = Join-Path $output 'preparation-logs'
 $null = New-Item -ItemType Directory -Path $audit, $logs
 $beforeFiles = Get-SourceSnapshot $baselineSource
 $afterFiles = Get-SourceSnapshot $candidateSource
+# This shared build file may only replace Roslyn's existing 5.9.0 literal with
+# the same unconditional property used by the build-time helper generator.
+# Normalize precisely that refactor, compare every other XML declaration, then
+# confirm the version consumed by MSBuild in each actual product project.
+$pinAuditText = (Invoke-Text $python @((Join-Path $candidateSource 'build/performance/compiler_comparison_manifest.py'),
+    '--baseline-packages', (Join-Path $baselineSource $packagePinsPath),
+    '--candidate-packages', (Join-Path $candidateSource $packagePinsPath)) $candidateSource) -join [Environment]::NewLine
+$packagePinAudit = $pinAuditText | ConvertFrom-Json -AsHashtable
+foreach ($entry in @(@{ label = 'baseline'; source = $baselineSource }, @{ label = 'candidate'; source = $candidateSource })) {
+    $evaluationText = (Invoke-Text $dotnet @('msbuild', 'Computator.NET.Core/Computator.NET.Core.csproj', '-nologo', '-getItem:PackageVersion') $entry.source) -join [Environment]::NewLine
+    $evaluation = $evaluationText | ConvertFrom-Json -AsHashtable
+    $roslyn = @($evaluation.Items.PackageVersion | Where-Object { $_.Identity -eq 'Microsoft.CodeAnalysis.CSharp' })
+    if ($roslyn.Count -ne 1 -or $roslyn[0].Version -ne '5.9.0') { throw "Evaluated Roslyn package version changed: $($entry.label)" }
+    $packagePinAudit[$entry.label + 'EvaluatedRoslynVersion'] = $roslyn[0].Version
+}
+$packagePinAudit.baselineSHA256 = $beforeFiles[$packagePinsPath]
+$packagePinAudit.candidateSHA256 = $afterFiles[$packagePinsPath]
+Write-Json $packagePinAudit (Join-Path $audit 'package-pins.json')
 $allPaths = @(@($beforeFiles.Keys) + @($afterFiles.Keys) | Sort-Object -Unique)
 $changed = @()
 foreach ($relative in $allPaths) {
     $beforeHash = if ($beforeFiles.Contains($relative)) { $beforeFiles[$relative] } else { $null }
     $afterHash = if ($afterFiles.Contains($relative)) { $afterFiles[$relative] } else { $null }
     if ($beforeHash -eq $afterHash) { continue }
-    if ($relative -notin $productPaths -and !(Test-AuxiliaryChange $relative)) {
+    if ($relative -notin $productPaths -and $relative -ne $packagePinsPath -and !(Test-AuxiliaryChange $relative)) {
         throw "Unrelated product/build input changed: $relative. Only the explicitly listed compiler product paths and auxiliary test/docs/harness files are permitted."
     }
-    $changed += @{ path = $relative; beforeSHA256 = $beforeHash; afterSHA256 = $afterHash; productChange = ($relative -in $productPaths) }
+    $changed += @{ path = $relative; beforeSHA256 = $beforeHash; afterSHA256 = $afterHash;
+        productChange = ($relative -in $productPaths); validatedPackagePinRefactor = ($relative -eq $packagePinsPath) }
 }
 # Zero product changes are explicitly reported for attribution-only preparations.
 $sharedInputs = @(
     'build/performance/Worker.cs', 'build/performance/Worker.csproj', 'build/performance/DirectExpressionEntryPoint.cs', 'build/performance/DesktopStartup.cs',
-    'build/performance/compare.py', 'Directory.Build.props', 'Directory.Build.targets', 'Directory.Packages.props',
+    'build/performance/compare.py', 'Directory.Build.props', 'Directory.Build.targets',
     'Version.props', 'SharedAssemblyInfo.cs', 'global.json', 'build/ModernDesktop.props', 'build/WindowsAssemblyInfo.cs'
 )
 $sharedHashes = [ordered]@{}
@@ -156,14 +181,19 @@ Write-Json $beforeFiles (Join-Path $audit 'source-files-before.json')
 Write-Json $afterFiles (Join-Path $audit 'source-files-after.json')
 foreach ($relative in $productPaths) {
     $name = $relative.Replace('/', '__')
-    Copy-Item -LiteralPath (Join-Path $baselineSource $relative) -Destination (Join-Path $audit ('before__' + $name))
+    # A new reviewed generator source has no baseline file; its null before hash
+    # in changedFiles records that fact. Never fabricate a baseline counterpart.
+    if ($beforeFiles.Contains($relative)) {
+        Copy-Item -LiteralPath (Join-Path $baselineSource $relative) -Destination (Join-Path $audit ('before__' + $name))
+    }
+    if (!$afterFiles.Contains($relative)) { throw "Reviewed product/build source is missing in candidate: $relative" }
     Copy-Item -LiteralPath (Join-Path $candidateSource $relative) -Destination (Join-Path $audit ('after__' + $name))
 }
 Write-Json @{
     diagnostic = 'current-compiler-before-after'; allowedProductPaths = $productPaths;
     baseline = @{ directory = $baselineSource; commit = $baselineCommit; tree = (Invoke-Text $git @('rev-parse', 'HEAD^{tree}') $baselineSource) };
     candidate = @{ directory = $candidateSource; commit = $ExpectedCandidateCommit; tree = (Invoke-Text $git @('rev-parse', 'HEAD^{tree}') $candidateSource) };
-    changedFiles = $changed; commonSourceSHA256 = $sharedHashes; startupDriver = $startupDriverAudit;
+    changedFiles = $changed; commonSourceSHA256 = $sharedHashes; startupDriver = $startupDriverAudit; packagePins = $packagePinAudit;
     scope = 'Windows .NET 10 compiler comparison; does not substitute for an authenticated historical-version comparison.'
 } (Join-Path $audit 'source-audit.json')
 

@@ -1,4 +1,5 @@
 using Computator.NET.Core.Properties;
+using Computator.NET.Core.Compilation.Builtins;
 using Computator.NET.DataTypes;
 using Computator.NET.DataTypes.Configuration;
 using Computator.NET.DataTypes.Functions;
@@ -14,6 +15,16 @@ namespace Computator.NET.Core.Evaluation
     public class ScriptEvaluator : ExpressionsEvaluator, IScriptEvaluator
     {
         private readonly string _additionalObjectsCodeCopy;
+        private string _numericalOutputNotation;
+
+        protected override string GetAdditionalObjectsCode(bool usingPrecompiledBuiltins)
+        {
+            if (usingPrecompiledBuiltins && GetType() == typeof(ScriptEvaluator) &&
+                FunctionType == FunctionType.Scripting)
+                return (NumericalExtensions.ToCode + PrecompiledScriptObjects.ToCode).Replace(
+                    @"Properties.Settings.Default.NumericalOutputNotation", _numericalOutputNotation);
+            return base.GetAdditionalObjectsCode(usingPrecompiledBuiltins);
+        }
 
         public ScriptEvaluator()
         {
@@ -72,10 +83,10 @@ namespace Computator.NET.Core.Evaluation
                     ? customFunctionsCode
                     : "";
 
+            _numericalOutputNotation = "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." +
+                Settings.Default.NumericalOutputNotation;
             AdditionalObjectsCode = _additionalObjectsCodeCopy.Replace(
-                @"Properties.Settings.Default.NumericalOutputNotation",
-                "Computator.NET.DataTypes.SettingsTypes.NumericalOutputNotationType." +
-                Settings.Default.NumericalOutputNotation);//DataTypes.SettingsTypes.NumericalOutputNotationType.MathematicalNotation
+                @"Properties.Settings.Default.NumericalOutputNotation", _numericalOutputNotation);
 
             InitCodeAfterFunctionSignature =
                 $@"setWorkingDirectory(@""{Settings.Default.WorkingDirectory}"");";

@@ -7,7 +7,35 @@ import argparse
 import copy
 import json
 import statistics
+import xml.etree.ElementTree as ET
 from pathlib import Path
+
+
+def validate_package_pin_refactor(before, after):
+    """Admit only the reviewed literal-to-property refactor, not package drift."""
+    baseline, candidate = ET.fromstring(before), ET.fromstring(after)
+    baseline_items = baseline.findall("./ItemGroup/PackageVersion[@Include='Microsoft.CodeAnalysis.CSharp']")
+    candidate_items = candidate.findall("./ItemGroup/PackageVersion[@Include='Microsoft.CodeAnalysis.CSharp']")
+    if len(baseline_items) != 1 or len(candidate_items) != 1 or baseline_items[0].get('Version') != '5.9.0':
+        raise ValueError('Expected the pinned baseline Roslyn package 5.9.0 exactly once.')
+    properties = candidate.findall('./PropertyGroup/ComputatorRoslynPackageVersion')
+    if len(properties) != 1 or properties[0].attrib or list(properties[0]) or (properties[0].text or '').strip() != '5.9.0':
+        raise ValueError('Only the unconditional ComputatorRoslynPackageVersion=5.9.0 refactor is permitted.')
+    prop = properties[0]
+    group = next(group for group in candidate.findall('./PropertyGroup') if prop in group)
+    if group.attrib or candidate_items[0].get('Version') != '$(ComputatorRoslynPackageVersion)':
+        raise ValueError('Roslyn must use the unconditional reviewed package-version property.')
+    group.remove(prop)
+    if not list(group):
+        candidate.remove(group)
+    candidate_items[0].set('Version', '5.9.0')
+    def normalized(root):
+        return ET.canonicalize(ET.tostring(root, encoding='unicode'), strip_text=True)
+    if normalized(baseline) != normalized(candidate):
+        raise ValueError('Package pins or MSBuild conditions changed beyond the approved Roslyn property refactor.')
+    return {'scope': 'Only the existing Roslyn 5.9.0 literal was replaced by an unconditional same-value property.',
+            'baselineRoslynVersion': '5.9.0', 'candidateRoslynVersion': '5.9.0',
+            'allOtherPackageDeclarationsUnchanged': True}
 
 
 def scenarios():
@@ -72,15 +100,20 @@ def main():
     parser.add_argument('--scenarios-output', type=Path)
     parser.add_argument('--raw', type=Path)
     parser.add_argument('--memory-output', type=Path)
+    parser.add_argument('--baseline-packages', type=Path)
+    parser.add_argument('--candidate-packages', type=Path)
     args = parser.parse_args()
-    if args.scenarios_output:
+    if args.baseline_packages and args.candidate_packages:
+        print(json.dumps(validate_package_pin_refactor(args.baseline_packages.read_text(encoding='utf-8-sig'),
+                                                      args.candidate_packages.read_text(encoding='utf-8-sig')), indent=2))
+    elif args.scenarios_output:
         args.scenarios_output.write_text(json.dumps(scenarios(), indent=2) + '\n', encoding='utf-8')
     elif args.raw and args.memory_output:
         result = memory_summary(json.loads(args.raw.read_text(encoding='utf-8-sig')))
         args.memory_output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
         print(json.dumps({name: data['medians'] for name, data in result['scenarios'].items()}, indent=2))
     else:
-        parser.error('Supply --scenarios-output or --raw with --memory-output.')
+        parser.error('Supply --scenarios-output, --raw with --memory-output, or both --baseline-packages and --candidate-packages.')
 
 
 if __name__ == '__main__':
