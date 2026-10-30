@@ -1,6 +1,6 @@
 # Built-in function and constant reference
 
-This reference documents the existing application, not a replacement mathematical API. It covers every non-keyword entry returned by the runtime scripting-completion catalog, including the expression subset. The reviewed baseline has **1,220 unique lookup signatures** across **1,229 non-keyword completion items**: 120 elementary functions, 224 special-function signatures, 88 mathematical values, 342 physical constants, and the exposed distribution, numerical, matrix, random, transform and scripting operations. The other 65 completion items are language keywords, not mathematical functions/constants.
+This reference documents the existing application, not a replacement mathematical API. It covers every non-keyword entry returned by the runtime scripting-completion catalog, including the expression subset. The reviewed catalog has **1,236 unique lookup signatures** across **1,266 non-keyword completion items**: 120 elementary functions, 224 special-function signatures, 88 mathematical values, 342 physical constants, 16 qualified Euclid entries, and the exposed distribution, numerical, matrix, random, transform and scripting operations. The other 65 completion items are language keywords, not mathematical functions/constants.
 
 ## Reading it
 
@@ -44,6 +44,56 @@ Generation rejects missing subjects, labels that only repeat the runtime type, c
 - The checked-in implementation is authoritative for **what this program currently returns**. Source links identify wrapper-specific restrictions that differ from the broader mathematical function.
 
 Text is newly written and formulas are mathematical definitions; no third-party article or image bundle is copied into the application. Source pages are optional reference reading, not assets downloaded during execution. The editorial review date is **2026-10-16**. A source citation does not turn a rounded legacy number into an exact or continuously updated constant.
+
+## Qualified integer utilities
+
+`Euclid` exposes the already pinned [Math.NET Numerics 5.0.0 integer utilities](https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Euclid.cs)
+through the shared TSL preamble in desktop, web API and portable execution. The
+desktop/web reference includes all 37 public overloads under 16 lookup entries.
+No new numerical implementation or dependency is introduced.
+
+| Task | Example | Result |
+| --- | --- | --- |
+| Common divisor, including signed inputs | `Euclid.GreatestCommonDivisor(-84,30)` | `6` |
+| Combine repeating periods | `Euclid.LeastCommonMultiple(12,18)` | `36` |
+| Wrap a negative position | `Euclid.Modulus(-7,3)` | `2` |
+| Preserve the language remainder convention | `Euclid.Remainder(-7,3)` | `-1` |
+| Check an integer square | `Euclid.IsPerfectSquare(144)` | `true` |
+| Select a binary grid size | `Euclid.CeilingToPowerOfTwo(9)` | `16` |
+| Request a 64-bit power of two | `Euclid.PowerOfTwo((integer)40)` | `1099511627776` |
+
+For Bezout coefficients, use a script and explicit output arguments:
+
+```csharp
+integer u, v;
+integer d = Euclid.ExtendedGreatestCommonDivisor(240,46,out u,out v);
+write(d);            // 2
+write(240*u+46*v);   // 2
+```
+
+The names `gcd`, `nwd`, `lcm` and `nww` retain their existing behavior. Qualified
+`Euclid.*` calls follow the pinned library's overloads and error contracts. Use
+`System.Numerics.BigInteger` overloads for exact large GCD/LCM/coefficient
+calculations; fixed-width LCM and modulus can overflow internally, sometimes
+without an exception. Scripts can retain exact integer values. Fixed-width
+integer results convert to `real` in the calculator and can round above 2^53.
+`BigInteger` results require an explicit conversion; enclose the whole cast
+expression in parentheses so it passes the existing expression parser:
+
+```csharp
+((real)Euclid.GreatestCommonDivisor(System.Numerics.BigInteger.One<<80,System.Numerics.BigInteger.Zero))
+```
+
+This returns approximately `1.2089258196146292E+24`; use a script to retain
+the exact integer `1208925819614629174706176`.
+
+The articles explicitly document library edge cases rather than presenting the
+alias as a correction to Math.NET: collection GCD mishandles a leading zero,
+`Log2` has nonmathematical results for nonpositive inputs, and rounding to a power
+of two returns zero for nonpositive inputs. Prefer the pair GCD overload when
+folding data that can start with zero. Integer power methods reject results that
+cannot fit their selected signed type; a small literal selects `int`, while an
+`integer` variable or cast selects the 64-bit overload.
 
 ## Corrected incomplete-beta parameter order
 

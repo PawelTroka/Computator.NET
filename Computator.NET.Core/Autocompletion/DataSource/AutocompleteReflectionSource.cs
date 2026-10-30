@@ -131,9 +131,18 @@ namespace Computator.NET.Core.Autocompletion.DataSource
                     addition += " ...";
                 }
                 else
+                {
+                    var parameter = parameters[i];
+                    var parameterType = parameter.ParameterType;
+                    var modifier = parameterType.IsByRef
+                        ? (parameter.IsOut ? "out " : parameter.IsIn ? "in " : "ref ") : "";
+                    if (parameterType.IsByRef)
+                        parameterType = parameterType.GetElementType();
+
                     addition += withType
-                        ? TypeNameToAlias(parameters[i].ParameterType.Name) + " " + parameters[i].Name + ", "
-                        : parameters[i].Name + ",";
+                        ? modifier + TypeNameToAlias(parameterType.Name) + " " + parameter.Name + ", "
+                        : modifier + parameter.Name + ",";
+                }
             }
 
 
