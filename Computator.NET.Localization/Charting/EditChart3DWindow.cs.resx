@@ -124,49 +124,49 @@
     <value>Barva osy :</value>
   </data>
   <data name="equalAxesCheckBox.Text" xml:space="preserve">
-    <value>Rovné osy</value>
+    <value>Stejné měřítko os</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Etiketa :</value>
+    <value>Text popisku:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Editovat 3D graf</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>Etikety osy</value>
+    <value>Popisky os</value>
   </data>
   <data name="button2.Text" xml:space="preserve">
-    <value>Editovat font</value>
+    <value>Změnit písmo</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>X - osa Etiketa</value>
+    <value>Popisek osy x</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>etiketa :</value>
+    <value>Text popisku:</value>
   </data>
   <data name="xActiveCheckBox.Text" xml:space="preserve">
     <value>Aktivní?</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
-    <value>Y - osa Etiketa</value>
+    <value>Popisek osy y</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>etiketa :</value>
+    <value>Text popisku:</value>
   </data>
   <data name="yActiveCheckBox.Text" xml:space="preserve">
     <value>Aktivní?</value>
   </data>
   <data name="groupBox6.Text" xml:space="preserve">
-    <value>Z-osa Etiketa</value>
+    <value>Popisek osy z</value>
   </data>
   <data name="zActiveCheckBox.Text" xml:space="preserve">
     <value>Aktivní?</value>
   </data>
   <data name="labelsVisibilityCheckBox.Text" xml:space="preserve">
-    <value>Viditelné etikety osi ?</value>
+    <value>Zobrazit popisky os?</value>
   </data>
   <data name="groupBox7.Text" xml:space="preserve">
-    <value>Vzdálenost etiket</value>
+    <value>Odsazení popisků</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>x (pixelů) :</value>
@@ -175,10 +175,10 @@
     <value>Y (pixelů) :</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Barva etiket osy :</value>
+    <value>Barva popisků os:</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
-    <value>Font etiket osy :</value>
+    <value>Písmo popisků os:</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Osy souřadného systému</value>
@@ -203,5 +203,23 @@
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>Zrušit</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>Minimum x</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Maximum x</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>Minimum y</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Maximum y</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Hodnoty na osách</value>
+  </data>
+  <data name="this_Text" xml:space="preserve">
+    <value>Upravit 3D graf</value>
   </data>
 </root>

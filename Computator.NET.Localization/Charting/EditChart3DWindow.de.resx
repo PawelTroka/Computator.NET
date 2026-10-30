@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Skalierung:</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Punktgröße:</value>
+  </data>
+  <data name="visibleAxesCheckBox.Text" xml:space="preserve">
+    <value>Achsen anzeigen?</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Achsenfarbe:</value>
+  </data>
+  <data name="equalAxesCheckBox.Text" xml:space="preserve">
+    <value>Gleiche Achsenskalierung</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>3D-Diagrammtyp:</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Hintergrundfarbe:</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>In Einheiten:</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Diagramm</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Koordinatenachsen</value>
+  </data>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Schriftart:</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Beschriftungsfarbe:</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>y (Pixel):</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>x (Pixel):</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Textabstand</value>
+  </data>
+  <data name="labelsVisibilityCheckBox.Text" xml:space="preserve">
+    <value>Achsenbeschriftungen anzeigen?</value>
+  </data>
+  <data name="zActiveCheckBox.Text" xml:space="preserve">
+    <value>Aktiv?</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Beschriftung:</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>z-Beschriftung</value>
+  </data>
+  <data name="yActiveCheckBox.Text" xml:space="preserve">
+    <value>Aktiv?</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Beschriftung:</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>y-Beschriftung</value>
+  </data>
+  <data name="xActiveCheckBox.Text" xml:space="preserve">
+    <value>Aktiv?</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Beschriftung:</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>x-Beschriftung</value>
+  </data>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Schrift ändern</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Achsenbeschriftungen</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>x-Minimum</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>x-Maximum</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>y-Minimum</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>y-Maximum</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Achsenwerte</value>
+  </data>
+  <data name="this_Text" xml:space="preserve">
+    <value>3D-Diagramm bearbeiten</value>
+  </data>
+</root>

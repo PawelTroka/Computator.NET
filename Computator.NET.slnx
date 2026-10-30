@@ -126,6 +126,7 @@
     <File Path="build/MonoDesktop.props" />
     <File Path="build/mono/LegacyFixtureWriter.cs" />
     <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
+    <File Path="build/mono/SmokeTests/EditorSearchTests.cs" />
     <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
     <File Path="build/mono/SmokeTests/Program.cs" />
     <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
@@ -242,6 +243,7 @@
     <File Path="build/followups/web-ide.cake" />
   </Folder>
   <Folder Name="/Documentation/Architecture and reference/">
+    <File Path="docs/EDITOR-SEARCH.md" />
     <File Path="docs/FUNCTION-POWERS.md" />
     <File Path="docs/FUNCTION-REFERENCE.md" />
     <File Path="docs/NUMERICAL-REFERENCE-INTEGRATION.md" />
@@ -335,6 +337,7 @@
     <File Path="build/reference/elementary.py" />
     <File Path="build/reference/enrichment.py" />
     <File Path="build/reference/enrichment_more.py" />
+    <File Path="build/reference/euclid.py" />
     <File Path="build/reference/fixtures/legacy-subject-categories.json" />
     <File Path="build/reference/generate.py" />
     <File Path="build/reference/mathematical.py" />
@@ -348,6 +351,7 @@
     <File Path="build/reference/test-plots.cjs" />
     <File Path="build/reference/test_authoring.py" />
     <File Path="build/reference/test_categories.py" />
+    <File Path="build/reference/test_euclid.py" />
     <File Path="build/reference/test_inline_math.py" />
     <File Path="build/reference/test_numerical_integration.py" />
     <File Path="build/reference/test_physical.py" />
