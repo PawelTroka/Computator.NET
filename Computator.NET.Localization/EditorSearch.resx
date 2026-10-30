@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="FindTitle" xml:space="preserve"><value>Find</value></data>
+  <data name="ReplaceTitle" xml:space="preserve"><value>Find and replace</value></data>
+  <data name="FindMenu" xml:space="preserve"><value>&amp;Find…</value></data>
+  <data name="ReplaceMenu" xml:space="preserve"><value>&amp;Replace…</value></data>
+  <data name="FindLabel" xml:space="preserve"><value>Find:</value></data>
+  <data name="ReplaceLabel" xml:space="preserve"><value>Replace with:</value></data>
+  <data name="Next" xml:space="preserve"><value>Find next</value></data>
+  <data name="Previous" xml:space="preserve"><value>Find previous</value></data>
+  <data name="Replace" xml:space="preserve"><value>Replace</value></data>
+  <data name="ReplaceAll" xml:space="preserve"><value>Replace all</value></data>
+  <data name="MatchCase" xml:space="preserve"><value>Match case</value></data>
+  <data name="WholeWord" xml:space="preserve"><value>Whole word</value></data>
+  <data name="Close" xml:space="preserve"><value>Close</value></data>
+  <data name="Document" xml:space="preserve"><value>Current document: {0}</value></data>
+  <data name="NoMatch" xml:space="preserve"><value>No matches found.</value></data>
+  <data name="Found" xml:space="preserve"><value>Match selected. Search wraps at the ends of the document.</value></data>
+  <data name="Replaced" xml:space="preserve"><value>Replaced {0} occurrence(s).</value></data>
+  <data name="EnterSearch" xml:space="preserve"><value>Enter text to find. Searches and replacements are literal.</value></data>
+  <data name="ReadOnly" xml:space="preserve"><value>This document is read-only.</value></data>
+  <data name="AdvancedSearch" xml:space="preserve"><value>Advanced search…</value></data>
+</root>

@@ -126,6 +126,7 @@
     <File Path="build/MonoDesktop.props" />
     <File Path="build/mono/LegacyFixtureWriter.cs" />
     <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
+    <File Path="build/mono/SmokeTests/EditorSearchTests.cs" />
     <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
     <File Path="build/mono/SmokeTests/Program.cs" />
     <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
@@ -242,6 +243,7 @@
     <File Path="build/followups/web-ide.cake" />
   </Folder>
   <Folder Name="/Documentation/Architecture and reference/">
+    <File Path="docs/EDITOR-SEARCH.md" />
     <File Path="docs/FUNCTION-POWERS.md" />
     <File Path="docs/FUNCTION-REFERENCE.md" />
     <File Path="docs/NUMERICAL-REFERENCE-INTEGRATION.md" />
