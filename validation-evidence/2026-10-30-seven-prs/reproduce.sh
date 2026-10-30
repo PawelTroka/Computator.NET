@@ -19,8 +19,8 @@ if [[ "$mode" == dotnet ]]; then
     commit=189d28c0ec7acbf77d380f14f95ef450e7bfbd84
     expected_tree=58b013e7e3f81ec62858a481860b73de0a88a7ff
 else
-    commit=897de969c2345ba4f3a12c87959f789f4c584143
-    expected_tree=270b1fb34463fbb6dde9d9748470e327f49415d6
+    commit=a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290
+    expected_tree=40cc4713ef0bdb6b49a5cc32fab35b49e17997ce
 fi
 git -C "$repository" cat-file -e "$commit^{commit}"
 actual_tree=$(git -C "$repository" rev-parse "$commit^{tree}")

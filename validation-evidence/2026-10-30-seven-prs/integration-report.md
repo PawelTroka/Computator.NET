@@ -2,7 +2,7 @@
 
 ## Status
 
-**Validation in progress.** The final combined source passes the local portable suite and native Mono desktop acceptance. Native Windows and repository CI completion are still required. This document will be updated with the exact workflow outcomes before the temporary validation PR is closed.
+**Validation in progress.** The refreshed exact merge passes 1,666 portable Engine tests and 46 native Mono desktop scenarios after rebuilding with the resource-reader correction. Native Windows and repository CI completion are still required. This document will be updated with the exact workflow outcomes before the temporary validation PR is closed.
 
 No contribution PR has been merged or retargeted. The seven original PRs remain independent drafts against master. Fixes were appended to their existing branches without force pushes, preserving review history.
 
@@ -11,9 +11,9 @@ No contribution PR has been merged or retargeted. The seven original PRs remain 
 | Identity | Commit or tree |
 | --- | --- |
 | Master base | `fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c` |
-| Final candidate head | `76bb146dc2f305c48c80013f3089e66a794d5c35` |
-| GitHub CI merge | `897de969c2345ba4f3a12c87959f789f4c584143` |
-| Candidate and CI merge tree | `270b1fb34463fbb6dde9d9748470e327f49415d6` |
+| Final candidate head | `f5f1fd0697e0665f56f3d2e4fd516f49860c0497` |
+| GitHub CI merge | `a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290` |
+| Candidate and CI merge tree | `40cc4713ef0bdb6b49a5cc32fab35b49e17997ce` |
 
 The temporary draft [PR #312](https://github.com/PawelTroka/Computator.NET/pull/312) targets `validation/seven-pr-base-20261030`, pinned at the master base above. Its head is `validation/seven-pr-integration-20261030`. The complete integration contains all seven current contribution heads:
 
@@ -21,7 +21,7 @@ The temporary draft [PR #312](https://github.com/PawelTroka/Computator.NET/pull/
 | --- | --- | --- |
 | [#304](https://github.com/PawelTroka/Computator.NET/pull/304) | Numeric-expression power operands | `ceedea70c873ae4e6ac6072f739541ecdcc0d502` |
 | [#305](https://github.com/PawelTroka/Computator.NET/pull/305) | Stable secant arithmetic | `d626208fb632834502d4153ec157cc3eec836e95` |
-| [#306](https://github.com/PawelTroka/Computator.NET/pull/306) | German/Czech localization and resource-runtime checks | `3b83f4d88541e2cf497abedbb709ac05dc662945` |
+| [#306](https://github.com/PawelTroka/Computator.NET/pull/306) | German/Czech localization and resource-runtime checks | `a8a78e93b37ba516849a5e1cf470286e7cc15c63` |
 | [#307](https://github.com/PawelTroka/Computator.NET/pull/307) | Debye supported-order behavior | `05fca5a6bb6f2f7a534825d026b48eb9786a02ce` |
 | [#308](https://github.com/PawelTroka/Computator.NET/pull/308) | Trapezoidal finite arithmetic | `0b5c9930d59a4371d62061e27016dc150f4ae608` |
 | [#309](https://github.com/PawelTroka/Computator.NET/pull/309) | Euclid utilities, completion and reference | `0ea6da7f804c06b502b174d38a005e9bfcb5de45` |
@@ -61,15 +61,19 @@ Six parameterized Windows test cases are defined to exercise the German and Czec
 
 The complete native Windows Find/Replace fixture contains 29 cases. Its wider coverage includes menu and keyboard routing, both editable workspaces, wrapping, UTF-16 selection, literal replacement text, single-step undo/redo, preservation of other dirty tabs, read-only enforcement, document changes and disposal. Native Mono exercises the supported reduced desktop's TextEditor path.
 
-The first CI attempt for the new resource tests found that two added test-support files were missing from the repository's required solution inventory. This was an omission in the added validation coverage, not a pre-existing translation defect. A two-entry SLNX correction was appended to #306. The final candidate differs from its immediate predecessor only in those inventory entries; production and test source remain byte-identical.
+Two issues in the added validation coverage were corrected on #306. First, two new test-support files were missing from the required solution inventory; a two-entry SLNX correction fixed that omission. Second, native Windows CI exposed a resource-comparison mismatch at the multiline `Strings/featuresInclude` value for both languages. The resource compiler preserves CRLF, while the original `XDocument.Load` test helper normalized it to LF. German values were 407 versus 400 characters, and Czech values 362 versus 355, because each contained seven CRLF line endings.
+
+The exact-reader correction uses `XmlTextReader` with normalization disabled and preserves whitespace. It keeps exact compiled-satellite and regional-fallback comparisons; it does not normalize translated output. Real SDK resource builds now verify all 338 German and 338 Czech strings and their fallbacks for both LF and CRLF source layouts. Preserved whitespace/entity fixtures also pass, and deliberate CR-entity, literal-CR, Unicode, leading-space, whitespace-only and CR-only-entity mutations remain rejected. DTD processing is prohibited. All 1,014 real neutral/German/Czech string entries use `xml:space="preserve"`.
+
+These were corrections to the added test coverage, not production translation defects. The final candidate differs from the preceding candidate only in the shared resource-test helper. Relative to the earlier numerical-probe tree, only that helper and the SLNX inventory differ; the mathematical production sources are unchanged.
 
 ## Completed local evidence
 
 | Check | Observed result | Source identity |
 | --- | --- | --- |
-| Full portable Engine Release suite | 1,666 passed; 0 failed; 0 skipped | Final CI merge `897de969...`, tree `270b1fb3...` |
-| Native Mono desktop acceptance | 46 passed; 0 failed; 0 skipped; production startup/render/graceful close passed | Built at CI merge `d6216f19...`, tree `58b013e7...`; rerun from final checkout `897de969...` reused these source-identical binaries |
-| Supplemental compiled TSL integration | 30 passed; 0 failed; 0 skipped | Published candidate `189d28c0...`, tree `58b013e7...`; only SLNX inventory differs from final |
+| Full portable Engine Release suite | 1,666 passed; 0 failed; 0 skipped | Final CI merge `a854ee8d...`, tree `40cc4713...` |
+| Rebuilt native Mono desktop acceptance | 46 passed; 0 failed; 0 skipped; production startup/render/graceful close passed | Final CI merge `a854ee8d...`, tree `40cc4713...`; includes corrected resource reader |
+| Supplemental compiled TSL integration | 30 passed; 0 failed; 0 skipped | Published candidate `189d28c0...`, tree `58b013e7...`; final differs only in SLNX inventory and a resource-test helper |
 | Supplemental native Mono mathematics | 116 passed; 0 failed; 0 skipped | Actual net48 Core/Engine snapshot with recorded SHA-256 hashes and source equivalence to final |
 | Debye reference-oracle verification | Six constants verified independently | Exact rational Bernoulli series, 60 and 80 terms |
 
@@ -81,7 +85,9 @@ The 116-check Mono probe covers extreme secant arithmetic, finite and subnormal 
 
 ## Final CI evidence
 
-Pending. Record native Windows totals, resource and editor evidence, Mono fresh-build results, portable host matrices, reference determinism and the remaining repository workflows here once complete. Queued or running checks are not passing evidence.
+The [native Mono CI job](https://github.com/PawelTroka/Computator.NET/actions/runs/41113922547/job/124263098930) checked out exact merge `a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290` and passed **46/46 cases, with zero failures or skips**. Its runtime log confirms all 338 German and 338 Czech compiled values and regional fallbacks, the supported TextEditor Find/Replace workflow, and production startup/rendering/graceful shutdown. Artifact `13004847536` has SHA-256 `280ea7d1c3d5c9b24a11b66521681ef6519f05c0145a1d806fd07ae18e5b69bb`. The artifact XML independently contains 46 successful testcase nodes. The screenshots use the English-default Mono UI; German/Czech resource loading is established by the exact runtime assertions.
+
+Native Windows, portable host matrices, reference determinism and remaining repository workflows are still pending. Queued or running checks are not passing evidence.
 
 ## Scope and limits
 

@@ -5,13 +5,13 @@
   "validationPr": "https://github.com/PawelTroka/Computator.NET/pull/312",
   "baseCommit": "fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
   "latestCandidate": {
-    "headCommit": "76bb146dc2f305c48c80013f3089e66a794d5c35",
-    "mergeCommit": "897de969c2345ba4f3a12c87959f789f4c584143",
-    "tree": "270b1fb34463fbb6dde9d9748470e327f49415d6",
+    "headCommit": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+    "mergeCommit": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+    "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
     "inputHeads": {
       "304": "ceedea70c873ae4e6ac6072f739541ecdcc0d502",
       "305": "d626208fb632834502d4153ec157cc3eec836e95",
-      "306": "3b83f4d88541e2cf497abedbb709ac05dc662945",
+      "306": "a8a78e93b37ba516849a5e1cf470286e7cc15c63",
       "307": "05fca5a6bb6f2f7a534825d026b48eb9786a02ce",
       "308": "0b5c9930d59a4371d62061e27016dc150f4ae608",
       "309": "0ea6da7f804c06b502b174d38a005e9bfcb5de45",
@@ -58,10 +58,11 @@
       "debyeChecksAcrossFourSurfaces": 68,
       "runtimeLoadCompileChecks": 6
     },
-    "provenanceQualification": "Executed already-built net48 binaries copied before parallel rebuilds. Checkout-at-snapshot is not a fresh-build commit claim. Their production source is equivalent to the final candidate: only solution inventory differs from the previously built tree.",
+    "provenanceQualification": "Executed already-built net48 binaries copied before parallel rebuilds. Checkout-at-snapshot is not a fresh-build commit claim. Their production source is equivalent to the final candidate. From the previously built tree to the final candidate, only two solution-inventory entries and the shared localization test helper changed; the helper now reads literal CRLF without XML newline normalization. Production numerical sources are unchanged. The recorded 116-check result remains a historical snapshot observation, not a new execution at the final merge.",
     "previousProductionTree": "58b013e7e3f81ec62858a481860b73de0a88a7ff",
     "changedPathsSincePreviousProductionTree": [
-      "Computator.NET.slnx"
+      "Computator.NET.slnx",
+      "build/validation/LocalizationResourceContract.cs"
     ],
     "binarySha256": {
       "DataVisualizationX.dll": "8f0cfaaeaef3745a87df986d1322a6ec6fcc9719c4a2cae2b146f92ed3663b99",
@@ -103,7 +104,9 @@
       "path": "/usr/lib/x86_64-linux-gnu/libgsl.so.27.0.0",
       "sha256": "99a902f1c0df5c709ba20cb64f014eda51b978305c2923d9397f0b1b902eda18"
     },
-    "recordedAtUtc": "2026-10-30T18:35:51.561483+00:00"
+    "recordedAtUtc": "2026-10-30T18:35:51.561483+00:00",
+    "sourceEquivalenceTargetCommit": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+    "sourceEquivalenceTargetTree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce"
   },
   "fixtureSha256": {
     "SevenPrCrossFeatureTests.cs": "29fbe854730a6997c1dedf336ab154d397f9c78ccb36e43a4557c54d0364aa79",
@@ -144,11 +147,42 @@
       },
       "temporaryWorktreeRemoved": true
     },
-    "monoScript": "fresh-build wrapper reviewed; harness compilation and native execution already passed in the recorded 116-check observation",
+    "monoScript": "Fresh-build wrapper reviewed and its pin updated to a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290 / 40cc4713ef0bdb6b49a5cc32fab35b49e17997ce without another execution. Harness compilation and native execution already passed in the recorded historical 116-check observation.",
     "debyeOracleVerification": {
       "passed": 6,
       "failed": 0,
       "method": "exact Fraction Bernoulli series, 60 and 80 terms, differences below 1e-48 and identical binary64 rounding"
+    }
+  },
+  "previousCandidateBeforeResourceHelperFix": {
+    "headCommit": "76bb146dc2f305c48c80013f3089e66a794d5c35",
+    "mergeCommit": "897de969c2345ba4f3a12c87959f789f4c584143",
+    "tree": "270b1fb34463fbb6dde9d9748470e327f49415d6",
+    "inputHeads": {
+      "304": "ceedea70c873ae4e6ac6072f739541ecdcc0d502",
+      "305": "d626208fb632834502d4153ec157cc3eec836e95",
+      "306": "3b83f4d88541e2cf497abedbb709ac05dc662945",
+      "307": "05fca5a6bb6f2f7a534825d026b48eb9786a02ce",
+      "308": "0b5c9930d59a4371d62061e27016dc150f4ae608",
+      "309": "0ea6da7f804c06b502b174d38a005e9bfcb5de45",
+      "310": "7a944e5ba581c95a75a61efe4049804a2c66839e"
+    }
+  },
+  "sourceEquivalenceEvidence": {
+    "fromCommit": "189d28c0ec7acbf77d380f14f95ef450e7bfbd84",
+    "fromTree": "58b013e7e3f81ec62858a481860b73de0a88a7ff",
+    "toCommit": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+    "toTree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+    "changedPaths": [
+      "Computator.NET.slnx",
+      "build/validation/LocalizationResourceContract.cs"
+    ],
+    "productionSourcesUnchanged": true,
+    "diff": "results/historical-probes-to-final.diff",
+    "historicalInventoryOnlyDiff": {
+      "fromCommit": "189d28c0ec7acbf77d380f14f95ef450e7bfbd84",
+      "toCommit": "897de969c2345ba4f3a12c87959f789f4c584143",
+      "diff": "results/candidate-inventory-only.diff"
     }
   }
 }

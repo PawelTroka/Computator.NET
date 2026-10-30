@@ -1,0 +1,12 @@
+Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)
+Copyright (C) 2002-2014 Novell, Inc, Xamarin Inc and Contributors. www.mono-project.com
+	TLS:           __thread
+	SIGSEGV:       altstack
+	Notifications: epoll
+	Architecture:  amd64
+	Disabled:      none
+	Misc:          softdebug 
+	Interpreter:   yes
+	LLVM:          supported, not enabled.
+	Suspend:       hybrid
+	GC:            sgen (concurrent by default)

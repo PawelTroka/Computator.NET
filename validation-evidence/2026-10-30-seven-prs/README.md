@@ -1,6 +1,6 @@
 # Seven-PR numerical integration evidence
 
-This source-only bundle reproduces **30 supplemental .NET checks** and **116 native Mono checks** for Computator.NET PRs **#304–#310**. Every recorded check passed; neither run skipped a case. It supplements the repository's full suites and the native desktop workflows tracked in [temporary validation PR #312](https://github.com/PawelTroka/Computator.NET/pull/312).
+This source-only bundle records **30 supplemental .NET checks** and **116 native Mono checks** for Computator.NET PRs **#304–#310**, with source and reproduction commands. Every recorded check passed; neither run skipped a case. It supplements the repository's full suites and the native desktop workflows tracked in [temporary validation PR #312](https://github.com/PawelTroka/Computator.NET/pull/312).
 
 ## Exact inputs
 
@@ -9,19 +9,21 @@ This source-only bundle reproduces **30 supplemental .NET checks** and **116 nat
 | Master base used for the integration | `fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c` |
 | Published candidate used to reproduce the 30 .NET checks | `189d28c0ec7acbf77d380f14f95ef450e7bfbd84` |
 | That candidate's tree | `58b013e7e3f81ec62858a481860b73de0a88a7ff` |
-| Final candidate head, including the solution inventory correction | `76bb146dc2f305c48c80013f3089e66a794d5c35` |
-| Final CI merge commit | `897de969c2345ba4f3a12c87959f789f4c584143` |
-| Final candidate and merge tree | `270b1fb34463fbb6dde9d9748470e327f49415d6` |
+| Historical Mono snapshot checkout | `897de969c2345ba4f3a12c87959f789f4c584143` |
+| Historical snapshot checkout tree | `270b1fb34463fbb6dde9d9748470e327f49415d6` |
+| Final candidate head, including inventory and resource-helper corrections | `f5f1fd0697e0665f56f3d2e4fd516f49860c0497` |
+| Final CI merge commit | `a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290` |
+| Final candidate and merge tree | `40cc4713ef0bdb6b49a5cc32fab35b49e17997ce` |
 
-`manifest.json` records all seven exact input PR heads for both revisions. Only #306's head changes between them. The resulting combined-tree difference is two solution-inventory entries in `Computator.NET.slnx`; the compact diff is included under `results/`.
+`manifest.json` records all seven exact input PR heads for the original observation, the preceding candidate and the final candidate. Only #306's head changes across these revisions. From the original probe tree to the final tree, the only changed files are `Computator.NET.slnx` (two solution-inventory entries) and `build/validation/LocalizationResourceContract.cs` (the test helper now preserves literal CRLF when reading source resources). Production numerical sources are unchanged. `results/historical-probes-to-final.diff` contains the complete comparison; `results/candidate-inventory-only.diff` preserves the earlier comparison ending at `897de969…`.
 
 The original .NET run used local commit `8b03bf130031c5a91dbfb80fe26a45a4a2173f64`, whose complete tree exactly matches published candidate `189d28c…`. The reproduction script selects that published commit and verifies the tree before testing.
 
 ### Mono provenance qualification
 
-The recorded native Mono probe used a snapshot of already-built net48 binaries. The checkout was at `897de969…` when those files were copied, but the snapshot date is **not a claim that they were freshly built at that commit**. Their production source is equivalent to the final candidate because the intervening change only adds the two SLNX inventory entries. All copied DLL hashes are recorded in the manifest.
+The recorded native Mono probe used a snapshot of already-built net48 binaries. The checkout was at `897de969…` (tree `270b1fb3…`) when those files were copied, but the snapshot date is **not a claim that they were freshly built at that commit**. Their production source is equivalent to the final candidate: the intervening changes from the previously built tree comprise the two SLNX inventory entries and the localization test-helper correction described above. All copied DLL hashes are recorded in the manifest. The 116-check observation remains attached to that historical snapshot; it is not a fresh execution at the final merge.
 
-The Mono reproduction command performs a fresh build of the final CI merge, records its new DLL hashes, and executes the same harness. Fresh build hashes can differ from the historical snapshot because build paths or assembly metadata differ; the source and input tree remain explicit.
+The Mono reproduction command is now pinned to final merge `a854ee8d…`: it performs a fresh build, records its new DLL hashes, and executes the same harness. This updated pin has not been executed as part of this bundle revision. Fresh build hashes can differ from the historical snapshot because build paths or assembly metadata differ; the source and input tree remain explicit.
 
 ## Coverage
 
@@ -50,7 +52,7 @@ Fetch the two fixed commits into an existing clone if they are not present:
 
 ```bash
 git -C /path/to/Computator.NET fetch origin 189d28c0ec7acbf77d380f14f95ef450e7bfbd84
-git -C /path/to/Computator.NET fetch origin 897de969c2345ba4f3a12c87959f789f4c584143
+git -C /path/to/Computator.NET fetch origin a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290
 ```
 
 Run from this bundle's directory, choosing output directories that do not yet exist:
@@ -70,7 +72,7 @@ The essential .NET command is `dotnet test Computator.NET.Engine.Tests/Computato
 - `SevenPrCrossFeatureTests.cs` and `MonoNumericalProbe.cs`: the exact executed supplemental sources.
 - `reproduce.sh`: isolated reproduction commands with expected-result checks.
 - `verify_debye_oracles.py`: independent exact-arithmetic verification of the six Debye reference constants.
-- `results/`: compact named outcomes and the inventory-only candidate diff.
+- `results/`: compact named outcomes, candidate comparisons and supporting integration evidence. Each observation retains its own commit identity.
 - `SHA256SUMS`: hashes of this bundle's files.
 
 No compiled DLLs, build outputs or large diagnostic logs are included. This bundle reports numerical and compilation evidence; native Windows Find/Replace and GUI/resource acceptance remain separately reported workflow results.

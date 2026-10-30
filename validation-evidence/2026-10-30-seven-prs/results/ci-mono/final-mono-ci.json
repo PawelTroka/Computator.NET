@@ -1,0 +1,66 @@
+{
+  "candidate": "f5f1fd0697e0665f56f3d2e4fd516f49860c0497",
+  "checkout": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "workflow": "Mono desktop compatibility",
+  "run": 41113922547,
+  "job": 124263098930,
+  "url": "https://github.com/PawelTroka/Computator.NET/actions/runs/41113922547/job/124263098930",
+  "conclusion": "success",
+  "passed": 46,
+  "failed": 0,
+  "skipped": 0,
+  "resourceStringsPerCulture": {
+    "de": 338,
+    "cs": 338
+  },
+  "regionalFallbacks": [
+    "de-DE",
+    "cs-CZ"
+  ],
+  "runtime": "Mono 6.8.0.105",
+  "productionStartupRenderAndGracefulClose": true,
+  "findReplacePassed": true,
+  "log": "/tmp/computator-integration-20261030/evidence/final-mono-ci-job-124263098930.log",
+  "evidenceLines": [
+    "2026-10-30T19:18:41.4699473Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290:refs/remotes/pull/312/merge",
+    "2026-10-30T19:18:45.7638173Z  * [new ref]         a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290 -> pull/312/merge",
+    "2026-10-30T19:18:46.6528498Z HEAD is now at a854ee8 Merge f5f1fd0697e0665f56f3d2e4fd516f49860c0497 into fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c",
+    "2026-10-30T19:18:46.6752042Z a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+    "2026-10-30T19:20:01.2537641Z Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)",
+    "2026-10-30T19:20:04.8518547Z PASS production executable startup, dependency loading, rendering and graceful close (3.05s)",
+    "2026-10-30T19:20:05.1676506Z Verified 338 compiled de UI strings and de-DE regional fallbacks.",
+    "2026-10-30T19:20:05.1950913Z Verified 338 compiled cs UI strings and cs-CZ regional fallbacks.",
+    "2026-10-30T19:20:12.3319769Z PASS desktop-literal-find-and-replace (0.98s)",
+    "2026-10-30T19:20:12.8794081Z Mono acceptance: 46 passed, 0 failed, 0 skipped (documented limitations)."
+  ],
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "artifact": {
+    "id": 13004847536,
+    "sha256": "280ea7d1c3d5c9b24a11b66521681ef6519f05c0145a1d806fd07ae18e5b69bb",
+    "downloaded": "/tmp/computator-integration-20261030/evidence/final-mono-ci/artifact.zip",
+    "xmlTotals": {
+      "name": "Computator.NET.Mono.Acceptance",
+      "tests": "46",
+      "failures": "0",
+      "skipped": "0"
+    },
+    "screenshotsInspected": [
+      "find-replace-dialog.png",
+      "find-replace.png",
+      "startup.png"
+    ],
+    "visualFinding": "Find/Replace fields and controls are legible without visible clipping; actual editor selection and Unicode replacement are visible. These screenshots use English default UI; German/Czech loading is verified by exact resource assertions.",
+    "screenshotLocale": "English default",
+    "screenshotEditor": "TextEditor (Mono)",
+    "localizationEvidence": "Every compiled German/Czech resource value and de-DE/cs-CZ regional fallback asserted at runtime, 338 strings per language; screenshots do not establish German/Czech layout."
+  },
+  "evidenceFiles": {
+    "mono-results.xml": "mono-results.xml",
+    "startup.log": "startup.log",
+    "runtime.log": "runtime.log",
+    "smoke.log": "smoke.log",
+    "startup.png": "startup.png",
+    "find-replace-dialog.png": "find-replace-dialog.png",
+    "find-replace.png": "find-replace.png"
+  }
+}

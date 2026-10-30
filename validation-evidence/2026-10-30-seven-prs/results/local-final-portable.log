@@ -1,0 +1,14 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+/tmp/computator-integration-20261030/repo/Computator.NET.Core/Functions/MatrixFunctions.cs(48,6): warning CS8603: Possible null reference return. [/tmp/computator-integration-20261030/repo/Computator.NET.Engine/Computator.NET.Engine.csproj]
+/tmp/computator-integration-20261030/repo/Computator.NET.Core/Functions/MatrixFunctions.cs(51,6): warning CS8603: Possible null reference return. [/tmp/computator-integration-20261030/repo/Computator.NET.Engine/Computator.NET.Engine.csproj]
+/tmp/computator-integration-20261030/repo/Computator.NET.Core/Functions/MatrixFunctions.cs(72,6): warning CS8603: Possible null reference return. [/tmp/computator-integration-20261030/repo/Computator.NET.Engine/Computator.NET.Engine.csproj]
+/tmp/computator-integration-20261030/repo/Computator.NET.Core/Functions/MatrixFunctions.cs(76,6): warning CS8603: Possible null reference return. [/tmp/computator-integration-20261030/repo/Computator.NET.Engine/Computator.NET.Engine.csproj]
+  Computator.NET.Engine -> /tmp/computator-integration-20261030/repo/Computator.NET.Engine/bin/Release/net10.0/Computator.NET.Engine.dll
+/tmp/computator-integration-20261030/repo/Computator.NET.Core.Tests/CompilersTests/TslCompilerTests.cs(19,23): warning CS8618: Non-nullable field '_tslCompiler' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable. [/tmp/computator-integration-20261030/repo/Computator.NET.Engine.Tests/Computator.NET.Engine.Tests.csproj]
+  Computator.NET.Engine.Tests -> /tmp/computator-integration-20261030/repo/Computator.NET.Engine.Tests/bin/Release/net10.0/Computator.NET.Engine.Tests.dll
+Test run for /tmp/computator-integration-20261030/repo/Computator.NET.Engine.Tests/bin/Release/net10.0/Computator.NET.Engine.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/computator-integration-20261030/evidence/combined/seven-pr-a854ee8d-portable.trx
+
+Passed!  - Failed:     0, Passed:  1666, Skipped:     0, Total:  1666, Duration: 13 s - Computator.NET.Engine.Tests.dll (net10.0)

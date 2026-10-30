@@ -1,6 +1,9 @@
 {
-  "commit": "897de969c2345ba4f3a12c87959f789f4c584143",
-  "tree": "270b1fb34463fbb6dde9d9748470e327f49415d6",
+  "schemaVersion": 1,
+  "commit": "a854ee8d9cdd9f598b6c9fe4c00471faf3c5f290",
+  "tree": "40cc4713ef0bdb6b49a5cc32fab35b49e17997ce",
+  "collectedAtUtc": "2026-10-30T19:21:46.685136+00:00",
+  "sourceUnmodifiedAtCollection": true,
   "engine": {
     "total": "1666",
     "executed": "1666",
@@ -19,11 +22,53 @@
     "inProgress": "0",
     "pending": "0"
   },
+  "engineInput": {
+    "configuration": "Release",
+    "targetFramework": "net10.0",
+    "sdk": "10.0.403",
+    "trxRunId": "7169698b-6358-4364-b533-f421d4449263",
+    "trxTimes": {
+      "creation": "2026-10-31T00:48:20.2015818+05:30",
+      "queuing": "2026-10-31T00:48:20.2015819+05:30",
+      "start": "2026-10-31T00:48:19.0268201+05:30",
+      "finish": "2026-10-31T00:48:33.9643177+05:30"
+    },
+    "originalTrxSha256": "a66a1aa9a06381acba87f528910208e1c383533bcb6842c35ad737a53844a7ef",
+    "bundledLog": "local-final-portable.log",
+    "logSha256": "ecf03c2a6bbcc9f289bb05a5a10aa2c71e36a040fca13b890326d09c54843262",
+    "assemblySha256": {
+      "Computator.NET.Engine.dll": "3b9190f32e0a83973fb875b1c8abe1f46f6eca24531e98ca776cc928e3f482e2",
+      "Computator.NET.Engine.Tests.dll": "0dfc273c32c339889b3cb79b141d98213093a8de95cf3dff8fd01c978578a4d2"
+    }
+  },
   "mono": {
     "name": "Computator.NET.Mono.Acceptance",
     "tests": "46",
     "failures": "0",
     "skipped": "0"
   },
-  "note": "Mono reused the previously built byte-identical production/test sources; only the SLNX linked-file inventory changed."
+  "monoInput": {
+    "freshBuild": true,
+    "runtime": "Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)",
+    "resourcesPerLanguage": {
+      "de": 338,
+      "cs": 338
+    },
+    "regionalFallbacks": [
+      "de-DE -> de",
+      "cs-CZ -> cs"
+    ],
+    "productionStartupRenderAndGracefulClose": true,
+    "provenance": "local-mono-build-provenance.json",
+    "bundledLog": "local-final-mono.log",
+    "logSha256": "204646aa4d8a6c52cb43c1e23f72ae8bb275d6cb172f4a231a1bc4ca33dc4cd2",
+    "bundledResults": "local-final-mono-results.xml",
+    "resultsSha256": "02c0a0a0de0677599c270ddce521d9149f33021bb431b09468e0737767091233"
+  },
+  "historicalEvidence": {
+    "historical-897de969-checkout-results.json": "8f5ac9f0c3cd156035a8cf47dcb674b59f05bc1347ab77b932e31db609080843",
+    "historical-897de969-mono.log": "73658ead2124f307983302028622e57e8f9195b2b811a283f1d75c71cc371b08",
+    "historical-58b013e7-mono-build-provenance.json": "74229c15c29cced01688d283541035f1a3b1bcf0864133ea4b5dbdd43fbe6319"
+  },
+  "note": "Engine and native Mono acceptance ran from this exact merge after a fresh build. The separate historical 30-case .NET fixture and 116-check Mono numerical probe were not rerun by this collection."
 }

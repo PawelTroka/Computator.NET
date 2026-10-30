@@ -1,0 +1,2 @@
+Gtk not found (missing LD_LIBRARY_PATH to libgtk-x11-2.0.so.0?), using built-in colorscheme
+PASS production executable startup, dependency loading, rendering and graceful close (3.05s)

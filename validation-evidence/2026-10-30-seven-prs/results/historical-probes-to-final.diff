@@ -1,0 +1,54 @@
+diff --git a/Computator.NET.slnx b/Computator.NET.slnx
+index abb71c6..2cbb059 100644
+--- a/Computator.NET.slnx
++++ b/Computator.NET.slnx
+@@ -128,6 +128,7 @@
+     <File Path="build/mono/SmokeTests/CompatibilityTests.cs" />
+     <File Path="build/mono/SmokeTests/EditorSearchTests.cs" />
+     <File Path="build/mono/SmokeTests/Computator.NET.Mono.SmokeTests.csproj" />
++    <File Path="build/mono/SmokeTests/LocalizationTests.cs" />
+     <File Path="build/mono/SmokeTests/Program.cs" />
+     <File Path="build/mono/StartupProbe/Computator.NET.Mono.StartupProbe.csproj" />
+     <File Path="build/mono/StartupProbe/Program.cs" />
+@@ -216,6 +217,7 @@
+     <File Path="build/WindowsAssemblyInfo.cs" />
+     <File Path="build/fixtures/LegacySettings.cs" />
+     <File Path="build/portable/Test-Cli.ps1" />
++    <File Path="build/validation/LocalizationResourceContract.cs" />
+   </Folder>
+   <Folder Name="/Build/Workstreams/">
+     <File Path="build/followups/appveyor.cake" />
+diff --git a/build/validation/LocalizationResourceContract.cs b/build/validation/LocalizationResourceContract.cs
+index af69b9f..08c19c5 100644
+--- a/build/validation/LocalizationResourceContract.cs
++++ b/build/validation/LocalizationResourceContract.cs
+@@ -5,6 +5,7 @@ using System.IO;
+ using System.Linq;
+ using System.Reflection;
+ using System.Resources;
++using System.Xml;
+ using System.Xml.Linq;
+ 
+ namespace Computator.NET.TestSupport
+@@ -56,10 +57,17 @@ namespace Computator.NET.TestSupport
+             return checkedStrings;
+         }
+ 
+-        private static Dictionary<string, string> ReadStrings(string path) =>
+-            XDocument.Load(path).Root.Elements("data")
+-                .Where(element => element.Attribute("type") == null && element.Attribute("mimetype") == null)
+-                .ToDictionary(element => (string)element.Attribute("name"), element => (string)element.Element("value") ?? "");
++        private static Dictionary<string, string> ReadStrings(string path)
++        {
++            // The resource compiler preserves literal CRLF in values. Match its
++            // reader instead of normalizing compiled strings: explicit CR/LF
++            // entities, whitespace and every translated character stay exact.
++            using (var reader = new XmlTextReader(path)
++                { Normalization = false, DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null })
++                return XDocument.Load(reader, LoadOptions.PreserveWhitespace).Root.Elements("data")
++                    .Where(element => element.Attribute("type") == null && element.Attribute("mimetype") == null)
++                    .ToDictionary(element => (string)element.Attribute("name"), element => (string)element.Element("value") ?? "");
++        }
+ 
+         private static void Require(bool condition, string message)
+         {
