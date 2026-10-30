@@ -100,6 +100,7 @@ internal static partial class Program
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
+        Run("desktop-literal-find-and-replace", DesktopFindReplace);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
         Run("real-chart-samples-and-png-rendering", RealChart);
         Run("complex-chart-png-and-domain-colors", ComplexChart);
