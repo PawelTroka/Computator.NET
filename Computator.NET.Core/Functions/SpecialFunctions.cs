@@ -1835,8 +1835,6 @@ namespace Computator.NET.Core.Functions
 
         public static double Debye(int n, double x)
         {
-            if (n == 0)
-                return 0;
             if (x < 0.0)
                 return double.NaN;
             switch (n)
@@ -1854,8 +1852,9 @@ namespace Computator.NET.Core.Functions
                 case 6:
                     return gsl_sf_debye_6(x);
             }
-            if (x > 9) // x >> 1
-                return Γ(n + 1.0)*Riemannζ(n + 1.0);
+            // GSL implements normalized Debye functions only for orders 1–6.
+            // Gamma(n+1)*zeta(n+1) is an unnormalized infinite-limit integral,
+            // not D_n(x), and must not stand in for an unsupported order.
             return double.NaN;
         }
 
@@ -5106,8 +5105,6 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
 
         public static double Debye(int n, double x)
         {
-            if (n == 0)
-                return 0;
             if (x < 0.0)
                 return double.NaN;
             switch (n)
@@ -5125,8 +5122,9 @@ EntryPoint = "gsl_sf_mathieu_Ms", CallingConvention = System.Runtime.InteropServ
                 case 6:
                     return gsl_sf_debye_6(x);
             }
-            if (x > 9) // x >> 1
-                return Γ(n + 1.0)*Riemannζ(n + 1.0);
+            // GSL implements normalized Debye functions only for orders 1–6.
+            // Gamma(n+1)*zeta(n+1) is an unnormalized infinite-limit integral,
+            // not D_n(x), and must not stand in for an unsupported order.
             return double.NaN;
         }
 
