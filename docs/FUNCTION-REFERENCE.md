@@ -133,6 +133,20 @@ limit at exactly zero remains unevaluated by this API. This correction does
 not change the separate S/C or spherical-Hankel APIs or reconstruct truly
 unrepresentable values.
 
+## Corrected unitary-matrix shape requirement
+
+`isUnitary(M)` requires a square matrix before applying the existing approximate
+`M·Mᴴ≈I` check. A rectangular matrix with orthonormal rows is no longer reported
+as unitary: `isUnitary(matrix({{1,0}}))` returns `false`, while the square rotation
+`isUnitary(matrix({{0,-1},{1,0}}))` returns `true`.
+
+This deliberately changes the former rectangular-row behavior documented in
+older references. Scripts that need that row-orthonormality test can write
+`isIndentity(M*HermitianTranspose(M))` explicitly. The separately documented
+rectangular identity-pattern behavior of `isIndentity` and `IdentityMatrix`, the
+relative comparison tolerance `1e-10`, and the public function names are unchanged.
+The host, emitted helper and precompiled scripting surface use the same rule.
+
 ## Known numerical differences deliberately not changed here
 
 The remaining distinctions below are preserved and documented. Each numerical correction above updates its tests and reference together; the other entries still describe current behavior:

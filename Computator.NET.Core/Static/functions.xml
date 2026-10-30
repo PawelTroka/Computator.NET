@@ -18448,16 +18448,16 @@
     <Url>https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs</Url>
   </FunctionInfo>
   <FunctionInfo Signature="isUnitary&lt;T&gt;(M)">
-    <Title>Approximate row-unitarity predicate</Title>
+    <Title>Approximate unitary-matrix predicate</Title>
     <Type>MatrixFunctions</Type>
     <Category>Linear algebra</Category>
     <Description><![CDATA[<div class="function-reference">
 <p class="reference-signature"><code>bool isUnitary&lt;T&gt;(Matrix M)</code></p>
-<p class="reference-summary">Checks the product with the conjugate transpose against identity.</p>
+<p class="reference-summary">Requires a square matrix, then checks the product with the conjugate transpose against identity.</p>
 <p class="reference-formula"><strong>Definition / convention:</strong> <code>M·Mᴴ≈I, using the isIndentity tolerance 1e−10.</code></p>
-<p class="reference-arguments"><strong>Arguments / value:</strong> A square matrix satisfying this condition is unitary (orthogonal when real).</p>
-<p class="reference-note"><strong>Important:</strong> The wrapper does not require a square matrix, so rectangular matrices with orthonormal rows can also pass.</p>
-<p class="reference-explanation">For square matrices, unitarity preserves complex inner products. This wrapper checks row orthonormality and does not itself enforce a square shape; rectangular matrices require a more precise interpretation.</p>
+<p class="reference-arguments"><strong>Arguments / value:</strong> A square matrix satisfying this condition is unitary (orthogonal when real). Rectangular matrices return false.</p>
+<p class="reference-note"><strong>Important:</strong> For example, isUnitary(matrix({{1,0}})) returns false: its rows are orthonormal, but it discards a coordinate. To test row orthonormality explicitly, use isIndentity(M*HermitianTranspose(M)).</p>
+<p class="reference-explanation">Unitarity preserves complex inner products in both directions. The square-shape requirement matters: a rectangular matrix can have orthonormal rows while its conjugate transpose product is a projection instead of an identity.</p>
 <p class="reference-equation"><strong>Mathematical interpretation</strong><br /><img class="reference-math" src="reference-equations/2acb764a175e13c8de2d7a236be6c9667e5204b57b2c93e755e1d9a2f05e4895.png" alt="M·Mᴴ≈I, using the isIndentity tolerance 1e−10." width="87" height="27" /></p>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/PawelTroka/Computator.NET/blob/master/Computator.NET.Core/Functions/MatrixFunctions.cs">github.com</a></p>
 </div>]]></Description>
