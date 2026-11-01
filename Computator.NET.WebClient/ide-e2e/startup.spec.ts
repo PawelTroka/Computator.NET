@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { execFileSync, spawn } from 'node:child_process';
 import { once } from 'node:events';
+import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 async function calculate(page: Page, result: string) {
@@ -81,7 +82,11 @@ test('an IDE restart replaces assets built for another API profile', async ({ pa
       }
       await closed;
     } finally {
-      await testInfo.attach('restarted-host.log', { body: output, contentType: 'text/plain' });
+      // The list/JUnit reporters do not persist in-memory attachments on a
+      // passing test. Keep a file in outputDir for the workflow artifact too.
+      const log = testInfo.outputPath('restarted-host.log');
+      await writeFile(log, output, 'utf8');
+      await testInfo.attach('restarted-host.log', { path: log, contentType: 'text/plain' });
     }
   }
 });

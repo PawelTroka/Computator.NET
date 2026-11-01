@@ -30,8 +30,9 @@ includes:
   The suite explicitly overrides the Console provider's Warning default; this
   does not change production logging configuration.
 - `ide-client.log`: the first source host's stdout/stderr, including asset preparation.
-- `restarted-host.log`: the restarted source host's bounded final 32 KB output,
-  attached to its test after the child's output streams close.
+- `restarted-host.log`: the restarted source host's final 32,000 characters of
+  output, written to the test output directory and attached after the child's
+  streams close. It remains in the artifact when the test passes, too.
 - `ide-startup.xml`, plus screenshots, page snapshots and traces for failed tests.
 
 The initial host logs are outside Playwright's cleaned `test-results/ide`
