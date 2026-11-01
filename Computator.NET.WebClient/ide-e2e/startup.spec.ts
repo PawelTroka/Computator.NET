@@ -1,7 +1,25 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { execFileSync, spawn } from 'node:child_process';
 import { once } from 'node:events';
 import path from 'node:path';
+
+async function calculate(page: Page, result: string) {
+  // The worker has a 30-second execution deadline. Allow its bounded failure
+  // response to arrive, then reject it explicitly instead of hiding a 504 behind
+  // a browser timeout. The first calculation remains cold and is never retried.
+  const [reply] = await Promise.all([
+    page.waitForResponse(response => {
+      const url = new URL(response.url());
+      const request = response.request();
+      return url.origin === 'http://localhost:5080' && url.pathname === '/api/v2/execute' &&
+        request.method() === 'POST' && request.postDataJSON()?.operation === 'calculate';
+    }, { timeout: 35_000 }),
+    page.getByRole('button', { name: 'Calculate!', exact: true }).click()
+  ]);
+  expect(reply.status(), await reply.text()).toBe(200);
+  expect(await reply.json()).toMatchObject({ result });
+  await expect(page.getByRole('status')).toHaveText(result);
+}
 
 test('a clean IDE-style launch builds assets and calculates through the real API', async ({ page }) => {
   test.setTimeout(90_000);
@@ -13,16 +31,7 @@ test('a clean IDE-style launch builds assets and calculates through the real API
   await page.locator('#expressionTextArea textarea').fill('2x');
   for (const [input, result] of [['21', '42'], ['9', '18']]) {
     await page.getByRole('spinbutton', { name: 'x', exact: true }).fill(input);
-    // The first actual Roslyn invocation is deliberately cold in this suite.
-    // Await and inspect the real HTTP response before checking the rendered value;
-    // a pending request must not be confused with a successful calculation.
-    const calculation = page.waitForResponse(response => response.url().endsWith('/api/v2/execute') &&
-      response.request().method() === 'POST', { timeout: 30_000 });
-    await page.getByRole('button', { name: 'Calculate!' }).click();
-    const reply = await calculation;
-    expect(reply.ok(), await reply.text()).toBe(true);
-    expect(await reply.json()).toMatchObject({ result });
-    await expect(page.getByRole('status')).toHaveText(result);
+    await calculate(page, result);
   }
   await page.reload();
   await expect(page.locator('#expressionTextArea')).toBeVisible();
@@ -38,7 +47,7 @@ test('fresh startup serves actual JS/CSS while unknown APIs remain 404', async (
   expect((await request.get('/api/does-not-exist')).status()).toBe(404);
 });
 
-test('an IDE restart replaces assets built for another API profile', async ({ page, request }) => {
+test('an IDE restart replaces assets built for another API profile', async ({ page, request }, testInfo) => {
   test.setTimeout(300_000);
   // A package/real-API build replaces dist but leaves the IDE source stamp intact.
   // Starting another source host must restore the direct localhost API profile.
@@ -53,7 +62,8 @@ test('an IDE restart replaces assets built for another API profile', async ({ pa
   let output = '';
   host.stdout.on('data', chunk => { output = (output + chunk).slice(-32_000); });
   host.stderr.on('data', chunk => { output = (output + chunk).slice(-32_000); });
-  const exited = once(host, 'exit');
+  // 'close' follows process exit and drains both redirected streams.
+  const closed = once(host, 'close');
   try {
     await expect.poll(async () => {
       if (host.exitCode !== null) throw new Error(`Source host exited: ${output}`);
@@ -62,18 +72,16 @@ test('an IDE restart replaces assets built for another API profile', async ({ pa
     }, { timeout: 240_000, intervals: [500] }).toBe(200);
     await page.goto('http://localhost:5082/calculate');
     await page.locator('#expressionTextArea textarea').fill('40+2');
-    const calculation = page.waitForResponse(response => response.url().endsWith('/api/v2/execute') &&
-      response.request().method() === 'POST', { timeout: 30_000 });
-    await page.getByRole('button', { name: 'Calculate!' }).click();
-    const reply = await calculation;
-    expect(reply.url()).toContain('localhost:5080/');
-    expect(reply.ok(), await reply.text()).toBe(true);
-    await expect(page.getByRole('status')).toHaveText('42');
+    await calculate(page, '42');
   } finally {
-    if (host.exitCode === null && host.pid) {
-      // This suite is Windows-only; also terminate a still-running Cake child.
-      execFileSync('taskkill', ['/pid', String(host.pid), '/T', '/F'], { windowsHide: true });
+    try {
+      if (host.exitCode === null && host.pid) {
+        // This suite is Windows-only; also terminate a still-running Cake child.
+        execFileSync('taskkill', ['/pid', String(host.pid), '/T', '/F'], { windowsHide: true });
+      }
+      await closed;
+    } finally {
+      await testInfo.attach('restarted-host.log', { body: output, contentType: 'text/plain' });
     }
-    await exited;
   }
 });
