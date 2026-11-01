@@ -27,6 +27,7 @@ namespace Computator.NET.Core.Tests.FunctionsTests
 
         [TestCase("Polynomial.Evaluate(x,1,-3,2)", 3.0)]
         [TestCase("new Polynomial(1,-3,2).Differentiate().Evaluate(x)", 5.0)]
+        [TestCase("Polynomial.PointwiseDivide(new Polynomial(1,2),new Polynomial(3,-1)).Evaluate(x)", -11.0 / 3.0)]
         public void RealExpressionsUseTheSharedPolynomialAlias(string expression, double expected)
         {
             ExpressionsEvaluator evaluator = _legacy ? new LegacyExpressionsEvaluator() : new ExpressionsEvaluator();

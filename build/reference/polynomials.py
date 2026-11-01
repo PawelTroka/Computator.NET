@@ -98,13 +98,14 @@ ARTICLES = {
 }
 
 # Each teaching note adds an interpretation or an executable, analytically checked
-# example. These are independent of the runtime reflection inventory.
+# example. These are independent of the runtime reflection inventory. A fifth
+# tuple value explicitly selects script validation instead of scalar evaluation.
 LESSONS = {
     'new Polynomial(coefficients)': (
         'For a reusable object p, p.Evaluate(x) evaluates it; p.Differentiate() returns its derivative and p.Integrate() chooses antiderivative constant zero. p.Roots() returns numerical complex roots in unspecified order. General roots use companion-matrix eigenvalues; repeated or poorly conditioned roots may lose accuracy.',
         'var p = new Polynomial(-6,11,-6,1);\nvar roots = p.Roots();',
         'Three roots approximately 1, 2 and 3, in unspecified order.',
-        'The coefficients describe (x−1)(x−2)(x−3). Check p.Evaluate(root) and the scale of the coefficients when assessing residuals.'),
+        'The coefficients describe (x−1)(x−2)(x−3). Check p.Evaluate(root) and the scale of the coefficients when assessing residuals.', 'script'),
     'Polynomial.Zero': (
         'Use zero to start an accumulated sum of polynomials. Its degree sentinel lets the library distinguish an identically zero expression from an ordinary constant of degree zero.',
         'Polynomial.Zero.Evaluate(5)', '0', 'The empty coefficient array denotes the additive identity.'),
@@ -114,7 +115,7 @@ LESSONS = {
     'Polynomial.Fit(x,y,order,method)': (
         'Order selects model complexity; it is not the number of samples. Centering and scaling the x coordinates before fitting can improve conditioning, but evaluation must then use the same transformed coordinate.',
         'var p = Polynomial.Fit(new real[]{-2,-1,0,1,2}, new real[]{15,6,1,0,3}, 2);\nwrite(p.Evaluate(2));',
-        'Approximately 3', 'These exact samples follow 1−3x+2x², so the fitted coefficients are approximately 1, −3 and 2.'),
+        'Approximately 3', 'These exact samples follow 1−3x+2x², so the fitted coefficients are approximately 1, −3 and 2.', 'script'),
     'Polynomial.Add(a,b)': (
         'Adding a constant shifts the graph vertically; adding a polynomial combines coefficients of equal powers. Polynomial objects are reusable after addition.',
         'Polynomial.Add(new Polynomial(1,2), new Polynomial(3,-1)).Evaluate(2)', '6',
@@ -145,9 +146,9 @@ LESSONS = {
         'The result is 0.5+x.'),
     'Polynomial.DivideRemainder(a,b)': (
         'Reconstructing quotient*divisor+remainder checks the direction of the division. A nonzero remainder explains why the rational expression is not generally itself a polynomial.',
-        'var parts = Polynomial.DivideRemainder(new Polynomial(1,0,1),new Polynomial(1,1));\nwrite(parts.Item1.Evaluate(3));\nwrite(parts.Item2.Evaluate(3));',
-        'Quotient value 2 and remainder value 2, printed consecutively.',
-        'x²+1=(x−1)(x+1)+2. Item1 is x−1 and Item2 is the constant two.'),
+        'var parts = Polynomial.DivideRemainder(new Polynomial(1,0,1),new Polynomial(1,1));\nwrite(parts.Item1.Evaluate(3));\nwrite(";");\nwrite(parts.Item2.Evaluate(3));',
+        'Quotient value 2 and remainder value 2, printed as 2;2.',
+        'x²+1=(x−1)(x+1)+2. Item1 is x−1 and Item2 is the constant two.', 'script'),
     'Polynomial.PointwiseMultiply(a,b)': (
         'Coefficientwise operations work on the stored representation. For example, multiplying two linear coefficient arrays this way cannot create the quadratic cross terms of a polynomial product.',
         'Polynomial.PointwiseMultiply(new Polynomial(1,2),new Polynomial(3,-1)).Evaluate(2)', '-1',
@@ -165,5 +166,5 @@ def describe(item, values):
 
 def enrich(item):
     from enrichment import Enrichment, WorkedExample
-    note, code, result, explanation = LESSONS[item['signature']]
-    return Enrichment(paragraphs=(note,), examples=(WorkedExample(code, result, explanation),))
+    note, *example = LESSONS[item['signature']]
+    return Enrichment(paragraphs=(note,), examples=(WorkedExample(*example),))

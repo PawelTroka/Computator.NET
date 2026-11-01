@@ -156,7 +156,8 @@ def articles(inventory):
             figure=figure_html(selected)
             if figure:chunks.append(figure)
             for example in extra.examples:
-                chunks.append('<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>'+esc(example.code)+'</code></pre>'+
+                example_kind='' if example.kind=='scalar' else ' data-example-kind="'+esc(example.kind)+'"'
+                chunks.append('<div class="reference-worked-example"'+example_kind+'><p><strong>Worked example</strong></p><pre><code>'+esc(example.code)+'</code></pre>'+
                     '<p><strong>Result:</strong> '+esc(example.result)+'</p><p>'+prose_html(example.explanation)+'</p></div>')
             if urlparse(article.url).scheme!='https':raise ValueError('Reference must be HTTPS: '+signature)
         sources=list(dict.fromkeys(article.url for _,article in authored))
@@ -173,6 +174,10 @@ def validate_fragment(fragment,signature='fragment'):
     for node in root.iter():
         if node.tag not in ALLOWED_TAGS:raise ValueError('Unsupported markup in '+signature)
         allowed=('class','src','alt','width','height','data-depth') if node.tag=='img' else ('class','href')
+        if node.tag=='div' and node.get('class')=='reference-worked-example':
+            allowed+=('data-example-kind',)
+            if node.get('data-example-kind','scalar') not in ('scalar','script'):
+                raise ValueError('Unsupported worked example kind in '+signature)
         if any(name not in allowed for name in node.attrib):raise ValueError('Unsupported attribute in '+signature)
         if node.tag=='img':
             src=node.get('src','')

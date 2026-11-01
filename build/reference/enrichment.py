@@ -14,6 +14,13 @@ class WorkedExample:
     code: str
     result: str
     explanation: str
+    # Existing examples are scalar expressions. Scripts retain their explanatory
+    # results and must have dedicated assertions in the native reference suite.
+    kind: str = 'scalar'
+
+    def __post_init__(self):
+        if self.kind not in ('scalar', 'script'):
+            raise ValueError('Unsupported worked example kind: ' + self.kind)
 
 @dataclass(frozen=True)
 class Equation:

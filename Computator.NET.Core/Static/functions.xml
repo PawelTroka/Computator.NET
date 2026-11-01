@@ -13222,9 +13222,10 @@
 <p class="reference-arguments"><strong>Arguments / value:</strong> a is the dividend and b is the nonzero polynomial divisor. The returned tuple exposes the quotient as Item1 and remainder as Item2; floating-point arithmetic may leave small residual coefficients.</p>
 <p class="reference-note"><strong>Important:</strong> A zero polynomial divisor throws DivideByZeroException. The operation does not mutate either input, but some short-circuit results share an input object: when the dividend degree is smaller, the remainder is a itself. Clone() before modifying result coefficients if independence is required.</p>
 <p class="reference-explanation">Reconstructing quotient*divisor+remainder checks the direction of the division. A nonzero remainder explains why the rational expression is not generally itself a polynomial.</p>
-<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>var parts = Polynomial.DivideRemainder(new Polynomial(1,0,1),new Polynomial(1,1));
+<div class="reference-worked-example" data-example-kind="script"><p><strong>Worked example</strong></p><pre><code>var parts = Polynomial.DivideRemainder(new Polynomial(1,0,1),new Polynomial(1,1));
 write(parts.Item1.Evaluate(3));
-write(parts.Item2.Evaluate(3));</code></pre><p><strong>Result:</strong> Quotient value 2 and remainder value 2, printed consecutively.</p><p>x²+1=(x−1)(x+1)+2. Item1 is x−1 and Item2 is the constant two.</p></div>
+write(&quot;;&quot;);
+write(parts.Item2.Evaluate(3));</code></pre><p><strong>Result:</strong> Quotient value 2 and remainder value 2, printed as 2;2.</p><p>x²+1=(x−1)(x+1)+2. Item1 is x−1 and Item2 is the constant two.</p></div>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
 </div>]]></Description>
     <Url>https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs</Url>
@@ -13256,7 +13257,7 @@ write(parts.Item2.Evaluate(3));</code></pre><p><strong>Result:</strong> Quotient
 <p class="reference-arguments"><strong>Arguments / value:</strong> x and y are equally sized real arrays; order is the nonnegative integer degree. The optional DirectRegressionMethod selects QR, Svd or NormalEquations, and defaults to QR. The returned coefficients use ascending exponent order.</p>
 <p class="reference-note"><strong>Important:</strong> Provide enough independent observations to determine order+1 coefficients. Repeated abscissas, high orders and badly scaled x can make the problem rank deficient or ill conditioned. A fit is not necessarily an interpolant, and extrapolation can be unstable.</p>
 <p class="reference-explanation">Order selects model complexity; it is not the number of samples. Centering and scaling the x coordinates before fitting can improve conditioning, but evaluation must then use the same transformed coordinate.</p>
-<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>var p = Polynomial.Fit(new real[]{-2,-1,0,1,2}, new real[]{15,6,1,0,3}, 2);
+<div class="reference-worked-example" data-example-kind="script"><p><strong>Worked example</strong></p><pre><code>var p = Polynomial.Fit(new real[]{-2,-1,0,1,2}, new real[]{15,6,1,0,3}, 2);
 write(p.Evaluate(2));</code></pre><p><strong>Result:</strong> Approximately 3</p><p>These exact samples follow 1−3x+2x², so the fitted coefficients are approximately 1, −3 and 2.</p></div>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
 </div>]]></Description>
@@ -19090,7 +19091,7 @@ write(p.Evaluate(2));</code></pre><p><strong>Result:</strong> Approximately 3</p
 <p class="reference-arguments"><strong>Arguments / value:</strong> Pass a real array or several real coefficients in ascending exponent order. Coefficients exposes the mutable array; Degree ignores trailing zero coefficients and is −1 for the zero polynomial.</p>
 <p class="reference-note"><strong>Important:</strong> A single integer selects the array-length constructor: new Polynomial(3) creates a zero polynomial with three coefficient slots. Use new Polynomial(3.0) for the constant three. The array constructor shares the supplied array; call Clone() when independent storage is needed.</p>
 <p class="reference-explanation">For a reusable object p, p.Evaluate(x) evaluates it; p.Differentiate() returns its derivative and p.Integrate() chooses antiderivative constant zero. p.Roots() returns numerical complex roots in unspecified order. General roots use companion-matrix eigenvalues; repeated or poorly conditioned roots may lose accuracy.</p>
-<div class="reference-worked-example"><p><strong>Worked example</strong></p><pre><code>var p = new Polynomial(-6,11,-6,1);
+<div class="reference-worked-example" data-example-kind="script"><p><strong>Worked example</strong></p><pre><code>var p = new Polynomial(-6,11,-6,1);
 var roots = p.Roots();</code></pre><p><strong>Result:</strong> Three roots approximately 1, 2 and 3, in unspecified order.</p><p>The coefficients describe (x−1)(x−2)(x−3). Check p.Evaluate(root) and the scale of the coefficients when assessing residuals.</p></div>
 <p class="reference-source"><strong>Reference:</strong> <a href="https://github.com/mathnet/mathnet-numerics/blob/v5.0.0/src/Numerics/Polynomial.cs">github.com</a></p>
 </div>]]></Description>

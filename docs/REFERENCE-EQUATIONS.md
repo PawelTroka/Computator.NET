@@ -227,7 +227,17 @@ of why that answer is meaningful. The runtime test discovers each distinct new
 numeric example from the shipped XML and evaluates it through the actual TSL
 compiler, rather than checking a duplicate hardcoded example list. Rounded
 printed answers are tested with a documented display-precision budget; existing
-numerical-suite tolerances are unchanged. Coverage counts are not a claim that
+numerical-suite tolerances are unchanged. Scalar expressions are the default
+`WorkedExample` kind; a leading `approximately ` label is case-insensitive, but
+the remaining answer must parse as a number. Multiline scripts and examples
+returning arrays or tuples use `kind='script'`, rendered as
+`data-example-kind="script"` on the worked-example container. Their displayed
+result can explain the values instead of pretending to be one number. The
+native reference suite discovers every script from the shipped XML and requires
+dedicated assertions through both the precompiled and legacy script evaluators;
+an unknown kind or a script without a validator fails validation. Polynomial
+scripts check all cubic roots without assuming order, the fitted quadratic and
+both quotient/remainder parts with reconstruction. Coverage counts are not a claim that
 all mathematical sentences have been independently proved or that every routine
 has a new worked example.
 

@@ -2,7 +2,8 @@
 import unittest
 import xml.etree.ElementTree as ET
 import polynomials
-from generate import articles, xml_bytes
+from enrichment import WorkedExample
+from generate import articles, validate_fragment, xml_bytes
 
 
 class PolynomialReferenceTests(unittest.TestCase):
@@ -19,6 +20,7 @@ class PolynomialReferenceTests(unittest.TestCase):
         self.assertEqual(xml_bytes(entries), xml_bytes(articles(inventory)))
         for entry in entries:
             with self.subTest(signature=entry['signature']):
+                self.assertEqual(entry['type'], 'Polynomial')
                 self.assertEqual(entry['category'], 'Polynomial operations')
                 self.assertEqual(entry['url'], polynomials.SOURCE)
                 self.assertIn('reference-explanation', entry['description'])
@@ -64,6 +66,49 @@ class PolynomialReferenceTests(unittest.TestCase):
         self.assertIn('Missing divisor coefficients are treated as zero', divide)
         self.assertIn('infinity or NaN', divide)
         self.assertIn('does not represent a(x)/b(x)', divide)
+
+    def test_only_the_three_scripts_require_dedicated_execution_assertions(self):
+        scripts = {'new Polynomial(coefficients)', 'Polynomial.Fit(x,y,order,method)',
+                   'Polynomial.DivideRemainder(a,b)'}
+        scalars = 0
+        for signature in polynomials.ARTICLES:
+            with self.subTest(signature=signature):
+                root = ET.fromstring(self.description(signature))
+                examples = root.findall(".//div[@class='reference-worked-example']")
+                self.assertEqual(len(examples), 1)
+                example = examples[0]
+                if signature in scripts:
+                    self.assertEqual(example.get('data-example-kind'), 'script')
+                else:
+                    self.assertNotIn('data-example-kind', example.attrib)
+                    self.assertNotIn(';', example.find('./pre/code').text)
+                    scalars += 1
+        self.assertEqual(scalars, 11)
+
+    def test_unknown_example_kinds_fail_at_authoring_and_fragment_validation(self):
+        for kind in ('', 'Script', 'text', 'skip'):
+            with self.subTest(kind=kind):
+                with self.assertRaisesRegex(ValueError, 'Unsupported worked example kind'):
+                    WorkedExample('1', '1', 'One.', kind=kind)
+                root = ET.fromstring(self.description('Polynomial.Zero'))
+                root.find(".//div[@class='reference-worked-example']").set('data-example-kind', kind)
+                with self.assertRaisesRegex(ValueError, 'Unsupported worked example kind'):
+                    validate_fragment(ET.tostring(root, encoding='unicode'))
+
+    def test_example_kind_metadata_is_restricted_to_worked_example_containers(self):
+        for selector in ('.', './p', './/pre', ".//div[@class='reference-worked-example']/p"):
+            with self.subTest(selector=selector):
+                root = ET.fromstring(self.description('Polynomial.Zero'))
+                root.find(selector).set('data-example-kind', 'script')
+                with self.assertRaisesRegex(ValueError, 'Unsupported attribute'):
+                    validate_fragment(ET.tostring(root, encoding='unicode'))
+
+    def test_quotient_and_remainder_output_has_an_explicit_separator(self):
+        root = ET.fromstring(self.description('Polynomial.DivideRemainder(a,b)'))
+        example = root.find(".//div[@class='reference-worked-example']")
+        self.assertIn('write(parts.Item1.Evaluate(3));\nwrite(";");\nwrite(parts.Item2.Evaluate(3));',
+                      example.find('./pre/code').text)
+        self.assertIn('printed as 2;2', ''.join(example.itertext()))
 
     def test_unknown_method_fails_instead_of_inventing_generic_help(self):
         with self.assertRaises(KeyError): self.description('Polynomial.Unknown(x)')

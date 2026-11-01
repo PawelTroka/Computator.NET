@@ -167,5 +167,9 @@ catalog generation and validation.
 and scripting paths with analytic values, roots and reconstruction identities.
 `PolynomialEvaluatorTests` covers the actual precompiled and legacy Core
 paths; `PolynomialAutocompleteTests` checks the typed catalog, expression
-filter and authored reference. Native Core tests run on Windows; a Linux
+filter and authored reference. The reference suite executes all eleven scalar
+worked examples, including coefficientwise division, directly from the shipped
+XML. `FunctionReferencePolynomialExamplesTests` executes the three explicitly
+marked scripts through both Core evaluators and verifies the actual root values,
+fitted coefficients, quotient/remainder coefficients and reconstruction. Native Core tests run on Windows; a Linux
 Windows-targeting build only checks that those projects compile.
