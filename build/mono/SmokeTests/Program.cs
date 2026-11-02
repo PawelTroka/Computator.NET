@@ -82,6 +82,8 @@ internal static partial class Program
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
 
         Run("mono-runtime-and-shared-source-graph", RuntimeAndSharedGraph);
+        Run("compiled-german-ui-resources-and-regional-fallback", () => CompiledUiTranslations("de", "de-DE"));
+        Run("compiled-czech-ui-resources-and-regional-fallback", () => CompiledUiTranslations("cs", "cs-CZ"));
         Run("runtime-factory-ignores-debug-sidecars", RuntimeFactorySidecars);
         Run("roslyn-dynamic-and-numerical-packages", ModernCompilerAndPackages);
         Run("portable-real-notation-and-complex-evaluation", PortableExpressions);
@@ -98,15 +100,19 @@ internal static partial class Program
         Run("desktop-numerical-method-catalog", NumericalMethodCatalog);
         Run("native-gsl-generated-import-and-error-recovery", NativeGsl);
         Run("mono-function-reference-readable-text", FunctionReference);
+        Run("mono-autocomplete-real-x11-layout-and-selection", AutocompleteRealX11);
         Run("unicode-editor-documents-and-renaming", EditorDocuments);
         Run("unshown-editor-tabs-have-backed-documents", UnshownEditorDocuments);
         Run("desktop-visible-custom-functions-file-and-script-workflow", DesktopWorkflow);
+        Run("desktop-literal-find-and-replace", DesktopFindReplace);
         Run("unix-document-save-and-alias-protection", UnixDocumentSafety);
         Run("real-chart-samples-and-png-rendering", RealChart);
         Run("complex-chart-png-and-domain-colors", ComplexChart);
         Run("native-mono-3d-surface-and-visible-x11-interaction", Native3D);
         Run("native-mono-3d-singularities-custom-functions-and-points", Native3DEdges);
         Run("native-mono-3d-common-grid-parity-contract", Native3DCommonGridContract);
+        Run("native-mono-3d-large-finite-constant-surfaces", Native3DLargeConstants);
+        Run("native-mono-3d-rejected-point-input-budget", Native3DPointInputBudget);
         WriteResults();
         var failed = Results.Count(result => result.Failure != null);
         var skipped = Results.Count(result => result.SkippedReason != null);
@@ -324,6 +330,7 @@ internal static partial class Program
                     Same(custom.FindForm(), window, "Custom-function editor must be the displayed editor.");
                     Same(scripting.FindForm(), window, "Scripting editor must be displayed in MainView.");
                     VerifyNestedScriptTree(scripting, directory);
+                    VerifyMonoComplexChartVisible(window, bootstrapper, state, errors);
                     var path = Path.Combine(directory, "visible-functions.tslf");
                     File.WriteAllText(path, "static real Probe(real x) { return x+42; }");
                     custom.CustomFunctionsEditor.NewDocument(path);
@@ -594,6 +601,54 @@ internal static partial class Program
             Check(chart.FiniteSurfaceSamples == 33 * 33, "A singular plot must not poison subsequent redraws.");
             Expect<NotSupportedException>(() =>
                 chart.AddFunction(new ExpressionsEvaluator().Evaluate("x²", "", CalculationsMode.Real)));
+        }
+    }
+
+    private static void Native3DLargeConstants()
+    {
+        foreach (var height in new[] { 1e308, -1e308, double.MaxValue, double.MinValue })
+        using (var chart = new Chart3DControl { Width = 640, Height = 440, Quality = 0 })
+        {
+            chart.SetChartAreaValues(-2, 2, -2, 2);
+            chart.AddFunction(new Computator.NET.DataTypes.Functions.Function(
+                (Func<double, double, double>)((x, y) => height),
+                Computator.NET.DataTypes.Functions.FunctionType.Real3D));
+            foreach (var equalAxes in new[] { false, true })
+            {
+                chart.EqualAxes = equalAxes;
+                using (var image = new Bitmap(chart.GetImage(640, 440)))
+                {
+                    var colored = 0;
+                    for (var y = 0; y < image.Height; y += 2)
+                        for (var x = 0; x < image.Width; x += 2)
+                        {
+                            var pixel = image.GetPixel(x, y);
+                            if (Math.Max(pixel.R, Math.Max(pixel.G, pixel.B)) -
+                                Math.Min(pixel.R, Math.Min(pixel.G, pixel.B)) > 60) colored++;
+                        }
+                    Check(colored > 500, "Large finite constant disappeared instead of rendering a plane.");
+                    if (height == 1e308 && equalAxes)
+                        image.Save(Path.Combine(outputDirectory, "mono-3d-large-constant-export.png"), ImageFormat.Png);
+                }
+            }
+        }
+    }
+
+    private static void Native3DPointInputBudget()
+    {
+        using (var chart = new Chart3DControl())
+        {
+            foreach (var point in new[] { null, new Computator.NET.DataTypes.Charts.Point3D(double.NaN, 0, 0) })
+            {
+                var read = 0;
+                IEnumerable<Computator.NET.DataTypes.Charts.Point3D> Input()
+                {
+                    for (var i = 0; i < 20002; i++) { read++; yield return point; }
+                }
+                Expect<ArgumentOutOfRangeException>(() => chart.AddPoints(Input()));
+                Check(read == 20001, "Rejected point enumeration exceeded its input budget.");
+            }
+            chart.AddPoints(Enumerable.Repeat(new Computator.NET.DataTypes.Charts.Point3D(0, 0, 1), 20000));
         }
     }
 

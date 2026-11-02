@@ -124,25 +124,25 @@
     <value>Přidat do grafu</value>
   </data>
   <data name="DrawChart" xml:space="preserve">
-    <value>Nakreslete</value>
+    <value>Vykreslit graf</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Chyba</value>
   </data>
   <data name="GivenΕIsNotValidΕShouldBeSmallPositiveNumber" xml:space="preserve">
-    <value>Uvedené ε je nesprávné. ε by mělo být malé kladné číslo .</value>
+    <value>Zadané ε je neplatné. ε musí být malé kladné číslo.</value>
   </data>
   <data name="GivenΕIsNotValid" xml:space="preserve">
-    <value>Uvedené ε je nesprávné.</value>
+    <value>Zadané ε je neplatné.</value>
   </data>
   <data name="ConsoleOutput" xml:space="preserve">
-    <value>Výstup konzoli:</value>
+    <value>Výstup konzole:</value>
   </data>
   <data name="Features" xml:space="preserve">
-    <value>Vlastnosti:</value>
+    <value>Funkce programu:</value>
   </data>
   <data name="PleaseReportAnyBugsToPawełTrokaPtrokaFizykaDk" xml:space="preserve">
-    <value>Nahlaste nám prosím jakékoliv chyby na ptroka@fizyka.dk - Paweł Troka.</value>
+    <value>Chyby prosím hlaste na adresu Paweł Troka – pawel.troka@outlook.com.</value>
   </data>
   <data name="BugReporting" xml:space="preserve">
     <value>Hlášení chyb</value>
@@ -151,13 +151,13 @@
     <value>Graf</value>
   </data>
   <data name="ItSFeaturesInclude" xml:space="preserve">
-    <value>Mezi jeho vlastnosti patří :</value>
+    <value>Program nabízí:</value>
   </data>
   <data name="Source_" xml:space="preserve">
     <value>Zdroj:</value>
   </data>
   <data name="ErrorInExpressionSyntaxOneOfUsedFunctionsDoesNotExistIsIncompatibleWithGivenArgumentsOrYouJustMadeAMistakeWritingExpression" xml:space="preserve">
-    <value>Syntaktická chyba ve výrazu . Jedna z používaných funkcí neexistuje / není v souladu s uvedenými argumenty , nebo prostě jste jen udělali chybu v zápisu.</value>
+    <value>Syntaktická chyba ve výrazu. Některá použitá funkce neexistuje, nepodporuje zadané argumenty nebo je ve výrazu chyba zápisu.</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Podrobné informace:</value>
@@ -166,23 +166,23 @@
     <value>Více informací :</value>
   </data>
   <data name="NoFunctionToInvoke" xml:space="preserve">
-    <value>Žádná funkce neni k vyvolání</value>
+    <value>Není k dispozici žádná funkce k volání</value>
   </data>
   <data name="featuresInclude" xml:space="preserve">
     <value>- Grafy reálních a komplexních funkcí
-- Reální a komplexní kalkulačka
-- Výpočet skutečných numerických funkcí, včetně různých metod
+- Kalkulačka pro reálná a komplexní čísla
+- Numerické výpočty reálných funkcí různými metodami
 - Více než 107 elementárních funkcí
 - Více než 141 speciálních funkcí
 - Více než 21 funkcí a operací s maticemi
-- Výkonný skriptovací jazyk pro jednoduché výpočty , s ohledem na matice
-- Můžete deklarovat své vlastní funkce ve skriptovacím jazyce</value>
+- Skriptovací jazyk usnadňující výpočty včetně matic
+- Možnost definovat vlastní funkce ve skriptovacím jazyce</value>
   </data>
   <data name="MemoryAllocationSpeedTestCancelledByUser" xml:space="preserve">
-    <value>Test výkonnosti alokace paměti byl zrušen uživatelem</value>
+    <value>Test rychlosti alokace paměti byl zrušen uživatelem.</value>
   </data>
   <data name="MemoryAllocationSpeedTestDoneSuccesfullyCheckOutYourPointsResult" xml:space="preserve">
-    <value>Test výkonnosti alokace paměti úspěšně ukončený - zkontrolujte výsledky</value>
+    <value>Test rychlosti alokace paměti byl úspěšně dokončen. Zkontrolujte své bodové hodnocení.</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Hotovo</value>
@@ -197,19 +197,19 @@
     <value>Zrušeno!</value>
   </data>
   <data name="MathFunctionsCalculationSpeedTestDoneSuccesfullyCheckOutYourPointsResults" xml:space="preserve">
-    <value>Test výkonu pro výpočet matematických funkcí byl úspěšně proveden! Zkontrolujte vaše skóre!</value>
+    <value>Test rychlosti výpočtu matematických funkcí byl úspěšně dokončen. Zkontrolujte své bodové hodnocení!</value>
   </data>
   <data name="MathFunctionsCalculationSpeedTestCancelledByUser" xml:space="preserve">
-    <value>Test výkonu pro výpočet matematických funkcí byl zrušen uživatelem .</value>
+    <value>Test rychlosti výpočtu matematických funkcí byl zrušen uživatelem.</value>
   </data>
   <data name="librariesUsed" xml:space="preserve">
-    <value>používáne knihovny</value>
+    <value>Použité knihovny</value>
   </data>
   <data name="betaTesters" xml:space="preserve">
-    <value>beta testery</value>
+    <value>Betatesteři</value>
   </data>
   <data name="otherContributors" xml:space="preserve">
-    <value>ostatní účastníci</value>
+    <value>Další přispěvatelé</value>
   </data>
   <data name="translators" xml:space="preserve">
     <value>překladatelé</value>
@@ -224,9 +224,211 @@
     <value>Chyba syntaxe</value>
   </data>
   <data name="Exception_during_startup" xml:space="preserve">
-    <value>Vyjimka pri nastartovani</value>
+    <value>Výjimka při spuštění</value>
   </data>
   <data name="Close_tabs_to_the_right" xml:space="preserve">
-    <value>Zavri karty z prave strany</value>
+    <value>Zavřít karty vpravo</value>
+  </data>
+  <data name="Only_Real_mode_is_supported_in_Numerical_calculations_right_now__more_to_come_in_next_versions_" xml:space="preserve">
+    <value>Numerické výpočty zatím podporují pouze reálný režim. Další režimy budou dostupné v příštích verzích!</value>
+  </data>
+  <data name="Check__Real___f_x___mode" xml:space="preserve">
+    <value>- Zvolte režim „Real : f(x)“.</value>
+  </data>
+  <data name="Warning_" xml:space="preserve">
+    <value>Upozornění!</value>
+  </data>
+  <data name="You_dont_have_any_logs_yet_" xml:space="preserve">
+    <value>Zatím nejsou k dispozici žádné protokoly.</value>
+  </data>
+  <data name="Changelog" xml:space="preserve">
+    <value>Přehled změn</value>
+  </data>
+  <data name="Directory_tree_New_file" xml:space="preserve">
+    <value>Nový soubor</value>
+  </data>
+  <data name="Rename_file" xml:space="preserve">
+    <value>Přejmenovat soubor</value>
+  </data>
+  <data name="Delete_file" xml:space="preserve">
+    <value>Smazat soubor</value>
+  </data>
+  <data name="Label_Edit_error" xml:space="preserve">
+    <value>Chyba při úpravě názvu</value>
+  </data>
+  <data name="InvalidLabel" xml:space="preserve">
+    <value>Neplatný název.
+</value>
+  </data>
+  <data name="The_label_cannot_be_blank" xml:space="preserve">
+    <value>Název nesmí být prázdný.</value>
+  </data>
+  <data name="The_invalid_characters_are" xml:space="preserve">
+    <value>Nepovolené znaky: '@', '.', ',', '!'</value>
+  </data>
+  <data name="Program_Application_ThreadException_Unhandled_Thread_Exception" xml:space="preserve">
+    <value>Neošetřená výjimka ve vlákně</value>
+  </data>
+  <data name="Unhandled_UI_Exception" xml:space="preserve">
+    <value>Neošetřená výjimka v uživatelském rozhraní</value>
+  </data>
+  <data name="Number_of_steps_should_be_small__default_is_6" xml:space="preserve">
+    <value>Počet kroků má být malý, výchozí hodnota je 6.</value>
+  </data>
+  <data name="Functions_and_Constants_Details" xml:space="preserve">
+    <value>Podrobnosti o funkcích a konstantách</value>
+  </data>
+  <data name="New_tab" xml:space="preserve">
+    <value>Nová karta</value>
+  </data>
+  <data name="Clone_tab" xml:space="preserve">
+    <value>Duplikovat kartu</value>
+  </data>
+  <data name="Close_tab" xml:space="preserve">
+    <value>Zavřít kartu</value>
+  </data>
+  <data name="Close_other_tabs" xml:space="preserve">
+    <value>Zavřít ostatní karty</value>
+  </data>
+  <data name="Close_tabs_to_the_left" xml:space="preserve">
+    <value>Zavřít karty vlevo</value>
+  </data>
+  <data name="Image_Filter" xml:space="preserve">
+    <value>Obrázek PNG (.png)|*.png|Obrázek GIF (.gif)|*.gif|Obrázek JPEG (.jpeg)|*.jpeg|Bitmapový obrázek (.bmp)|*.bmp|Obrázek TIFF (.tiff)|*.tiff|Obrázek WMF (.wmf)|*.wmf</value>
+  </data>
+  <data name="AddTab_NewFile" xml:space="preserve">
+    <value>NovýSoubor</value>
+  </data>
+  <data name="GlobalConfig_others_standard_algorithm_for_complex_domain_coloring" xml:space="preserve">
+    <value>Standardní algoritmus barevného zobrazení komplexních funkcí</value>
+  </data>
+  <data name="GlobalConfig_others_Chart3D_classes_are_based_on_code_from_High_performance_WPF_3D_Chart_rev_6_application_on" xml:space="preserve">
+    <value>Třídy Chart3D vycházejí z kódu aplikace „High performance WPF 3D Chart rev.6“ s následující licencí:</value>
+  </data>
+  <data name="GlobalConfig_assemblyDescription_Computator_NET_is_a_special_kind_of_numerical_software_that_is_fast_and_easy_to_use_but_not_worse_than_others_feature_wise_" xml:space="preserve">
+    <value>Computator.NET je rychlý a snadno použitelný program pro numerické výpočty s bohatou nabídkou funkcí.</value>
+  </data>
+  <data name="Or_even_better_report_them_on_project_site__using_link_below" xml:space="preserve">
+    <value>Chyby můžete také nahlásit na stránce projektu pomocí odkazu níže.</value>
+  </data>
+  <data name="Internal_errors" xml:space="preserve">
+    <value>Interní chyby</value>
+  </data>
+  <data name="Custom_functions_errors" xml:space="preserve">
+    <value>Chyby v uživatelských funkcích</value>
+  </data>
+  <data name="Expression_errors" xml:space="preserve">
+    <value>Chyby ve výrazech</value>
+  </data>
+  <data name="Script_errors" xml:space="preserve">
+    <value>Chyby ve skriptech</value>
+  </data>
+  <data name="NativeCompiler_Line" xml:space="preserve">
+    <value>Řádek</value>
+  </data>
+  <data name="NativeCompiler_Column" xml:space="preserve">
+    <value>Sloupec</value>
+  </data>
+  <data name="NativeCompiler_warning" xml:space="preserve">
+    <value>upozornění</value>
+  </data>
+  <data name="NativeCompiler_error" xml:space="preserve">
+    <value>chyba</value>
+  </data>
+  <data name="Program_CurrentDomain_UnhandledException_Try_installing_font_" xml:space="preserve">
+    <value>Zkuste nainstalovat písmo!</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>výjimka</value>
+  </data>
+  <data name="Exception_occcured_in" xml:space="preserve">
+    <value>Výjimka nastala v</value>
+  </data>
+  <data name="at_line" xml:space="preserve">
+    <value>na řádku</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Příčina</value>
+  </data>
+  <data name="Error_code" xml:space="preserve">
+    <value>Kód chyby</value>
+  </data>
+  <data name="trapezoidal_method" xml:space="preserve">
+    <value>Lichoběžníkové pravidlo</value>
+  </data>
+  <data name="rectangle_method" xml:space="preserve">
+    <value>Obdélníkové pravidlo</value>
+  </data>
+  <data name="Simpson_s_method" xml:space="preserve">
+    <value>Simpsonovo pravidlo</value>
+  </data>
+  <data name="double_exponential_transformation" xml:space="preserve">
+    <value>Dvojitá exponenciální transformace</value>
+  </data>
+  <data name="Monte_Carlo_method" xml:space="preserve">
+    <value>Metoda Monte Carlo</value>
+  </data>
+  <data name="Romberg_s_method" xml:space="preserve">
+    <value>Rombergova metoda</value>
+  </data>
+  <data name="Integral" xml:space="preserve">
+    <value>Integrál</value>
+  </data>
+  <data name="Derivative" xml:space="preserve">
+    <value>Derivace</value>
+  </data>
+  <data name="Function_root" xml:space="preserve">
+    <value>Nulový bod funkce</value>
+  </data>
+  <data name="centered_order_point_method" xml:space="preserve">
+    <value>Centrální derivace řádu n</value>
+  </data>
+  <data name="finite_difference_formula" xml:space="preserve">
+    <value>Vzorec konečných diferencí</value>
+  </data>
+  <data name="two_point_finite_difference_formula" xml:space="preserve">
+    <value>Dvoubodový diferenční vzorec</value>
+  </data>
+  <data name="stable_finite_difference_formula" xml:space="preserve">
+    <value>Stabilní diferenční vzorec</value>
+  </data>
+  <data name="centered_five_point_method" xml:space="preserve">
+    <value>Centrální pětibodová metoda</value>
+  </data>
+  <data name="bisection_method" xml:space="preserve">
+    <value>Metoda půlení intervalu</value>
+  </data>
+  <data name="secant_method" xml:space="preserve">
+    <value>Metoda sečen</value>
+  </data>
+  <data name="Brent_s_method" xml:space="preserve">
+    <value>Brentova metoda</value>
+  </data>
+  <data name="Broyden_s_method" xml:space="preserve">
+    <value>Broydenova metoda</value>
+  </data>
+  <data name="secant_Newton_Raphson_method" xml:space="preserve">
+    <value>Newtonova–Raphsonova metoda sečen</value>
+  </data>
+  <data name="non_adaptive_Gauss_Kronrod_method" xml:space="preserve">
+    <value>Neadaptivní Gaussova–Kronrodova metoda</value>
+  </data>
+  <data name="infinity_adaptive_Gauss_Kronrod_method" xml:space="preserve">
+    <value>Adaptivní Gauss–Kronrod (nekonečné meze)</value>
+  </data>
+  <data name="Chart3D_is_not_supported_on_Mono" xml:space="preserve">
+    <value>Chart3D není v prostředí Mono podporován.</value>
+  </data>
+  <data name="NeedsToBeGreaterThan" xml:space="preserve">
+    <value>musí být větší než</value>
+  </data>
+  <data name="NeedsToBeLessThan" xml:space="preserve">
+    <value>musí být menší než</value>
+  </data>
+  <data name="Min_value_needs_to_be_less_than_Max_value" xml:space="preserve">
+    <value>Minimální hodnota musí být menší než maximální hodnota.</value>
+  </data>
+  <data name="CheckChartAreaValues" xml:space="preserve">
+    <value>Zkontrolujte hodnoty rozsahu grafu</value>
   </data>
 </root>

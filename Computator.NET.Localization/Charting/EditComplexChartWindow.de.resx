@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>x-Minimum</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>x-Maximum</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>y-Maximum</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>y-Minimum</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>y-Beschriftung</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>x-Beschriftung</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Diagrammtitel</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Farbzuordnungsmodus:</value>
+  </data>
+  <data name="button6.Text" xml:space="preserve">
+    <value>Zahlenwerte</value>
+  </data>
+  <data name="button4.Text" xml:space="preserve">
+    <value>x-/y-Achsen</value>
+  </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>Diagrammtitel</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Modus</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Farben</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Titelfarbe</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Konturlinien</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Schrittweite =</value>
+  </data>
+  <data name="drawAxes.Text" xml:space="preserve">
+    <value>Achsen zeichnen?</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Beschriftungsfarbe</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Achsenfarbe</value>
+  </data>
+  <data name="fontsGroupBox.Text" xml:space="preserve">
+    <value>Schriftarten</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Beschriftungen</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Achsenwerte</value>
+  </data>
+  <data name="this_Text" xml:space="preserve">
+    <value>Komplexes Diagramm bearbeiten</value>
+  </data>
+</root>

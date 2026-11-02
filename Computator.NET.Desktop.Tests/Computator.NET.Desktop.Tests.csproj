@@ -4,5 +4,12 @@
   <ItemGroup>
     <Using Include="Computator.NET.DataTypes.Events" />
     <ProjectReference Include="..\Computator.NET.Desktop\Computator.NET.Desktop.csproj" />
+    <!-- Exercise the actual Mono software renderer on native Windows GDI+ too. -->
+    <Compile Include="..\Computator.NET.Charting\Chart3D\UI\MonoSurfaceRenderer.cs" Link="Charting/MonoSurfaceRenderer.cs" />
+    <Compile Include="..\build\validation\LocalizationResourceContract.cs" Link="LocalizationResourceContract.cs" />
+    <None Include="..\Computator.NET.Localization\**\*.resx"
+          Exclude="..\Computator.NET.Localization\**\*.pl.resx"
+          Link="Localization/%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

@@ -57,8 +57,19 @@ rm -f -- "$results/mono-results.xml" "$results/startup.png" "$results/desktop-wo
     "$results/real-chart.png" "$results/complex-chart.png" "$results/function-reference.png" \
     "$results/mono-3d-paraboloid.png" "$results/mono-3d-visible-before.png" \
     "$results/mono-3d-visible-rotated.png" "$results/mono-3d-export.png" \
+    "$results/mono-3d-visible-prepan.png" "$results/mono-3d-visible-panned.png" \
+    "$results/mono-3d-panned-export.png" "$results/mono-3d-large-constant-export.png" \
     "$results/mono-3d-points.png" \
     "$results/calculator-inputs.png" "$results/numerical-inputs.png"
+# Do not mistake screenshots from a previous acceptance run for current evidence.
+rm -f -- "$results/production-complex-before.png" "$results/production-complex-after.png" \
+    "$results/complex-visible-before.png" "$results/complex-visible-after.png" \
+    "$results/complex-visible-z-cubed.png" "$results/complex-visible-resized.png" \
+    "$results/complex-visible-cleared.png" "$results/complex-visible-recovered.png" \
+    "$results/complex-visible-render-failure.png" "$results/complex-visible-after-render-failure.png"
+rm -f -- "$results/autocomplete-after.png"
+rm -f -- "$results/find-replace.png" "$results/find-replace-dialog.png"
+
 status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" \
 XDG_CONFIG_HOME="$validation_temp/config" XDG_CACHE_HOME="$validation_temp/cache" \

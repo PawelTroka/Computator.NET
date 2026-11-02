@@ -127,7 +127,7 @@
     <value>Numerické výpočty</value>
   </data>
   <data name="symbolicOperationButton.Text" xml:space="preserve">
-    <value>Spočítat</value>
+    <value>Vypočítat</value>
   </data>
   <data name="symbolicCalculationsTabPage.Text" xml:space="preserve">
     <value>Symbolické výpočty</value>

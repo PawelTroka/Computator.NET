@@ -127,12 +127,12 @@
     <value>Kvalita grafu:</value>
   </data>
   <data name="clearChartButton.Text" xml:space="preserve">
-    <value>Vyčistit</value>
+    <value>Vymazat graf</value>
   </data>
   <data name="addToChartButton.Text" xml:space="preserve">
     <value>Přidat do grafu</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>Hodnoty v grafu</value>
+    <value>Rozsah grafu</value>
   </data>
 </root>

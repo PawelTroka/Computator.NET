@@ -9,6 +9,7 @@ using Computator.NET.Core.Abstract.Services;
 using Computator.NET.Core.Abstract.Views;
 using Computator.NET.Core.Bootstrapping;
 using Computator.NET.Core.Menu.Commands;
+using Computator.NET.Core.Menu.Commands.EditCommands;
 using Computator.NET.Core.Menu.Commands.FileCommands;
 using Computator.NET.Core.Presenters;
 using Computator.NET.DataTypes.Charts;
@@ -84,6 +85,8 @@ namespace Computator.NET.Desktop.Bootstrapping
             Container.RegisterTypeLegacy<IExpressionTextBox, ExpressionTextBox>(new ContainerControlledLifetimeManager());
             Container.RegisterFactory<ITextProvider>(c => c.ResolveComposed<ExpressionTextBox>());
             Container.RegisterTypeLegacy<IOpenFileDialog, OpenFileDialogWrapper>();
+            Container.RegisterType<FindCommand>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ReplaceCommand>(new ContainerControlledLifetimeManager());
             Container.RegisterTypeLegacy<IClickedMouseButtonsProvider, MouseButtonsProvider>();
             Container.RegisterType<CodeEditorControlWrapper>("scripting", new ContainerControlledLifetimeManager());
             Container.RegisterType<CodeEditorControlWrapper>("customFunctions", new ContainerControlledLifetimeManager());
