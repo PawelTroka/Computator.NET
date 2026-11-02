@@ -192,6 +192,7 @@
     <File Path="build/macos/launcher.sh" />
     <File Path="build/macos/package.py" />
     <File Path="build/macos/test_package.py" />
+    <File Path="build/macos/test_candidate.py" />
     <File Path="build/macos/test_preflight.py" />
     <File Path="build/macos/validate-package.sh" />
     <File Path="build/macos/verify-package-runtime.py" />
