@@ -270,7 +270,7 @@ internal static partial class Program
             Exception failure = null; var ticks = 0;
             pulse.Tick += (_, _) =>
             {
-                if (ticks == 0) CaptureReferenceDesktopX11("autocomplete-reference-modal.png");
+                if (ticks == 0) CaptureReferenceDesktopX11(window, "autocomplete-reference-modal.png");
                 try { Check(!menu.Visible && !help.Visible, "A modal owner dialog left autocomplete/reference visible."); }
                 catch (Exception error) { failure = error; }
                 if (++ticks >= 3 || failure != null) dialog.Close();
@@ -299,12 +299,13 @@ internal static partial class Program
         CaptureAutocompleteX11(window, host, help, "autocomplete-reference-editor-return.png");
     }
 
-    private static void CaptureReferenceDesktopX11(string name)
+    private static void CaptureReferenceDesktopX11(Control anchor, string name)
     {
         var screen = Screen.PrimaryScreen.Bounds;
         using (var bitmap = new Bitmap(screen.Width, screen.Height))
         {
-            using (var graphics = Graphics.FromImage(bitmap)) graphics.CopyFromScreen(screen.Location, Point.Empty, screen.Size);
+            using (var graphics = Graphics.FromImage(bitmap))
+                NativeDesktopCapture.CopyFromScreen(graphics, screen.Location, Point.Empty, screen.Size, anchor);
             bitmap.Save(Path.Combine(outputDirectory, name), ImageFormat.Png);
         }
     }
@@ -407,7 +408,7 @@ internal static partial class Program
         using (var bitmap = new Bitmap(screen.Width, screen.Height))
         {
             using (var graphics = Graphics.FromImage(bitmap))
-                graphics.CopyFromScreen(screen.Location, Point.Empty, screen.Size);
+                NativeDesktopCapture.CopyFromScreen(graphics, screen.Location, Point.Empty, screen.Size, window);
             bitmap.Save(Path.Combine(outputDirectory, "autocomplete-entire-x11-screen.png"), ImageFormat.Png);
         }
     }
@@ -432,7 +433,7 @@ internal static partial class Program
             {
                 Application.DoEvents();
                 using (var graphics = Graphics.FromImage(image))
-                    graphics.CopyFromScreen(rect.Location, Point.Empty, rect.Size);
+                    NativeDesktopCapture.CopyFromScreen(graphics, rect.Location, Point.Empty, rect.Size, window);
                 menuPainted = HasNativePopupPixels(image, rect.Location, menu.Bounds);
                 helpPainted = HasNativePopupPixels(image, rect.Location, reference.Bounds);
                 if (menuPainted && helpPainted)

@@ -250,7 +250,7 @@ internal static partial class Program
             "Complex chart has no X11 rectangle.");
         var bitmap = new Bitmap(rect.Width, rect.Height);
         using (var graphics = Graphics.FromImage(bitmap))
-            graphics.CopyFromScreen(rect.Location, Point.Empty, rect.Size);
+            NativeDesktopCapture.CopyFromScreen(graphics, rect.Location, Point.Empty, rect.Size, chart);
         if (name != null)
             bitmap.Save(System.IO.Path.Combine(outputDirectory, name), ImageFormat.Png);
         return bitmap;

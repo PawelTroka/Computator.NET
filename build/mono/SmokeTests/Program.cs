@@ -723,7 +723,7 @@ internal static partial class Program
             "3D chart is not a usable visible native control.");
         var screenshot = new Bitmap(rectangle.Width, rectangle.Height);
         using (var graphics = Graphics.FromImage(screenshot))
-            graphics.CopyFromScreen(rectangle.Location, Point.Empty, rectangle.Size);
+            NativeDesktopCapture.CopyFromScreen(graphics, rectangle.Location, Point.Empty, rectangle.Size, control);
         screenshot.Save(Path.Combine(outputDirectory, name), ImageFormat.Png);
         return screenshot;
     }
@@ -747,7 +747,7 @@ internal static partial class Program
                 control.Refresh();
                 Application.DoEvents();
                 using (var graphics = Graphics.FromImage(image))
-                    graphics.CopyFromScreen(control.Location, Point.Empty, image.Size);
+                    NativeDesktopCapture.CopyFromScreen(graphics, control.Location, Point.Empty, image.Size, control);
                 AssertImageHasVariation(image, 16);
             }
             else control.DrawToBitmap(image, new Rectangle(Point.Empty, image.Size));
