@@ -1,14 +1,20 @@
 # Interactive f(x,y) surfaces in the browser
 
 Scope: issue [#292](https://github.com/PawelTroka/Computator.NET/issues/292).
-This change adds a browser visualization path for **explicit real** height fields
-z = f(x,y); it does **not** implement a native Linux/macOS 3D desktop control
-or make the Windows-dependent API portable.
+The integrated browser supports **explicit real** height fields z = f(x,y)
+through the Windows-backed mathematical API. The separate native Mono software
+renderer is described in [MONO-DESKTOP.md](../MONO-DESKTOP.md); its Linux/X11
+acceptance does not establish macOS GUI support. The independent
+[portable local preview](../MACOS-APPLICATION.md) has its own reduced backend
+and currently returns an explicit unsupported response for charts.
 
 ## Rendering and evaluation contract
 
-The existing POST `/api/v2/chart` retains PNG for 2D real and complex
-expressions. For expressions classified as `CalculationsMode.Fxy`, the same
+POST `/api/v2/chart` retains PNG for default real/complex requests. The integrated
+browser opts into `interactive2D: true` to receive `kind: "curve"` or
+`kind: "complex"` numerical data for explicit functions, with PNG fallback for
+implicit expressions; see [2D interactions](WEB-2D-INTERACTIONS.md).
+For expressions classified as `CalculationsMode.Fxy`, the same
 endpoint uses the existing trusted-local Roslyn `ExpressionsEvaluator` and
 request-local, unsaved custom functions. It returns JSON with:
 
@@ -72,18 +78,22 @@ permits the skipped 3D test.
 
 ## Still missing for complete platform parity
 
-- **Linux Mono desktop:** its chart GUI still rejects 3D requests; implement
-  and exercise an actual supported viewer, or explicitly offer a local browser
-  workflow with matching authentication and native prerequisites.
+- **Linux Mono desktop:** the integrated native viewer supports bounded
+  explicit surfaces, point series, camera interactions, axes and PNG export.
+  Remaining acceptance and its synchronous trusted-code limits are documented
+  in [MONO-DESKTOP.md](../MONO-DESKTOP.md).
 - **macOS:** standalone native/Mono desktop experience and both Intel and
   Apple Silicon GUI tests remain unproven.
-- **Standalone non-Windows web hosting:** the full Web API depends on Windows
-  UI/chart assemblies and native catalogs. Browser access from Linux/macOS
-  to a Windows-hosted service does not constitute a portable local package.
-- **Other chart workflows:** implicit 3D equations, scripted point series,
-  multiple accumulated 2D functions, desktop zoom/pan and complex chart
-  selectors remain separate follow-ups. Large/slow arbitrary user functions
-  are subject to the existing worker execution limits.
+- **Standalone non-Windows web hosting:** the full Web API still depends on
+  Windows UI/chart assemblies and native catalogs. The portable local preview
+  runs independently on Linux/macOS for its documented calculation/script
+  subset, but does not yet supply chart rendering or the full native catalog.
+- **Other browser chart workflows:** implicit 3D equations, scripted point
+  series, desktop autoscale variants and full property/print dialogs remain
+  separate work. Accumulated real overlays, zoom/pan, complex contour/color
+  selectors and their export are already integrated through
+  [2D interactions](WEB-2D-INTERACTIONS.md). Large/slow arbitrary user functions
+  remain subject to existing worker execution limits.
 
 No Windows desktop rendering path, WinForms/WPF charting code, or native
 packaging target is replaced by this work.

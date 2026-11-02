@@ -1,6 +1,6 @@
 # macOS application investigation and portable local preview
 
-Investigation date: **28 October 2026**. Baseline: `master` at
+Original investigation: **28 October 2026**, with historical baseline `master` at
 `fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c`. Related objective:
 [issue #292](https://github.com/PawelTroka/Computator.NET/issues/292).
 
@@ -33,17 +33,19 @@ native dependency. The Windows API, desktop, Mono target and release packaging
 retain their existing roles. A deployment flag shows the preview's capability
 boundary and hides the unused derivative tolerance input.
 
-This investigation starts from master. It does not import, merge, or change the
-implementations in [web 3D #294](https://github.com/PawelTroka/Computator.NET/pull/294),
-[native Mono 3D #296](https://github.com/PawelTroka/Computator.NET/pull/296), or their
-[integration #300](https://github.com/PawelTroka/Computator.NET/pull/300). Those
-branches' Linux/Windows results do not certify either macOS application route.
+The original proof-of-concept branch was developed independently from
+[web 3D #294](https://github.com/PawelTroka/Computator.NET/pull/294),
+[native Mono 3D #296](https://github.com/PawelTroka/Computator.NET/pull/296), and their
+[integration #300](https://github.com/PawelTroka/Computator.NET/pull/300).
+The integrated repository now contains these workstreams together. Their Linux
+and Windows renderers do not add charts to this portable backend or certify
+either macOS desktop application route.
 
 ## Architecture comparison
 
 | Question | Existing Mono desktop through XQuartz | Existing browser interface with portable local backend |
 | --- | --- | --- |
-| Existing application reuse | Reuses the Framework-compatible WinForms application, editor, documents, native calculations and existing 2D/complex renderers | Reuses React/Ace, browser document/custom-function workflows, TSL compiler and managed Engine mathematics |
+| Existing application reuse | Reuses the Framework-compatible WinForms application, editor, documents, native calculations, 2D/complex renderers and integrated native software 3D renderer | Reuses React/Ace, browser document/custom-function workflows, TSL compiler and managed Engine mathematics |
 | Current blocking boundary | Framework Mono's macOS driver defaults to Carbon; its source documents a 64-bit limitation. X11 is an alternative, with additional loader/drawing/display requirements | Full WebApi references Core, Charting, WinForms and WPF. Existing local-service lifetime code uses Windows job objects. Those dependencies cannot be removed by changing the target-framework string |
 | Proof of concept | A separate diagnostic inspects the actual Mono-selected libraries, required X11 entry point, display and numerical calls; optional small visible-window probe | A separately published `net10.0` host actually serves the UI, executes portable mathematics in workers and returns explicit unsupported responses |
 | Native dependencies | Matching Mono, X11-enabled libgdiplus, Cairo with Xlib support, GSL/CBLAS, XQuartz client libraries, fonts and a usable X11 display | Matching .NET 10 ASP.NET Core runtime and browser. No XQuartz, Mono, libgdiplus or native GSL for this subset |
@@ -176,9 +178,9 @@ automatic installation and signed application packaging are outside the POC.
 
 ## Reproduce the independent local build
 
-Prerequisites: the architecture-matching .NET SDK pinned in `global.json`
-(10.0.402), Node from `.nvmrc` (24.21.0), npm from the frontend `packageManager`
-(11.19.0), and Python 3 for the smoke harness. No Mono or XQuartz is needed.
+Prerequisites: the architecture-matching .NET SDK selected by `global.json`,
+Node from `.nvmrc`, npm from the frontend `packageManager`, and Python 3 for
+the smoke harness. No Mono or XQuartz is needed.
 
 Run from the repository root:
 
@@ -208,7 +210,7 @@ The build script also accepts an output directory as its second argument.
 Linux development validation uses `linux-x64` (or `linux-arm64`) in the same
 commands. Cross-publishing a Mac RID on Linux proves packaging only.
 
-The script runs `npm ci`, type checking and the existing Vite production build
+The Cake task runs `npm ci`, the full npm audit, type checking and the existing Vite production build
 with `VITE_API_BASE_URL=/api` and `VITE_PORTABLE_LOCAL=true`. It writes
 `dist-portable` separately from the ordinary Windows frontend output, then
 publishes the new host. The whole publication directory is required. This is a

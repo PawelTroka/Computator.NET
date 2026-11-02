@@ -1,7 +1,7 @@
 # Browser real and complex chart interactions
 
 This work addresses the 2D chart portion of [issue #292](https://github.com/PawelTroka/Computator.NET/issues/292).
-It is independent of the WebGL surface implementation in draft [PR #294](https://github.com/PawelTroka/Computator.NET/pull/294).
+The implementation originated separately from [PR #294](https://github.com/PawelTroka/Computator.NET/pull/294); both renderers now share the integrated browser chart page.
 It does not establish complete cross-platform feature parity or change API hosting requirements.
 
 ## User-visible behavior
@@ -71,15 +71,14 @@ Linear and logarithmic contours use closed-form band calculations. Linear spacin
 
 The desktop **Exponential** contour option is omitted: its current magnitude-dependent loop can have a zero or negative increment for magnitudes at or below one. Copying that algorithm into the browser would create a responsiveness defect. A well-defined replacement and desktop reconciliation remain separate work.
 
-## Compatibility with WebGL PR #294
+## Integrated 2D and WebGL rendering
 
-The comparison target is PR #294 head `9fc1b7949fab5dab4cd3ce04cfef2bf944511b01`, based on master `fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c`.
+The original compatibility comparison used PR #294 head `9fc1b7949fab5dab4cd3ce04cfef2bf944511b01`, based on historical master `fe1aba49b5f9538355ffaaa3d1683f69a23d2d9c`.
 
-- This independent branch does not add Plotly or duplicate `SurfacePlot`.
-- The new API branch applies only to `FunctionType.Real2D` and `FunctionType.Complex`. PR #294's explicit `Fxy` dispatch, grid limits, and `kind: "surface"` contract remain distinct.
-- Both implementations share `Chart.tsx`; combining the branches requires reconciling that UI dispatch so numeric 2D data, surface data, and legacy PNG fallback are all accepted. It is not claimed to be a conflict-free merge.
-- In an integrated version, `SurfacePlot` must retain its lazy loading, 33/65/97 quality selector, cached resize, camera controls, WebGL support reporting, and composed PNG export.
-- Compatibility evidence is recorded below against exact source heads. No original PR or master is merged by this validation.
+- Numeric 2D dispatch applies to `FunctionType.Real2D` and `FunctionType.Complex`; explicit `Fxy` dispatch retains its separate grid limits and `kind: "surface"` contract.
+- `Chart.tsx` accepts numeric 2D data, surface data and legacy PNG fallback. `SurfacePlot` retains lazy loading, the 33/65/97 quality selector, cached resize, camera controls, WebGL support reporting and composed PNG export.
+- Default surface framing uses normalized display axes while preserving mathematical tick values, as explained in [Web 3D surfaces](WEB-3D-SURFACES.md).
+- The dated independent-branch evidence below is historical. Current acceptance must identify the integrated source SHA/tree.
 
 The integrated chart page now dispatches numeric 2D, WebGL surface and legacy PNG responses together. `Computator.NET.WebClient/e2e/chart-renderer-switching.spec.ts` belongs to the normal `Web-E2E` suite and tests the actual checked-out product source. The temporary source-patching compatibility workflow and bridge have been retired; CI no longer constructs a different application tree before testing.
 
@@ -117,7 +116,7 @@ On Windows, `./build.ps1 -Target Web-E2E` and `./build.ps1 -Target Web-CustomFun
 - Combined API/test Release cross-compilation with exact #294 head: passed, zero errors. The API dispatch and policy combined cleanly; `Chart.tsx` and the solution documentation inventory required explicit reconciliation.
 - Combined focused browser suite after the partial-domain correction: **38/38 passed, no skips or retries**, including the new 2D tests, retained PNG lifecycle checks, and #294 surface checks. Chromium exercised actual WebGL rotation/zoom/export; headless Firefox exercised the explicitly unavailable-WebGL path. The Windows compatibility gate requires actual WebGL in both browsers.
 - Product-source checkpoint `a448097535fab47c309bb4323e762a9fff590eff` passed [real Windows browser/API acceptance, 16/16](https://github.com/PawelTroka/Computator.NET/actions/runs/40732937487), [published frontend browser tests, 262/262](https://github.com/PawelTroka/Computator.NET/actions/runs/40732937420), [API regressions, 152 passed with one existing 3D skip, including all 23 new cases](https://github.com/PawelTroka/Computator.NET/actions/runs/40732937515), and [real custom-functions/cancellation tests, 26/26](https://github.com/PawelTroka/Computator.NET/actions/runs/40732937212). Subsequent compatibility-test and integration-patch corrections need their own combined runtime evidence.
-- Windows runtime results and subsequent combined-browser validation are recorded in [draft PR #301](https://github.com/PawelTroka/Computator.NET/pull/301) and its linked CI runs. Pending/running workflows are not represented as passes; use the reported source SHA/tree when assessing evidence.
+- Windows runtime results and subsequent combined-browser validation at that checkpoint are recorded in [PR #301](https://github.com/PawelTroka/Computator.NET/pull/301) and its linked CI runs. Pending/running workflows are not represented as passes; use the reported source SHA/tree when assessing evidence.
 
 ## Remaining desktop/browser differences
 
@@ -126,6 +125,4 @@ On Windows, `./build.ps1 -Target Web-E2E` and `./build.ps1 -Target Web-CustomFun
 - Desktop point-series/scripted plotting workflows, auto-scale variants, per-axis wheel modifiers, arbitrary series/legend styles, print dialogs, and full chart property editing are not implemented here.
 - Complex exponential contours and exact desktop color-pixel parity remain unresolved as described above.
 - The browser plot uses bounded samples; very fine features may require zooming. Large numbers of expensive user functions can make a sequential overlay refresh slow, with existing cancellation/deadline controls available.
-- Browser access does not establish native Linux/macOS API hosting or certified desktop GUI behavior. PR #294 still owns 3D surface support.
-
-Keep the implementation PR in draft until its evidence and remaining differences have been reviewed. Merging requires the owner's explicit approval.
+- Browser access to the full Windows API does not establish native Linux/macOS API hosting or certified desktop GUI behavior. The independent [portable local preview](../MACOS-APPLICATION.md) supports its documented managed subset without chart rendering. Integrated browser 3D support is documented in [Web 3D surfaces](WEB-3D-SURFACES.md).
