@@ -55,6 +55,7 @@ namespace Computator.NET.Desktop.Views
             button.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             button.ShowShortcutKeys = true;
             button.ShortcutKeyDisplayString = command.ShortcutKeyString;
+            button.ShortcutKeys = command.ShortcutKey;
             var c = command; // create a closure around the command
             command.PropertyChanged += (o, s) =>
             {

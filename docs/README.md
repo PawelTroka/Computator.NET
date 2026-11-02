@@ -37,6 +37,7 @@ Start with the task you want to complete. The entry-point guides describe the cu
 | [Execution workers](followups/EXECUTION-WORKERS.md) | Cancellation, process ownership and recovery boundaries |
 | [Generated-program lifetime](PROGRAM-LIFETIME.md) | Collectible code and remaining dynamic-binder retention |
 | [Desktop document safety](followups/EDITOR-DOCUMENT-SAFETY.md) | Editor document identity, persistence and interactions |
+| [Desktop find and replace](EDITOR-SEARCH.md) | Active-document search, keyboard shortcuts, replacement and undo |
 | [Web custom functions](followups/WEB-CUSTOM-FUNCTIONS.md) | Editing, session saves, import/export and request-local definitions |
 | [Web interface](WEB-UI.md) | Web shell and editor design decisions |
 | [Real browser-to-API tests](followups/WEB-E2E.md) | Protected local proxy and actual mathematical execution |

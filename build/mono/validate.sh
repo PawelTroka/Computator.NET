@@ -66,6 +66,7 @@ rm -f -- "$results/production-complex-before.png" "$results/production-complex-a
     "$results/complex-visible-cleared.png" "$results/complex-visible-recovered.png" \
     "$results/complex-visible-render-failure.png" "$results/complex-visible-after-render-failure.png"
 rm -f -- "$results/autocomplete-after.png"
+rm -f -- "$results/find-replace.png" "$results/find-replace-dialog.png"
 
 status=0
 COMPUTATOR_DATA_DIRECTORY="$validation_temp/startup" \

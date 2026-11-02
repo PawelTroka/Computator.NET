@@ -54,6 +54,7 @@ namespace Computator.NET.Core.Abstract.Controls
 
     public interface ICodeDocumentsEditor : IDocumentsEditor, ICodeEditorView, ICanFileEdit
     {
+        void ShowFindReplace(bool replace);
     }
 
     public interface ICodeEditorControl
