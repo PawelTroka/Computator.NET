@@ -20,13 +20,14 @@ evidence="$repository/artifacts/macos/package/$configuration/acceptance-$rid-$(d
 mkdir -p "$evidence"/{harness,profile-startup,profile-smoke,profile-launcher,config,cache}
 evidence=$(cd "$evidence" && pwd)
 unpack="$evidence/relocated folder with spaces"
+shasum -a 256 "$archive" > "$evidence/archive.sha256"
 python3 build/macos/package.py --extract "$archive" --output "$unpack"
 bundle="$unpack/Computator.NET.app"
 resources="$bundle/Contents/Resources"
 [[ -f $resources/mono-package.json ]] || { echo 'Expected complete Computator.NET.app in the extracted archive.' >&2; exit 2; }
-shasum -a 256 "$archive" > "$evidence/archive.sha256"
 cp "$resources/mono-package.json" "$evidence/mono-package.json"
 python3 build/macos/test_package.py -v 2>&1 | tee "$evidence/archive-contracts.log"
+python3 build/macos/test_candidate.py -v 2>&1 | tee "$evidence/candidate-contracts.log"
 python3 build/macos/test_preflight.py --package-root "$resources" --mono "$mono" -v 2>&1 | tee "$evidence/preflight-contracts.log"
 smoke="$repository/build/mono/SmokeTests/bin/mono/$configuration/net48"
 startup="$repository/build/mono/StartupProbe/bin/mono/$configuration/net48/Computator.NET.Mono.StartupProbe.exe"
@@ -121,18 +122,47 @@ COMPUTATOR_MONO_EXPECTED_APPLICATION_DIRECTORY="$resources/app" \
     --evidence "$evidence/normal-launch"
 "$python_command" build/macos/package.py --verify --output "$bundle"
 "$python_command" build/macos/verify-package-runtime.py "$resources" "$evidence" "$mono_prefix"
-"$python_command" - "$resources" "$evidence" "$archive" <<'PY'
-import hashlib,json,pathlib,platform,subprocess,sys
-resources,evidence,archive=map(pathlib.Path,sys.argv[1:])
+"$python_command" - "$resources" "$evidence" "$archive" "$repository" <<'PY'
+import hashlib,json,pathlib,platform,subprocess,sys,zipfile
+resources,evidence,archive,repository=map(pathlib.Path,sys.argv[1:])
 manifest=json.loads((resources/'mono-package.json').read_text())
 acceptance=json.loads((evidence/'acceptance.json').read_text())
+git=lambda *args: subprocess.check_output(['git','-C',str(repository),*args],text=True).strip()
+commit,tree=git('rev-parse','HEAD'),git('rev-parse','HEAD^{tree}')
+source=manifest.get('source',{})
+if (source.get('trackedChanges') is not False or source.get('commit')!=commit or source.get('tree')!=tree
+        or git('status','--porcelain','--untracked-files=normal')):
+    raise SystemExit('Acceptance requires the exact clean package and harness source commit/tree; diagnostic staging remains unaccepted.')
+architecture={'osx-arm64':'arm64','osx-x64':'x86_64'}.get(manifest.get('rid'))
+def current_acceptance(value):
+    names=value.get('cases',[])
+    return (value.get('passed') is True and value.get('checkoutDirty') is False
+            and value.get('checkoutCommit')==commit and value.get('architecture')==architecture
+            and isinstance(names,list) and all(isinstance(name,str) and name for name in names)
+            and type(value.get('sharedCases')) is int and value['sharedCases']>=55
+            and value['sharedCases']==len(names)==len(set(names)))
+source_acceptance=manifest.get('sourceCheckoutAcceptance',{})
+if (architecture is None or architecture!=platform.machine()
+        or not current_acceptance(acceptance) or not current_acceptance(source_acceptance)
+        or set(acceptance['cases'])!=set(source_acceptance['cases'])
+        or json.loads((resources/'share/source-checkout-acceptance.json').read_text())!=source_acceptance):
+    raise SystemExit('Current source and packaged acceptance must both pass the same complete native application suite.')
 digest=hashlib.sha256()
 with archive.open('rb') as stream:
     for block in iter(lambda:stream.read(1024*1024),b''): digest.update(block)
+if (evidence/'archive.sha256').read_text().split()[0]!=digest.hexdigest():
+    raise SystemExit('The tested archive changed after its pre-extraction identity was recorded.')
+member=resources.parents[1].name+'/Contents/Resources/mono-package.json'
+with zipfile.ZipFile(archive) as candidate:
+    if (sum(item.filename==member for item in candidate.infolist())!=1
+            or candidate.read(member)!=(resources/'mono-package.json').read_bytes()):
+        raise SystemExit('The candidate archive manifest differs from the actual extracted package that was accepted.')
 reports={name:hashlib.sha256((evidence/name).read_bytes()).hexdigest() for name in
-         ('acceptance.json','relocated-native-runtime.json','native-runtime-data.json','launcher-preflight.json','preflight-contracts.log',
+         ('acceptance.json','mono-results.xml','relocated-native-runtime.json','native-runtime-data.json','launcher-preflight.json',
+          'preflight-contracts.log','candidate-contracts.log',
           'normal-launch/normal-launch.json','normal-launch-contracts.log','normal-launch-image-contracts/image-contracts.json')}
 report={'schemaVersion':1,'scope':'accepted-for-physical-mac-testing','rid':manifest['rid'],'source':manifest['source'],
+        'harnessSource':{'commit':commit,'tree':tree,'trackedChanges':False},
         'host':{'os':'macOS','productVersion':subprocess.check_output(['/usr/bin/sw_vers','-productVersion'],text=True).strip(),
                 'buildVersion':subprocess.check_output(['/usr/bin/sw_vers','-buildVersion'],text=True).strip(),
                 'machine':platform.machine()},
