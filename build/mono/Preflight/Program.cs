@@ -57,8 +57,9 @@ internal static class Program
             report.PackageRoot = packageRoot;
             installationRoot = packageRoot;
             IdentifyRuntime(report);
-            ReadAndVerifyManifest(report);
+            IdentifyInstallationRoot();
             reportPath = args[0] == "verify" ? OutsideOutput(args[4]) : null;
+            ReadAndVerifyManifest(report);
             if (manifest.Native.ContainsKey("xim"))
                 MonoXimContract.Validate(Assembly.Load("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
             if (args[0] == "prepare")
@@ -174,13 +175,9 @@ internal static class Program
         report.ManifestSha256 = Hash(file);
     }
 
-    private static void VerifyBundleBootstrap(Report report)
+    private static void IdentifyInstallationRoot()
     {
-        if (!isMac)
-        {
-            if (manifest.BundleBootstrap != null) throw new InvalidDataException("Mac bundle bootstrap metadata cannot be applied to a Linux package.");
-            return;
-        }
+        if (!isMac) return;
         var resources = new DirectoryInfo(packageRoot);
         if (resources.Name != "Resources" || resources.Parent == null || resources.Parent.Name != "Contents" ||
             resources.Parent.Parent == null || resources.Parent.Parent.Extension != ".app")
@@ -189,6 +186,16 @@ internal static class Program
         for (var path = packageRoot; path != Path.GetDirectoryName(installationRoot); path = Path.GetDirectoryName(path))
             if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
                 throw new IOException("Mac bundle bootstrap paths must not traverse symbolic links.");
+    }
+
+    private static void VerifyBundleBootstrap(Report report)
+    {
+        if (!isMac)
+        {
+            if (manifest.BundleBootstrap != null) throw new InvalidDataException("Mac bundle bootstrap metadata cannot be applied to a Linux package.");
+            return;
+        }
+        var resources = new DirectoryInfo(packageRoot);
         var allowed = new HashSet<string>(new[] { "Contents/Info.plist", "Contents/MacOS/Computator.NET" }, StringComparer.Ordinal);
         if (manifest.BundleBootstrap == null || manifest.BundleBootstrap.Count != allowed.Count)
             throw new InvalidDataException("Mac bundle requires the exact fixed bootstrap inventory.");

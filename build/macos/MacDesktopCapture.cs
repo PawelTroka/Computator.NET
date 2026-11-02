@@ -47,6 +47,10 @@ internal static class MacDesktopCapture
         double quartzX = geometry[9] + (geometry[7] + geometry[6] + desktopRectangle.X - anchorOrigin.X) * scaleX;
         double quartzY = geometry[10] + (geometry[8] + geometry[6] + desktopRectangle.Y - anchorOrigin.Y) * scaleY;
         double quartzWidth = desktopRectangle.Width * scaleX, quartzHeight = desktopRectangle.Height * scaleY;
+        File.WriteAllText(prefix + "-request.json", String.Format(CultureInfo.InvariantCulture,
+            "{{\"x11Rectangle\":[{0},{1},{2},{3}],\"anchorScreenOrigin\":[{4},{5}],\"quartzRectangle\":[{6:R},{7:R},{8:R},{9:R}],\"displayBounds\":[{10:R},{11:R},{12:R},{13:R}]}}\n",
+            desktopRectangle.X, desktopRectangle.Y, desktopRectangle.Width, desktopRectangle.Height, anchorOrigin.X, anchorOrigin.Y,
+            quartzX, quartzY, quartzWidth, quartzHeight, geometry[13], geometry[14], geometry[15], geometry[16]));
         if (quartzX < geometry[13] - 0.01 || quartzY < geometry[14] - 0.01 ||
             quartzX + quartzWidth > geometry[13] + geometry[15] + 0.01 ||
             quartzY + quartzHeight > geometry[14] + geometry[16] + 0.01)

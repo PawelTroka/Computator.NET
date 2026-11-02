@@ -41,7 +41,17 @@ int main(int argc, char **argv)
             selected = mode; selected_area = width * height;
         }
     }
-    CGError error = selected ? CGDisplaySetDisplayMode(display, selected, NULL) : kCGErrorFailure;
+    CGDisplayConfigRef configuration = NULL;
+    CGError error = selected ? CGBeginDisplayConfiguration(&configuration) : kCGErrorFailure;
+    if (error == kCGErrorSuccess) {
+        error = CGConfigureDisplayWithDisplayMode(configuration, display, selected, NULL);
+        if (error == kCGErrorSuccess)
+            // SetDisplayMode alone is app-scoped and reverted when this helper
+            // exits on ARM hosted Macs. Keep the owned CI setting for the login
+            // session, then explicitly restore it in stop-display.sh.
+            error = CGCompleteDisplayConfiguration(configuration, kCGConfigureForSession);
+        else CGCancelDisplayConfiguration(configuration);
+    }
     CGRect actual = CGDisplayBounds(display);
     printf("Native display selection result %d; actual bounds %.0f x %.0f\n", (int)error, actual.size.width, actual.size.height);
     CFRelease(modes); CGDisplayModeRelease(current);
